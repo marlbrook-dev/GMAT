@@ -1,0 +1,19 @@
+<!-- @dsCard group="Brand" viewport="700x240" name="Unhappy paths" subtitle="Designed loading, empty, and error states" -->
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../styles.css"><style>body{background:#fff;padding:20px;box-sizing:border-box}</style></head><body>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
+<div style="border:1px solid var(--border-default);border-radius:var(--radius-lg);padding:18px">
+<div style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);margin-bottom:12px">LOADING — static skeleton, no shimmer</div>
+<div style="display:grid;gap:8px"><div style="height:12px;width:60%;background:var(--surface-sunken);border-radius:4px"></div><div style="height:12px;width:90%;background:var(--surface-sunken);border-radius:4px"></div><div style="height:12px;width:75%;background:var(--surface-sunken);border-radius:4px"></div><div style="height:32px;width:120px;background:var(--surface-sunken);border-radius:var(--radius-md);margin-top:6px"></div></div>
+</div>
+<div style="border:1px solid var(--border-default);border-radius:var(--radius-lg);padding:18px;text-align:center">
+<div style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);margin-bottom:12px;text-align:left">EMPTY — say what goes here + one action</div>
+<div style="width:34px;height:34px;border-radius:var(--radius-md);background:var(--brand-primary-soft);margin:6px auto 10px"></div>
+<div style="font-family:var(--font-display);font-weight:700;font-size:14px;color:var(--text-heading)">No rounds yet today</div>
+<div style="font-size:12px;color:var(--text-muted);margin:4px 0 12px">Your plan suggests starting with Quant.</div>
+<button style="font-family:var(--font-display);font-weight:700;font-size:13px;color:#fff;background:var(--brand-primary);border:none;border-radius:var(--radius-md);padding:8px 16px">Start Quick 10</button>
+</div>
+<div style="border:1px solid var(--border-default);border-radius:var(--radius-lg);padding:18px">
+<div style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);margin-bottom:12px">ERROR — plain words + a way forward</div>
+<div style="display:flex;align-items:flex-start;gap:10px;background:var(--status-error-bg);border:1px solid var(--red-100);border-radius:var(--radius-md);padding:12px"><span style="width:8px;height:8px;border-radius:50%;background:var(--status-error);margin-top:5px;flex-shrink:0"></span><div><div style="font-family:var(--font-display);font-weight:700;font-size:13px;color:var(--text-heading)">Round didn't save</div><div style="font-size:12px;color:var(--text-body);margin-top:2px">Your answers are kept locally. <a href="#" style="font-weight:600">Retry now</a></div></div></div>
+</div>
+</div></body></html>

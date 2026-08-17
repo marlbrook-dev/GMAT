@@ -1,0 +1,1 @@
+export interface StatTileProps{label:string;value:string;delta?:string;deltaTone?:'success'|'error'|'neutral';}

@@ -1,0 +1,1 @@
+export interface DialogProps{open:boolean;title?:string;children?:React.ReactNode;footer?:React.ReactNode;onClose?:()=>void;width?:number;}

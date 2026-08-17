@@ -1,0 +1,5 @@
+import React from 'react';
+const T={success:['var(--status-success-bg)','var(--green-700)','var(--green-100)'],error:['var(--status-error-bg)','var(--status-error)','var(--red-100)'],warning:['var(--status-warning-bg)','var(--status-warning)','var(--amber-100)'],info:['var(--status-info-bg)','var(--status-info)','var(--blue-100)'],neutral:['var(--gray-100)','var(--gray-700)','var(--gray-200)'],accent:['var(--brand-accent-soft)','var(--gold-700)','var(--gold-100)']};
+export function Badge({tone='neutral',children,style}){
+const[bg,fg,bd]=T[tone]||T.neutral;
+return <span style={{display:'inline-flex',alignItems:'center',gap:6,background:bg,color:fg,border:'1px solid '+bd,borderRadius:'var(--radius-pill)',padding:'2px 10px',fontFamily:'var(--font-body)',fontSize:12,fontWeight:600,lineHeight:1.6,...style}}>{children}</span>;}

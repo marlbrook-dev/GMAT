@@ -1,0 +1,1 @@
+export interface BadgeProps{tone?:'success'|'error'|'warning'|'info'|'neutral'|'accent';children?:React.ReactNode;}

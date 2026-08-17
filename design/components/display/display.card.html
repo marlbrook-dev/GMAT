@@ -1,0 +1,16 @@
+<!-- @dsCard group="Components" viewport="700x300" name="Display" subtitle="Card, Badge, Tag, Tooltip" -->
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css"><style>body{background:#fff;padding:20px;box-sizing:border-box;margin:0}</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script></head><body><div id="root"></div><script type="text/babel">
+function Demo(){const {Card,Badge,Tag,Tooltip}=window['GMATStudyGuideDesignSystem_efe656'];return <div style={{display:'grid',gap:16}}>
+<div style={{display:'flex',gap:8,alignItems:'center',flexWrap:'wrap'}}>
+<Badge tone="success">Correct</Badge><Badge tone="error">Incorrect</Badge><Badge tone="warning">Review</Badge><Badge tone="info">New</Badge><Badge tone="neutral">Skipped</Badge><Badge tone="accent">Streak ×7</Badge>
+<Tag>Algebra</Tag><Tag onRemove={()=>{}}>Geometry</Tag><Tag onRemove={()=>{}}>Critical Reasoning</Tag>
+<Tooltip text="Rolling 20-question accuracy"><Badge tone="info">72%</Badge></Tooltip>
+</div>
+<Card title="Today's plan" action={<Badge tone="accent">Day 12</Badge>} style={{maxWidth:520}}>
+Two Quant rounds and one Verbal sprint. About 25 minutes total.
+</Card></div>;}
+(function mount(){if(!window['GMATStudyGuideDesignSystem_efe656']){setTimeout(mount,200);return;}ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);})();</script></body></html>

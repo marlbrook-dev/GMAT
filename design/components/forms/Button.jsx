@@ -1,0 +1,8 @@
+import React from 'react';
+const V={primary:{background:'var(--brand-primary)',color:'#fff',border:'1px solid transparent'},secondary:{background:'var(--surface-card)',color:'var(--text-heading)',border:'1px solid var(--border-strong)'},ghost:{background:'transparent',color:'var(--brand-primary)',border:'1px solid transparent'},danger:{background:'var(--status-error)',color:'#fff',border:'1px solid transparent'}};
+const S={sm:{fontSize:13,padding:'6px 12px'},md:{fontSize:15,padding:'9px 18px'},lg:{fontSize:17,padding:'12px 24px'}};
+export function Button({variant='primary',size='md',disabled,children,style,...rest}){
+const[st,setSt]=React.useState('idle');const[fv,setFv]=React.useState(false);
+const base={fontFamily:'var(--font-display)',fontWeight:700,borderRadius:'var(--radius-md)',cursor:disabled?'default':'pointer',display:'inline-flex',alignItems:'center',justifyContent:'center',gap:8,lineHeight:1.2,transition:'background var(--duration-fast) var(--ease-out),transform var(--duration-fast) var(--ease-out)',opacity:disabled?0.5:1,outline:'none',boxShadow:fv?'var(--focus-ring)':'none',...V[variant],...S[size]};
+if(!disabled&&st!=='idle'){if(variant==='primary')base.background='var(--brand-primary-hover)';if(variant==='secondary')base.background='var(--gray-50)';if(variant==='ghost')base.background='var(--brand-primary-soft)';if(variant==='danger')base.background='#B91C1C';if(st==='press')base.transform='scale(.97)';}
+return <button disabled={disabled} onMouseEnter={()=>setSt('hover')} onMouseLeave={()=>setSt('idle')} onMouseDown={()=>setSt('press')} onMouseUp={()=>setSt('hover')} onFocus={e=>setFv(e.target.matches(':focus-visible'))} onBlur={()=>setFv(false)} style={{...base,...style}} {...rest}>{children}</button>;}
