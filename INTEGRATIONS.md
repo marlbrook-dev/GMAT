@@ -4,7 +4,7 @@
 |---|---|---|---|
 | Hosting | Cloudflare Pages (Git connect to this repo) | Now | Root = landing page, `/app/` = trainer. Free custom domain. |
 | Accounts + progress sync | Supabase (Auth magic link + Postgres, RLS) | LIVE (project meridian-prep, see supabase/README.md) | Wired in app: sign-in on Account tab, state sync, attempts + events tables. Needs Site URL / Redirect URL set once in Supabase Auth settings. |
-| Payments | Stripe Checkout + Customer Portal, webhook to a Cloudflare Worker or Supabase Edge Function that sets `profiles.plan` | Phase 3 (with accounts) | Never handle card data in the app; Stripe-hosted checkout only. Add Stripe MCP/connector in Claude when ready. |
+| Payments | Stripe Checkout via Supabase Edge Functions (create-checkout-session + stripe-webhook, deployed) | SCAFFOLDED: set Stripe keys, then flip PAYMENTS_LIVE (supabase/README.md) | Never handle card data in the app; Stripe-hosted checkout only. Add Stripe MCP/connector in Claude when ready. |
 | Analytics | Cloudflare Web Analytics (cookie-free) now; Google Analytics 4 later if marketing needs it | Now / later | GA4 requires a consent banner in EU; Cloudflare's does not. |
 | Sign in with Google | Supabase Auth Google provider | Phase 3 | One toggle in Supabase once a Google Cloud OAuth client exists. |
 | Email (digest, magic links) | Supabase built-in for auth mail; Resend or Postmark for the weekly digest | Phase 3 | Design template: `design/templates/email/Email.dc.html`. |

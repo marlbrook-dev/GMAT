@@ -118,6 +118,42 @@ function pickQuestions(bank,state,opts){
  return chosen.slice(0,count);
 }
 
+// Grade a chosen answer against a question, independent of any UI. chosen: index, [i,j] for TPA, array for GI/TA.
+function gradeChosen(q,chosen){
+ if(q.answerType==='tpa') return Array.isArray(chosen)&&chosen[0]===q.answer[0]&&chosen[1]===q.answer[1];
+ if(q.answerType==='gi') return Array.isArray(chosen)&&chosen.every((v,i)=>v===q.statements[i].answer);
+ if(q.answerType==='ta') return Array.isArray(chosen)&&chosen.every((v,i)=>v===q.statements[i].answer);
+ return chosen===q.answer;
+}
+
+// Mock section: a representative fixed-length section, not a weakness-weighted round.
+// Even coverage across the section's skills, difficulty centered near each skill's rating
+// with a mild spread, passage/prompt groups kept intact, fresh items preferred.
+function pickMockSection(bank,state,section){
+ const meta=SECTION_META[section]; const count=meta.questions;
+ const pool=bank.filter(q=>q.section===section);
+ const skillIds=SKILLS.filter(s=>s.section===section).map(s=>s.id).filter(id=>pool.some(q=>q.skill===id));
+ const lastSeenIdx={}; state.attempts.forEach((a,i)=>{lastSeenIdx[a.qid]=i;});
+ const recency=q=>lastSeenIdx[q.id]===undefined?1e9:(state.attempts.length-lastSeenIdx[q.id]);
+ const used=new Set(); const chosen=[];
+ function groupOf(q){ let g=[q];
+  if(q.passageId) g=pool.filter(x=>x.passageId===q.passageId);
+  else if(q.passageHtml&&['MSR','GI','TA'].includes(q.type)) g=pool.filter(x=>x.passageHtml===q.passageHtml&&x.type===q.type);
+  return g.filter(x=>!used.has(x.id)).sort((a,b)=>a.id<b.id?-1:1); }
+ let idx=0, guard=0;
+ while(chosen.length<count&&guard<400){ guard++;
+  const sk=skillIds[idx%skillIds.length]; idx++;
+  const cands=pool.filter(q=>!used.has(q.id)&&q.skill===sk);
+  if(!cands.length) continue;
+  const skR=state.skills[sk]?state.skills[sk].r:START_R;
+  const spread=[0,120,-120][idx%3]; const target=Math.max(DIFF_ELO[1],Math.min(DIFF_ELO[5],skR+spread));
+  const best=cands.map(q=>{ const d=Math.abs(DIFF_ELO[q.diff]-target); const rec=recency(q); const fresh=rec>=1e9?0:Math.max(0,40-rec)*10; return {q,score:d+fresh+Math.random()*80}; }).sort((a,b)=>a.score-b.score)[0].q;
+  groupOf(best).forEach(x=>{ if(chosen.length<count){ used.add(x.id); chosen.push(x); } }); }
+ if(chosen.length<count){ const rest=pool.filter(q=>!used.has(q.id)).sort((a,b)=>recency(b)-recency(a)||Math.random()-0.5);
+  for(const q of rest){ if(chosen.length>=count) break; used.add(q.id); chosen.push(q); } }
+ return chosen.slice(0,count);
+}
+
 function sectionSummary(state,section){
  const ids=SKILLS.filter(s=>s.section===section).map(s=>s.id); const st=ids.map(id=>skillStats(state,id));
  const tested=st.filter(x=>x.n>0); const meanR=tested.length?Math.round(tested.reduce((a,b)=>a+b.r,0)/tested.length):null;

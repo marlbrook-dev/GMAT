@@ -24,4 +24,26 @@ var dist={}; BANK.forEach(function(q){dist[q.skill]=(dist[q.skill]||0)+1;}); con
 // stress: 200 answers
 for(var k=0;k<20;k++){ var set=pickQuestions(BANK,st,{count:10}); set.forEach(function(q,i){recordAttempt(st,q,0,Math.random()<0.6,120,'calc',false,'x')}); }
 console.log('after 200 attempts, attempts=',st.attempts.length,'review=',Object.keys(st.review).length,'quant band',sectionSummary(st,'Q').band);
+// mock sections: exact length, section purity, no duplicates, all section skills covered
+var mockBad=[];
+['Q','V','DI'].forEach(function(sec){
+ var mq=pickMockSection(BANK,st,sec); var want=SECTION_META[sec].questions;
+ if(mq.length!==want) mockBad.push(sec+' len '+mq.length+'!='+want);
+ var mids=new Set(mq.map(function(q){return q.id})); if(mids.size!==mq.length) mockBad.push(sec+' dup items');
+ if(mq.some(function(q){return q.section!==sec})) mockBad.push(sec+' wrong section item');
+ var covered=new Set(mq.map(function(q){return q.skill}));
+ SKILLS.filter(function(s){return s.section===sec}).forEach(function(s){ if(!covered.has(s.id)) mockBad.push(sec+' missing skill '+s.id); });
+ // passage groups arrive adjacent
+ var seenPassage={}; mq.forEach(function(q,i){ if(q.passageId){ if(seenPassage[q.passageId]!==undefined&&seenPassage[q.passageId]!==i-1) mockBad.push(sec+' split group '+q.passageId); seenPassage[q.passageId]=i; } });
+});
+console.log('mock section issues:',JSON.stringify(mockBad));
+// grading helper
+var gBad=[];
+BANK.forEach(function(q){
+ if(q.answerType==='tpa'){ if(!gradeChosen(q,q.answer.slice())) gBad.push('tpa '+q.id); if(gradeChosen(q,[q.answer[0],(q.answer[1]+1)%q.choices.length])) gBad.push('tpa fp '+q.id); }
+ else if(q.answerType==='gi'){ var right=q.statements.map(function(s){return s.answer}); if(!gradeChosen(q,right)) gBad.push('gi '+q.id); }
+ else if(q.answerType==='ta'){ var rightT=q.statements.map(function(s){return s.answer}); if(!gradeChosen(q,rightT)) gBad.push('ta '+q.id); var flipped=rightT.slice(); flipped[0]=!flipped[0]; if(gradeChosen(q,flipped)) gBad.push('ta fp '+q.id); }
+ else { if(!gradeChosen(q,q.answer)) gBad.push('mc '+q.id); if(gradeChosen(q,(q.answer+1)%q.choices.length)) gBad.push('mc fp '+q.id); }
+});
+console.log('gradeChosen issues:',JSON.stringify(gBad));
 `,ctx);

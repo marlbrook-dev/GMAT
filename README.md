@@ -17,4 +17,5 @@ Cloudflare Pages: Workers & Pages > Create > Pages > Connect to Git > this repo.
 Build command: `python3 src/build.py && python3 src/build_blog.py` — Output directory: `/` (build outputs land in the repo root).
 
 ## Roadmap
-Phase 4: mock section mode, blog growth (see `design/guidelines/seo-content.md`), Stripe Checkout, more exams via the exam registry.
+Done in Phase 4 so far: mock section mode (full 45-minute sections with review + 3 answer edits), The Study Room blog, privacy page, Stripe Checkout scaffold (edge functions deployed; set keys and flip `PAYMENTS_LIVE` to go live, see `supabase/README.md`).
+Remaining: owner admin view on `item_stats`, match games, AI-generated variants, Stripe go-live, Google sign-in, weekly digest, more exams via the exam registry.
