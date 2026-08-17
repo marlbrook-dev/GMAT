@@ -1,0 +1,1 @@
+export interface InputProps{label?:string;hint?:string;error?:string;placeholder?:string;value?:string;onChange?:(e:any)=>void;type?:string;}

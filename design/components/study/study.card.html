@@ -1,0 +1,19 @@
+<!-- @dsCard group="Components" viewport="700x540" name="Study" subtitle="QuizOption, StatTile, Flashcard — game primitives" -->
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css"><style>body{background:#fff;padding:20px;box-sizing:border-box;margin:0}</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script></head><body><div id="root"></div><script type="text/babel">
+function Demo(){const {QuizOption,StatTile,Flashcard}=window['GMATStudyGuideDesignSystem_efe656'];return <div style={{display:'grid',gridTemplateColumns:'1.2fr 1fr',gap:20,alignItems:'start'}}>
+<div style={{display:'grid',gap:8}}>
+<QuizOption letter="A" state="idle">x = 8</QuizOption>
+<QuizOption letter="B" state="selected">x = 10</QuizOption>
+<QuizOption letter="C" state="correct">x = 12</QuizOption>
+<QuizOption letter="D" state="incorrect">x = 14</QuizOption>
+</div>
+<div style={{display:'grid',gap:12}}>
+<StatTile label="Est. score" value="645" delta="+15"/>
+<StatTile label="Accuracy" value="78%" delta="−3%" deltaTone="error"/>
+</div>
+<div style={{gridColumn:'1 / -1'}}><Flashcard front="Weighted average" back="The mean leans toward the group with more members — anchor to the larger weight." height={190}/></div></div>;}
+(function mount(){if(!window['GMATStudyGuideDesignSystem_efe656']){setTimeout(mount,200);return;}ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);})();</script></body></html>

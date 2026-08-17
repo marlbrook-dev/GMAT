@@ -1,0 +1,38 @@
+<!-- @dsCard group="Study Web App" viewport="1280x800" name="Study Web App" subtitle="Dashboard → practice round → results, clickable" -->
+<!doctype html><html><head><meta charset="utf-8"><title>Meridian Prep — Web App</title>
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+</head><body>
+<div id="root"></div>
+<script type="text/babel" src="AppShell.jsx"></script>
+<script type="text/babel" src="Dashboard.jsx"></script>
+<script type="text/babel" src="Practice.jsx"></script>
+<script type="text/babel" src="Results.jsx"></script>
+<script type="text/babel" src="Onboarding.jsx"></script>
+<script type="text/babel" src="Account.jsx"></script>
+<script type="text/babel" src="Admin.jsx"></script>
+<script type="text/babel">
+function App(){
+const[screen,setScreen]=React.useState('Dashboard');
+const[score,setScore]=React.useState(0);
+const[wizard,setWizard]=React.useState(false);
+const[program,setProgram]=React.useState(null);
+const[view,setView]=React.useState('user');
+const NS=window.GMATStudyGuideDesignSystem_efe656;
+const nav=(t)=>setScreen(t==='Practice'?'Practice':t==='Review'?'Results':'Dashboard');
+return <AppShell active={screen==='Results'?'Review':screen} onNav={nav} view={view} onToggleView={(v)=>{setView(v);}} onAccount={()=>{setView('user');setScreen('Account');}}>
+{view==='owner'?<Admin/>:<React.Fragment>
+{program&&<div style={{maxWidth:'var(--container-max)',margin:'0 auto -16px'}}><NS.Toast tone="success" onDismiss={()=>setProgram(null)}>{program.exam} program built — {program.goal}. First round is ready.</NS.Toast></div>}
+{screen==='Dashboard'&&<Dashboard onStart={()=>setScreen('Practice')} onNewProgram={()=>setWizard(true)}/>}
+{screen==='Practice'&&<Practice onFinish={(s)=>{setScore(2);setScreen('Results');}} onExit={()=>setScreen('Dashboard')}/>}
+{screen==='Results'&&<Results score={2} total={3} onRetry={()=>setScreen('Practice')} onHome={()=>setScreen('Dashboard')}/>}
+{screen==='Account'&&<Account onNewProgram={()=>setWizard(true)}/>}
+</React.Fragment>}
+<Onboarding open={wizard} onClose={()=>setWizard(false)} onComplete={(p)=>{setProgram(p);setWizard(false);setScreen('Dashboard');}}/>
+</AppShell>;}
+(function mount(){if(!window.GMATStudyGuideDesignSystem_efe656){setTimeout(mount,200);return;}ReactDOM.createRoot(document.getElementById('root')).render(<App/>);})();
+</script>
+</body></html>

@@ -1,0 +1,1 @@
+Click-to-flip study card: white serif front, navy back with gold label.\n```jsx\n<Flashcard front="Weighted average" back="The mean leans toward the group with more members." height={200}/>\n```

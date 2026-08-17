@@ -1,0 +1,73 @@
+<!--meta
+{
+  "slug": "data-sufficiency-two-minute-rule",
+  "title": "Data Sufficiency Tips: A Two Minute Decision Framework",
+  "description": "Data sufficiency tips for the GMAT Focus Edition: a two minute framework to decide sufficiency without solving, plus a worked example and five traps.",
+  "category": "Exam Guides",
+  "date": "2026-08-17",
+  "author": "Meridian Team",
+  "read_min": 7,
+  "hero": {"text": "2-min rule", "sub": "decide, do not solve", "palette": "data", "font": "serif"},
+  "related": ["gmat-data-insights-guide", "gmat-time-management"],
+  "faq": [
+    {"q": "Is data sufficiency still on the GMAT?", "a": "Yes. On the GMAT Focus Edition it appears in the Data Insights section, which has 20 questions in 45 minutes and is scored from 60 to 90 like the other two sections (mba.com, 2026)."},
+    {"q": "How long should I spend on a data sufficiency question?", "a": "Aim for two minutes or less. The Data Insights section averages 2 minutes 15 seconds per question, and data sufficiency should usually run faster than that because you decide sufficiency instead of computing a full answer."},
+    {"q": "Do I need to calculate the actual answer in data sufficiency?", "a": "No. You only need to establish whether the statements force exactly one answer to the stem. Once that is settled, any further arithmetic wastes time."},
+    {"q": "What does the AD versus BCE split mean?", "a": "It is an elimination shortcut based on statement 1 alone. If statement 1 by itself is sufficient, the answer must be A or D. If it is not, the answer must be B, C, or E."}
+  ]
+}
+-->
+<p>Here is the framework in one paragraph. Read the stem first and decide what a sufficient statement would have to pin down. Test statement 1 by itself: if it settles the question, the answer is A or D; if it does not, the answer is B, C, or E. Then test statement 2 by itself against whatever survived. Combine the statements only if each failed alone. Stop the moment sufficiency is decided. You never need the actual answer, only proof that exactly one exists.</p>
+<p>The rest of this post unpacks those steps and applies them to one worked example. First, some context: on the GMAT Focus Edition, data sufficiency no longer lives in the Quantitative section.</p>
+<h2>Where does data sufficiency live now?</h2>
+<p>Data sufficiency is part of Data Insights, one of the three equally weighted sections of the GMAT Focus Edition. The section runs 45 minutes, contains 20 questions, and is scored from 60 to 90, the same scale as Quantitative Reasoning and Verbal Reasoning (mba.com, 2026). Data sufficiency shares the section with graphics interpretation, table analysis, two-part analysis, and multi-source reasoning. Our <a href="/blog/gmat-data-insights-guide/">guide to the Data Insights section</a> covers all of those question types; this post stays on data sufficiency alone.</p>
+<p>The move matters for scoring. On the retired Classic exam, scored 200 to 800, data sufficiency sat inside Quant. On the Focus Edition, scored 205 to 805 overall, it sits in a section that counts equally toward the total (mba.com, 2026), so data sufficiency performance now moves your headline number directly.</p>
+<h2>What is a data sufficiency question actually asking?</h2>
+<p>Every data sufficiency question has a stem, which poses a question, and two numbered statements, which offer information. Your job is not to answer the stem. Your job is to classify the statements. The five answer choices never change, so learn them once:</p>
+<ul>
+<li><strong>A.</strong> Statement 1 alone is sufficient; statement 2 alone is not.</li>
+<li><strong>B.</strong> Statement 2 alone is sufficient; statement 1 alone is not.</li>
+<li><strong>C.</strong> Neither statement alone is sufficient, but the two together are.</li>
+<li><strong>D.</strong> Each statement alone is sufficient.</li>
+<li><strong>E.</strong> Even together, the statements are not sufficient.</li>
+</ul>
+<p>Sufficient means the information forces exactly one answer to the stem. For a value question, that means one value. For a yes or no question, it means the same answer every time. A firm no is just as sufficient as a firm yes.</p>
+<h2>How does the elimination grid work?</h2>
+<p>The grid is the mechanical half of the framework. Before you touch the statements, picture the five answers in two columns: AD and BCE. Statement 1, tested alone, tells you which column you are in.</p>
+<ul>
+<li>If statement 1 alone is sufficient, the answer is A or D. Cross out B, C, and E.</li>
+<li>If statement 1 alone is insufficient, the answer is B, C, or E. Cross out A and D.</li>
+</ul>
+<p>Statement 2, tested alone, settles the rest. In the AD column, sufficient means D and insufficient means A. In the BCE column, sufficient means B; insufficient means you finally combine the statements, choosing C if the pair works and E if it does not. Two clean tests resolve four of the five outcomes, and you combine statements only as a last step.</p>
+<p>The grid also enforces the most important discipline in data sufficiency: statement 2 must be judged with statement 1 completely out of mind. Switching columns is your reminder that the second test starts over from the stem.</p>
+<h2>Why decide instead of solve?</h2>
+<p>Because sufficiency is usually decidable before any arithmetic starts. If the stem plus a statement gives you two distinct linear equations in two unknowns, a unique solution exists, and you do not need to find it. If a yes or no stem could go either way under a statement, one pair of test values proves insufficiency. The exam rewards recognizing structure, not finishing computations.</p>
+<p>The payoff is time. Every second spent computing a value you already know exists is taken from a harder question later in the section. Deciding is what makes a two minute budget realistic; solving is what breaks it.</p>
+<h2>A worked example, start to finish</h2>
+<p>The question below was written for this post, in the style of the algebra-flavored items in Data Insights.</p>
+<p><strong>A bookstore sold exactly 40 books on Monday. Every book was either a paperback priced at 8 dollars or a hardcover priced at 20 dollars. How many hardcovers did the bookstore sell on Monday?</strong></p>
+<p><strong>Statement 1:</strong> The bookstore's revenue from Monday's 40 books was 464 dollars.</p>
+<p><strong>Statement 2:</strong> The bookstore sold 16 more paperbacks than hardcovers on Monday.</p>
+<h3>Step 1: read the stem before the statements</h3>
+<p>Let p be paperbacks and h be hardcovers. The stem alone gives one equation, p + h = 40, and asks for the single value of h. The target is now clear: any statement that adds one more independent linear equation in p and h locks h to one value and is sufficient.</p>
+<h3>Step 2: test statement 1 alone</h3>
+<p>Statement 1 translates to 8p + 20h = 464. Is that independent of p + h = 40? Yes: 8 and 20 are not in the same ratio as 1 and 1, so the two lines cross exactly once. A unique solution exists, so statement 1 is sufficient. Cross out B, C, and E. Notice that no arithmetic happened: we did not find h, we proved h is findable, which is all the question asks.</p>
+<h3>Step 3: test statement 2 alone, from scratch</h3>
+<p>Now set statement 1 aside entirely and return to the stem. Statement 2 translates to p = h + 16. Combined with p + h = 40, that is again two distinct linear equations in two unknowns, so again a unique solution exists. Statement 2 is sufficient on its own. Each statement works alone, so the answer is D.</p>
+<h3>Step 4: stop</h3>
+<p>If you insist on checking, both statements give h = 12; they will always agree, since statements in a real question never contradict each other. Working that out twice costs 30 to 45 seconds and adds arithmetic risk with zero payoff. The habit to break is finishing the algebra to feel safe; the habit to build is trusting a proven unique solution.</p>
+<h2>Which traps catch prepared test takers?</h2>
+<p>Most data sufficiency misses are not math errors. They are procedure errors, and each has a recognizable tell.</p>
+<div class="tablewrap"><table>
+<thead><tr><th>Trap</th><th>What happens</th><th>The tell</th></tr></thead>
+<tbody>
+<tr><td>The C trap</td><td>The statements combine into a tidy system, so C looks obvious, even though one statement already worked alone.</td><td>Combining feels effortless. When two statements fit together that neatly, retest each alone with extra care.</td></tr>
+<tr><td>Statement carryover</td><td>A fact from statement 1 leaks into your test of statement 2.</td><td>Statement 2 seems sufficient only after you have read statement 1. Restart the test from the stem alone.</td></tr>
+<tr><td>No means no</td><td>On a yes or no stem, a statement that forces a definite no gets discarded as if it failed.</td><td>You rejected a statement because its answer was negative, not because its answer was uncertain.</td></tr>
+<tr><td>The hidden second solution</td><td>Squares, absolute values, or divisibility conditions allow two candidates, but you stop at the first one found.</td><td>A squared variable or an absolute value appears, and you reached one answer quickly.</td></tr>
+<tr><td>The friendly assumption</td><td>You quietly treat a variable as an integer, positive, or nonzero when the stem never says so.</td><td>Your sufficiency argument depends on a property the stem does not state.</td></tr>
+</tbody>
+</table></div>
+<h2>How does the two minute rule fit your pacing?</h2>
+<p>Data Insights allows 45 minutes for 20 questions, an average of 2 minutes 15 seconds each (mba.com, 2026). Data sufficiency should generally come in under that average, because deciding is faster than solving, and the surplus belongs to multi-source reasoning sets, which read slowly. If a data sufficiency question passes the two minute mark with neither statement classified, pick the best answer from the surviving grid column and move on. How to handle the questions you leave behind, and how to build a full section budget, is the subject of our <a href="/blog/gmat-time-management/">GMAT time management guide</a>.</p>
+<p>The framework takes an afternoon to learn. Making the grid automatic takes longer: drill it on every practice item, including easy ones, because questions with no time pressure are where the discipline is cheapest to build.</p>

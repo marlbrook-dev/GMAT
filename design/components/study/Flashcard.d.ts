@@ -1,0 +1,1 @@
+export interface FlashcardProps{front:React.ReactNode;back:React.ReactNode;frontLabel?:string;backLabel?:string;width?:string|number;height?:number;}

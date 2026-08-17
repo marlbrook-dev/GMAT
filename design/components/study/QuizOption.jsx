@@ -1,0 +1,11 @@
+import React from 'react';
+export function QuizOption({letter,children,state='idle',onClick,style}){
+const[h,setH]=React.useState(false);const[fv,setFv]=React.useState(false);
+const map={idle:{bd:'var(--border-default)',bg:'var(--surface-card)',chipBg:'var(--surface-sunken)',chipFg:'var(--text-body)'},selected:{bd:'var(--brand-primary)',bg:'var(--brand-primary-soft)',chipBg:'var(--brand-primary)',chipFg:'#fff'},correct:{bd:'var(--status-success)',bg:'var(--status-success-bg)',chipBg:'var(--status-success)',chipFg:'#fff'},incorrect:{bd:'var(--status-error)',bg:'var(--status-error-bg)',chipBg:'var(--status-error)',chipFg:'#fff'}};
+const s=map[state]||map.idle;
+return <button onClick={onClick} onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)} onFocus={e=>setFv(e.target.matches(':focus-visible'))} onBlur={()=>setFv(false)} style={{display:'flex',alignItems:'center',gap:12,width:'100%',textAlign:'left',background:state==='idle'&&h?'var(--gray-50)':s.bg,border:'1.5px solid '+(state==='idle'&&h?'var(--border-strong)':s.bd),borderRadius:'var(--radius-md)',padding:'12px 14px',cursor:'pointer',fontFamily:'var(--font-body)',fontSize:15,color:'var(--text-heading)',outline:'none',boxShadow:fv?'var(--focus-ring)':'none',transition:'background var(--duration-fast) var(--ease-out),border-color var(--duration-fast) var(--ease-out),box-shadow var(--duration-fast) var(--ease-out)',...style}}>
+<span style={{width:26,height:26,borderRadius:'var(--radius-sm)',background:s.chipBg,color:s.chipFg,display:'inline-flex',alignItems:'center',justifyContent:'center',fontFamily:'var(--font-display)',fontWeight:700,fontSize:13,flexShrink:0}}>{letter}</span>
+<span style={{flex:1}}>{children}</span>
+{state==='correct'&&<svg viewBox="0 0 24 24" width="18" height="18" style={{stroke:'var(--status-success)',fill:'none',strokeWidth:3,strokeLinecap:'round',strokeLinejoin:'round'}}><path d="m5 13 4 4L19 7"/></svg>}
+{state==='incorrect'&&<svg viewBox="0 0 24 24" width="18" height="18" style={{stroke:'var(--status-error)',fill:'none',strokeWidth:3,strokeLinecap:'round'}}><path d="M18 6 6 18M6 6l12 12"/></svg>}
+</button>;}

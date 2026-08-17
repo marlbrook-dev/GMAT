@@ -1,0 +1,1 @@
+export interface IconButtonProps{variant?:'subtle'|'outline';size?:'sm'|'md'|'lg';label:string;disabled?:boolean;children?:React.ReactNode;onClick?:()=>void;}

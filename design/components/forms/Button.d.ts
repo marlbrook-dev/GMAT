@@ -1,0 +1,2 @@
+/** @startingPoint section="Components" subtitle="Primary, secondary, ghost and danger actions" viewport="700x240" */
+export interface ButtonProps{variant?:'primary'|'secondary'|'ghost'|'danger';size?:'sm'|'md'|'lg';disabled?:boolean;children?:React.ReactNode;onClick?:()=>void;style?:React.CSSProperties;}

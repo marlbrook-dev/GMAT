@@ -1,0 +1,1 @@
+export interface TabsProps{items:string[];active?:string;defaultActive?:string;onChange?:(item:string)=>void;}

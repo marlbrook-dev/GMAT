@@ -1,0 +1,23 @@
+<!-- @dsCard group="Components" viewport="700x360" name="Forms" subtitle="Button, IconButton, Input, Select, Checkbox, Radio, Switch" -->
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css"><style>body{background:#fff;padding:20px;box-sizing:border-box;margin:0}</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script></head><body><div id="root"></div><script type="text/babel">
+function Demo(){const {Button,IconButton,Input,Select,Checkbox,Radio,Switch}=window['GMATStudyGuideDesignSystem_efe656'];const[mode,setMode]=React.useState('timed');
+return <div style={{display:'grid',gap:18}}>
+<div style={{display:'flex',gap:10,alignItems:'center',flexWrap:'wrap'}}>
+<Button>Start round</Button><Button variant="secondary">Review</Button><Button variant="ghost">Skip</Button><Button variant="danger">End round</Button><Button disabled>Disabled</Button><Button size="sm">Small</Button><Button size="lg">Large</Button>
+<IconButton label="Close" variant="outline"><svg viewBox="0 0 24 24" width="16" height="16" style={{stroke:'currentColor',fill:'none',strokeWidth:2,strokeLinecap:'round'}}><path d="M18 6 6 18M6 6l12 12"/></svg></IconButton>
+</div>
+<div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:14,maxWidth:660}}>
+<Input label="Email" placeholder="you@school.edu" hint="Used for progress sync"/>
+<Input label="Target score" defaultValue="900" error="705 is the maximum score"/>
+<Select label="Section" options={['Quantitative','Verbal','Data Insights']}/>
+</div>
+<div style={{display:'flex',gap:24,alignItems:'center',flexWrap:'wrap'}}>
+<Checkbox label="Data Sufficiency" defaultChecked/><Checkbox label="Geometry"/>
+<Radio label="Timed" value="timed" checked={mode==='timed'} onChange={setMode}/><Radio label="Untimed" value="untimed" checked={mode==='untimed'} onChange={setMode}/>
+<Switch label="Adaptive difficulty" defaultChecked/>
+</div></div>;}
+(function mount(){if(!window['GMATStudyGuideDesignSystem_efe656']){setTimeout(mount,200);return;}ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);})();</script></body></html>

@@ -1,0 +1,1 @@
+export interface QuizOptionProps{letter:string;children?:React.ReactNode;state?:'idle'|'selected'|'correct'|'incorrect';onClick?:()=>void;}

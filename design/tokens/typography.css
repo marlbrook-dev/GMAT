@@ -1,0 +1,14 @@
+:root{
+--font-serif-display:'Source Serif 4',Georgia,serif;
+--font-display:'Manrope',system-ui,sans-serif;
+--font-body:'IBM Plex Sans',system-ui,sans-serif;
+--font-mono:'IBM Plex Mono',ui-monospace,monospace;
+/* Scale */
+--text-xs:12px;--text-sm:13px;--text-base:15px;--text-md:17px;--text-lg:20px;--text-xl:24px;--text-2xl:30px;--text-3xl:38px;--text-4xl:48px;
+/* Weights */
+--weight-regular:400;--weight-medium:500;--weight-semibold:600;--weight-bold:700;--weight-extrabold:800;
+/* Line heights */
+--leading-tight:1.15;--leading-snug:1.35;--leading-normal:1.55;
+/* Letter spacing */
+--tracking-tight:-0.01em;--tracking-caps:0.06em;
+}

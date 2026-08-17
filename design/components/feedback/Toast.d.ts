@@ -1,0 +1,1 @@
+export interface ToastProps{tone?:'success'|'error'|'info'|'warning';children?:React.ReactNode;onDismiss?:()=>void;}

@@ -1,0 +1,1 @@
+export interface ProgressBarProps{value:number;max?:number;color?:string;height?:number;label?:string;}

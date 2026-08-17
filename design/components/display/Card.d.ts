@@ -1,0 +1,1 @@
+export interface CardProps{title?:string;action?:React.ReactNode;children?:React.ReactNode;padding?:string;hoverable?:boolean;style?:React.CSSProperties;}
