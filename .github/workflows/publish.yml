@@ -1,0 +1,18 @@
+# Weekly redeploy so future-dated blog posts publish on schedule.
+# Setup: in the Cloudflare Worker's build settings create a Deploy Hook,
+# then add its URL as repo secret CLOUDFLARE_DEPLOY_HOOK.
+name: Scheduled publish
+on:
+  schedule:
+    - cron: "0 14 * * 1,4"  # Mon + Thu 14:00 UTC
+  workflow_dispatch:
+jobs:
+  redeploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Cloudflare deploy hook
+        run: |
+          if [ -z "${{ secrets.CLOUDFLARE_DEPLOY_HOOK }}" ]; then
+            echo "CLOUDFLARE_DEPLOY_HOOK secret not set; skipping"; exit 0
+          fi
+          curl -sS -X POST "${{ secrets.CLOUDFLARE_DEPLOY_HOOK }}"

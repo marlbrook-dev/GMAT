@@ -50,3 +50,10 @@ AI assistants quote pages that answer cleanly, and they cite third-party mention
 - Keep facts identical everywhere they appear on the site; contradictions kill entity trust.
 - Comparison and "what is a good X" pages earn the most AI citations; keep them current (date in title, yearly refresh).
 - Third-party mentions matter more than backlinks for AI answers: pursue them via the partnerships in GROWTH.md, never via fake reviews or planted content.
+
+## Bylines, categories, dates, outbound links (v2)
+- Authors are pen names of the SFN editorial team: Maya Chen, Sarah Whitfield, Elena Rodriguez, Aisha Thompson, David Okafor, James Corbett (plus SFN Team for company news). Bylines only: never invent credentials, degrees, bios, or personal anecdotes presented as the author's lived experience.
+- Categories now include Admissions (application timelines, essays, resumes, recommendations, waivers).
+- Dates: published date = the date the post actually goes live. Future-dated posts are held by the generator until a deploy on or after that date. Never backdate.
+- Every non-news post includes 1 to 3 outbound links to authoritative sources woven into sentences: mba.com, gmac.com, ets.org, official school pages (class profiles), or approved outlets. Link the page you are actually referencing. Never link banned sources.
+- Admissions posts: no school-specific deadlines, policies, or statistics unless they are on the fact sheet; link the school's official page and describe in general terms instead.
