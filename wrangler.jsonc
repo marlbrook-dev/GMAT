@@ -1,0 +1,11 @@
+// Cloudflare Workers config: serves the built site as static assets.
+// Dashboard build command runs `python3 src/build.py && python3 src/build_blog.py`
+// first, then `npx wrangler deploy` uploads the repo root (built pages included).
+{
+  "name": "gmat",
+  "compatibility_date": "2026-08-17",
+  "assets": {
+    "directory": "./",
+    "not_found_handling": "404-page"
+  }
+}

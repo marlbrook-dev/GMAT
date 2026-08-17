@@ -13,8 +13,8 @@ Adaptive test-prep platform. First exam: GMAT Focus Edition (Quant, Verbal, Data
 `python3 src/build.py && python3 src/build_blog.py` then open `index.html`. Run `node src/test.js` from `src/` to validate the bank and simulate the engine.
 
 ## Deploy
-Cloudflare Pages: Workers & Pages > Create > Pages > Connect to Git > this repo.
-Build command: `python3 src/build.py && python3 src/build_blog.py` — Output directory: `/` (build outputs land in the repo root).
+Cloudflare Workers (Git-connected): Compute > Workers & Pages > Create > import this repo.
+Build command: `python3 src/build.py && python3 src/build_blog.py` — Deploy command: `npx wrangler deploy` (config in `wrangler.jsonc`; the built site is served as static assets from the repo root).
 
 ## Roadmap
 Done in Phase 4 so far: mock section mode (full 45-minute sections with review + 3 answer edits), The Study Room blog, privacy page, Stripe Checkout scaffold (edge functions deployed; set keys and flip `PAYMENTS_LIVE` to go live, see `supabase/README.md`).
