@@ -1,14 +1,17 @@
 // Creates a Stripe Checkout session for a signed-in user. Card data never touches our code:
 // the browser is redirected to Stripe-hosted checkout. Requires secrets (supabase/README.md):
-// STRIPE_SECRET_KEY, STRIPE_PRICE_MONTHLY, STRIPE_PRICE_QUARTERLY, STRIPE_PRICE_ANNUAL, SITE_URL.
+// STRIPE_SECRET_KEY, STRIPE_PRICE_PLUS_MONTHLY, STRIPE_PRICE_PLUS_ANNUAL,
+// STRIPE_PRICE_PRO_MONTHLY, STRIPE_PRICE_PRO_ANNUAL, SITE_URL.
+// plan values: plus_monthly | plus_annual | pro_monthly | pro_annual; profiles.plan stores the tier.
 import Stripe from "npm:stripe@17";
 import { createClient } from "jsr:@supabase/supabase-js@2";
 
 const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") ?? "", { apiVersion: "2024-06-20" });
 const PRICES: Record<string, string | undefined> = {
-  monthly: Deno.env.get("STRIPE_PRICE_MONTHLY"),
-  quarterly: Deno.env.get("STRIPE_PRICE_QUARTERLY"),
-  annual: Deno.env.get("STRIPE_PRICE_ANNUAL"),
+  plus_monthly: Deno.env.get("STRIPE_PRICE_PLUS_MONTHLY"),
+  plus_annual: Deno.env.get("STRIPE_PRICE_PLUS_ANNUAL"),
+  pro_monthly: Deno.env.get("STRIPE_PRICE_PRO_MONTHLY"),
+  pro_annual: Deno.env.get("STRIPE_PRICE_PRO_ANNUAL"),
 };
 const SITE = Deno.env.get("SITE_URL") ?? "https://startfromnowhere.com";
 const cors = {
@@ -27,6 +30,7 @@ Deno.serve(async (req: Request) => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return new Response(JSON.stringify({ error: "Not signed in" }), { status: 401, headers: cors });
     const { plan } = await req.json();
+    const tier = String(plan || "").split("_")[0];
     const price = PRICES[plan];
     if (!price) return new Response(JSON.stringify({ error: "Unknown plan or Stripe not configured" }), { status: 400, headers: cors });
     const session = await stripe.checkout.sessions.create({
@@ -34,8 +38,8 @@ Deno.serve(async (req: Request) => {
       line_items: [{ price, quantity: 1 }],
       customer_email: user.email ?? undefined,
       client_reference_id: user.id,
-      metadata: { user_id: user.id, plan },
-      subscription_data: { metadata: { user_id: user.id, plan } },
+      metadata: { user_id: user.id, plan: tier },
+      subscription_data: { metadata: { user_id: user.id, plan: tier } },
       success_url: `${SITE}/app/?checkout=success`,
       cancel_url: `${SITE}/app/?checkout=cancelled`,
       allow_promotion_codes: true,

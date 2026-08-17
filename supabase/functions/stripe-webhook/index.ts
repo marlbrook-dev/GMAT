@@ -25,7 +25,7 @@ Deno.serve(async (req: Request) => {
   if (event.type === "checkout.session.completed") {
     const s = event.data.object as Stripe.Checkout.Session;
     const uid = s.client_reference_id ?? s.metadata?.user_id;
-    const plan = s.metadata?.plan ?? "monthly";
+    const plan = s.metadata?.plan ?? "plus";
     if (uid && s.payment_status === "paid") await setPlan(uid, plan);
   } else if (event.type === "customer.subscription.deleted") {
     const sub = event.data.object as Stripe.Subscription;
@@ -34,7 +34,7 @@ Deno.serve(async (req: Request) => {
     const sub = event.data.object as Stripe.Subscription;
     if (sub.metadata?.user_id) {
       const active = ["active", "trialing"].includes(sub.status);
-      await setPlan(sub.metadata.user_id, active ? (sub.metadata?.plan ?? "monthly") : "free");
+      await setPlan(sub.metadata.user_id, active ? (sub.metadata?.plan ?? "plus") : "free");
     }
   }
   return new Response(JSON.stringify({ received: true }), { headers: { "Content-Type": "application/json" } });
