@@ -24,3 +24,12 @@ To go live:
 5. Legal first: Stripe requires visible terms and a refund policy; have counsel review `terms.html` and `privacy.html` before charging anyone.
 
 Flow: app calls `create-checkout-session` with the signed-in user's JWT > Stripe-hosted checkout > webhook sets `profiles.plan`. Card data never touches our code. Cancel/downgrade later adds the Stripe Customer Portal.
+
+## Admin + BI + CRM (applied)
+
+Migrations `admin_bi` and `partner_crm` are live. Admin access = email in `app_admins`
+(seeded: hroberts@winthropcapital.com). `is_admin()` gates everything server-side; the app
+shows the Admin tab only after `rpc('is_admin')` returns true. BI reads a single
+`admin_bi()` RPC (aggregates only); the Partners CRM uses `crm_contacts`/`crm_notes`
+with admin-only RLS. Add an admin: `insert into app_admins(email) values ('...');`
+Preview the dashboard layout with sample data at `/app/#admin-preview` (no real data).

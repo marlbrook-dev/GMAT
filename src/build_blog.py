@@ -108,8 +108,8 @@ article .tablewrap{overflow-x:auto}article strong{color:var(--gray-900)}
 
 FONTS = """<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,600;0,8..60,700;1,8..60,400&family=Manrope:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">"""
-FAVICON = """<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 2 44 13v22L24 46 4 35V13Z' fill='%23122B4E'/%3E%3Cpath d='M24 5.5 41 14.8v18.4L24 42.5 7 33.2V14.8Z' fill='none' stroke='%23C7A252' stroke-width='1.5'/%3E%3Cpath d='m15.5 25 6.5 6.5L33 17.5' fill='none' stroke='%23C7A252' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">"""
-LOGO = """<svg viewBox="0 0 48 48" width="30" height="30" aria-hidden="true"><path d="M24 2 44 13v22L24 46 4 35V13Z" fill="#122B4E"/><path d="M24 5.5 41 14.8v18.4L24 42.5 7 33.2V14.8Z" fill="none" stroke="#C7A252" stroke-width="1.5"/><path d="m15.5 25 6.5 6.5L33 17.5" fill="none" stroke="#C7A252" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>"""
+FAVICON = """<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='10' fill='%23122B4E'/%3E%3Ccircle cx='11.5' cy='35' r='3' fill='%23C7A252'/%3E%3Cpath d='M11.5 35 20 26l5 4 11-13' fill='none' stroke='%23C7A252' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M29 15.5h7.5V23' fill='none' stroke='%23C7A252' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">"""
+LOGO = """<svg viewBox="0 0 48 48" width="30" height="30" aria-hidden="true"><rect width="48" height="48" rx="10" fill="#122B4E"/><circle cx="11.5" cy="35" r="3" fill="#C7A252"/><path d="M11.5 35 20 26l5 4 11-13" fill="none" stroke="#C7A252" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M29 15.5h7.5V23" fill="none" stroke="#C7A252" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>"""
 
 def page(title, description, canonical, body, extra_head=""):
     return f"""<!DOCTYPE html>
@@ -117,23 +117,23 @@ def page(title, description, canonical, body, extra_head=""):
 <title>{html.escape(title)}</title>
 <meta name="description" content="{html.escape(description, quote=True)}">
 <link rel="canonical" href="{canonical}">
-<meta property="og:type" content="website"><meta property="og:site_name" content="Meridian Prep">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Start From Nowhere">
 <meta property="og:title" content="{html.escape(title, quote=True)}"><meta property="og:description" content="{html.escape(description, quote=True)}">
 <meta property="og:url" content="{canonical}"><meta name="twitter:card" content="summary">
 {FONTS}
 {FAVICON}
 {extra_head}<style>{HEAD_CSS}</style></head><body>
 <header class="site"><div class="wrap">
-<a class="wordmark" href="/">{LOGO}Meridian <b>Prep</b></a>
+<a class="wordmark" href="/">{LOGO}Start From <b>Nowhere</b></a>
 <a class="roomtag" href="/blog/">The Study Room</a>
 <span style="flex:1"></span>
 <a class="btn" href="/app/">Start free</a>
 </div></header>
 {body}
 <footer class="site"><div class="wrap">
-<div style="display:flex;align-items:center;gap:8px"><span class="wordmark" style="font-size:15px">Meridian <b>Prep</b></span></div>
+<div style="display:flex;align-items:center;gap:8px"><span class="wordmark" style="font-size:15px">Start From <b>Nowhere</b></span></div>
 <nav aria-label="Footer"><a href="/">Home</a><a href="/blog/">Blog</a><a href="/terms.html">Terms</a><a href="/privacy.html">Privacy</a></nav>
-<span>© 2026 Meridian Prep. GMAT is a trademark of GMAC, which does not endorse this product.</span>
+<span>© 2026 Start From Nowhere. GMAT is a trademark of GMAC, which does not endorse this product.</span>
 </div></footer>
 </body></html>"""
 
@@ -190,14 +190,14 @@ def build_index(posts):
 <label style="display:grid;gap:6px;font-size:13px;font-weight:600;color:var(--navy-900)">Title of your story or article<input required name="title" placeholder="e.g. How I studied for the LSAT with a newborn" style="font:inherit;font-size:15px;border:1.5px solid var(--gray-300);border-radius:8px;padding:11px 14px"></label>
 <label style="display:grid;gap:6px;font-size:13px;font-weight:600;color:var(--navy-900)">Your story<textarea required name="story" rows="6" placeholder="Paste your draft or outline. 300 words is plenty to start." style="font:inherit;font-size:15px;border:1.5px solid var(--gray-300);border-radius:8px;padding:11px 14px"></textarea></label>
 <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
-<span style="font-size:12px;color:var(--gray-500)">Submissions open your mail app addressed to editors@meridianprep.com. If we publish, we credit you and confirm edits with you first.</span>
+<span style="font-size:12px;color:var(--gray-500)">Submissions open your mail app addressed to editors@startfromnowhere.com. If we publish, we credit you and confirm edits with you first.</span>
 <button type="submit" class="btn" style="border:none;font-size:15px;padding:12px 26px;cursor:pointer">Submit for review</button>
 </div>
 </form>
 </div>
 </section>
 <script>
-document.getElementById('submitForm').addEventListener('submit',function(e){{e.preventDefault();var f=this,b='Name: '+f.name.value+'\\nEmail: '+f.email.value+'\\n\\n'+f.story.value;location.href='mailto:editors@meridianprep.com?subject='+encodeURIComponent('[Story] '+f.title.value)+'&body='+encodeURIComponent(b);}});
+document.getElementById('submitForm').addEventListener('submit',function(e){{e.preventDefault();var f=this,b='Name: '+f.name.value+'\\nEmail: '+f.email.value+'\\n\\n'+f.story.value;location.href='mailto:editors@startfromnowhere.com?subject='+encodeURIComponent('[Story] '+f.title.value)+'&body='+encodeURIComponent(b);}});
 (function(){{var chips=document.querySelectorAll('.chip'),cards=document.querySelectorAll('#grid .postcard'),q=document.getElementById('q'),cat='All';
 function apply(){{var s=q.value.toLowerCase();cards.forEach(function(c){{c.style.display=((cat==='All'||c.dataset.cat===cat)&&(!s||c.dataset.title.indexOf(s)>=0))?'':'none';}});}}
 chips.forEach(function(ch){{ch.addEventListener('click',function(e){{e.preventDefault();cat=ch.dataset.cat;chips.forEach(function(o){{o.classList.remove('active');o.style.background='';o.style.color='';o.style.border='1px solid var(--gray-300)';}});ch.style.background='var(--navy-800)';ch.style.color='#fff';ch.style.border='1px solid var(--navy-800)';apply();}});}});
@@ -205,11 +205,11 @@ chips.forEach(function(o){{o.style.border='1px solid var(--gray-300)';o.style.co
 q.addEventListener('input',apply);}})();
 </script>"""
     ld = {"@context": "https://schema.org", "@type": "Blog", "name": "The Study Room",
-          "description": "Study plans, exam guides, and score strategies from the Meridian Prep team.",
-          "url": f"{SITE}/blog/", "publisher": {"@type": "Organization", "name": "Meridian Prep", "url": SITE}}
+          "description": "Study plans, exam guides, and score strategies from the Start From Nowhere team.",
+          "url": f"{SITE}/blog/", "publisher": {"@type": "Organization", "name": "Start From Nowhere", "url": SITE}}
     extra = f'<script type="application/ld+json">{json.dumps(ld)}</script>\n'
-    return page("The Study Room | GMAT and MBA Study Guides | Meridian Prep",
-                "Study plans, exam guides, and score strategies for the GMAT Focus Edition and beyond, from the Meridian Prep team.",
+    return page("The Study Room | GMAT and MBA Study Guides | Start From Nowhere",
+                "Study plans, exam guides, and score strategies for the GMAT Focus Edition and beyond, from the Start From Nowhere team.",
                 f"{SITE}/blog/", body, extra)
 
 def build_post(p, posts):
@@ -241,8 +241,8 @@ def build_post(p, posts):
     ld_article = {"@context": "https://schema.org", "@type": "BlogPosting",
         "headline": p["title"], "description": p["description"],
         "datePublished": p["date"], "dateModified": updated,
-        "author": {"@type": "Organization", "name": "Meridian Prep"},
-        "publisher": {"@type": "Organization", "name": "Meridian Prep", "url": SITE},
+        "author": {"@type": "Organization", "name": "Start From Nowhere"},
+        "publisher": {"@type": "Organization", "name": "Start From Nowhere", "url": SITE},
         "mainEntityOfPage": f"{SITE}/blog/{p['slug']}/"}
     ld_faq = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
         {"@type": "Question", "name": f["q"], "acceptedAnswer": {"@type": "Answer", "text": re.sub(r"<[^>]+>", "", f["a"])}} for f in p["faq"]]}
@@ -251,7 +251,7 @@ def build_post(p, posts):
         {"@type": "ListItem", "position": 2, "name": p["title"], "item": f"{SITE}/blog/{p['slug']}/"}]}
     extra = "".join(f'<script type="application/ld+json">{json.dumps(x)}</script>\n' for x in (ld_article, ld_faq, ld_crumb))
     extra += '<meta property="article:published_time" content="%s">\n' % p["date"]
-    return page(p["title"] + " | Meridian Prep", p["description"], f"{SITE}/blog/{p['slug']}/", body, extra)
+    return page(p["title"] + " | Start From Nowhere", p["description"], f"{SITE}/blog/{p['slug']}/", body, extra)
 
 def build_sitemap(posts):
     urls = [(SITE + "/", None), (SITE + "/blog/", None), (SITE + "/terms.html", None), (SITE + "/privacy.html", None)]

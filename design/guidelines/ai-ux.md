@@ -1,8 +1,8 @@
-# AI product UX — Meridian Assist patterns
+# AI product UX — Assist patterns
 
-Synthesized from the AI-product skill set in tommyjepsen/awesome-ux-skills (ai-trust-builders, ai-wayfinders, ai-inputs, ai-governors, ai-identifiers), applied to Meridian.
+Synthesized from the AI-product skill set in tommyjepsen/awesome-ux-skills (ai-trust-builders, ai-wayfinders, ai-inputs, ai-governors, ai-identifiers), applied to Start From Nowhere.
 
-**Identity (ai-identifiers):** the AI is "Meridian Assist" — logo mark + gold AI pill, navy-900 surface. It speaks in the brand voice (confident coach, second person), never first-person hype. No sparkle emoji; no purple-gradient "AI shimmer".
+**Identity (ai-identifiers):** the AI is "Assist" — logo mark + gold AI pill, navy-900 surface. It speaks in the brand voice (confident coach, second person), never first-person hype. No sparkle emoji; no purple-gradient "AI shimmer".
 
 **Wayfinding (ai-wayfinders):** never a blank prompt box. Assist surfaces always show 2–3 example prompts as tappable chips grounded in the user's data ("Build a Quick 10 from my weak areas", "Drill yesterday's misses"). First-run shows what Assist can do before asking for input.
 

@@ -1,4 +1,4 @@
-/* @ds-bundle: {"format":4,"namespace":"GMATStudyGuideDesignSystem_efe656","components":[{"name":"Badge","sourcePath":"components/display/Badge.jsx"},{"name":"Card","sourcePath":"components/display/Card.jsx"},{"name":"Tag","sourcePath":"components/display/Tag.jsx"},{"name":"Tooltip","sourcePath":"components/display/Tooltip.jsx"},{"name":"Dialog","sourcePath":"components/feedback/Dialog.jsx"},{"name":"ProgressBar","sourcePath":"components/feedback/ProgressBar.jsx"},{"name":"Toast","sourcePath":"components/feedback/Toast.jsx"},{"name":"Button","sourcePath":"components/forms/Button.jsx"},{"name":"Checkbox","sourcePath":"components/forms/Checkbox.jsx"},{"name":"IconButton","sourcePath":"components/forms/IconButton.jsx"},{"name":"Input","sourcePath":"components/forms/Input.jsx"},{"name":"Radio","sourcePath":"components/forms/Radio.jsx"},{"name":"Select","sourcePath":"components/forms/Select.jsx"},{"name":"Switch","sourcePath":"components/forms/Switch.jsx"},{"name":"Dropdown","sourcePath":"components/navigation/Dropdown.jsx"},{"name":"Tabs","sourcePath":"components/navigation/Tabs.jsx"},{"name":"Flashcard","sourcePath":"components/study/Flashcard.jsx"},{"name":"QuizOption","sourcePath":"components/study/QuizOption.jsx"},{"name":"StatTile","sourcePath":"components/study/StatTile.jsx"}],"sourceHashes":{"components/display/Badge.jsx":"8777e787a525","components/display/Card.jsx":"8e27b622d657","components/display/Tag.jsx":"55495ca335e8","components/display/Tooltip.jsx":"dede4e474760","components/feedback/Dialog.jsx":"9fb4c22e1c04","components/feedback/ProgressBar.jsx":"f870733a87f0","components/feedback/Toast.jsx":"a89a8bd0605c","components/forms/Button.jsx":"fb5bf994eb85","components/forms/Checkbox.jsx":"713793dd8bb2","components/forms/IconButton.jsx":"f53d7cd3ac10","components/forms/Input.jsx":"da15ea9f5a36","components/forms/Radio.jsx":"02dc64676362","components/forms/Select.jsx":"d413a9f1864e","components/forms/Switch.jsx":"27724b3e4550","components/navigation/Dropdown.jsx":"8dfe36fb479a","components/navigation/Tabs.jsx":"fb39f71d9908","components/study/Flashcard.jsx":"1335e9da2c4c","components/study/QuizOption.jsx":"608fdbf7e11b","components/study/StatTile.jsx":"ef98576c37aa","ui_kits/web_app/Account.jsx":"37255335748c","ui_kits/web_app/Admin.jsx":"4592d04d9f26","ui_kits/web_app/AppShell.jsx":"04cfe1d21a15","ui_kits/web_app/Dashboard.jsx":"716cf1aff2f2","ui_kits/web_app/Onboarding.jsx":"9e4c2dfb9f85","ui_kits/web_app/Practice.jsx":"4ad3bc77a123","ui_kits/web_app/Results.jsx":"040b904189f5"},"inlinedExternals":[],"unexposedExports":[]} */
+/* @ds-bundle: {"format":4,"namespace":"GMATStudyGuideDesignSystem_efe656","components":[{"name":"Badge","sourcePath":"components/display/Badge.jsx"},{"name":"Card","sourcePath":"components/display/Card.jsx"},{"name":"Tag","sourcePath":"components/display/Tag.jsx"},{"name":"Tooltip","sourcePath":"components/display/Tooltip.jsx"},{"name":"Dialog","sourcePath":"components/feedback/Dialog.jsx"},{"name":"ProgressBar","sourcePath":"components/feedback/ProgressBar.jsx"},{"name":"Toast","sourcePath":"components/feedback/Toast.jsx"},{"name":"Button","sourcePath":"components/forms/Button.jsx"},{"name":"Checkbox","sourcePath":"components/forms/Checkbox.jsx"},{"name":"IconButton","sourcePath":"components/forms/IconButton.jsx"},{"name":"Input","sourcePath":"components/forms/Input.jsx"},{"name":"Radio","sourcePath":"components/forms/Radio.jsx"},{"name":"Select","sourcePath":"components/forms/Select.jsx"},{"name":"Switch","sourcePath":"components/forms/Switch.jsx"},{"name":"Dropdown","sourcePath":"components/navigation/Dropdown.jsx"},{"name":"Tabs","sourcePath":"components/navigation/Tabs.jsx"},{"name":"Flashcard","sourcePath":"components/study/Flashcard.jsx"},{"name":"QuizOption","sourcePath":"components/study/QuizOption.jsx"},{"name":"StatTile","sourcePath":"components/study/StatTile.jsx"}],"sourceHashes":{"components/display/Badge.jsx":"8777e787a525","components/display/Card.jsx":"8e27b622d657","components/display/Tag.jsx":"55495ca335e8","components/display/Tooltip.jsx":"dede4e474760","components/feedback/Dialog.jsx":"9fb4c22e1c04","components/feedback/ProgressBar.jsx":"f870733a87f0","components/feedback/Toast.jsx":"a89a8bd0605c","components/forms/Button.jsx":"fb5bf994eb85","components/forms/Checkbox.jsx":"713793dd8bb2","components/forms/IconButton.jsx":"f53d7cd3ac10","components/forms/Input.jsx":"da15ea9f5a36","components/forms/Radio.jsx":"02dc64676362","components/forms/Select.jsx":"d413a9f1864e","components/forms/Switch.jsx":"27724b3e4550","components/navigation/Dropdown.jsx":"8dfe36fb479a","components/navigation/Tabs.jsx":"fb39f71d9908","components/study/Flashcard.jsx":"1335e9da2c4c","components/study/QuizOption.jsx":"608fdbf7e11b","components/study/StatTile.jsx":"ef98576c37aa","ui_kits/web_app/Account.jsx":"37255335748c","ui_kits/web_app/Admin.jsx":"4592d04d9f26","ui_kits/web_app/AppShell.jsx":"7afe19662d8f","ui_kits/web_app/Dashboard.jsx":"716cf1aff2f2","ui_kits/web_app/Onboarding.jsx":"a711d510e4b6","ui_kits/web_app/Practice.jsx":"4ad3bc77a123","ui_kits/web_app/Results.jsx":"040b904189f5"},"inlinedExternals":[],"unexposedExports":[]} */
 
 (() => {
 
@@ -1725,11 +1725,11 @@ function AppShell({
       fontSize: 19,
       color: 'var(--navy-900)'
     }
-  }, "Meridian ", /*#__PURE__*/React.createElement("span", {
+  }, "Start From ", /*#__PURE__*/React.createElement("span", {
     style: {
       color: 'var(--gold-600)'
     }
-  }, "Prep"))), /*#__PURE__*/React.createElement("nav", {
+  }, "Nowhere"))), /*#__PURE__*/React.createElement("nav", {
     style: {
       display: 'flex',
       gap: 4,
@@ -2334,11 +2334,11 @@ function Onboarding({
       fontSize: 18,
       color: 'var(--navy-900)'
     }
-  }, "Meridian ", /*#__PURE__*/React.createElement("span", {
+  }, "Start From ", /*#__PURE__*/React.createElement("span", {
     style: {
       color: 'var(--gold-600)'
     }
-  }, "Prep"))), /*#__PURE__*/React.createElement("button", {
+  }, "Nowhere"))), /*#__PURE__*/React.createElement("button", {
     onClick: onClose,
     style: {
       border: 'none',

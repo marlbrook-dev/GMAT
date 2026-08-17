@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Meridian Prep | Adaptive GMAT Focus trainer</title>
-<meta name="description" content="Meridian Prep: adaptive GMAT Focus Edition practice that studies you back.">
+<title>Start From Nowhere | Adaptive GMAT Focus trainer</title>
+<meta name="description" content="Start From Nowhere: adaptive GMAT Focus Edition practice that studies you back.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Manrope:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 2 44 13v22L24 46 4 35V13Z' fill='%23122B4E'/%3E%3Cpath d='M24 5.5 41 14.8v18.4L24 42.5 7 33.2V14.8Z' fill='none' stroke='%23C7A252' stroke-width='1.5'/%3E%3Cpath d='m15.5 25 6.5 6.5L33 17.5' fill='none' stroke='%23C7A252' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='10' fill='%23122B4E'/%3E%3Ccircle cx='11.5' cy='35' r='3' fill='%23C7A252'/%3E%3Cpath d='M11.5 35 20 26l5 4 11-13' fill='none' stroke='%23C7A252' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M29 15.5h7.5V23' fill='none' stroke='%23C7A252' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <style>
-/* Meridian Prep design tokens (tokens/colors, typography, spacing, effects) */
+/* Start From Nowhere design tokens (tokens/colors, typography, spacing, effects) */
 :root{--navy-950:#081527;--navy-900:#0C1F3A;--navy-800:#122B4E;--navy-700:#1B3A66;--navy-600:#2C4E80;--navy-400:#6B87AC;--navy-100:#DCE5F1;--navy-50:#F2F6FB;
 --gold-700:#8A6A25;--gold-600:#A8842F;--gold-500:#C7A252;--gold-100:#F0E4C8;--gold-50:#FAF5E8;
 --gray-950:#0B1220;--gray-900:#111827;--gray-700:#374151;--gray-500:#6B7280;--gray-400:#9CA3AF;--gray-300:#D1D5DB;--gray-200:#E5E7EB;--gray-100:#F3F4F6;--gray-50:#F9FAFB;--white:#FFFFFF;
@@ -112,8 +112,8 @@ table.ta td,table.ta th{text-align:left}table.ta input{transform:scale(1.2)}
 #toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--navy-900);color:#fff;padding:10px 16px;border-radius:var(--radius-md);font-size:13px;z-index:var(--z-toast);box-shadow:var(--shadow-lg);display:none}
 </style></head><body>
 <header class="app"><div class="hwrap">
-<div class="wordmark"><svg viewBox="0 0 48 48" width="30" height="30" aria-hidden="true"><path d="M24 2 44 13v22L24 46 4 35V13Z" fill="#122B4E"/><path d="M24 5.5 41 14.8v18.4L24 42.5 7 33.2V14.8Z" fill="none" stroke="#C7A252" stroke-width="1.5"/><path d="m15.5 25 6.5 6.5L33 17.5" fill="none" stroke="#C7A252" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Meridian <b>Prep</b></div>
-<nav class="tabs" id="nav"><button data-v="dash" class="active">Dashboard</button><button data-v="study">Practice</button><button data-v="cards">Flashcards</button><button data-v="drill">Drill</button><button data-v="review">Review</button><button data-v="playbook">Playbook</button><button data-v="data">Account</button></nav>
+<div class="wordmark"><svg viewBox="0 0 48 48" width="30" height="30" aria-hidden="true"><rect width="48" height="48" rx="10" fill="#122B4E"/><circle cx="11.5" cy="35" r="3" fill="#C7A252"/><path d="M11.5 35 20 26l5 4 11-13" fill="none" stroke="#C7A252" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M29 15.5h7.5V23" fill="none" stroke="#C7A252" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Start From <b>Nowhere</b></div>
+<nav class="tabs" id="nav"><button data-v="dash" class="active">Dashboard</button><button data-v="study">Practice</button><button data-v="cards">Flashcards</button><button data-v="drill">Drill</button><button data-v="review">Review</button><button data-v="playbook">Playbook</button><button data-v="data">Account</button><button data-v="admin" id="navAdmin" style="display:none">Admin</button></nav>
 <span class="badge accent" id="streakBadge">Streak x0</span>
 <div class="avatar" id="avatar">HR</div>
 </div></header>
@@ -125,8 +125,9 @@ table.ta td,table.ta th{text-align:left}table.ta input{transform:scale(1.2)}
 <section id="v-review" class="hidden"></section>
 <section id="v-playbook" class="hidden"></section>
 <section id="v-data" class="hidden"></section>
+<section id="v-admin" class="hidden"></section>
 </main>
-<footer class="app">GMAT is a registered trademark of the Graduate Management Admission Council (GMAC), which does not endorse this product. Practice items are original and written for Meridian Prep. Score bands shown here are internal estimates, not official GMAT scores.</footer>
+<footer class="app">GMAT is a registered trademark of the Graduate Management Admission Council (GMAC), which does not endorse this product. Practice items are original and written for Start From Nowhere. Score bands shown here are internal estimates, not official GMAT scores.</footer>
 <div id="toast" role="status" aria-live="polite"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
@@ -147,7 +148,8 @@ SKILLS.forEach(s=>{ if(!state.skills[s.id]) state.skills[s.id]={r:START_R,n:0,c:
 function persist(){ if(!Store.save(state)) toast('Auto-save is unavailable in this browser. Export your progress from Account.'); Cloud.scheduleSave(); }
 // ---------- Cloud sync (Supabase) ----------
 const Cloud={ client:null, user:null, timer:null, status:'off',
- async init(){ if(!window.supabase||location.protocol==='file:'){ this.status='local-only'; return; } try{ this.client=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY); const {data}=await this.client.auth.getSession(); this.user=data.session?data.session.user:null; this.status=this.user?'signed-in':'signed-out'; this.client.auth.onAuthStateChange(async (ev,sess)=>{ this.user=sess?sess.user:null; this.status=this.user?'signed-in':'signed-out'; if(this.user){ await this.pull(); track('session_started',{}); } updateHeader(); if(!document.getElementById('v-data').classList.contains('hidden')) renderData(); }); if(this.user){ await this.pull(); track('session_started',{}); } }catch(e){ this.status='error'; } },
+ async init(){ if(!window.supabase||location.protocol==='file:'){ this.status='local-only'; return; } try{ this.client=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY); const {data}=await this.client.auth.getSession(); this.user=data.session?data.session.user:null; this.status=this.user?'signed-in':'signed-out'; this.client.auth.onAuthStateChange(async (ev,sess)=>{ this.user=sess?sess.user:null; this.status=this.user?'signed-in':'signed-out'; if(this.user){ await this.pull(); track('session_started',{}); } this.checkAdmin(); updateHeader(); if(!document.getElementById('v-data').classList.contains('hidden')) renderData(); }); if(this.user){ await this.pull(); track('session_started',{}); } this.checkAdmin(); }catch(e){ this.status='error'; } },
+ async checkAdmin(){ this.isAdmin=false; const b=document.getElementById('navAdmin'); if(b) b.style.display='none'; if(!this.user||!this.client) return; try{ const {data}=await this.client.rpc('is_admin'); this.isAdmin=!!data; }catch(e){} if(b) b.style.display=this.isAdmin?'':'none'; },
  async signIn(email){ if(!this.client) return {error:{message:'Sync is available on the hosted site only.'}}; return this.client.auth.signInWithOtp({email, options:{emailRedirectTo: location.origin+location.pathname}}); },
  async signOut(){ if(this.client) await this.client.auth.signOut(); this.user=null; this.status='signed-out'; },
  async pull(){ if(!this.user) return; const {data,error}=await this.client.from('profiles').select('state_blob,display_name,test_date,daily_goal,plan,consent_at').eq('id',this.user.id).maybeSingle(); if(error) return; const remote=data&&data.state_blob; if(remote&&remote.attempts&&remote.attempts.length>state.attempts.length){ const local=state; state=remote; if(!state.settings) state.settings=local.settings; toast('Loaded '+state.attempts.length+' answers from your account.'); Store.save(state); renderDash(); } else if(!remote){ await this.push(); track('account_created',{exam:CURRENT_EXAM,source:'app'}); } if(data&&!data.consent_at){ await this.client.from('profiles').update({consent_at:new Date().toISOString()}).eq('id',this.user.id); } },
@@ -171,9 +173,9 @@ function streakDays(){ const days=new Set(state.attempts.map(a=>new Date(a.ts).t
 function greeting(){ const h=new Date().getHours(); return h<12?'Good morning':h<18?'Good afternoon':'Good evening'; }
 function updateHeader(){ document.getElementById('streakBadge').textContent='Streak x'+streakDays(); const nm=(state.settings.name||'HR').trim(); const av=document.getElementById('avatar'); av.textContent=nm.split(/\s+/).map(x=>x[0]).join('').slice(0,2).toUpperCase()||'HR'; av.title=Cloud.status==='signed-in'?'Signed in, syncing':'Not signed in'; av.style.boxShadow=Cloud.status==='signed-in'?'0 0 0 2px var(--status-success)':'none'; av.style.cursor='pointer'; av.onclick=()=>show('data'); }
 // ---------- navigation ----------
-const views=['dash','study','cards','drill','review','playbook','data'];
+const views=['dash','study','cards','drill','review','playbook','data','admin'];
 document.getElementById('nav').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; show(b.dataset.v); });
-function show(v){ views.forEach(x=>{ document.getElementById('v-'+x).classList.toggle('hidden',x!==v); }); document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.v===v)); updateHeader(); if(v==='dash') renderDash(); if(v==='review') renderReview(); if(v==='data') renderData(); if(v==='drill') renderDrill(); if(v==='cards') renderCards(); if(v==='playbook') renderPlaybook(); if(v==='study'&&!session) renderStudyHome(); window.scrollTo(0,0); }
+function show(v){ views.forEach(x=>{ document.getElementById('v-'+x).classList.toggle('hidden',x!==v); }); document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.v===v)); updateHeader(); if(v==='dash') renderDash(); if(v==='review') renderReview(); if(v==='data') renderData(); if(v==='drill') renderDrill(); if(v==='cards') renderCards(); if(v==='playbook') renderPlaybook(); if(v==='admin') renderAdmin(); if(v==='study'&&!session) renderStudyHome(); window.scrollTo(0,0); }
 // ---------- dashboard ----------
 function renderDash(){
  const el=document.getElementById('v-dash'); const total=state.attempts.length; const correct=state.attempts.filter(a=>a.correct).length;
@@ -381,6 +383,116 @@ const PLAYBOOK=[
 ];
 function renderPlaybook(){ let html='<div class="stack"><div><h1 style="font-size:var(--text-xl)">Playbook</h1><p class="muted" style="margin:6px 0 0">The methods behind every skill the engine tracks. Read the entry for your weakest skill before each round.</p></div>'; PLAYBOOK.forEach(p=>{ const color=p.sec==='G'?'var(--gray-700)':SEC_COLOR[p.sec]; html+='<div class="card playbook"><div class="card-head"><span class="section-h"><span class="dot" style="background:'+color+'"></span><span class="card-title">'+p.title+'</span></span></div><ul style="margin:0;padding-left:20px;font-size:14.5px">'+p.items.map(i=>'<li>'+esc(i)+'</li>').join('')+'</ul></div>'; }); html+='</div>'; document.getElementById('v-playbook').innerHTML=html; }
 // ---------- settings and data ----------
+// ---------- admin BI dashboard (allowlisted emails only; reads via admin_bi RPC) ----------
+const ADMIN_SAMPLE={generated_at:'sample',users_total:128,users_new_7d:23,users_active_7d:41,users_paid:9,plan_mix:{free:119,monthly:6,quarterly:2,annual:1},attempts_total:18422,attempts_7d:3110,accuracy_7d:0.63,
+ signups_by_day:Array.from({length:14},(_,i)=>({d:'Day '+(i+1),n:[1,0,2,3,1,4,2,3,5,2,4,6,3,5][i]})),
+ attempts_by_day:Array.from({length:14},(_,i)=>({d:'Day '+(i+1),n:[120,90,160,210,180,260,200,240,310,220,280,390,300,350][i],u:[4,3,5,7,6,9,7,8,11,8,10,13,11,12][i]})),
+ sessions_by_mode_30d:{adaptive:410,sprint:120,mock:38,drill:66,review:98},
+ events_by_name_7d:{round_started:520,round_completed:480,question_answered:3110,account_created:23,wizard_completed:19},
+ skill_difficulty:[{skill:'q_csp',n:912,acc:0.41},{skill:'di_msr',n:404,acc:0.44},{skill:'v_inf',n:610,acc:0.49},{skill:'q_alg',n:1050,acc:0.55}],
+ item_flags:[{qid:'Q117',n:12,acc:0.17,med_secs:141},{qid:'V042',n:15,acc:0.97,med_secs:38}]};
+function adminBars(rows,key){ if(!rows||!rows.length) return '<div class="empty">No data yet.</div>'; const max=Math.max(...rows.map(r=>r[key]||0))||1;
+ return '<div style="display:flex;align-items:flex-end;gap:3px;height:72px">'+rows.map(r=>'<span title="'+esc(String(r.d))+': '+(r[key]||0)+'" style="flex:1;min-width:4px;background:var(--brand-primary);opacity:.85;border-radius:2px 2px 0 0;height:'+Math.max(4,Math.round((r[key]||0)/max*72))+'px"></span>').join('')+'</div>'; }
+function adminInsights(d){ const out=[]; const days=d.attempts_by_day||[];
+ if(days.length>=14){ const last7=days.slice(-7).reduce((s,x)=>s+(x.n||0),0), prev7=days.slice(-14,-7).reduce((s,x)=>s+(x.n||0),0);
+  if(prev7>0){ const chg=Math.round((last7-prev7)/prev7*100); out.push('Practice volume '+(chg>=0?'up ':'down ')+Math.abs(chg)+'% week over week ('+prev7+' to '+last7+' answers).'); } }
+ if((d.item_flags||[]).length) out.push(d.item_flags.length+' question'+(d.item_flags.length===1?' looks':'s look')+' mis-tuned (accuracy under 25% or over 95% on 8+ answers). Review them below.');
+ if(d.users_total>0&&!d.users_active_7d) out.push('No signed-in activity in the last 7 days.');
+ if(d.users_paid>0){ const m=d.plan_mix||{}; const mrr=(m.monthly||0)*19.99+(m.quarterly||0)*44.99/3+(m.annual||0)*119.99/12; out.push('Estimated MRR $'+mrr.toFixed(2)+' from '+d.users_paid+' paid account'+(d.users_paid===1?'':'s')+'.'); }
+ const sk=(d.skill_difficulty||[])[0]; if(sk){ const s=SKILLS.find(x=>x.id===sk.skill); if(s) out.push('Hardest skill across all users: '+s.label+', '+Math.round(sk.acc*100)+'% accuracy on '+sk.n+' answers. Candidate for a playbook push or easier on-ramp items.'); }
+ if(!out.length) out.push('Not enough data for trends yet. This fills in as real users practice.');
+ return out; }
+let adminTab='bi';
+function adminTabsHtml(){ return '<div class="row" style="gap:6px"><button class="btn sm'+(adminTab==='bi'?'':' secondary')+'" onclick="adminTab=\'bi\';renderAdmin()">Overview</button><button class="btn sm'+(adminTab==='crm'?'':' secondary')+'" onclick="adminTab=\'crm\';renderAdmin()">Partners CRM</button></div>'; }
+async function renderAdmin(){ const el=document.getElementById('v-admin'); const preview=location.hash==='#admin-preview';
+ if(!preview&&(!Cloud.user||!Cloud.isAdmin)){ el.innerHTML='<div class="narrow stack"><div class="card p8" style="text-align:center"><div class="card-title">Admin</div><p class="muted" style="margin-top:8px">Business intelligence is available to admin accounts. Sign in on the Account tab with an admin email.</p></div></div>'; return; }
+ if(adminTab==='crm'){ return renderAdminCRM(el,preview); }
+ el.innerHTML='<div class="stack"><div class="empty">Loading business intelligence...</div></div>';
+ let d=ADMIN_SAMPLE, note='Sample data preview. Sign in as an admin for live numbers.';
+ if(!preview){ try{ const {data,error}=await Cloud.client.rpc('admin_bi'); if(error) throw error; d=data; note=null; }
+  catch(e){ el.innerHTML='<div class="narrow stack"><div class="card p8"><div class="card-title">Admin</div><p class="muted" style="margin-top:8px">Could not load BI data: '+esc(String((e&&e.message)||e))+'</p></div></div>'; return; } }
+ const modeRows=Object.entries(d.sessions_by_mode_30d||{}).sort((a,b)=>b[1]-a[1]).map(([m,n])=>'<tr><td>'+esc(m)+'</td><td class="num">'+n+'</td></tr>').join('')||'<tr><td colspan="2" class="empty">No sessions yet.</td></tr>';
+ const evRows=Object.entries(d.events_by_name_7d||{}).sort((a,b)=>b[1]-a[1]).map(([m,n])=>'<tr><td class="mono small">'+esc(m)+'</td><td class="num">'+n+'</td></tr>').join('')||'<tr><td colspan="2" class="empty">No events yet.</td></tr>';
+ const skRows=(d.skill_difficulty||[]).map(x=>{ const s=SKILLS.find(k=>k.id===x.skill); return '<tr><td>'+(s?s.label:esc(x.skill))+'</td><td class="num">'+x.n+'</td><td class="num">'+Math.round(x.acc*100)+'%</td></tr>'; }).join('')||'<tr><td colspan="3" class="empty">Needs 10+ answers per skill.</td></tr>';
+ const itRows=(d.item_flags||[]).map(x=>'<tr><td class="mono">'+esc(x.qid)+'</td><td class="num">'+x.n+'</td><td class="num">'+Math.round(x.acc*100)+'%</td><td class="num">'+x.med_secs+'s</td></tr>').join('')||'<tr><td colspan="4" class="empty">No flagged items. Items get flagged at 8+ answers with accuracy under 25% or over 95%.</td></tr>';
+ el.innerHTML='<div class="stack">'
+ +'<div class="row" style="align-items:flex-end;justify-content:space-between"><div><h1 style="font-size:var(--text-2xl);font-weight:700">Business intelligence</h1><p class="muted" style="margin:6px 0 0">Product and revenue data from the app database. Page-view traffic lives in Cloudflare (Pages Analytics / Web Analytics), search queries in Google Search Console.</p></div>'+adminTabsHtml()+'</div>'
+ +(note?'<div class="card p5" style="background:var(--status-warning-bg);border-color:var(--amber-100)"><span class="small">'+note+'</span></div>':'')
+ +'<div class="card" style="background:var(--brand-accent-soft);border-color:var(--gold-100)"><div class="card-title" style="margin-bottom:8px">What the numbers say</div><ul style="margin:0;padding-left:20px;font-size:14.5px">'+adminInsights(d).map(x=>'<li>'+x+'</li>').join('')+'</ul></div>'
+ +'<div class="tiles" style="grid-template-columns:repeat(3,1fr)">'
+ +tile('Accounts',d.users_total,(d.users_new_7d?'+'+d.users_new_7d+' this week':''),'up')
+ +tile('Active users · 7d',d.users_active_7d||0,'','')
+ +tile('Paid accounts',d.users_paid||0,'','')
+ +tile('Answers · all time',d.attempts_total,'','')
+ +tile('Answers · 7d',d.attempts_7d||0,'','')
+ +tile('Accuracy · 7d',(d.accuracy_7d!=null?Math.round(d.accuracy_7d*100)+'%':'n/a'),'','')
+ +'</div>'
+ +'<div class="grid2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">'
+ +'<div class="card"><div class="card-head"><span class="card-title">Answers per day · 30d</span></div>'+adminBars(d.attempts_by_day,'n')+'</div>'
+ +'<div class="card"><div class="card-head"><span class="card-title">Signups per day · 30d</span></div>'+adminBars(d.signups_by_day,'n')+'</div>'
+ +'</div>'
+ +'<div class="grid2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">'
+ +'<div class="card"><div class="card-head"><span class="card-title">Rounds by mode · 30d</span></div><table><thead><tr><th>Mode</th><th class="num">Rounds</th></tr></thead><tbody>'+modeRows+'</tbody></table></div>'
+ +'<div class="card"><div class="card-head"><span class="card-title">Events · 7d</span></div><table><thead><tr><th>Event</th><th class="num">Count</th></tr></thead><tbody>'+evRows+'</tbody></table></div>'
+ +'</div>'
+ +'<div class="card"><div class="card-head"><span class="card-title">Hardest skills, all users</span></div><table><thead><tr><th>Skill</th><th class="num">Answers</th><th class="num">Accuracy</th></tr></thead><tbody>'+skRows+'</tbody></table></div>'
+ +'<div class="card"><div class="card-head"><span class="card-title">Item quality flags</span></div><table><thead><tr><th>Item</th><th class="num">Answers</th><th class="num">Accuracy</th><th class="num">Median time</th></tr></thead><tbody>'+itRows+'</tbody></table><div class="small muted" style="margin-top:8px">Under 25%: probably broken, ambiguous, or mis-keyed. Over 95%: too easy for its difficulty label. Fix in the bank files and rebuild.</div></div>'
+ +'</div>'; }
+// ---------- partners CRM (admin-only tables crm_contacts / crm_notes) ----------
+const CRM_STAGES=['lead','contacted','in_talks','agreed','active','passed'];
+const CRM_TYPES=['tutor','partner','community','affiliate','school','other'];
+const CRM_STAGE_LABEL={lead:'Lead',contacted:'Contacted',in_talks:'In talks',agreed:'Agreed',active:'Active',passed:'Passed'};
+const CRM_SAMPLE=[
+ {id:1,name:'Sample: Alexis Rivera',org:'Rivera GMAT Tutoring',type:'tutor',email:'alexis@example.com',url:'',stage:'in_talks',next_action:'Send revenue-share proposal',next_action_date:'2026-08-20',value_note:'Quant specialist, ~40 students a year'},
+ {id:2,name:'Sample: Consulting Club',org:'State University MBA program',type:'community',email:'club@example.edu',url:'',stage:'lead',next_action:'Intro email to club president',next_action_date:'2026-08-19',value_note:''},
+ {id:3,name:'Sample: PrepDeals',org:'prepdeals.example.com',type:'affiliate',email:'',url:'',stage:'contacted',next_action:'Follow up on affiliate terms',next_action_date:'2026-08-25',value_note:'Wants 20% rev share'}];
+function crmPreviewOn(){ return location.hash==='#admin-preview'&&!(Cloud.user&&Cloud.isAdmin); }
+async function renderAdminCRM(el,preview){
+ el.innerHTML='<div class="stack"><div class="empty">Loading CRM...</div></div>';
+ let rows=CRM_SAMPLE;
+ if(!preview){ try{ const {data,error}=await Cloud.client.from('crm_contacts').select('*').order('updated_at',{ascending:false}); if(error) throw error; rows=data||[]; }
+  catch(e){ el.innerHTML='<div class="narrow stack"><div class="card p8"><div class="card-title">Partners CRM</div><p class="muted" style="margin-top:8px">Could not load CRM: '+esc(String((e&&e.message)||e))+'</p></div></div>'; return; } }
+ const today=new Date().toISOString().slice(0,10); const soon=new Date(Date.now()+7*86400000).toISOString().slice(0,10);
+ const due=rows.filter(r=>r.next_action_date&&r.next_action_date<=soon&&r.stage!=='passed').sort((a,b)=>String(a.next_action_date).localeCompare(String(b.next_action_date)));
+ const counts=CRM_STAGES.map(s=>[s,rows.filter(r=>r.stage===s).length]);
+ const dueHtml=due.length?due.map(r=>'<div class="plan-row"><span class="t">'+esc(r.next_action||'(no action set)')+' <span class="small muted">'+esc(r.name)+(r.org?' · '+esc(r.org):'')+'</span></span><span class="m" style="'+(r.next_action_date<today?'color:var(--status-error);font-weight:600':'')+'">'+esc(r.next_action_date)+(r.next_action_date<today?' · overdue':'')+'</span></div>').join(''):'<div class="empty">Nothing due this week. Add a next action and date to every live conversation.</div>';
+ const rowHtml=r=>{ const stageSel='<select onchange="crmUpdate('+r.id+',\'stage\',this.value)">'+CRM_STAGES.map(s=>'<option value="'+s+'"'+(r.stage===s?' selected':'')+'>'+CRM_STAGE_LABEL[s]+'</option>').join('')+'</select>';
+  return '<tr><td><b>'+esc(r.name)+'</b>'+(r.org?'<div class="small muted">'+esc(r.org)+'</div>':'')+'</td><td>'+badge(r.type)+'</td>'
+  +'<td>'+(r.email?'<a href="mailto:'+esc(r.email)+'" class="small">'+esc(r.email)+'</a>':'')+(r.url?'<div><a href="'+esc(r.url)+'" target="_blank" rel="noopener" class="small">'+esc(r.url.replace(/^https?:\/\//,''))+'</a></div>':'')+'</td>'
+  +'<td>'+stageSel+'</td>'
+  +'<td><input type="text" value="'+esc(r.next_action||'')+'" placeholder="Next action" onchange="crmUpdate('+r.id+',\'next_action\',this.value)" style="width:150px"><input type="date" value="'+esc(r.next_action_date||'')+'" onchange="crmUpdate('+r.id+',\'next_action_date\',this.value)"></td>'
+  +'<td class="num"><button class="btn sm secondary" onclick="crmToggleNotes('+r.id+')">Notes</button> <button class="btn sm ghost" onclick="crmDelete('+r.id+')" title="Delete">&times;</button></td></tr>'
+  +'<tr id="crmnotes-'+r.id+'" class="hidden"><td colspan="6" style="background:var(--surface-sunken)"><div id="crmnotes-body-'+r.id+'" class="small">Loading notes...</div><div class="row" style="margin-top:8px"><input type="text" id="crmnote-in-'+r.id+'" placeholder="Add a note" style="flex:1"><button class="btn sm" onclick="crmAddNote('+r.id+')">Add</button></div>'+(r.value_note?'<div class="small muted" style="margin-top:6px">Value: '+esc(r.value_note)+'</div>':'')+'</td></tr>'; };
+ el.innerHTML='<div class="stack">'
+ +'<div class="row" style="align-items:flex-end;justify-content:space-between"><div><h1 style="font-size:var(--text-2xl);font-weight:700">Partners CRM</h1><p class="muted" style="margin:6px 0 0">Tutors, partner programs, communities, and affiliates: every revenue conversation with a stage and a next action.</p></div>'+adminTabsHtml()+'</div>'
+ +(preview?'<div class="card p5" style="background:var(--status-warning-bg);border-color:var(--amber-100)"><span class="small">Sample data preview. Sign in as an admin for the live CRM.</span></div>':'')
+ +'<div class="card"><div class="card-head"><span class="card-title">Next actions · this week</span></div><div class="stack-4" style="gap:8px">'+dueHtml+'</div></div>'
+ +'<div class="card"><div class="card-head"><span class="card-title">Add a contact</span></div><div class="row" style="flex-wrap:wrap;gap:8px">'
+ +'<input type="text" id="crm-name" placeholder="Name *" style="width:150px"><input type="text" id="crm-org" placeholder="Organization" style="width:150px">'
+ +'<select id="crm-type">'+CRM_TYPES.map(t=>'<option>'+t+'</option>').join('')+'</select>'
+ +'<input type="email" id="crm-email" placeholder="Email" style="width:170px"><input type="text" id="crm-url" placeholder="URL" style="width:140px">'
+ +'<input type="text" id="crm-action" placeholder="Next action" style="width:160px"><input type="date" id="crm-date">'
+ +'<button class="btn sm" onclick="crmAdd()">Add</button></div></div>'
+ +'<div class="row" style="gap:8px;flex-wrap:wrap">'+counts.map(([s,n])=>'<span class="badge'+(n?' accent':'')+'">'+CRM_STAGE_LABEL[s]+' '+n+'</span>').join('')+'</div>'
+ +'<div class="card" style="overflow-x:auto"><table><thead><tr><th>Who</th><th>Type</th><th>Contact</th><th>Stage</th><th>Next action</th><th></th></tr></thead><tbody>'
+ +(rows.length?rows.map(rowHtml).join(''):'<tr><td colspan="6" class="empty">No contacts yet. Add the first tutor, MBA club, or affiliate above.</td></tr>')+'</tbody></table></div>'
+ +'</div>'; }
+async function crmAdd(){ if(crmPreviewOn()){toast('Preview only.');return;} const g=id=>document.getElementById(id).value.trim();
+ const name=g('crm-name'); if(!name){toast('Name is required.');return;}
+ const {error}=await Cloud.client.from('crm_contacts').insert({name,org:g('crm-org')||null,type:document.getElementById('crm-type').value,email:g('crm-email')||null,url:g('crm-url')||null,next_action:g('crm-action')||null,next_action_date:g('crm-date')||null});
+ if(error){toast('Could not add: '+error.message);return;} toast('Added.'); renderAdmin(); }
+async function crmUpdate(id,field,value){ if(crmPreviewOn()){toast('Preview only.');return;}
+ const patch={updated_at:new Date().toISOString()}; patch[field]=value===''?null:value;
+ const {error}=await Cloud.client.from('crm_contacts').update(patch).eq('id',id); if(error) toast('Save failed: '+error.message); }
+async function crmDelete(id){ if(crmPreviewOn()){toast('Preview only.');return;} if(!confirm('Delete this contact and its notes?')) return;
+ const {error}=await Cloud.client.from('crm_contacts').delete().eq('id',id); if(error){toast('Delete failed: '+error.message);return;} renderAdmin(); }
+async function crmToggleNotes(id){ const tr=document.getElementById('crmnotes-'+id); tr.classList.toggle('hidden'); if(tr.classList.contains('hidden')) return;
+ const body=document.getElementById('crmnotes-body-'+id);
+ if(crmPreviewOn()){ body.innerHTML='<div class="muted">Notes live in the real CRM.</div>'; return; }
+ const {data,error}=await Cloud.client.from('crm_notes').select('*').eq('contact_id',id).order('ts',{ascending:false}).limit(20);
+ body.innerHTML=error?'Could not load notes.':((data&&data.length)?data.map(n=>'<div style="padding:4px 0;border-bottom:1px solid var(--border-default)"><span class="muted mono small">'+new Date(n.ts).toLocaleDateString()+'</span> '+esc(n.note)+'</div>').join(''):'<div class="muted">No notes yet.</div>'); }
+async function crmAddNote(id){ if(crmPreviewOn()){toast('Preview only.');return;} const inp=document.getElementById('crmnote-in-'+id); const v=inp.value.trim(); if(!v) return;
+ const {error}=await Cloud.client.from('crm_notes').insert({contact_id:id,note:v}); if(error){toast('Could not save note: '+error.message);return;} inp.value=''; crmToggleNotes(id); crmToggleNotes(id); }
 function renderData(){ const el=document.getElementById('v-data'); const s=state.settings; const pr=s.program;
  const signed=Cloud.status==='signed-in'; const local=Cloud.status==='local-only';
  let auth='';
@@ -393,7 +505,7 @@ function renderData(){ const el=document.getElementById('v-data'); const s=state
  '<div class="card stack-4"><div class="card-title">Sign in and sync</div>'+auth+'</div>'+
  '<div class="card stack-4"><div class="card-title">Profile</div><div class="row"><label class="small">Name <input type="text" value="'+esc(s.name||'')+'" onchange="state.settings.name=this.value;persist();updateHeader()"></label><label class="small">Test date <input type="date" value="'+esc(s.testDate||'')+'" onchange="state.settings.testDate=this.value;persist()"></label><label class="small">Daily goal <select onchange="state.settings.dailyGoal=+this.value;persist()">'+[10,15,20,30,40].map(d=>'<option '+(s.dailyGoal===d?'selected':'')+'>'+d+'</option>').join('')+'</select></label></div></div>'+
  '<div class="card stack-4"><div class="card-head" style="margin:0"><span class="card-title">Study program</span>'+badge(pr.exam,'sec-Q')+'</div><table><tbody><tr><td style="width:160px">Exam</td><td>'+esc(pr.exam)+' <span class="small">(GRE, LSAT, MCAT, Executive Assessment coming)</span></td></tr><tr><td>Goal</td><td><input type="text" style="width:100%" value="'+esc(pr.goal||'')+'" placeholder="e.g. Score 675+ for M7 programs" onchange="state.settings.program.goal=this.value;persist()"></td></tr><tr><td>Time</td><td><select onchange="state.settings.program.hours=this.value;persist()">'+['1 to 3 hrs / week','3 to 5 hrs / week','5 to 10 hrs / week','10+ hrs / week'].map(h=>'<option '+(pr.hours===h?'selected':'')+'>'+h+'</option>').join('')+'</select></td></tr><tr><td>Tools</td><td class="chips">'+['Quick 10','Timed sprint','Flashcards','Custom drill'].map(tl=>'<span class="chip-t '+(pr.tools[tl]?'on':'')+'" onclick="state.settings.program.tools[\''+tl+'\']=!state.settings.program.tools[\''+tl+'\'];persist();renderData()">'+tl+'</span>').join('')+'</td></tr></tbody></table><div><button class="btn secondary sm" onclick="startOnboarding()">Re-run the setup wizard</button></div></div>'+
- '<div class="card stack-4"><div class="card-head" style="margin:0"><span class="card-title">Plan and billing</span>'+badge('Free plan','accent')+'</div><p class="small" style="margin:0">Free while we build. Paid plans unlock Meridian Assist coaching, generated practice, and the weekly digest. Payments will run through Stripe Checkout; we never see your card.</p><div class="tiles" style="grid-template-columns:repeat(3,1fr)">'+plans.map(p=>'<div class="tile"><div class="l">'+p[0]+'</div><div class="v" style="font-size:24px">'+p[1]+'</div><div class="small">'+p[2]+'</div>'+planBtn(p)+'</div>').join('')+'</div></div>'+
+ '<div class="card stack-4"><div class="card-head" style="margin:0"><span class="card-title">Plan and billing</span>'+badge('Free plan','accent')+'</div><p class="small" style="margin:0">Free while we build. Paid plans unlock SFN Assist coaching, generated practice, and the weekly digest. Payments will run through Stripe Checkout; we never see your card.</p><div class="tiles" style="grid-template-columns:repeat(3,1fr)">'+plans.map(p=>'<div class="tile"><div class="l">'+p[0]+'</div><div class="v" style="font-size:24px">'+p[1]+'</div><div class="small">'+p[2]+'</div>'+planBtn(p)+'</div>').join('')+'</div></div>'+
  '<div class="card stack-4"><div class="card-title">Notifications</div><label class="row" style="gap:8px;cursor:pointer"><input type="checkbox" '+(s.digest?'checked':'')+' onchange="state.settings.digest=this.checked;persist()"> Weekly progress digest by email (when accounts launch)</label></div>'+
  '<div class="card stack-4"><div class="card-title">Privacy and data</div><p class="small" style="margin:0">Your answers, ratings and settings. Download everything as JSON, restore from a file, or delete it. Deleting removes your data from this device'+(signed?' and from your account':'')+'.</p><div class="row"><button class="btn" onclick="exportState()">Download my data</button><label class="btn secondary">Import from file <input type="file" accept="application/json" onchange="importState(this)"></label><button class="btn ghost" onclick="deleteEverything()">Delete my data</button></div><table><tbody><tr><td>Attempts</td><td class="num">'+state.attempts.length+'</td></tr><tr><td>Sessions</td><td class="num">'+state.sessions.length+'</td></tr><tr><td>Events logged</td><td class="num">'+((state.events||[]).length)+'</td></tr><tr><td>Created</td><td>'+new Date(state.created).toLocaleString()+'</td></tr><tr><td>Bank</td><td class="num">'+BANK.length+' items · app '+APP_VERSION+'</td></tr></tbody></table></div></div>'; }
 async function sendMagicLink(){ const em=(document.getElementById('authEmail').value||'').trim(); if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){ toast('Enter a valid email.'); return; } state.settings.email=em; persist(); const {error}=await Cloud.signIn(em); const m=document.getElementById('authMsg'); if(error){ m.textContent='Could not send: '+error.message; } else { m.textContent='Check your inbox for the sign-in link. Open it on this device to sync here.'; } }
@@ -410,6 +522,7 @@ async function startCheckout(plan){ if(!Cloud.user){ toast('Sign in first, then 
  try{ const {data,error}=await Cloud.client.functions.invoke('create-checkout-session',{body:{plan}}); if(error||!data||!data.url) throw error||new Error('no url'); track('checkout_started',{plan}); location.href=data.url; }
  catch(e){ toast('Checkout is not available yet.'); } }
 if(location.search.indexOf('checkout=success')>=0){ setTimeout(()=>toast('Payment received. Your plan updates within a minute.'),800); }
+if(location.hash==='#admin-preview'){ const nb=document.getElementById('navAdmin'); if(nb) nb.style.display=''; }
 const OB_EXAMS=[['GMAT','Focus Edition · live',true],['GRE','coming soon',false],['LSAT','coming soon',false],['MCAT','coming soon',false],['Executive Assessment','coming soon',false]];
 const OB_GOALS=['Score 675+ for M7 programs','Fix my Quant from the diagnostic','Balance all three sections','Retake and beat my last score'];
 let ob={step:0,exam:'GMAT',goal:'',hours:'3 to 5 hrs / week',tools:{'Quick 10':true,'Timed sprint':true,'Flashcards':false,'Custom drill':false}};
@@ -419,7 +532,7 @@ function renderOnboarding(){ let w=document.getElementById('onb'); if(!w){ w=doc
  if(ob.step===1) body='<h2>What are you aiming for?</h2><p class="muted">One line. It shows on your dashboard and shapes the plan.</p><input type="text" id="obGoal" style="width:100%;font-size:16px;padding:10px 12px" placeholder="e.g. Score 675+ for M7 programs" value="'+esc(ob.goal)+'" oninput="ob.goal=this.value"><div class="small" style="margin:12px 0 6px;font-weight:600">Suggestions from students with similar goals</div><div class="chips">'+OB_GOALS.map(g=>'<span class="chip-t" onclick="ob.goal=\''+g.replace(/'/g,'')+'\';renderOnboarding()">'+g+'</span>').join('')+'</div>';
  if(ob.step===2) body='<h2>How much time can you give it?</h2><p class="muted">We size the daily plan to fit.</p><div class="chips" style="gap:10px">'+['1 to 3 hrs / week','3 to 5 hrs / week','5 to 10 hrs / week','10+ hrs / week'].map(h=>'<span class="chip-t '+(ob.hours===h?'on':'')+'" style="padding:9px 18px;font-size:14px" onclick="ob.hours=\''+h+'\';renderOnboarding()">'+h+'</span>').join('')+'</div>';
  if(ob.step===3) body='<h2>Recommended tools</h2><p class="muted">Pre-selected for '+esc(ob.exam)+'. Toggle anything.</p><div class="stack-4" style="gap:10px">'+[['Quick 10','Adaptive daily rounds, the core loop'],['Timed sprint','Pace training at section speed'],['Flashcards','Formula and method recall'],['Custom drill','Targeted sets by skill and difficulty']].map(t=>'<label class="plan-row" style="cursor:pointer"><input type="checkbox" '+(ob.tools[t[0]]?'checked':'')+' onchange="ob.tools[\''+t[0]+'\']=this.checked"><span class="t">'+t[0]+'</span><span class="small">'+t[1]+'</span></label>').join('')+'</div>';
- w.innerHTML='<div class="onb-scrim"><div class="onb-card"><div class="row" style="justify-content:space-between;margin-bottom:18px"><span class="wordmark" style="font-size:17px"><svg viewBox="0 0 48 48" width="24" height="24" aria-hidden="true"><path d="M24 2 44 13v22L24 46 4 35V13Z" fill="#122B4E"/><path d="M24 5.5 41 14.8v18.4L24 42.5 7 33.2V14.8Z" fill="none" stroke="#C7A252" stroke-width="1.5"/><path d="m15.5 25 6.5 6.5L33 17.5" fill="none" stroke="#C7A252" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Meridian <b>Prep</b></span><button class="btn ghost sm" onclick="finishOnboarding(true)">Skip to dashboard</button></div><div class="row" style="gap:6px;margin-bottom:22px">'+steps.map((s,i)=>'<span class="badge '+(i===ob.step?'accent':i<ob.step?'success':'')+'">'+(i+1)+' '+s+'</span>').join('')+'</div>'+body+'<div class="row" style="justify-content:space-between;margin-top:26px"><button class="btn secondary" '+(ob.step===0?'disabled':'')+' onclick="ob.step--;renderOnboarding()">Back</button><button class="btn" onclick="'+(ob.step<3?'ob.step++;renderOnboarding()':'finishOnboarding(false)')+'">'+(ob.step<3?'Continue':'Start studying')+'</button></div></div></div>'; }
+ w.innerHTML='<div class="onb-scrim"><div class="onb-card"><div class="row" style="justify-content:space-between;margin-bottom:18px"><span class="wordmark" style="font-size:17px"><svg viewBox="0 0 48 48" width="24" height="24" aria-hidden="true"><rect width="48" height="48" rx="10" fill="#122B4E"/><circle cx="11.5" cy="35" r="3" fill="#C7A252"/><path d="M11.5 35 20 26l5 4 11-13" fill="none" stroke="#C7A252" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M29 15.5h7.5V23" fill="none" stroke="#C7A252" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Start From <b>Nowhere</b></span><button class="btn ghost sm" onclick="finishOnboarding(true)">Skip to dashboard</button></div><div class="row" style="gap:6px;margin-bottom:22px">'+steps.map((s,i)=>'<span class="badge '+(i===ob.step?'accent':i<ob.step?'success':'')+'">'+(i+1)+' '+s+'</span>').join('')+'</div>'+body+'<div class="row" style="justify-content:space-between;margin-top:26px"><button class="btn secondary" '+(ob.step===0?'disabled':'')+' onclick="ob.step--;renderOnboarding()">Back</button><button class="btn" onclick="'+(ob.step<3?'ob.step++;renderOnboarding()':'finishOnboarding(false)')+'">'+(ob.step<3?'Continue':'Start studying')+'</button></div></div></div>'; }
 function finishOnboarding(skipped){ if(!skipped){ state.settings.program={exam:ob.exam,goal:ob.goal,hours:ob.hours,tools:ob.tools}; track('wizard_completed',{exam:ob.exam,goal_len:ob.goal.length,hours:ob.hours}); } state.settings.onboarded=true; persist(); const w=document.getElementById('onb'); if(w) w.remove(); renderDash(); }
 // ---------- boot ----------
 updateHeader(); renderDash(); Cloud.init(); if(!state.settings.onboarded&&state.attempts.length===0) startOnboarding();
