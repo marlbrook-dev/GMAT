@@ -17,9 +17,9 @@ Anonymous use stores everything in localStorage. After sign-in, the app pulls `p
 Edge functions `create-checkout-session` (JWT-protected) and `stripe-webhook` (Stripe-signature-protected) are deployed to this project; sources live in `supabase/functions/`. The app's plan buttons stay "Coming soon" until `PAYMENTS_LIVE` is flipped to `true` in `src/app_template.html`.
 
 To go live:
-1. In Stripe: create a product with three recurring prices ($19.99 monthly, $44.99 quarterly, $119.99 annual). Copy the three price IDs.
+1. In Stripe: create two products with recurring prices: Plus ($9.99 monthly, $59.99 annual) and Pro ($19.99 monthly, $119.99 annual). Copy the four price IDs.
 2. In Stripe > Developers > Webhooks: add endpoint `https://ftsqwbzhkzuudogkvoqa.supabase.co/functions/v1/stripe-webhook` with events `checkout.session.completed`, `customer.subscription.updated`, `customer.subscription.deleted`. Copy the signing secret.
-3. Supabase dashboard > Edge Functions > Secrets (or `supabase secrets set`): `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_PRICE_MONTHLY`, `STRIPE_PRICE_QUARTERLY`, `STRIPE_PRICE_ANNUAL`, `SITE_URL` (https://startfromnowhere.com).
+3. Supabase dashboard > Edge Functions > Secrets (or `supabase secrets set`): `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_PRICE_PLUS_MONTHLY`, `STRIPE_PRICE_PLUS_ANNUAL`, `STRIPE_PRICE_PRO_MONTHLY`, `STRIPE_PRICE_PRO_ANNUAL`, `SITE_URL` (https://startfromnowhere.com).
 4. Flip `PAYMENTS_LIVE` to `true`, rebuild, deploy.
 5. Legal first: Stripe requires visible terms and a refund policy; have counsel review `terms.html` and `privacy.html` before charging anyone.
 
