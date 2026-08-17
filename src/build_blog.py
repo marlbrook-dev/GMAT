@@ -18,7 +18,7 @@ Validation is strict and fails the build: standing content rules live here
 """
 import json, pathlib, re, sys, html
 
-SITE = "https://meridianprep.com"  # confirm owned domain; single place to change
+SITE = "https://startfromnowhere.com"  # confirm owned domain; single place to change
 SRC = pathlib.Path(__file__).parent
 ROOT = SRC.parent
 POSTS_DIR = SRC / "blog"
