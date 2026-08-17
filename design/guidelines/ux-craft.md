@@ -1,4 +1,4 @@
-# Craft rules — Meridian Prep
+# Craft rules — Start From Nowhere
 
 Adapted for this system from tommyjepsen/awesome-ux-skills (craft): https://github.com/tommyjepsen/awesome-ux-skills
 

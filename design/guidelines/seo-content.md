@@ -23,4 +23,4 @@ Purpose: organic traffic via high-intent exam-prep queries. Written for whoever 
 
 ## Reader submissions
 
-Blog page has a "Share your story" form → editors@meridianprep.com. Review flow: editor reads within a week, replies either way; published pieces get author credit and pre-publication approval of edits. Success stories are the trust engine — prioritize them.
+Blog page has a "Share your story" form → editors@startfromnowhere.com. Review flow: editor reads within a week, replies either way; published pieces get author credit and pre-publication approval of edits. Success stories are the trust engine — prioritize them.

@@ -36,3 +36,7 @@ create policy "own ratings" on skill_ratings for all using (auth.uid() = user_id
 create policy "own review" on review_queue for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
 create policy "own cards" on card_states for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
 create policy "own sessions" on sessions for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+-- Applied migration admin_bi: app_admins allowlist, is_admin(), admin_bi() aggregates RPC
+-- (dashboard reads only via RPC; raw tables keep per-user RLS). See Supabase migration history.
+-- Applied migration partner_crm: crm_contacts + crm_notes, admin-only RLS via is_admin().

@@ -1,10 +1,10 @@
-# Meridian Prep
+# Start From Nowhere
 
 Adaptive test-prep platform. First exam: GMAT Focus Edition (Quant, Verbal, Data Insights). Per-skill Elo ratings keyed to the official score-report skill labels, spaced repetition of misses, timing diagnostics, error log, playbook. Single-file app, no build tooling beyond Python.
 
 ## Layout
 - `src/` — sources. `bank_*.js` (question banks), `engine.js` (exam-agnostic adaptive engine + exam registry), `app_template.html` (trainer UI), `landing.html` (marketing homepage), `build.py` (assembles the site), `build_blog.py` + `blog/` (The Study Room blog content and generator), `test.js` (bank validation and engine simulation)
-- `design/` — Meridian Prep design system (tokens, components, guidelines, UI kits). Source of truth for UI. SEO content rules: `design/guidelines/seo-content.md`
+- `design/` — Start From Nowhere design system (tokens, components, guidelines, UI kits). Source of truth for UI. SEO content rules: `design/guidelines/seo-content.md`
 - `supabase/` — schema and setup notes for project meridian-prep
 - `_headers`, `robots.txt` — Cloudflare Pages config
 - Generated, not committed (see `.gitignore`): `index.html` (landing), `app/index.html` (trainer), `404.html`, `blog/`, `sitemap.xml`

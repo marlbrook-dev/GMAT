@@ -1,0 +1,18 @@
+# Start From Nowhere
+
+> Adaptive test-prep platform for the GMAT Focus Edition (scored 205 to 805). Free first practice round, no account needed: per-skill ratings keyed to the official score-report skill labels, spaced review of misses, timing diagnostics, and full 45-minute mock sections. Blog (The Study Room) publishes sourced exam guides and study-science explainers.
+
+## Product
+- [Trainer](https://startfromnowhere.com/app/): adaptive GMAT Focus practice, 180 original items across Quantitative Reasoning, Verbal Reasoning, and Data Insights.
+- [Homepage](https://startfromnowhere.com/): how the adaptive engine works.
+
+## Guides (The Study Room)
+- [How long to study for the GMAT](https://startfromnowhere.com/blog/how-long-to-study-for-gmat/): realistic 8 week plan.
+- [What is a good GMAT score in 2026](https://startfromnowhere.com/blog/good-gmat-score-2026/): Class of 2027 school figures with sources, Focus and Classic labeled.
+- [GMAT scoring scale explained](https://startfromnowhere.com/blog/gmat-score-chart-percentiles/): the 205 to 805 scale and official GMAC concordance.
+- [GMAT vs GRE for MBA](https://startfromnowhere.com/blog/gmat-vs-gre-for-mba/): even-handed comparison.
+- [All articles](https://startfromnowhere.com/blog/)
+
+## Policies
+- Every school statistic on this site names its source and year. GMAT Focus (205 to 805) and Classic (200 to 800) scores are never mixed.
+- [Terms](https://startfromnowhere.com/terms.html), [Privacy](https://startfromnowhere.com/privacy.html)

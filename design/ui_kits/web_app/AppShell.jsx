@@ -3,7 +3,7 @@ const {Badge}=window.GMATStudyGuideDesignSystem_efe656;
 return <div style={{minHeight:'100vh',background:'var(--surface-page)'}}>
 <header style={{background:'var(--surface-card)',borderBottom:'1px solid var(--border-default)',position:'sticky',top:0,zIndex:20}}>
 <div style={{maxWidth:'var(--container-max)',margin:'0 auto',padding:'0 var(--space-6)',height:60,display:'flex',alignItems:'center',gap:32}}>
-<div style={{display:'flex',alignItems:'center',gap:9,whiteSpace:'nowrap'}}><img src="../../assets/logo.svg" width="30" height="30" alt=""/><span style={{fontFamily:'var(--font-serif-display)',fontWeight:700,fontSize:19,color:'var(--navy-900)'}}>Meridian <span style={{color:'var(--gold-600)'}}>Prep</span></span></div>
+<div style={{display:'flex',alignItems:'center',gap:9,whiteSpace:'nowrap'}}><img src="../../assets/logo.svg" width="30" height="30" alt=""/><span style={{fontFamily:'var(--font-serif-display)',fontWeight:700,fontSize:19,color:'var(--navy-900)'}}>Start From <span style={{color:'var(--gold-600)'}}>Nowhere</span></span></div>
 <nav style={{display:'flex',gap:4,flex:1}}>
 {['Dashboard','Practice','Review'].map(t=><button key={t} onClick={()=>onNav(t)} style={{border:'none',cursor:'pointer',fontFamily:'var(--font-display)',fontWeight:700,fontSize:14,padding:'7px 14px',borderRadius:'var(--radius-md)',background:active===t?'var(--brand-primary-soft)':'transparent',color:active===t?'var(--brand-primary)':'var(--text-muted)'}}>{t}</button>)}
 </nav>

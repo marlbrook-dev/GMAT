@@ -1,8 +1,8 @@
-# Meridian Prep — Design System
+# Start From Nowhere — Design System
 
-Design system for **Meridian Prep** (name invented at the user's request), an adaptive GMAT prep product: short game-like study rounds (quizzes, timed sprints, flashcards, mock sections) driven by an AI learner model. The brand is professional and institutional — the go-to, trusted resource — while staying easy to read. Confident and adaptive in voice, never arrogant. **Positioning: a hybrid of a serious test-prep company and Quizlet** — institutional trust signals (serif, navy, guarantee, evidence) around light, game-like study mechanics (flashcard sets, quick rounds, AI-generated practice).
+Design system for **Start From Nowhere** (name invented at the user's request), an adaptive GMAT prep product: short game-like study rounds (quizzes, timed sprints, flashcards, mock sections) driven by an AI learner model. The brand is professional and institutional — the go-to, trusted resource — while staying easy to read. Confident and adaptive in voice, never arrogant. **Positioning: a hybrid of a serious test-prep company and Quizlet** — institutional trust signals (serif, navy, guarantee, evidence) around light, game-like study mechanics (flashcard sets, quick rounds, AI-generated practice).
 
-**Sources:** none provided. Authored from the company description plus user picks (name, navy+gold palette, hexagon-check logo, serif+sans type). Surfaces: web app, marketing website, slide deck, email. The platform is multi-exam (GMAT first; GRE, LSAT, MCAT, Executive Assessment planned) — every experience keys off the exam chosen at onboarding.
+**Sources:** none provided. Authored from the company description plus user picks (name, navy+gold palette, rising-path logo, serif+sans type). Surfaces: web app, marketing website, slide deck, email. The platform is multi-exam (GMAT first; GRE, LSAT, MCAT, Executive Assessment planned) — every experience keys off the exam chosen at onboarding.
 
 ## Content fundamentals
 
@@ -14,7 +14,7 @@ Design system for **Meridian Prep** (name invented at the user's request), an ad
 
 ## Visual foundations
 
-- **Color:** meridian navy primary (`--brand-primary` #122B4E), brass gold accent (#C7A252, text-safe #A8842F) reserved for emphasis moments — badges, dividers, the CTA on navy. Cool-gray neutrals on `--gray-50`. Section hues: blue = Quant, violet = Verbal, teal = Data Insights. Status: green/red/amber/blue with 50-tint backgrounds. Green is status-only, never brand.
+- **Color:** deep navy primary (`--brand-primary` #122B4E), brass gold accent (#C7A252, text-safe #A8842F) reserved for emphasis moments — badges, dividers, the CTA on navy. Cool-gray neutrals on `--gray-50`. Section hues: blue = Quant, violet = Verbal, teal = Data Insights. Status: green/red/amber/blue with 50-tint backgrounds. Green is status-only, never brand.
 - **Type:** Source Serif 4 (600/700) for headlines h1–h3; Manrope (700/800) for UI — buttons, tabs, card titles, labels; IBM Plex Sans (400–600) body; IBM Plex Mono for timers, scores, slide numbers.
 - **Cards:** white, 1px border, 10px radius, low navy-tinted shadow; hover lifts to `--shadow-md`. Crisp radii 6/8/10px; pills for badges/tracks/switches only.
 - **Motion:** 120–200ms ease-out; color/shadow/width fades only. Hover darkens, press scale(.97), focus 3px navy ring.
@@ -23,7 +23,7 @@ Design system for **Meridian Prep** (name invented at the user's request), an ad
 
 ## Logo & iconography
 
-- **Logo:** `assets/logo.svg` (navy hexagon, gold inner keyline, gold check) and `assets/logo-inverse.svg` for dark surfaces. Wordmark: "Meridian Prep" in Source Serif 4 700, "Prep" in gold-600 (gold-500 on navy). An original mark designed here — vector only.
+- **Logo:** `assets/logo.svg` (navy tile, gold path rising from an origin dot — "from nowhere, upward") and `assets/logo-inverse.svg` for dark surfaces. Wordmark: "Start From Nowhere" in Source Serif 4 700, "Prep" in gold-600 (gold-500 on navy). An original mark designed here — vector only.
 - **Icons:** minimal functional strokes (chevron, check, ×) at 2–3.5px round caps. Recommendation: Lucide via CDN for product icons (flagged substitution). No emoji.
 
 ## Design constraints (for anyone — human or agent — building with this system)

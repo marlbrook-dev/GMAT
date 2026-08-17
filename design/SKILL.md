@@ -1,6 +1,6 @@
 ---
-name: meridian-prep-design
-description: Use this skill to generate well-branded interfaces and assets for Meridian Prep, either for production or throwaway prototypes/mocks/etc. Contains essential design guidelines, colors, type, fonts, assets, and UI kit components for prototyping.
+name: start-from-nowhere-design
+description: Use this skill to generate well-branded interfaces and assets for Start From Nowhere, either for production or throwaway prototypes/mocks/etc. Contains essential design guidelines, colors, type, fonts, assets, and UI kit components for prototyping.
 user-invocable: true
 ---
 

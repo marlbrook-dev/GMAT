@@ -16,7 +16,7 @@ Institutional, plain, even-handed. Confident but never salesy. Short sentences. 
 ## Data rules (non-negotiable)
 - Never state a school statistic, score median, percentile, or class-profile number from memory. Use ONLY the verified fact sheet below, with the source and year in parentheses right after the number.
 - Approved sources: official school websites and class profiles, mba.com / GMAC, Poets & Quants, Financial Times, US News, Bloomberg Businessweek, Forbes, BusinessBecause, QS. Never cite or link GMAT Club, Quora, Wikipedia, GyanDhan, Pagalguy, or forums.
-- Never invent statistics about Meridian Prep: no user counts, no score-gain claims, no testimonials. The product facts below are the only product claims allowed.
+- Never invent statistics about Start From Nowhere: no user counts, no score-gain claims, no testimonials. The product facts below are the only product claims allowed.
 - Success stories are reader-submitted only. Never fabricate one.
 - If a fact is not on the sheet, write around it or state that the school publishes the figure in its class profile.
 
@@ -37,8 +37,16 @@ Class of 2027 profiles (entered fall 2025):
 Note in-text which schools report averages (Stanford, Wharton) versus medians (MIT, HBS).
 
 Product facts (the only permitted product claims):
-- Meridian Prep is an adaptive GMAT Focus trainer: 180 original practice items across Quant, Verbal, and Data Insights; a rating per skill keyed to the official score-report skill labels; misses return on a spaced schedule; timing tracked per question. First round free, no account needed.
+- Start From Nowhere is an adaptive GMAT Focus trainer: 180 original practice items across Quant, Verbal, and Data Insights; a rating per skill keyed to the official score-report skill labels; misses return on a spaced schedule; timing tracked per question. First round free, no account needed.
 
 ## Post file format
 `src/blog/<slug>.html`: an HTML comment front-matter block with JSON metadata, then the body.
 Allowed body tags: h2, h3, p, ul, ol, li, div.tablewrap > table (thead/tbody/tr/th/td), strong, em, a. No h1, images, scripts, or inline styles.
+
+## Answer engine visibility (GEO)
+AI assistants quote pages that answer cleanly, and they cite third-party mentions more than brand homepages. Rules that follow from this:
+- Every post's first 80 words must stand alone as a quotable answer with the key number in it.
+- One-sentence definitions for any term of art (an assistant lifts definitional sentences verbatim).
+- Keep facts identical everywhere they appear on the site; contradictions kill entity trust.
+- Comparison and "what is a good X" pages earn the most AI citations; keep them current (date in title, yearly refresh).
+- Third-party mentions matter more than backlinks for AI answers: pursue them via the partnerships in GROWTH.md, never via fake reviews or planted content.
