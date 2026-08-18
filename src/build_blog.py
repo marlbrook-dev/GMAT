@@ -58,6 +58,10 @@ def load_posts():
         meta["body"] = text[m.end():].strip()
         meta["file"] = f.name
         posts.append(meta)
+    if not posts: fail("no posts found in src/blog/")
+    return posts
+
+def split_live(posts):
     import datetime, os
     today = os.environ.get("BLOG_BUILD_DATE") or datetime.date.today().isoformat()
     live = [p for p in posts if p.get("date", "9999") <= today]
@@ -237,6 +241,10 @@ q.addEventListener('input',function(){{page=0;apply();}});apply();}})();
                 "Study plans, exam guides, and score strategies for the GMAT Focus Edition and beyond, from the Start From Nowhere team.",
                 f"{SITE}/blog/", body, extra)
 
+def delink_held(body, live_slugs):
+    return re.sub(r'<a href="/blog/([a-z0-9-]+)/">(.*?)</a>',
+                  lambda m: m.group(0) if m.group(1) in live_slugs else m.group(2), body)
+
 def build_post(p, posts):
     fg, _ = PALETTES[CATEGORIES[p["category"]]]
     faq_vis = "".join(
@@ -287,16 +295,19 @@ def build_sitemap(posts):
 
 def main():
     posts = load_posts()
-    validate(posts)
+    validate(posts)  # validate everything, including held future posts
+    live = split_live(posts)
+    live_slugs = {p["slug"] for p in live}
     out = ROOT / "blog"
     out.mkdir(exist_ok=True)
-    (out / "index.html").write_text(build_index(posts))
-    for p in posts:
+    (out / "index.html").write_text(build_index(live))
+    for p in live:
         d = out / p["slug"]
         d.mkdir(exist_ok=True)
-        (d / "index.html").write_text(build_post(p, posts))
-    (ROOT / "sitemap.xml").write_text(build_sitemap(posts))
-    print(f"built blog/ with {len(posts)} posts + index + sitemap.xml")
+        p = dict(p, body=delink_held(p["body"], live_slugs))
+        (d / "index.html").write_text(build_post(p, live))
+    (ROOT / "sitemap.xml").write_text(build_sitemap(live))
+    print(f"built blog/ with {len(live)} posts + index + sitemap.xml")
 
 if __name__ == "__main__":
     main()
