@@ -23,9 +23,12 @@ SRC = pathlib.Path(__file__).parent
 ROOT = SRC.parent
 POSTS_DIR = SRC / "blog"
 CATEGORIES = {
-    "Exam Guides": "quant", "Study Science": "data",
+    "Exam Guides": "quant", "Study Science": "data", "Admissions": "verbal",
     "Success Stories": "green", "Company News": "gold",
 }
+# Pen names of the SFN editorial team. Bylines only: no invented credentials or bios.
+AUTHORS = ["Maya Chen", "Sarah Whitfield", "Elena Rodriguez", "Aisha Thompson",
+           "David Okafor", "James Corbett", "SFN Team"]
 PALETTES = {
     "quant": ("var(--blue-600)", "var(--blue-50)"),
     "verbal": ("var(--violet-600)", "var(--violet-50)"),
@@ -58,6 +61,15 @@ def load_posts():
     if not posts: fail("no posts found in src/blog/")
     return posts
 
+def split_live(posts):
+    import datetime, os
+    today = os.environ.get("BLOG_BUILD_DATE") or datetime.date.today().isoformat()
+    live = [p for p in posts if p.get("date", "9999") <= today]
+    held = len(posts) - len(live)
+    if held: print(f"build_blog: holding {held} future-dated post(s); they publish on deploys after their date")
+    if not live: fail("no publishable posts found in src/blog/")
+    return live
+
 def validate(posts):
     slugs = {p["slug"] for p in posts}
     for p in posts:
@@ -72,6 +84,9 @@ def validate(posts):
         if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", p["date"]): fail(f"{n}: date must be YYYY-MM-DD")
         if "updated" in p and not re.fullmatch(r"\d{4}-\d{2}-\d{2}", p["updated"]): fail(f"{n}: bad updated date")
         if not 3 <= len(p["faq"]) <= 5: fail(f"{n}: FAQ must have 3 to 5 items")
+        if p["author"] not in AUTHORS: fail(f"{n}: author must be one of AUTHORS")
+        if p["category"] != "Company News" and not re.search(r'href="https://', p["body"]):
+            print(f"build_blog: WARNING {n} has no outbound source link")
         if p["hero"].get("palette") not in PALETTES: fail(f"{n}: hero.palette must be one of {list(PALETTES)}")
         everything = p["title"] + p["description"] + p["body"] + json.dumps(p["faq"])
         if "—" in everything or "–" in everything:
@@ -91,7 +106,7 @@ HEAD_CSS = """*{box-sizing:border-box}body{margin:0;font-family:var(--body);colo
 h1,h2,h3{font-family:var(--serif);color:var(--navy-900);letter-spacing:-.01em;line-height:1.2;margin:0}
 a{color:var(--navy-600)}.wrap{max-width:1120px;margin:0 auto;padding:0 24px}.narrow{max-width:720px;margin:0 auto;padding:0 24px}
 header.site{border-bottom:1px solid var(--gray-200);background:#fff}header.site .wrap{height:68px;display:flex;align-items:center;gap:18px}
-.wordmark{display:flex;align-items:center;gap:9px;font-family:var(--serif);font-weight:700;font-size:20px;color:var(--navy-900);text-decoration:none}.wordmark b{color:var(--gold-600)}
+.wordmark{display:flex;align-items:center;gap:9px;font-family:var(--serif);font-weight:700;font-size:20px;color:var(--navy-900);text-decoration:none}.wordmark b{color:var(--navy-900)}
 .roomtag{font-family:var(--serif);font-style:italic;font-size:17px;color:var(--gray-500);text-decoration:none}
 .btn{font-family:var(--display);font-weight:700;font-size:14px;color:#fff;background:var(--navy-800);border-radius:8px;padding:9px 18px;text-decoration:none;white-space:nowrap}.btn:hover{background:var(--navy-900)}
 .cat{font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.04em;text-decoration:none}
@@ -108,7 +123,7 @@ article .tablewrap{overflow-x:auto}article strong{color:var(--gray-900)}
 
 FONTS = """<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,600;0,8..60,700;1,8..60,400&family=Manrope:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">"""
-FAVICON = """<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='10' fill='%23122B4E'/%3E%3Ccircle cx='11.5' cy='35' r='3' fill='%23C7A252'/%3E%3Cpath d='M11.5 35 20 26l5 4 11-13' fill='none' stroke='%23C7A252' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M29 15.5h7.5V23' fill='none' stroke='%23C7A252' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">"""
+FAVICON = """<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%23122B4E'/%3E%3Cpath d='M13 33 22 22l6 5 8.5-10' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M29.5 16.5H37V24' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">"""
 LOGO = """<svg viewBox="0 0 48 48" width="30" height="30" aria-hidden="true"><rect width="48" height="48" rx="10" fill="#122B4E"/><circle cx="11.5" cy="35" r="3" fill="#C7A252"/><path d="M11.5 35 20 26l5 4 11-13" fill="none" stroke="#C7A252" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M29 15.5h7.5V23" fill="none" stroke="#C7A252" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>"""
 
 def page(title, description, canonical, body, extra_head=""):
@@ -124,14 +139,14 @@ def page(title, description, canonical, body, extra_head=""):
 {FAVICON}
 {extra_head}<style>{HEAD_CSS}</style></head><body>
 <header class="site"><div class="wrap">
-<a class="wordmark" href="/">{LOGO}Start From <b>Nowhere</b></a>
+<a class="wordmark" href="/">{LOGO}Start From Nowhere</a>
 <a class="roomtag" href="/blog/">The Study Room</a>
 <span style="flex:1"></span>
 <a class="btn" href="/app/">Start free</a>
 </div></header>
 {body}
 <footer class="site"><div class="wrap">
-<div style="display:flex;align-items:center;gap:8px"><span class="wordmark" style="font-size:15px">Start From <b>Nowhere</b></span></div>
+<div style="display:flex;align-items:center;gap:8px"><span class="wordmark" style="font-size:15px">Start From Nowhere</span></div>
 <nav aria-label="Footer"><a href="/">Home</a><a href="/blog/">Blog</a><a href="/terms.html">Terms</a><a href="/privacy.html">Privacy</a></nav>
 <span>© 2026 Start From Nowhere. GMAT is a trademark of GMAC, which does not endorse this product.</span>
 </div></footer>
@@ -177,6 +192,12 @@ def build_index(posts):
 <div class="grid3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:20px" id="grid">
 {"".join(card(p) for p in rest)}
 </div>
+<div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-top:28px;font-size:14px">
+<button id="pgPrev" aria-label="Previous page" style="font:inherit;border:1px solid var(--gray-300);background:#fff;border-radius:8px;padding:7px 14px;cursor:pointer">&larr;</button>
+<span id="pgInfo" style="font-family:var(--display);font-weight:600;color:var(--navy-900)"></span>
+<button id="pgNext" aria-label="Next page" style="font:inherit;border:1px solid var(--gray-300);background:#fff;border-radius:8px;padding:7px 14px;cursor:pointer">&rarr;</button>
+<label style="color:var(--gray-500)">Show <select id="pgSize" style="font:inherit;border:1px solid var(--gray-300);border-radius:6px;padding:4px 6px"><option>6</option><option>12</option><option>24</option></select> per page</label>
+</div>
 </section>
 <section style="background:var(--gray-50);border-top:1px solid var(--gray-200)">
 <div class="narrow" style="padding:64px 24px">
@@ -198,11 +219,19 @@ def build_index(posts):
 </section>
 <script>
 document.getElementById('submitForm').addEventListener('submit',function(e){{e.preventDefault();var f=this,b='Name: '+f.name.value+'\\nEmail: '+f.email.value+'\\n\\n'+f.story.value;location.href='mailto:editors@startfromnowhere.com?subject='+encodeURIComponent('[Story] '+f.title.value)+'&body='+encodeURIComponent(b);}});
-(function(){{var chips=document.querySelectorAll('.chip'),cards=document.querySelectorAll('#grid .postcard'),q=document.getElementById('q'),cat='All';
-function apply(){{var s=q.value.toLowerCase();cards.forEach(function(c){{c.style.display=((cat==='All'||c.dataset.cat===cat)&&(!s||c.dataset.title.indexOf(s)>=0))?'':'none';}});}}
-chips.forEach(function(ch){{ch.addEventListener('click',function(e){{e.preventDefault();cat=ch.dataset.cat;chips.forEach(function(o){{o.classList.remove('active');o.style.background='';o.style.color='';o.style.border='1px solid var(--gray-300)';}});ch.style.background='var(--navy-800)';ch.style.color='#fff';ch.style.border='1px solid var(--navy-800)';apply();}});}});
+(function(){{var chips=document.querySelectorAll('.chip'),cards=Array.prototype.slice.call(document.querySelectorAll('#grid .postcard')),q=document.getElementById('q'),cat='All',page=0,size=6;
+var prev=document.getElementById('pgPrev'),next=document.getElementById('pgNext'),info=document.getElementById('pgInfo'),sizeSel=document.getElementById('pgSize');
+function apply(){{var s=q.value.toLowerCase();var vis=cards.filter(function(c){{return (cat==='All'||c.dataset.cat===cat)&&(!s||c.dataset.title.indexOf(s)>=0);}});
+var pages=Math.max(1,Math.ceil(vis.length/size)); if(page>=pages) page=pages-1; if(page<0) page=0;
+cards.forEach(function(c){{c.style.display='none';}}); vis.slice(page*size,(page+1)*size).forEach(function(c){{c.style.display='';}});
+info.textContent='Page '+(page+1)+' of '+pages; prev.disabled=page===0; next.disabled=page>=pages-1;
+prev.style.opacity=prev.disabled?'.4':'1'; next.style.opacity=next.disabled?'.4':'1';}}
+prev.addEventListener('click',function(){{page--;apply();window.scrollTo(0,0);}});
+next.addEventListener('click',function(){{page++;apply();window.scrollTo(0,0);}});
+sizeSel.addEventListener('change',function(){{size=+sizeSel.value;page=0;apply();}});
+chips.forEach(function(ch){{ch.addEventListener('click',function(e){{e.preventDefault();cat=ch.dataset.cat;page=0;chips.forEach(function(o){{o.classList.remove('active');o.style.background='';o.style.color='';o.style.border='1px solid var(--gray-300)';}});ch.style.background='var(--navy-800)';ch.style.color='#fff';ch.style.border='1px solid var(--navy-800)';apply();}});}});
 chips.forEach(function(o){{o.style.border='1px solid var(--gray-300)';o.style.color='var(--navy-900)';}});var a=document.querySelector('.chip');a.style.background='var(--navy-800)';a.style.color='#fff';a.style.border='1px solid var(--navy-800)';
-q.addEventListener('input',apply);}})();
+q.addEventListener('input',function(){{page=0;apply();}});apply();}})();
 </script>"""
     ld = {"@context": "https://schema.org", "@type": "Blog", "name": "The Study Room",
           "description": "Study plans, exam guides, and score strategies from the Start From Nowhere team.",
@@ -211,6 +240,10 @@ q.addEventListener('input',apply);}})();
     return page("The Study Room | GMAT and MBA Study Guides | Start From Nowhere",
                 "Study plans, exam guides, and score strategies for the GMAT Focus Edition and beyond, from the Start From Nowhere team.",
                 f"{SITE}/blog/", body, extra)
+
+def delink_held(body, live_slugs):
+    return re.sub(r'<a href="/blog/([a-z0-9-]+)/">(.*?)</a>',
+                  lambda m: m.group(0) if m.group(1) in live_slugs else m.group(2), body)
 
 def build_post(p, posts):
     fg, _ = PALETTES[CATEGORIES[p["category"]]]
@@ -241,7 +274,7 @@ def build_post(p, posts):
     ld_article = {"@context": "https://schema.org", "@type": "BlogPosting",
         "headline": p["title"], "description": p["description"],
         "datePublished": p["date"], "dateModified": updated,
-        "author": {"@type": "Organization", "name": "Start From Nowhere"},
+        "author": {"@type": "Person", "name": p["author"], "worksFor": {"@type": "Organization", "name": "Start From Nowhere"}},
         "publisher": {"@type": "Organization", "name": "Start From Nowhere", "url": SITE},
         "mainEntityOfPage": f"{SITE}/blog/{p['slug']}/"}
     ld_faq = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
@@ -262,16 +295,19 @@ def build_sitemap(posts):
 
 def main():
     posts = load_posts()
-    validate(posts)
+    validate(posts)  # validate everything, including held future posts
+    live = split_live(posts)
+    live_slugs = {p["slug"] for p in live}
     out = ROOT / "blog"
     out.mkdir(exist_ok=True)
-    (out / "index.html").write_text(build_index(posts))
-    for p in posts:
+    (out / "index.html").write_text(build_index(live))
+    for p in live:
         d = out / p["slug"]
         d.mkdir(exist_ok=True)
-        (d / "index.html").write_text(build_post(p, posts))
-    (ROOT / "sitemap.xml").write_text(build_sitemap(posts))
-    print(f"built blog/ with {len(posts)} posts + index + sitemap.xml")
+        p = dict(p, body=delink_held(p["body"], live_slugs))
+        (d / "index.html").write_text(build_post(p, live))
+    (ROOT / "sitemap.xml").write_text(build_sitemap(live))
+    print(f"built blog/ with {len(live)} posts + index + sitemap.xml")
 
 if __name__ == "__main__":
     main()
