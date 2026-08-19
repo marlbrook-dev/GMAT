@@ -26,9 +26,19 @@ header{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid 
 .hero h1{font-size:34px;margin-bottom:8px}
 .hero p{max-width:76ch;margin:0;color:var(--gray-500)}
 .hero .meta{margin-top:10px;font-size:13px;color:var(--gray-500)}
-.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:16px 0}
-.controls input[type=search]{padding:9px 12px;border:1px solid var(--gray-300);border-radius:8px;font:inherit;min-width:210px}
-.controls select{padding:9px 10px;border:1px solid var(--gray-300);border-radius:8px;font-family:var(--display);font-weight:600;font-size:13px;color:var(--gray-700);background:#fff}
+.layout{display:grid;grid-template-columns:230px 1fr;gap:26px;align-items:start;padding:20px 0}
+@media(max-width:920px){.layout{grid-template-columns:1fr}}
+aside.filters{position:sticky;top:74px}
+@media(max-width:920px){aside.filters{position:static;display:none;border:1px solid var(--gray-200);border-radius:12px;padding:14px}aside.filters.open{display:block}}
+#fToggle{display:none;font-family:var(--display);font-weight:700;font-size:13px;border:1px solid var(--gray-300);background:#fff;border-radius:8px;padding:9px 14px;cursor:pointer}
+@media(max-width:920px){#fToggle{display:inline-block}}
+.fhead{font-family:var(--display);font-weight:800;font-size:15px;color:var(--navy-900);margin:0 0 4px}
+.fgroup{border-top:1px solid var(--gray-200);padding:12px 0 14px}
+.fgroup .ft{font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--gray-500);margin-bottom:8px}
+.fgroup label{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--gray-700);padding:3px 0;cursor:pointer}
+.fgroup input[type=checkbox]{width:15px;height:15px;accent-color:var(--navy-800)}
+.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.controls input[type=search]{padding:9px 12px;border:1px solid var(--gray-300);border-radius:8px;font:inherit;min-width:210px;flex:1;max-width:340px}
 .controls .clear{background:none;border:none;color:var(--navy-800);font-family:var(--display);font-weight:700;font-size:13px;cursor:pointer;text-decoration:underline}
 .count{font-size:13px;color:var(--gray-500);margin-left:auto}
 .tablewrap{overflow-x:auto;border:1px solid var(--gray-200);border-radius:12px}
@@ -94,20 +104,47 @@ footer .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
 
 <section class="hero"><div class="wrap">
 <h1>MBA Rankings 2026</h1>
-<p>{{N}} full-time MBA programs, ranked by a transparent composite of five major published rankings and paired with each school's own class profile. Filter the table, click a school for its full profile with sources, and build a shortlist you can export free, no account needed.</p>
+<p>{{N}} full-time MBA programs, every one ranked: a transparent composite of five major published rankings where they exist, and a documented data-based score where they do not, paired with each school's own class profile. Filter the table, open any school's full profile with a source on every number, and build a shortlist you can export free, no account needed.</p>
 <div class="meta">Composite of US News, Financial Times, Bloomberg, QS, and Poets and Quants · class profile data from official school pages · updated {{UPDATED}}</div>
 </div></section>
 
 <div class="wrap">
+<div class="layout">
+<aside class="filters" id="filterRail">
+<p class="fhead">Filter by</p>
+<div class="fgroup"><div class="ft">Region</div>
+<label><input type="checkbox" data-g="region" value="Northeast" onchange="applyFilters()">Northeast</label>
+<label><input type="checkbox" data-g="region" value="Midwest" onchange="applyFilters()">Midwest</label>
+<label><input type="checkbox" data-g="region" value="South" onchange="applyFilters()">South</label>
+<label><input type="checkbox" data-g="region" value="West" onchange="applyFilters()">West</label></div>
+<div class="fgroup"><div class="ft">School type</div>
+<label><input type="checkbox" data-g="type" value="Private" onchange="applyFilters()">Private</label>
+<label><input type="checkbox" data-g="type" value="Public" onchange="applyFilters()">Public</label></div>
+<div class="fgroup"><div class="ft">Average GMAT</div>
+<label><input type="checkbox" data-g="gmat" value="hi" onchange="applyFilters()">Top band (Classic 700+ / Focus 655+)</label>
+<label><input type="checkbox" data-g="gmat" value="mid" onchange="applyFilters()">Middle band</label>
+<label><input type="checkbox" data-g="gmat" value="lo" onchange="applyFilters()">Accessible band</label></div>
+<div class="fgroup"><div class="ft">Acceptance rate</div>
+<label><input type="checkbox" data-g="accept" value="lt15" onchange="applyFilters()">Under 15%</label>
+<label><input type="checkbox" data-g="accept" value="15to30" onchange="applyFilters()">15 to 30%</label>
+<label><input type="checkbox" data-g="accept" value="gt30" onchange="applyFilters()">Over 30%</label></div>
+<div class="fgroup"><div class="ft">Class size</div>
+<label><input type="checkbox" data-g="size" value="s" onchange="applyFilters()">Under 100</label>
+<label><input type="checkbox" data-g="size" value="m" onchange="applyFilters()">100 to 400</label>
+<label><input type="checkbox" data-g="size" value="l" onchange="applyFilters()">Over 400</label></div>
+<div class="fgroup"><div class="ft">Tuition per year</div>
+<label><input type="checkbox" data-g="tuition" value="lo" onchange="applyFilters()">Under $50k</label>
+<label><input type="checkbox" data-g="tuition" value="mid" onchange="applyFilters()">$50k to $75k</label>
+<label><input type="checkbox" data-g="tuition" value="hi" onchange="applyFilters()">Over $75k</label></div>
+<div class="fgroup"><div class="ft">Ranking basis</div>
+<label><input type="checkbox" data-g="basis" value="consensus" onchange="applyFilters()">Publisher consensus</label>
+<label><input type="checkbox" data-g="basis" value="data" onchange="applyFilters()">Data-based score</label></div>
+</aside>
+<div>
 <div class="controls">
+<button id="fToggle" onclick="document.getElementById('filterRail').classList.toggle('open')">Filters</button>
 <input type="search" id="q" placeholder="Search schools" oninput="applyFilters()" aria-label="Search schools">
-<select id="fRegion" onchange="applyFilters()"><option value="">Region: all</option><option>Northeast</option><option>Midwest</option><option>South</option><option>West</option></select>
-<select id="fType" onchange="applyFilters()"><option value="">Type: all</option><option>Private</option><option>Public</option></select>
-<select id="fGmat" onchange="applyFilters()"><option value="">GMAT avg: any</option><option value="700">700+ (Classic) / 655+ (Focus)</option><option value="650">650 to 699 band</option><option value="0">Under 650 band</option></select>
-<select id="fAccept" onchange="applyFilters()"><option value="">Acceptance: any</option><option value="15">Under 15%</option><option value="30">15 to 30%</option><option value="100">Over 30%</option></select>
-<select id="fSize" onchange="applyFilters()"><option value="">Class size: any</option><option value="300">Under 300</option><option value="600">300 to 600</option><option value="9999">Over 600</option></select>
-<select id="fTuition" onchange="applyFilters()"><option value="">Tuition: any</option><option value="70">Under $70k</option><option value="85">$70k to $85k</option><option value="999">Over $85k</option></select>
-<button class="clear" onclick="clearFilters()">Clear</button>
+<button class="clear" onclick="clearFilters()">Clear all</button>
 <span class="count" id="count"></span>
 </div>
 
@@ -116,6 +153,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
 <div class="tablewrap"><table class="rk" id="rkTable"><thead><tr>
 <th class="num" onclick="sortBy('_rank')">Rank <span class="car">&#9660;</span></th>
 <th onclick="sortBy('name')">School</th>
+<th class="num" onclick="sortBy('_score')" title="SFN Score: publishers 50, outcomes 20, GMAT 20, acceptance 10, renormalized over available data">Score</th>
 <th class="num" onclick="sortBy('usnews')" title="US News Best Business Schools">USN</th>
 <th class="num" onclick="sortBy('ft')" title="Financial Times Global MBA">FT</th>
 <th class="num" onclick="sortBy('bloomberg')" title="Bloomberg Businessweek">BBW</th>
@@ -130,7 +168,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
 </tr></thead><tbody id="rows">
 {{ROWS}}
 </tbody></table></div>
-<p style="font-size:12.5px;color:var(--gray-500);margin-top:10px">GMAT column shows the figure each school publishes, labeled Focus or Classic and average or median; the two editions use different scales and are never converted or mixed. Click any school for its full profile with a source for every number.</p>
+<p style="font-size:12.5px;color:var(--gray-500);margin-top:10px">GMAT column shows the figure each school publishes, labeled Focus or Classic and average or median; the two editions use different scales and are never converted or mixed. Click any school for a summary, or open its full profile page for every figure with sources.</p>
+</div>
+</div>
 
 <section class="section" id="methodology">
 <h2>Methodology</h2>
@@ -139,7 +179,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
 <div>
 <p>Each publisher's most recent full-time MBA ranking is converted to points (rank 1 = 100 points, rank 2 = 99, and so on), then combined as a weighted average using the weights shown. When a source does not rank a school, the remaining weights are renormalized so no school is penalized for a publisher's coverage gaps; a school needs ranks from at least three of the five publishers to receive a composite rank at all. Ties share a rank.</p>
 <p>Why these weights: US News carries the most applicant mindshare in the United States and audits school-reported placement and selectivity data. The Financial Times brings a global, alumni-outcomes view built on a survey taken three years after graduation. Bloomberg surveys students and recruiters directly but its year-to-year volatility is well documented, so it earns a smaller share. QS adds international employer perception. Poets and Quants is itself a consensus of other lists, useful signal but partly double-counted, so it also stays at the smaller share. We publish the weights so you can disagree with them: every per-source rank is shown in the table, and the CSV export includes all of them.</p>
-<p>Class profile figures (GMAT, GPA, class size, acceptance rate, tuition) come from each school's own published class profile or admissions pages wherever available, labeled with source and year in the school detail view. We never estimate, convert between GMAT editions, or fill gaps with guesses; a dash means the school does not publish the figure. Rankings referenced belong to their respective publishers and are cited as published facts with attribution.</p>
+<p>The Score column is the SFN Score (0 to 100), which ranks every school including those the big lists skip: publisher consensus 50%, published outcomes (median salary and 3-month employment) 20%, GMAT selectivity 20%, acceptance rate 10%, with weights renormalized over whatever components a school actually publishes. A school needs the publisher component or at least two data components to be scored. Schools ranked without publisher coverage carry a "data-based score" basis you can filter on: their position reflects published outcomes and selectivity only, weighted exactly as stated, which is the same logic the major publishers use, applied transparently.</p>
+<p>Class profile figures (GMAT, GPA, class size, acceptance rate, tuition) come from each school's own published class profile or admissions pages wherever available, labeled with source and year on each school's profile page. We never estimate, convert between GMAT editions, or fill gaps with guesses; a dash means the school does not publish the figure. Rankings referenced belong to their respective publishers and are cited as published facts with attribution.</p>
 </div>
 </div>
 </section>
@@ -168,36 +209,46 @@ function fieldV(s,n){ var f=(s.profile||{})[n]||{}; return f.v==null?null:f.v; }
 function gmatOf(s){ var f=(s.profile||{}).gmat_focus||{}; if(f.v!=null) return {v:f.v,ed:'Focus',stat:f.stat||''}; var c=(s.profile||{}).gmat_classic||{}; if(c.v!=null) return {v:c.v,ed:'Classic',stat:c.stat||''}; return null; }
 function rankOf(s,k){ var r=(s.ranks||{})[k]||{}; return r.rank==null?null:r.rank; }
 
-// filters
+// filters: checkbox groups, OR within a group, AND across groups; empty group = all
+function gmatBand(s){ var g=gmatOf(s); if(!g) return null;
+ var hi=(g.ed==='Classic'&&g.v>=700)||(g.ed==='Focus'&&g.v>=655);
+ var mid=!hi&&((g.ed==='Classic'&&g.v>=650)||(g.ed==='Focus'&&g.v>=605));
+ return hi?'hi':mid?'mid':'lo'; }
+function checkedSet(group){ var out={}; var any=false;
+ document.querySelectorAll('input[data-g="'+group+'"]:checked').forEach(function(c){ out[c.value]=true; any=true; });
+ return any?out:null; }
 function applyFilters(){
  var q=document.getElementById('q').value.toLowerCase();
- var reg=document.getElementById('fRegion').value, typ=document.getElementById('fType').value;
- var gm=document.getElementById('fGmat').value, ac=document.getElementById('fAccept').value;
- var sz=document.getElementById('fSize').value, tu=document.getElementById('fTuition').value;
+ var G={region:checkedSet('region'),type:checkedSet('type'),gmat:checkedSet('gmat'),accept:checkedSet('accept'),size:checkedSet('size'),tuition:checkedSet('tuition'),basis:checkedSet('basis')};
  var shown=0;
  document.querySelectorAll('#rows tr.srow').forEach(function(tr){
   var s=BY[tr.dataset.slug]; var ok=true;
-  if(q&&(s.name+' '+s.university+' '+s.city).toLowerCase().indexOf(q)<0) ok=false;
-  if(reg&&s.region!==reg) ok=false;
-  if(typ&&s.type!==typ) ok=false;
-  if(gm!==''){ var g=gmatOf(s); if(!g) ok=false; else{ var classicEq=g.ed==='Classic'?g.v:null, focusEq=g.ed==='Focus'?g.v:null;
-   var hi=(classicEq!=null&&classicEq>=700)||(focusEq!=null&&focusEq>=655);
-   var mid=!hi&&((classicEq!=null&&classicEq>=650)||(focusEq!=null&&focusEq>=605));
-   if(gm==='700'&&!hi) ok=false; if(gm==='650'&&!mid) ok=false; if(gm==='0'&&(hi||mid)) ok=false; } }
-  if(ac!==''){ var a=fieldV(s,'accept_rate_pct'); if(a==null) ok=false; else{ if(ac==='15'&&a>=15) ok=false; if(ac==='30'&&(a<15||a>30)) ok=false; if(ac==='100'&&a<=30) ok=false; } }
-  if(sz!==''){ var c=fieldV(s,'class_size'); if(c==null) ok=false; else{ if(sz==='300'&&c>=300) ok=false; if(sz==='600'&&(c<300||c>600)) ok=false; if(sz==='9999'&&c<=600) ok=false; } }
-  if(tu!==''){ var t=fieldV(s,'tuition_usd'); if(t==null) ok=false; else{ var k=t/1000; if(tu==='70'&&k>=70) ok=false; if(tu==='85'&&(k<70||k>85)) ok=false; if(tu==='999'&&k<=85) ok=false; } }
+  if(q&&(s.name+' '+s.university+' '+s.city+' '+s.state).toLowerCase().indexOf(q)<0) ok=false;
+  if(ok&&G.region&&!G.region[s.region]) ok=false;
+  if(ok&&G.type&&!G.type[s.type]) ok=false;
+  if(ok&&G.gmat){ var b=gmatBand(s); if(!b||!G.gmat[b]) ok=false; }
+  if(ok&&G.accept){ var a=fieldV(s,'accept_rate_pct');
+   if(a==null||!((G.accept.lt15&&a<15)||(G.accept['15to30']&&a>=15&&a<=30)||(G.accept.gt30&&a>30))) ok=false; }
+  if(ok&&G.size){ var c=fieldV(s,'class_size');
+   if(c==null||!((G.size.s&&c<100)||(G.size.m&&c>=100&&c<=400)||(G.size.l&&c>400))) ok=false; }
+  if(ok&&G.tuition){ var t=fieldV(s,'tuition_usd');
+   if(t==null||!((G.tuition.lo&&t<50000)||(G.tuition.mid&&t>=50000&&t<=75000)||(G.tuition.hi&&t>75000))) ok=false; }
+  if(ok&&G.basis){ var nsrc=['usnews','ft','bloomberg','qs','pq'].filter(function(k){return rankOf(s,k)!=null;}).length;
+   var basis=nsrc>=3?'consensus':'data';
+   if(!G.basis[basis]) ok=false; }
   tr.style.display=ok?'':'none'; var d=document.getElementById('det-'+tr.dataset.slug); if(d&&!ok) d.remove();
   if(ok) shown++;
  });
  document.getElementById('count').textContent=shown+' of '+SCHOOLS.length+' programs';
 }
-function clearFilters(){ ['q','fRegion','fType','fGmat','fAccept','fSize','fTuition'].forEach(function(id){document.getElementById(id).value='';}); applyFilters(); }
+function clearFilters(){ document.getElementById('q').value='';
+ document.querySelectorAll('aside.filters input[type=checkbox]').forEach(function(c){c.checked=false;}); applyFilters(); }
 
 // sorting
 var sortState={key:'_rank',asc:true};
 function sortVal(s,key){
  if(key==='name') return s.name.toLowerCase();
+ if(key==='_score') return s._score==null?-1:s._score;
  if(key==='_rank') return s._rank==null?999:s._rank;
  if(key==='gmat'){ var g=gmatOf(s); return g?(g.ed==='Focus'?g.v+60:g.v):0; }
  if(key==='gpa') return fieldV(s,'gpa')||0;
@@ -225,13 +276,14 @@ function toggleDetail(slug){ var ex=document.getElementById('det-'+slug); if(ex)
  var ranksTxt=Object.keys(s.ranks||{}).map(function(k){ var r=s.ranks[k]; if(!r||r.rank==null) return ''; var lbl={usnews:'US News',ft:'FT',bloomberg:'Bloomberg',qs:'QS',pq:'P&Q'}[k];
   return '<div class="f"><b>'+lbl+' '+(r.edition||'')+'</b>#'+r.rank+(r.url?' <span class="src">(<a href="'+r.url+'" rel="noopener" target="_blank">source</a>)</span>':'')+'</div>'; }).join('');
  var tr=document.createElement('tr'); tr.className='detail'; tr.id='det-'+slug;
- tr.innerHTML='<td colspan="13"><div style="font-family:var(--display);font-weight:700;color:var(--navy-900);margin-bottom:10px">'+s.name+' · '+(p.class_year||'class profile')+'</div><div class="dgrid">'
+ tr.innerHTML='<td colspan="14"><div class="row" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px"><div style="font-family:var(--display);font-weight:700;color:var(--navy-900)">'+s.name+' · '+(p.class_year||'class profile')+'</div><div style="display:flex;gap:8px"><a class="addbtn" style="text-decoration:none" href="/schools/'+slug+'/">See full profile</a>'+(s.website?'<a class="addbtn" style="text-decoration:none" href="'+s.website+'" rel="noopener" target="_blank">Official site</a>':'')+'</div></div><div class="dgrid">'
  +dfield('GMAT Focus',p.gmat_focus)+dfield('GMAT Classic',p.gmat_classic)
  +dfield('GRE Quant',p.gre_quant)+dfield('GRE Verbal',p.gre_verbal)
  +dfield('GPA',p.gpa)+dfield('Acceptance rate',p.accept_rate_pct,'%')
  +dfield('Class size',p.class_size)+dfield('Work experience',p.work_exp_years,' yrs')
  +dfield('Women',p.women_pct,'%')+dfield('International',p.intl_pct,'%')
  +dfield('Tuition per year',p.tuition_usd,'',true)+dfield('Median salary',p.salary_median_usd,'',true)
+ +dfield('Employed at 3 months',p.employment_rate_pct,'%')
  +ranksTxt+'</div></td>';
  var row=document.querySelector('tr.srow[data-slug="'+slug+'"]'); row.parentNode.insertBefore(tr,row.nextSibling); }
 

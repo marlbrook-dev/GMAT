@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#122B4E"><link rel="apple-touch-icon" href="/icons/icon-180.png">
+<title>{{NAME}} MBA: Class Profile and Rankings</title>
+<meta name="description" content="{{NAME}} full-time MBA: {{DESC_BITS}} Every figure sourced and dated. Compare it on the Start From Nowhere MBA rankings.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Manrope:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%23122B4E'/%3E%3Cpath d='M13 33 22 22l6 5 8.5-10' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M29.5 16.5H37V24' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="canonical" href="https://startfromnowhere.com/schools/{{SLUG}}/">
+<script type="application/ld+json">{{LD}}</script>
+<style>
+:root{--navy-900:#0C1F3A;--navy-800:#122B4E;--navy-600:#2C4E80;--navy-100:#DCE5F1;--navy-50:#F2F6FB;--gold-600:#A8842F;--gold-50:#FAF5E8;--gray-700:#374151;--gray-500:#6B7280;--gray-300:#D1D5DB;--gray-200:#E5E7EB;--gray-100:#F3F4F6;--gray-50:#F9FAFB;--green-600:#16A34A;--green-50:#F0FDF4;--amber-600:#D97706;--amber-50:#FFFBEB;
+--serif:'Source Serif 4',Georgia,serif;--display:'Manrope',system-ui,sans-serif;--body:'IBM Plex Sans',system-ui,sans-serif;--mono:'IBM Plex Mono',ui-monospace,monospace}
+*{box-sizing:border-box}body{margin:0;font-family:var(--body);color:var(--gray-700);background:#fff;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2{font-family:var(--serif);color:var(--navy-900);letter-spacing:-.01em;line-height:1.15;margin:0}
+a{color:var(--navy-800)}
+.wrap{max-width:960px;margin:0 auto;padding:0 24px}
+header{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--gray-200)}
+.nav{height:60px;display:flex;align-items:center;gap:20px}
+.wordmark{display:flex;align-items:center;gap:9px;font-family:var(--serif);font-weight:700;font-size:19px;color:var(--navy-900);text-decoration:none}
+.nav .links{display:flex;gap:2px;flex:1}
+.nav .links a{font-family:var(--display);font-weight:600;font-size:14px;color:var(--gray-700);text-decoration:none;padding:8px 12px;border-radius:8px}
+.nav .links a:hover{background:var(--gray-50);color:var(--navy-900)}
+.crumb{font-size:13px;color:var(--gray-500);padding:18px 0 0}
+.crumb a{color:var(--gray-500)}
+.head{padding:14px 0 26px;border-bottom:1px solid var(--gray-200);display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:flex-end}
+.head h1{font-size:32px;margin:4px 0 6px}
+.head .sub{color:var(--gray-500)}
+.badge{display:inline-block;font-family:var(--display);font-weight:700;font-size:12px;padding:3px 10px;border-radius:999px;background:var(--navy-50);color:var(--navy-800)}
+.badge.gold{background:var(--gold-50);color:var(--gold-600)}
+.scorebox{text-align:center;background:var(--navy-50);border:1px solid var(--navy-100);border-radius:12px;padding:14px 26px}
+.scorebox .r{font-family:var(--mono);font-size:34px;font-weight:600;color:var(--navy-900);line-height:1.1}
+.scorebox .l{font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--gray-500);font-weight:600}
+.btn{font-family:var(--display);font-weight:700;border-radius:8px;display:inline-flex;align-items:center;gap:8px;font-size:14px;padding:10px 16px;background:var(--navy-800);color:#fff;text-decoration:none;border:none;cursor:pointer}
+.btn:hover{background:var(--navy-900)}
+.btn.sec{background:#fff;color:var(--navy-800);border:1px solid var(--gray-300)}
+.btn.sec:hover{background:var(--gray-50)}
+.section{padding:28px 0;border-bottom:1px solid var(--gray-100)}
+.section h2{font-size:21px;margin-bottom:14px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--gray-500);text-align:left;padding:9px 10px;border-bottom:1px solid var(--gray-200)}
+td{padding:9px 10px;border-bottom:1px solid var(--gray-100);vertical-align:top}
+td.num{font-family:var(--mono)}
+.src{font-size:12px;color:var(--gray-500)}.src a{color:var(--gray-500)}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font-family:var(--display);font-weight:600;font-size:13px;background:var(--gold-50);color:var(--gold-600);border-radius:999px;padding:5px 13px}
+.note{background:var(--gray-50);border-radius:10px;padding:14px 16px;font-size:13px;color:var(--gray-500)}
+footer{padding:28px 0 40px;font-size:13px;color:var(--gray-500)}
+footer .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+@media(max-width:640px){.head{flex-direction:column;align-items:flex-start}}
+</style></head><body>
+<header><div class="wrap nav">
+<a class="wordmark" href="/"><svg viewBox="0 0 48 48" width="28" height="28" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#122B4E"/><path d="M13 33 22 22l6 5 8.5-10" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M29.5 16.5H37V24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Start From Nowhere</a>
+<nav class="links"><a href="/">Home</a><a href="/schools/">Rankings</a><a href="/app/">Trainer</a><a href="/blog/">Blog</a></nav>
+</div></header>
+
+<div class="wrap">
+<div class="crumb"><a href="/schools/">MBA rankings</a> &rsaquo; {{NAME}}</div>
+<div class="head">
+<div>
+<span class="badge{{BADGE_CLASS}}">{{BADGE}}</span>
+<h1>{{NAME}}</h1>
+<div class="sub">{{UNIVERSITY}} · {{CITY}}, {{STATE}} · {{TYPE}} · {{CLASS_YEAR}}</div>
+<div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
+<button class="btn" id="addBtn" onclick="toggleList()">+ Add to my list</button>
+{{WEBSITE_BTN}}
+<a class="btn sec" href="/app/">Train toward this school</a>
+</div>
+</div>
+<div class="scorebox"><div class="r">{{RANK_DISPLAY}}</div><div class="l">SFN rank · score {{SCORE}}</div></div>
+</div>
+
+{{SPECIALTIES_SECTION}}
+
+<div class="section"><h2>Published rankings</h2><table><thead><tr><th>Publisher</th><th>Edition</th><th class="num">Rank</th><th>Source</th></tr></thead><tbody>
+{{RANK_ROWS}}
+</tbody></table></div>
+
+<div class="section"><h2>Class profile</h2><table><thead><tr><th>Measure</th><th>Value</th><th>Source</th></tr></thead><tbody>
+{{PROFILE_ROWS}}
+</tbody></table>
+<p class="note" style="margin-top:14px">Figures are recorded exactly as published by the source named on each row, most recently checked {{UPDATED}}. A dash on the rankings table means the school does not publish the figure or we could not verify it; we never estimate or convert between GMAT editions. Confirm current numbers with the school before applying.</p></div>
+
+<div class="section"><h2>How the SFN rank works</h2><p>{{METHOD_LINE}} Full methodology, weights, and every school's per-source ranks are on the <a href="/schools/#methodology">rankings page</a>.</p></div>
+</div>
+
+<footer><div class="wrap"><span>Start From Nowhere. Rankings cited from their respective publishers. Data from the sources shown on each row.</span><span><a href="/schools/">All rankings</a> &middot; <a href="/terms.html">Terms</a> &middot; <a href="/privacy.html">Privacy</a></span></div></footer>
+
+<script>
+var SLUG={{SLUG_JSON}}, NAME={{NAME_JSON}};
+var LKEY='sfn_school_list_v1';
+function lst(){ try{ return JSON.parse(localStorage.getItem(LKEY))||{order:[],meta:{}}; }catch(e){ return {order:[],meta:{}}; } }
+function refresh(){ var on=lst().order.indexOf(SLUG)>=0; var b=document.getElementById('addBtn'); b.textContent=on?'Saved to my list':'+ Add to my list'; }
+function toggleList(){ var L=lst(); var i=L.order.indexOf(SLUG);
+ if(i>=0){ L.order.splice(i,1); delete L.meta[SLUG]; } else { L.order.push(SLUG); L.meta[SLUG]={tag:'target',note:'',name:NAME}; }
+ localStorage.setItem(LKEY,JSON.stringify(L)); refresh(); }
+refresh();
+</script>
+</body></html>
