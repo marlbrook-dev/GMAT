@@ -158,6 +158,9 @@ def school_page(s, tpl, today):
               .replace("{{SLUG}}", esc(s["slug"]))
               .replace("{{SLUG_JSON}}", json.dumps(s["slug"]))
               .replace("{{NAME_JSON}}", json.dumps(s["name"]))
+              .replace("{{GMAT_JSON}}", json.dumps(
+                  {"v": g["v"], "ed": "Focus", "stat": g.get("stat") or ""} if g.get("v") else
+                  ({"v": gc["v"], "ed": "Classic", "stat": gc.get("stat") or ""} if gc.get("v") else None)))
               .replace("{{UNIVERSITY}}", esc(s.get("university") or ""))
               .replace("{{CITY}}", esc(s.get("city") or "")).replace("{{STATE}}", esc(s.get("state") or ""))
               .replace("{{TYPE}}", esc(s.get("type") or "")).replace("{{CLASS_YEAR}}", esc((p.get("class_year") or "profile pending")))
