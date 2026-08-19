@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#122B4E"><link rel="apple-touch-icon" href="/icons/icon-180.png">
 <title>Start From Nowhere | Adaptive GMAT Focus trainer</title>
 <meta name="description" content="Start From Nowhere: adaptive GMAT Focus Edition practice that studies you back.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -135,6 +135,18 @@ table.ta td,table.ta th{text-align:left}table.ta input{transform:scale(1.2)}
 .ring{transform:rotate(-90deg)}.ring circle{fill:none;stroke-width:7;stroke-linecap:round}.ring .bgc{stroke:var(--gray-100)}.ring .fgc{stroke:var(--navy-600);transition:stroke-dashoffset .12s linear,stroke .3s ease}
 .lives{display:inline-flex;gap:5px}.lives svg{transition:opacity .3s ease,transform .3s ease}.lives svg.lost{opacity:.18;transform:scale(.8)}
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:9999}
+.mtile .qm{display:none;position:absolute;inset:0;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:800;font-size:26px;color:var(--navy-400)}
+.mtile.fdown{background:var(--navy-50)}.mtile.fdown .face{visibility:hidden}.mtile.fdown .qm{display:flex}
+.mtile.fdown.front{border-top:1.5px solid var(--border-default)}
+.ghub{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-4)}@media(max-width:1000px){.ghub{grid-template-columns:repeat(2,1fr)}}@media(max-width:640px){.ghub{grid-template-columns:1fr}}
+.gcard{display:flex;flex-direction:column;gap:8px}.gcard .gstats{font-size:12.5px;color:var(--text-muted);margin-top:auto}
+.gicon.big{width:44px;height:44px;margin-bottom:4px;display:flex;align-items:center;justify-content:center}.gicon.big svg{width:24px;height:24px}
+.nc-vs{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:stretch}
+.nc-box{border:1.5px solid var(--border-default);border-radius:var(--radius-lg);background:var(--surface-card);padding:26px 16px;text-align:center;font-family:var(--font-display);font-weight:800;font-size:clamp(20px,3vw,30px);color:var(--text-heading);display:flex;align-items:center;justify-content:center;min-height:110px}
+.nc-mid{display:flex;align-items:center;font-family:var(--font-display);font-weight:700;color:var(--text-muted)}
+.nc-box.win{border-color:var(--status-success);background:var(--status-success-bg,#effaf3)}
+.nc-box.dim{opacity:.45}
+@media(max-width:520px){.mgrid{grid-template-columns:repeat(2,1fr)}.mtile{min-height:92px;font-size:12.5px;padding:10px 8px}.bz-opt{padding:13px 14px;font-size:14px}}
 </style></head><body>
 <header class="app"><div class="hwrap">
 <div class="wordmark"><svg viewBox="0 0 48 48" width="30" height="30" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#122B4E"/><path d="M13 33 22 22l6 5 8.5-10" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M29.5 16.5H37V24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Start From Nowhere</div>
@@ -160,7 +172,7 @@ table.ta td,table.ta th{text-align:left}table.ta input{transform:scale(1.2)}
 const SUPABASE_URL="https://ftsqwbzhkzuudogkvoqa.supabase.co", SUPABASE_KEY="sb_publishable_GToT4fK6RiwCZpPFE3bGiw_ThXq9qel", APP_VERSION="0.3.0";
 {{BANKS}}
 {{ENGINE}}
-const BANK = [].concat(BANK_QUANT, BANK_QUANT2, BANK_QUANT3, BANK_VERBAL, BANK_VERBAL2, BANK_VERBAL3, BANK_DI, BANK_DI2, BANK_DI3);
+const BANK = [].concat(BANK_QUANT, BANK_QUANT2, BANK_QUANT3, BANK_QUANT4, BANK_VERBAL, BANK_VERBAL2, BANK_VERBAL3, BANK_VERBAL4, BANK_DI, BANK_DI2, BANK_DI3, BANK_DI4);
 const BANK_BY_ID = {}; BANK.forEach(q=>BANK_BY_ID[q.id]=q);
 const SEC_COLOR={Q:'var(--section-quant)',V:'var(--section-verbal)',DI:'var(--section-data)'}, SEC_BG={Q:'var(--section-quant-bg)',V:'var(--section-verbal-bg)',DI:'var(--section-data-bg)'};
 const SEC_SHORT={Q:'Quantitative',V:'Verbal',DI:'Data Insights'};
@@ -212,6 +224,7 @@ function renderDash(){
  let html='<div class="stack">';
  html+='<div class="row" style="align-items:flex-end;justify-content:space-between"><div><h1 style="font-size:var(--text-2xl);font-weight:700">'+greeting()+', '+esc(state.settings.name||'Hunter')+'</h1><p class="muted" style="margin:6px 0 0">'+sub+(state.settings.program&&state.settings.program.goal?' Goal: '+esc(state.settings.program.goal)+'.':'')+'</p></div><button class="btn lg" onclick="startAdaptive(10)">Start today\'s round</button></div>';
  html+='<div class="tiles">'+tile('Questions today',today,'of '+state.settings.dailyGoal+' goal','')+tile('Accuracy',total?Math.round(correct/total*100)+'%':'-','all time','')+tile('Avg. pace',avgPace?fmtSecs(avgPace):'-','per question','')+tile('Review due',due,'items','')+'</div>';
+ html+=qotdCardHtml();
  html+='<div class="card"><div class="card-head"><span class="card-title">Study calendar</span><span class="small">last 12 weeks</span></div>'+calendarHtml()+'</div>';
  // section mastery + today's plan
  html+='<div class="two"><div class="card"><div class="card-head"><span class="card-title">Section mastery</span>'+badge('Adaptive','info')+'</div><div class="stack-4">';
@@ -230,7 +243,9 @@ function renderDash(){
   game('Timed sprint','Fifteen questions, countdown at section pace.','DI',"startSprint(15)")+
   game('Mock section','A full section under the real 45-minute clock.','Q',"startMockIntro()")+
   game('Match','Pair each concept with its method before the clock runs.','V',"gmStartMatch('ALL')")+
+  game('Memory','The match board, face down. Recall where each pair lives.','V',"gmStartMemory('ALL')")+
   game('Blitz','Sixty seconds of rapid recall. Streaks multiply your score.','Q',"gmStartBlitz('ALL')")+
+  game('Number crunch','Which is bigger? No-calculator number sense, timed.','Q',"gmStartCrunch()")+
   game('Boss round','Five real questions, three lives, beat the pace clock.','DI',"gmStartBoss()")+
   game('Flashcards','Formulas and methods, sorted by what you still miss.','V',"show('cards')")+
   game('Custom drill','Pick sections, skills, difficulty and length.','G',"show('drill')")+
@@ -332,6 +347,8 @@ function submitAnswer(){ if(session.answered) return; const q=session.qs[session
  if(!q.answerType&&session.choice===null){toast('Choose an answer first.');return;}
  chosen=currentAnswer(q); correct=gradeChosen(q,chosen);
  clearInterval(qTimer); session.answered=true; const secs=(Date.now()-session.qStart)/1000; session.pending={q,chosen,correct,secs};
+ if(session.mode==='qotd'){ const s=qotdState(); const yest=new Date(Date.now()-86400000).toDateString();
+  s.streak=correct?((s.date===yest?s.streak:0)+1):0; s.date=new Date().toDateString(); s.correct=correct; persist(); track('game_completed',{game:'qotd',correct,streak:s.streak}); }
  if(q.answerType!=='tpa'){ document.querySelectorAll('.opt').forEach((l,j)=>{ l.disabled=true; l.classList.remove('selected'); if(j===q.answer) l.classList.add('correct'); else if(j===chosen) l.classList.add('incorrect'); }); }
  const flag=timingFlag(q.section,secs); const flagTxt=flag==='slow'?' That was over 1.3x section pace.':flag==='fast'?' That was well under pace.':'';
  const ans=q.answerType==='tpa'?q.choices[q.answer[0]]+' / '+q.choices[q.answer[1]]:q.answerType==='gi'?q.statements.map(s=>s.options[s.answer]).join(' / '):q.answerType==='ta'?q.statements.map(s=>s.answer?'Yes':'No').join(' / '):String.fromCharCode(65+q.answer);
@@ -374,18 +391,36 @@ function gmConfetti(){ if(document.getElementById('confetti')) return; const c=d
  const t0=Date.now(); (function tick(){ x.clearRect(0,0,c.width,c.height); ps.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; p.a+=p.va; x.save(); x.translate(p.x,p.y); x.rotate(p.a); x.fillStyle=p.col; x.fillRect(-p.r/2,-p.r/2,p.r,p.r*0.62); x.restore(); }); if(Date.now()-t0<1800) requestAnimationFrame(tick); else c.remove(); })(); }
 function gmPop(id){ const e=document.getElementById(id); if(!e) return; e.classList.remove('scorepop'); void e.offsetWidth; e.classList.add('scorepop'); }
 function gmSecBtns(fn){ return ['ALL','Q','V','DI'].map(s=>'<button class="btn secondary sm" onclick="'+fn+'(\''+s+'\')">'+(s==='ALL'?'All':SEC_SHORT[s])+'</button>').join(''); }
+function gmIcon(name){ const p={
+ match:'<path d="M4 4h7v7H4z"/><path d="M13 13h7v7h-7z"/><path d="M13 4h7v7h-7zM4 13h7v7H4z" fill="none" stroke="currentColor" stroke-width="1.8"/>',
+ memory:'<rect x="3.5" y="5" width="8" height="14" rx="1.5"/><rect x="12.5" y="5" width="8" height="14" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/>',
+ blitz:'<path d="M13 2 4.5 13.5H11L9.5 22 18 10.5h-6.5z"/>',
+ crunch:'<path d="M6.5 4.5v5M4 7h5M15 5l4 4M19 5l-4 4M4 15.5h5M4 18.5h5M15 17h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="17" cy="14.6" r="1"/><circle cx="17" cy="19.4" r="1"/>',
+ boss:'<path d="M4 16.5 3 7l5 3.5L12 4l4 6.5L21 7l-1 9.5z"/><rect x="4.5" y="18" width="15" height="2.2" rx="1.1"/>'}[name];
+ return '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">'+p+'</svg>'; }
+function gmCard(icon,fg,bg,title,tag,tagTone,desc,stats,controls){
+ return '<div class="card gcard"><span class="gicon big" style="background:'+bg+';color:'+fg+'">'+gmIcon(icon)+'</span>'
+ +'<div class="card-head" style="margin:0"><span class="card-title">'+title+'</span>'+badge(tag,tagTone)+'</div>'
+ +'<p class="small" style="margin:0">'+desc+'</p><div class="gstats">'+stats+'</div><div class="row" style="gap:6px">'+controls+'</div></div>'; }
 function renderGames(){ gmReset(); const el=document.getElementById('v-games'); const g=gmState();
  const bestOf=(o,f)=>{ let v=null; Object.keys(o||{}).forEach(k=>{ const x=f(o[k]); if(x!=null&&(v===null||x>v)) v=x; }); return v; };
  const fastest=(o)=>{ let v=null; Object.keys(o||{}).forEach(k=>{ const x=o[k]&&o[k].best; if(x!=null&&(v===null||x<v)) v=x; }); return v; };
- const plays=['match','blitz'].reduce((t,k)=>t+Object.keys(g[k]||{}).reduce((s,x)=>s+((g[k][x]&&g[k][x].plays)||0),0),0)+((g.boss&&g.boss.plays)||0);
+ const playsOf=o=>Object.keys(o||{}).reduce((s,x)=>s+((o[x]&&o[x].plays)||0),0);
+ const plays=playsOf(g.match)+playsOf(g.memory)+playsOf(g.blitz)+((g.boss&&g.boss.plays)||0)+((g.crunch&&g.crunch.plays)||0);
  const fm=fastest(g.match), bb=bestOf(g.blitz,x=>x&&x.best), bo=g.boss&&g.boss.best;
+ const st=(o,fmt)=>{ const b=o&&o.best; return b==null?'Not played yet':('Best '+fmt(b)+' · '+o.plays+' play'+(o.plays===1?'':'s')); };
+ const stSec=(o,fmt,better)=>{ const b=better(o); const n=playsOf(o); return b==null?'Not played yet':('Best '+fmt(b)+' · '+n+' play'+(n===1?'':'s')); };
  el.innerHTML='<div class="stack">'
- +'<div><h1 style="font-size:var(--text-xl)">Games</h1><p class="muted" style="margin:6px 0 0">Five minutes of play is still deliberate practice. Every game reads and feeds the same adaptive engine as your rounds.</p></div>'
+ +'<div><h1 style="font-size:var(--text-xl)">Games</h1><p class="muted" style="margin:6px 0 0">Five minutes of play is still deliberate practice. Every game reads and feeds the same adaptive engine as your rounds, and you compete against your own bests, not a leaderboard.</p></div>'
  +'<div class="tiles">'+tile('Games played',plays,'','')+tile('Fastest match',fm?fmtSecs(fm):'-','best time','')+tile('Best blitz',bb!=null?bb:'-','points','')+tile('Best boss round',bo!=null?bo:'-','points','')+'</div>'
- +'<div class="card"><div class="card-head"><span class="section-h"><span class="dot" style="background:var(--section-verbal)"></span><span class="card-title">Match</span></span>'+badge('Flashcard pairs','info')+'</div><p class="small" style="margin:0 0 12px">Twelve tiles, six pairs. Match each concept with its method. Fewer moves and a faster clock beat your best.</p><div class="row">'+gmSecBtns('gmStartMatch')+'</div></div>'
- +'<div class="card"><div class="card-head"><span class="section-h"><span class="dot" style="background:var(--section-quant)"></span><span class="card-title">Blitz</span></span>'+badge('60 seconds','warning')+'</div><p class="small" style="margin:0 0 12px">Rapid recall against the clock. Streaks multiply your points up to 5x; anything you miss is scheduled back into Flashcards.</p><div class="row">'+gmSecBtns('gmStartBlitz')+'</div></div>'
- +'<div class="card"><div class="card-head"><span class="section-h"><span class="dot" style="background:var(--section-data)"></span><span class="card-title">Boss round</span></span>'+badge('Real questions','error')+'</div><p class="small" style="margin:0 0 12px">Five questions picked at your live skill ratings, each on the real section pace clock, three lives. Results count toward your stats and ratings.</p><div class="row"><button class="btn" onclick="gmStartBoss()">Take on the boss</button></div></div>'
- +'</div>'; }
+ +'<div class="ghub">'
+ +gmCard('match','var(--section-verbal)','var(--section-verbal-bg)','Match','Recognition','info','Twelve tiles, six pairs. Pair each concept with its method against the clock.',stSec(g.match,fmtSecs,fastest),gmSecBtns('gmStartMatch'))
+ +gmCard('memory','var(--navy-600)','var(--navy-50)','Memory','Recall','info','Same board, face down. Remember where each pair lives before flipping.',stSec(g.memory,fmtSecs,fastest),gmSecBtns('gmStartMemory'))
+ +gmCard('blitz','var(--section-quant)','var(--section-quant-bg)','Blitz','60 seconds','warning','Rapid recall. Streaks multiply points up to 5x; misses go back into Flashcards.',stSec(g.blitz,x=>x,o=>bestOf(o,x=>x&&x.best)),gmSecBtns('gmStartBlitz'))
+ +gmCard('crunch','var(--section-data)','var(--section-data-bg)','Number crunch','Estimation','warning','Which is bigger? Sixty seconds of no-calculator number sense, the Quant survival skill.',st(g.crunch,x=>x+' pts'),'<button class="btn sm" onclick="gmStartCrunch()">Start</button>')
+ +gmCard('boss','var(--status-error)','var(--status-error-bg,#fdf0ef)','Boss round','Real questions','error','Five questions at your live ratings on the real pace clock, three lives. Counts toward your stats.',st(g.boss,x=>x+' pts'),'<button class="btn sm" onclick="gmStartBoss()">Take on the boss</button>')
+ +'<div class="card gcard" style="border-style:dashed;background:var(--surface-sunken)"><span class="gicon big" style="background:var(--gray-100);color:var(--gray-700)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span><div class="card-head" style="margin:0"><span class="card-title">More in development</span></div><p class="small" style="margin:0">New games ship when they train something the current five do not. Request one from the Account tab.</p><div class="gstats"></div></div>'
+ +'</div></div>'; }
 // Match
 function gmStartMatch(sec){ gmReset(); const cards=gmPickCards(sec,6); if(cards.length<4){ toast('Not enough cards in this section yet.'); return; }
  const tiles=[]; cards.forEach((c,pi)=>{ tiles.push({p:pi,kind:'f',txt:c.front,sec:c.sec}); tiles.push({p:pi,kind:'b',txt:firstSent(c.back),sec:c.sec}); });
@@ -491,6 +526,97 @@ function gmBossEnd(win){ gmReset(); const n=gm.results.length, c=gm.results.filt
  +'<div class="card" style="text-align:left;overflow-x:auto"><table><thead><tr><th>#</th><th>Type</th><th class="num">Diff</th><th>Result</th><th class="num">Time</th><th class="num">Points</th></tr></thead><tbody>'+rows+'</tbody></table></div>'
  +'<p class="small muted" style="margin:0">Every answer here updates your skill ratings, review queue, and stats, same as a practice round.</p>'
  +'<div class="row" style="justify-content:center"><button class="btn" onclick="gmStartBoss()">Rematch</button><button class="btn secondary" onclick="renderGames()">All games</button><button class="btn ghost" onclick="show(\'review\')">Review misses</button></div></div>'; }
+// Memory: the Match board, face down
+function gmStartMemory(sec){ gmReset(); const cards=gmPickCards(sec,6); if(cards.length<4){ toast('Not enough cards in this section yet.'); return; }
+ const tiles=[]; cards.forEach((c,pi)=>{ tiles.push({p:pi,kind:'f',txt:c.front,sec:c.sec}); tiles.push({p:pi,kind:'b',txt:firstSent(c.back),sec:c.sec}); });
+ gmShuffle(tiles); gm.on=true; gm.kind='memory'; gm.sec=sec; gm.tiles=tiles; gm.up=[]; gm.found=0; gm.moves=0; gm.t0=Date.now(); gm.lock=false;
+ track('game_started',{game:'memory',sec}); show('games'); gmMemRender();
+ gm.timer=setInterval(()=>{ const e=document.getElementById('gmClock'); if(!e){ gmReset(); return; } e.textContent=fmtSecs((Date.now()-gm.t0)/1000); },500); }
+function gmMemRender(){ const el=document.getElementById('v-games');
+ el.innerHTML='<div class="stack">'
+ +'<div class="row" style="justify-content:space-between;align-items:flex-end"><div><h1 style="font-size:var(--text-xl)">Memory · '+gmSecName(gm.sec)+'</h1><p class="muted" style="margin:6px 0 0">Flip two tiles. Pairs stay up. Remember where everything lives.</p></div>'
+ +'<div class="row"><span class="badge" role="timer" aria-label="Elapsed time"><span id="gmClock">0:00</span></span><span class="badge info" id="gmMoves">0 flips</span><span class="badge success" id="gmFound">0 / '+(gm.tiles.length/2)+'</span><button class="btn ghost sm" onclick="gmQuit()">Quit</button></div></div>'
+ +'<div class="mgrid">'+gm.tiles.map((t,i)=>'<button class="mtile fdown'+(t.kind==='f'?' front':'')+'" id="mt'+i+'" style="--tilec:'+gmSecColor(t.sec)+'" onclick="gmMemPick('+i+')" aria-label="Tile '+(i+1)+'"><span class="face">'+esc(t.txt)+'</span><span class="qm" aria-hidden="true">?</span></button>').join('')+'</div>'
+ +'</div>'; }
+function gmMemPick(i){ if(!gm.on||gm.kind!=='memory'||gm.lock) return; const t=gm.tiles[i]; if(t.done||gm.up.indexOf(i)>=0) return;
+ gmTile(i).classList.remove('fdown'); gm.up.push(i); if(gm.up.length<2) return;
+ gm.moves++; const mv=document.getElementById('gmMoves'); if(mv) mv.textContent=gm.moves+' flips';
+ const a=gm.up[0], b=gm.up[1];
+ if(gm.tiles[a].p===gm.tiles[b].p&&gm.tiles[a].kind!==gm.tiles[b].kind){ gm.tiles[a].done=true; gm.tiles[b].done=true; gm.found++;
+  [a,b].forEach(k=>gmTile(k).classList.add('done')); gm.up=[];
+  const f=document.getElementById('gmFound'); if(f) f.textContent=gm.found+' / '+(gm.tiles.length/2);
+  if(gm.found===gm.tiles.length/2) gmMemDone(); }
+ else { gm.lock=true; [a,b].forEach(k=>gmTile(k).classList.add('miss'));
+  setTimeout(()=>{ [a,b].forEach(k=>{ const e=gmTile(k); if(e){ e.classList.add('fdown'); e.classList.remove('miss'); } }); gm.up=[]; gm.lock=false; },800); } }
+function gmMemDone(){ clearInterval(gm.timer); gm.timer=null; gm.on=false; const secs=Math.round((Date.now()-gm.t0)/1000);
+ const g=gmState(); if(!g.memory) g.memory={}; const rec=g.memory[gm.sec]||(g.memory[gm.sec]={best:null,plays:0}); rec.plays++;
+ const isBest=rec.best===null||secs<rec.best; if(isBest) rec.best=secs; persist();
+ track('game_completed',{game:'memory',sec:gm.sec,secs,moves:gm.moves}); gmConfetti();
+ document.getElementById('v-games').innerHTML='<div class="narrow stack" style="text-align:center"><h1 style="font-size:var(--text-2xl)">'+(isBest?'New best time!':'All pairs found')+'</h1>'
+ +'<div class="tiles" style="grid-template-columns:repeat(3,1fr)">'+tile('Time',fmtSecs(secs),isBest?'personal best':'best '+fmtSecs(rec.best),'')+tile('Flips',gm.moves,'6 is perfect','')+tile('Plays',rec.plays,gmSecName(gm.sec).toLowerCase(),'')+'</div>'
+ +'<div class="row" style="justify-content:center"><button class="btn" onclick="gmStartMemory(\''+gm.sec+'\')">Play again</button><button class="btn secondary" onclick="renderGames()">All games</button></div></div>'; }
+// Number crunch: generated no-calculator estimation duels
+function ncRound(){ const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1)); const pick=a=>a[R(0,a.length-1)];
+ const kind=pick(['pct','pct','frac','prod','pow','sqrt']); let L,Rt,lv,rv;
+ if(kind==='pct'){ const p=pick([5,10,15,20,25,30,40,50,60,75]); const n=R(2,45)*20; lv=p*n/100; L=p+'% of '+n;
+  rv=Math.random()<0.2?lv:Math.max(1,Math.round(lv*pick([0.7,0.8,0.85,1.15,1.2,1.35]))); if(rv!==lv&&Math.abs(rv-lv)/Math.max(lv,1)<0.04) rv=Math.round(lv*1.4); Rt=String(rv); }
+ else if(kind==='frac'){ const fr=pick([[1,8],[1,6],[1,4],[1,3],[3,8],[2,5],[1,2],[3,5],[5,8],[2,3],[3,4],[4,5],[5,6],[7,8]]); lv=fr[0]/fr[1]; L=fr[0]+'/'+fr[1];
+  const cands=[10,12.5,15,20,25,30,35,37.5,40,45,50,55,60,62.5,65,70,75,80,85,87.5,90]; let pv=pick(cands), tries=0;
+  while(tries++<9&&Math.abs(pv/100-lv)>1e-9&&Math.abs(pv/100-lv)<0.02) pv=pick(cands); rv=pv/100; Rt=pv+'%'; }
+ else if(kind==='prod'){ const a=R(12,29), b=R(12,29); lv=a*b; L=a+' x '+b; const base=Math.round(lv/25)*25; rv=pick([base-50,base-25,base,base+25,base+50]);
+  if(rv!==lv&&Math.abs(rv-lv)/lv<0.015) rv=rv<lv?rv-25:rv+25; Rt=String(rv); }
+ else if(kind==='pow'){ const base=pick([2,2,3,4,5]); const e=base===2?R(5,10):base===3?R(3,6):base===4?R(3,5):R(3,4); lv=Math.pow(base,e); L=base+'^'+e;
+  const off=pick([0.75,0.85,1,1.15,1.3]); rv=Math.round(lv*off); if(rv!==lv&&Math.abs(rv-lv)/lv<0.04) rv=Math.round(lv*1.3); Rt=String(rv); }
+ else { let n=R(40,140); while(Number.isInteger(Math.sqrt(n))) n++; lv=Math.sqrt(n); L='sqrt('+n+')';
+  const rr=Math.round(lv*10)/10; rv=Math.round(pick([rr-0.7,rr-0.4,rr+0.4,rr+0.7])*10)/10; Rt=rv.toFixed(1); }
+ return {L,Rt,lv,rv,ans:Math.abs(lv-rv)<1e-9?2:(lv>rv?0:1)}; }
+function ncFmt(v){ return Number.isInteger(v)?String(v):String(Math.round(v*1000)/1000); }
+function gmStartCrunch(){ gmReset(); gm.on=true; gm.kind='crunch'; gm.score=0; gm.streak=0; gm.maxStreak=0; gm.hits=0; gm.tries=0; gm.end=Date.now()+60000; gm.lock=false;
+ track('game_started',{game:'crunch'}); show('games');
+ document.getElementById('v-games').innerHTML='<div class="narrow stack">'
+ +'<div class="row" style="justify-content:space-between;align-items:center"><h1 style="font-size:var(--text-xl)">Number crunch</h1><div class="row"><span class="gstreak" id="ncStreak"></span><span class="bigscore" id="ncScore">0</span><button class="btn ghost sm" onclick="gmQuit()">Quit</button></div></div>'
+ +'<p class="muted small" style="margin:0">Quant has no calculator. Decide which side is bigger, fast.</p>'
+ +'<div class="row" style="gap:10px;align-items:center"><div class="tbar grow" id="ncWrap"><i id="ncBar" style="width:100%"></i></div><span class="mono small" id="ncLeft" role="timer" aria-label="Time left">60s</span></div>'
+ +'<div id="ncQ"></div></div>';
+ gmCrunchQ();
+ gm.timer=setInterval(()=>{ const bar=document.getElementById('ncBar'); if(!bar){ gmReset(); return; } const left=gm.end-Date.now();
+  bar.style.width=Math.max(0,left/60000*100)+'%'; const w=document.getElementById('ncWrap'); if(w) w.classList.toggle('low',left<10000);
+  const tl=document.getElementById('ncLeft'); if(tl) tl.textContent=Math.max(0,Math.ceil(left/1000))+'s'; if(left<=0) gmCrunchDone(); },120); }
+function gmCrunchQ(){ gm.nc=ncRound(); gm.lock=false; const q=document.getElementById('ncQ'); if(!q) return;
+ q.innerHTML='<div class="nc-vs" style="margin-top:6px"><div class="nc-box" id="ncA">'+esc(gm.nc.L)+'</div><div class="nc-mid">vs</div><div class="nc-box" id="ncB">'+esc(gm.nc.Rt)+'</div></div>'
+ +'<div class="row" style="margin-top:14px;justify-content:center"><button class="btn secondary" id="ncBtn0" onclick="gmCrunchAnswer(0)">Left is bigger</button><button class="btn secondary" id="ncBtn2" onclick="gmCrunchAnswer(2)">Equal</button><button class="btn secondary" id="ncBtn1" onclick="gmCrunchAnswer(1)">Right is bigger</button></div>'
+ +'<div class="small muted" style="text-align:center;margin-top:10px;min-height:18px" id="ncFb"></div>'; }
+function gmCrunchAnswer(i){ if(!gm.on||gm.kind!=='crunch'||gm.lock) return; gm.lock=true; gm.tries++; const ok=i===gm.nc.ans;
+ const A=document.getElementById('ncA'), B=document.getElementById('ncB'), fb=document.getElementById('ncFb');
+ if(gm.nc.ans===0){ if(A)A.classList.add('win'); if(B)B.classList.add('dim'); } else if(gm.nc.ans===1){ if(B)B.classList.add('win'); if(A)A.classList.add('dim'); } else { if(A)A.classList.add('win'); if(B)B.classList.add('win'); }
+ if(fb) fb.textContent=gm.nc.L+' = '+ncFmt(gm.nc.lv)+(gm.nc.ans===2?' exactly':'')+' · right side = '+ncFmt(gm.nc.rv);
+ if(ok){ gm.streak++; gm.maxStreak=Math.max(gm.maxStreak,gm.streak); gm.hits++; gm.score+=10*Math.min(5,gm.streak);
+  const s=document.getElementById('ncScore'); if(s){ s.textContent=gm.score; gmPop('ncScore'); }
+  const st=document.getElementById('ncStreak'); if(st) st.textContent=gm.streak>=2?gm.streak+' streak · x'+Math.min(5,gm.streak):'';
+  setTimeout(()=>{ if(gm.on&&gm.kind==='crunch') gmCrunchQ(); },420); }
+ else { gm.streak=0; const st=document.getElementById('ncStreak'); if(st) st.textContent='';
+  setTimeout(()=>{ if(gm.on&&gm.kind==='crunch') gmCrunchQ(); },1050); } }
+function gmCrunchDone(){ clearInterval(gm.timer); gm.timer=null; gm.on=false;
+ const g=gmState(); if(!g.crunch) g.crunch={best:null,plays:0}; g.crunch.plays++;
+ const isBest=g.crunch.best===null||gm.score>g.crunch.best; if(isBest) g.crunch.best=gm.score; persist();
+ track('game_completed',{game:'crunch',score:gm.score,hits:gm.hits,tries:gm.tries,maxStreak:gm.maxStreak}); if(isBest&&gm.score>0) gmConfetti();
+ const acc=gm.tries?Math.round(gm.hits/gm.tries*100):0;
+ document.getElementById('v-games').innerHTML='<div class="narrow stack" style="text-align:center"><h1 style="font-size:var(--text-2xl)">'+(isBest&&gm.score>0?'New best!':'Time!')+'</h1>'
+ +'<div class="bigscore" style="font-size:56px">'+gm.score+'</div><p class="muted" style="margin:0">points · best '+g.crunch.best+'</p>'
+ +'<div class="tiles" style="grid-template-columns:repeat(3,1fr)">'+tile('Answered',gm.tries,acc+'% right','')+tile('Longest streak',gm.maxStreak,'x'+Math.min(5,Math.max(1,gm.maxStreak))+' top multiplier','')+tile('Plays',g.crunch.plays,'all time','')+'</div>'
+ +'<div class="row" style="justify-content:center"><button class="btn" onclick="gmStartCrunch()">Play again</button><button class="btn secondary" onclick="renderGames()">All games</button></div></div>'; }
+// Question of the day: one deterministic daily pick, its own streak, always free
+function qotdPick(){ const d=new Date(); const key=d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate();
+ let h=key%2147483647; h=(h*48271)%2147483647; h=(h*48271)%2147483647;
+ const pool=BANK.filter(q=>!q.answerType&&!q.passageId&&q.type!=='MSR'&&(!q.passageHtml||q.type==='GT')&&Array.isArray(q.choices)&&typeof q.answer==='number');
+ return pool[h%pool.length]; }
+function qotdState(){ if(!state.qotd) state.qotd={date:null,correct:null,streak:0}; return state.qotd; }
+function startQotd(){ const s=qotdState(); if(s.date===new Date().toDateString()){ toast('Today\'s question is done. A new one arrives tomorrow.'); return; }
+ gmReset(); track('game_started',{game:'qotd'}); beginSession([qotdPick()],'qotd'); }
+function qotdCardHtml(){ const s=qotdState(); const done=s.date===new Date().toDateString();
+ return '<div class="card"><div class="card-head"><span class="card-title">Question of the day</span>'+(s.streak>1?badge(s.streak+' day streak','accent'):badge('Daily','info'))+'</div>'
+ +'<div class="row" style="justify-content:space-between"><p class="small" style="margin:0">'+(done?(s.correct?'Solved. Come back tomorrow to keep the streak alive.':'Missed today\'s. The streak resets, tomorrow is a fresh one.'):'One question, picked for everyone today. Free every day, no cap.')+'</p>'
+ +(done?(s.correct?badge('Correct','success'):badge('Missed','error')):'<button class="btn sm" onclick="startQotd()">Answer it</button>')+'</div></div>'; }
 function renderCards(){ const el=document.getElementById('v-cards'); const due=dueCards(state,CARDS,fc.sec); const total=CARDS.filter(c=>fc.sec==='ALL'||c.sec===fc.sec).length; const known=CARDS.filter(c=>(fc.sec==='ALL'||c.sec===fc.sec)&&state.cards&&state.cards[c.id]&&state.cards[c.id].box>=3).length;
  let html='<div class="narrow stack"><div><h1 style="font-size:var(--text-xl)">Flashcards</h1><p class="muted" style="margin:6px 0 0">Formulas and methods. Mark each card Know it or Still learning; cards you know come back less often, cards you miss come back today.</p></div>';
  html+='<div class="row"><div class="chips">'+[['ALL','All'],['Q','Quant'],['V','Verbal'],['DI','Data Insights'],['G','Pacing']].map(x=>'<span class="chip-t '+(fc.sec===x[0]?'on':'')+'" onclick="fc.sec=\''+x[0]+'\';fc.queue=[];renderCards()">'+x[1]+'</span>').join('')+'</div><span class="grow"></span><span class="small mono">'+due.length+' due · '+known+'/'+total+' known</span></div>';
