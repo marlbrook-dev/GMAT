@@ -86,12 +86,12 @@ footer .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
 <footer><div class="wrap"><span>Start From Nowhere. Rankings cited from their respective publishers. Data from the sources shown on each row.</span><span><a href="/schools/">All rankings</a> &middot; <a href="/terms.html">Terms</a> &middot; <a href="/privacy.html">Privacy</a></span></div></footer>
 
 <script>
-var SLUG={{SLUG_JSON}}, NAME={{NAME_JSON}};
+var SLUG={{SLUG_JSON}}, NAME={{NAME_JSON}}, GMAT={{GMAT_JSON}};
 var LKEY='sfn_school_list_v1';
 function lst(){ try{ return JSON.parse(localStorage.getItem(LKEY))||{order:[],meta:{}}; }catch(e){ return {order:[],meta:{}}; } }
 function refresh(){ var on=lst().order.indexOf(SLUG)>=0; var b=document.getElementById('addBtn'); b.textContent=on?'Saved to my list':'+ Add to my list'; }
 function toggleList(){ var L=lst(); var i=L.order.indexOf(SLUG);
- if(i>=0){ L.order.splice(i,1); delete L.meta[SLUG]; } else { L.order.push(SLUG); L.meta[SLUG]={tag:'target',note:'',name:NAME}; }
+ if(i>=0){ L.order.splice(i,1); delete L.meta[SLUG]; } else { L.order.push(SLUG); L.meta[SLUG]={tag:'target',note:'',name:NAME,gmat:GMAT}; }
  localStorage.setItem(LKEY,JSON.stringify(L)); refresh(); }
 refresh();
 </script>
