@@ -178,7 +178,7 @@ body.focus header.app,body.focus footer.app{display:none}
 const SUPABASE_URL="https://ftsqwbzhkzuudogkvoqa.supabase.co", SUPABASE_KEY="sb_publishable_GToT4fK6RiwCZpPFE3bGiw_ThXq9qel", APP_VERSION="0.3.0";
 {{BANKS}}
 {{ENGINE}}
-const BANK = [].concat(BANK_QUANT, BANK_QUANT2, BANK_QUANT3, BANK_QUANT4, BANK_VERBAL, BANK_VERBAL2, BANK_VERBAL3, BANK_VERBAL4, BANK_DI, BANK_DI2, BANK_DI3, BANK_DI4);
+const BANK = [].concat(BANK_QUANT, BANK_QUANT2, BANK_QUANT3, BANK_QUANT4, BANK_QUANT5, BANK_VERBAL, BANK_VERBAL2, BANK_VERBAL3, BANK_VERBAL4, BANK_VERBAL5, BANK_DI, BANK_DI2, BANK_DI3, BANK_DI4, BANK_DI5);
 const BANK_BY_ID = {}; BANK.forEach(q=>BANK_BY_ID[q.id]=q);
 const SEC_COLOR={Q:'var(--section-quant)',V:'var(--section-verbal)',DI:'var(--section-data)'}, SEC_BG={Q:'var(--section-quant-bg)',V:'var(--section-verbal-bg)',DI:'var(--section-data-bg)'};
 const SEC_SHORT={Q:'Quantitative',V:'Verbal',DI:'Data Insights'};
@@ -237,12 +237,13 @@ function renderDash(){
  // section mastery + today's plan
  html+='<div class="two"><div class="card"><div class="card-head"><span class="card-title">Section mastery</span>'+badge('Adaptive','info')+'</div><div class="stack-4">';
  ['Q','V','DI'].forEach(sec=>{ const ss=sectionSummary(state,sec); const m=ss.meanR===null?0:masteryPct(ss.meanR); html+=pbar(SEC_SHORT[sec]+(ss.n?' <span class="mono" style="font-weight:500">'+ss.n+' items</span>':''),m,SEC_COLOR[sec]); });
- html+='</div><p class="small" style="margin:16px 0 0">'+nextStepText()+'</p></div>';
+ const prof=SKILLS.map(s=>skillStats(state,s.id)).filter(st=>st.n>=6&&st.r>=1250).length;
+ html+='</div><p class="small" style="margin:14px 0 0"><b>'+prof+' of '+SKILLS.length+'</b> skills at Proficient or better (rating 1250+).</p><p class="small" style="margin:8px 0 0">'+nextStepText()+'</p></div>';
  html+='<div class="card"><div class="card-head"><span class="card-title">Today\'s plan</span>'+badge('Day '+(studyDayIndex()),'accent')+'</div><div class="stack-4" style="gap:10px">'+planRows()+'</div></div></div>';
  // skills table per section
  ['Q','V','DI'].forEach(sec=>{ const ss=sectionSummary(state,sec);
   html+='<div class="card"><div class="card-head"><span class="section-h"><span class="dot" style="background:'+SEC_COLOR[sec]+'"></span><span class="card-title">'+SECTION_META[sec].name+'</span></span>'+badge(ss.band)+'</div><table><thead><tr><th>Skill (official score report label)</th><th class="num">Rating</th><th>Trend</th><th class="num">Items</th><th class="num">Accuracy</th><th class="num">Avg time</th><th>Status</th></tr></thead><tbody>';
-  SKILLS.filter(s=>s.section===sec).forEach(s=>{ const st=skillStats(state,s.id); const tone=st.status==='green'?'success':st.status==='amber'?'warning':st.status==='red'?'error':st.status==='calibrating'?'info':''; const label=st.status==='untested'?'Not tested':st.status==='calibrating'?'Calibrating':st.status==='green'?'On target':st.status==='amber'?'Developing':'Priority';
+  SKILLS.filter(s=>s.section===sec).forEach(s=>{ const st=skillStats(state,s.id); const tier=tierOf(st.r,st.n); const tone=tier.tone; const label=tier.name;
    html+='<tr><td>'+s.label+'</td><td class="num"><b>'+st.r+'</b></td><td>'+spark(state.skills[s.id].hist)+'</td><td class="num">'+st.n+'</td><td class="num">'+pct(st.acc)+'</td><td class="num">'+(st.avg?fmtSecs(st.avg):'-')+' <span class="small">/ '+fmtSecs(SECTION_META[sec].allot)+'</span></td><td>'+badge(label,tone)+'</td></tr>'; });
   html+='</tbody></table></div>'; });
  // games
@@ -250,6 +251,8 @@ function renderDash(){
   game('Quick 10','Ten adaptive questions across your weakest skills.','Q',"startAdaptive(10)")+
   game('Timed sprint','Fifteen questions, countdown at section pace.','DI',"startSprint(15)")+
   game('Mock section','A full section under the real 45-minute clock.','Q',"startMockIntro()")+
+  game('Weakest skill','Ten questions on your lowest-rated skill, one tap.','Q',"startWeakest()")+
+  game('Missed questions','Rework what you got wrong, oldest first.','DI',"startMissed()")+
   game('Match','Pair each concept with its method before the clock runs.','V',"gmStartMatch('ALL')")+
   game('Memory','The match board, face down. Recall where each pair lives.','V',"gmStartMemory('ALL')")+
   game('Blitz','Sixty seconds of rapid recall. Streaks multiply your score.','Q',"gmStartBlitz('ALL')")+
@@ -269,6 +272,18 @@ function planRows(){ const today=state.attempts.filter(a=>new Date(a.ts).toDateS
 // ---------- practice session ----------
 let session=null, qTimer=null;
 function renderStudyHome(){ document.getElementById('v-study').innerHTML='<div class="narrow stack"><div><h1 style="font-size:var(--text-xl)">Practice</h1><p class="muted" style="margin:6px 0 0">Adaptive rounds pull from your weakest skills at a difficulty you should clear about 70% of the time, plus review of past misses. Every question is timed against the real section pace.</p></div><div class="card"><div class="card-title" style="margin-bottom:12px">Adaptive round</div><div class="row"><button class="btn" onclick="startAdaptive(10)">10 questions</button><button class="btn" onclick="startAdaptive(15)">15 questions</button><button class="btn" onclick="startAdaptive(20)">20 questions</button></div><div class="card-title" style="margin:20px 0 12px">One section</div><div class="row"><button class="btn secondary" onclick="startAdaptive(10,[\'Q\'])">Quant 10</button><button class="btn secondary" onclick="startAdaptive(10,[\'V\'])">Verbal 10</button><button class="btn secondary" onclick="startAdaptive(10,[\'DI\'])">Data Insights 10</button></div><div class="card-title" style="margin:20px 0 12px">Mock section</div><div class="small muted" style="margin-bottom:12px">The full test-day experience: 45 minutes, no feedback until the end, 3 answer changes at review.</div><div class="row"><button class="btn secondary" onclick="startMock(\'Q\')">Quant 21</button><button class="btn secondary" onclick="startMock(\'V\')">Verbal 23</button><button class="btn secondary" onclick="startMock(\'DI\')">Data Insights 20</button></div></div></div>'; }
+function startWeakest(){ if(!planGate('question')) return;
+ const ranked=SKILLS.map(s=>({s,st:skillStats(state,s.id)})).filter(x=>x.st.n>0).sort((a,b)=>a.st.r-b.st.r);
+ const target=ranked.length?ranked[0].s:SKILLS[0];
+ const qs=pickQuestions(BANK,state,{count:10,skills:[target.id]});
+ if(!qs.length){ toast('No questions available for '+target.label+'.'); return; }
+ toast('Targeting your weakest skill: '+target.label+'.');
+ beginSession(qs,'weakest'); }
+function startMissed(){ if(!planGate('question')) return;
+ const last={}; state.attempts.forEach(a=>{ last[a.qid]=a; });
+ const qs=Object.values(last).filter(a=>!a.correct&&BANK_BY_ID[a.qid]).sort((a,b)=>a.ts-b.ts).slice(0,10).map(a=>BANK_BY_ID[a.qid]);
+ if(!qs.length){ toast('No missed questions yet. Nice.'); return; }
+ beginSession(qs,'missed'); }
 function startSprint(n){ if(!planGate('question')) return; const qs=pickQuestions(BANK,state,{count:n||15}); if(!qs.length){toast('No questions match.');return;} beginSession(qs,'sprint'); }
 function sortTable(tbl,ci){ const tb=tbl.tBodies[0]; const rows=[...tb.rows]; const asc=tbl._sortCol===ci?!tbl._asc:true; tbl._sortCol=ci; tbl._asc=asc; const val=r=>{ const t=r.cells[ci].textContent.replace(/[$,%]/g,'').trim(); const n=parseFloat(t); return isNaN(n)?t.toLowerCase():n; }; rows.sort((x,y)=>{ const a=val(x),b=val(y); return (a<b?-1:a>b?1:0)*(asc?1:-1); }); rows.forEach(r=>tb.appendChild(r)); }
 function startAdaptive(n,sections){ if(!planGate('question')) return; const qs=pickQuestions(BANK,state,{count:n,sections}); if(!qs.length){toast('No questions match.');return;} beginSession(qs,'adaptive'); }
@@ -371,7 +386,7 @@ function nextQuestion(){ const p=session.pending; if(!p) return; if(!p.correct&&
  const flag=recordAttempt(state,p.q,p.chosen,p.correct,p.secs,session.reason,session.guessed,session.id); session.results.push({q:p.q,correct:p.correct,secs:p.secs,flag,reason:session.reason}); session.pending=null; Cloud.logAttempt(state.attempts[state.attempts.length-1]); track('question_answered',{qid:p.q.id,section:p.q.section,skill:p.q.skill,correct:p.correct,secs:Math.round(p.secs)}); persist(); updateHeader();
  session.i++; if(session.i<session.qs.length) renderQuestion(); else finishSession(); }
 function endSession(){ clearInterval(qTimer); setFocus(false); if(session.results.length) finishSession(); else { session=null; renderStudyHome(); } }
-function finishSession(){ clearInterval(qTimer); const r=session.results; const n=r.length, c=r.filter(x=>x.correct).length; const avg=r.reduce((a,b)=>a+b.secs,0)/n; const total=r.reduce((a,b)=>a+b.secs,0);
+function finishSession(){ clearInterval(qTimer); setFocus(false); const r=session.results; const n=r.length, c=r.filter(x=>x.correct).length; const avg=r.reduce((a,b)=>a+b.secs,0)/n; const total=r.reduce((a,b)=>a+b.secs,0);
  state.sessions.push({id:session.id,mode:session.mode,ts:Date.now(),n,c,avg:Math.round(avg)}); track('round_completed',{mode:session.mode,correct:c,total:n,secs:Math.round(total)}); if(Cloud.user) Cloud.client.from('sessions').upsert({id:session.id,user_id:Cloud.user.id,mode:session.mode,n,c,avg_secs:Math.round(avg)}).then(()=>{}); persist();
  const pctv=Math.round(c/n*100); const secs=[...new Set(r.map(x=>x.q.section))].map(s=>SEC_SHORT[s]).join(' & ');
  const bySkill={}; r.forEach(x=>{ const k=x.q.skill; bySkill[k]=bySkill[k]||{n:0,c:0}; bySkill[k].n++; if(x.correct) bySkill[k].c++; });
@@ -388,6 +403,10 @@ const gm={on:false,timer:null};
 function gmReset(){ if(gm.timer){clearInterval(gm.timer);gm.timer=null;} gm.on=false; gm.kind=null; setFocus(false); }
 function gmQuit(){ gmReset(); renderGames(); }
 function gmState(){ if(!state.games) state.games={}; return state.games; }
+function tierOf(r,n){ if(!n||n<6) return {name:n?'Calibrating':'Not tested',tone:n?'info':''};
+ if(r>=1450) return {name:'Mastered',tone:'accent'}; if(r>=1350) return {name:'Advanced',tone:'success'};
+ if(r>=1250) return {name:'Proficient',tone:'success'}; if(r>=1100) return {name:'Building',tone:'warning'};
+ return {name:'Foundation',tone:'error'}; }
 function targetSchools(){ try{ const L=JSON.parse(localStorage.getItem('sfn_school_list_v1')); if(!L||!L.order) return []; return L.order.map(sl=>Object.assign({slug:sl},(L.meta&&L.meta[sl])||{})).filter(x=>x.name); }catch(e){ return []; } }
 function gmSecName(sec){ return sec==='ALL'?'All sections':(SEC_SHORT[sec]||'General'); }
 function gmSecColor(sec){ return SEC_COLOR[sec]||'var(--gray-700)'; }

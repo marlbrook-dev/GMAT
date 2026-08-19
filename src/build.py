@@ -1,6 +1,6 @@
 import pathlib, subprocess, sys, tempfile, os
 d = pathlib.Path(__file__).parent; root = d.parent
-BANK_FILES = ["bank_quant.js","bank_quant2.js","bank_quant3.js","bank_quant4.js","bank_verbal.js","bank_verbal2.js","bank_verbal3.js","bank_verbal4.js","bank_di.js","bank_di2.js","bank_di3.js","bank_di4.js","cards.js","cards2.js"]
+BANK_FILES = ["bank_quant.js","bank_quant2.js","bank_quant3.js","bank_quant4.js","bank_quant5.js","bank_verbal.js","bank_verbal2.js","bank_verbal3.js","bank_verbal4.js","bank_verbal5.js","bank_di.js","bank_di2.js","bank_di3.js","bank_di4.js","bank_di5.js","cards.js","cards2.js","cards3.js"]
 banks = "\n".join((d/f).read_text() for f in BANK_FILES)
 engine = (d/"engine.js").read_text(); tpl = (d/"app_template.html").read_text()
 out = tpl.replace("{{BANKS}}", banks).replace("{{ENGINE}}", engine)
