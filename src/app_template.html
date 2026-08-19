@@ -431,15 +431,15 @@ async function renderAdmin(){ const el=document.getElementById('v-admin'); const
  +tile('Accuracy · 7d',(d.accuracy_7d!=null?Math.round(d.accuracy_7d*100)+'%':'n/a'),'','')
  +'</div>'
  +'<div class="grid2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">'
- +'<div class="card"><div class="card-head"><span class="card-title">Answers per day · 30d</span><button class="btn sm secondary" onclick="csvDownload('answers-per-day',window._bi.attempts_by_day)">CSV</button></div>'+adminBars(d.attempts_by_day,'n')+'</div>'
- +'<div class="card"><div class="card-head"><span class="card-title">Signups per day · 30d</span><button class="btn sm secondary" onclick="csvDownload('signups-per-day',window._bi.signups_by_day)">CSV</button></div>'+adminBars(d.signups_by_day,'n')+'</div>'
+ +'<div class="card"><div class="card-head"><span class="card-title">Answers per day · 30d</span><button class="btn sm secondary" onclick="csvDownload(\'answers-per-day\',window._bi.attempts_by_day)">CSV</button></div>'+adminBars(d.attempts_by_day,'n')+'</div>'
+ +'<div class="card"><div class="card-head"><span class="card-title">Signups per day · 30d</span><button class="btn sm secondary" onclick="csvDownload(\'signups-per-day\',window._bi.signups_by_day)">CSV</button></div>'+adminBars(d.signups_by_day,'n')+'</div>'
  +'</div>'
  +'<div class="grid2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">'
  +'<div class="card"><div class="card-head"><span class="card-title">Rounds by mode · 30d</span></div><table><thead><tr><th>Mode</th><th class="num">Rounds</th></tr></thead><tbody>'+modeRows+'</tbody></table></div>'
  +'<div class="card"><div class="card-head"><span class="card-title">Events · 7d</span></div><table><thead><tr><th>Event</th><th class="num">Count</th></tr></thead><tbody>'+evRows+'</tbody></table></div>'
  +'</div>'
- +'<div class="card"><div class="card-head"><span class="card-title">Hardest skills, all users</span><button class="btn sm secondary" onclick="csvDownload('skill-difficulty',window._bi.skill_difficulty)">CSV</button></div><table><thead><tr><th>Skill</th><th class="num">Answers</th><th class="num">Accuracy</th></tr></thead><tbody>'+skRows+'</tbody></table></div>'
- +'<div class="card"><div class="card-head"><span class="card-title">Item quality flags</span><button class="btn sm secondary" onclick="csvDownload('item-flags',window._bi.item_flags)">CSV</button></div><table><thead><tr><th>Item</th><th class="num">Answers</th><th class="num">Accuracy</th><th class="num">Median time</th></tr></thead><tbody>'+itRows+'</tbody></table><div class="small muted" style="margin-top:8px">Under 25%: probably broken, ambiguous, or mis-keyed. Over 95%: too easy for its difficulty label. Fix in the bank files and rebuild.</div></div>'
+ +'<div class="card"><div class="card-head"><span class="card-title">Hardest skills, all users</span><button class="btn sm secondary" onclick="csvDownload(\'skill-difficulty\',window._bi.skill_difficulty)">CSV</button></div><table><thead><tr><th>Skill</th><th class="num">Answers</th><th class="num">Accuracy</th></tr></thead><tbody>'+skRows+'</tbody></table></div>'
+ +'<div class="card"><div class="card-head"><span class="card-title">Item quality flags</span><button class="btn sm secondary" onclick="csvDownload(\'item-flags\',window._bi.item_flags)">CSV</button></div><table><thead><tr><th>Item</th><th class="num">Answers</th><th class="num">Accuracy</th><th class="num">Median time</th></tr></thead><tbody>'+itRows+'</tbody></table><div class="small muted" style="margin-top:8px">Under 25%: probably broken, ambiguous, or mis-keyed. Over 95%: too easy for its difficulty label. Fix in the bank files and rebuild.</div></div>'
  +'</div>'; }
 // ---------- partners CRM (admin-only tables crm_contacts / crm_notes) ----------
 const CRM_STAGES=['lead','contacted','in_talks','agreed','active','passed'];
@@ -477,7 +477,7 @@ async function renderAdminCRM(el,preview){
  +'<input type="text" id="crm-action" placeholder="Next action" aria-label="Next action" style="width:160px"><input type="date" id="crm-date" aria-label="Next action date">'
  +'<button class="btn sm" onclick="crmAdd()">Add</button></div></div>'
  +'<div class="row" style="gap:8px;flex-wrap:wrap">'+counts.map(([s,n])=>'<span class="badge'+(n?' accent':'')+'">'+CRM_STAGE_LABEL[s]+' '+n+'</span>').join('')+'</div>'
- +'<div class="card" style="overflow-x:auto"><div class="card-head"><span class="card-title">Contacts</span><button class="btn sm secondary" onclick="csvDownload('crm-contacts',window._crm)">Export CSV</button></div><table><thead><tr><th>Who</th><th>Type</th><th>Contact</th><th>Stage</th><th>Next action</th><th></th></tr></thead><tbody>'
+ +'<div class="card" style="overflow-x:auto"><div class="card-head"><span class="card-title">Contacts</span><button class="btn sm secondary" onclick="csvDownload(\'crm-contacts\',window._crm)">Export CSV</button></div><table><thead><tr><th>Who</th><th>Type</th><th>Contact</th><th>Stage</th><th>Next action</th><th></th></tr></thead><tbody>'
  +(rows.length?rows.map(rowHtml).join(''):'<tr><td colspan="6" class="empty">No contacts yet. Add the first tutor, MBA club, or affiliate above.</td></tr>')+'</tbody></table></div>'
  +'</div>'; }
 async function crmAdd(){ if(crmPreviewOn()){toast('Preview only.');return;} const g=id=>document.getElementById(id).value.trim();
