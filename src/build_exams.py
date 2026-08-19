@@ -31,8 +31,8 @@ def txt(f):
 
 def exam_page(e, tpl, today):
     live = e["slug"] in LIVE
-    cta = ('<a class="btn" href="/app/">Start training free</a>' if live else
-           f'<a class="btn" href="mailto:editors@startfromnowhere.com?subject={esc(e["short"])}%20waitlist">Join the {esc(e["short"])} waitlist</a>')
+    cta = ('<a class="btn" href="/app/">Start Training Free</a>' if live else
+           f'<a class="btn" href="mailto:editors@startfromnowhere.com?subject={esc(e["short"])}%20waitlist">Join the {esc(e["short"])} Waitlist</a>')
     reg = (e.get("maker") or {}).get("register_url")
     reg_btn = f'<a class="btn sec" href="{esc(reg)}" rel="noopener" target="_blank">Register at {esc((e.get("maker") or {}).get("name") or "the official site")}</a>' if reg else ""
     def brief(s, cap=46):
@@ -45,12 +45,12 @@ def exam_page(e, tpl, today):
     tiles = []
     tt = txt(e.get("total_time"))
     if tt:
-        tiles.append(("Total time", brief(tt)))
+        tiles.append(("Total Time", brief(tt)))
     if e.get("sections"):
         tiles.append(("Sections", str(len(e["sections"]))))
     ss = txt(e.get("score_scale"))
     if ss:
-        tiles.append(("Score scale", brief(ss)))
+        tiles.append(("Score Scale", brief(ss)))
     cost = (e.get("cost_usd") or {})
     if cost.get("v") is not None:
         tiles.append(("Cost", "$" + str(cost["v"])))
@@ -60,7 +60,7 @@ def exam_page(e, tpl, today):
         tiles.append(("Cost", " / ".join(monies[:2]) if monies else brief(cost["note"])))
     val = (e.get("validity_years") or {})
     if val.get("v") is not None:
-        tiles.append(("Scores valid", f"{val['v']} years"))
+        tiles.append(("Scores Valid", f"{val['v']} years"))
     tiles_html = "".join(f'<div class="tile"><div class="l">{esc(l)}</div><div class="v">{esc(v)}</div></div>' for l, v in tiles[:5])
 
     sec_rows = ""
@@ -84,17 +84,17 @@ def exam_page(e, tpl, today):
             rows.append((label, f["text"], src_note(f)))
     add("Cost", e.get("cost_usd"), money=True)
     add("Delivery", e.get("delivery"))
-    add("Score validity", {"v": f"{val['v']} years", "src": val.get("src"), "year": val.get("year"), "url": val.get("url")} if val.get("v") is not None else None)
+    add("Score Validity", {"v": f"{val['v']} years", "src": val.get("src"), "year": val.get("year"), "url": val.get("url")} if val.get("v") is not None else None)
     add("Retakes", e.get("retake_policy"))
-    add("Score release", e.get("score_release"))
+    add("Score Release", e.get("score_release"))
     facts_rows = "".join(f'<tr><td>{esc(l)}</td><td>{esc(v)}{s}</td></tr>' for l, v, s in rows)
-    logistics = f'<div class="section"><h2>Cost and logistics</h2><div class="tw"><table><tbody>{facts_rows}</tbody></table></div><p class="small">Fees and policies change; confirm on the official registration page before booking.</p></div>' if facts_rows else ""
+    logistics = f'<div class="section"><h2>Cost and Logistics</h2><div class="tw"><table><tbody>{facts_rows}</tbody></table></div><p class="small">Fees and policies change; confirm on the official registration page before booking.</p></div>' if facts_rows else ""
 
     used = txt(e.get("used_for")) or ""
     acc = txt(e.get("acceptance")) or ""
     usage = ""
     if used or acc:
-        usage = '<div class="section"><h2>What it is for and who accepts it</h2>'
+        usage = '<div class="section"><h2>What It Is For and Who Accepts It</h2>'
         if used:
             usage += f'<p>{esc(used)}{src_note(e.get("used_for"))}</p>'
         if acc:
@@ -105,10 +105,10 @@ def exam_page(e, tpl, today):
     facts = ""
     if kf:
         lis = "".join(f'<li>{esc(f["text"])}{src_note(f)}</li>' for f in kf)
-        facts = f'<div class="section"><h2>Worth knowing</h2><ul class="kf">{lis}</ul></div>'
+        facts = f'<div class="section"><h2>Worth Knowing</h2><ul class="kf">{lis}</ul></div>'
 
-    prep = ('<div class="cta"><h2>Train for it here</h2><p>The Start From Nowhere trainer is live for this exam: adaptive practice, mock sections, games, and flashcards, free to start with no account.</p><a class="btn" href="/app/">Open the trainer</a></div>' if live else
-            f'<div class="cta"><h2>Prep is on the way</h2><p>Our adaptive trainer for the {esc(e["short"])} is in development: the same engine, games, and mock sections already live for the GMAT. Join the waitlist and you will be first in.</p>{cta}</div>')
+    prep = ('<div class="cta"><h2>Train for It Here</h2><p>The Start From Nowhere trainer is live for this exam: adaptive practice, mock sections, games, and flashcards, free to start with no account.</p><a class="btn" href="/app/">Open the trainer</a></div>' if live else
+            f'<div class="cta"><h2>Prep Is on the Way</h2><p>Our adaptive trainer for the {esc(e["short"])} is in development: the same engine, games, and mock sections already live for the GMAT. Join the waitlist and you will be first in.</p>{cta}</div>')
 
     ld = json.dumps({"@context": "https://schema.org", "@type": "Article",
                      "headline": f'{e["name"]}: structure, timing, cost, and registration',
@@ -118,7 +118,7 @@ def exam_page(e, tpl, today):
                .replace("{{SHORT}}", esc(e["short"]))
                .replace("{{SLUG}}", esc(e["slug"]))
                .replace("{{AUDIENCE}}", esc(e.get("audience") or ""))
-               .replace("{{STATUS}}", "Trainer live" if live else "Trainer in development")
+               .replace("{{STATUS}}", "Trainer Live" if live else "Trainer in Development")
                .replace("{{STATUS_CLASS}}", " live" if live else "")
                .replace("{{CTA}}", cta).replace("{{REG_BTN}}", reg_btn)
                .replace("{{TILES}}", tiles_html)
@@ -148,7 +148,7 @@ def main():
     for e in exams:
         live = e["slug"] in LIVE
         sub = e.get("audience") or ""
-        cards.append(f'<a class="card exam" href="/exams/{esc(e["slug"])}/"><div class="row"><span class="en">{esc(e["name"])}</span><span class="tag{" live" if live else " wait"}">{"Trainer live" if live else "Guide"}</span></div><p>{esc(sub)}</p></a>')
+        cards.append(f'<a class="card exam" href="/exams/{esc(e["slug"])}/"><div class="row"><span class="en">{esc(e["name"])}</span><span class="tag{" live" if live else " wait"}">{"Trainer Live" if live else "Guide"}</span></div><p>{esc(sub)}</p></a>')
         ed = dest / e["slug"]
         ed.mkdir(exist_ok=True)
         pages.append((ed / "index.html", exam_page(e, tpl, today)))

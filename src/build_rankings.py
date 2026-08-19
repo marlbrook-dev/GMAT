@@ -79,10 +79,10 @@ def sfn_score(s):
 
 def tier(nsrc):
     if nsrc >= 3:
-        return "Publisher consensus", ""
+        return "Publisher Consensus", ""
     if nsrc >= 1:
-        return "Partial consensus", ""
-    return "Data score", " gold"
+        return "Partial Consensus", ""
+    return "Data Score", " gold"
 
 def fmt(v, suffix="", money=False):
     if v is None:
@@ -133,7 +133,7 @@ def school_page(s, tpl, today):
     spec_html = ""
     if specs:
         chips = "".join(f'<span class="chip" title="{esc((x.get("src") or "") + " " + str(x.get("year") or ""))}">{esc(x["name"])}</span>' for x in specs)
-        spec_html = f'<div class="section"><h2>Recognized strengths</h2><div class="chips">{chips}</div><p class="src" style="margin-top:10px">As recognized in published specialty rankings; hover for the source.</p></div>'
+        spec_html = f'<div class="section"><h2>Recognized Strengths</h2><div class="chips">{chips}</div><p class="src" style="margin-top:10px">As recognized in published specialty rankings; hover for the source.</p></div>'
     g = p.get("gmat_focus") or {}
     gc = p.get("gmat_classic") or {}
     bits = []
@@ -146,13 +146,60 @@ def school_page(s, tpl, today):
         bits.append(f'class of {cs["v"]},')
     desc = (" ".join(bits) + " rankings from five major publishers.") if bits else "rankings, class profile, and sources."
     badge, badge_class = tier(s["_nsrc"])
-    website_btn = f'<a class="btn sec" href="{esc(s["website"])}" rel="noopener" target="_blank">Official program site</a>' if s.get("website") else ""
+    website_btn = f'<a class="btn sec" href="{esc(s["website"])}" rel="noopener" target="_blank">Official Program Site</a>' if s.get("website") else ""
     method = "This school is ranked from a weighted consensus of the major published rankings plus published outcomes and selectivity data." if s["_nsrc"] >= 3 else \
              "Fewer than three major publishers rank this school, so its SFN rank leans on published outcomes and selectivity data, weighted exactly as documented." if s["_nsrc"] >= 1 else \
              "The five publishers we track do not rank this school, so its SFN rank comes entirely from published outcomes and selectivity data, weighted exactly as documented."
     ld = json.dumps({"@context": "https://schema.org", "@type": "CollegeOrUniversity", "name": s["name"],
                      "parentOrganization": s.get("university"), "address": {"@type": "PostalAddress", "addressLocality": s.get("city"), "addressRegion": s.get("state")},
                      **({"url": s["website"]} if s.get("website") else {})})
+    bc = json.dumps({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "MBA Rankings", "item": SITE + "/schools/"},
+        {"@type": "ListItem", "position": 2, "name": s["name"], "item": f'{SITE}/schools/{s["slug"]}/'}]})
+    # unique intro from verified data only
+    ip = []
+    if s.get("_rank"):
+        ip.append(f'{s["name"]} ranks #{s["_rank"]} of {s.get("_total", "")} full-time MBA programs on the SFN composite')
+        usn = (s.get("ranks", {}).get("usnews") or {}).get("rank")
+        if usn:
+            ip.append(f'and #{usn} with US News')
+    intro = (", ".join(ip) + ". ") if ip else ""
+    gm = p.get("gmat_focus") or {}
+    gcl = p.get("gmat_classic") or {}
+    facts_bits = []
+    if gm.get("v"):
+        facts_bits.append(f'a {gm.get("stat") or "reported"} GMAT Focus of {gm["v"]}')
+    elif gcl.get("v"):
+        facts_bits.append(f'a {gcl.get("stat") or "reported"} GMAT of {gcl["v"]} (Classic edition)')
+    if (p.get("class_size") or {}).get("v"):
+        facts_bits.append(f'a class of {p["class_size"]["v"]}')
+    if (p.get("accept_rate_pct") or {}).get("v") is not None:
+        facts_bits.append(f'a {p["accept_rate_pct"]["v"]}% acceptance rate')
+    if facts_bits:
+        intro += f'The {p.get("class_year") or "latest"} profile reports ' + ", ".join(facts_bits) + ". "
+    intro += "Every figure below links to its source."
+    # FAQ generated only from verified fields
+    qa = []
+    if gm.get("v"):
+        qa.append((f'What GMAT score does {s["name"]} report?',
+                   f'The {p.get("class_year") or "latest"} profile lists a {gm.get("stat") or "reported"} GMAT Focus of {gm["v"]}' + (f' ({gm.get("src")}, {gm.get("year")}).' if gm.get("src") else ".") + " Published figures are context, not cutoffs."))
+    elif gcl.get("v"):
+        qa.append((f'What GMAT score does {s["name"]} report?',
+                   f'The {p.get("class_year") or "latest"} profile lists a {gcl.get("stat") or "reported"} GMAT of {gcl["v"]} on the Classic 200 to 800 scale' + (f' ({gcl.get("src")}, {gcl.get("year")}).' if gcl.get("src") else ".")))
+    ar = p.get("accept_rate_pct") or {}
+    if ar.get("v") is not None:
+        qa.append((f'How selective is {s["name"]}?',
+                   f'Its reported acceptance rate is {ar["v"]}%' + (f' ({ar.get("src")}, {ar.get("year")}).' if ar.get("src") else ".")))
+    tu = p.get("tuition_usd") or {}
+    if tu.get("v") is not None:
+        qa.append((f'How much does the {s["short"] if s.get("short") else s["name"]} MBA cost?',
+                   f'Published tuition is ${tu["v"]:,} per year' + (f' ({tu.get("src")}, {tu.get("year")}).' if tu.get("src") else ".") + " Fees and living costs are additional; confirm on the school site."))
+    faq_ld, faq_section = "", ""
+    if len(qa) >= 2:
+        faq_ld = '<script type="application/ld+json">' + json.dumps({"@context": "https://schema.org", "@type": "FAQPage",
+            "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in qa]}) + "</script>"
+        faq_section = '<div class="section"><h2>Quick Answers</h2>' + "".join(
+            f'<p style="margin:0 0 12px"><b>{esc(q)}</b><br>{esc(a)}</p>' for q, a in qa) + "</div>"
     out = (tpl.replace("{{NAME}}", esc(s["name"]))
               .replace("{{DESC_BITS}}", esc(desc))
               .replace("{{SLUG}}", esc(s["slug"]))
@@ -173,6 +220,10 @@ def school_page(s, tpl, today):
               .replace("{{PROFILE_ROWS}}", "\n".join(prof_rows))
               .replace("{{METHOD_LINE}}", method)
               .replace("{{UPDATED}}", today)
+              .replace("{{INTRO}}", esc(intro).replace("&#x27;", "'"))
+              .replace("{{FAQ_SECTION}}", faq_section)
+              .replace("{{FAQ_LD}}", faq_ld)
+              .replace("{{BREADCRUMB_LD}}", bc)
               .replace("{{LD}}", ld))
     return out
 
@@ -188,6 +239,8 @@ def main():
     schools = [s for s in schools if not s.get("discontinued")]
     for s in schools:
         s["_score"], s["_nsrc"] = sfn_score(s)
+    for s in schools:
+        s["_total"] = len(schools)
     ranked = sorted([s for s in schools if s["_score"] is not None], key=lambda s: -s["_score"])
     rank, prev = 0, None
     for i, s in enumerate(ranked):
