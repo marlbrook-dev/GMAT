@@ -34,3 +34,4 @@ print("built app/index.html", len(out), "bytes; landing copied to index.html; in
 
 import subprocess as _sp
 _sp.run([sys.executable, str(d/"build_rankings.py")], check=True)
+_sp.run([sys.executable, str(d/"build_exams.py")], check=True)

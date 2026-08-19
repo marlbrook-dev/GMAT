@@ -142,7 +142,9 @@ def page(title, description, canonical, body, extra_head=""):
 <a class="wordmark" href="/">{LOGO}Start From Nowhere</a>
 <a class="roomtag" href="/blog/">The Study Room</a>
 <span style="flex:1"></span>
-<a class="btn" href="/app/">Start free</a>
+<nav aria-label="Main" style="display:flex;gap:2px;margin-right:8px"><a href="/exams/" style="font-family:var(--display);font-weight:600;font-size:14px;color:var(--gray-700);text-decoration:none;padding:8px 12px;border-radius:8px">Exam prep</a><a href="/schools/" style="font-family:var(--display);font-weight:600;font-size:14px;color:var(--gray-700);text-decoration:none;padding:8px 12px;border-radius:8px">Lists</a></nav>
+<a href="/app/" style="font-family:var(--display);font-weight:600;font-size:14px;color:var(--gray-700);text-decoration:none;padding:8px 12px">Sign in</a>
+<a class="btn" href="/app/#account">Create account</a>
 </div></header>
 {body}
 <footer class="site"><div class="wrap">
@@ -287,7 +289,11 @@ def build_post(p, posts):
     return page(p["title"] + " | Start From Nowhere", p["description"], f"{SITE}/blog/{p['slug']}/", body, extra)
 
 def build_sitemap(posts):
-    urls = [(SITE + "/", None), (SITE + "/blog/", None), (SITE + "/schools/", None), (SITE + "/terms.html", None), (SITE + "/privacy.html", None)]
+    urls = [(SITE + "/", None), (SITE + "/blog/", None), (SITE + "/schools/", None), (SITE + "/exams/", None), (SITE + "/pricing/", None), (SITE + "/terms.html", None), (SITE + "/privacy.html", None)]
+    exams_data = ROOT / "data" / "exams.json"
+    if exams_data.exists():
+        import json as _json2
+        urls += [(f"{SITE}/exams/{e['slug']}/", None) for e in _json2.loads(exams_data.read_text())]
     schools_data = ROOT / "data" / "schools.json"
     if schools_data.exists():
         import json as _json

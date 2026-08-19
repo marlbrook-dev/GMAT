@@ -116,6 +116,7 @@ textarea{width:100%;min-height:80px;font-family:var(--font-mono);font-size:12px;
 table.ta td,table.ta th{text-align:left}table.ta input{transform:scale(1.2)}
 .fc{perspective:1200px}.fc .inner{position:relative;min-height:220px;border:1px solid var(--border-default);border-radius:var(--radius-lg);background:var(--surface-card);box-shadow:var(--shadow-sm);padding:var(--space-8);display:flex;align-items:center;justify-content:center;text-align:center;cursor:pointer;transition:box-shadow var(--duration-base) var(--ease-out)}.fc .inner:hover{box-shadow:var(--shadow-md)}.fc .front{font-family:var(--font-display);font-weight:700;font-size:var(--text-lg);color:var(--text-heading)}.fc .back{font-size:16px;color:var(--text-body);line-height:1.6}.fc .hint{position:absolute;bottom:10px;right:14px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);font-weight:600}
 .onb-scrim{position:fixed;inset:0;background:var(--navy-50);z-index:var(--z-modal);overflow:auto;display:flex;align-items:flex-start;justify-content:center;padding:48px 16px}.onb-card{background:var(--surface-card);border:1px solid var(--border-default);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);padding:var(--space-8);max-width:640px;width:100%}.onb-card h2{font-size:var(--text-xl);margin-bottom:6px}
+body.focus header.app,body.focus footer.app{display:none}
 #toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--navy-900);color:#fff;padding:10px 16px;border-radius:var(--radius-md);font-size:13px;z-index:var(--z-toast);box-shadow:var(--shadow-lg);display:none}
 /* games */
 .mgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-3)}@media(max-width:760px){.mgrid{grid-template-columns:repeat(3,1fr)}}
@@ -218,7 +219,8 @@ function updateHeader(){ document.getElementById('streakBadge').textContent='Str
 // ---------- navigation ----------
 const views=['dash','study','games','cards','drill','review','playbook','data','admin'];
 document.getElementById('nav').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; show(b.dataset.v); });
-function show(v){ views.forEach(x=>{ document.getElementById('v-'+x).classList.toggle('hidden',x!==v); }); document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.v===v)); updateHeader(); if(v==='dash') renderDash(); if(v==='review') renderReview(); if(v==='data') renderData(); if(v==='drill') renderDrill(); if(v==='cards') renderCards(); if(v!=='games'&&gm.on) gmReset(); if(v==='games'&&!gm.on) renderGames(); if(v==='playbook') renderPlaybook(); if(v==='admin') renderAdmin(); if(v==='study'&&!session) renderStudyHome(); window.scrollTo(0,0); }
+function setFocus(on){ document.body.classList.toggle('focus',!!on); }
+function show(v){ setFocus(false); views.forEach(x=>{ document.getElementById('v-'+x).classList.toggle('hidden',x!==v); }); document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.v===v)); updateHeader(); if(v==='dash') renderDash(); if(v==='review') renderReview(); if(v==='data') renderData(); if(v==='drill') renderDrill(); if(v==='cards') renderCards(); if(v!=='games'&&gm.on) gmReset(); if(v==='games'&&!gm.on) renderGames(); if(v==='playbook') renderPlaybook(); if(v==='admin') renderAdmin(); if(v==='study'&&!session) renderStudyHome(); window.scrollTo(0,0); }
 // ---------- dashboard ----------
 function renderDash(){
  const el=document.getElementById('v-dash'); const total=state.attempts.length; const correct=state.attempts.filter(a=>a.correct).length;
@@ -270,7 +272,7 @@ function renderStudyHome(){ document.getElementById('v-study').innerHTML='<div c
 function startSprint(n){ if(!planGate('question')) return; const qs=pickQuestions(BANK,state,{count:n||15}); if(!qs.length){toast('No questions match.');return;} beginSession(qs,'sprint'); }
 function sortTable(tbl,ci){ const tb=tbl.tBodies[0]; const rows=[...tb.rows]; const asc=tbl._sortCol===ci?!tbl._asc:true; tbl._sortCol=ci; tbl._asc=asc; const val=r=>{ const t=r.cells[ci].textContent.replace(/[$,%]/g,'').trim(); const n=parseFloat(t); return isNaN(n)?t.toLowerCase():n; }; rows.sort((x,y)=>{ const a=val(x),b=val(y); return (a<b?-1:a>b?1:0)*(asc?1:-1); }); rows.forEach(r=>tb.appendChild(r)); }
 function startAdaptive(n,sections){ if(!planGate('question')) return; const qs=pickQuestions(BANK,state,{count:n,sections}); if(!qs.length){toast('No questions match.');return;} beginSession(qs,'adaptive'); }
-function beginSession(qs,mode){ session={id:'s'+Date.now(),mode,qs,i:0,results:[],start:Date.now()}; track('round_started',{mode,count:qs.length}); show('study'); renderQuestion(); }
+function beginSession(qs,mode){ session={id:'s'+Date.now(),mode,qs,i:0,results:[],start:Date.now()}; track('round_started',{mode,count:qs.length}); show('study'); setFocus(true); renderQuestion(); }
 function typeLabel(q){ return {PS:'Problem solving',CR:'Critical reasoning'+(q.sub?' · '+q.sub:''),RC:'Reading comprehension',DS:'Data sufficiency',GT:'Graphs and tables',MSR:'Multi-source reasoning',TPA:'Two-part analysis',GI:'Graphics interpretation',TA:'Table analysis'}[q.type]||q.type; }
 function answerInputs(q){ let h='';
  if(q.answerType==='tpa'){ h='<div class="tpa"><div class="h">'+esc(q.columns[0])+'</div><div class="h">'+esc(q.columns[1])+'</div><div class="h">Value</div>'; q.choices.forEach((c,i)=>{ h+='<div><input type="radio" name="tpa0" onchange="session.tpa[0]='+i+'"></div><div><input type="radio" name="tpa1" onchange="session.tpa[1]='+i+'"></div><div class="val">'+esc(c)+'</div>'; }); h+='</div>'; }
@@ -287,7 +289,7 @@ function startMockIntro(){ session=null; show('study'); document.getElementById(
 function startMock(section){ if(!planGate('mock')) return; const meta=SECTION_META[section]; const qs=pickMockSection(BANK,state,section); if(!qs.length){toast('No '+meta.name+' items available.');return;}
  if(qs.length<meta.questions) toast('Bank has '+qs.length+' usable items; running a '+qs.length+'-question section.');
  session={id:'m'+Date.now(),mode:'mock',section,qs,i:0,answers:qs.map(()=>null),marks:qs.map(()=>false),secsArr:qs.map(()=>0),results:[],start:Date.now(),deadline:Date.now()+45*60000,editsLeft:3,phase:'run'};
- track('round_started',{mode:'mock',count:qs.length}); show('study'); renderMockQ(); }
+ track('round_started',{mode:'mock',count:qs.length}); show('study'); setFocus(true); renderMockQ(); }
 function mockTick(){ const t=document.getElementById('timer'); if(!t||!session||session.mode!=='mock') return; const left=Math.max(0,session.deadline-Date.now()); t.textContent=fmtSecs(left/1000); t.classList.toggle('over',left<5*60000);
  if(left<=0){ clearInterval(qTimer); if(session.phase!=='done'){ mockBankTime(); toast('Time. Scoring what you answered.'); mockFinish(); } } }
 function mockBankTime(){ if(session.qStart){ session.secsArr[session.i]+=(Date.now()-session.qStart)/1000; session.qStart=null; } }
@@ -327,7 +329,8 @@ function mockFinish(){ clearInterval(qTimer); session.phase='done'; const secTot
  session.qs.forEach((q,i)=>{ const a=session.answers[i]; const correct=a===null?false:gradeChosen(q,a); const secs=Math.max(1,Math.round(session.secsArr[i]||1)); const flag=recordAttempt(state,q,a,correct,secs,null,false,session.id); session.results.push({q,correct,secs,flag,unanswered:a===null}); Cloud.logAttempt(state.attempts[state.attempts.length-1]); });
  const n=session.results.length, c=session.results.filter(x=>x.correct).length; const avg=session.results.reduce((s,x)=>s+x.secs,0)/n;
  state.sessions.push({id:session.id,mode:'mock',ts:Date.now(),n,c,avg:Math.round(avg)}); track('round_completed',{mode:'mock',correct:c,total:n,secs:Math.round(secTotal)}); if(Cloud.user) Cloud.client.from('sessions').upsert({id:session.id,user_id:Cloud.user.id,mode:'mock',n,c,avg_secs:Math.round(avg)}).then(()=>{}); persist(); updateHeader(); renderMockReport(secTotal); }
-function renderMockReport(secTotal){ const r=session.results; const n=r.length, c=r.filter(x=>x.correct).length; const meta=SECTION_META[session.section]; const sum=sectionSummary(state,session.section);
+function renderMockReport(){ setFocus(false); return _renderMockReport.apply(null,arguments); }
+function _renderMockReport(secTotal){ const r=session.results; const n=r.length, c=r.filter(x=>x.correct).length; const meta=SECTION_META[session.section]; const sum=sectionSummary(state,session.section);
  const bySkill={}; r.forEach(x=>{ const k=x.q.skill; bySkill[k]=bySkill[k]||{n:0,c:0}; bySkill[k].n++; if(x.correct) bySkill[k].c++; });
  const skillRows=Object.keys(bySkill).map(k=>{ const s=SKILLS.find(x=>x.id===k); const b=bySkill[k]; return '<tr><td>'+s.label+'</td><td class="num">'+b.c+' / '+b.n+'</td><td class="num">'+Math.round(b.c/b.n*100)+'%</td></tr>'; }).join('');
  const slow=r.filter(x=>x.flag==='slow').length, un=r.filter(x=>x.unanswered).length; const misses=r.filter(x=>!x.correct);
@@ -367,7 +370,7 @@ function setReason(el,id){ el.parentElement.querySelectorAll('button').forEach(l
 function nextQuestion(){ const p=session.pending; if(!p) return; if(!p.correct&&!session.reason){ toast('Tag a reason so the engine can learn from it.'); return; }
  const flag=recordAttempt(state,p.q,p.chosen,p.correct,p.secs,session.reason,session.guessed,session.id); session.results.push({q:p.q,correct:p.correct,secs:p.secs,flag,reason:session.reason}); session.pending=null; Cloud.logAttempt(state.attempts[state.attempts.length-1]); track('question_answered',{qid:p.q.id,section:p.q.section,skill:p.q.skill,correct:p.correct,secs:Math.round(p.secs)}); persist(); updateHeader();
  session.i++; if(session.i<session.qs.length) renderQuestion(); else finishSession(); }
-function endSession(){ clearInterval(qTimer); if(session.results.length) finishSession(); else { session=null; renderStudyHome(); } }
+function endSession(){ clearInterval(qTimer); setFocus(false); if(session.results.length) finishSession(); else { session=null; renderStudyHome(); } }
 function finishSession(){ clearInterval(qTimer); const r=session.results; const n=r.length, c=r.filter(x=>x.correct).length; const avg=r.reduce((a,b)=>a+b.secs,0)/n; const total=r.reduce((a,b)=>a+b.secs,0);
  state.sessions.push({id:session.id,mode:session.mode,ts:Date.now(),n,c,avg:Math.round(avg)}); track('round_completed',{mode:session.mode,correct:c,total:n,secs:Math.round(total)}); if(Cloud.user) Cloud.client.from('sessions').upsert({id:session.id,user_id:Cloud.user.id,mode:session.mode,n,c,avg_secs:Math.round(avg)}).then(()=>{}); persist();
  const pctv=Math.round(c/n*100); const secs=[...new Set(r.map(x=>x.q.section))].map(s=>SEC_SHORT[s]).join(' & ');
@@ -382,7 +385,7 @@ function finishSession(){ clearInterval(qTimer); const r=session.results; const 
 let fc={sec:'ALL',queue:[],i:0,flipped:false,round:{know:0,learn:0}};
 // ---------- games: match, blitz, boss round ----------
 const gm={on:false,timer:null};
-function gmReset(){ if(gm.timer){clearInterval(gm.timer);gm.timer=null;} gm.on=false; gm.kind=null; }
+function gmReset(){ if(gm.timer){clearInterval(gm.timer);gm.timer=null;} gm.on=false; gm.kind=null; setFocus(false); }
 function gmQuit(){ gmReset(); renderGames(); }
 function gmState(){ if(!state.games) state.games={}; return state.games; }
 function targetSchools(){ try{ const L=JSON.parse(localStorage.getItem('sfn_school_list_v1')); if(!L||!L.order) return []; return L.order.map(sl=>Object.assign({slug:sl},(L.meta&&L.meta[sl])||{})).filter(x=>x.name); }catch(e){ return []; } }
@@ -432,7 +435,7 @@ function renderGames(){ gmReset(); const el=document.getElementById('v-games'); 
 function gmStartMatch(sec){ gmReset(); const cards=gmPickCards(sec,6); if(cards.length<4){ toast('Not enough cards in this section yet.'); return; }
  const tiles=[]; cards.forEach((c,pi)=>{ tiles.push({p:pi,kind:'f',txt:c.front,sec:c.sec}); tiles.push({p:pi,kind:'b',txt:firstSent(c.back),sec:c.sec}); });
  gmShuffle(tiles); gm.on=true; gm.kind='match'; gm.sec=sec; gm.tiles=tiles; gm.selIdx=null; gm.found=0; gm.moves=0; gm.t0=Date.now(); gm.lock=false;
- track('game_started',{game:'match',sec}); show('games'); gmMatchRender();
+ track('game_started',{game:'match',sec}); show('games'); setFocus(true); gmMatchRender();
  gm.timer=setInterval(()=>{ const e=document.getElementById('gmClock'); if(!e){ gmReset(); return; } e.textContent=fmtSecs((Date.now()-gm.t0)/1000); },500); }
 function gmTile(k){ return document.getElementById('mt'+k); }
 function gmMatchRender(){ const el=document.getElementById('v-games');
@@ -450,7 +453,7 @@ function gmPick(i){ if(!gm.on||gm.kind!=='match'||gm.lock) return; const t=gm.ti
   if(gm.found===gm.tiles.length/2) gmMatchDone(); }
  else { gm.lock=true; gmTile(i).classList.add('miss'); gmTile(j).classList.add('miss');
   setTimeout(()=>{ [i,j].forEach(k=>{ const e=gmTile(k); if(e){ e.classList.remove('miss'); e.classList.remove('sel'); } }); gm.lock=false; },450); } }
-function gmMatchDone(){ clearInterval(gm.timer); gm.timer=null; gm.on=false; const secs=Math.round((Date.now()-gm.t0)/1000);
+function gmMatchDone(){ clearInterval(gm.timer); gm.timer=null; gm.on=false; setFocus(false); const secs=Math.round((Date.now()-gm.t0)/1000);
  const g=gmState(); if(!g.match) g.match={}; const rec=g.match[gm.sec]||(g.match[gm.sec]={best:null,plays:0}); rec.plays++;
  const isBest=rec.best===null||secs<rec.best; if(isBest) rec.best=secs; persist();
  track('game_completed',{game:'match',sec:gm.sec,secs,moves:gm.moves}); gmConfetti();
@@ -461,7 +464,7 @@ function gmMatchDone(){ clearInterval(gm.timer); gm.timer=null; gm.on=false; con
 // Blitz
 function gmStartBlitz(sec){ gmReset(); const deck=gmDeck(sec); if(deck.length<8){ toast('Not enough cards in this section yet.'); return; }
  gm.on=true; gm.kind='blitz'; gm.sec=sec; gm.deck=gmShuffle(deck.slice()); gm.qi=0; gm.score=0; gm.streak=0; gm.maxStreak=0; gm.hits=0; gm.tries=0; gm.missed=[]; gm.end=Date.now()+60000; gm.lock=false;
- track('game_started',{game:'blitz',sec}); show('games'); gmBlitzShell(); gmBlitzQ();
+ track('game_started',{game:'blitz',sec}); show('games'); setFocus(true); gmBlitzShell(); gmBlitzQ();
  gm.timer=setInterval(()=>{ const bar=document.getElementById('bzBar'); if(!bar){ gmReset(); return; } const left=gm.end-Date.now();
   bar.style.width=Math.max(0,left/60000*100)+'%'; const w=document.getElementById('bzWrap'); if(w) w.classList.toggle('low',left<10000);
   const tl=document.getElementById('bzLeft'); if(tl) tl.textContent=Math.max(0,Math.ceil(left/1000))+'s'; if(left<=0) gmBlitzDone(); },120); }
@@ -485,7 +488,7 @@ function gmBlitzAnswer(i){ if(!gm.on||gm.kind!=='blitz'||gm.lock) return; gm.loc
   if(btn) btn.classList.add('bad'); gm.opts.forEach((x,k)=>{ if(x.ok){ const e=document.getElementById('bz'+k); if(e) e.classList.add('reveal'); } });
   const st=document.getElementById('bzStreak'); if(st) st.textContent='';
   gm.qi++; setTimeout(()=>{ if(gm.on&&gm.kind==='blitz') gmBlitzQ(); },950); } }
-function gmBlitzDone(){ clearInterval(gm.timer); gm.timer=null; gm.on=false;
+function gmBlitzDone(){ clearInterval(gm.timer); gm.timer=null; gm.on=false; setFocus(false);
  const g=gmState(); if(!g.blitz) g.blitz={}; const rec=g.blitz[gm.sec]||(g.blitz[gm.sec]={best:null,plays:0}); rec.plays++;
  const isBest=rec.best===null||gm.score>rec.best; if(isBest) rec.best=gm.score; persist();
  track('game_completed',{game:'blitz',sec:gm.sec,score:gm.score,hits:gm.hits,tries:gm.tries,maxStreak:gm.maxStreak}); if(isBest&&gm.score>0) gmConfetti();
@@ -500,7 +503,7 @@ function gmStartBoss(){ gmReset(); if(!planGate('question')) return;
  const pool=BANK.filter(q=>!q.answerType&&!q.passageId&&q.type!=='MSR'&&(!q.passageHtml||q.type==='GT')&&Array.isArray(q.choices)&&typeof q.answer==='number');
  const qs=pickQuestions(pool,state,{count:5}); if(qs.length<5){ toast('Not enough questions available.'); return; }
  gm.on=true; gm.kind='boss'; gm.qs=qs; gm.i=0; gm.lives=3; gm.score=0; gm.sid='g'+Date.now(); gm.results=[]; gm.t0=Date.now();
- track('game_started',{game:'boss'}); show('games'); gmBossQ(); }
+ track('game_started',{game:'boss'}); show('games'); setFocus(true); gmBossQ(); }
 function gmHearts(){ let h='<span class="lives" aria-label="'+gm.lives+' lives left">'; for(let i=0;i<3;i++) h+='<svg viewBox="0 0 24 24" width="20" height="20" class="'+(i<gm.lives?'':'lost')+'"><path d="M12 21C7 16.5 3 13.2 3 9.1 3 6.3 5.2 4 8 4c1.6 0 3.1.8 4 2 .9-1.2 2.4-2 4-2 2.8 0 5 2.3 5 5.1 0 4.1-4 7.4-9 11.9Z" fill="#C4574F"/></svg>'; return h+'</span>'; }
 function gmBossQ(){ const q=gm.qs[gm.i]; const allot=SECTION_META[q.section].allot; gm.allot=allot; gm.qStart=Date.now(); gm.deadline=Date.now()+allot*1000; gm.lock=false;
  const el=document.getElementById('v-games');
@@ -537,7 +540,7 @@ function gmBossEnd(win){ gmReset(); const n=gm.results.length, c=gm.results.filt
 function gmStartMemory(sec){ gmReset(); const cards=gmPickCards(sec,6); if(cards.length<4){ toast('Not enough cards in this section yet.'); return; }
  const tiles=[]; cards.forEach((c,pi)=>{ tiles.push({p:pi,kind:'f',txt:c.front,sec:c.sec}); tiles.push({p:pi,kind:'b',txt:firstSent(c.back),sec:c.sec}); });
  gmShuffle(tiles); gm.on=true; gm.kind='memory'; gm.sec=sec; gm.tiles=tiles; gm.up=[]; gm.found=0; gm.moves=0; gm.t0=Date.now(); gm.lock=false;
- track('game_started',{game:'memory',sec}); show('games'); gmMemRender();
+ track('game_started',{game:'memory',sec}); show('games'); setFocus(true); gmMemRender();
  gm.timer=setInterval(()=>{ const e=document.getElementById('gmClock'); if(!e){ gmReset(); return; } e.textContent=fmtSecs((Date.now()-gm.t0)/1000); },500); }
 function gmMemRender(){ const el=document.getElementById('v-games');
  el.innerHTML='<div class="stack">'
@@ -555,7 +558,7 @@ function gmMemPick(i){ if(!gm.on||gm.kind!=='memory'||gm.lock) return; const t=g
   if(gm.found===gm.tiles.length/2) gmMemDone(); }
  else { gm.lock=true; [a,b].forEach(k=>gmTile(k).classList.add('miss'));
   setTimeout(()=>{ [a,b].forEach(k=>{ const e=gmTile(k); if(e){ e.classList.add('fdown'); e.classList.remove('miss'); } }); gm.up=[]; gm.lock=false; },800); } }
-function gmMemDone(){ clearInterval(gm.timer); gm.timer=null; gm.on=false; const secs=Math.round((Date.now()-gm.t0)/1000);
+function gmMemDone(){ clearInterval(gm.timer); gm.timer=null; gm.on=false; setFocus(false); const secs=Math.round((Date.now()-gm.t0)/1000);
  const g=gmState(); if(!g.memory) g.memory={}; const rec=g.memory[gm.sec]||(g.memory[gm.sec]={best:null,plays:0}); rec.plays++;
  const isBest=rec.best===null||secs<rec.best; if(isBest) rec.best=secs; persist();
  track('game_completed',{game:'memory',sec:gm.sec,secs,moves:gm.moves}); gmConfetti();
@@ -579,7 +582,7 @@ function ncRound(){ const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1)); const pi
  return {L,Rt,lv,rv,ans:Math.abs(lv-rv)<1e-9?2:(lv>rv?0:1)}; }
 function ncFmt(v){ return Number.isInteger(v)?String(v):String(Math.round(v*1000)/1000); }
 function gmStartCrunch(){ gmReset(); gm.on=true; gm.kind='crunch'; gm.score=0; gm.streak=0; gm.maxStreak=0; gm.hits=0; gm.tries=0; gm.end=Date.now()+60000; gm.lock=false;
- track('game_started',{game:'crunch'}); show('games');
+ track('game_started',{game:'crunch'}); show('games'); setFocus(true);
  document.getElementById('v-games').innerHTML='<div class="narrow stack">'
  +'<div class="row" style="justify-content:space-between;align-items:center"><h1 style="font-size:var(--text-xl)">Number crunch</h1><div class="row"><span class="gstreak" id="ncStreak"></span><span class="bigscore" id="ncScore">0</span><button class="btn ghost sm" onclick="gmQuit()">Quit</button></div></div>'
  +'<p class="muted small" style="margin:0">Quant has no calculator. Decide which side is bigger, fast.</p>'
@@ -603,7 +606,7 @@ function gmCrunchAnswer(i){ if(!gm.on||gm.kind!=='crunch'||gm.lock) return; gm.l
   setTimeout(()=>{ if(gm.on&&gm.kind==='crunch') gmCrunchQ(); },420); }
  else { gm.streak=0; const st=document.getElementById('ncStreak'); if(st) st.textContent='';
   setTimeout(()=>{ if(gm.on&&gm.kind==='crunch') gmCrunchQ(); },1050); } }
-function gmCrunchDone(){ clearInterval(gm.timer); gm.timer=null; gm.on=false;
+function gmCrunchDone(){ clearInterval(gm.timer); gm.timer=null; gm.on=false; setFocus(false);
  const g=gmState(); if(!g.crunch) g.crunch={best:null,plays:0}; g.crunch.plays++;
  const isBest=g.crunch.best===null||gm.score>g.crunch.best; if(isBest) g.crunch.best=gm.score; persist();
  track('game_completed',{game:'crunch',score:gm.score,hits:gm.hits,tries:gm.tries,maxStreak:gm.maxStreak}); if(isBest&&gm.score>0) gmConfetti();
@@ -854,5 +857,5 @@ function renderOnboarding(){ let w=document.getElementById('onb'); if(!w){ w=doc
  w.innerHTML='<div class="onb-scrim"><div class="onb-card"><div class="row" style="justify-content:space-between;margin-bottom:18px"><span class="wordmark" style="font-size:17px"><svg viewBox="0 0 48 48" width="24" height="24" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#122B4E"/><path d="M13 33 22 22l6 5 8.5-10" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M29.5 16.5H37V24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Start From Nowhere</span><button class="btn ghost sm" onclick="finishOnboarding(true)">Skip to dashboard</button></div><div class="row" style="gap:6px;margin-bottom:22px">'+steps.map((s,i)=>'<span class="badge '+(i===ob.step?'accent':i<ob.step?'success':'')+'">'+(i+1)+' '+s+'</span>').join('')+'</div>'+body+'<div class="row" style="justify-content:space-between;margin-top:26px"><button class="btn secondary" '+(ob.step===0?'disabled':'')+' onclick="ob.step--;renderOnboarding()">Back</button><button class="btn" onclick="'+(ob.step<3?'ob.step++;renderOnboarding()':'finishOnboarding(false)')+'">'+(ob.step<3?'Continue':'Start studying')+'</button></div></div></div>'; }
 function finishOnboarding(skipped){ if(!skipped){ state.settings.program={exam:ob.exam,goal:ob.goal,hours:ob.hours,tools:ob.tools}; track('wizard_completed',{exam:ob.exam,goal_len:ob.goal.length,hours:ob.hours}); } state.settings.onboarded=true; persist(); const w=document.getElementById('onb'); if(w) w.remove(); renderDash(); }
 // ---------- boot ----------
-updateHeader(); renderDash(); Cloud.init(); if(!state.settings.onboarded&&state.attempts.length===0) startOnboarding();
+updateHeader(); renderDash(); Cloud.init(); if(location.hash==='#account'){ show('data'); } if(!state.settings.onboarded&&state.attempts.length===0) startOnboarding();
 </script></body></html>
