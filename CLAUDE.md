@@ -19,6 +19,10 @@ Owner: Hunter Roberts (admin emails: marlbrookgroup@gmail.com primary, hroberts@
 - Never fabricate product stats, user counts, testimonials, or efficacy claims. Personal bests, not leaderboards; accuracy-only game scoring, nothing luck-based.
 - Blog: pen-name bylines with no invented credentials; never backdate; posts publish by date via the drip (one post every 2 days; daily publish cron).
 
+## Communication (owner's rule, non-negotiable)
+
+- If a link, site, or service cannot be accessed (egress blocked, login wall, rate limit, anything), say so IMMEDIATELY and ask how to proceed BEFORE doing the work another way. Never quietly substitute partial information (a screenshot, memory, a guess) for the source the owner pointed to. The owner always wants to know when there is a problem or a failed connection, at the moment it happens.
+
 ## Engineering workflow
 
 - Develop on the designated claude/* branch; ship via PR to main, squash merge; main deploys the live site via Cloudflare Workers Builds.
