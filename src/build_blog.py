@@ -288,6 +288,10 @@ def build_post(p, posts):
 
 def build_sitemap(posts):
     urls = [(SITE + "/", None), (SITE + "/blog/", None), (SITE + "/schools/", None), (SITE + "/terms.html", None), (SITE + "/privacy.html", None)]
+    schools_data = ROOT / "data" / "schools.json"
+    if schools_data.exists():
+        import json as _json
+        urls += [(f"{SITE}/schools/{s['slug']}/", None) for s in _json.loads(schools_data.read_text()) if not s.get("discontinued")]
     urls += [(f"{SITE}/blog/{p['slug']}/", p.get("updated", p["date"])) for p in sorted(posts, key=lambda p: p["date"], reverse=True)]
     items = "".join(
         f"<url><loc>{u}</loc>{f'<lastmod>{d}</lastmod>' if d else ''}</url>\n" for u, d in urls)

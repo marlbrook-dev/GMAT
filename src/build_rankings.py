@@ -1,11 +1,23 @@
-"""Builds /schools/ (MBA rankings pilot) from data/schools.json.
+"""Builds /schools/ (MBA rankings) and one page per school from data/schools.json.
 
-Composite method: each publisher rank is converted to points (101 - rank,
-floor 0), then combined as a weighted average across the publishers that
-rank the school (weights renormalized when a source is missing). Schools
-are ordered by composite points; ties share a rank. Weights live in
-WEIGHTS below and are shown verbatim on the page, so the page and the
-math can never disagree.
+Two-layer ranking, both documented verbatim on the page:
+
+1. Publisher consensus: each publisher rank converts to points (101 - rank,
+   floor 0), combined as a weighted average over the publishers that rank
+   the school (weights renormalized when a source is missing).
+
+2. SFN Score (0 to 100): ranks every school, including those the big lists
+   skip, from whatever verified data exists:
+      publishers 50% + outcomes 20% + GMAT selectivity 20% + acceptance 10%
+   with weights renormalized over available components. Outcomes = the mean
+   of salary points (90k to 185k maps 0 to 100) and 3-month employment
+   points (70% to 100% maps 0 to 100). GMAT maps Focus 555 to 695 or
+   Classic 605 to 745 onto 0 to 100 (whichever edition the school
+   publishes; never converted). Acceptance maps 60% down to 6% onto 0 to
+   100. A school needs the publisher component or at least two other
+   components to be scored; otherwise it is listed unscored. This mirrors
+   how the major publishers weight outcomes and selectivity, applied
+   transparently to published data instead of surveys.
 """
 import json, pathlib, datetime, os, html, sys
 
@@ -14,25 +26,63 @@ ROOT = D.parent
 SITE = "https://startfromnowhere.com"
 
 WEIGHTS = {"usnews": 0.30, "ft": 0.25, "bloomberg": 0.15, "qs": 0.15, "pq": 0.15}
-MIN_SOURCES = 3  # a school needs ranks from at least this many publishers to get a composite rank
 SOURCE_LABEL = {"usnews": "US News", "ft": "Financial Times", "bloomberg": "Bloomberg", "qs": "QS", "pq": "Poets and Quants"}
+COMP_WEIGHTS = {"publishers": 0.50, "outcomes": 0.20, "gmat": 0.20, "accept": 0.10}
 
 def esc(s):
     return html.escape(str(s), quote=True)
 
-def composite(school):
+def field(school, name):
+    f = (school.get("profile", {}) or {}).get(name) or {}
+    return f.get("v")
+
+def clamp01(x):
+    return max(0.0, min(1.0, x))
+
+def pub_component(s):
     pts, wsum, n = 0.0, 0.0, 0
     for k, w in WEIGHTS.items():
-        r = (school.get("ranks", {}).get(k) or {}).get("rank")
+        r = (s.get("ranks", {}).get(k) or {}).get("rank")
         if isinstance(r, (int, float)) and r >= 1:
             pts += w * max(0.0, 101.0 - float(r))
             wsum += w
             n += 1
-    return round(pts / wsum, 1) if n >= MIN_SOURCES else None
+    return (pts / wsum if wsum else None), n
 
-def field(school, name):
-    f = (school.get("profile", {}) or {}).get(name) or {}
-    return f.get("v")
+def sfn_score(s):
+    comps = {}
+    pub, nsrc = pub_component(s)
+    if pub is not None:
+        comps["publishers"] = pub
+    outs = []
+    sal = field(s, "salary_median_usd")
+    if sal is not None:
+        outs.append(clamp01((sal - 90000) / (185000 - 90000)) * 100)
+    emp = field(s, "employment_rate_pct")
+    if emp is not None:
+        outs.append(clamp01((emp - 70) / 30) * 100)
+    if outs:
+        comps["outcomes"] = sum(outs) / len(outs)
+    gf, gc = field(s, "gmat_focus"), field(s, "gmat_classic")
+    if gf is not None:
+        comps["gmat"] = clamp01((gf - 555) / 140) * 100
+    elif gc is not None:
+        comps["gmat"] = clamp01((gc - 605) / 140) * 100
+    ar = field(s, "accept_rate_pct")
+    if ar is not None:
+        comps["accept"] = clamp01((60 - ar) / 54) * 100
+    ok = ("publishers" in comps) or (len(comps) >= 2)
+    if not ok or s.get("discontinued"):
+        return None, nsrc
+    wsum = sum(COMP_WEIGHTS[k] for k in comps)
+    return round(sum(COMP_WEIGHTS[k] * v for k, v in comps.items()) / wsum, 1), nsrc
+
+def tier(nsrc):
+    if nsrc >= 3:
+        return "Publisher consensus", ""
+    if nsrc >= 1:
+        return "Partial consensus", ""
+    return "Data score", " gold"
 
 def fmt(v, suffix="", money=False):
     if v is None:
@@ -41,14 +91,100 @@ def fmt(v, suffix="", money=False):
         return "$" + format(int(v), ",")
     return f"{v}{suffix}"
 
+def src_cell(f):
+    if not f or f.get("v") is None:
+        return ""
+    bits = [b for b in [f.get("src"), str(f.get("year") or "")] if b]
+    t = ", ".join(bits)
+    if f.get("url"):
+        return f'<span class="src"><a href="{esc(f["url"])}" rel="noopener" target="_blank">{esc(t) or "source"}</a></span>'
+    return f'<span class="src">{esc(t)}</span>'
+
+PROFILE_FIELDS = [
+    ("gmat_focus", "GMAT Focus", "", False), ("gmat_classic", "GMAT Classic", "", False),
+    ("gre_quant", "GRE Quant", "", False), ("gre_verbal", "GRE Verbal", "", False),
+    ("gpa", "Undergrad GPA", "", False), ("accept_rate_pct", "Acceptance rate", "%", False),
+    ("class_size", "Class size", "", False), ("work_exp_years", "Work experience", " yrs", False),
+    ("women_pct", "Women", "%", False), ("intl_pct", "International", "%", False),
+    ("tuition_usd", "Tuition per year", "", True), ("salary_median_usd", "Median base salary", "", True),
+    ("employment_rate_pct", "Employed at 3 months", "%", False),
+]
+
+def school_page(s, tpl, today):
+    p = s.get("profile", {})
+    rank_rows = []
+    for k in WEIGHTS:
+        r = s.get("ranks", {}).get(k) or {}
+        if r.get("rank") is not None:
+            link = f'<a href="{esc(r["url"])}" rel="noopener" target="_blank">source</a>' if r.get("url") else ""
+            rank_rows.append(f'<tr><td>{SOURCE_LABEL[k]}</td><td>{esc(r.get("edition") or "")}</td><td class="num">#{r["rank"]}</td><td class="src">{link}</td></tr>')
+    if not rank_rows:
+        rank_rows.append('<tr><td colspan="4">Not currently ranked by the five publishers we track. Its SFN rank comes from published outcome and selectivity data instead.</td></tr>')
+    prof_rows = []
+    for key, label, suf, money in PROFILE_FIELDS:
+        f = p.get(key) or {}
+        if f.get("v") is None:
+            continue
+        stat = f' <span class="src">{esc(f["stat"])}</span>' if f.get("stat") else ""
+        prof_rows.append(f'<tr><td>{label}</td><td class="num">{fmt(f["v"], suf, money)}{stat}</td><td>{src_cell(f)}</td></tr>')
+    if not prof_rows:
+        prof_rows.append('<tr><td colspan="3">This school does not publish a detailed class profile, or we have not yet verified one.</td></tr>')
+    specs = [x for x in (s.get("specialties") or []) if x.get("name")]
+    spec_html = ""
+    if specs:
+        chips = "".join(f'<span class="chip" title="{esc((x.get("src") or "") + " " + str(x.get("year") or ""))}">{esc(x["name"])}</span>' for x in specs)
+        spec_html = f'<div class="section"><h2>Recognized strengths</h2><div class="chips">{chips}</div><p class="src" style="margin-top:10px">As recognized in published specialty rankings; hover for the source.</p></div>'
+    g = p.get("gmat_focus") or {}
+    gc = p.get("gmat_classic") or {}
+    bits = []
+    if g.get("v"):
+        bits.append(f'GMAT Focus {g["v"]} {g.get("stat") or ""}'.strip() + ",")
+    elif gc.get("v"):
+        bits.append(f'GMAT {gc["v"]} {gc.get("stat") or ""}'.strip() + ",")
+    cs = p.get("class_size") or {}
+    if cs.get("v"):
+        bits.append(f'class of {cs["v"]},')
+    desc = (" ".join(bits) + " rankings from five major publishers.") if bits else "rankings, class profile, and sources."
+    badge, badge_class = tier(s["_nsrc"])
+    website_btn = f'<a class="btn sec" href="{esc(s["website"])}" rel="noopener" target="_blank">Official program site</a>' if s.get("website") else ""
+    method = "This school is ranked from a weighted consensus of the major published rankings plus published outcomes and selectivity data." if s["_nsrc"] >= 3 else \
+             "Fewer than three major publishers rank this school, so its SFN rank leans on published outcomes and selectivity data, weighted exactly as documented." if s["_nsrc"] >= 1 else \
+             "The five publishers we track do not rank this school, so its SFN rank comes entirely from published outcomes and selectivity data, weighted exactly as documented."
+    ld = json.dumps({"@context": "https://schema.org", "@type": "CollegeOrUniversity", "name": s["name"],
+                     "parentOrganization": s.get("university"), "address": {"@type": "PostalAddress", "addressLocality": s.get("city"), "addressRegion": s.get("state")},
+                     **({"url": s["website"]} if s.get("website") else {})})
+    out = (tpl.replace("{{NAME}}", esc(s["name"]))
+              .replace("{{DESC_BITS}}", esc(desc))
+              .replace("{{SLUG}}", esc(s["slug"]))
+              .replace("{{SLUG_JSON}}", json.dumps(s["slug"]))
+              .replace("{{NAME_JSON}}", json.dumps(s["name"]))
+              .replace("{{UNIVERSITY}}", esc(s.get("university") or ""))
+              .replace("{{CITY}}", esc(s.get("city") or "")).replace("{{STATE}}", esc(s.get("state") or ""))
+              .replace("{{TYPE}}", esc(s.get("type") or "")).replace("{{CLASS_YEAR}}", esc((p.get("class_year") or "profile pending")))
+              .replace("{{BADGE_CLASS}}", badge_class).replace("{{BADGE}}", badge)
+              .replace("{{WEBSITE_BTN}}", website_btn)
+              .replace("{{RANK_DISPLAY}}", "#" + str(s["_rank"]) if s.get("_rank") else "-")
+              .replace("{{SCORE}}", str(s["_score"]) if s.get("_score") is not None else "n/a")
+              .replace("{{SPECIALTIES_SECTION}}", spec_html)
+              .replace("{{RANK_ROWS}}", "\n".join(rank_rows))
+              .replace("{{PROFILE_ROWS}}", "\n".join(prof_rows))
+              .replace("{{METHOD_LINE}}", method)
+              .replace("{{UPDATED}}", today)
+              .replace("{{LD}}", ld))
+    return out
+
 def main():
     data_path = ROOT / "data" / "schools.json"
     if not data_path.exists():
         print("build_rankings: no data/schools.json yet; skipping /schools/ build")
         return
     schools = json.loads(data_path.read_text())
+    dropped = [s["slug"] for s in schools if s.get("discontinued")]
+    if dropped:
+        print("build_rankings: excluding discontinued programs:", ", ".join(dropped))
+    schools = [s for s in schools if not s.get("discontinued")]
     for s in schools:
-        s["_score"] = composite(s)
+        s["_score"], s["_nsrc"] = sfn_score(s)
     ranked = sorted([s for s in schools if s["_score"] is not None], key=lambda s: -s["_score"])
     rank, prev = 0, None
     for i, s in enumerate(ranked):
@@ -60,6 +196,7 @@ def main():
 
     today = os.environ.get("BLOG_BUILD_DATE") or datetime.date.today().isoformat()
     tpl = (D / "rankings_template.html").read_text()
+    stpl = (D / "school_template.html").read_text()
 
     rows = []
     for s in ranked + unranked:
@@ -77,6 +214,7 @@ def main():
             f'<tr class="srow" data-slug="{esc(s["slug"])}" onclick="toggleDetail(\'{esc(s["slug"])}\')">'
             f'<td class="num rank">{s.get("_rank", "-")}</td>'
             f'<td><div class="sname">{esc(s["name"])}</div><div class="sloc">{esc(s.get("city", ""))}, {esc(s.get("state", ""))} · {esc(s.get("type", ""))}</div></td>'
+            f'<td class="num">{fmt(s.get("_score"))}</td>'
             + ranks_cells +
             f'<td class="num">{fmt(gmat_v)}{("<span class=note>" + esc(gmat_ed) + " " + esc(gmat_note) + "</span>") if gmat_v is not None else ""}</td>'
             f'<td class="num">{fmt(field(s, "gpa"))}</td>'
@@ -89,7 +227,7 @@ def main():
         f"<tr><td>{SOURCE_LABEL[k]}</td><td class=\"num\">{int(w * 100)}%</td></tr>" for k, w in WEIGHTS.items())
 
     ld_items = "".join(
-        f'{{"@type":"ListItem","position":{s["_rank"]},"name":{json.dumps(s["name"])}}},'
+        f'{{"@type":"ListItem","position":{s["_rank"]},"name":{json.dumps(s["name"])},"url":"{SITE}/schools/{s["slug"]}/"}},'
         for s in ranked[:10]).rstrip(",")
 
     out = (tpl
@@ -99,17 +237,22 @@ def main():
            .replace("{{N}}", str(len(schools)))
            .replace("{{UPDATED}}", today)
            .replace("{{LD_ITEMS}}", ld_items))
-    if "{{" in out:
-        print("build_rankings: unresolved placeholder", file=sys.stderr)
-        sys.exit(1)
-    for ch in out:
-        if ch in "–—":
-            print("build_rankings: em/en dash found", file=sys.stderr)
-            sys.exit(1)
     dest = ROOT / "schools"
     dest.mkdir(exist_ok=True)
-    (dest / "index.html").write_text(out)
-    print(f"built schools/ with {len(ranked)} ranked + {len(unranked)} unranked programs")
+    pages = [(dest / "index.html", out)]
+    for s in schools:
+        sd = dest / s["slug"]
+        sd.mkdir(exist_ok=True)
+        pages.append((sd / "index.html", school_page(s, stpl, today)))
+    for path, content in pages:
+        if "{{" in content:
+            print(f"build_rankings: unresolved placeholder in {path}", file=sys.stderr)
+            sys.exit(1)
+        if "—" in content or "–" in content:
+            print(f"build_rankings: em/en dash in {path}", file=sys.stderr)
+            sys.exit(1)
+        path.write_text(content)
+    print(f"built schools/ index + {len(schools)} school pages ({len(ranked)} ranked, {len(unranked)} unscored)")
 
 if __name__ == "__main__":
     main()
