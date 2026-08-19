@@ -1,10 +1,10 @@
-# Weekly redeploy so future-dated blog posts publish on schedule.
+# Daily redeploy so future-dated blog posts publish on schedule (one post every 2 days).
 # Setup: in the Cloudflare Worker's build settings create a Deploy Hook,
 # then add its URL as repo secret CLOUDFLARE_DEPLOY_HOOK.
 name: Scheduled publish
 on:
   schedule:
-    - cron: "0 14 * * 1,4"  # Mon + Thu 14:00 UTC
+    - cron: "0 14 * * *"  # daily 14:00 UTC
   workflow_dispatch:
 jobs:
   redeploy:
