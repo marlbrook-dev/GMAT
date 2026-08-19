@@ -1,0 +1,3230 @@
+[
+ {
+  "slug": "stanford-gsb",
+  "name": "Stanford Graduate School of Business",
+  "university": "Stanford University",
+  "city": "Stanford",
+  "state": "CA",
+  "region": "West",
+  "type": "Private",
+  "ranks": {
+   "usnews": {
+    "rank": 1,
+    "edition": "2026",
+    "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/mba-rankings"
+   },
+   "ft": {
+    "rank": null,
+    "edition": "2026",
+    "url": "https://poetsandquants.com/2026/02/16/2026-financial-times-mba-ranking-mit-tops-list-for-the-first-time/"
+   },
+   "bloomberg": {
+    "rank": 1,
+    "edition": "2025-26",
+    "url": "https://www.bloomberg.com/business-schools/regions/us/"
+   },
+   "qs": {
+    "rank": 4,
+    "edition": "2026",
+    "url": "https://www.topuniversities.com/mba-rankings/global"
+   },
+   "pq": {
+    "rank": 26,
+    "edition": "2025-2026",
+    "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/"
+   }
+  },
+  "profile": {
+   "class_year": "Class of 2027",
+   "class_size": {
+    "v": 434,
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/06/stanford-gsb-mba-class-of-2027-diversity-rebounds-applications-hold-steady/"
+   },
+   "gmat_focus": {
+    "v": 689,
+    "stat": "average",
+    "src": "Poets&Quants (Class of 2027 profile coverage)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/06/stanford-gsb-mba-class-of-2027-diversity-rebounds-applications-hold-steady/"
+   },
+   "gmat_classic": {
+    "v": 738,
+    "stat": "average",
+    "src": "Poets&Quants (Class of 2027 profile coverage)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/06/stanford-gsb-mba-class-of-2027-diversity-rebounds-applications-hold-steady/"
+   },
+   "gre_quant": {
+    "v": 164,
+    "stat": "average",
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/06/stanford-gsb-mba-class-of-2027-diversity-rebounds-applications-hold-steady/"
+   },
+   "gre_verbal": {
+    "v": 164,
+    "stat": "average",
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/06/stanford-gsb-mba-class-of-2027-diversity-rebounds-applications-hold-steady/"
+   },
+   "gpa": {
+    "v": 3.76,
+    "stat": "average",
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/06/stanford-gsb-mba-class-of-2027-diversity-rebounds-applications-hold-steady/"
+   },
+   "accept_rate_pct": {
+    "v": 6.8,
+    "src": "Poets&Quants (The M7 By The Numbers 2026)",
+    "year": 2026,
+    "url": "https://poetsandquants.com/2026/08/09/the-m7-by-the-numbers-2026-what-it-takes-to-get-admitted-to-h-s-w-plus/"
+   },
+   "work_exp_years": {
+    "v": 5.3,
+    "stat": "average",
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/06/stanford-gsb-mba-class-of-2027-diversity-rebounds-applications-hold-steady/"
+   },
+   "women_pct": {
+    "v": 45,
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/06/stanford-gsb-mba-class-of-2027-diversity-rebounds-applications-hold-steady/"
+   },
+   "intl_pct": {
+    "v": 38,
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/06/stanford-gsb-mba-class-of-2027-diversity-rebounds-applications-hold-steady/"
+   },
+   "tuition_usd": {
+    "v": null,
+    "note": "per year; per-year tuition not verified from an authoritative source within this session; GMAC/BusinessBecause lists a $171,510 two-year tuition total (2025-26 figures) at https://www.gmac.com/resources/learners/how-to-apply/scholarships-financing/mba-tuition-fees-worlds-best-business-schools",
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "salary_median_usd": {
+    "v": 185000,
+    "src": "Poets&Quants (M7 By The Numbers 2026, Class of 2025 median base salary)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2026/08/11/the-m7-by-the-numbers-2026-mba-hiring-rebounds-pay-holds-strong/"
+   }
+  },
+  "notes": "Anchor check passed: average GMAT Focus 689 and average Classic 738 confirmed for Class of 2027. FT 2026 rank is null because Stanford was absent from the FT ranking for a second consecutive year (insufficient alumni survey responses, per Poets&Quants FT 2026 coverage)."
+ },
+ {
+  "slug": "wharton",
+  "name": "The Wharton School",
+  "university": "University of Pennsylvania",
+  "city": "Philadelphia",
+  "state": "PA",
+  "region": "Northeast",
+  "type": "Private",
+  "ranks": {
+   "usnews": {
+    "rank": 2,
+    "edition": "2026",
+    "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/mba-rankings"
+   },
+   "ft": {
+    "rank": 3,
+    "edition": "2026",
+    "url": "https://poetsandquants.com/2026/02/16/2026-financial-times-mba-ranking-mit-tops-list-for-the-first-time/"
+   },
+   "bloomberg": {
+    "rank": 2,
+    "edition": "2025-26",
+    "url": "https://www.bloomberg.com/business-schools/regions/us/"
+   },
+   "qs": {
+    "rank": 1,
+    "edition": "2026",
+    "url": "https://www.topuniversities.com/mba-rankings/global"
+   },
+   "pq": {
+    "rank": 8,
+    "edition": "2025-2026",
+    "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/"
+   }
+  },
+  "profile": {
+   "class_year": "Class of 2027",
+   "class_size": {
+    "v": 888,
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/09/23/whartons-mba-class-of-2027-more-racially-diverse-fewer-women-internationals/"
+   },
+   "gmat_focus": {
+    "v": 676,
+    "stat": "average",
+    "src": "Poets&Quants (Class of 2027 profile coverage)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/09/23/whartons-mba-class-of-2027-more-racially-diverse-fewer-women-internationals/"
+   },
+   "gmat_classic": {
+    "v": 735,
+    "stat": "average",
+    "src": "Poets&Quants (Class of 2027 profile coverage)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/09/23/whartons-mba-class-of-2027-more-racially-diverse-fewer-women-internationals/"
+   },
+   "gre_quant": {
+    "v": 163,
+    "stat": "average",
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/09/23/whartons-mba-class-of-2027-more-racially-diverse-fewer-women-internationals/"
+   },
+   "gre_verbal": {
+    "v": 162,
+    "stat": "average",
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/09/23/whartons-mba-class-of-2027-more-racially-diverse-fewer-women-internationals/"
+   },
+   "gpa": {
+    "v": 3.7,
+    "stat": "average",
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/09/23/whartons-mba-class-of-2027-more-racially-diverse-fewer-women-internationals/"
+   },
+   "accept_rate_pct": {
+    "v": null,
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "work_exp_years": {
+    "v": 5,
+    "stat": "average",
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/09/23/whartons-mba-class-of-2027-more-racially-diverse-fewer-women-internationals/"
+   },
+   "women_pct": {
+    "v": 44,
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/09/23/whartons-mba-class-of-2027-more-racially-diverse-fewer-women-internationals/"
+   },
+   "intl_pct": {
+    "v": 26,
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/09/23/whartons-mba-class-of-2027-more-racially-diverse-fewer-women-internationals/"
+   },
+   "tuition_usd": {
+    "v": null,
+    "note": "per year; per-year tuition not verified from an authoritative source within this session; GMAC/BusinessBecause lists a $184,560 two-year tuition total at https://www.gmac.com/resources/learners/how-to-apply/scholarships-financing/mba-tuition-fees-worlds-best-business-schools",
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "salary_median_usd": {
+    "v": 185000,
+    "src": "Poets&Quants (M7 By The Numbers 2026, Class of 2025 median base salary)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2026/08/11/the-m7-by-the-numbers-2026-mba-hiring-rebounds-pay-holds-strong/"
+   }
+  },
+  "notes": "Anchor check passed: average GMAT Focus 676 and average Classic 735 confirmed for Class of 2027. Acceptance rate nulled: P&Q reported Wharton became more selective in the 2025-26 admissions cycle but the exact current rate did not appear in any authoritative snippet; a 20.5% figure circulates in non-listed sources with conflicting class-year attribution."
+ },
+ {
+  "slug": "harvard-hbs",
+  "name": "Harvard Business School",
+  "university": "Harvard University",
+  "city": "Boston",
+  "state": "MA",
+  "region": "Northeast",
+  "type": "Private",
+  "ranks": {
+   "usnews": {
+    "rank": 4,
+    "edition": "2026",
+    "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/mba-rankings"
+   },
+   "ft": {
+    "rank": 10,
+    "edition": "2026",
+    "url": "https://poetsandquants.com/2026/02/16/2026-financial-times-mba-ranking-mit-tops-list-for-the-first-time/"
+   },
+   "bloomberg": {
+    "rank": 4,
+    "edition": "2025-26",
+    "url": "https://www.bloomberg.com/business-schools/regions/us/"
+   },
+   "qs": {
+    "rank": 2,
+    "edition": "2026",
+    "url": "https://www.topuniversities.com/mba-rankings/global"
+   },
+   "pq": {
+    "rank": 2,
+    "edition": "2025-2026",
+    "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/"
+   }
+  },
+  "profile": {
+   "class_year": "Class of 2027",
+   "class_size": {
+    "v": 943,
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/19/in-its-latest-mba-class-profile-clues-to-what-it-takes-to-get-into-harvard-business-school/"
+   },
+   "gmat_focus": {
+    "v": 685,
+    "stat": "median",
+    "src": "Poets&Quants (Class of 2027 profile coverage)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/19/in-its-latest-mba-class-profile-clues-to-what-it-takes-to-get-into-harvard-business-school/"
+   },
+   "gmat_classic": {
+    "v": 730,
+    "stat": "median",
+    "src": "Poets&Quants (Class of 2027 profile coverage)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/19/in-its-latest-mba-class-profile-clues-to-what-it-takes-to-get-into-harvard-business-school/"
+   },
+   "gre_quant": {
+    "v": 164,
+    "stat": "median",
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/19/in-its-latest-mba-class-profile-clues-to-what-it-takes-to-get-into-harvard-business-school/"
+   },
+   "gre_verbal": {
+    "v": 164,
+    "stat": "median",
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/19/in-its-latest-mba-class-profile-clues-to-what-it-takes-to-get-into-harvard-business-school/"
+   },
+   "gpa": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "accept_rate_pct": {
+    "v": 11.3,
+    "src": "Poets&Quants (The M7 By The Numbers 2026, described as estimated)",
+    "year": 2026,
+    "url": "https://poetsandquants.com/2026/08/09/the-m7-by-the-numbers-2026-what-it-takes-to-get-admitted-to-h-s-w-plus/"
+   },
+   "work_exp_years": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "women_pct": {
+    "v": 44,
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/19/in-its-latest-mba-class-profile-clues-to-what-it-takes-to-get-into-harvard-business-school/"
+   },
+   "intl_pct": {
+    "v": 37,
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/19/in-its-latest-mba-class-profile-clues-to-what-it-takes-to-get-into-harvard-business-school/"
+   },
+   "tuition_usd": {
+    "v": 76410,
+    "note": "per year; first-year MBA tuition for HBS fiscal 2025 per the HBS Annual Report 2025 supplemental financials; HBS may have raised tuition for 2025-26 but a newer per-year figure was not verified",
+    "src": "Harvard Business School Annual Report 2025",
+    "year": 2025,
+    "url": "https://www.hbs.edu/about/annualreport/2025/financials/supplemental-financial-information"
+   },
+   "salary_median_usd": {
+    "v": 184500,
+    "src": "Poets&Quants (M7 By The Numbers 2026, Class of 2025 median base salary)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2026/08/11/the-m7-by-the-numbers-2026-mba-hiring-rebounds-pay-holds-strong/"
+   }
+  },
+  "notes": "Anchor check passed: median GMAT Focus 685, median Classic 730, median GRE 164 Quant and 164 Verbal confirmed for Class of 2027. US News 2026 rank is a tie at No. 4 with Northwestern Kellogg. GPA and work experience were not seen in authoritative snippets and are nulled. Acceptance rate is P&Q's estimate for the 2025-26 cycle; US News 2026 separately reported 11.2%."
+ },
+ {
+  "slug": "chicago-booth",
+  "name": "The University of Chicago Booth School of Business",
+  "university": "University of Chicago",
+  "city": "Chicago",
+  "state": "IL",
+  "region": "Midwest",
+  "type": "Private",
+  "ranks": {
+   "usnews": {
+    "rank": 3,
+    "edition": "2026",
+    "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/mba-rankings"
+   },
+   "ft": {
+    "rank": 20,
+    "edition": "2026",
+    "url": "https://poetsandquants.com/2026/02/16/2026-financial-times-mba-ranking-mit-tops-list-for-the-first-time/"
+   },
+   "bloomberg": {
+    "rank": 7,
+    "edition": "2025-26",
+    "url": "https://www.bloomberg.com/business-schools/regions/us/"
+   },
+   "qs": {
+    "rank": 15,
+    "edition": "2026",
+    "url": "https://www.topuniversities.com/mba-rankings/global"
+   },
+   "pq": {
+    "rank": 12,
+    "edition": "2025-2026",
+    "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/"
+   }
+  },
+  "profile": {
+   "class_year": "Class of 2027",
+   "class_size": {
+    "v": 635,
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/11/chicago-booth-mba-class-of-2027-new-school-record-for-applications/"
+   },
+   "gmat_focus": {
+    "v": 670,
+    "stat": "average",
+    "src": "Poets&Quants (Class of 2027 profile coverage)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/11/chicago-booth-mba-class-of-2027-new-school-record-for-applications/"
+   },
+   "gmat_classic": {
+    "v": 736,
+    "stat": "average",
+    "src": "Poets&Quants (Class of 2027 profile coverage)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/11/chicago-booth-mba-class-of-2027-new-school-record-for-applications/"
+   },
+   "gre_quant": {
+    "v": 163,
+    "stat": "average",
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/11/chicago-booth-mba-class-of-2027-new-school-record-for-applications/"
+   },
+   "gre_verbal": {
+    "v": 161,
+    "stat": "average",
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/11/chicago-booth-mba-class-of-2027-new-school-record-for-applications/"
+   },
+   "gpa": {
+    "v": 3.6,
+    "stat": "average",
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/11/chicago-booth-mba-class-of-2027-new-school-record-for-applications/"
+   },
+   "accept_rate_pct": {
+    "v": null,
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "work_exp_years": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "women_pct": {
+    "v": 41,
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/11/chicago-booth-mba-class-of-2027-new-school-record-for-applications/"
+   },
+   "intl_pct": {
+    "v": 37,
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/11/chicago-booth-mba-class-of-2027-new-school-record-for-applications/"
+   },
+   "tuition_usd": {
+    "v": null,
+    "note": "per year; per-year tuition not verified from an authoritative source within this session",
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "salary_median_usd": {
+    "v": 175000,
+    "src": "Poets&Quants (M7 By The Numbers 2026, Class of 2025 median base salary)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2026/08/11/the-m7-by-the-numbers-2026-mba-hiring-rebounds-pay-holds-strong/"
+   }
+  },
+  "notes": "The 736 average is labeled GMAT (10th edition) in P&Q's Class of 2027 coverage (14% of the class submitted it); 670 is the GMAT Focus average (39% submitted). Acceptance rate and work experience were not seen in authoritative snippets and are nulled."
+ },
+ {
+  "slug": "northwestern-kellogg",
+  "name": "Kellogg School of Management",
+  "university": "Northwestern University",
+  "city": "Evanston",
+  "state": "IL",
+  "region": "Midwest",
+  "type": "Private",
+  "ranks": {
+   "usnews": {
+    "rank": 4,
+    "edition": "2026",
+    "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/mba-rankings"
+   },
+   "ft": {
+    "rank": 11,
+    "edition": "2026",
+    "url": "https://poetsandquants.com/2026/02/16/2026-financial-times-mba-ranking-mit-tops-list-for-the-first-time/"
+   },
+   "bloomberg": {
+    "rank": 5,
+    "edition": "2025-26",
+    "url": "https://www.bloomberg.com/business-schools/regions/us/"
+   },
+   "qs": {
+    "rank": 9,
+    "edition": "2026",
+    "url": "https://www.topuniversities.com/mba-rankings/global"
+   },
+   "pq": {
+    "rank": 1,
+    "edition": "2025-2026",
+    "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/"
+   }
+  },
+  "profile": {
+   "class_year": "Class of 2027",
+   "class_size": {
+    "v": 534,
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/18/kellogg-ends-forte-partnership-omits-gender-diversity-data-in-2027-mba-profile/"
+   },
+   "gmat_focus": {
+    "v": 687,
+    "stat": "average",
+    "src": "Poets&Quants (Class of 2027 profile coverage)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/18/kellogg-ends-forte-partnership-omits-gender-diversity-data-in-2027-mba-profile/"
+   },
+   "gmat_classic": {
+    "v": 733,
+    "stat": "average",
+    "src": "Poets&Quants (Class of 2027 profile coverage)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/18/kellogg-ends-forte-partnership-omits-gender-diversity-data-in-2027-mba-profile/"
+   },
+   "gre_quant": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "gre_verbal": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "gpa": {
+    "v": 3.68,
+    "stat": "average",
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/18/kellogg-ends-forte-partnership-omits-gender-diversity-data-in-2027-mba-profile/"
+   },
+   "accept_rate_pct": {
+    "v": null,
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "work_exp_years": {
+    "v": 5.1,
+    "stat": "average",
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/18/kellogg-ends-forte-partnership-omits-gender-diversity-data-in-2027-mba-profile/"
+   },
+   "women_pct": {
+    "v": null,
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "intl_pct": {
+    "v": 37,
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/18/kellogg-ends-forte-partnership-omits-gender-diversity-data-in-2027-mba-profile/"
+   },
+   "tuition_usd": {
+    "v": null,
+    "note": "per year; per-year tuition not verified from an authoritative source within this session; GMAC/BusinessBecause lists a $172,740 two-year tuition total at https://www.gmac.com/resources/learners/how-to-apply/scholarships-financing/mba-tuition-fees-worlds-best-business-schools",
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "salary_median_usd": {
+    "v": 175000,
+    "src": "Poets&Quants (M7 By The Numbers 2026, Class of 2025 median base salary)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2026/08/11/the-m7-by-the-numbers-2026-mba-hiring-rebounds-pay-holds-strong/"
+   }
+  },
+  "notes": "US News 2026 rank is a tie at No. 4 with Harvard. Women percentage nulled: per Poets&Quants, Kellogg omitted gender and diversity data from its official Class of 2027 profile; a 41.4% figure appears only in secondary coverage of uncertain provenance. GRE averages were not seen in authoritative snippets."
+ },
+ {
+  "slug": "mit-sloan",
+  "name": "MIT Sloan School of Management",
+  "university": "Massachusetts Institute of Technology",
+  "city": "Cambridge",
+  "state": "MA",
+  "region": "Northeast",
+  "type": "Private",
+  "ranks": {
+   "usnews": {
+    "rank": 6,
+    "edition": "2026",
+    "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/mba-rankings"
+   },
+   "ft": {
+    "rank": 1,
+    "edition": "2026",
+    "url": "https://poetsandquants.com/2026/02/16/2026-financial-times-mba-ranking-mit-tops-list-for-the-first-time/"
+   },
+   "bloomberg": {
+    "rank": 11,
+    "edition": "2025-26",
+    "url": "https://www.bloomberg.com/business-schools/regions/us/"
+   },
+   "qs": {
+    "rank": 3,
+    "edition": "2026",
+    "url": "https://www.topuniversities.com/mba-rankings/global"
+   },
+   "pq": {
+    "rank": null,
+    "edition": "2025-2026",
+    "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/"
+   }
+  },
+  "profile": {
+   "class_year": "Class of 2027",
+   "class_size": {
+    "v": 450,
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/04/mit-sloan-mba-class-of-2027-international-ranks-grow-but-u-s-diversity-stays-flat/"
+   },
+   "gmat_focus": {
+    "v": 675,
+    "stat": "median",
+    "src": "Poets&Quants (Class of 2027 profile coverage)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/04/mit-sloan-mba-class-of-2027-international-ranks-grow-but-u-s-diversity-stays-flat/"
+   },
+   "gmat_classic": {
+    "v": 720,
+    "stat": "median",
+    "src": "Poets&Quants (Class of 2027 profile coverage)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/04/mit-sloan-mba-class-of-2027-international-ranks-grow-but-u-s-diversity-stays-flat/"
+   },
+   "gre_quant": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "gre_verbal": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "gpa": {
+    "v": 3.69,
+    "stat": "median",
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/04/mit-sloan-mba-class-of-2027-international-ranks-grow-but-u-s-diversity-stays-flat/"
+   },
+   "accept_rate_pct": {
+    "v": 18.8,
+    "src": "Poets&Quants (The M7 By The Numbers 2026)",
+    "year": 2026,
+    "url": "https://poetsandquants.com/2026/08/09/the-m7-by-the-numbers-2026-what-it-takes-to-get-admitted-to-h-s-w-plus/"
+   },
+   "work_exp_years": {
+    "v": 5,
+    "stat": "average",
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/04/mit-sloan-mba-class-of-2027-international-ranks-grow-but-u-s-diversity-stays-flat/"
+   },
+   "women_pct": {
+    "v": 47,
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/04/mit-sloan-mba-class-of-2027-international-ranks-grow-but-u-s-diversity-stays-flat/"
+   },
+   "intl_pct": {
+    "v": 42,
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/04/mit-sloan-mba-class-of-2027-international-ranks-grow-but-u-s-diversity-stays-flat/"
+   },
+   "tuition_usd": {
+    "v": null,
+    "note": "per year; per-year tuition not verified from an authoritative source within this session; GMAC/BusinessBecause lists a $173,060 two-year tuition total at https://www.gmac.com/resources/learners/how-to-apply/scholarships-financing/mba-tuition-fees-worlds-best-business-schools",
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "salary_median_usd": {
+    "v": 175000,
+    "src": "Poets&Quants (M7 By The Numbers 2026, Class of 2025 median base salary)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2026/08/11/the-m7-by-the-numbers-2026-mba-hiring-rebounds-pay-holds-strong/"
+   }
+  },
+  "notes": "Anchor check passed: median GMAT Focus 675 and median Classic 720 confirmed for Class of 2027. Class size of 450 includes full-time MBA plus dual-degree LGO students, per P&Q. FT 2026 rank No. 1 is MIT Sloan's first time atop the FT ranking. P&Q 2025-2026 composite rank was not stated in any snippet seen (P&Q noted only a modest decline) and is nulled. MIT's admit rate rose from 14.1% to 18.8% in the 2025-26 cycle per P&Q."
+ },
+ {
+  "slug": "columbia",
+  "name": "Columbia Business School",
+  "university": "Columbia University",
+  "city": "New York",
+  "state": "NY",
+  "region": "Northeast",
+  "type": "Private",
+  "ranks": {
+   "usnews": {
+    "rank": 7,
+    "edition": "2026",
+    "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/mba-rankings"
+   },
+   "ft": {
+    "rank": null,
+    "edition": "2026",
+    "url": "https://poetsandquants.com/2026/02/16/2026-financial-times-mba-ranking-mit-tops-list-for-the-first-time/"
+   },
+   "bloomberg": {
+    "rank": 9,
+    "edition": "2025-26",
+    "url": "https://www.bloomberg.com/business-schools/regions/us/"
+   },
+   "qs": {
+    "rank": 10,
+    "edition": "2026",
+    "url": "https://www.topuniversities.com/mba-rankings/global"
+   },
+   "pq": {
+    "rank": 3,
+    "edition": "2025-2026",
+    "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/"
+   }
+  },
+  "profile": {
+   "class_year": "Class of 2027",
+   "class_size": {
+    "v": 982,
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/20/columbia-completes-the-m7-picture-multiple-school-records-set-in-new-mba-class/"
+   },
+   "gmat_focus": {
+    "v": 690,
+    "stat": "average",
+    "src": "Poets&Quants (Class of 2027 profile coverage)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/20/columbia-completes-the-m7-picture-multiple-school-records-set-in-new-mba-class/"
+   },
+   "gmat_classic": {
+    "v": 734,
+    "stat": "average",
+    "src": "Poets&Quants (Class of 2027 profile coverage)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/20/columbia-completes-the-m7-picture-multiple-school-records-set-in-new-mba-class/"
+   },
+   "gre_quant": {
+    "v": 163,
+    "stat": "average",
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/20/columbia-completes-the-m7-picture-multiple-school-records-set-in-new-mba-class/"
+   },
+   "gre_verbal": {
+    "v": 163,
+    "stat": "average",
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/20/columbia-completes-the-m7-picture-multiple-school-records-set-in-new-mba-class/"
+   },
+   "gpa": {
+    "v": 3.6,
+    "stat": "average",
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/20/columbia-completes-the-m7-picture-multiple-school-records-set-in-new-mba-class/"
+   },
+   "accept_rate_pct": {
+    "v": null,
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "work_exp_years": {
+    "v": 5,
+    "stat": "average",
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/20/columbia-completes-the-m7-picture-multiple-school-records-set-in-new-mba-class/"
+   },
+   "women_pct": {
+    "v": 46,
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/20/columbia-completes-the-m7-picture-multiple-school-records-set-in-new-mba-class/"
+   },
+   "intl_pct": {
+    "v": 41,
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/20/columbia-completes-the-m7-picture-multiple-school-records-set-in-new-mba-class/"
+   },
+   "tuition_usd": {
+    "v": null,
+    "note": "per year; per-year tuition not verified from an authoritative source within this session; GMAC/BusinessBecause lists a $182,344 two-year tuition total at https://www.gmac.com/resources/learners/how-to-apply/scholarships-financing/mba-tuition-fees-worlds-best-business-schools",
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "salary_median_usd": {
+    "v": 175000,
+    "src": "Poets&Quants (M7 By The Numbers 2026, Class of 2025 median base salary)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2026/08/11/the-m7-by-the-numbers-2026-mba-hiring-rebounds-pay-holds-strong/"
+   }
+  },
+  "notes": "US News 2026 rank is a tie at No. 7 with NYU Stern. Class size of 982 includes 758 September entrants and 224 January entrants. FT 2026 rank is null because Columbia was excluded from the 2026 FT ranking (did not meet the alumni survey participation threshold; it placed 2nd in 2025)."
+ },
+ {
+  "slug": "berkeley-haas",
+  "name": "Haas School of Business",
+  "university": "University of California, Berkeley",
+  "city": "Berkeley",
+  "state": "CA",
+  "region": "West",
+  "type": "Public",
+  "ranks": {
+   "usnews": {
+    "rank": 10,
+    "edition": "2026",
+    "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/mba-rankings"
+   },
+   "ft": {
+    "rank": 9,
+    "edition": "2026",
+    "url": "https://newsroom.haas.berkeley.edu/berkeley-haas-reaches-historic-high-in-financial-times-ranking/"
+   },
+   "bloomberg": {
+    "rank": 3,
+    "edition": "2025-26",
+    "url": "https://www.bloomberg.com/business-schools/regions/us/"
+   },
+   "qs": {
+    "rank": null,
+    "edition": "2026",
+    "url": "https://www.topuniversities.com/mba-rankings/global"
+   },
+   "pq": {
+    "rank": null,
+    "edition": "2025-2026",
+    "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/"
+   }
+  },
+  "profile": {
+   "class_year": "Class of 2027",
+   "class_size": {
+    "v": 273,
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/05/berkeley-haas-mba-class-of-2027-smaller-class-rebounds-in-global-diversity/"
+   },
+   "gmat_focus": {
+    "v": 675,
+    "stat": "median",
+    "src": "Poets&Quants (Class of 2027 profile coverage)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/05/berkeley-haas-mba-class-of-2027-smaller-class-rebounds-in-global-diversity/"
+   },
+   "gmat_classic": {
+    "v": 730,
+    "stat": "median",
+    "src": "Poets&Quants (Class of 2027 profile coverage)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/05/berkeley-haas-mba-class-of-2027-smaller-class-rebounds-in-global-diversity/"
+   },
+   "gre_quant": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "gre_verbal": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "gpa": {
+    "v": 3.67,
+    "stat": "average",
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/05/berkeley-haas-mba-class-of-2027-smaller-class-rebounds-in-global-diversity/"
+   },
+   "accept_rate_pct": {
+    "v": null,
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "work_exp_years": {
+    "v": 5.6,
+    "stat": "average",
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/05/berkeley-haas-mba-class-of-2027-smaller-class-rebounds-in-global-diversity/"
+   },
+   "women_pct": {
+    "v": 43,
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/05/berkeley-haas-mba-class-of-2027-smaller-class-rebounds-in-global-diversity/"
+   },
+   "intl_pct": {
+    "v": 42,
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/05/berkeley-haas-mba-class-of-2027-smaller-class-rebounds-in-global-diversity/"
+   },
+   "tuition_usd": {
+    "v": null,
+    "note": "per year; per-year tuition not verified from an authoritative source within this session",
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "salary_median_usd": {
+    "v": 167250,
+    "src": "Poets&Quants (Class of 2025 employment report coverage; record-high median base salary)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/12/17/after-a-brief-slump-tech-reasserts-its-dominance-at-berkeley-haas/"
+   }
+  },
+  "notes": "FT 2026 rank of 9th globally (3rd among US schools) is confirmed by the official Berkeley Haas newsroom. QS 2026 and P&Q 2025-2026 ranks did not appear in any snippet seen and are nulled."
+ },
+ {
+  "slug": "yale-som",
+  "name": "Yale School of Management",
+  "university": "Yale University",
+  "city": "New Haven",
+  "state": "CT",
+  "region": "Northeast",
+  "type": "Private",
+  "ranks": {
+   "usnews": {
+    "rank": 11,
+    "edition": "2026",
+    "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/mba-rankings"
+   },
+   "ft": {
+    "rank": 17,
+    "edition": "2026",
+    "url": "https://poetsandquants.com/2026/02/16/2026-financial-times-mba-ranking-mit-tops-list-for-the-first-time/"
+   },
+   "bloomberg": {
+    "rank": 17,
+    "edition": "2025-26",
+    "url": "https://www.bloomberg.com/business-schools/regions/us/"
+   },
+   "qs": {
+    "rank": 12,
+    "edition": "2026",
+    "url": "https://www.topuniversities.com/mba-rankings/global"
+   },
+   "pq": {
+    "rank": 17,
+    "edition": "2025-2026",
+    "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/"
+   }
+  },
+  "profile": {
+   "class_year": "Class of 2027",
+   "class_size": {
+    "v": 367,
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/10/17/yales-mba-class-of-2027-apps-climb-again-but-slower-women-surge-to-school-record-44/"
+   },
+   "gmat_focus": {
+    "v": 675,
+    "stat": "median",
+    "src": "Poets&Quants (Class of 2027 profile coverage)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/10/17/yales-mba-class-of-2027-apps-climb-again-but-slower-women-surge-to-school-record-44/"
+   },
+   "gmat_classic": {
+    "v": 740,
+    "stat": "median",
+    "src": "Poets&Quants (Class of 2027 profile coverage)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/10/17/yales-mba-class-of-2027-apps-climb-again-but-slower-women-surge-to-school-record-44/"
+   },
+   "gre_quant": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "gre_verbal": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "gpa": {
+    "v": 3.69,
+    "stat": "median",
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/10/17/yales-mba-class-of-2027-apps-climb-again-but-slower-women-surge-to-school-record-44/"
+   },
+   "accept_rate_pct": {
+    "v": null,
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "work_exp_years": {
+    "v": 5,
+    "stat": "average",
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/10/17/yales-mba-class-of-2027-apps-climb-again-but-slower-women-surge-to-school-record-44/"
+   },
+   "women_pct": {
+    "v": 44,
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/10/17/yales-mba-class-of-2027-apps-climb-again-but-slower-women-surge-to-school-record-44/"
+   },
+   "intl_pct": {
+    "v": 41,
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/10/17/yales-mba-class-of-2027-apps-climb-again-but-slower-women-surge-to-school-record-44/"
+   },
+   "tuition_usd": {
+    "v": null,
+    "note": "per year; per-year tuition not verified from an authoritative source within this session",
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "salary_median_usd": {
+    "v": 175000,
+    "src": "Poets&Quants (Class of 2025 employment report coverage)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/12/15/2025-mba-jobs-offers-still-sluggish-for-yalies-but-pay-rebounds/"
+   }
+  },
+  "notes": "US News 2026 rank is a tie at No. 11 with UVA Darden. QS 2026 rank is joint 12th. Acceptance rate nulled: only non-authoritative estimates (about 27%) were seen. Yale's Class of 2025 median salary rose from $160,000 to $175,000 per P&Q."
+ },
+ {
+  "slug": "nyu-stern",
+  "name": "NYU Stern School of Business",
+  "university": "New York University",
+  "city": "New York",
+  "state": "NY",
+  "region": "Northeast",
+  "type": "Private",
+  "ranks": {
+   "usnews": {
+    "rank": 7,
+    "edition": "2026",
+    "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/mba-rankings"
+   },
+   "ft": {
+    "rank": 23,
+    "edition": "2026",
+    "url": "https://poetsandquants.com/2026/02/16/2026-financial-times-mba-ranking-mit-tops-list-for-the-first-time/"
+   },
+   "bloomberg": {
+    "rank": 12,
+    "edition": "2025-26",
+    "url": "https://www.bloomberg.com/business-schools/regions/us/"
+   },
+   "qs": {
+    "rank": 17,
+    "edition": "2026",
+    "url": "https://www.topuniversities.com/mba-rankings/global"
+   },
+   "pq": {
+    "rank": 6,
+    "edition": "2025-2026",
+    "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/"
+   }
+  },
+  "profile": {
+   "class_year": "Class of 2027",
+   "class_size": {
+    "v": 336,
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/10/16/application-surge-record-gmat-and-a-finance-spike-inside-nyu-sterns-new-mba-class/"
+   },
+   "gmat_focus": {
+    "v": 682,
+    "stat": "average",
+    "src": "Poets&Quants / NYU Stern class profile coverage",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/10/16/application-surge-record-gmat-and-a-finance-spike-inside-nyu-sterns-new-mba-class/"
+   },
+   "gmat_classic": {
+    "v": 737,
+    "stat": "average",
+    "src": "Poets&Quants (Class of 2027 profile coverage)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/10/16/application-surge-record-gmat-and-a-finance-spike-inside-nyu-sterns-new-mba-class/"
+   },
+   "gre_quant": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "gre_verbal": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "gpa": {
+    "v": 3.64,
+    "stat": "average",
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/10/16/application-surge-record-gmat-and-a-finance-spike-inside-nyu-sterns-new-mba-class/"
+   },
+   "accept_rate_pct": {
+    "v": 24,
+    "src": "Poets&Quants (4,933 applications, 1,161 admitted, as reported)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/10/16/application-surge-record-gmat-and-a-finance-spike-inside-nyu-sterns-new-mba-class/"
+   },
+   "work_exp_years": {
+    "v": 5.1,
+    "stat": "average",
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/10/16/application-surge-record-gmat-and-a-finance-spike-inside-nyu-sterns-new-mba-class/"
+   },
+   "women_pct": {
+    "v": 45,
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/10/16/application-surge-record-gmat-and-a-finance-spike-inside-nyu-sterns-new-mba-class/"
+   },
+   "intl_pct": {
+    "v": 43,
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/10/16/application-surge-record-gmat-and-a-finance-spike-inside-nyu-sterns-new-mba-class/"
+   },
+   "tuition_usd": {
+    "v": null,
+    "note": "per year; per-year tuition not verified from an authoritative source within this session",
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "salary_median_usd": {
+    "v": 175000,
+    "src": "Poets&Quants (Class of 2025 employment report coverage)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/12/09/2025-mba-jobs-at-nyu-stern-sharper-gains-for-international-grads/"
+   }
+  },
+  "notes": "US News 2026 rank is a tie at No. 7 with Columbia. The 682 average was described in coverage as the average GMAT under the current scoring system (GMAT Focus, 205-805 scale); 737 is labeled GMAT (10th edition), a school record."
+ },
+ {
+  "slug": "dartmouth-tuck",
+  "name": "Tuck School of Business",
+  "university": "Dartmouth College",
+  "city": "Hanover",
+  "state": "NH",
+  "region": "Northeast",
+  "type": "Private",
+  "ranks": {
+   "usnews": {
+    "rank": 9,
+    "edition": "2026",
+    "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/mba-rankings"
+   },
+   "ft": {
+    "rank": 26,
+    "edition": "2026",
+    "url": "https://poetsandquants.com/2026/02/16/2026-financial-times-mba-ranking-mit-tops-list-for-the-first-time/"
+   },
+   "bloomberg": {
+    "rank": 6,
+    "edition": "2025-26",
+    "url": "https://www.bloomberg.com/business-schools/regions/us/"
+   },
+   "qs": {
+    "rank": null,
+    "edition": "2026",
+    "url": "https://www.topuniversities.com/mba-rankings/global"
+   },
+   "pq": {
+    "rank": 4,
+    "edition": "2025-2026",
+    "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/"
+   }
+  },
+  "profile": {
+   "class_year": "Class of 2027",
+   "class_size": {
+    "v": 304,
+    "src": "Poets&Quants / Tuck School of Business",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/25/one-big-number-stands-out-in-dartmouth-tucks-new-mba-class/"
+   },
+   "gmat_focus": {
+    "v": 671,
+    "stat": "average",
+    "src": "Poets&Quants (Class of 2027 profile coverage)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/25/one-big-number-stands-out-in-dartmouth-tucks-new-mba-class/"
+   },
+   "gmat_classic": {
+    "v": 727,
+    "stat": "average",
+    "src": "Tuck School of Business news / Poets&Quants",
+    "year": 2025,
+    "url": "https://tuck.dartmouth.edu/news/articles/an-ambitious-and-inspired-first-year-class-is-off-to-the-races-at-tuck"
+   },
+   "gre_quant": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "gre_verbal": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "gpa": {
+    "v": 3.6,
+    "stat": "average",
+    "src": "Tuck School of Business news / Poets&Quants",
+    "year": 2025,
+    "url": "https://tuck.dartmouth.edu/news/articles/an-ambitious-and-inspired-first-year-class-is-off-to-the-races-at-tuck"
+   },
+   "accept_rate_pct": {
+    "v": 28.3,
+    "src": "Poets&Quants",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/25/one-big-number-stands-out-in-dartmouth-tucks-new-mba-class/"
+   },
+   "work_exp_years": {
+    "v": 5.75,
+    "stat": "average",
+    "src": "Poets&Quants / Tuck class profile coverage",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/25/one-big-number-stands-out-in-dartmouth-tucks-new-mba-class/"
+   },
+   "women_pct": {
+    "v": 44,
+    "src": "Tuck School of Business news",
+    "year": 2025,
+    "url": "https://tuck.dartmouth.edu/news/articles/an-ambitious-and-inspired-first-year-class-is-off-to-the-races-at-tuck"
+   },
+   "intl_pct": {
+    "v": 22,
+    "src": "Tuck School of Business news (foreign nationals share)",
+    "year": 2025,
+    "url": "https://tuck.dartmouth.edu/news/articles/an-ambitious-and-inspired-first-year-class-is-off-to-the-races-at-tuck"
+   },
+   "tuition_usd": {
+    "v": null,
+    "note": "per year; per-year tuition not verified from an authoritative source within this session",
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "salary_median_usd": {
+    "v": 175000,
+    "src": "Poets&Quants (Class of 2025 employment report coverage)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/12/11/in-a-cooling-mba-job-market-tucks-2025-grads-hold-their-ground/"
+   }
+  },
+  "notes": "International percentage discrepancy: Tuck's official news article states 22% of the Class of 2027 are foreign nationals (46 countries by citizenship), while some secondary coverage cites 34% international; the official 22% figure is recorded. QS 2026 rank nulled: coverage states Tuck does not appear in the QS top 20, exact rank not seen. Acceptance rate 28.3% (down from 31.2%) per P&Q."
+ },
+ {
+  "slug": "duke-fuqua",
+  "name": "Fuqua School of Business",
+  "university": "Duke University",
+  "city": "Durham",
+  "state": "NC",
+  "region": "South",
+  "type": "Private",
+  "ranks": {
+   "usnews": {
+    "rank": 14,
+    "edition": "2026",
+    "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/mba-rankings"
+   },
+   "ft": {
+    "rank": 16,
+    "edition": "2026",
+    "url": "https://poetsandquants.com/2026/02/16/2026-financial-times-mba-ranking-mit-tops-list-for-the-first-time/"
+   },
+   "bloomberg": {
+    "rank": 13,
+    "edition": "2025-26",
+    "url": "https://www.bloomberg.com/business-schools/regions/us/"
+   },
+   "qs": {
+    "rank": null,
+    "edition": "2026",
+    "url": "https://www.topuniversities.com/mba-rankings/global"
+   },
+   "pq": {
+    "rank": null,
+    "edition": "2025-2026",
+    "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/"
+   }
+  },
+  "profile": {
+   "class_year": "Class of 2027",
+   "class_size": {
+    "v": 426,
+    "src": "GMAC/BusinessBecause (Duke MBA Class of 2027 profile)",
+    "year": 2025,
+    "url": "https://www.gmac.com/resources/learners/business-programs/explore-programs/duke-mba-class-profile"
+   },
+   "gmat_focus": {
+    "v": 665,
+    "stat": "median",
+    "src": "GMAC/BusinessBecause (Duke MBA Class of 2027 profile)",
+    "year": 2025,
+    "url": "https://www.gmac.com/resources/learners/business-programs/explore-programs/duke-mba-class-profile"
+   },
+   "gmat_classic": {
+    "v": 720,
+    "stat": "median",
+    "src": "GMAC/BusinessBecause (Duke MBA Class of 2027 profile)",
+    "year": 2025,
+    "url": "https://www.gmac.com/resources/learners/business-programs/explore-programs/duke-mba-class-profile"
+   },
+   "gre_quant": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "gre_verbal": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "gpa": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "accept_rate_pct": {
+    "v": 22,
+    "src": "GMAC/BusinessBecause (reported as around 22%)",
+    "year": 2025,
+    "url": "https://www.gmac.com/resources/learners/business-programs/explore-programs/duke-mba-class-profile"
+   },
+   "work_exp_years": {
+    "v": 5.8,
+    "stat": "average",
+    "src": "GMAC/BusinessBecause (Duke MBA Class of 2027 profile)",
+    "year": 2025,
+    "url": "https://www.gmac.com/resources/learners/business-programs/explore-programs/duke-mba-class-profile"
+   },
+   "women_pct": {
+    "v": 47,
+    "src": "GMAC/BusinessBecause (Duke MBA Class of 2027 profile)",
+    "year": 2025,
+    "url": "https://www.gmac.com/resources/learners/business-programs/explore-programs/duke-mba-class-profile"
+   },
+   "intl_pct": {
+    "v": 35,
+    "src": "GMAC/BusinessBecause (Duke MBA Class of 2027 profile)",
+    "year": 2025,
+    "url": "https://www.gmac.com/resources/learners/business-programs/explore-programs/duke-mba-class-profile"
+   },
+   "tuition_usd": {
+    "v": null,
+    "note": "per year; per-year tuition not verified from an authoritative source within this session",
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "salary_median_usd": {
+    "v": 160000,
+    "src": "Poets&Quants (Class of 2025 employment report coverage)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/12/18/mba-jobs-2025-as-a-tough-market-persists-tech-finds-its-footing-at-duke-fuqua/"
+   }
+  },
+  "notes": "GMAT Focus median was reported as approximately 665 in coverage; classic median 720 with middle-80% range 680-770. GPA nulled: only a middle-80% GPA range (3.16 to 3.91) was published, no average or median seen. Acceptance rate reported as around 22%. QS 2026 and P&Q 2025-2026 ranks not seen in snippets and nulled. Fuqua's Class of 2025 median base salary fell from $175,000 to $160,000 per P&Q."
+ },
+ {
+  "slug": "michigan-ross",
+  "name": "Stephen M. Ross School of Business",
+  "university": "University of Michigan",
+  "city": "Ann Arbor",
+  "state": "MI",
+  "region": "Midwest",
+  "type": "Public",
+  "ranks": {
+   "usnews": {
+    "rank": 13,
+    "edition": "2026",
+    "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/mba-rankings"
+   },
+   "ft": {
+    "rank": null,
+    "edition": "2026",
+    "url": "https://poetsandquants.com/2026/02/16/2026-financial-times-mba-ranking-mit-tops-list-for-the-first-time/"
+   },
+   "bloomberg": {
+    "rank": 14,
+    "edition": "2025-26",
+    "url": "https://www.bloomberg.com/business-schools/regions/us/"
+   },
+   "qs": {
+    "rank": null,
+    "edition": "2026",
+    "url": "https://www.topuniversities.com/mba-rankings/global"
+   },
+   "pq": {
+    "rank": 9,
+    "edition": "2025-2026",
+    "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/"
+   }
+  },
+  "profile": {
+   "class_year": "Class of 2027",
+   "class_size": {
+    "v": 379,
+    "src": "Poets&Quants / Michigan Ross",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/16/fewer-students-higher-scores-inside-michigan-rosss-new-mba-class/"
+   },
+   "gmat_focus": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "gmat_classic": {
+    "v": 731,
+    "stat": "average",
+    "src": "Poets&Quants / Michigan Ross (Class of 2027 profile coverage)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/16/fewer-students-higher-scores-inside-michigan-rosss-new-mba-class/"
+   },
+   "gre_quant": {
+    "v": 163,
+    "stat": "average",
+    "src": "Poets&Quants / Michigan Ross",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/16/fewer-students-higher-scores-inside-michigan-rosss-new-mba-class/"
+   },
+   "gre_verbal": {
+    "v": 160,
+    "stat": "average",
+    "src": "Poets&Quants / Michigan Ross",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/16/fewer-students-higher-scores-inside-michigan-rosss-new-mba-class/"
+   },
+   "gpa": {
+    "v": 3.43,
+    "stat": "average",
+    "src": "Poets&Quants / Michigan Ross",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/16/fewer-students-higher-scores-inside-michigan-rosss-new-mba-class/"
+   },
+   "accept_rate_pct": {
+    "v": 30,
+    "src": "Poets&Quants (379 enrolled from 3,923 applications; 30% as reported)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/16/fewer-students-higher-scores-inside-michigan-rosss-new-mba-class/"
+   },
+   "work_exp_years": {
+    "v": 5.8,
+    "stat": "average",
+    "src": "Poets&Quants / Michigan Ross",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/16/fewer-students-higher-scores-inside-michigan-rosss-new-mba-class/"
+   },
+   "women_pct": {
+    "v": 39,
+    "src": "Poets&Quants / Michigan Ross",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/16/fewer-students-higher-scores-inside-michigan-rosss-new-mba-class/"
+   },
+   "intl_pct": {
+    "v": 40,
+    "src": "Poets&Quants / Michigan Ross",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/11/16/fewer-students-higher-scores-inside-michigan-rosss-new-mba-class/"
+   },
+   "tuition_usd": {
+    "v": null,
+    "note": "per year; per-year tuition not verified from an authoritative source within this session",
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "salary_median_usd": {
+    "v": 170000,
+    "src": "Poets&Quants (Class of 2025 employment report coverage)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/12/12/mba-jobs-2025-later-hires-for-michigan-ross-but-pay-holds-steady/"
+   }
+  },
+  "notes": "Ross reports a single average GMAT of 731 without an explicit edition label in the coverage seen; the reported middle-80% range of 700-770 is consistent with the classic 200-800 scale, so it is recorded as classic, and no separate GMAT Focus figure was seen (nulled). FT 2026 full-time MBA rank could not be verified in any snippet and is nulled. QS 2026 rank not seen and nulled."
+ },
+ {
+  "slug": "cornell-johnson",
+  "name": "Cornell SC Johnson Graduate School of Management",
+  "university": "Cornell University",
+  "city": "Ithaca",
+  "state": "NY",
+  "region": "Northeast",
+  "type": "Private",
+  "ranks": {
+   "usnews": {
+    "rank": 15,
+    "edition": "2026",
+    "url": "https://www.stacyblackman.com/blog/2026-us-news-mba-rankings/"
+   },
+   "ft": {
+    "rank": 15,
+    "edition": "2026",
+    "url": "https://www.stacyblackman.com/blog/financial-times-mba-rankings/"
+   },
+   "bloomberg": {
+    "rank": 8,
+    "edition": "2025-26",
+    "url": "https://www.bloomberg.com/business-schools/cornell-johnson/",
+    "note": "Bloomberg page title states Cornell (Johnson) 8th in 2025-26 US B-School Rankings; school news confirms up from No. 11"
+   },
+   "qs": {
+    "rank": 23,
+    "edition": "2026",
+    "url": "https://www.topuniversities.com/universities/cornell-sc-johnson-college-business-cornell-university",
+    "note": "Global Full-Time MBA 2026 position per TopUniversities snippet; a QS insights article separately says Cornell entered the QS US top 10"
+   },
+   "pq": {
+    "rank": 7,
+    "edition": "2025-2026",
+    "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/",
+    "note": "P&Q snippet: moved from No. 9 to No. 7"
+   }
+  },
+  "profile": {
+   "class_year": "Class of 2027",
+   "class_size": {
+    "v": 276,
+    "src": "Clear Admit class profile article (Two-Year MBA)",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/09/cornell-johnson-two-year-mba-class-of-2027-profile/"
+   },
+   "gmat_focus": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "No GMAT Focus Edition figure seen for Cornell in sources reviewed"
+   },
+   "gmat_classic": {
+    "v": 710,
+    "stat": "median",
+    "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/09/cornell-johnson-two-year-mba-class-of-2027-profile/",
+    "note": "Reported as median GMAT holding steady at 710; scale not explicitly labeled in snippet but continuity with prior classic-scale medians and implausibility as a Focus class median indicate the classic 200-800 scale"
+   },
+   "gre_quant": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "Not seen in sources reviewed"
+   },
+   "gre_verbal": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "Not seen in sources reviewed"
+   },
+   "gpa": {
+    "v": 3.4,
+    "stat": "median",
+    "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/09/cornell-johnson-two-year-mba-class-of-2027-profile/"
+   },
+   "accept_rate_pct": {
+    "v": null,
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "Secondary sources conflict (28 to 30 percent) and cycle year unverified; no figure seen from a preferred source"
+   },
+   "work_exp_years": {
+    "v": 5.3,
+    "stat": "average",
+    "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/09/cornell-johnson-two-year-mba-class-of-2027-profile/"
+   },
+   "women_pct": {
+    "v": 38,
+    "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/09/cornell-johnson-two-year-mba-class-of-2027-profile/"
+   },
+   "intl_pct": {
+    "v": 42,
+    "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/09/cornell-johnson-two-year-mba-class-of-2027-profile/"
+   },
+   "tuition_usd": {
+    "v": 86596,
+    "note": "per year, 2025-26 Two-Year MBA (Ithaca); search snippet ambiguously said per term but the same snippet's total annual cost of attendance of 119,994 shows 86,596 is the annual tuition",
+    "src": "Cornell Johnson Estimated Cost of Attendance 2025-26",
+    "year": 2025,
+    "url": "https://www.johnson.cornell.edu/programs/tuition-expenses"
+   },
+   "salary_median_usd": {
+    "v": 175000,
+    "src": "Clear Admit coverage of Cornell Johnson Class of 2025 employment report",
+    "year": 2026,
+    "url": "https://www.clearadmit.com/2026/01/cornell-johnson-mba-class-of-2025-employment-report/",
+    "note": "Median base salary, Class of 2025; unchanged from 2023 and 2024"
+   }
+  }
+ },
+ {
+  "slug": "uva-darden",
+  "name": "University of Virginia Darden School of Business",
+  "university": "University of Virginia",
+  "city": "Charlottesville",
+  "state": "VA",
+  "region": "South",
+  "type": "Public",
+  "ranks": {
+   "usnews": {
+    "rank": 11,
+    "edition": "2026",
+    "url": "https://www.stacyblackman.com/blog/2026-us-news-mba-rankings/",
+    "note": "Tie at No. 11"
+   },
+   "ft": {
+    "rank": 19,
+    "edition": "2026",
+    "url": "https://news.darden.virginia.edu/2026/02/16/research-career-outcomes-propel-uva-darden-into-u-s-top-10-financial-times-ranking/",
+    "note": "School reports No. 19 globally (up from No. 20) and No. 9 among US programs"
+   },
+   "bloomberg": {
+    "rank": 10,
+    "edition": "2025-26",
+    "url": "https://www.clearadmit.com/2025/09/bloomberg-b-school-rankings-2025-2026-key-takeaways/",
+    "note": "Down from No. 5 in 2024-25"
+   },
+   "qs": {
+    "rank": null,
+    "edition": "2026",
+    "url": "",
+    "note": "P&Q QS coverage says Darden does not crack the QS top 50; QS US list shows No. 25 in the United States 2026; exact global rank not verified"
+   },
+   "pq": {
+    "rank": 5,
+    "edition": "2025-2026",
+    "url": "https://news.darden.virginia.edu/2025/12/08/uva-darden-no-1-public-business-school-in-poets-quants-ranking/",
+    "note": "No. 5 overall, No. 1 public, same as prior year"
+   }
+  },
+  "profile": {
+   "class_year": "Class of 2027",
+   "class_size": {
+    "v": 361,
+    "src": "UVA Darden admissions blog, Class of 2027 profile",
+    "year": 2025,
+    "url": "https://blogs.darden.virginia.edu/admissions/2025/12/16/introducing-uva-dardens-full-time-mba-class-of-2027-class-profile/"
+   },
+   "gmat_focus": {
+    "v": 671,
+    "stat": "average",
+    "src": "UVA Darden admissions blog, Class of 2027 profile",
+    "year": 2025,
+    "url": "https://blogs.darden.virginia.edu/admissions/2025/12/16/introducing-uva-dardens-full-time-mba-class-of-2027-class-profile/",
+    "note": "Labeled GMAT Focus Edition; middle 80 percent 626-715"
+   },
+   "gmat_classic": {
+    "v": 725,
+    "stat": "average",
+    "src": "UVA Darden admissions blog, Class of 2027 profile",
+    "year": 2025,
+    "url": "https://blogs.darden.virginia.edu/admissions/2025/12/16/introducing-uva-dardens-full-time-mba-class-of-2027-class-profile/",
+    "note": "Labeled GMAT 10th Edition; middle 80 percent 690-750"
+   },
+   "gre_quant": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "Only a combined GRE mean of 322 was seen (middle 80 percent 311-335); no quant/verbal split verified"
+   },
+   "gre_verbal": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "Only a combined GRE mean of 322 was seen; no quant/verbal split verified"
+   },
+   "gpa": {
+    "v": 3.56,
+    "stat": "average",
+    "src": "UVA Darden admissions blog, Class of 2027 profile",
+    "year": 2025,
+    "url": "https://blogs.darden.virginia.edu/admissions/2025/12/16/introducing-uva-dardens-full-time-mba-class-of-2027-class-profile/",
+    "note": "Official blog snippet says 3.56; one secondary snippet said 3.54"
+   },
+   "accept_rate_pct": {
+    "v": null,
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "Secondary source reported 36.51 percent but cycle year unverified; no figure seen from a preferred source"
+   },
+   "work_exp_years": {
+    "v": 5.67,
+    "stat": "average",
+    "src": "UVA Darden admissions blog, Class of 2027 profile",
+    "year": 2025,
+    "url": "https://blogs.darden.virginia.edu/admissions/2025/12/16/introducing-uva-dardens-full-time-mba-class-of-2027-class-profile/"
+   },
+   "women_pct": {
+    "v": 35,
+    "src": "UVA Darden admissions blog, Class of 2027 profile",
+    "year": 2025,
+    "url": "https://blogs.darden.virginia.edu/admissions/2025/12/16/introducing-uva-dardens-full-time-mba-class-of-2027-class-profile/"
+   },
+   "intl_pct": {
+    "v": 30,
+    "src": "UVA Darden admissions blog, Class of 2027 profile",
+    "year": 2025,
+    "url": "https://blogs.darden.virginia.edu/admissions/2025/12/16/introducing-uva-dardens-full-time-mba-class-of-2027-class-profile/",
+    "note": "Defined as born outside the US; 28 countries represented"
+   },
+   "tuition_usd": {
+    "v": 84598,
+    "note": "per year, 2025-26, non-Virginia resident; Virginia resident 79,598; international 84,838",
+    "src": "UVA Darden tuition and billing page",
+    "year": 2025,
+    "url": "https://www.darden.virginia.edu/mba/tuition-financial-aid/tuition-fees-billing/billing"
+   },
+   "salary_median_usd": {
+    "v": 175000,
+    "src": "Clear Admit coverage of UVA Darden Class of 2025 employment report",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/12/uva-darden-mba-class-of-2025-employment-report/",
+    "note": "Median base salary, Class of 2025; fifth consecutive year at 175,000 with 30,000 median signing bonus"
+   }
+  }
+ },
+ {
+  "slug": "ucla-anderson",
+  "name": "UCLA Anderson School of Management",
+  "university": "University of California, Los Angeles",
+  "city": "Los Angeles",
+  "state": "CA",
+  "region": "West",
+  "type": "Public",
+  "ranks": {
+   "usnews": {
+    "rank": 18,
+    "edition": "2026",
+    "url": "https://www.stacyblackman.com/blog/2026-us-news-mba-rankings/",
+    "note": "Tie at No. 18"
+   },
+   "ft": {
+    "rank": 32,
+    "edition": "2026",
+    "url": "https://www.stacyblackman.com/blog/financial-times-mba-rankings/",
+    "note": "Fell from No. 19 in 2025 to No. 32"
+   },
+   "bloomberg": {
+    "rank": 19,
+    "edition": "2025-26",
+    "url": "https://www.bloomberg.com/business-schools/ucla-anderson/",
+    "note": "Bloomberg page title states 19th; moved from No. 18 to No. 19"
+   },
+   "qs": {
+    "rank": 18,
+    "edition": "2026",
+    "url": "https://poetsandquants.com/2025/09/18/qs-global-mba-ranking-a-new-1-replaces-stanford-after-6-years/",
+    "note": "Global list; slipped from 14th to 18th per P&Q QS 2026 coverage"
+   },
+   "pq": {
+    "rank": 10,
+    "edition": "2025-2026",
+    "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/",
+    "note": "Rose four places to No. 10"
+   }
+  },
+  "profile": {
+   "class_year": "Class of 2027",
+   "class_size": {
+    "v": 307,
+    "src": "Clear Admit / Poets&Quants Class of 2027 profile (school class profile page)",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/09/ucla-anderson-mba-class-of-2027-profile/"
+   },
+   "gmat_focus": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "No separate GMAT Focus figure seen for UCLA Anderson Class of 2027 in sources reviewed"
+   },
+   "gmat_classic": {
+    "v": 703,
+    "stat": "average",
+    "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/09/ucla-anderson-mba-class-of-2027-profile/",
+    "note": "Labeled mean GMAT 10th Edition; middle 80 percent 670-750"
+   },
+   "gre_quant": {
+    "v": 163,
+    "stat": "average",
+    "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/09/ucla-anderson-mba-class-of-2027-profile/",
+    "note": "Average combined GRE 325"
+   },
+   "gre_verbal": {
+    "v": 162,
+    "stat": "average",
+    "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/09/ucla-anderson-mba-class-of-2027-profile/"
+   },
+   "gpa": {
+    "v": 3.5,
+    "stat": "average",
+    "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/09/ucla-anderson-mba-class-of-2027-profile/",
+    "note": "Mean GPA; middle 80 percent 3.1-3.8"
+   },
+   "accept_rate_pct": {
+    "v": null,
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "Secondary sources conflict sharply (9.9 to 12 percent claims fail plausibility for this program); no figure seen from a preferred source"
+   },
+   "work_exp_years": {
+    "v": 5.6,
+    "stat": "average",
+    "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/09/ucla-anderson-mba-class-of-2027-profile/"
+   },
+   "women_pct": {
+    "v": 46,
+    "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/09/ucla-anderson-mba-class-of-2027-profile/"
+   },
+   "intl_pct": {
+    "v": 35,
+    "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/09/ucla-anderson-mba-class-of-2027-profile/"
+   },
+   "tuition_usd": {
+    "v": 79452,
+    "note": "per year, 2025-26; snippet states same tuition regardless of California residency; source is a secondary guide, not verified on the Anderson site",
+    "src": "MiM-Essay UCLA MBA guide (search snippet)",
+    "year": 2025,
+    "url": "https://www.mim-essay.com/ucla-mba"
+   },
+   "salary_median_usd": {
+    "v": null,
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "Secondary coverage reports a Class of 2025 median base salary of 160,096 (up 12 percent), but this was not seen from a preferred source"
+   }
+  }
+ },
+ {
+  "slug": "cmu-tepper",
+  "name": "Carnegie Mellon University Tepper School of Business",
+  "university": "Carnegie Mellon University",
+  "city": "Pittsburgh",
+  "state": "PA",
+  "region": "Northeast",
+  "type": "Private",
+  "ranks": {
+   "usnews": {
+    "rank": 16,
+    "edition": "2026",
+    "url": "https://www.cmu.edu/tepper/news/stories/usnwr-best-graduate-school-ranking-2026",
+    "note": "School news: No. 16, up from No. 18; other coverage shows a tie at 16"
+   },
+   "ft": {
+    "rank": 41,
+    "edition": "2026",
+    "url": "https://poetsandquants.com/2026/02/16/2026-financial-times-mba-ranking-mit-tops-list-for-the-first-time/",
+    "note": "Gained eight places from 49th in 2025 to 41st"
+   },
+   "bloomberg": {
+    "rank": 15,
+    "edition": "2025-26",
+    "url": "https://www.clearadmit.com/2025/09/bloomberg-b-school-rankings-2025-2026-key-takeaways/",
+    "note": "Fell from No. 9 to No. 15"
+   },
+   "qs": {
+    "rank": 46,
+    "edition": "2026",
+    "url": "https://www.topmba.com/mba-rankings/global",
+    "note": "TopMBA Full-Time MBA Rankings Global 2026"
+   },
+   "pq": {
+    "rank": null,
+    "edition": "2025-2026",
+    "url": "",
+    "note": "Tepper's position in the P&Q 2025-2026 composite ranking was not surfaced in any snippet reviewed"
+   }
+  },
+  "profile": {
+   "class_year": "Class of 2027",
+   "class_size": {
+    "v": 144,
+    "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/09/carnegie-mellon-tepper-mba-class-of-2027-profile/"
+   },
+   "gmat_focus": {
+    "v": 659,
+    "stat": "average",
+    "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/09/carnegie-mellon-tepper-mba-class-of-2027-profile/",
+    "note": "Labeled GMAT Focus Edition; middle 80 percent 595-715"
+   },
+   "gmat_classic": {
+    "v": 707,
+    "stat": "average",
+    "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/09/carnegie-mellon-tepper-mba-class-of-2027-profile/",
+    "note": "Labeled GMAT 10th Edition; middle 80 percent 700-740"
+   },
+   "gre_quant": {
+    "v": 163,
+    "stat": "average",
+    "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/09/carnegie-mellon-tepper-mba-class-of-2027-profile/"
+   },
+   "gre_verbal": {
+    "v": 159,
+    "stat": "average",
+    "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/09/carnegie-mellon-tepper-mba-class-of-2027-profile/"
+   },
+   "gpa": {
+    "v": 3.33,
+    "stat": "average",
+    "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/09/carnegie-mellon-tepper-mba-class-of-2027-profile/",
+    "note": "Average 3.33; median 3.38 also reported"
+   },
+   "accept_rate_pct": {
+    "v": null,
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "No acceptance rate seen from a preferred source"
+   },
+   "work_exp_years": {
+    "v": 5.2,
+    "stat": "average",
+    "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/09/carnegie-mellon-tepper-mba-class-of-2027-profile/"
+   },
+   "women_pct": {
+    "v": null,
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "Tepper did not report the percentage of women for the Class of 2027 per Clear Admit / P&Q"
+   },
+   "intl_pct": {
+    "v": 37,
+    "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/09/carnegie-mellon-tepper-mba-class-of-2027-profile/"
+   },
+   "tuition_usd": {
+    "v": null,
+    "note": "per year; a secondary guide cites approximately 81,340 per year for the 2026 intake but this was not verified on the school site",
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "salary_median_usd": {
+    "v": 160000,
+    "src": "Tepper School news release, 2025 MBA Summary Employment Report",
+    "year": 2025,
+    "url": "https://www.cmu.edu/tepper/news/stories/2025-mba-summary-employment-report",
+    "note": "Median base salary, Class of 2025; average signing bonus 38,610"
+   }
+  }
+ },
+ {
+  "slug": "texas-mccombs",
+  "name": "University of Texas at Austin McCombs School of Business",
+  "university": "University of Texas at Austin",
+  "city": "Austin",
+  "state": "TX",
+  "region": "South",
+  "type": "Public",
+  "ranks": {
+   "usnews": {
+    "rank": 18,
+    "edition": "2026",
+    "url": "https://www.stacyblackman.com/blog/2026-us-news-mba-rankings/",
+    "note": "Tie at No. 18"
+   },
+   "ft": {
+    "rank": 41,
+    "edition": "2026",
+    "url": "https://news.mccombs.utexas.edu/rankings/top-rankings-for-mccombs-in-financial-times/",
+    "note": "School news: No. 41 worldwide and No. 18 among US programs in the 2026 release; FT shows ties, and Tepper is also reported at 41"
+   },
+   "bloomberg": {
+    "rank": 21,
+    "edition": "2025-26",
+    "url": "https://www.clearadmit.com/2025/09/bloomberg-b-school-rankings-2025-2026-key-takeaways/",
+    "note": "Slipped from No. 19 to No. 21"
+   },
+   "qs": {
+    "rank": null,
+    "edition": "2026",
+    "url": "https://news.mccombs.utexas.edu/featured/mccombs-mba-programs-take-high-ranks-3/",
+    "note": "School reports No. 17 in the US in QS Global MBA Rankings 2026; global position not seen"
+   },
+   "pq": {
+    "rank": 13,
+    "edition": "2025-2026",
+    "url": "https://news.mccombs.utexas.edu/rankings/hildebrand-mba-takes-lucky-13-in-poets-quants-ranking/",
+    "note": "Up from No. 16 in 2024-2025"
+   }
+  },
+  "profile": {
+   "class_year": "Class of 2027",
+   "class_size": {
+    "v": 235,
+    "src": "Clear Admit / Poets&Quants Class of 2027 profile (Texas McCombs MBA Insider)",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/10/texas-mccombs-mba-class-of-2027-profile/"
+   },
+   "gmat_focus": {
+    "v": 657,
+    "stat": "",
+    "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/10/texas-mccombs-mba-class-of-2027-profile/",
+    "note": "Labeled GMAT Focus with middle 80 percent 615-695; snippet did not state whether 657 is the average or the median"
+   },
+   "gmat_classic": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "No classic-scale GMAT reported for the Class of 2027 in sources reviewed"
+   },
+   "gre_quant": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "Only a combined GRE of 320 was seen (37 percent of class submitted GRE); no quant/verbal split verified"
+   },
+   "gre_verbal": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "Only a combined GRE of 320 was seen; no quant/verbal split verified"
+   },
+   "gpa": {
+    "v": 3.53,
+    "stat": "median",
+    "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/10/texas-mccombs-mba-class-of-2027-profile/"
+   },
+   "accept_rate_pct": {
+    "v": null,
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "No acceptance rate seen from a preferred source"
+   },
+   "work_exp_years": {
+    "v": 6,
+    "stat": "average",
+    "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/10/texas-mccombs-mba-class-of-2027-profile/"
+   },
+   "women_pct": {
+    "v": 29,
+    "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/10/texas-mccombs-mba-class-of-2027-profile/"
+   },
+   "intl_pct": {
+    "v": 31,
+    "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/10/texas-mccombs-mba-class-of-2027-profile/"
+   },
+   "tuition_usd": {
+    "v": 61214,
+    "note": "per year, 2025-26, out-of-state first-year students; in-state 55,196",
+    "src": "Texas McCombs Full-Time MBA tuition page (search snippet)",
+    "year": 2025,
+    "url": "https://www.mccombs.utexas.edu/graduate/mba/full-time-mba/tuition-financial-aid/"
+   },
+   "salary_median_usd": {
+    "v": 150000,
+    "src": "Clear Admit coverage of Texas McCombs Class of 2025 employment report",
+    "year": 2026,
+    "url": "https://www.clearadmit.com/2026/02/texas-mccombs-mba-class-of-2025-employment-report/",
+    "note": "Median base salary, Class of 2025; mean 154,053"
+   }
+  }
+ },
+ {
+  "slug": "unc-kenan-flagler",
+  "name": "University of North Carolina Kenan-Flagler Business School",
+  "university": "University of North Carolina at Chapel Hill",
+  "city": "Chapel Hill",
+  "state": "NC",
+  "region": "South",
+  "type": "Public",
+  "ranks": {
+   "usnews": {
+    "rank": 21,
+    "edition": "2026",
+    "url": "https://www.clearadmit.com/2026/04/u-s-news-2026-best-business-schools-stanford-claims-top-spot/",
+    "note": "Gained 7 spots to No. 21"
+   },
+   "ft": {
+    "rank": 40,
+    "edition": "2026",
+    "url": "https://poetsandquants.com/2026/02/16/2026-financial-times-mba-ranking-mit-tops-list-for-the-first-time/",
+    "note": "Climbed 11 places to 40th"
+   },
+   "bloomberg": {
+    "rank": 28,
+    "edition": "2025-26",
+    "url": "https://www.bloomberg.com/business-schools/north-carolina-kenan-flagler/"
+   },
+   "qs": {
+    "rank": null,
+    "edition": "2026",
+    "url": "",
+    "note": "QS 2026 global rank not seen; QS 2025 listed Kenan-Flagler 86th globally per TopMBA page"
+   },
+   "pq": {
+    "rank": null,
+    "edition": "2025-2026",
+    "url": "",
+    "note": "P&Q 2025-2026 composite position not surfaced in snippets reviewed"
+   }
+  },
+  "profile": {
+   "class_year": "Class of 2027",
+   "class_size": {
+    "v": 206,
+    "src": "Poets&Quants, Meet North Carolina Kenan-Flagler's MBA Class of 2027",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/10/23/meet-north-carolina-kenan-flaglers-mba-class-of-2027/",
+    "note": "206 enrolled, not counting 46 deferrals; 2,206 applications"
+   },
+   "gmat_focus": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "No GMAT Focus figure seen for the Class of 2027 in sources reviewed"
+   },
+   "gmat_classic": {
+    "v": 710,
+    "stat": "average",
+    "src": "Poets&Quants, Meet North Carolina Kenan-Flagler's MBA Class of 2027",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/10/23/meet-north-carolina-kenan-flaglers-mba-class-of-2027/",
+    "note": "Scale not labeled in snippet; mid-80 percent range 660-750 indicates the classic 200-800 scale; a 14-point rise over two years"
+   },
+   "gre_quant": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "Only a combined GRE average of 319 was seen; no quant/verbal split verified"
+   },
+   "gre_verbal": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "Only a combined GRE average of 319 was seen; no quant/verbal split verified"
+   },
+   "gpa": {
+    "v": 3.445,
+    "stat": "average",
+    "src": "Poets&Quants, Meet North Carolina Kenan-Flagler's MBA Class of 2027",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/10/23/meet-north-carolina-kenan-flaglers-mba-class-of-2027/",
+    "note": "Up from 3.4 for the previous class"
+   },
+   "accept_rate_pct": {
+    "v": null,
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "Secondary sources report about 37.6 percent but cycle year unverified; no figure seen from a preferred source"
+   },
+   "work_exp_years": {
+    "v": 5,
+    "stat": "average",
+    "src": "Poets&Quants, Meet North Carolina Kenan-Flagler's MBA Class of 2027",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/10/23/meet-north-carolina-kenan-flaglers-mba-class-of-2027/"
+   },
+   "women_pct": {
+    "v": 31,
+    "src": "Poets&Quants, Meet North Carolina Kenan-Flagler's MBA Class of 2027",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/10/23/meet-north-carolina-kenan-flaglers-mba-class-of-2027/"
+   },
+   "intl_pct": {
+    "v": 35,
+    "src": "Poets&Quants, Meet North Carolina Kenan-Flagler's MBA Class of 2027",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/10/23/meet-north-carolina-kenan-flaglers-mba-class-of-2027/",
+    "note": "Down from 43 percent the prior year"
+   },
+   "tuition_usd": {
+    "v": 74138,
+    "note": "per year, 2025-26 tuition and fees, out-of-state; in-state 55,416",
+    "src": "Clear Admit school profile (search snippet)",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/schools/kenan-flagler/"
+   },
+   "salary_median_usd": {
+    "v": null,
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "Median not seen; school one-pager reports average base salary 139,637 for the Class of 2025 (153 reporting) at https://www.kenan-flagler.unc.edu/wp-content/uploads/2025/12/FTMBA26-032-Employment-Statistics-One-Pager_FNL.pdf"
+   }
+  }
+ },
+ {
+  "slug": "emory-goizueta",
+  "name": "Emory University Goizueta Business School",
+  "university": "Emory University",
+  "city": "Atlanta",
+  "state": "GA",
+  "region": "South",
+  "type": "Private",
+  "ranks": {
+   "usnews": {
+    "rank": 23,
+    "edition": "2026",
+    "url": "https://www.clearadmit.com/2026/04/u-s-news-2026-best-business-schools-stanford-claims-top-spot/"
+   },
+   "ft": {
+    "rank": 56,
+    "edition": "2026",
+    "url": "https://www.clearadmit.com/2026/02/the-financial-times-2026-global-mba-ranking/",
+    "note": "Fell 11 positions to 56th"
+   },
+   "bloomberg": {
+    "rank": 16,
+    "edition": "2025-26",
+    "url": "https://www.gmac.com/resources/learners/business-programs/explore-programs/bloomberg-mba-ranking",
+    "note": "As reported in GMAC summary of the Bloomberg 2025-26 ranking"
+   },
+   "qs": {
+    "rank": 72,
+    "edition": "2026",
+    "url": "https://www.universityguru.com/university/goizueta-business-school,-emory-university-atlanta",
+    "note": "Global Full-Time MBA position in the QS ranking published September 2025, via UniversityGuru aggregator citing QS"
+   },
+   "pq": {
+    "rank": null,
+    "edition": "2025-2026",
+    "url": "",
+    "note": "P&Q 2025-2026 composite position not surfaced in snippets reviewed"
+   }
+  },
+  "profile": {
+   "class_year": "Class of 2027",
+   "class_size": {
+    "v": 128,
+    "src": "Poets&Quants, Meet Emory Goizueta's MBA Class of 2027 (Two-Year MBA)",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/10/30/meet-emory-goizuetas-mba-class-of-2027/"
+   },
+   "gmat_focus": {
+    "v": 648,
+    "stat": "average",
+    "src": "Poets&Quants, Meet Emory Goizueta's MBA Class of 2027",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/10/30/meet-emory-goizuetas-mba-class-of-2027/",
+    "note": "Labeled average GMAT Focus"
+   },
+   "gmat_classic": {
+    "v": 723,
+    "stat": "average",
+    "src": "Poets&Quants, Meet Emory Goizueta's MBA Class of 2027",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/10/30/meet-emory-goizuetas-mba-class-of-2027/",
+    "note": "Labeled average GMAT alongside a separate Focus average, indicating the classic scale"
+   },
+   "gre_quant": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "Not seen in sources reviewed"
+   },
+   "gre_verbal": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "Not seen in sources reviewed"
+   },
+   "gpa": {
+    "v": 3.5,
+    "stat": "average",
+    "src": "Poets&Quants, Meet Emory Goizueta's MBA Class of 2027",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/10/30/meet-emory-goizuetas-mba-class-of-2027/"
+   },
+   "accept_rate_pct": {
+    "v": null,
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "A 37 percent figure attributed to US News-derived data appeared only via a non-preferred aggregator; not recorded"
+   },
+   "work_exp_years": {
+    "v": 6,
+    "stat": "average",
+    "src": "Poets&Quants, Meet Emory Goizueta's MBA Class of 2027",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/10/30/meet-emory-goizuetas-mba-class-of-2027/"
+   },
+   "women_pct": {
+    "v": 38,
+    "src": "Poets&Quants, Meet Emory Goizueta's MBA Class of 2027",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/10/30/meet-emory-goizuetas-mba-class-of-2027/"
+   },
+   "intl_pct": {
+    "v": 36,
+    "src": "Poets&Quants, Meet Emory Goizueta's MBA Class of 2027",
+    "year": 2025,
+    "url": "https://poetsandquants.com/2025/10/30/meet-emory-goizuetas-mba-class-of-2027/"
+   },
+   "tuition_usd": {
+    "v": null,
+    "note": "per year; only a stale 65,400 figure surfaced and the school says rates are updated each spring; 2025-26 rate not verified",
+    "src": "",
+    "year": null,
+    "url": ""
+   },
+   "salary_median_usd": {
+    "v": 175000,
+    "src": "EmoryBusiness.com, 2025 Full-Time MBA Employment Report",
+    "year": 2026,
+    "url": "https://www.emorybusiness.com/2026/01/28/2025-full-time-mba-employment-report-strong-outcomes-reflect-goizuetas-integrated-approach/",
+    "note": "Median base salary, Class of 2025; median total compensation 205,000 including signing bonus"
+   }
+  }
+ },
+ {
+  "slug": "georgetown-mcdonough",
+  "name": "Georgetown University McDonough School of Business",
+  "university": "Georgetown University",
+  "city": "Washington",
+  "state": "DC",
+  "region": "South",
+  "type": "Private",
+  "ranks": {
+   "usnews": {
+    "rank": 31,
+    "edition": "2026",
+    "url": "https://www.clearadmit.com/2026/04/u-s-news-2026-best-business-schools-stanford-claims-top-spot/",
+    "note": "Dropped seven places, out of the top 25 for the first time"
+   },
+   "ft": {
+    "rank": 49,
+    "edition": "2026",
+    "url": "https://msb.georgetown.edu/news-story/rankings/georgetown-full-time-mba-places-23rd-nationally-in-latest-financial-times-ranking-5th-for-salary-increase/",
+    "note": "School reports 49th in the world and 23rd in the US; 5th for salary increase"
+   },
+   "bloomberg": {
+    "rank": 22,
+    "edition": "2025-26",
+    "url": "https://www.bloomberg.com/business-schools/georgetown-mcdonough/",
+    "note": "22nd overall; 21st for compensation"
+   },
+   "qs": {
+    "rank": null,
+    "edition": "2026",
+    "url": "https://msb.georgetown.edu/news-story/rankings/qs-ranks-georgetown-programs-among-best-in-the-world/",
+    "note": "School news reports 22nd for the Full-Time MBA in QS graduate management education rankings, apparently the US list; global position not verified"
+   },
+   "pq": {
+    "rank": null,
+    "edition": "2025-2026",
+    "url": "",
+    "note": "P&Q 2025-2026 composite position not surfaced; a No. 31 figure in one snippet matched the US News 2026 description and was not clearly the P&Q rank"
+   }
+  },
+  "profile": {
+   "class_year": "Class of 2027",
+   "class_size": {
+    "v": 248,
+    "src": "Clear Admit / Georgetown McDonough Class of 2027 profile",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/09/georgetown-mcdonough-mba-class-of-2027-profile/",
+    "note": "248 enrolled from 1,617 applicants"
+   },
+   "gmat_focus": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "No GMAT Focus figure seen for the Class of 2027 in sources reviewed"
+   },
+   "gmat_classic": {
+    "v": 700,
+    "stat": "average",
+    "src": "Clear Admit / Georgetown McDonough Class of 2027 profile",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/09/georgetown-mcdonough-mba-class-of-2027-profile/",
+    "note": "Scale not labeled in snippet; 80 percent of scores between 660 and 740 indicates the classic 200-800 scale"
+   },
+   "gre_quant": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "Only a combined average GRE of 318 was seen; no quant/verbal split verified"
+   },
+   "gre_verbal": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "Only a combined average GRE of 318 was seen; no quant/verbal split verified"
+   },
+   "gpa": {
+    "v": 3.3,
+    "stat": "average",
+    "src": "Clear Admit / Georgetown McDonough Class of 2027 profile",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/09/georgetown-mcdonough-mba-class-of-2027-profile/"
+   },
+   "accept_rate_pct": {
+    "v": null,
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "Secondary sources conflict widely (roughly 60 to 62 percent, with outliers); no figure seen from a preferred source"
+   },
+   "work_exp_years": {
+    "v": 5,
+    "stat": "average",
+    "src": "Clear Admit / Georgetown McDonough Class of 2027 profile",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/09/georgetown-mcdonough-mba-class-of-2027-profile/"
+   },
+   "women_pct": {
+    "v": 31,
+    "src": "Clear Admit / Georgetown McDonough Class of 2027 profile",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/09/georgetown-mcdonough-mba-class-of-2027-profile/"
+   },
+   "intl_pct": {
+    "v": 44,
+    "src": "Clear Admit / Georgetown McDonough Class of 2027 profile",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/2025/09/georgetown-mcdonough-mba-class-of-2027-profile/",
+    "note": "44 percent representing 40 countries"
+   },
+   "tuition_usd": {
+    "v": 70108,
+    "note": "per year, 2025-26",
+    "src": "Georgetown McDonough Full-Time MBA admissions and tuition page (search snippet)",
+    "year": 2025,
+    "url": "https://msb.georgetown.edu/full-time-mba/admissions-tuition/"
+   },
+   "salary_median_usd": {
+    "v": null,
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "Overall median not seen; Class of 2025 average base salary 146,265 per Clear Admit at https://www.clearadmit.com/2025/12/georgetown-mcdonough-mba-class-of-2025-employment-report/; industry medians were 175,000 consulting and 150,000 finance"
+   }
+  }
+ },
+ {
+  "slug": "washington-foster",
+  "name": "University of Washington Foster School of Business",
+  "university": "University of Washington",
+  "city": "Seattle",
+  "state": "WA",
+  "region": "West",
+  "type": "Public",
+  "ranks": {
+   "usnews": {
+    "rank": 20,
+    "edition": "2026",
+    "url": "https://www.clearadmit.com/2026/04/u-s-news-2026-best-business-schools-stanford-claims-top-spot/"
+   },
+   "ft": {
+    "rank": 45,
+    "edition": "2026",
+    "url": "https://www.clearadmit.com/2026/02/the-financial-times-2026-global-mba-ranking/",
+    "note": "Fell 11 positions from 34th to 45th"
+   },
+   "bloomberg": {
+    "rank": 18,
+    "edition": "2025-26",
+    "url": "https://www.bloomberg.com/business-schools/washington-foster/",
+    "note": "Bloomberg page title states 18th"
+   },
+   "qs": {
+    "rank": 81,
+    "edition": "2026",
+    "url": "https://www.universityguru.com/university/michael-g.-foster-school-of-business,-university-of-washington---seattle-seattle",
+    "note": "Global Full-Time MBA position in the QS ranking published September 2025, via UniversityGuru aggregator citing QS"
+   },
+   "pq": {
+    "rank": 19,
+    "edition": "2025",
+    "url": "https://foster.uw.edu/about-foster-school/rankings/",
+    "note": "Foster rankings page lists No. 19 full-time MBA by Poets&Quants in 2025; which P&Q edition (2024-2025 vs 2025-2026) is not stated"
+   }
+  },
+  "profile": {
+   "class_year": "Class of 2027",
+   "class_size": {
+    "v": 102,
+    "src": "Clear Admit / Poets&Quants Class of 2027 profile coverage",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/schools/foster/"
+   },
+   "gmat_focus": {
+    "v": 655,
+    "stat": "median",
+    "src": "Clear Admit / Poets&Quants Class of 2027 profile coverage",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/schools/foster/",
+    "note": "Labeled median GMAT Focus"
+   },
+   "gmat_classic": {
+    "v": 720,
+    "stat": "median",
+    "src": "Clear Admit / Poets&Quants Class of 2027 profile coverage",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/schools/foster/",
+    "note": "Labeled median GMAT 10th Edition"
+   },
+   "gre_quant": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "Not seen in sources reviewed"
+   },
+   "gre_verbal": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "Not seen in sources reviewed"
+   },
+   "gpa": {
+    "v": 3.4,
+    "stat": "average",
+    "src": "Clear Admit / Poets&Quants Class of 2027 profile coverage",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/schools/foster/"
+   },
+   "accept_rate_pct": {
+    "v": null,
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "Secondary sources conflict (34 to 42 percent); no figure seen from a preferred source"
+   },
+   "work_exp_years": {
+    "v": 6,
+    "stat": "average",
+    "src": "Clear Admit / Poets&Quants Class of 2027 profile coverage",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/schools/foster/"
+   },
+   "women_pct": {
+    "v": 51,
+    "src": "Clear Admit / Poets&Quants Class of 2027 profile coverage",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/schools/foster/"
+   },
+   "intl_pct": {
+    "v": 56,
+    "src": "Clear Admit / Poets&Quants Class of 2027 profile coverage",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/schools/foster/"
+   },
+   "tuition_usd": {
+    "v": 59574,
+    "note": "per academic year, autumn 2025 start, non-resident tuition and fees; Washington resident 42,405",
+    "src": "Foster Full-Time MBA tuition and fees page (search snippet)",
+    "year": 2025,
+    "url": "https://www.foster.washington.edu/academics/degree-programs/full-time-mba/tuition-and-fees"
+   },
+   "salary_median_usd": {
+    "v": 145000,
+    "src": "Bloomberg Businessweek Best B-Schools 2025-26 school profile for Washington (Foster)",
+    "year": 2025,
+    "url": "https://www.bloomberg.com/business-schools/washington-foster/",
+    "note": "Median base salary across industries as reported by Bloomberg, September 2025; median signing bonus 30,000"
+   }
+  }
+ },
+ {
+  "slug": "vanderbilt-owen",
+  "name": "Vanderbilt University Owen Graduate School of Management",
+  "university": "Vanderbilt University",
+  "city": "Nashville",
+  "state": "TN",
+  "region": "South",
+  "type": "Private",
+  "ranks": {
+   "usnews": {
+    "rank": 16,
+    "edition": "2026",
+    "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/vanderbilt-university-01208",
+    "note": "Moved from 18th to 16th; other coverage shows a tie at 16"
+   },
+   "ft": {
+    "rank": null,
+    "edition": "2026",
+    "url": "",
+    "note": "UniversityGuru lists 31st globally and 16th in the US for FT 2026, but the US position conflicts with Rice's school-reported No. 16 US at No. 38 global; unresolved, so left null"
+   },
+   "bloomberg": {
+    "rank": 27,
+    "edition": "2025-26",
+    "url": "https://www.bloomberg.com/business-schools/vanderbilt-owen/"
+   },
+   "qs": {
+    "rank": 101,
+    "edition": "2026",
+    "url": "https://www.universityguru.com/university/owen-graduate-school-of-management,-vanderbilt-university-nashville",
+    "note": "Global Full-Time MBA position in the QS ranking published September 2025, via UniversityGuru aggregator citing QS; QS US list shows tie at 39 in the United States 2026"
+   },
+   "pq": {
+    "rank": 18,
+    "edition": "2025-2026",
+    "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/",
+    "note": "No. 18 per P&Q 2025-2026 coverage snippet"
+   }
+  },
+  "profile": {
+   "class_year": "Class of 2027",
+   "class_size": {
+    "v": 160,
+    "src": "Vanderbilt Business news, Inside the Vanderbilt MBA Class of 2027",
+    "year": 2025,
+    "url": "https://business.vanderbilt.edu/news/2025/11/07/inside-the-vanderbilt-mba-class-of-2027-key-stats-and-class-profile/"
+   },
+   "gmat_focus": {
+    "v": 660,
+    "stat": "average",
+    "src": "Vanderbilt Business news, Inside the Vanderbilt MBA Class of 2027",
+    "year": 2025,
+    "url": "https://business.vanderbilt.edu/news/2025/11/07/inside-the-vanderbilt-mba-class-of-2027-key-stats-and-class-profile/",
+    "note": "Labeled average GMAT Focus Edition score"
+   },
+   "gmat_classic": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "No classic-scale GMAT reported for the Class of 2027 in sources reviewed"
+   },
+   "gre_quant": {
+    "v": 159,
+    "stat": "",
+    "src": "Vanderbilt Business news, Inside the Vanderbilt MBA Class of 2027",
+    "year": 2025,
+    "url": "https://business.vanderbilt.edu/news/2025/11/07/inside-the-vanderbilt-mba-class-of-2027-key-stats-and-class-profile/",
+    "note": "Snippet did not label whether average or median"
+   },
+   "gre_verbal": {
+    "v": 160,
+    "stat": "",
+    "src": "Vanderbilt Business news, Inside the Vanderbilt MBA Class of 2027",
+    "year": 2025,
+    "url": "https://business.vanderbilt.edu/news/2025/11/07/inside-the-vanderbilt-mba-class-of-2027-key-stats-and-class-profile/",
+    "note": "Snippet did not label whether average or median"
+   },
+   "gpa": {
+    "v": 3.4,
+    "stat": "median",
+    "src": "Vanderbilt Business news, Inside the Vanderbilt MBA Class of 2027",
+    "year": 2025,
+    "url": "https://business.vanderbilt.edu/news/2025/11/07/inside-the-vanderbilt-mba-class-of-2027-key-stats-and-class-profile/",
+    "note": "Labeled median undergraduate GPA"
+   },
+   "accept_rate_pct": {
+    "v": null,
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "A 40 percent figure appeared only via a non-preferred aggregator with unverified cycle year; not recorded"
+   },
+   "work_exp_years": {
+    "v": 6,
+    "stat": "average",
+    "src": "Vanderbilt Business news, Inside the Vanderbilt MBA Class of 2027",
+    "year": 2025,
+    "url": "https://business.vanderbilt.edu/news/2025/11/07/inside-the-vanderbilt-mba-class-of-2027-key-stats-and-class-profile/"
+   },
+   "women_pct": {
+    "v": 24,
+    "src": "Vanderbilt MBA class profile (Class of 2027)",
+    "year": 2025,
+    "url": "https://business.vanderbilt.edu/mba/class-profile/"
+   },
+   "intl_pct": {
+    "v": 29,
+    "src": "Vanderbilt Business news, Inside the Vanderbilt MBA Class of 2027",
+    "year": 2025,
+    "url": "https://business.vanderbilt.edu/news/2025/11/07/inside-the-vanderbilt-mba-class-of-2027-key-stats-and-class-profile/",
+    "note": "29 percent from 20 countries"
+   },
+   "tuition_usd": {
+    "v": 74500,
+    "note": "per year, 2025-26",
+    "src": "Vanderbilt Owen MBA tuition and financing page (search snippet)",
+    "year": 2025,
+    "url": "https://business.vanderbilt.edu/mba/admissions/tuition-financing-scholarships/"
+   },
+   "salary_median_usd": {
+    "v": 150000,
+    "src": "Bloomberg Businessweek Best B-Schools 2025-26 school profile for Vanderbilt (Owen)",
+    "year": 2025,
+    "url": "https://www.bloomberg.com/business-schools/vanderbilt-owen/",
+    "note": "Median base salary across industries as reported by Bloomberg; school separately reports Class of 2025 average base of 148,000 plus"
+   }
+  }
+ },
+ {
+  "slug": "rice-jones",
+  "name": "Rice University Jesse H. Jones Graduate School of Business",
+  "university": "Rice University",
+  "city": "Houston",
+  "state": "TX",
+  "region": "South",
+  "type": "Private",
+  "ranks": {
+   "usnews": {
+    "rank": 29,
+    "edition": "2026",
+    "url": "https://business.rice.edu/news/rice-business-earns-strong-results-latest-us-news-graduate-program-rankings",
+    "note": "Maintained No. 29 (tie) for full-time MBA in the 2026 edition"
+   },
+   "ft": {
+    "rank": 38,
+    "edition": "2026",
+    "url": "https://news.rice.edu/news/2026/rice-business-ranks-no-1-texas-no-16-us-financial-times-business-school-rankings",
+    "note": "School reports No. 38 globally, No. 16 in the US, No. 1 in Texas"
+   },
+   "bloomberg": {
+    "rank": 25,
+    "edition": "2025-26",
+    "url": "https://www.bloomberg.com/business-schools/rice-jones/",
+    "note": "Bloomberg page title states 25th"
+   },
+   "qs": {
+    "rank": null,
+    "edition": "2026",
+    "url": "",
+    "note": "A non-preferred aggregator cites 85th globally for the QS MBA ranking; not verified from QS or a preferred source"
+   },
+   "pq": {
+    "rank": 27,
+    "edition": "2025-2026",
+    "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/",
+    "note": "No. 27 per P&Q 2025-2026 coverage snippet"
+   }
+  },
+  "profile": {
+   "class_year": "Class of 2027",
+   "class_size": {
+    "v": 137,
+    "src": "Poets&Quants, Meet the Rice Business MBA Class of 2027",
+    "year": 2026,
+    "url": "https://poetsandquants.com/2026/07/13/meet-the-rice-business-mba-class-of-2027/"
+   },
+   "gmat_focus": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "No GMAT Focus figure seen for the Class of 2027 in sources reviewed"
+   },
+   "gmat_classic": {
+    "v": 693,
+    "stat": "average",
+    "src": "Poets&Quants, Meet the Rice Business MBA Class of 2027",
+    "year": 2026,
+    "url": "https://poetsandquants.com/2026/07/13/meet-the-rice-business-mba-class-of-2027/",
+    "note": "Scale not labeled in snippet; recorded as classic because a 693 class average is implausible on the Focus scale and continues Rice's classic-scale reporting"
+   },
+   "gre_quant": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "Not seen in sources reviewed"
+   },
+   "gre_verbal": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "Not seen in sources reviewed"
+   },
+   "gpa": {
+    "v": 3.4,
+    "stat": "average",
+    "src": "Poets&Quants, Meet the Rice Business MBA Class of 2027",
+    "year": 2026,
+    "url": "https://poetsandquants.com/2026/07/13/meet-the-rice-business-mba-class-of-2027/"
+   },
+   "accept_rate_pct": {
+    "v": null,
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "A roughly 39 percent figure (459 admitted of 1,178 applicants) appeared only via a non-preferred source; cycle year unverified"
+   },
+   "work_exp_years": {
+    "v": 5.7,
+    "stat": "average",
+    "src": "Poets&Quants, Meet the Rice Business MBA Class of 2027",
+    "year": 2026,
+    "url": "https://poetsandquants.com/2026/07/13/meet-the-rice-business-mba-class-of-2027/"
+   },
+   "women_pct": {
+    "v": 34,
+    "src": "Poets&Quants, Meet the Rice Business MBA Class of 2027",
+    "year": 2026,
+    "url": "https://poetsandquants.com/2026/07/13/meet-the-rice-business-mba-class-of-2027/"
+   },
+   "intl_pct": {
+    "v": 34,
+    "src": "Poets&Quants, Meet the Rice Business MBA Class of 2027",
+    "year": 2026,
+    "url": "https://poetsandquants.com/2026/07/13/meet-the-rice-business-mba-class-of-2027/"
+   },
+   "tuition_usd": {
+    "v": 79116,
+    "note": "per year; published rate is for the 2026-27 academic year (the 2025-26 rate was not seen)",
+    "src": "Rice University Bursar, Business Full-Time MBA tuition",
+    "year": 2026,
+    "url": "https://bursar.rice.edu/tuition_fee_rates/graduate-programs/business/business-full-time-mba"
+   },
+   "salary_median_usd": {
+    "v": 150000,
+    "src": "Rice Business admissions blog, career outcomes",
+    "year": 2025,
+    "url": "https://business.rice.edu/admissions-blog/top-employers-industries-and-salaries",
+    "note": "Median base salary for the Class of 2024; a Class of 2025 employment report exists but its median was not seen"
+   }
+  }
+ },
+ {
+  "slug": "usc-marshall",
+  "name": "University of Southern California Marshall School of Business",
+  "university": "University of Southern California",
+  "city": "Los Angeles",
+  "state": "CA",
+  "region": "West",
+  "type": "Private",
+  "ranks": {
+   "usnews": {
+    "rank": 25,
+    "edition": "2026",
+    "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/university-of-southern-california-01034",
+    "note": "No. 25 (tie) of 134 per US News school page"
+   },
+   "ft": {
+    "rank": 46,
+    "edition": "2026",
+    "url": "https://www.iima.ac.in/sites/default/files/2026-02/FT%20Global%20MBA%20Ranking%202026.pdf",
+    "note": "46th in the FT Global MBA Ranking 2026 per the full-list PDF surfaced in search"
+   },
+   "bloomberg": {
+    "rank": 20,
+    "edition": "2025-26",
+    "url": "https://www.bloomberg.com/business-schools/usc-marshall/",
+    "note": "20th overall, a newcomer to the top 20"
+   },
+   "qs": {
+    "rank": 35,
+    "edition": "2026",
+    "url": "https://www.universityguru.com/university/marshall-school-of-business,-university-of-southern-california-los-angeles",
+    "note": "Global Full-Time MBA position via UniversityGuru aggregator citing QS; QS 2025 edition had USC at 34"
+   },
+   "pq": {
+    "rank": null,
+    "edition": "2025-2026",
+    "url": "",
+    "note": "P&Q 2025-2026 composite position not surfaced before the search budget was exhausted"
+   }
+  },
+  "profile": {
+   "class_year": "Class of 2027",
+   "class_size": {
+    "v": 176,
+    "src": "Poets&Quants, Meet USC Marshall's MBA Class of 2027",
+    "year": 2026,
+    "url": "https://poetsandquants.com/2026/05/24/meet-usc-marshalls-mba-class-of-2027/"
+   },
+   "gmat_focus": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "No GMAT Focus figure seen for the Class of 2027 in sources reviewed"
+   },
+   "gmat_classic": {
+    "v": 742,
+    "stat": "average",
+    "src": "Poets&Quants, Meet USC Marshall's MBA Class of 2027",
+    "year": 2026,
+    "url": "https://poetsandquants.com/2026/05/24/meet-usc-marshalls-mba-class-of-2027/",
+    "note": "Scale not labeled in snippet; 742 can only be a classic 200-800 scale class average (Focus program averages cap far lower)"
+   },
+   "gre_quant": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "Not seen in sources reviewed"
+   },
+   "gre_verbal": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "Not seen in sources reviewed"
+   },
+   "gpa": {
+    "v": 3.55,
+    "stat": "average",
+    "src": "Poets&Quants, Meet USC Marshall's MBA Class of 2027",
+    "year": 2026,
+    "url": "https://poetsandquants.com/2026/05/24/meet-usc-marshalls-mba-class-of-2027/"
+   },
+   "accept_rate_pct": {
+    "v": null,
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "No current acceptance rate seen from a preferred source; an old school PDF showed 23 percent for an unidentified earlier cycle"
+   },
+   "work_exp_years": {
+    "v": 6,
+    "stat": "average",
+    "src": "Poets&Quants, Meet USC Marshall's MBA Class of 2027",
+    "year": 2026,
+    "url": "https://poetsandquants.com/2026/05/24/meet-usc-marshalls-mba-class-of-2027/"
+   },
+   "women_pct": {
+    "v": 31,
+    "src": "Poets&Quants, Meet USC Marshall's MBA Class of 2027",
+    "year": 2026,
+    "url": "https://poetsandquants.com/2026/05/24/meet-usc-marshalls-mba-class-of-2027/"
+   },
+   "intl_pct": {
+    "v": 43,
+    "src": "Poets&Quants, Meet USC Marshall's MBA Class of 2027",
+    "year": 2026,
+    "url": "https://poetsandquants.com/2026/05/24/meet-usc-marshalls-mba-class-of-2027/"
+   },
+   "tuition_usd": {
+    "v": 79893,
+    "note": "per year; 2024-25 first-year tuition plus 6,836 in fees, second year 77,706; the 2025-26 rate was not seen",
+    "src": "USC Marshall Full-Time MBA tuition and fees page (search snippet)",
+    "year": 2024,
+    "url": "https://www.marshall.usc.edu/programs/graduate-programs/mba-programs/full-time-mba/tuition-fees"
+   },
+   "salary_median_usd": {
+    "v": null,
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "Median not seen; Class of 2024 average base salary 144,442 per Clear Admit at https://www.clearadmit.com/2025/04/usc-marshall-mba-class-of-2024-employment-report/"
+   }
+  }
+ },
+ {
+  "slug": "indiana-kelley",
+  "name": "Indiana University Kelley School of Business",
+  "university": "Indiana University Bloomington",
+  "city": "Bloomington",
+  "state": "IN",
+  "region": "Midwest",
+  "type": "Public",
+  "ranks": {
+   "usnews": {
+    "rank": 21,
+    "edition": "2026",
+    "url": "https://news.iu.edu/live/news/49826-oneill-mpa-no-1-overall-kelley-mba-no-7-among",
+    "note": "No. 21 overall and No. 7 among public universities in the 2026 edition"
+   },
+   "ft": {
+    "rank": null,
+    "edition": "2026",
+    "url": "",
+    "note": "No FT 2026 Global MBA position for Kelley surfaced in coverage reviewed; the school's FT presence in 2026 coverage was for the Kelley Direct online MBA (13th in the FT Online MBA ranking)"
+   },
+   "bloomberg": {
+    "rank": 31,
+    "edition": "2025-26",
+    "url": "https://www.bloomberg.com/business-schools/indiana-kelley/",
+    "note": "Bloomberg page title states 31st"
+   },
+   "qs": {
+    "rank": null,
+    "edition": "2026",
+    "url": "",
+    "note": "QS 2026 global Full-Time MBA position not surfaced before the search budget was exhausted"
+   },
+   "pq": {
+    "rank": null,
+    "edition": "2025-2026",
+    "url": "",
+    "note": "P&Q 2025-2026 composite position not surfaced before the search budget was exhausted"
+   }
+  },
+  "profile": {
+   "class_year": "Class of 2027",
+   "class_size": {
+    "v": 106,
+    "src": "Poets&Quants, Meet Indiana Kelley's MBA Class of 2027",
+    "year": 2026,
+    "url": "https://poetsandquants.com/2026/06/10/meet-indiana-kelleys-mba-class-of-2027/"
+   },
+   "gmat_focus": {
+    "v": 607,
+    "stat": "average",
+    "src": "Poets&Quants, Meet Indiana Kelley's MBA Class of 2027",
+    "year": 2026,
+    "url": "https://poetsandquants.com/2026/06/10/meet-indiana-kelleys-mba-class-of-2027/",
+    "note": "Labeled 607 GMAT average, GMAT Focus Edition"
+   },
+   "gmat_classic": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "No classic-scale GMAT reported for the Class of 2027 in sources reviewed"
+   },
+   "gre_quant": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "Not seen in sources reviewed"
+   },
+   "gre_verbal": {
+    "v": null,
+    "stat": "",
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "Not seen in sources reviewed"
+   },
+   "gpa": {
+    "v": 3.48,
+    "stat": "average",
+    "src": "Poets&Quants, Meet Indiana Kelley's MBA Class of 2027",
+    "year": 2026,
+    "url": "https://poetsandquants.com/2026/06/10/meet-indiana-kelleys-mba-class-of-2027/"
+   },
+   "accept_rate_pct": {
+    "v": null,
+    "src": "",
+    "year": null,
+    "url": "",
+    "note": "Secondary sources conflict (27.3 to 38 percent); no figure seen from a preferred source"
+   },
+   "work_exp_years": {
+    "v": 6.25,
+    "stat": "average",
+    "src": "Poets&Quants, Meet Indiana Kelley's MBA Class of 2027",
+    "year": 2026,
+    "url": "https://poetsandquants.com/2026/06/10/meet-indiana-kelleys-mba-class-of-2027/"
+   },
+   "women_pct": {
+    "v": 28,
+    "src": "Poets&Quants, Meet Indiana Kelley's MBA Class of 2027",
+    "year": 2026,
+    "url": "https://poetsandquants.com/2026/06/10/meet-indiana-kelleys-mba-class-of-2027/"
+   },
+   "intl_pct": {
+    "v": 42,
+    "src": "Poets&Quants, Meet Indiana Kelley's MBA Class of 2027",
+    "year": 2026,
+    "url": "https://poetsandquants.com/2026/06/10/meet-indiana-kelleys-mba-class-of-2027/",
+    "note": "42 percent from 23 countries"
+   },
+   "tuition_usd": {
+    "v": 55695,
+    "note": "per year, 2025-26, nonresident or international; Indiana resident 29,573",
+    "src": "Clear Admit / Leland program guides (search snippet)",
+    "year": 2025,
+    "url": "https://www.clearadmit.com/schools/iu-kelley/"
+   },
+   "salary_median_usd": {
+    "v": 129000,
+    "src": "Kelley Graduate Career Services full-time MBA data sheet",
+    "year": 2024,
+    "url": "https://newdev.kelley.iu.edu/doc/bloomington/full-time-mba/ftmba+flex-gcs-data-sheet.pdf",
+    "note": "Median base salary, Class of 2024; mean 135,742 and median signing bonus 30,000; Class of 2025 figures were not seen"
+   }
+  }
+ }
+]
