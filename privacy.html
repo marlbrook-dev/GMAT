@@ -24,7 +24,9 @@
 <li><strong>Account data.</strong> Your email address, used for passwordless sign-in links and essential service messages.</li>
 <li><strong>Practice data.</strong> Your answers, timing per question, skill ratings, review schedule, flashcard progress, session history, and settings such as your goal and test date.</li>
 <li><strong>Product events.</strong> Basic usage events (for example: round started, question answered, round completed) tied to your account, used to understand and improve the product.</li>
-<li><strong>Site analytics.</strong> The marketing site uses cookie-free, aggregate analytics. We do not use advertising cookies.</li>
+<li><strong>Site analytics.</strong> Our pages run our own first-party measurement: page viewed, referrer, device type, viewport width, time on page, and a random session identifier that lives in your browser tab and clears when it closes. Your IP address is used in transit to derive a country code and a salted one-way hash for abuse prevention; the raw IP address is never stored in our database. We use no advertising cookies, no third-party trackers, and we never sell or share personal data with data brokers.</li>
+<li><strong>Optional profile details.</strong> If you choose to tell us your age range, gender, country, or role (student, educator, and so on) on the Account page, we store it. Every one of these fields is optional, self-reported, editable, and used only in aggregate to understand who we serve and improve the product; none of it is shown publicly.</li>
+<li><strong>Community forum.</strong> Posts are public by design, whether made under a name or the anonymous handle your browser generates. We store the post, the name you chose, a country code, and the salted IP hash above (for spam and abuse control). Anonymous posts are not linked to an account.</li>
 </ul>
 
 <h2>3. How we use it</h2>
@@ -32,6 +34,7 @@
 <li>To run the adaptive engine: your answers drive your skill ratings, question selection, and review schedule.</li>
 <li>To sync your progress across devices when you are signed in.</li>
 <li>To fix problems and improve question quality, using aggregate statistics such as per-question correct rates.</li>
+<li>To understand usage trends in aggregate (which pages, features, and study modes help people most) so we can build what actually works. Individual browsing is reviewed only for security, abuse, or support reasons.</li>
 <li>To send the service emails you request, such as sign-in links. Optional email like a weekly digest has its own toggle in your account.</li>
 </ul>
 
@@ -65,4 +68,15 @@
 <nav style="display:flex;gap:22px" aria-label="Footer"><a href="index.html" style="color:var(--text-muted)">Home</a><a href="blog/" style="color:var(--text-muted)">Blog</a><a href="terms.html" style="color:var(--text-muted)">Terms</a></nav>
 <span>&copy; 2026 Start From Nowhere. GMAT is a trademark of GMAC, which does not endorse this product.</span>
 </div></footer>
+<!-- sfn beacon: first-party, no third parties, raw IP never stored -->
+<script>(function(){try{
+var U="https://ftsqwbzhkzuudogkvoqa.supabase.co/rest/v1/site_events?apikey=sb_publishable_GToT4fK6RiwCZpPFE3bGiw_ThXq9qel";
+var s=sessionStorage.getItem("sfn_sid");if(!s){s=Math.random().toString(36).slice(2)+Math.random().toString(36).slice(2,10);sessionStorage.setItem("sfn_sid",s);}
+var p=location.pathname,t0=Date.now(),done=false;
+function send(o){o.sid=s;o.path=p;try{fetch(U,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(o),keepalive:true});}catch(e){}}
+send({kind:"pageview",ref:(document.referrer||"").slice(0,290)||null,utm:location.search.indexOf("utm_")>-1?location.search.slice(1,190):null,device:/Mobi|Android/i.test(navigator.userAgent)?"mobile":"desktop",vw:innerWidth});
+function dur(){if(done)return;done=true;send({kind:"duration",dur_ms:Date.now()-t0});}
+document.addEventListener("visibilitychange",function(){if(document.visibilityState==="hidden")dur();});
+addEventListener("pagehide",dur);
+}catch(e){}})();</script>
 </body></html>

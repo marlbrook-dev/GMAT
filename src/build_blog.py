@@ -124,7 +124,19 @@ article .tablewrap{overflow-x:auto}article strong{color:var(--gray-900)}
 FONTS = """<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,600;0,8..60,700;1,8..60,400&family=Manrope:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">"""
 FAVICON = """<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%23122B4E'/%3E%3Cpath d='M13 33 22 22l6 5 8.5-10' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M29.5 16.5H37V24' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">"""
-LOGO = """<svg viewBox="0 0 48 48" width="30" height="30" aria-hidden="true"><rect width="48" height="48" rx="10" fill="#122B4E"/><circle cx="11.5" cy="35" r="3" fill="#C7A252"/><path d="M11.5 35 20 26l5 4 11-13" fill="none" stroke="#C7A252" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M29 15.5h7.5V23" fill="none" stroke="#C7A252" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>"""
+LOGO = """<svg viewBox="0 0 48 48" width="30" height="30" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#122B4E"/><path d="M13 33 22 22l6 5 8.5-10" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M29.5 16.5H37V24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>"""
+
+BEACON = """<!-- sfn beacon: first-party, no third parties, raw IP never stored -->
+<script>(function(){try{
+var U="https://ftsqwbzhkzuudogkvoqa.supabase.co/rest/v1/site_events?apikey=sb_publishable_GToT4fK6RiwCZpPFE3bGiw_ThXq9qel";
+var s=sessionStorage.getItem("sfn_sid");if(!s){s=Math.random().toString(36).slice(2)+Math.random().toString(36).slice(2,10);sessionStorage.setItem("sfn_sid",s);}
+var p=location.pathname,t0=Date.now(),done=false;
+function send(o){o.sid=s;o.path=p;try{fetch(U,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(o),keepalive:true});}catch(e){}}
+send({kind:"pageview",ref:(document.referrer||"").slice(0,290)||null,utm:location.search.indexOf("utm_")>-1?location.search.slice(1,190):null,device:/Mobi|Android/i.test(navigator.userAgent)?"mobile":"desktop",vw:innerWidth});
+function dur(){if(done)return;done=true;send({kind:"duration",dur_ms:Date.now()-t0});}
+document.addEventListener("visibilitychange",function(){if(document.visibilityState==="hidden")dur();});
+addEventListener("pagehide",dur);
+}catch(e){}})();</script>"""
 
 def page(title, description, canonical, body, extra_head=""):
     return f"""<!DOCTYPE html>
@@ -143,8 +155,8 @@ def page(title, description, canonical, body, extra_head=""):
 <a class="roomtag" href="/blog/">The Study Room</a>
 <span style="flex:1"></span>
 <nav aria-label="Main" style="display:flex;gap:2px;margin-right:8px"><a href="/exams/" style="font-family:var(--display);font-weight:600;font-size:14px;color:var(--gray-700);text-decoration:none;padding:8px 12px;border-radius:8px">Exam Prep</a><a href="/schools/" style="font-family:var(--display);font-weight:600;font-size:14px;color:var(--gray-700);text-decoration:none;padding:8px 12px;border-radius:8px">Lists</a><a href="/community/" style="font-family:var(--display);font-weight:600;font-size:14px;color:var(--gray-700);text-decoration:none;padding:8px 12px;border-radius:8px">Community</a></nav>
-<a href="/app/" style="font-family:var(--display);font-weight:600;font-size:14px;color:var(--gray-700);text-decoration:none;padding:8px 12px">Sign in</a>
-<a class="btn" href="/app/#account">Create account</a>
+<a href="/app/" style="font-family:var(--display);font-weight:600;font-size:14px;color:var(--gray-700);text-decoration:none;padding:8px 12px">Sign In</a>
+<a class="btn" href="/app/#account">Create Account</a>
 </div></header>
 {body}
 <footer class="site"><div class="wrap">
@@ -152,6 +164,7 @@ def page(title, description, canonical, body, extra_head=""):
 <nav aria-label="Footer"><a href="/">Home</a><a href="/blog/">Blog</a><a href="/terms.html">Terms</a><a href="/privacy.html">Privacy</a></nav>
 <span>© 2026 Start From Nowhere. GMAT is a trademark of GMAC, which does not endorse this product.</span>
 </div></footer>
+{BEACON}
 </body></html>"""
 
 def hero_block(p, big=False):

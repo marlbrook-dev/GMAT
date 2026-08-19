@@ -79,4 +79,15 @@ footer .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;
 </div>
 
 <footer><div class="wrap"><span>Start From Nowhere</span><span><a href="/exams/">All exams</a> &middot; <a href="/schools/">Rankings</a> &middot; <a href="/pricing/">Plans</a> &middot; <a href="/terms.html">Terms</a> &middot; <a href="/privacy.html">Privacy</a></span></div></footer>
+<!-- sfn beacon: first-party, no third parties, raw IP never stored -->
+<script>(function(){try{
+var U="https://ftsqwbzhkzuudogkvoqa.supabase.co/rest/v1/site_events?apikey=sb_publishable_GToT4fK6RiwCZpPFE3bGiw_ThXq9qel";
+var s=sessionStorage.getItem("sfn_sid");if(!s){s=Math.random().toString(36).slice(2)+Math.random().toString(36).slice(2,10);sessionStorage.setItem("sfn_sid",s);}
+var p=location.pathname,t0=Date.now(),done=false;
+function send(o){o.sid=s;o.path=p;try{fetch(U,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(o),keepalive:true});}catch(e){}}
+send({kind:"pageview",ref:(document.referrer||"").slice(0,290)||null,utm:location.search.indexOf("utm_")>-1?location.search.slice(1,190):null,device:/Mobi|Android/i.test(navigator.userAgent)?"mobile":"desktop",vw:innerWidth});
+function dur(){if(done)return;done=true;send({kind:"duration",dur_ms:Date.now()-t0});}
+document.addEventListener("visibilitychange",function(){if(document.visibilityState==="hidden")dur();});
+addEventListener("pagehide",dur);
+}catch(e){}})();</script>
 </body></html>
