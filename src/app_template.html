@@ -38,7 +38,12 @@ header.app{background:var(--surface-card);border-bottom:1px solid var(--border-d
 nav.tabs{display:flex;gap:4px;flex:1;flex-wrap:wrap}nav.tabs button{border:none;cursor:pointer;font-family:var(--font-display);font-weight:700;font-size:14px;padding:7px 14px;border-radius:var(--radius-md);background:transparent;color:var(--text-muted);transition:background var(--duration-fast) var(--ease-out),color var(--duration-fast) var(--ease-out)}
 nav.tabs button:hover{background:var(--gray-50);color:var(--text-heading)}nav.tabs button.active{background:var(--brand-primary-soft);color:var(--brand-primary)}nav.tabs button:focus-visible{outline:none;box-shadow:var(--focus-ring)}
 @media(max-width:1460px){.hwrap{gap:18px}nav.tabs{gap:2px}nav.tabs button{padding:7px 9px;font-size:13.5px}}
-@media(max-width:1180px){.hwrap{height:auto;min-height:60px;flex-wrap:wrap;padding-top:8px;padding-bottom:8px}}
+@media(max-width:1180px){.hwrap{height:auto;min-height:60px;flex-wrap:wrap;padding-top:8px;padding-bottom:8px}
+.wordmark{order:0}#streakBadge{order:1;margin-left:auto}.avatar{order:2}
+nav.tabs{order:3;flex-basis:100%;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+nav.tabs::-webkit-scrollbar{display:none}nav.tabs button{white-space:nowrap;flex-shrink:0}}
+@media(max-width:700px){.row>div,.row>p{flex:1 1 0;min-width:220px;max-width:100%}.card{overflow-x:auto}.two{grid-template-columns:1fr}}
+@media(max-width:480px){.hwrap{padding-left:12px;padding-right:12px;gap:8px}.wordmark{font-size:16px}.wordmark svg{width:26px;height:26px}}
 .avatar{width:34px;height:34px;border-radius:50%;background:var(--navy-100);color:var(--navy-800);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:800;font-size:13px}
 main{max-width:var(--container-max);margin:0 auto;padding:var(--space-8) var(--space-6) var(--space-16)}
 footer.app{max-width:var(--container-max);margin:0 auto;padding:var(--space-6);font-size:var(--text-xs);color:var(--text-muted);border-top:1px solid var(--border-default)}
