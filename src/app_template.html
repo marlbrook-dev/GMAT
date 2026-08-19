@@ -193,7 +193,7 @@ function persist(){ if(!Store.save(state)) toast('Auto-save is unavailable in th
 // ---------- Cloud sync (Supabase) ----------
 const Cloud={ client:null, user:null, timer:null, status:'off',
  async init(){ if(!window.supabase||location.protocol==='file:'){ this.status='local-only'; return; } try{ this.client=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY); const {data}=await this.client.auth.getSession(); this.user=data.session?data.session.user:null; this.status=this.user?'signed-in':'signed-out'; this.client.auth.onAuthStateChange(async (ev,sess)=>{ this.user=sess?sess.user:null; this.status=this.user?'signed-in':'signed-out'; if(this.user){ await this.pull(); track('session_started',{}); } this.checkAdmin(); updateHeader(); if(!document.getElementById('v-data').classList.contains('hidden')) renderData(); }); if(this.user){ await this.pull(); track('session_started',{}); } this.checkAdmin(); }catch(e){ this.status='error'; } },
- async checkAdmin(){ this.isAdmin=false; const b=document.getElementById('navAdmin'); if(b) b.style.display='none'; if(!this.user||!this.client) return; try{ const {data}=await this.client.rpc('is_admin'); this.isAdmin=!!data; }catch(e){} if(b) b.style.display=this.isAdmin?'':'none'; },
+ async checkAdmin(){ this.isAdmin=false; const b=document.getElementById('navAdmin'); const pv=location.hash==='#admin-preview'; if(b&&!pv) b.style.display='none'; if(!this.user||!this.client) return; try{ const {data}=await this.client.rpc('is_admin'); this.isAdmin=!!data; }catch(e){} if(b) b.style.display=(this.isAdmin||pv)?'':'none'; },
  async signIn(email){ if(!this.client) return {error:{message:'Sync is available on the hosted site only.'}}; return this.client.auth.signInWithOtp({email, options:{emailRedirectTo: location.origin+location.pathname}}); },
  async signOut(){ if(this.client) await this.client.auth.signOut(); this.user=null; this.status='signed-out'; },
  async pull(){ if(!this.user) return; const {data,error}=await this.client.from('profiles').select('state_blob,display_name,test_date,daily_goal,plan,consent_at').eq('id',this.user.id).maybeSingle(); if(error) return; this.plan=(data&&data.plan)||'free'; const remote=data&&data.state_blob; if(remote&&remote.attempts&&remote.attempts.length>state.attempts.length){ const local=state; state=remote; if(!state.settings) state.settings=local.settings; toast('Loaded '+state.attempts.length+' answers from your account.'); Store.save(state); renderDash(); } else if(!remote){ await this.push(); track('account_created',{exam:CURRENT_EXAM,source:'app'}); } if(data&&!data.consent_at){ await this.client.from('profiles').update({consent_at:new Date().toISOString()}).eq('id',this.user.id); } },
@@ -752,10 +752,14 @@ function csvDownload(name,rows){ if(!rows||!rows.length){toast('Nothing to expor
  const body=[cols.join(',')].concat(rows.map(r=>cols.map(c=>escv(r[c])).join(','))).join('\n');
  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([body],{type:'text/csv'})); a.download=name+'.csv'; a.click(); toast('Exported '+name+'.csv'); }
 let adminTab='bi';
-function adminTabsHtml(){ return '<div class="row" style="gap:6px"><button class="btn sm'+(adminTab==='bi'?'':' secondary')+'" onclick="adminTab=\'bi\';renderAdmin()">Overview</button><button class="btn sm'+(adminTab==='crm'?'':' secondary')+'" onclick="adminTab=\'crm\';renderAdmin()">Partners CRM</button></div>'; }
+function adminTabsHtml(){ const T=[['bi','Overview'],['users','Users'],['traffic','Traffic'],['mod','Moderation'],['crm','Partners CRM']];
+ return '<div class="row" style="gap:6px;flex-wrap:wrap">'+T.map(t=>'<button class="btn sm'+(adminTab===t[0]?'':' secondary')+'" onclick="adminTab=\''+t[0]+'\';renderAdmin()">'+t[1]+'</button>').join('')+'</div>'; }
 async function renderAdmin(){ const el=document.getElementById('v-admin'); const preview=location.hash==='#admin-preview';
  if(!preview&&(!Cloud.user||!Cloud.isAdmin)){ el.innerHTML='<div class="narrow stack"><div class="card p8" style="text-align:center"><div class="card-title">Admin</div><p class="muted" style="margin-top:8px">Business intelligence is available to admin accounts. Sign in on the Account tab with an admin email.</p></div></div>'; return; }
  if(adminTab==='crm'){ return renderAdminCRM(el,preview); }
+ if(adminTab==='users'){ return renderAdminUsers(el,preview); }
+ if(adminTab==='traffic'){ return renderAdminTraffic(el,preview); }
+ if(adminTab==='mod'){ return renderAdminMod(el,preview); }
  el.innerHTML='<div class="stack"><div class="empty">Loading business intelligence...</div></div>';
  let d=ADMIN_SAMPLE, note='Sample data preview. Sign in as an admin for live numbers.';
  if(!preview){ try{ const {data,error}=await Cloud.client.rpc('admin_bi'); if(error) throw error; d=data; note=null; }
@@ -765,7 +769,7 @@ async function renderAdmin(){ const el=document.getElementById('v-admin'); const
  const skRows=(d.skill_difficulty||[]).map(x=>{ const s=SKILLS.find(k=>k.id===x.skill); return '<tr><td>'+(s?s.label:esc(x.skill))+'</td><td class="num">'+x.n+'</td><td class="num">'+Math.round(x.acc*100)+'%</td></tr>'; }).join('')||'<tr><td colspan="3" class="empty">Needs 10+ answers per skill.</td></tr>';
  const itRows=(d.item_flags||[]).map(x=>'<tr><td class="mono">'+esc(x.qid)+'</td><td class="num">'+x.n+'</td><td class="num">'+Math.round(x.acc*100)+'%</td><td class="num">'+x.med_secs+'s</td></tr>').join('')||'<tr><td colspan="4" class="empty">No flagged items. Items get flagged at 8+ answers with accuracy under 25% or over 95%.</td></tr>';
  el.innerHTML='<div class="stack">'
- +'<div class="row" style="align-items:flex-end;justify-content:space-between"><div><h1 style="font-size:var(--text-2xl);font-weight:700">Business intelligence</h1><p class="muted" style="margin:6px 0 0">Product and revenue data from the app database. Page-view traffic lives in Cloudflare (Pages Analytics / Web Analytics), search queries in Google Search Console.</p></div>'+adminTabsHtml()+'</div>'
+ +'<div class="row" style="align-items:flex-end;justify-content:space-between"><div><h1 style="font-size:var(--text-2xl);font-weight:700">Business intelligence</h1><p class="muted" style="margin:6px 0 0">Product and revenue data from the app database. Site-wide page traffic lives in the Traffic tab; search queries in Google Search Console.</p></div>'+adminTabsHtml()+'</div>'
  +(note?'<div class="card p5" style="background:var(--status-warning-bg);border-color:var(--amber-100)"><span class="small">'+note+'</span></div>':'')
  +'<div class="card" style="background:var(--brand-accent-soft);border-color:var(--gold-100)"><div class="card-title" style="margin-bottom:8px">What the numbers say</div><ul style="margin:0;padding-left:20px;font-size:14.5px">'+adminInsights(d).map(x=>'<li>'+x+'</li>').join('')+'</ul></div>'
  +'<div class="tiles" style="grid-template-columns:repeat(3,1fr)">'
@@ -842,8 +846,151 @@ async function crmToggleNotes(id){ const tr=document.getElementById('crmnotes-'+
  body.innerHTML=error?'Could not load notes.':((data&&data.length)?data.map(n=>'<div style="padding:4px 0;border-bottom:1px solid var(--border-default)"><span class="muted mono small">'+new Date(n.ts).toLocaleDateString()+'</span> '+esc(n.note)+'</div>').join(''):'<div class="muted">No notes yet.</div>'); }
 async function crmAddNote(id){ if(crmPreviewOn()){toast('Preview only.');return;} const inp=document.getElementById('crmnote-in-'+id); const v=inp.value.trim(); if(!v) return;
  const {error}=await Cloud.client.from('crm_notes').insert({contact_id:id,note:v}); if(error){toast('Could not save note: '+error.message);return;} inp.value=''; crmToggleNotes(id); crmToggleNotes(id); }
+// ---------- admin: users library, traffic, moderation ----------
+function jsonDownload(name,obj){ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(obj,null,1)],{type:'application/json'})); a.download=name+'.json'; a.click(); toast('Exported '+name+'.json'); }
+function adminPrint(title,sub,body){ const w=window.open('','_blank'); if(!w){toast('Allow pop-ups to print the report.');return;}
+ w.document.write('<!DOCTYPE html><html><head><title>'+esc(title)+'</title><style>'
+ +'body{font-family:"IBM Plex Sans",system-ui,sans-serif;color:#374151;margin:0;font-size:12.5px}'
+ +'.cov{background:#0C1F3A;color:#fff;padding:34px 36px;margin-bottom:22px}.cov .brand{font-family:Georgia,serif;font-weight:700;font-size:15px;color:#C7A252;letter-spacing:.02em}'
+ +'.cov h1{font-family:Georgia,serif;font-size:27px;margin:10px 0 6px}.cov .sub{color:#cdd5e3;font-size:12.5px}'
+ +'h2{font-family:Georgia,serif;color:#0C1F3A;font-size:16px;margin:20px 36px 8px}'
+ +'table{border-collapse:collapse;width:calc(100% - 72px);margin:0 36px 14px;font-size:11.5px}'
+ +'th{text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:#6B7280;border-bottom:1.5px solid #0C1F3A;padding:5px 6px}'
+ +'td{border-bottom:1px solid #E5E7EB;padding:5px 6px;vertical-align:top}.num{text-align:right;font-family:ui-monospace,monospace}'
+ +'.foot{margin:24px 36px;color:#6B7280;font-size:10.5px;border-top:1px solid #E5E7EB;padding-top:10px}'
+ +'@media print{.cov{-webkit-print-color-adjust:exact;print-color-adjust:exact}}'
+ +'</style></head><body><div class="cov"><div class="brand">START FROM NOWHERE</div><h1>'+esc(title)+'</h1><div class="sub">'+esc(sub)+'</div></div>'+body
+ +'<div class="foot">Internal admin report generated '+new Date().toLocaleString()+'. Contains personal data; handle per the privacy policy and delete when no longer needed.</div></body></html>');
+ w.document.close(); setTimeout(function(){ w.print(); },400); }
+function ptable(title,cols,rows){ if(!rows||!rows.length) return ''; const head=cols.map(c=>'<th'+(c.num?' class="num"':'')+'>'+esc(c.h)+'</th>').join('');
+ const body=rows.map(r=>'<tr>'+cols.map(c=>'<td'+(c.num?' class="num"':'')+'>'+esc(r[c.k]==null?'-':String(r[c.k]))+'</td>').join('')+'</tr>').join('');
+ return (title?'<h2>'+esc(title)+'</h2>':'')+'<table><thead><tr>'+head+'</tr></thead><tbody>'+body+'</tbody></table>'; }
+const AGE_LABEL={under_18:'Under 18','18_22':'18 to 22','23_29':'23 to 29','30_39':'30 to 39','40_49':'40 to 49','50_plus':'50+'};
+const GENDER_LABEL={woman:'Woman',man:'Man',nonbinary:'Nonbinary',self_described:'Self-described',prefer_not:'Prefer not to say'};
+const ADMIN_USERS_SAMPLE=[
+ {id:'sample-1',name:'Sample: jordan',email:'jordan@example.com',joined:'2026-08-02',last_sign_in:'2026-08-18',plan:'free',exam:'GMAT',age_range:'23_29',gender:'woman',country:'US',role_type:'student',referral_src:'Google',answers:412,acc:0.64,rounds:31,last_active:'2026-08-18',forum_posts:3},
+ {id:'sample-2',name:'Sample: priya',email:'priya@example.com',joined:'2026-08-09',last_sign_in:'2026-08-17',plan:'free',exam:'GMAT',age_range:'30_39',gender:null,country:'IN',role_type:'student',referral_src:null,answers:126,acc:0.58,rounds:12,last_active:'2026-08-17',forum_posts:0},
+ {id:'sample-3',name:'Sample: mbatutor',email:'tutor@example.com',joined:'2026-08-15',last_sign_in:'2026-08-15',plan:'free',exam:'GMAT',age_range:null,gender:null,country:'US',role_type:'tutor',referral_src:'Word of mouth',answers:0,acc:null,rounds:0,last_active:null,forum_posts:1}];
+function auApply(){ const g=id=>document.getElementById(id).value; window._auF={search:g('au-search').trim(),days:g('au-days'),min:g('au-min'),country:g('au-country').trim()}; renderAdmin(); }
+function auFilterDesc(){ const f=window._auF||{}; const bits=[]; if(f.search)bits.push('search "'+f.search+'"'); if(f.days)bits.push('active in last '+f.days+' days'); if(f.country)bits.push('country '+f.country); if(f.min)bits.push('at least '+f.min+' answers'); return bits.length?bits.join(', '):'all users'; }
+async function renderAdminUsers(el,preview){ el.innerHTML='<div class="stack"><div class="empty">Loading users...</div></div>';
+ const f=window._auF||(window._auF={search:'',days:'',min:'',country:''});
+ let rows=ADMIN_USERS_SAMPLE;
+ if(!preview){ try{ const {data,error}=await Cloud.client.rpc('admin_users',{p_search:f.search||null,p_days:f.days?+f.days:null,p_country:f.country?('%'+f.country+'%'):null,p_min_attempts:f.min?+f.min:0}); if(error) throw error; rows=data||[]; }
+  catch(e){ el.innerHTML='<div class="narrow stack"><div class="card p8"><div class="card-title">Users</div><p class="muted" style="margin-top:8px">Could not load users: '+esc(String((e&&e.message)||e))+'</p></div></div>'; return; } }
+ window._adminUsers=rows;
+ const seven=Date.now()-7*86400000;
+ const active7=rows.filter(r=>r.last_active&&new Date(r.last_active).getTime()>seven).length;
+ const withDemo=rows.filter(r=>r.age_range||r.gender||r.country||r.role_type).length;
+ const rowHtml=r=>'<tr style="cursor:pointer" onclick="auDetail(\''+r.id+'\')"><td><b>'+esc(r.name||'')+'</b><div class="small muted">'+esc(r.email||'')+'</div></td>'
+  +'<td class="num small">'+esc(r.joined||'-')+'</td><td class="num small">'+esc(r.last_active||r.last_sign_in||'-')+'</td>'
+  +'<td class="num">'+(r.answers||0)+'</td><td class="num">'+(r.acc!=null?Math.round(r.acc*100)+'%':'-')+'</td><td class="num">'+(r.rounds||0)+'</td><td class="num">'+(r.forum_posts||0)+'</td>'
+  +'<td>'+esc(r.country||'-')+'</td><td class="small">'+esc(AGE_LABEL[r.age_range]||'-')+'</td><td class="small">'+esc(GENDER_LABEL[r.gender]||'-')+'</td><td>'+badge(r.plan||'free')+'</td></tr>'
+  +'<tr id="aud-'+r.id+'" class="hidden"><td colspan="11" style="background:var(--surface-sunken)"><div id="aud-body-'+r.id+'" class="small">Loading library...</div></td></tr>';
+ el.innerHTML='<div class="stack">'
+ +'<div class="row" style="align-items:flex-end;justify-content:space-between"><div><h1 style="font-size:var(--text-2xl);font-weight:700">Users</h1><p class="muted" style="margin:6px 0 0">Every account, with study, forum, and self-reported profile data in one library. Click a row to open a user\'s full record.</p></div>'+adminTabsHtml()+'</div>'
+ +(preview?'<div class="card p5" style="background:var(--status-warning-bg);border-color:var(--amber-100)"><span class="small">Sample data preview. Sign in as an admin for live users.</span></div>':'')
+ +'<div class="tiles" style="grid-template-columns:repeat(3,1fr)">'+tile('Users Shown',rows.length,'','')+tile('Active · 7d',active7,'','')+tile('With Profile Details',withDemo,'','')+'</div>'
+ +'<div class="card"><div class="card-head"><span class="card-title">Filters</span></div><div class="row" style="flex-wrap:wrap;gap:8px">'
+ +'<input type="text" id="au-search" placeholder="Search name or email" aria-label="Search" style="width:190px" value="'+esc(f.search)+'">'
+ +'<select id="au-days" aria-label="Active window"><option value="">Any activity</option>'+[7,30,90].map(d=>'<option value="'+d+'"'+(f.days==String(d)?' selected':'')+'>Active last '+d+' days</option>').join('')+'</select>'
+ +'<input type="text" id="au-country" placeholder="Country" aria-label="Country" style="width:110px" value="'+esc(f.country)+'">'
+ +'<input type="number" id="au-min" placeholder="Min answers" aria-label="Minimum answers" style="width:110px" value="'+esc(f.min)+'">'
+ +'<button class="btn sm" onclick="auApply()">Apply</button></div>'
+ +'<p class="small muted" style="margin:8px 0 0">Demographics are optional and self-reported by users on their Account page; blanks mean they chose not to say. Full per-user data exports as JSON from each row.</p></div>'
+ +'<div class="card" style="overflow-x:auto"><div class="card-head"><span class="card-title">Accounts ('+auFilterDesc()+')</span><span class="row" style="gap:6px">'
+ +'<button class="btn sm secondary" onclick="csvDownload(\'users\',window._adminUsers)">CSV</button>'
+ +'<button class="btn sm secondary" onclick="jsonDownload(\'users-full\',window._adminUsers)">JSON</button>'
+ +'<button class="btn sm secondary" onclick="auPrint()">Print / PDF Report</button></span></div>'
+ +'<table><thead><tr><th>User</th><th class="num">Joined</th><th class="num">Last Active</th><th class="num">Answers</th><th class="num">Acc</th><th class="num">Rounds</th><th class="num">Forum</th><th>Country</th><th>Age</th><th>Gender</th><th>Plan</th></tr></thead><tbody>'
+ +(rows.length?rows.map(rowHtml).join(''):'<tr><td colspan="11" class="empty">No users match these filters.</td></tr>')+'</tbody></table></div>'
+ +'</div>'; }
+function auPrint(){ const rows=(window._adminUsers||[]).map(r=>({name:r.name,email:r.email,joined:r.joined,last:r.last_active||r.last_sign_in,answers:r.answers,acc:r.acc!=null?Math.round(r.acc*100)+'%':'-',rounds:r.rounds,forum:r.forum_posts,country:r.country,age:AGE_LABEL[r.age_range]||'-',plan:r.plan||'free'}));
+ adminPrint('User Report','Filter: '+auFilterDesc()+' · '+rows.length+' users',
+ ptable('Accounts',[{h:'Name',k:'name'},{h:'Email',k:'email'},{h:'Joined',k:'joined',num:1},{h:'Last Active',k:'last',num:1},{h:'Answers',k:'answers',num:1},{h:'Accuracy',k:'acc',num:1},{h:'Rounds',k:'rounds',num:1},{h:'Forum',k:'forum',num:1},{h:'Country',k:'country'},{h:'Age',k:'age'},{h:'Plan',k:'plan'}],rows)); }
+async function auDetail(uid){ const tr=document.getElementById('aud-'+uid); if(!tr) return; tr.classList.toggle('hidden'); if(tr.classList.contains('hidden')) return;
+ const body=document.getElementById('aud-body-'+uid);
+ if(location.hash==='#admin-preview'&&!(Cloud.user&&Cloud.isAdmin)){ body.innerHTML='<div class="muted">Per-user libraries live in the real dashboard.</div>'; return; }
+ try{ const {data,error}=await Cloud.client.rpc('admin_user_detail',{p_user:uid}); if(error) throw error; window['_aud_'+uid.replace(/-/g,'')]=data;
+  const p=data.profile||{};
+  let h='<div class="row" style="justify-content:space-between;flex-wrap:wrap;gap:8px"><div><b>'+esc(p.display_name||p.email||'')+'</b> <span class="muted">'+esc(p.email||'')+'</span></div>'
+   +'<button class="btn sm secondary" onclick="jsonDownload(\'user-'+uid.slice(0,8)+'\',window[\'_aud_'+uid.replace(/-/g,'')+'\'])">Download Full JSON</button></div>'
+   +'<div class="row" style="flex-wrap:wrap;gap:14px;margin-top:6px" >'
+   +'<span>Joined '+esc(String(p.created_at||'').slice(0,10))+'</span><span>Last sign-in '+esc(String(p.last_sign_in_at||'').slice(0,10)||'-')+'</span>'
+   +'<span>Exam '+esc(p.exam||'-')+'</span><span>Test date '+esc(p.test_date||'-')+'</span><span>Age '+esc(AGE_LABEL[p.age_range]||'-')+'</span><span>Gender '+esc(GENDER_LABEL[p.gender]||'-')+'</span><span>Country '+esc(p.country||'-')+'</span><span>Role '+esc(p.role_type||'-')+'</span><span>Found us via '+esc(p.referral_src||'-')+'</span></div>';
+  if((data.sections||[]).length) h+='<table style="margin-top:8px"><thead><tr><th>Section</th><th class="num">Answers</th><th class="num">Accuracy</th><th class="num">Avg Time</th></tr></thead><tbody>'+data.sections.map(x=>'<tr><td>'+esc(x.section)+'</td><td class="num">'+x.n+'</td><td class="num">'+Math.round(x.acc*100)+'%</td><td class="num">'+x.avg_secs+'s</td></tr>').join('')+'</tbody></table>';
+  if((data.skills||[]).length) h+='<div style="margin-top:6px"><b>Weakest Skills:</b> '+data.skills.slice(0,5).map(x=>{const s=SKILLS.find(k=>k.id===x.skill);return esc(s?s.label:x.skill)+' ('+Math.round(x.acc*100)+'% of '+x.n+')';}).join(' · ')+'</div>';
+  if((data.recent_sessions||[]).length) h+='<div style="margin-top:6px"><b>Recent Rounds:</b> '+data.recent_sessions.slice(0,6).map(x=>esc(x.mode)+' '+x.c+'/'+x.n).join(' · ')+'</div>';
+  if((data.forum||[]).length) h+='<div style="margin-top:6px"><b>Forum:</b> '+data.forum.map(x=>'<a href="/community/#/t/'+x.tid+'" target="_blank" rel="noopener">'+esc(x.txt||'')+'</a>').join(' · ')+'</div>';
+  if((data.events_30d||[]).length) h+='<div style="margin-top:6px"><b>Events · 30d:</b> '+data.events_30d.map(x=>esc(x.name)+' '+x.n).join(' · ')+'</div>';
+  body.innerHTML=h;
+ }catch(e){ body.innerHTML='Could not load: '+esc(String((e&&e.message)||e)); } }
+const ADMIN_TRAFFIC_SAMPLE={days:30,pageviews:2140,sessions:610,signed_in_views:220,avg_dur_secs:74.2,
+ by_day:Array.from({length:14},(_,i)=>({d:'08-'+String(i+5).padStart(2,'0'),n:[60,52,74,88,81,120,95,110,140,105,132,170,146,160][i],u:[22,18,26,30,28,41,33,38,48,36,45,58,50,55][i]})),
+ top_paths:[{path:'/',n:640,u:410,avg_secs:48},{path:'/schools/',n:520,u:300,avg_secs:180},{path:'/app/',n:410,u:160,avg_secs:600},{path:'/blog/',n:250,u:190,avg_secs:95},{path:'/community/',n:180,u:120,avg_secs:130}],
+ top_refs:[{ref:'direct',n:900},{ref:'https://www.google.com/',n:720},{ref:'https://www.reddit.com/',n:120}],
+ countries:[{c:'US',n:1300,u:380},{c:'IN',n:340,u:95},{c:'GB',n:130,u:41}],
+ devices:[{d:'desktop',n:1400},{d:'mobile',n:740}]};
+async function renderAdminTraffic(el,preview){ el.innerHTML='<div class="stack"><div class="empty">Loading traffic...</div></div>';
+ let d=ADMIN_TRAFFIC_SAMPLE;
+ if(!preview){ try{ const {data,error}=await Cloud.client.rpc('admin_traffic',{p_days:30}); if(error) throw error; d=data; }
+  catch(e){ el.innerHTML='<div class="narrow stack"><div class="card p8"><div class="card-title">Traffic</div><p class="muted" style="margin-top:8px">Could not load traffic: '+esc(String((e&&e.message)||e))+'</p></div></div>'; return; } }
+ window._traffic=d;
+ el.innerHTML='<div class="stack">'
+ +'<div class="row" style="align-items:flex-end;justify-content:space-between"><div><h1 style="font-size:var(--text-2xl);font-weight:700">Traffic</h1><p class="muted" style="margin:6px 0 0">First-party beacon across every page: landing, rankings, exams, blog, forum, and the app. No third-party trackers; ad blockers hide some visitors, and Cloudflare Web Analytics remains the edge-level check.</p></div>'+adminTabsHtml()+'</div>'
+ +(preview?'<div class="card p5" style="background:var(--status-warning-bg);border-color:var(--amber-100)"><span class="small">Sample data preview. Sign in as an admin for live traffic.</span></div>':'')
+ +'<div class="tiles" style="grid-template-columns:repeat(4,1fr)">'+tile('Pageviews · 30d',d.pageviews||0,'','')+tile('Sessions · 30d',d.sessions||0,'','')+tile('Avg Time on Page',(d.avg_dur_secs!=null?Math.round(d.avg_dur_secs)+'s':'n/a'),'','')+tile('Signed-In Views',d.signed_in_views||0,'','')+'</div>'
+ +'<div class="card"><div class="card-head"><span class="card-title">Pageviews per Day · 30d</span><span class="row" style="gap:6px"><button class="btn sm secondary" onclick="csvDownload(\'traffic-by-day\',window._traffic.by_day)">CSV</button><button class="btn sm secondary" onclick="trPrint()">Print / PDF Report</button></span></div>'+adminBars(d.by_day||[],'n')+'</div>'
+ +'<div class="grid2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">'
+ +'<div class="card"><div class="card-head"><span class="card-title">Top Pages</span><button class="btn sm secondary" onclick="csvDownload(\'top-pages\',window._traffic.top_paths)">CSV</button></div><table><thead><tr><th>Path</th><th class="num">Views</th><th class="num">Sessions</th><th class="num">Avg Time</th></tr></thead><tbody>'+((d.top_paths||[]).map(x=>'<tr><td class="mono small">'+esc(x.path)+'</td><td class="num">'+x.n+'</td><td class="num">'+x.u+'</td><td class="num">'+(x.avg_secs!=null?x.avg_secs+'s':'-')+'</td></tr>').join('')||'<tr><td colspan="4" class="empty">No data yet.</td></tr>')+'</tbody></table></div>'
+ +'<div class="card"><div class="card-head"><span class="card-title">Referrers</span><button class="btn sm secondary" onclick="csvDownload(\'referrers\',window._traffic.top_refs)">CSV</button></div><table><thead><tr><th>Source</th><th class="num">Views</th></tr></thead><tbody>'+((d.top_refs||[]).map(x=>'<tr><td class="small">'+esc(String(x.ref).replace(/^https?:\/\//,'').slice(0,60))+'</td><td class="num">'+x.n+'</td></tr>').join('')||'<tr><td colspan="2" class="empty">No data yet.</td></tr>')+'</tbody></table></div>'
+ +'</div>'
+ +'<div class="grid2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">'
+ +'<div class="card"><div class="card-head"><span class="card-title">Countries</span><button class="btn sm secondary" onclick="csvDownload(\'countries\',window._traffic.countries)">CSV</button></div><table><thead><tr><th>Country</th><th class="num">Views</th><th class="num">Sessions</th></tr></thead><tbody>'+((d.countries||[]).map(x=>'<tr><td>'+esc(x.c)+'</td><td class="num">'+x.n+'</td><td class="num">'+x.u+'</td></tr>').join('')||'<tr><td colspan="3" class="empty">No data yet.</td></tr>')+'</tbody></table></div>'
+ +'<div class="card"><div class="card-head"><span class="card-title">Devices</span></div><table><thead><tr><th>Device</th><th class="num">Views</th></tr></thead><tbody>'+((d.devices||[]).map(x=>'<tr><td>'+esc(x.d)+'</td><td class="num">'+x.n+'</td></tr>').join('')||'<tr><td colspan="2" class="empty">No data yet.</td></tr>')+'</tbody></table><p class="small muted" style="margin-top:8px">Country comes from the network route, not stored addresses; raw IPs never touch the database.</p></div>'
+ +'</div></div>'; }
+function trPrint(){ const d=window._traffic||{};
+ adminPrint('Traffic Report','Last '+(d.days||30)+' days · '+(d.pageviews||0)+' pageviews · '+(d.sessions||0)+' sessions',
+  ptable('Pageviews per Day',[{h:'Day',k:'d'},{h:'Views',k:'n',num:1},{h:'Sessions',k:'u',num:1}],d.by_day||[])
+  +ptable('Top Pages',[{h:'Path',k:'path'},{h:'Views',k:'n',num:1},{h:'Sessions',k:'u',num:1},{h:'Avg Secs',k:'avg_secs',num:1}],d.top_paths||[])
+  +ptable('Referrers',[{h:'Source',k:'ref'},{h:'Views',k:'n',num:1}],d.top_refs||[])
+  +ptable('Countries',[{h:'Country',k:'c'},{h:'Views',k:'n',num:1},{h:'Sessions',k:'u',num:1}],d.countries||[])); }
+const ADMIN_MOD_SAMPLE={open_count:2,queue:[
+ {kind:'thread',id:901,tid:901,cat:'gmat-prep',title:'Sample: GUARANTEED 700 SCORE METHOD',body:'Message me on whatsapp for the guaranteed score method...',author_name:'Anonymous Gray Tern 12',country:'US',created_at:'2026-08-19T14:00:00Z',flagged:true,hidden:true,locked:false,flag_reason:'cheating_service,contact_solicitation',reviewed_at:null,review_action:null},
+ {kind:'post',id:902,tid:3,cat:'gmat-prep',title:'What Is Your Biggest Timing Leak?',body:'Sample: check out http://a.example http://b.example http://c.example',author_name:'Sample Poster',country:'IN',created_at:'2026-08-19T13:00:00Z',flagged:true,hidden:false,locked:false,flag_reason:'many_links',reviewed_at:null,review_action:null}]};
+async function modAct(kind,id,action){ if(location.hash==='#admin-preview'&&!(Cloud.user&&Cloud.isAdmin)){toast('Preview only.');return;}
+ try{ const {error}=await Cloud.client.rpc('admin_moderate',{p_kind:kind,p_id:id,p_action:action}); if(error) throw error; toast('Done: '+action+'.'); renderAdmin(); }
+ catch(e){ toast('Failed: '+String((e&&e.message)||e)); } }
+async function renderAdminMod(el,preview){ el.innerHTML='<div class="stack"><div class="empty">Loading review queue...</div></div>';
+ let d=ADMIN_MOD_SAMPLE;
+ if(!preview){ try{ const {data,error}=await Cloud.client.rpc('admin_mod_queue'); if(error) throw error; d=data; }
+  catch(e){ el.innerHTML='<div class="narrow stack"><div class="card p8"><div class="card-title">Moderation</div><p class="muted" style="margin-top:8px">Could not load the queue: '+esc(String((e&&e.message)||e))+'</p></div></div>'; return; } }
+ const q=d.queue||[];
+ const card=x=>{ const open=!x.reviewed_at;
+  return '<div class="card stack-4" style="'+(open?'border-color:var(--amber-100)':'')+'">'
+  +'<div class="row" style="justify-content:space-between;flex-wrap:wrap;gap:8px"><div>'+badge(x.kind==='thread'?'Thread':'Reply',x.kind==='thread'?'accent':'')+' '+badge(x.cat)+' '
+  +(x.hidden?badge('Hidden','error'):badge('Visible','success'))+(x.flagged?' '+badge('Flagged','warning'):'')+(x.reviewed_at?' '+badge('Reviewed: '+(x.review_action||''),''):'')
+  +'</div><span class="small muted">'+esc(String(x.created_at).slice(0,16).replace('T',' '))+' · '+esc(x.author_name||'')+(x.country?' · '+esc(x.country):'')+'</span></div>'
+  +'<div><b>'+esc(x.title||'')+'</b><p class="small" style="margin:6px 0 0;white-space:pre-wrap">'+esc(x.body||'')+'</p></div>'
+  +'<div class="small muted">Screen reasons: '+esc(x.flag_reason||'none')+'</div>'
+  +'<div class="row" style="gap:6px;flex-wrap:wrap">'
+  +'<button class="btn sm" onclick="modAct(\''+x.kind+'\','+x.id+',\'approve\')">Approve</button>'
+  +(x.hidden?'':'<button class="btn sm secondary" onclick="modAct(\''+x.kind+'\','+x.id+',\'hide\')">Hide</button>')
+  +(x.kind==='thread'?(x.locked?'<button class="btn sm secondary" onclick="modAct(\'thread\','+x.id+',\'unlock\')">Unlock</button>':'<button class="btn sm secondary" onclick="modAct(\'thread\','+x.id+',\'lock\')">Lock</button>'):'')
+  +'<a class="btn sm ghost" href="/community/#/t/'+x.tid+'" target="_blank" rel="noopener">View in Forum</a>'
+  +'</div></div>'; };
+ el.innerHTML='<div class="stack">'
+ +'<div class="row" style="align-items:flex-end;justify-content:space-between"><div><h1 style="font-size:var(--text-2xl);font-weight:700">Moderation</h1><p class="muted" style="margin:6px 0 0">Every forum post that tripped the automatic screen, plus anything hidden. Approve returns a post to the forum; Hide removes it from public view. A human decides; the screen only flags.</p></div>'+adminTabsHtml()+'</div>'
+ +(preview?'<div class="card p5" style="background:var(--status-warning-bg);border-color:var(--amber-100)"><span class="small">Sample data preview. Sign in as an admin for the live queue.</span></div>':'')
+ +'<div class="tiles" style="grid-template-columns:repeat(2,1fr)">'+tile('Awaiting Review',d.open_count||0,'','')+tile('In Queue · Total',q.length,'','')+'</div>'
+ +(q.length?q.map(card).join(''):'<div class="empty">Queue is clear. Flagged and hidden posts land here; severe screens (real exam content, cheating services, slurs) auto-hide until you approve them.</div>')
+ +'<div class="card p5"><span class="small muted">Screen rules today: real-exam-content markers and cheating services auto-hide; link spam, contact solicitation, shouting, and abusive language flag for review. An AI reviewer upgrades this screen once the Anthropic API key is added; rules stay as the fallback.</span></div>'
+ +'</div>'; }
+async function aboutSave(field,value){ const ab=state.settings.about||(state.settings.about={}); ab[field]=value||null; persist(); if(Cloud.user&&Cloud.client){ const patch={}; patch[field]=value||null; try{ await Cloud.client.from('profiles').update(patch).eq('id',Cloud.user.id); }catch(e){} } toast('Saved.'); }
+async function pushAbout(){ const ab=state.settings.about; if(!ab||!Cloud.user||!Cloud.client) return; const patch={}; ['age_range','gender','country','role_type','referral_src'].forEach(k=>{ if(ab[k]) patch[k]=ab[k]; }); if(Object.keys(patch).length){ try{ await Cloud.client.from('profiles').update(patch).eq('id',Cloud.user.id); }catch(e){} } }
 function renderData(){ const el=document.getElementById('v-data'); const s=state.settings; const pr=s.program;
  const signed=Cloud.status==='signed-in'; const local=Cloud.status==='local-only';
+ if(signed) pushAbout();
  let auth='';
  if(signed) auth='<div class="row" style="justify-content:space-between"><div><div class="card-title" style="font-size:15px">Signed in as '+esc(Cloud.user.email)+'</div><div class="small">Progress syncs to your account a few seconds after each answer.</div></div><button class="btn secondary sm" onclick="Cloud.signOut().then(()=>{toast(\'Signed out. Progress stays on this device.\');renderData();updateHeader();})">Sign out</button></div>';
  else if(local) auth='<div class="small">You are using the offline file. Sign-in and sync are available on the hosted site.</div>';
@@ -863,6 +1010,15 @@ function renderData(){ const el=document.getElementById('v-data'); const s=state
   :'<p class="small" style="margin:0">Build a shortlist on the <a href="/schools/">MBA rankings page</a> and it shows up here; your study plan then trains toward it.</p>')
   +'<div class="row"><a class="btn secondary sm" href="/schools/">'+(tg.length?'Edit List on the Rankings Page':'Browse the Rankings')+'</a></div></div>'; })()+
  '<div class="card stack-4"><div class="card-title">Profile</div><div class="row"><label class="small">Name <input type="text" value="'+esc(s.name||'')+'" onchange="state.settings.name=this.value;persist();updateHeader()"></label><label class="small">Test date <input type="date" value="'+esc(s.testDate||'')+'" onchange="state.settings.testDate=this.value;persist()"></label><label class="small">Daily goal <select onchange="state.settings.dailyGoal=+this.value;persist()">'+[10,15,20,30,40].map(d=>'<option '+(s.dailyGoal===d?'selected':'')+'>'+d+'</option>').join('')+'</select></label></div></div>'+
+ (function(){ const ab=s.about||(s.about={});
+  const sel=(field,label,opts)=>'<label class="small">'+label+' <select onchange="aboutSave(\''+field+'\',this.value)"><option value="">Prefer not to say</option>'+opts.map(o=>'<option value="'+o[0]+'"'+(ab[field]===o[0]?' selected':'')+'>'+o[1]+'</option>').join('')+'</select></label>';
+  return '<div class="card stack-4"><div class="card-title">About You (Optional)</div><p class="small" style="margin:0">Every field here is optional and self-reported. We use it only in aggregate, to understand who we serve and build the right things; it is never shown publicly and never sold.</p><div class="row" style="flex-wrap:wrap">'
+  +sel('age_range','Age range',[['under_18','Under 18'],['18_22','18 to 22'],['23_29','23 to 29'],['30_39','30 to 39'],['40_49','40 to 49'],['50_plus','50+']])
+  +sel('gender','Gender',[['woman','Woman'],['man','Man'],['nonbinary','Nonbinary'],['self_described','Self-described']])
+  +'<label class="small">Country <input type="text" maxlength="60" value="'+esc(ab.country||'')+'" placeholder="e.g. US" style="width:90px" onchange="aboutSave(\'country\',this.value)"></label>'
+  +sel('role_type','I am a',[['student','Student'],['educator','Educator'],['tutor','Tutor'],['parent','Parent'],['other','Other']])
+  +'<label class="small">How you found us <input type="text" maxlength="120" value="'+esc(ab.referral_src||'')+'" placeholder="e.g. Google, a friend" style="width:170px" onchange="aboutSave(\'referral_src\',this.value)"></label>'
+  +'</div>'+(signed?'':'<p class="small muted" style="margin:0">Saved on this device now; it attaches to your account when you sign in.</p>')+'</div>'; })()+
  '<div class="card stack-4"><div class="card-head" style="margin:0"><span class="card-title">Study Program</span>'+badge(pr.exam,'sec-Q')+'</div><table><tbody><tr><td style="width:160px">Exam</td><td>'+esc(pr.exam)+' <span class="small">(GRE, LSAT, MCAT, Executive Assessment coming)</span></td></tr><tr><td>Goal</td><td><input type="text" style="width:100%" value="'+esc(pr.goal||'')+'" placeholder="e.g. Score 675+ for M7 programs" onchange="state.settings.program.goal=this.value;persist()"></td></tr><tr><td>Time</td><td><select onchange="state.settings.program.hours=this.value;persist()">'+['1 to 3 hrs / week','3 to 5 hrs / week','5 to 10 hrs / week','10+ hrs / week'].map(h=>'<option '+(pr.hours===h?'selected':'')+'>'+h+'</option>').join('')+'</select></td></tr><tr><td>Tools</td><td class="chips">'+['Quick 10','Timed sprint','Flashcards','Custom drill'].map(tl=>'<span class="chip-t '+(pr.tools[tl]?'on':'')+'" onclick="state.settings.program.tools[\''+tl+'\']=!state.settings.program.tools[\''+tl+'\'];persist();renderData()">'+tl+'</span>').join('')+'</td></tr></tbody></table><div><button class="btn secondary sm" onclick="startOnboarding()">Re-run the setup wizard</button></div></div>'+
  '<div class="card stack-4"><div class="card-head" style="margin:0"><span class="card-title">Plan and Billing</span>'+badge(userPlan()==='free'?'Free plan':userPlan()==='plus'?'Plus':'Pro','accent')+'</div><p class="small" style="margin:0">'+(PAYMENTS_LIVE?'Payments run through Stripe Checkout; we never see your card.':'Everything is free while we build. This is the plan structure that switches on later; early users keep generous grandfathering.')+'</p><div class="tiles" style="grid-template-columns:repeat(3,1fr)">'+tiers.map(t=>'<div class="tile"><div class="l">'+t.name+'</div><div class="v" style="font-size:24px">'+t.mo+'<span class="small" style="font-weight:400"> '+t.sub+'</span></div><ul class="small" style="margin:8px 0 0;padding-left:16px;text-align:left">'+t.feats.map(f=>'<li>'+f+'</li>').join('')+'</ul>'+planBtn(t)+'</div>').join('')+'</div></div>'+
  '<div class="card stack-4"><div class="card-title">Notifications</div><label class="row" style="gap:8px;cursor:pointer"><input type="checkbox" '+(s.digest?'checked':'')+' onchange="state.settings.digest=this.checked;persist()"> Weekly progress digest by email (when accounts launch)</label></div>'+
@@ -905,4 +1061,15 @@ function renderOnboarding(){ let w=document.getElementById('onb'); if(!w){ w=doc
 function finishOnboarding(skipped){ if(!skipped){ state.settings.program={exam:ob.exam,goal:ob.goal,hours:ob.hours,tools:ob.tools}; track('wizard_completed',{exam:ob.exam,goal_len:ob.goal.length,hours:ob.hours}); } state.settings.onboarded=true; persist(); const w=document.getElementById('onb'); if(w) w.remove(); renderDash(); }
 // ---------- boot ----------
 updateHeader(); renderDash(); Cloud.init(); if(location.hash==='#account'){ show('data'); } if(!state.settings.onboarded&&state.attempts.length===0) startOnboarding();
-</script></body></html>
+</script><!-- sfn beacon: first-party, no third parties, raw IP never stored -->
+<script>(function(){try{
+var U="https://ftsqwbzhkzuudogkvoqa.supabase.co/rest/v1/site_events?apikey=sb_publishable_GToT4fK6RiwCZpPFE3bGiw_ThXq9qel";
+var s=sessionStorage.getItem("sfn_sid");if(!s){s=Math.random().toString(36).slice(2)+Math.random().toString(36).slice(2,10);sessionStorage.setItem("sfn_sid",s);}
+var p=location.pathname,t0=Date.now(),done=false;
+function send(o){o.sid=s;o.path=p;try{fetch(U,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(o),keepalive:true});}catch(e){}}
+send({kind:"pageview",ref:(document.referrer||"").slice(0,290)||null,utm:location.search.indexOf("utm_")>-1?location.search.slice(1,190):null,device:/Mobi|Android/i.test(navigator.userAgent)?"mobile":"desktop",vw:innerWidth});
+function dur(){if(done)return;done=true;send({kind:"duration",dur_ms:Date.now()-t0});}
+document.addEventListener("visibilitychange",function(){if(document.visibilityState==="hidden")dur();});
+addEventListener("pagehide",dur);
+}catch(e){}})();</script>
+</body></html>

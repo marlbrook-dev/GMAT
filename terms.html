@@ -17,7 +17,7 @@
 <h2>4. Your data</h2>
 <p>To power adaptive study plans, we collect your answers, pace, scores, and usage of the Services. This data is used to personalize your practice, estimate your score, and improve the Services. Details, retention periods, and your rights (access, export, deletion) are set out in the Privacy Policy. You can download or delete your data from your account page at any time.</p>
 <h2>5. Acceptable use</h2>
-<ul><li>Don't share, scrape, resell, or republish practice content or explanations.</li><li>Don't use the Services to cheat on an actual exam administration or violate any test-maker's rules.</li><li>Don't attempt to probe, disrupt, or reverse-engineer the Services.</li><li>Community forum: you keep ownership of what you post and grant us a non-exclusive license to display it as part of the Services. Do not post content from any actual exam administration, personal information about others, spam, or promotion. We may hide or remove posts that break these rules and may suspend accounts that repeat them.</li></ul>
+<ul><li>Don't share, scrape, resell, or republish practice content or explanations.</li><li>Don't use the Services to cheat on an actual exam administration or violate any test-maker's rules.</li><li>Don't attempt to probe, disrupt, or reverse-engineer the Services.</li><li>Community forum: you keep ownership of what you post and grant us a non-exclusive license to display it as part of the Services. Posting does not require an account; anonymous posts appear under a generated handle. Do not post content from any actual exam administration, personal information about others, spam, or promotion. Posts pass an automatic screen and human review; we may hide or remove posts that break these rules, may rate-limit or block abusive connections, and may suspend accounts that repeat them.</li></ul>
 <h2>6. Intellectual property</h2>
 <p>The Services, including all practice questions, explanations, software, and branding, are owned by Start From Nowhere or its licensors and protected by law. We grant you a limited, personal, non-exclusive, non-transferable license to use the Services for your own exam preparation.</p>
 <h2>7. AI-generated content</h2>
@@ -38,4 +38,15 @@
 <div style="display:flex;align-items:center;gap:8px"><img src="design/assets/logo.svg" width="22" height="22" alt=""><span style="font-family:var(--font-serif-display);font-weight:700;font-size:15px;color:var(--navy-900)">Start From Nowhere</span></div>
 <span>© 2026 Start From Nowhere. GMAT is a trademark of GMAC, which does not endorse this product.</span>
 </div></footer>
+<!-- sfn beacon: first-party, no third parties, raw IP never stored -->
+<script>(function(){try{
+var U="https://ftsqwbzhkzuudogkvoqa.supabase.co/rest/v1/site_events?apikey=sb_publishable_GToT4fK6RiwCZpPFE3bGiw_ThXq9qel";
+var s=sessionStorage.getItem("sfn_sid");if(!s){s=Math.random().toString(36).slice(2)+Math.random().toString(36).slice(2,10);sessionStorage.setItem("sfn_sid",s);}
+var p=location.pathname,t0=Date.now(),done=false;
+function send(o){o.sid=s;o.path=p;try{fetch(U,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(o),keepalive:true});}catch(e){}}
+send({kind:"pageview",ref:(document.referrer||"").slice(0,290)||null,utm:location.search.indexOf("utm_")>-1?location.search.slice(1,190):null,device:/Mobi|Android/i.test(navigator.userAgent)?"mobile":"desktop",vw:innerWidth});
+function dur(){if(done)return;done=true;send({kind:"duration",dur_ms:Date.now()-t0});}
+document.addEventListener("visibilitychange",function(){if(document.visibilityState==="hidden")dur();});
+addEventListener("pagehide",dur);
+}catch(e){}})();</script>
 </body></html>
