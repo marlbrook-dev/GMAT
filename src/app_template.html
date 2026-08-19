@@ -34,7 +34,7 @@ a{color:var(--text-link);text-decoration:none}a:hover{text-decoration:underline}
 /* shell */
 header.app{background:var(--surface-card);border-bottom:1px solid var(--border-default);position:sticky;top:0;z-index:var(--z-sticky)}
 .hwrap{max-width:var(--container-max);margin:0 auto;padding:0 var(--space-6);height:60px;display:flex;align-items:center;gap:32px}
-.wordmark{display:flex;align-items:center;gap:9px;white-space:nowrap;font-family:var(--font-serif-display);font-weight:700;font-size:19px;color:var(--navy-900)}.wordmark b{color:var(--gold-600);font-weight:700}
+.wordmark{display:flex;align-items:center;gap:9px;white-space:nowrap;font-family:var(--font-serif-display);font-weight:700;font-size:19px;color:var(--navy-900);text-decoration:none;cursor:pointer}.wordmark b{color:var(--gold-600);font-weight:700}
 nav.tabs{display:flex;gap:4px;flex:1;flex-wrap:wrap}nav.tabs button{border:none;cursor:pointer;font-family:var(--font-display);font-weight:700;font-size:14px;padding:7px 14px;border-radius:var(--radius-md);background:transparent;color:var(--text-muted);transition:background var(--duration-fast) var(--ease-out),color var(--duration-fast) var(--ease-out)}
 nav.tabs button:hover{background:var(--gray-50);color:var(--text-heading)}nav.tabs button.active{background:var(--brand-primary-soft);color:var(--brand-primary)}nav.tabs button:focus-visible{outline:none;box-shadow:var(--focus-ring)}
 @media(max-width:1460px){.hwrap{gap:18px}nav.tabs{gap:2px}nav.tabs button{padding:7px 9px;font-size:13.5px}}
@@ -154,7 +154,7 @@ table.ta td,table.ta th{text-align:left}table.ta input{transform:scale(1.2)}
 @media(max-width:520px){.mgrid{grid-template-columns:repeat(2,1fr)}.mtile{min-height:92px;font-size:12.5px;padding:10px 8px}.bz-opt{padding:13px 14px;font-size:14px}}
 </style></head><body>
 <header class="app"><div class="hwrap">
-<div class="wordmark"><svg viewBox="0 0 48 48" width="30" height="30" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#122B4E"/><path d="M13 33 22 22l6 5 8.5-10" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M29.5 16.5H37V24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Start From Nowhere</div>
+<a class="wordmark" href="/" title="Start From Nowhere home"><svg viewBox="0 0 48 48" width="30" height="30" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#122B4E"/><path d="M13 33 22 22l6 5 8.5-10" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M29.5 16.5H37V24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Start From Nowhere</a>
 <nav class="tabs" id="nav"><button data-v="dash" class="active">Dashboard</button><button data-v="study">Practice</button><button data-v="games">Games</button><button data-v="cards">Flashcards</button><button data-v="drill">Drill</button><button data-v="review">Review</button><button data-v="playbook">Playbook</button><button data-v="data">Account</button><button data-v="admin" id="navAdmin" style="display:none">Admin</button></nav>
 <span class="badge accent" id="streakBadge">Streak x0</span>
 <div class="avatar" id="avatar">HR</div>
