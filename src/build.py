@@ -28,9 +28,14 @@ def check_scripts(path):
             print(f"SYNTAX ERROR in inline script {i} of {path}:\n{r.stderr.strip()}", file=sys.stderr)
             sys.exit(1)
 
-for p in [root/"app"/"index.html", root/"index.html"]:
+community = (d/"community.html").read_text()
+if "—" in community or "–" in community:
+    print("ERROR: em/en dash in community.html", file=sys.stderr); sys.exit(1)
+(root/"community").mkdir(exist_ok=True); (root/"community"/"index.html").write_text(community)
+
+for p in [root/"app"/"index.html", root/"index.html", root/"community"/"index.html"]:
     check_scripts(p)
-print("built app/index.html", len(out), "bytes; landing copied to index.html; inline scripts parse")
+print("built app/index.html", len(out), "bytes; landing copied to index.html; community/ built; inline scripts parse")
 
 import subprocess as _sp
 _sp.run([sys.executable, str(d/"build_rankings.py")], check=True)

@@ -29,6 +29,7 @@ Updated August 19, 2026. Owner: Hunter Roberts. Builder: Claude sessions. This f
 ## Week of Sep 2
 
 - [x] Full mock exam: three sections back to back with break, section order choice, full score report
+- [x] Community forum (/community/): five boards on Supabase with RLS, anonymous reading, magic-link posting, human moderation; header entry site-wide
 - [ ] Pace meter per question type in recaps; error log v2 (reason tags feed a targeted drill)
 - [ ] Bank to 420; flashcards to 120
 - [ ] Blog: 4 new posts including 2 rankings-adjacent (how to read class profiles; GMAT scores for top programs, citing our own library)

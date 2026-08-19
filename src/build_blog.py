@@ -142,7 +142,7 @@ def page(title, description, canonical, body, extra_head=""):
 <a class="wordmark" href="/">{LOGO}Start From Nowhere</a>
 <a class="roomtag" href="/blog/">The Study Room</a>
 <span style="flex:1"></span>
-<nav aria-label="Main" style="display:flex;gap:2px;margin-right:8px"><a href="/exams/" style="font-family:var(--display);font-weight:600;font-size:14px;color:var(--gray-700);text-decoration:none;padding:8px 12px;border-radius:8px">Exam prep</a><a href="/schools/" style="font-family:var(--display);font-weight:600;font-size:14px;color:var(--gray-700);text-decoration:none;padding:8px 12px;border-radius:8px">Lists</a></nav>
+<nav aria-label="Main" style="display:flex;gap:2px;margin-right:8px"><a href="/exams/" style="font-family:var(--display);font-weight:600;font-size:14px;color:var(--gray-700);text-decoration:none;padding:8px 12px;border-radius:8px">Exam Prep</a><a href="/schools/" style="font-family:var(--display);font-weight:600;font-size:14px;color:var(--gray-700);text-decoration:none;padding:8px 12px;border-radius:8px">Lists</a><a href="/community/" style="font-family:var(--display);font-weight:600;font-size:14px;color:var(--gray-700);text-decoration:none;padding:8px 12px;border-radius:8px">Community</a></nav>
 <a href="/app/" style="font-family:var(--display);font-weight:600;font-size:14px;color:var(--gray-700);text-decoration:none;padding:8px 12px">Sign in</a>
 <a class="btn" href="/app/#account">Create account</a>
 </div></header>
@@ -289,7 +289,7 @@ def build_post(p, posts):
     return page(p["title"] + " | Start From Nowhere", p["description"], f"{SITE}/blog/{p['slug']}/", body, extra)
 
 def build_sitemap(posts):
-    urls = [(SITE + "/", None), (SITE + "/blog/", None), (SITE + "/schools/", None), (SITE + "/exams/", None), (SITE + "/pricing/", None), (SITE + "/terms.html", None), (SITE + "/privacy.html", None)]
+    urls = [(SITE + "/", None), (SITE + "/blog/", None), (SITE + "/schools/", None), (SITE + "/exams/", None), (SITE + "/pricing/", None), (SITE + "/community/", None), (SITE + "/terms.html", None), (SITE + "/privacy.html", None)]
     exams_data = ROOT / "data" / "exams.json"
     if exams_data.exists():
         import json as _json2
