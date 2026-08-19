@@ -23,7 +23,11 @@ import json, pathlib, datetime, os, html, sys
 
 D = pathlib.Path(__file__).parent
 ROOT = D.parent
+sys.path.insert(0, str(D))
+import partials
 SITE = "https://startfromnowhere.com"
+RANKINGS_LEGAL = ("Rankings cited from US News, Financial Times, Bloomberg, QS, and Poets and Quants, "
+                  "each the property of its publisher. Class profile data from the sources shown on each row.")
 
 WEIGHTS = {"usnews": 0.30, "ft": 0.25, "bloomberg": 0.15, "qs": 0.15, "pq": 0.15}
 SOURCE_LABEL = {"usnews": "US News", "ft": "Financial Times", "bloomberg": "Bloomberg", "qs": "QS", "pq": "Poets and Quants"}
@@ -266,18 +270,24 @@ def main():
         ranks_cells = "".join(
             f'<td class="num">{fmt((s.get("ranks", {}).get(k) or {}).get("rank"))}</td>'
             for k in WEIGHTS)
+        acc = field(s, "accept_rate_pct")
+        acc_cls = " acc-hot" if (acc is not None and acc < 15) else (" acc-warm" if (acc is not None and acc < 25) else "")
+        tuition = field(s, "tuition_usd")
+        tuition_cell = f'<span title="${tuition:,} per year">${round(tuition / 1000)}K</span>' if tuition is not None else '<span class="na">-</span>'
         rows.append(
             f'<tr class="srow" data-slug="{esc(s["slug"])}" onclick="toggleDetail(\'{esc(s["slug"])}\')">'
+            f'<td class="ckcell" onclick="event.stopPropagation()"><input type="checkbox" class="rowck" data-slug="{esc(s["slug"])}" '
+            f'aria-label="Add {esc(s["name"])} to my list" onchange="toggleList(\'{esc(s["slug"])}\')"></td>'
             f'<td class="num rank">{s.get("_rank", "-")}</td>'
             f'<td><div class="sname">{esc(s["name"])}</div><div class="sloc">{esc(s.get("city", ""))}, {esc(s.get("state", ""))} · {esc(s.get("type", ""))}</div></td>'
             f'<td class="num">{fmt(s.get("_score"))}</td>'
             + ranks_cells +
             f'<td class="num">{fmt(gmat_v)}{("<span class=note>" + esc(gmat_ed) + " " + esc(gmat_note) + "</span>") if gmat_v is not None else ""}</td>'
             f'<td class="num">{fmt(field(s, "gpa"))}</td>'
-            f'<td class="num">{fmt(field(s, "accept_rate_pct"), "%")}</td>'
+            f'<td class="num{acc_cls}">{fmt(acc, "%")}</td>'
             f'<td class="num">{fmt(field(s, "class_size"))}</td>'
-            f'<td class="num">{fmt(field(s, "tuition_usd"), money=True)}</td>'
-            f'<td><button class="addbtn" data-slug="{esc(s["slug"])}" onclick="event.stopPropagation();toggleList(\'{esc(s["slug"])}\')">+ List</button></td>'
+            f'<td class="num">{tuition_cell}</td>'
+            f'<td class="expcell"><span class="car">&#9660;</span></td>'
             "</tr>")
     weights_rows = "".join(
         f"<tr><td>{SOURCE_LABEL[k]}</td><td class=\"num\">{int(w * 100)}%</td></tr>" for k, w in WEIGHTS.items())
@@ -300,6 +310,7 @@ def main():
         sd = dest / s["slug"]
         sd.mkdir(exist_ok=True)
         pages.append((sd / "index.html", school_page(s, stpl, today)))
+    pages = [(path, partials.apply_chrome(content, extra_legal=RANKINGS_LEGAL)) for path, content in pages]
     for path, content in pages:
         if "{{" in content:
             print(f"build_rankings: unresolved placeholder in {path}", file=sys.stderr)

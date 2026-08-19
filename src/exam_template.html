@@ -8,6 +8,7 @@
 <link rel="canonical" href="https://startfromnowhere.com/exams/{{SLUG}}/">
 <script type="application/ld+json">{{LD}}</script>
 <style>
+{{CHROME_CSS}}
 :root{--navy-900:#0C1F3A;--navy-800:#122B4E;--navy-600:#2C4E80;--navy-100:#DCE5F1;--navy-50:#F2F6FB;--gold-600:#A8842F;--gold-50:#FAF5E8;--gray-700:#374151;--gray-500:#6B7280;--gray-300:#D1D5DB;--gray-200:#E5E7EB;--gray-100:#F3F4F6;--gray-50:#F9FAFB;--green-600:#16A34A;--green-50:#F0FDF4;--blue-600:#2563EB;--blue-50:#EFF6FF;
 --serif:'Source Serif 4',Georgia,serif;--display:'Manrope',system-ui,sans-serif;--body:'IBM Plex Sans',system-ui,sans-serif;--mono:'IBM Plex Mono',ui-monospace,monospace}
 *{box-sizing:border-box}body{margin:0;font-family:var(--body);color:var(--gray-700);background:#fff;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
@@ -52,12 +53,7 @@ footer{padding:26px 0 40px;font-size:13px;color:var(--gray-500)}
 footer .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;max-width:1200px}
 @media(max-width:640px){.head h1{font-size:28px}}
 </style></head><body>
-<header><div class="nav">
-<a class="wordmark" href="/"><svg viewBox="0 0 48 48" width="28" height="28" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#122B4E"/><path d="M13 33 22 22l6 5 8.5-10" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M29.5 16.5H37V24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Start From Nowhere</a>
-<nav class="links"><a href="/exams/">Exam Prep</a><a href="/schools/">Lists</a><a href="/blog/">Resources</a><a href="/community/">Community</a></nav>
-<a href="/app/" style="font-family:var(--display);font-weight:600;font-size:14px;color:var(--gray-700);text-decoration:none;padding:8px 12px">Sign In</a>
-<a class="btn" href="/app/#account">Create Account</a>
-</div></header>
+{{SITE_HEADER}}
 
 <div class="wrap">
 <div class="crumb"><a href="/exams/">Exams</a> &rsaquo; {{SHORT}}</div>
@@ -78,7 +74,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;
 <p class="small">Facts on this page are recorded from the sources cited beside each figure, most recently checked {{UPDATED}}. The exam belongs to its maker; always confirm current fees, formats, and policies on the official registration site before booking a test date.</p>
 </div>
 
-<footer><div class="wrap"><span>Start From Nowhere</span><span><a href="/exams/">All exams</a> &middot; <a href="/schools/">Rankings</a> &middot; <a href="/pricing/">Plans</a> &middot; <a href="/terms.html">Terms</a> &middot; <a href="/privacy.html">Privacy</a></span></div></footer>
+{{SITE_FOOTER}}
 <!-- sfn beacon: first-party, no third parties, raw IP never stored -->
 <script>(function(){try{
 var U="https://ftsqwbzhkzuudogkvoqa.supabase.co/rest/v1/site_events?apikey=sb_publishable_GToT4fK6RiwCZpPFE3bGiw_ThXq9qel";

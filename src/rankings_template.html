@@ -20,21 +20,24 @@
 h1,h2,h3{font-family:var(--serif);color:var(--navy-900);letter-spacing:-.01em;line-height:1.15;margin:0}
 a{color:var(--navy-800)}
 .wrap{max-width:1200px;margin:0 auto;padding:0 24px}
-header{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--gray-200)}
-.nav{height:60px;display:flex;align-items:center;gap:20px}
-.wordmark{display:flex;align-items:center;gap:9px;font-family:var(--serif);font-weight:700;font-size:19px;color:var(--navy-900);text-decoration:none}
-.nav .links{display:flex;gap:2px;flex:1}
-.nav .links a{font-family:var(--display);font-weight:600;font-size:14px;color:var(--gray-700);text-decoration:none;padding:8px 12px;border-radius:8px}
-.nav .links a:hover{background:var(--gray-50);color:var(--navy-900)}
+{{CHROME_CSS}}
 .pill{font-family:var(--display);font-weight:700;font-size:13px;background:var(--navy-800);color:#fff;border:none;border-radius:999px;padding:8px 16px;cursor:pointer}
 .pill:hover{background:var(--navy-900)}
-.hero{background:var(--navy-50);padding:40px 0 28px;border-bottom:1px solid var(--gray-200)}
-.hero h1{font-size:34px;margin-bottom:8px}
-.hero p{max-width:76ch;margin:0;color:var(--gray-500)}
-.hero .meta{margin-top:10px;font-size:13px;color:var(--gray-500)}
+.hero{background:#fff;padding:24px 0 18px;border-bottom:1px solid var(--gray-200)}
+.hero .eyebrow{font-family:var(--display);font-weight:700;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-500);margin:0 0 5px}
+.hero h1{font-size:27px;margin-bottom:7px}
+.hero p{max-width:76ch;margin:0;color:var(--gray-500);font-size:14px}
+.hero .meta{margin-top:8px;font-size:12.5px;color:var(--gray-500)}
 .layout{display:grid;grid-template-columns:230px 1fr;gap:26px;align-items:start;padding:20px 0}
 @media(max-width:920px){.layout{grid-template-columns:1fr}}
 aside.filters{position:sticky;top:74px}
+.ckcell{width:34px;text-align:center!important}
+.ckcell input{width:15px;height:15px;accent-color:var(--navy-800);cursor:pointer;vertical-align:middle}
+.acc-hot{color:var(--red-600)}
+.acc-warm{color:var(--amber-600)}
+td.expcell{width:26px;text-align:center}
+td.expcell .car{display:inline-block;font-size:9px;color:var(--navy-100);transition:transform 150ms ease}
+tr.srow.open td.expcell .car{transform:rotate(180deg)}
 @media(max-width:920px){aside.filters{position:static;display:none;border:1px solid var(--gray-200);border-radius:12px;padding:14px}aside.filters.open{display:block}}
 #fToggle{display:none;font-family:var(--display);font-weight:700;font-size:13px;border:1px solid var(--gray-300);background:#fff;border-radius:8px;padding:9px 14px;cursor:pointer}
 @media(max-width:920px){#fToggle{display:inline-block}}
@@ -48,7 +51,7 @@ aside.filters{position:sticky;top:74px}
 .controls .clear{background:none;border:none;color:var(--navy-800);font-family:var(--display);font-weight:700;font-size:13px;cursor:pointer;text-decoration:underline}
 .count{font-size:13px;color:var(--gray-500);margin-left:auto}
 .tablewrap{overflow-x:auto;border:1px solid var(--gray-200);border-radius:12px}
-table.rk{width:100%;border-collapse:collapse;min-width:1080px}
+table.rk{width:100%;border-collapse:collapse;min-width:1140px}
 table.rk th{font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--gray-500);text-align:left;padding:12px 10px;border-bottom:1px solid var(--gray-200);background:var(--gray-50);cursor:pointer;white-space:nowrap;position:sticky;top:0}
 table.rk th.num,table.rk td.num{text-align:right}
 table.rk th .car{font-size:9px;opacity:.5}
@@ -102,14 +105,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
  .pmeta{color:#666;font-size:12px;margin-top:16px}
 }
 </style></head><body>
-<header><div class="wrap nav">
-<a class="wordmark" href="/"><svg viewBox="0 0 48 48" width="28" height="28" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#122B4E"/><path d="M13 33 22 22l6 5 8.5-10" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M29.5 16.5H37V24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Start From Nowhere</a>
-<nav class="links"><a href="/exams/">Exam Prep</a><a href="/schools/">Lists</a><a href="/blog/">Resources</a><a href="/community/">Community</a></nav>
-<a href="/app/" style="font-family:var(--display);font-weight:600;font-size:14px;color:var(--gray-700);text-decoration:none;padding:8px 12px">Sign In</a>
-<button class="pill" id="listPill" onclick="toggleListPanel()">My List (0)</button>
-</div></header>
+{{SITE_HEADER}}
 
 <section class="hero"><div class="wrap">
+<p class="eyebrow">Start From Nowhere</p>
 <h1>MBA Rankings 2026</h1>
 <p>{{N}} full-time MBA programs, every one ranked: a transparent composite of five major published rankings where they exist, and a documented data-based score where they do not, paired with each school's own class profile. Filter the table, open any school's full profile with a source on every number, and build a shortlist you can export free, no account needed.</p>
 <div class="meta">Composite of US News, Financial Times, Bloomberg, QS, and Poets and Quants · class profile data from official school pages · updated {{UPDATED}}</div>
@@ -152,12 +151,14 @@ footer .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
 <button id="fToggle" onclick="document.getElementById('filterRail').classList.toggle('open')">Filters</button>
 <input type="search" id="q" placeholder="Search schools" oninput="applyFilters()" aria-label="Search schools">
 <button class="clear" onclick="clearFilters()">Clear All</button>
+<button class="pill" id="listPill" onclick="toggleListPanel()">My List (0)</button>
 <span class="count" id="count"></span>
 </div>
 
 <div id="listPanel"></div>
 
 <div class="tablewrap"><table class="rk" id="rkTable"><thead><tr>
+<th class="ckcell"><input type="checkbox" id="ckAll" aria-label="Select all visible schools" onclick="toggleAllVisible(this.checked)"></th>
 <th class="num" onclick="sortBy('_rank')">Rank <span class="car">&#9660;</span></th>
 <th onclick="sortBy('name')">School</th>
 <th class="num" onclick="sortBy('_score')" title="SFN Score: publishers 50, outcomes 20, GMAT 20, acceptance 10, renormalized over available data">Score</th>
@@ -278,6 +279,7 @@ function sortBy(key){ sortState.asc=sortState.key===key?!sortState.asc:true; sor
  var tb=document.getElementById('rows');
  var rows=[].slice.call(tb.querySelectorAll('tr.srow'));
  document.querySelectorAll('tr.detail').forEach(function(d){d.remove();});
+ document.querySelectorAll('tr.srow.open').forEach(function(r){r.classList.remove('open');});
  rows.sort(function(a,b){ var x=sortVal(BY[a.dataset.slug],key), y=sortVal(BY[b.dataset.slug],key); return (x<y?-1:x>y?1:0)*(sortState.asc?1:-1); });
  rows.forEach(function(r){tb.appendChild(r);}); }
 
@@ -287,13 +289,15 @@ function srcLine(f){ if(!f||f.v==null) return ''; var bits=[]; if(f.src) bits.pu
 function dfield(label,f,suffix,money){ if(!f||f.v==null) return ''; var v=money?('$'+Number(f.v).toLocaleString()):f.v+(suffix||'');
  var stat=f.stat?' <span class="src">'+f.stat+'</span>':'';
  return '<div class="f"><b>'+label+'</b>'+v+stat+' '+srcLine(f)+'</div>'; }
-function toggleDetail(slug){ var ex=document.getElementById('det-'+slug); if(ex){ ex.remove(); return; }
+function toggleDetail(slug){ var ex=document.getElementById('det-'+slug);
+ document.querySelectorAll('tr.srow.open').forEach(function(r){r.classList.remove('open');});
+ if(ex){ ex.remove(); return; }
  document.querySelectorAll('tr.detail').forEach(function(d){d.remove();});
  var s=BY[slug]; var p=s.profile||{};
  var ranksTxt=Object.keys(s.ranks||{}).map(function(k){ var r=s.ranks[k]; if(!r||r.rank==null) return ''; var lbl={usnews:'US News',ft:'FT',bloomberg:'Bloomberg',qs:'QS',pq:'P&Q'}[k];
   return '<div class="f"><b>'+lbl+' '+(r.edition||'')+'</b>#'+r.rank+(r.url?' <span class="src">(<a href="'+r.url+'" rel="noopener" target="_blank">source</a>)</span>':'')+'</div>'; }).join('');
  var tr=document.createElement('tr'); tr.className='detail'; tr.id='det-'+slug;
- tr.innerHTML='<td colspan="14"><div class="row" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px"><div style="font-family:var(--display);font-weight:700;color:var(--navy-900)">'+s.name+' · '+(p.class_year||'class profile')+'</div><div style="display:flex;gap:8px"><a class="addbtn" style="text-decoration:none" href="/schools/'+slug+'/">See Full Profile</a>'+(s.website?'<a class="addbtn" style="text-decoration:none" href="'+s.website+'" rel="noopener" target="_blank">Official Site</a>':'')+'</div></div><div class="dgrid">'
+ tr.innerHTML='<td colspan="15"><div class="row" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px"><div style="font-family:var(--display);font-weight:700;color:var(--navy-900)">'+s.name+' · '+(p.class_year||'class profile')+'</div><div style="display:flex;gap:8px"><a class="addbtn" style="text-decoration:none" href="/schools/'+slug+'/">See Full Profile</a>'+(s.website?'<a class="addbtn" style="text-decoration:none" href="'+s.website+'" rel="noopener" target="_blank">Official Site</a>':'')+'</div></div><div class="dgrid">'
  +dfield('GMAT Focus',p.gmat_focus)+dfield('GMAT Classic',p.gmat_classic)
  +dfield('GRE Quant',p.gre_quant)+dfield('GRE Verbal',p.gre_verbal)
  +dfield('GPA',p.gpa)+dfield('Acceptance rate',p.accept_rate_pct,'%')
@@ -302,7 +306,7 @@ function toggleDetail(slug){ var ex=document.getElementById('det-'+slug); if(ex)
  +dfield('Tuition per year',p.tuition_usd,'',true)+dfield('Median salary',p.salary_median_usd,'',true)
  +dfield('Employed at 3 months',p.employment_rate_pct,'%')
  +ranksTxt+'</div></td>';
- var row=document.querySelector('tr.srow[data-slug="'+slug+'"]'); row.parentNode.insertBefore(tr,row.nextSibling); }
+ var row=document.querySelector('tr.srow[data-slug="'+slug+'"]'); row.classList.add('open'); row.parentNode.insertBefore(tr,row.nextSibling); }
 
 // list builder
 function toggleList(slug){ var L=lst(); var i=L.order.indexOf(slug);
@@ -316,8 +320,14 @@ function refreshListUI(){ var L=lst(); var n=L.order.length;
  document.getElementById('listPill').textContent='My List ('+n+')';
  var bar=document.getElementById('listBar'); bar.classList.toggle('on',n>0);
  document.getElementById('listBarCount').textContent=n+' school'+(n===1?'':'s')+' on your list';
- document.querySelectorAll('.addbtn').forEach(function(b){ var on=L.order.indexOf(b.dataset.slug)>=0; b.classList.toggle('on',on); b.textContent=on?'Saved':'+ List'; });
+ document.querySelectorAll('input.rowck').forEach(function(c){ c.checked=L.order.indexOf(c.dataset.slug)>=0; });
  if(document.getElementById('listPanel').classList.contains('on')) renderListPanel(); }
+function toggleAllVisible(on){ var L=lst(); var changed=false;
+ document.querySelectorAll('#rows tr.srow').forEach(function(tr){ if(tr.style.display==='none') return;
+  var slug=tr.dataset.slug; var inList=L.order.indexOf(slug)>=0;
+  if(on&&!inList){ L.order.push(slug); L.meta[slug]={tag:'target',note:'',name:BY[slug].name,gmat:gmatOf(BY[slug])}; changed=true; }
+  if(!on&&inList){ L.order.splice(L.order.indexOf(slug),1); delete L.meta[slug]; changed=true; } });
+ if(changed) saveLst(L); }
 function toggleListPanel(){ var p=document.getElementById('listPanel'); p.classList.toggle('on'); if(p.classList.contains('on')) renderListPanel(); }
 function renderListPanel(){ var L=lst(); var p=document.getElementById('listPanel');
  if(!L.order.length){ p.innerHTML='<div class="lhead">Your list is empty. Click "+ List" on any school.</div>'; return; }
