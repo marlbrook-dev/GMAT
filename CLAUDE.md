@@ -23,6 +23,7 @@ Owner: Hunter Roberts (admin emails: marlbrookgroup@gmail.com primary, hroberts@
 
 - Develop on the designated claude/* branch; ship via PR to main, squash merge; main deploys the live site via Cloudflare Workers Builds.
 - python3 src/build.py builds everything (app, landing, rankings, exams, pricing) and node-parses every inline script; cd src && node test.js runs engine tests; validate in headless Chromium (executablePath /opt/pw-browsers/chromium-*/chrome-linux/chrome) before shipping.
-- Generated outputs are gitignored (/app/, /blog/, /schools/, /exams/, /pricing/, index.html, 404.html, sitemap.xml); sources of truth live in src/ and data/.
+- Generated outputs are gitignored (/app/, /blog/, /schools/, /exams/, /pricing/, /community/, index.html, 404.html, sitemap.xml); sources of truth live in src/ and data/.
 - JS-in-string onclick handlers must escape single quotes (this class of bug once took down the whole app; the build guard catches it).
 - Supabase project: ftsqwbzhkzuudogkvoqa. Payments: Stripe Checkout only, PAYMENTS_LIVE=false until the owner flips it.
+- Community forum (/community/, src/community.html): tables forum_categories / forum_threads / forum_posts with RLS (public read of non-hidden rows, authed insert with user_id = auth.uid(), owner-or-admin moderation via hidden=true). Reading is anonymous; posting uses magic-link auth. Never seed fake member activity; SFN Team posts are the only house-authored content and say so.
