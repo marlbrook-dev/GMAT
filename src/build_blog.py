@@ -287,7 +287,7 @@ def build_post(p, posts):
     return page(p["title"] + " | Start From Nowhere", p["description"], f"{SITE}/blog/{p['slug']}/", body, extra)
 
 def build_sitemap(posts):
-    urls = [(SITE + "/", None), (SITE + "/blog/", None), (SITE + "/terms.html", None), (SITE + "/privacy.html", None)]
+    urls = [(SITE + "/", None), (SITE + "/blog/", None), (SITE + "/schools/", None), (SITE + "/terms.html", None), (SITE + "/privacy.html", None)]
     urls += [(f"{SITE}/blog/{p['slug']}/", p.get("updated", p["date"])) for p in sorted(posts, key=lambda p: p["date"], reverse=True)]
     items = "".join(
         f"<url><loc>{u}</loc>{f'<lastmod>{d}</lastmod>' if d else ''}</url>\n" for u, d in urls)
