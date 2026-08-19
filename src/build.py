@@ -31,3 +31,6 @@ def check_scripts(path):
 for p in [root/"app"/"index.html", root/"index.html"]:
     check_scripts(p)
 print("built app/index.html", len(out), "bytes; landing copied to index.html; inline scripts parse")
+
+import subprocess as _sp
+_sp.run([sys.executable, str(d/"build_rankings.py")], check=True)
