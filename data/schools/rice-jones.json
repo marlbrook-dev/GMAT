@@ -1,0 +1,139 @@
+{
+ "slug": "rice-jones",
+ "name": "Rice University Jesse H. Jones Graduate School of Business",
+ "university": "Rice University",
+ "city": "Houston",
+ "state": "TX",
+ "region": "South",
+ "type": "Private",
+ "ranks": {
+  "usnews": {
+   "rank": 29,
+   "edition": "2026",
+   "url": "https://business.rice.edu/news/rice-business-earns-strong-results-latest-us-news-graduate-program-rankings",
+   "note": "Maintained No. 29 (tie) for full-time MBA in the 2026 edition"
+  },
+  "ft": {
+   "rank": 38,
+   "edition": "2026",
+   "url": "https://news.rice.edu/news/2026/rice-business-ranks-no-1-texas-no-16-us-financial-times-business-school-rankings",
+   "note": "School reports No. 38 globally, No. 16 in the US, No. 1 in Texas"
+  },
+  "bloomberg": {
+   "rank": 25,
+   "edition": "2025-26",
+   "url": "https://www.bloomberg.com/business-schools/rice-jones/",
+   "note": "Bloomberg page title states 25th"
+  },
+  "qs": {
+   "rank": null,
+   "edition": "2026",
+   "url": "",
+   "note": "A non-preferred aggregator cites 85th globally for the QS MBA ranking; not verified from QS or a preferred source"
+  },
+  "pq": {
+   "rank": 27,
+   "edition": "2025-2026",
+   "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/",
+   "note": "No. 27 per P&Q 2025-2026 coverage snippet"
+  }
+ },
+ "profile": {
+  "class_year": "Class of 2027",
+  "class_size": {
+   "v": 137,
+   "stat": "enrollment",
+   "src": "Rice Business MBA class profiles page (Full-Time MBA, This Year 2025)",
+   "year": 2025,
+   "url": "https://business.rice.edu/mba-admissions/class-profiles"
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "No GMAT Focus figure seen for the Class of 2027 in sources reviewed"
+  },
+  "gmat_classic": {
+   "v": 693,
+   "stat": "average",
+   "src": "Poets&Quants, Meet the Rice Business MBA Class of 2027",
+   "year": 2026,
+   "url": "https://poetsandquants.com/2026/07/13/meet-the-rice-business-mba-class-of-2027/",
+   "note": "Scale not labeled in snippet; recorded as classic because a 693 class average is implausible on the Focus scale and continues Rice's classic-scale reporting"
+  },
+  "gre_quant": {
+   "v": 161,
+   "stat": "average; mid-50% range 154-168",
+   "src": "Rice Business MBA class profiles page (Full-Time MBA, This Year 2025)",
+   "year": 2025,
+   "url": "https://business.rice.edu/mba-admissions/class-profiles"
+  },
+  "gre_verbal": {
+   "v": 159,
+   "stat": "average; mid-50% range 155-163",
+   "src": "Rice Business MBA class profiles page (Full-Time MBA, This Year 2025)",
+   "year": 2025,
+   "url": "https://business.rice.edu/mba-admissions/class-profiles"
+  },
+  "gpa": {
+   "v": 3.4,
+   "stat": "average; mid-50% range 3.13-3.75",
+   "src": "Rice Business MBA class profiles page (Full-Time MBA, This Year 2025)",
+   "year": 2025,
+   "url": "https://business.rice.edu/mba-admissions/class-profiles"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "A roughly 39 percent figure (459 admitted of 1,178 applicants) appeared only via a non-preferred source; cycle year unverified"
+  },
+  "work_exp_years": {
+   "v": 5.7,
+   "stat": "average work experience (in years)",
+   "src": "Rice Business MBA class profiles page (Full-Time MBA, This Year 2025)",
+   "year": 2025,
+   "url": "https://business.rice.edu/mba-admissions/class-profiles"
+  },
+  "women_pct": {
+   "v": 34,
+   "stat": "% female",
+   "src": "Rice Business MBA class profiles page (Full-Time MBA, This Year 2025)",
+   "year": 2025,
+   "url": "https://business.rice.edu/mba-admissions/class-profiles"
+  },
+  "intl_pct": {
+   "v": 34,
+   "stat": "% international",
+   "src": "Rice Business MBA class profiles page (Full-Time MBA, This Year 2025)",
+   "year": 2025,
+   "url": "https://business.rice.edu/mba-admissions/class-profiles"
+  },
+  "tuition_usd": {
+   "v": 79116,
+   "stat": "2026-27 rate, tuition only; fees itemized separately (GSA 45, student org 8, health and wellness 720, MBA activity 550); per year",
+   "src": "Rice University Bursar, Full-Time MBA tuition",
+   "year": 2026,
+   "url": "https://bursar.rice.edu/tuition_fee_rates/graduate-programs/business/business-full-time-mba"
+  },
+  "salary_median_usd": {
+   "v": 141500,
+   "stat": "median base salary, all reporting (80.5% of accepting graduates reported salary); mean 146381",
+   "src": "Rice Business CDO 2025 full-time MBA employment statistics",
+   "year": 2025,
+   "url": "https://cdn.uconnectlabs.com/wp-content/uploads/sites/99/2026/02/2025-FTMBA-Employment-Outcomes-Data.pdf"
+  },
+  "employment_rate_pct": {
+   "v": 71.3,
+   "stat": "accepted a job within 3 months of graduation (87 of 122 seeking employment; 54.9% by graduation plus 16.4% within 3 months after)",
+   "src": "Rice Business CDO 2025 full-time MBA employment statistics",
+   "year": 2025,
+   "url": "https://cdn.uconnectlabs.com/wp-content/uploads/sites/99/2026/02/2025-FTMBA-Employment-Outcomes-Data.pdf"
+  }
+ },
+ "website": "https://business.rice.edu/full-time-mba",
+ "notes": "Class profile is labeled This Year 2025 (entering fall 2025); the program's own class profile page titles it Rice Business Full-Time MBA Class of 2027 Profile. GMAT edition is not labeled on the page; recorded as classic because a 693 average is implausible on the Focus scale (would be roughly 99th percentile) and is continuous with Rice's classic-era 3-year average of 702 shown on the same page; no Focus-labeled figure is published. Acceptance rate not published on official pages. Employment statistics PDF is hosted on cdn.uconnectlabs.com, linked from the official Rice CDO reports page (cdo.business.rice.edu/outcomes/). The school's career highlights page for the same class states 146K average starting salary and 32K average signing bonus. Rice publishes average GMAT 693 (mid-50% 675-720) with no edition label on the class profiles page; not recorded per the edition-ambiguity rule."
+}

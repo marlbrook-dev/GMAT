@@ -1,0 +1,137 @@
+{
+ "slug": "cmu-tepper",
+ "name": "Carnegie Mellon University Tepper School of Business",
+ "university": "Carnegie Mellon University",
+ "city": "Pittsburgh",
+ "state": "PA",
+ "region": "Northeast",
+ "type": "Private",
+ "ranks": {
+  "usnews": {
+   "rank": 16,
+   "edition": "2026",
+   "url": "https://www.cmu.edu/tepper/news/stories/usnwr-best-graduate-school-ranking-2026",
+   "note": "School news: No. 16, up from No. 18; other coverage shows a tie at 16"
+  },
+  "ft": {
+   "rank": 41,
+   "edition": "2026",
+   "url": "https://poetsandquants.com/2026/02/16/2026-financial-times-mba-ranking-mit-tops-list-for-the-first-time/",
+   "note": "Gained eight places from 49th in 2025 to 41st"
+  },
+  "bloomberg": {
+   "rank": 15,
+   "edition": "2025-26",
+   "url": "https://www.clearadmit.com/2025/09/bloomberg-b-school-rankings-2025-2026-key-takeaways/",
+   "note": "Fell from No. 9 to No. 15"
+  },
+  "qs": {
+   "rank": 46,
+   "edition": "2026",
+   "url": "https://www.topmba.com/mba-rankings/global",
+   "note": "TopMBA Full-Time MBA Rankings Global 2026"
+  },
+  "pq": {
+   "rank": null,
+   "edition": "2025-2026",
+   "url": "",
+   "note": "Tepper's position in the P&Q 2025-2026 composite ranking was not surfaced in any snippet reviewed"
+  }
+ },
+ "profile": {
+  "class_year": "Class of 2027",
+  "class_size": {
+   "v": 144,
+   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+   "year": 2025,
+   "url": "https://www.clearadmit.com/2025/09/carnegie-mellon-tepper-mba-class-of-2027-profile/"
+  },
+  "gmat_focus": {
+   "v": 659,
+   "stat": "average",
+   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+   "year": 2025,
+   "url": "https://www.clearadmit.com/2025/09/carnegie-mellon-tepper-mba-class-of-2027-profile/",
+   "note": "Labeled GMAT Focus Edition; middle 80 percent 595-715"
+  },
+  "gmat_classic": {
+   "v": 707,
+   "stat": "average",
+   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+   "year": 2025,
+   "url": "https://www.clearadmit.com/2025/09/carnegie-mellon-tepper-mba-class-of-2027-profile/",
+   "note": "Labeled GMAT 10th Edition; middle 80 percent 700-740"
+  },
+  "gre_quant": {
+   "v": 163,
+   "stat": "average",
+   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+   "year": 2025,
+   "url": "https://www.clearadmit.com/2025/09/carnegie-mellon-tepper-mba-class-of-2027-profile/"
+  },
+  "gre_verbal": {
+   "v": 159,
+   "stat": "average",
+   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+   "year": 2025,
+   "url": "https://www.clearadmit.com/2025/09/carnegie-mellon-tepper-mba-class-of-2027-profile/"
+  },
+  "gpa": {
+   "v": 3.33,
+   "stat": "average",
+   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+   "year": 2025,
+   "url": "https://www.clearadmit.com/2025/09/carnegie-mellon-tepper-mba-class-of-2027-profile/",
+   "note": "Average 3.33; median 3.38 also reported"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "No acceptance rate seen from a preferred source"
+  },
+  "work_exp_years": {
+   "v": 5.2,
+   "stat": "average",
+   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+   "year": 2025,
+   "url": "https://www.clearadmit.com/2025/09/carnegie-mellon-tepper-mba-class-of-2027-profile/"
+  },
+  "women_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "Tepper did not report the percentage of women for the Class of 2027 per Clear Admit / P&Q"
+  },
+  "intl_pct": {
+   "v": 37,
+   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+   "year": 2025,
+   "url": "https://www.clearadmit.com/2025/09/carnegie-mellon-tepper-mba-class-of-2027-profile/"
+  },
+  "tuition_usd": {
+   "v": 81340,
+   "note": "per year; 2025-26 first-year tuition; total estimated cost of attendance 116,428 for a single student",
+   "src": "CMU Student Financial Services, Tepper Full-Time MBA tuition page",
+   "year": 2025,
+   "url": "https://www.cmu.edu/sfs/tuition/graduate/tepper/full-accel-mba.html"
+  },
+  "salary_median_usd": {
+   "v": 160000,
+   "src": "Tepper School news release, 2025 MBA Summary Employment Report",
+   "year": 2025,
+   "url": "https://www.cmu.edu/tepper/news/stories/2025-mba-summary-employment-report",
+   "note": "Median base salary, Class of 2025; average signing bonus 38,610"
+  },
+  "employment_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "official 2025 MBA employment summary exists at https://www.cmu.edu/sites/default/files/cmu-tepper-site-files/documents/2025%20MCC%20MBA%20Employment%20Summary%20Report.pdf but the three-month employment rate was not seen in snippets"
+  }
+ },
+ "website": "https://www.cmu.edu/tepper/programs/mba/full-time"
+}

@@ -1,0 +1,129 @@
+{
+ "slug": "mit-sloan",
+ "name": "MIT Sloan School of Management",
+ "university": "Massachusetts Institute of Technology",
+ "city": "Cambridge",
+ "state": "MA",
+ "region": "Northeast",
+ "type": "Private",
+ "ranks": {
+  "usnews": {
+   "rank": 6,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/mba-rankings"
+  },
+  "ft": {
+   "rank": 1,
+   "edition": "2026",
+   "url": "https://poetsandquants.com/2026/02/16/2026-financial-times-mba-ranking-mit-tops-list-for-the-first-time/"
+  },
+  "bloomberg": {
+   "rank": 11,
+   "edition": "2025-26",
+   "url": "https://www.bloomberg.com/business-schools/regions/us/"
+  },
+  "qs": {
+   "rank": 3,
+   "edition": "2026",
+   "url": "https://www.topuniversities.com/mba-rankings/global"
+  },
+  "pq": {
+   "rank": null,
+   "edition": "2025-2026",
+   "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/"
+  }
+ },
+ "profile": {
+  "class_year": "Class of 2027",
+  "class_size": {
+   "v": 450,
+   "stat": "includes LGO students",
+   "src": "MIT Sloan MBA Class of 2027 profile page",
+   "year": 2025,
+   "url": "https://mitsloan.mit.edu/mba/admissions/class-profile"
+  },
+  "gmat_focus": {
+   "v": 675,
+   "stat": "median",
+   "src": "Poets&Quants (Class of 2027 profile coverage)",
+   "year": 2025,
+   "url": "https://poetsandquants.com/2025/11/04/mit-sloan-mba-class-of-2027-international-ranks-grow-but-u-s-diversity-stays-flat/"
+  },
+  "gmat_classic": {
+   "v": 720,
+   "stat": "median",
+   "src": "Poets&Quants (Class of 2027 profile coverage)",
+   "year": 2025,
+   "url": "https://poetsandquants.com/2025/11/04/mit-sloan-mba-class-of-2027-international-ranks-grow-but-u-s-diversity-stays-flat/"
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": 3.69,
+   "stat": "median",
+   "src": "Poets&Quants",
+   "year": 2025,
+   "url": "https://poetsandquants.com/2025/11/04/mit-sloan-mba-class-of-2027-international-ranks-grow-but-u-s-diversity-stays-flat/"
+  },
+  "accept_rate_pct": {
+   "v": 18.8,
+   "src": "Poets&Quants (The M7 By The Numbers 2026)",
+   "year": 2026,
+   "url": "https://poetsandquants.com/2026/08/09/the-m7-by-the-numbers-2026-what-it-takes-to-get-admitted-to-h-s-w-plus/"
+  },
+  "work_exp_years": {
+   "v": 5,
+   "stat": "average",
+   "src": "Poets&Quants",
+   "year": 2025,
+   "url": "https://poetsandquants.com/2025/11/04/mit-sloan-mba-class-of-2027-international-ranks-grow-but-u-s-diversity-stays-flat/"
+  },
+  "women_pct": {
+   "v": 47,
+   "src": "Poets&Quants",
+   "year": 2025,
+   "url": "https://poetsandquants.com/2025/11/04/mit-sloan-mba-class-of-2027-international-ranks-grow-but-u-s-diversity-stays-flat/"
+  },
+  "intl_pct": {
+   "v": 42,
+   "src": "Poets&Quants",
+   "year": 2025,
+   "url": "https://poetsandquants.com/2025/11/04/mit-sloan-mba-class-of-2027-international-ranks-grow-but-u-s-diversity-stays-flat/"
+  },
+  "tuition_usd": {
+   "v": 91892,
+   "stat": "2026-27 rate, annual; page states the figure includes the mandatory 2200 per year MBA program fee and required course packs",
+   "src": "MIT Sloan Financing Your Education page",
+   "year": 2026,
+   "url": "https://mitsloan.mit.edu/mba/admissions/financing-your-education"
+  },
+  "salary_median_usd": {
+   "v": 175000,
+   "stat": "median base salary, Class of 2025 (mean 173132)",
+   "src": "MIT Sloan 2025-2026 MBA Employment Report",
+   "year": 2025,
+   "url": "https://mitsloan.mit.edu/sites/default/files/2026-03/2025-2026-MBA-Employment-Report.pdf"
+  },
+  "employment_rate_pct": {
+   "v": 87.1,
+   "stat": "accepted offers within 3 months of graduation; 91.0 pct received offers by 3 months (MBACSEA standard, Class of 2025; 94.1 pct received offers as of publication)",
+   "src": "MIT Sloan 2025-2026 MBA Employment Report",
+   "year": 2025,
+   "url": "https://mitsloan.mit.edu/sites/default/files/2026-03/2025-2026-MBA-Employment-Report.pdf"
+  }
+ },
+ "notes": "Anchor check passed: median GMAT Focus 675 and median Classic 720 confirmed for Class of 2027. Class size of 450 includes full-time MBA plus dual-degree LGO students, per P&Q. FT 2026 rank No. 1 is MIT Sloan's first time atop the FT ranking. P&Q 2025-2026 composite rank was not stated in any snippet seen (P&Q noted only a modest decline) and is nulled. MIT's admit rate rose from 14.1% to 18.8% in the 2025-26 cycle per P&Q. The official Class of 2027 profile page as served contains only the class size stat (450); the GMAT, GPA, women, and international stats did not render in the fetched HTML (JS animated content, headless render blocked by proxy), so the P&Q-sourced Class of 2027 admissions figures could not be replaced with official ones this session. For reference, the official 2025-2026 employment report's own class profile (Class of 2025, as of matriculation, includes LGO) lists: median GMAT 730, average GPA 3.61, 46 pct female, 40 pct international, 5 years average work experience.",
+ "website": "https://mitsloan.mit.edu/mba"
+}

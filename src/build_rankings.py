@@ -231,12 +231,22 @@ def school_page(s, tpl, today):
               .replace("{{LD}}", ld))
     return out
 
+def load_schools():
+    sdir = ROOT / "data" / "schools"
+    if sdir.is_dir():
+        return [json.loads(p.read_text()) for p in sorted(sdir.glob("*.json"))]
+    legacy = ROOT / "data" / "schools.json"
+    if legacy.exists():
+        return json.loads(legacy.read_text())
+    return None
+
 def main():
-    data_path = ROOT / "data" / "schools.json"
-    if not data_path.exists():
-        print("build_rankings: no data/schools.json yet; skipping /schools/ build")
+    schools = load_schools()
+    if schools is None:
+        print("build_rankings: no data/schools/ yet; skipping /schools/ build")
         return
-    schools = json.loads(data_path.read_text())
+    import validate_schools
+    validate_schools.validate(schools)
     dropped = [s["slug"] for s in schools if s.get("discontinued")]
     if dropped:
         print("build_rankings: excluding discontinued programs:", ", ".join(dropped))
@@ -268,7 +278,7 @@ def main():
             gc = p.get("gmat_classic") or {}
             gmat_v, gmat_note, gmat_ed = gc.get("v"), (gc.get("stat") or "")[:3], "Classic"
         ranks_cells = "".join(
-            f'<td class="num">{fmt((s.get("ranks", {}).get(k) or {}).get("rank"))}</td>'
+            f'<td class="num colx">{fmt((s.get("ranks", {}).get(k) or {}).get("rank"))}</td>'
             for k in WEIGHTS)
         acc = field(s, "accept_rate_pct")
         acc_cls = " acc-hot" if (acc is not None and acc < 15) else (" acc-warm" if (acc is not None and acc < 25) else "")
@@ -281,12 +291,13 @@ def main():
             f'<td class="num rank">{s.get("_rank", "-")}</td>'
             f'<td><div class="sname">{esc(s["name"])}</div><div class="sloc">{esc(s.get("city", ""))}, {esc(s.get("state", ""))} · {esc(s.get("type", ""))}</div></td>'
             f'<td class="num">{fmt(s.get("_score"))}</td>'
-            + ranks_cells +
             f'<td class="num">{fmt(gmat_v)}{("<span class=note>" + esc(gmat_ed) + " " + esc(gmat_note) + "</span>") if gmat_v is not None else ""}</td>'
-            f'<td class="num">{fmt(field(s, "gpa"))}</td>'
+            + ranks_cells +
+            f'<td class="num colx">{fmt(field(s, "gpa"))}</td>'
             f'<td class="num{acc_cls}">{fmt(acc, "%")}</td>'
-            f'<td class="num">{fmt(field(s, "class_size"))}</td>'
+            f'<td class="num colx">{fmt(field(s, "class_size"))}</td>'
             f'<td class="num">{tuition_cell}</td>'
+            f'<td class="num">{fmt(field(s, "employment_rate_pct"), "%")}</td>'
             f'<td class="expcell"><span class="car">&#9660;</span></td>'
             "</tr>")
     weights_rows = "".join(

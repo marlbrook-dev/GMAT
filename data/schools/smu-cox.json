@@ -1,0 +1,131 @@
+{
+ "slug": "smu-cox",
+ "name": "Cox School of Business",
+ "university": "Southern Methodist University",
+ "city": "Dallas",
+ "state": "TX",
+ "region": "South",
+ "type": "Private",
+ "website": "https://www.smu.edu/cox",
+ "ranks": {
+  "usnews": {
+   "rank": 36,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/southern-methodist-university-01214"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": 40,
+   "edition": "2025-26",
+   "url": "https://www.bloomberg.com/business-schools/southern-methodist-cox/"
+  },
+  "qs": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "2025 Profile",
+  "class_size": {
+   "v": 83,
+   "stat": "Total Class Size, 2025 Profile",
+   "src": "SMU Cox Full-Time Two-Year MBA admissions page",
+   "year": 2025,
+   "url": "https://www.smu.edu/cox/business-degrees/mba-programs/two-year-mba/admissions"
+  },
+  "gmat_focus": {
+   "v": 633,
+   "stat": "average (633 Average GMAT Focus Score, 2025 Profile)",
+   "src": "SMU Cox Full-Time Two-Year MBA admissions page",
+   "year": 2025,
+   "url": "https://www.smu.edu/cox/business-degrees/mba-programs/two-year-mba/admissions"
+  },
+  "gmat_classic": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": 3.5,
+   "stat": "average (3.5 Average GPA, 2025 Profile)",
+   "src": "SMU Cox Full-Time Two-Year MBA admissions page",
+   "year": 2025,
+   "url": "https://www.smu.edu/cox/business-degrees/mba-programs/two-year-mba/admissions"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": 5,
+   "stat": "average (5 Average Years of Work Experience, 2025 Profile)",
+   "src": "SMU Cox Full-Time Two-Year MBA admissions page",
+   "year": 2025,
+   "url": "https://www.smu.edu/cox/business-degrees/mba-programs/two-year-mba/admissions"
+  },
+  "women_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "intl_pct": {
+   "v": 29,
+   "stat": "29% International Students, 2025 Profile",
+   "src": "SMU Cox Full-Time Two-Year MBA admissions page",
+   "year": 2025,
+   "url": "https://www.smu.edu/cox/business-degrees/mba-programs/two-year-mba/admissions"
+  },
+  "tuition_usd": {
+   "v": 51337,
+   "stat": "2026-27 rate; Estimated Annual Tuition and Fees itemizes Tuition 51,337 with fees listed separately; program page FAQ states the rate is for the 2026-27 cycle; per year",
+   "src": "SMU Cox Full-Time Two-Year MBA admissions page",
+   "year": 2026,
+   "url": "https://www.smu.edu/cox/business-degrees/mba-programs/two-year-mba/admissions"
+  },
+  "salary_median_usd": {
+   "v": 126000,
+   "stat": "median base salary per program page FAQ (headline stat block on same page calls it average base salary), Class of 2025, within three months of graduation, 2025 FTMBA Employment Report",
+   "src": "SMU Cox Full-Time Two-Year MBA program page",
+   "year": 2025,
+   "url": "https://www.smu.edu/cox/business-degrees/mba-programs/two-year-mba"
+  },
+  "employment_rate_pct": {
+   "v": 88,
+   "stat": "job acceptance rate within six months of graduation, 2025 FTMBA Employment Report",
+   "src": "SMU Cox Full-Time Two-Year MBA program page",
+   "year": 2025,
+   "url": "https://www.smu.edu/cox/business-degrees/mba-programs/two-year-mba"
+  }
+ },
+ "notes": "GRE is published only as a combined 318 Average GRE with no quant/verbal split. No classic GMAT, acceptance rate, or women percent on official pages. Salary page wording is inconsistent: 126,000 appears as both median base salary (FAQ) and average base salary (stat block). The program page also mentions a 2026 class profile with 3.56 GPA and 712 GMAT without labeling the GMAT edition; the dedicated 2025 Profile on the admissions page (Focus 633) was used instead."
+}

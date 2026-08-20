@@ -1,0 +1,126 @@
+{
+ "slug": "case-western-weatherhead",
+ "name": "Weatherhead School of Management",
+ "university": "Case Western Reserve University",
+ "city": "Cleveland",
+ "state": "OH",
+ "region": "Midwest",
+ "type": "Private",
+ "website": "https://case.edu/weatherhead/academics/graduate/mba/full-time-mba",
+ "ranks": {
+  "usnews": {
+   "rank": 66,
+   "edition": "2025",
+   "url": "https://case.edu/news/weatherhead-rises-us-news-world-reports-best-business-school-rankings"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "",
+  "class_size": {
+   "v": null,
+   "src": "School describes a class of around 45 to 50 students; no exact verified figure",
+   "year": null,
+   "url": "https://case.edu/weatherhead/academics/graduate/mba/full-time-mba/class-profile"
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "women_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "intl_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "tuition_usd": {
+   "v": null,
+   "note": "per year",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "salary_median_usd": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "employment_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  }
+ }
+}

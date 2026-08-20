@@ -1,0 +1,129 @@
+{
+ "slug": "uconn",
+ "name": "UConn School of Business",
+ "university": "University of Connecticut",
+ "city": "Storrs",
+ "state": "CT",
+ "region": "Northeast",
+ "type": "Public",
+ "website": "https://mba.business.uconn.edu/",
+ "discontinued": true,
+ "note": "UConn shuttered its traditional two-year full-time MBA in 2021 after enrollment fell from 110 students in 2016 to 76 in 2021, redirecting resources into a part-time Flex MBA (Hartford, Stamford, and online) and a 100 percent Online MBA (Poets and Quants, Nov 2024: https://poetsandquants.com/2024/11/02/anatomy-of-an-mba-makeover-uconns-flex-omba-programs/). U.S. News 2026 ranks UConn only in Part-time MBA (No. 35 tie).",
+ "ranks": {
+  "usnews": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "ft": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "",
+  "class_size": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "women_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "intl_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "tuition_usd": {
+   "v": null,
+   "note": "per year",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "salary_median_usd": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "employment_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  }
+ },
+ "notes": "UConn shuttered its traditional two-year full-time on-campus MBA in 2021 (Poets and Quants, November 2024, quoting UConn academic co-directors) and redirected resources into a 100% Online MBA launched fall 2021 and a part-time hybrid Flex MBA (both 42 credits). The school's official MBA programs page today lists only Online MBA, Flex MBA, and a fast-track One-Year MBA; no two-year full-time on-campus program is offered. Stopped admitting to the two-year full-time format around 2021. Sources: https://mba.business.uconn.edu/mba-programs/ ; https://poetsandquants.com/2024/11/02/anatomy-of-an-mba-makeover-uconns-flex-omba-programs/ ; https://www.business.uconn.edu/2022/01/20/mba-your-way/"
+}

@@ -1,0 +1,129 @@
+{
+ "slug": "utah-eccles",
+ "name": "David Eccles School of Business",
+ "university": "University of Utah",
+ "city": "Salt Lake City",
+ "state": "UT",
+ "region": "West",
+ "type": "Public",
+ "website": "https://eccles.utah.edu/",
+ "ranks": {
+  "usnews": {
+   "rank": 39,
+   "edition": "2026",
+   "url": "https://eccles.utah.edu/news/david-eccles-school-of-business-mba-programs-rise-in-u-s-news-world-report-rankings/"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": 50,
+   "edition": "2025-26",
+   "url": "https://www.bloomberg.com/business-schools/utah-eccles/"
+  },
+  "qs": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "Class of 2026",
+  "class_size": {
+   "v": 37,
+   "stat": "entering class size",
+   "src": "Utah Eccles Full-Time MBA class profile",
+   "year": 2024,
+   "url": "https://eccles.utah.edu/programs/mba/full-time-mba/class-profile/"
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": 3.33,
+   "stat": "average undergraduate GPA",
+   "src": "Utah Eccles Full-Time MBA class profile",
+   "year": 2024,
+   "url": "https://eccles.utah.edu/programs/mba/full-time-mba/class-profile/"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": 4.6,
+   "stat": "average post-undergraduate work experience",
+   "src": "Utah Eccles Full-Time MBA class profile",
+   "year": 2024,
+   "url": "https://eccles.utah.edu/programs/mba/full-time-mba/class-profile/"
+  },
+  "women_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "intl_pct": {
+   "v": 30,
+   "stat": "percent international",
+   "src": "Utah Eccles Full-Time MBA class profile",
+   "year": 2024,
+   "url": "https://eccles.utah.edu/programs/mba/full-time-mba/class-profile/"
+  },
+  "tuition_usd": {
+   "v": null,
+   "note": "per year",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "salary_median_usd": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "employment_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  }
+ },
+ "notes": "Class profile page (last updated May 2026, still showing Class of 2026, entered fall 2024; year recorded as 2024) lists Average GMAT Score 632 with no edition label; edition ambiguous so neither GMAT field recorded. GRE shown only as combined average 314. Women percentage is not published (page gives geography, veterans 5 percent, academic background only). Acceptance rate not published. Tuition page publishes only a two-year program total estimate of 77,500 in tuition and fees (62 credit hours at 1,250 per credit over four semesters), no annual tuition-only figure, so tuition_usd stays null. Career outcomes page (outcomes based on Class of 2025) shows Average Base Salary 105,540 and Average Salary Increase 92 percent (values read from the page's counter data attributes at https://eccles.utah.edu/programs/mba/full-time-mba/career-management/); no median salary and no employment rate published; full employment report is gated behind a contact form."
+}

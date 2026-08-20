@@ -1,0 +1,127 @@
+{
+ "slug": "kentucky-gatton",
+ "name": "Gatton College of Business and Economics",
+ "university": "University of Kentucky",
+ "city": "Lexington",
+ "state": "KY",
+ "region": "South",
+ "type": "Public",
+ "website": "https://gatton.uky.edu/programs/mba/overview",
+ "ranks": {
+  "usnews": {
+   "rank": 53,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/university-of-kentucky-01090"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": 67,
+   "edition": "2025-26",
+   "url": "https://www.bloomberg.com/business-schools/kentucky-gatton/"
+  },
+  "qs": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "2019-20",
+  "class_size": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": 634,
+   "stat": "average GMAT of 634, 2019-20 One Year MBA class (stale; article dated June 17, 2019; predates GMAT Focus so classic 200 to 800 scale)",
+   "src": "Gatton College official news",
+   "year": 2019,
+   "url": "https://gatton.uky.edu/news/gatton-welcomes-talented-201920-one-year-mba-class-university-kentucky"
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": 3.53,
+   "stat": "average GPA of 3.53, 2019-20 One Year MBA class (stale)",
+   "src": "Gatton College official news",
+   "year": 2019,
+   "url": "https://gatton.uky.edu/news/gatton-welcomes-talented-201920-one-year-mba-class-university-kentucky"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "women_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "intl_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "tuition_usd": {
+   "v": 47559,
+   "stat": "2025-26 full program rate for the one-year full-time MBA, non-resident, includes estimated mandatory fees for all terms (not itemized separately); Kentucky resident 39178",
+   "src": "University of Kentucky Student Account Services tuition and fees 2025-26",
+   "year": 2025,
+   "url": "https://studentaccount.uky.edu/2025-26-tuition-and-fees"
+  },
+  "salary_median_usd": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "employment_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  }
+ },
+ "notes": "Gatton publishes no current full-time (One Year) MBA class profile; the only class profile page on the site is for the Professional (part-time) MBA, and newer cohort news articles (2020-21 cohort, July 2020) give no numbers. The 2019 article gives 17.4 percent minority and international combined, which cannot be split into intl_pct. The full-time MBA page states +90 percent employment rate 3 months post graduation with no class year or precise value, so it was not recorded as a figure. Tuition is a full program rate for the 12-month program, so it is treated as the annual figure; fees are bundled in and not itemized. No 2026-27 rate sheet was linked yet."
+}

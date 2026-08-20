@@ -1,0 +1,128 @@
+{
+ "slug": "rutgers",
+ "name": "Rutgers Business School, Newark and New Brunswick",
+ "university": "Rutgers University",
+ "city": "Newark / New Brunswick",
+ "state": "NJ",
+ "region": "Northeast",
+ "type": "Public",
+ "website": "https://www.business.rutgers.edu/full-time-mba",
+ "ranks": {
+  "usnews": {
+   "rank": 63,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/rutgers-university-01141"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "",
+  "class_size": {
+   "v": null,
+   "src": "School FAQ cites annual enrollment of about 50 to 70; no exact verified figure",
+   "year": null,
+   "url": "https://www.business.rutgers.edu/full-time-mba/frequently-asked-questions"
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": 640,
+   "stat": "typical student profile ('The Full-Time MBA student profile has a 640 GMAT score'); stat type and edition not labeled",
+   "src": "Rutgers full-time MBA FAQ",
+   "year": 2026,
+   "url": "https://www.business.rutgers.edu/full-time-mba/frequently-asked-questions"
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": 3.3,
+   "stat": "typical student profile; stat type not labeled",
+   "src": "Rutgers full-time MBA FAQ",
+   "year": 2026,
+   "url": "https://www.business.rutgers.edu/full-time-mba/frequently-asked-questions"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": 5,
+   "stat": "average of 5 years of full-time work experience",
+   "src": "Rutgers full-time MBA FAQ",
+   "year": 2026,
+   "url": "https://www.business.rutgers.edu/full-time-mba/frequently-asked-questions"
+  },
+  "women_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "intl_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "tuition_usd": {
+   "v": 57336,
+   "stat": "2026-27 rate, tuition only; per-semester tuition 16356 in-state and 28668 out-of-state times two semesters; fees itemized separately (student fee 979.50, technology 221, off-site 1119.50, school 594.50 per semester); per year, out-of-state and international; in-state 32712",
+   "src": "Rutgers full-time MBA tuition and fees page",
+   "year": 2026,
+   "url": "https://www.business.rutgers.edu/full-time-mba/tuition"
+  },
+  "salary_median_usd": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "employment_rate_pct": {
+   "v": 91.4,
+   "stat": "employed 3 months after graduation; 5-year average, classes of 2020 to 2024 (77.8% employed at graduation)",
+   "src": "Rutgers full-time MBA employment outcomes page",
+   "year": 2024,
+   "url": "https://www.business.rutgers.edu/full-time-mba/employment-outcomes"
+  }
+ },
+ "notes": "FAQ profile figures are undated; year is the fetch year (2026). GMAT edition not labeled; recorded as classic because 640 is not an attainable GMAT Focus total (Focus totals end in 5) and the phrasing describes a score. The employers-recruiters student profile page that previously carried these figures now shows only employment outcomes. No class size (FAQ elsewhere cites about 50 to 70 enrolled annually, no exact figure), no women or international percentages, no GRE, no acceptance rate published. Salary published only as a 5-year average of 103278 USD, not a median, so salary_median_usd is null. Annual tuition is the published per-semester rate doubled for fall and spring."
+}

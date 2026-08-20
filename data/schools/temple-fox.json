@@ -1,0 +1,128 @@
+{
+ "slug": "temple-fox",
+ "name": "Fox School of Business",
+ "university": "Temple University",
+ "city": "Philadelphia",
+ "state": "PA",
+ "region": "Northeast",
+ "type": "Public",
+ "website": "https://www.fox.temple.edu/academics/graduate-programs/mba",
+ "ranks": {
+  "usnews": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "ft": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "",
+  "class_size": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "women_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "intl_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "tuition_usd": {
+   "v": null,
+   "note": "per year",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "salary_median_usd": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "employment_rate_pct": {
+   "v": 87.5,
+   "stat": "87.5% within 3 months of graduation, MBA Placement, Full-Time MBA Class of 2023, CSPD Report",
+   "src": "Fox School of Business By The Numbers page",
+   "year": 2023,
+   "url": "https://www.fox.temple.edu/about-fox/by-the-numbers"
+  }
+ },
+ "notes": "Temple Fox publishes no full-time MBA class profile; the MBA is test-flexible (GMAT/GRE requested only case by case per the Temple bulletin) and the By The Numbers page reports MBA enrollment only as 390 students across full-time, part-time, online, and executive programs (Fall 2023), not a full-time class size. Salary is published only as 101,659 USD mean salary for the Full-Time MBA Class of 2023 (CSPD Report) with no median, so salary_median_usd stays null. Tuition is priced per credit and published only through the Bursar's JavaScript tuition calculator at https://bursar.temple.edu/tuition-fees/tuition-rates-tuition-calculator; no static per-credit or annual rate could be read."
+}

@@ -1,0 +1,141 @@
+{
+ "slug": "sc-moore",
+ "name": "Darla Moore School of Business",
+ "university": "University of South Carolina",
+ "city": "Columbia",
+ "state": "SC",
+ "region": "South",
+ "type": "Public",
+ "website": "https://sc.edu/study/colleges_schools/moore/study/business_administration/fulltime_mba_programs/index.php",
+ "ranks": {
+  "usnews": {
+   "rank": 53,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/university-of-south-carolina-01199"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": null,
+   "edition": "2026",
+   "url": "https://www.topmba.com/college/darla-moore-school-business"
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [
+  {
+   "name": "International Business: No. 1 US News specialty ranking, seven consecutive years",
+   "src": "US News specialty ranking cited on Moore School academic rankings page",
+   "year": null,
+   "url": "https://sc.edu/study/colleges_schools/moore/about/academic_rankings/"
+  },
+  {
+   "name": "QS International Trade Ranking (Masters and MBA) 2026: No. 75",
+   "src": "QS TopMBA",
+   "year": 2026,
+   "url": "https://www.topmba.com/college/darla-moore-school-business"
+  }
+ ],
+ "profile": {
+  "class_year": "",
+  "class_size": {
+   "v": 48,
+   "src": "US News (full-time MBA enrollment)",
+   "year": 2025,
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/university-of-south-carolina-01199"
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "women_pct": {
+   "v": 31.3,
+   "src": "US News (full-time MBA enrollment)",
+   "year": 2025,
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/university-of-south-carolina-01199"
+  },
+  "intl_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "tuition_usd": {
+   "v": null,
+   "note": "US News lists TOTAL PROGRAM tuition: 32000 in-state, 60384 out-of-state; no per-year figure seen",
+   "src": "US News",
+   "year": 2025,
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/university-of-south-carolina-01199"
+  },
+  "salary_median_usd": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "employment_rate_pct": {
+   "v": 92,
+   "stat": "employment three months post-graduation, International MBA (One-Year MBA: 89%); class year not stated on page",
+   "src": "Moore School MBA career services page",
+   "year": 2026,
+   "url": "https://sc.edu/study/colleges_schools/moore/study/business_administration/fulltime_mba_programs/mba_career_services/index.php"
+  }
+ },
+ "notes": "Moore publishes no class profile for its full-time MBA programs (International MBA and One-Year MBA); the admissions page gives only guidance (typical GPAs 3.5 to 4.0, two or more years work experience preferred). The career services page is undated, so year is the fetch year (2026); salary is published only as average compensation (International MBA 87927, One-Year MBA 100550), not a median. The official tuition page (https://sc.edu/study/colleges_schools/moore/study/business_administration/fulltime_mba_programs/tuition_and_fees/index.php) publishes whole-program fees, not annual tuition: International MBA 32000 SC resident and 60384 non-resident, One-Year MBA 25625 resident and 29520 non-resident, all 2024-25 rates; tuition_usd left null because no per-year figure exists. Prior class_size and women_pct figures were from US News, not the school, and were not re-verified this session."
+}

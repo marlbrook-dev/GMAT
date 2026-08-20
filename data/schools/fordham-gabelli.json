@@ -1,0 +1,126 @@
+{
+ "slug": "fordham-gabelli",
+ "name": "Gabelli School of Business",
+ "university": "Fordham University",
+ "city": "New York",
+ "state": "NY",
+ "region": "Northeast",
+ "type": "Private",
+ "website": "https://www.fordham.edu/gabelli-school-of-business/academic-programs-and-admissions/graduate-programs/academic-programs/full-time-mba/",
+ "ranks": {
+  "usnews": {
+   "rank": 60,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/fordham-university-01150"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "",
+  "class_size": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": null
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": 5.3,
+   "stat": "average years of work experience, MBA program specific facts, as of March 2026",
+   "src": "Fordham Gabelli Fast Facts: Graduate",
+   "year": 2026,
+   "url": "https://www.fordham.edu/gabelli-school-of-business/about/fast-facts-graduate/"
+  },
+  "women_pct": {
+   "v": 39,
+   "stat": "percentage female, MBA program specific facts, as of March 2026",
+   "src": "Fordham Gabelli Fast Facts: Graduate",
+   "year": 2026,
+   "url": "https://www.fordham.edu/gabelli-school-of-business/about/fast-facts-graduate/"
+  },
+  "intl_pct": {
+   "v": 59,
+   "stat": "percentage of international students, MBA program specific facts, as of March 2026",
+   "src": "Fordham Gabelli Fast Facts: Graduate",
+   "year": 2026,
+   "url": "https://www.fordham.edu/gabelli-school-of-business/about/fast-facts-graduate/"
+  },
+  "tuition_usd": {
+   "v": null,
+   "note": "per year",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "salary_median_usd": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "employment_rate_pct": {
+   "v": 85,
+   "stat": "Full-time MBA students seeking employment accepted job offers within 3 months of graduation, Class of 2025",
+   "src": "Fordham Gabelli Full-time MBA program page",
+   "year": 2025,
+   "url": "https://www.fordham.edu/gabelli-school-of-business/academic-programs-and-admissions/graduate-programs/academic-programs/full-time-mba/"
+  }
+ },
+ "notes": "Fast Facts page lists 'Mean GMAT: 659' for the MBA with no edition label and no class year; 659 is plausible on either scale, so both GMAT fields left unset per rules (replaces the prior gmat_classic classification of the same figure). GPA, GRE, acceptance rate, and FT MBA cohort size are not published ('average class size 26' on Fast Facts is school-wide, not the FT MBA cohort). Tuition: the official 2026-2027 Gabelli graduate tuition page at https://www.fordham.edu/student-financial-services/tuition-and-payments/graduate-tuition/gabelli-school-of-business/ prices the Cohort (Full-Time) MBA as a total program cost, 133949 for entrants Fall 2026 and later (129107 prior to Fall 2026), 4 payments over 2 years, plus a one-time 9133 enrichment fee; no annual tuition figure is published, so tuition_usd left null. Salary: no current official employment report with a median; the school's 2022 outcomes page cites an average, not a median. fordham.edu pages required following a CAS gateway redirect; fetched successfully with cookies this session."
+}

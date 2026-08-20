@@ -1,0 +1,138 @@
+{
+ "slug": "cornell-johnson",
+ "name": "Cornell SC Johnson Graduate School of Management",
+ "university": "Cornell University",
+ "city": "Ithaca",
+ "state": "NY",
+ "region": "Northeast",
+ "type": "Private",
+ "ranks": {
+  "usnews": {
+   "rank": 15,
+   "edition": "2026",
+   "url": "https://www.stacyblackman.com/blog/2026-us-news-mba-rankings/"
+  },
+  "ft": {
+   "rank": 15,
+   "edition": "2026",
+   "url": "https://www.stacyblackman.com/blog/financial-times-mba-rankings/"
+  },
+  "bloomberg": {
+   "rank": 8,
+   "edition": "2025-26",
+   "url": "https://www.bloomberg.com/business-schools/cornell-johnson/",
+   "note": "Bloomberg page title states Cornell (Johnson) 8th in 2025-26 US B-School Rankings; school news confirms up from No. 11"
+  },
+  "qs": {
+   "rank": 23,
+   "edition": "2026",
+   "url": "https://www.topuniversities.com/universities/cornell-sc-johnson-college-business-cornell-university",
+   "note": "Global Full-Time MBA 2026 position per TopUniversities snippet; a QS insights article separately says Cornell entered the QS US top 10"
+  },
+  "pq": {
+   "rank": 7,
+   "edition": "2025-2026",
+   "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/",
+   "note": "P&Q snippet: moved from No. 9 to No. 7"
+  }
+ },
+ "profile": {
+  "class_year": "Class of 2027",
+  "class_size": {
+   "v": 276,
+   "stat": "Number Enrolled",
+   "src": "Cornell Johnson MBA class profile (recruiting page)",
+   "year": 2025,
+   "url": "https://business.cornell.edu/partners/recruiting-johnson/"
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "No GMAT Focus Edition figure seen for Cornell in sources reviewed"
+  },
+  "gmat_classic": {
+   "v": 710,
+   "stat": "median",
+   "src": "Cornell Johnson MBA class profile (recruiting page)",
+   "year": 2025,
+   "url": "https://business.cornell.edu/partners/recruiting-johnson/"
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "Not seen in sources reviewed"
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "Not seen in sources reviewed"
+  },
+  "gpa": {
+   "v": 3.4,
+   "stat": "median",
+   "src": "Cornell Johnson MBA class profile (recruiting page)",
+   "year": 2025,
+   "url": "https://business.cornell.edu/partners/recruiting-johnson/"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "Secondary sources conflict (28 to 30 percent) and cycle year unverified; no figure seen from a preferred source"
+  },
+  "work_exp_years": {
+   "v": 5.3,
+   "stat": "average full time work experience",
+   "src": "Cornell Johnson MBA class profile (recruiting page)",
+   "year": 2025,
+   "url": "https://business.cornell.edu/partners/recruiting-johnson/"
+  },
+  "women_pct": {
+   "v": 38,
+   "stat": "percent women",
+   "src": "Cornell Johnson MBA class profile (recruiting page)",
+   "year": 2025,
+   "url": "https://business.cornell.edu/partners/recruiting-johnson/"
+  },
+  "intl_pct": {
+   "v": 42,
+   "stat": "of international origin",
+   "src": "Cornell Johnson MBA class profile (recruiting page)",
+   "year": 2025,
+   "url": "https://business.cornell.edu/partners/recruiting-johnson/"
+  },
+  "tuition_usd": {
+   "v": 88934,
+   "stat": "2026-27 rate, Two-Year MBA (Ithaca), tuition only; first year fee of 1,500 and other fees itemized separately",
+   "src": "Cornell MBA tuition and financing page",
+   "year": 2026,
+   "url": "https://business.cornell.edu/admissions/graduate/mba/tuition-financing/"
+  },
+  "salary_median_usd": {
+   "v": 175000,
+   "stat": "median base salary, Class of 2025",
+   "src": "Cornell MBA career outcomes page",
+   "year": 2025,
+   "url": "https://business.cornell.edu/admissions/graduate/mba/career-outcomes/"
+  },
+  "employment_rate_pct": {
+   "v": 83,
+   "stat": "accepted job offers within three months of graduation, Class of 2025; 85 percent received a job offer within three months",
+   "src": "Cornell MBA career outcomes page",
+   "year": 2025,
+   "url": "https://business.cornell.edu/admissions/graduate/mba/career-outcomes/"
+  }
+ },
+ "website": "https://www.johnson.cornell.edu/programs/full-time-mba/",
+ "notes": "Official class profile lives on business.cornell.edu (johnson.cornell.edu URLs now 301 there); table shows Class of 2027 and Class of 2026 columns, both with GMAT median 710. The page labels the line only as GMAT (median) with no edition name; 710 is not an attainable GMAT Focus total (Focus totals end in 5), so it is recorded as classic. No GMAT Focus figure, no GRE figures, and no acceptance rate are published on the official pages reached. Prior batch tuition URL johnson.cornell.edu/programs/tuition-expenses now redirects; replaced with the current official 2026-27 figure."
+}

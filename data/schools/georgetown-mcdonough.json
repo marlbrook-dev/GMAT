@@ -1,0 +1,139 @@
+{
+ "slug": "georgetown-mcdonough",
+ "name": "Georgetown University McDonough School of Business",
+ "university": "Georgetown University",
+ "city": "Washington",
+ "state": "DC",
+ "region": "South",
+ "type": "Private",
+ "ranks": {
+  "usnews": {
+   "rank": 31,
+   "edition": "2026",
+   "url": "https://www.clearadmit.com/2026/04/u-s-news-2026-best-business-schools-stanford-claims-top-spot/",
+   "note": "Dropped seven places, out of the top 25 for the first time"
+  },
+  "ft": {
+   "rank": 49,
+   "edition": "2026",
+   "url": "https://msb.georgetown.edu/news-story/rankings/georgetown-full-time-mba-places-23rd-nationally-in-latest-financial-times-ranking-5th-for-salary-increase/",
+   "note": "School reports 49th in the world and 23rd in the US; 5th for salary increase"
+  },
+  "bloomberg": {
+   "rank": 22,
+   "edition": "2025-26",
+   "url": "https://www.bloomberg.com/business-schools/georgetown-mcdonough/",
+   "note": "22nd overall; 21st for compensation"
+  },
+  "qs": {
+   "rank": null,
+   "edition": "2026",
+   "url": "https://msb.georgetown.edu/news-story/rankings/qs-ranks-georgetown-programs-among-best-in-the-world/",
+   "note": "School news reports 22nd for the Full-Time MBA in QS graduate management education rankings, apparently the US list; global position not verified"
+  },
+  "pq": {
+   "rank": null,
+   "edition": "2025-2026",
+   "url": "",
+   "note": "P&Q 2025-2026 composite position not surfaced; a No. 31 figure in one snippet matched the US News 2026 description and was not clearly the P&Q rank"
+  }
+ },
+ "profile": {
+  "class_year": "Class of 2027",
+  "class_size": {
+   "v": 248,
+   "stat": "enrolled; 1617 applications received",
+   "src": "Georgetown McDonough full-time MBA class profile (2025 entering class)",
+   "year": 2025,
+   "url": "https://msb.georgetown.edu/full-time-mba/class-profile/"
+  },
+  "gmat_focus": {
+   "v": 625,
+   "stat": "average GMAT Focus Edition (labeled separately on page); mid-80 pct range 569-687",
+   "src": "Georgetown McDonough full-time MBA class profile",
+   "year": 2025,
+   "url": "https://msb.georgetown.edu/full-time-mba/class-profile/"
+  },
+  "gmat_classic": {
+   "v": 700,
+   "stat": "average GMAT; mid-80 pct range 660-740",
+   "src": "Georgetown McDonough full-time MBA class profile",
+   "year": 2025,
+   "url": "https://msb.georgetown.edu/full-time-mba/class-profile/"
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "Only a combined average GRE of 318 was seen; no quant/verbal split verified"
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "Only a combined average GRE of 318 was seen; no quant/verbal split verified"
+  },
+  "gpa": {
+   "v": 3.3,
+   "stat": "average; mid-80 pct range 2.75-3.8",
+   "src": "Georgetown McDonough full-time MBA class profile",
+   "year": 2025,
+   "url": "https://msb.georgetown.edu/full-time-mba/class-profile/"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "US News 2025 edition reportedly lists 60.3 percent, but that was seen only relayed through program-guide sites and other secondary figures conflict widely (16 to 35 percent); not recorded"
+  },
+  "work_exp_years": {
+   "v": 5,
+   "stat": "average",
+   "src": "Georgetown McDonough full-time MBA class profile",
+   "year": 2025,
+   "url": "https://msb.georgetown.edu/full-time-mba/class-profile/"
+  },
+  "women_pct": {
+   "v": 31,
+   "stat": "female",
+   "src": "Georgetown McDonough full-time MBA class profile",
+   "year": 2025,
+   "url": "https://msb.georgetown.edu/full-time-mba/class-profile/"
+  },
+  "intl_pct": {
+   "v": 44,
+   "stat": "international",
+   "src": "Georgetown McDonough full-time MBA class profile",
+   "year": 2025,
+   "url": "https://msb.georgetown.edu/full-time-mba/class-profile/"
+  },
+  "tuition_usd": {
+   "v": 75016,
+   "stat": "2026-27 rate, tuition only; graduate student activity fee 54 and health insurance est 4785 itemized separately; tuition lock for up to 4 years from fall 2026",
+   "src": "Georgetown McDonough full-time MBA admissions and tuition page",
+   "year": 2026,
+   "url": "https://msb.georgetown.edu/full-time-mba/admissions-tuition/"
+  },
+  "salary_median_usd": {
+   "v": 148000,
+   "stat": "median base salary, Class of 2024",
+   "src": "Georgetown McDonough MBA Class of 2024 employment news release",
+   "year": 2024,
+   "url": "https://msb.georgetown.edu/news-story/career/georgetown-mba-class-of-2024-secures-impactful-career-opportunities-after-graduation/"
+  },
+  "employment_rate_pct": {
+   "v": 78,
+   "stat": "received a job offer within three months of graduation, Class of 2025",
+   "src": "Georgetown McDonough MBA Class of 2025 employment news release",
+   "year": 2025,
+   "url": "https://msb.georgetown.edu/news-story/career/georgetown-mba-class-of-2025-build-careers-of-impact-worldwide/"
+  }
+ },
+ "website": "https://msb.georgetown.edu/full-time-mba/",
+ "notes": "Official page is titled '2025 Full-time MBA Class Profile' (fall 2025 entering class, i.e. Class of 2027); all class profile figures replace the prior Clear Admit sourcing. GRE published only as a combined average of 318 (39 pct took GRE); no quant/verbal split. Acceptance rate not published; not derived from applications vs enrolled. Class of 2025 employment release gives average base salary 146265 and average signing bonus 33768 but no overall median; the 2025 median would be in the flipbook employment report, which would not load (see _failures), so the Class of 2024 official median 148000 is recorded instead."
+}

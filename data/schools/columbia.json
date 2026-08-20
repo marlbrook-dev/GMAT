@@ -1,0 +1,123 @@
+{
+ "slug": "columbia",
+ "name": "Columbia Business School",
+ "university": "Columbia University",
+ "city": "New York",
+ "state": "NY",
+ "region": "Northeast",
+ "type": "Private",
+ "ranks": {
+  "usnews": {
+   "rank": 7,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/mba-rankings"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "2026",
+   "url": "https://poetsandquants.com/2026/02/16/2026-financial-times-mba-ranking-mit-tops-list-for-the-first-time/"
+  },
+  "bloomberg": {
+   "rank": 9,
+   "edition": "2025-26",
+   "url": "https://www.bloomberg.com/business-schools/regions/us/"
+  },
+  "qs": {
+   "rank": 10,
+   "edition": "2026",
+   "url": "https://www.topuniversities.com/mba-rankings/global"
+  },
+  "pq": {
+   "rank": 3,
+   "edition": "2025-2026",
+   "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/"
+  }
+ },
+ "profile": {
+  "class_year": "Class of 2027",
+  "class_size": {
+   "v": 982,
+   "src": "Poets&Quants",
+   "year": 2025,
+   "url": "https://poetsandquants.com/2025/11/20/columbia-completes-the-m7-picture-multiple-school-records-set-in-new-mba-class/"
+  },
+  "gmat_focus": {
+   "v": 690,
+   "stat": "average",
+   "src": "Poets&Quants (Class of 2027 profile coverage)",
+   "year": 2025,
+   "url": "https://poetsandquants.com/2025/11/20/columbia-completes-the-m7-picture-multiple-school-records-set-in-new-mba-class/"
+  },
+  "gmat_classic": {
+   "v": 734,
+   "stat": "average",
+   "src": "Poets&Quants (Class of 2027 profile coverage)",
+   "year": 2025,
+   "url": "https://poetsandquants.com/2025/11/20/columbia-completes-the-m7-picture-multiple-school-records-set-in-new-mba-class/"
+  },
+  "gre_quant": {
+   "v": 163,
+   "stat": "average",
+   "src": "Poets&Quants",
+   "year": 2025,
+   "url": "https://poetsandquants.com/2025/11/20/columbia-completes-the-m7-picture-multiple-school-records-set-in-new-mba-class/"
+  },
+  "gre_verbal": {
+   "v": 163,
+   "stat": "average",
+   "src": "Poets&Quants",
+   "year": 2025,
+   "url": "https://poetsandquants.com/2025/11/20/columbia-completes-the-m7-picture-multiple-school-records-set-in-new-mba-class/"
+  },
+  "gpa": {
+   "v": 3.6,
+   "stat": "average",
+   "src": "Poets&Quants",
+   "year": 2025,
+   "url": "https://poetsandquants.com/2025/11/20/columbia-completes-the-m7-picture-multiple-school-records-set-in-new-mba-class/"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": 5,
+   "stat": "average",
+   "src": "Poets&Quants",
+   "year": 2025,
+   "url": "https://poetsandquants.com/2025/11/20/columbia-completes-the-m7-picture-multiple-school-records-set-in-new-mba-class/"
+  },
+  "women_pct": {
+   "v": 46,
+   "src": "Poets&Quants",
+   "year": 2025,
+   "url": "https://poetsandquants.com/2025/11/20/columbia-completes-the-m7-picture-multiple-school-records-set-in-new-mba-class/"
+  },
+  "intl_pct": {
+   "v": 41,
+   "src": "Poets&Quants",
+   "year": 2025,
+   "url": "https://poetsandquants.com/2025/11/20/columbia-completes-the-m7-picture-multiple-school-records-set-in-new-mba-class/"
+  },
+  "tuition_usd": {
+   "v": null
+  },
+  "salary_median_usd": {
+   "v": 175000,
+   "src": "Poets&Quants (M7 By The Numbers 2026, Class of 2025 median base salary)",
+   "year": 2025,
+   "url": "https://poetsandquants.com/2026/08/11/the-m7-by-the-numbers-2026-mba-hiring-rebounds-pay-holds-strong/"
+  },
+  "employment_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": ""
+  }
+ },
+ "notes": "US News 2026 rank is a tie at No. 7 with NYU Stern. Class size of 982 includes 758 September entrants and 224 January entrants. FT 2026 rank is null because Columbia was excluded from the 2026 FT ranking (did not meet the alumni survey participation threshold; it placed 2nd in 2025). Columbia Business School's official sites are unreachable from this session: academics.business.columbia.edu and business.columbia.edu both sit behind Cloudflare bot protection that returns 403 challenge pages to WebFetch and curl, and resets TLS connections from headless Chromium routed through the session egress proxy. No official Columbia figure could be verified this session, so nothing here should replace existing data; the existing Poets and Quants sourced figures were not re-verified and still need official sourcing in a session that can reach the site.",
+ "website": "https://business.columbia.edu/mba"
+}

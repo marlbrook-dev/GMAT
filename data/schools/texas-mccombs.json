@@ -1,0 +1,137 @@
+{
+ "slug": "texas-mccombs",
+ "name": "University of Texas at Austin McCombs School of Business",
+ "university": "University of Texas at Austin",
+ "city": "Austin",
+ "state": "TX",
+ "region": "South",
+ "type": "Public",
+ "ranks": {
+  "usnews": {
+   "rank": 18,
+   "edition": "2026",
+   "url": "https://www.stacyblackman.com/blog/2026-us-news-mba-rankings/",
+   "note": "Tie at No. 18"
+  },
+  "ft": {
+   "rank": 41,
+   "edition": "2026",
+   "url": "https://news.mccombs.utexas.edu/rankings/top-rankings-for-mccombs-in-financial-times/",
+   "note": "School news: No. 41 worldwide and No. 18 among US programs in the 2026 release; FT shows ties, and Tepper is also reported at 41"
+  },
+  "bloomberg": {
+   "rank": 21,
+   "edition": "2025-26",
+   "url": "https://www.clearadmit.com/2025/09/bloomberg-b-school-rankings-2025-2026-key-takeaways/",
+   "note": "Slipped from No. 19 to No. 21"
+  },
+  "qs": {
+   "rank": null,
+   "edition": "2026",
+   "url": "https://news.mccombs.utexas.edu/featured/mccombs-mba-programs-take-high-ranks-3/",
+   "note": "School reports No. 17 in the US in QS Global MBA Rankings 2026; global position not seen"
+  },
+  "pq": {
+   "rank": 13,
+   "edition": "2025-2026",
+   "url": "https://news.mccombs.utexas.edu/rankings/hildebrand-mba-takes-lucky-13-in-poets-quants-ranking/",
+   "note": "Up from No. 16 in 2024-2025"
+  }
+ },
+ "profile": {
+  "class_year": "Class of 2027",
+  "class_size": {
+   "v": 235,
+   "src": "Clear Admit / Poets&Quants Class of 2027 profile (Texas McCombs MBA Insider)",
+   "year": 2025,
+   "url": "https://www.clearadmit.com/2025/10/texas-mccombs-mba-class-of-2027-profile/"
+  },
+  "gmat_focus": {
+   "v": 657,
+   "stat": "",
+   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+   "year": 2025,
+   "url": "https://www.clearadmit.com/2025/10/texas-mccombs-mba-class-of-2027-profile/",
+   "note": "Labeled GMAT Focus with middle 80 percent 615-695; snippet did not state whether 657 is the average or the median"
+  },
+  "gmat_classic": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "No classic-scale GMAT reported for the Class of 2027 in sources reviewed"
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "Only a combined GRE of 320 was seen (37 percent of class submitted GRE); no quant/verbal split verified"
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "Only a combined GRE of 320 was seen; no quant/verbal split verified"
+  },
+  "gpa": {
+   "v": 3.53,
+   "stat": "median",
+   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+   "year": 2025,
+   "url": "https://www.clearadmit.com/2025/10/texas-mccombs-mba-class-of-2027-profile/"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "No acceptance rate seen from a preferred source"
+  },
+  "work_exp_years": {
+   "v": 6,
+   "stat": "average",
+   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+   "year": 2025,
+   "url": "https://www.clearadmit.com/2025/10/texas-mccombs-mba-class-of-2027-profile/"
+  },
+  "women_pct": {
+   "v": 29,
+   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+   "year": 2025,
+   "url": "https://www.clearadmit.com/2025/10/texas-mccombs-mba-class-of-2027-profile/"
+  },
+  "intl_pct": {
+   "v": 31,
+   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+   "year": 2025,
+   "url": "https://www.clearadmit.com/2025/10/texas-mccombs-mba-class-of-2027-profile/"
+  },
+  "tuition_usd": {
+   "v": 61214,
+   "note": "per year, 2025-26, out-of-state first-year students; in-state 55,196",
+   "src": "Texas McCombs Full-Time MBA tuition page (search snippet)",
+   "year": 2025,
+   "url": "https://www.mccombs.utexas.edu/graduate/mba/full-time-mba/tuition-financial-aid/"
+  },
+  "salary_median_usd": {
+   "v": 150000,
+   "src": "Clear Admit coverage of Texas McCombs Class of 2025 employment report",
+   "year": 2026,
+   "url": "https://www.clearadmit.com/2026/02/texas-mccombs-mba-class-of-2025-employment-report/",
+   "note": "Median base salary, Class of 2025; mean 154,053"
+  },
+  "employment_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": ""
+  }
+ },
+ "website": "https://www.mccombs.utexas.edu/graduate/mba/full-time-mba/"
+}

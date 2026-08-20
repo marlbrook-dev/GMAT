@@ -1,0 +1,136 @@
+{
+ "slug": "wustl-olin",
+ "name": "Olin Business School",
+ "university": "Washington University in St. Louis",
+ "city": "St. Louis",
+ "state": "MO",
+ "region": "Midwest",
+ "type": "Private",
+ "website": "https://olin.washu.edu/programs/mbas/full-time-mba/index.php",
+ "ranks": {
+  "usnews": {
+   "rank": 27,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/washington-university-in-st-louis-01134"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": 31,
+   "edition": "2026 (Full-time MBA Rankings, United States)",
+   "url": "https://www.topuniversities.com/universities/washington-university-st-louis/olin-business-school"
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [
+  {
+   "name": "No. 1, Poets and Quants 2026 World's Best MBA Programs for Entrepreneurship",
+   "src": "WashU Skandalaris Center citing Poets and Quants",
+   "year": 2026,
+   "url": "https://skandalaris.wustl.edu/washu-ranked-1-in-poetsquants-2026-worlds-best-mba-programs-for-entrepreneurship/"
+  }
+ ],
+ "profile": {
+  "class_year": "2025-2027 (three-class snapshot)",
+  "class_size": {
+   "v": 95,
+   "src": "Olin full-time MBA student snapshot (median cohort size)",
+   "year": 2025,
+   "url": "https://olin.washu.edu/programs/mbas/full-time-mba/class-profile.php"
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": 702,
+   "stat": "avg among GMAT takers, three-class snapshot (edition not labeled; value above Focus scale cap)",
+   "src": "Olin full-time MBA student snapshot",
+   "year": 2025,
+   "url": "https://olin.washu.edu/programs/mbas/full-time-mba/class-profile.php"
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": 3.6,
+   "stat": "median, three-class snapshot",
+   "src": "Olin full-time MBA student snapshot",
+   "year": 2025,
+   "url": "https://olin.washu.edu/programs/mbas/full-time-mba/class-profile.php"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "women_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "intl_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "tuition_usd": {
+   "v": 72700,
+   "stat": "2026-27 rate, tuition only (36,350 per semester); program fee 900, student government fee 130, health and wellness fee 350 per semester itemized separately",
+   "src": "Olin full-time MBA cost, aid and scholarships page",
+   "year": 2026,
+   "url": "https://olin.washu.edu/programs/mbas/full-time-mba/cost-aid-scholarships.php"
+  },
+  "salary_median_usd": {
+   "v": 130000,
+   "stat": "median base salary; class year not stated on the page, and the linked official employment report is titled Full-Time MBA Class of 2024 Employment Report",
+   "src": "Olin full-time MBA career prospects page",
+   "year": 2024,
+   "url": "https://olin.washu.edu/programs/mbas/full-time-mba/career-prospects.php"
+  },
+  "employment_rate_pct": {
+   "v": 81,
+   "stat": "employment rate three months after graduation; class year not stated on the page (linked report covers Class of 2024)",
+   "src": "Olin full-time MBA career prospects page",
+   "year": 2024,
+   "url": "https://olin.washu.edu/programs/mbas/full-time-mba/career-prospects.php"
+  }
+ },
+ "notes": "The official class profile page now renders all class statistics (medians, backgrounds, gender, international) as images with no machine-readable text, so the existing class_size, gmat_classic, and gpa figures already sourced to that page were kept but could not be re-read this session, and the remaining profile fields could not be filled. The Class of 2024 employment report PDF downloads but contains no extractable text (image-only PDF). Tuition updated from 70,250 (2025-26) to the 72,700 2026-27 rate now posted."
+}

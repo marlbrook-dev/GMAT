@@ -1,0 +1,129 @@
+{
+ "slug": "louisville",
+ "name": "University of Louisville College of Business",
+ "university": "University of Louisville",
+ "city": "Louisville",
+ "state": "KY",
+ "region": "South",
+ "type": "Public",
+ "website": "https://business.louisville.edu/",
+ "note": "Not verified in-session: the shared web search budget was exhausted before this school could be researched. All figures left null rather than guessed.",
+ "ranks": {
+  "usnews": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "ft": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "",
+  "class_size": {
+   "v": 50,
+   "stat": "approximately 50 students per cohort (program description, not a dated class profile)",
+   "src": "UofL College of Business Full-Time MBA page",
+   "year": 2026,
+   "url": "https://business.louisville.edu/academics-programs/graduate-programs/full-time-mba"
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "women_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "intl_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "tuition_usd": {
+   "v": null,
+   "note": "per year",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "salary_median_usd": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "employment_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  }
+ },
+ "notes": "UofL publishes no class profile or employment report for the full-time MBA on official pages reached this session. GMAT is optional; the program page says GMAT scores of 680+ are considered for additional scholarship. Class size is a marketing description (approximately 50 per cohort), not a census."
+}

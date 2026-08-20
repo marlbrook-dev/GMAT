@@ -1,0 +1,129 @@
+{
+ "slug": "missouri-trulaske",
+ "name": "Robert J. Trulaske Sr. College of Business",
+ "university": "University of Missouri",
+ "city": "Columbia",
+ "state": "MO",
+ "region": "Midwest",
+ "type": "Public",
+ "website": "https://business.missouri.edu/",
+ "discontinued": true,
+ "note": "Trulaske phased out its on-campus full-time (Crosby) MBA around 2019-2021 in favor of an online MBA, per prior public reporting. This status could NOT be re-verified in this session because the shared web search budget was exhausted; confirm before publishing. All figures left null.",
+ "ranks": {
+  "usnews": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "ft": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "",
+  "class_size": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "women_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "intl_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "tuition_usd": {
+   "v": null,
+   "note": "per year",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "salary_median_usd": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "employment_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  }
+ },
+ "notes": "Trulaske paused its full-time on-campus Crosby MBA in April 2020, taking no fall 2020 or spring 2021 entering class (interim graduate studies director Ryan Murray quoted in Poets and Quants, April 20, 2020). The program relaunched in fall 2021 as a 100% online Crosby MBA; the school's official program page today describes it as 100% online with no on-campus full-time option. Last on-campus intake: fall 2019 (stopped admitting in 2020). Successor: 100% online Crosby MBA (45 credits, asynchronous, part-time or full-time pace). Sources: https://poetsandquants.com/2020/04/20/missouri-to-pause-its-full-time-mba-program/ ; https://business.missouri.edu/crosbymba"
+}

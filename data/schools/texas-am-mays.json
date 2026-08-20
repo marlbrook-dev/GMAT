@@ -1,0 +1,126 @@
+{
+ "slug": "texas-am-mays",
+ "name": "Mays Business School",
+ "university": "Texas A&M University",
+ "city": "College Station",
+ "state": "TX",
+ "region": "South",
+ "type": "Public",
+ "website": "https://mays.tamu.edu/graduate/mba/full-time-mba/",
+ "ranks": {
+  "usnews": {
+   "rank": 36,
+   "edition": "2026",
+   "url": "https://mays.tamu.edu/news/2026/04/07/mays-full-time-mba-us-news-ranking-2026/"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": 41,
+   "edition": "2025-26",
+   "url": "https://www.bloomberg.com/business-schools/texas-a-m-mays/"
+  },
+  "qs": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "2026",
+  "class_size": {
+   "v": 36,
+   "src": "Poets and Quants, Meet the Texas A&M Mays MBA Class of 2026",
+   "year": 2024,
+   "url": "https://poetsandquants.com/2024/11/14/meet-the-texas-am-mays-mba-class-of-2026/"
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": 672,
+   "stat": "avg, Class of 2026 (edition not labeled; fall 2024 entering class)",
+   "src": "Poets and Quants, Meet the Texas A&M Mays MBA Class of 2026",
+   "year": 2024,
+   "url": "https://poetsandquants.com/2024/11/14/meet-the-texas-am-mays-mba-class-of-2026/"
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": 3.34,
+   "stat": "avg",
+   "src": "Poets and Quants, Meet the Texas A&M Mays MBA Class of 2026",
+   "year": 2024,
+   "url": "https://poetsandquants.com/2024/11/14/meet-the-texas-am-mays-mba-class-of-2026/"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "women_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "intl_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "tuition_usd": {
+   "v": null,
+   "note": "conflicting third-party figures seen (55000 total resident incl fees, 45000 per year resident, 104799 non-resident total); no official annual figure verified",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "salary_median_usd": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "employment_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  }
+ }
+}

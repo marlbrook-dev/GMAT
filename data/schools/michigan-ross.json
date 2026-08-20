@@ -1,0 +1,127 @@
+{
+ "slug": "michigan-ross",
+ "name": "Stephen M. Ross School of Business",
+ "university": "University of Michigan",
+ "city": "Ann Arbor",
+ "state": "MI",
+ "region": "Midwest",
+ "type": "Public",
+ "ranks": {
+  "usnews": {
+   "rank": 13,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/mba-rankings"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "2026",
+   "url": "https://poetsandquants.com/2026/02/16/2026-financial-times-mba-ranking-mit-tops-list-for-the-first-time/"
+  },
+  "bloomberg": {
+   "rank": 14,
+   "edition": "2025-26",
+   "url": "https://www.bloomberg.com/business-schools/regions/us/"
+  },
+  "qs": {
+   "rank": null,
+   "edition": "2026",
+   "url": "https://www.topuniversities.com/mba-rankings/global"
+  },
+  "pq": {
+   "rank": 9,
+   "edition": "2025-2026",
+   "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/"
+  }
+ },
+ "profile": {
+  "class_year": "Class of 2027",
+  "class_size": {
+   "v": 379,
+   "src": "Poets&Quants / Michigan Ross",
+   "year": 2025,
+   "url": "https://poetsandquants.com/2025/11/16/fewer-students-higher-scores-inside-michigan-rosss-new-mba-class/"
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": 731,
+   "stat": "average",
+   "src": "Poets&Quants / Michigan Ross (Class of 2027 profile coverage)",
+   "year": 2025,
+   "url": "https://poetsandquants.com/2025/11/16/fewer-students-higher-scores-inside-michigan-rosss-new-mba-class/"
+  },
+  "gre_quant": {
+   "v": 163,
+   "stat": "average",
+   "src": "Poets&Quants / Michigan Ross",
+   "year": 2025,
+   "url": "https://poetsandquants.com/2025/11/16/fewer-students-higher-scores-inside-michigan-rosss-new-mba-class/"
+  },
+  "gre_verbal": {
+   "v": 160,
+   "stat": "average",
+   "src": "Poets&Quants / Michigan Ross",
+   "year": 2025,
+   "url": "https://poetsandquants.com/2025/11/16/fewer-students-higher-scores-inside-michigan-rosss-new-mba-class/"
+  },
+  "gpa": {
+   "v": 3.43,
+   "stat": "average",
+   "src": "Poets&Quants / Michigan Ross",
+   "year": 2025,
+   "url": "https://poetsandquants.com/2025/11/16/fewer-students-higher-scores-inside-michigan-rosss-new-mba-class/"
+  },
+  "accept_rate_pct": {
+   "v": 30,
+   "src": "Poets&Quants (379 enrolled from 3,923 applications; 30% as reported)",
+   "year": 2025,
+   "url": "https://poetsandquants.com/2025/11/16/fewer-students-higher-scores-inside-michigan-rosss-new-mba-class/"
+  },
+  "work_exp_years": {
+   "v": 5.8,
+   "stat": "average",
+   "src": "Poets&Quants / Michigan Ross",
+   "year": 2025,
+   "url": "https://poetsandquants.com/2025/11/16/fewer-students-higher-scores-inside-michigan-rosss-new-mba-class/"
+  },
+  "women_pct": {
+   "v": 39,
+   "src": "Poets&Quants / Michigan Ross",
+   "year": 2025,
+   "url": "https://poetsandquants.com/2025/11/16/fewer-students-higher-scores-inside-michigan-rosss-new-mba-class/"
+  },
+  "intl_pct": {
+   "v": 40,
+   "src": "Poets&Quants / Michigan Ross",
+   "year": 2025,
+   "url": "https://poetsandquants.com/2025/11/16/fewer-students-higher-scores-inside-michigan-rosss-new-mba-class/"
+  },
+  "tuition_usd": {
+   "v": 81152,
+   "note": "per year; 2025-26 non-Michigan-resident (40,576 per semester); Michigan resident 76,152 (38,076 per semester); rates approved by the U-M Board of Regents in June 2025",
+   "src": "Michigan Ross Full-Time MBA Tuition and Financial Aid page",
+   "year": 2025,
+   "url": "https://michiganross.umich.edu/graduate/full-time-mba/admissions/tuition-financial-aid"
+  },
+  "salary_median_usd": {
+   "v": 170000,
+   "src": "Poets&Quants (Class of 2025 employment report coverage)",
+   "year": 2025,
+   "url": "https://poetsandquants.com/2025/12/12/mba-jobs-2025-later-hires-for-michigan-ross-but-pay-holds-steady/"
+  },
+  "employment_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": ""
+  }
+ },
+ "notes": "Ross reports a single average GMAT of 731 without an explicit edition label in the coverage seen; the reported middle-80% range of 700-770 is consistent with the classic 200-800 scale, so it is recorded as classic, and no separate GMAT Focus figure was seen (nulled). FT 2026 full-time MBA rank could not be verified in any snippet and is nulled. QS 2026 rank not seen and nulled. michiganross.umich.edu is behind a Cloudflare bot challenge that returned 403 to every fetch attempt this session (WebFetch, curl, and headless Chromium all blocked), so no Ross field could be verified or replaced with an official page. Existing figures sourced to Poets and Quants remain unverified; the existing tuition_usd (81152, 2025-26 non-resident) was already sourced to the official Ross tuition page in a prior session and is kept unchanged. Ross does publish a Class of 2027 profile (news item: Ambition in Action) and a 2025 full-time MBA career report on its site; retry these URLs from a network that passes the Cloudflare challenge.",
+ "website": "https://michiganross.umich.edu/graduate/full-time-mba"
+}

@@ -1,0 +1,131 @@
+{
+ "slug": "stanford-gsb",
+ "name": "Stanford Graduate School of Business",
+ "university": "Stanford University",
+ "city": "Stanford",
+ "state": "CA",
+ "region": "West",
+ "type": "Private",
+ "ranks": {
+  "usnews": {
+   "rank": 1,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/mba-rankings"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "2026",
+   "url": "https://poetsandquants.com/2026/02/16/2026-financial-times-mba-ranking-mit-tops-list-for-the-first-time/"
+  },
+  "bloomberg": {
+   "rank": 1,
+   "edition": "2025-26",
+   "url": "https://www.bloomberg.com/business-schools/regions/us/"
+  },
+  "qs": {
+   "rank": 4,
+   "edition": "2026",
+   "url": "https://www.topuniversities.com/mba-rankings/global"
+  },
+  "pq": {
+   "rank": 26,
+   "edition": "2025-2026",
+   "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/"
+  }
+ },
+ "profile": {
+  "class_year": "Class of 2027",
+  "class_size": {
+   "v": 434,
+   "stat": "New Students (7,259 Total Applicants)",
+   "src": "Stanford GSB MBA entering class profile",
+   "year": 2025,
+   "url": "https://www.gsb.stanford.edu/programs/mba/admission/class-profile"
+  },
+  "gmat_focus": {
+   "v": 689,
+   "stat": "average, labeled GMAT (Focus Edition), observed range 615-785",
+   "src": "Stanford GSB MBA entering class profile",
+   "year": 2025,
+   "url": "https://www.gsb.stanford.edu/programs/mba/admission/class-profile"
+  },
+  "gmat_classic": {
+   "v": 738,
+   "stat": "average, labeled GMAT on 200-800 scale, observed range 540-780",
+   "src": "Stanford GSB MBA entering class profile",
+   "year": 2025,
+   "url": "https://www.gsb.stanford.edu/programs/mba/admission/class-profile"
+  },
+  "gre_quant": {
+   "v": 164,
+   "stat": "average, GRE Quantitative",
+   "src": "Stanford GSB MBA entering class profile",
+   "year": 2025,
+   "url": "https://www.gsb.stanford.edu/programs/mba/admission/class-profile"
+  },
+  "gre_verbal": {
+   "v": 164,
+   "stat": "average, GRE Verbal",
+   "src": "Stanford GSB MBA entering class profile",
+   "year": 2025,
+   "url": "https://www.gsb.stanford.edu/programs/mba/admission/class-profile"
+  },
+  "gpa": {
+   "v": 3.76,
+   "stat": "average GPA (U.S. schools on a 4.0 scale)",
+   "src": "Stanford GSB MBA entering class profile",
+   "year": 2025,
+   "url": "https://www.gsb.stanford.edu/programs/mba/admission/class-profile"
+  },
+  "accept_rate_pct": {
+   "v": 6.8,
+   "src": "Poets&Quants (The M7 By The Numbers 2026)",
+   "year": 2026,
+   "url": "https://poetsandquants.com/2026/08/09/the-m7-by-the-numbers-2026-what-it-takes-to-get-admitted-to-h-s-w-plus/"
+  },
+  "work_exp_years": {
+   "v": 5.3,
+   "stat": "average years of work experience",
+   "src": "Stanford GSB MBA entering class profile",
+   "year": 2025,
+   "url": "https://www.gsb.stanford.edu/programs/mba/admission/class-profile"
+  },
+  "women_pct": {
+   "v": 45,
+   "stat": "45% women",
+   "src": "Stanford GSB MBA entering class profile",
+   "year": 2025,
+   "url": "https://www.gsb.stanford.edu/programs/mba/admission/class-profile"
+  },
+  "intl_pct": {
+   "v": 38,
+   "stat": "international student community comprises 38% of the class, 64 countries",
+   "src": "Stanford GSB MBA entering class profile",
+   "year": 2025,
+   "url": "https://www.gsb.stanford.edu/programs/mba/admission/class-profile"
+  },
+  "tuition_usd": {
+   "v": 89187,
+   "stat": "2026-27 rate, first-year MBA tuition only (fees and living costs itemized separately); per year",
+   "src": "Stanford GSB MBA cost of attendance",
+   "year": 2026,
+   "url": "https://www.gsb.stanford.edu/programs/mba/tuition-financial-aid/cost-attendance"
+  },
+  "salary_median_usd": {
+   "v": 185000,
+   "stat": "median base salary, MBA Class of 2025, three months after graduation, student-reported; excludes company-sponsored and new-business students per CSEA standards",
+   "src": "Stanford GSB full-time employment report",
+   "year": 2025,
+   "url": "https://www.gsb.stanford.edu/organizations/recruit/strategies-resources/employment-reports/full-time"
+  },
+  "employment_rate_pct": {
+   "v": 90,
+   "stat": "90% of job seekers received a job offer within three months of graduation (81% accepted an offer), Class of 2025",
+   "src": "Stanford GSB full-time employment report",
+   "year": 2025,
+   "url": "https://www.gsb.stanford.edu/organizations/recruit/strategies-resources/employment-reports/full-time"
+  }
+ },
+ "notes": "Anchor check passed: average GMAT Focus 689 and average Classic 738 confirmed for Class of 2027. FT 2026 rank is null because Stanford was absent from the FT ranking for a second consecutive year (insufficient alumni survey responses, per Poets&Quants FT 2026 coverage). Class profile data as of 17 September 2025 per the page. Stanford does not publish an acceptance rate; the profile lists 7,259 total applicants and 434 new students but no admit count. Profile and employment statistics render via Infogram embeds on the official gsb.stanford.edu pages; values were read from those embeds. Both GMAT editions are reported separately by Stanford (no conversion performed). Tuition updated from the prior 2025-26 figure (85,755) to the published 2026-27 first-year rate.",
+ "website": "https://www.gsb.stanford.edu/programs/mba"
+}

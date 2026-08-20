@@ -1,0 +1,127 @@
+{
+ "slug": "northwestern-kellogg",
+ "name": "Kellogg School of Management",
+ "university": "Northwestern University",
+ "city": "Evanston",
+ "state": "IL",
+ "region": "Midwest",
+ "type": "Private",
+ "ranks": {
+  "usnews": {
+   "rank": 4,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/mba-rankings"
+  },
+  "ft": {
+   "rank": 11,
+   "edition": "2026",
+   "url": "https://poetsandquants.com/2026/02/16/2026-financial-times-mba-ranking-mit-tops-list-for-the-first-time/"
+  },
+  "bloomberg": {
+   "rank": 5,
+   "edition": "2025-26",
+   "url": "https://www.bloomberg.com/business-schools/regions/us/"
+  },
+  "qs": {
+   "rank": 9,
+   "edition": "2026",
+   "url": "https://www.topuniversities.com/mba-rankings/global"
+  },
+  "pq": {
+   "rank": 1,
+   "edition": "2025-2026",
+   "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/"
+  }
+ },
+ "profile": {
+  "class_year": "Class of 2027",
+  "class_size": {
+   "v": 534,
+   "stat": "number of students, incoming Two-Year MBA class",
+   "src": "Kellogg full-time MBA Class of 2027 profile",
+   "year": 2025,
+   "url": "https://www.kellogg.northwestern.edu/programs/full-time-mba/class-profile.aspx"
+  },
+  "gmat_focus": {
+   "v": 687,
+   "stat": "average GMAT Focus score, middle 80 pct 645-735",
+   "src": "Kellogg full-time MBA Class of 2027 profile",
+   "year": 2025,
+   "url": "https://www.kellogg.northwestern.edu/programs/full-time-mba/class-profile.aspx"
+  },
+  "gmat_classic": {
+   "v": 733,
+   "stat": "average GMAT Legacy score, middle 80 pct 710-760",
+   "src": "Kellogg full-time MBA Class of 2027 profile",
+   "year": 2025,
+   "url": "https://www.kellogg.northwestern.edu/programs/full-time-mba/class-profile.aspx"
+  },
+  "gre_quant": {
+   "v": 162,
+   "stat": "average GRE (Quant) score, middle 80 pct 157-168",
+   "src": "Kellogg full-time MBA Class of 2027 profile",
+   "year": 2025,
+   "url": "https://www.kellogg.northwestern.edu/programs/full-time-mba/class-profile.aspx"
+  },
+  "gre_verbal": {
+   "v": 162,
+   "stat": "average GRE (Verbal) score, middle 80 pct 156-167",
+   "src": "Kellogg full-time MBA Class of 2027 profile",
+   "year": 2025,
+   "url": "https://www.kellogg.northwestern.edu/programs/full-time-mba/class-profile.aspx"
+  },
+  "gpa": {
+   "v": 3.68,
+   "stat": "average GPA, range 2.7 to 4.0",
+   "src": "Kellogg full-time MBA Class of 2027 profile",
+   "year": 2025,
+   "url": "https://www.kellogg.northwestern.edu/programs/full-time-mba/class-profile.aspx"
+  },
+  "accept_rate_pct": {
+   "v": null
+  },
+  "work_exp_years": {
+   "v": 5.1,
+   "stat": "average years of work experience before joining Kellogg",
+   "src": "Kellogg full-time MBA Class of 2027 profile",
+   "year": 2025,
+   "url": "https://www.kellogg.northwestern.edu/programs/full-time-mba/class-profile.aspx"
+  },
+  "women_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "intl_pct": {
+   "v": 37,
+   "stat": "international students",
+   "src": "Kellogg full-time MBA Class of 2027 profile",
+   "year": 2025,
+   "url": "https://www.kellogg.northwestern.edu/programs/full-time-mba/class-profile.aspx"
+  },
+  "tuition_usd": {
+   "v": 88536,
+   "stat": "2026-27 rate, annual, Two-Year MBA tuition only; fees itemized separately",
+   "src": "Kellogg full-time MBA tuition and financial aid page",
+   "year": 2026,
+   "url": "https://www.kellogg.northwestern.edu/admissions/financial-aid/ft-fin-aid/"
+  },
+  "salary_median_usd": {
+   "v": 175000,
+   "stat": "median base salary, Class of 2025 (median total compensation 205000)",
+   "src": "Kellogg full-time MBA career outcomes page",
+   "year": 2025,
+   "url": "https://www.kellogg.northwestern.edu/programs/full-time-mba/career-services/career-outcomes/"
+  },
+  "employment_rate_pct": {
+   "v": 90,
+   "stat": "accepted roles within six months of graduation (Class of 2025)",
+   "src": "Kellogg full-time MBA career outcomes page",
+   "year": 2025,
+   "url": "https://www.kellogg.northwestern.edu/programs/full-time-mba/career-services/career-outcomes/"
+  }
+ },
+ "notes": "US News 2026 rank is a tie at No. 4 with Harvard. Women percentage nulled: per Poets&Quants, Kellogg omitted gender and diversity data from its official Class of 2027 profile; a 41.4% figure appears only in secondary coverage of uncertain provenance. GRE averages were not seen in authoritative snippets. All Class of 2027 profile figures read from the official profile page's embedded stat data this session; page states all data are specific to the incoming Two-Year MBA class. Kellogg does not publish gender data for the Class of 2027 (no mention of women on the profile page), and no acceptance rate is published on official pages; the prior US News-sourced 31.4 acceptance figure could not be replaced with an official one. GMAT middle 80 pct ranges and GRE averages were read from the page's chart data (values embedded in the page source).",
+ "website": "https://www.kellogg.northwestern.edu/programs/full-time-mba/"
+}

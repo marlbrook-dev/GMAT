@@ -1,0 +1,106 @@
+{
+ "slug": "georgia-terry",
+ "name": "Terry College of Business",
+ "university": "University of Georgia",
+ "city": "Athens",
+ "state": "GA",
+ "region": "South",
+ "type": "Public",
+ "website": "https://www.terry.uga.edu/mba/fulltime/",
+ "ranks": {
+  "usnews": {
+   "rank": 25,
+   "edition": "2026",
+   "url": "https://www.terry.uga.edu/georgia-mba-earns-its-best-graduate-program-rankings-from-u-s-news/"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": 23,
+   "edition": "2025-26",
+   "url": "https://www.bloomberg.com/business-schools/georgia-terry/"
+  },
+  "qs": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "2027",
+  "class_size": {
+   "v": null
+  },
+  "gmat_focus": {
+   "v": null
+  },
+  "gmat_classic": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": null
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": null
+  },
+  "women_pct": {
+   "v": null
+  },
+  "intl_pct": {
+   "v": null
+  },
+  "tuition_usd": {
+   "v": 34920,
+   "stat": "2025-26 rate; MBA Athens flat rate for 12+ hours, 17460 per semester x 2 semesters, domestic non-resident; Georgia resident 13918 (6959 per semester); out-of-country 35934 (17967 per semester); excludes mandatory fees",
+   "src": "UGA Bursar tuition and fees 2025-2026",
+   "year": 2025,
+   "url": "https://busfin.uga.edu/finance-division/bursar/students-parents/bursar-tuition-fees/2025-2026/"
+  },
+  "salary_median_usd": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "employment_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  }
+ },
+ "notes": "The entire terry.uga.edu domain is behind a Cloudflare bot challenge: every fetch attempt (WebFetch, curl with browser headers, headless Chromium) returned 403 Just a moment pages, so the official class profile and any employment report could not be read this session. Existing figures in the library for this school are sourced to Clear Admit, which is a banned source; they could not be replaced or confirmed. Fields above are listed null only in the sense that no official page was reachable, not confirmed unpublished. Tuition was verified on the UGA Bursar site (busfin.uga.edu), which is official and not blocked; the bursar page labels the program Master in Business Administration (MBA Athens), which is the residential full-time MBA."
+}

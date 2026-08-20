@@ -1,0 +1,138 @@
+{
+ "slug": "george-washington",
+ "name": "George Washington University School of Business",
+ "university": "George Washington University",
+ "city": "Washington",
+ "state": "DC",
+ "region": "South",
+ "type": "Private",
+ "website": "https://business.gwu.edu/academics/programs/mba/global-mba",
+ "ranks": {
+  "usnews": {
+   "rank": 69,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/george-washington-university-01043"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [
+  {
+   "name": "No. 1 worldwide for share of women in a full-time MBA (Financial Times Top 100)",
+   "src": "Financial Times via GW School of Business",
+   "year": 2025,
+   "url": "https://business.gwu.edu/prospective-students/mba-admissions/class-profile"
+  }
+ ],
+ "profile": {
+  "class_year": "2024-2025",
+  "class_size": {
+   "v": 41,
+   "stat": "average cohort size",
+   "src": "GW School of Business Global MBA class profile (2024-2025)",
+   "year": 2024,
+   "url": "https://business.gwu.edu/prospective-students/mba-admissions/class-profile"
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": null,
+   "stat": "",
+   "src": "GW Global MBA is test optional; no GMAT average published",
+   "year": null,
+   "url": ""
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": 3.5,
+   "stat": "average",
+   "src": "GW School of Business Global MBA class profile (2024-2025)",
+   "year": 2024,
+   "url": "https://business.gwu.edu/prospective-students/mba-admissions/class-profile"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": 5,
+   "stat": "avg",
+   "src": "GW School of Business Global MBA class profile (mid-80 pct range 2 to 8 years)",
+   "year": 2024,
+   "url": "https://business.gwu.edu/prospective-students/mba-admissions/class-profile"
+  },
+  "women_pct": {
+   "v": 64,
+   "stat": "percentage of women",
+   "src": "GW School of Business Global MBA class profile (2024-2025)",
+   "year": 2024,
+   "url": "https://business.gwu.edu/prospective-students/mba-admissions/class-profile"
+  },
+  "intl_pct": {
+   "v": 44,
+   "stat": "percentage of international students",
+   "src": "GW School of Business Global MBA class profile (2024-2025)",
+   "year": 2024,
+   "url": "https://business.gwu.edu/prospective-students/mba-admissions/class-profile"
+  },
+  "tuition_usd": {
+   "v": null,
+   "note": "per year",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "salary_median_usd": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "employment_rate_pct": {
+   "v": 80,
+   "stat": "employed within six months (page: 'More than 70% of Global MBA students secure employment by the time they graduate, and 80% are employed within six months'); cohort year not stated",
+   "src": "GW School of Business Global MBA program page",
+   "year": 2026,
+   "url": "https://business.gwu.edu/academics/programs/mba/global-mba"
+  }
+ },
+ "notes": "Program is test optional ('No GRE or GMAT is required'); no score averages published. Work experience published only as a range, 'Average Work Experience: 3-5 years', so no single value recorded (the previously recorded 5 with a mid-80 range is no longer on the page). Class profile page has changed: it now shows average cohort size 41, not the previously recorded class size 97. Tuition: published only as an approximate program total, 'The base tuition for this 53-credit master's degree is ~$134,000', no annual figure, so tuition_usd left null. Salary: program page cites a starting salary of 138185 and average sign-on bonus of 25500 for GW Business MBA graduates without labeling the salary average or median and without a class year, so salary_median_usd left null."
+}

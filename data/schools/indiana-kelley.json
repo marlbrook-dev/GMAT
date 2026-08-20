@@ -1,0 +1,138 @@
+{
+ "slug": "indiana-kelley",
+ "name": "Indiana University Kelley School of Business",
+ "university": "Indiana University Bloomington",
+ "city": "Bloomington",
+ "state": "IN",
+ "region": "Midwest",
+ "type": "Public",
+ "ranks": {
+  "usnews": {
+   "rank": 21,
+   "edition": "2026",
+   "url": "https://news.iu.edu/live/news/49826-oneill-mpa-no-1-overall-kelley-mba-no-7-among",
+   "note": "No. 21 overall and No. 7 among public universities in the 2026 edition"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "2026",
+   "url": "",
+   "note": "No FT 2026 Global MBA position for Kelley surfaced in coverage reviewed; the school's FT presence in 2026 coverage was for the Kelley Direct online MBA (13th in the FT Online MBA ranking)"
+  },
+  "bloomberg": {
+   "rank": 31,
+   "edition": "2025-26",
+   "url": "https://www.bloomberg.com/business-schools/indiana-kelley/",
+   "note": "Bloomberg page title states 31st"
+  },
+  "qs": {
+   "rank": null,
+   "edition": "2026",
+   "url": "",
+   "note": "QS 2026 global Full-Time MBA position not surfaced before the search budget was exhausted"
+  },
+  "pq": {
+   "rank": null,
+   "edition": "2025-2026",
+   "url": "",
+   "note": "P&Q 2025-2026 composite position not surfaced before the search budget was exhausted"
+  }
+ },
+ "profile": {
+  "class_year": "Class of 2027",
+  "class_size": {
+   "v": 106,
+   "stat": "class size",
+   "src": "Kelley full-time MBA class profile",
+   "year": 2025,
+   "url": "https://kelley.iu.edu/programs/full-time-mba/admissions/class-profile.html"
+  },
+  "gmat_focus": {
+   "v": 607,
+   "stat": "average GMAT score; page note: current edition, previously called GMAT Focus",
+   "src": "Kelley full-time MBA class profile",
+   "year": 2025,
+   "url": "https://kelley.iu.edu/programs/full-time-mba/admissions/class-profile.html"
+  },
+  "gmat_classic": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "No classic-scale GMAT reported for the Class of 2027 in sources reviewed"
+  },
+  "gre_quant": {
+   "v": 159,
+   "stat": "average quantitative GRE score; average total GRE 317",
+   "src": "Kelley full-time MBA class profile",
+   "year": 2025,
+   "url": "https://kelley.iu.edu/programs/full-time-mba/admissions/class-profile.html"
+  },
+  "gre_verbal": {
+   "v": 158,
+   "stat": "average verbal GRE score",
+   "src": "Kelley full-time MBA class profile",
+   "year": 2025,
+   "url": "https://kelley.iu.edu/programs/full-time-mba/admissions/class-profile.html"
+  },
+  "gpa": {
+   "v": 3.48,
+   "stat": "average GPA",
+   "src": "Kelley full-time MBA class profile",
+   "year": 2025,
+   "url": "https://kelley.iu.edu/programs/full-time-mba/admissions/class-profile.html"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "Secondary sources conflict (27.3 to 38 percent); no figure seen from a preferred source"
+  },
+  "work_exp_years": {
+   "v": 6.25,
+   "stat": "average years of full-time employment experience; 98 percent with full-time work experience",
+   "src": "Kelley full-time MBA class profile",
+   "year": 2025,
+   "url": "https://kelley.iu.edu/programs/full-time-mba/admissions/class-profile.html"
+  },
+  "women_pct": {
+   "v": 28,
+   "stat": "women",
+   "src": "Kelley full-time MBA class profile",
+   "year": 2025,
+   "url": "https://kelley.iu.edu/programs/full-time-mba/admissions/class-profile.html"
+  },
+  "intl_pct": {
+   "v": 42,
+   "stat": "international",
+   "src": "Kelley full-time MBA class profile",
+   "year": 2025,
+   "url": "https://kelley.iu.edu/programs/full-time-mba/admissions/class-profile.html"
+  },
+  "tuition_usd": {
+   "v": 55695,
+   "stat": "2026-27 rate, annual tuition, nonresident and international; Indiana resident 29573; mandatory fees of 2423 listed separately and excluded",
+   "src": "Kelley full-time MBA tuition, aid and scholarships page",
+   "year": 2026,
+   "url": "https://kelley.iu.edu/programs/full-time-mba/admissions/tuition-aid-scholarships.html"
+  },
+  "salary_median_usd": {
+   "v": 127900,
+   "stat": "median base salary, Class of 2025; mean 133129; median signing bonus 30000; 85.1 percent of students accepting an offer provided usable salary data",
+   "src": "Kelley 2025-26 Full-Time +Flex MBA Employment Report",
+   "year": 2025,
+   "url": "https://kelley.iu.edu/doc/bloomington/full-time-mba/ftmba+flex-gcs-data-sheet.pdf"
+  },
+  "employment_rate_pct": {
+   "v": 89.2,
+   "stat": "accepted offers by 90 days after graduation, Class of 2025 seeking students; 91.6 percent received offers by 90 days",
+   "src": "Kelley 2025-26 Full-Time +Flex MBA Employment Report",
+   "year": 2025,
+   "url": "https://kelley.iu.edu/doc/bloomington/full-time-mba/ftmba+flex-gcs-data-sheet.pdf"
+  }
+ },
+ "website": "https://kelley.iu.edu/programs/full-time-mba/",
+ "notes": "Official class profile page (Class of 2027) confirms and supersedes the P and Q figures; GMAT 607 is explicitly labeled current edition, previously called GMAT Focus, and no classic-scale GMAT is published. Acceptance rate is not published on the class profile or admissions pages. The employment report PDF now on kelley.iu.edu is the 2025-26 edition covering the graduating Class of 2025, replacing the prior Class of 2024 data; the old newdev.kelley.iu.edu host no longer resolves. Tuition confirmed on the official Kelley tuition page at the 2026-27 rate, replacing the Clear Admit sourced entry."
+}

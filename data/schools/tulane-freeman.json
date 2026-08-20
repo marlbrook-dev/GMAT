@@ -1,0 +1,126 @@
+{
+ "slug": "tulane-freeman",
+ "name": "A.B. Freeman School of Business",
+ "university": "Tulane University",
+ "city": "New Orleans",
+ "state": "LA",
+ "region": "South",
+ "type": "Private",
+ "website": "https://freeman.tulane.edu/graduate/full-time-mba",
+ "ranks": {
+  "usnews": {
+   "rank": 53,
+   "edition": "2026",
+   "url": "https://freemannews.tulane.edu/2026/04/07/freeman-makes-big-gains-in-latest-us-news-world-report-rankings"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "",
+  "class_size": {
+   "v": 40,
+   "src": "Freeman School full-time MBA page (cohort described as an intimate group of 40 students)",
+   "year": null,
+   "url": "https://freeman.tulane.edu/graduate/full-time-mba"
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": null,
+   "stat": "",
+   "src": "GMAT/GRE not required (required only for full tuition fellowship consideration); no class average visible in snippets",
+   "year": null,
+   "url": "https://freeman.tulane.edu/graduate/full-time-mba/admissions"
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "women_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "intl_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "tuition_usd": {
+   "v": null,
+   "note": "per year",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "salary_median_usd": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "employment_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  }
+ }
+}

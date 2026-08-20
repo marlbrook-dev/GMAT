@@ -1,0 +1,126 @@
+{
+ "slug": "cincinnati-lindner",
+ "name": "Carl H. Lindner College of Business",
+ "university": "University of Cincinnati",
+ "city": "Cincinnati",
+ "state": "OH",
+ "region": "Midwest",
+ "type": "Public",
+ "website": "https://www.business.uc.edu/programs-degrees/graduate/mba/full-time-mba.html",
+ "ranks": {
+  "usnews": {
+   "rank": 81,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/university-of-cincinnati-01177"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "",
+  "class_size": {
+   "v": 72,
+   "src": "US News (full-time MBA enrollment)",
+   "year": 2025,
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/university-of-cincinnati-01177"
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "women_pct": {
+   "v": 38.9,
+   "src": "US News (full-time MBA enrollment)",
+   "year": 2025,
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/university-of-cincinnati-01177"
+  },
+  "intl_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "tuition_usd": {
+   "v": null,
+   "note": "US News lists TOTAL PROGRAM tuition 35151 (same in-state and out-of-state); program runs about 9-12 months; no per-year figure seen",
+   "src": "US News",
+   "year": 2025,
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/university-of-cincinnati-01177"
+  },
+  "salary_median_usd": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "employment_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  }
+ }
+}

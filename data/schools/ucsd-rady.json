@@ -1,0 +1,126 @@
+{
+ "slug": "ucsd-rady",
+ "name": "Rady School of Management",
+ "university": "University of California San Diego",
+ "city": "San Diego",
+ "state": "CA",
+ "region": "West",
+ "type": "Public",
+ "website": "https://rady.ucsd.edu/programs/mba/index.html",
+ "ranks": {
+  "usnews": {
+   "rank": 63,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/university-of-california-san-diego-01608"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": 53,
+   "edition": "2023-24",
+   "url": "https://www.bloomberg.com/business-schools/2023/uc-at-san-diego-rady/"
+  },
+  "qs": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "",
+  "class_size": {
+   "v": 74,
+   "src": "US News (full-time MBA enrollment)",
+   "year": 2025,
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/university-of-california-san-diego-01608"
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": 645,
+   "stat": "median",
+   "src": "Poets and Quants school profile (edition not stated by source)",
+   "year": null,
+   "url": "https://poetsandquants.com/school-profile/university-california-san-diego-rady-school-management/"
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": 3.37,
+   "stat": "average",
+   "src": "Poets and Quants school profile",
+   "year": null,
+   "url": "https://poetsandquants.com/school-profile/university-california-san-diego-rady-school-management/"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "women_pct": {
+   "v": 42,
+   "src": "Poets and Quants school profile",
+   "year": null,
+   "url": "https://poetsandquants.com/school-profile/university-california-san-diego-rady-school-management/"
+  },
+  "intl_pct": {
+   "v": 39,
+   "src": "Poets and Quants school profile",
+   "year": null,
+   "url": "https://poetsandquants.com/school-profile/university-california-san-diego-rady-school-management/"
+  },
+  "tuition_usd": {
+   "v": 65222,
+   "note": "per year, out-of-state; in-state 52977 (US News listing)",
+   "src": "US News",
+   "year": 2025,
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/university-of-california-san-diego-01608"
+  },
+  "salary_median_usd": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "employment_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  }
+ }
+}

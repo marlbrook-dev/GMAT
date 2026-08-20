@@ -1,0 +1,132 @@
+{
+ "slug": "northeastern-damore-mckim",
+ "name": "D'Amore-McKim School of Business",
+ "university": "Northeastern University",
+ "city": "Boston",
+ "state": "MA",
+ "region": "Northeast",
+ "type": "Private",
+ "website": "https://damore-mckim.northeastern.edu/programs/mba-full-time/",
+ "ranks": {
+  "usnews": {
+   "rank": 83,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/northeastern-university-01112"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "Class of 2025",
+  "class_size": {
+   "v": 68,
+   "stat": "enrolled students",
+   "src": "D'Amore-McKim, Meet the Full-Time MBA Class of 2025",
+   "year": 2023,
+   "url": "https://damore-mckim.northeastern.edu/news/meet-the-full-time-mba-class-of-2025/"
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": 623,
+   "stat": "average; edition not labeled, class entered fall 2023 before Focus rollout; program is test optional so average reflects submitters",
+   "src": "D'Amore-McKim, Meet the Full-Time MBA Class of 2025",
+   "year": 2023,
+   "url": "https://damore-mckim.northeastern.edu/news/meet-the-full-time-mba-class-of-2025/"
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": 3.63,
+   "stat": "average",
+   "src": "D'Amore-McKim, Meet the Full-Time MBA Class of 2025",
+   "year": 2023,
+   "url": "https://damore-mckim.northeastern.edu/news/meet-the-full-time-mba-class-of-2025/"
+  },
+  "accept_rate_pct": {
+   "v": 26.2,
+   "stat": "acceptance rate, 569 applications",
+   "src": "D'Amore-McKim, Meet the Full-Time MBA Class of 2025",
+   "year": 2023,
+   "url": "https://damore-mckim.northeastern.edu/news/meet-the-full-time-mba-class-of-2025/"
+  },
+  "work_exp_years": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "women_pct": {
+   "v": 56,
+   "stat": "women",
+   "src": "D'Amore-McKim, Meet the Full-Time MBA Class of 2025",
+   "year": 2023,
+   "url": "https://damore-mckim.northeastern.edu/news/meet-the-full-time-mba-class-of-2025/"
+  },
+  "intl_pct": {
+   "v": 30.8,
+   "stat": "international",
+   "src": "D'Amore-McKim, Meet the Full-Time MBA Class of 2025",
+   "year": 2023,
+   "url": "https://damore-mckim.northeastern.edu/news/meet-the-full-time-mba-class-of-2025/"
+  },
+  "tuition_usd": {
+   "v": null,
+   "note": "per year",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "salary_median_usd": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "employment_rate_pct": {
+   "v": 90,
+   "stat": "of students seeking employment, accepted a full-time job offer within a year of graduation (Fall 2024 statistics sheet)",
+   "src": "D'Amore-McKim FTMBA employment statistics sheet",
+   "year": 2024,
+   "url": "https://damore-mckim.northeastern.edu/wp-content/uploads/2023/01/DMSB_FTMBAEmployment_StatsSheet.pdf"
+  }
+ },
+ "notes": "Class of 2025 remains the most recent class profile published on the school's site (no 2026 or 2027 profile found). Tuition: Northeastern bills the full-time MBA per credit hour, 1931 per credit for 2026-27 (1884 for 2025-26) under the D'Amore-McKim graduate programs rate, plus a 3100 program fee billed in year one, per https://studentfinance.northeastern.edu/billing-payments/tuition-and-fees/ (fetched this session); no annual tuition figure is published, so tuition_usd left null rather than computed. Salary: the Fall 2024 employment stats sheet publishes an average salary of 97840 and average signing bonus of 10000; no median published, so salary_median_usd left null. Work experience and GRE splits are not published."
+}

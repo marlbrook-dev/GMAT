@@ -1,0 +1,128 @@
+{
+ "slug": "tcu-neeley",
+ "name": "Neeley School of Business",
+ "university": "Texas Christian University",
+ "city": "Fort Worth",
+ "state": "TX",
+ "region": "South",
+ "type": "Private",
+ "website": "https://neeley.tcu.edu/degrees-programs/graduate/mba/full-time-mba.php",
+ "ranks": {
+  "usnews": {
+   "rank": 60,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/texas-christian-university-01217"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": 29,
+   "edition": "",
+   "url": "https://neeley.tcu.edu/news/posts/mba-program-rises-to-29.php"
+  },
+  "qs": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "Full-time MBA Graduates, 2025 (outcomes)",
+  "class_size": {
+   "v": 34,
+   "src": "Poets and Quants, Meet The TCU Neeley MBA Class Of 2024 (Class of 2024 figure)",
+   "year": 2022,
+   "url": "https://poetsandquants.com/2022/11/21/meet-the-tcu-neeley-mba-class-of-2024/"
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": 612,
+   "stat": "avg",
+   "src": "Poets and Quants, Meet TCU Neeley's MBA Class Of 2025",
+   "year": 2023,
+   "url": "https://poetsandquants.com/2023/12/18/meet-tcu-neeleys-mba-class-of-2025/2/"
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": 3.36,
+   "stat": "avg",
+   "src": "Poets and Quants, Meet The TCU Neeley MBA Class Of 2024 (Class of 2024 figure)",
+   "year": 2022,
+   "url": "https://poetsandquants.com/2022/11/21/meet-the-tcu-neeley-mba-class-of-2024/"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": 6,
+   "stat": "avg",
+   "src": "Poets and Quants, Meet TCU Neeley's MBA Class Of 2025",
+   "year": 2023,
+   "url": "https://poetsandquants.com/2023/12/18/meet-tcu-neeleys-mba-class-of-2025/2/"
+  },
+  "women_pct": {
+   "v": 35,
+   "src": "Poets and Quants, Meet TCU Neeley's MBA Class Of 2025",
+   "year": 2023,
+   "url": "https://poetsandquants.com/2023/12/18/meet-tcu-neeleys-mba-class-of-2025/2/"
+  },
+  "intl_pct": {
+   "v": 24,
+   "src": "Poets and Quants, Meet TCU Neeley's MBA Class Of 2025 (reported as almost 24 percent)",
+   "year": 2023,
+   "url": "https://poetsandquants.com/2023/12/18/meet-tcu-neeleys-mba-class-of-2025/2/"
+  },
+  "tuition_usd": {
+   "v": null,
+   "note": "per year",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "salary_median_usd": {
+   "v": 139142,
+   "src": "TCU Neeley news (average total compensation including salary and bonus, not a median base salary)",
+   "year": 2025,
+   "url": "https://neeley.tcu.edu/news/posts/us-news-and-world-report-mba-rankings-2025.php"
+  },
+  "employment_rate_pct": {
+   "v": 89,
+   "stat": "accepted offers within 90 days of graduation, Full-time MBA Graduates, 2025",
+   "src": "TCU Neeley full-time MBA program page",
+   "year": 2025,
+   "url": "https://neeley.tcu.edu/degrees-programs/graduate/mba/full-time-mba.php"
+  }
+ },
+ "notes": "TCU Neeley does not publish a current full-time MBA class profile on reachable official pages (program page, admission requirements, tcu.edu program page checked). Salary is published only as 153K average total compensation plus 27K average signing bonus for 2025 graduates (not a median base salary), on the program page; the prior 139,142 figure was also an average total compensation, so salary_median_usd stays null. Tuition is published only as 2,315 USD per semester hour plus 4,200 USD full-time MBA fees per semester, with an estimated total program cost of 141,810 USD and no annual figure, at https://neeley.tcu.edu/admissions/graduate/tuition-fees.php. The prior employment figure (96, from a 2025 news post) is superseded by the program page's 89% accepted offers within 90 days for 2025 graduates. Prior class profile figures from Poets and Quants have no official replacement available."
+}

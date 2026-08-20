@@ -1,0 +1,137 @@
+{
+ "slug": "ucla-anderson",
+ "name": "UCLA Anderson School of Management",
+ "university": "University of California, Los Angeles",
+ "city": "Los Angeles",
+ "state": "CA",
+ "region": "West",
+ "type": "Public",
+ "ranks": {
+  "usnews": {
+   "rank": 18,
+   "edition": "2026",
+   "url": "https://www.stacyblackman.com/blog/2026-us-news-mba-rankings/",
+   "note": "Tie at No. 18"
+  },
+  "ft": {
+   "rank": 32,
+   "edition": "2026",
+   "url": "https://www.stacyblackman.com/blog/financial-times-mba-rankings/",
+   "note": "Fell from No. 19 in 2025 to No. 32"
+  },
+  "bloomberg": {
+   "rank": 19,
+   "edition": "2025-26",
+   "url": "https://www.bloomberg.com/business-schools/ucla-anderson/",
+   "note": "Bloomberg page title states 19th; moved from No. 18 to No. 19"
+  },
+  "qs": {
+   "rank": 18,
+   "edition": "2026",
+   "url": "https://poetsandquants.com/2025/09/18/qs-global-mba-ranking-a-new-1-replaces-stanford-after-6-years/",
+   "note": "Global list; slipped from 14th to 18th per P&Q QS 2026 coverage"
+  },
+  "pq": {
+   "rank": 10,
+   "edition": "2025-2026",
+   "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/",
+   "note": "Rose four places to No. 10"
+  }
+ },
+ "profile": {
+  "class_year": "Class of 2027",
+  "class_size": {
+   "v": 307,
+   "src": "Clear Admit / Poets&Quants Class of 2027 profile (school class profile page)",
+   "year": 2025,
+   "url": "https://www.clearadmit.com/2025/09/ucla-anderson-mba-class-of-2027-profile/"
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "No separate GMAT Focus figure seen for UCLA Anderson Class of 2027 in sources reviewed"
+  },
+  "gmat_classic": {
+   "v": 703,
+   "stat": "average",
+   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+   "year": 2025,
+   "url": "https://www.clearadmit.com/2025/09/ucla-anderson-mba-class-of-2027-profile/",
+   "note": "Labeled mean GMAT 10th Edition; middle 80 percent 670-750"
+  },
+  "gre_quant": {
+   "v": 163,
+   "stat": "average",
+   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+   "year": 2025,
+   "url": "https://www.clearadmit.com/2025/09/ucla-anderson-mba-class-of-2027-profile/",
+   "note": "Average combined GRE 325"
+  },
+  "gre_verbal": {
+   "v": 162,
+   "stat": "average",
+   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+   "year": 2025,
+   "url": "https://www.clearadmit.com/2025/09/ucla-anderson-mba-class-of-2027-profile/"
+  },
+  "gpa": {
+   "v": 3.5,
+   "stat": "average",
+   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+   "year": 2025,
+   "url": "https://www.clearadmit.com/2025/09/ucla-anderson-mba-class-of-2027-profile/",
+   "note": "Mean GPA; middle 80 percent 3.1-3.8"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "Secondary sources conflict sharply (9.9 to 12 percent claims fail plausibility for this program); no figure seen from a preferred source"
+  },
+  "work_exp_years": {
+   "v": 5.6,
+   "stat": "average",
+   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+   "year": 2025,
+   "url": "https://www.clearadmit.com/2025/09/ucla-anderson-mba-class-of-2027-profile/"
+  },
+  "women_pct": {
+   "v": 46,
+   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+   "year": 2025,
+   "url": "https://www.clearadmit.com/2025/09/ucla-anderson-mba-class-of-2027-profile/"
+  },
+  "intl_pct": {
+   "v": 35,
+   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+   "year": 2025,
+   "url": "https://www.clearadmit.com/2025/09/ucla-anderson-mba-class-of-2027-profile/"
+  },
+  "tuition_usd": {
+   "v": 79452,
+   "note": "per year, 2025-26; snippet states same tuition regardless of California residency; source is a secondary guide, not verified on the Anderson site",
+   "src": "MiM-Essay UCLA MBA guide (search snippet)",
+   "year": 2025,
+   "url": "https://www.mim-essay.com/ucla-mba"
+  },
+  "salary_median_usd": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "Secondary coverage reports a Class of 2025 median base salary of 160,096 (up 12 percent), but this was not seen from a preferred source"
+  },
+  "employment_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": ""
+  }
+ },
+ "website": "https://www.anderson.ucla.edu/degrees/full-time-mba"
+}

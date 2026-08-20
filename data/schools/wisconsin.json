@@ -1,0 +1,132 @@
+{
+ "slug": "wisconsin",
+ "name": "Wisconsin School of Business",
+ "university": "University of Wisconsin-Madison",
+ "city": "Madison",
+ "state": "WI",
+ "region": "Midwest",
+ "type": "Public",
+ "website": "https://business.wisc.edu/graduate/mba/full-time/",
+ "ranks": {
+  "usnews": {
+   "rank": 48,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/university-of-wisconsin-madison-01245"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "Class of 2027",
+  "class_size": {
+   "v": 79,
+   "stat": "enrollment",
+   "src": "Wisconsin full-time MBA class profile",
+   "year": 2025,
+   "url": "https://business.wisc.edu/graduate/mba/full-time/admissions/class-profile/"
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": 675,
+   "stat": "average GMAT score, 80% score distribution 630-700; page states scores are based on a previous version of the exam (classic edition confirmed)",
+   "src": "Wisconsin full-time MBA class profile",
+   "year": 2025,
+   "url": "https://business.wisc.edu/graduate/mba/full-time/admissions/class-profile/"
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": 3.42,
+   "stat": "average GPA (of 4.0)",
+   "src": "Wisconsin full-time MBA class profile",
+   "year": 2025,
+   "url": "https://business.wisc.edu/graduate/mba/full-time/admissions/class-profile/"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": 4.2,
+   "stat": "average years of professional work experience",
+   "src": "Wisconsin full-time MBA class profile",
+   "year": 2025,
+   "url": "https://business.wisc.edu/graduate/mba/full-time/admissions/class-profile/"
+  },
+  "women_pct": {
+   "v": 49.4,
+   "stat": "page publishes counts, not percent: 39 female students of 79 enrolled; percent computed",
+   "src": "Wisconsin full-time MBA class profile",
+   "year": 2025,
+   "url": "https://business.wisc.edu/graduate/mba/full-time/admissions/class-profile/"
+  },
+  "intl_pct": {
+   "v": 16.5,
+   "stat": "page publishes counts, not percent: 13 international students of 79 enrolled; percent computed",
+   "src": "Wisconsin full-time MBA class profile",
+   "year": 2025,
+   "url": "https://business.wisc.edu/graduate/mba/full-time/admissions/class-profile/"
+  },
+  "tuition_usd": {
+   "v": 51413,
+   "stat": "2026-27 rate, nonresident tuition only (51,413.28); segregated fees 1,699.48 and first-year program fee 400 itemized separately; Wisconsin resident tuition 27,764.80",
+   "src": "Wisconsin full-time MBA tuition page",
+   "year": 2026,
+   "url": "https://business.wisc.edu/graduate/mba/full-time/tuition/"
+  },
+  "salary_median_usd": {
+   "v": 118003,
+   "stat": "average starting salary, Classes of 2023-2025 aggregate; median not published",
+   "src": "Wisconsin full-time MBA careers page",
+   "year": 2025,
+   "url": "https://business.wisc.edu/graduate/mba/full-time/careers/"
+  },
+  "employment_rate_pct": {
+   "v": 77,
+   "stat": "received offers within three months of graduation, Classes of 2023-2025 aggregate",
+   "src": "Wisconsin full-time MBA careers page",
+   "year": 2025,
+   "url": "https://business.wisc.edu/graduate/mba/full-time/careers/"
+  }
+ },
+ "notes": "Class profile publishes women and international as raw counts; percentages above are computed from the page's own counts (39/79 and 13/79). GRE averages and acceptance rate are not published on the official pages. Salary is an average, not a median; school does not publish a median. Employment and salary figures are a three-class aggregate labeled Classes of 2023-2025 on the page."
+}

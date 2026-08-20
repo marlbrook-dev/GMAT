@@ -1,0 +1,132 @@
+{
+ "slug": "wharton",
+ "name": "The Wharton School",
+ "university": "University of Pennsylvania",
+ "city": "Philadelphia",
+ "state": "PA",
+ "region": "Northeast",
+ "type": "Private",
+ "ranks": {
+  "usnews": {
+   "rank": 2,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/mba-rankings"
+  },
+  "ft": {
+   "rank": 3,
+   "edition": "2026",
+   "url": "https://poetsandquants.com/2026/02/16/2026-financial-times-mba-ranking-mit-tops-list-for-the-first-time/"
+  },
+  "bloomberg": {
+   "rank": 2,
+   "edition": "2025-26",
+   "url": "https://www.bloomberg.com/business-schools/regions/us/"
+  },
+  "qs": {
+   "rank": 1,
+   "edition": "2026",
+   "url": "https://www.topuniversities.com/mba-rankings/global"
+  },
+  "pq": {
+   "rank": 8,
+   "edition": "2025-2026",
+   "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/"
+  }
+ },
+ "profile": {
+  "class_year": "Class of 2026",
+  "class_size": {
+   "v": 866,
+   "stat": "Class of 2026 class size",
+   "src": "Wharton MBA class profile",
+   "year": 2024,
+   "url": "https://mba.wharton.upenn.edu/class-profile/"
+  },
+  "gmat_focus": {
+   "v": 676,
+   "stat": "average",
+   "src": "Poets&Quants (Class of 2027 profile coverage)",
+   "year": 2025,
+   "url": "https://poetsandquants.com/2025/09/23/whartons-mba-class-of-2027-more-racially-diverse-fewer-women-internationals/"
+  },
+  "gmat_classic": {
+   "v": 732,
+   "stat": "average (edition not labeled on page; 732 is not producible on the Focus scale, so classified as classic)",
+   "src": "Wharton MBA class profile",
+   "year": 2024,
+   "url": "https://mba.wharton.upenn.edu/class-profile/"
+  },
+  "gre_quant": {
+   "v": 162,
+   "stat": "average GRE (Quant)",
+   "src": "Wharton MBA class profile",
+   "year": 2024,
+   "url": "https://mba.wharton.upenn.edu/class-profile/"
+  },
+  "gre_verbal": {
+   "v": 163,
+   "stat": "average GRE (Verbal)",
+   "src": "Wharton MBA class profile",
+   "year": 2024,
+   "url": "https://mba.wharton.upenn.edu/class-profile/"
+  },
+  "gpa": {
+   "v": 3.68,
+   "stat": "average undergraduate GPA (4.0-system schools only)",
+   "src": "Wharton MBA class profile",
+   "year": 2024,
+   "url": "https://mba.wharton.upenn.edu/class-profile/"
+  },
+  "accept_rate_pct": {
+   "v": 20.5,
+   "src": "US News admissions data (MBA Class of 2026), as attributed in search-result coverage",
+   "year": 2024,
+   "url": "",
+   "note": "figure was explicitly attributed to US News for the Class of 2026 (fall 2024 entry); the US News school page URL itself was not surfaced in snippets"
+  },
+  "work_exp_years": {
+   "v": 5,
+   "stat": "average, range 1 to 17 years",
+   "src": "Wharton MBA class profile",
+   "year": 2024,
+   "url": "https://mba.wharton.upenn.edu/class-profile/"
+  },
+  "women_pct": {
+   "v": 47,
+   "stat": "Female: 47%",
+   "src": "Wharton MBA class profile",
+   "year": 2024,
+   "url": "https://mba.wharton.upenn.edu/class-profile/"
+  },
+  "intl_pct": {
+   "v": 31,
+   "stat": "International Students: 31%",
+   "src": "Wharton MBA class profile",
+   "year": 2024,
+   "url": "https://mba.wharton.upenn.edu/class-profile/"
+  },
+  "tuition_usd": {
+   "v": 87970,
+   "stat": "2026-27 rate, tuition only; General Fee 4,268 and Clinical Fee 770 additional (tuition and fees 93,008)",
+   "src": "Wharton MBA Inside tuition and fees page",
+   "year": 2026,
+   "url": "https://mba-inside.wharton.upenn.edu/financial-aid/tuition-fees/"
+  },
+  "salary_median_usd": {
+   "v": 185000,
+   "stat": "median annual salary, all industries, Class of 2025 full-time accepts",
+   "src": "Wharton 2025 MBA Career Report",
+   "year": 2025,
+   "url": "https://mba-pardot.marcomm.wharton.upenn.edu/l/327371/2026-04-14/7lhxf8/327371/1776198122hoMeKEA9/2025_MBA_Career_Report.pdf"
+  },
+  "employment_rate_pct": {
+   "v": 90.5,
+   "stat": "Class of 2025 students seeking employment reporting job offers; 87.0% reporting acceptances (survey standard per Career Service and Employer Alliance)",
+   "src": "Wharton 2025 MBA Career Report",
+   "year": 2025,
+   "url": "https://mba-pardot.marcomm.wharton.upenn.edu/l/327371/2026-04-14/7lhxf8/327371/1776198122hoMeKEA9/2025_MBA_Career_Report.pdf"
+  }
+ },
+ "notes": "Anchor check passed: average GMAT Focus 676 and average Classic 735 confirmed for Class of 2027. Acceptance rate 20.5% is US News data for the Class of 2026 (fall 2024 entry); P&Q reported Wharton became more selective again in the 2025-26 cycle (yield rose to 62.7%) but the exact newer rate did not appear in snippets. Official class profile page shows Class of 2027 stats as zero placeholders (not yet published), so complete official data is for the Class of 2026; batch's P&Q Class of 2027 figures could not be confirmed on the school domain. GMAT Focus average is not published on the official page. Acceptance rate is not published by Wharton. Career report PDF is hosted on Wharton's Pardot storage and linked from mba.wharton.upenn.edu/mba-career-services/.",
+ "website": "https://mba.wharton.upenn.edu/"
+}

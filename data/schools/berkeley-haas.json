@@ -1,0 +1,128 @@
+{
+ "slug": "berkeley-haas",
+ "name": "Haas School of Business",
+ "university": "University of California, Berkeley",
+ "city": "Berkeley",
+ "state": "CA",
+ "region": "West",
+ "type": "Public",
+ "ranks": {
+  "usnews": {
+   "rank": 10,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/mba-rankings"
+  },
+  "ft": {
+   "rank": 9,
+   "edition": "2026",
+   "url": "https://newsroom.haas.berkeley.edu/berkeley-haas-reaches-historic-high-in-financial-times-ranking/"
+  },
+  "bloomberg": {
+   "rank": 3,
+   "edition": "2025-26",
+   "url": "https://www.bloomberg.com/business-schools/regions/us/"
+  },
+  "qs": {
+   "rank": null,
+   "edition": "2026",
+   "url": "https://www.topuniversities.com/mba-rankings/global"
+  },
+  "pq": {
+   "rank": null,
+   "edition": "2025-2026",
+   "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/"
+  }
+ },
+ "profile": {
+  "class_year": "Class of 2027",
+  "class_size": {
+   "v": 273,
+   "src": "Haas Full-Time MBA class profile",
+   "year": 2025,
+   "url": "https://mba.haas.berkeley.edu/admissions/class-profile"
+  },
+  "gmat_focus": {
+   "v": 675,
+   "stat": "median, labeled GMAT Focus Edition, middle 80% 637 to 725",
+   "src": "Haas Full-Time MBA class profile",
+   "year": 2025,
+   "url": "https://mba.haas.berkeley.edu/admissions/class-profile"
+  },
+  "gmat_classic": {
+   "v": 730,
+   "stat": "median, middle 80% 669 to 767",
+   "src": "Haas Full-Time MBA class profile",
+   "year": 2025,
+   "url": "https://mba.haas.berkeley.edu/admissions/class-profile"
+  },
+  "gre_quant": {
+   "v": 162,
+   "stat": "median, middle 80% 155 to 169",
+   "src": "Haas Full-Time MBA class profile",
+   "year": 2025,
+   "url": "https://mba.haas.berkeley.edu/admissions/class-profile"
+  },
+  "gre_verbal": {
+   "v": 161,
+   "stat": "median, middle 80% 155 to 167",
+   "src": "Haas Full-Time MBA class profile",
+   "year": 2025,
+   "url": "https://mba.haas.berkeley.edu/admissions/class-profile"
+  },
+  "gpa": {
+   "v": 3.67,
+   "stat": "average undergraduate GPA, middle 80% 3.4 to 3.91",
+   "src": "Haas Full-Time MBA class profile",
+   "year": 2025,
+   "url": "https://mba.haas.berkeley.edu/admissions/class-profile"
+  },
+  "accept_rate_pct": {
+   "v": 25.3,
+   "src": "US News (Berkeley Haas school page, fall 2024 entrants)",
+   "year": 2024,
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/university-of-california-berkeley-01029"
+  },
+  "work_exp_years": {
+   "v": 5.6,
+   "stat": "average years, middle 80% 3.2 to 8.2",
+   "src": "Haas Full-Time MBA class profile",
+   "year": 2025,
+   "url": "https://mba.haas.berkeley.edu/admissions/class-profile"
+  },
+  "women_pct": {
+   "v": 43,
+   "src": "Haas Full-Time MBA class profile",
+   "year": 2025,
+   "url": "https://mba.haas.berkeley.edu/admissions/class-profile"
+  },
+  "intl_pct": {
+   "v": 44,
+   "src": "Haas Full-Time MBA class profile",
+   "year": 2025,
+   "url": "https://mba.haas.berkeley.edu/admissions/class-profile"
+  },
+  "tuition_usd": {
+   "v": 92755,
+   "stat": "2026-27 rate",
+   "src": "Haas Full-Time MBA cost page",
+   "year": 2026,
+   "url": "https://haas.berkeley.edu/financial-aid/full-time-mba/cost/"
+  },
+  "salary_median_usd": {
+   "v": 167250,
+   "stat": "median base annual salary",
+   "src": "Haas Full-Time MBA employment report, Class of 2025",
+   "year": 2025,
+   "url": "https://mba.haas.berkeley.edu/careers/employment-report"
+  },
+  "employment_rate_pct": {
+   "v": 84,
+   "stat": "offers accepted by 3 months after graduation, percentages based on number of students looking for jobs (offers received 86%)",
+   "src": "Haas Full-Time MBA employment report, Class of 2025",
+   "year": 2025,
+   "url": "https://mba.haas.berkeley.edu/careers/employment-report"
+  }
+ },
+ "notes": "FT 2026 rank of 9th globally (3rd among US schools) is confirmed by the official Berkeley Haas newsroom. QS 2026 and P&Q 2025-2026 ranks did not appear in any snippet seen and are nulled. Official Haas class profile does not publish an acceptance rate; the prior US News figure is third party. Class of 2027 profile replaces all prior Poets and Quants sourcing. intl_pct is 44% on the official page (prior entry said 42).",
+ "website": "https://mba.haas.berkeley.edu/"
+}

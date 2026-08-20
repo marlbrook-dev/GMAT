@@ -1,0 +1,130 @@
+{
+ "slug": "oklahoma-price",
+ "name": "Michael F. Price College of Business",
+ "university": "University of Oklahoma",
+ "city": "Norman",
+ "state": "OK",
+ "region": "South",
+ "type": "Public",
+ "website": "https://www.ou.edu/price/mba",
+ "note": "Not verified in-session: the shared web search budget was exhausted before this school could be researched. All figures left null rather than guessed.",
+ "ranks": {
+  "usnews": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "ft": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "",
+  "class_size": {
+   "v": 40,
+   "stat": "about 40 students, as stated on program page",
+   "src": "OU Price full-time MBA program page",
+   "year": 2026,
+   "url": "https://www.ou.edu/price/mba/full-time"
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "women_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "intl_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "tuition_usd": {
+   "v": null,
+   "note": "per year",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "salary_median_usd": {
+   "v": 76000,
+   "stat": "median salary as listed on program page (shown as $76K, attributed to 2024 sources)",
+   "src": "OU Price full-time MBA program page",
+   "year": 2024,
+   "url": "https://www.ou.edu/price/mba/full-time"
+  },
+  "employment_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  }
+ },
+ "notes": "OU Price does not publish a full-time MBA class profile (no GMAT, GRE, GPA, work experience, or demographic figures) or an employment rate on any official page found via site search. Tuition is published only as a total for the 16-month program; no annual rate exists, so the value carries an explicit note rather than an annualized guess."
+}

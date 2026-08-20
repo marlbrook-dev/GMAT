@@ -1,0 +1,142 @@
+{
+ "slug": "arizona-state-carey",
+ "name": "W. P. Carey School of Business",
+ "university": "Arizona State University",
+ "city": "Tempe",
+ "state": "AZ",
+ "region": "West",
+ "type": "Public",
+ "website": "https://wpcarey.asu.edu/mba-programs/full-time",
+ "ranks": {
+  "usnews": {
+   "rank": 29,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/arizona-state-university-01007"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": 44,
+   "edition": "2025-26",
+   "url": "https://www.bloomberg.com/business-schools/arizona-state-carey/"
+  },
+  "qs": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [
+  {
+   "name": "No. 3, US News MBA supply chain management specialty",
+   "src": "ASU News citing US News",
+   "year": null,
+   "url": "https://news.asu.edu/node/96185"
+  },
+  {
+   "name": "No. 5, US News MBA project management specialty",
+   "src": "ASU News citing US News",
+   "year": null,
+   "url": "https://news.asu.edu/node/96185"
+  }
+ ],
+ "profile": {
+  "class_year": "2027 (entered fall 2025)",
+  "class_size": {
+   "v": 47,
+   "src": "W. P. Carey full-time MBA class profile (fall 2025 entering class)",
+   "year": 2025,
+   "url": "https://wpcarey.asu.edu/mba-programs/full-time/class-profile"
+  },
+  "gmat_focus": {
+   "v": 690,
+   "stat": "average; page labels it GMAT without naming the edition, fall 2025 entering class (Class of 2027, value within Focus scale)",
+   "src": "W. P. Carey full-time MBA class profile",
+   "year": 2025,
+   "url": "https://wpcarey.asu.edu/mba-programs/full-time/class-profile"
+  },
+  "gmat_classic": {
+   "v": 698,
+   "stat": "avg (edition not labeled; value above Focus scale cap)",
+   "src": "W. P. Carey full-time MBA class profile",
+   "year": 2024,
+   "url": "https://ems.wpcarey.asu.edu/mba-programs/full-time/class-profile"
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": 3.6,
+   "stat": "average",
+   "src": "W. P. Carey full-time MBA class profile",
+   "year": 2025,
+   "url": "https://wpcarey.asu.edu/mba-programs/full-time/class-profile"
+  },
+  "accept_rate_pct": {
+   "v": 19,
+   "src": "W. P. Carey full-time MBA class profile",
+   "year": 2025,
+   "url": "https://wpcarey.asu.edu/mba-programs/full-time/class-profile"
+  },
+  "work_exp_years": {
+   "v": 5.3,
+   "stat": "average",
+   "src": "W. P. Carey full-time MBA class profile",
+   "year": 2025,
+   "url": "https://wpcarey.asu.edu/mba-programs/full-time/class-profile"
+  },
+  "women_pct": {
+   "v": 43,
+   "src": "W. P. Carey full-time MBA class profile",
+   "year": 2024,
+   "url": "https://ems.wpcarey.asu.edu/mba-programs/full-time/class-profile"
+  },
+  "intl_pct": {
+   "v": 32,
+   "src": "W. P. Carey full-time MBA class profile",
+   "year": 2025,
+   "url": "https://wpcarey.asu.edu/mba-programs/full-time/class-profile"
+  },
+  "tuition_usd": {
+   "v": 102580,
+   "note": "total program (21 months) tuition and fees, non-resident; resident 61354, international 107923; per-year figure not published in snippet",
+   "src": "W. P. Carey full-time MBA cost and financial aid page",
+   "year": null,
+   "url": "https://wpcarey.asu.edu/mba-programs/full-time/cost-financial-aid"
+  },
+  "salary_median_usd": {
+   "v": 121116,
+   "stat": "average base salary, Class of 2025; median not published on page",
+   "src": "W. P. Carey full-time MBA career management page",
+   "year": 2025,
+   "url": "https://wpcarey.asu.edu/mba-programs/full-time/career-management"
+  },
+  "employment_rate_pct": {
+   "v": 90,
+   "stat": "accepted a full-time offer within 90 days of graduation, Class of 2025",
+   "src": "W. P. Carey full-time MBA career management page",
+   "year": 2025,
+   "url": "https://wpcarey.asu.edu/mba-programs/full-time/career-management"
+  }
+ },
+ "notes": "Class profile now shows the fall 2025 entering class; all profile figures updated to it, replacing the fall 2024 figures in the batch (including the unlabeled GMAT 698 recorded as classic, which is no longer on the page). GRE shown only as a combined average of 314, no quant/verbal split. Percent women is not listed on the fall 2025 profile; the 43 percent in existing data was the fall 2024 profile. Cost page now shows rounded minimum total-program estimates that replace the earlier itemized totals."
+}

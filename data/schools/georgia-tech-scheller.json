@@ -1,0 +1,138 @@
+{
+ "slug": "georgia-tech-scheller",
+ "name": "Scheller College of Business",
+ "university": "Georgia Institute of Technology",
+ "city": "Atlanta",
+ "state": "GA",
+ "region": "South",
+ "type": "Public",
+ "website": "https://www.scheller.gatech.edu/explore-programs/mba-programs/full-time-mba/index.html",
+ "ranks": {
+  "usnews": {
+   "rank": 27,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/georgia-institute-of-technology-01056"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [
+  {
+   "name": "US News MBA specialties: top 10 in business analytics, information systems, and operations",
+   "src": "Scheller College news citing US News",
+   "year": 2022,
+   "url": "https://scheller.gatech.edu/news/2022/georgia-tech-scheller-mba-ranks-top-10-in-business-analytics-information-system-and-operations.html"
+  }
+ ],
+ "profile": {
+  "class_year": "Class of 2027",
+  "class_size": {
+   "v": 72,
+   "stat": "Full-time MBA students",
+   "src": "Scheller full-time MBA class profile (Class of 2027)",
+   "year": 2025,
+   "url": "https://www.scheller.gatech.edu/explore-programs/mba-programs/full-time-mba/admissions/class-profile.html"
+  },
+  "gmat_focus": {
+   "v": 654,
+   "stat": "average; page label is 'GMAT Average' without edition; Class of 2027 (fall 2025 entering class), value consistent with the Focus scale",
+   "src": "Scheller full-time MBA class profile",
+   "year": 2025,
+   "url": "https://www.scheller.gatech.edu/explore-programs/mba-programs/full-time-mba/admissions/class-profile.html"
+  },
+  "gmat_classic": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_quant": {
+   "v": 164,
+   "stat": "average",
+   "src": "Scheller full-time MBA class profile",
+   "year": 2025,
+   "url": "https://www.scheller.gatech.edu/explore-programs/mba-programs/full-time-mba/admissions/class-profile.html"
+  },
+  "gre_verbal": {
+   "v": 160,
+   "stat": "average",
+   "src": "Scheller full-time MBA class profile",
+   "year": 2025,
+   "url": "https://www.scheller.gatech.edu/explore-programs/mba-programs/full-time-mba/admissions/class-profile.html"
+  },
+  "gpa": {
+   "v": 3.31,
+   "stat": "undergraduate GPA average",
+   "src": "Scheller full-time MBA class profile",
+   "year": 2025,
+   "url": "https://www.scheller.gatech.edu/explore-programs/mba-programs/full-time-mba/admissions/class-profile.html"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": 5.25,
+   "stat": "average",
+   "src": "Scheller full-time MBA class profile",
+   "year": 2025,
+   "url": "https://www.scheller.gatech.edu/explore-programs/mba-programs/full-time-mba/admissions/class-profile.html"
+  },
+  "women_pct": {
+   "v": 44,
+   "stat": "women",
+   "src": "Scheller full-time MBA class profile",
+   "year": 2025,
+   "url": "https://www.scheller.gatech.edu/explore-programs/mba-programs/full-time-mba/admissions/class-profile.html"
+  },
+  "intl_pct": {
+   "v": 43,
+   "stat": "international",
+   "src": "Scheller full-time MBA class profile",
+   "year": 2025,
+   "url": "https://www.scheller.gatech.edu/explore-programs/mba-programs/full-time-mba/admissions/class-profile.html"
+  },
+  "tuition_usd": {
+   "v": 44956,
+   "stat": "per year, out-of-state; in-state 30548, out-of-country 46260, mandatory fees 1516 itemized separately; academic year not labeled on page (fetched August 2026; supersedes the 2025-26 rates recorded earlier)",
+   "src": "Scheller full-time MBA tuition page",
+   "year": 2026,
+   "url": "https://www.scheller.gatech.edu/explore-programs/mba-programs/full-time-mba/tuition-and-financing/index.html"
+  },
+  "salary_median_usd": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "employment_rate_pct": {
+   "v": 82.5,
+   "stat": "employment rate 3 months post-graduation, MBA Class of 2025 (92 pct at 6 months); offer-accepted vs offer-received definition not stated on page",
+   "src": "Scheller full-time MBA career development page",
+   "year": 2025,
+   "url": "https://www.scheller.gatech.edu/explore-programs/mba-programs/full-time-mba/career-development/index.html"
+  }
+ },
+ "notes": "Class profile is the fall 2025 entering class (Class of 2027). GMAT recorded as Focus per rules: unlabeled 654 average on a Class of 2027 profile, consistent with the Focus scale; no separate classic figure published. Acceptance rate not published. Salary: career page publishes average starting salary 136378 for the Class of 2025 but no median; the full employment report is an issuu flipbook that would not load (see _failures), so salary_median_usd left null."
+}

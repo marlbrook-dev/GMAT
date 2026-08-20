@@ -51,11 +51,14 @@ tr.srow.open td.expcell .car{transform:rotate(180deg)}
 .controls .clear{background:none;border:none;color:var(--navy-800);font-family:var(--display);font-weight:700;font-size:13px;cursor:pointer;text-decoration:underline}
 .count{font-size:13px;color:var(--gray-500);margin-left:auto}
 .tablewrap{overflow-x:auto;border:1px solid var(--gray-200);border-radius:12px}
-table.rk{width:100%;border-collapse:collapse;min-width:1140px}
+table.rk{width:100%;border-collapse:collapse;min-width:900px}
+body.detailed table.rk{min-width:1240px}
+.colx{display:none}
+body.detailed .colx{display:table-cell}
 table.rk th{font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--gray-500);text-align:left;padding:12px 10px;border-bottom:1px solid var(--gray-200);background:var(--gray-50);cursor:pointer;white-space:nowrap;position:sticky;top:0}
 table.rk th.num,table.rk td.num{text-align:right}
 table.rk th .car{font-size:9px;opacity:.5}
-table.rk td{padding:12px 10px;border-bottom:1px solid var(--gray-100);vertical-align:middle}
+table.rk td{padding:15px 10px;border-bottom:1px solid var(--gray-100);vertical-align:middle}
 tr.srow{cursor:pointer}tr.srow:hover{background:var(--navy-50)}
 td.rank{font-family:var(--mono);font-weight:600;font-size:16px;color:var(--navy-900)}
 .sname{font-family:var(--display);font-weight:700;color:var(--navy-900);font-size:14.5px}
@@ -84,7 +87,9 @@ table.mini{border-collapse:collapse;font-size:14px}table.mini td{padding:7px 14p
 #listPanel.on{display:block}
 #listPanel .lhead{background:var(--gray-50);padding:12px 16px;font-family:var(--display);font-weight:700;color:var(--navy-900);display:flex;justify-content:space-between;align-items:center}
 #listPanel .lrow{display:flex;gap:12px;align-items:center;padding:10px 16px;border-top:1px solid var(--gray-100);flex-wrap:wrap}
-#listPanel .lrow .nm{font-family:var(--display);font-weight:700;color:var(--navy-900);min-width:220px;flex:1}
+#listPanel .lrow .nm{font-family:var(--display);font-weight:700;color:var(--navy-900);min-width:200px;flex:1}
+#listPanel .ldata{display:flex;gap:14px;font-family:var(--mono);font-size:12.5px;color:var(--gray-500);white-space:nowrap}
+#listPanel .ldata b{font-weight:500;color:var(--navy-800)}
 #listPanel select.tag{padding:5px 8px;border-radius:6px;border:1px solid var(--gray-300);font-family:var(--display);font-weight:600;font-size:12px}
 #listPanel input.note{flex:2;min-width:160px;padding:6px 10px;border:1px solid var(--gray-200);border-radius:6px;font:inherit;font-size:13px}
 #listPanel .mv{border:1px solid var(--gray-300);background:#fff;border-radius:6px;cursor:pointer;padding:3px 8px}
@@ -151,6 +156,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
 <button id="fToggle" onclick="document.getElementById('filterRail').classList.toggle('open')">Filters</button>
 <input type="search" id="q" placeholder="Search schools" oninput="applyFilters()" aria-label="Search schools">
 <button class="clear" onclick="clearFilters()">Clear All</button>
+<button class="clear" id="viewToggle" onclick="toggleView()">Detailed View</button>
 <button class="pill" id="listPill" onclick="toggleListPanel()">My List (0)</button>
 <span class="count" id="count"></span>
 </div>
@@ -162,16 +168,17 @@ footer .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
 <th class="num" onclick="sortBy('_rank')">Rank <span class="car">&#9660;</span></th>
 <th onclick="sortBy('name')">School</th>
 <th class="num" onclick="sortBy('_score')" title="SFN Score: publishers 50, outcomes 20, GMAT 20, acceptance 10, renormalized over available data">Score</th>
-<th class="num" onclick="sortBy('usnews')" title="US News Best Business Schools">USN</th>
-<th class="num" onclick="sortBy('ft')" title="Financial Times Global MBA">FT</th>
-<th class="num" onclick="sortBy('bloomberg')" title="Bloomberg Businessweek">BBW</th>
-<th class="num" onclick="sortBy('qs')" title="QS Global MBA">QS</th>
-<th class="num" onclick="sortBy('pq')" title="Poets and Quants composite">P&amp;Q</th>
 <th class="num" onclick="sortBy('gmat')">GMAT</th>
-<th class="num" onclick="sortBy('gpa')">GPA</th>
+<th class="num colx" onclick="sortBy('usnews')" title="US News Best Business Schools">USN</th>
+<th class="num colx" onclick="sortBy('ft')" title="Financial Times Global MBA">FT</th>
+<th class="num colx" onclick="sortBy('bloomberg')" title="Bloomberg Businessweek">BBW</th>
+<th class="num colx" onclick="sortBy('qs')" title="QS Global MBA">QS</th>
+<th class="num colx" onclick="sortBy('pq')" title="Poets and Quants composite">P&amp;Q</th>
+<th class="num colx" onclick="sortBy('gpa')">GPA</th>
 <th class="num" onclick="sortBy('accept')">Accept</th>
-<th class="num" onclick="sortBy('size')">Class</th>
+<th class="num colx" onclick="sortBy('size')">Class</th>
 <th class="num" onclick="sortBy('tuition')">Tuition/yr</th>
+<th class="num" onclick="sortBy('employ')" title="Employment rate about 3 months after graduation, as each school reports it">Employ</th>
 <th></th>
 </tr></thead><tbody id="rows">
 {{ROWS}}
@@ -270,6 +277,7 @@ function sortVal(s,key){
  if(key==='_rank') return s._rank==null?999:s._rank;
  if(key==='gmat'){ var g=gmatOf(s); return g?(g.ed==='Focus'?g.v+60:g.v):0; }
  if(key==='gpa') return fieldV(s,'gpa')||0;
+ if(key==='employ') return fieldV(s,'employment_rate_pct')==null?-1:fieldV(s,'employment_rate_pct');
  if(key==='accept') return fieldV(s,'accept_rate_pct')==null?999:fieldV(s,'accept_rate_pct');
  if(key==='size') return fieldV(s,'class_size')||0;
  if(key==='tuition') return fieldV(s,'tuition_usd')||0;
@@ -297,7 +305,7 @@ function toggleDetail(slug){ var ex=document.getElementById('det-'+slug);
  var ranksTxt=Object.keys(s.ranks||{}).map(function(k){ var r=s.ranks[k]; if(!r||r.rank==null) return ''; var lbl={usnews:'US News',ft:'FT',bloomberg:'Bloomberg',qs:'QS',pq:'P&Q'}[k];
   return '<div class="f"><b>'+lbl+' '+(r.edition||'')+'</b>#'+r.rank+(r.url?' <span class="src">(<a href="'+r.url+'" rel="noopener" target="_blank">source</a>)</span>':'')+'</div>'; }).join('');
  var tr=document.createElement('tr'); tr.className='detail'; tr.id='det-'+slug;
- tr.innerHTML='<td colspan="15"><div class="row" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px"><div style="font-family:var(--display);font-weight:700;color:var(--navy-900)">'+s.name+' · '+(p.class_year||'class profile')+'</div><div style="display:flex;gap:8px"><a class="addbtn" style="text-decoration:none" href="/schools/'+slug+'/">See Full Profile</a>'+(s.website?'<a class="addbtn" style="text-decoration:none" href="'+s.website+'" rel="noopener" target="_blank">Official Site</a>':'')+'</div></div><div class="dgrid">'
+ tr.innerHTML='<td colspan="16"><div class="row" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px"><div style="font-family:var(--display);font-weight:700;color:var(--navy-900)">'+s.name+' · '+(p.class_year||'class profile')+'</div><div style="display:flex;gap:8px"><a class="addbtn" style="text-decoration:none" href="/schools/'+slug+'/">See Full Profile</a>'+(s.website?'<a class="addbtn" style="text-decoration:none" href="'+s.website+'" rel="noopener" target="_blank">Official Site</a>':'')+'</div></div><div class="dgrid">'
  +dfield('GMAT Focus',p.gmat_focus)+dfield('GMAT Classic',p.gmat_classic)
  +dfield('GRE Quant',p.gre_quant)+dfield('GRE Verbal',p.gre_verbal)
  +dfield('GPA',p.gpa)+dfield('Acceptance rate',p.accept_rate_pct,'%')
@@ -333,8 +341,10 @@ function renderListPanel(){ var L=lst(); var p=document.getElementById('listPane
  if(!L.order.length){ p.innerHTML='<div class="lhead">Your list is empty. Click "+ List" on any school.</div>'; return; }
  var h='<div class="lhead"><span>My list · '+L.order.length+'</span><span style="font-size:12px;color:var(--gray-500);font-weight:500">Tags and notes are included in your exports</span></div>';
  L.order.forEach(function(slug){ var s=BY[slug]; if(!s) return; var m=L.meta[slug]||{};
+  var g=gmatOf(s); var acc=fieldV(s,'accept_rate_pct'); var tu=fieldV(s,'tuition_usd');
   h+='<div class="lrow"><button class="mv" onclick="moveIn(\''+slug+'\',-1)" aria-label="Move up">&#9650;</button><button class="mv" onclick="moveIn(\''+slug+'\',1)" aria-label="Move down">&#9660;</button>'
   +'<span class="nm">'+s.name+'</span>'
+  +'<span class="ldata"><span title="SFN rank"><b>'+(s._rank?'#'+s._rank:'-')+'</b></span><span title="Published GMAT">'+(g?g.v+' '+g.ed:'-')+'</span><span title="Acceptance rate">'+(acc!=null?acc+'%':'-')+'</span><span title="Annual tuition">'+(tu!=null?'$'+Math.round(tu/1000)+'K':'-')+'</span></span>'
   +'<select class="tag tag-'+(m.tag||'target')+'" onchange="setTag(\''+slug+'\',this.value)">'
   +['safety','target','reach'].map(function(t){return '<option value="'+t+'"'+((m.tag||'target')===t?' selected':'')+'>'+t.charAt(0).toUpperCase()+t.slice(1)+'</option>';}).join('')
   +'</select>'
@@ -378,8 +388,15 @@ function printReport(){ var L=lst(); if(!L.order.length){ alert('Your list is em
  h+='<div class="ppage"><h2>Sources and method</h2><p>Composite rank: weighted average of published ranks from US News, Financial Times, Bloomberg, QS, and Poets and Quants (weights at startfromnowhere.com/schools/#methodology). Class profile figures come from each school\'s published class profile or admissions pages; every figure on the school pages above lists its source and year. Rankings belong to their respective publishers. Data as of '+today+'. Built free at startfromnowhere.com.</p></div>';
  pk.innerHTML=h; window.print(); }
 
+// compact vs detailed columns
+function applyView(){ var det=localStorage.getItem('sfn_rank_view')==='detailed';
+ document.body.classList.toggle('detailed',det);
+ var b=document.getElementById('viewToggle'); if(b) b.textContent=det?'Compact View':'Detailed View'; }
+function toggleView(){ var det=document.body.classList.contains('detailed');
+ localStorage.setItem('sfn_rank_view',det?'compact':'detailed'); applyView(); }
+
 // share-link import
-(function(){ var m=location.search.match(/[?&]list=([a-z0-9,-]+)/);
+(function(){ applyView(); var m=location.search.match(/[?&]list=([a-z0-9,-]+)/);
  if(m){ var slugs=m[1].split(',').filter(function(x){return BY[x];});
   if(slugs.length){ var L=lst(); slugs.forEach(function(sl){ if(L.order.indexOf(sl)<0){ L.order.push(sl); L.meta[sl]={tag:'target',note:'',name:BY[sl].name,gmat:gmatOf(BY[sl])}; } }); saveLst(L); toggleListPanel(); } }
  refreshListUI(); applyFilters(); })();

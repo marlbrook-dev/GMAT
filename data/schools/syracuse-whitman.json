@@ -1,0 +1,119 @@
+{
+ "slug": "syracuse-whitman",
+ "name": "Martin J. Whitman School of Management",
+ "university": "Syracuse University",
+ "city": "Syracuse",
+ "state": "NY",
+ "region": "Northeast",
+ "type": "Private",
+ "website": "https://whitman.syracuse.edu/graduate-programs/full-time-mba-program",
+ "ranks": {
+  "usnews": {
+   "rank": 63,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/syracuse-university-01158"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "",
+  "class_size": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": null
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": 3.68,
+   "stat": "average undergraduate GPA, 20-80th percentile range 3.33-3.95",
+   "src": "Whitman full-time MBA class profile",
+   "year": 2026,
+   "url": "https://whitman.syracuse.edu/graduate-programs/full-time-mba-program/full-time-mba-class-profile"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": 3.7,
+   "stat": "average, published as 44 months of average work experience",
+   "src": "Whitman full-time MBA class profile",
+   "year": 2026,
+   "url": "https://whitman.syracuse.edu/graduate-programs/full-time-mba-program/full-time-mba-class-profile"
+  },
+  "women_pct": {
+   "v": null
+  },
+  "intl_pct": {
+   "v": null
+  },
+  "tuition_usd": {
+   "v": null,
+   "note": "US News lists 2015 USD per credit (54-credit program); no per-year figure seen",
+   "src": "US News",
+   "year": 2025,
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/syracuse-university-01158"
+  },
+  "salary_median_usd": {
+   "v": 116450,
+   "stat": "average median base salary for MBA graduates, Classes of 2024-25 (page also lists 125,692 average mean base salary)",
+   "src": "Whitman full-time MBA class profile",
+   "year": 2025,
+   "url": "https://whitman.syracuse.edu/graduate-programs/full-time-mba-program/full-time-mba-class-profile"
+  },
+  "employment_rate_pct": {
+   "v": 81,
+   "stat": "MBA employment rate within three months; employment data reflects a five-year average under CSEA standards",
+   "src": "Whitman full-time MBA class profile",
+   "year": 2026,
+   "url": "https://whitman.syracuse.edu/graduate-programs/full-time-mba-program/full-time-mba-class-profile"
+  }
+ },
+ "notes": "The official class profile page states 650 Average GMAT with a 574-698 range (20-80th percentile) but does not label the exam edition and gives no class year, so per protocol neither gmat_focus nor gmat_classic is set; the prior third-party 645 figure should be dropped. The profile page is undated (year 2026 reflects fetch date and site copyright). Tuition is published only as a standard graduate rate of 2,086 USD per credit hour for 2026-27 (54-credit program) with no annual tuition figure, on https://whitman.syracuse.edu/graduate-programs/full-time-mba-program/full-time-mba-estimates-program-costs. No class size, GRE, women, international, or acceptance-rate figures on reachable official pages."
+}

@@ -1,0 +1,127 @@
+{
+ "slug": "michigan-state-broad",
+ "name": "Eli Broad College of Business",
+ "university": "Michigan State University",
+ "city": "East Lansing",
+ "state": "MI",
+ "region": "Midwest",
+ "type": "Public",
+ "website": "https://broad.msu.edu/masters/mba/",
+ "ranks": {
+  "usnews": {
+   "rank": 43,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/michigan-state-university-01118"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "Three-year average profile (as published 2025-26)",
+  "class_size": {
+   "v": 65,
+   "stat": "average number of students in cohort, three-year average",
+   "src": "MSU Broad full-time MBA publication",
+   "year": 2025,
+   "url": "https://publications.broad.msu.edu/full-time-mba"
+  },
+  "gmat_focus": {
+   "v": null
+  },
+  "gmat_classic": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": 3.42,
+   "stat": "average undergrad GPA, three-year average",
+   "src": "MSU Broad full-time MBA publication",
+   "year": 2025,
+   "url": "https://publications.broad.msu.edu/full-time-mba"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": 3.8,
+   "stat": "average years of work experience, three-year average",
+   "src": "MSU Broad full-time MBA publication",
+   "year": 2025,
+   "url": "https://publications.broad.msu.edu/full-time-mba"
+  },
+  "women_pct": {
+   "v": 42,
+   "stat": "female/non-binary, three-year average",
+   "src": "MSU Broad full-time MBA publication",
+   "year": 2025,
+   "url": "https://publications.broad.msu.edu/full-time-mba"
+  },
+  "intl_pct": {
+   "v": 30,
+   "stat": "international, three-year average",
+   "src": "MSU Broad full-time MBA publication",
+   "year": 2025,
+   "url": "https://publications.broad.msu.edu/full-time-mba"
+  },
+  "tuition_usd": {
+   "v": 57923,
+   "stat": "2025-26 academic year, out-of-state tuition, required fees and taxes; in-state 36981, international 58073; per year; includes required fees and taxes, not itemized separately",
+   "src": "MSU Broad full-time MBA publication",
+   "year": 2025,
+   "url": "https://publications.broad.msu.edu/full-time-mba"
+  },
+  "salary_median_usd": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "employment_rate_pct": {
+   "v": 93,
+   "stat": "employed within 6 months of graduating, Class of 2024",
+   "src": "MSU Broad full-time MBA publication",
+   "year": 2024,
+   "url": "https://publications.broad.msu.edu/full-time-mba"
+  }
+ },
+ "notes": "Official publication lists 615 average GMAT as a three-year average with no edition label, so per protocol it is not classified as Focus or Classic; the prior gmat_focus 604 sourced to Clear Admit (banned) is removed. GRE published combined only (319 average, three-year), so quant/verbal stay null. Salary published as average starting salary only, 119750 USD for the Class of 2024 (no median), so salary_median_usd stays null. Prior Clear Admit sourced class_size 54, GPA 3.4, work_exp 3, women 40, intl 13 are replaced by official three-year-average figures. broad.msu.edu itself is behind Imperva Incapsula bot protection; the publications.broad.msu.edu site is the reachable official source."
+}

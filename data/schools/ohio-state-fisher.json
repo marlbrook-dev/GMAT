@@ -1,0 +1,132 @@
+{
+ "slug": "ohio-state-fisher",
+ "name": "Fisher College of Business",
+ "university": "Ohio State University",
+ "city": "Columbus",
+ "state": "OH",
+ "region": "Midwest",
+ "type": "Public",
+ "website": "https://fisher.osu.edu/graduate/ftmba",
+ "ranks": {
+  "usnews": {
+   "rank": 32,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/ohio-state-university-columbus-01174"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": 37,
+   "edition": "2025-26",
+   "url": "https://www.bloomberg.com/business-schools/ohio-state-fisher/"
+  },
+  "qs": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "Class of 2027 (2025 incoming class)",
+  "class_size": {
+   "v": 100,
+   "stat": "approximately 100 students",
+   "src": "Fisher 2025 incoming class profile",
+   "year": 2025,
+   "url": "https://fisher.osu.edu/graduate/ftmba/admissions/class-profile"
+  },
+  "gmat_focus": {
+   "v": 653,
+   "stat": "avg GMAT Focus score (labeled)",
+   "src": "Fisher 2025 incoming class profile",
+   "year": 2025,
+   "url": "https://fisher.osu.edu/graduate/ftmba/admissions/class-profile"
+  },
+  "gmat_classic": {
+   "v": 673,
+   "stat": "avg GMAT Classic score (labeled)",
+   "src": "Fisher 2025 incoming class profile",
+   "year": 2025,
+   "url": "https://fisher.osu.edu/graduate/ftmba/admissions/class-profile"
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": 3.49,
+   "stat": "avg GPA (undergrad)",
+   "src": "Fisher 2025 incoming class profile",
+   "year": 2025,
+   "url": "https://fisher.osu.edu/graduate/ftmba/admissions/class-profile"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": 4.7,
+   "stat": "average years of work experience",
+   "src": "Fisher 2025 incoming class profile",
+   "year": 2025,
+   "url": "https://fisher.osu.edu/graduate/ftmba/admissions/class-profile"
+  },
+  "women_pct": {
+   "v": 31,
+   "stat": "31% female",
+   "src": "Fisher 2025 incoming class profile",
+   "year": 2025,
+   "url": "https://fisher.osu.edu/graduate/ftmba/admissions/class-profile"
+  },
+  "intl_pct": {
+   "v": 44,
+   "stat": "44% international",
+   "src": "Fisher 2025 incoming class profile",
+   "year": 2025,
+   "url": "https://fisher.osu.edu/graduate/ftmba/admissions/class-profile"
+  },
+  "tuition_usd": {
+   "v": 60943,
+   "stat": "2026-27 rate; tuition only for non-resident (instructional fee 29,752 plus non-resident charge 31,191); published tuition-and-fees totals are 62,538 non-resident and 31,347 Ohio resident",
+   "src": "Fisher full-time MBA tuition and funding page",
+   "year": 2026,
+   "url": "https://fisher.osu.edu/graduate/ftmba/admissions/tuition-funding"
+  },
+  "salary_median_usd": {
+   "v": 118000,
+   "stat": "median base salary, 2024-2025 outcome data; average 119,197",
+   "src": "Fisher MBA career outcomes page",
+   "year": 2025,
+   "url": "https://fisher.osu.edu/graduate/ftmba/mba-career-outcomes"
+  },
+  "employment_rate_pct": {
+   "v": 78,
+   "stat": "received job offers within three months of graduation, 2024-2025 data",
+   "src": "Fisher MBA career outcomes page",
+   "year": 2025,
+   "url": "https://fisher.osu.edu/graduate/ftmba/mba-career-outcomes"
+  }
+ },
+ "notes": "Profile publishes only a combined avg GRE score of 320, no quant/verbal split. Acceptance rate not published on official pages found."
+}

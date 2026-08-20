@@ -1,0 +1,129 @@
+{
+ "slug": "maryland-smith",
+ "name": "Robert H. Smith School of Business",
+ "university": "University of Maryland, College Park",
+ "city": "College Park",
+ "state": "MD",
+ "region": "South",
+ "type": "Public",
+ "website": "https://www.rhsmith.umd.edu/programs/full-time-mba",
+ "ranks": {
+  "usnews": {
+   "rank": 43,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/university-of-maryland-college-park-01104"
+  },
+  "ft": {
+   "rank": 31,
+   "edition": "",
+   "url": "https://www.rhsmith.umd.edu/news/maryland-smith-full-time-mba-program-no-31-financial-times-top-100-full-time-mba-program-ranking"
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "2026",
+  "class_size": {
+   "v": 69,
+   "src": "Poets and Quants school profile",
+   "year": 2026,
+   "url": "https://poetsandquants.com/school-profile/maryland-smith/"
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": 3.25,
+   "stat": "average undergrad GPA (class year not labeled on page)",
+   "src": "Smith full-time MBA admissions page",
+   "year": 2026,
+   "url": "https://www.rhsmith.umd.edu/programs/full-time-mba/admissions"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": 6,
+   "stat": "6 years professional experience (class year not labeled on page)",
+   "src": "Smith full-time MBA admissions page",
+   "year": 2026,
+   "url": "https://www.rhsmith.umd.edu/programs/full-time-mba/admissions"
+  },
+  "women_pct": {
+   "v": 35,
+   "src": "Poets and Quants school profile",
+   "year": 2026,
+   "url": "https://poetsandquants.com/school-profile/maryland-smith/"
+  },
+  "intl_pct": {
+   "v": 68,
+   "src": "Poets and Quants school profile",
+   "year": 2026,
+   "url": "https://poetsandquants.com/school-profile/maryland-smith/"
+  },
+  "tuition_usd": {
+   "v": null,
+   "note": "per year; official page lists per-credit only: 2157 USD per credit non-resident, 1759.50 in-state, Fall 2025; program redesigned to 48 credits",
+   "src": "Smith Networth Fall 2025 Tuition (official)",
+   "year": 2025,
+   "url": "https://networth.rhsmith.umd.edu/smith/financial-information/fall-2025-tuition"
+  },
+  "salary_median_usd": {
+   "v": 125000,
+   "stat": "median base salary, Class of 2025; 47.1 percent of job-accepting graduates provided usable salary data",
+   "src": "Smith full-time MBA employment report (official)",
+   "year": 2025,
+   "url": "https://www.rhsmith.umd.edu/offices/career-services/employment-reports/full-time-mba-report"
+  },
+  "employment_rate_pct": {
+   "v": 77.3,
+   "stat": "accepted employment offers within three months of graduation, Class of 2025 (34 of 44 seeking; 79 pct US, 76 pct international)",
+   "src": "Smith full-time MBA employment report (official)",
+   "year": 2025,
+   "url": "https://www.rhsmith.umd.edu/offices/career-services/employment-reports/full-time-mba-report"
+  }
+ },
+ "notes": "Official admissions page reports GMAT only as a GMAT Focus Edition 55th to 72nd percentile ranking, no score, so gmat_focus stays null. Tuition is charged per credit only: Fall 2025 rates 1759.50 USD per credit Maryland resident, 2157.00 non-resident, plus semester fees, per the official Networth page (https://networth.rhsmith.umd.edu/smith/financial-information/fall-2025-tuition, fetched this session); no official annual tuition figure is published, so tuition_usd stays null. Program is 48 credits. Class of 2026 figures in the prior data (69 students, GMAT 633, GRE 324) trace to Clear Admit/P&Q and could not be found on an official page this session; the prior employment_rate 77 sourced to P&Q is now replaced by the official report figure."
+}

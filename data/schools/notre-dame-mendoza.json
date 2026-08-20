@@ -1,0 +1,128 @@
+{
+ "slug": "notre-dame-mendoza",
+ "name": "Mendoza College of Business",
+ "university": "University of Notre Dame",
+ "city": "Notre Dame",
+ "state": "IN",
+ "region": "Midwest",
+ "type": "Private",
+ "website": "https://mendoza.nd.edu/graduate-programs/the-notre-dame-mba/",
+ "ranks": {
+  "usnews": {
+   "rank": 34,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/university-of-notre-dame-01082"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": 39,
+   "edition": "2025-26",
+   "url": "https://www.bloomberg.com/business-schools/notre-dame-mendoza/"
+  },
+  "qs": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "2027",
+  "class_size": {
+   "v": 85,
+   "stat": "average cohort size",
+   "src": "Notre Dame MBA program page",
+   "year": 2026,
+   "url": "https://mendoza.nd.edu/graduate-programs/the-notre-dame-mba/"
+  },
+  "gmat_focus": {
+   "v": 655,
+   "stat": "median, Class of 2027 (edition not labeled; fall 2025 entering class)",
+   "src": "Clear Admit school profile",
+   "year": 2025,
+   "url": "https://www.clearadmit.com/schools/notre-dame-mendoza/"
+  },
+  "gmat_classic": {
+   "v": 680,
+   "stat": "avg, Class of 2026, range 560-760 (edition not labeled; range consistent with Classic)",
+   "src": "Poets and Quants, Meet Notre Dame Mendoza's MBA Class of 2026",
+   "year": 2025,
+   "url": "https://poetsandquants.com/2025/07/10/meet-notre-dame-mendozas-mba-class-of-2026/2/"
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": 3.3,
+   "stat": "average undergraduate GPA",
+   "src": "Notre Dame MBA program page",
+   "year": 2026,
+   "url": "https://mendoza.nd.edu/graduate-programs/the-notre-dame-mba/"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": 5,
+   "stat": "average years work experience",
+   "src": "Notre Dame MBA program page",
+   "year": 2026,
+   "url": "https://mendoza.nd.edu/graduate-programs/the-notre-dame-mba/"
+  },
+  "women_pct": {
+   "v": 23,
+   "stat": "women in the cohort",
+   "src": "Notre Dame MBA program page",
+   "year": 2026,
+   "url": "https://mendoza.nd.edu/graduate-programs/the-notre-dame-mba/"
+  },
+  "intl_pct": {
+   "v": null
+  },
+  "tuition_usd": {
+   "v": 75460,
+   "stat": "2026-27 rate, annual, tuition only; program fee 2700 and student fees 650 listed separately",
+   "src": "Mendoza Two-Year MBA tuition and aid page",
+   "year": 2026,
+   "url": "https://mendoza.nd.edu/graduate-programs/the-notre-dame-mba/two-year-mba-tuition-aid/"
+  },
+  "salary_median_usd": {
+   "v": 136000,
+   "stat": "median base salary, Class of 2025 (mean 139148; 98.4 pct usable salary data)",
+   "src": "Notre Dame MBA 2025 employment report",
+   "year": 2025,
+   "url": "https://mendoza.nd.edu/wp-content/uploads/2026/04/031026_MBA-Career-Report_Final.pdf"
+  },
+  "employment_rate_pct": {
+   "v": 71.1,
+   "stat": "jobs accepted by 3 months after graduation; 72.2 pct received offers by 3 months (Class of 2025)",
+   "src": "Notre Dame MBA 2025 employment report",
+   "year": 2025,
+   "url": "https://mendoza.nd.edu/wp-content/uploads/2026/04/031026_MBA-Career-Report_Final.pdf"
+  }
+ },
+ "notes": "The official MBA page (current 2026-27 application cycle) lists 655 Median GMAT Score with no edition label and no class year, so per protocol neither gmat_focus nor gmat_classic is set from it; the prior Clear Admit attribution of 655 to Class of 2027 Focus could not be confirmed officially. GRE is published as 315 median total only, no quant/verbal split. International is published as 17 countries represented, not a percentage. Acceptance rate not published. Stats on the program page are not tied to a stated class year, so class_year left blank; year 2026 reflects the page's current 2026-27 admissions cycle content."
+}

@@ -1,0 +1,145 @@
+{
+ "slug": "colorado-leeds",
+ "name": "Leeds School of Business",
+ "university": "University of Colorado Boulder",
+ "city": "Boulder",
+ "state": "CO",
+ "region": "West",
+ "type": "Public",
+ "website": "https://www.colorado.edu/business/mba-all-programs-apply",
+ "ranks": {
+  "usnews": {
+   "rank": 77,
+   "edition": "2026",
+   "url": "https://www.colorado.edu/business/news/2026/04/07/US-News-2026-MBA-rankings"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [
+  {
+   "name": "Real Estate (top 10-25 percent, U.S. News graduate specialty rankings)",
+   "src": "U.S. News via Leeds news release",
+   "year": 2026,
+   "url": "https://www.colorado.edu/business/news/2026/04/07/US-News-2026-MBA-rankings"
+  },
+  {
+   "name": "Supply Chain (top 10-25 percent, U.S. News graduate specialty rankings)",
+   "src": "U.S. News via Leeds news release",
+   "year": 2026,
+   "url": "https://www.colorado.edu/business/news/2026/04/07/US-News-2026-MBA-rankings"
+  },
+  {
+   "name": "Business Analytics (top 10-25 percent, U.S. News graduate specialty rankings)",
+   "src": "U.S. News via Leeds news release",
+   "year": 2026,
+   "url": "https://www.colorado.edu/business/news/2026/04/07/US-News-2026-MBA-rankings"
+  }
+ ],
+ "profile": {
+  "class_year": "",
+  "class_size": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "women_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "intl_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "tuition_usd": {
+   "v": null,
+   "note": "per year",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "salary_median_usd": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "employment_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  }
+ }
+}

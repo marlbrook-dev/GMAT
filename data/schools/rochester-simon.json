@@ -1,0 +1,130 @@
+{
+ "slug": "rochester-simon",
+ "name": "Simon Business School",
+ "university": "University of Rochester",
+ "city": "Rochester",
+ "state": "NY",
+ "region": "Northeast",
+ "type": "Private",
+ "website": "https://simon.rochester.edu/programs/full-time-mba",
+ "ranks": {
+  "usnews": {
+   "rank": 34,
+   "edition": "2026",
+   "url": "https://simon.rochester.edu/why-simon/news/simons-full-time-mba-ranked-34-us"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": 33,
+   "edition": "2025-26",
+   "url": "https://www.bloomberg.com/business-schools/rochester-simon/"
+  },
+  "qs": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "Class of 2027",
+  "class_size": {
+   "v": 92,
+   "stat": "students enrolled",
+   "src": "Simon full-time MBA class profile (Class of 2027)",
+   "year": 2025,
+   "url": "https://simon.rochester.edu/programs/full-time-mba/admissions/class-profile"
+  },
+  "gmat_focus": {
+   "v": 625,
+   "stat": "average score, labeled GMAT Focus",
+   "src": "Simon full-time MBA class profile (Class of 2027)",
+   "year": 2025,
+   "url": "https://simon.rochester.edu/programs/full-time-mba/admissions/class-profile"
+  },
+  "gmat_classic": {
+   "v": 675,
+   "stat": "average score, labeled GMAT 10th Edition",
+   "src": "Simon full-time MBA class profile (Class of 2027)",
+   "year": 2025,
+   "url": "https://simon.rochester.edu/programs/full-time-mba/admissions/class-profile"
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": 3.3,
+   "stat": "average",
+   "src": "Simon full-time MBA class profile (Class of 2027)",
+   "year": 2025,
+   "url": "https://simon.rochester.edu/programs/full-time-mba/admissions/class-profile"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": 5.2,
+   "stat": "average years of work experience; middle 80% range 1.6-8.7",
+   "src": "Simon full-time MBA class profile (Class of 2027)",
+   "year": 2025,
+   "url": "https://simon.rochester.edu/programs/full-time-mba/admissions/class-profile"
+  },
+  "women_pct": {
+   "v": 47,
+   "stat": "female",
+   "src": "Simon full-time MBA class profile (Class of 2027)",
+   "year": 2025,
+   "url": "https://simon.rochester.edu/programs/full-time-mba/admissions/class-profile"
+  },
+  "intl_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "tuition_usd": {
+   "v": 60000,
+   "stat": "2026-27 rate, tuition only; activity fee 800 and mandatory health fee 1107 itemized separately; per year",
+   "src": "Simon full-time MBA tuition and financial aid page",
+   "year": 2026,
+   "url": "https://simon.rochester.edu/programs/full-time-mba/tuition-financial-aid"
+  },
+  "salary_median_usd": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "employment_rate_pct": {
+   "v": 88,
+   "stat": "of job-seeking graduates accepted employment 3 months post-graduation (Class of 2025)",
+   "src": "Simon full-time MBA careers and outcomes page",
+   "year": 2025,
+   "url": "https://simon.rochester.edu/programs/full-time-mba/careers-outcomes"
+  }
+ },
+ "notes": "Tuition rose from 57500 (2025-26) to 60000 for 2026-27 on the official page; prior figure replaced. Class profile lists 25 countries of origin but no international percentage. GRE averages and acceptance rate not published. Careers page reports average total compensation of 162175 USD for the Class of 2025 but no median base salary; no newer employment report PDF with a median was reachable. The recruiter-facing class profile page returned 403."
+}
