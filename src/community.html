@@ -14,13 +14,7 @@
 h1,h2,h3{font-family:var(--serif);color:var(--navy-900);letter-spacing:-.01em;line-height:1.15;margin:0}
 a{color:var(--navy-800)}
 .wrap{max-width:980px;margin:0 auto;padding:0 24px}
-header{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--gray-200)}
-.nav{height:60px;display:flex;align-items:center;gap:20px;max-width:1200px;margin:0 auto;padding:0 24px}
-.wordmark{display:flex;align-items:center;gap:9px;font-family:var(--serif);font-weight:700;font-size:19px;color:var(--navy-900);text-decoration:none}
-.nav .links{display:flex;gap:2px;flex:1}
-.nav .links a{font-family:var(--display);font-weight:600;font-size:14px;color:var(--gray-700);text-decoration:none;padding:8px 12px;border-radius:8px}
-.nav .links a:hover{background:var(--gray-50);color:var(--navy-900)}
-.nav .links a.on{color:var(--navy-900);background:var(--navy-50)}
+{{CHROME_CSS}}
 .btn{font-family:var(--display);font-weight:700;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-size:14px;padding:10px 16px;background:var(--navy-800);color:#fff;text-decoration:none;border:none;cursor:pointer}
 .btn:hover{background:var(--navy-900)}
 .btn.sec{background:#fff;color:var(--navy-800);border:1px solid var(--gray-300)}
@@ -35,25 +29,41 @@ header{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid 
 .who button{font:inherit;color:var(--navy-600);background:none;border:none;padding:0;cursor:pointer;text-decoration:underline}
 .crumb{font-size:13px;color:var(--gray-500);padding:16px 0 0}.crumb a{color:var(--gray-500)}
 #view{padding:20px 0 46px}
-.catrow{display:grid;grid-template-columns:1fr 84px 84px 200px;gap:14px;align-items:center;border:1px solid var(--gray-200);border-radius:12px;padding:14px 18px;margin-bottom:8px;text-decoration:none;transition:box-shadow .15s ease}
-.catrow:hover{box-shadow:0 8px 24px rgba(8,21,39,.08)}
-.catrow .cn{font-family:var(--display);font-weight:800;font-size:16px;color:var(--navy-900)}
-.catrow .cd{color:var(--gray-500);font-size:13.5px;margin-top:3px}
-.catrow .num{font-family:var(--mono);font-size:14px;color:var(--navy-900);text-align:right}
-.catrow .lbl{font-family:var(--display);font-weight:700;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--gray-500)}
-.catrow .meta{text-align:right;font-size:12.5px;color:var(--gray-500)}
-.throw{display:block;border:1px solid var(--gray-200);border-radius:12px;padding:14px 18px;margin-bottom:10px;text-decoration:none;transition:box-shadow .15s ease}
-.throw:hover{box-shadow:0 8px 24px rgba(8,21,39,.08)}
-.throw .tt{font-family:var(--display);font-weight:700;font-size:15.5px;color:var(--navy-900)}
-.throw .tm{font-size:12.5px;color:var(--gray-500);margin-top:5px;display:flex;gap:14px;flex-wrap:wrap}
+.fbox{border:1px solid var(--gray-200);border-radius:12px;overflow:hidden;background:#fff}
+.fbox .colhead{display:grid;gap:14px;background:var(--gray-50);border-bottom:1px solid var(--gray-200);padding:9px 18px}
+.fbox .colhead span{font-family:var(--display);font-weight:700;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--gray-500)}
+.fbox .colhead span.r,.fbox .num,.fbox .meta{text-align:right}
+.cols-cat{grid-template-columns:1fr 74px 74px 168px}
+.cols-th{grid-template-columns:1fr 64px 168px}
+.catrow{display:grid;gap:14px;align-items:center;padding:13px 18px;text-decoration:none;border-bottom:1px solid var(--gray-100)}
+.fbox .catrow:last-child{border-bottom:none}
+.catrow:hover{background:var(--gray-50)}
+.catrow .ic{width:28px;height:28px;border-radius:8px;background:var(--navy-50);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--navy-600);margin-top:2px}
+.catrow .cn{font-family:var(--display);font-weight:700;font-size:15px;color:var(--navy-900)}
+.catrow .cd{color:var(--gray-500);font-size:12.5px;margin-top:2px}
+.catrow .num{font-family:var(--mono);font-size:13px;color:var(--gray-500)}
+.catrow .num .lbl{display:none}
+.catrow .meta{font-size:11.5px;color:var(--gray-500)}
+.catrow .meta b{color:var(--navy-900);font-family:var(--display)}
+.throw{display:grid;gap:14px;align-items:center;padding:13px 18px;text-decoration:none;border-bottom:1px solid var(--gray-100)}
+.fbox .throw:last-child{border-bottom:none}
+.throw:hover{background:var(--gray-50)}
+.throw .tt{font-family:var(--display);font-weight:700;font-size:14.5px;color:var(--navy-900)}
+.throw .tm{font-size:11.5px;color:var(--gray-500);margin-top:3px;display:flex;gap:12px;flex-wrap:wrap}
+.throw .num{font-family:var(--mono);font-size:13px;color:var(--gray-500)}
+.throw .meta{font-size:11.5px;color:var(--gray-500)}
 .pill{font-family:var(--display);font-weight:700;font-size:11px;padding:2px 9px;border-radius:999px;background:var(--navy-50);color:var(--navy-600)}
 .pill.lock{background:var(--gray-100);color:var(--gray-500)}
 .post{border:1px solid var(--gray-200);border-radius:12px;padding:16px 18px;margin-bottom:10px;display:grid;grid-template-columns:150px 1fr;gap:16px}
 .post.op{border-color:var(--navy-100);background:var(--navy-50)}
 .post .pa{border-right:1px solid var(--gray-200);padding-right:14px}
 .post.op .pa{border-right-color:var(--navy-100)}
+.post .pa{text-align:center}
+.post .pa .av{width:38px;height:38px;border-radius:50%;background:var(--navy-800);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:14px;margin:0 auto 8px}
 .post .pa .an{font-family:var(--display);font-weight:700;font-size:13.5px;color:var(--navy-900);word-break:break-word}
 .post .pa .at{font-size:11.5px;color:var(--gray-500);margin-top:5px}
+.qbtn{font-family:var(--display);font-weight:600;font-size:12px;color:var(--navy-600);background:none;border:none;cursor:pointer;padding:0;margin-top:12px;display:inline-flex;align-items:center;gap:5px}
+.qbtn:hover{text-decoration:underline}
 .post .pb{white-space:normal;min-width:0}
 .pill.guest{background:var(--gray-100);color:var(--gray-500)}
 @media(max-width:640px){.post{grid-template-columns:1fr;gap:8px}.post .pa{border-right:none;border-bottom:1px solid var(--gray-200);padding:0 0 8px;display:flex;gap:10px;align-items:center}.post .pa .at{margin-top:0}}
@@ -88,14 +98,9 @@ header{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid 
 .empty{border:1px dashed var(--gray-300);border-radius:12px;padding:26px;text-align:center;color:var(--gray-500)}
 footer{border-top:1px solid var(--gray-200);padding:24px 0 36px;font-size:13px;color:var(--gray-500)}
 footer .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;max-width:1200px}
-@media(max-width:640px){.catrow{grid-template-columns:1fr 76px;padding:12px 14px}.catrow .meta,.catrow .num.cp{display:none}.hero h1{font-size:27px}}
+@media(max-width:640px){.cols-cat{grid-template-columns:1fr 64px}.cols-th{grid-template-columns:1fr 56px}.catrow,.throw{padding:12px 14px}.catrow .meta,.catrow .num.cp,.throw .meta,.fbox .colhead span.hm{display:none}.hero h1{font-size:27px}}
 </style></head><body>
-<header><div class="nav">
-<a class="wordmark" href="/"><svg viewBox="0 0 48 48" width="28" height="28" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#122B4E"/><path d="M13 33 22 22l6 5 8.5-10" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M29.5 16.5H37V24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Start From Nowhere</a>
-<nav class="links"><a href="/exams/">Exam Prep</a><a href="/schools/">Lists</a><a href="/blog/">Resources</a><a href="/community/" class="on">Community</a></nav>
-<a href="/app/" style="font-family:var(--display);font-weight:600;font-size:14px;color:var(--gray-700);text-decoration:none;padding:8px 12px">Sign In</a>
-<a class="btn" href="/app/#account">Create Account</a>
-</div></header>
+{{SITE_HEADER}}
 
 <div class="wrap">
 <div class="hero"><div class="top">
@@ -108,7 +113,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;
 </div>
 </div>
 
-<footer><div class="wrap"><span>Start From Nowhere</span><span><a href="/">Home</a> &middot; <a href="/schools/">Rankings</a> &middot; <a href="/pricing/">Plans</a> &middot; <a href="/terms.html">Terms</a> &middot; <a href="/privacy.html">Privacy</a></span></div></footer>
+{{SITE_FOOTER}}
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
@@ -210,13 +215,17 @@ function renderCats(){
       if(!a.last || t.last_post_at > a.last){ a.last = t.last_post_at; a.who = t.last_author; }
     });
     var h = "<div class=\"bar\"><h2>Forums</h2><a class=\"btn sm\" href=\"#/new\">Start a New Thread</a></div>";
+    h += "<div class=\"fbox\"><div class=\"colhead cols-cat\"><span>Board</span><span class=\"r\">Threads</span><span class=\"r hm\">Posts</span><span class=\"r hm\">Last Post</span></div>";
     cats.forEach(function(c){
       var a = agg[c.slug] || {n:0, posts:0, last:null, who:null};
-      h += "<a class=\"catrow\" href=\"#/c/" + esc(c.slug) + "\"><span><span class=\"cn\">" + esc(c.name) + "</span><div class=\"cd\">" + esc(c.descr || "") + "</div></span>" +
-        "<span class=\"num\"><span class=\"lbl\">Threads</span><br>" + a.n + "</span>" +
-        "<span class=\"num cp\"><span class=\"lbl\">Posts</span><br>" + a.posts + "</span>" +
-        "<span class=\"meta\">" + (a.last ? "Last post" + (a.who ? " by <b style=\"color:var(--navy-900)\">" + esc(a.who) + "</b>" : "") + "<br>" + timeAgo(a.last) : "No threads yet") + "</span></a>";
+      h += "<a class=\"catrow cols-cat\" href=\"#/c/" + esc(c.slug) + "\">" +
+        "<span style=\"display:flex;gap:12px;min-width:0\"><span class=\"ic\"><svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z\"/></svg></span>" +
+        "<span style=\"min-width:0\"><span class=\"cn\">" + esc(c.name) + "</span><div class=\"cd\">" + esc(c.descr || "") + "</div></span></span>" +
+        "<span class=\"num\">" + a.n + "</span>" +
+        "<span class=\"num cp\">" + a.posts + "</span>" +
+        "<span class=\"meta\">" + (a.last ? timeAgo(a.last) + (a.who ? "<br>by <b>" + esc(a.who) + "</b>" : "") : "No threads yet") + "</span></a>";
     });
+    h += "</div>";
     h += "<p class=\"small\" style=\"margin-top:16px\">Free to read and free to post, with a name or anonymously. An automatic screen plus human moderation keeps it clean: rule-breaking posts are hidden, not argued with. To report a thread, use the Report link inside it. Never post real questions from any actual exam; original practice talk only. House rules live in the welcome thread.</p>";
     view.innerHTML = h;
   }).catch(function(e){ fail("the forum", e); });
@@ -234,11 +243,17 @@ function renderCat(slug){
     var h = "<div class=\"crumb\"><a href=\"#/\">Forums</a> &rsaquo; " + esc(cat.name) + "</div>";
     h += "<div class=\"bar\" style=\"margin-top:10px\"><h2>" + esc(cat.name) + "</h2><a class=\"btn sm\" href=\"#/new/" + esc(slug) + "\">Start a New Thread</a></div>";
     var list = rs[0].data || [];
-    if(!list.length) h += "<div class=\"empty\">No threads here yet. Yours can be the first.</div>";
-    list.forEach(function(t){
-      h += "<a class=\"throw\" href=\"#/t/" + t.id + "\"><span class=\"tt\">" + esc(t.title) + "</span>" + (t.author_name === "SFN Team" ? " <span class=\"pill\">Official</span>" : "") + (t.locked ? " <span class=\"pill lock\">Locked</span>" : "") +
-        "<div class=\"tm\"><span>By " + esc(t.author_name) + "</span><span class=\"pill\">" + (t.reply_count || 0) + " " + ((t.reply_count || 0) === 1 ? "reply" : "replies") + "</span><span>Last post" + (t.last_author ? " by " + esc(t.last_author) : "") + " " + timeAgo(t.last_post_at) + "</span></div></a>";
-    });
+    if(!list.length){ h += "<div class=\"empty\">No threads here yet. Yours can be the first.</div>"; }
+    else {
+      h += "<div class=\"fbox\"><div class=\"colhead cols-th\"><span>Thread</span><span class=\"r\">Replies</span><span class=\"r hm\">Last Post</span></div>";
+      list.forEach(function(t){
+        h += "<a class=\"throw cols-th\" href=\"#/t/" + t.id + "\"><span style=\"min-width:0\"><span class=\"tt\">" + esc(t.title) + "</span>" + (t.author_name === "SFN Team" ? " <span class=\"pill\">Official</span>" : "") + (t.locked ? " <span class=\"pill lock\">Locked</span>" : "") +
+          "<div class=\"tm\"><span>By " + esc(t.author_name) + "</span></div></span>" +
+          "<span class=\"num\">" + (t.reply_count || 0) + "</span>" +
+          "<span class=\"meta\">" + timeAgo(t.last_post_at) + (t.last_author ? "<br>by " + esc(t.last_author) : "") + "</span></a>";
+      });
+      h += "</div>";
+    }
     view.innerHTML = h;
   }).catch(function(e){ fail("this forum", e); });
 }
@@ -332,13 +347,17 @@ function renderThread(id){
     var cn = (catBy[t.cat] || {}).name || t.cat;
     var h = "<div class=\"crumb\"><a href=\"#/\">Forums</a> &rsaquo; <a href=\"#/c/" + esc(t.cat) + "\">" + esc(cn) + "</a> &rsaquo; Thread</div>";
     h += "<div class=\"bar\" style=\"margin-top:10px\"><h2 style=\"font-size:24px\">" + esc(t.title) + "</h2>" + (t.locked ? "<span class=\"pill lock\">Locked</span>" : "") + "</div>";
-    var postCard = function(name, uid, when, bodyHtml, op){
+    var quotable = [];
+    var postCard = function(name, uid, when, bodyHtml, op, qi){
       var tag = name === "SFN Team" ? "<span class=\"pill\">Official</span>" : (uid ? "<span class=\"pill\" title=\"Signed-in member\">Member</span>" : "<span class=\"pill guest\">Guest</span>");
-      return "<div class=\"post" + (op ? " op" : "") + "\"><div class=\"pa\"><div class=\"an\">" + esc(name) + "</div><div class=\"at\">" + tag + "</div><div class=\"at\">" + timeAgo(when) + "</div></div><div class=\"pb\">" + bodyHtml + "</div></div>";
+      var initial = esc((String(name || "?").trim().charAt(0) || "?").toUpperCase());
+      var quote = qi == null ? "" : "<div><button class=\"qbtn\" type=\"button\" data-qi=\"" + qi + "\"><svg width=\"11\" height=\"11\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><polyline points=\"9 10 4 15 9 20\"/><path d=\"M20 4v7a4 4 0 0 1-4 4H4\"/></svg>Quote</button></div>";
+      return "<div class=\"post" + (op ? " op" : "") + "\"><div class=\"pa\"><div class=\"av\">" + initial + "</div><div class=\"an\">" + esc(name) + "</div><div class=\"at\">" + tag + "</div><div class=\"at\">" + timeAgo(when) + "</div></div><div class=\"pb\">" + bodyHtml + quote + "</div></div>";
     };
-    h += postCard(t.author_name, t.user_id, t.created_at, paras(t.body), true);
+    var qIdx = function(name, body){ if(t.locked) return null; quotable.push({name: name, body: body}); return quotable.length - 1; };
+    h += postCard(t.author_name, t.user_id, t.created_at, paras(t.body), true, qIdx(t.author_name, t.body));
     (rs[1].data || []).forEach(function(p){
-      h += postCard(p.author_name, p.user_id, p.created_at, paras(p.body), false);
+      h += postCard(p.author_name, p.user_id, p.created_at, paras(p.body), false, qIdx(p.author_name, p.body));
     });
     if(t.locked){
       h += "<div class=\"panel\"><span class=\"small\">This thread is locked. It stays readable, but no new replies.</span></div>";
@@ -350,6 +369,19 @@ function renderThread(id){
     }
     h += "<p class=\"small\">See something that breaks the rules? <a href=\"mailto:editors@startfromnowhere.com?subject=Report%20forum%20thread%20" + t.id + "\">Report this thread</a> and a human will look at it.</p>";
     view.innerHTML = h;
+    var qbs = view.querySelectorAll(".qbtn");
+    for(var qb = 0; qb < qbs.length; qb++){
+      qbs[qb].addEventListener("click", function(){
+        var q = quotable[parseInt(this.getAttribute("data-qi"), 10)];
+        var ta = document.getElementById("rpBody");
+        if(!q || !ta) return;
+        var b = String(q.body || "").trim();
+        if(b.length > 400) b = b.slice(0, 400) + "...";
+        ta.value = (ta.value ? ta.value + "\n\n" : "") + q.name + " wrote:\n> " + b.replace(/\n/g, "\n> ") + "\n\n";
+        ta.focus();
+        ta.scrollIntoView({behavior: "smooth", block: "center"});
+      });
+    }
     var go = document.getElementById("rpGo");
     if(go) go.addEventListener("click", function(){
       var body = (document.getElementById("rpBody").value || "").trim();

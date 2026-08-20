@@ -1,0 +1,114 @@
+{
+ "slug": "buffalo",
+ "name": "University at Buffalo School of Management",
+ "university": "University at Buffalo SUNY",
+ "city": "Buffalo",
+ "state": "NY",
+ "region": "Northeast",
+ "type": "Public",
+ "website": "https://management.buffalo.edu/degree-programs/master-of-business-mba.html",
+ "ranks": {
+  "usnews": {
+   "rank": 83,
+   "edition": "2026",
+   "url": "https://management.buffalo.edu/about/news.host.html/content/shared/mgt/news/us-news-grad-rankings-MBA-2026.detail.html"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "",
+  "class_size": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": null
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": null
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "women_pct": {
+   "v": null
+  },
+  "intl_pct": {
+   "v": null
+  },
+  "tuition_usd": {
+   "v": 33310,
+   "stat": "2026-27 rate",
+   "src": "UB School of Management MBA funding page",
+   "year": 2026,
+   "url": "https://management.buffalo.edu/degree-programs/master-of-business-mba/funding-scholarships-fellowships.html"
+  },
+  "salary_median_usd": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "employment_rate_pct": {
+   "v": 80,
+   "stat": "of students were employed within three months of graduation (2025)",
+   "src": "UB School of Management MBA page",
+   "year": 2025,
+   "url": "https://management.buffalo.edu/degree-programs/master-of-business-mba.html"
+  }
+ },
+ "notes": "UB publishes no MBA class profile on management.buffalo.edu; checked the main MBA page, admissions page, and admissions FAQs and none carry GMAT, GPA, class size, demographics, or acceptance rate. Salary is published only as 2025 average base (76639) with a 47424 to 150000 range; no median, so salary_median_usd stays null. Existing GMAT/GPA/women/intl figures are Poets and Quants sourced and remain unofficial; no official replacement exists."
+}

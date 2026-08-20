@@ -1,0 +1,130 @@
+{
+ "slug": "cincinnati-lindner",
+ "name": "Carl H. Lindner College of Business",
+ "university": "University of Cincinnati",
+ "city": "Cincinnati",
+ "state": "OH",
+ "region": "Midwest",
+ "type": "Public",
+ "website": "https://www.business.uc.edu/programs-degrees/graduate/mba/full-time-mba.html",
+ "ranks": {
+  "usnews": {
+   "rank": 81,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/university-of-cincinnati-01177"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "Class of 2026",
+  "class_size": {
+   "v": 36,
+   "stat": "the class of 2026 includes 36 students",
+   "src": "UC News, Meet the Lindner Full-time MBA Cohort of 2026 (Oct 7 2025)",
+   "year": 2025,
+   "url": "https://www.uc.edu/news/articles/2025/10/meet-the-lindner-full-time-mba-cohort-of-2025-26.html"
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": 3.5,
+   "stat": "average undergraduate GPA",
+   "src": "UC News, Meet the Lindner Full-time MBA Cohort of 2026 (Oct 7 2025)",
+   "year": 2025,
+   "url": "https://www.uc.edu/news/articles/2025/10/meet-the-lindner-full-time-mba-cohort-of-2025-26.html"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "women_pct": {
+   "v": 38.9,
+   "src": "US News (full-time MBA enrollment)",
+   "year": 2025,
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/university-of-cincinnati-01177"
+  },
+  "intl_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "tuition_usd": {
+   "v": 32508,
+   "stat": "2025-26 rate; per year; derived from official 2025-26 bursar per-semester rates: instructional fee 11,717 per full-time semester plus out-of-state surcharge 4,537 per full-time semester, times two semesters; Ohio resident annual is 23,434; tuition only, general, campus life and ITIE fees excluded; B",
+   "src": "UC Bursar 2025-26 graduate and professional tuition and out-of-state surcharge pages",
+   "year": 2025,
+   "url": "https://www.uc.edu/about/bursar/tuition-fees/prior-year-fees/2023-2024-fees11/graduate---professional-students.html"
+  },
+  "salary_median_usd": {
+   "v": 75000,
+   "stat": "median full-time starting salary, MBA program row (covers full-time and part-time MBA graduates combined), 2024-25 graduates, surveyed three months after graduation, 80 percent response rate; mean 93,398",
+   "src": "Lindner Career Services career outcomes page",
+   "year": 2025,
+   "url": "https://www.business.uc.edu/career-ready/career-outcomes.html"
+  },
+  "employment_rate_pct": {
+   "v": 92,
+   "stat": "placement rate within three months after graduation; class year not stated on the page (undated marketing figure read August 2026)",
+   "src": "Lindner full-time MBA program page",
+   "year": 2026,
+   "url": "https://www.business.uc.edu/programs-degrees/graduate/mba/full-time-mba.html"
+  }
+ },
+ "notes": "Lindner does not publish a full-time MBA class profile with test scores, work experience or demographics on any official page found (program page, MBA admissions page, Lindner by the Numbers). The out-of-state surcharge figure is on https://www.uc.edu/about/bursar/tuition-fees/prior-year-fees/2023-2024-fees11/2025-26-Out-of-State-Surcharge.html. The 96,846 salary on the program page is an average, not a median, and undated; the career outcomes page median is used instead. Existing women_pct and class_size values from US News should be dropped or kept per house rules; official class size 36 (Class of 2026) replaces the US News enrollment figure."
+}

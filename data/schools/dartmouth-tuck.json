@@ -1,0 +1,131 @@
+{
+ "slug": "dartmouth-tuck",
+ "name": "Tuck School of Business",
+ "university": "Dartmouth College",
+ "city": "Hanover",
+ "state": "NH",
+ "region": "Northeast",
+ "type": "Private",
+ "ranks": {
+  "usnews": {
+   "rank": 9,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/mba-rankings"
+  },
+  "ft": {
+   "rank": 26,
+   "edition": "2026",
+   "url": "https://poetsandquants.com/2026/02/16/2026-financial-times-mba-ranking-mit-tops-list-for-the-first-time/"
+  },
+  "bloomberg": {
+   "rank": 6,
+   "edition": "2025-26",
+   "url": "https://www.bloomberg.com/business-schools/regions/us/"
+  },
+  "qs": {
+   "rank": null,
+   "edition": "2026",
+   "url": "https://www.topuniversities.com/mba-rankings/global"
+  },
+  "pq": {
+   "rank": 4,
+   "edition": "2025-2026",
+   "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/"
+  }
+ },
+ "profile": {
+  "class_year": "Class of 2027",
+  "class_size": {
+   "v": 304,
+   "stat": "enrollment",
+   "src": "Tuck class profile page",
+   "year": 2025,
+   "url": "https://tuck.dartmouth.edu/admissions/class-profile"
+  },
+  "gmat_focus": {
+   "v": 671,
+   "stat": "average, range 595-775",
+   "src": "Tuck class profile page",
+   "year": 2025,
+   "url": "https://tuck.dartmouth.edu/admissions/class-profile"
+  },
+  "gmat_classic": {
+   "v": 727,
+   "stat": "average (GMAT 10th Edition), range 690-770",
+   "src": "Tuck class profile page",
+   "year": 2025,
+   "url": "https://tuck.dartmouth.edu/admissions/class-profile"
+  },
+  "gre_quant": {
+   "v": 160,
+   "stat": "average",
+   "src": "Tuck class profile page",
+   "year": 2025,
+   "url": "https://tuck.dartmouth.edu/admissions/class-profile"
+  },
+  "gre_verbal": {
+   "v": 162,
+   "stat": "average",
+   "src": "Tuck class profile page",
+   "year": 2025,
+   "url": "https://tuck.dartmouth.edu/admissions/class-profile"
+  },
+  "gpa": {
+   "v": 3.6,
+   "stat": "average, range 2.8-4.0",
+   "src": "Tuck class profile page",
+   "year": 2025,
+   "url": "https://tuck.dartmouth.edu/admissions/class-profile"
+  },
+  "accept_rate_pct": {
+   "v": 28.3,
+   "src": "Poets&Quants",
+   "year": 2025,
+   "url": "https://poetsandquants.com/2025/11/25/one-big-number-stands-out-in-dartmouth-tucks-new-mba-class/"
+  },
+  "work_exp_years": {
+   "v": 5.7,
+   "stat": "average, 68 months worked",
+   "src": "Tuck class profile page",
+   "year": 2025,
+   "url": "https://tuck.dartmouth.edu/admissions/class-profile"
+  },
+  "women_pct": {
+   "v": 44,
+   "stat": "percent women",
+   "src": "Tuck class profile page",
+   "year": 2025,
+   "url": "https://tuck.dartmouth.edu/admissions/class-profile"
+  },
+  "intl_pct": {
+   "v": 34,
+   "stat": "international including dual citizens and permanent residents",
+   "src": "Tuck class profile page",
+   "year": 2025,
+   "url": "https://tuck.dartmouth.edu/admissions/class-profile"
+  },
+  "tuition_usd": {
+   "v": 87536,
+   "stat": "2026-27 rate, tuition only; program fee of 6,150 itemized separately",
+   "src": "Tuck cost of attendance page",
+   "year": 2026,
+   "url": "https://tuck.dartmouth.edu/admissions/finance-your-degree/cost-attendance"
+  },
+  "salary_median_usd": {
+   "v": 175000,
+   "stat": "median base salary, Class of 2025; median signing bonus 30,000",
+   "src": "Tuck MBA employment statistics page",
+   "year": 2025,
+   "url": "https://tuck.dartmouth.edu/mba/career-services/employment-statistics"
+  },
+  "employment_rate_pct": {
+   "v": 87,
+   "stat": "accepted job offers within 3 months of graduation (of job-seeking graduates), Class of 2025; 90 percent received offers within 3 months",
+   "src": "Tuck MBA employment statistics page",
+   "year": 2025,
+   "url": "https://tuck.dartmouth.edu/mba/career-services/employment-statistics"
+  }
+ },
+ "notes": "International percentage discrepancy: Tuck's official news article states 22% of the Class of 2027 are foreign nationals (46 countries by citizenship), while some secondary coverage cites 34% international; the official 22% figure is recorded. QS 2026 rank nulled: coverage states Tuck does not appear in the QS top 20, exact rank not seen. Acceptance rate 28.3% (down from 31.2%) per P&Q. All class profile figures from the official Class of 2027 profile page (the correct URL is /admissions/class-profile; the /mba/admissions/... path 404s). intl_pct 34 replaces the prior 22, which was the foreign-nationals-only share from a Tuck news article; the official profile counts dual citizens and permanent residents. Tuck does not publish an acceptance rate on its official pages; the prior 28.3 figure was Poets and Quants math and no official replacement exists.",
+ "website": "https://tuck.dartmouth.edu/mba"
+}

@@ -1,0 +1,131 @@
+{
+ "slug": "wm-mason",
+ "name": "Raymond A. Mason School of Business",
+ "university": "College of William & Mary",
+ "city": "Williamsburg",
+ "state": "VA",
+ "region": "South",
+ "type": "Public",
+ "website": "https://mason.wm.edu/graduate/mba/full-time-mba/",
+ "ranks": {
+  "usnews": {
+   "rank": 53,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/college-of-william-and-mary-01229"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "Typical class profile (no class year stated)",
+  "class_size": {
+   "v": 112,
+   "src": "William & Mary official news (stale, 2018 entering class)",
+   "year": 2018,
+   "url": "https://www.wm.edu/news/stories/2018/get-to-know-william-marys-new-students.php"
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": 620,
+   "stat": "average, typical full-time class profile (edition not labeled; 620 is not producible on the Focus scale, so classified as classic)",
+   "src": "W&M full-time MBA admissions page",
+   "year": 2025,
+   "url": "https://mason.wm.edu/graduate/mba/full-time-mba/admissions/"
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": 3.3,
+   "stat": "average, typical full-time class profile",
+   "src": "W&M full-time MBA admissions page",
+   "year": 2025,
+   "url": "https://mason.wm.edu/graduate/mba/full-time-mba/admissions/"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": 5,
+   "stat": "average work experience stated as 60 months (converted to years)",
+   "src": "W&M full-time MBA admissions page",
+   "year": 2025,
+   "url": "https://mason.wm.edu/graduate/mba/full-time-mba/admissions/"
+  },
+  "women_pct": {
+   "v": 30,
+   "stat": "female students, typical full-time class profile",
+   "src": "W&M full-time MBA admissions page",
+   "year": 2025,
+   "url": "https://mason.wm.edu/graduate/mba/full-time-mba/admissions/"
+  },
+  "intl_pct": {
+   "v": 35,
+   "stat": "international students, typical full-time class profile",
+   "src": "W&M full-time MBA admissions page",
+   "year": 2025,
+   "url": "https://mason.wm.edu/graduate/mba/full-time-mba/admissions/"
+  },
+  "tuition_usd": {
+   "v": 51796,
+   "stat": "annual tuition and fees, out-of-state, fall 2024 rates as posted; in-state 39,394; one-time fees (orientation 595, dues 300, bootcamp 450) itemized separately",
+   "src": "W&M full-time MBA tuition and financial aid page",
+   "year": 2024,
+   "url": "https://mason.wm.edu/graduate/mba/full-time-mba/admissions/tuition-financial-aid/"
+  },
+  "salary_median_usd": {
+   "v": 115855,
+   "stat": "average salary reported by 2023 full-time MBA graduates; median not published",
+   "src": "W&M full-time MBA career outcomes page",
+   "year": 2023,
+   "url": "https://mason.wm.edu/graduate/mba/full-time-mba/career-outcomes/"
+  },
+  "employment_rate_pct": {
+   "v": 88,
+   "stat": "employment offers; timeframe and class year not stated on the page",
+   "src": "W&M full-time MBA career outcomes page",
+   "year": 2023,
+   "url": "https://mason.wm.edu/graduate/mba/full-time-mba/career-outcomes/"
+  }
+ },
+ "notes": "W&M publishes only a 'Typical Full-Time Class Profile' on the admissions page with no class year; the stale 2018 news figures in the current data are superseded by these. Class size, acceptance rate, and GRE stats are not published on reachable official pages. Salary is an average for 2023 graduates; the 88% employment offers figure carries no timeframe definition and sits next to the 2023 salary stat. Tuition page posts fall 2024 rates and bundles tuition and fees into one annual figure."
+}

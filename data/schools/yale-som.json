@@ -1,0 +1,128 @@
+{
+ "slug": "yale-som",
+ "name": "Yale School of Management",
+ "university": "Yale University",
+ "city": "New Haven",
+ "state": "CT",
+ "region": "Northeast",
+ "type": "Private",
+ "ranks": {
+  "usnews": {
+   "rank": 11,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/mba-rankings"
+  },
+  "ft": {
+   "rank": 17,
+   "edition": "2026",
+   "url": "https://poetsandquants.com/2026/02/16/2026-financial-times-mba-ranking-mit-tops-list-for-the-first-time/"
+  },
+  "bloomberg": {
+   "rank": 17,
+   "edition": "2025-26",
+   "url": "https://www.bloomberg.com/business-schools/regions/us/"
+  },
+  "qs": {
+   "rank": 12,
+   "edition": "2026",
+   "url": "https://www.topuniversities.com/mba-rankings/global"
+  },
+  "pq": {
+   "rank": 17,
+   "edition": "2025-2026",
+   "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/"
+  }
+ },
+ "profile": {
+  "class_year": "Class of 2027",
+  "class_size": {
+   "v": 367,
+   "stat": "total enrollment",
+   "src": "Yale SOM MBA class profile",
+   "year": 2025,
+   "url": "https://som.yale.edu/programs/mba/admissions/class-profile"
+  },
+  "gmat_focus": {
+   "v": 675,
+   "stat": "median, 80% score range 638-715, labeled GMAT Focus",
+   "src": "Yale SOM MBA class profile",
+   "year": 2025,
+   "url": "https://som.yale.edu/programs/mba/admissions/class-profile"
+  },
+  "gmat_classic": {
+   "v": 740,
+   "stat": "median, 80% score range 691-760",
+   "src": "Yale SOM MBA class profile",
+   "year": 2025,
+   "url": "https://som.yale.edu/programs/mba/admissions/class-profile"
+  },
+  "gre_quant": {
+   "v": 166,
+   "stat": "median, 80% score range 160-170",
+   "src": "Yale SOM MBA class profile",
+   "year": 2025,
+   "url": "https://som.yale.edu/programs/mba/admissions/class-profile"
+  },
+  "gre_verbal": {
+   "v": 163,
+   "stat": "median, 80% score range 158-169; 47% of incoming students submitted GRE",
+   "src": "Yale SOM MBA class profile",
+   "year": 2025,
+   "url": "https://som.yale.edu/programs/mba/admissions/class-profile"
+  },
+  "gpa": {
+   "v": 3.69,
+   "stat": "median, 80% range 3.37-3.93",
+   "src": "Yale SOM MBA class profile",
+   "year": 2025,
+   "url": "https://som.yale.edu/programs/mba/admissions/class-profile"
+  },
+  "accept_rate_pct": {
+   "v": null
+  },
+  "work_exp_years": {
+   "v": 5,
+   "stat": "average years of work experience",
+   "src": "Yale SOM MBA class profile",
+   "year": 2025,
+   "url": "https://som.yale.edu/programs/mba/admissions/class-profile"
+  },
+  "women_pct": {
+   "v": 44,
+   "stat": "women",
+   "src": "Yale SOM MBA class profile",
+   "year": 2025,
+   "url": "https://som.yale.edu/programs/mba/admissions/class-profile"
+  },
+  "intl_pct": {
+   "v": 41,
+   "stat": "international students",
+   "src": "Yale SOM MBA class profile",
+   "year": 2025,
+   "url": "https://som.yale.edu/programs/mba/admissions/class-profile"
+  },
+  "tuition_usd": {
+   "v": 90900,
+   "stat": "2026-27 rate, tuition only; 500 program fee additional (tuition and fees 91,400); one-year cost of attendance 128,976",
+   "src": "Yale SOM MBA cost information page",
+   "year": 2026,
+   "url": "https://som.yale.edu/programs/mba/affording-your-mba/cost-information"
+  },
+  "salary_median_usd": {
+   "v": 175000,
+   "stat": "median base salary, Class of 2025",
+   "src": "Yale SOM MBA employment report",
+   "year": 2025,
+   "url": "https://som.yale.edu/programs/mba/career-paths/employment-report-2025-26"
+  },
+  "employment_rate_pct": {
+   "v": 82.1,
+   "stat": "received offer by three months post-graduation, Class of 2025",
+   "src": "Yale SOM MBA employment report",
+   "year": 2025,
+   "url": "https://som.yale.edu/programs/mba/career-paths/employment-report-2025-26"
+  }
+ },
+ "notes": "US News 2026 rank is a tie at No. 11 with UVA Darden. QS 2026 rank is joint 12th. Acceptance rate 27% is from US News Best Business Schools data (data year not stated in the snippet seen). Yale's Class of 2025 median salary rose from $160,000 to $175,000 per P&Q. All class profile figures replaced with the official Yale SOM Class of 2027 profile (P&Q sources superseded). Acceptance rate is not published on Yale SOM's official pages; the prior US News figure is not an official source and was not retained. Tuition page now posts the 2026-27 rate (90,900), superseding the 2025-26 figure of 87,800 sourced from Clear Admit.",
+ "website": "https://som.yale.edu/programs/mba"
+}

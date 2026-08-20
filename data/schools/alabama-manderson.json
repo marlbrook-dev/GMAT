@@ -1,0 +1,130 @@
+{
+ "slug": "alabama-manderson",
+ "name": "Manderson Graduate School of Business",
+ "university": "University of Alabama",
+ "city": "Tuscaloosa",
+ "state": "AL",
+ "region": "South",
+ "type": "Public",
+ "website": "https://manderson.culverhouse.ua.edu/",
+ "note": "Not verified in-session: the shared web search budget was exhausted before this school could be researched. All figures left null rather than guessed.",
+ "ranks": {
+  "usnews": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "ft": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "",
+  "class_size": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": 655,
+   "stat": "2023 average; edition not labeled on page (predates GMAT Focus reporting)",
+   "src": "Manderson MBA admissions page",
+   "year": 2023,
+   "url": "https://manderson.culverhouse.ua.edu/business-administration-mba/admissions/"
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": 3.73,
+   "stat": "2024 current average",
+   "src": "Manderson MBA admissions page",
+   "year": 2024,
+   "url": "https://manderson.culverhouse.ua.edu/business-administration-mba/admissions/"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "women_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "intl_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "tuition_usd": {
+   "v": 35924,
+   "stat": "out-of-state, per year, tuition only; in-state 11918; academic year not stated on the page, verified August 2026",
+   "src": "Manderson MBA tuition and financial aid page",
+   "year": 2026,
+   "url": "https://manderson.culverhouse.ua.edu/business-administration-mba/tuition-financial-aid/"
+  },
+  "salary_median_usd": {
+   "v": 77723,
+   "stat": "average salary, Class of 2023; median not published",
+   "src": "Manderson MBA career outcomes page",
+   "year": 2023,
+   "url": "https://manderson.culverhouse.ua.edu/business-administration-mba/career-outcomes/"
+  },
+  "employment_rate_pct": {
+   "v": 90.4,
+   "stat": "employment rate within 90 days of graduation, Class of 2023",
+   "src": "Manderson MBA career outcomes page",
+   "year": 2023,
+   "url": "https://manderson.culverhouse.ua.edu/business-administration-mba/career-outcomes/"
+  }
+ },
+ "notes": "School publishes only a combined GRE average (2023 average GRE is 311), no quant/verbal split. No GMAT Focus figure published. Career outcomes page covers 184 total students in the Class of 2023 across traditional and STEM/CREATE Path MBA combined, so an entering full-time class size is not published. Tuition page does not state which academic year its rates cover, hence year null. No official page found with acceptance rate, work experience, percent women, or percent international."
+}

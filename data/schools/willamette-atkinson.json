@@ -1,0 +1,71 @@
+{
+ "slug": "willamette-atkinson",
+ "name": "Atkinson Graduate School of Management",
+ "university": "Willamette University",
+ "city": "Salem",
+ "state": "Oregon",
+ "region": "West",
+ "type": "Private",
+ "ranks": {},
+ "profile": {
+  "class_year": "Entering Class of 2024",
+  "gpa": {
+   "v": 3.4,
+   "stat": "mean undergraduate GPA (median 3.5), full-time Early Career MBA entering class of 2024",
+   "src": "Atkinson MBA class profile",
+   "year": 2024,
+   "url": "https://willamette.edu/academics/mba/consumer-info/class-profile"
+  },
+  "class_size": {
+   "v": 39,
+   "stat": "number of students, full-time entering class of 2024 (Evening MBA for Professionals: 33)",
+   "src": "Atkinson MBA class profile",
+   "year": 2024,
+   "url": "https://willamette.edu/academics/mba/consumer-info/class-profile"
+  },
+  "work_exp_years": {
+   "v": 1.6,
+   "stat": "mean work experience 19 months (median 3 months, range 0 to 119 months), full-time entering class of 2024",
+   "src": "Atkinson MBA class profile",
+   "year": 2024,
+   "url": "https://willamette.edu/academics/mba/consumer-info/class-profile"
+  },
+  "women_pct": {
+   "v": 36,
+   "stat": "females, full-time entering class of 2024",
+   "src": "Atkinson MBA class profile",
+   "year": 2024,
+   "url": "https://willamette.edu/academics/mba/consumer-info/class-profile"
+  },
+  "intl_pct": {
+   "v": 18,
+   "stat": "international students, full-time entering class of 2024",
+   "src": "Atkinson MBA class profile",
+   "year": 2024,
+   "url": "https://willamette.edu/academics/mba/consumer-info/class-profile"
+  },
+  "tuition_usd": {
+   "v": 51640,
+   "stat": "2025-26 rate, MBA Early Career and Career Change, 25780 per semester across two semesters (separate 1-year MBA and MBA-STEM listed at 62949)",
+   "src": "Willamette tuition page",
+   "year": 2025,
+   "url": "https://willamette.edu/cost-aid/tuition.html"
+  },
+  "salary_median_usd": {
+   "v": 61250,
+   "stat": "median salary (average 58614, range 4200 to 90000), 2024 Early Career and Career Change MBA graduates, 33 of 40 seeking employment",
+   "src": "Atkinson MBA consumer information",
+   "year": 2024,
+   "url": "https://willamette.edu/academics/mba/consumer-info/"
+  },
+  "employment_rate_pct": {
+   "v": 67,
+   "stat": "accepted job offers within 3 months of graduation, 2024 Early Career and Career Change MBA graduates (47% by graduation)",
+   "src": "Atkinson MBA consumer information",
+   "year": 2024,
+   "url": "https://willamette.edu/academics/mba/consumer-info/"
+  }
+ },
+ "notes": "Class profile discloses no GMAT or GRE scores and no acceptance rate. Salem, OR campus confirmed on program page; Willamette is a private university. US News rank not included: usnews.com returned 503.",
+ "website": "https://willamette.edu/academics/mba/full-time/"
+}

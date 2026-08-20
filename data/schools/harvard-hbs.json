@@ -1,0 +1,130 @@
+{
+ "slug": "harvard-hbs",
+ "name": "Harvard Business School",
+ "university": "Harvard University",
+ "city": "Boston",
+ "state": "MA",
+ "region": "Northeast",
+ "type": "Private",
+ "ranks": {
+  "usnews": {
+   "rank": 4,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/mba-rankings"
+  },
+  "ft": {
+   "rank": 10,
+   "edition": "2026",
+   "url": "https://poetsandquants.com/2026/02/16/2026-financial-times-mba-ranking-mit-tops-list-for-the-first-time/"
+  },
+  "bloomberg": {
+   "rank": 4,
+   "edition": "2025-26",
+   "url": "https://www.bloomberg.com/business-schools/regions/us/"
+  },
+  "qs": {
+   "rank": 2,
+   "edition": "2026",
+   "url": "https://www.topuniversities.com/mba-rankings/global"
+  },
+  "pq": {
+   "rank": 2,
+   "edition": "2025-2026",
+   "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/"
+  }
+ },
+ "profile": {
+  "class_year": "Class of 2027",
+  "class_size": {
+   "v": 943,
+   "stat": "943 students in the MBA Class of 2027",
+   "src": "HBS MBA class profile",
+   "year": 2025,
+   "url": "https://www.hbs.edu/mba/admissions/class-profile"
+  },
+  "gmat_focus": {
+   "v": 685,
+   "stat": "median, page section GMAT Scores (current edition), Median Scores Total 685, Verbal 86, Quantitative 84",
+   "src": "HBS MBA class profile",
+   "year": 2025,
+   "url": "https://www.hbs.edu/mba/admissions/class-profile"
+  },
+  "gmat_classic": {
+   "v": 730,
+   "stat": "median, page section GMAT 10th Edition Scores, Median Scores Total 730, Verbal 42, Quantitative 49",
+   "src": "HBS MBA class profile",
+   "year": 2025,
+   "url": "https://www.hbs.edu/mba/admissions/class-profile"
+  },
+  "gre_quant": {
+   "v": 164,
+   "stat": "median",
+   "src": "HBS MBA class profile",
+   "year": 2025,
+   "url": "https://www.hbs.edu/mba/admissions/class-profile"
+  },
+  "gre_verbal": {
+   "v": 164,
+   "stat": "median",
+   "src": "HBS MBA class profile",
+   "year": 2025,
+   "url": "https://www.hbs.edu/mba/admissions/class-profile"
+  },
+  "gpa": {
+   "v": 3.76,
+   "stat": "average GPA, based on US schools that use a 4.0 grading system",
+   "src": "HBS MBA class profile",
+   "year": 2025,
+   "url": "https://www.hbs.edu/mba/admissions/class-profile"
+  },
+  "accept_rate_pct": {
+   "v": 11.3,
+   "src": "Poets&Quants (The M7 By The Numbers 2026, described as estimated)",
+   "year": 2026,
+   "url": "https://poetsandquants.com/2026/08/09/the-m7-by-the-numbers-2026-what-it-takes-to-get-admitted-to-h-s-w-plus/"
+  },
+  "work_exp_years": {
+   "v": 4.9,
+   "stat": "average years of work experience",
+   "src": "HBS MBA class profile",
+   "year": 2025,
+   "url": "https://www.hbs.edu/mba/admissions/class-profile"
+  },
+  "women_pct": {
+   "v": 44,
+   "stat": "44 percent women",
+   "src": "HBS MBA class profile",
+   "year": 2025,
+   "url": "https://www.hbs.edu/mba/admissions/class-profile"
+  },
+  "intl_pct": {
+   "v": 37,
+   "stat": "37 percent international",
+   "src": "HBS MBA class profile",
+   "year": 2025,
+   "url": "https://www.hbs.edu/mba/admissions/class-profile"
+  },
+  "tuition_usd": {
+   "v": 84760,
+   "stat": "2026-27 rate, tuition only; itemized fees excluded (HUHS student health fee 1944, student health insurance plan 4954, course and program materials listed separately on the page)",
+   "src": "HBS MBA annual cost of attendance",
+   "year": 2026,
+   "url": "https://www.hbs.edu/mba/financial-aid/tuition-assistance/cost-of-attendance"
+  },
+  "salary_median_usd": {
+   "v": 184500,
+   "src": "Poets&Quants (M7 By The Numbers 2026, Class of 2025 median base salary)",
+   "year": 2025,
+   "url": "https://poetsandquants.com/2026/08/11/the-m7-by-the-numbers-2026-mba-hiring-rebounds-pay-holds-strong/"
+  },
+  "employment_rate_pct": {
+   "v": 90,
+   "stat": "ninety percent of students seeking employment had received an offer three months after graduation, Class of 2025",
+   "src": "HBS MBA blog, Class of 2025 Employment Report",
+   "year": 2025,
+   "url": "https://www.hbs.edu/mba/blog/class-of-2025-employment-report"
+  }
+ },
+ "notes": "Anchor check passed: median GMAT Focus 685, median Classic 730, median GRE 164 Quant and 164 Verbal confirmed for Class of 2027. US News 2026 rank is a tie at No. 4 with Northwestern Kellogg. GPA and work experience were not seen in authoritative snippets and are nulled. Acceptance rate is P&Q's estimate for the 2025-26 cycle; US News 2026 separately reported 11.2%. HBS does not publish an acceptance rate on its class profile; the existing figure in the library is a P and Q estimate. Median base salary: HBS publishes it only in the recruiting employment-data section, which is JavaScript rendered and sits behind an AWS WAF challenge; both WebFetch and curl returned empty shells or challenge pages, so the official salary figure could not be read this session and the existing P and Q sourced value was left untouched. The employment rate definition is offers received, not accepted; the blog gives no accepted-offer percentage. Tuition replaces the prior fiscal 2025 annual report figure with the official 2026-27 cost of attendance rate.",
+ "website": "https://www.hbs.edu/mba"
+}

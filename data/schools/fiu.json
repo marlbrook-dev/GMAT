@@ -1,0 +1,13 @@
+{
+ "slug": "fiu",
+ "name": "FIU College of Business",
+ "university": "Florida International University",
+ "city": "Miami",
+ "state": "Florida",
+ "region": "South",
+ "type": "Public",
+ "ranks": {},
+ "profile": {},
+ "notes": "The International MBA class profile page (https://business.fiu.edu/academics/graduate/international-mba/class-profile/) publishes student spotlights only, with no statistics. The FAQ and tuition pages state the program is full-time over 12 months with total cost of approximately 21139 USD for Florida residents and 47000 USD for non-residents and international students (https://business.fiu.edu/academics/graduate/international-mba/tuition/index.html); figures are labeled approximate and are program totals, not annual tuition, so tuition_usd left null. No GMAT, GPA, class size, demographics, salary, or employment figures are published on official pages reached this session. FIU News reports a no. 5 US News 2026 rank for the international MBA, but that is a specialty category rank, not the Best Business Schools full-time MBA rank, so _usnews omitted.",
+ "website": "https://business.fiu.edu/academics/graduate/international-mba/"
+}

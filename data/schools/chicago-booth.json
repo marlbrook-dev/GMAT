@@ -1,0 +1,131 @@
+{
+ "slug": "chicago-booth",
+ "name": "The University of Chicago Booth School of Business",
+ "university": "University of Chicago",
+ "city": "Chicago",
+ "state": "IL",
+ "region": "Midwest",
+ "type": "Private",
+ "ranks": {
+  "usnews": {
+   "rank": 3,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/mba-rankings"
+  },
+  "ft": {
+   "rank": 20,
+   "edition": "2026",
+   "url": "https://poetsandquants.com/2026/02/16/2026-financial-times-mba-ranking-mit-tops-list-for-the-first-time/"
+  },
+  "bloomberg": {
+   "rank": 7,
+   "edition": "2025-26",
+   "url": "https://www.bloomberg.com/business-schools/regions/us/"
+  },
+  "qs": {
+   "rank": 15,
+   "edition": "2026",
+   "url": "https://www.topuniversities.com/mba-rankings/global"
+  },
+  "pq": {
+   "rank": 12,
+   "edition": "2025-2026",
+   "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/"
+  }
+ },
+ "profile": {
+  "class_year": "Class of 2027",
+  "class_size": {
+   "v": 635,
+   "stat": "Full-Time MBA Students",
+   "src": "Chicago Booth full-time MBA class profile",
+   "year": 2025,
+   "url": "https://www.chicagobooth.edu/mba/full-time/admissions/class-profile"
+  },
+  "gmat_focus": {
+   "v": 670,
+   "stat": "average; median 675; mid-80 percent 615-725; 39 percent of class submitted GMAT Focus",
+   "src": "Chicago Booth full-time MBA class profile",
+   "year": 2025,
+   "url": "https://www.chicagobooth.edu/mba/full-time/admissions/class-profile"
+  },
+  "gmat_classic": {
+   "v": 736,
+   "stat": "average; median 740; mid-80 percent 690-770; 14 percent of class submitted GMAT (200-800 edition)",
+   "src": "Chicago Booth full-time MBA class profile",
+   "year": 2025,
+   "url": "https://www.chicagobooth.edu/mba/full-time/admissions/class-profile"
+  },
+  "gre_quant": {
+   "v": 163,
+   "stat": "average; mid-80 percent 156-169; 42 percent of class submitted GRE",
+   "src": "Chicago Booth full-time MBA class profile",
+   "year": 2025,
+   "url": "https://www.chicagobooth.edu/mba/full-time/admissions/class-profile"
+  },
+  "gre_verbal": {
+   "v": 161,
+   "stat": "average; mid-80 percent 155-167",
+   "src": "Chicago Booth full-time MBA class profile",
+   "year": 2025,
+   "url": "https://www.chicagobooth.edu/mba/full-time/admissions/class-profile"
+  },
+  "gpa": {
+   "v": 3.6,
+   "stat": "average GPA, 4.0 scale, domestic applicants; range 2.5-4",
+   "src": "Chicago Booth full-time MBA class profile",
+   "year": 2025,
+   "url": "https://www.chicagobooth.edu/mba/full-time/admissions/class-profile"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": 5,
+   "stat": "average years work experience",
+   "src": "Chicago Booth full-time MBA class profile",
+   "year": 2025,
+   "url": "https://www.chicagobooth.edu/mba/full-time/admissions/class-profile"
+  },
+  "women_pct": {
+   "v": 41,
+   "stat": "women",
+   "src": "Chicago Booth full-time MBA class profile",
+   "year": 2025,
+   "url": "https://www.chicagobooth.edu/mba/full-time/admissions/class-profile"
+  },
+  "intl_pct": {
+   "v": 37,
+   "stat": "international",
+   "src": "Chicago Booth full-time MBA class profile",
+   "year": 2025,
+   "url": "https://www.chicagobooth.edu/mba/full-time/admissions/class-profile"
+  },
+  "tuition_usd": {
+   "v": 87354,
+   "note": "per year; 2025-26 tuition for three quarters (nine months) for the MBA Class of 2027 per the Booth cost page; student services fee 1,509 and first-year administrative service fee 3,100 are additional",
+   "src": "Chicago Booth Full-Time MBA Cost page / University of Chicago Bursar 2025-26",
+   "year": 2025,
+   "url": "https://www.chicagobooth.edu/mba/full-time/admissions/cost"
+  },
+  "salary_median_usd": {
+   "v": 175000,
+   "stat": "median base salary, all reporting full-time hires, Class of 2025; compensation self-reported by 90 percent of students reporting accepted offers",
+   "src": "Chicago Booth 2024-2025 Employment Statistics, Full-Time (official Excel)",
+   "year": 2025,
+   "url": "https://www.chicagobooth.edu/boothsitecore/docs/2024-2025_Employment_Statistics_Full-Time.xls"
+  },
+  "employment_rate_pct": {
+   "v": 87.8,
+   "stat": "accepted job offers by three months post graduation, percent of graduates seeking employment, Class of 2025 (received offers: 89.1 percent)",
+   "src": "Chicago Booth 2024-2025 Employment Statistics, Full-Time (official Excel)",
+   "year": 2025,
+   "url": "https://www.chicagobooth.edu/boothsitecore/docs/2024-2025_Employment_Statistics_Full-Time.xls"
+  }
+ },
+ "notes": "The 736 average is labeled GMAT (10th edition) in P&Q's Class of 2027 coverage (14% of the class submitted it); 670 is the GMAT Focus average (39% submitted). Acceptance rate and work experience were not seen in authoritative snippets and are nulled. Acceptance rate is not published on the class profile page. GMAT and GRE figures are from the Class of 2027 visual chart; the page also carries a screen-reader-only summary table with different values (73 percent GMAT average 729, median 730; GRE Q 164, V 163) that appears to be an outdated accessibility table inconsistent with the labeled Class of 2027 chart; the chart values are reported here. Test score percentages do not total 100 due to alternate testing requirements for UChicago-affiliated and joint degree applicants. Tuition already sourced to chicagobooth.edu in current data and was not re-verified this session.",
+ "website": "https://www.chicagobooth.edu/mba/full-time"
+}

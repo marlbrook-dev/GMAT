@@ -1,0 +1,132 @@
+{
+ "slug": "nyu-stern",
+ "name": "NYU Stern School of Business",
+ "university": "New York University",
+ "city": "New York",
+ "state": "NY",
+ "region": "Northeast",
+ "type": "Private",
+ "ranks": {
+  "usnews": {
+   "rank": 7,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/mba-rankings"
+  },
+  "ft": {
+   "rank": 23,
+   "edition": "2026",
+   "url": "https://poetsandquants.com/2026/02/16/2026-financial-times-mba-ranking-mit-tops-list-for-the-first-time/"
+  },
+  "bloomberg": {
+   "rank": 12,
+   "edition": "2025-26",
+   "url": "https://www.bloomberg.com/business-schools/regions/us/"
+  },
+  "qs": {
+   "rank": 17,
+   "edition": "2026",
+   "url": "https://www.topuniversities.com/mba-rankings/global"
+  },
+  "pq": {
+   "rank": 6,
+   "edition": "2025-2026",
+   "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/"
+  }
+ },
+ "profile": {
+  "class_year": "Class of 2027",
+  "class_size": {
+   "v": 336,
+   "stat": "enrolled",
+   "src": "NYU Stern full-time MBA class profile",
+   "year": 2025,
+   "url": "https://www.stern.nyu.edu/programs-admissions/full-time-mba/community/class-profile"
+  },
+  "gmat_focus": {
+   "v": 682,
+   "stat": "average (labeled GMAT Focus Edition); 80% range 645-725",
+   "src": "NYU Stern full-time MBA class profile",
+   "year": 2025,
+   "url": "https://www.stern.nyu.edu/programs-admissions/full-time-mba/community/class-profile"
+  },
+  "gmat_classic": {
+   "v": 737,
+   "stat": "average (labeled classic GMAT); 80% range 690-760",
+   "src": "NYU Stern full-time MBA class profile",
+   "year": 2025,
+   "url": "https://www.stern.nyu.edu/programs-admissions/full-time-mba/community/class-profile"
+  },
+  "gre_quant": {
+   "v": 164,
+   "stat": "average",
+   "src": "NYU Stern full-time MBA class profile",
+   "year": 2025,
+   "url": "https://www.stern.nyu.edu/programs-admissions/full-time-mba/community/class-profile"
+  },
+  "gre_verbal": {
+   "v": 163,
+   "stat": "average",
+   "src": "NYU Stern full-time MBA class profile",
+   "year": 2025,
+   "url": "https://www.stern.nyu.edu/programs-admissions/full-time-mba/community/class-profile"
+  },
+  "gpa": {
+   "v": 3.64,
+   "stat": "average; 80% range 3.36-3.89",
+   "src": "NYU Stern full-time MBA class profile",
+   "year": 2025,
+   "url": "https://www.stern.nyu.edu/programs-admissions/full-time-mba/community/class-profile"
+  },
+  "accept_rate_pct": {
+   "v": 24,
+   "stat": "admission rate as stated on profile (4,933 applications)",
+   "src": "NYU Stern full-time MBA class profile",
+   "year": 2025,
+   "url": "https://www.stern.nyu.edu/programs-admissions/full-time-mba/community/class-profile"
+  },
+  "work_exp_years": {
+   "v": 5.1,
+   "stat": "average years (98% with work experience, range 0-14)",
+   "src": "NYU Stern full-time MBA class profile",
+   "year": 2025,
+   "url": "https://www.stern.nyu.edu/programs-admissions/full-time-mba/community/class-profile"
+  },
+  "women_pct": {
+   "v": 45,
+   "stat": "percent of class",
+   "src": "NYU Stern full-time MBA class profile",
+   "year": 2025,
+   "url": "https://www.stern.nyu.edu/programs-admissions/full-time-mba/community/class-profile"
+  },
+  "intl_pct": {
+   "v": 43,
+   "stat": "international students, 43 countries",
+   "src": "NYU Stern full-time MBA class profile",
+   "year": 2025,
+   "url": "https://www.stern.nyu.edu/programs-admissions/full-time-mba/community/class-profile"
+  },
+  "tuition_usd": {
+   "v": 92658,
+   "stat": "2026-27 rate; tuition line item only, orientation fee (2,040) and living costs itemized separately; total cost of attendance 140,668",
+   "src": "NYU Stern MBA1 cost of attendance",
+   "year": 2026,
+   "url": "https://www.stern.nyu.edu/portal-partners/financial-aid/cost-attendance/full-time/mba1"
+  },
+  "salary_median_usd": {
+   "v": 175000,
+   "stat": "median salary, full-time MBA Class of 2025; average total compensation 202,705",
+   "src": "NYU Stern employment reports page",
+   "year": 2025,
+   "url": "https://www.stern.nyu.edu/business-partnerships/employment-reports"
+  },
+  "employment_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": ""
+  }
+ },
+ "notes": "US News 2026 rank is a tie at No. 7 with Columbia. The 682 average was described in coverage as the average GMAT under the current scoring system (GMAT Focus, 205-805 scale); 737 is labeled GMAT (10th edition), a school record. Employment rate (offers within 3 months) is only in the full 2-Year Employment Report PDF, hosted on Google Drive; the Drive viewer would not serve the PDF content so no figure could be read. Official summary page publishes median salary but not an offer or acceptance rate.",
+ "website": "https://www.stern.nyu.edu/programs-admissions/full-time-mba"
+}

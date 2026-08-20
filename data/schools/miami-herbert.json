@@ -1,0 +1,131 @@
+{
+ "slug": "miami-herbert",
+ "name": "Miami Herbert Business School",
+ "university": "University of Miami",
+ "city": "Coral Gables",
+ "state": "FL",
+ "region": "South",
+ "type": "Private",
+ "website": "https://www.herbert.miami.edu/graduate/find-and-compare-programs/full-time-mba/index.html",
+ "ranks": {
+  "usnews": {
+   "rank": 39,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/university-of-miami-01051"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "Fall 2025 entering cohort",
+  "class_size": {
+   "v": 38,
+   "stat": "grew from 31 students last year to 38 this fall",
+   "src": "University of Miami news, MBA students continue Miami Herbert upward momentum",
+   "year": 2025,
+   "url": "https://news.miami.edu/miamiherbert/stories/2025/10/mba-students-continue-miami-herberts-upward-momentum.html"
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": 650,
+   "stat": "median",
+   "src": "University of Miami news, Fall 2025 cohort (edition not labeled; recorded as reported)",
+   "year": 2025,
+   "url": "https://news.miami.edu/miamiherbert/stories/2025/10/mba-students-continue-miami-herberts-upward-momentum.html"
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "Only combined GRE reported (rose from 318 to 320)",
+   "year": 2025,
+   "url": "https://news.miami.edu/miamiherbert/stories/2025/10/mba-students-continue-miami-herberts-upward-momentum.html"
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": 3.54,
+   "stat": "average undergraduate GPA, highest in the last decade",
+   "src": "University of Miami news, Fall 2025 cohort",
+   "year": 2025,
+   "url": "https://news.miami.edu/miamiherbert/stories/2025/10/mba-students-continue-miami-herberts-upward-momentum.html"
+  },
+  "accept_rate_pct": {
+   "v": 38,
+   "stat": "acceptance rate of 38 percent, the lowest in the past 10 years",
+   "src": "University of Miami news, Fall 2025 cohort",
+   "year": 2025,
+   "url": "https://news.miami.edu/miamiherbert/stories/2025/10/mba-students-continue-miami-herberts-upward-momentum.html"
+  },
+  "work_exp_years": {
+   "v": 4,
+   "stat": "average; article states students have more than four years in the workforce",
+   "src": "University of Miami news, Fall 2025 cohort",
+   "year": 2025,
+   "url": "https://news.miami.edu/miamiherbert/stories/2025/10/mba-students-continue-miami-herberts-upward-momentum.html"
+  },
+  "women_pct": {
+   "v": 40,
+   "src": "University of Miami news, Fall 2025 cohort",
+   "year": 2025,
+   "url": "https://news.miami.edu/miamiherbert/stories/2025/10/mba-students-continue-miami-herberts-upward-momentum.html"
+  },
+  "intl_pct": {
+   "v": 32,
+   "stat": "non-US citizens; article states 68 percent of the cohort are US citizens",
+   "src": "University of Miami news, Fall 2025 cohort",
+   "year": 2025,
+   "url": "https://news.miami.edu/miamiherbert/stories/2025/10/mba-students-continue-miami-herberts-upward-momentum.html"
+  },
+  "tuition_usd": {
+   "v": null,
+   "note": "per year",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "salary_median_usd": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "employment_rate_pct": {
+   "v": 85,
+   "stat": "85 percent of those seeking employment accepted full-time job offers within three months of graduation (2025)",
+   "src": "Miami Herbert full-time MBA program page",
+   "year": 2025,
+   "url": "https://www.mbs.miami.edu/graduate/find-and-compare-programs/full-time-mba/index.html"
+  }
+ },
+ "notes": "The cited news article was re-fetched and quoted verbatim: it contains NO GMAT figure and NO percent-women figure, so the prior gmat_classic 650 median and women_pct 40 attributed to it are unverifiable and removed. GRE is reported combined only (rose from 318 to 320), so quant/verbal stay null. Tuition is per credit: 2337 USD per credit for AY 2026-27, 56 credit program, total estimated program tuition 133817 USD plus 2913 mandatory fees, per official cost page (https://www.mbs.miami.edu/graduate/find-and-compare-programs/full-time-mba/cost-of-attendance.html, fetched this session); no annual tuition figure is published, so tuition_usd stays null. No official salary figure found. herbert.miami.edu now redirects to mbs.miami.edu."
+}

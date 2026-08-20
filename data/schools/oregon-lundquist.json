@@ -1,0 +1,21 @@
+{
+ "slug": "oregon-lundquist",
+ "name": "Lundquist College of Business",
+ "university": "University of Oregon",
+ "city": "Eugene",
+ "state": "Oregon",
+ "region": "West",
+ "type": "Public",
+ "ranks": {},
+ "profile": {
+  "tuition_usd": {
+   "v": 34668,
+   "stat": "estimated 2026-27 annual tuition, Oregon resident, excluding fees (non-resident 46872; UO graduate student fees 2835 per year itemized separately)",
+   "src": "Oregon MBA tuition page",
+   "year": 2026,
+   "url": "https://business.uoregon.edu/programs/mba/apply/tuition"
+  }
+ },
+ "notes": "Lundquist does not publish an aggregate MBA class profile: the class_profile_url redirects to a 2023-24 flipbook of individual student bios with no statistics, and the admissions pages state only a 3.0 GPA and 24 months work experience expectation. The college career outcomes dashboard (mohr.uoregon.edu/outcomes) pools undergrad and graduate programs and reports no MBA-specific employment rate or salary. Eugene campus confirmed on the program page. US News rank not included: usnews.com returned 503.",
+ "website": "https://business.uoregon.edu/programs/mba"
+}

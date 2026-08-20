@@ -1,0 +1,149 @@
+{
+ "slug": "colorado-leeds",
+ "name": "Leeds School of Business",
+ "university": "University of Colorado Boulder",
+ "city": "Boulder",
+ "state": "CO",
+ "region": "West",
+ "type": "Public",
+ "website": "https://www.colorado.edu/business/mba-all-programs-apply",
+ "ranks": {
+  "usnews": {
+   "rank": 77,
+   "edition": "2026",
+   "url": "https://www.colorado.edu/business/news/2026/04/07/US-News-2026-MBA-rankings"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [
+  {
+   "name": "Real Estate (top 10-25 percent, U.S. News graduate specialty rankings)",
+   "src": "U.S. News via Leeds news release",
+   "year": 2026,
+   "url": "https://www.colorado.edu/business/news/2026/04/07/US-News-2026-MBA-rankings"
+  },
+  {
+   "name": "Supply Chain (top 10-25 percent, U.S. News graduate specialty rankings)",
+   "src": "U.S. News via Leeds news release",
+   "year": 2026,
+   "url": "https://www.colorado.edu/business/news/2026/04/07/US-News-2026-MBA-rankings"
+  },
+  {
+   "name": "Business Analytics (top 10-25 percent, U.S. News graduate specialty rankings)",
+   "src": "U.S. News via Leeds news release",
+   "year": 2026,
+   "url": "https://www.colorado.edu/business/news/2026/04/07/US-News-2026-MBA-rankings"
+  }
+ ],
+ "profile": {
+  "class_year": "Class of 2028",
+  "class_size": {
+   "v": 53,
+   "stat": "entering class size",
+   "src": "Leeds full-time MBA class profile",
+   "year": 2026,
+   "url": "https://www.colorado.edu/business/mba/mba-program-extras/class-profile"
+  },
+  "gmat_focus": {
+   "v": 541,
+   "stat": "average, labeled Average GMAT (Focus Ed.)",
+   "src": "Leeds full-time MBA class profile",
+   "year": 2026,
+   "url": "https://www.colorado.edu/business/mba/mba-program-extras/class-profile"
+  },
+  "gmat_classic": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": 3.33,
+   "stat": "average undergraduate GPA",
+   "src": "Leeds full-time MBA class profile",
+   "year": 2026,
+   "url": "https://www.colorado.edu/business/mba/mba-program-extras/class-profile"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": 5,
+   "stat": "average years of work experience; range 0-16",
+   "src": "Leeds full-time MBA class profile",
+   "year": 2026,
+   "url": "https://www.colorado.edu/business/mba/mba-program-extras/class-profile"
+  },
+  "women_pct": {
+   "v": 32,
+   "stat": "women",
+   "src": "Leeds full-time MBA class profile",
+   "year": 2026,
+   "url": "https://www.colorado.edu/business/mba/mba-program-extras/class-profile"
+  },
+  "intl_pct": {
+   "v": 11,
+   "stat": "international students",
+   "src": "Leeds full-time MBA class profile",
+   "year": 2026,
+   "url": "https://www.colorado.edu/business/mba/mba-program-extras/class-profile"
+  },
+  "tuition_usd": {
+   "v": 56251,
+   "stat": "2026-27 rate; per year; nonresident Year 1 tuition, 3 semesters and 37 credits, 2026-27 graduate professional business program rates; resident Year 1 is 42,455; required student fees of 2,112 itemized separately; Year 2 (18 credits) is 20,952 assuming residency established",
+   "src": "Leeds full-time MBA estimated costs page",
+   "year": 2026,
+   "url": "https://www.colorado.edu/business/mba/financing/financing-your-full-time-mba"
+  },
+  "salary_median_usd": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "employment_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  }
+ },
+ "notes": "GRE is published only as a combined Average GRE 310, not split by section, so gre_quant and gre_verbal are null. No classic GMAT figure is published. Salary: the career advising page (https://www.colorado.edu/business/mba/full-time-mba-program/why-program/career-advising) publishes only averages for the Class of 2025 (98,918 all students, 104,472 with permanent work authorization), no median, and no three-month placement rate, so salary_median_usd and employment_rate_pct are null. Acceptance rate not published."
+}

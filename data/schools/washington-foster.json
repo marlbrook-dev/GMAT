@@ -1,0 +1,132 @@
+{
+ "slug": "washington-foster",
+ "name": "University of Washington Foster School of Business",
+ "university": "University of Washington",
+ "city": "Seattle",
+ "state": "WA",
+ "region": "West",
+ "type": "Public",
+ "ranks": {
+  "usnews": {
+   "rank": 20,
+   "edition": "2026",
+   "url": "https://www.clearadmit.com/2026/04/u-s-news-2026-best-business-schools-stanford-claims-top-spot/"
+  },
+  "ft": {
+   "rank": 45,
+   "edition": "2026",
+   "url": "https://www.clearadmit.com/2026/02/the-financial-times-2026-global-mba-ranking/",
+   "note": "Fell 11 positions from 34th to 45th"
+  },
+  "bloomberg": {
+   "rank": 18,
+   "edition": "2025-26",
+   "url": "https://www.bloomberg.com/business-schools/washington-foster/",
+   "note": "Bloomberg page title states 18th"
+  },
+  "qs": {
+   "rank": 81,
+   "edition": "2026",
+   "url": "https://www.universityguru.com/university/michael-g.-foster-school-of-business,-university-of-washington---seattle-seattle",
+   "note": "Global Full-Time MBA position in the QS ranking published September 2025, via UniversityGuru aggregator citing QS"
+  },
+  "pq": {
+   "rank": 19,
+   "edition": "2025",
+   "url": "https://foster.uw.edu/about-foster-school/rankings/",
+   "note": "Foster rankings page lists No. 19 full-time MBA by Poets&Quants in 2025; which P&Q edition (2024-2025 vs 2025-2026) is not stated"
+  }
+ },
+ "profile": {
+  "class_year": "Class of 2027",
+  "class_size": {
+   "v": 102,
+   "stat": "class size",
+   "src": "Foster Full-Time MBA class profile",
+   "year": 2025,
+   "url": "https://foster.uw.edu/academics/degree-programs/full-time-mba/class-profile/"
+  },
+  "gmat_focus": {
+   "v": 655,
+   "stat": "median; middle 80 percent 615-695; Page labels it only Median GMAT with no edition; classified as Focus because the profile is Class of 2027 (entered fall 2025, after the classic exam retired) and 655 is a valid Focus-scale score (Focus totals end in 5; classic totals end in 0)",
+   "src": "Foster Full-Time MBA class profile",
+   "year": 2025,
+   "url": "https://foster.uw.edu/academics/degree-programs/full-time-mba/class-profile/"
+  },
+  "gmat_classic": {
+   "v": null
+  },
+  "gre_quant": {
+   "v": 158,
+   "stat": "median; middle 80 percent 154-168",
+   "src": "Foster Full-Time MBA class profile",
+   "year": 2025,
+   "url": "https://foster.uw.edu/academics/degree-programs/full-time-mba/class-profile/"
+  },
+  "gre_verbal": {
+   "v": 160,
+   "stat": "median; middle 80 percent 155-166",
+   "src": "Foster Full-Time MBA class profile",
+   "year": 2025,
+   "url": "https://foster.uw.edu/academics/degree-programs/full-time-mba/class-profile/"
+  },
+  "gpa": {
+   "v": 3.43,
+   "stat": "median undergraduate GPA (labeled average in the page's snapshot section and median in its academic metrics section, same value)",
+   "src": "Foster Full-Time MBA class profile",
+   "year": 2025,
+   "url": "https://foster.uw.edu/academics/degree-programs/full-time-mba/class-profile/"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "Secondary sources conflict (34 to 42 percent); no figure seen from a preferred source"
+  },
+  "work_exp_years": {
+   "v": 6,
+   "stat": "average years of work experience; middle 80 percent 3-15 years",
+   "src": "Foster Full-Time MBA class profile",
+   "year": 2025,
+   "url": "https://foster.uw.edu/academics/degree-programs/full-time-mba/class-profile/"
+  },
+  "women_pct": {
+   "v": 51,
+   "stat": "women",
+   "src": "Foster Full-Time MBA class profile",
+   "year": 2025,
+   "url": "https://foster.uw.edu/academics/degree-programs/full-time-mba/class-profile/"
+  },
+  "intl_pct": {
+   "v": 56,
+   "stat": "international students",
+   "src": "Foster Full-Time MBA class profile",
+   "year": 2025,
+   "url": "https://foster.uw.edu/academics/degree-programs/full-time-mba/class-profile/"
+  },
+  "tuition_usd": {
+   "v": 60180,
+   "stat": "2026-27 rate; annual tuition only, non-Washington-resident, 20,060 per quarter for the 3 quarters per academic year (6 quarters per 2-year program); resident 42,498 (14,166 per quarter); 403 per quarter fees excluded",
+   "src": "Foster Full-Time MBA tuition and fees page",
+   "year": 2026,
+   "url": "https://www.foster.washington.edu/academics/degree-programs/full-time-mba/tuition-and-fees"
+  },
+  "salary_median_usd": {
+   "v": 142800,
+   "stat": "median base salary (Class of 2025; 66 of 74 accepting new employment reported; mean 144,411)",
+   "src": "Foster 2026 Full-Time MBA Employment Report (official PDF)",
+   "year": 2026,
+   "url": "https://foster.uw.edu/wp-content/uploads/2026/04/2026-Full-Time-MBA-Employment-Report-4.2.26.pdf"
+  },
+  "employment_rate_pct": {
+   "v": 77.9,
+   "stat": "received a job offer within 3 months of graduation (Class of 2025; 74 of 95 seeking employment; report notes offer and acceptance data were equal for the period)",
+   "src": "Foster 2026 Full-Time MBA Employment Report (official PDF)",
+   "year": 2026,
+   "url": "https://foster.uw.edu/wp-content/uploads/2026/04/2026-Full-Time-MBA-Employment-Report-4.2.26.pdf"
+  }
+ },
+ "website": "https://foster.uw.edu/academics/degree-programs/full-time-mba/",
+ "notes": "All prior Clear Admit sourcing replaced with Foster's own pages. The official class profile shows median GMAT 655 only; no 10th edition (classic) figure is published, so the prior Clear Admit 720 classic median is dropped. Acceptance rate not published on official pages reached. Tuition annualized transparently from the page's per-quarter tuition and its 6-quarter program total (page presents quarterly rates and a 2-year total of 122,778 tuition and fees for nonresidents). The older 2024 employment report (Class of 2024: median base 145,000, 89.0 percent offers within 3 months) was also fetched but superseded by the 2026 report covering the Class of 2025."
+}

@@ -1,0 +1,50 @@
+{
+ "slug": "pepperdine-graziadio",
+ "name": "Graziadio Business School",
+ "university": "Pepperdine University",
+ "city": "Malibu",
+ "state": "CA",
+ "region": "West",
+ "type": "Private",
+ "ranks": {},
+ "profile": {
+  "class_year": "Fall 2024 entering class",
+  "gpa": {
+   "v": 3.16,
+   "stat": "median GPA",
+   "src": "Graziadio MBA class profile",
+   "year": 2024,
+   "url": "https://bschool.pepperdine.edu/admission/class-profile/"
+  },
+  "work_exp_years": {
+   "v": 4,
+   "stat": "average work experience, 4 years",
+   "src": "Graziadio MBA class profile",
+   "year": 2024,
+   "url": "https://bschool.pepperdine.edu/admission/class-profile/"
+  },
+  "women_pct": {
+   "v": 46,
+   "stat": "46% female",
+   "src": "Graziadio MBA class profile",
+   "year": 2024,
+   "url": "https://bschool.pepperdine.edu/admission/class-profile/"
+  },
+  "intl_pct": {
+   "v": 33,
+   "stat": "33% international",
+   "src": "Graziadio MBA class profile",
+   "year": 2024,
+   "url": "https://bschool.pepperdine.edu/admission/class-profile/"
+  },
+  "tuition_usd": {
+   "v": 96825,
+   "stat": "2026-27, 12-month full-time MBA total tuition, 46 units billed at 32275 per term x 3 terms; fees and living costs itemized separately",
+   "src": "Graziadio tuition and investment page",
+   "year": 2026,
+   "url": "https://bschool.pepperdine.edu/admission/tuition/"
+  }
+ },
+ "notes": "Class profile publishes no GMAT, GRE, class size, or acceptance rate. Career outcomes page cites only a 2024 GMAC Corporate Recruiters Survey median (120K), not program-specific outcomes, so it was not used. Class profile page also shows 77% domestic alongside 33% international, which does not sum to 100; figures quoted as printed. City and state confirmed from page footer (24255 Pacific Coast Highway, Malibu, CA 90263).",
+ "website": "https://bschool.pepperdine.edu/mba-programs/full-time-mba/"
+}

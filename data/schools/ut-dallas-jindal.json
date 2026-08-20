@@ -1,0 +1,62 @@
+{
+ "slug": "ut-dallas-jindal",
+ "name": "Naveen Jindal School of Management",
+ "university": "University of Texas at Dallas",
+ "city": "Richardson",
+ "state": "Texas",
+ "region": "South",
+ "type": "Public",
+ "ranks": {
+  "usnews": {
+   "rank": 23,
+   "edition": "2026",
+   "url": "https://mba.utdallas.edu/academics/full-time-mba/"
+  }
+ },
+ "profile": {
+  "gpa": {
+   "v": 3.6,
+   "stat": "average",
+   "src": "JSOM Full-Time MBA cohort page",
+   "year": 2026,
+   "url": "https://mba.utdallas.edu/academics/full-time-mba/"
+  },
+  "class_size": {
+   "v": 46,
+   "stat": "cohort class size",
+   "src": "JSOM Full-Time MBA cohort page",
+   "year": 2026,
+   "url": "https://mba.utdallas.edu/academics/full-time-mba/"
+  },
+  "work_exp_years": {
+   "v": 5,
+   "stat": "average",
+   "src": "JSOM Full-Time MBA cohort page",
+   "year": 2026,
+   "url": "https://mba.utdallas.edu/academics/full-time-mba/"
+  },
+  "women_pct": {
+   "v": 44,
+   "stat": "percent female",
+   "src": "JSOM Full-Time MBA cohort page",
+   "year": 2026,
+   "url": "https://mba.utdallas.edu/academics/full-time-mba/"
+  },
+  "intl_pct": {
+   "v": 37,
+   "stat": "percent international",
+   "src": "JSOM Full-Time MBA cohort page",
+   "year": 2026,
+   "url": "https://mba.utdallas.edu/academics/full-time-mba/"
+  },
+  "employment_rate_pct": {
+   "v": 90,
+   "stat": "placement rate within 3 months of graduation",
+   "src": "JSOM Full-Time MBA cohort page",
+   "year": 2026,
+   "url": "https://mba.utdallas.edu/academics/full-time-mba/"
+  }
+ },
+ "notes": "Cohort profile on the program page carries no class year label; year given is page publication year. GMAT and GRE averages and acceptance rate are not published on the program or admissions pages. Salary is published only as 140175 USD avg starting salary plus bonus secured by the 2024-2025 cohorts (not median base), so salary_median_usd left null. Tuition is published only as total program cost for 53 credits at 2025-26 rates: resident 36118 USD, nonresident 65607 USD, fees 5300 USD itemized separately (https://mba.utdallas.edu/tuition-value/); no annual figure. US News stat on the page reads: No. 23 Best Business School by U.S. News and World Report (2026).",
+ "website": "https://mba.utdallas.edu/academics/full-time-mba"
+}

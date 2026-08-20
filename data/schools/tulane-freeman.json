@@ -1,0 +1,125 @@
+{
+ "slug": "tulane-freeman",
+ "name": "A.B. Freeman School of Business",
+ "university": "Tulane University",
+ "city": "New Orleans",
+ "state": "LA",
+ "region": "South",
+ "type": "Private",
+ "website": "https://freeman.tulane.edu/graduate/full-time-mba",
+ "ranks": {
+  "usnews": {
+   "rank": 53,
+   "edition": "2026",
+   "url": "https://freemannews.tulane.edu/2026/04/07/freeman-makes-big-gains-in-latest-us-news-world-report-rankings"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "",
+  "class_size": {
+   "v": null
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": null,
+   "stat": "",
+   "src": "GMAT/GRE not required (required only for full tuition fellowship consideration); no class average visible in snippets",
+   "year": null,
+   "url": "https://freeman.tulane.edu/graduate/full-time-mba/admissions"
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "women_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "intl_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "tuition_usd": {
+   "v": 65637,
+   "stat": "Year One tuition, academic year not labeled; per year (Year One), at 1989 per credit hour; mandatory fees of 5914 itemized separately; Year Two tuition 51714; academic year not labeled on the page, which says rates are updated each spring for the upcoming academic year (fetched Aug 2026)",
+   "src": "Freeman Full-Time MBA tuition and aid page",
+   "year": 2026,
+   "url": "https://freeman.tulane.edu/graduate/full-time-mba/admissions/tuition-and-aid"
+  },
+  "salary_median_usd": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "employment_rate_pct": {
+   "v": 100,
+   "stat": "gained full-time employment within 4 months of graduation, 2025 graduating class",
+   "src": "Freeman Full-Time MBA page",
+   "year": 2025,
+   "url": "https://freeman.tulane.edu/graduate/full-time-mba"
+  }
+ },
+ "notes": "Freeman publishes no full-time MBA class profile: GMAT/GRE are not required and no class averages, GPA, demographics, or acceptance rate appear on official pages reached. The cohort-of-40 wording previously cited was not found on the current program page, so class_size is left unverified. Salary: program page shows only Average Starting Salary 109K+, a rounded average with no median; the detailed 2025 employment report is a Box-hosted PDF that would not render, so salary_median_usd stays null."
+}

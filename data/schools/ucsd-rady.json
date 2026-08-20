@@ -1,0 +1,125 @@
+{
+ "slug": "ucsd-rady",
+ "name": "Rady School of Management",
+ "university": "University of California San Diego",
+ "city": "San Diego",
+ "state": "CA",
+ "region": "West",
+ "type": "Public",
+ "website": "https://rady.ucsd.edu/programs/mba/index.html",
+ "ranks": {
+  "usnews": {
+   "rank": 63,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/university-of-california-san-diego-01608"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": 53,
+   "edition": "2023-24",
+   "url": "https://www.bloomberg.com/business-schools/2023/uc-at-san-diego-rady/"
+  },
+  "qs": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "Entering Fall 2025 Cohort",
+  "class_size": {
+   "v": 40,
+   "stat": "entering enrollment",
+   "src": "Rady Full-Time MBA Stats and Stories page",
+   "year": 2025,
+   "url": "https://rady.ucsd.edu/programs/mba/stats-stories.html"
+  },
+  "gmat_focus": {
+   "v": 645,
+   "stat": "median (page also lists GMAT mean 627; edition not labeled on page)",
+   "src": "Rady Full-Time MBA Stats and Stories page",
+   "year": 2025,
+   "url": "https://rady.ucsd.edu/programs/mba/stats-stories.html"
+  },
+  "gmat_classic": {
+   "v": null
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": 3.47,
+   "stat": "undergraduate GPA mean",
+   "src": "Rady Full-Time MBA Stats and Stories page",
+   "year": 2025,
+   "url": "https://rady.ucsd.edu/programs/mba/stats-stories.html"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": 4.3,
+   "stat": "average",
+   "src": "Rady Full-Time MBA Stats and Stories page",
+   "year": 2025,
+   "url": "https://rady.ucsd.edu/programs/mba/stats-stories.html"
+  },
+  "women_pct": {
+   "v": 52,
+   "src": "Rady Full-Time MBA Stats and Stories page",
+   "year": 2025,
+   "url": "https://rady.ucsd.edu/programs/mba/stats-stories.html"
+  },
+  "intl_pct": {
+   "v": 57,
+   "src": "Rady Full-Time MBA Stats and Stories page",
+   "year": 2025,
+   "url": "https://rady.ucsd.edu/programs/mba/stats-stories.html"
+  },
+  "tuition_usd": {
+   "v": 51687,
+   "stat": "2025-26 rate; Tuition 13,140 plus MBA Professional Degree Supplemental Tuition 38,547, California resident, excluding campus fees and insurance; nonresident supplemental tuition adds 12,245 for 63,932 tuition-only",
+   "src": "UC San Diego registration fees, Rady MBA state supported program",
+   "year": 2025,
+   "url": "https://students.ucsd.edu/finances/fees/registration/2025-26/rady.html"
+  },
+  "salary_median_usd": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "employment_rate_pct": {
+   "v": 72.0,
+   "stat": "accepted employment within 3 months of graduation, 2024 graduates (reflects 87.5 percent of graduating students reporting reliable outcome information)",
+   "src": "Rady Full-Time MBA career impact page",
+   "year": 2024,
+   "url": "https://rady.ucsd.edu/programs/mba/career.html"
+  }
+ },
+ "notes": "Stats and career pages render from JSON data files on rady.ucsd.edu (/_resources/data/stats/ftmba-stats.json and /_resources/data/career/ftmba-career.json), fetched directly this session. GMAT edition is not labeled; entering Fall 2025 (Class of 2027) and the 645 median is consistent with the Focus scale, so it is recorded as Focus per protocol; the 627 mean is noted in stat. GRE published only as percentile means (Quant 63rd, Verbal 78th) and total mean 327, no scaled quant/verbal subscores. No acceptance rate published. Salary published only as average (116,430 for 2024 graduates), no median. Prior US News and Poets and Quants figures replaced or dropped in favor of official pages. Rady's current official stats page publishes no GMAT figure; the prior undated third-party GMAT was dropped."
+}

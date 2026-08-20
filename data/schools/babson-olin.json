@@ -1,0 +1,139 @@
+{
+ "slug": "babson-olin",
+ "name": "F.W. Olin Graduate School of Business",
+ "university": "Babson College",
+ "city": "Wellesley",
+ "state": "MA",
+ "region": "Northeast",
+ "type": "Private",
+ "website": "https://www.babson.edu/graduate/academics/full-time-business-programs/mba/",
+ "ranks": {
+  "usnews": {
+   "rank": 74,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/babson-college-olin-01105"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [
+  {
+   "name": "Entrepreneurship (No. 1 US News MBA specialty for 32 consecutive years)",
+   "src": "U.S. News & World Report via Babson College",
+   "year": 2025,
+   "url": "https://entrepreneurship.babson.edu/babson-mba-top-usnwr/"
+  },
+  {
+   "name": "Entrepreneurship (No. 4 tie in 2026 US News specialty ranking)",
+   "src": "Poets and Quants",
+   "year": 2026,
+   "url": "https://poetsandquants.com/2026/04/13/how-u-s-news-ranks-business-schools-by-mba-specialization-in-2026/"
+  }
+ ],
+ "profile": {
+  "class_year": "",
+  "class_size": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": 618,
+   "stat": "avg",
+   "src": "Poets and Quants, Meet Babson College's MBA Class of 2020 (dated figure; program is now test optional)",
+   "year": 2018,
+   "url": "https://poetsandquants.com/2018/11/21/meet-babson-colleges-mba-class-of-2020/2/"
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": 3.22,
+   "stat": "avg",
+   "src": "Poets and Quants, Meet Babson College's MBA Class of 2020 (dated figure)",
+   "year": 2018,
+   "url": "https://poetsandquants.com/2018/11/21/meet-babson-colleges-mba-class-of-2020/2/"
+  },
+  "accept_rate_pct": {
+   "v": null
+  },
+  "work_exp_years": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "women_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "intl_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "tuition_usd": {
+   "v": 75848,
+   "stat": "2026-27 rate, first-year tuition of the Two-Year MBA",
+   "src": "Babson graduate catalog tuition and fees page",
+   "year": 2026,
+   "url": "https://graduatecatalog.babson.edu/tuition-and-fees-0"
+  },
+  "salary_median_usd": {
+   "v": 110000,
+   "stat": "median starting salary for graduates landing in the US, Class of 2025 (62 percent of class reporting)",
+   "src": "Babson Thought and Action, MBA Class of 2025 career outcomes",
+   "year": 2025,
+   "url": "https://entrepreneurship.babson.edu/career-outcomes-mba-class-2025/"
+  },
+  "employment_rate_pct": {
+   "v": 80,
+   "stat": "of those seeking employment, had a job within six months of graduation, Class of 2025 (88 percent of class reporting)",
+   "src": "Babson Thought and Action, MBA Class of 2025 career outcomes",
+   "year": 2025,
+   "url": "https://entrepreneurship.babson.edu/career-outcomes-mba-class-2025/"
+  }
+ },
+ "notes": "Babson does not publish a current full-time MBA class profile on babson.edu; searches found only dated Thought and Action class stories (Class of 2020-2021). The existing GMAT 618, GPA 3.22, and acceptance rate 64.3 are Poets and Quants figures with no official replacement available, so those fields are listed null for this pass. Employment and salary figures are from Babson's own Thought and Action publication (entrepreneurship.babson.edu) summarizing the school's outcomes dashboard; the babson.edu outcomes page itself renders its data via a dashboard that did not expose figures to fetch."
+}

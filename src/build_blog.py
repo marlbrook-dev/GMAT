@@ -17,6 +17,8 @@ Validation is strict and fails the build: standing content rules live here
 (design/guidelines/seo-content.md is the strategy source of truth).
 """
 import json, pathlib, re, sys, html
+sys.path.insert(0, str(pathlib.Path(__file__).parent))
+import partials
 
 SITE = "https://startfromnowhere.com"  # confirm owned domain; single place to change
 SRC = pathlib.Path(__file__).parent
@@ -149,21 +151,11 @@ def page(title, description, canonical, body, extra_head=""):
 <meta property="og:url" content="{canonical}"><meta name="twitter:card" content="summary">
 {FONTS}
 {FAVICON}
-{extra_head}<style>{HEAD_CSS}</style></head><body>
-<header class="site"><div class="wrap">
-<a class="wordmark" href="/">{LOGO}Start From Nowhere</a>
-<a class="roomtag" href="/blog/">The Study Room</a>
-<span style="flex:1"></span>
-<nav aria-label="Main" style="display:flex;gap:2px;margin-right:8px"><a href="/exams/" style="font-family:var(--display);font-weight:600;font-size:14px;color:var(--gray-700);text-decoration:none;padding:8px 12px;border-radius:8px">Exam Prep</a><a href="/schools/" style="font-family:var(--display);font-weight:600;font-size:14px;color:var(--gray-700);text-decoration:none;padding:8px 12px;border-radius:8px">Lists</a><a href="/community/" style="font-family:var(--display);font-weight:600;font-size:14px;color:var(--gray-700);text-decoration:none;padding:8px 12px;border-radius:8px">Community</a></nav>
-<a href="/app/" style="font-family:var(--display);font-weight:600;font-size:14px;color:var(--gray-700);text-decoration:none;padding:8px 12px">Sign In</a>
-<a class="btn" href="/app/#account">Create Account</a>
-</div></header>
+{extra_head}<style>{HEAD_CSS}
+{partials.CHROME_CSS}</style></head><body>
+{partials.header_html()}
 {body}
-<footer class="site"><div class="wrap">
-<div style="display:flex;align-items:center;gap:8px"><span class="wordmark" style="font-size:15px">Start From Nowhere</span></div>
-<nav aria-label="Footer"><a href="/">Home</a><a href="/blog/">Blog</a><a href="/terms.html">Terms</a><a href="/privacy.html">Privacy</a></nav>
-<span>© 2026 Start From Nowhere. GMAT is a trademark of GMAC, which does not endorse this product.</span>
-</div></footer>
+{partials.footer_html()}
 {BEACON}
 </body></html>"""
 

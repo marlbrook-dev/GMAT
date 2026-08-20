@@ -1,0 +1,121 @@
+{
+ "slug": "minnesota-carlson",
+ "name": "Carlson School of Management",
+ "university": "University of Minnesota Twin Cities",
+ "city": "Minneapolis",
+ "state": "MN",
+ "region": "Midwest",
+ "type": "Public",
+ "website": "https://carlsonschool.umn.edu/graduate/mba/full-time",
+ "ranks": {
+  "usnews": {
+   "rank": 32,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/university-of-minnesota-twin-cities-01126"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "",
+  "class_size": {
+   "v": 75,
+   "stat": "average cohort, about 75 students; undated official page, verified August 2026",
+   "src": "Carlson full-time MBA class profile",
+   "year": 2026,
+   "url": "https://carlsonschool.umn.edu/graduate/mba/full-time/admissions/class-profile"
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": null
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": 3.5,
+   "stat": "median; undated official page, verified August 2026",
+   "src": "Carlson full-time MBA class profile",
+   "year": 2026,
+   "url": "https://carlsonschool.umn.edu/graduate/mba/full-time/admissions/class-profile"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": null
+  },
+  "women_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "intl_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "tuition_usd": {
+   "v": 64460,
+   "stat": "2026-27 rate, annual, non-resident and international; resident (MN, ND, WI, Manitoba) 49100; fees itemized separately (6950.40, 7602.40 international)",
+   "src": "Carlson full-time MBA tuition and aid page",
+   "year": 2026,
+   "url": "https://carlsonschool.umn.edu/graduate/mba/full-time/tuition-aid"
+  },
+  "salary_median_usd": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "employment_rate_pct": {
+   "v": 83,
+   "stat": "received employment offers within three months after graduation; 73 pct accepted offers within three months (Class of 2025)",
+   "src": "Carlson FTMBA employment report 2025",
+   "year": 2025,
+   "url": "https://carlsonschool.umn.edu/sites/carlsonschool.umn.edu/files/2025-10/carlson-ftmba-employment-report-2025.pdf"
+  }
+ },
+ "notes": "Class profile page (fetched this session) is undated and does not state a class year; it now lists Average GMAT 664.4 with no edition label, so per protocol neither gmat_focus nor gmat_classic is set (the prior 685 figure no longer appears on the page). GRE is published as Average Total GRE 317.7 only, no quant/verbal split. Work experience is printed as 'Average Years of Work Experience 3.4-7', a range with no single average, so left null. Women, international, and acceptance rate are not published on the profile page. Salary: employment report publishes mean base salary only, 135058 mean for Class of 2025 (range 60000 to 192000); no median published, so salary_median_usd left null. Carlson lists average GMAT 664.4 with no edition label or class year; not recorded per the edition-ambiguity rule."
+}

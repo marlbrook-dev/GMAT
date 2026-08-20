@@ -1,0 +1,57 @@
+{
+ "slug": "usd-knauss",
+ "name": "Knauss School of Business",
+ "university": "University of San Diego",
+ "city": "San Diego",
+ "state": "CA",
+ "region": "West",
+ "type": "Private",
+ "ranks": {},
+ "profile": {
+  "class_year": "2025-26 incoming class",
+  "gpa": {
+   "v": 3.31,
+   "stat": "average GPA",
+   "src": "USD Knauss full-time MBA page",
+   "year": 2025,
+   "url": "https://www.sandiego.edu/business/academics/graduate/mba/full-time-mba.php"
+  },
+  "class_size": {
+   "v": 63,
+   "stat": "incoming class size",
+   "src": "USD Knauss full-time MBA page",
+   "year": 2025,
+   "url": "https://www.sandiego.edu/business/academics/graduate/mba/full-time-mba.php"
+  },
+  "work_exp_years": {
+   "v": 4.3,
+   "stat": "average work experience, 4.3 years",
+   "src": "USD Knauss full-time MBA page",
+   "year": 2025,
+   "url": "https://www.sandiego.edu/business/academics/graduate/mba/full-time-mba.php"
+  },
+  "women_pct": {
+   "v": 48,
+   "stat": "48% female",
+   "src": "USD Knauss full-time MBA page",
+   "year": 2025,
+   "url": "https://www.sandiego.edu/business/academics/graduate/mba/full-time-mba.php"
+  },
+  "salary_median_usd": {
+   "v": 94283,
+   "stat": "average starting salary, average over three years (median not published)",
+   "src": "USD Knauss full-time MBA page",
+   "year": 2025,
+   "url": "https://www.sandiego.edu/business/academics/graduate/mba/full-time-mba.php"
+  },
+  "employment_rate_pct": {
+   "v": 63,
+   "stat": "secured employment within 3 months of graduation, average over three years",
+   "src": "USD Knauss full-time MBA page",
+   "year": 2025,
+   "url": "https://www.sandiego.edu/business/academics/graduate/mba/full-time-mba.php"
+  }
+ },
+ "notes": "No GMAT, GRE, acceptance rate, or international percent published on the program page. Tuition is published only per unit: 1790 per unit for master's students, 2026-27, on the graduate catalog tuition and fees page (https://graduate.catalog.sandiego.edu/academics/tuitionandfees); no official annual or total full-time MBA tuition is posted, so tuition_usd is left null rather than derived. City and state confirmed via the university's own pages; USD is a private university.",
+ "website": "https://www.sandiego.edu/business/academics/graduate/mba/full-time-mba.php"
+}

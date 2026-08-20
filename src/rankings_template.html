@@ -20,21 +20,24 @@
 h1,h2,h3{font-family:var(--serif);color:var(--navy-900);letter-spacing:-.01em;line-height:1.15;margin:0}
 a{color:var(--navy-800)}
 .wrap{max-width:1200px;margin:0 auto;padding:0 24px}
-header{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--gray-200)}
-.nav{height:60px;display:flex;align-items:center;gap:20px}
-.wordmark{display:flex;align-items:center;gap:9px;font-family:var(--serif);font-weight:700;font-size:19px;color:var(--navy-900);text-decoration:none}
-.nav .links{display:flex;gap:2px;flex:1}
-.nav .links a{font-family:var(--display);font-weight:600;font-size:14px;color:var(--gray-700);text-decoration:none;padding:8px 12px;border-radius:8px}
-.nav .links a:hover{background:var(--gray-50);color:var(--navy-900)}
+{{CHROME_CSS}}
 .pill{font-family:var(--display);font-weight:700;font-size:13px;background:var(--navy-800);color:#fff;border:none;border-radius:999px;padding:8px 16px;cursor:pointer}
 .pill:hover{background:var(--navy-900)}
-.hero{background:var(--navy-50);padding:40px 0 28px;border-bottom:1px solid var(--gray-200)}
-.hero h1{font-size:34px;margin-bottom:8px}
-.hero p{max-width:76ch;margin:0;color:var(--gray-500)}
-.hero .meta{margin-top:10px;font-size:13px;color:var(--gray-500)}
+.hero{background:#fff;padding:24px 0 18px;border-bottom:1px solid var(--gray-200)}
+.hero .eyebrow{font-family:var(--display);font-weight:700;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-500);margin:0 0 5px}
+.hero h1{font-size:27px;margin-bottom:7px}
+.hero p{max-width:76ch;margin:0;color:var(--gray-500);font-size:14px}
+.hero .meta{margin-top:8px;font-size:12.5px;color:var(--gray-500)}
 .layout{display:grid;grid-template-columns:230px 1fr;gap:26px;align-items:start;padding:20px 0}
 @media(max-width:920px){.layout{grid-template-columns:1fr}}
 aside.filters{position:sticky;top:74px}
+.ckcell{width:34px;text-align:center!important}
+.ckcell input{width:15px;height:15px;accent-color:var(--navy-800);cursor:pointer;vertical-align:middle}
+.acc-hot{color:var(--red-600)}
+.acc-warm{color:var(--amber-600)}
+td.expcell{width:26px;text-align:center}
+td.expcell .car{display:inline-block;font-size:9px;color:var(--navy-100);transition:transform 150ms ease}
+tr.srow.open td.expcell .car{transform:rotate(180deg)}
 @media(max-width:920px){aside.filters{position:static;display:none;border:1px solid var(--gray-200);border-radius:12px;padding:14px}aside.filters.open{display:block}}
 #fToggle{display:none;font-family:var(--display);font-weight:700;font-size:13px;border:1px solid var(--gray-300);background:#fff;border-radius:8px;padding:9px 14px;cursor:pointer}
 @media(max-width:920px){#fToggle{display:inline-block}}
@@ -48,11 +51,14 @@ aside.filters{position:sticky;top:74px}
 .controls .clear{background:none;border:none;color:var(--navy-800);font-family:var(--display);font-weight:700;font-size:13px;cursor:pointer;text-decoration:underline}
 .count{font-size:13px;color:var(--gray-500);margin-left:auto}
 .tablewrap{overflow-x:auto;border:1px solid var(--gray-200);border-radius:12px}
-table.rk{width:100%;border-collapse:collapse;min-width:1080px}
+table.rk{width:100%;border-collapse:collapse;min-width:900px}
+body.detailed table.rk{min-width:1240px}
+.colx{display:none}
+body.detailed .colx{display:table-cell}
 table.rk th{font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--gray-500);text-align:left;padding:12px 10px;border-bottom:1px solid var(--gray-200);background:var(--gray-50);cursor:pointer;white-space:nowrap;position:sticky;top:0}
 table.rk th.num,table.rk td.num{text-align:right}
 table.rk th .car{font-size:9px;opacity:.5}
-table.rk td{padding:12px 10px;border-bottom:1px solid var(--gray-100);vertical-align:middle}
+table.rk td{padding:15px 10px;border-bottom:1px solid var(--gray-100);vertical-align:middle}
 tr.srow{cursor:pointer}tr.srow:hover{background:var(--navy-50)}
 td.rank{font-family:var(--mono);font-weight:600;font-size:16px;color:var(--navy-900)}
 .sname{font-family:var(--display);font-weight:700;color:var(--navy-900);font-size:14.5px}
@@ -81,7 +87,9 @@ table.mini{border-collapse:collapse;font-size:14px}table.mini td{padding:7px 14p
 #listPanel.on{display:block}
 #listPanel .lhead{background:var(--gray-50);padding:12px 16px;font-family:var(--display);font-weight:700;color:var(--navy-900);display:flex;justify-content:space-between;align-items:center}
 #listPanel .lrow{display:flex;gap:12px;align-items:center;padding:10px 16px;border-top:1px solid var(--gray-100);flex-wrap:wrap}
-#listPanel .lrow .nm{font-family:var(--display);font-weight:700;color:var(--navy-900);min-width:220px;flex:1}
+#listPanel .lrow .nm{font-family:var(--display);font-weight:700;color:var(--navy-900);min-width:200px;flex:1}
+#listPanel .ldata{display:flex;gap:14px;font-family:var(--mono);font-size:12.5px;color:var(--gray-500);white-space:nowrap}
+#listPanel .ldata b{font-weight:500;color:var(--navy-800)}
 #listPanel select.tag{padding:5px 8px;border-radius:6px;border:1px solid var(--gray-300);font-family:var(--display);font-weight:600;font-size:12px}
 #listPanel input.note{flex:2;min-width:160px;padding:6px 10px;border:1px solid var(--gray-200);border-radius:6px;font:inherit;font-size:13px}
 #listPanel .mv{border:1px solid var(--gray-300);background:#fff;border-radius:6px;cursor:pointer;padding:3px 8px}
@@ -102,14 +110,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
  .pmeta{color:#666;font-size:12px;margin-top:16px}
 }
 </style></head><body>
-<header><div class="wrap nav">
-<a class="wordmark" href="/"><svg viewBox="0 0 48 48" width="28" height="28" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#122B4E"/><path d="M13 33 22 22l6 5 8.5-10" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M29.5 16.5H37V24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Start From Nowhere</a>
-<nav class="links"><a href="/exams/">Exam Prep</a><a href="/schools/">Lists</a><a href="/blog/">Resources</a><a href="/community/">Community</a></nav>
-<a href="/app/" style="font-family:var(--display);font-weight:600;font-size:14px;color:var(--gray-700);text-decoration:none;padding:8px 12px">Sign In</a>
-<button class="pill" id="listPill" onclick="toggleListPanel()">My List (0)</button>
-</div></header>
+{{SITE_HEADER}}
 
 <section class="hero"><div class="wrap">
+<p class="eyebrow">Start From Nowhere</p>
 <h1>MBA Rankings 2026</h1>
 <p>{{N}} full-time MBA programs, every one ranked: a transparent composite of five major published rankings where they exist, and a documented data-based score where they do not, paired with each school's own class profile. Filter the table, open any school's full profile with a source on every number, and build a shortlist you can export free, no account needed.</p>
 <div class="meta">Composite of US News, Financial Times, Bloomberg, QS, and Poets and Quants · class profile data from official school pages · updated {{UPDATED}}</div>
@@ -152,25 +156,29 @@ footer .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
 <button id="fToggle" onclick="document.getElementById('filterRail').classList.toggle('open')">Filters</button>
 <input type="search" id="q" placeholder="Search schools" oninput="applyFilters()" aria-label="Search schools">
 <button class="clear" onclick="clearFilters()">Clear All</button>
+<button class="clear" id="viewToggle" onclick="toggleView()">Detailed View</button>
+<button class="pill" id="listPill" onclick="toggleListPanel()">My List (0)</button>
 <span class="count" id="count"></span>
 </div>
 
 <div id="listPanel"></div>
 
 <div class="tablewrap"><table class="rk" id="rkTable"><thead><tr>
+<th class="ckcell"><input type="checkbox" id="ckAll" aria-label="Select all visible schools" onclick="toggleAllVisible(this.checked)"></th>
 <th class="num" onclick="sortBy('_rank')">Rank <span class="car">&#9660;</span></th>
 <th onclick="sortBy('name')">School</th>
 <th class="num" onclick="sortBy('_score')" title="SFN Score: publishers 50, outcomes 20, GMAT 20, acceptance 10, renormalized over available data">Score</th>
-<th class="num" onclick="sortBy('usnews')" title="US News Best Business Schools">USN</th>
-<th class="num" onclick="sortBy('ft')" title="Financial Times Global MBA">FT</th>
-<th class="num" onclick="sortBy('bloomberg')" title="Bloomberg Businessweek">BBW</th>
-<th class="num" onclick="sortBy('qs')" title="QS Global MBA">QS</th>
-<th class="num" onclick="sortBy('pq')" title="Poets and Quants composite">P&amp;Q</th>
 <th class="num" onclick="sortBy('gmat')">GMAT</th>
-<th class="num" onclick="sortBy('gpa')">GPA</th>
+<th class="num colx" onclick="sortBy('usnews')" title="US News Best Business Schools">USN</th>
+<th class="num colx" onclick="sortBy('ft')" title="Financial Times Global MBA">FT</th>
+<th class="num colx" onclick="sortBy('bloomberg')" title="Bloomberg Businessweek">BBW</th>
+<th class="num colx" onclick="sortBy('qs')" title="QS Global MBA">QS</th>
+<th class="num colx" onclick="sortBy('pq')" title="Poets and Quants composite">P&amp;Q</th>
+<th class="num colx" onclick="sortBy('gpa')">GPA</th>
 <th class="num" onclick="sortBy('accept')">Accept</th>
-<th class="num" onclick="sortBy('size')">Class</th>
+<th class="num colx" onclick="sortBy('size')">Class</th>
 <th class="num" onclick="sortBy('tuition')">Tuition/yr</th>
+<th class="num" onclick="sortBy('employ')" title="Employment rate about 3 months after graduation, as each school reports it">Employ</th>
 <th></th>
 </tr></thead><tbody id="rows">
 {{ROWS}}
@@ -196,7 +204,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
 <div>
 <p>Each publisher's most recent full-time MBA ranking is converted to points (rank 1 = 100 points, rank 2 = 99, and so on), then combined as a weighted average using the weights shown. When a source does not rank a school, the remaining weights are renormalized so no school is penalized for a publisher's coverage gaps; a school needs ranks from at least three of the five publishers to receive a composite rank at all. Ties share a rank.</p>
 <p>Why these weights: US News carries the most applicant mindshare in the United States and audits school-reported placement and selectivity data. The Financial Times brings a global, alumni-outcomes view built on a survey taken three years after graduation. Bloomberg surveys students and recruiters directly but its year-to-year volatility is well documented, so it earns a smaller share. QS adds international employer perception. Poets and Quants is itself a consensus of other lists, useful signal but partly double-counted, so it also stays at the smaller share. We publish the weights so you can disagree with them: every per-source rank is shown in the table, and the CSV export includes all of them.</p>
-<p>The Score column is the SFN Score (0 to 100), which ranks every school including those the big lists skip: publisher consensus 50%, published outcomes (median salary and 3-month employment) 20%, GMAT selectivity 20%, acceptance rate 10%, with weights renormalized over whatever components a school actually publishes. A school needs the publisher component or at least two data components to be scored. Schools ranked without publisher coverage carry a "data-based score" basis you can filter on: their position reflects published outcomes and selectivity only, weighted exactly as stated, which is the same logic the major publishers use, applied transparently.</p>
+<p>The Score column is the SFN Score (0 to 100), which ranks every school including those the big lists skip: publisher consensus 50%, published outcomes (median salary and 3-month employment) 20%, GMAT selectivity 20%, acceptance rate 10%, with weights renormalized over whatever components a school actually publishes. Outcome points map median base salary from $70k to $190k and 3-month employment from 60% to 95%, bands set to the observed range of official school reports and restated here whenever they change. A school needs the publisher component or at least two data components to be scored. Schools ranked without publisher coverage carry a "data-based score" basis you can filter on: their position reflects published outcomes and selectivity only, weighted exactly as stated, which is the same logic the major publishers use, applied transparently.</p>
 <p>Class profile figures (GMAT, GPA, class size, acceptance rate, tuition) come from each school's own published class profile or admissions pages wherever available, labeled with source and year on each school's profile page. We never estimate, convert between GMAT editions, or fill gaps with guesses; a dash means the school does not publish the figure. Rankings referenced belong to their respective publishers and are cited as published facts with attribution.</p>
 </div>
 </div>
@@ -269,6 +277,7 @@ function sortVal(s,key){
  if(key==='_rank') return s._rank==null?999:s._rank;
  if(key==='gmat'){ var g=gmatOf(s); return g?(g.ed==='Focus'?g.v+60:g.v):0; }
  if(key==='gpa') return fieldV(s,'gpa')||0;
+ if(key==='employ') return fieldV(s,'employment_rate_pct')==null?-1:fieldV(s,'employment_rate_pct');
  if(key==='accept') return fieldV(s,'accept_rate_pct')==null?999:fieldV(s,'accept_rate_pct');
  if(key==='size') return fieldV(s,'class_size')||0;
  if(key==='tuition') return fieldV(s,'tuition_usd')||0;
@@ -278,6 +287,7 @@ function sortBy(key){ sortState.asc=sortState.key===key?!sortState.asc:true; sor
  var tb=document.getElementById('rows');
  var rows=[].slice.call(tb.querySelectorAll('tr.srow'));
  document.querySelectorAll('tr.detail').forEach(function(d){d.remove();});
+ document.querySelectorAll('tr.srow.open').forEach(function(r){r.classList.remove('open');});
  rows.sort(function(a,b){ var x=sortVal(BY[a.dataset.slug],key), y=sortVal(BY[b.dataset.slug],key); return (x<y?-1:x>y?1:0)*(sortState.asc?1:-1); });
  rows.forEach(function(r){tb.appendChild(r);}); }
 
@@ -287,13 +297,15 @@ function srcLine(f){ if(!f||f.v==null) return ''; var bits=[]; if(f.src) bits.pu
 function dfield(label,f,suffix,money){ if(!f||f.v==null) return ''; var v=money?('$'+Number(f.v).toLocaleString()):f.v+(suffix||'');
  var stat=f.stat?' <span class="src">'+f.stat+'</span>':'';
  return '<div class="f"><b>'+label+'</b>'+v+stat+' '+srcLine(f)+'</div>'; }
-function toggleDetail(slug){ var ex=document.getElementById('det-'+slug); if(ex){ ex.remove(); return; }
+function toggleDetail(slug){ var ex=document.getElementById('det-'+slug);
+ document.querySelectorAll('tr.srow.open').forEach(function(r){r.classList.remove('open');});
+ if(ex){ ex.remove(); return; }
  document.querySelectorAll('tr.detail').forEach(function(d){d.remove();});
  var s=BY[slug]; var p=s.profile||{};
  var ranksTxt=Object.keys(s.ranks||{}).map(function(k){ var r=s.ranks[k]; if(!r||r.rank==null) return ''; var lbl={usnews:'US News',ft:'FT',bloomberg:'Bloomberg',qs:'QS',pq:'P&Q'}[k];
   return '<div class="f"><b>'+lbl+' '+(r.edition||'')+'</b>#'+r.rank+(r.url?' <span class="src">(<a href="'+r.url+'" rel="noopener" target="_blank">source</a>)</span>':'')+'</div>'; }).join('');
  var tr=document.createElement('tr'); tr.className='detail'; tr.id='det-'+slug;
- tr.innerHTML='<td colspan="14"><div class="row" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px"><div style="font-family:var(--display);font-weight:700;color:var(--navy-900)">'+s.name+' · '+(p.class_year||'class profile')+'</div><div style="display:flex;gap:8px"><a class="addbtn" style="text-decoration:none" href="/schools/'+slug+'/">See Full Profile</a>'+(s.website?'<a class="addbtn" style="text-decoration:none" href="'+s.website+'" rel="noopener" target="_blank">Official Site</a>':'')+'</div></div><div class="dgrid">'
+ tr.innerHTML='<td colspan="16"><div class="row" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px"><div style="font-family:var(--display);font-weight:700;color:var(--navy-900)">'+s.name+' · '+(p.class_year||'class profile')+'</div><div style="display:flex;gap:8px"><a class="addbtn" style="text-decoration:none" href="/schools/'+slug+'/">See Full Profile</a>'+(s.website?'<a class="addbtn" style="text-decoration:none" href="'+s.website+'" rel="noopener" target="_blank">Official Site</a>':'')+'</div></div><div class="dgrid">'
  +dfield('GMAT Focus',p.gmat_focus)+dfield('GMAT Classic',p.gmat_classic)
  +dfield('GRE Quant',p.gre_quant)+dfield('GRE Verbal',p.gre_verbal)
  +dfield('GPA',p.gpa)+dfield('Acceptance rate',p.accept_rate_pct,'%')
@@ -302,7 +314,7 @@ function toggleDetail(slug){ var ex=document.getElementById('det-'+slug); if(ex)
  +dfield('Tuition per year',p.tuition_usd,'',true)+dfield('Median salary',p.salary_median_usd,'',true)
  +dfield('Employed at 3 months',p.employment_rate_pct,'%')
  +ranksTxt+'</div></td>';
- var row=document.querySelector('tr.srow[data-slug="'+slug+'"]'); row.parentNode.insertBefore(tr,row.nextSibling); }
+ var row=document.querySelector('tr.srow[data-slug="'+slug+'"]'); row.classList.add('open'); row.parentNode.insertBefore(tr,row.nextSibling); }
 
 // list builder
 function toggleList(slug){ var L=lst(); var i=L.order.indexOf(slug);
@@ -316,15 +328,23 @@ function refreshListUI(){ var L=lst(); var n=L.order.length;
  document.getElementById('listPill').textContent='My List ('+n+')';
  var bar=document.getElementById('listBar'); bar.classList.toggle('on',n>0);
  document.getElementById('listBarCount').textContent=n+' school'+(n===1?'':'s')+' on your list';
- document.querySelectorAll('.addbtn').forEach(function(b){ var on=L.order.indexOf(b.dataset.slug)>=0; b.classList.toggle('on',on); b.textContent=on?'Saved':'+ List'; });
+ document.querySelectorAll('input.rowck').forEach(function(c){ c.checked=L.order.indexOf(c.dataset.slug)>=0; });
  if(document.getElementById('listPanel').classList.contains('on')) renderListPanel(); }
+function toggleAllVisible(on){ var L=lst(); var changed=false;
+ document.querySelectorAll('#rows tr.srow').forEach(function(tr){ if(tr.style.display==='none') return;
+  var slug=tr.dataset.slug; var inList=L.order.indexOf(slug)>=0;
+  if(on&&!inList){ L.order.push(slug); L.meta[slug]={tag:'target',note:'',name:BY[slug].name,gmat:gmatOf(BY[slug])}; changed=true; }
+  if(!on&&inList){ L.order.splice(L.order.indexOf(slug),1); delete L.meta[slug]; changed=true; } });
+ if(changed) saveLst(L); }
 function toggleListPanel(){ var p=document.getElementById('listPanel'); p.classList.toggle('on'); if(p.classList.contains('on')) renderListPanel(); }
 function renderListPanel(){ var L=lst(); var p=document.getElementById('listPanel');
  if(!L.order.length){ p.innerHTML='<div class="lhead">Your list is empty. Click "+ List" on any school.</div>'; return; }
  var h='<div class="lhead"><span>My list · '+L.order.length+'</span><span style="font-size:12px;color:var(--gray-500);font-weight:500">Tags and notes are included in your exports</span></div>';
  L.order.forEach(function(slug){ var s=BY[slug]; if(!s) return; var m=L.meta[slug]||{};
+  var g=gmatOf(s); var acc=fieldV(s,'accept_rate_pct'); var tu=fieldV(s,'tuition_usd');
   h+='<div class="lrow"><button class="mv" onclick="moveIn(\''+slug+'\',-1)" aria-label="Move up">&#9650;</button><button class="mv" onclick="moveIn(\''+slug+'\',1)" aria-label="Move down">&#9660;</button>'
   +'<span class="nm">'+s.name+'</span>'
+  +'<span class="ldata"><span title="SFN rank"><b>'+(s._rank?'#'+s._rank:'-')+'</b></span><span title="Published GMAT">'+(g?g.v+' '+g.ed:'-')+'</span><span title="Acceptance rate">'+(acc!=null?acc+'%':'-')+'</span><span title="Annual tuition">'+(tu!=null?'$'+Math.round(tu/1000)+'K':'-')+'</span></span>'
   +'<select class="tag tag-'+(m.tag||'target')+'" onchange="setTag(\''+slug+'\',this.value)">'
   +['safety','target','reach'].map(function(t){return '<option value="'+t+'"'+((m.tag||'target')===t?' selected':'')+'>'+t.charAt(0).toUpperCase()+t.slice(1)+'</option>';}).join('')
   +'</select>'
@@ -368,8 +388,15 @@ function printReport(){ var L=lst(); if(!L.order.length){ alert('Your list is em
  h+='<div class="ppage"><h2>Sources and method</h2><p>Composite rank: weighted average of published ranks from US News, Financial Times, Bloomberg, QS, and Poets and Quants (weights at startfromnowhere.com/schools/#methodology). Class profile figures come from each school\'s published class profile or admissions pages; every figure on the school pages above lists its source and year. Rankings belong to their respective publishers. Data as of '+today+'. Built free at startfromnowhere.com.</p></div>';
  pk.innerHTML=h; window.print(); }
 
+// compact vs detailed columns
+function applyView(){ var det=localStorage.getItem('sfn_rank_view')==='detailed';
+ document.body.classList.toggle('detailed',det);
+ var b=document.getElementById('viewToggle'); if(b) b.textContent=det?'Compact View':'Detailed View'; }
+function toggleView(){ var det=document.body.classList.contains('detailed');
+ localStorage.setItem('sfn_rank_view',det?'compact':'detailed'); applyView(); }
+
 // share-link import
-(function(){ var m=location.search.match(/[?&]list=([a-z0-9,-]+)/);
+(function(){ applyView(); var m=location.search.match(/[?&]list=([a-z0-9,-]+)/);
  if(m){ var slugs=m[1].split(',').filter(function(x){return BY[x];});
   if(slugs.length){ var L=lst(); slugs.forEach(function(sl){ if(L.order.indexOf(sl)<0){ L.order.push(sl); L.meta[sl]={tag:'target',note:'',name:BY[sl].name,gmat:gmatOf(BY[sl])}; } }); saveLst(L); toggleListPanel(); } }
  refreshListUI(); applyFilters(); })();

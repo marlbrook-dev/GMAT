@@ -1,0 +1,136 @@
+{
+ "slug": "howard",
+ "name": "Howard University School of Business",
+ "university": "Howard University",
+ "city": "Washington",
+ "state": "DC",
+ "region": "South",
+ "type": "Private",
+ "website": "https://business.howard.edu/programs/graduate/howard-mba",
+ "ranks": {
+  "usnews": {
+   "rank": null,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/howard-university-01044"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [
+  {
+   "name": "Named 'the nation's most underrated full-time MBA program' by Fortune Education",
+   "src": "Fortune Education",
+   "year": null,
+   "url": "https://fortune.com/education/articles/howard-university-the-nations-most-underrated-full-time-mba-program/"
+  }
+ ],
+ "profile": {
+  "class_year": "",
+  "class_size": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "women_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "intl_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "tuition_usd": {
+   "v": 39410,
+   "stat": "2026-27 rate; Full-Time MBA per semester 19705 x 2 semesters, tuition only, same for all residencies; full-time excess credit rate 1473 per credit",
+   "src": "Howard University Student Financial Services, official notice of student charges 2026-27",
+   "year": 2026,
+   "url": "https://financialservices.howard.edu/official-notice/student-charges-2026-27"
+  },
+  "salary_median_usd": {
+   "v": 115500,
+   "stat": "median base salary, 2020 graduates (stale; article dated July 30, 2021)",
+   "src": "Howard University news, The Dig",
+   "year": 2021,
+   "url": "https://thedig.howard.edu/all-stories/howard-university-receives-top-30-ranking-best-mba-programs-fortune"
+  },
+  "employment_rate_pct": {
+   "v": 84,
+   "stat": "more than 84 percent of job seekers had accepted a position within three months of graduating, 2020 graduates (stale; article dated July 30, 2021)",
+   "src": "Howard University news, The Dig",
+   "year": 2021,
+   "url": "https://thedig.howard.edu/all-stories/howard-university-receives-top-30-ranking-best-mba-programs-fortune"
+  }
+ },
+ "notes": "Howard School of Business publishes no MBA class profile statistics: the MBA demographics page shows only concentration percentages, and the MBA program pages give admission requirements (minimum 2 years work experience) but no admitted-class stats; the demographics page directs inquiries to the Office of Graduate Programs by phone. Salary and employment figures are official but from a 2021 university news article about 2020 graduates and are clearly stale. The prior US News tuition figure of 19705 per year is corrected: the official 2026-27 notice lists 19705 as the per-semester Full-Time MBA charge, so the annual figure is 39410."
+}

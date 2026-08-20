@@ -1,0 +1,135 @@
+{
+ "slug": "ucla-anderson",
+ "name": "UCLA Anderson School of Management",
+ "university": "University of California, Los Angeles",
+ "city": "Los Angeles",
+ "state": "CA",
+ "region": "West",
+ "type": "Public",
+ "ranks": {
+  "usnews": {
+   "rank": 18,
+   "edition": "2026",
+   "url": "https://www.stacyblackman.com/blog/2026-us-news-mba-rankings/",
+   "note": "Tie at No. 18"
+  },
+  "ft": {
+   "rank": 32,
+   "edition": "2026",
+   "url": "https://www.stacyblackman.com/blog/financial-times-mba-rankings/",
+   "note": "Fell from No. 19 in 2025 to No. 32"
+  },
+  "bloomberg": {
+   "rank": 19,
+   "edition": "2025-26",
+   "url": "https://www.bloomberg.com/business-schools/ucla-anderson/",
+   "note": "Bloomberg page title states 19th; moved from No. 18 to No. 19"
+  },
+  "qs": {
+   "rank": 18,
+   "edition": "2026",
+   "url": "https://poetsandquants.com/2025/09/18/qs-global-mba-ranking-a-new-1-replaces-stanford-after-6-years/",
+   "note": "Global list; slipped from 14th to 18th per P&Q QS 2026 coverage"
+  },
+  "pq": {
+   "rank": 10,
+   "edition": "2025-2026",
+   "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/",
+   "note": "Rose four places to No. 10"
+  }
+ },
+ "profile": {
+  "class_year": "Class of 2028",
+  "class_size": {
+   "v": 287,
+   "stat": "class size; 2,422 applications received",
+   "src": "UCLA Anderson MBA class profile",
+   "year": 2026,
+   "url": "https://www.anderson.ucla.edu/degrees/full-time-mba/admissions/class-profile"
+  },
+  "gmat_focus": {
+   "v": 660,
+   "stat": "mean, Focus Edition; middle 80 percent 635 to 695",
+   "src": "UCLA Anderson MBA class profile",
+   "year": 2026,
+   "url": "https://www.anderson.ucla.edu/degrees/full-time-mba/admissions/class-profile"
+  },
+  "gmat_classic": {
+   "v": 718,
+   "stat": "mean, 10th Edition; middle 80 percent 650 to 750",
+   "src": "UCLA Anderson MBA class profile",
+   "year": 2026,
+   "url": "https://www.anderson.ucla.edu/degrees/full-time-mba/admissions/class-profile"
+  },
+  "gre_quant": {
+   "v": 164,
+   "stat": "average",
+   "src": "UCLA Anderson MBA class profile",
+   "year": 2026,
+   "url": "https://www.anderson.ucla.edu/degrees/full-time-mba/admissions/class-profile"
+  },
+  "gre_verbal": {
+   "v": 162,
+   "stat": "average",
+   "src": "UCLA Anderson MBA class profile",
+   "year": 2026,
+   "url": "https://www.anderson.ucla.edu/degrees/full-time-mba/admissions/class-profile"
+  },
+  "gpa": {
+   "v": 3.5,
+   "stat": "mean; middle 80 percent 3.1 to 3.9",
+   "src": "UCLA Anderson MBA class profile",
+   "year": 2026,
+   "url": "https://www.anderson.ucla.edu/degrees/full-time-mba/admissions/class-profile"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "Secondary sources conflict sharply (9.9 to 12 percent claims fail plausibility for this program); no figure seen from a preferred source"
+  },
+  "work_exp_years": {
+   "v": 5.4,
+   "stat": "average",
+   "src": "UCLA Anderson MBA class profile",
+   "year": 2026,
+   "url": "https://www.anderson.ucla.edu/degrees/full-time-mba/admissions/class-profile"
+  },
+  "women_pct": {
+   "v": 39,
+   "src": "UCLA Anderson MBA class profile",
+   "year": 2026,
+   "url": "https://www.anderson.ucla.edu/degrees/full-time-mba/admissions/class-profile"
+  },
+  "intl_pct": {
+   "v": 36,
+   "src": "UCLA Anderson MBA class profile",
+   "year": 2026,
+   "url": "https://www.anderson.ucla.edu/degrees/full-time-mba/admissions/class-profile"
+  },
+  "tuition_usd": {
+   "v": 82734,
+   "stat": "2026-27 rate; MBA program fees, flat fee per year, same regardless of residency; excludes mandatory UCLA fees (2,105) and health insurance (8,668); per year",
+   "src": "UCLA Anderson Full-Time MBA financing page",
+   "year": 2026,
+   "url": "https://anderson.ucla.edu/degrees/full-time-mba/financing"
+  },
+  "salary_median_usd": {
+   "v": 160096,
+   "stat": "median salary, Class of 2025 (up 12 percent from 142,800 in 2024)",
+   "src": "UCLA Anderson Class of 2025 Full-Time MBA Employment Report",
+   "year": 2025,
+   "url": "https://www.anderson.ucla.edu/sites/default/files/document/2026-03/Class%20of%202025%20Employment%20Report%20PDF_0.pdf"
+  },
+  "employment_rate_pct": {
+   "v": 74.7,
+   "stat": "accepted job offers by 3 months after graduation, percent of students seeking employment, Class of 2025 (offers by 3 months 76.3 percent; accepts by 6 months 85 percent)",
+   "src": "UCLA Anderson Class of 2025 Full-Time MBA Employment Report",
+   "year": 2025,
+   "url": "https://www.anderson.ucla.edu/sites/default/files/document/2026-03/Class%20of%202025%20Employment%20Report%20PDF_0.pdf"
+  }
+ },
+ "website": "https://www.anderson.ucla.edu/degrees/full-time-mba",
+ "notes": "Anderson does not publish an acceptance rate; the class profile gives 2,422 applications and a class of 287 without an admit figure. All Class of 2028 profile figures verified on the official class profile page; previous Clear Admit figures for Class of 2027 replaced with the school's newer Class of 2028 data."
+}

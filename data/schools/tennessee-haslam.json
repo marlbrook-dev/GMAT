@@ -1,0 +1,136 @@
+{
+ "slug": "tennessee-haslam",
+ "name": "Haslam College of Business",
+ "university": "University of Tennessee, Knoxville",
+ "city": "Knoxville",
+ "state": "TN",
+ "region": "South",
+ "type": "Public",
+ "website": "https://haslam.utk.edu/",
+ "ranks": {
+  "usnews": {
+   "rank": 43,
+   "edition": "2026",
+   "url": "https://haslam.utk.edu/news/ut-haslam-graduate-programs-place-highly-in-u-s-news-ranking/"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": 43,
+   "edition": "2025-26",
+   "url": "https://www.bloomberg.com/business-schools/tennessee-haslam/"
+  },
+  "qs": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [
+  {
+   "name": "Supply Chain Management (No. 3 among public universities, graduate supply chain specialty)",
+   "src": "U.S. News via UT Haslam supply chain site",
+   "year": null,
+   "url": "https://supplychainmanagement.utk.edu/blog/ut-haslam-supply-chain-graduate-programs-ranked-no-3-among-publics-by-u-s-news"
+  }
+ ],
+ "profile": {
+  "class_year": "",
+  "class_size": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": 3.48,
+   "stat": "average (no cohort year labeled on page)",
+   "src": "Haslam Full-Time MBA page",
+   "year": 2026,
+   "url": "https://haslam.utk.edu/full-time-mba/"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "women_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "intl_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "tuition_usd": {
+   "v": null,
+   "note": "per year",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "salary_median_usd": {
+   "v": 79893,
+   "stat": "average salary, Fall and Spring Class of 2022 and Spring Class of 2023, at 6 months after graduation; school publishes no median",
+   "src": "Haslam student outcomes page",
+   "year": 2023,
+   "url": "https://haslam.utk.edu/student-outcomes/"
+  },
+  "employment_rate_pct": {
+   "v": 82,
+   "stat": "placement at 6 months after graduation, Fall and Spring Class of 2022 and Spring Class of 2023",
+   "src": "Haslam student outcomes page",
+   "year": 2023,
+   "url": "https://haslam.utk.edu/student-outcomes/"
+  }
+ },
+ "notes": "Haslam publishes no full-time MBA class profile page: no class size, GMAT/GRE, work experience, women or international percentages, or acceptance rate on any official page reached. Tuition: school publishes only 16-month PROGRAM totals combining tuition and fees, not annual tuition: program page shows Estimated Program Cost in-state 39125 and out-of-state 69968 (https://haslam.utk.edu/full-time-mba/); official 2026-2027 expense sheet (https://apply.haslam.utk.edu/www/documents/26-27%20Expenses/FTMBA%20Start-Up%20Expenses%202026-2027.pdf) shows program totals in-state 38982 and out-of-state 69825 with fees itemized, so no annual tuition-only figure exists. Salary figure is an average, not a median, and covers 2022 and 2023 classes; an older undated career brochure (2021 data) showed median base 97500 and 88 percent employed within 90 days but was not used because it is stale and unlabeled by class year."
+}

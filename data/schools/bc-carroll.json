@@ -1,0 +1,128 @@
+{
+ "slug": "bc-carroll",
+ "name": "Carroll School of Management",
+ "university": "Boston College",
+ "city": "Chestnut Hill",
+ "state": "MA",
+ "region": "Northeast",
+ "type": "Private",
+ "website": "https://www.bc.edu/bc-web/schools/carroll-school/graduate/mba/full-time-mba.html",
+ "ranks": {
+  "usnews": {
+   "rank": 53,
+   "edition": "2026",
+   "url": "https://www.bc.edu/bc-web/sites/bc-news/articles/2026/spring/us-news-graduate-rankings.html"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "Class of 2027",
+  "class_size": {
+   "v": 77,
+   "src": "BC Carroll Full-Time MBA page class profile",
+   "year": 2025,
+   "url": "https://www.bc.edu/bc-web/schools/carroll-school/graduate/mba/full-time-mba.html"
+  },
+  "gmat_focus": {
+   "v": 605,
+   "stat": "average, labeled GMAT (Focus Edition)",
+   "src": "BC Carroll Full-Time MBA page class profile",
+   "year": 2025,
+   "url": "https://www.bc.edu/bc-web/schools/carroll-school/graduate/mba/full-time-mba.html"
+  },
+  "gmat_classic": {
+   "v": 690,
+   "stat": "average, labeled GMAT (10th Edition)",
+   "src": "BC Carroll Full-Time MBA page class profile",
+   "year": 2025,
+   "url": "https://www.bc.edu/bc-web/schools/carroll-school/graduate/mba/full-time-mba.html"
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": 3.1,
+   "stat": "average undergraduate GPA",
+   "src": "BC Carroll Full-Time MBA page class profile",
+   "year": 2025,
+   "url": "https://www.bc.edu/bc-web/schools/carroll-school/graduate/mba/full-time-mba.html"
+  },
+  "accept_rate_pct": {
+   "v": 54,
+   "src": "BC Carroll Full-Time MBA page class profile",
+   "year": 2025,
+   "url": "https://www.bc.edu/bc-web/schools/carroll-school/graduate/mba/full-time-mba.html"
+  },
+  "work_exp_years": {
+   "v": 5.7,
+   "stat": "average years, middle 80% 1 to 6.5",
+   "src": "BC Carroll Full-Time MBA page class profile",
+   "year": 2025,
+   "url": "https://www.bc.edu/bc-web/schools/carroll-school/graduate/mba/full-time-mba.html"
+  },
+  "women_pct": {
+   "v": 25,
+   "src": "BC Carroll Full-Time MBA page class profile",
+   "year": 2025,
+   "url": "https://www.bc.edu/bc-web/schools/carroll-school/graduate/mba/full-time-mba.html"
+  },
+  "intl_pct": {
+   "v": 21,
+   "src": "BC Carroll Full-Time MBA page class profile",
+   "year": 2025,
+   "url": "https://www.bc.edu/bc-web/schools/carroll-school/graduate/mba/full-time-mba.html"
+  },
+  "tuition_usd": {
+   "v": 70390,
+   "stat": "2026-27 rate",
+   "src": "BC Carroll graduate tuition and aid page",
+   "year": 2026,
+   "url": "https://www.bc.edu/bc-web/schools/carroll-school/graduate/admission/tuition-and-aid.html"
+  },
+  "salary_median_usd": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "employment_rate_pct": {
+   "v": 87,
+   "stat": "percentage of students accepting job offers, class of 2025 seeking full-time employment, data reported up to October 31, 2025",
+   "src": "BC Carroll career development page",
+   "year": 2025,
+   "url": "https://www.bc.edu/bc-web/schools/carroll-school/graduate/career-development.html"
+  }
+ },
+ "notes": "BC publishes only a combined GRE average (318), not quant/verbal splits. Career page publishes average total compensation (126090, base plus signing bonus) but no median base salary. Annual tuition computed as 2 semesters at the published 35195 per-semester 2026-27 rate."
+}

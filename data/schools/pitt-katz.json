@@ -1,0 +1,136 @@
+{
+ "slug": "pitt-katz",
+ "name": "Joseph M. Katz Graduate School of Business",
+ "university": "University of Pittsburgh",
+ "city": "Pittsburgh",
+ "state": "PA",
+ "region": "Northeast",
+ "type": "Public",
+ "website": "https://www.business.pitt.edu/",
+ "ranks": {
+  "usnews": {
+   "rank": 48,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/university-of-pittsburgh-pittsburgh-campus-01195"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [
+  {
+   "name": "Business Analytics (No. 44, U.S. News graduate specialty)",
+   "src": "U.S. News via Pitt Business news",
+   "year": 2026,
+   "url": "https://www.business.pitt.edu/u-s-news-world-report-ranks-pitt-business-as-top-50-best-business-school/"
+  }
+ ],
+ "profile": {
+  "class_year": "",
+  "class_size": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "women_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "intl_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "tuition_usd": {
+   "v": 63856,
+   "stat": "2026-27 rate; annual tuition only, out-of-state; PA resident 35,554; mandatory fees of 2,006 per two terms itemized separately",
+   "src": "Pitt tuition rates, Katz Graduate School of Business",
+   "year": 2026,
+   "url": "https://www.tuition.pitt.edu/graduate/tuition/joseph-m-katz-graduate-school-business"
+  },
+  "salary_median_usd": {
+   "v": 108500,
+   "stat": "median base salary, 5-year average 2020-2025, reporting graduates; median bonus 13,000",
+   "src": "Pitt Business FTMBA career outcomes 2025",
+   "year": 2025,
+   "url": "https://www.business.pitt.edu/career-outcomes-2025-ftmba/"
+  },
+  "employment_rate_pct": {
+   "v": 81,
+   "stat": "received first offer within 3 months post graduation, 5-year average 2020-2025",
+   "src": "Pitt Business FTMBA career outcomes 2025",
+   "year": 2025,
+   "url": "https://www.business.pitt.edu/career-outcomes-2025-ftmba/"
+  }
+ },
+ "notes": "Katz publishes no public incoming class profile: MBA pages, admissions pages, FAQs, and the stats-and-rankings page carry no GMAT, GRE, GPA, work experience, class size, or demographic figures. Employment figures conflict across official pages: the MBA overview and stats page say 94% employed or with offers within 90 days (stats page salary labeled 2022 data), while the 2025 career outcomes page reports 81% received first offer within 3 months as a 2020-2025 five-year average; the dated 2025 outcomes page was used."
+}

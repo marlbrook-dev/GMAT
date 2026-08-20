@@ -1,0 +1,135 @@
+{
+ "slug": "uva-darden",
+ "name": "University of Virginia Darden School of Business",
+ "university": "University of Virginia",
+ "city": "Charlottesville",
+ "state": "VA",
+ "region": "South",
+ "type": "Public",
+ "ranks": {
+  "usnews": {
+   "rank": 11,
+   "edition": "2026",
+   "url": "https://www.stacyblackman.com/blog/2026-us-news-mba-rankings/",
+   "note": "Tie at No. 11"
+  },
+  "ft": {
+   "rank": 19,
+   "edition": "2026",
+   "url": "https://news.darden.virginia.edu/2026/02/16/research-career-outcomes-propel-uva-darden-into-u-s-top-10-financial-times-ranking/",
+   "note": "School reports No. 19 globally (up from No. 20) and No. 9 among US programs"
+  },
+  "bloomberg": {
+   "rank": 10,
+   "edition": "2025-26",
+   "url": "https://www.clearadmit.com/2025/09/bloomberg-b-school-rankings-2025-2026-key-takeaways/",
+   "note": "Down from No. 5 in 2024-25"
+  },
+  "qs": {
+   "rank": null,
+   "edition": "2026",
+   "url": "",
+   "note": "P&Q QS coverage says Darden does not crack the QS top 50; QS US list shows No. 25 in the United States 2026; exact global rank not verified"
+  },
+  "pq": {
+   "rank": 5,
+   "edition": "2025-2026",
+   "url": "https://news.darden.virginia.edu/2025/12/08/uva-darden-no-1-public-business-school-in-poets-quants-ranking/",
+   "note": "No. 5 overall, No. 1 public, same as prior year"
+  }
+ },
+ "profile": {
+  "class_year": "Class of 2027",
+  "class_size": {
+   "v": 361,
+   "stat": "class size",
+   "src": "UVA Darden Class of 2027 profile (official Darden blog)",
+   "year": 2025,
+   "url": "https://www.darden.virginia.edu/programs/blog/introducing-uva-dardens-full-time-mba-class-of-2027-class-profile"
+  },
+  "gmat_focus": {
+   "v": 671,
+   "stat": "average; median 665; middle 80 percent 626-715",
+   "src": "UVA Darden Class of 2027 profile (official Darden blog)",
+   "year": 2025,
+   "url": "https://www.darden.virginia.edu/programs/blog/introducing-uva-dardens-full-time-mba-class-of-2027-class-profile"
+  },
+  "gmat_classic": {
+   "v": 725,
+   "stat": "average; median 730; middle 80 percent 690-750; labeled previous (10th) edition",
+   "src": "UVA Darden Class of 2027 profile (official Darden blog)",
+   "year": 2025,
+   "url": "https://www.darden.virginia.edu/programs/blog/introducing-uva-dardens-full-time-mba-class-of-2027-class-profile"
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "Only a combined GRE mean of 322 was seen (middle 80 percent 311-335); no quant/verbal split verified"
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "Only a combined GRE mean of 322 was seen; no quant/verbal split verified"
+  },
+  "gpa": {
+   "v": 3.54,
+   "stat": "average undergraduate GPA",
+   "src": "UVA Darden Class of 2027 profile (official Darden blog)",
+   "year": 2025,
+   "url": "https://www.darden.virginia.edu/programs/blog/introducing-uva-dardens-full-time-mba-class-of-2027-class-profile"
+  },
+  "accept_rate_pct": {
+   "v": null
+  },
+  "work_exp_years": {
+   "v": 5.67,
+   "stat": "average years of work experience",
+   "src": "UVA Darden Class of 2027 profile (official Darden blog)",
+   "year": 2025,
+   "url": "https://www.darden.virginia.edu/programs/blog/introducing-uva-dardens-full-time-mba-class-of-2027-class-profile"
+  },
+  "women_pct": {
+   "v": 35,
+   "stat": "percent women",
+   "src": "UVA Darden Class of 2027 profile (official Darden blog)",
+   "year": 2025,
+   "url": "https://www.darden.virginia.edu/programs/blog/introducing-uva-dardens-full-time-mba-class-of-2027-class-profile"
+  },
+  "intl_pct": {
+   "v": 30,
+   "stat": "percent international students",
+   "src": "UVA Darden Class of 2027 profile (official Darden blog)",
+   "year": 2025,
+   "url": "https://www.darden.virginia.edu/programs/blog/introducing-uva-dardens-full-time-mba-class-of-2027-class-profile"
+  },
+  "tuition_usd": {
+   "v": 88000,
+   "stat": "2026-27 rate; annual tuition and required comprehensive fees, non-Virginia domicile; Virginia 83,000, international 88,240; case fees (550 per semester) and health insurance billed separately",
+   "src": "UVA Darden tuition, fees and billing page",
+   "year": 2026,
+   "url": "https://www.darden.virginia.edu/mba/tuition-financial-aid/tuition-fees-billing"
+  },
+  "salary_median_usd": {
+   "v": 175000,
+   "stat": "median base salary (Class of 2025; 283 graduates reporting, 96.9 percent of those accepting positions; mean 162,578; median signing bonus 30,000)",
+   "src": "UVA Darden Class of 2025 Full-Time MBA Employment Outcome Data (official PDF)",
+   "year": 2025,
+   "url": "https://www.darden.virginia.edu/sites/default/files/2025-11/UVA%20Darden%20Class%20of%202025%20FT%20Employment%20Outcome%20Data_web.pdf"
+  },
+  "employment_rate_pct": {
+   "v": 89.3,
+   "stat": "accepted job offers within 3 months of graduation (Class of 2025; 292 of 327 seeking employment; offers received within 3 months 90.2 percent)",
+   "src": "UVA Darden Class of 2025 Full-Time MBA Employment Outcome Data (official PDF)",
+   "year": 2025,
+   "url": "https://www.darden.virginia.edu/sites/default/files/2025-11/UVA%20Darden%20Class%20of%202025%20FT%20Employment%20Outcome%20Data_web.pdf"
+  }
+ },
+ "website": "https://www.darden.virginia.edu/mba",
+ "notes": "The old blogs.darden.virginia.edu profile URL 301-redirects to the darden.virginia.edu blog URL recorded here. Official profile shows GPA 3.54 (the previously recorded 3.56 was not on the page as fetched this session). GRE published only as combined score (average and median 322, middle 80 percent 311-335), no quant/verbal split. Acceptance rate is not published on Darden's profile page; the prior 30.7 figure came from US News, which is outside this pass's allowed sources, so the field is nulled. The main darden.virginia.edu/mba/admissions/class-profile page renders stats in Flourish embeds with no inline data; the official blog profile was used instead. Employment PDF percentages: offers within 3 months 260 plus 35 of 327 (90.2 percent); acceptances within 3 months 251 plus 41 of 327 (89.3 percent)."
+}

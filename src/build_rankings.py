@@ -10,8 +10,9 @@ Two-layer ranking, both documented verbatim on the page:
    skip, from whatever verified data exists:
       publishers 50% + outcomes 20% + GMAT selectivity 20% + acceptance 10%
    with weights renormalized over available components. Outcomes = the mean
-   of salary points (90k to 185k maps 0 to 100) and 3-month employment
-   points (70% to 100% maps 0 to 100). GMAT maps Focus 555 to 695 or
+   of salary points (70k to 190k maps 0 to 100) and 3-month employment
+   points (60% to 95% maps 0 to 100); both bands recalibrated August 2026
+   to the observed range of official school reports. GMAT maps Focus 555 to 695 or
    Classic 605 to 745 onto 0 to 100 (whichever edition the school
    publishes; never converted). Acceptance maps 60% down to 6% onto 0 to
    100. A school needs the publisher component or at least two other
@@ -23,7 +24,11 @@ import json, pathlib, datetime, os, html, sys
 
 D = pathlib.Path(__file__).parent
 ROOT = D.parent
+sys.path.insert(0, str(D))
+import partials
 SITE = "https://startfromnowhere.com"
+RANKINGS_LEGAL = ("Rankings cited from US News, Financial Times, Bloomberg, QS, and Poets and Quants, "
+                  "each the property of its publisher. Class profile data from the sources shown on each row.")
 
 WEIGHTS = {"usnews": 0.30, "ft": 0.25, "bloomberg": 0.15, "qs": 0.15, "pq": 0.15}
 SOURCE_LABEL = {"usnews": "US News", "ft": "Financial Times", "bloomberg": "Bloomberg", "qs": "QS", "pq": "Poets and Quants"}
@@ -57,10 +62,10 @@ def sfn_score(s):
     outs = []
     sal = field(s, "salary_median_usd")
     if sal is not None:
-        outs.append(clamp01((sal - 90000) / (185000 - 90000)) * 100)
+        outs.append(clamp01((sal - 70000) / (190000 - 70000)) * 100)
     emp = field(s, "employment_rate_pct")
     if emp is not None:
-        outs.append(clamp01((emp - 70) / 30) * 100)
+        outs.append(clamp01((emp - 60) / 35) * 100)
     if outs:
         comps["outcomes"] = sum(outs) / len(outs)
     gf, gc = field(s, "gmat_focus"), field(s, "gmat_classic")
@@ -227,12 +232,22 @@ def school_page(s, tpl, today):
               .replace("{{LD}}", ld))
     return out
 
+def load_schools():
+    sdir = ROOT / "data" / "schools"
+    if sdir.is_dir():
+        return [json.loads(p.read_text()) for p in sorted(sdir.glob("*.json"))]
+    legacy = ROOT / "data" / "schools.json"
+    if legacy.exists():
+        return json.loads(legacy.read_text())
+    return None
+
 def main():
-    data_path = ROOT / "data" / "schools.json"
-    if not data_path.exists():
-        print("build_rankings: no data/schools.json yet; skipping /schools/ build")
+    schools = load_schools()
+    if schools is None:
+        print("build_rankings: no data/schools/ yet; skipping /schools/ build")
         return
-    schools = json.loads(data_path.read_text())
+    import validate_schools
+    validate_schools.validate(schools)
     dropped = [s["slug"] for s in schools if s.get("discontinued")]
     if dropped:
         print("build_rankings: excluding discontinued programs:", ", ".join(dropped))
@@ -264,20 +279,27 @@ def main():
             gc = p.get("gmat_classic") or {}
             gmat_v, gmat_note, gmat_ed = gc.get("v"), (gc.get("stat") or "")[:3], "Classic"
         ranks_cells = "".join(
-            f'<td class="num">{fmt((s.get("ranks", {}).get(k) or {}).get("rank"))}</td>'
+            f'<td class="num colx">{fmt((s.get("ranks", {}).get(k) or {}).get("rank"))}</td>'
             for k in WEIGHTS)
+        acc = field(s, "accept_rate_pct")
+        acc_cls = " acc-hot" if (acc is not None and acc < 15) else (" acc-warm" if (acc is not None and acc < 25) else "")
+        tuition = field(s, "tuition_usd")
+        tuition_cell = f'<span title="${tuition:,} per year">${round(tuition / 1000)}K</span>' if tuition is not None else '<span class="na">-</span>'
         rows.append(
             f'<tr class="srow" data-slug="{esc(s["slug"])}" onclick="toggleDetail(\'{esc(s["slug"])}\')">'
+            f'<td class="ckcell" onclick="event.stopPropagation()"><input type="checkbox" class="rowck" data-slug="{esc(s["slug"])}" '
+            f'aria-label="Add {esc(s["name"])} to my list" onchange="toggleList(\'{esc(s["slug"])}\')"></td>'
             f'<td class="num rank">{s.get("_rank", "-")}</td>'
             f'<td><div class="sname">{esc(s["name"])}</div><div class="sloc">{esc(s.get("city", ""))}, {esc(s.get("state", ""))} · {esc(s.get("type", ""))}</div></td>'
             f'<td class="num">{fmt(s.get("_score"))}</td>'
-            + ranks_cells +
             f'<td class="num">{fmt(gmat_v)}{("<span class=note>" + esc(gmat_ed) + " " + esc(gmat_note) + "</span>") if gmat_v is not None else ""}</td>'
-            f'<td class="num">{fmt(field(s, "gpa"))}</td>'
-            f'<td class="num">{fmt(field(s, "accept_rate_pct"), "%")}</td>'
-            f'<td class="num">{fmt(field(s, "class_size"))}</td>'
-            f'<td class="num">{fmt(field(s, "tuition_usd"), money=True)}</td>'
-            f'<td><button class="addbtn" data-slug="{esc(s["slug"])}" onclick="event.stopPropagation();toggleList(\'{esc(s["slug"])}\')">+ List</button></td>'
+            + ranks_cells +
+            f'<td class="num colx">{fmt(field(s, "gpa"))}</td>'
+            f'<td class="num{acc_cls}">{fmt(acc, "%")}</td>'
+            f'<td class="num colx">{fmt(field(s, "class_size"))}</td>'
+            f'<td class="num">{tuition_cell}</td>'
+            f'<td class="num">{fmt(field(s, "employment_rate_pct"), "%")}</td>'
+            f'<td class="expcell"><span class="car">&#9660;</span></td>'
             "</tr>")
     weights_rows = "".join(
         f"<tr><td>{SOURCE_LABEL[k]}</td><td class=\"num\">{int(w * 100)}%</td></tr>" for k, w in WEIGHTS.items())
@@ -300,6 +322,7 @@ def main():
         sd = dest / s["slug"]
         sd.mkdir(exist_ok=True)
         pages.append((sd / "index.html", school_page(s, stpl, today)))
+    pages = [(path, partials.apply_chrome(content, extra_legal=RANKINGS_LEGAL)) for path, content in pages]
     for path, content in pages:
         if "{{" in content:
             print(f"build_rankings: unresolved placeholder in {path}", file=sys.stderr)

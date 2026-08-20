@@ -1,0 +1,131 @@
+{
+ "slug": "duke-fuqua",
+ "name": "Fuqua School of Business",
+ "university": "Duke University",
+ "city": "Durham",
+ "state": "NC",
+ "region": "South",
+ "type": "Private",
+ "ranks": {
+  "usnews": {
+   "rank": 14,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/mba-rankings"
+  },
+  "ft": {
+   "rank": 16,
+   "edition": "2026",
+   "url": "https://poetsandquants.com/2026/02/16/2026-financial-times-mba-ranking-mit-tops-list-for-the-first-time/"
+  },
+  "bloomberg": {
+   "rank": 13,
+   "edition": "2025-26",
+   "url": "https://www.bloomberg.com/business-schools/regions/us/"
+  },
+  "qs": {
+   "rank": null,
+   "edition": "2026",
+   "url": "https://www.topuniversities.com/mba-rankings/global"
+  },
+  "pq": {
+   "rank": null,
+   "edition": "2025-2026",
+   "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/"
+  }
+ },
+ "profile": {
+  "class_year": "Class of 2027",
+  "class_size": {
+   "v": 426,
+   "stat": "class size",
+   "src": "Fuqua Daytime MBA class profile page",
+   "year": 2025,
+   "url": "https://www.fuqua.duke.edu/programs/daytime-mba/class-profile"
+  },
+  "gmat_focus": {
+   "v": 665,
+   "stat": "median",
+   "src": "GMAC/BusinessBecause (Duke MBA Class of 2027 profile)",
+   "year": 2025,
+   "url": "https://www.gmac.com/resources/learners/business-programs/explore-programs/duke-mba-class-profile"
+  },
+  "gmat_classic": {
+   "v": 720,
+   "stat": "median",
+   "src": "GMAC/BusinessBecause (Duke MBA Class of 2027 profile)",
+   "year": 2025,
+   "url": "https://www.gmac.com/resources/learners/business-programs/explore-programs/duke-mba-class-profile"
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "accept_rate_pct": {
+   "v": 22,
+   "src": "GMAC/BusinessBecause (reported as around 22%)",
+   "year": 2025,
+   "url": "https://www.gmac.com/resources/learners/business-programs/explore-programs/duke-mba-class-profile"
+  },
+  "work_exp_years": {
+   "v": 5.8,
+   "stat": "average years, middle 80 percent 3.17-8.75",
+   "src": "Fuqua Daytime MBA class profile page",
+   "year": 2025,
+   "url": "https://www.fuqua.duke.edu/programs/daytime-mba/class-profile"
+  },
+  "women_pct": {
+   "v": 47,
+   "stat": "percent women",
+   "src": "Fuqua Daytime MBA class profile page",
+   "year": 2025,
+   "url": "https://www.fuqua.duke.edu/programs/daytime-mba/class-profile"
+  },
+  "intl_pct": {
+   "v": 35,
+   "stat": "international citizens, primary citizenship outside the US",
+   "src": "Fuqua Daytime MBA class profile page",
+   "year": 2025,
+   "url": "https://www.fuqua.duke.edu/programs/daytime-mba/class-profile"
+  },
+  "tuition_usd": {
+   "v": 83700,
+   "stat": "2026-27 rate, Daytime MBA (Class of 2028), billed 41,850 each in fall and spring, tuition only",
+   "src": "Fuqua Financial Aid Guidebook 2026-27",
+   "year": 2026,
+   "url": "https://www.fuqua.duke.edu/sites/default/files/media/financial_aid/financial-aid-guide-book-policies-procedures.pdf"
+  },
+  "salary_median_usd": {
+   "v": 160000,
+   "stat": "median base salary, Class of 2025; median signing bonus 30,000",
+   "src": "Fuqua Employment Report 2025",
+   "year": 2025,
+   "url": "https://www.fuqua.duke.edu/sites/default/files/media/programs/daytime/duke-mba-employment-2025.pdf"
+  },
+  "employment_rate_pct": {
+   "v": 79,
+   "stat": "accepted offers within 3 months post-graduation, Class of 2025; 82.2 percent had offers within 3 months",
+   "src": "Fuqua Employment Report 2025",
+   "year": 2025,
+   "url": "https://www.fuqua.duke.edu/sites/default/files/media/programs/daytime/duke-mba-employment-2025.pdf"
+  }
+ },
+ "notes": "GMAT Focus median was reported as approximately 665 in coverage; classic median 720 with middle-80% range 680-770. GPA nulled: only a middle-80% GPA range (3.16 to 3.91) was published, no average or median seen. Acceptance rate reported as around 22%. QS 2026 and P&Q 2025-2026 ranks not seen in snippets and nulled. Fuqua's Class of 2025 median base salary fell from $175,000 to $160,000 per P&Q. The official Class of 2027 profile page publishes only middle 80 percent ranges, with no medians or averages: GMAT Range (Middle 80%) 680-770 with no edition label, GRE Verbal/Quant Combined Range 307-328, EA Range 149-158, GPA middle 80 percent 3.16-3.91. The existing GMAC/BusinessBecause medians (Focus 665, classic 720) were not confirmable on Fuqua's own pages this session; GMAC is not a school domain but was not in the mandatory-replace list, so those entries were left untouched rather than verified. No acceptance rate is published officially. Prior tuition figure (81,000, 2025-26 official COA PDF) superseded by the official 2026-27 rate of 83,700.",
+ "website": "https://www.fuqua.duke.edu/programs/daytime-mba"
+}

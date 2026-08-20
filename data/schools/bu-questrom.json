@@ -1,0 +1,129 @@
+{
+ "slug": "bu-questrom",
+ "name": "Questrom School of Business",
+ "university": "Boston University",
+ "city": "Boston",
+ "state": "MA",
+ "region": "Northeast",
+ "type": "Private",
+ "website": "https://www.bu.edu/questrom/graduate-programs/mba-programs/full-time-mba/",
+ "ranks": {
+  "usnews": {
+   "rank": 46,
+   "edition": "2026",
+   "url": "https://www.bu.edu/questrom/blog/top-30-part-time-mba-program-and-top-50-business-school-by-u-s-news-world-report"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": 46,
+   "edition": "2025-26",
+   "url": "https://www.bloomberg.com/business-schools/boston-university-questrom/"
+  },
+  "qs": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "September 2025 incoming class",
+  "class_size": {
+   "v": 117,
+   "src": "BU Questrom Full-Time MBA class profile",
+   "year": 2025,
+   "url": "https://www.bu.edu/questrom/graduate-programs/mba-programs/full-time-mba/admissions/class-profile/"
+  },
+  "gmat_focus": {
+   "v": 633,
+   "stat": "average, labeled GMAT Focus, mid 80% 595 to 673",
+   "src": "BU Questrom Full-Time MBA class profile",
+   "year": 2025,
+   "url": "https://www.bu.edu/questrom/graduate-programs/mba-programs/full-time-mba/admissions/class-profile/"
+  },
+  "gmat_classic": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_quant": {
+   "v": 161,
+   "stat": "average, mid 80% 152 to 167",
+   "src": "BU Questrom Full-Time MBA class profile",
+   "year": 2025,
+   "url": "https://www.bu.edu/questrom/graduate-programs/mba-programs/full-time-mba/admissions/class-profile/"
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": 3.44,
+   "stat": "average undergraduate GPA, mid 80% 2.97 to 3.83",
+   "src": "BU Questrom Full-Time MBA class profile",
+   "year": 2025,
+   "url": "https://www.bu.edu/questrom/graduate-programs/mba-programs/full-time-mba/admissions/class-profile/"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": 6,
+   "stat": "average years, mid 80% 3 to 10",
+   "src": "BU Questrom Full-Time MBA class profile",
+   "year": 2025,
+   "url": "https://www.bu.edu/questrom/graduate-programs/mba-programs/full-time-mba/admissions/class-profile/"
+  },
+  "women_pct": {
+   "v": 45,
+   "src": "BU Questrom Full-Time MBA class profile",
+   "year": 2025,
+   "url": "https://www.bu.edu/questrom/graduate-programs/mba-programs/full-time-mba/admissions/class-profile/"
+  },
+  "intl_pct": {
+   "v": 63,
+   "src": "BU Questrom Full-Time MBA class profile",
+   "year": 2025,
+   "url": "https://www.bu.edu/questrom/graduate-programs/mba-programs/full-time-mba/admissions/class-profile/"
+  },
+  "tuition_usd": {
+   "v": 73024,
+   "stat": "2026-27 rate",
+   "src": "BU Questrom Full-Time MBA admissions page",
+   "year": 2026,
+   "url": "https://www.bu.edu/questrom/graduate-programs/mba-programs/full-time-mba/admissions/"
+  },
+  "salary_median_usd": {
+   "v": 115000,
+   "stat": "median base salary, total (domestic 112000, international 125000); salary knowledge rate 49%",
+   "src": "Questrom Feld Center FTMBA employment report, Class of 2025",
+   "year": 2025,
+   "url": "https://www.bu.edu/questrom/wp-content/uploads/sites/2/2026/03/26102_Feld_FTMBA_EmploymentReport-8.5X11-003.pdf"
+  },
+  "employment_rate_pct": {
+   "v": 80,
+   "stat": "of students seeking employment accepted an offer within three months of graduation; outcomes knowledge rate 91%",
+   "src": "Questrom Feld Center FTMBA employment report, Class of 2025",
+   "year": 2025,
+   "url": "https://www.bu.edu/questrom/wp-content/uploads/sites/2/2026/03/26102_Feld_FTMBA_EmploymentReport-8.5X11-003.pdf"
+  }
+ },
+ "notes": "Class profile page publishes GRE quant average and GRE total mean (318) but no separate verbal figure, no classic GMAT, and no acceptance rate (1385 applications received is stated but admit count is not; rate not computed). The questromworld cost of attendance page is behind BU login; tuition taken from the public admissions page instead. Employment report PDF parsed locally after fetch; salary summary table columns are domestic, international, total."
+}

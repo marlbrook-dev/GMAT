@@ -1,0 +1,135 @@
+{
+ "slug": "byu-marriott",
+ "name": "Marriott School of Business",
+ "university": "Brigham Young University",
+ "city": "Provo",
+ "state": "UT",
+ "region": "West",
+ "type": "Private",
+ "website": "https://marriott.byu.edu/mba/",
+ "ranks": {
+  "usnews": {
+   "rank": 35,
+   "edition": "2026",
+   "url": "https://marriott.byu.edu/stories/u-s-news-heralds-byu-marriott-mba-1348"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": 35,
+   "edition": "2025-26",
+   "url": "https://www.bloomberg.com/business-schools/brigham-young-marriott/"
+  },
+  "qs": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [
+  {
+   "name": "No. 6 MBA in the West, U.S. News 2026",
+   "src": "BYU Marriott news citing US News",
+   "year": 2026,
+   "url": "https://marriott.byu.edu/stories/u-s-news-heralds-byu-marriott-mba-1348"
+  }
+ ],
+ "profile": {
+  "class_year": "Class of 2025",
+  "class_size": {
+   "v": 95,
+   "src": "BYU Marriott MBA class profile",
+   "year": 2025,
+   "url": "https://marriott.byu.edu/mba/about/class-profile"
+  },
+  "gmat_focus": {
+   "v": 628,
+   "stat": "average, labeled Average GMAT (focus)",
+   "src": "BYU Marriott MBA class profile",
+   "year": 2025,
+   "url": "https://marriott.byu.edu/mba/about/class-profile"
+  },
+  "gmat_classic": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": 3.5,
+   "stat": "average GPA",
+   "src": "BYU Marriott MBA class profile",
+   "year": 2025,
+   "url": "https://marriott.byu.edu/mba/about/class-profile"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": 4,
+   "stat": "average years",
+   "src": "BYU Marriott MBA class profile",
+   "year": 2025,
+   "url": "https://marriott.byu.edu/mba/about/class-profile"
+  },
+  "women_pct": {
+   "v": 31,
+   "src": "BYU Marriott MBA class profile",
+   "year": 2025,
+   "url": "https://marriott.byu.edu/mba/about/class-profile"
+  },
+  "intl_pct": {
+   "v": 11,
+   "src": "BYU Marriott MBA class profile",
+   "year": 2025,
+   "url": "https://marriott.byu.edu/mba/about/class-profile"
+  },
+  "tuition_usd": {
+   "v": 63968,
+   "stat": "two-year program total, academic year not stated",
+   "src": "BYU Marriott MBA program costs page",
+   "year": 2026,
+   "url": "https://marriott.byu.edu/mba/costs-financial-aid/overview"
+  },
+  "salary_median_usd": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "employment_rate_pct": {
+   "v": 85,
+   "stat": "students seeking employment placed within three months of graduation, Class of 2025",
+   "src": "BYU Marriott MBA placement profile",
+   "year": 2025,
+   "url": "https://marriott.byu.edu/mba/career/careers/placement-profile/"
+  }
+ },
+ "notes": "Class profile page still shows Class of 2025 and publishes no GRE, classic GMAT, or acceptance rate. Placement profile gives medians only by function (94500 to 139250) and industry, no overall median base salary, so salary_median_usd stays null. Costs page publishes only the two-year tuition total with no academic year; kept with that caveat."
+}

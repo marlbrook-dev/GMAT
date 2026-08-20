@@ -8,3 +8,7 @@
 /pricing/
 /exams/
 /community/
+/terms.html
+/privacy.html
+src/__pycache__/
+src/shot_*.png

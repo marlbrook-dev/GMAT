@@ -9,8 +9,75 @@ import json, pathlib, datetime, os, html, sys
 
 D = pathlib.Path(__file__).parent
 ROOT = D.parent
+sys.path.insert(0, str(D))
+import partials
 SITE = "https://startfromnowhere.com"
 LIVE = {"gmat"}  # exams with a live trainer today
+
+# Plan feature matrix for /pricing/. Values: True = included, False = not
+# included, string = shown verbatim. Order defines the page.
+PRICING = [
+    ("Training", [
+        ("Adaptive questions per day", "10", "Unlimited", "Unlimited"),
+        ("Original practice items (all plans, full bank)", True, True, True),
+        ("Custom drills by skill and difficulty", True, True, True),
+        ("Worked explanations that name the trap", True, True, True),
+    ]),
+    ("Mock Sections", [
+        ("Full 45-minute sections under exam rules", "1 per month", "Unlimited", "Unlimited"),
+        ("Bookmark and 3 answer changes, exactly like test day", True, True, True),
+    ]),
+    ("Games and Daily Habit", [
+        ("Match, Memory, Blitz, Number crunch, Boss round", True, True, True),
+        ("Question of the day with its own streak", True, True, True),
+    ]),
+    ("Lists and Rankings", [
+        ("Full MBA rankings library with sourced data", True, True, True),
+        ("List builder with CSV, PDF report, and share links", True, True, True),
+        ("Target schools linked into your study plan", True, True, True),
+    ]),
+    ("Analytics and Planning", [
+        ("Skill ratings and review queue", True, True, True),
+        ("Full timing and skill analytics history", False, True, True),
+    ]),
+    ("Community", [
+        ("Read every forum board", True, True, True),
+        ("Post with a name or anonymously, no account needed", True, True, True),
+    ]),
+    ("Sync and Data", [
+        ("Cross-device sync with a free account", True, True, True),
+        ("Export and delete your data anytime", True, True, True),
+    ]),
+    ("Coaching", [
+        ("SFN Assist AI coaching (as it ships)", False, False, "First access"),
+        ("AI practice variants (as they ship)", False, False, True),
+        ("Priority support", False, False, True),
+    ]),
+]
+
+CHECK_SVG = ('<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+             'stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-label="Included">'
+             '<path d="m5 13 4 4L19 7"/></svg>')
+
+def pricing_cell(v):
+    if v is True:
+        return CHECK_SVG
+    if v is False:
+        return '<span class="no">-</span>'
+    strong = "unlimited" in str(v).lower()
+    return f'<span class="val{" strong" if strong else ""}">{esc(v)}</span>'
+
+def pricing_rows():
+    out = []
+    for section, rows in PRICING:
+        out.append(f'<div class="grp"><div>{esc(section)}</div></div>')
+        for label, free, plus, pro in rows:
+            out.append('<div class="prow frow">'
+                       f'<div class="fn">{esc(label)}</div>'
+                       f'<div class="fv">{pricing_cell(free)}</div>'
+                       f'<div class="fv hl">{pricing_cell(plus)}</div>'
+                       f'<div class="fv">{pricing_cell(pro)}</div></div>')
+    return "\n".join(out)
 
 def esc(s):
     return html.escape(str(s), quote=True)
@@ -133,7 +200,14 @@ def exam_page(e, tpl, today):
 def main():
     data_path = ROOT / "data" / "exams.json"
     (ROOT / "pricing").mkdir(exist_ok=True)
-    (ROOT / "pricing" / "index.html").write_text((D / "pricing.html").read_text())
+    pricing = partials.apply_chrome((D / "pricing.html").read_text().replace("{{PRICING_ROWS}}", pricing_rows()))
+    if "{{" in pricing:
+        print("build_exams: unresolved placeholder in pricing.html", file=sys.stderr)
+        sys.exit(1)
+    if "—" in pricing or "–" in pricing:
+        print("build_exams: em/en dash in pricing.html", file=sys.stderr)
+        sys.exit(1)
+    (ROOT / "pricing" / "index.html").write_text(pricing)
     if not data_path.exists():
         print("build_exams: no data/exams.json yet; built /pricing/ only")
         return
@@ -153,6 +227,7 @@ def main():
         ed.mkdir(exist_ok=True)
         pages.append((ed / "index.html", exam_page(e, tpl, today)))
     pages.append((dest / "index.html", itpl.replace("{{CARDS}}", "\n".join(cards)).replace("{{UPDATED}}", today)))
+    pages = [(path, partials.apply_chrome(content)) for path, content in pages]
     for path, content in pages:
         if "{{" in content:
             print(f"build_exams: unresolved placeholder in {path}", file=sys.stderr)

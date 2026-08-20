@@ -1,0 +1,57 @@
+{
+ "slug": "lehigh",
+ "name": "College of Business",
+ "university": "Lehigh University",
+ "city": "Bethlehem",
+ "state": "PA",
+ "region": "Northeast",
+ "type": "Private",
+ "ranks": {},
+ "profile": {
+  "class_year": "2025 incoming class",
+  "gpa": {
+   "v": 3.63,
+   "stat": "average GPA",
+   "src": "Lehigh full-time MBA class profile",
+   "year": 2025,
+   "url": "https://business.lehigh.edu/academics/graduate/masters-programs/full-time-mba/about-program/class-profile"
+  },
+  "work_exp_years": {
+   "v": 4,
+   "stat": "page states averaging more than 4 years of professional work",
+   "src": "Lehigh full-time MBA class profile",
+   "year": 2025,
+   "url": "https://business.lehigh.edu/academics/graduate/masters-programs/full-time-mba/about-program/class-profile"
+  },
+  "women_pct": {
+   "v": 56,
+   "stat": "56% female",
+   "src": "Lehigh full-time MBA class profile",
+   "year": 2025,
+   "url": "https://business.lehigh.edu/academics/graduate/masters-programs/full-time-mba/about-program/class-profile"
+  },
+  "intl_pct": {
+   "v": 50,
+   "stat": "50% international",
+   "src": "Lehigh full-time MBA class profile",
+   "year": 2025,
+   "url": "https://business.lehigh.edu/academics/graduate/masters-programs/full-time-mba/about-program/class-profile"
+  },
+  "tuition_usd": {
+   "v": 64680,
+   "stat": "2026-27 rate, 1540 per credit x 42 credits for the full one-year full-time MBA, fees itemized separately",
+   "src": "Lehigh full-time MBA tuition and expenses page",
+   "year": 2026,
+   "url": "https://business.lehigh.edu/academics/graduate/masters-programs/full-time-mba/about-program/tuition-expenses"
+  },
+  "salary_median_usd": {
+   "v": 120071,
+   "stat": "average salary (median not published), 2025 Employment Report data, maximum 190000",
+   "src": "Lehigh full-time MBA career outcomes page",
+   "year": 2025,
+   "url": "https://business.lehigh.edu/academics/graduate/masters-programs/full-time-mba/about-program/career-outcomes"
+  }
+ },
+ "notes": "Class profile publishes no GMAT or GRE figures and no class size. Career outcomes page gives average salary only, no placement rate. Salary value placed in salary_median_usd because it is the only salary field; stat flags it as an average. City and state confirmed from page footer (Bethlehem, PA 18015).",
+ "website": "https://business.lehigh.edu/academics/graduate/masters-programs/full-time-mba"
+}

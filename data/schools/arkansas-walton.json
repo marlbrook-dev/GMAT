@@ -1,0 +1,130 @@
+{
+ "slug": "arkansas-walton",
+ "name": "Sam M. Walton College of Business",
+ "university": "University of Arkansas",
+ "city": "Fayetteville",
+ "state": "AR",
+ "region": "South",
+ "type": "Public",
+ "website": "https://walton.uark.edu/gsb/mba/",
+ "note": "Not verified in-session: the shared web search budget was exhausted before this school could be researched. All figures left null rather than guessed.",
+ "ranks": {
+  "usnews": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "ft": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "",
+  "class_size": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "women_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "intl_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "tuition_usd": {
+   "v": 76942,
+   "stat": "2026-27, out-of-state tuition and fees for the full 38-credit program, which runs one academic year (August to June); in-state 30091",
+   "src": "Walton graduate programs tuition and cost page",
+   "year": 2026,
+   "url": "https://walton.uark.edu/graduate-programs/admissions/tuition-cost.php"
+  },
+  "salary_median_usd": {
+   "v": 82185,
+   "stat": "average starting salary for Walton MBA graduates; class year not stated on page (adjacent employment stat covers fall 2023 to spring 2024 graduates); median not published",
+   "src": "Walton College career connections page",
+   "year": 2024,
+   "url": "https://walton.uark.edu/why-walton/career-connections.php"
+  },
+  "employment_rate_pct": {
+   "v": 89,
+   "stat": "MBA students employed within 3 months of graduation, fall 2023 to spring 2024 graduates",
+   "src": "Walton College career connections page",
+   "year": 2024,
+   "url": "https://walton.uark.edu/why-walton/career-connections.php"
+  }
+ },
+ "notes": "Walton publishes a student listing but no statistical class profile for the full-time MBA; the apply page lists requirements only (GMAT/GRE or 2 plus years work experience), with no averages, acceptance rate, or demographics. Program is one academic year (August through June, 38 credit hours), so the total program cost is effectively the annual cost."
+}

@@ -1,0 +1,114 @@
+{
+ "slug": "florida-warrington",
+ "name": "Warrington College of Business",
+ "university": "University of Florida",
+ "city": "Gainesville",
+ "state": "FL",
+ "region": "South",
+ "type": "Public",
+ "website": "https://warrington.ufl.edu/graduate/full-time-mba/",
+ "ranks": {
+  "usnews": {
+   "rank": 39,
+   "edition": "2026",
+   "url": "https://warrington.ufl.edu/news/2026-us-news-best-grad-schools/"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "2026",
+  "class_size": {
+   "v": null
+  },
+  "gmat_focus": {
+   "v": null
+  },
+  "gmat_classic": {
+   "v": null
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": 3.4,
+   "stat": "typical Full-time MBA candidate (page wording: 'the typical Full-time MBA candidate arrives with four years of work experience, a 615 GMAT score, and a 3.4 undergraduate GPA')",
+   "src": "UF Warrington Full-Time MBA program page",
+   "year": 2026,
+   "url": "https://warrington.ufl.edu/graduate/full-time-mba/"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": 4,
+   "stat": "typical candidate (same page wording as GPA)",
+   "src": "UF Warrington Full-Time MBA program page",
+   "year": 2026,
+   "url": "https://warrington.ufl.edu/graduate/full-time-mba/"
+  },
+  "women_pct": {
+   "v": null
+  },
+  "intl_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "tuition_usd": {
+   "v": null,
+   "note": "figures seen (26473 resident, 61260 non-resident, apparently total for 22-month program) but source page could not be attributed and per-year official figure not verified",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "salary_median_usd": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "employment_rate_pct": {
+   "v": 87,
+   "stat": "accepted full-time job offers by three months post-graduation; page also shows 94 pct received full-time job offers by 3 months; graduating class year not stated on page",
+   "src": "UF Warrington Full-Time MBA program page",
+   "year": 2026,
+   "url": "https://warrington.ufl.edu/graduate/full-time-mba/"
+  }
+ },
+ "notes": "UF publishes no dated class profile page. GMAT: program page says typical candidate has 'a 615 GMAT score' with no edition label and no class year, ambiguous between scales, so both GMAT fields left unset per rules. GRE: only 'average GRE score of applicants is 315' (combined, applicants not enrolled). Salary: page publishes average base salary 124783 and signing bonus 28307 for FT MBA graduates but no median, so salary_median_usd left null. Tuition: official pages publish program totals only, not annual: financial info page (undated, 'most current pricing') lists Full-Time MBA 2-Year tuition 25561 Florida resident / 69565 out-of-state plus 1000 professional development fee at https://warrington.ufl.edu/mba/financial-information/; program page lists tuition-and-fees 18041/47377 (1-year business majors, 10 months) and 26561/70565 (1-year all majors, 12 months). Class size and demographics: only a Nov 2023 news article covering the Classes of 2024/2025 (34 students, 11 pct women) at https://warrington.ufl.edu/programs/meet-the-latest-incoming-university-of-florida-full-time-mba-class/, too old and ambiguously worded to record; prior Clear Admit-sourced class_size/women_pct/GMAT figures were dropped because Clear Admit is a banned source and no current official equivalents exist."
+}

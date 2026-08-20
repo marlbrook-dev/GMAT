@@ -1,0 +1,127 @@
+{
+ "slug": "penn-state-smeal",
+ "name": "Smeal College of Business",
+ "university": "Pennsylvania State University",
+ "city": "University Park",
+ "state": "PA",
+ "region": "Northeast",
+ "type": "Public",
+ "website": "https://oneyearmba.smeal.psu.edu/",
+ "ranks": {
+  "usnews": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "ft": {
+   "rank": 47,
+   "edition": "",
+   "url": "https://magazine.smeal.psu.edu/smeal-mba-program-rises-in-national-rankings/"
+  },
+  "bloomberg": {
+   "rank": 25,
+   "edition": "",
+   "url": "https://www.psu.edu/news/academics/story/penn-state-smeal-mba-program-ranked-no-25-bloomberg-businessweek-rankings"
+  },
+  "qs": {
+   "rank": 29,
+   "edition": "2026",
+   "url": "https://www.topuniversities.com/universities/penn-state-university/penn-state-university-smeal-college-business"
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "2025",
+  "class_size": {
+   "v": 105,
+   "src": "Penn State Smeal One Year MBA Class Profile (official)",
+   "year": 2025,
+   "url": "https://oneyearmba.smeal.psu.edu/program-admissions/class-profile"
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": 657,
+   "stat": "mean",
+   "src": "Smeal MBA Employment Report 2020 (official PDF)",
+   "year": 2020,
+   "url": "https://www.smeal.psu.edu/pgp/2020-smeal-mba-employment-report-pdf.pdf"
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": 3.4,
+   "stat": "mean",
+   "src": "Smeal MBA Employment Report 2020 (official PDF)",
+   "year": 2020,
+   "url": "https://www.smeal.psu.edu/pgp/2020-smeal-mba-employment-report-pdf.pdf"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "work_exp_years": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "women_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "intl_pct": {
+   "v": 30,
+   "src": "Penn State Smeal One Year MBA Class Profile (official)",
+   "year": 2025,
+   "url": "https://oneyearmba.smeal.psu.edu/program-admissions/class-profile"
+  },
+  "tuition_usd": {
+   "v": 49612,
+   "note": "per year; estimated tuition and fees, out-of-state, one-year program; Pennsylvania residents 30486",
+   "src": "Penn State Smeal One Year MBA Tuition and Aid (official)",
+   "year": 2025,
+   "url": "https://oneyearmba.smeal.psu.edu/program-details/tuition-aid"
+  },
+  "salary_median_usd": {
+   "v": 116500,
+   "src": "Smeal MBA Employment Report 2020 (official PDF); median base, predates the 2023 switch to the one-year early-career MBA",
+   "year": 2020,
+   "url": "https://www.smeal.psu.edu/pgp/2020-smeal-mba-employment-report-pdf.pdf"
+  },
+  "employment_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  }
+ },
+ "notes": "The entire Smeal web presence was unreachable this session: oneyearmba.smeal.psu.edu returned HTTP 503 on repeated attempts via WebFetch and connection reset via headless Chromium, and www.smeal.psu.edu also returned 503. No field could be verified or updated this session. Existing figures already sourced to smeal.psu.edu domains (class_size, intl_pct, tuition, and the 2020 legacy-program GMAT, GPA, salary) should be kept as-is per protocol. A search snippet indicated the official career outcomes page lists Class of 2025 average salary 83,000 and 87% employed within six months, but the page would not load so those figures are NOT reported."
+}

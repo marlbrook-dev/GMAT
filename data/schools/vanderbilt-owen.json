@@ -1,0 +1,137 @@
+{
+ "slug": "vanderbilt-owen",
+ "name": "Vanderbilt University Owen Graduate School of Management",
+ "university": "Vanderbilt University",
+ "city": "Nashville",
+ "state": "TN",
+ "region": "South",
+ "type": "Private",
+ "ranks": {
+  "usnews": {
+   "rank": 16,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/vanderbilt-university-01208",
+   "note": "Moved from 18th to 16th; other coverage shows a tie at 16"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "2026",
+   "url": "",
+   "note": "UniversityGuru lists 31st globally and 16th in the US for FT 2026, but the US position conflicts with Rice's school-reported No. 16 US at No. 38 global; unresolved, so left null"
+  },
+  "bloomberg": {
+   "rank": 27,
+   "edition": "2025-26",
+   "url": "https://www.bloomberg.com/business-schools/vanderbilt-owen/"
+  },
+  "qs": {
+   "rank": 101,
+   "edition": "2026",
+   "url": "https://www.universityguru.com/university/owen-graduate-school-of-management,-vanderbilt-university-nashville",
+   "note": "Global Full-Time MBA position in the QS ranking published September 2025, via UniversityGuru aggregator citing QS; QS US list shows tie at 39 in the United States 2026"
+  },
+  "pq": {
+   "rank": 18,
+   "edition": "2025-2026",
+   "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/",
+   "note": "No. 18 per P&Q 2025-2026 coverage snippet"
+  }
+ },
+ "profile": {
+  "class_year": "Class of 2027",
+  "class_size": {
+   "v": 160,
+   "stat": "class size",
+   "src": "Vanderbilt MBA class profile",
+   "year": 2025,
+   "url": "https://business.vanderbilt.edu/mba/class-profile/"
+  },
+  "gmat_focus": {
+   "v": 660,
+   "stat": "average, labeled Average GMAT (Focus); middle 80 percent 625-705",
+   "src": "Vanderbilt MBA class profile",
+   "year": 2025,
+   "url": "https://business.vanderbilt.edu/mba/class-profile/"
+  },
+  "gmat_classic": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "No classic-scale GMAT reported for the Class of 2027 in sources reviewed"
+  },
+  "gre_quant": {
+   "v": 159,
+   "stat": "average; middle 80 percent 152-168",
+   "src": "Vanderbilt MBA class profile",
+   "year": 2025,
+   "url": "https://business.vanderbilt.edu/mba/class-profile/"
+  },
+  "gre_verbal": {
+   "v": 160,
+   "stat": "average; middle 80 percent 153-167",
+   "src": "Vanderbilt MBA class profile",
+   "year": 2025,
+   "url": "https://business.vanderbilt.edu/mba/class-profile/"
+  },
+  "gpa": {
+   "v": 3.4,
+   "stat": "median GPA",
+   "src": "Vanderbilt MBA class profile",
+   "year": 2025,
+   "url": "https://business.vanderbilt.edu/mba/class-profile/"
+  },
+  "accept_rate_pct": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "A 40 percent figure appeared only via a non-preferred aggregator with unverified cycle year; not recorded"
+  },
+  "work_exp_years": {
+   "v": 6,
+   "stat": "average years of work experience",
+   "src": "Vanderbilt MBA class profile",
+   "year": 2025,
+   "url": "https://business.vanderbilt.edu/mba/class-profile/"
+  },
+  "women_pct": {
+   "v": 24,
+   "stat": "female",
+   "src": "Vanderbilt MBA class profile",
+   "year": 2025,
+   "url": "https://business.vanderbilt.edu/mba/class-profile/"
+  },
+  "intl_pct": {
+   "v": 29,
+   "stat": "international",
+   "src": "Vanderbilt MBA class profile",
+   "year": 2025,
+   "url": "https://business.vanderbilt.edu/mba/class-profile/"
+  },
+  "tuition_usd": {
+   "v": 76700,
+   "stat": "2026-27 rate, annual tuition only; fees itemized separately (student services 694, health 882, maintenance 1,250, etc.)",
+   "src": "Vanderbilt Owen MBA tuition, financing and scholarships page",
+   "year": 2026,
+   "url": "https://business.vanderbilt.edu/mba/admissions/tuition-financing-scholarships/"
+  },
+  "salary_median_usd": {
+   "v": 150000,
+   "src": "Bloomberg Businessweek Best B-Schools 2025-26 school profile for Vanderbilt (Owen)",
+   "year": 2025,
+   "url": "https://www.bloomberg.com/business-schools/vanderbilt-owen/",
+   "note": "Median base salary across industries as reported by Bloomberg; school separately reports Class of 2025 average base of 148,000 plus"
+  },
+  "employment_rate_pct": {
+   "v": 87,
+   "stat": "percentage of full-time offers within 90 days of graduation (Class of 2025)",
+   "src": "Vanderbilt MBA career outcomes page",
+   "year": 2025,
+   "url": "https://business.vanderbilt.edu/mba/vanderbilt-advantage/exceptional-outcomes/"
+  }
+ },
+ "website": "https://business.vanderbilt.edu/mba/",
+ "notes": "Class profile page publishes GMAT Focus only; no classic-scale figure. Acceptance rate not published on official pages reached. Official outcomes page reports average base starting salary 148K plus and average signing bonus 36K for the Class of 2025 but no median, so salary_median_usd is null; the prior 150,000 figure was Bloomberg's, outside this pass's allowed sources. Previously recorded tuition 74,500 (2025-26) has been superseded on the official page by the 2026-27 rate of 76,700."
+}

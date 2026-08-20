@@ -1,0 +1,130 @@
+{
+ "slug": "baylor-hankamer",
+ "name": "Hankamer School of Business",
+ "university": "Baylor University",
+ "city": "Waco",
+ "state": "TX",
+ "region": "South",
+ "type": "Private",
+ "website": "https://hankamer.baylor.edu/mba/full-time",
+ "ranks": {
+  "usnews": {
+   "rank": 67,
+   "edition": "2026",
+   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/baylor-university-01209"
+  },
+  "ft": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "bloomberg": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  },
+  "qs": {
+   "rank": null,
+   "edition": "2026",
+   "url": ""
+  },
+  "pq": {
+   "rank": null,
+   "edition": "",
+   "url": ""
+  }
+ },
+ "specialties": [],
+ "profile": {
+  "class_year": "Entering 2024",
+  "class_size": {
+   "v": 80,
+   "src": "Baylor MBA applicant pool and class stats page (Total - MBA Program, entering 2024; includes Two-Year 53 and One-Year 12 tracks)",
+   "year": 2024,
+   "url": "https://hankamer.baylor.edu/mba/full-time/admissions/student-profile"
+  },
+  "gmat_focus": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gmat_classic": {
+   "v": null,
+   "stat": "",
+   "src": "Program is GMAT/GRE test optional; class averages not visible in search snippets",
+   "year": null,
+   "url": "https://hankamer.baylor.edu/mba/full-time/admissions/student-profile"
+  },
+  "gre_quant": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gre_verbal": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "gpa": {
+   "v": 3.52,
+   "stat": "Average GPA - MBA Program, entering 2024",
+   "src": "Baylor MBA applicant pool and class stats page",
+   "year": 2024,
+   "url": "https://hankamer.baylor.edu/mba/full-time/admissions/student-profile"
+  },
+  "accept_rate_pct": {
+   "v": 24.4,
+   "stat": "computed from page figures: 121 accepted of 495 applications, MBA program total, entering 2024",
+   "src": "Baylor MBA applicant pool and class stats page",
+   "year": 2024,
+   "url": "https://hankamer.baylor.edu/mba/full-time/admissions/student-profile"
+  },
+  "work_exp_years": {
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "women_pct": {
+   "v": 53,
+   "src": "Baylor MBA applicant pool and class stats page (entering 2024)",
+   "year": 2024,
+   "url": "https://hankamer.baylor.edu/mba/full-time/admissions/student-profile"
+  },
+  "intl_pct": {
+   "v": 19,
+   "src": "Baylor MBA applicant pool and class stats page (entering 2024)",
+   "year": 2024,
+   "url": "https://hankamer.baylor.edu/mba/full-time/admissions/student-profile"
+  },
+  "tuition_usd": {
+   "v": 67756,
+   "stat": "2026-27 rate: 33878 flat tuition per fall and spring semester (12 plus credit hours), same rate for all residencies; excludes summer per-credit tuition (1650 per credit) and itemized program fees",
+   "src": "Baylor full-time MBA tuition page",
+   "year": 2026,
+   "url": "https://hankamer.baylor.edu/mba/full-time/admissions/tuition"
+  },
+  "salary_median_usd": {
+   "v": 90561,
+   "stat": "average starting salary, Class of 2024 (MBACSEA standard reporting, 100 percent knowledge rate); tuition page separately cites a median of 80000 without a class year",
+   "src": "Baylor full-time MBA career development page",
+   "year": 2024,
+   "url": "https://hankamer.baylor.edu/mba/full-time/student-support/career-development"
+  },
+  "employment_rate_pct": {
+   "v": 92,
+   "stat": "placement within 90 days, Class of 2024 (80 percent placed at graduation)",
+   "src": "Baylor full-time MBA career development page",
+   "year": 2024,
+   "url": "https://hankamer.baylor.edu/mba/full-time/student-support/career-development"
+  }
+ },
+ "notes": "Average GMAT 655 and average GRE 308 are published for the entering 2024 MBA program, but the GMAT edition is not labeled and the average combines the One-Year (Class of 2025) and Two-Year (Class of 2026) cohorts spanning the classic-to-Focus transition, so it is left unclassified per the edition rule. GRE 308 is a combined score with no quant/verbal split. Work experience is not published; the profile lists average age 24 (early-career program). Acceptance rate is computed from the page's own applications and accepted counts."
+}

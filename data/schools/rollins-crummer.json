@@ -1,0 +1,29 @@
+{
+ "slug": "rollins-crummer",
+ "name": "Crummer Graduate School of Business",
+ "university": "Rollins College",
+ "city": "Winter Park",
+ "state": "Florida",
+ "region": "South",
+ "type": "Private",
+ "ranks": {},
+ "profile": {
+  "class_year": "Fall 2025 cohort",
+  "class_size": {
+   "v": 81,
+   "stat": "Fall 2025 cohort members",
+   "src": "Crummer Early Advantage MBA page",
+   "year": 2025,
+   "url": "https://crummer.rollins.edu/programs/early-advantage-mba"
+  },
+  "women_pct": {
+   "v": 36,
+   "stat": "percent women, Fall 2025 cohort",
+   "src": "Crummer Early Advantage MBA page",
+   "year": 2025,
+   "url": "https://crummer.rollins.edu/programs/early-advantage-mba"
+  }
+ },
+ "notes": "Early Advantage MBA is aimed at early-career students (average age 22) and the program states no GMAT or GRE is required; no test averages, GPA, acceptance rate, or work experience figures are published. Cohort page lists 10 countries represented but no percent international. Cost is published as Total Program Investment of 87944 USD for the 16 to 20 month program, not annual tuition, so tuition_usd left null. No employment report or placement and salary statistics found on official pages; the school's career pages and resource articles cite only national GMAC survey data.",
+ "website": "https://crummer.rollins.edu/programs/early-advantage-mba"
+}
