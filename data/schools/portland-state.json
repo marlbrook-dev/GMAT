@@ -1,0 +1,57 @@
+{
+ "slug": "portland-state",
+ "name": "The School of Business",
+ "university": "Portland State University",
+ "city": "Portland",
+ "state": "Oregon",
+ "region": "West",
+ "type": "Public",
+ "ranks": {},
+ "profile": {
+  "class_year": "Data from 2022-2023 (Daytime and Evening cohorts)",
+  "gpa": {
+   "v": 3.16,
+   "stat": "average undergraduate GPA, Daytime MBA (Evening 3.67)",
+   "src": "Portland MBA class profile",
+   "year": 2022,
+   "url": "https://www.pdx.edu/business/grad-mba-class-profile"
+  },
+  "work_exp_years": {
+   "v": 4.4,
+   "stat": "average work experience 53 months, Daytime MBA (Evening 110 months)",
+   "src": "Portland MBA class profile",
+   "year": 2022,
+   "url": "https://www.pdx.edu/business/grad-mba-class-profile"
+  },
+  "women_pct": {
+   "v": 59,
+   "stat": "legal sex female, Daytime MBA (Evening 56%); PSU does not aggregate gender identity data",
+   "src": "Portland MBA class profile",
+   "year": 2022,
+   "url": "https://www.pdx.edu/business/grad-mba-class-profile"
+  },
+  "intl_pct": {
+   "v": 21.2,
+   "stat": "international students 21.21%, Daytime MBA (Evening 9.09%)",
+   "src": "Portland MBA class profile",
+   "year": 2022,
+   "url": "https://www.pdx.edu/business/grad-mba-class-profile"
+  },
+  "salary_median_usd": {
+   "v": 85000,
+   "stat": "median salary (average 89067), classes of 2021 and 2022 combined; 27% of graduates reported salary; page notes data not collected per MBACSEA standards",
+   "src": "Portland MBA employment profile",
+   "year": 2022,
+   "url": "https://www.pdx.edu/business/grad-mba-employment-profile"
+  },
+  "employment_rate_pct": {
+   "v": 95,
+   "stat": "95% of the classes of 2021 and 2022 who were seeking jobs were employed after finishing the MBA; no timeframe defined; not MBACSEA standard",
+   "src": "Portland MBA employment profile",
+   "year": 2022,
+   "url": "https://www.pdx.edu/business/grad-mba-employment-profile"
+  }
+ },
+ "notes": "Class profile page publishes no GMAT, GRE, acceptance rate, or class size. Daytime cohort figures used as the full-time program; Evening figures noted in stat. Tuition year omitted because the page does not state the academic year. Portland, OR address confirmed in page footer. US News rank not included: could not fetch a usnews.com page (blocked).",
+ "website": "https://www.pdx.edu/academics/programs/graduate/portland-mba"
+}

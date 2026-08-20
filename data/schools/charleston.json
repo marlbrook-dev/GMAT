@@ -1,0 +1,50 @@
+{
+ "slug": "charleston",
+ "name": "School of Business",
+ "university": "College of Charleston",
+ "city": "Charleston",
+ "state": "SC",
+ "region": "South",
+ "type": "Public",
+ "ranks": {},
+ "profile": {
+  "class_year": "MBA15 cohort, 2025",
+  "gpa": {
+   "v": 3.51,
+   "stat": "average (page shows 3.514; mid-50% enrolled 3.23 to 3.72)",
+   "src": "CofC One-Year MBA cohort profile MBA15",
+   "year": 2025,
+   "url": "https://charleston.edu/mba/one-year/prospective-students/cohort-profile/cohort-profile15.php"
+  },
+  "class_size": {
+   "v": 56,
+   "stat": "cohort size",
+   "src": "CofC One-Year MBA cohort profile MBA15",
+   "year": 2025,
+   "url": "https://charleston.edu/mba/one-year/prospective-students/cohort-profile/cohort-profile15.php"
+  },
+  "work_exp_years": {
+   "v": 1.4,
+   "stat": "page states average months of experience: 17.1",
+   "src": "CofC One-Year MBA cohort profile MBA15",
+   "year": 2025,
+   "url": "https://charleston.edu/mba/one-year/prospective-students/cohort-profile/cohort-profile15.php"
+  },
+  "women_pct": {
+   "v": 50,
+   "stat": "percent women of cohort",
+   "src": "CofC One-Year MBA cohort profile MBA15",
+   "year": 2025,
+   "url": "https://charleston.edu/mba/one-year/prospective-students/cohort-profile/cohort-profile15.php"
+  },
+  "tuition_usd": {
+   "v": 32000,
+   "stat": "2025-26, one-year program, flat rate including mandatory fees (fall 13600 + spring 13600 + summer 4800)",
+   "src": "CofC MBA tuition and financial aid page",
+   "year": 2025,
+   "url": "https://charleston.edu/mba/one-year/tuition-aid.php"
+  }
+ },
+ "notes": "Cohort profile lists Average GMAT: 586 without naming the exam edition and the cohort predates Class of 2026, so per protocol it is left unclassified. GRE listed as n/a on the profile (test optional). MBA15 page gives countries represented but no international percent; the prior cohort page (MBA14, 2024, the batch URL) listed International: 14% and Average GMAT: 586. No acceptance rate and no employment report with salary or placement found on charleston.edu; career management page has no outcome figures. City and state confirmed from page footer (66 George Street, Charleston, SC). Public control is not stated on the fetched pages.",
+ "website": "https://charleston.edu/mba/one-year/index.php"
+}

@@ -1,0 +1,49 @@
+{
+ "slug": "hawaii-shidler",
+ "name": "Shidler College of Business",
+ "university": "University of Hawaii at Manoa",
+ "city": "Honolulu",
+ "state": "Hawaii",
+ "region": "West",
+ "type": "Public",
+ "ranks": {},
+ "profile": {
+  "gpa": {
+   "v": 3.23,
+   "stat": "average; middle 50% 3.20 to 3.53; undated official page, verified August 2026",
+   "src": "Shidler Global MBA class profile",
+   "year": 2026,
+   "url": "https://shidler.hawaii.edu/mba/class-profile"
+  },
+  "class_size": {
+   "v": 37,
+   "stat": "class size; undated official page, verified August 2026",
+   "src": "Shidler Global MBA class profile",
+   "year": 2026,
+   "url": "https://shidler.hawaii.edu/mba/class-profile"
+  },
+  "work_exp_years": {
+   "v": 5.53,
+   "stat": "average years of experience; undated official page, verified August 2026",
+   "src": "Shidler Global MBA class profile",
+   "year": 2026,
+   "url": "https://shidler.hawaii.edu/mba/class-profile"
+  },
+  "women_pct": {
+   "v": 46,
+   "stat": "female share; undated official page, verified August 2026",
+   "src": "Shidler Global MBA class profile",
+   "year": 2026,
+   "url": "https://shidler.hawaii.edu/mba/class-profile"
+  },
+  "tuition_usd": {
+   "v": 21288,
+   "stat": "Hawaii resident per year (887 per credit, 12 credits per semester); non-resident 38352 per year; excludes fees; undated page, verified August 2026",
+   "src": "Shidler graduate tuition page",
+   "year": 2026,
+   "url": "https://shidler.hawaii.edu/graduate/tuition"
+  }
+ },
+ "notes": "Class profile page states no class year or entering term anywhere on the page, so class_year and per-field year are omitted rather than guessed. Applications submitted (69) and class size (37) do not give an admit count, so acceptance rate cannot be computed. No international student percentage on the profile. No MBA-specific employment report exists on shidler.hawaii.edu (a UH news item covers BBA grads only, not used). Honolulu, HI address confirmed in site footer; University of Hawaii is public. shidler.hawaii.edu would not load via WebFetch (domain verification error) so pages were fetched directly over HTTPS with curl this session. US News rank omitted: not confirmable from a fetched page. Publishes average GMAT 539 with no edition label; not recorded per the edition-ambiguity rule.",
+ "website": "https://shidler.hawaii.edu/mba"
+}

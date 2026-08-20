@@ -1,0 +1,49 @@
+{
+ "slug": "american-kogod",
+ "name": "Kogod School of Business",
+ "university": "American University",
+ "city": "Washington",
+ "state": "District of Columbia",
+ "region": "South",
+ "type": "Private",
+ "ranks": {},
+ "profile": {
+  "gpa": {
+   "v": 3.16,
+   "stat": "average GPA",
+   "src": "Kogod full-time MBA program page",
+   "year": 2026,
+   "url": "https://kogod.american.edu/programs-admissions/mba"
+  },
+  "work_exp_years": {
+   "v": 4.7,
+   "stat": "average work years",
+   "src": "Kogod full-time MBA program page",
+   "year": 2026,
+   "url": "https://kogod.american.edu/programs-admissions/mba"
+  },
+  "women_pct": {
+   "v": 44,
+   "stat": "percent women",
+   "src": "Kogod full-time MBA program page",
+   "year": 2026,
+   "url": "https://kogod.american.edu/programs-admissions/mba"
+  },
+  "intl_pct": {
+   "v": 37,
+   "stat": "percent international",
+   "src": "Kogod full-time MBA program page",
+   "year": 2026,
+   "url": "https://kogod.american.edu/programs-admissions/mba"
+  },
+  "employment_rate_pct": {
+   "v": 94,
+   "stat": "students reporting fully employed, in graduate school, or both, six months post-graduation",
+   "src": "Kogod full-time MBA program page",
+   "year": 2026,
+   "url": "https://kogod.american.edu/programs-admissions/mba"
+  }
+ },
+ "notes": "Class profile on the program page carries no class year label; year given is page publication year. GMAT and GRE are encouraged but not required and no averages, acceptance rate, or class size are published. Employment rate definition is nonstandard (includes graduate school, self-reported). No official employment report with salary found; a school news article cites a 125381 USD average salary but that is Bloomberg ranking data, not a school employment report, so salary left null. Tuition is published as 2163 USD per credit, 45 credits, 97335 USD total program tuition at the 2026-27 rate, fees itemized separately (https://kogod.american.edu/programs-admissions/mba/tuition-fees-financial-aid); no annual figure. A school news article of April 2025 cites a US News full-time MBA rank of no. 58 in the latest rankings, but the edition is not stated and it predates the 2026 edition, so _usnews omitted.",
+ "website": "https://kogod.american.edu/programs-admissions/mba"
+}

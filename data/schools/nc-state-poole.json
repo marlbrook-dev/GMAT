@@ -1,0 +1,57 @@
+{
+ "slug": "nc-state-poole",
+ "name": "Poole College of Management",
+ "university": "North Carolina State University",
+ "city": "Raleigh",
+ "state": "North Carolina",
+ "region": "South",
+ "type": "Public",
+ "ranks": {},
+ "profile": {
+  "class_year": "Fall 2025 entering class",
+  "class_size": {
+   "v": 57,
+   "stat": "students, Fall 2025",
+   "src": "Jenkins MBA full-time class profile",
+   "year": 2025,
+   "url": "https://mba.ncsu.edu/full-time-mba/full-time-class-profile/"
+  },
+  "work_exp_years": {
+   "v": 2.7,
+   "stat": "average, Fall 2025",
+   "src": "Jenkins MBA full-time class profile",
+   "year": 2025,
+   "url": "https://mba.ncsu.edu/full-time-mba/full-time-class-profile/"
+  },
+  "women_pct": {
+   "v": 47,
+   "stat": "percent female, Fall 2025",
+   "src": "Jenkins MBA full-time class profile",
+   "year": 2025,
+   "url": "https://mba.ncsu.edu/full-time-mba/full-time-class-profile/"
+  },
+  "intl_pct": {
+   "v": 15,
+   "stat": "percent international, Fall 2025",
+   "src": "Jenkins MBA full-time class profile",
+   "year": 2025,
+   "url": "https://mba.ncsu.edu/full-time-mba/full-time-class-profile/"
+  },
+  "salary_median_usd": {
+   "v": 104773,
+   "stat": "average accepted salary, class of 2025",
+   "src": "Jenkins MBA full-time career outcomes 2025",
+   "year": 2025,
+   "url": "https://mba.ncsu.edu/your-career/career-outcomes/full-time-mba-career-outcomes-2025/"
+  },
+  "employment_rate_pct": {
+   "v": 85.7,
+   "stat": "secured employment within three months of graduation, class of 2025",
+   "src": "Jenkins MBA full-time career outcomes 2025",
+   "year": 2025,
+   "url": "https://mba.ncsu.edu/your-career/career-outcomes/full-time-mba-career-outcomes-2025/"
+  }
+ },
+ "notes": "GMAT and GRE are optional and no averages or GPA or acceptance rate are published on the class profile page. Salary figure is an average, not a median; the outcomes page also states average base salary of 107748 USD for US placements only, plus 15289 USD average signing bonus. Tuition is published only as estimated total program cost at 2025-26 rates: in-state 57119 USD, out-of-state 99715 USD (https://mba.ncsu.edu/admissions-process/tuition-and-financial-aid/); no annual figure.",
+ "website": "https://mba.ncsu.edu/full-time-mba/"
+}

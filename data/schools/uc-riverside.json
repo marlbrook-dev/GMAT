@@ -1,0 +1,71 @@
+{
+ "slug": "uc-riverside",
+ "name": "School of Business",
+ "university": "University of California, Riverside",
+ "city": "Riverside",
+ "state": "CA",
+ "region": "West",
+ "type": "Public",
+ "ranks": {},
+ "profile": {
+  "class_year": "Fall 2025 entering class",
+  "gpa": {
+   "v": 3.34,
+   "stat": "average GPA",
+   "src": "UCR School of Business MBA class profile",
+   "year": 2025,
+   "url": "https://business.ucr.edu/mba/class-profile"
+  },
+  "class_size": {
+   "v": 29,
+   "stat": "entering class size",
+   "src": "UCR School of Business MBA class profile",
+   "year": 2025,
+   "url": "https://business.ucr.edu/mba/class-profile"
+  },
+  "work_exp_years": {
+   "v": 3.2,
+   "stat": "page states average work experience (months): 38",
+   "src": "UCR School of Business MBA class profile",
+   "year": 2025,
+   "url": "https://business.ucr.edu/mba/class-profile"
+  },
+  "women_pct": {
+   "v": 40,
+   "stat": "percent women",
+   "src": "UCR School of Business MBA class profile",
+   "year": 2025,
+   "url": "https://business.ucr.edu/mba/class-profile"
+  },
+  "intl_pct": {
+   "v": 33,
+   "stat": "percent international",
+   "src": "UCR School of Business MBA class profile",
+   "year": 2025,
+   "url": "https://business.ucr.edu/mba/class-profile"
+  },
+  "tuition_usd": {
+   "v": 59505,
+   "stat": "approximately 19835 per quarter x 3 quarters, CA resident, includes health insurance fees (nonresident approximately 23917 per quarter); page says current academic year without naming it, fetched August 2026",
+   "src": "UCR MBA program tuition page",
+   "year": 2026,
+   "url": "https://business.ucr.edu/mba-program-tuition"
+  },
+  "salary_median_usd": {
+   "v": 87276,
+   "stat": "average annual salary plus bonuses (median base not published), school news article citing data behind the 2025 US News rankings",
+   "src": "UCR School of Business news article",
+   "year": 2025,
+   "url": "https://business.ucr.edu/news/2025/04/08/ucr-business-grad-programs-rank-high-nationally"
+  },
+  "employment_rate_pct": {
+   "v": 60,
+   "stat": "employed within three months of graduation, school news article citing data behind the 2025 US News rankings; graduating class year not stated",
+   "src": "UCR School of Business news article",
+   "year": 2025,
+   "url": "https://business.ucr.edu/news/2025/04/08/ucr-business-grad-programs-rank-high-nationally"
+  }
+ },
+ "notes": "Class profile lists Average GMAT: N/A and only a combined Average GRE: 311, so no GRE quant or verbal split is available. Tuition figure is the school's own approximate quarterly rate times three; the registrar quarterly fee page rendered only stale 2022 term tables when fetched. Salary and employment come from an official school news page, not a standalone employment report; definitions are quoted in stat. City and state confirmed from page (900 University Ave, Riverside, CA 92521); UCR is a University of California campus (public).",
+ "website": "https://business.ucr.edu/mba"
+}

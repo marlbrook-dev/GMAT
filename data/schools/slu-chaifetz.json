@@ -1,0 +1,43 @@
+{
+ "slug": "slu-chaifetz",
+ "name": "Richard A. Chaifetz School of Business",
+ "university": "Saint Louis University",
+ "city": "St. Louis",
+ "state": "MO",
+ "region": "Midwest",
+ "type": "Private",
+ "ranks": {},
+ "profile": {
+  "class_year": "One-Year MBA Class of 2026",
+  "gpa": {
+   "v": 3.41,
+   "stat": "average undergraduate GPA",
+   "src": "SLU Chaifetz One-Year MBA class members page",
+   "year": 2025,
+   "url": "https://www.slu.edu/business/graduate/one-year-mba/oymba-class-members.php"
+  },
+  "class_size": {
+   "v": 27,
+   "stat": "27 students",
+   "src": "SLU Chaifetz One-Year MBA class members page",
+   "year": 2025,
+   "url": "https://www.slu.edu/business/graduate/one-year-mba/oymba-class-members.php"
+  },
+  "work_exp_years": {
+   "v": 2.3,
+   "stat": "average years of work experience",
+   "src": "SLU Chaifetz One-Year MBA class members page",
+   "year": 2025,
+   "url": "https://www.slu.edu/business/graduate/one-year-mba/oymba-class-members.php"
+  },
+  "tuition_usd": {
+   "v": 43800,
+   "stat": "total cost of the 11-month program, the annual equivalent; page undated, verified August 2026",
+   "src": "SLU Chaifetz One-Year MBA program page",
+   "year": 2026,
+   "url": "https://www.slu.edu/business/graduate/one-year-mba/"
+  }
+ },
+ "notes": "Class members page publishes only class size, GPA, work experience, and average age (25); no test scores or demographic percents. No employment outcomes or placement data found anywhere on slu.edu for the One-Year MBA. City, state, and private Jesuit control confirmed on the program page.",
+ "website": "https://www.slu.edu/business/graduate/one-year-mba/"
+}
