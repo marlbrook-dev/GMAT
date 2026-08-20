@@ -38,10 +38,7 @@
  "profile": {
   "class_year": "",
   "class_size": {
-   "v": 40,
-   "src": "Freeman School full-time MBA page (cohort described as an intimate group of 40 students)",
-   "year": null,
-   "url": "https://freeman.tulane.edu/graduate/full-time-mba"
+   "v": null
   },
   "gmat_focus": {
    "v": null,
@@ -104,11 +101,11 @@
    "url": ""
   },
   "tuition_usd": {
-   "v": null,
-   "note": "per year",
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 65637,
+   "stat": "Year One tuition, academic year not labeled; per year (Year One), at 1989 per credit hour; mandatory fees of 5914 itemized separately; Year Two tuition 51714; academic year not labeled on the page, which says rates are updated each spring for the upcoming academic year (fetched Aug 2026)",
+   "src": "Freeman Full-Time MBA tuition and aid page",
+   "year": 2026,
+   "url": "https://freeman.tulane.edu/graduate/full-time-mba/admissions/tuition-and-aid"
   },
   "salary_median_usd": {
    "v": null,
@@ -117,10 +114,12 @@
    "url": ""
   },
   "employment_rate_pct": {
-   "v": null,
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 100,
+   "stat": "gained full-time employment within 4 months of graduation, 2025 graduating class",
+   "src": "Freeman Full-Time MBA page",
+   "year": 2025,
+   "url": "https://freeman.tulane.edu/graduate/full-time-mba"
   }
- }
+ },
+ "notes": "Freeman publishes no full-time MBA class profile: GMAT/GRE are not required and no class averages, GPA, demographics, or acceptance rate appear on official pages reached. The cohort-of-40 wording previously cited was not found on the current program page, so class_size is left unverified. Salary: program page shows only Average Starting Salary 109K+, a rounded average with no median; the detailed 2025 employment report is a Box-hosted PDF that would not render, so salary_median_usd stays null."
 }

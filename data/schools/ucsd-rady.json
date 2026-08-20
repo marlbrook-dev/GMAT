@@ -36,26 +36,23 @@
  },
  "specialties": [],
  "profile": {
-  "class_year": "",
+  "class_year": "Entering Fall 2025 Cohort",
   "class_size": {
-   "v": 74,
-   "src": "US News (full-time MBA enrollment)",
+   "v": 40,
+   "stat": "entering enrollment",
+   "src": "Rady Full-Time MBA Stats and Stories page",
    "year": 2025,
-   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/university-of-california-san-diego-01608"
+   "url": "https://rady.ucsd.edu/programs/mba/stats-stories.html"
   },
   "gmat_focus": {
-   "v": null,
-   "stat": "",
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 645,
+   "stat": "median (page also lists GMAT mean 627; edition not labeled on page)",
+   "src": "Rady Full-Time MBA Stats and Stories page",
+   "year": 2025,
+   "url": "https://rady.ucsd.edu/programs/mba/stats-stories.html"
   },
   "gmat_classic": {
-   "v": 645,
-   "stat": "median",
-   "src": "Poets and Quants school profile (edition not stated by source)",
-   "year": null,
-   "url": "https://poetsandquants.com/school-profile/university-california-san-diego-rady-school-management/"
+   "v": null
   },
   "gre_quant": {
    "v": null,
@@ -72,11 +69,11 @@
    "url": ""
   },
   "gpa": {
-   "v": 3.37,
-   "stat": "average",
-   "src": "Poets and Quants school profile",
-   "year": null,
-   "url": "https://poetsandquants.com/school-profile/university-california-san-diego-rady-school-management/"
+   "v": 3.47,
+   "stat": "undergraduate GPA mean",
+   "src": "Rady Full-Time MBA Stats and Stories page",
+   "year": 2025,
+   "url": "https://rady.ucsd.edu/programs/mba/stats-stories.html"
   },
   "accept_rate_pct": {
    "v": null,
@@ -85,30 +82,30 @@
    "url": ""
   },
   "work_exp_years": {
-   "v": null,
-   "stat": "",
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 4.3,
+   "stat": "average",
+   "src": "Rady Full-Time MBA Stats and Stories page",
+   "year": 2025,
+   "url": "https://rady.ucsd.edu/programs/mba/stats-stories.html"
   },
   "women_pct": {
-   "v": 42,
-   "src": "Poets and Quants school profile",
-   "year": null,
-   "url": "https://poetsandquants.com/school-profile/university-california-san-diego-rady-school-management/"
+   "v": 52,
+   "src": "Rady Full-Time MBA Stats and Stories page",
+   "year": 2025,
+   "url": "https://rady.ucsd.edu/programs/mba/stats-stories.html"
   },
   "intl_pct": {
-   "v": 39,
-   "src": "Poets and Quants school profile",
-   "year": null,
-   "url": "https://poetsandquants.com/school-profile/university-california-san-diego-rady-school-management/"
+   "v": 57,
+   "src": "Rady Full-Time MBA Stats and Stories page",
+   "year": 2025,
+   "url": "https://rady.ucsd.edu/programs/mba/stats-stories.html"
   },
   "tuition_usd": {
-   "v": 65222,
-   "note": "per year, out-of-state; in-state 52977 (US News listing)",
-   "src": "US News",
+   "v": 51687,
+   "stat": "2025-26 rate; Tuition 13,140 plus MBA Professional Degree Supplemental Tuition 38,547, California resident, excluding campus fees and insurance; nonresident supplemental tuition adds 12,245 for 63,932 tuition-only",
+   "src": "UC San Diego registration fees, Rady MBA state supported program",
    "year": 2025,
-   "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/university-of-california-san-diego-01608"
+   "url": "https://students.ucsd.edu/finances/fees/registration/2025-26/rady.html"
   },
   "salary_median_usd": {
    "v": null,
@@ -117,10 +114,12 @@
    "url": ""
   },
   "employment_rate_pct": {
-   "v": null,
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 72.0,
+   "stat": "accepted employment within 3 months of graduation, 2024 graduates (reflects 87.5 percent of graduating students reporting reliable outcome information)",
+   "src": "Rady Full-Time MBA career impact page",
+   "year": 2024,
+   "url": "https://rady.ucsd.edu/programs/mba/career.html"
   }
- }
+ },
+ "notes": "Stats and career pages render from JSON data files on rady.ucsd.edu (/_resources/data/stats/ftmba-stats.json and /_resources/data/career/ftmba-career.json), fetched directly this session. GMAT edition is not labeled; entering Fall 2025 (Class of 2027) and the 645 median is consistent with the Focus scale, so it is recorded as Focus per protocol; the 627 mean is noted in stat. GRE published only as percentile means (Quant 63rd, Verbal 78th) and total mean 327, no scaled quant/verbal subscores. No acceptance rate published. Salary published only as average (116,430 for 2024 graduates), no median. Prior US News and Poets and Quants figures replaced or dropped in favor of official pages. Rady's current official stats page publishes no GMAT figure; the prior undated third-party GMAT was dropped."
 }

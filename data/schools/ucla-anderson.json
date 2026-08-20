@@ -39,51 +39,48 @@
   }
  },
  "profile": {
-  "class_year": "Class of 2027",
+  "class_year": "Class of 2028",
   "class_size": {
-   "v": 307,
-   "src": "Clear Admit / Poets&Quants Class of 2027 profile (school class profile page)",
-   "year": 2025,
-   "url": "https://www.clearadmit.com/2025/09/ucla-anderson-mba-class-of-2027-profile/"
+   "v": 287,
+   "stat": "class size; 2,422 applications received",
+   "src": "UCLA Anderson MBA class profile",
+   "year": 2026,
+   "url": "https://www.anderson.ucla.edu/degrees/full-time-mba/admissions/class-profile"
   },
   "gmat_focus": {
-   "v": null,
-   "stat": "",
-   "src": "",
-   "year": null,
-   "url": "",
-   "note": "No separate GMAT Focus figure seen for UCLA Anderson Class of 2027 in sources reviewed"
+   "v": 660,
+   "stat": "mean, Focus Edition; middle 80 percent 635 to 695",
+   "src": "UCLA Anderson MBA class profile",
+   "year": 2026,
+   "url": "https://www.anderson.ucla.edu/degrees/full-time-mba/admissions/class-profile"
   },
   "gmat_classic": {
-   "v": 703,
-   "stat": "average",
-   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
-   "year": 2025,
-   "url": "https://www.clearadmit.com/2025/09/ucla-anderson-mba-class-of-2027-profile/",
-   "note": "Labeled mean GMAT 10th Edition; middle 80 percent 670-750"
+   "v": 718,
+   "stat": "mean, 10th Edition; middle 80 percent 650 to 750",
+   "src": "UCLA Anderson MBA class profile",
+   "year": 2026,
+   "url": "https://www.anderson.ucla.edu/degrees/full-time-mba/admissions/class-profile"
   },
   "gre_quant": {
-   "v": 163,
+   "v": 164,
    "stat": "average",
-   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
-   "year": 2025,
-   "url": "https://www.clearadmit.com/2025/09/ucla-anderson-mba-class-of-2027-profile/",
-   "note": "Average combined GRE 325"
+   "src": "UCLA Anderson MBA class profile",
+   "year": 2026,
+   "url": "https://www.anderson.ucla.edu/degrees/full-time-mba/admissions/class-profile"
   },
   "gre_verbal": {
    "v": 162,
    "stat": "average",
-   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
-   "year": 2025,
-   "url": "https://www.clearadmit.com/2025/09/ucla-anderson-mba-class-of-2027-profile/"
+   "src": "UCLA Anderson MBA class profile",
+   "year": 2026,
+   "url": "https://www.anderson.ucla.edu/degrees/full-time-mba/admissions/class-profile"
   },
   "gpa": {
    "v": 3.5,
-   "stat": "average",
-   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
-   "year": 2025,
-   "url": "https://www.clearadmit.com/2025/09/ucla-anderson-mba-class-of-2027-profile/",
-   "note": "Mean GPA; middle 80 percent 3.1-3.8"
+   "stat": "mean; middle 80 percent 3.1 to 3.9",
+   "src": "UCLA Anderson MBA class profile",
+   "year": 2026,
+   "url": "https://www.anderson.ucla.edu/degrees/full-time-mba/admissions/class-profile"
   },
   "accept_rate_pct": {
    "v": null,
@@ -93,45 +90,46 @@
    "note": "Secondary sources conflict sharply (9.9 to 12 percent claims fail plausibility for this program); no figure seen from a preferred source"
   },
   "work_exp_years": {
-   "v": 5.6,
+   "v": 5.4,
    "stat": "average",
-   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
-   "year": 2025,
-   "url": "https://www.clearadmit.com/2025/09/ucla-anderson-mba-class-of-2027-profile/"
+   "src": "UCLA Anderson MBA class profile",
+   "year": 2026,
+   "url": "https://www.anderson.ucla.edu/degrees/full-time-mba/admissions/class-profile"
   },
   "women_pct": {
-   "v": 46,
-   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
-   "year": 2025,
-   "url": "https://www.clearadmit.com/2025/09/ucla-anderson-mba-class-of-2027-profile/"
+   "v": 39,
+   "src": "UCLA Anderson MBA class profile",
+   "year": 2026,
+   "url": "https://www.anderson.ucla.edu/degrees/full-time-mba/admissions/class-profile"
   },
   "intl_pct": {
-   "v": 35,
-   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
-   "year": 2025,
-   "url": "https://www.clearadmit.com/2025/09/ucla-anderson-mba-class-of-2027-profile/"
+   "v": 36,
+   "src": "UCLA Anderson MBA class profile",
+   "year": 2026,
+   "url": "https://www.anderson.ucla.edu/degrees/full-time-mba/admissions/class-profile"
   },
   "tuition_usd": {
-   "v": 79452,
-   "note": "per year, 2025-26; snippet states same tuition regardless of California residency; source is a secondary guide, not verified on the Anderson site",
-   "src": "MiM-Essay UCLA MBA guide (search snippet)",
-   "year": 2025,
-   "url": "https://www.mim-essay.com/ucla-mba"
+   "v": 82734,
+   "stat": "2026-27 rate; MBA program fees, flat fee per year, same regardless of residency; excludes mandatory UCLA fees (2,105) and health insurance (8,668); per year",
+   "src": "UCLA Anderson Full-Time MBA financing page",
+   "year": 2026,
+   "url": "https://anderson.ucla.edu/degrees/full-time-mba/financing"
   },
   "salary_median_usd": {
-   "v": null,
-   "src": "",
-   "year": null,
-   "url": "",
-   "note": "Secondary coverage reports a Class of 2025 median base salary of 160,096 (up 12 percent), but this was not seen from a preferred source"
+   "v": 160096,
+   "stat": "median salary, Class of 2025 (up 12 percent from 142,800 in 2024)",
+   "src": "UCLA Anderson Class of 2025 Full-Time MBA Employment Report",
+   "year": 2025,
+   "url": "https://www.anderson.ucla.edu/sites/default/files/document/2026-03/Class%20of%202025%20Employment%20Report%20PDF_0.pdf"
   },
   "employment_rate_pct": {
-   "v": null,
-   "src": "",
-   "year": null,
-   "url": "",
-   "note": ""
+   "v": 74.7,
+   "stat": "accepted job offers by 3 months after graduation, percent of students seeking employment, Class of 2025 (offers by 3 months 76.3 percent; accepts by 6 months 85 percent)",
+   "src": "UCLA Anderson Class of 2025 Full-Time MBA Employment Report",
+   "year": 2025,
+   "url": "https://www.anderson.ucla.edu/sites/default/files/document/2026-03/Class%20of%202025%20Employment%20Report%20PDF_0.pdf"
   }
  },
- "website": "https://www.anderson.ucla.edu/degrees/full-time-mba"
+ "website": "https://www.anderson.ucla.edu/degrees/full-time-mba",
+ "notes": "Anderson does not publish an acceptance rate; the class profile gives 2,422 applications and a class of 287 without an admit figure. All Class of 2028 profile figures verified on the official class profile page; previous Clear Admit figures for Class of 2027 replaced with the school's newer Class of 2028 data."
 }

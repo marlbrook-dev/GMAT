@@ -79,11 +79,11 @@
    "url": ""
   },
   "gpa": {
-   "v": null,
-   "stat": "",
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 3.48,
+   "stat": "average (no cohort year labeled on page)",
+   "src": "Haslam Full-Time MBA page",
+   "year": 2026,
+   "url": "https://haslam.utk.edu/full-time-mba/"
   },
   "accept_rate_pct": {
    "v": null,
@@ -118,16 +118,19 @@
    "url": ""
   },
   "salary_median_usd": {
-   "v": null,
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 79893,
+   "stat": "average salary, Fall and Spring Class of 2022 and Spring Class of 2023, at 6 months after graduation; school publishes no median",
+   "src": "Haslam student outcomes page",
+   "year": 2023,
+   "url": "https://haslam.utk.edu/student-outcomes/"
   },
   "employment_rate_pct": {
-   "v": null,
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 82,
+   "stat": "placement at 6 months after graduation, Fall and Spring Class of 2022 and Spring Class of 2023",
+   "src": "Haslam student outcomes page",
+   "year": 2023,
+   "url": "https://haslam.utk.edu/student-outcomes/"
   }
- }
+ },
+ "notes": "Haslam publishes no full-time MBA class profile page: no class size, GMAT/GRE, work experience, women or international percentages, or acceptance rate on any official page reached. Tuition: school publishes only 16-month PROGRAM totals combining tuition and fees, not annual tuition: program page shows Estimated Program Cost in-state 39125 and out-of-state 69968 (https://haslam.utk.edu/full-time-mba/); official 2026-2027 expense sheet (https://apply.haslam.utk.edu/www/documents/26-27%20Expenses/FTMBA%20Start-Up%20Expenses%202026-2027.pdf) shows program totals in-state 38982 and out-of-state 69825 with fees itemized, so no annual tuition-only figure exists. Salary figure is an average, not a median, and covers 2022 and 2023 classes; an older undated career brochure (2021 data) showed median base 97500 and 88 percent employed within 90 days but was not used because it is stale and unlabeled by class year."
 }

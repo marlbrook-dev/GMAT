@@ -45,11 +45,7 @@
    "url": "https://mendoza.nd.edu/graduate-programs/the-notre-dame-mba/"
   },
   "gmat_focus": {
-   "v": 655,
-   "stat": "median, Class of 2027 (edition not labeled; fall 2025 entering class)",
-   "src": "Clear Admit school profile",
-   "year": 2025,
-   "url": "https://www.clearadmit.com/schools/notre-dame-mendoza/"
+   "v": null
   },
   "gmat_classic": {
    "v": 680,
@@ -124,5 +120,5 @@
    "url": "https://mendoza.nd.edu/wp-content/uploads/2026/04/031026_MBA-Career-Report_Final.pdf"
   }
  },
- "notes": "The official MBA page (current 2026-27 application cycle) lists 655 Median GMAT Score with no edition label and no class year, so per protocol neither gmat_focus nor gmat_classic is set from it; the prior Clear Admit attribution of 655 to Class of 2027 Focus could not be confirmed officially. GRE is published as 315 median total only, no quant/verbal split. International is published as 17 countries represented, not a percentage. Acceptance rate not published. Stats on the program page are not tied to a stated class year, so class_year left blank; year 2026 reflects the page's current 2026-27 admissions cycle content."
+ "notes": "The official MBA page (current 2026-27 application cycle) lists 655 Median GMAT Score with no edition label and no class year, so per protocol neither gmat_focus nor gmat_classic is set from it; the prior Clear Admit attribution of 655 to Class of 2027 Focus could not be confirmed officially. GRE is published as 315 median total only, no quant/verbal split. International is published as 17 countries represented, not a percentage. Acceptance rate not published. Stats on the program page are not tied to a stated class year, so class_year left blank; year 2026 reflects the page's current 2026-27 admissions cycle content. Mendoza lists a 655 median GMAT with no edition label on its official page; not recorded per the edition-ambiguity rule."
 }

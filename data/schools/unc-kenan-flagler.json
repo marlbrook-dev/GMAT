@@ -41,18 +41,17 @@
   "class_year": "Class of 2027",
   "class_size": {
    "v": 206,
-   "src": "Poets&Quants, Meet North Carolina Kenan-Flagler's MBA Class of 2027",
+   "stat": "class size",
+   "src": "UNC Kenan-Flagler Full-Time MBA class profile",
    "year": 2025,
-   "url": "https://poetsandquants.com/2025/10/23/meet-north-carolina-kenan-flaglers-mba-class-of-2027/",
-   "note": "206 enrolled, not counting 46 deferrals; 2,206 applications"
+   "url": "https://www.kenan-flagler.unc.edu/programs/mba/full-time-mba/class-profile/"
   },
   "gmat_focus": {
-   "v": null,
-   "stat": "",
-   "src": "",
-   "year": null,
-   "url": "",
-   "note": "No GMAT Focus figure seen for the Class of 2027 in sources reviewed"
+   "v": 652,
+   "stat": "average GMAT Focus; middle 80 percent 605 to 715",
+   "src": "UNC Kenan-Flagler Full-Time MBA class profile",
+   "year": 2025,
+   "url": "https://www.kenan-flagler.unc.edu/programs/mba/full-time-mba/class-profile/"
   },
   "gmat_classic": {
    "v": 710,
@@ -79,12 +78,11 @@
    "note": "Only a combined GRE average of 319 was seen; no quant/verbal split verified"
   },
   "gpa": {
-   "v": 3.445,
-   "stat": "average",
-   "src": "Poets&Quants, Meet North Carolina Kenan-Flagler's MBA Class of 2027",
+   "v": 3.4,
+   "stat": "average; middle 80 percent 2.9 to 3.9",
+   "src": "UNC Kenan-Flagler Full-Time MBA class profile",
    "year": 2025,
-   "url": "https://poetsandquants.com/2025/10/23/meet-north-carolina-kenan-flaglers-mba-class-of-2027/",
-   "note": "Up from 3.4 for the previous class"
+   "url": "https://www.kenan-flagler.unc.edu/programs/mba/full-time-mba/class-profile/"
   },
   "accept_rate_pct": {
    "v": null,
@@ -96,29 +94,29 @@
   "work_exp_years": {
    "v": 5,
    "stat": "average",
-   "src": "Poets&Quants, Meet North Carolina Kenan-Flagler's MBA Class of 2027",
+   "src": "UNC Kenan-Flagler Full-Time MBA class profile",
    "year": 2025,
-   "url": "https://poetsandquants.com/2025/10/23/meet-north-carolina-kenan-flaglers-mba-class-of-2027/"
+   "url": "https://www.kenan-flagler.unc.edu/programs/mba/full-time-mba/class-profile/"
   },
   "women_pct": {
-   "v": 31,
-   "src": "Poets&Quants, Meet North Carolina Kenan-Flagler's MBA Class of 2027",
+   "v": 32,
+   "stat": "female",
+   "src": "UNC Kenan-Flagler Full-Time MBA class profile",
    "year": 2025,
-   "url": "https://poetsandquants.com/2025/10/23/meet-north-carolina-kenan-flaglers-mba-class-of-2027/"
+   "url": "https://www.kenan-flagler.unc.edu/programs/mba/full-time-mba/class-profile/"
   },
   "intl_pct": {
    "v": 35,
-   "src": "Poets&Quants, Meet North Carolina Kenan-Flagler's MBA Class of 2027",
+   "src": "UNC Kenan-Flagler Full-Time MBA class profile",
    "year": 2025,
-   "url": "https://poetsandquants.com/2025/10/23/meet-north-carolina-kenan-flaglers-mba-class-of-2027/",
-   "note": "Down from 43 percent the prior year"
+   "url": "https://www.kenan-flagler.unc.edu/programs/mba/full-time-mba/class-profile/"
   },
   "tuition_usd": {
-   "v": 74138,
-   "note": "per year, 2025-26 tuition and fees, out-of-state; in-state 55,416",
-   "src": "Clear Admit school profile (search snippet)",
-   "year": 2025,
-   "url": "https://www.clearadmit.com/schools/kenan-flagler/"
+   "v": 74192,
+   "stat": "2026-27 rate; tuition and mandatory fees combined (not itemized separately), non-North Carolina resident; NC resident 55,470; estimate pending state budget approval",
+   "src": "UNC Kenan-Flagler Full-Time MBA tuition and financial aid page",
+   "year": 2026,
+   "url": "https://www.kenan-flagler.unc.edu/programs/mba/full-time-mba/admissions/tuition-financial-aid/"
   },
   "salary_median_usd": {
    "v": null,
@@ -128,12 +126,13 @@
    "note": "Median not seen; school one-pager reports average base salary 139,637 for the Class of 2025 (153 reporting) at https://www.kenan-flagler.unc.edu/wp-content/uploads/2025/12/FTMBA26-032-Employment-Statistics-One-Pager_FNL.pdf"
   },
   "employment_rate_pct": {
-   "v": null,
-   "src": "",
-   "year": null,
-   "url": "",
-   "note": ""
+   "v": 90,
+   "stat": "job accepts 6 months post-graduation, all students, Class of 2025 (88 percent at 3 months post-graduation; 91 percent with US work authorization, 81 percent without)",
+   "src": "Kenan-Flagler MBA Class of 2025 employment statistics one-pager",
+   "year": 2025,
+   "url": "https://www.kenan-flagler.unc.edu/wp-content/uploads/2025/12/FTMBA26-032-Employment-Statistics-One-Pager_FNL.pdf"
   }
  },
- "website": "https://www.kenan-flagler.unc.edu/programs/mba/full-time-mba/"
+ "website": "https://www.kenan-flagler.unc.edu/programs/mba/full-time-mba/",
+ "notes": "Official Class of 2027 profile lists GMAT Focus only (652 average); no classic-edition GMAT published, so the prior Poets and Quants claim of a 710 average (scale unlabeled) is dropped as unconfirmed and inconsistent with the official page. GRE published only as a combined average (319, middle 80 percent 304 to 332), no quant/verbal split. No acceptance rate published. Overall salary is published as a mean only (base salary mean 139,637, 153 students reporting); medians appear only by region/industry/function, so salary_median_usd stays null. Prior class profile GPA 3.445 from Poets and Quants replaced by the official 3.4 average."
 }

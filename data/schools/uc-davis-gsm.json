@@ -36,12 +36,12 @@
  },
  "specialties": [],
  "profile": {
-  "class_year": "",
+  "class_year": "Fall 2025 entering cohort",
   "class_size": {
-   "v": null,
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 31,
+   "src": "UC Davis GSM Full-Time MBA class profile page",
+   "year": 2025,
+   "url": "https://gsm.ucdavis.edu/full-time-mba/admissions/class-profile"
   },
   "gmat_focus": {
    "v": null,
@@ -58,11 +58,11 @@
    "url": ""
   },
   "gre_quant": {
-   "v": null,
-   "stat": "",
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 161,
+   "stat": "average",
+   "src": "UC Davis GSM Full-Time MBA class profile page",
+   "year": 2025,
+   "url": "https://gsm.ucdavis.edu/full-time-mba/admissions/class-profile"
   },
   "gre_verbal": {
    "v": null,
@@ -72,11 +72,11 @@
    "url": ""
   },
   "gpa": {
-   "v": null,
-   "stat": "",
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 3.5,
+   "stat": "average",
+   "src": "UC Davis GSM Full-Time MBA class profile page",
+   "year": 2025,
+   "url": "https://gsm.ucdavis.edu/full-time-mba/admissions/class-profile"
   },
   "accept_rate_pct": {
    "v": null,
@@ -85,30 +85,30 @@
    "url": ""
   },
   "work_exp_years": {
-   "v": null,
-   "stat": "",
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 5,
+   "stat": "average",
+   "src": "UC Davis GSM Full-Time MBA class profile page",
+   "year": 2025,
+   "url": "https://gsm.ucdavis.edu/full-time-mba/admissions/class-profile"
   },
   "women_pct": {
-   "v": null,
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 42,
+   "src": "UC Davis GSM Full-Time MBA class profile page",
+   "year": 2025,
+   "url": "https://gsm.ucdavis.edu/full-time-mba/admissions/class-profile"
   },
   "intl_pct": {
-   "v": null,
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 29,
+   "src": "UC Davis GSM Full-Time MBA class profile page",
+   "year": 2025,
+   "url": "https://gsm.ucdavis.edu/full-time-mba/admissions/class-profile"
   },
   "tuition_usd": {
-   "v": null,
-   "note": "per year",
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 53371,
+   "stat": "2026-27 rate, tuition and fees combined (not itemized separately); per year; 2026-27 tuition and fees combined, California resident, entering students (summer through spring); continuing students 50428; nonresident supplemental tuition adds 12245 per year; page marks figures as estimates subject to ",
+   "src": "UC Davis GSM Full-Time MBA tuition and financial aid page",
+   "year": 2026,
+   "url": "https://gsm.ucdavis.edu/full-time-mba/tuition-financial-aid"
   },
   "salary_median_usd": {
    "v": null,
@@ -117,10 +117,12 @@
    "url": ""
   },
   "employment_rate_pct": {
-   "v": null,
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 85,
+   "stat": "received job offers by three months post-graduation, U.S. eligible graduates, Class of 2025",
+   "src": "UC Davis GSM Full-Time MBA career outcomes page",
+   "year": 2025,
+   "url": "https://gsm.ucdavis.edu/full-time-mba/your-career"
   }
- }
+ },
+ "notes": "The official 2025 cohort profile publishes no GMAT figure on either scale and only GRE quant (161 average), no GRE verbal, and no acceptance rate. Salary is published only as 117K+ average for U.S. eligible graduates (Class of 2025), a rounded figure with no median, so salary_median_usd stays null. The standalone placement report URL returned HTTP 403."
 }

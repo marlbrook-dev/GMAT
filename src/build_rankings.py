@@ -10,8 +10,9 @@ Two-layer ranking, both documented verbatim on the page:
    skip, from whatever verified data exists:
       publishers 50% + outcomes 20% + GMAT selectivity 20% + acceptance 10%
    with weights renormalized over available components. Outcomes = the mean
-   of salary points (90k to 185k maps 0 to 100) and 3-month employment
-   points (70% to 100% maps 0 to 100). GMAT maps Focus 555 to 695 or
+   of salary points (70k to 190k maps 0 to 100) and 3-month employment
+   points (60% to 95% maps 0 to 100); both bands recalibrated August 2026
+   to the observed range of official school reports. GMAT maps Focus 555 to 695 or
    Classic 605 to 745 onto 0 to 100 (whichever edition the school
    publishes; never converted). Acceptance maps 60% down to 6% onto 0 to
    100. A school needs the publisher component or at least two other
@@ -61,10 +62,10 @@ def sfn_score(s):
     outs = []
     sal = field(s, "salary_median_usd")
     if sal is not None:
-        outs.append(clamp01((sal - 90000) / (185000 - 90000)) * 100)
+        outs.append(clamp01((sal - 70000) / (190000 - 70000)) * 100)
     emp = field(s, "employment_rate_pct")
     if emp is not None:
-        outs.append(clamp01((emp - 70) / 30) * 100)
+        outs.append(clamp01((emp - 60) / 35) * 100)
     if outs:
         comps["outcomes"] = sum(outs) / len(outs)
     gf, gc = field(s, "gmat_focus"), field(s, "gmat_classic")

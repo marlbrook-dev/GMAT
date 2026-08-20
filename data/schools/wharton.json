@@ -78,11 +78,7 @@
    "url": "https://mba.wharton.upenn.edu/class-profile/"
   },
   "accept_rate_pct": {
-   "v": 20.5,
-   "src": "US News admissions data (MBA Class of 2026), as attributed in search-result coverage",
-   "year": 2024,
-   "url": "",
-   "note": "figure was explicitly attributed to US News for the Class of 2026 (fall 2024 entry); the US News school page URL itself was not surfaced in snippets"
+   "v": null
   },
   "work_exp_years": {
    "v": 5,
@@ -127,6 +123,6 @@
    "url": "https://mba-pardot.marcomm.wharton.upenn.edu/l/327371/2026-04-14/7lhxf8/327371/1776198122hoMeKEA9/2025_MBA_Career_Report.pdf"
   }
  },
- "notes": "Anchor check passed: average GMAT Focus 676 and average Classic 735 confirmed for Class of 2027. Acceptance rate 20.5% is US News data for the Class of 2026 (fall 2024 entry); P&Q reported Wharton became more selective again in the 2025-26 cycle (yield rose to 62.7%) but the exact newer rate did not appear in snippets. Official class profile page shows Class of 2027 stats as zero placeholders (not yet published), so complete official data is for the Class of 2026; batch's P&Q Class of 2027 figures could not be confirmed on the school domain. GMAT Focus average is not published on the official page. Acceptance rate is not published by Wharton. Career report PDF is hosted on Wharton's Pardot storage and linked from mba.wharton.upenn.edu/mba-career-services/.",
+ "notes": "Anchor check passed: average GMAT Focus 676 and average Classic 735 confirmed for Class of 2027. Acceptance rate 20.5% is US News data for the Class of 2026 (fall 2024 entry); P&Q reported Wharton became more selective again in the 2025-26 cycle (yield rose to 62.7%) but the exact newer rate did not appear in snippets. Official class profile page shows Class of 2027 stats as zero placeholders (not yet published), so complete official data is for the Class of 2026; batch's P&Q Class of 2027 figures could not be confirmed on the school domain. GMAT Focus average is not published on the official page. Acceptance rate is not published by Wharton. Career report PDF is hosted on Wharton's Pardot storage and linked from mba.wharton.upenn.edu/mba-career-services/. Wharton does not publish an acceptance rate; prior third-party figure dropped.",
  "website": "https://mba.wharton.upenn.edu/"
 }

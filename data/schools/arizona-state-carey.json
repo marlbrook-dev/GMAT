@@ -117,11 +117,7 @@
    "url": "https://wpcarey.asu.edu/mba-programs/full-time/class-profile"
   },
   "tuition_usd": {
-   "v": 102580,
-   "note": "total program (21 months) tuition and fees, non-resident; resident 61354, international 107923; per-year figure not published in snippet",
-   "src": "W. P. Carey full-time MBA cost and financial aid page",
-   "year": null,
-   "url": "https://wpcarey.asu.edu/mba-programs/full-time/cost-financial-aid"
+   "v": null
   },
   "salary_median_usd": {
    "v": 121116,
@@ -138,5 +134,5 @@
    "url": "https://wpcarey.asu.edu/mba-programs/full-time/career-management"
   }
  },
- "notes": "Class profile now shows the fall 2025 entering class; all profile figures updated to it, replacing the fall 2024 figures in the batch (including the unlabeled GMAT 698 recorded as classic, which is no longer on the page). GRE shown only as a combined average of 314, no quant/verbal split. Percent women is not listed on the fall 2025 profile; the 43 percent in existing data was the fall 2024 profile. Cost page now shows rounded minimum total-program estimates that replace the earlier itemized totals."
+ "notes": "Class profile now shows the fall 2025 entering class; all profile figures updated to it, replacing the fall 2024 figures in the batch (including the unlabeled GMAT 698 recorded as classic, which is no longer on the page). GRE shown only as a combined average of 314, no quant/verbal split. Percent women is not listed on the fall 2025 profile; the 43 percent in existing data was the fall 2024 profile. Cost page now shows rounded minimum total-program estimates that replace the earlier itemized totals. W. P. Carey publishes only total-program cost estimates with no per-year tuition or academic year; annual tuition left unpublished."
 }

@@ -42,17 +42,16 @@
   "class_year": "Class of 2027",
   "class_size": {
    "v": 235,
-   "src": "Clear Admit / Poets&Quants Class of 2027 profile (Texas McCombs MBA Insider)",
+   "src": "McCombs Full-Time MBA class profile page",
    "year": 2025,
-   "url": "https://www.clearadmit.com/2025/10/texas-mccombs-mba-class-of-2027-profile/"
+   "url": "https://www.mccombs.utexas.edu/graduate/mba/full-time-mba/admissions/class-profile/"
   },
   "gmat_focus": {
-   "v": 657,
-   "stat": "",
-   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+   "v": 655,
+   "stat": "median, middle 80 percent 615-695",
+   "src": "McCombs Full-Time MBA class profile page",
    "year": 2025,
-   "url": "https://www.clearadmit.com/2025/10/texas-mccombs-mba-class-of-2027-profile/",
-   "note": "Labeled GMAT Focus with middle 80 percent 615-695; snippet did not state whether 657 is the average or the median"
+   "url": "https://www.mccombs.utexas.edu/graduate/mba/full-time-mba/admissions/class-profile/"
   },
   "gmat_classic": {
    "v": null,
@@ -81,9 +80,9 @@
   "gpa": {
    "v": 3.53,
    "stat": "median",
-   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+   "src": "McCombs Full-Time MBA class profile page",
    "year": 2025,
-   "url": "https://www.clearadmit.com/2025/10/texas-mccombs-mba-class-of-2027-profile/"
+   "url": "https://www.mccombs.utexas.edu/graduate/mba/full-time-mba/admissions/class-profile/"
   },
   "accept_rate_pct": {
    "v": null,
@@ -94,44 +93,42 @@
   },
   "work_exp_years": {
    "v": 6,
-   "stat": "average",
-   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+   "stat": "average, middle 80 percent 3-10 years",
+   "src": "McCombs Full-Time MBA class profile page",
    "year": 2025,
-   "url": "https://www.clearadmit.com/2025/10/texas-mccombs-mba-class-of-2027-profile/"
+   "url": "https://www.mccombs.utexas.edu/graduate/mba/full-time-mba/admissions/class-profile/"
   },
   "women_pct": {
-   "v": 29,
-   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
-   "year": 2025,
-   "url": "https://www.clearadmit.com/2025/10/texas-mccombs-mba-class-of-2027-profile/"
+   "v": null
   },
   "intl_pct": {
    "v": 31,
-   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+   "src": "McCombs Full-Time MBA class profile page",
    "year": 2025,
-   "url": "https://www.clearadmit.com/2025/10/texas-mccombs-mba-class-of-2027-profile/"
+   "url": "https://www.mccombs.utexas.edu/graduate/mba/full-time-mba/admissions/class-profile/"
   },
   "tuition_usd": {
    "v": 61214,
-   "note": "per year, 2025-26, out-of-state first-year students; in-state 55,196",
-   "src": "Texas McCombs Full-Time MBA tuition page (search snippet)",
+   "stat": "Class of 2027 rate, entering fall 2025; per year (Year 1), non-Texas resident, Class of 2027 program rate; Texas resident 55196 per year; billed as program installments per semester and includes fees; assumes 15/14/15/15 credit hours",
+   "src": "McCombs Full-Time MBA tuition and financial aid page",
    "year": 2025,
    "url": "https://www.mccombs.utexas.edu/graduate/mba/full-time-mba/tuition-financial-aid/"
   },
   "salary_median_usd": {
    "v": 150000,
-   "src": "Clear Admit coverage of Texas McCombs Class of 2025 employment report",
-   "year": 2026,
-   "url": "https://www.clearadmit.com/2026/02/texas-mccombs-mba-class-of-2025-employment-report/",
-   "note": "Median base salary, Class of 2025; mean 154,053"
+   "stat": "median base salary, Class of 2024 (mean 151178, 133 reporting)",
+   "src": "McCombs Full-Time MBA employment report, Classes of 2024 and 2025",
+   "year": 2024,
+   "url": "https://go.mccombs.utexas.edu/rs/503-KLY-263/images/FT%20MBA%20Employment%20Report%202024-25_Final.pdf?version=0"
   },
   "employment_rate_pct": {
-   "v": null,
-   "src": "",
-   "year": null,
-   "url": "",
-   "note": ""
+   "v": 85.9,
+   "stat": "received first offer within 3 months of graduation, of 184 students seeking employment, Class of 2024 (84.8 percent accepted within 3 months)",
+   "src": "McCombs Full-Time MBA employment report, Classes of 2024 and 2025",
+   "year": 2024,
+   "url": "https://go.mccombs.utexas.edu/rs/503-KLY-263/images/FT%20MBA%20Employment%20Report%202024-25_Final.pdf?version=0"
   }
  },
- "website": "https://www.mccombs.utexas.edu/graduate/mba/full-time-mba/"
+ "website": "https://www.mccombs.utexas.edu/graduate/mba/full-time-mba/",
+ "notes": "Official Class of 2027 profile labels the 655 as GMAT Focus median (previous Clear Admit figure of 657 replaced). GRE is published only as a total median of 319 with middle 80 percent 310-332, no quant/verbal split, so gre_quant and gre_verbal stay null. The official Class of 2027 profile page does not publish gender or acceptance rate; the prior Clear Admit women 29 percent could not be confirmed officially. Newer Class of 2025 outcomes exist only on the official MBA Insider blog (average base 154053, 80.2 percent of job seekers received offers within six months, no median given), so the Class of 2024 official employment report median and 3-month offer rate are recorded instead. Prior classic-scale GMAT averages (704-706) apply to fall 2022 and fall 2023 entrants per the employment report and were not carried into gmat_classic to keep all fields on the current Class of 2027."
 }

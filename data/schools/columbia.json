@@ -102,7 +102,11 @@
    "url": "https://poetsandquants.com/2025/11/20/columbia-completes-the-m7-picture-multiple-school-records-set-in-new-mba-class/"
   },
   "tuition_usd": {
-   "v": null
+   "v": 93908,
+   "stat": "first-year tuition, 9-month academic year; academic year label not shown on page; captured August 2026",
+   "src": "Columbia Business School Office of Financial Aid, full-time cost of attendance",
+   "year": 2026,
+   "url": "https://business.columbia.edu/financial-aid/costs/full-time"
   },
   "salary_median_usd": {
    "v": 175000,
@@ -118,6 +122,6 @@
    "note": ""
   }
  },
- "notes": "US News 2026 rank is a tie at No. 7 with NYU Stern. Class size of 982 includes 758 September entrants and 224 January entrants. FT 2026 rank is null because Columbia was excluded from the 2026 FT ranking (did not meet the alumni survey participation threshold; it placed 2nd in 2025). Columbia Business School's official sites are unreachable from this session: academics.business.columbia.edu and business.columbia.edu both sit behind Cloudflare bot protection that returns 403 challenge pages to WebFetch and curl, and resets TLS connections from headless Chromium routed through the session egress proxy. No official Columbia figure could be verified this session, so nothing here should replace existing data; the existing Poets and Quants sourced figures were not re-verified and still need official sourcing in a session that can reach the site.",
+ "notes": "US News 2026 rank is a tie at No. 7 with NYU Stern. Class size of 982 includes 758 September entrants and 224 January entrants. FT 2026 rank is null because Columbia was excluded from the 2026 FT ranking (did not meet the alumni survey participation threshold; it placed 2nd in 2025). Columbia Business School's official sites are unreachable from this session: academics.business.columbia.edu and business.columbia.edu both sit behind Cloudflare bot protection that returns 403 challenge pages to WebFetch and curl, and resets TLS connections from headless Chromium routed through the session egress proxy. No official Columbia figure could be verified this session, so nothing here should replace existing data; the existing Poets and Quants sourced figures were not re-verified and still need official sourcing in a session that can reach the site. business.columbia.edu blocks automated access; cost figure read from the official page provided by the site owner in August 2026.",
  "website": "https://business.columbia.edu/mba"
 }

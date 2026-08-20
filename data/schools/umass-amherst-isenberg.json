@@ -38,10 +38,7 @@
  "profile": {
   "class_year": "",
   "class_size": {
-   "v": 60,
-   "src": "Poets and Quants school profile (full-time enrollment)",
-   "year": null,
-   "url": "https://poetsandquants.com/school-profile/university-massachusetts-amhersts-isenberg-school-management/"
+   "v": null
   },
   "gmat_focus": {
    "v": null,
@@ -51,11 +48,7 @@
    "url": ""
   },
   "gmat_classic": {
-   "v": 648,
-   "stat": "avg",
-   "src": "Poets and Quants school profile (edition not labeled)",
-   "year": null,
-   "url": "https://poetsandquants.com/school-profile/university-massachusetts-amhersts-isenberg-school-management/"
+   "v": null
   },
   "gre_quant": {
    "v": null,
@@ -72,36 +65,30 @@
    "url": ""
   },
   "gpa": {
-   "v": 3.44,
-   "stat": "avg",
-   "src": "Poets and Quants school profile",
-   "year": null,
-   "url": "https://poetsandquants.com/school-profile/university-massachusetts-amhersts-isenberg-school-management/"
+   "v": 3.45,
+   "stat": "average undergrad GPA",
+   "src": "Isenberg MBA Amherst class profile sheet",
+   "year": 2023,
+   "url": "https://cdn.success.isenberg.umass.edu/wp-content/uploads/sites/115/2023/07/MBA-Amherst.pdf"
   },
   "accept_rate_pct": {
-   "v": 28.4,
-   "src": "Poets and Quants school profile",
-   "year": null,
-   "url": "https://poetsandquants.com/school-profile/university-massachusetts-amhersts-isenberg-school-management/"
+   "v": null
   },
   "work_exp_years": {
-   "v": null,
-   "stat": "",
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 8,
+   "stat": "average years work experience",
+   "src": "Isenberg MBA Amherst class profile sheet",
+   "year": 2023,
+   "url": "https://cdn.success.isenberg.umass.edu/wp-content/uploads/sites/115/2023/07/MBA-Amherst.pdf"
   },
   "women_pct": {
-   "v": 47,
-   "src": "Poets and Quants school profile",
-   "year": null,
-   "url": "https://poetsandquants.com/school-profile/university-massachusetts-amhersts-isenberg-school-management/"
+   "v": null
   },
   "intl_pct": {
-   "v": 28,
-   "src": "Poets and Quants school profile",
-   "year": null,
-   "url": "https://poetsandquants.com/school-profile/university-massachusetts-amhersts-isenberg-school-management/"
+   "v": 39,
+   "src": "Isenberg MBA Amherst class profile sheet",
+   "year": 2023,
+   "url": "https://cdn.success.isenberg.umass.edu/wp-content/uploads/sites/115/2023/07/MBA-Amherst.pdf"
   },
   "tuition_usd": {
    "v": null,
@@ -122,5 +109,6 @@
    "year": null,
    "url": ""
   }
- }
+ },
+ "notes": "The official class profile sheet (linked from the on-campus MBA FAQ as 'a recent class profile', hosted on the Isenberg career success CDN, uploaded July 2023) shows only average age 32, 22 percent dual degree, 39 percent international, 8 years average work experience, and 3.45 average GPA; no class year, class size, GMAT, GRE, women percentage, or acceptance rate is published on any official page reached. The prior Poets and Quants GMAT 648 and related figures could not be confirmed officially and were dropped. Tuition: the official tuition page states 'The core MBA tuition is estimated to be 25,574 dollars for in-state students and 58,598 dollars for out-of-state and international students' at AY 2025-2026 rates; this reads as a whole-program estimate (dual degree notes add costs 'on top of the core MBA estimate'), not an annual figure, so it is left null (source: https://www.isenberg.umass.edu/programs/masters/mba/on-campus/tuition-and-aid). Employment outcomes are published only as an all-masters aggregate for 2024 (92 percent achieving career goals within six months; 92K median starting salary across all masters programs), not MBA-specific (https://www.isenberg.umass.edu/career-success/outcomes/grad)."
 }

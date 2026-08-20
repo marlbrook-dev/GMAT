@@ -38,24 +38,25 @@
  "profile": {
   "class_year": "",
   "class_size": {
-   "v": null,
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 45,
+   "stat": "class size",
+   "src": "Merage Full-Time MBA class profile sheet",
+   "year": 2025,
+   "url": "https://merage.uci.edu/_files/documents/programs/ftmba/FTMBA-feature_25_r3.pdf"
   },
   "gmat_focus": {
-   "v": null,
-   "stat": "",
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 615,
+   "stat": "listed as GMAT Focus in the Academic Profile averages",
+   "src": "Merage Full-Time MBA class profile sheet",
+   "year": 2025,
+   "url": "https://merage.uci.edu/_files/documents/programs/ftmba/FTMBA-feature_25_r3.pdf"
   },
   "gmat_classic": {
-   "v": null,
-   "stat": "",
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 670,
+   "stat": "average",
+   "src": "Merage Full-Time MBA class profile sheet",
+   "year": 2025,
+   "url": "https://merage.uci.edu/_files/documents/programs/ftmba/FTMBA-feature_25_r3.pdf"
   },
   "gre_quant": {
    "v": null,
@@ -72,55 +73,59 @@
    "url": ""
   },
   "gpa": {
-   "v": null,
-   "stat": "",
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 3.4,
+   "stat": "average",
+   "src": "Merage Full-Time MBA class profile sheet",
+   "year": 2025,
+   "url": "https://merage.uci.edu/_files/documents/programs/ftmba/FTMBA-feature_25_r3.pdf"
   },
   "accept_rate_pct": {
-   "v": null,
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 28,
+   "stat": "admit rate, FTMBA Class of 2026",
+   "src": "Merage 2025 Annual Employment Report",
+   "year": 2025,
+   "url": "https://merage.uci.edu/_files/documents/career-center/Employment-Report_compiled_2025.pdf"
   },
   "work_exp_years": {
-   "v": null,
-   "stat": "",
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 6,
+   "stat": "average",
+   "src": "Merage Full-Time MBA class profile sheet",
+   "year": 2025,
+   "url": "https://merage.uci.edu/_files/documents/programs/ftmba/FTMBA-feature_25_r3.pdf"
   },
   "women_pct": {
-   "v": null,
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 40,
+   "src": "Merage Full-Time MBA class profile sheet",
+   "year": 2025,
+   "url": "https://merage.uci.edu/_files/documents/programs/ftmba/FTMBA-feature_25_r3.pdf"
   },
   "intl_pct": {
-   "v": null,
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 48,
+   "src": "Merage Full-Time MBA class profile sheet",
+   "year": 2025,
+   "url": "https://merage.uci.edu/_files/documents/programs/ftmba/FTMBA-feature_25_r3.pdf"
   },
   "tuition_usd": {
-   "v": null,
-   "note": "per year",
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 48261,
+   "stat": "2026-27 rate; Tuition 13,722 plus Professional Degree Supplemental Tuition 34,539, California resident, excluding campus fees and insurance; nonresident supplemental tuition adds 12,245 for 60,506 tuition-only",
+   "src": "UCI Registrar MBA Business Fees 2026-27",
+   "year": 2026,
+   "url": "https://www.reg.uci.edu/fees/2026-2027/business.html"
   },
   "salary_median_usd": {
-   "v": null,
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 128000,
+   "stat": "median annual base salary, total reporting (11 of 12 hires), FTMBA Class of 2025",
+   "src": "Merage 2025 Annual Employment Report",
+   "year": 2025,
+   "url": "https://merage.uci.edu/_files/documents/career-center/Employment-Report_compiled_2025.pdf"
   },
   "employment_rate_pct": {
-   "v": null,
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 70.0,
+   "stat": "employed by six months post graduation, percent of graduates seeking employment, FTMBA Class of 2025 (accepted offers by 3 months: 60 percent)",
+   "src": "Merage 2025 Annual Employment Report",
+   "year": 2025,
+   "url": "https://merage.uci.edu/_files/documents/career-center/Employment-Report_compiled_2025.pdf"
   }
- }
+ },
+ "notes": "The class profile sheet (linked from the admissions page as 'latest class profile', filename dated 2025) does not label a class year; its figures (45 students, GMAT 670, Focus 615) differ from the employment report's Class of 2026 column (46 enrolled, avg GMAT 654, GPA 3.0), so the sheet likely covers a newer cohort. The sheet lists 'Average GMAT 670' and 'GMAT Focus 615' as separate rows, so 670 is the classic exam. No GRE figures published on official pages. merage.uci.edu returned 503 to the WebFetch agent; all pages were fetched directly with a browser user agent instead."
 }

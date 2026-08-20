@@ -42,47 +42,45 @@
   "class_year": "Class of 2027",
   "class_size": {
    "v": 144,
-   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+   "stat": "total students",
+   "src": "Tepper full-time MBA class profile",
    "year": 2025,
-   "url": "https://www.clearadmit.com/2025/09/carnegie-mellon-tepper-mba-class-of-2027-profile/"
+   "url": "https://www.cmu.edu/tepper/programs/mba/admissions/ft-class-profile"
   },
   "gmat_focus": {
    "v": 659,
-   "stat": "average",
-   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+   "stat": "average, labeled GMAT Focus Edition; median 655; middle 80 percent 595-715",
+   "src": "Tepper full-time MBA class profile",
    "year": 2025,
-   "url": "https://www.clearadmit.com/2025/09/carnegie-mellon-tepper-mba-class-of-2027-profile/",
-   "note": "Labeled GMAT Focus Edition; middle 80 percent 595-715"
+   "url": "https://www.cmu.edu/tepper/programs/mba/admissions/ft-class-profile"
   },
   "gmat_classic": {
    "v": 707,
-   "stat": "average",
-   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+   "stat": "average, labeled GMAT 10th Edition; median 710; middle 80 percent 700-740",
+   "src": "Tepper full-time MBA class profile",
    "year": 2025,
-   "url": "https://www.clearadmit.com/2025/09/carnegie-mellon-tepper-mba-class-of-2027-profile/",
-   "note": "Labeled GMAT 10th Edition; middle 80 percent 700-740"
+   "url": "https://www.cmu.edu/tepper/programs/mba/admissions/ft-class-profile"
   },
   "gre_quant": {
    "v": 163,
-   "stat": "average",
-   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+   "stat": "average; median 164; middle 80 percent 156-170",
+   "src": "Tepper full-time MBA class profile",
    "year": 2025,
-   "url": "https://www.clearadmit.com/2025/09/carnegie-mellon-tepper-mba-class-of-2027-profile/"
+   "url": "https://www.cmu.edu/tepper/programs/mba/admissions/ft-class-profile"
   },
   "gre_verbal": {
    "v": 159,
-   "stat": "average",
-   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+   "stat": "average; median 159; middle 80 percent 152-166",
+   "src": "Tepper full-time MBA class profile",
    "year": 2025,
-   "url": "https://www.clearadmit.com/2025/09/carnegie-mellon-tepper-mba-class-of-2027-profile/"
+   "url": "https://www.cmu.edu/tepper/programs/mba/admissions/ft-class-profile"
   },
   "gpa": {
    "v": 3.33,
-   "stat": "average",
-   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+   "stat": "average; median 3.38; middle 80 percent 2.80-3.79",
+   "src": "Tepper full-time MBA class profile",
    "year": 2025,
-   "url": "https://www.clearadmit.com/2025/09/carnegie-mellon-tepper-mba-class-of-2027-profile/",
-   "note": "Average 3.33; median 3.38 also reported"
+   "url": "https://www.cmu.edu/tepper/programs/mba/admissions/ft-class-profile"
   },
   "accept_rate_pct": {
    "v": null,
@@ -93,10 +91,10 @@
   },
   "work_exp_years": {
    "v": 5.2,
-   "stat": "average",
-   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+   "stat": "average years of work experience; median 5",
+   "src": "Tepper full-time MBA class profile",
    "year": 2025,
-   "url": "https://www.clearadmit.com/2025/09/carnegie-mellon-tepper-mba-class-of-2027-profile/"
+   "url": "https://www.cmu.edu/tepper/programs/mba/admissions/ft-class-profile"
   },
   "women_pct": {
    "v": null,
@@ -106,10 +104,11 @@
    "note": "Tepper did not report the percentage of women for the Class of 2027 per Clear Admit / P&Q"
   },
   "intl_pct": {
-   "v": 37,
-   "src": "Clear Admit / Poets&Quants Class of 2027 profile",
+   "v": 38,
+   "stat": "international citizens",
+   "src": "Tepper full-time MBA class profile",
    "year": 2025,
-   "url": "https://www.clearadmit.com/2025/09/carnegie-mellon-tepper-mba-class-of-2027-profile/"
+   "url": "https://www.cmu.edu/tepper/programs/mba/admissions/ft-class-profile"
   },
   "tuition_usd": {
    "v": 81340,
@@ -120,18 +119,19 @@
   },
   "salary_median_usd": {
    "v": 160000,
-   "src": "Tepper School news release, 2025 MBA Summary Employment Report",
+   "stat": "median base salary, full-time MBA 2025 graduates; average accepted salary 154,846; average signing bonus 38,610",
+   "src": "Tepper 2025 MBA Employment Report Summary (official PDF)",
    "year": 2025,
-   "url": "https://www.cmu.edu/tepper/news/stories/2025-mba-summary-employment-report",
-   "note": "Median base salary, Class of 2025; average signing bonus 38,610"
+   "url": "https://www.cmu.edu/sites/default/files/cmu-tepper-site-files/documents/2025%20MCC%20MBA%20Employment%20Summary%20Report.pdf"
   },
   "employment_rate_pct": {
-   "v": null,
-   "src": "",
-   "year": null,
-   "url": "",
-   "note": "official 2025 MBA employment summary exists at https://www.cmu.edu/sites/default/files/cmu-tepper-site-files/documents/2025%20MCC%20MBA%20Employment%20Summary%20Report.pdf but the three-month employment rate was not seen in snippets"
+   "v": 83,
+   "stat": "graduating MBA students who received an offer within 3 months of graduation; 89 percent within 6 months",
+   "src": "Tepper 2025 MBA Employment Report Summary (official PDF)",
+   "year": 2025,
+   "url": "https://www.cmu.edu/sites/default/files/cmu-tepper-site-files/documents/2025%20MCC%20MBA%20Employment%20Summary%20Report.pdf"
   }
  },
- "website": "https://www.cmu.edu/tepper/programs/mba/full-time"
+ "website": "https://www.cmu.edu/tepper/programs/mba/full-time",
+ "notes": "Official class profile page confirms and replaces the Clear Admit sourcing; international is 38 percent on the official page (Clear Admit had 37). Percent women is not reported on the official class profile page or in the 2025 employment report PDF. Acceptance rate is not published. Tuition already sourced to cmu.edu in current data and was not re-verified this session."
 }
