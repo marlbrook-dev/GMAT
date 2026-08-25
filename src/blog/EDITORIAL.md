@@ -36,8 +36,20 @@ Class of 2027 profiles (entered fall 2025):
 - Wharton: average GMAT Classic 735, middle 80% 680 to 770; average GMAT Focus 676, range approximately 620 to 725 (Wharton Class of 2027 profile; Poets & Quants, 2025).
 Note in-text which schools report averages (Stanford, Wharton) versus medians (MIT, HBS).
 
-Product facts (the only permitted product claims):
-- Start From Nowhere is an adaptive GMAT Focus trainer: 180 original practice items across Quant, Verbal, and Data Insights; a rating per skill keyed to the official score-report skill labels; misses return on a spaced schedule; timing tracked per question. First round free, no account needed.
+Class of 2027 profiles, additions verified against each school's own class profile page on August 20, 2026 (full citations with URLs live in data/schools/<slug>.json; keep any figure quoted in a post consistent with that file):
+- Yale SOM: median GMAT Focus 675 (80% range 638 to 715); median GMAT Classic 740 (Yale SOM class profile, 2025).
+- Berkeley Haas: median GMAT Focus 675 (middle 80% 637 to 725); median GMAT Classic 730 (Haas class profile, 2025).
+- NYU Stern: average GMAT Focus 682; average GMAT Classic 737 (NYU Stern class profile, 2025).
+- Dartmouth Tuck: average GMAT Focus 671; average GMAT Classic 727 (Tuck class profile, 2025).
+- Duke Fuqua: median GMAT Focus 665; median GMAT Classic 720 (Duke Class of 2027 profile via BusinessBecause, 2025).
+- Texas McCombs: median GMAT Focus 655 (middle 80% 615 to 695) (McCombs class profile, 2025).
+- Emory Goizueta: average GMAT Focus 648; average GMAT Classic 723 (Goizueta class profile, 2025).
+- Georgetown McDonough: average GMAT Focus 625; average GMAT Classic 700 (McDonough class profile, 2025).
+Note in-text which figures are averages (Stanford, Wharton, Stern, Tuck, Goizueta, McDonough) versus medians (MIT, HBS, Yale, Haas, Fuqua, McCombs).
+
+Product facts (the only permitted product claims, updated August 20, 2026):
+- Start From Nowhere is an adaptive GMAT Focus trainer: 420 original practice items across Quant, Verbal, and Data Insights; 120 flashcards; six practice games plus full mock exams; a rating per skill keyed to the official score-report skill labels; misses return on a spaced schedule; timing tracked per question. First round free, no account needed.
+- The site also publishes an MBA rankings library covering 91 US full-time programs at /schools/, with a source and year on every figure.
 
 ## Post file format
 `src/blog/<slug>.html`: an HTML comment front-matter block with JSON metadata, then the body.
