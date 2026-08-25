@@ -1,6 +1,6 @@
 # Start From Nowhere: build roadmap
 
-Updated August 19, 2026. Owner: Hunter Roberts. Builder: Claude sessions. This file is the working schedule; each week's block ships as one or more merged PRs. Dates are targets, not promises; anything user-facing ships only after the browser test suite passes.
+Updated August 20, 2026. Owner: Hunter Roberts. Builder: Claude sessions. This file is the working schedule; each week's block ships as one or more merged PRs. Dates are targets, not promises; anything user-facing ships only after the browser test suite passes.
 
 ## Comparative advantage (the why-us, revisited each cycle)
 
@@ -38,7 +38,7 @@ Updated August 19, 2026. Owner: Hunter Roberts. Builder: Claude sessions. This f
 
 ## Week of Sep 9
 
-- [ ] Executive Assessment mode (reuses GMAT bank sections and timing; separate score model)
+- [x] Executive Assessment mode, first slice: EA-format mock (40 questions, three 30-minute sections, honest labeling); score-model deepening still open
 - [ ] User-profile fit inputs: GPA, work experience, budget; fit view against school library
 - [ ] Beta push: founding-user outreach wave via CRM (tutors, clubs, consultants)
 
@@ -55,3 +55,25 @@ Updated August 19, 2026. Owner: Hunter Roberts. Builder: Claude sessions. This f
 - Blog drip: 1 to 2 posts per week already queued through Nov 5
 - Monthly currency review: GMAC format changes, new class profiles, competitor moves, model upgrades
 - Weekly: read Admin BI (item flags, hardest skills, funnel) and act on it in the next build
+
+## Session Log: August 20, 2026 (PRs 22 to 28, all merged)
+
+Shipped: full Figma design pass with shared chrome (src/partials.py); school
+library rebuilt to 91 schools on official sources with a build-time validator
+(data/schools/, data/DATA.md); rankings presentation with Detailed View
+toggle; bank 300 to 420 items; The Ladder game; pace meter in mock recaps;
+reason-tag targeted drill; sitemap school URLs restored; 4 queued blog posts
+(2 rankings-adjacent, SAT vs ACT, LSAT); EDITORIAL.md fact sheet refreshed;
+EA-format mock.
+
+Next session queue, in order:
+1. Figma iteration 2 implementation (owner's Make credits return 8/31; the
+   iteration-2 prompt and guidelines are already in the Make file).
+2. School data: re-verify 5 bot-blocked expansion candidates (Arizona Eller,
+   JHU Carey, Baruch Zicklin, Oklahoma State, Iowa State) and the blocked
+   domains (Columbia, Michigan Ross, Georgia Terry, Case Western); protocol
+   and merge tool live in data/research/.
+3. Forum DB decisions with owner: pinned threads, tags, post votes, view
+   counts (each needs a migration).
+4. EA score-model deepening; user-profile fit inputs (GPA, work exp, budget).
+5. Bank beyond 420, thinnest skills first (di_msr and v_pc still lowest).
