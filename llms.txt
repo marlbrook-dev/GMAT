@@ -1,9 +1,13 @@
 # Start From Nowhere
 
-> Adaptive test-prep platform for the GMAT Focus Edition (scored 205 to 805). Free first practice round, no account needed: per-skill ratings keyed to the official score-report skill labels, spaced review of misses, timing diagnostics, and full 45-minute mock sections. Blog (The Study Room) publishes sourced exam guides and study-science explainers.
+> Adaptive test-prep platform for the GMAT Focus Edition (scored 205 to 805). Free first practice round, no account needed: per-skill ratings keyed to the official score-report skill labels, spaced review of misses, timing diagnostics, games, flashcards, and full mock exams. Also home to an independent MBA rankings library covering 91 US full-time programs with a source and year on every figure, a community forum, and The Study Room blog.
 
 ## Product
-- [Trainer](https://startfromnowhere.com/app/): adaptive GMAT Focus practice, 180 original items across Quantitative Reasoning, Verbal Reasoning, and Data Insights.
+- [Trainer](https://startfromnowhere.com/app/): adaptive GMAT Focus practice, 300+ original items across Quantitative Reasoning, Verbal Reasoning, and Data Insights, plus 120 flashcards and six practice games.
+- [MBA Rankings](https://startfromnowhere.com/schools/): 91 US full-time MBA programs; a transparent composite of US News, Financial Times, Bloomberg, QS, and Poets and Quants plus a documented data score; every class-profile figure cites the school's own page. One profile page per school.
+- [Exam Guides](https://startfromnowhere.com/exams/): structure, timing, cost, and registration for GMAT, GRE, LSAT, MCAT, SAT, ACT, and Executive Assessment, each fact sourced.
+- [Community Forum](https://startfromnowhere.com/community/): free to read and post, named or anonymous, human-moderated.
+- [Pricing](https://startfromnowhere.com/pricing/): Free, Plus $9.99/mo, Pro $19.99/mo; everything free while we build.
 - [Homepage](https://startfromnowhere.com/): how the adaptive engine works.
 
 ## Guides (The Study Room)
@@ -14,5 +18,6 @@
 - [All articles](https://startfromnowhere.com/blog/)
 
 ## Policies
-- Every school statistic on this site names its source and year. GMAT Focus (205 to 805) and Classic (200 to 800) scores are never mixed.
+- Every school statistic on this site names its source and year; unverifiable figures show a dash, never a guess. GMAT Focus (205 to 805) and Classic (200 to 800) scores are never mixed or converted.
+- Practice items are original; score bands are internal estimates, not official scores. GMAT is a trademark of GMAC, which does not endorse this product.
 - [Terms](https://startfromnowhere.com/terms.html), [Privacy](https://startfromnowhere.com/privacy.html)
