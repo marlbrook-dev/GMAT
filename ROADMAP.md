@@ -34,7 +34,7 @@ Updated August 20, 2026. Owner: Hunter Roberts. Builder: Claude sessions. This f
 - [x] Admin v2: Users library (per-user record + filters + CSV/JSON/print report), Traffic tab on a first-party beacon, Moderation terminal, optional self-reported demographics on Account
 - [x] Pace meter per question type in recaps; error log v2 (reason tags feed a targeted drill)
 - [x] Bank to 420; flashcards to 120
-- [ ] Blog: 4 new posts including 2 rankings-adjacent (how to read class profiles; GMAT scores for top programs, citing our own library)
+- [x] Blog: 4 new posts including 2 rankings-adjacent (how to read class profiles; GMAT scores for top programs, citing our own library)
 
 ## Week of Sep 9
 
