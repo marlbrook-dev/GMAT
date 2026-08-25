@@ -299,10 +299,13 @@ def build_sitemap(posts):
     if exams_data.exists():
         import json as _json2
         urls += [(f"{SITE}/exams/{e['slug']}/", None) for e in _json2.loads(exams_data.read_text())]
-    schools_data = ROOT / "data" / "schools.json"
-    if schools_data.exists():
+    schools_dir = ROOT / "data" / "schools"
+    if schools_dir.is_dir():
         import json as _json
-        urls += [(f"{SITE}/schools/{s['slug']}/", None) for s in _json.loads(schools_data.read_text()) if not s.get("discontinued")]
+        for sp in sorted(schools_dir.glob("*.json")):
+            s = _json.loads(sp.read_text())
+            if not s.get("discontinued"):
+                urls.append((f"{SITE}/schools/{s['slug']}/", None))
     urls += [(f"{SITE}/blog/{p['slug']}/", p.get("updated", p["date"])) for p in sorted(posts, key=lambda p: p["date"], reverse=True)]
     items = "".join(
         f"<url><loc>{u}</loc>{f'<lastmod>{d}</lastmod>' if d else ''}</url>\n" for u, d in urls)
