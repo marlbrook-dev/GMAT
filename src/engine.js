@@ -129,8 +129,8 @@ function gradeChosen(q,chosen){
 // Mock section: a representative fixed-length section, not a weakness-weighted round.
 // Even coverage across the section's skills, difficulty centered near each skill's rating
 // with a mild spread, passage/prompt groups kept intact, fresh items preferred.
-function pickMockSection(bank,state,section){
- const meta=SECTION_META[section]; const count=meta.questions;
+function pickMockSection(bank,state,section,countOverride){
+ const meta=SECTION_META[section]; const count=countOverride||meta.questions;
  const pool=bank.filter(q=>q.section===section);
  const skillIds=SKILLS.filter(s=>s.section===section).map(s=>s.id).filter(id=>pool.some(q=>q.skill===id));
  const lastSeenIdx={}; state.attempts.forEach((a,i)=>{lastSeenIdx[a.qid]=i;});
