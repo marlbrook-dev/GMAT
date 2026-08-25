@@ -1,9 +1,9 @@
 const fs=require('fs');
-const src=['bank_quant.js','bank_quant2.js','bank_quant3.js','bank_quant4.js','bank_quant5.js','bank_verbal.js','bank_verbal2.js','bank_verbal3.js','bank_verbal4.js','bank_verbal5.js','bank_di.js','bank_di2.js','bank_di3.js','bank_di4.js','bank_di5.js','cards.js','cards2.js','cards3.js','engine.js'].map(f=>fs.readFileSync(f,'utf8')).join('\n');
+const src=['bank_quant.js','bank_quant2.js','bank_quant3.js','bank_quant4.js','bank_quant5.js','bank_quant6.js','bank_verbal.js','bank_verbal2.js','bank_verbal3.js','bank_verbal4.js','bank_verbal5.js','bank_verbal6.js','bank_di.js','bank_di2.js','bank_di3.js','bank_di4.js','bank_di5.js','bank_di6.js','cards.js','cards2.js','cards3.js','engine.js'].map(f=>fs.readFileSync(f,'utf8')).join('\n');
 const vm=require('vm'); const ctx={console,Date,Math,JSON,Set}; vm.createContext(ctx);
 vm.runInContext(src+`
-var BANK=[].concat(BANK_QUANT,BANK_QUANT2,BANK_QUANT3,BANK_QUANT4,BANK_QUANT5,BANK_VERBAL,BANK_VERBAL2,BANK_VERBAL3,BANK_VERBAL4,BANK_VERBAL5,BANK_DI,BANK_DI2,BANK_DI3,BANK_DI4,BANK_DI5);
-console.log('bank',BANK.length,'Q',BANK_QUANT.length+BANK_QUANT2.length+BANK_QUANT3.length+BANK_QUANT4.length+BANK_QUANT5.length,'V',BANK_VERBAL.length+BANK_VERBAL2.length+BANK_VERBAL3.length+BANK_VERBAL4.length+BANK_VERBAL5.length,'DI',BANK_DI.length+BANK_DI2.length+BANK_DI3.length+BANK_DI4.length+BANK_DI5.length,'cards',CARDS.length);
+var BANK=[].concat(BANK_QUANT,BANK_QUANT2,BANK_QUANT3,BANK_QUANT4,BANK_QUANT5,BANK_QUANT6,BANK_VERBAL,BANK_VERBAL2,BANK_VERBAL3,BANK_VERBAL4,BANK_VERBAL5,BANK_VERBAL6,BANK_DI,BANK_DI2,BANK_DI3,BANK_DI4,BANK_DI5,BANK_DI6);
+console.log('bank',BANK.length,'Q',BANK_QUANT.length+BANK_QUANT2.length+BANK_QUANT3.length+BANK_QUANT4.length+BANK_QUANT5.length+BANK_QUANT6.length,'V',BANK_VERBAL.length+BANK_VERBAL2.length+BANK_VERBAL3.length+BANK_VERBAL4.length+BANK_VERBAL5.length+BANK_VERBAL6.length,'DI',BANK_DI.length+BANK_DI2.length+BANK_DI3.length+BANK_DI4.length+BANK_DI5.length+BANK_DI6.length,'cards',CARDS.length);
 var ids=new Set(); var bad=[];
 BANK.forEach(function(q){ if(ids.has(q.id)) bad.push('dup '+q.id); ids.add(q.id);
  if(!SKILLS.find(function(s){return s.id===q.skill})) bad.push('skill '+q.id);
