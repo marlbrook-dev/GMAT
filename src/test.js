@@ -6,8 +6,8 @@ const GMAT={id:'gmat-focus',choices:5,
  files:['bank_quant.js','bank_quant2.js','bank_quant3.js','bank_quant4.js','bank_quant5.js','bank_quant6.js','bank_verbal.js','bank_verbal2.js','bank_verbal3.js','bank_verbal4.js','bank_verbal5.js','bank_verbal6.js','bank_verbal7.js','bank_verbal8.js','bank_di.js','bank_di2.js','bank_di3.js','bank_di4.js','bank_di5.js','bank_di6.js','bank_di7.js','bank_di8.js','bank_di9.js','cards.js','cards2.js','cards3.js','playbook_gmat.js'],
  concat:'BANK_QUANT,BANK_QUANT2,BANK_QUANT3,BANK_QUANT4,BANK_QUANT5,BANK_QUANT6,BANK_VERBAL,BANK_VERBAL2,BANK_VERBAL3,BANK_VERBAL4,BANK_VERBAL5,BANK_VERBAL6,BANK_VERBAL7,BANK_VERBAL8,BANK_DI,BANK_DI2,BANK_DI3,BANK_DI4,BANK_DI5,BANK_DI6,BANK_DI7,BANK_DI8,BANK_DI9'};
 const SAT={id:'sat',choices:4,
- files:['bank_sat_rw.js','bank_sat_rw2.js','bank_sat_rw3.js','bank_sat_rw4.js','bank_sat_rw5.js','bank_sat_math.js','bank_sat_math2.js','bank_sat_math3.js','bank_sat_math4.js','bank_sat_math5.js','cards_sat.js','cards_sat2.js','playbook_sat.js'],
- concat:'BANK_SAT_RW,BANK_SAT_RW2,BANK_SAT_RW3,BANK_SAT_RW4,BANK_SAT_RW5,BANK_SAT_MATH,BANK_SAT_MATH2,BANK_SAT_MATH3,BANK_SAT_MATH4,BANK_SAT_MATH5'};
+ files:['bank_sat_rw.js','bank_sat_rw2.js','bank_sat_rw3.js','bank_sat_rw4.js','bank_sat_rw5.js','bank_sat_math.js','bank_sat_math2.js','bank_sat_math3.js','bank_sat_math4.js','bank_sat_math5.js','bank_sat_easy.js','cards_sat.js','cards_sat2.js','playbook_sat.js'],
+ concat:'BANK_SAT_RW,BANK_SAT_RW2,BANK_SAT_RW3,BANK_SAT_RW4,BANK_SAT_RW5,BANK_SAT_MATH,BANK_SAT_MATH2,BANK_SAT_MATH3,BANK_SAT_MATH4,BANK_SAT_MATH5,BANK_SAT_EASY'};
 
 let failures=0;
 function fail(msg){ failures++; console.log('  FAIL: '+msg); }
@@ -111,6 +111,16 @@ function runExam(exam){
   if(api.satRoute(0,27)!=='lower') rbad.push('none correct should route down');
   if(api.satRoute(0,0)!=='lower') rbad.push('empty module should not route up');
   check('routing rule',rbad);
+  // A student who routes down must actually get an easier module, which needs enough easy items
+  // to fill one. This was 0.3 modules' worth on the Reading and Writing side before bank_sat_easy.
+  const ebad=[];
+  SECTIONS.forEach(sec=>{
+   const easy=BANK.filter(q=>q.section===sec&&q.diff<=2).length;
+   const need=SECTION_META[sec].questions;
+   if(easy<need) ebad.push(sec+' has '+easy+' items at difficulty 1 to 2, under the '+need+' an easier module needs');
+   else console.log('  '+sec+' easier-module pool: '+easy+' items at difficulty 1 to 2 for '+need+' slots');
+  });
+  check('easier module can be filled',ebad);
   // grid-in entries: equivalent forms all count, wrong ones do not
   const spr={answerType:'spr',answer:'0.5',accept:['1/2']};
   const sbad=['0.5','.5','1/2',' 1/2 ','2/4'].filter(v=>!api.gradeChosen(spr,v)).map(v=>'rejected '+JSON.stringify(v))
