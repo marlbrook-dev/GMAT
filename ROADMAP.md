@@ -141,7 +141,18 @@ Next session queue, in order:
    cross-device sync for a student's second exam, plus an exam column on
    sessions), and the forum decisions already queued: pinned threads, tags,
    post votes, view counts.
-6. EA score-model deepening; user-profile fit inputs (GPA, work exp, budget).
-7. Blog: SAT posts for the drip, written to EDITORIAL rules (the digital
+6. Engine tuning question for the owner, with a reproduction in hand. The
+   weakest-first weighting in pickQuestions works as designed for an average
+   student: after 120 questions every GMAT skill has 7 to 18 attempts. For a
+   student answering about 20 percent correctly it concentrates hard, and one
+   skill can be left essentially unsampled: in a simulated run q_rrp got 29
+   attempts and di_gt 31 while di_tpa got 2, so the dashboard can tell that
+   student nothing about Two-Part Analysis. The diagnostic pass exits once
+   half the skills have 3 attempts, and grouped item types (TPA, MSR) are the
+   ones that lose out. Worth deciding whether to guarantee a floor per skill
+   before targeting takes over; not changed here because it is tuned product
+   behavior, not a defect.
+7. EA score-model deepening; user-profile fit inputs (GPA, work exp, budget).
+8. Blog: SAT posts for the drip, written to EDITORIAL rules (the digital
    format, what module routing means for a student, how to read a score
    report by content domain).
