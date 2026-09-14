@@ -76,15 +76,23 @@ behavior unchanged. Caught and fixed a latent bug in the process: pickQuestions
 defaulted its section list to the GMAT sections, which would have returned
 nothing for any other exam.
 
-SAT: eight official content domains as tracked skills, 248 original items (126
+SAT: eight official content domains as tracked skills, 336 original items (188
 Reading and Writing across all four domains, each with its own short passage,
-and 122 Math of which 26 are student-produced responses), 112 flashcards, a
+and 148 Math of which 31 are student-produced responses), 112 flashcards, a
 playbook per domain, and a trainer at /sat/app/. Mock sections run as two
 modules with the second routed harder or easier by the first, free answer
 changes inside a module, and a report broken out by module and by content
 domain against College Board's published question ranges. That depth carries
-2.3 non-repeating Reading and Writing sections and 2.8 Math sections, so a
-second full mock does not recycle. No 400 to 1600 score is reported anywhere;
+3.5 non-repeating Reading and Writing sections and 3.4 Math sections, so three
+full mocks do not recycle.
+
+One gap found by measuring rather than by a failing test: the bank could not
+fill an easier second module. Reading and Writing had 9 items at difficulty 1
+to 2 against the 27 a module needs, so a student who struggled through module 1
+and routed down was served a module built mostly from level 3 items, failing
+exactly the students routing exists to help. 38 items written at difficulty 1
+and 2 fixed it, and a test now fails if either section drops below the easy
+items one module needs. No 400 to 1600 score is reported anywhere;
 sources and the two deliberate departures from official practice are documented
 in the Exam Content Sources section of data/DATA.md.
 
