@@ -52,6 +52,16 @@ from profiles p
 where p.state_blob is not null
 on conflict (user_id, exam) do nothing;
 
+-- Same bucket, same approval: the sessions table records mock and round summaries but carries no
+-- exam column, so a student's SAT and GMAT sessions are indistinguishable in reporting. Session
+-- ids are timestamp-based and do not collide, so this is a reporting gap rather than a data
+-- problem. Additive fix:
+--
+--   alter table sessions add column if not exists exam text not null default 'gmat-focus';
+--
+-- Existing rows all predate the SAT trainer, so the default backfills them correctly. The app
+-- would then pass exam on the upsert in Cloud, alongside mode and the counts.
+
 -- After applying, the app changes are:
 --   Cloud.pull:  select state_blob from exam_states where user_id = ... and exam = CURRENT_EXAM
 --   Cloud.push:  upsert into exam_states on (user_id, exam)
