@@ -121,7 +121,7 @@ function skillStats(state,id){
 
 // Question selection
 function pickQuestions(bank,state,opts){
- opts=opts||{}; const count=opts.count||10; const sections=opts.sections||['Q','V','DI'];
+ opts=opts||{}; const count=opts.count||10; const sections=opts.sections||SECTIONS;
  let pool=bank.filter(q=>sections.includes(q.section));
  if(opts.skills&&opts.skills.length) pool=pool.filter(q=>opts.skills.includes(q.skill)||(q.qskill&&opts.skills.includes(q.qskill)));
  if(opts.diffMin) pool=pool.filter(q=>q.diff>=opts.diffMin); if(opts.diffMax) pool=pool.filter(q=>q.diff<=opts.diffMax);
