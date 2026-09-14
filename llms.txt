@@ -4,7 +4,7 @@
 
 ## Product
 - [GMAT Trainer](https://startfromnowhere.com/app/): adaptive GMAT Focus practice, 448 original items across Quantitative Reasoning, Verbal Reasoning, and Data Insights, plus 120 flashcards and six practice games.
-- [SAT Trainer](https://startfromnowhere.com/sat/app/): adaptive digital SAT practice, 248 original items across the eight official content domains, with two-module mock sections that route like the real exam, student-produced responses, 112 flashcards, and a playbook per domain. Reports accuracy and per-domain results rather than an unofficial 400 to 1600 score.
+- [SAT Trainer](https://startfromnowhere.com/sat/app/): adaptive digital SAT practice, 298 original items across the eight official content domains, with two-module mock sections that route like the real exam, student-produced responses, 112 flashcards, and a playbook per domain. Reports accuracy and per-domain results rather than an unofficial 400 to 1600 score.
 - [MBA Rankings](https://startfromnowhere.com/schools/): 91 US full-time MBA programs; a transparent composite of US News, Financial Times, Bloomberg, QS, and Poets and Quants plus a documented data score; every class-profile figure cites the school's own page. One profile page per school.
 - [Exam Guides](https://startfromnowhere.com/exams/): structure, timing, cost, and registration for GMAT, GRE, LSAT, MCAT, SAT, ACT, and Executive Assessment, each fact sourced.
 - [Community Forum](https://startfromnowhere.com/community/): free to read and post, named or anonymous, human-moderated.
