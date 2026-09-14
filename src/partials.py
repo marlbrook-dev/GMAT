@@ -54,11 +54,11 @@ nav.sfn-nav{display:flex;align-items:center}
 _NAV_GROUPS = [
     ("Exam Prep", [
         ("GMAT Focus Edition", "/exams/gmat/", "Live"),
+        ("SAT", "/exams/sat/", "Live"),
         ("Executive Assessment", "/exams/executive-assessment/", "In Development"),
         ("GRE General Test", "/exams/gre/", "In Development"),
         ("LSAT", "/exams/lsat/", "In Development"),
         ("MCAT", "/exams/mcat/", "In Development"),
-        ("SAT", "/exams/sat/", "In Development"),
         ("ACT", "/exams/act/", "In Development"),
         ("All Exam Guides", "/exams/", None),
     ]),

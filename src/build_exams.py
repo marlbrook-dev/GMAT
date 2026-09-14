@@ -12,7 +12,8 @@ ROOT = D.parent
 sys.path.insert(0, str(D))
 import partials
 SITE = "https://startfromnowhere.com"
-LIVE = {"gmat"}  # exams with a live trainer today
+LIVE = {"gmat", "sat"}  # exams with a live trainer today
+APP_PATH = {"gmat": "/app/", "sat": "/sat/app/"}  # where each live trainer lives
 
 # Plan feature matrix for /pricing/. Values: True = included, False = not
 # included, string = shown verbatim. Order defines the page.
@@ -98,7 +99,7 @@ def txt(f):
 
 def exam_page(e, tpl, today):
     live = e["slug"] in LIVE
-    cta = ('<a class="btn" href="/app/">Start Training Free</a>' if live else
+    cta = (f'<a class="btn" href="{APP_PATH[e["slug"]]}">Start Training Free</a>' if live else
            f'<a class="btn" href="mailto:editors@startfromnowhere.com?subject={esc(e["short"])}%20waitlist">Join the {esc(e["short"])} Waitlist</a>')
     reg = (e.get("maker") or {}).get("register_url")
     reg_btn = f'<a class="btn sec" href="{esc(reg)}" rel="noopener" target="_blank">Register at {esc((e.get("maker") or {}).get("name") or "the official site")}</a>' if reg else ""

@@ -56,13 +56,26 @@ bank_count = len(_re.findall(r"\{\s*id: ?'[QVD]", gmat_banks_src))
 card_count = len(_re.findall(r"\{\s*id: ?'c\d", gmat_banks_src))
 sat_bank_count = len(_re.findall(r"\{\s*id: ?'S[RM]\d", sat_banks_src))
 sat_card_count = len(_re.findall(r"\{\s*id: ?'s\d", sat_banks_src))
+total_bank_count = bank_count + sat_bank_count
+# Tracked skills come from the engine registry itself, so the landing page can never
+# drift from the number of ratings the apps actually keep.
+_skill_probe = subprocess.run(
+    ["node", "-e",
+     "const fs=require('fs');const s=fs.readFileSync(process.argv[1],'utf8');"
+     "console.log(eval(s+'; GMAT_SKILLS.length + SAT_SKILLS.length'))",
+     str(d/"engine.js")],
+    capture_output=True, text=True)
+if _skill_probe.returncode != 0:
+    print("ERROR: could not count tracked skills from engine.js\n" + _skill_probe.stderr.strip(), file=sys.stderr); sys.exit(1)
+total_skills = _skill_probe.stdout.strip()
 
 def no_dashes(name, text):
     if "—" in text or "–" in text:
         print(f"ERROR: em/en dash in {name}", file=sys.stderr); sys.exit(1)
 
 landing = ((d/"landing.html").read_text().replace("{{BANK_COUNT}}", str(bank_count)).replace("{{CARD_COUNT}}", str(card_count))
-           .replace("{{SAT_BANK_COUNT}}", str(sat_bank_count)).replace("{{SAT_CARD_COUNT}}", str(sat_card_count)))
+           .replace("{{SAT_BANK_COUNT}}", str(sat_bank_count)).replace("{{SAT_CARD_COUNT}}", str(sat_card_count))
+           .replace("{{TOTAL_BANK_COUNT}}", str(total_bank_count)).replace("{{TOTAL_SKILLS}}", total_skills))
 landing = partials.apply_chrome(landing)
 if "{{" in landing:
     print("ERROR: unresolved placeholder in landing.html", file=sys.stderr); sys.exit(1)
