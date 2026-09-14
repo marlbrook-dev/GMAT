@@ -79,23 +79,46 @@ nothing for any other exam.
 SAT: eight official content domains as tracked skills, 248 original items (126
 Reading and Writing across all four domains, each with its own short passage,
 and 122 Math of which 26 are student-produced responses), 112 flashcards, a
-playbook per domain, and a trainer at /sat/app/. That depth carries 2.3
-non-repeating Reading and Writing sections and 2.8 Math sections, so a second
-full mock does not recycle. Mock sections run as two modules with the
-second routed harder or easier by the first, free answer changes inside a
-module, and a report broken out by module and by content domain against
-College Board's published question ranges. No 400 to 1600 score is reported
-anywhere; sources and the two deliberate departures from official practice are
-documented in the Exam Content Sources section of data/DATA.md.
+playbook per domain, and a trainer at /sat/app/. Mock sections run as two
+modules with the second routed harder or easier by the first, free answer
+changes inside a module, and a report broken out by module and by content
+domain against College Board's published question ranges. That depth carries
+2.3 non-repeating Reading and Writing sections and 2.8 Math sections, so a
+second full mock does not recycle. No 400 to 1600 score is reported anywhere;
+sources and the two deliberate departures from official practice are documented
+in the Exam Content Sources section of data/DATA.md.
 
-GMAT: bank 420 to 440. Multi-Source Reasoning was the thinnest skill at 15 and
-is now 23, via two new three-tab sets. Plan / Construct 32 to 38, Identify
-Stated Idea 28 to 32 (new RC passage P11).
+GMAT: bank 420 to 448. Multi-Source Reasoning was the thinnest tracked skill at
+15 and is now 31, via four new three-tab sets. Plan / Construct 32 to 38,
+Identify Stated Idea 28 to 32 (new RC passage P11).
 
-Also: test.js runs the whole suite once per exam and adds SAT coverage for
+Cross-exam integrity, found by auditing the built SAT app rather than by a
+failing test. The two trainers share an origin and an account, and three paths
+crossed between them: Store.load fell back to the legacy gmat_trainer_v1 key on
+any exam; targetSchools read the MBA list on both, so the SAT dashboard could
+show "Published GMAT"; and profiles.state_blob holds one state per user while
+attempts, skill_ratings and review_queue are keyed by (user_id, exam), so the
+second app a signed-in student opened would overwrite the first exam's
+progress. All three are now guarded client-side, and the Account page states
+plainly when cross-device sync for an exam is unavailable and that nothing is
+lost. The real fix is supabase/migrations/PROPOSED_exam_states.sql, written and
+deliberately not applied: it changes the owner's live project.
+
+Also fixed on the SAT app: the browser tab and meta description read "Adaptive
+GMAT Focus trainer", a new profile recorded its exam as GMAT, and Number Crunch
+was sold as no-calculator practice when Bluebook gives SAT students Desmos on
+every Math question. Site-wide, the shared footer named only GMAC and the terms
+page omitted the College Board and ACT marks.
+
+Tooling: test.js runs the whole suite once per exam and adds SAT coverage for
 module construction, official domain ordering and mix, routing, and grid-in
-equivalence; the build now fails on an em or en dash in any hand-edited doc or
-bank, and README carried five that are now gone.
+equivalence. The build now fails on an em or en dash in any hand-edited doc or
+bank, and on any item count quoted in llms.txt or the EDITORIAL fact sheet that
+no longer matches the real banks. That guard has already caught two drifts.
+
+Blog: one queued post on the digital SAT format for the September 30 slot, and
+a corrected SAT vs ACT post (queued September 26, not yet published) that said
+our SAT trainer was in development.
 
 Next session queue, in order:
 1. SAT bank onward from 248: coverage is even across the eight domains (27 to
@@ -113,8 +136,11 @@ Next session queue, in order:
    JHU Carey, Baruch Zicklin, Oklahoma State, Iowa State) and the blocked
    domains (Columbia, Michigan Ross, Georgia Terry, Case Western); protocol
    and merge tool live in data/research/.
-5. Forum DB decisions with owner: pinned threads, tags, post votes, view
-   counts (each needs a migration).
+5. Supabase migrations waiting on the owner, all written and none applied:
+   supabase/migrations/PROPOSED_exam_states.sql (per-exam state, which restores
+   cross-device sync for a student's second exam, plus an exam column on
+   sessions), and the forum decisions already queued: pinned threads, tags,
+   post votes, view counts.
 6. EA score-model deepening; user-profile fit inputs (GPA, work exp, budget).
 7. Blog: SAT posts for the drip, written to EDITORIAL rules (the digital
    format, what module routing means for a student, how to read a score
