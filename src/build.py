@@ -18,12 +18,17 @@ APPS = [
      "footer": ("GMAT is a registered trademark of the Graduate Management Admission Council (GMAC), which does not "
                 "endorse this product. Practice items are original and written for Start From Nowhere. Score bands "
                 "shown here are internal estimates, not official GMAT scores."),
+     "title": "Start From Nowhere | Adaptive GMAT Focus Trainer",
+     "desc": "Start From Nowhere: adaptive GMAT Focus Edition practice that studies you back.",
      "is_404": True},
     {"exam": "sat", "out": "sat/app", "files": SAT_BANKS,
      "concat": "BANK_SAT_RW, BANK_SAT_RW2, BANK_SAT_RW3, BANK_SAT_RW4, BANK_SAT_MATH, BANK_SAT_MATH2, BANK_SAT_MATH3, BANK_SAT_MATH4",
      "footer": ("SAT is a trademark registered by the College Board, which does not endorse this product. Practice "
                 "items are original and written for Start From Nowhere. Content domains follow College Board's "
                 "published framework; nothing here reports an official 400 to 1600 score."),
+     "title": "Start From Nowhere | Adaptive Digital SAT Trainer",
+     "desc": ("Start From Nowhere: adaptive digital SAT practice across the eight official content "
+              "domains, with two-module mock sections that route like the real exam."),
      "is_404": False},
 ]
 
@@ -35,7 +40,9 @@ for app in APPS:
               .replace("{{BANKS}}", banks)
               .replace("{{ENGINE}}", engine)
               .replace("{{BANK_CONCAT}}", app["concat"])
-              .replace("{{FOOTER_NOTE}}", app["footer"]))
+              .replace("{{FOOTER_NOTE}}", app["footer"])
+              .replace("{{APP_TITLE}}", app["title"])
+              .replace("{{APP_DESC}}", app["desc"]))
     if "{{" in out:
         import re as _r
         print("ERROR: unresolved placeholder in " + app["out"] + ": " + str(_r.findall(r"\{\{[A-Z_]+\}\}", out)[:4]), file=sys.stderr)
