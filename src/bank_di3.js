@@ -71,14 +71,14 @@ wrong:'Some test takers solve the pair to get x = 4 and y = 9 and pick C; others
 {id:'D209',section:'DI',type:'GT',domain:'math',skill:'di_gt',qskill:'q_rrp',diff:2,
 passageHtml:GT_TABLE5,
 stem:'From 2024 to 2025, the number of units sold in the South region changed by what percent?',
-choices:['A decrease of 12%','A decrease of 10%','A decrease of 8%','An increase of 10%','An increase of 12%'],answer:1,
+choices:['A decrease of 12%','A decrease of 8%','An increase of 10%','A decrease of 10%','An increase of 12%'],answer:3,
 expl:'South units went from 1,200 in 2024 to 1,080 in 2025, a change of -120. Since 120/1,200 = 0.10, units decreased by 10 percent.',
 wrong:'Dividing 120 by the 2025 figure 1,080 gives about 11 percent and points to the 12 percent trap; the base of a percent change is the earlier value.'},
 
 {id:'D210',section:'DI',type:'GT',domain:'math',skill:'di_gt',qskill:'q_rrp',diff:3,
 passageHtml:GT_TABLE5,
 stem:'In 2025, which region had the greatest revenue per unit sold?',
-choices:['North','South','East','West','Central'],answer:2,
+choices:['East','North','South','West','Central'],answer:0,
 expl:'Revenue per unit in 2025, in dollars: North 240,000/1,000 = 240; South 216,000/1,080 = 200; East 169,000/650 = 260; West 234,000/1,170 = 200; Central 126,000/600 = 210. East is greatest at $260 per unit.',
 wrong:'North has the largest total revenue, which tempts anyone who skips the division; per unit sold, East leads.'},
 
@@ -106,7 +106,7 @@ wrong:'Route F has the largest absolute gain, 400 riders, the absolute-versus-pe
 {id:'D214',section:'DI',type:'GT',domain:'math',skill:'di_gt',qskill:'q_rrp',diff:4,
 passageHtml:GT_TABLE6,
 stem:'Fare revenue per weekday for Route D was what percent greater than fare revenue per weekday for Route F?',
-choices:['27.5%','32.5%','35%','37.5%','40%'],answer:3,
+choices:['27.5%','32.5%','35%','40%','37.5%'],answer:4,
 expl:'Route D revenue is $4,620 and Route F revenue is $3,360 per weekday. The difference is 1,260, and 1,260/3,360 = 0.375, so Route D is 37.5 percent greater.',
 wrong:'Dividing 1,260 by 4,620 gives about 27.3 percent, the wrong-base trap that points to 27.5%; percent greater than F uses F as the base.'},
 

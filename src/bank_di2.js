@@ -279,11 +279,7 @@ const BANK_DI2 = [
  wrong:'Trap: $680 comes from capping lodging at $180 despite the pre-approval; $1,340 comes from capping the long-haul business fare at $500.'},
 {id:'D130',section:'DI',type:'MSR',domain:'nonmath',skill:'di_msr',diff:4,passageHtml:MSR_SET2,
  stem:'Which of the following statements is supported by the information in the three tabs?',
- choices:['Exactly one of the five claims requires the director\'s sign-off before it can be paid.',
-  'Claim C5\'s lodging would have exceeded the cap in effect before March 15.',
-  'Claim C4\'s business-class airfare is reimbursed in full because the trip ended after March 15.',
-  'Claim C1 would have been reimbursed a greater amount if the trip had ended after March 15.',
-  'Claim C2 will be paid on Friday when the director reviews the queue.'],answer:0,
+ choices:['Claim C5\'s lodging would have exceeded the cap in effect before March 15.','Claim C4\'s business-class airfare is reimbursed in full because the trip ended after March 15.','Claim C1 would have been reimbursed a greater amount if the trip had ended after March 15.','Claim C2 will be paid on Friday when the director reviews the queue.','Exactly one of the five claims requires the director\'s sign-off before it can be paid.'],answer:4,
  expl:'Only C3 ($2,740) exceeds $2,000; C1 ($940), C4 ($831), and C5 ($1,610) do not, and C2 is ineligible. A is supported. C5 lodging is $180 per night, equal to the old cap, not above it. C4\'s 3-hour business flight is capped at $500 regardless of date. C1\'s $170 nights are under both caps, so nothing changes. C2 is late and is not in the sign-off queue.',
  wrong:'Trap in C: the email changes only the lodging cap, not the airfare rule.'}
 ];
