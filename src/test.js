@@ -46,6 +46,17 @@ function runExam(exam){
  console.log('  bank '+BANK.length+' '+JSON.stringify(secCount)+' cards '+CARDS.length+' playbook '+PLAYBOOK.length);
  check('bank integrity',bad);
 
+ // Correct answers must not cluster in one position. An early SAT bank had 75 percent of its
+ // answers at A, which lets a student game the bank and corrupts the adaptive ratings.
+ const mc=BANK.filter(q=>!q.answerType||q.answerType==='mc');
+ if(mc.length>=40){
+  const pos=new Array(exam.choices).fill(0); mc.forEach(q=>{ if(typeof q.answer==='number') pos[q.answer]++; });
+  const share=pos.map(n=>n/mc.length);
+  const even=1/exam.choices, worst=Math.max(...share);
+  console.log('  answer positions '+pos.join(' ')+' of '+mc.length+' (even would be '+Math.round(mc.length/exam.choices)+' each)');
+  check('answer position balance', worst>even*1.6?['position '+'ABCDE'[share.indexOf(worst)]+' holds '+Math.round(worst*100)+' percent of correct answers']:[]);
+ }
+
  // every tracked skill has items, and every playbook skill is real
  const covered=new Set(BANK.map(q=>q.skill));
  check('every skill has items',SKILLS.filter(s=>!covered.has(s.id)).map(s=>s.id));

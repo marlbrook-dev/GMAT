@@ -43,7 +43,7 @@ const BANK_DI8 = [
  wrong:'Choice C is the uncapped calculation and choice B is the 40 percent rate. The last line of Tab 1 raises the rate and explicitly leaves the cap alone, which is the whole point of the item.'},
 {id:'D292',section:'DI',type:'MSR',domain:'nonmath',skill:'di_msr',diff:4,passageHtml:MSR_SET8,
  stem:'Which applicant could be reconsidered in the same program year by correcting a document?',
- choices:['Alder Mill','Bellrose Court','Cedar Exchange','Dunmore Hall','Eastgate Works'],answer:3,
+ choices:['Alder Mill','Bellrose Court','Cedar Exchange','Eastgate Works','Dunmore Hall'],answer:4,
  expl:'Tab 3 allows reconsideration only where the sole defect is the age of the audit. Dunmore Hall fails on that ground alone: built 1965, 45,000 square feet, no prior grant. Bellrose Court and Cedar Exchange fail on building characteristics, and Eastgate Works fails on grant history, none of which a document fixes.',
  wrong:'Eastgate Works is the tempting pick because a grant record feels like paperwork. Tab 3 names the audit specifically, and the five-year bar is a fact about the building, not a document to resubmit.'},
 {id:'D293',section:'DI',type:'MSR',domain:'math',skill:'di_msr',diff:5,passageHtml:MSR_SET8,
@@ -53,12 +53,12 @@ const BANK_DI8 = [
  wrong:'Choice D adds the two uncapped figures. Both buildings are expensive enough that the cap binds, which is easy to apply to the first calculation and forget on the second.'},
 {id:'D294',section:'DI',type:'MSR',domain:'math',skill:'di_msr',diff:3,passageHtml:MSR_SET9,
  stem:'Which sites currently meet the community stream minimum?',
- choices:['Oakmere only','Pinehurst only','Oakmere and Pinehurst','Northfield and Pinehurst','All four sites'],answer:2,
+ choices:['Oakmere only','Oakmere and Pinehurst','Pinehurst only','Northfield and Pinehurst','All four sites'],answer:1,
  expl:'Compare the community share with 35 percent: Northfield 12 of 40 is 30 percent, Oakmere 14 of 28 is 50 percent, Pinehurst 18 of 36 is 50 percent, Quarry Road 6 of 22 is about 27 percent. Oakmere and Pinehurst clear the bar.',
  wrong:'Northfield has the largest raw number of community enrollments and still misses. The rule is a share of that site total, so the count alone decides nothing.'},
 {id:'D295',section:'DI',type:'MSR',domain:'math',skill:'di_msr',diff:4,passageHtml:MSR_SET9,
  stem:'Which site has the highest screen failure rate as Tab 3 defines it?',
- choices:['Northfield','Oakmere','Pinehurst','Quarry Road','Northfield and Pinehurst are tied'],answer:2,
+ choices:['Pinehurst','Northfield','Oakmere','Quarry Road','Northfield and Pinehurst are tied'],answer:0,
  expl:'Rate is failures over failures plus enrolled: Northfield 9 of 49 is about 18 percent, Oakmere 4 of 32 is 12.5 percent, Pinehurst 11 of 47 is about 23 percent, Quarry Road 3 of 25 is 12 percent. Pinehurst is highest.',
  wrong:'Dividing failures by enrolled alone still ranks Pinehurst first here, but it gives the wrong figures, and a definition buried in Tab 3 is exactly the kind of line the next question turns on.'},
 {id:'D296',section:'DI',type:'MSR',domain:'math',skill:'di_msr',diff:4,passageHtml:MSR_SET9,
@@ -68,7 +68,7 @@ const BANK_DI8 = [
  wrong:'Choice B comes from comparing 6 with 35 percent of the current 22 and rounding down. Every participant added raises the denominator as well as the numerator, so the target moves while you chase it.'},
 {id:'D297',section:'DI',type:'MSR',domain:'nonmath',skill:'di_msr',diff:5,passageHtml:MSR_SET9,
  stem:'Which of the following must be true of Northfield?',
- choices:['It cannot reach the community stream minimum by enrolling additional participants.','It has the lowest screen failure rate of the four sites.','It meets the community stream minimum once screen failures are excluded.','It may enroll up to four more community stream participants.','Its mean baseline index disqualifies it from the trial.'],answer:0,
+ choices:['It has the lowest screen failure rate of the four sites.','It meets the community stream minimum once screen failures are excluded.','It cannot reach the community stream minimum by enrolling additional participants.','It may enroll up to four more community stream participants.','Its mean baseline index disqualifies it from the trial.'],answer:2,
  expl:'Northfield is at the 40-participant cap, so it cannot enroll anyone else, and 12 of 40 is 30 percent. With no additions possible, no further enrollment can lift the share to 35 percent.',
- wrong:'Choice C is the trap: Tab 3 says screen failures were never enrolled participants, so leaving them out changes nothing about the 12 of 40. Choice D ignores the cap that Tab 1 sets.'}
+ wrong:'Choice B is the trap: Tab 3 says screen failures were never enrolled participants, so leaving them out changes nothing about the 12 of 40. Choice D ignores the cap that Tab 1 sets.'}
 ];
