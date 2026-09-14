@@ -109,7 +109,15 @@ def exam_page(e, tpl, today):
         for sep in [";", ", always", " plus one", " including"]:
             if sep in s:
                 s = s.split(sep)[0]
-        return s if len(s) <= cap else s[:cap - 3].rstrip() + "..."
+        if len(s) <= cap:
+            return s
+        cut = s[:cap - 3]
+        # never leave a stat tile ending inside an unclosed parenthetical, and never cut a word
+        if cut.count("(") > cut.count(")"):
+            cut = cut[:cut.rfind("(")]
+        elif " " in cut and not s[cap - 3:cap - 2].isspace():
+            cut = cut[:cut.rfind(" ")]
+        return cut.rstrip().rstrip(",") + "..."
     tiles = []
     tt = txt(e.get("total_time"))
     if tt:
