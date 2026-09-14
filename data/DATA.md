@@ -63,3 +63,38 @@ school means adding a file. Never edit generated output.
 Weights and formulas live in `src/build_rankings.py` and are printed verbatim
 on the public methodology section. If the weights change, the page text
 changes with them in the same commit.
+
+# Exam Content Sources
+
+`data/exams.json` holds one record per exam for the public guides at
+`/exams/<slug>/`, with `src`, `year` and `url` on every fact. The same rule
+covers anything the trainers encode about an exam's structure: a section
+length, a domain label, or a question range is either sourced or absent.
+
+## SAT, as encoded in `src/engine.js`
+
+| What | Where it comes from |
+| --- | --- |
+| Section structure and timing: Reading and Writing two 32-minute modules of 27 questions, Math two 35-minute modules of 22 | College Board, SAT test structure, https://satsuite.collegeboard.org/sat/whats-on-the-test/structure |
+| Total score 400 to 1600, sections 200 to 800 | Same page, and Table 4 of the specifications overview below |
+| Section-adaptive delivery: performance on module 1 determines the form of module 2 | Same page |
+| The eight content domains, and the skill and knowledge points under each | College Board, What Are Content Domains?, https://satsuite.collegeboard.org/practice/content-domains |
+| Question distribution per domain (Craft and Structure 13 to 15, Information and Ideas 12 to 14, Standard English Conventions 11 to 15, Expression of Ideas 8 to 12; Algebra 13 to 15, Advanced Math 13 to 15, Problem-Solving and Data Analysis 5 to 7, Geometry and Trigonometry 5 to 7) | Tables 2 and 3, The Digital SAT Suite of Assessments Specifications Overview, https://satsuite.collegeboard.org/media/pdf/digital-sat-test-spec-overview.pdf |
+| Reading and Writing module order: Craft and Structure, then Information and Ideas, then Standard English Conventions, then Expression of Ideas, each group easiest to hardest | Same document, Reading and Writing content domains section |
+| Math questions arranged easiest to hardest across each module | Same document, Math content domains section |
+
+Two things are deliberately ours and are labeled as ours wherever a student
+can see them:
+
+1. **The routing threshold.** College Board does not publish the rule it uses
+   to decide which second module a student receives. `SAT_ROUTE_CUT` in
+   `src/engine.js` is 60 percent, and the routing screen says so in those
+   words rather than implying an official cutoff.
+2. **The absence of a scaled score.** The equating tables that turn raw
+   performance into a 400 to 1600 score are not public. The app reports
+   accuracy, per-domain results against the official ranges, and which module
+   a student routed into. It never reports a score, and it points students to
+   an official Bluebook practice test to calibrate.
+
+Per-question pace (`allot`) is arithmetic on the sourced module lengths, not a
+published figure: 32 minutes over 27 questions is 71 seconds, 35 over 22 is 95.

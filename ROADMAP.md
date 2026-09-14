@@ -1,6 +1,6 @@
 # Start From Nowhere: build roadmap
 
-Updated August 20, 2026. Owner: Hunter Roberts. Builder: Claude sessions. This file is the working schedule; each week's block ships as one or more merged PRs. Dates are targets, not promises; anything user-facing ships only after the browser test suite passes.
+Updated September 14, 2026. Owner: Hunter Roberts. Builder: Claude sessions. This file is the working schedule; each week's block ships as one or more merged PRs. Dates are targets, not promises; anything user-facing ships only after the browser test suite passes.
 
 ## Comparative advantage (the why-us, revisited each cycle)
 
@@ -44,9 +44,10 @@ Updated August 20, 2026. Owner: Hunter Roberts. Builder: Claude sessions. This f
 
 ## Week of Sep 16 and beyond
 
+- [x] Undergrad pilot, first half: SAT trainer live at /sat/app/ on a genuinely multi-exam engine, 128 original items across all eight official content domains, two-module mock sections with routing, grid-ins, SAT deck and playbook, site wiring
+- [ ] Undergrad pilot, second half: undergrad rankings vertical (one file per college, same source ladder as data/schools/), SAT bank toward GMAT parity, ACT study modes
 - [ ] GRE build: new item types (text completion, sentence equivalence, quantitative comparison), GRE bank seed, section timing
 - [ ] LSAT build: logical reasoning and reading comprehension banks
-- [ ] Undergrad pilot: SAT/ACT study modes plus undergrad rankings vertical
 - [ ] Stripe go-live checkpoint: flip PAYMENTS_LIVE once accounts and legal review are done
 - [ ] SFN Assist (AI coaching) when the Anthropic API key is added
 
@@ -66,14 +67,53 @@ reason-tag targeted drill; sitemap school URLs restored; 4 queued blog posts
 (2 rankings-adjacent, SAT vs ACT, LSAT); EDITORIAL.md fact sheet refreshed;
 EA-format mock.
 
+## Session Log: September 14, 2026 (PR 30)
+
+Shipped the SAT vertical. src/engine.js became a real exam registry: SKILLS and
+SECTION_META now resolve from an EXAM_ID the build injects, so one engine and
+one UI template serve every exam and progress stays keyed per exam. GMAT
+behavior unchanged. Caught and fixed a latent bug in the process: pickQuestions
+defaulted its section list to the GMAT sections, which would have returned
+nothing for any other exam.
+
+SAT: eight official content domains as tracked skills, 128 original items (62
+Reading and Writing across all four domains with their own short passages, 66
+Math including student-produced responses), 54 flashcards, a playbook per
+domain, and a trainer at /sat/app/. Mock sections run as two modules with the
+second routed harder or easier by the first, free answer changes inside a
+module, and a report broken out by module and by content domain against
+College Board's published question ranges. No 400 to 1600 score is reported
+anywhere; sources and the two deliberate departures from official practice are
+documented in the Exam Content Sources section of data/DATA.md.
+
+GMAT: bank 420 to 440. Multi-Source Reasoning was the thinnest skill at 15 and
+is now 23, via two new three-tab sets. Plan / Construct 32 to 38, Identify
+Stated Idea 28 to 32 (new RC passage P11).
+
+Also: test.js runs the whole suite once per exam and adds SAT coverage for
+module construction, official domain ordering and mix, routing, and grid-in
+equivalence; the build now fails on an em or en dash in any hand-edited doc or
+bank, and README carried five that are now gone.
+
 Next session queue, in order:
-1. Figma iteration 2 implementation (owner's Make credits return 8/31; the
+1. SAT bank toward parity with the GMAT: the SAT bank is 128 items against
+   440, which is enough for adaptive rounds and one pass at both modules but
+   not for repeat mocks without recycling. Thinnest domains first (Expression
+   of Ideas 14, Advanced Math 18, and more student-produced responses; only 5
+   of 66 Math items are grid-ins against roughly a quarter on the real test).
+2. Undergrad rankings vertical, to close the rankings-to-study loop for SAT
+   students the way data/schools/ does for MBA candidates. Needs an owner
+   decision on scope (how many colleges, which published figures) before the
+   source ladder can be written.
+3. Figma iteration 2 implementation (owner's Make credits return 8/31; the
    iteration-2 prompt and guidelines are already in the Make file).
-2. School data: re-verify 5 bot-blocked expansion candidates (Arizona Eller,
+4. School data: re-verify 5 bot-blocked expansion candidates (Arizona Eller,
    JHU Carey, Baruch Zicklin, Oklahoma State, Iowa State) and the blocked
    domains (Columbia, Michigan Ross, Georgia Terry, Case Western); protocol
    and merge tool live in data/research/.
-3. Forum DB decisions with owner: pinned threads, tags, post votes, view
+5. Forum DB decisions with owner: pinned threads, tags, post votes, view
    counts (each needs a migration).
-4. EA score-model deepening; user-profile fit inputs (GPA, work exp, budget).
-5. Bank beyond 420, thinnest skills first (di_msr and v_pc still lowest).
+6. EA score-model deepening; user-profile fit inputs (GPA, work exp, budget).
+7. Blog: SAT posts for the drip, written to EDITORIAL rules (the digital
+   format, what module routing means for a student, how to read a score
+   report by content domain).

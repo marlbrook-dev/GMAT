@@ -70,8 +70,17 @@ if _skill_probe.returncode != 0:
 total_skills = _skill_probe.stdout.strip()
 
 def no_dashes(name, text):
-    if "—" in text or "–" in text:
+    if "\u2014" in text or "\u2013" in text:
         print(f"ERROR: em/en dash in {name}", file=sys.stderr); sys.exit(1)
+
+# House rule: no em or en dashes anywhere, docs and sources included. The page checks below
+# cover generated output; this covers the files people hand-edit.
+for _doc in ["README.md", "ROADMAP.md", "CLAUDE.md", "llms.txt", "GROWTH.md", "INTEGRATIONS.md", "data/DATA.md"]:
+    _p = root / _doc
+    if _p.exists():
+        no_dashes(_doc, _p.read_text())
+for _src in sorted(d.glob("bank_*.js")) + sorted(d.glob("cards*.js")) + sorted(d.glob("playbook_*.js")) + [d/"engine.js"]:
+    no_dashes(_src.name, _src.read_text())
 
 landing = ((d/"landing.html").read_text().replace("{{BANK_COUNT}}", str(bank_count)).replace("{{CARD_COUNT}}", str(card_count))
            .replace("{{SAT_BANK_COUNT}}", str(sat_bank_count)).replace("{{SAT_CARD_COUNT}}", str(sat_card_count))

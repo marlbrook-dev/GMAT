@@ -1,9 +1,10 @@
 # Start From Nowhere
 
-> Adaptive test-prep platform for the GMAT Focus Edition (scored 205 to 805). Free first practice round, no account needed: per-skill ratings keyed to the official score-report skill labels, spaced review of misses, timing diagnostics, games, flashcards, and full mock exams. Also home to an independent MBA rankings library covering 91 US full-time programs with a source and year on every figure, a community forum, and The Study Room blog.
+> Adaptive test-prep platform with two live trainers: the GMAT Focus Edition (scored 205 to 805) and the digital SAT (scored 400 to 1600). Free first practice round, no account needed: per-skill ratings keyed to each exam's official score-report labels, spaced review of misses, timing diagnostics, games, flashcards, and full mock exams. The SAT trainer reproduces the real section-adaptive format, running each section as two modules with the second routed by performance on the first. Also home to an independent MBA rankings library covering 91 US full-time programs with a source and year on every figure, a community forum, and The Study Room blog.
 
 ## Product
-- [Trainer](https://startfromnowhere.com/app/): adaptive GMAT Focus practice, 300+ original items across Quantitative Reasoning, Verbal Reasoning, and Data Insights, plus 120 flashcards and six practice games.
+- [GMAT Trainer](https://startfromnowhere.com/app/): adaptive GMAT Focus practice, 440 original items across Quantitative Reasoning, Verbal Reasoning, and Data Insights, plus 120 flashcards and six practice games.
+- [SAT Trainer](https://startfromnowhere.com/sat/app/): adaptive digital SAT practice, 128 original items across the eight official content domains, with two-module mock sections that route like the real exam, student-produced responses, 54 flashcards, and a playbook per domain. Reports accuracy and per-domain results rather than an unofficial 400 to 1600 score.
 - [MBA Rankings](https://startfromnowhere.com/schools/): 91 US full-time MBA programs; a transparent composite of US News, Financial Times, Bloomberg, QS, and Poets and Quants plus a documented data score; every class-profile figure cites the school's own page. One profile page per school.
 - [Exam Guides](https://startfromnowhere.com/exams/): structure, timing, cost, and registration for GMAT, GRE, LSAT, MCAT, SAT, ACT, and Executive Assessment, each fact sourced.
 - [Community Forum](https://startfromnowhere.com/community/): free to read and post, named or anonymous, human-moderated.
