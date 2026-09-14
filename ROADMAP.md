@@ -6,7 +6,7 @@ Updated September 14, 2026. Owner: Hunter Roberts. Builder: Claude sessions. Thi
 
 1. Game-grade engagement on top of real per-skill analytics. Competitors have one or the other, not both.
 2. Radical honesty: original items, sourced statistics, no fabricated testimonials or efficacy claims, transparent methodology everywhere. Trust is the moat an institutional audience actually pays for.
-3. The rankings-to-study loop: pick target schools, get a study plan calibrated to their published numbers, watch fit improve as ratings rise. No competitor closes this loop.
+9. The rankings-to-study loop: pick target schools, get a study plan calibrated to their published numbers, watch fit improve as ratings rise. No competitor closes this loop.
 4. Speed: solo-operator economics with AI-scale content production, so the bank, blog, and features compound weekly.
 
 ## Week of Aug 19 (current)
@@ -144,27 +144,44 @@ a corrected SAT vs ACT post (queued September 26, not yet published) that said
 our SAT trainer was in development.
 
 Next session queue, in order:
-1. SAT bank onward from 248: coverage is even across the eight domains (27 to
+1. SAT bank onward from 336: coverage is even across the eight domains (27 to
    34 items each) and grid-ins are 21 percent of Math against roughly a
    quarter on the real test. The next increment should take the bank past
    three non-repeating sections per section and raise grid-ins the rest of the
    way.
-2. Undergrad rankings vertical, to close the rankings-to-study loop for SAT
+2. Length bias in both banks, measured but only partly fixed. On a well-built
+   test the correct answer is no likelier to be the longest choice than any
+   other. It currently is: the longest choice is correct on 34 percent of SAT
+   items against 25 by chance, and on 35 percent of GMAT items against 20,
+   while the shortest choice is correct on only 9 percent of GMAT items. A
+   student who always picked the longest answer would beat guessing. The cause
+   is structural rather than careless: on Rhetorical Synthesis and Command of
+   Evidence the correct choice has to combine two pieces of information while
+   a distractor states one, so it runs longer unless the distractors are
+   written to match. 18 distractors on the worst items were rewritten to the
+   same specificity, which improved those items and made their traps harder,
+   but barely moved the aggregate because roughly 88 SAT items and a similar
+   number of GMAT items sit above the threshold. Fixing it properly is a
+   content pass over those items, rewriting distractors to match the correct
+   answer in length and specificity without creating a second defensible
+   answer. test.js reports the figure every run and fails only past 1.8 times
+   chance, so the number is visible without failing on every commit.
+3. Undergrad rankings vertical, to close the rankings-to-study loop for SAT
    students the way data/schools/ does for MBA candidates. Needs an owner
    decision on scope (how many colleges, which published figures) before the
    source ladder can be written.
-3. Figma iteration 2 implementation (owner's Make credits return 8/31; the
+4. Figma iteration 2 implementation (owner's Make credits return 8/31; the
    iteration-2 prompt and guidelines are already in the Make file).
-4. School data: re-verify 5 bot-blocked expansion candidates (Arizona Eller,
+5. School data: re-verify 5 bot-blocked expansion candidates (Arizona Eller,
    JHU Carey, Baruch Zicklin, Oklahoma State, Iowa State) and the blocked
    domains (Columbia, Michigan Ross, Georgia Terry, Case Western); protocol
    and merge tool live in data/research/.
-5. Supabase migrations waiting on the owner, all written and none applied:
+6. Supabase migrations waiting on the owner, all written and none applied:
    supabase/migrations/PROPOSED_exam_states.sql (per-exam state, which restores
    cross-device sync for a student's second exam, plus an exam column on
    sessions), and the forum decisions already queued: pinned threads, tags,
    post votes, view counts.
-6. Engine tuning question for the owner, with a reproduction in hand. The
+7. Engine tuning question for the owner, with a reproduction in hand. The
    weakest-first weighting in pickQuestions works as designed for an average
    student: after 120 questions every GMAT skill has 7 to 18 attempts. For a
    student answering about 20 percent correctly it concentrates hard, and one
@@ -175,8 +192,8 @@ Next session queue, in order:
    ones that lose out. Worth deciding whether to guarantee a floor per skill
    before targeting takes over; not changed here because it is tuned product
    behavior, not a defect.
-7. EA score-model deepening; user-profile fit inputs (GPA, work exp, budget).
-8. Tooling blocker, worth fixing before any SAT score-data content. College
+8. EA score-model deepening; user-profile fit inputs (GPA, work exp, budget).
+9. Tooling blocker, worth fixing before any SAT score-data content. College
    Board publishes mean scores and percentile tables only in PDF (the Total
    Group Annual Report and Understanding SAT Scores). Both download fine, but
    this container has no poppler-utils and its python cryptography module is
@@ -186,6 +203,6 @@ Next session queue, in order:
    extractor is available in the build environment. Nothing was written from
    memory in the meantime; the two SAT posts queued use only facts verified
    from HTML sources.
-9. Blog: SAT posts for the drip, written to EDITORIAL rules (the digital
+10. Blog: SAT posts for the drip, written to EDITORIAL rules (the digital
    format, what module routing means for a student, how to read a score
    report by content domain).

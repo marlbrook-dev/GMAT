@@ -57,6 +57,22 @@ function runExam(exam){
   check('answer position balance', worst>even*1.6?['position '+'ABCDE'[share.indexOf(worst)]+' holds '+Math.round(worst*100)+' percent of correct answers']:[]);
  }
 
+ // Length bias: on a well-built test the correct answer is no likelier to be the longest choice
+ // than any other. Reported every run so the trend is visible; the guard is deliberately loose,
+ // because the bank is above chance today and a tight threshold would just fail on every commit.
+ if(mc.length>=40){
+  let longest=0, shortest=0, comparable=0;
+  mc.forEach(q=>{ const len=q.choices.map(c=>String(c).length);
+   const max=Math.max(...len), min=Math.min(...len);
+   if(len.filter(l=>l===max).length>1){ comparable++; return; }
+   if(len[q.answer]===max) longest++; if(len[q.answer]===min) shortest++; });
+  const pctLong=Math.round(longest/mc.length*100), evenPct=Math.round(100/exam.choices);
+  console.log('  longest choice is correct on '+pctLong+' percent of items, shortest on '+
+   Math.round(shortest/mc.length*100)+' percent (even would be '+evenPct+' each)');
+  check('length bias within tolerance', pctLong>evenPct*1.8?
+   ['the longest choice is correct on '+pctLong+' percent of items, against '+evenPct+' by chance']:[]);
+ }
+
  // every tracked skill has items, and every playbook skill is real
  const covered=new Set(BANK.map(q=>q.skill));
  check('every skill has items',SKILLS.filter(s=>!covered.has(s.id)).map(s=>s.id));
