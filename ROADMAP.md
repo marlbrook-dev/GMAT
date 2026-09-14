@@ -118,9 +118,24 @@ was sold as no-calculator practice when Bluebook gives SAT students Desmos on
 every Math question. Site-wide, the shared footer named only GMAC and the terms
 page omitted the College Board and ACT marks.
 
+Answer key balance, the worst defect found and the one that would have been
+hardest to notice from inside the app. Of 302 SAT multiple-choice items, 225
+had their correct answer at position A and 3 at D, so a student could have
+scored well above their ability by guessing A and every rating derived from
+that would have been inflated. The same measurement on the pre-existing GMAT
+bank showed position E holding 27 of 324 non-Data-Sufficiency items against an
+even share of 65. Both are fixed: numeric choice sets are sorted ascending the
+way both real exams present them, everything else takes a permutation seeded
+by the item id, and choice-letter references in the explanations travel with
+the text. A before and after snapshot proves on every touched item that no
+correct answer changed and that every "Choice B is a comma splice" still names
+the option that is a comma splice. Data Sufficiency is untouched by design: its
+five choices are a standardized set whose order is part of the format.
+
 Tooling: test.js runs the whole suite once per exam and adds SAT coverage for
-module construction, official domain ordering and mix, routing, and grid-in
-equivalence. The build now fails on an em or en dash in any hand-edited doc or
+module construction, official domain ordering and mix, routing, whether an
+easier module can be filled, and grid-in equivalence, and it fails if any answer
+position takes more than 1.6 times an even share. The build now fails on an em or en dash in any hand-edited doc or
 bank, and on any item count quoted in llms.txt or the EDITORIAL fact sheet that
 no longer matches the real banks. That guard has already caught two drifts.
 
