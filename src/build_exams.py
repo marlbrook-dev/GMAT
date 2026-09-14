@@ -19,14 +19,16 @@ APP_PATH = {"gmat": "/app/", "sat": "/sat/app/"}  # where each live trainer live
 # included, string = shown verbatim. Order defines the page.
 PRICING = [
     ("Training", [
+        ("Both live trainers, GMAT Focus and digital SAT", True, True, True),
         ("Adaptive questions per day", "10", "Unlimited", "Unlimited"),
         ("Original practice items (all plans, full bank)", True, True, True),
         ("Custom drills by skill and difficulty", True, True, True),
         ("Worked explanations that name the trap", True, True, True),
     ]),
     ("Mock Sections", [
-        ("Full 45-minute sections under exam rules", "1 per month", "Unlimited", "Unlimited"),
-        ("Bookmark and 3 answer changes, exactly like test day", True, True, True),
+        ("Full sections under exam rules", "1 per month", "Unlimited", "Unlimited"),
+        ("GMAT: bookmark and 3 answer changes, exactly like test day", True, True, True),
+        ("SAT: two modules per section with the second routed by the first", True, True, True),
     ]),
     ("Games and Daily Habit", [
         ("Match, Memory, Blitz, Number crunch, Boss round", True, True, True),

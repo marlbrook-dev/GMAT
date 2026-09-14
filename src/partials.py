@@ -144,9 +144,9 @@ FOOTER_LINKS = [
 ]
 
 LEGAL_LINE = (
-    "GMAT is a registered trademark of the Graduate Management Admission Council (GMAC), "
-    "which does not endorse this product. Practice items are original; score bands are "
-    "internal estimates, not official scores."
+    "GMAT is a registered trademark of the Graduate Management Admission Council (GMAC). "
+    "SAT is a trademark registered by the College Board. Neither organization endorses this "
+    "product. Practice items are original; score bands are internal estimates, not official scores."
 )
 
 
