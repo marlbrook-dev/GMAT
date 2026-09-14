@@ -219,9 +219,15 @@ SECTIONS.forEach(s=>{ const k=SEC_PALETTE[s]||'quant';
  SEC_COLOR[s]='var(--section-'+k+')'; SEC_BG[s]='var(--section-'+k+'-bg)'; SEC_SHORT[s]=SECTION_META[s].short||SECTION_META[s].name; });
 // ---------- storage adapter (swap for Supabase later) ----------
 const STORE_KEY='meridian_prep_'+CURRENT_EXAM+'_v1';
-const Store={ load(){ try{ const raw=localStorage.getItem(STORE_KEY)||localStorage.getItem('gmat_trainer_v1'); if(raw) return JSON.parse(raw);}catch(e){} return null; },
+// Both trainers share an origin, so a stored state has to prove which exam it belongs to before
+// this app adopts it. The legacy key predates the registry and holds GMAT progress only.
+const LEGACY_KEY = CURRENT_EXAM==='gmat-focus' ? 'gmat_trainer_v1' : null;
+const Store={ load(){ try{ const raw=localStorage.getItem(STORE_KEY)||(LEGACY_KEY?localStorage.getItem(LEGACY_KEY):null);
+   if(!raw) return null; const s=JSON.parse(raw);
+   if(s&&s.exam&&s.exam!==CURRENT_EXAM) return null;
+   return s; }catch(e){} return null; },
  save(s){ try{ localStorage.setItem(STORE_KEY,JSON.stringify(s)); return true;}catch(e){ return false; } },
- clear(){ try{localStorage.removeItem(STORE_KEY);localStorage.removeItem('gmat_trainer_v1');}catch(e){} } };
+ clear(){ try{localStorage.removeItem(STORE_KEY); if(LEGACY_KEY) localStorage.removeItem(LEGACY_KEY);}catch(e){} } };
 let state = Store.load() || newState();
 SKILLS.forEach(s=>{ if(!state.skills[s.id]) state.skills[s.id]={r:START_R,n:0,c:0,t:0,hist:[]}; }); if(!state.seen) state.seen={}; if(!state.settings) state.settings={name:'Hunter',testDate:'',dailyGoal:20}; if(state.settings.onboarded===undefined) state.settings.onboarded=false; if(!state.settings.program) state.settings.program={exam:(EXAM.id==='sat'?'SAT':'GMAT'),goal:'',hours:'3 to 5 hrs / week',tools:{'Quick 10':true,'Timed sprint':true,'Flashcards':false}}; if(state.settings.digest===undefined) state.settings.digest=true;
 function persist(){ if(!Store.save(state)) toast('Auto-save is unavailable in this browser. Export your progress from Account.'); Cloud.scheduleSave(); }
@@ -231,8 +237,15 @@ const Cloud={ client:null, user:null, timer:null, status:'off',
  async checkAdmin(){ this.isAdmin=false; const b=document.getElementById('navAdmin'); const pv=location.hash==='#admin-preview'; if(b&&!pv) b.style.display='none'; if(!this.user||!this.client) return; try{ const {data}=await this.client.rpc('is_admin'); this.isAdmin=!!data; }catch(e){} if(b) b.style.display=(this.isAdmin||pv)?'':'none'; },
  async signIn(email){ if(!this.client) return {error:{message:'Sync is available on the hosted site only.'}}; return this.client.auth.signInWithOtp({email, options:{emailRedirectTo: location.origin+location.pathname}}); },
  async signOut(){ if(this.client) await this.client.auth.signOut(); this.user=null; this.status='signed-out'; },
- async pull(){ if(!this.user) return; const {data,error}=await this.client.from('profiles').select('state_blob,display_name,test_date,daily_goal,plan,consent_at').eq('id',this.user.id).maybeSingle(); if(error) return; this.plan=(data&&data.plan)||'free'; const remote=data&&data.state_blob; if(remote&&remote.attempts&&remote.attempts.length>state.attempts.length){ const local=state; state=remote; if(!state.settings) state.settings=local.settings; toast('Loaded '+state.attempts.length+' answers from your account.'); Store.save(state); renderDash(); } else if(!remote){ await this.push(); track('account_created',{exam:CURRENT_EXAM,source:'app'}); } if(data&&!data.consent_at){ await this.client.from('profiles').update({consent_at:new Date().toISOString()}).eq('id',this.user.id); } },
- async push(){ if(!this.user) return false; const s=state.settings||{}; const {error}=await this.client.from('profiles').upsert({id:this.user.id,email:this.user.email,state_blob:state,display_name:s.name||null,test_date:s.testDate||null,daily_goal:s.dailyGoal||20,exam:CURRENT_EXAM,updated_at:new Date().toISOString()}); return !error; },
+ async pull(){ if(!this.user) return; const {data,error}=await this.client.from('profiles').select('state_blob,display_name,test_date,daily_goal,plan,consent_at').eq('id',this.user.id).maybeSingle(); if(error) return; this.plan=(data&&data.plan)||'free'; const remote=data&&data.state_blob;
+  // profiles.state_blob predates multi-exam and holds one state per user. A blob written by the
+  // other trainer is someone's real progress: show nothing from it and overwrite nothing.
+  const remoteExam=(remote&&remote.exam)||'gmat-focus';
+  this.blobExam = remote ? remoteExam : null;
+  if(remote&&remoteExam!==CURRENT_EXAM){ this.blobLocked=true; updateHeader(); return; }
+  this.blobLocked=false;
+  if(remote&&remote.attempts&&remote.attempts.length>state.attempts.length){ const local=state; state=remote; if(!state.settings) state.settings=local.settings; toast('Loaded '+state.attempts.length+' answers from your account.'); Store.save(state); renderDash(); } else if(!remote){ await this.push(); track('account_created',{exam:CURRENT_EXAM,source:'app'}); } if(data&&!data.consent_at){ await this.client.from('profiles').update({consent_at:new Date().toISOString()}).eq('id',this.user.id); } },
+ async push(){ if(!this.user||this.blobLocked) return false; const s=state.settings||{}; const {error}=await this.client.from('profiles').upsert({id:this.user.id,email:this.user.email,state_blob:state,display_name:s.name||null,test_date:s.testDate||null,daily_goal:s.dailyGoal||20,exam:CURRENT_EXAM,updated_at:new Date().toISOString()}); return !error; },
  scheduleSave(){ if(!this.user) return; clearTimeout(this.timer); this.timer=setTimeout(()=>this.push(),2500); },
  async logAttempt(a){ if(!this.user) return; this.client.from('attempts').insert({user_id:this.user.id,exam:CURRENT_EXAM,qid:a.qid,skill:a.skill,section:a.section,diff:a.diff,correct:a.correct,secs:a.secs,flag:a.flag,reason:a.reason,guessed:a.guessed,chosen:a.chosen,session_id:a.sid}).then(()=>{}); },
  async wipe(){ if(!this.user) return; await this.client.from('attempts').delete().eq('user_id',this.user.id); await this.client.from('events').delete().eq('user_id',this.user.id); await this.client.from('sessions').delete().eq('user_id',this.user.id); await this.client.from('profiles').update({state_blob:null}).eq('id',this.user.id); }
@@ -286,7 +299,7 @@ function renderDash(){
  const due=Object.keys(state.review).filter(id=>state.review[id].due<=Date.now()&&BANK_BY_ID[id]).length;
  const dt=daysToTest(); const sub= dt===null?'Set your test date in Settings and the plan will count down to it.':dt>0?'Test day is in '+dt+' day'+(dt===1?'':'s')+'. '+(total?paceLine():'Start with a Quick 10 to calibrate.'):dt===0?'Test day is today. Light review only.':'Your test date has passed. Update it in Settings.';
  let html='<div class="stack">';
- const tg=EXAM.id==='gmat-focus'?targetSchools():[]; const g0=tg.length&&tg[0].gmat; const tgLine=tg.length?' Training toward '+esc(tg[0].name)+(tg.length>1?' and '+(tg.length-1)+' more':'')+'.'+(g0?' Its published GMAT: '+g0.v+' '+esc(g0.ed)+(g0.stat?' '+esc(g0.stat):'')+'.':''):'';
+ const tg=targetSchools(); const g0=tg.length&&tg[0].gmat; const tgLine=tg.length?' Training toward '+esc(tg[0].name)+(tg.length>1?' and '+(tg.length-1)+' more':'')+'.'+(g0?' Its published GMAT: '+g0.v+' '+esc(g0.ed)+(g0.stat?' '+esc(g0.stat):'')+'.':''):'';
  const streak=streakDays(); const orat=overallRating(); const otr=overallTrend();
  html+='<div class="row" style="align-items:flex-end;justify-content:space-between;gap:14px"><div style="min-width:260px"><p class="eyebrow">'+esc(EXAM.name)+' Trainer</p><h1 style="font-size:var(--text-2xl);font-weight:700">'+greeting()+', '+esc(state.settings.name||'Hunter')+'</h1><p class="muted" style="margin:6px 0 0">'+sub+tgLine+(state.settings.program&&state.settings.program.goal?' Goal: '+esc(state.settings.program.goal)+'.':'')+'</p></div>'
  +'<div class="row" style="gap:10px">'
@@ -623,7 +636,7 @@ function tierOf(r,n){ if(!n||n<6) return {name:n?'Calibrating':'Not tested',tone
  if(r>=1450) return {name:'Mastered',tone:'tier-top'}; if(r>=1350) return {name:'Advanced',tone:'tier-adv'};
  if(r>=1250) return {name:'Proficient',tone:'tier-prof'}; if(r>=1100) return {name:'Building',tone:'tier-dev'};
  return {name:'Foundation',tone:'tier-found'}; }
-function targetSchools(){ try{ const L=JSON.parse(localStorage.getItem('sfn_school_list_v1')); if(!L||!L.order) return []; return L.order.map(sl=>Object.assign({slug:sl},(L.meta&&L.meta[sl])||{})).filter(x=>x.name); }catch(e){ return []; } }
+function targetSchools(){ if(EXAM.id!=='gmat-focus') return []; try{ const L=JSON.parse(localStorage.getItem('sfn_school_list_v1')); if(!L||!L.order) return []; return L.order.map(sl=>Object.assign({slug:sl},(L.meta&&L.meta[sl])||{})).filter(x=>x.name); }catch(e){ return []; } }
 function gmSecName(sec){ return sec==='ALL'?'All sections':(SEC_SHORT[sec]||'General'); }
 function gmSecColor(sec){ return SEC_COLOR[sec]||'var(--gray-700)'; }
 // Minutes of testing in a full mock, from the exam's own section table.
@@ -1216,7 +1229,7 @@ function renderData(){ const el=document.getElementById('v-data'); const s=state
  const signed=Cloud.status==='signed-in'; const local=Cloud.status==='local-only';
  if(signed) pushAbout();
  let auth='';
- if(signed) auth='<div class="row" style="justify-content:space-between"><div><div class="card-title" style="font-size:15px">Signed in as '+esc(Cloud.user.email)+'</div><div class="small">Progress syncs to your account a few seconds after each answer.</div></div><button class="btn secondary sm" onclick="Cloud.signOut().then(()=>{toast(\'Signed out. Progress stays on this device.\');renderData();updateHeader();})">Sign out</button></div>';
+ if(signed) auth='<div class="row" style="justify-content:space-between"><div><div class="card-title" style="font-size:15px">Signed in as '+esc(Cloud.user.email)+'</div><div class="small">'+(Cloud.blobLocked?'Cross-device sync for '+esc(EXAM.name)+' is not available on this account yet: your account already stores '+esc((EXAMS[Cloud.blobExam]||{name:'another exam'}).name)+' progress, and the account record holds one exam at a time. '+esc(EXAM.name)+' progress is saved on this device and is safe; nothing of yours will be overwritten. Export from below to move it.':'Progress syncs to your account a few seconds after each answer.')+'</div></div><button class="btn secondary sm" onclick="Cloud.signOut().then(()=>{toast(\'Signed out. Progress stays on this device.\');renderData();updateHeader();})">Sign out</button></div>';
  else if(local) auth='<div class="small">You are using the offline file. Sign-in and sync are available on the hosted site.</div>';
  else auth='<div class="row"><input type="text" id="authEmail" placeholder="you@example.com" style="min-width:260px" value="'+esc(s.email||'')+'"><button class="btn" onclick="sendMagicLink()">Email Me a Sign-In Link</button></div><div class="small" style="margin-top:8px">No password. We email a one-time link; your progress on this device is kept and merged with your account. By continuing you agree to the Terms of Use and Privacy notice.</div><div id="authMsg" class="small"></div>';
  const tiers=[
