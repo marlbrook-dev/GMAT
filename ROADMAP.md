@@ -161,6 +161,16 @@ Next session queue, in order:
    before targeting takes over; not changed here because it is tuned product
    behavior, not a defect.
 7. EA score-model deepening; user-profile fit inputs (GPA, work exp, budget).
-8. Blog: SAT posts for the drip, written to EDITORIAL rules (the digital
+8. Tooling blocker, worth fixing before any SAT score-data content. College
+   Board publishes mean scores and percentile tables only in PDF (the Total
+   Group Annual Report and Understanding SAT Scores). Both download fine, but
+   this container has no poppler-utils and its python cryptography module is
+   broken, so pypdf and pdfplumber both fail and the tables resist raw stream
+   extraction because they use subset font encodings. Anything needing SAT
+   percentiles, mean scores, or benchmark figures is blocked until a PDF text
+   extractor is available in the build environment. Nothing was written from
+   memory in the meantime; the two SAT posts queued use only facts verified
+   from HTML sources.
+9. Blog: SAT posts for the drip, written to EDITORIAL rules (the digital
    format, what module routing means for a student, how to read a score
    report by content domain).
