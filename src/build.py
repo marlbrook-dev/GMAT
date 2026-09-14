@@ -8,7 +8,7 @@ GMAT_BANKS = ["bank_quant.js","bank_quant2.js","bank_quant3.js","bank_quant4.js"
               "bank_verbal.js","bank_verbal2.js","bank_verbal3.js","bank_verbal4.js","bank_verbal5.js","bank_verbal6.js","bank_verbal7.js","bank_verbal8.js",
               "bank_di.js","bank_di2.js","bank_di3.js","bank_di4.js","bank_di5.js","bank_di6.js","bank_di7.js","bank_di8.js",
               "cards.js","cards2.js","cards3.js","playbook_gmat.js"]
-SAT_BANKS = ["bank_sat_rw.js","bank_sat_rw2.js","bank_sat_math.js","bank_sat_math2.js","bank_sat_math3.js","cards_sat.js","playbook_sat.js"]
+SAT_BANKS = ["bank_sat_rw.js","bank_sat_rw2.js","bank_sat_rw3.js","bank_sat_math.js","bank_sat_math2.js","bank_sat_math3.js","cards_sat.js","playbook_sat.js"]
 
 APPS = [
     {"exam": "gmat-focus", "out": "app", "files": GMAT_BANKS,
@@ -20,7 +20,7 @@ APPS = [
                 "shown here are internal estimates, not official GMAT scores."),
      "is_404": True},
     {"exam": "sat", "out": "sat/app", "files": SAT_BANKS,
-     "concat": "BANK_SAT_RW, BANK_SAT_RW2, BANK_SAT_MATH, BANK_SAT_MATH2, BANK_SAT_MATH3",
+     "concat": "BANK_SAT_RW, BANK_SAT_RW2, BANK_SAT_RW3, BANK_SAT_MATH, BANK_SAT_MATH2, BANK_SAT_MATH3",
      "footer": ("SAT is a trademark registered by the College Board, which does not endorse this product. Practice "
                 "items are original and written for Start From Nowhere. Content domains follow College Board's "
                 "published framework; nothing here reports an official 400 to 1600 score."),
