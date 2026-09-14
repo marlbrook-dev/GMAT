@@ -44,7 +44,7 @@ Updated September 14, 2026. Owner: Hunter Roberts. Builder: Claude sessions. Thi
 
 ## Week of Sep 16 and beyond
 
-- [x] Undergrad pilot, first half: SAT trainer live at /sat/app/ on a genuinely multi-exam engine, 128 original items across all eight official content domains, two-module mock sections with routing, grid-ins, SAT deck and playbook, site wiring
+- [x] Undergrad pilot, first half: SAT trainer live at /sat/app/ on a genuinely multi-exam engine, 248 original items across all eight official content domains, two-module mock sections with routing, grid-ins, a 112-card deck and a playbook per domain, site wiring
 - [ ] Undergrad pilot, second half: undergrad rankings vertical (one file per college, same source ladder as data/schools/), SAT bank toward GMAT parity, ACT study modes
 - [ ] GRE build: new item types (text completion, sentence equivalence, quantitative comparison), GRE bank seed, section timing
 - [ ] LSAT build: logical reasoning and reading comprehension banks
@@ -76,10 +76,12 @@ behavior unchanged. Caught and fixed a latent bug in the process: pickQuestions
 defaulted its section list to the GMAT sections, which would have returned
 nothing for any other exam.
 
-SAT: eight official content domains as tracked skills, 128 original items (62
-Reading and Writing across all four domains with their own short passages, 66
-Math including student-produced responses), 54 flashcards, a playbook per
-domain, and a trainer at /sat/app/. Mock sections run as two modules with the
+SAT: eight official content domains as tracked skills, 248 original items (126
+Reading and Writing across all four domains, each with its own short passage,
+and 122 Math of which 26 are student-produced responses), 112 flashcards, a
+playbook per domain, and a trainer at /sat/app/. That depth carries 2.3
+non-repeating Reading and Writing sections and 2.8 Math sections, so a second
+full mock does not recycle. Mock sections run as two modules with the
 second routed harder or easier by the first, free answer changes inside a
 module, and a report broken out by module and by content domain against
 College Board's published question ranges. No 400 to 1600 score is reported
@@ -96,11 +98,11 @@ equivalence; the build now fails on an em or en dash in any hand-edited doc or
 bank, and README carried five that are now gone.
 
 Next session queue, in order:
-1. SAT bank toward parity with the GMAT: the SAT bank is 128 items against
-   440, which is enough for adaptive rounds and one pass at both modules but
-   not for repeat mocks without recycling. Thinnest domains first (Expression
-   of Ideas 14, Advanced Math 18, and more student-produced responses; only 5
-   of 66 Math items are grid-ins against roughly a quarter on the real test).
+1. SAT bank onward from 248: coverage is even across the eight domains (27 to
+   34 items each) and grid-ins are 21 percent of Math against roughly a
+   quarter on the real test. The next increment should take the bank past
+   three non-repeating sections per section and raise grid-ins the rest of the
+   way.
 2. Undergrad rankings vertical, to close the rankings-to-study loop for SAT
    students the way data/schools/ does for MBA candidates. Needs an owner
    decision on scope (how many colleges, which published figures) before the

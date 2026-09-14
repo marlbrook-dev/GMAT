@@ -8,7 +8,7 @@ GMAT_BANKS = ["bank_quant.js","bank_quant2.js","bank_quant3.js","bank_quant4.js"
               "bank_verbal.js","bank_verbal2.js","bank_verbal3.js","bank_verbal4.js","bank_verbal5.js","bank_verbal6.js","bank_verbal7.js","bank_verbal8.js",
               "bank_di.js","bank_di2.js","bank_di3.js","bank_di4.js","bank_di5.js","bank_di6.js","bank_di7.js","bank_di8.js",
               "cards.js","cards2.js","cards3.js","playbook_gmat.js"]
-SAT_BANKS = ["bank_sat_rw.js","bank_sat_rw2.js","bank_sat_rw3.js","bank_sat_rw4.js","bank_sat_math.js","bank_sat_math2.js","bank_sat_math3.js","bank_sat_math4.js","cards_sat.js","playbook_sat.js"]
+SAT_BANKS = ["bank_sat_rw.js","bank_sat_rw2.js","bank_sat_rw3.js","bank_sat_rw4.js","bank_sat_math.js","bank_sat_math2.js","bank_sat_math3.js","bank_sat_math4.js","cards_sat.js","cards_sat2.js","playbook_sat.js"]
 
 APPS = [
     {"exam": "gmat-focus", "out": "app", "files": GMAT_BANKS,
@@ -69,12 +69,29 @@ if _skill_probe.returncode != 0:
     print("ERROR: could not count tracked skills from engine.js\n" + _skill_probe.stderr.strip(), file=sys.stderr); sys.exit(1)
 total_skills = _skill_probe.stdout.strip()
 
+# Bank sizes are quoted in llms.txt and in the EDITORIAL fact sheet writers must work from.
+# Those numbers go stale the moment a bank grows, so the build checks them against the real
+# counts rather than trusting anyone to remember.
+def check_counts(name, text, allowed):
+    import re as _cre
+    for n, unit in _cre.findall(r"\b(\d{2,4})\s+(original|flashcards)\b", text):
+        if int(n) not in allowed:
+            print(f"ERROR: {name} says '{n} {unit}' but the current counts are "
+                  f"{sorted(allowed)}; update it or the bank", file=sys.stderr)
+            sys.exit(1)
+
 def no_dashes(name, text):
     if "\u2014" in text or "\u2013" in text:
         print(f"ERROR: em/en dash in {name}", file=sys.stderr); sys.exit(1)
 
 # House rule: no em or en dashes anywhere, docs and sources included. The page checks below
 # cover generated output; this covers the files people hand-edit.
+_ALLOWED_COUNTS = {bank_count, sat_bank_count, card_count, sat_card_count}
+for _counted in ["llms.txt", "src/blog/EDITORIAL.md"]:
+    _cp = root / _counted
+    if _cp.exists():
+        check_counts(_counted, _cp.read_text(), _ALLOWED_COUNTS)
+
 for _doc in ["README.md", "ROADMAP.md", "CLAUDE.md", "llms.txt", "GROWTH.md", "INTEGRATIONS.md", "data/DATA.md"]:
     _p = root / _doc
     if _p.exists():
