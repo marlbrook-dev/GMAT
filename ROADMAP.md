@@ -132,16 +132,37 @@ correct answer changed and that every "Choice B is a comma splice" still names
 the option that is a comma splice. Data Sufficiency is untouched by design: its
 five choices are a standardized set whose order is part of the format.
 
+Length bias, measured and only partly fixed. On a well-built test the correct
+answer is no likelier to be the longest choice than any other. It currently is:
+the longest choice is correct on 33 percent of SAT items against 25 by chance,
+and on 35 percent of GMAT items against 20. The cause is structural, since on
+Rhetorical Synthesis and Command of Evidence the key has to combine two pieces
+of information while a distractor states one. 60 distractors across 22 items
+were rewritten on the model the real exam follows, which took items over
+threshold from 88 to 72 and those two item types from a mean ratio of 1.45 to
+1.33, but moved the headline figure by one point because 280 items are
+untouched. Queued with the numbers and the technique rather than claimed as
+done.
+
 Tooling: test.js runs the whole suite once per exam and adds SAT coverage for
 module construction, official domain ordering and mix, routing, whether an
-easier module can be filled, and grid-in equivalence, and it fails if any answer
-position takes more than 1.6 times an even share. The build now fails on an em or en dash in any hand-edited doc or
-bank, and on any item count quoted in llms.txt or the EDITORIAL fact sheet that
-no longer matches the real banks. That guard has already caught two drifts.
+easier module can be filled, and grid-in equivalence. It fails if any answer
+position takes more than 1.6 times an even share, and reports length bias every
+run with a loose guard, because a tight one would fail on every commit until
+that content pass is finished. The build now fails on an em or en dash in any
+hand-edited doc or bank, and on any item count quoted in llms.txt or the
+EDITORIAL fact sheet that no longer matches the real banks. That guard caught
+three drifts during the session.
 
-Blog: one queued post on the digital SAT format for the September 30 slot, and
-a corrected SAT vs ACT post (queued September 26, not yet published) that said
-our SAT trainer was in development.
+Blog: two queued SAT posts, on the digital SAT format (September 30) and on
+building a study plan from the official domain weights (October 2), plus a
+corrected SAT vs ACT post (queued September 26, not yet published) that said
+our SAT trainer was in development. A third post on SAT percentiles was
+dropped rather than written from memory: see the tooling blocker in the queue.
+
+Site totals at the end of the session: 784 original practice items across two
+live trainers, 232 flashcards, 22 playbook entries, and two exams wired through
+the landing page, the shared header, the exam hub and the pricing matrix.
 
 Next session queue, in order:
 1. SAT bank onward from 336: coverage is even across the eight domains (27 to
