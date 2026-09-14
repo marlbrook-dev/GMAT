@@ -166,6 +166,14 @@ Next session queue, in order:
    answer in length and specificity without creating a second defensible
    answer. test.js reports the figure every run and fails only past 1.8 times
    chance, so the number is visible without failing on every commit.
+   Progress so far: 60 distractors rewritten across 22 items, which took the
+   items over threshold from 88 to 72, the bank mean ratio from 1.09 to 1.07,
+   and the Rhetorical Synthesis and Command of Evidence mean from 1.45 to 1.33.
+   The headline figure moved only from 34 to 33 percent, because it is binary
+   and 280 items are untouched. The technique that works is on show in SR126,
+   SR091 and SR161: give each distractor two notes rather than one, aimed at
+   the wrong goal, and let at least one run longer than the key. Repeating that
+   across the remaining items is the job; the GMAT bank needs the same.
 3. Undergrad rankings vertical, to close the rankings-to-study loop for SAT
    students the way data/schools/ does for MBA candidates. Needs an owner
    decision on scope (how many colleges, which published figures) before the
