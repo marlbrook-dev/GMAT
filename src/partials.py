@@ -68,6 +68,11 @@ _NAV_GROUPS = [
         ("Law Schools", "/schools/", "Coming Soon"),
         ("Medical Schools", "/schools/", "Coming Soon"),
     ]),
+    ("Admissions", [
+        ("Application Checklist", "/apply/", "Free"),
+        ("International Applicants", "/international/", "New"),
+        ("MBA Rankings", "/schools/", None),
+    ]),
     ("Resources", [
         ("The Study Room (Blog)", "/blog/", None),
         ("Exam Guides", "/exams/", None),
@@ -139,6 +144,8 @@ FOOTER_LINKS = [
     ("Forum", "/community/"),
     ("Exam Guides", "/exams/"),
     ("MBA Rankings", "/schools/"),
+    ("Application Checklist", "/apply/"),
+    ("International", "/international/"),
     ("Privacy", "/privacy.html"),
     ("Terms", "/terms.html"),
 ]

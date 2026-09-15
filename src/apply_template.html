@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#122B4E"><link rel="apple-touch-icon" href="/icons/icon-180.png">
+<title>MBA Application Checklist and Timeline</title>
+<meta name="description" content="A working MBA application checklist: set a deadline and every task lands on a date, counted backwards. Tracks each school on your list, adds the international applicant steps, exports to CSV. Free, no account.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Manrope:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%23122B4E'/%3E%3Cpath d='M13 33 22 22l6 5 8.5-10' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M29.5 16.5H37V24' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="canonical" href="https://startfromnowhere.com/apply/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"When Should I Start My MBA Application?","acceptedAnswer":{"@type":"Answer","text":"Set your earliest deadline in the planner and every task is placed on a date counted backwards from it. The first tasks, choosing a target score and booking a test date, sit about 30 weeks ahead, because a retake needs 16 days between attempts and score reports take time to reach schools."}},
+{"@type":"Question","name":"Does the MBA Application Checklist Need an Account?","acceptedAnswer":{"@type":"Answer","text":"No. The checklist saves in your browser, works offline once loaded, and exports to CSV. Creating an account is optional and only syncs the same data across devices."}},
+{"@type":"Question","name":"Does the Checklist Cover International Applicants?","acceptedAnswer":{"@type":"Answer","text":"Yes. Turning on the international applicant toggle adds the extra steps that applicants from outside the United States need, including English test timing, transcript evaluation, funding without a domestic cosigner, and asking each school for its SEVIS CIP code, which determines whether the degree qualifies for the 24-month STEM OPT extension."}}
+]}</script>
+<style>
+:root{--navy-900:#0C1F3A;--navy-800:#122B4E;--navy-600:#2C4E80;--navy-100:#DCE5F1;--navy-50:#F2F6FB;--gold-600:#A8842F;--gold-50:#FAF5E8;--gray-700:#374151;--gray-500:#6B7280;--gray-300:#D1D5DB;--gray-200:#E5E7EB;--gray-100:#F3F4F6;--gray-50:#F9FAFB;--green-600:#16A34A;--green-50:#F0FDF4;--amber-600:#D97706;--amber-50:#FFFBEB;--red-600:#DC2626;--red-50:#FEF2F2;
+--serif:'Source Serif 4',Georgia,serif;--display:'Manrope',system-ui,sans-serif;--body:'IBM Plex Sans',system-ui,sans-serif;--mono:'IBM Plex Mono',ui-monospace,monospace}
+*{box-sizing:border-box}body{margin:0;font-family:var(--body);color:var(--gray-700);background:#fff;font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--serif);color:var(--navy-900);letter-spacing:-.01em;line-height:1.18;margin:0}
+a{color:var(--navy-800)}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+{{CHROME_CSS}}
+.hero{background:#fff;padding:24px 0 18px;border-bottom:1px solid var(--gray-200)}
+.hero .eyebrow{font-family:var(--display);font-weight:700;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-500);margin:0 0 5px}
+.hero h1{font-size:27px;margin-bottom:7px}
+.hero p{max-width:76ch;margin:0;color:var(--gray-500);font-size:14px}
+.setup{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end;padding:18px 0 4px}
+.fld{display:flex;flex-direction:column;gap:5px}
+.fld label{font-family:var(--display);font-weight:700;font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--gray-500)}
+.fld input[type=date],.fld select{padding:9px 12px;border:1px solid var(--gray-300);border-radius:8px;font:inherit;font-size:14px;background:#fff}
+.tog{display:flex;align-items:center;gap:9px;font-size:14px;color:var(--gray-700);cursor:pointer;padding-bottom:9px}
+.tog input{width:17px;height:17px;accent-color:var(--navy-800);cursor:pointer}
+.prog{margin-left:auto;text-align:right;padding-bottom:4px}
+.prog .pn{font-family:var(--mono);font-size:26px;color:var(--navy-800);line-height:1}
+.prog .pl{font-family:var(--display);font-weight:700;font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--gray-500)}
+.bar{height:6px;background:var(--gray-200);border-radius:99px;overflow:hidden;margin:14px 0 4px}
+.bar i{display:block;height:100%;background:var(--navy-800);width:0;transition:width 220ms ease}
+.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:14px 0 18px}
+.btn{font-family:var(--display);font-weight:700;font-size:13px;background:var(--navy-800);color:#fff;border:none;text-decoration:none;padding:9px 16px;border-radius:8px;cursor:pointer;display:inline-block}
+.btn:hover{background:var(--navy-900)}
+.btn.alt{background:#fff;color:var(--navy-800);border:1px solid var(--gray-300)}
+.btn.alt:hover{border-color:var(--navy-600);background:var(--navy-50)}
+.phase{border:1px solid var(--gray-200);border-radius:12px;margin-bottom:14px;overflow:hidden}
+.phase>h2{background:var(--gray-50);padding:13px 16px;font-size:17px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--gray-200)}
+.phase>h2 .when{font-family:var(--display);font-weight:700;font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--gray-500)}
+.task{display:flex;gap:12px;padding:13px 16px;border-bottom:1px solid var(--gray-100);align-items:flex-start}
+.task:last-child{border-bottom:none}
+.task:hover{background:var(--navy-50)}
+.task input[type=checkbox]{width:17px;height:17px;accent-color:var(--navy-800);cursor:pointer;margin-top:2px;flex-shrink:0}
+.task .tx{flex:1;min-width:0}
+.task .tt{font-family:var(--display);font-weight:700;font-size:14px;color:var(--navy-900)}
+.task .td{font-size:13px;color:var(--gray-500);margin-top:2px}
+.task.done .tt{text-decoration:line-through;color:var(--gray-500)}
+.task .dt{font-family:var(--mono);font-size:12.5px;color:var(--gray-500);white-space:nowrap;text-align:right;flex-shrink:0;min-width:86px}
+.task .dt.soon{color:var(--amber-600)}
+.task .dt.past{color:var(--red-600)}
+.task .tag{display:inline-block;font-family:var(--display);font-weight:700;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:99px;background:var(--navy-50);color:var(--navy-600);margin-left:7px;vertical-align:1px}
+.task .tag.intl{background:var(--gold-50);color:var(--gold-600)}
+.tablewrap{overflow-x:auto;border:1px solid var(--gray-200);border-radius:12px;margin-bottom:14px}
+table.sc{width:100%;border-collapse:collapse;font-size:14px;min-width:720px}
+table.sc th{font-family:var(--display);font-weight:700;font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--gray-500);text-align:left;padding:11px 12px;border-bottom:1px solid var(--gray-200);background:var(--gray-50);white-space:nowrap}
+table.sc td{padding:10px 12px;border-bottom:1px solid var(--gray-100);vertical-align:middle}
+table.sc tr:last-child td{border-bottom:none}
+table.sc .nm{font-family:var(--display);font-weight:700;color:var(--navy-900)}
+table.sc .lo{font-size:12px;color:var(--gray-500)}
+table.sc select,table.sc input[type=date],table.sc input[type=text]{padding:6px 9px;border:1px solid var(--gray-300);border-radius:6px;font:inherit;font-size:13px;width:100%;background:#fff}
+table.sc .num{text-align:right;font-family:var(--mono)}
+.empty{border:1px dashed var(--gray-300);border-radius:12px;padding:26px 20px;text-align:center;color:var(--gray-500);background:var(--gray-50)}
+.empty p{margin:0 0 12px}
+.section{padding:30px 0;border-top:1px solid var(--gray-200)}
+.section h2{font-size:23px;margin-bottom:10px}
+.section p{max-width:78ch;margin:0 0 12px}
+.section ul{max-width:78ch;margin:0 0 12px;padding-left:20px}
+.section li{margin-bottom:6px}
+.note{border:1px solid var(--navy-100);background:var(--navy-50);border-radius:12px;padding:15px 17px;margin-bottom:16px;font-size:14px}
+.note b{color:var(--navy-900)}
+footer{border-top:1px solid var(--gray-200);padding:28px 0;font-size:13px;color:var(--gray-500);margin-top:40px}
+@media print{.sfnh,.sfnf,.controls,.setup,aside,.empty{display:none!important}.phase{break-inside:avoid}}
+</style></head><body>
+{{SITE_HEADER}}
+
+<section class="hero"><div class="wrap">
+<p class="eyebrow">Free Planner, No Account Needed</p>
+<h1>The MBA Application Checklist</h1>
+<p>Pick your earliest deadline. Every task below lands on its own date, counted backwards from that day, so you can see what is late before it is late. Schools you added to your list in the rankings appear here automatically, and everything saves in this browser.</p>
+</div></section>
+
+<div class="wrap">
+<div class="setup">
+<div class="fld"><label for="dl">Earliest Application Deadline</label><input type="date" id="dl"></div>
+<div class="fld"><label for="rnd">Which Round</label><select id="rnd">
+<option value="r1">Round 1</option><option value="r2" selected>Round 2</option><option value="r3">Round 3</option><option value="rolling">Rolling or Unsure</option>
+</select></div>
+<label class="tog"><input type="checkbox" id="intl"> I am applying from outside the United States</label>
+<label class="tog"><input type="checkbox" id="hideDone"> Hide completed</label>
+<div class="prog"><div class="pn" id="pn">0%</div><div class="pl" id="pl">0 of 0 done</div></div>
+</div>
+<div class="bar"><i id="barfill"></i></div>
+
+<div class="controls">
+<button class="btn alt" id="btnCsv">Download CSV</button>
+<button class="btn alt" id="btnPrint">Print Checklist</button>
+<button class="btn alt" id="btnReset">Reset Progress</button>
+<a class="btn" href="/schools/">Add Schools From the Rankings</a>
+</div>
+
+<div id="phases"></div>
+
+<section class="section" id="schools">
+<h2>Your Schools</h2>
+<p>These come from the list you build on the <a href="/schools/">MBA rankings</a> page. Track each one's own deadline, where you stand, and the answer to the CIP code question if you are applying from abroad.</p>
+<div id="schoolBox"></div>
+</section>
+
+<section class="section">
+<h2>How the Dates Are Set</h2>
+<p>Each task carries a lead time measured in days before your deadline, and the planner subtracts it. The lead times come from constraints that are documented rather than invented:</p>
+<ul>
+<li><b>Test dates sit furthest out</b> because a retake is not instant. Build in time for one retake and for scores to reach schools.</li>
+<li><b>Recommenders need a month, not a week.</b> The ask goes out well before the deadline, with the reminder scheduled separately so you are not chasing in the final fortnight.</li>
+<li><b>Transcripts travel slowly</b>, and from some countries they travel very slowly. International applicants get a longer lead time on transcripts and evaluations for that reason.</li>
+<li><b>The essay is not one task.</b> First draft, rest, revise, and final read are separate rows, because treating them as one is how applicants end up submitting a first draft.</li>
+</ul>
+<div class="note"><b>A word on what this is not.</b> This is a planning tool, not admissions advice, and it does not know any school's actual deadline. Confirm every date on the school's own admissions page. If you are applying from outside the United States, read the <a href="/international/">international applicant guide</a> for the visa and work authorization rules that sit behind several of these tasks.</div>
+</section>
+</div>
+
+{{SITE_FOOTER}}
+
+<script>
+var SCHOOL_INDEX={{SCHOOL_INDEX}};
+var LKEY='sfn_school_list_v1';
+var AKEY='sfn_apply_v1';
+
+// Lead times are days before the deadline. Ordering inside a phase follows lead time.
+var TASKS=[
+ {id:'target',   ph:'Decide and Prepare', lead:210, t:'Set a Target Score and a Target List',      d:'Pick a score band from the class profiles of schools you would actually attend, not from a forum. The rankings table shows the published average and its source for every school.'},
+ {id:'diag',     ph:'Decide and Prepare', lead:205, t:'Take a Diagnostic',                          d:'One honest timed round tells you the gap between where you are and the band you picked. Everything after this is scheduling.'},
+ {id:'book',     ph:'Decide and Prepare', lead:195, t:'Book the Test Date',                         d:'Booking first makes the study plan real. Leave room for one retake before your deadline.'},
+ {id:'budget',   ph:'Decide and Prepare', lead:185, t:'Build the Cost Picture',                     d:'Tuition, fees, living costs, test and application fees, and travel. Put a real number on it now rather than in April.'},
+ {id:'intlfund', ph:'Decide and Prepare', lead:180, t:'Plan Funding Without a Domestic Cosigner',   d:'Most applicants from abroad cannot rely on a US cosigner. Identify which schools offer loans to international students without one, and which scholarships you are eligible for, before you shortlist.', intl:true},
+ {id:'cip',      ph:'Decide and Prepare', lead:175, t:'Ask Every School for Its CIP Code',          d:'Whether the degree qualifies for the 24-month STEM OPT extension depends on the CIP code the program is registered under. Ask in writing before you apply. The international guide has the exact wording.', intl:true},
+
+ {id:'study',    ph:'Test and Transcripts', lead:170, t:'Start the Study Plan',                     d:'Consistent short sessions beat weekend marathons. The trainer schedules reviews for you from your own accuracy.'},
+ {id:'english',  ph:'Test and Transcripts', lead:150, t:'Book TOEFL, IELTS, or Duolingo',           d:'Check each school for whether it waives the English test for your degree or work history, and for per-section minimums, not just the overall score.', intl:true},
+ {id:'transcr',  ph:'Test and Transcripts', lead:140, t:'Request Official Transcripts',             d:'Order from every institution you attended. Confirm the format each school wants and who it must be sent by.'},
+ {id:'evaleval', ph:'Test and Transcripts', lead:135, t:'Order a Transcript Evaluation If Required',d:'Some programs require a course-by-course evaluation of a non-US transcript. Confirm which of yours do, and allow weeks, not days.', intl:true},
+ {id:'exam',     ph:'Test and Transcripts', lead:120, t:'Sit the Exam',                             d:'On the day, the plan is the plan. Pacing beats heroics.'},
+ {id:'retake',   ph:'Test and Transcripts', lead:90,  t:'Decide on a Retake',                       d:'Compare against your target band, not against your feelings on test day. If you retake, this is the last comfortable window.'},
+
+ {id:'recask',   ph:'Write and Ask',      lead:100, t:'Ask Your Recommenders',                      d:'Ask people who managed your work, not the most senior person who knows your name. Give them the deadline, your resume, and two or three specifics you hope they mention.'},
+ {id:'resume',   ph:'Write and Ask',      lead:85,  t:'Rewrite the Resume for Admissions',          d:'One page, results rather than duties, numbers where you have them. This is not the resume you use for a job application.'},
+ {id:'essay1',   ph:'Write and Ask',      lead:75,  t:'Draft the Core Essays',                      d:'Write badly and quickly first. The goal of a first draft is to exist.'},
+ {id:'essayrest',ph:'Write and Ask',      lead:60,  t:'Put the Draft Down for a Week',              d:'Distance does what a fourth read-through cannot. Scheduled deliberately, because it feels like doing nothing.'},
+ {id:'recrem',   ph:'Write and Ask',      lead:50,  t:'Remind Your Recommenders',                   d:'A short, friendly nudge with the deadline restated. Plan on sending it; most people need it.'},
+ {id:'essay2',   ph:'Write and Ask',      lead:45,  t:'Revise the Essays',                          d:'Cut the throat-clearing paragraph. Answer the question that was asked, not the one you wish had been.'},
+ {id:'readers',  ph:'Write and Ask',      lead:35,  t:'Get Two Outside Readers',                    d:'One who knows you and one who does not. The second catches what you assumed the reader already knew.'},
+
+ {id:'forms',    ph:'Submit',             lead:25,  t:'Fill the Application Forms',                 d:'The long, boring data entry. Doing it early turns deadline week into a review, not a scramble.'},
+ {id:'scores',   ph:'Submit',             lead:21,  t:'Send Official Score Reports',                d:'Order the official sends to every school. This takes days to land and is a common way to miss a deadline while believing you met it.'},
+ {id:'finalread',ph:'Submit',             lead:10,  t:'Final Read of Everything',                   d:'Read the essays aloud. Check every school name in every document, which is where copy and paste goes wrong.'},
+ {id:'submit',   ph:'Submit',             lead:3,   t:'Submit, With Days to Spare',                 d:'Portals slow down and fall over on deadline day. Submitting early is free insurance.'},
+ {id:'confirm',  ph:'Submit',             lead:1,   t:'Confirm Receipt of Every Piece',             d:'Check each portal for recommendations received, transcripts received, and scores received. Chase anything missing now.'},
+
+ {id:'interview',ph:'After You Submit',   lead:-21, t:'Prepare for Interviews',                     d:'Practice out loud, on camera, with the time zone gap in mind if the interview is not local.'},
+ {id:'visadoc',  ph:'After You Submit',   lead:-45, t:'Line Up Visa Documents in Advance',          d:'Assemble financial documentation now rather than after an admit. The I-20 cannot be issued until the school has it, and the SEVIS fee and visa interview come after that.', intl:true},
+ {id:'compare',  ph:'After You Submit',   lead:-60, t:'Compare Offers on Total Cost',               d:'Scholarship against tuition against living cost against expected outcome. The rankings table publishes the outcome data with sources.'}
+];
+var PHASES=['Decide and Prepare','Test and Transcripts','Write and Ask','Submit','After You Submit'];
+
+function ld(){ try{ return JSON.parse(localStorage.getItem(AKEY))||{}; }catch(e){ return {}; } }
+function sv(s){ try{ localStorage.setItem(AKEY,JSON.stringify(s)); }catch(e){} }
+function shortlist(){ try{ return JSON.parse(localStorage.getItem(LKEY))||{order:[],meta:{}}; }catch(e){ return {order:[],meta:{}}; } }
+var S=ld();
+if(!S.done) S.done={};
+if(!S.schools) S.schools={};
+
+function pad(n){ return (n<10?'0':'')+n; }
+function iso(d){ return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); }
+function parseIso(s){ var p=String(s||'').split('-'); if(p.length!==3) return null;
+ var d=new Date(Number(p[0]),Number(p[1])-1,Number(p[2])); return isNaN(d.getTime())?null:d; }
+function addDays(d,n){ var x=new Date(d.getTime()); x.setDate(x.getDate()+n); return x; }
+var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function human(d){ return MON[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear(); }
+function today0(){ var t=new Date(); return new Date(t.getFullYear(),t.getMonth(),t.getDate()); }
+
+function taskDate(t){ var dl=parseIso(S.deadline); return dl?addDays(dl,-t.lead):null; }
+function activeTasks(){ return TASKS.filter(function(t){ return S.intl||!t.intl; }); }
+
+function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function renderPhases(){
+ var list=activeTasks(), box=document.getElementById('phases'), html='';
+ var now=today0();
+ PHASES.forEach(function(ph){
+  var rows=list.filter(function(t){ return t.ph===ph; }).sort(function(a,b){ return b.lead-a.lead; });
+  if(!rows.length) return;
+  var span='';
+  var d1=taskDate(rows[0]), d2=taskDate(rows[rows.length-1]);
+  if(d1&&d2) span=human(d1)+' to '+human(d2);
+  var inner='';
+  rows.forEach(function(t){
+   var done=!!S.done[t.id];
+   if(done&&S.hideDone) return;
+   var d=taskDate(t), dstr='set a date', cls='';
+   if(d){ dstr=human(d);
+    var diff=Math.round((d-now)/86400000);
+    if(!done&&diff<0){ cls='past'; dstr=human(d)+' (late)'; }
+    else if(!done&&diff<=14){ cls='soon'; }
+   }
+   inner+='<div class="task'+(done?' done':'')+'">'
+    +'<input type="checkbox" data-task="'+esc(t.id)+'"'+(done?' checked':'')+' aria-label="'+esc(t.t)+'">'
+    +'<div class="tx"><div class="tt">'+esc(t.t)+(t.intl?'<span class="tag intl">International</span>':'')+'</div>'
+    +'<div class="td">'+esc(t.d)+'</div></div>'
+    +'<div class="dt '+cls+'">'+esc(dstr)+'</div></div>';
+  });
+  if(!inner) return;
+  html+='<div class="phase"><h2>'+esc(ph)+'<span class="when">'+esc(span)+'</span></h2>'+inner+'</div>';
+ });
+ box.innerHTML=html||'<div class="empty"><p>Everything in view is complete. Untick Hide completed to see the full list.</p></div>';
+}
+
+function renderProgress(){
+ var list=activeTasks();
+ var done=list.filter(function(t){ return S.done[t.id]; }).length;
+ var pct=list.length?Math.round(done*100/list.length):0;
+ document.getElementById('pn').textContent=pct+'%';
+ document.getElementById('pl').textContent=done+' of '+list.length+' done';
+ document.getElementById('barfill').style.width=pct+'%';
+}
+
+var STATUS=['Researching','Applying','Submitted','Interview','Admitted','Waitlisted','Declined','Withdrawn'];
+function renderSchools(){
+ var L=shortlist(), box=document.getElementById('schoolBox');
+ var slugs=(L.order||[]).filter(function(s){ return SCHOOL_INDEX[s]; });
+ if(!slugs.length){
+  box.innerHTML='<div class="empty"><p>No schools on your list yet. Build one on the rankings page and it appears here.</p>'
+   +'<a class="btn" href="/schools/">Open the MBA Rankings</a></div>';
+  return;
+ }
+ var h='<div class="tablewrap"><table class="sc"><thead><tr><th>School</th><th>Deadline</th><th>Status</th>'
+  +(S.intl?'<th>Intl %</th><th>CIP Code Answer</th>':'<th>Intl %</th><th>Notes</th>')+'</tr></thead><tbody>';
+ slugs.forEach(function(slug){
+  var s=SCHOOL_INDEX[slug], st=S.schools[slug]||{};
+  h+='<tr><td><div class="nm">'+esc(s.n)+'</div><div class="lo">'+esc(s.l)+'</div></td>'
+   +'<td><input type="date" data-sch="'+esc(slug)+'" data-f="deadline" value="'+esc(st.deadline||'')+'"></td>'
+   +'<td><select data-sch="'+esc(slug)+'" data-f="status">'
+   +STATUS.map(function(x){ return '<option'+(st.status===x?' selected':'')+'>'+esc(x)+'</option>'; }).join('')
+   +'</select></td>'
+   +'<td class="num">'+(s.i==null?'<span class="lo">-</span>':esc(s.i)+'%')+'</td>'
+   +'<td><input type="text" data-sch="'+esc(slug)+'" data-f="'+(S.intl?'cip':'note')+'" value="'
+   +esc(S.intl?(st.cip||''):(st.note||''))+'" placeholder="'+(S.intl?'e.g. 52.0201, not STEM':'Anything worth remembering')+'"></td></tr>';
+ });
+ h+='</tbody></table></div>';
+ if(S.intl) h+='<p class="lo" style="font-size:12.5px;color:var(--gray-500)">International percentages come from each school’s own published class profile; open the school page in the rankings for the source and year. A blank CIP box is a question you have not asked yet.</p>';
+ box.innerHTML=h;
+}
+
+function renderAll(){ renderPhases(); renderProgress(); renderSchools(); }
+
+document.getElementById('phases').addEventListener('change',function(e){
+ var id=e.target.getAttribute('data-task'); if(!id) return;
+ if(e.target.checked) S.done[id]=1; else delete S.done[id];
+ sv(S); renderAll();
+});
+function saveSchoolField(e){
+ var slug=e.target.getAttribute('data-sch'); if(!slug) return;
+ var f=e.target.getAttribute('data-f');
+ (S.schools[slug]=S.schools[slug]||{})[f]=e.target.value;
+ sv(S);
+}
+// Both events: change alone loses a typed note if the tab closes before the field blurs.
+document.getElementById('schoolBox').addEventListener('change',saveSchoolField);
+document.getElementById('schoolBox').addEventListener('input',saveSchoolField);
+document.getElementById('dl').addEventListener('change',function(e){ S.deadline=e.target.value; sv(S); renderAll(); });
+document.getElementById('rnd').addEventListener('change',function(e){ S.round=e.target.value; sv(S); });
+document.getElementById('intl').addEventListener('change',function(e){ S.intl=e.target.checked; sv(S); renderAll(); });
+document.getElementById('hideDone').addEventListener('change',function(e){ S.hideDone=e.target.checked; sv(S); renderPhases(); });
+document.getElementById('btnPrint').addEventListener('click',function(){ window.print(); });
+document.getElementById('btnReset').addEventListener('click',function(){
+ if(!confirm('Clear every tick and every school note on this checklist? Your school list on the rankings page is not affected.')) return;
+ S={done:{},schools:{},deadline:S.deadline,intl:S.intl}; sv(S);
+ document.getElementById('hideDone').checked=false; renderAll();
+});
+document.getElementById('btnCsv').addEventListener('click',function(){
+ function q(v){ return '"'+String(v==null?'':v).replace(/"/g,'""')+'"'; }
+ var rows=[['Phase','Task','Target Date','Done','Detail'].map(q).join(',')];
+ activeTasks().sort(function(a,b){ return b.lead-a.lead; }).forEach(function(t){
+  var d=taskDate(t);
+  rows.push([t.ph,t.t,d?iso(d):'',S.done[t.id]?'yes':'no',t.d].map(q).join(','));
+ });
+ var L=shortlist(), slugs=(L.order||[]).filter(function(s){ return SCHOOL_INDEX[s]; });
+ if(slugs.length){
+  rows.push('');
+  rows.push(['School','Location','International %','Your Deadline','Status','CIP Code','Note'].map(q).join(','));
+  slugs.forEach(function(slug){ var s=SCHOOL_INDEX[slug], st=S.schools[slug]||{};
+   rows.push([s.n,s.l,s.i==null?'':s.i,st.deadline||'',st.status||'',st.cip||'',st.note||''].map(q).join(','));
+  });
+ }
+ var blob=new Blob([rows.join('\r\n')],{type:'text/csv;charset=utf-8'});
+ var a=document.createElement('a');
+ a.href=URL.createObjectURL(blob);
+ a.download='mba-application-checklist.csv';
+ document.body.appendChild(a); a.click(); document.body.removeChild(a);
+ setTimeout(function(){ URL.revokeObjectURL(a.href); },1000);
+});
+
+(function init(){
+ if(!S.deadline){ var d=addDays(today0(),120); S.deadline=iso(d); }
+ document.getElementById('dl').value=S.deadline;
+ if(S.round) document.getElementById('rnd').value=S.round;
+ document.getElementById('intl').checked=!!S.intl;
+ document.getElementById('hideDone').checked=!!S.hideDone;
+ renderAll();
+})();
+</script>
+</body></html>

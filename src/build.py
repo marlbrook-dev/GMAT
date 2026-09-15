@@ -1,4 +1,4 @@
-import pathlib, subprocess, sys, tempfile, os
+import pathlib, subprocess, sys, tempfile, os, datetime
 d = pathlib.Path(__file__).parent; root = d.parent
 sys.path.insert(0, str(d))
 import partials
@@ -134,6 +134,15 @@ community = partials.apply_chrome((d/"community.html").read_text())
 no_dashes("community.html", community)
 (root/"community").mkdir(exist_ok=True); (root/"community"/"index.html").write_text(community)
 
+# Standalone content pages that only need chrome and a build date.
+_today = os.environ.get("BLOG_BUILD_DATE") or datetime.date.today().isoformat()
+for _src, _dir in [("international.html", "international")]:
+    page = partials.apply_chrome((d/_src).read_text().replace("{{TODAY}}", _today))
+    no_dashes(_src, page)
+    if "{{" in page:
+        print(f"ERROR: unresolved placeholder in {_src}", file=sys.stderr); sys.exit(1)
+    (root/_dir).mkdir(exist_ok=True); (root/_dir/"index.html").write_text(page)
+
 for name in ["terms.html", "privacy.html"]:
     page = partials.apply_chrome((d/name).read_text())
     no_dashes(name, page)
@@ -141,11 +150,14 @@ for name in ["terms.html", "privacy.html"]:
         print(f"ERROR: unresolved placeholder in {name}", file=sys.stderr); sys.exit(1)
     (root/name).write_text(page)
 
-for p in [root/"app"/"index.html", root/"sat"/"app"/"index.html", root/"index.html", root/"community"/"index.html", root/"terms.html", root/"privacy.html"]:
+for p in [root/"app"/"index.html", root/"sat"/"app"/"index.html", root/"index.html", root/"community"/"index.html", root/"international"/"index.html", root/"terms.html", root/"privacy.html"]:
     check_scripts(p)
 print("built app/index.html (%d bytes, %d items) and sat/app/index.html (%d bytes, %d items); landing, community/, terms, privacy built; inline scripts parse"
       % (len(built["gmat-focus"][1]), bank_count, len(built["sat"][1]), sat_bank_count))
 
 import subprocess as _sp
 _sp.run([sys.executable, str(d/"build_rankings.py")], check=True)
+# /apply/ carries a large inline script and is built by build_rankings.py, so it is
+# parsed here, after that step, under the same guard as every other inline script.
+check_scripts(root/"apply"/"index.html")
 _sp.run([sys.executable, str(d/"build_exams.py")], check=True)

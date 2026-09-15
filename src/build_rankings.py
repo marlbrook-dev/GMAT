@@ -318,6 +318,17 @@ def main():
     dest = ROOT / "schools"
     dest.mkdir(exist_ok=True)
     pages = [(dest / "index.html", out)]
+
+    # /apply/ shares this school data so a shortlist built on /schools/ carries over.
+    # Only the fields the checklist actually renders: name, location, international share.
+    idx = {s["slug"]: {"n": s["name"],
+                       "l": ", ".join(x for x in (s.get("city"), s.get("state")) if x),
+                       "i": field(s, "intl_pct")}
+           for s in schools if not s.get("discontinued")}
+    apply_page = (D / "apply_template.html").read_text().replace(
+        "{{SCHOOL_INDEX}}", json.dumps(idx, separators=(",", ":")))
+    (ROOT / "apply").mkdir(exist_ok=True)
+    pages.append((ROOT / "apply" / "index.html", apply_page))
     for s in schools:
         sd = dest / s["slug"]
         sd.mkdir(exist_ok=True)
@@ -331,7 +342,7 @@ def main():
             print(f"build_rankings: em/en dash in {path}", file=sys.stderr)
             sys.exit(1)
         path.write_text(content)
-    print(f"built schools/ index + {len(schools)} school pages ({len(ranked)} ranked, {len(unranked)} unscored)")
+    print(f"built schools/ index + {len(schools)} school pages ({len(ranked)} ranked, {len(unranked)} unscored); apply/ checklist with {len(idx)} schools")
 
 if __name__ == "__main__":
     main()
