@@ -74,7 +74,7 @@ const BANK_DI = [
 // Graphs and Tables
 {id:'D009',section:'DI',type:'GT',domain:'math',skill:'di_gt',qskill:'q_rrp',diff:2,passageHtml:GT_TABLE1,
  stem:'Which region had the greatest percent increase in revenue from Q1 to Q2?',
- choices:['North','South','East','West','Central'],answer:3,
+ choices:['North','South','West','East','Central'],answer:2,
  expl:'North 36/240 = 15%; South negative; East 45/300 = 15%; West 30/150 = 20%; Central 0%. West.',
  wrong:'East has the largest dollar increase (45), a trap for a percent question.'},
 {id:'D010',section:'DI',type:'GT',domain:'math',skill:'di_gt',qskill:'q_rrp',diff:3,passageHtml:GT_TABLE1,
@@ -92,7 +92,7 @@ const BANK_DI = [
  expl:'Q1 total 1,080; Q2 total 1,182. Increase 102/1,080 = 9.4%.'},
 {id:'D013',section:'DI',type:'GT',domain:'math',skill:'di_gt',qskill:'q_rrp',diff:3,passageHtml:GT_TABLE1,
  stem:'Which region\'s Q2 revenue per unit was closest to $200?',
- choices:['North','South','East','West','Central'],answer:4,
+ choices:['Central','North','South','East','West'],answer:0,
  expl:'North 230, South 180, East 230, West 225, Central 210. Central (10 away) is closest.',
  wrong:'South (180) is 20 away; the trap is assuming the lowest value is closest.'},
 {id:'D014',section:'DI',type:'GT',domain:'math',skill:'di_gt',qskill:'q_csp',diff:3,passageHtml:GT_CHART1,
@@ -124,10 +124,10 @@ const BANK_DI = [
  expl:'R1: 12 in B (cap 15), 3 days notice, catering 3 days ahead in B: complies. R2: no department head approval for C: fails. R3: 12 hours notice: fails. R4: 20 exceeds B capacity: fails. R5: 10 weeks recurring exceeds 8: fails. One request.'},
 {id:'D020',section:'DI',type:'MSR',domain:'nonmath',skill:'di_msr',diff:3,passageHtml:MSR_SET1,
  stem:'Request R2 would comply with the policy if which one of the following single changes were made?',
- choices:['Reduce the group to 15 people','Obtain written approval from a department head','Give at least one week\'s notice','Move the booking to Room B','Add a catering request'],answer:1,
+ choices:['Reduce the group to 15 people','Give at least one week\'s notice','Move the booking to Room B','Obtain written approval from a department head','Add a catering request'],answer:3,
  expl:'R2\'s only violation is the missing department head approval for Room C. B fixes it. Moving to B fails on capacity (25 > 15); reducing to 15 alone still leaves the Room C approval issue.'},
 {id:'D021',section:'DI',type:'MSR',domain:'nonmath',skill:'di_msr',diff:4,passageHtml:MSR_SET1,
  stem:'Request R4 could be accommodated without reducing the size of the group by which of the following?',
- choices:['Moving the booking to Room A','Moving the booking to Room C and obtaining department head approval','Adding a catering request at least 48 hours in advance','Making the booking recurring for 8 weeks','Increasing the notice to 48 hours'],answer:1,
+ choices:['Moving the booking to Room A','Adding a catering request at least 48 hours in advance','Making the booking recurring for 8 weeks','Increasing the notice to 48 hours','Moving the booking to Room C and obtaining department head approval'],answer:4,
  expl:'20 people exceed Room B (15) and Room A (8). Only Room C (30) fits, and Room C requires department head approval. B.'}
 ];

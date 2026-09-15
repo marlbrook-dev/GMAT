@@ -113,6 +113,113 @@
   ]
  },
  {
+  "slug": "sat",
+  "name": "SAT",
+  "short": "SAT",
+  "audience": "College (undergraduate) applicants",
+  "maker": {
+   "name": "College Board",
+   "register_url": "https://satsuite.collegeboard.org/sat/registration",
+   "src": "College Board",
+   "year": 2025
+  },
+  "score_scale": {
+   "text": "Total score 400 to 1600; the Reading and Writing section and the Math section are each scored 200 to 800",
+   "src": "College Board",
+   "year": 2025,
+   "url": "https://satsuite.collegeboard.org/sat/whats-on-the-test/structure"
+  },
+  "sections": [
+   {
+    "name": "Reading and Writing (two 32-minute modules of 27 questions each)",
+    "questions": 54,
+    "minutes": 64,
+    "scale": "200 to 800"
+   },
+   {
+    "name": "Math (two 35-minute modules of 22 questions each)",
+    "questions": 44,
+    "minutes": 70,
+    "scale": "200 to 800"
+   }
+  ],
+  "total_time": {
+   "text": "2 hours 14 minutes of testing (98 questions), with a 10-minute break between the Reading and Writing section and the Math section",
+   "src": "College Board",
+   "year": 2025,
+   "url": "https://satsuite.collegeboard.org/sat/whats-on-the-test/structure"
+  },
+  "cost_usd": {
+   "v": 68,
+   "note": "US registration fee for the 2025-26 testing year; testing internationally adds a regional fee (College Board publishes a separate international fee schedule)",
+   "src": "College Board",
+   "year": 2025,
+   "url": "https://satsuite.collegeboard.org/sat/registration/fees-refunds/test-fees"
+  },
+  "validity_years": {
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
+  },
+  "delivery": {
+   "text": "Fully digital in the US since March 2024, taken on the College Board's Bluebook app at test centers on national weekend dates or through school-day testing windows",
+   "src": "College Board Newsroom",
+   "year": 2024,
+   "url": "https://newsroom.collegeboard.org/digital-sat-launches-across-country-completing-transition-digital-and-providing-simpler-testing"
+  },
+  "retake_policy": {
+   "text": "No official limit on attempts; the College Board allows students to register for every available test date",
+   "src": "Sallie Mae",
+   "year": 2026,
+   "url": "https://www.sallie.com/colleges/planning/test-prep/how-many-times-can-you-take-the-sat"
+  },
+  "score_release": {
+   "text": "Most students receive scores about 13 days (roughly two weeks) after test day, much faster than the three to six weeks the paper SAT required",
+   "src": "The Princeton Review",
+   "year": 2026,
+   "url": "https://www.princetonreview.com/college-advice/understanding-dsat-scores"
+  },
+  "used_for": {
+   "text": "Used by US colleges for admission decisions, merit scholarship eligibility, course placement, and student support",
+   "src": "College Board (BigFuture)",
+   "year": 2026,
+   "url": "https://bigfuture.collegeboard.org/plan-for-college/find-your-fit/what-colleges-require-SAT"
+  },
+  "acceptance": {
+   "text": "Per College Board's BigFuture, 63 US colleges (21 private, 42 public) currently or soon will require SAT or ACT scores, and many other colleges are test optional or test preferred, using scores in admission if submitted and for scholarships and placement",
+   "src": "College Board (BigFuture)",
+   "year": 2026,
+   "url": "https://bigfuture.collegeboard.org/plan-for-college/find-your-fit/what-colleges-require-SAT"
+  },
+  "key_facts": [
+   {
+    "text": "The test is section-adaptive: each section has two equal-length modules, and performance on the first module determines whether the second module is harder or easier",
+    "src": "College Board",
+    "year": 2025,
+    "url": "https://satsuite.collegeboard.org/sat/whats-on-the-test/structure"
+   },
+   {
+    "text": "The Desmos graphing calculator is built into the Bluebook app and allowed on the entire Math section, alongside tools like annotation, answer elimination, and question flagging",
+    "src": "College Board",
+    "year": 2025,
+    "url": "https://satsuite.collegeboard.org/sat/what-to-bring-do/calculator-policy"
+   },
+   {
+    "text": "The majority of US colleges and universities, including all Ivy League schools, superscore the SAT, combining best section scores across test dates; each college sets its own policy",
+    "src": "UWorld College Prep",
+    "year": 2026,
+    "url": "https://collegeprep.uworld.com/blog/which-colleges-superscore-sat/"
+   },
+   {
+    "text": "On the March 2024 US launch, more than 200,000 students took the digital SAT at 3,000 test centers",
+    "src": "College Board Newsroom",
+    "year": 2024,
+    "url": "https://newsroom.collegeboard.org/digital-sat-launches-across-country-completing-transition-digital-and-providing-simpler-testing"
+   }
+  ]
+ },
+ {
   "slug": "gre",
   "name": "GRE General Test",
   "short": "GRE",
@@ -573,113 +680,6 @@
     "src": "mba.com (GMAC)",
     "year": 2025,
     "url": "https://www.mba.com/exams/executive-assessment/register/policies-and-procedures/ea-policies-and-procedures-online"
-   }
-  ]
- },
- {
-  "slug": "sat",
-  "name": "SAT",
-  "short": "SAT",
-  "audience": "College (undergraduate) applicants",
-  "maker": {
-   "name": "College Board",
-   "register_url": "https://satsuite.collegeboard.org/sat/registration",
-   "src": "College Board",
-   "year": 2025
-  },
-  "score_scale": {
-   "text": "Total score 400 to 1600; the Reading and Writing section and the Math section are each scored 200 to 800",
-   "src": "College Board",
-   "year": 2025,
-   "url": "https://satsuite.collegeboard.org/sat/whats-on-the-test/structure"
-  },
-  "sections": [
-   {
-    "name": "Reading and Writing (two 32-minute modules of 27 questions each)",
-    "questions": 54,
-    "minutes": 64,
-    "scale": "200 to 800"
-   },
-   {
-    "name": "Math (two 35-minute modules of 22 questions each)",
-    "questions": 44,
-    "minutes": 70,
-    "scale": "200 to 800"
-   }
-  ],
-  "total_time": {
-   "text": "2 hours 14 minutes of testing (98 questions), with a 10-minute break between the Reading and Writing section and the Math section",
-   "src": "College Board",
-   "year": 2025,
-   "url": "https://satsuite.collegeboard.org/sat/whats-on-the-test/structure"
-  },
-  "cost_usd": {
-   "v": 68,
-   "note": "US registration fee for the 2025-26 testing year; testing internationally adds a regional fee (College Board publishes a separate international fee schedule)",
-   "src": "College Board",
-   "year": 2025,
-   "url": "https://satsuite.collegeboard.org/sat/registration/fees-refunds/test-fees"
-  },
-  "validity_years": {
-   "v": null,
-   "src": "",
-   "year": null,
-   "url": ""
-  },
-  "delivery": {
-   "text": "Fully digital in the US since March 2024, taken on the College Board's Bluebook app at test centers on national weekend dates or through school-day testing windows",
-   "src": "College Board Newsroom",
-   "year": 2024,
-   "url": "https://newsroom.collegeboard.org/digital-sat-launches-across-country-completing-transition-digital-and-providing-simpler-testing"
-  },
-  "retake_policy": {
-   "text": "No official limit on attempts; the College Board allows students to register for every available test date",
-   "src": "Sallie Mae",
-   "year": 2026,
-   "url": "https://www.sallie.com/colleges/planning/test-prep/how-many-times-can-you-take-the-sat"
-  },
-  "score_release": {
-   "text": "Most students receive scores about 13 days (roughly two weeks) after test day, much faster than the three to six weeks the paper SAT required",
-   "src": "The Princeton Review",
-   "year": 2026,
-   "url": "https://www.princetonreview.com/college-advice/understanding-dsat-scores"
-  },
-  "used_for": {
-   "text": "Used by US colleges for admission decisions, merit scholarship eligibility, course placement, and student support",
-   "src": "College Board (BigFuture)",
-   "year": 2026,
-   "url": "https://bigfuture.collegeboard.org/plan-for-college/find-your-fit/what-colleges-require-SAT"
-  },
-  "acceptance": {
-   "text": "Per College Board's BigFuture, 63 US colleges (21 private, 42 public) currently or soon will require SAT or ACT scores, and many other colleges are test optional or test preferred, using scores in admission if submitted and for scholarships and placement",
-   "src": "College Board (BigFuture)",
-   "year": 2026,
-   "url": "https://bigfuture.collegeboard.org/plan-for-college/find-your-fit/what-colleges-require-SAT"
-  },
-  "key_facts": [
-   {
-    "text": "The test is section-adaptive: each section has two equal-length modules, and performance on the first module determines whether the second module is harder or easier",
-    "src": "College Board",
-    "year": 2025,
-    "url": "https://satsuite.collegeboard.org/sat/whats-on-the-test/structure"
-   },
-   {
-    "text": "The Desmos graphing calculator is built into the Bluebook app and allowed on the entire Math section, alongside tools like annotation, answer elimination, and question flagging",
-    "src": "College Board",
-    "year": 2025,
-    "url": "https://satsuite.collegeboard.org/sat/what-to-bring-do/calculator-policy"
-   },
-   {
-    "text": "The majority of US colleges and universities, including all Ivy League schools, superscore the SAT, combining best section scores across test dates; each college sets its own policy",
-    "src": "UWorld College Prep",
-    "year": 2026,
-    "url": "https://collegeprep.uworld.com/blog/which-colleges-superscore-sat/"
-   },
-   {
-    "text": "On the March 2024 US launch, more than 200,000 students took the digital SAT at 3,000 test centers",
-    "src": "College Board Newsroom",
-    "year": 2024,
-    "url": "https://newsroom.collegeboard.org/digital-sat-launches-across-country-completing-transition-digital-and-providing-simpler-testing"
    }
   ]
  },

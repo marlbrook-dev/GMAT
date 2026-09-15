@@ -67,7 +67,7 @@ expl:'Work from the inside out: f(2) = 4 - 6 = -2. Then f(-2) = (-2)^2 - 3(-2) =
 wrong:'-2 stops after the inner evaluation, and a sign slip on -3(-2) also lands at 4 - 6 = -2; the outer step must add 6, not subtract it.'},
 {id:'Q214',section:'Q',type:'PS',domain:'algebra',context:'pure',skill:'q_alg',diff:4,
 stem:'Which of the following describes all values of x for which x^2 < 4x?',
-choices:['x < 4','x > 0','0 < x < 4','-4 < x < 0','x > 4'],answer:2,
+choices:['x < 4','x > 0','-4 < x < 0','0 < x < 4','x > 4'],answer:3,
 expl:'Bring everything to one side: x^2 - 4x < 0, so x(x - 4) < 0, which holds exactly when the two factors have opposite signs, that is 0 < x < 4. Testing x = -1 confirms negatives fail, since 1 < -4 is false.',
 wrong:'x < 4 comes from dividing both sides by x, which is invalid because x could be zero or negative, and the inequality direction flips for negative x.'},
 {id:'Q215',section:'Q',type:'PS',domain:'algebra',context:'pure',skill:'q_alg',diff:5,
@@ -97,7 +97,7 @@ expl:'Count the complement: total teams C(9,4) = 126, and all-analyst teams C(6,
 wrong:'168 picks one of the 3 managers first and then any 3 of the remaining 8 people, which double counts teams with more than one manager. 126 ignores the restriction entirely.'},
 {id:'Q220',section:'Q',type:'PS',domain:'counting',context:'pure',skill:'q_csp',diff:5,
 stem:'Three fair coins are tossed. Given that at least one coin shows heads, what is the probability that exactly two coins show heads?',
-choices:['1/4','3/8','3/7','1/2','2/3'],answer:2,
+choices:['1/4','3/7','3/8','1/2','2/3'],answer:1,
 expl:'Of the 8 equally likely outcomes, the condition removes only TTT, leaving 7 outcomes. Exactly two heads occurs in 3 of them (HHT, HTH, THH), so the probability is 3/7.',
 wrong:'3/8 is the unconditional probability and ignores the given condition; conditioning shrinks the sample space from 8 outcomes to 7.'}
 ];

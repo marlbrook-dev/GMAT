@@ -10,7 +10,9 @@ Applied migration `meridian_prep_core`: profiles (state_blob jsonb, plan, consen
 Magic-link sign-in will not complete until this is set. Optional: Authentication > Providers > Google (needs a Google Cloud OAuth client).
 
 ## How sync works in the app
-Anonymous use stores everything in localStorage. After sign-in, the app pulls `profiles.state_blob`; if the account has more answers than this device, the account wins (device copy stays until overwritten). Every answer also inserts a row into `attempts`, product events go to `events`, and the full state is upserted 2.5 s after each change. Delete my data wipes attempts, events, sessions and the blob.
+Anonymous use stores everything in localStorage, under a key that names the exam so the two trainers on this origin never read each other's progress. After sign-in, the app pulls `profiles.state_blob`; if the account has more answers than this device, the account wins (device copy stays until overwritten).
+
+**Known limit, multi-exam.** `profiles.state_blob` holds one state per user, while `attempts`, `skill_ratings` and `review_queue` are keyed by `(user_id, exam)`. With two trainers live, a student who practices both would otherwise have the second app overwrite the first exam's blob. The app refuses that write and tells the student on the Account page that cross-device sync for the second exam is unavailable; device storage still holds it and nothing is lost. The fix is `supabase/migrations/PROPOSED_exam_states.sql`, which is written but deliberately not applied: it changes the owner's live project and needs his go-ahead. Every answer also inserts a row into `attempts`, product events go to `events`, and the full state is upserted 2.5 s after each change. Delete my data wipes attempts, events, sessions and the blob.
 
 ## Stripe Checkout (scaffolded, not yet live)
 

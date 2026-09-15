@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#122B4E"><link rel="apple-touch-icon" href="/icons/icon-180.png">
-<title>Start From Nowhere | Adaptive GMAT Focus trainer</title>
-<meta name="description" content="Start From Nowhere: adaptive GMAT Focus Edition practice that studies you back.">
+<title>{{APP_TITLE}}</title>
+<meta name="description" content="{{APP_DESC}}">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Manrope:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%23122B4E'/%3E%3Cpath d='M13 33 22 22l6 5 8.5-10' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M29.5 16.5H37V24' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
@@ -68,6 +68,7 @@ label.btn input{display:none}
 .badge{display:inline-flex;align-items:center;gap:6px;border-radius:var(--radius-pill);padding:2px 10px;font-size:12px;font-weight:600;line-height:1.6;border:1px solid var(--gray-200);background:var(--gray-100);color:var(--gray-700);white-space:nowrap}
 .badge.success{background:var(--status-success-bg);color:var(--green-700);border-color:var(--green-100)}.badge.error{background:var(--status-error-bg);color:var(--status-error);border-color:var(--red-100)}.badge.warning{background:var(--status-warning-bg);color:var(--status-warning);border-color:var(--amber-100)}.badge.info{background:var(--status-info-bg);color:var(--status-info);border-color:var(--blue-100)}.badge.accent{background:var(--brand-accent-soft);color:var(--gold-700);border-color:var(--gold-100)}
 .badge.sec-Q{background:var(--section-quant-bg);color:var(--section-quant);border-color:var(--section-quant-border)}.badge.sec-V{background:var(--section-verbal-bg);color:var(--section-verbal);border-color:var(--section-verbal-border)}.badge.sec-DI{background:var(--section-data-bg);color:var(--section-data);border-color:var(--section-data-border)}
+.badge.sec-RW{background:var(--section-verbal-bg);color:var(--section-verbal);border-color:var(--section-verbal-border)}.badge.sec-M{background:var(--section-quant-bg);color:var(--section-quant);border-color:var(--section-quant-border)}
 .badge.tier-top{background:var(--navy-900);color:#fff;border-color:var(--navy-900)}
 .badge.tier-adv{background:var(--navy-600);color:#fff;border-color:var(--navy-600)}
 .badge.tier-prof{background:var(--navy-50);color:var(--navy-600);border-color:var(--navy-100)}
@@ -158,6 +159,11 @@ body.focus header.app,body.focus footer.app{display:none}
 .bz-opt.hit{border-color:var(--status-success);background:var(--status-success-bg,#effaf3);animation:mpop .3s ease}
 .bz-opt.bad{border-color:var(--status-error);background:var(--status-error-bg,#fdf0ef);animation:mshake .35s ease}
 .bz-opt.reveal{border-color:var(--status-success);box-shadow:0 0 0 2px var(--status-success)}
+.spr label{display:block;font-size:12.5px;font-weight:600;color:var(--text-muted);margin-bottom:6px;letter-spacing:.02em;text-transform:uppercase}
+.spr input{width:100%;max-width:280px;padding:12px 14px;font-family:var(--font-mono);font-size:19px;color:var(--text-heading);background:var(--surface-card);border:1.5px solid var(--border-strong);border-radius:var(--radius-md)}
+.spr input:focus{outline:none;border-color:var(--navy-600);box-shadow:0 0 0 3px var(--navy-50)}
+.spr input:disabled{background:var(--surface-sunken);color:var(--text-muted)}
+.spr p{margin:8px 0 0}
 .tbar{height:10px;border-radius:5px;background:var(--gray-100);overflow:hidden}.tbar i{display:block;height:100%;border-radius:5px;background:var(--navy-600);transition:width .12s linear}
 .tbar.low i{background:var(--status-error)}
 .bigscore{font-family:var(--font-display);font-weight:800;font-size:var(--text-3xl);color:var(--text-heading);line-height:1}
@@ -196,24 +202,34 @@ body.focus header.app,body.focus footer.app{display:none}
 <section id="v-data" class="hidden"></section>
 <section id="v-admin" class="hidden"></section>
 </main>
-<footer class="app">GMAT is a registered trademark of the Graduate Management Admission Council (GMAC), which does not endorse this product. Practice items are original and written for Start From Nowhere. Score bands shown here are internal estimates, not official GMAT scores.</footer>
+<footer class="app">{{FOOTER_NOTE}}</footer>
 <div id="toast" role="status" aria-live="polite"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
 const SUPABASE_URL="https://ftsqwbzhkzuudogkvoqa.supabase.co", SUPABASE_KEY="sb_publishable_GToT4fK6RiwCZpPFE3bGiw_ThXq9qel", APP_VERSION="0.3.0";
+const EXAM_ID="{{EXAM_ID}}";
 {{BANKS}}
 {{ENGINE}}
-const BANK = [].concat(BANK_QUANT, BANK_QUANT2, BANK_QUANT3, BANK_QUANT4, BANK_QUANT5, BANK_QUANT6, BANK_VERBAL, BANK_VERBAL2, BANK_VERBAL3, BANK_VERBAL4, BANK_VERBAL5, BANK_VERBAL6, BANK_VERBAL7, BANK_DI, BANK_DI2, BANK_DI3, BANK_DI4, BANK_DI5, BANK_DI6, BANK_DI7);
+const BANK = [].concat({{BANK_CONCAT}});
 const BANK_BY_ID = {}; BANK.forEach(q=>BANK_BY_ID[q.id]=q);
-const SEC_COLOR={Q:'var(--section-quant)',V:'var(--section-verbal)',DI:'var(--section-data)'}, SEC_BG={Q:'var(--section-quant-bg)',V:'var(--section-verbal-bg)',DI:'var(--section-data-bg)'};
-const SEC_SHORT={Q:'Quantitative',V:'Verbal',DI:'Data Insights'};
+// One palette slot per section, so a new exam only needs an entry here.
+const SEC_PALETTE={Q:'quant',V:'verbal',DI:'data',RW:'verbal',M:'quant'};
+const SEC_COLOR={}, SEC_BG={}, SEC_SHORT={};
+SECTIONS.forEach(s=>{ const k=SEC_PALETTE[s]||'quant';
+ SEC_COLOR[s]='var(--section-'+k+')'; SEC_BG[s]='var(--section-'+k+'-bg)'; SEC_SHORT[s]=SECTION_META[s].short||SECTION_META[s].name; });
 // ---------- storage adapter (swap for Supabase later) ----------
 const STORE_KEY='meridian_prep_'+CURRENT_EXAM+'_v1';
-const Store={ load(){ try{ const raw=localStorage.getItem(STORE_KEY)||localStorage.getItem('gmat_trainer_v1'); if(raw) return JSON.parse(raw);}catch(e){} return null; },
+// Both trainers share an origin, so a stored state has to prove which exam it belongs to before
+// this app adopts it. The legacy key predates the registry and holds GMAT progress only.
+const LEGACY_KEY = CURRENT_EXAM==='gmat-focus' ? 'gmat_trainer_v1' : null;
+const Store={ load(){ try{ const raw=localStorage.getItem(STORE_KEY)||(LEGACY_KEY?localStorage.getItem(LEGACY_KEY):null);
+   if(!raw) return null; const s=JSON.parse(raw);
+   if(s&&s.exam&&s.exam!==CURRENT_EXAM) return null;
+   return s; }catch(e){} return null; },
  save(s){ try{ localStorage.setItem(STORE_KEY,JSON.stringify(s)); return true;}catch(e){ return false; } },
- clear(){ try{localStorage.removeItem(STORE_KEY);localStorage.removeItem('gmat_trainer_v1');}catch(e){} } };
+ clear(){ try{localStorage.removeItem(STORE_KEY); if(LEGACY_KEY) localStorage.removeItem(LEGACY_KEY);}catch(e){} } };
 let state = Store.load() || newState();
-SKILLS.forEach(s=>{ if(!state.skills[s.id]) state.skills[s.id]={r:START_R,n:0,c:0,t:0,hist:[]}; }); if(!state.seen) state.seen={}; if(!state.settings) state.settings={name:'Hunter',testDate:'',dailyGoal:20}; if(state.settings.onboarded===undefined) state.settings.onboarded=false; if(!state.settings.program) state.settings.program={exam:'GMAT',goal:'',hours:'3 to 5 hrs / week',tools:{'Quick 10':true,'Timed sprint':true,'Flashcards':false}}; if(state.settings.digest===undefined) state.settings.digest=true;
+SKILLS.forEach(s=>{ if(!state.skills[s.id]) state.skills[s.id]={r:START_R,n:0,c:0,t:0,hist:[]}; }); if(!state.seen) state.seen={}; if(!state.settings) state.settings={name:'Hunter',testDate:'',dailyGoal:20}; if(state.settings.onboarded===undefined) state.settings.onboarded=false; if(!state.settings.program) state.settings.program={exam:(EXAM.id==='sat'?'SAT':'GMAT'),goal:'',hours:'3 to 5 hrs / week',tools:{'Quick 10':true,'Timed sprint':true,'Flashcards':false}}; if(state.settings.digest===undefined) state.settings.digest=true;
 function persist(){ if(!Store.save(state)) toast('Auto-save is unavailable in this browser. Export your progress from Account.'); Cloud.scheduleSave(); }
 // ---------- Cloud sync (Supabase) ----------
 const Cloud={ client:null, user:null, timer:null, status:'off',
@@ -221,8 +237,15 @@ const Cloud={ client:null, user:null, timer:null, status:'off',
  async checkAdmin(){ this.isAdmin=false; const b=document.getElementById('navAdmin'); const pv=location.hash==='#admin-preview'; if(b&&!pv) b.style.display='none'; if(!this.user||!this.client) return; try{ const {data}=await this.client.rpc('is_admin'); this.isAdmin=!!data; }catch(e){} if(b) b.style.display=(this.isAdmin||pv)?'':'none'; },
  async signIn(email){ if(!this.client) return {error:{message:'Sync is available on the hosted site only.'}}; return this.client.auth.signInWithOtp({email, options:{emailRedirectTo: location.origin+location.pathname}}); },
  async signOut(){ if(this.client) await this.client.auth.signOut(); this.user=null; this.status='signed-out'; },
- async pull(){ if(!this.user) return; const {data,error}=await this.client.from('profiles').select('state_blob,display_name,test_date,daily_goal,plan,consent_at').eq('id',this.user.id).maybeSingle(); if(error) return; this.plan=(data&&data.plan)||'free'; const remote=data&&data.state_blob; if(remote&&remote.attempts&&remote.attempts.length>state.attempts.length){ const local=state; state=remote; if(!state.settings) state.settings=local.settings; toast('Loaded '+state.attempts.length+' answers from your account.'); Store.save(state); renderDash(); } else if(!remote){ await this.push(); track('account_created',{exam:CURRENT_EXAM,source:'app'}); } if(data&&!data.consent_at){ await this.client.from('profiles').update({consent_at:new Date().toISOString()}).eq('id',this.user.id); } },
- async push(){ if(!this.user) return false; const s=state.settings||{}; const {error}=await this.client.from('profiles').upsert({id:this.user.id,email:this.user.email,state_blob:state,display_name:s.name||null,test_date:s.testDate||null,daily_goal:s.dailyGoal||20,exam:CURRENT_EXAM,updated_at:new Date().toISOString()}); return !error; },
+ async pull(){ if(!this.user) return; const {data,error}=await this.client.from('profiles').select('state_blob,display_name,test_date,daily_goal,plan,consent_at').eq('id',this.user.id).maybeSingle(); if(error) return; this.plan=(data&&data.plan)||'free'; const remote=data&&data.state_blob;
+  // profiles.state_blob predates multi-exam and holds one state per user. A blob written by the
+  // other trainer is someone's real progress: show nothing from it and overwrite nothing.
+  const remoteExam=(remote&&remote.exam)||'gmat-focus';
+  this.blobExam = remote ? remoteExam : null;
+  if(remote&&remoteExam!==CURRENT_EXAM){ this.blobLocked=true; updateHeader(); return; }
+  this.blobLocked=false;
+  if(remote&&remote.attempts&&remote.attempts.length>state.attempts.length){ const local=state; state=remote; if(!state.settings) state.settings=local.settings; toast('Loaded '+state.attempts.length+' answers from your account.'); Store.save(state); renderDash(); } else if(!remote){ await this.push(); track('account_created',{exam:CURRENT_EXAM,source:'app'}); } if(data&&!data.consent_at){ await this.client.from('profiles').update({consent_at:new Date().toISOString()}).eq('id',this.user.id); } },
+ async push(){ if(!this.user||this.blobLocked) return false; const s=state.settings||{}; const {error}=await this.client.from('profiles').upsert({id:this.user.id,email:this.user.email,state_blob:state,display_name:s.name||null,test_date:s.testDate||null,daily_goal:s.dailyGoal||20,exam:CURRENT_EXAM,updated_at:new Date().toISOString()}); return !error; },
  scheduleSave(){ if(!this.user) return; clearTimeout(this.timer); this.timer=setTimeout(()=>this.push(),2500); },
  async logAttempt(a){ if(!this.user) return; this.client.from('attempts').insert({user_id:this.user.id,exam:CURRENT_EXAM,qid:a.qid,skill:a.skill,section:a.section,diff:a.diff,correct:a.correct,secs:a.secs,flag:a.flag,reason:a.reason,guessed:a.guessed,chosen:a.chosen,session_id:a.sid}).then(()=>{}); },
  async wipe(){ if(!this.user) return; await this.client.from('attempts').delete().eq('user_id',this.user.id); await this.client.from('events').delete().eq('user_id',this.user.id); await this.client.from('sessions').delete().eq('user_id',this.user.id); await this.client.from('profiles').update({state_blob:null}).eq('id',this.user.id); }
@@ -278,7 +301,7 @@ function renderDash(){
  let html='<div class="stack">';
  const tg=targetSchools(); const g0=tg.length&&tg[0].gmat; const tgLine=tg.length?' Training toward '+esc(tg[0].name)+(tg.length>1?' and '+(tg.length-1)+' more':'')+'.'+(g0?' Its published GMAT: '+g0.v+' '+esc(g0.ed)+(g0.stat?' '+esc(g0.stat):'')+'.':''):'';
  const streak=streakDays(); const orat=overallRating(); const otr=overallTrend();
- html+='<div class="row" style="align-items:flex-end;justify-content:space-between;gap:14px"><div style="min-width:260px"><p class="eyebrow">GMAT Focus Trainer</p><h1 style="font-size:var(--text-2xl);font-weight:700">'+greeting()+', '+esc(state.settings.name||'Hunter')+'</h1><p class="muted" style="margin:6px 0 0">'+sub+tgLine+(state.settings.program&&state.settings.program.goal?' Goal: '+esc(state.settings.program.goal)+'.':'')+'</p></div>'
+ html+='<div class="row" style="align-items:flex-end;justify-content:space-between;gap:14px"><div style="min-width:260px"><p class="eyebrow">'+esc(EXAM.name)+' Trainer</p><h1 style="font-size:var(--text-2xl);font-weight:700">'+greeting()+', '+esc(state.settings.name||'Hunter')+'</h1><p class="muted" style="margin:6px 0 0">'+sub+tgLine+(state.settings.program&&state.settings.program.goal?' Goal: '+esc(state.settings.program.goal)+'.':'')+'</p></div>'
  +'<div class="row" style="gap:10px">'
  +'<span class="chip-gold"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>'+streak+' day streak</span>'
  +(g0?'<span class="chip-navy" title="Published by your target school. Focus and Classic editions are never converted or mixed.">Target: <span class="mono" style="font-size:13px">'+g0.v+' '+esc(g0.ed)+'</span></span>':'')
@@ -288,14 +311,14 @@ function renderDash(){
  html+='<div class="card"><div class="row" style="justify-content:space-between;align-items:flex-start;gap:12px"><div><p class="eyebrow">Practice Rating, Internal Estimate</p><div style="display:flex;align-items:flex-end;gap:12px"><span class="mono" style="font-size:44px;font-weight:500;line-height:1;color:var(--text-heading)">'+(orat===null?'-':orat)+'</span>'+(otr!==null&&otr!==0?'<span style="font-size:13px;font-weight:600;margin-bottom:4px;color:'+(otr>0?'var(--status-success)':'var(--status-error)')+'">'+(otr>0?'+':'')+otr+' recent</span>':'')+'</div></div><div class="small" style="text-align:right">'+(tg.length?('Target school<br><b style="color:var(--text-heading)">'+esc(tg[0].name)+'</b>'+(g0?'<br>Published GMAT: <span class="mono">'+g0.v+' '+esc(g0.ed)+'</span>':'')):'<a href="/schools/">Pick a Target School</a>')+'</div></div>'
  +'<div class="rt-track"><div class="rt-fill" style="width:'+(orat===null?0:masteryPct(orat))+'%"></div></div>'
  +'<div class="row" style="justify-content:space-between;margin-top:2px"><span class="mono" style="font-size:10px;color:var(--navy-400)">800</span><span class="mono" style="font-size:10px;color:var(--navy-400)">1400</span></div>'
- +'<p class="small muted" style="margin:10px 0 0">Chess-style rating across every tracked skill, weighted by attempts. An internal estimate, not a GMAT score; calibrate with an official practice exam at mba.com.</p></div>';
+ +'<p class="small muted" style="margin:10px 0 0">Chess-style rating across every tracked skill, weighted by attempts. An internal estimate, not a'+(EXAM.id==='sat'?'n SAT score; calibrate with an official Bluebook practice test from College Board.':' GMAT score; calibrate with an official practice exam at mba.com.')+'</p></div>';
  html+='<div class="two"><div class="card"><div class="card-head"><span class="card-title">Section Mastery</span>'+badge('Adaptive','info')+'</div><div class="stack-4">';
- ['Q','V','DI'].forEach(sec=>{ const ss=sectionSummary(state,sec); const m=ss.meanR===null?0:masteryPct(ss.meanR); html+=pbar(SEC_SHORT[sec]+(ss.n?' <span class="mono" style="font-weight:500">'+ss.n+' items</span>':''),m,SEC_COLOR[sec]); });
+ SECTIONS.forEach(sec=>{ const ss=sectionSummary(state,sec); const m=ss.meanR===null?0:masteryPct(ss.meanR); html+=pbar(SEC_SHORT[sec]+(ss.n?' <span class="mono" style="font-weight:500">'+ss.n+' items</span>':''),m,SEC_COLOR[sec]); });
  const prof=SKILLS.map(s=>skillStats(state,s.id)).filter(st=>st.n>=6&&st.r>=1250).length;
  html+='</div><p class="small" style="margin:14px 0 0"><b>'+prof+' of '+SKILLS.length+'</b> skills at Proficient or better (rating 1250+).</p><p class="small" style="margin:8px 0 0">'+nextStepText()+'</p></div>';
  html+='<div class="card"><div class="card-head"><span class="card-title">Today\'s Plan</span>'+badge('Day '+(studyDayIndex()),'accent')+'</div><div class="stack-4" style="gap:10px">'+planRows()+'</div></div></div>';
  html+='<div class="card"><div class="card-head"><span class="card-title">Accuracy Trend</span><span class="small">Last 8 weeks</span></div>'+accChartHtml()+'</div>';
- ['Q','V','DI'].forEach(sec=>{ const ss=sectionSummary(state,sec);
+ SECTIONS.forEach(sec=>{ const ss=sectionSummary(state,sec);
   html+='<div class="card"><div class="card-head"><span class="section-h"><span class="dot" style="background:'+SEC_COLOR[sec]+'"></span><span class="card-title">'+SECTION_META[sec].name+'</span></span>'+badge(ss.band)+'</div><table><thead><tr><th>Skill (official score report label)</th><th class="num">Rating</th><th>Trend</th><th class="num">Items</th><th class="num">Accuracy</th><th class="num">Avg time</th><th>Status</th></tr></thead><tbody>';
   SKILLS.filter(s=>s.section===sec).forEach(s=>{ const st=skillStats(state,s.id); const tier=tierOf(st.r,st.n); const tone=tier.tone; const label=tier.name;
    html+='<tr><td>'+s.label+'</td><td class="num"><b>'+st.r+'</b></td><td>'+spark(state.skills[s.id].hist)+'</td><td class="num">'+st.n+'</td><td class="num">'+pct(st.acc)+'</td><td class="num">'+(st.avg?fmtSecs(st.avg):'-')+' <span class="small">/ '+fmtSecs(SECTION_META[sec].allot)+'</span></td><td>'+badge(label,tone)+'</td></tr>'; });
@@ -305,36 +328,49 @@ function renderDash(){
  html+=qotdCardHtml();
  html+='<div class="card p0"><div class="card-head"><span class="card-title">Quick Rounds</span></div>'
  +[['Adaptive Round','Ten questions, adaptive difficulty','startAdaptive(10)'],['Timed Sprint','Fifteen questions at section pace','startSprint(15)'],['Weakest Skill','One tap on your lowest-rated skill','startWeakest()'],['Missed Questions','Rework what you got wrong','startMissed()']].map(r=>'<button class="qrow" onclick="'+r[2]+'"><div style="flex:1;min-width:0"><p class="qt" style="margin:0">'+r[0]+'</p><p class="qs" style="margin:0">'+r[1]+'</p></div><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--navy-400)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>').join('')+'</div>';
- html+='<div class="card mock-gold"><div class="row" style="gap:12px;margin-bottom:12px;flex-wrap:nowrap"><span style="width:34px;height:34px;border-radius:var(--radius-md);background:var(--gold-100);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--gold-600)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span><div><p class="qt" style="margin:0">Full Mock Exam</p><p class="qs" style="margin:0;color:var(--gold-700)">All three sections, test-day rules</p></div></div><button class="btn goldfill" onclick="startMockIntro()">Start Full Mock (2h 15m)</button></div>';
+ html+='<div class="card mock-gold"><div class="row" style="gap:12px;margin-bottom:12px;flex-wrap:nowrap"><span style="width:34px;height:34px;border-radius:var(--radius-md);background:var(--gold-100);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--gold-600)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span><div><p class="qt" style="margin:0">Full Mock Exam</p><p class="qs" style="margin:0;color:var(--gold-700)">All '+(SECTIONS.length===2?'two':'three')+' sections, test-day rules</p></div></div><button class="btn goldfill" onclick="startMockIntro()">Start Full Mock ('+fullMockLabel()+')</button></div>';
  html+='<div class="card"><p class="eyebrow" style="margin-bottom:8px">Recent Sessions</p>'+recentDaysHtml()+'</div>';
  html+='</div></div>';
  // games
  html+='<div><h2 style="font-size:var(--text-lg);font-weight:700;margin-bottom:var(--space-4)">Games and Rounds</h2><div class="games">'+
-  game('Quick 10','Ten adaptive questions across your weakest skills.','Q',"startAdaptive(10)")+
-  game('Timed Sprint','Fifteen questions, countdown at section pace.','DI',"startSprint(15)")+
-  game('Mock Section','A full section under the real 45-minute clock.','Q',"startMockIntro()")+
-  game('Weakest Skill','Ten questions on your lowest-rated skill, one tap.','Q',"startWeakest()")+
-  game('Missed Questions','Rework what you got wrong, oldest first.','DI',"startMissed()")+
-  game('Match','Pair each concept with its method before the clock runs.','V',"gmStartMatch('ALL')")+
-  game('Memory','The match board, face down. Recall where each pair lives.','V',"gmStartMemory('ALL')")+
-  game('Blitz','Sixty seconds of rapid recall. Streaks multiply your score.','Q',"gmStartBlitz('ALL')")+
-  game('Number Crunch','Which is bigger? No-calculator number sense, timed.','Q',"gmStartCrunch()")+
-  game('Boss Round','Five real questions, three lives, beat the pace clock.','DI',"gmStartBoss()")+
-  game('The Ladder','Eight rungs. Difficulty climbs as you answer.','Q',"gmStartLadder()")+
-  game('Flashcards','Formulas and methods, sorted by what you still miss.','V',"show('cards')")+
+  game('Quick 10','Ten adaptive questions across your weakest skills.',SECTIONS[0],"startAdaptive(10)")+
+  game('Timed Sprint','Fifteen questions, countdown at section pace.',SECTIONS[SECTIONS.length-1],"startSprint(15)")+
+  game('Mock Section',EXAM.adaptive==='module'?'Two modules under the real clock, with routing between them.':'A full section under the real 45-minute clock.',SECTIONS[0],"startMockIntro()")+
+  game('Weakest Skill','Ten questions on your lowest-rated skill, one tap.',SECTIONS[0],"startWeakest()")+
+  game('Missed Questions','Rework what you got wrong, oldest first.',SECTIONS[SECTIONS.length-1],"startMissed()")+
+  game('Match','Pair each concept with its method before the clock runs.',SECTIONS[1]||SECTIONS[0],"gmStartMatch('ALL')")+
+  game('Memory','The match board, face down. Recall where each pair lives.',SECTIONS[1]||SECTIONS[0],"gmStartMemory('ALL')")+
+  game('Blitz','Sixty seconds of rapid recall. Streaks multiply your score.',SECTIONS[0],"gmStartBlitz('ALL')")+
+  game('Number Crunch',EXAM.id==='sat'?'Which is bigger? Estimate faster than you could type it.':'Which is bigger? No-calculator number sense, timed.',SECTIONS[0],"gmStartCrunch()")+
+  game('Boss Round','Five real questions, three lives, beat the pace clock.',SECTIONS[SECTIONS.length-1],"gmStartBoss()")+
+  game('The Ladder','Eight rungs. Difficulty climbs as you answer.',SECTIONS[0],"gmStartLadder()")+
+  game('Flashcards','Formulas and methods, sorted by what you still miss.',SECTIONS[1]||SECTIONS[0],"show('cards')")+
   game('Custom Drill','Pick sections, skills, difficulty and length.','G',"show('drill')")+
   '</div></div>';
  html+='</div>'; el.innerHTML=html; }
 function calendarHtml(){ const counts={}; state.attempts.forEach(a=>{ const k=new Date(a.ts).toDateString(); counts[k]=(counts[k]||0)+1; }); const days=[]; const end=new Date(); end.setHours(12,0,0,0); const start=new Date(end); start.setDate(end.getDate()-83); start.setDate(start.getDate()-start.getDay()); let html='<div class="cal">'; const d=new Date(start); while(d<=end){ const k=d.toDateString(); const n=counts[k]||0; const lvl=n===0?0:n<10?1:n<20?2:n<35?3:4; html+='<span class="cd l'+lvl+'" title="'+k+': '+n+' questions"></span>'; d.setDate(d.getDate()+1); } html+='</div><div class="small" style="margin-top:8px">'+Object.keys(counts).length+' study days · '+state.attempts.length+' questions total</div>'; return html; }
 function tile(l,v,d,tone){ return '<div class="tile"><div class="l">'+l+'</div><div class="v">'+v+(d?'<span class="d '+tone+'">'+d+'</span>':'')+'</div></div>'; }
-function game(t,d,sec,onclick){ const fg=sec==='G'?'var(--gray-700)':SEC_COLOR[sec], bg=sec==='G'?'var(--gray-100)':SEC_BG[sec]; return '<div class="card hover p5" onclick="'+onclick+'"><span class="gicon" style="background:'+bg+'"><i style="background:'+fg+'"></i></span><div class="gtitle">'+t+'</div><div class="gdesc">'+d+'</div></div>'; }
+function game(t,d,sec,onclick){ const fg=sec==='G'?'var(--gray-700)':(SEC_COLOR[sec]||SEC_COLOR[SECTIONS[0]]), bg=sec==='G'?'var(--gray-100)':(SEC_BG[sec]||SEC_BG[SECTIONS[0]]); return '<div class="card hover p5" onclick="'+onclick+'"><span class="gicon" style="background:'+bg+'"><i style="background:'+fg+'"></i></span><div class="gtitle">'+t+'</div><div class="gdesc">'+d+'</div></div>'; }
 function studyDayIndex(){ const days=new Set(state.attempts.map(a=>new Date(a.ts).toDateString())); return Math.max(1,days.size); }
 function paceLine(){ const ranked=SKILLS.map(s=>({s,st:skillStats(state,s.id)})).filter(x=>x.st.n>0).sort((a,b)=>a.st.r-b.st.r); if(!ranked.length) return ''; return 'Today\'s round leans into '+ranked[0].s.label.toLowerCase()+'.'; }
 function nextStepText(){ if(!state.attempts.length) return 'No data yet. The first 30 to 40 questions are diagnostic; the engine samples every skill before it starts targeting.'; const ranked=SKILLS.map(s=>({s,st:skillStats(state,s.id)})).sort((a,b)=>a.st.r-b.st.r); const w=ranked[0]; return 'Weakest tracked skill: <b>'+w.s.label+'</b> (rating '+w.st.r+', '+pct(w.st.acc)+' on '+w.st.n+' items). Why: rounds weight it heavily until it clears 1250.'; }
 function planRows(){ const today=state.attempts.filter(a=>new Date(a.ts).toDateString()===new Date().toDateString()); const done=today.length; const due=Object.keys(state.review).filter(id=>state.review[id].due<=Date.now()&&BANK_BY_ID[id]).length; const rows=[['Quick 10 · adaptive','~15 min',done>=10],['Timed sprint · 15','~25 min',done>=25],['Flashcards due ('+dueCards(state,CARDS).length+')','~5 min',dueCards(state,CARDS).length===0],['Review due misses ('+due+')','~'+Math.max(2,due*2)+' min',due===0&&done>0]]; return rows.map(r=>'<div class="plan-row"><span style="width:18px;height:18px;border-radius:50%;flex-shrink:0;'+(r[2]?'background:var(--status-success);':'border:1.5px solid var(--border-strong);')+'display:inline-flex;align-items:center;justify-content:center">'+(r[2]?'<svg viewBox="0 0 24 24" width="11" height="11" style="stroke:#fff;fill:none;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round"><path d="m5 13 4 4L19 7"/></svg>':'')+'</span><span class="t" style="'+(r[2]?'color:var(--text-muted);text-decoration:line-through':'')+'">'+r[0]+'</span><span class="m">'+r[1]+'</span></div>').join(''); }
 // ---------- practice session ----------
 let session=null, qTimer=null;
-function renderStudyHome(){ document.getElementById('v-study').innerHTML='<div class="narrow stack"><div><h1 style="font-size:var(--text-xl)">Practice</h1><p class="muted" style="margin:6px 0 0">Adaptive rounds pull from your weakest skills at a difficulty you should clear about 70% of the time, plus review of past misses. Every question is timed against the real section pace.</p></div><div class="card"><div class="card-title" style="margin-bottom:12px">Adaptive Round</div><div class="row"><button class="btn" onclick="startAdaptive(10)">10 questions</button><button class="btn" onclick="startAdaptive(15)">15 questions</button><button class="btn" onclick="startAdaptive(20)">20 questions</button></div><div class="card-title" style="margin:20px 0 12px">One Section</div><div class="row"><button class="btn secondary" onclick="startAdaptive(10,[\'Q\'])">Quant 10</button><button class="btn secondary" onclick="startAdaptive(10,[\'V\'])">Verbal 10</button><button class="btn secondary" onclick="startAdaptive(10,[\'DI\'])">Data Insights 10</button></div><div class="card-title" style="margin:20px 0 12px">Mock Section</div><div class="small muted" style="margin-bottom:12px">The full test-day experience: 45 minutes, no feedback until the end, 3 answer changes at review.</div><div class="row"><button class="btn secondary" onclick="startMock(\'Q\')">Quant 21</button><button class="btn secondary" onclick="startMock(\'V\')">Verbal 23</button><button class="btn secondary" onclick="startMock(\'DI\')">Data Insights 20</button></div></div></div>'; }
+function renderStudyHome(){
+ const secBtns=SECTIONS.map(s=>'<button class="btn secondary" onclick="startAdaptive(10,[\''+s+'\'])">'+SEC_SHORT[s]+' 10</button>').join('');
+ let mockBlock;
+ if(EXAM.adaptive==='module'){
+  mockBlock='<div class="card-title" style="margin:20px 0 12px">Module Practice</div>'
+   +'<div class="small muted" style="margin-bottom:12px">One full module under the real clock, then the routed second module, exactly like the digital test. '
+   +SECTIONS.map(s=>SEC_SHORT[s]+' is '+SECTION_META[s].questions+' questions in '+SECTION_META[s].minutes+' minutes').join('; ')+'.</div>'
+   +'<div class="row">'+SECTIONS.map(s=>'<button class="btn secondary" onclick="startSatSection(\''+s+'\')">'+SEC_SHORT[s]+'</button>').join('')+'</div>';
+ } else {
+  mockBlock='<div class="card-title" style="margin:20px 0 12px">Mock Section</div>'
+   +'<div class="small muted" style="margin-bottom:12px">The full test-day experience: 45 minutes, no feedback until the end, 3 answer changes at review.</div>'
+   +'<div class="row">'+SECTIONS.map(s=>'<button class="btn secondary" onclick="startMock(\''+s+'\')">'+SEC_SHORT[s]+' '+SECTION_META[s].questions+'</button>').join('')+'</div>';
+ }
+ document.getElementById('v-study').innerHTML='<div class="narrow stack"><div><h1 style="font-size:var(--text-xl)">Practice</h1><p class="muted" style="margin:6px 0 0">Adaptive rounds pull from your weakest skills at a difficulty you should clear about 70% of the time, plus review of past misses. Every question is timed against the real section pace.</p></div><div class="card"><div class="card-title" style="margin-bottom:12px">Adaptive Round</div><div class="row"><button class="btn" onclick="startAdaptive(10)">10 questions</button><button class="btn" onclick="startAdaptive(15)">15 questions</button><button class="btn" onclick="startAdaptive(20)">20 questions</button></div><div class="card-title" style="margin:20px 0 12px">One Section</div><div class="row">'+secBtns+'</div>'+mockBlock+'</div></div>'; }
 function startWeakest(){ if(!planGate('question')) return;
  const ranked=SKILLS.map(s=>({s,st:skillStats(state,s.id)})).filter(x=>x.st.n>0).sort((a,b)=>a.st.r-b.st.r);
  const target=ranked.length?ranked[0].s:SKILLS[0];
@@ -368,15 +404,86 @@ function startSprint(n){ if(!planGate('question')) return; const qs=pickQuestion
 function sortTable(tbl,ci){ const tb=tbl.tBodies[0]; const rows=[...tb.rows]; const asc=tbl._sortCol===ci?!tbl._asc:true; tbl._sortCol=ci; tbl._asc=asc; const val=r=>{ const t=r.cells[ci].textContent.replace(/[$,%]/g,'').trim(); const n=parseFloat(t); return isNaN(n)?t.toLowerCase():n; }; rows.sort((x,y)=>{ const a=val(x),b=val(y); return (a<b?-1:a>b?1:0)*(asc?1:-1); }); rows.forEach(r=>tb.appendChild(r)); }
 function startAdaptive(n,sections){ if(!planGate('question')) return; const qs=pickQuestions(BANK,state,{count:n,sections}); if(!qs.length){toast('No questions match.');return;} beginSession(qs,'adaptive'); }
 function beginSession(qs,mode){ session={id:'s'+Date.now(),mode,qs,i:0,results:[],start:Date.now()}; track('round_started',{mode,count:qs.length}); show('study'); setFocus(true); renderQuestion(); }
-function typeLabel(q){ return {PS:'Problem solving',CR:'Critical reasoning'+(q.sub?' · '+q.sub:''),RC:'Reading comprehension',DS:'Data sufficiency',GT:'Graphs and tables',MSR:'Multi-source reasoning',TPA:'Two-part analysis',GI:'Graphics interpretation',TA:'Table analysis'}[q.type]||q.type; }
+function typeLabel(q){ const sub=q.sub?' · '+q.sub:'';
+ return {PS:'Problem solving',CR:'Critical reasoning'+sub,RC:'Reading comprehension',DS:'Data sufficiency',GT:'Graphs and tables',MSR:'Multi-source reasoning',TPA:'Two-part analysis',GI:'Graphics interpretation',TA:'Table analysis',
+  RW:'Reading and Writing'+sub,MC:'Multiple choice'+sub,SPR:'Student-produced response'+sub}[q.type]||q.type; }
 function answerInputs(q){ let h='';
  if(q.answerType==='tpa'){ h='<div class="tpa"><div class="h">'+esc(q.columns[0])+'</div><div class="h">'+esc(q.columns[1])+'</div><div class="h">Value</div>'; q.choices.forEach((c,i)=>{ h+='<div><input type="radio" name="tpa0" onchange="session.tpa[0]='+i+'"></div><div><input type="radio" name="tpa1" onchange="session.tpa[1]='+i+'"></div><div class="val">'+esc(c)+'</div>'; }); h+='</div>'; }
  else if(q.answerType==='gi'){ h='<div class="stack-4">'+q.statements.map((st,si)=>'<div class="gi-st">'+esc(st.text).replace(/_{3,}/,'<select onchange="session.gi['+si+']=+this.value"><option value="-1">Select</option>'+st.options.map((o,oi)=>'<option value="'+oi+'">'+esc(o)+'</option>').join('')+'</select>')+'</div>').join('')+'</div>'; session.gi=q.statements.map(()=>-1); }
  else if(q.answerType==='ta'){ h='<table class="ta"><thead><tr><th style="width:60px">Yes</th><th style="width:60px">No</th><th>Statement</th></tr></thead><tbody>'+q.statements.map((st,si)=>'<tr><td><input type="radio" name="ta'+si+'" onchange="session.ta['+si+']=true"></td><td><input type="radio" name="ta'+si+'" onchange="session.ta['+si+']=false"></td><td>'+esc(st.text)+'</td></tr>').join('')+'</tbody></table>'; session.ta=q.statements.map(()=>null); }
+ else if(q.answerType==='spr'){ h='<div class="spr"><label for="sprIn">Your answer</label>'
+  +'<input id="sprIn" type="text" inputmode="text" autocomplete="off" spellcheck="false" oninput="session.spr=this.value" aria-label="Student-produced response">'
+  +'<p class="small muted">Enter a number. Fractions and decimals are both accepted, so 1/2, 0.5 and .5 all count. No units, no percent sign.</p></div>'; session.spr=''; }
  else { h='<div class="opts">'+q.choices.map((c,i)=>'<button class="opt" id="opt'+i+'" onclick="selectChoice('+i+')"><span class="chip">'+String.fromCharCode(65+i)+'</span><span class="txt">'+esc(c)+'</span></button>').join('')+'</div>'; }
  return h; }
 // ---------- mock section: one full section under exam rules ----------
-function startMockIntro(){ session=null; show('study'); document.getElementById('v-study').innerHTML='<div class="narrow stack">'
+function startMockIntro(){ return EXAM.adaptive==='module'?satMockIntro():gmatMockIntro(); }
+function satMockIntro(){ session=null; satSec=null; show('study');
+ const secCards=SECTIONS.map(s=>{ const m=SECTION_META[s];
+  return '<button class="btn secondary" onclick="startSatSection(\''+s+'\')">'+SEC_SHORT[s]+' ('+(m.questions*m.modules)+' questions)</button>'; }).join('');
+ const totalMin=SECTIONS.reduce((a,s)=>a+SECTION_META[s].minutes*SECTION_META[s].modules,0);
+ document.getElementById('v-study').innerHTML='<div class="narrow stack">'
+ +'<div><h1 style="font-size:var(--text-xl)">Mock Sections</h1><p class="muted" style="margin:6px 0 0">The digital SAT is section-adaptive: each section runs as two equal modules, and how you do on the first decides whether the second is the harder or the easier form. These mocks work the same way.</p></div>'
+ +'<div class="card p6"><div class="card-title" style="margin-bottom:4px">One Section, Both Modules</div>'
+ +'<div class="small muted" style="margin-bottom:12px">'+SECTIONS.map(s=>{ const m=SECTION_META[s]; return SEC_SHORT[s]+' runs two modules of '+m.questions+' questions in '+m.minutes+' minutes each'; }).join('. ')+'. Inside a module you can move freely and change any answer while the clock runs, exactly like the real thing.</div>'
+ +'<div class="row">'+secCards+'</div>'
+ +'<div class="card-title" style="margin:20px 0 4px">Full Mock Exam</div>'
+ +'<div class="small muted" style="margin-bottom:12px">Both sections back to back, '+Math.floor(totalMin/60)+' hours '+(totalMin%60)+' minutes of testing, with the 10-minute break between them (College Board, SAT test structure). Reading and Writing always comes first on the real exam, and it does here.</div>'
+ +'<div class="row"><button class="btn" onclick="startSatFullMock()">Start Full Mock ('+Math.floor(totalMin/60)+'h '+(totalMin%60)+'m)</button></div>'
+ +'<label class="row small" style="gap:8px;margin-top:10px;cursor:pointer"><input type="checkbox" id="fmBreak" checked> Take the 10-minute break between sections</label>'
+ +'<div class="small muted" style="margin-top:14px">Nothing here reports a 400 to 1600 score. College Board scales scores from its own equating tables, which are not public, so we report accuracy, per-domain results and which second module you routed into. Calibrate with an official Bluebook practice test.</div>'
+ +'</div></div>'; }
+// ---------- SAT: a section is two modules, with routing between them ----------
+let satSec=null;
+function startSatSection(section,partOfFull){ if(!partOfFull&&!planGate('mock')) return;
+ satSec={section,module:1,routing:null,mod1:null,results:[],startedAt:Date.now()};
+ track('round_started',{mode:'satsection',section}); startSatModule(section,1,null); }
+function startSatModule(section,moduleIdx,routing){ const meta=SECTION_META[section];
+ const qs=pickSatModule(BANK,state,section,moduleIdx,routing);
+ if(!qs.length){ toast('No '+meta.name+' items available.'); return; }
+ if(qs.length<meta.questions) toast('Bank has '+qs.length+' usable items; running a '+qs.length+'-question module.');
+ session={id:'m'+Date.now(),mode:'mock',section,satModule:moduleIdx,routing,freeEdit:true,qs,i:0,
+  answers:qs.map(()=>null),marks:qs.map(()=>false),secsArr:qs.map(()=>0),results:[],start:Date.now(),
+  deadline:Date.now()+meta.minutes*60000,editsLeft:Infinity,phase:'run',minutes:meta.minutes};
+ show('study'); setFocus(true); renderMockQ(); }
+function satRoutingScreen(correct,total){ setFocus(true);
+ const routing=satRoute(correct,total); satSec.routing=routing; let left=8;
+ const harder=routing==='upper';
+ document.getElementById('v-study').innerHTML='<div class="narrow stack" style="text-align:center;padding-top:36px">'
+ +'<h1 style="font-size:var(--text-2xl)">Module 1 Complete</h1>'
+ +'<p class="muted" style="margin:6px 0 0">'+correct+' of '+total+' correct. You have routed into the <b>'+(harder?'harder':'easier')+'</b> second module.</p>'
+ +'<div class="card" style="text-align:left"><p class="small" style="margin:0">On the real exam the second module is built from your first-module performance, and the harder form is the one that reaches the top of the score scale. College Board does not publish the threshold it uses, so ours is our own: '+Math.round(SAT_ROUTE_CUT*100)+' percent or better on module 1 routes you up. Treat the routing as a rough signal, not a score.</p></div>'
+ +'<div class="bigscore" id="satClock" role="timer" aria-label="Time until module 2" style="font-size:44px">0:08</div>'
+ +'<div class="row" style="justify-content:center"><button class="btn" onclick="satStartModule2()">Start Module 2 Now</button></div></div>';
+ clearInterval(qTimer); qTimer=setInterval(()=>{ left--; const e=document.getElementById('satClock'); if(!e){ clearInterval(qTimer); return; }
+  e.textContent=fmtSecs(left); if(left<=0) satStartModule2(); },1000); }
+function satStartModule2(){ clearInterval(qTimer); if(!satSec) return; satSec.module=2; startSatModule(satSec.section,2,satSec.routing); }
+function satSectionDone(secTotal){ const ss=satSec; const r=ss.results;
+ const n=r.length, c=r.filter(x=>x.correct).length;
+ if(fullMock){ fullMock.secs.push({sec:ss.section,n,c,secs:Math.round(ss.totalSecs||secTotal),avg:Math.round(r.reduce((s,x)=>s+x.secs,0)/n),routing:ss.routing});
+  satSec=null; session=null; fullMock.idx++;
+  if(fullMock.idx>=fullMock.order.length){ fmReport(); return; }
+  if(fullMock.idx===fullMock.breakAfter) fmBreakScreen(); else startSatSection(fullMock.order[fullMock.idx],true);
+  return; }
+ renderSatSectionReport(); }
+function renderSatSectionReport(){ setFocus(false); const ss=satSec; const r=ss.results;
+ const n=r.length, c=r.filter(x=>x.correct).length;
+ const bySkill={}; r.forEach(x=>{ const k=x.q.skill; bySkill[k]=bySkill[k]||{n:0,c:0}; bySkill[k].n++; if(x.correct) bySkill[k].c++; });
+ const rows=SKILLS.filter(s=>s.section===ss.section).filter(s=>bySkill[s.id]).map(s=>{ const b=bySkill[s.id];
+  return '<tr><td>'+s.label+'</td><td class="small">'+esc(s.range)+'</td><td class="num">'+b.c+' / '+b.n+'</td><td class="num">'+Math.round(b.c/b.n*100)+'%</td></tr>'; }).join('');
+ const byMod=[1,2].map(m=>{ const set=r.filter(x=>x.module===m); if(!set.length) return '';
+  return '<tr><td>Module '+m+(m===2?' ('+(ss.routing==='upper'?'harder':'easier')+' form)':'')+'</td><td class="num">'+set.filter(x=>x.correct).length+' / '+set.length+'</td><td class="num">'+fmtSecs(set.reduce((a,b)=>a+b.secs,0)/set.length)+'</td></tr>'; }).join('');
+ const misses=r.filter(x=>!x.correct);
+ const missHtml=misses.length?'<div class="card"><div class="card-head"><span class="card-title">Missed Questions ('+misses.length+')</span></div>'+misses.map(x=>'<details style="border-top:1px solid var(--border-default);padding:10px 0"><summary style="cursor:pointer;font-size:14px">'+(x.unanswered?'[unanswered] ':'')+typeLabel(x.q)+' · '+esc(x.q.stem).slice(0,90)+'...</summary><div class="small" style="padding:8px 0 2px"><b>Why:</b> '+esc(x.q.expl)+'</div></details>').join('')+'<div class="small muted" style="margin-top:8px">All misses joined your spaced review queue.</div></div>':'';
+ document.getElementById('v-study').innerHTML='<div class="narrow stack"><div style="text-align:center"><div class="mono" style="font-size:56px;font-weight:500;color:var(--brand-primary)">'+c+' / '+n+'</div><h1 style="font-size:var(--text-xl);margin-top:4px">'+SECTION_META[ss.section].name+'</h1><p class="muted" style="margin:6px 0 0">Both modules complete. You routed into the '+(ss.routing==='upper'?'harder':'easier')+' second module.</p></div>'
+ +'<div class="card"><div class="card-head"><span class="card-title">By Module</span></div><table><thead><tr><th>Module</th><th class="num">Correct</th><th class="num">Avg pace</th></tr></thead><tbody>'+byMod+'</tbody></table></div>'
+ +'<div class="card"><div class="card-head"><span class="card-title">By Content Domain</span></div><table><thead><tr><th>Domain (official score report label)</th><th>On the real section</th><th class="num">Correct</th><th class="num">Accuracy</th></tr></thead><tbody>'+rows+'</tbody></table><div class="small muted" style="margin-top:8px">Domain question ranges are College Board figures for a full section (Digital SAT Suite Specifications Overview, Tables 2 and 3). Accuracy here is an internal measure, not a 400 to 1600 score.</div></div>'
+ +paceByTypeHtml(r)+missHtml
+ +'<div class="row" style="justify-content:center"><button class="btn secondary" onclick="satSec=null;session=null;show(\'dash\')">Back to Dashboard</button><button class="btn" onclick="satSec=null;startMockIntro()">Mock Menu</button></div></div>'; }
+function startSatFullMock(){ if(!planGate('mock')) return; const brk=document.getElementById('fmBreak');
+ fullMock={order:SECTIONS.slice(),breakAfter:(brk&&brk.checked)?1:-1,idx:0,secs:[],startedAt:Date.now(),sat:true};
+ track('round_started',{mode:'satfullmock'}); startSatSection(SECTIONS[0],true); }
+function gmatMockIntro(){ session=null; show('study'); document.getElementById('v-study').innerHTML='<div class="narrow stack">'
  +'<div><h1 style="font-size:var(--text-xl)">Mock Section</h1><p class="muted" style="margin:6px 0 0">One full section under the real clock. No feedback until the end, no skipping, and up to 3 answer changes from the review screen before scoring, exactly like test day.</p></div>'
  +'<div class="card p6"><div class="card-title" style="margin-bottom:4px">Pick a Section</div><div class="small muted" style="margin-bottom:12px">45 minutes each. Quant 21 questions, Verbal 23, Data Insights 20.</div><div class="row">'
  +'<button class="btn" onclick="startMock(\'Q\')">Quantitative</button><button class="btn" onclick="startMock(\'V\')">Verbal</button><button class="btn" onclick="startMock(\'DI\')">Data Insights</button></div>'
@@ -398,9 +505,9 @@ function fmSectionDone(secTotal){ const n=session.results.length, c=session.resu
  if(fullMock.idx>=fullMock.order.length){ fmReport(); return; }
  if(fullMock.idx===fullMock.breakAfter) fmBreakScreen(); else startMock(fullMock.order[fullMock.idx],true); }
 function fmBreakScreen(){ setFocus(true); let left=600;
- document.getElementById('v-study').innerHTML='<div class="narrow stack" style="text-align:center;padding-top:40px"><h1 style="font-size:var(--text-2xl)">Break</h1><p class="muted">Optional 10 minutes, exactly like test day. Stand up, water, no notes. The next section starts automatically.</p><div class="bigscore" id="fmClock" role="timer" aria-label="Break time left" style="font-size:56px">10:00</div><div class="row" style="justify-content:center;margin-top:16px"><button class="btn" onclick="fmResume()">Resume Now</button></div></div>';
+ document.getElementById('v-study').innerHTML='<div class="narrow stack" style="text-align:center;padding-top:40px"><h1 style="font-size:var(--text-2xl)">Break</h1><p class="muted">Ten minutes, exactly like test day. Stand up, water, no notes. The next section starts automatically.</p><div class="bigscore" id="fmClock" role="timer" aria-label="Break time left" style="font-size:56px">10:00</div><div class="row" style="justify-content:center;margin-top:16px"><button class="btn" onclick="fmResume()">Resume Now</button></div></div>';
  qTimer=setInterval(()=>{ left--; const e=document.getElementById('fmClock'); if(!e){ clearInterval(qTimer); return; } e.textContent=fmtSecs(left); if(left<=0) fmResume(); },1000); }
-function fmResume(){ clearInterval(qTimer); startMock(fullMock.order[fullMock.idx],true); }
+function fmResume(){ clearInterval(qTimer); if(fullMock.sat) startSatSection(fullMock.order[fullMock.idx],true); else startMock(fullMock.order[fullMock.idx],true); }
 function fmReport(){ setFocus(false); const fm=fullMock; fullMock=null;
  const totN=fm.secs.reduce((s,x)=>s+x.n,0), totC=fm.secs.reduce((s,x)=>s+x.c,0), totMin=Math.round(fm.secs.reduce((s,x)=>s+x.secs,0)/60);
  track('round_completed',{mode:'fullmock',correct:totC,total:totN});
@@ -418,19 +525,21 @@ function startMock(section,partOfFull){ if(!partOfFull&&!planGate('mock')) retur
 function mockTick(){ const t=document.getElementById('timer'); if(!t||!session||session.mode!=='mock') return; const left=Math.max(0,session.deadline-Date.now()); t.textContent=fmtSecs(left/1000); t.classList.toggle('over',left<5*60000);
  if(left<=0){ clearInterval(qTimer); if(session.phase!=='done'){ mockBankTime(); toast('Time. Scoring what you answered.'); mockFinish(); } } }
 function mockBankTime(){ if(session.qStart){ session.secsArr[session.i]+=(Date.now()-session.qStart)/1000; session.qStart=null; } }
-function currentAnswer(q){ if(q.answerType==='tpa') return (session.tpa[0]===null||session.tpa[1]===null)?null:session.tpa.slice();
+function currentAnswer(q){ if(q.answerType==='spr') return (session.spr===undefined||String(session.spr).trim()==='')?null:String(session.spr).trim();
+ if(q.answerType==='tpa') return (session.tpa[0]===null||session.tpa[1]===null)?null:session.tpa.slice();
  if(q.answerType==='gi') return session.gi.some(v=>v<0)?null:session.gi.slice();
  if(q.answerType==='ta') return session.ta.some(v=>v===null)?null:session.ta.slice();
  return session.choice===null?null:session.choice; }
 function applySavedAnswer(q,a){ if(a==null) return;
- if(q.answerType==='tpa'){ session.tpa=a.slice(); document.getElementsByName('tpa0')[a[0]].checked=true; document.getElementsByName('tpa1')[a[1]].checked=true; }
+ if(q.answerType==='spr'){ session.spr=a; const el=document.getElementById('sprIn'); if(el) el.value=a; }
+ else if(q.answerType==='tpa'){ session.tpa=a.slice(); document.getElementsByName('tpa0')[a[0]].checked=true; document.getElementsByName('tpa1')[a[1]].checked=true; }
  else if(q.answerType==='gi'){ session.gi=a.slice(); document.querySelectorAll('#v-study .gi-st select').forEach((s,i)=>{ s.value=String(a[i]); }); }
  else if(q.answerType==='ta'){ session.ta=a.slice(); document.querySelectorAll('#v-study table.ta tbody tr').forEach((tr,i)=>{ const r=tr.querySelectorAll('input'); if(a[i]===true) r[0].checked=true; else if(a[i]===false) r[1].checked=true; }); }
  else selectChoice(a); }
-function renderMockQ(){ const el=document.getElementById('v-study'); const q=session.qs[session.i]; session.qStart=Date.now(); session.answered=false; session.choice=null; session.tpa=[null,null]; session.reason=null; session.guessed=false;
+function renderMockQ(){ const el=document.getElementById('v-study'); const q=session.qs[session.i]; session.qStart=Date.now(); session.answered=false; session.choice=null; session.tpa=[null,null]; session.spr=''; session.reason=null; session.guessed=false;
  const wide=!!(q.passage||q.passageHtml); let left=''; if(q.passage) left='<div class="passage">'+esc(q.passage)+'</div>'; else if(q.passageHtml) left='<div>'+q.passageHtml+'</div>';
- const choicesHtml=answerInputs(q); const marked=session.marks[session.i]; const editing=session.phase==='edit';
- const top='<div class="qtop">'+badge(SEC_SHORT[q.section],'sec-'+q.section)+badge(typeLabel(q))+(editing?badge(session.editsLeft+' change'+(session.editsLeft===1?'':'s')+' left','warning'):'')+'<div class="grow">'+pbar(null,session.i/session.qs.length*100,'var(--brand-primary)',true)+'</div><span class="mono small">'+(session.i+1)+' / '+session.qs.length+'</span><span class="timer" id="timer" role="timer" aria-label="Section time remaining">45:00</span></div>';
+ const choicesHtml=answerInputs(q); const marked=session.marks[session.i]; const editing=session.phase==='edit'; const freeEdit=!!session.freeEdit;
+ const top='<div class="qtop">'+badge(SEC_SHORT[q.section],'sec-'+q.section)+badge(typeLabel(q))+(session.satModule?badge('Module '+session.satModule+(session.routing?' · '+(session.routing==='upper'?'harder form':'easier form'):''),'info'):'')+(editing&&!freeEdit?badge(session.editsLeft+' change'+(session.editsLeft===1?'':'s')+' left','warning'):'')+'<div class="grow">'+pbar(null,session.i/session.qs.length*100,'var(--brand-primary)',true)+'</div><span class="mono small">'+(session.i+1)+' / '+session.qs.length+'</span><span class="timer" id="timer" role="timer" aria-label="Section time remaining">'+fmtSecs((session.minutes||45)*60)+'</span></div>';
  const nextLabel=editing?'Save answer':(session.i+1<session.qs.length?'Next Question':'Review Section');
  el.innerHTML='<div class="'+(wide?'':'narrow ')+'stack-4">'+top+'<div class="card p8">'+(wide?'<div class="qgrid"><div>'+left+'</div><div>':'')+'<div class="stem">'+esc(q.stem)+'</div>'+choicesHtml+(wide?'</div></div>':'')
  +'<div class="row" style="justify-content:space-between;margin-top:var(--space-6)"><span class="row">'+(editing?'<button class="btn ghost" onclick="mockBackToReview()">Back without saving</button>':'<button class="btn ghost" onclick="mockAbandon()">Abandon section</button>')+'<button class="btn secondary" id="markBtn" onclick="mockToggleMark()">'+(marked?'Bookmarked':'Bookmark')+'</button></span><button class="btn" onclick="mockNext()">'+nextLabel+'</button></div></div></div>';
@@ -439,7 +548,8 @@ function renderMockQ(){ const el=document.getElementById('v-study'); const q=ses
 function mockToggleMark(){ session.marks[session.i]=!session.marks[session.i]; document.getElementById('markBtn').textContent=session.marks[session.i]?'Bookmarked':'Bookmark'; }
 function mockAbandon(){ if(!confirm('Abandon this mock section? Nothing will be scored.')) return; clearInterval(qTimer); session=null; renderStudyHome(); }
 function mockNext(){ const q=session.qs[session.i]; const a=currentAnswer(q); if(a===null){ toast('Answer to move on. The real exam does not allow skips.'); return; }
- if(session.phase==='edit'){ const before=JSON.stringify(session.answers[session.i]); if(JSON.stringify(a)!==before){ session.answers[session.i]=a; session.editsLeft--; toast('Answer changed. '+session.editsLeft+' change'+(session.editsLeft===1?'':'s')+' left.'); } mockBankTime(); session.phase='review'; renderMockReview(); return; }
+ if(session.phase==='edit'){ const before=JSON.stringify(session.answers[session.i]); if(JSON.stringify(a)!==before){ session.answers[session.i]=a;
+   if(session.freeEdit) toast('Answer changed.'); else { session.editsLeft--; toast('Answer changed. '+session.editsLeft+' change'+(session.editsLeft===1?'':'s')+' left.'); } } mockBankTime(); session.phase='review'; renderMockReview(); return; }
  mockBankTime(); session.answers[session.i]=a;
  if(session.i+1<session.qs.length){ session.i++; renderMockQ(); } else { session.phase='review'; renderMockReview(); } }
 function mockBackToReview(){ mockBankTime(); session.phase='review'; renderMockReview(); }
@@ -447,25 +557,30 @@ function mockEdit(i){ if(session.editsLeft<=0){ toast('No answer changes left.')
 function renderMockReview(){ clearInterval(qTimer); qTimer=setInterval(mockTick,500);
  const rows=session.qs.map((q,i)=>'<tr><td class="mono">'+(i+1)+'</td><td>'+typeLabel(q)+'</td><td>'+(session.marks[i]?badge('Bookmarked','warning'):'')+'</td><td>'+(session.answers[i]===null?badge('Unanswered','warning'):'Answered')+'</td><td class="num">'+(session.editsLeft>0?'<button class="btn sm secondary" onclick="mockEdit('+i+')">Open</button>':'')+'</td></tr>').join('');
  document.getElementById('v-study').innerHTML='<div class="narrow stack"><div class="qtop"><h1 style="font-size:var(--text-xl)">Review your section</h1><div class="grow"></div><span class="timer" id="timer" role="timer" aria-label="Section time remaining">--</span></div>'
- +'<p class="muted">Open and change up to <b>'+session.editsLeft+'</b> answer'+(session.editsLeft===1?'':'s')+' while time remains. Scoring is final.</p>'
+ +'<p class="muted">'+(session.freeEdit?'Open and change any answer while time remains, the way a digital SAT module works. Scoring is final once you submit the module.':'Open and change up to <b>'+session.editsLeft+'</b> answer'+(session.editsLeft===1?'':'s')+' while time remains. Scoring is final.')+'</p>'
  +'<div class="card"><table><thead><tr><th>#</th><th>Type</th><th></th><th>Status</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div>'
- +'<div class="row" style="justify-content:flex-end"><button class="btn" onclick="mockFinish()">Score my section</button></div></div>'; mockTick(); }
+ +'<div class="row" style="justify-content:flex-end"><button class="btn" onclick="mockFinish()">'+(session.satModule?'Submit Module '+session.satModule:'Score my section')+'</button></div></div>'; mockTick(); }
 function mockFinish(){ clearInterval(qTimer); session.phase='done'; const secTotal=(Date.now()-session.start)/1000;
  session.qs.forEach((q,i)=>{ const a=session.answers[i]; const correct=a===null?false:gradeChosen(q,a); const secs=Math.max(1,Math.round(session.secsArr[i]||1)); const flag=recordAttempt(state,q,a,correct,secs,null,false,session.id); session.results.push({q,correct,secs,flag,unanswered:a===null}); Cloud.logAttempt(state.attempts[state.attempts.length-1]); });
  const n=session.results.length, c=session.results.filter(x=>x.correct).length; const avg=session.results.reduce((s,x)=>s+x.secs,0)/n;
- state.sessions.push({id:session.id,mode:'mock',ts:Date.now(),n,c,avg:Math.round(avg)}); track('round_completed',{mode:'mock',correct:c,total:n,secs:Math.round(secTotal)}); if(Cloud.user) Cloud.client.from('sessions').upsert({id:session.id,user_id:Cloud.user.id,mode:'mock',n,c,avg_secs:Math.round(avg)}).then(()=>{}); persist(); updateHeader(); if(fullMock){ fmSectionDone(secTotal); return; } renderMockReport(secTotal); }
+ state.sessions.push({id:session.id,mode:'mock',ts:Date.now(),n,c,avg:Math.round(avg)}); track('round_completed',{mode:'mock',correct:c,total:n,secs:Math.round(secTotal)}); if(Cloud.user) Cloud.client.from('sessions').upsert({id:session.id,user_id:Cloud.user.id,mode:'mock',n,c,avg_secs:Math.round(avg)}).then(()=>{}); persist(); updateHeader();
+ if(session.satModule&&satSec){ session.results.forEach(x=>{x.module=session.satModule;}); satSec.results=satSec.results.concat(session.results);
+  satSec.totalSecs=(satSec.totalSecs||0)+secTotal;
+  if(session.satModule===1){ satSec.mod1={n,c}; session=null; satRoutingScreen(c,n); return; }
+  session=null; satSectionDone(secTotal); return; }
+ if(fullMock){ fmSectionDone(secTotal); return; } renderMockReport(secTotal); }
 function renderMockReport(){ setFocus(false); return _renderMockReport.apply(null,arguments); }
 function _renderMockReport(secTotal){ const r=session.results; const n=r.length, c=r.filter(x=>x.correct).length; const meta=SECTION_META[session.section]; const sum=sectionSummary(state,session.section);
  const bySkill={}; r.forEach(x=>{ const k=x.q.skill; bySkill[k]=bySkill[k]||{n:0,c:0}; bySkill[k].n++; if(x.correct) bySkill[k].c++; });
  const skillRows=Object.keys(bySkill).map(k=>{ const s=SKILLS.find(x=>x.id===k); const b=bySkill[k]; return '<tr><td>'+s.label+'</td><td class="num">'+b.c+' / '+b.n+'</td><td class="num">'+Math.round(b.c/b.n*100)+'%</td></tr>'; }).join('');
  const slow=r.filter(x=>x.flag==='slow').length, un=r.filter(x=>x.unanswered).length; const misses=r.filter(x=>!x.correct);
  const missHtml=misses.length?'<div class="card"><div class="card-head"><span class="card-title">Missed questions ('+misses.length+')</span></div>'+misses.map(x=>'<details style="border-top:1px solid var(--border-default);padding:10px 0"><summary style="cursor:pointer;font-size:14px">'+(x.unanswered?'[unanswered] ':'')+typeLabel(x.q)+' · '+esc(x.q.stem).slice(0,90)+'...</summary><div class="small" style="padding:8px 0 2px"><b>Why:</b> '+esc(x.q.expl)+'</div></details>').join('')+'<div class="small muted" style="margin-top:8px">All misses joined your spaced review queue.</div></div>':'';
- document.getElementById('v-study').innerHTML='<div class="narrow stack"><div style="text-align:center"><div class="mono" style="font-size:56px;font-weight:500;color:var(--brand-primary)">'+c+' / '+n+'</div><h1 style="font-size:var(--text-xl);margin-top:4px">'+meta.name+' mock section</h1><p class="muted" style="margin:6px 0 0">'+fmtSecs(secTotal)+' of '+(session.ea?'30:00':'45:00')+' · '+sum.band+(sum.meanR?' · mean rating '+sum.meanR:'')+'</p></div>'
+ document.getElementById('v-study').innerHTML='<div class="narrow stack"><div style="text-align:center"><div class="mono" style="font-size:56px;font-weight:500;color:var(--brand-primary)">'+c+' / '+n+'</div><h1 style="font-size:var(--text-xl);margin-top:4px">'+meta.name+' mock section</h1><p class="muted" style="margin:6px 0 0">'+fmtSecs(secTotal)+' of '+fmtSecs((session.minutes||(session.ea?30:45))*60)+' · '+sum.band+(sum.meanR?' · mean rating '+sum.meanR:'')+'</p></div>'
  +'<div class="card"><div class="card-head"><span class="card-title">By skill</span></div><table><thead><tr><th>Skill</th><th class="num">Correct</th><th class="num">Accuracy</th></tr></thead><tbody>'+skillRows+'</tbody></table><div class="small muted" style="margin-top:8px">'+slow+' question'+(slow===1?'':'s')+' over 1.3x pace'+(un?' · '+un+' unanswered scored as misses':'')+'. Bands are internal estimates, not official GMAT scores.</div></div>'
  +paceByTypeHtml(r)
  +missHtml
  +'<div class="row" style="justify-content:center"><button class="btn secondary" onclick="session=null;show(\'dash\')">Back to Dashboard</button><button class="btn" onclick="startMockIntro()">Another Section</button></div></div>'; }
-function renderQuestion(){ const el=document.getElementById('v-study'); const q=session.qs[session.i]; session.qStart=Date.now(); session.answered=false; session.choice=null; session.tpa=[null,null]; session.reason=null; session.guessed=false;
+function renderQuestion(){ const el=document.getElementById('v-study'); const q=session.qs[session.i]; session.qStart=Date.now(); session.answered=false; session.choice=null; session.tpa=[null,null]; session.spr=''; session.reason=null; session.guessed=false;
  const allot=SECTION_META[q.section].allot; const wide=!!(q.passage||q.passageHtml);
  let left=''; if(q.passage) left='<div class="passage">'+esc(q.passage)+'</div>'; else if(q.passageHtml) left='<div>'+q.passageHtml+'</div>';
  const choicesHtml=answerInputs(q);
@@ -479,6 +594,7 @@ function submitAnswer(){ if(session.answered) return; const q=session.qs[session
  if(q.answerType==='tpa'&&(session.tpa[0]===null||session.tpa[1]===null)){toast('Select one value in each column.');return;}
  if(q.answerType==='gi'&&session.gi.some(v=>v<0)){toast('Complete every dropdown.');return;}
  if(q.answerType==='ta'&&session.ta.some(v=>v===null)){toast('Answer Yes or No for every statement.');return;}
+ if(q.answerType==='spr'&&currentAnswer(q)===null){toast('Enter your answer first.');return;}
  if(!q.answerType&&session.choice===null){toast('Choose an answer first.');return;}
  chosen=currentAnswer(q); correct=gradeChosen(q,chosen);
  clearInterval(qTimer); session.answered=true; const secs=(Date.now()-session.qStart)/1000; session.pending={q,chosen,correct,secs};
@@ -486,7 +602,8 @@ function submitAnswer(){ if(session.answered) return; const q=session.qs[session
   s.streak=correct?((s.date===yest?s.streak:0)+1):0; s.date=new Date().toDateString(); s.correct=correct; persist(); track('game_completed',{game:'qotd',correct,streak:s.streak}); }
  if(q.answerType!=='tpa'){ document.querySelectorAll('.opt').forEach((l,j)=>{ l.disabled=true; l.classList.remove('selected'); if(j===q.answer) l.classList.add('correct'); else if(j===chosen) l.classList.add('incorrect'); }); }
  const flag=timingFlag(q.section,secs); const flagTxt=flag==='slow'?' That was over 1.3x section pace.':flag==='fast'?' That was well under pace.':'';
- const ans=q.answerType==='tpa'?q.choices[q.answer[0]]+' / '+q.choices[q.answer[1]]:q.answerType==='gi'?q.statements.map(s=>s.options[s.answer]).join(' / '):q.answerType==='ta'?q.statements.map(s=>s.answer?'Yes':'No').join(' / '):String.fromCharCode(65+q.answer);
+ const ans=q.answerType==='spr'?String(q.answer):q.answerType==='tpa'?q.choices[q.answer[0]]+' / '+q.choices[q.answer[1]]:q.answerType==='gi'?q.statements.map(s=>s.options[s.answer]).join(' / '):q.answerType==='ta'?q.statements.map(s=>s.answer?'Yes':'No').join(' / '):String.fromCharCode(65+q.answer);
+ if(q.answerType==='spr'){ const el=document.getElementById('sprIn'); if(el) el.disabled=true; }
  if(q.answerType==='gi'||q.answerType==='ta'){ document.querySelectorAll('#v-study select, #v-study input[type=radio]').forEach(x=>x.disabled=true); }
  let fb='<div class="why"><b>'+(correct?'Correct.':'Not quite. Answer: '+ans+'.')+'</b> <span class="small mono">'+fmtSecs(secs)+' vs pace '+fmtSecs(SECTION_META[q.section].allot)+'.</span><span class="small">'+flagTxt+'</span><p><b>Why:</b> '+esc(q.expl)+'</p>'+(q.wrong?'<p class="small"><b>Watch for:</b> '+esc(q.wrong)+'</p>':'')+'</div>';
  if(!correct){ fb+='<div class="reason"><div class="lbl">Why did you miss it? This drives what gets re-served.</div>'+ERROR_REASONS.map(r=>'<button onclick="setReason(this,\''+r.id+'\')">'+esc(r.label)+'</button>').join('')+'</div>'; }
@@ -519,9 +636,12 @@ function tierOf(r,n){ if(!n||n<6) return {name:n?'Calibrating':'Not tested',tone
  if(r>=1450) return {name:'Mastered',tone:'tier-top'}; if(r>=1350) return {name:'Advanced',tone:'tier-adv'};
  if(r>=1250) return {name:'Proficient',tone:'tier-prof'}; if(r>=1100) return {name:'Building',tone:'tier-dev'};
  return {name:'Foundation',tone:'tier-found'}; }
-function targetSchools(){ try{ const L=JSON.parse(localStorage.getItem('sfn_school_list_v1')); if(!L||!L.order) return []; return L.order.map(sl=>Object.assign({slug:sl},(L.meta&&L.meta[sl])||{})).filter(x=>x.name); }catch(e){ return []; } }
+function targetSchools(){ if(EXAM.id!=='gmat-focus') return []; try{ const L=JSON.parse(localStorage.getItem('sfn_school_list_v1')); if(!L||!L.order) return []; return L.order.map(sl=>Object.assign({slug:sl},(L.meta&&L.meta[sl])||{})).filter(x=>x.name); }catch(e){ return []; } }
 function gmSecName(sec){ return sec==='ALL'?'All sections':(SEC_SHORT[sec]||'General'); }
 function gmSecColor(sec){ return SEC_COLOR[sec]||'var(--gray-700)'; }
+// Minutes of testing in a full mock, from the exam's own section table.
+function fullMockMinutes(){ return SECTIONS.reduce((a,s)=>a+SECTION_META[s].minutes*(SECTION_META[s].modules||1),0); }
+function fullMockLabel(){ const m=fullMockMinutes(); return Math.floor(m/60)+'h '+(m%60)+'m'; }
 function gmShuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
 function firstSent(s){ s=String(s); const i=s.indexOf('. '); const m=i>0?s.slice(0,i+1):s; return m.length>110?m.slice(0,107)+'...':m; }
 function gmDeck(sec){ return CARDS.filter(c=>sec==='ALL'||c.sec===sec); }
@@ -531,7 +651,7 @@ function gmConfetti(){ if(document.getElementById('confetti')) return; const c=d
  const cols=['#122B4E','#3F6BB0','#7FA3D4','#2F8F5B','#D9A441','#C4574F']; const ps=[]; for(let i=0;i<140;i++) ps.push({x:Math.random()*c.width,y:-20-Math.random()*c.height*0.35,r:4+Math.random()*5,vy:2.2+Math.random()*3.2,vx:-1.5+Math.random()*3,a:Math.random()*6.3,va:-0.2+Math.random()*0.4,col:cols[i%6]});
  const t0=Date.now(); (function tick(){ x.clearRect(0,0,c.width,c.height); ps.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; p.a+=p.va; x.save(); x.translate(p.x,p.y); x.rotate(p.a); x.fillStyle=p.col; x.fillRect(-p.r/2,-p.r/2,p.r,p.r*0.62); x.restore(); }); if(Date.now()-t0<1800) requestAnimationFrame(tick); else c.remove(); })(); }
 function gmPop(id){ const e=document.getElementById(id); if(!e) return; e.classList.remove('scorepop'); void e.offsetWidth; e.classList.add('scorepop'); }
-function gmSecBtns(fn){ return ['ALL','Q','V','DI'].map(s=>'<button class="btn secondary sm" onclick="'+fn+'(\''+s+'\')">'+(s==='ALL'?'All':SEC_SHORT[s])+'</button>').join(''); }
+function gmSecBtns(fn){ return ['ALL'].concat(SECTIONS).map(s=>'<button class="btn secondary sm" onclick="'+fn+'(\''+s+'\')">'+(s==='ALL'?'All':SEC_SHORT[s])+'</button>').join(''); }
 function gmIcon(name){ const p={
  match:'<path d="M4 4h7v7H4z"/><path d="M13 13h7v7h-7z"/><path d="M13 4h7v7h-7zM4 13h7v7H4z" fill="none" stroke="currentColor" stroke-width="1.8"/>',
  memory:'<rect x="3.5" y="5" width="8" height="14" rx="1.5"/><rect x="12.5" y="5" width="8" height="14" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/>',
@@ -559,7 +679,7 @@ function renderGames(){ gmReset(); const el=document.getElementById('v-games'); 
  +gmCard('match','var(--section-verbal)','var(--section-verbal-bg)','Match','Recognition','info','Twelve tiles, six pairs. Pair each concept with its method against the clock.',stSec(g.match,fmtSecs,fastest),gmSecBtns('gmStartMatch'))
  +gmCard('memory','var(--navy-600)','var(--navy-50)','Memory','Recall','info','Same board, face down. Remember where each pair lives before flipping.',stSec(g.memory,fmtSecs,fastest),gmSecBtns('gmStartMemory'))
  +gmCard('blitz','var(--section-quant)','var(--section-quant-bg)','Blitz','60 seconds','warning','Rapid recall. Streaks multiply points up to 5x; misses go back into Flashcards.',stSec(g.blitz,x=>x,o=>bestOf(o,x=>x&&x.best)),gmSecBtns('gmStartBlitz'))
- +gmCard('crunch','var(--section-data)','var(--section-data-bg)','Number Crunch','Estimation','warning','Which is bigger? Sixty seconds of no-calculator number sense, the Quant survival skill.',st(g.crunch,x=>x+' pts'),'<button class="btn sm" onclick="gmStartCrunch()">Start</button>')
+ +gmCard('crunch','var(--section-data)','var(--section-data-bg)','Number Crunch','Estimation','warning',(EXAM.id==='sat'?'Which is bigger? Sixty seconds of estimation. Bluebook gives you Desmos, but typing costs seconds you do not have.':'Which is bigger? Sixty seconds of no-calculator number sense, the Quant survival skill.'),st(g.crunch,x=>x+' pts'),'<button class="btn sm" onclick="gmStartCrunch()">Start</button>')
  +gmCard('boss','var(--status-error)','var(--status-error-bg,#fdf0ef)','Boss Round','Real Questions','error','Five questions at your live ratings on the real pace clock, three lives. Counts toward your stats.',st(g.boss,x=>x+' pts'),'<button class="btn sm" onclick="gmStartBoss()">Take On the Boss</button>')
  +gmCard('ladder','var(--gold-600)','var(--gold-50)','The Ladder','8 rungs','accent','Difficulty climbs when you are right and slips when you are wrong. Real bank questions, real pace clock; finish high to score high.',st(g.ladder,x=>x+' pts'),'<button class="btn sm" onclick="gmStartLadder()">Climb</button>')
  +'<div class="card gcard" style="border-style:dashed;background:var(--surface-sunken)"><span class="gicon big" style="background:var(--gray-100);color:var(--gray-700)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span><div class="card-head" style="margin:0"><span class="card-title">More in Development</span></div><p class="small" style="margin:0">New games ship when they train something the current five do not. Request one from the Account tab.</p><div class="gstats"></div></div>'
@@ -808,7 +928,7 @@ function qotdCardHtml(){ const s=qotdState(); const done=s.date===new Date().toD
  +(done?'<div>'+(s.correct?badge('Correct','success'):badge('Missed','error'))+'</div>':'<button class="qotd-btn" onclick="startQotd()">Answer Today\'s Question</button>')+'</div>'; }
 function renderCards(){ const el=document.getElementById('v-cards'); const due=dueCards(state,CARDS,fc.sec); const total=CARDS.filter(c=>fc.sec==='ALL'||c.sec===fc.sec).length; const known=CARDS.filter(c=>(fc.sec==='ALL'||c.sec===fc.sec)&&state.cards&&state.cards[c.id]&&state.cards[c.id].box>=3).length;
  let html='<div class="narrow stack"><div><h1 style="font-size:var(--text-xl)">Flashcards</h1><p class="muted" style="margin:6px 0 0">Formulas and methods. Mark each card Know it or Still learning; cards you know come back less often, cards you miss come back today.</p></div>';
- html+='<div class="row"><div class="chips">'+[['ALL','All'],['Q','Quant'],['V','Verbal'],['DI','Data Insights'],['G','Pacing']].map(x=>'<span class="chip-t '+(fc.sec===x[0]?'on':'')+'" onclick="fc.sec=\''+x[0]+'\';fc.queue=[];renderCards()">'+x[1]+'</span>').join('')+'</div><span class="grow"></span><span class="small mono">'+due.length+' due · '+known+'/'+total+' known</span></div>';
+ html+='<div class="row"><div class="chips">'+[['ALL','All']].concat(SECTIONS.map(s=>[s,SEC_SHORT[s]])).concat([['G','Pacing']]).map(x=>'<span class="chip-t '+(fc.sec===x[0]?'on':'')+'" onclick="fc.sec=\''+x[0]+'\';fc.queue=[];renderCards()">'+x[1]+'</span>').join('')+'</div><span class="grow"></span><span class="small mono">'+due.length+' due · '+known+'/'+total+' known</span></div>';
  html+='<div class="tiles" style="grid-template-columns:repeat(3,1fr)">'+tile('Due now',due.length,'','')+tile('Known (box 3+)',known,'of '+total,'')+tile('Not yet seen',CARDS.filter(c=>(fc.sec==='ALL'||c.sec===fc.sec)&&!(state.cards&&state.cards[c.id])).length,'','')+'</div>';
  if(!fc.queue.length){ html+='<div class="card" style="text-align:center"><p class="muted" style="margin:0 0 14px">'+(due.length?due.length+' cards are due.':'Nothing due right now. Start a round anyway to reinforce.')+'</p><div class="row" style="justify-content:center"><button class="btn" onclick="startCards(true)">Study due cards</button><button class="btn secondary" onclick="startCards(false)">Study all in this set</button></div></div></div>'; el.innerHTML=html; return; }
  const c=fc.queue[fc.i]; if(!c){ html+='<div class="card" style="text-align:center"><div class="mono" style="font-size:40px;color:var(--brand-primary)">'+fc.round.know+' / '+(fc.round.know+fc.round.learn)+'</div><h2 style="font-size:var(--text-lg);margin-top:4px">'+(fc.round.learn===0?'Clean round.':'Good reps. The '+fc.round.learn+' you missed come back today.')+'</h2><div class="row" style="justify-content:center;margin-top:16px"><button class="btn" onclick="fc.queue=[];renderCards()">Back to deck</button></div></div></div>'; el.innerHTML=html; return; }
@@ -820,12 +940,12 @@ function startCards(dueOnly){ const pool=dueOnly?dueCards(state,CARDS,fc.sec):CA
 function rateCurrentCard(know){ const c=fc.queue[fc.i]; if(!c) return; rateCard(state,c.id,know); track('flashcard_rated',{card:c.id,know}); if(know) fc.round.know++; else fc.round.learn++; persist(); fc.i++; fc.flipped=false; renderCards(); }
 document.addEventListener('keydown',e=>{ if(document.getElementById('v-cards').classList.contains('hidden')||!fc.queue.length||!fc.queue[fc.i]) return; if(e.key===' '){ e.preventDefault(); fc.flipped=!fc.flipped; renderCards(); } if(fc.flipped&&e.key==='1') rateCurrentCard(false); if(fc.flipped&&e.key==='2') rateCurrentCard(true); });
 // ---------- drill builder ----------
-const drillSel={sections:['Q','V','DI'],skills:[],types:[],diffMin:1,diffMax:5,count:10};
-function renderDrill(){ const el=document.getElementById('v-drill'); const types=['PS','CR','RC','DS','GT','GI','TA','MSR','TPA'];
+const drillSel={sections:SECTIONS.slice(),skills:[],types:[],diffMin:1,diffMax:5,count:10};
+function renderDrill(){ const el=document.getElementById('v-drill'); const types=[...new Set(BANK.map(q=>q.type))];
  let html='<div class="narrow stack"><div><h1 style="font-size:var(--text-xl)">Custom drill</h1><p class="muted" style="margin:6px 0 0">Build a targeted set. Leave skills blank to include every skill in the chosen sections. Items you have not seen recently are served first.</p></div><div class="card stack-4">';
- html+='<div><div class="card-title" style="font-size:14px;margin-bottom:8px">Sections</div><div class="chips">'+['Q','V','DI'].map(s=>'<span class="chip-t '+(drillSel.sections.includes(s)?'on':'')+'" onclick="toggleSel(\'sections\',\''+s+'\')">'+SECTION_META[s].name+'</span>').join('')+'</div></div>';
+ html+='<div><div class="card-title" style="font-size:14px;margin-bottom:8px">Sections</div><div class="chips">'+SECTIONS.map(s=>'<span class="chip-t '+(drillSel.sections.includes(s)?'on':'')+'" onclick="toggleSel(\'sections\',\''+s+'\')">'+SECTION_META[s].name+'</span>').join('')+'</div></div>';
  html+='<div><div class="card-title" style="font-size:14px;margin-bottom:8px">Skills</div><div class="chips">'+SKILLS.filter(s=>drillSel.sections.includes(s.section)).map(s=>'<span class="chip-t '+(drillSel.skills.includes(s.id)?'on':'')+'" onclick="toggleSel(\'skills\',\''+s.id+'\')">'+s.label+'</span>').join('')+'</div></div>';
- html+='<div><div class="card-title" style="font-size:14px;margin-bottom:8px">Question types</div><div class="chips">'+types.map(t=>'<span class="chip-t '+(drillSel.types.includes(t)?'on':'')+'" onclick="toggleSel(\'types\',\''+t+'\')">'+t+'</span>').join('')+'</div></div>';
+ html+='<div><div class="card-title" style="font-size:14px;margin-bottom:8px">Question types</div><div class="chips">'+types.map(t=>'<span class="chip-t '+(drillSel.types.includes(t)?'on':'')+'" onclick="toggleSel(\'types\',\''+t+'\')">'+typeLabel({type:t})+'</span>').join('')+'</div></div>';
  html+='<div><div class="card-title" style="font-size:14px;margin-bottom:8px">Difficulty and length</div><div class="row"><label class="small">Min <select onchange="drillSel.diffMin=+this.value">'+[1,2,3,4,5].map(d=>'<option '+(drillSel.diffMin===d?'selected':'')+'>'+d+'</option>').join('')+'</select></label><label class="small">Max <select onchange="drillSel.diffMax=+this.value">'+[1,2,3,4,5].map(d=>'<option '+(drillSel.diffMax===d?'selected':'')+'>'+d+'</option>').join('')+'</select></label><label class="small">Count <select onchange="drillSel.count=+this.value">'+[5,10,15,20,30].map(d=>'<option '+(drillSel.count===d?'selected':'')+'>'+d+'</option>').join('')+'</select></label></div></div>';
  const avail=pickQuestions(BANK,state,{mode:'custom',count:999,sections:drillSel.sections,skills:drillSel.skills,types:drillSel.types,diffMin:drillSel.diffMin,diffMax:drillSel.diffMax}).length;
  html+='<div class="row" style="justify-content:space-between"><span class="small mono">'+avail+' matching items</span><button class="btn" onclick="startDrill()">Start drill</button></div></div></div>'; el.innerHTML=html; }
@@ -843,22 +963,7 @@ function renderReview(){ const el=document.getElementById('v-review'); const now
  html+='<div class="card"><div class="card-head"><span class="card-title">Recent misses</span></div>'; if(!misses.length) html+='<div class="empty">None yet.</div>'; else { html+='<table><thead><tr><th>When</th><th>ID</th><th>Skill</th><th class="num">Level</th><th class="num">Time</th><th>Flag</th><th>Reason</th></tr></thead><tbody>'+misses.map(a=>{ const s=SKILLS.find(k=>k.id===a.skill); return '<tr><td class="small">'+new Date(a.ts).toLocaleDateString()+'</td><td class="mono">'+a.qid+'</td><td>'+(s?s.label:a.skill)+'</td><td class="num">'+a.diff+'</td><td class="num">'+fmtSecs(a.secs)+'</td><td>'+(a.flag!=='ok'?badge(a.flag,'warning'):'')+'</td><td class="small">'+(a.reason||'')+'</td></tr>'; }).join('')+'</tbody></table>'; } html+='</div></div>';
  el.innerHTML=html; }
 function startReviewSet(){ const now=Date.now(); const qs=Object.keys(state.review).filter(id=>BANK_BY_ID[id]&&state.review[id].due<=now).map(id=>BANK_BY_ID[id]).slice(0,15); if(!qs.length){toast('Nothing due right now.');return;} beginSession(qs,'review'); }
-// ---------- playbook ----------
-const PLAYBOOK=[
- {skill:'q_rrp',sec:'Q',title:'Rates, ratios, percent',items:['Rate x Time = Distance (or Work). Build an RTD table with one row per mover; fill two cells, solve the third.','Combined work: add rates, never times. Two machines together are always faster than the faster one alone.','Percent change = (new - old)/old. Successive changes multiply: +20% then -20% is x1.2 x 0.8 = 0.96.','Ratio multiplier: if a:b = 3:4, write a = 3k, b = 4k, then use any total or difference to find k.','Mixtures: track the pure ingredient. (acid before + acid added)/(total before + total added).','Average speed = total distance / total time. Never average the speeds.']},
- {skill:'q_vof',sec:'Q',title:'Value, order, factors',items:['Prime factorize first. Divisor count = product of (exponent + 1).','LCM takes the highest power of each prime; GCF takes the lowest. LCM x GCF = product of the two numbers.','Remainder cycles: reduce the base mod n, then find the cycle of powers.','If n^2 is divisible by p^k, n needs p^(ceil(k/2)).','Comparing fractions and decimals: convert everything to decimals to 3 places, or cross-multiply pairs.','Consecutive integers: the average equals the middle term (or the average of the two middle terms).']},
- {skill:'q_alg',sec:'Q',title:'Equalities, inequalities, algebra',items:['Word problems: define variables in words first ("a = number of adult tickets"), translate one sentence at a time, then solve.','"3 more than twice x" = 2x + 3. "Twice (3 more than x)" = 2(x + 3). Word order matters.','Inequalities flip when multiplying or dividing by a negative. Never multiply by a variable of unknown sign.','|expr| < k means -k < expr < k. |expr| > k means expr > k or expr < -k.','Discriminant b^2 - 4ac: zero means one solution, positive two, negative none.','Back-solve from the middle answer choice when the algebra looks messy; plug in numbers when answers contain variables.','Age problems: anchor every phrase to "now" before writing the equation.']},
- {skill:'q_csp',sec:'Q',title:'Counting, sets, series, probability, statistics',items:['Order matters: permutations (slots). Order does not matter: combinations (divide by k!).','"Must sit together": glue them into one unit, arrange units, multiply by internal arrangements.','Probability without replacement: multiply the changing fractions. "At least one" = 1 - P(none).','Two-set overlap: Total = A + B - Both + Neither. Subtract "neither" first.','Averages: always convert to sums. Sum = average x count.','Arithmetic sequence sum = n x (first + last)/2.','Mean vs median: median resists outliers; a skewed set has its mean pulled toward the tail.']},
- {skill:'v_ac',sec:'V',title:'Analysis and critique (critical reasoning)',items:['Find the conclusion first (after "therefore", "thus", "clearly"). Then the evidence. The gap between them is where every question lives.','Assumption: negate the choice; if the argument collapses, that is the assumption.','Strengthen / weaken: attack or defend the gap, not the evidence. Alternative causes, unrepresentative samples, and shifted terms are the big three.','Correlation-to-cause arguments: weaken with reverse causation, third factor, or coincidence.','Evaluate: the right answer is a question whose two possible answers pull the conclusion in opposite directions.','Paradox: the answer makes both facts true at once; never pick something that denies a fact.','Boldface: label each sentence as conclusion, premise, opposing view, or background before reading choices.','Predict the answer before reading the choices. Extreme words ("all", "never", "only") are usually wrong on assumption questions.']},
- {skill:'v_pc',sec:'V',title:'Plan and construct',items:['Identify the goal and the mechanism separately. A plan fails when the mechanism does not lead to the goal, or when people respond in a way that defeats it.','"Most seriously calls into question the plan": look for unintended responses (displacement, substitution, gaming).','"Required for the prediction": often a quantitative threshold hidden in the numbers.','Answers about cost, popularity, or other plans rarely bear on whether this plan works.']},
- {skill:'v_inf',sec:'V',title:'Identify inferred idea',items:['An inference must be true given the text, not merely likely. Prefer the modest answer over the interesting one.','For "complete the argument", the blank is a conclusion the facts already force; not a recommendation.','RC inference: locate the lines, then ask "what follows if this is true?" Reject anything requiring outside knowledge.','Extreme language ("never", "always", "no role") is a red flag unless the passage is equally extreme.']},
- {skill:'v_st',sec:'V',title:'Identify stated idea (RC detail and main idea)',items:['Map the passage: one phrase per paragraph stating its job (raises view, rejects it, offers alternative, addresses objection).','Main idea = the whole map, not the most interesting paragraph. Eliminate answers that are too narrow or misstate the author\'s stance.','Detail questions: find the exact lines and match meaning, not wording. Correct answers paraphrase; traps reuse words.','Function questions ("in order to"): describe the role in the argument, not the content.','Budget: 3 to 4 minutes reading, then about 1 minute per question. Read for structure, not memory.']},
- {skill:'di_ds',sec:'DI',title:'Data sufficiency',items:['Rephrase the question before touching the statements. "Is x > 5?" with x^2 in play means think about negatives.','AD / BCE grid: test (1) alone. If sufficient, answer is A or D; if not, B, C, or E. Then test (2) alone. Only combine if both fail alone.','Never solve completely. Ask only: does this pin down one value (or one yes/no)?','Two equations may be the same line (E). Check independence.','Use the stem\'s constraints (positive, integer) inside each statement.','Value questions: "sufficient" means exactly one value. Yes/no questions: a definite NO is also sufficient.']},
- {skill:'di_gt',sec:'DI',title:'Graphs and tables',items:['Read titles, axes, units, and footnotes before the question. Most misses are unit misses (thousands vs units, percent vs points).','Percent change vs absolute change: the largest bar is not the largest percent.','Sort mentally for medians; compute means only when asked.','Estimate first; choices are usually spread enough that rough arithmetic suffices. Use the calculator only for the final step.']},
- {skill:'di_msr',sec:'DI',title:'Multi-source reasoning',items:['Skim each tab for what it contains (rules vs data vs narrative). Do not read everything up front.','Answer-driven reading: go back to the tab that holds the relevant rule and check each condition in order.','List conditions as a checklist and test each request against all of them; the trap is stopping at the first satisfied rule.']},
- {skill:'di_tpa',sec:'DI',title:'Two-part analysis',items:['Decide if the two parts are independent or linked. Linked parts are one system of equations; solve once, place both answers.','The same value may be correct for both columns; do not assume they must differ.','Confirm both selections against the stem before submitting; a half-right TPA scores zero.']},
- {skill:'pacing',sec:'G',title:'Pacing and review-and-edit',items:['Section pace: Quant 2:08 per question, Verbal 1:57, DI 2:15. Check the clock every 5 questions.','Bail rule: if you have no method after 60 to 75 seconds, choose the best remaining option and bookmark it.','Focus Edition lets you bookmark and change up to 3 answers per section. Reserve 3 to 5 minutes at the end for that pass; do not re-solve from scratch.','Your Dec 2025 pattern: 5 of 6 Quant misses were slow-and-wrong. Time cost more than concepts on those. Practice letting go.']}
-];
+// ---------- playbook (injected per exam: src/playbook_<exam>.js) ----------
 function renderPlaybook(){ let html='<div class="stack"><div><h1 style="font-size:var(--text-xl)">Playbook</h1><p class="muted" style="margin:6px 0 0">The methods behind every skill the engine tracks. Read the entry for your weakest skill before each round.</p></div>'; PLAYBOOK.forEach(p=>{ const color=p.sec==='G'?'var(--gray-700)':SEC_COLOR[p.sec]; html+='<div class="card playbook"><div class="card-head"><span class="section-h"><span class="dot" style="background:'+color+'"></span><span class="card-title">'+p.title+'</span></span></div><ul style="margin:0;padding-left:20px;font-size:14.5px">'+p.items.map(i=>'<li>'+esc(i)+'</li>').join('')+'</ul></div>'; }); html+='</div>'; document.getElementById('v-playbook').innerHTML=html; }
 // ---------- settings and data ----------
 // ---------- admin BI dashboard (allowlisted emails only; reads via admin_bi RPC) ----------
@@ -1124,7 +1229,7 @@ function renderData(){ const el=document.getElementById('v-data'); const s=state
  const signed=Cloud.status==='signed-in'; const local=Cloud.status==='local-only';
  if(signed) pushAbout();
  let auth='';
- if(signed) auth='<div class="row" style="justify-content:space-between"><div><div class="card-title" style="font-size:15px">Signed in as '+esc(Cloud.user.email)+'</div><div class="small">Progress syncs to your account a few seconds after each answer.</div></div><button class="btn secondary sm" onclick="Cloud.signOut().then(()=>{toast(\'Signed out. Progress stays on this device.\');renderData();updateHeader();})">Sign out</button></div>';
+ if(signed) auth='<div class="row" style="justify-content:space-between"><div><div class="card-title" style="font-size:15px">Signed in as '+esc(Cloud.user.email)+'</div><div class="small">'+(Cloud.blobLocked?'Cross-device sync for '+esc(EXAM.name)+' is not available on this account yet: your account already stores '+esc((EXAMS[Cloud.blobExam]||{name:'another exam'}).name)+' progress, and the account record holds one exam at a time. '+esc(EXAM.name)+' progress is saved on this device and is safe; nothing of yours will be overwritten. Export from below to move it.':'Progress syncs to your account a few seconds after each answer.')+'</div></div><button class="btn secondary sm" onclick="Cloud.signOut().then(()=>{toast(\'Signed out. Progress stays on this device.\');renderData();updateHeader();})">Sign out</button></div>';
  else if(local) auth='<div class="small">You are using the offline file. Sign-in and sync are available on the hosted site.</div>';
  else auth='<div class="row"><input type="text" id="authEmail" placeholder="you@example.com" style="min-width:260px" value="'+esc(s.email||'')+'"><button class="btn" onclick="sendMagicLink()">Email Me a Sign-In Link</button></div><div class="small" style="margin-top:8px">No password. We email a one-time link; your progress on this device is kept and merged with your account. By continuing you agree to the Terms of Use and Privacy notice.</div><div id="authMsg" class="small"></div>';
  const tiers=[
@@ -1158,7 +1263,7 @@ function renderData(){ const el=document.getElementById('v-data'); const s=state
 async function sendMagicLink(){ const em=(document.getElementById('authEmail').value||'').trim(); if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){ toast('Enter a valid email.'); return; } state.settings.email=em; persist(); const {error}=await Cloud.signIn(em); const m=document.getElementById('authMsg'); if(error){ m.textContent='Could not send: '+error.message; } else { m.textContent='Check your inbox for the sign-in link. Open it on this device to sync here.'; } }
 async function deleteEverything(){ if(!confirm('Delete all progress'+(Cloud.user?' from this device and your account':'')+'? Download first if you want a copy.')) return; if(Cloud.user){ await Cloud.wipe(); track('account_deleted',{}); } const st=state.settings; state=newState(); state.settings=Object.assign(state.settings,{name:st.name,onboarded:true}); Store.clear(); Store.save(state); renderData(); updateHeader(); toast('Deleted.'); }
 function exportState(){ const blob=new Blob([JSON.stringify(state)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='meridian-progress-'+new Date().toISOString().slice(0,10)+'.json'; a.click(); }
-function importState(inp){ const f=inp.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{ try{ const s=JSON.parse(r.result); if(!s.skills||!s.attempts) throw 0; state=s; SKILLS.forEach(k=>{ if(!state.skills[k.id]) state.skills[k.id]={r:START_R,n:0,c:0,t:0,hist:[]}; }); if(!state.seen) state.seen={}; if(!state.settings) state.settings={name:'Hunter',testDate:'',dailyGoal:20}; if(state.settings.onboarded===undefined) state.settings.onboarded=false; if(!state.settings.program) state.settings.program={exam:'GMAT',goal:'',hours:'3 to 5 hrs / week',tools:{'Quick 10':true,'Timed sprint':true,'Flashcards':false}}; if(state.settings.digest===undefined) state.settings.digest=true; persist(); toast('Imported '+state.attempts.length+' attempts.'); renderData(); updateHeader(); }catch(e){ toast('That file is not a valid progress export.'); } }; r.readAsText(f); }
+function importState(inp){ const f=inp.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{ try{ const s=JSON.parse(r.result); if(!s.skills||!s.attempts) throw 0; state=s; SKILLS.forEach(k=>{ if(!state.skills[k.id]) state.skills[k.id]={r:START_R,n:0,c:0,t:0,hist:[]}; }); if(!state.seen) state.seen={}; if(!state.settings) state.settings={name:'Hunter',testDate:'',dailyGoal:20}; if(state.settings.onboarded===undefined) state.settings.onboarded=false; if(!state.settings.program) state.settings.program={exam:(EXAM.id==='sat'?'SAT':'GMAT'),goal:'',hours:'3 to 5 hrs / week',tools:{'Quick 10':true,'Timed sprint':true,'Flashcards':false}}; if(state.settings.digest===undefined) state.settings.digest=true; persist(); toast('Imported '+state.attempts.length+' attempts.'); renderData(); updateHeader(); }catch(e){ toast('That file is not a valid progress export.'); } }; r.readAsText(f); }
 // keyboard: 1-5 select, Enter submit/next
 document.addEventListener('keydown',e=>{ if(!session||document.getElementById('v-study').classList.contains('hidden')) return; const tag=(e.target.tagName||'').toLowerCase(); if(tag==='input'||tag==='textarea'||tag==='select') return; if(/^[1-5]$/.test(e.key)&&!session.answered){ const i=+e.key-1; if(document.getElementById('opt'+i)) selectChoice(i); } if(e.key==='Enter'){ e.preventDefault(); if(!session.answered) submitAnswer(); else nextQuestion(); } });
 // ---------- onboarding wizard (design: ui_kits/web_app/Onboarding.jsx) ----------
@@ -1180,12 +1285,18 @@ async function startCheckout(plan){ if(!Cloud.user){ toast('Sign in first, then 
  catch(e){ toast('Checkout is not available yet.'); } }
 if(location.search.indexOf('checkout=success')>=0){ setTimeout(()=>toast('Payment received. Your plan updates within a minute.'),800); }
 if(location.hash==='#admin-preview'){ const nb=document.getElementById('navAdmin'); if(nb) nb.style.display=''; }
-const OB_EXAMS=[['GMAT','Focus Edition · live',true],['GRE','coming soon',false],['LSAT','coming soon',false],['MCAT','coming soon',false],['Executive Assessment','coming soon',false]];
-const OB_GOALS=['Score 675+ for M7 programs','Fix my Quant from the diagnostic','Balance all three sections','Retake and beat my last score'];
-let ob={step:0,exam:'GMAT',goal:'',hours:'3 to 5 hrs / week',tools:{'Quick 10':true,'Timed sprint':true,'Flashcards':false,'Custom drill':false}};
+const OB_EXAMS=[['GMAT','Focus Edition · live',true],['SAT','digital format · live',true],['GRE','coming soon',false],['LSAT','coming soon',false],['MCAT','coming soon',false]];
+const OB_EXAM_APP={GMAT:'/app/',SAT:'/sat/app/'};
+const OB_GOALS=EXAM.id==='sat'
+ ? ['Clear 1400 for my target schools','Fix my Math from the diagnostic','Raise Reading and Writing accuracy','Retake and beat my last score']
+ : ['Score 675+ for M7 programs','Fix my Quant from the diagnostic','Balance all three sections','Retake and beat my last score'];
+let ob={step:0,exam:(EXAM.id==='sat'?'SAT':'GMAT'),goal:'',hours:'3 to 5 hrs / week',tools:{'Quick 10':true,'Timed sprint':true,'Flashcards':false,'Custom drill':false}};
+function obPickExam(name){ const here=(EXAM.id==='sat'?'SAT':'GMAT');
+ if(name!==here&&OB_EXAM_APP[name]){ if(confirm('The '+name+' trainer is a separate app with its own bank and progress. Open it now?')){ location.href=OB_EXAM_APP[name]; return; } return; }
+ ob.exam=name; renderOnboarding(); }
 function startOnboarding(){ ob.step=0; ob.goal=state.settings.program.goal||''; renderOnboarding(); }
 function renderOnboarding(){ let w=document.getElementById('onb'); if(!w){ w=document.createElement('div'); w.id='onb'; document.body.appendChild(w); } const steps=['Exam','Goal','Time','Tools']; let body='';
- if(ob.step===0) body='<h2>Which exam are you preparing for?</h2><p class="muted">Every later surface (sections, score model, rounds) keys off this choice.</p><div class="chips" style="gap:10px">'+OB_EXAMS.map(e=>'<span class="chip-t '+(ob.exam===e[0]?'on':'')+'" style="padding:9px 18px;font-size:14px;'+(e[2]?'':'opacity:.5;cursor:not-allowed')+'" '+(e[2]?'onclick="ob.exam=\''+e[0]+'\';renderOnboarding()"':'')+'>'+e[0]+' <span class="small" style="'+(ob.exam===e[0]?'color:#cdd5e3':'')+'">'+e[1]+'</span></span>').join('')+'</div>';
+ if(ob.step===0) body='<h2>Which exam are you preparing for?</h2><p class="muted">Every later surface (sections, score model, rounds) keys off this choice.</p><div class="chips" style="gap:10px">'+OB_EXAMS.map(e=>'<span class="chip-t '+(ob.exam===e[0]?'on':'')+'" style="padding:9px 18px;font-size:14px;'+(e[2]?'':'opacity:.5;cursor:not-allowed')+'" '+(e[2]?'onclick="obPickExam(\''+e[0]+'\')"':'')+'>'+e[0]+' <span class="small" style="'+(ob.exam===e[0]?'color:#cdd5e3':'')+'">'+e[1]+'</span></span>').join('')+'</div>';
  if(ob.step===1) body='<h2>What are you aiming for?</h2><p class="muted">One line. It shows on your dashboard and shapes the plan.</p><input type="text" id="obGoal" style="width:100%;font-size:16px;padding:10px 12px" placeholder="e.g. Score 675+ for M7 programs" value="'+esc(ob.goal)+'" oninput="ob.goal=this.value"><div class="small" style="margin:12px 0 6px;font-weight:600">Suggestions from students with similar goals</div><div class="chips">'+OB_GOALS.map(g=>'<span class="chip-t" onclick="ob.goal=\''+g.replace(/'/g,'')+'\';renderOnboarding()">'+g+'</span>').join('')+'</div>';
  if(ob.step===2) body='<h2>How much time can you give it?</h2><p class="muted">We size the daily plan to fit.</p><div class="chips" style="gap:10px">'+['1 to 3 hrs / week','3 to 5 hrs / week','5 to 10 hrs / week','10+ hrs / week'].map(h=>'<span class="chip-t '+(ob.hours===h?'on':'')+'" style="padding:9px 18px;font-size:14px" onclick="ob.hours=\''+h+'\';renderOnboarding()">'+h+'</span>').join('')+'</div>';
  if(ob.step===3) body='<h2>Recommended tools</h2><p class="muted">Pre-selected for '+esc(ob.exam)+'. Toggle anything.</p><div class="stack-4" style="gap:10px">'+[['Quick 10','Adaptive daily rounds, the core loop'],['Timed sprint','Pace training at section speed'],['Flashcards','Formula and method recall'],['Custom drill','Targeted sets by skill and difficulty']].map(t=>'<label class="plan-row" style="cursor:pointer"><input type="checkbox" '+(ob.tools[t[0]]?'checked':'')+' onchange="ob.tools[\''+t[0]+'\']=this.checked"><span class="t">'+t[0]+'</span><span class="small">'+t[1]+'</span></label>').join('')+'</div>';

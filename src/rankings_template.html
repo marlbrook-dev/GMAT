@@ -147,6 +147,11 @@ footer .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
 <label><input type="checkbox" data-g="tuition" value="lo" onchange="applyFilters()">Under $50k</label>
 <label><input type="checkbox" data-g="tuition" value="mid" onchange="applyFilters()">$50k to $75k</label>
 <label><input type="checkbox" data-g="tuition" value="hi" onchange="applyFilters()">Over $75k</label></div>
+<div class="fgroup"><div class="ft">International students</div>
+<label><input type="checkbox" data-g="intl" value="hi" onchange="applyFilters()">40% or more of the class</label>
+<label><input type="checkbox" data-g="intl" value="mid" onchange="applyFilters()">25 to 40%</label>
+<label><input type="checkbox" data-g="intl" value="lo" onchange="applyFilters()">Under 25%</label>
+<label><input type="checkbox" data-g="intl" value="pub" onchange="applyFilters()">Publishes the figure at all</label></div>
 <div class="fgroup"><div class="ft">Ranking basis</div>
 <label><input type="checkbox" data-g="basis" value="consensus" onchange="applyFilters()">Publisher consensus</label>
 <label><input type="checkbox" data-g="basis" value="data" onchange="applyFilters()">Data-based score</label></div>
@@ -177,13 +182,14 @@ footer .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
 <th class="num colx" onclick="sortBy('gpa')">GPA</th>
 <th class="num" onclick="sortBy('accept')">Accept</th>
 <th class="num colx" onclick="sortBy('size')">Class</th>
+<th class="num" onclick="sortBy('intl')" title="Share of the class holding a non-US passport, as each school reports it on its own class profile">Intl</th>
 <th class="num" onclick="sortBy('tuition')">Tuition/yr</th>
 <th class="num" onclick="sortBy('employ')" title="Employment rate about 3 months after graduation, as each school reports it">Employ</th>
 <th></th>
 </tr></thead><tbody id="rows">
 {{ROWS}}
 </tbody></table></div>
-<p style="font-size:12.5px;color:var(--gray-500);margin-top:10px">GMAT column shows the figure each school publishes, labeled Focus or Classic and average or median; the two editions use different scales and are never converted or mixed. Click any school for a summary, or open its full profile page for every figure with sources.</p>
+<p style="font-size:12.5px;color:var(--gray-500);margin-top:10px">Intl column is the share of the class holding a non-US passport, exactly as each school states it on its own class profile; a dash means the school does not publish it, which is itself worth knowing when you are applying from abroad. See the <a href="/international/">international applicant guide</a> for what else to ask a program before you apply. GMAT column shows the figure each school publishes, labeled Focus or Classic and average or median; the two editions use different scales and are never converted or mixed. Click any school for a summary, or open its full profile page for every figure with sources.</p>
 </div>
 </div>
 
@@ -193,6 +199,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
 <p><b>How are these rankings calculated?</b> Each school's SFN Score blends five major published rankings (50%) with published outcomes (20%), GMAT selectivity (20%), and acceptance rate (10%), renormalized over what each school publishes. Full weights are in the methodology below.</p>
 <p><b>Where does the data come from?</b> From each school's own published class profile wherever available; every figure carries its source and year on the school's profile page, and unverifiable figures show a dash, never a guess.</p>
 <p><b>Is the list builder free?</b> Yes: shortlists, safety/target/reach tags, CSV export, the PDF report, and share links all work with no account.</p>
+<p><b>Which programs are friendliest to international applicants?</b> Filter by international students in the left rail. Twenty of the ninety-one programs we track report that 40 percent or more of the class holds a non-US passport, and sixty publish the figure at all. A program that does not publish it is not necessarily closed to you, but a program that does is telling you something useful. The <a href="/international/">international applicant guide</a> covers the rest, including the CIP code question that decides whether the degree qualifies for the 24-month STEM OPT extension.</p>
 <p><b>How often does this update?</b> Whenever a tracked publisher releases a new edition or a school posts a new class profile; the data-as-of date is at the top.</p>
 </div></div>
 </section>
@@ -244,7 +251,7 @@ function checkedSet(group){ var out={}; var any=false;
  return any?out:null; }
 function applyFilters(){
  var q=document.getElementById('q').value.toLowerCase();
- var G={region:checkedSet('region'),type:checkedSet('type'),gmat:checkedSet('gmat'),accept:checkedSet('accept'),size:checkedSet('size'),tuition:checkedSet('tuition'),basis:checkedSet('basis')};
+ var G={region:checkedSet('region'),type:checkedSet('type'),gmat:checkedSet('gmat'),accept:checkedSet('accept'),size:checkedSet('size'),tuition:checkedSet('tuition'),intl:checkedSet('intl'),basis:checkedSet('basis')};
  var shown=0;
  document.querySelectorAll('#rows tr.srow').forEach(function(tr){
   var s=BY[tr.dataset.slug]; var ok=true;
@@ -258,6 +265,9 @@ function applyFilters(){
    if(c==null||!((G.size.s&&c<100)||(G.size.m&&c>=100&&c<=400)||(G.size.l&&c>400))) ok=false; }
   if(ok&&G.tuition){ var t=fieldV(s,'tuition_usd');
    if(t==null||!((G.tuition.lo&&t<50000)||(G.tuition.mid&&t>=50000&&t<=75000)||(G.tuition.hi&&t>75000))) ok=false; }
+  if(ok&&G.intl){ var ip=fieldV(s,'intl_pct');
+   if(ip==null) ok=false;
+   else if(!(G.intl.pub||(G.intl.hi&&ip>=40)||(G.intl.mid&&ip>=25&&ip<40)||(G.intl.lo&&ip<25))) ok=false; }
   if(ok&&G.basis){ var nsrc=['usnews','ft','bloomberg','qs','pq'].filter(function(k){return rankOf(s,k)!=null;}).length;
    var basis=nsrc>=3?'consensus':'data';
    if(!G.basis[basis]) ok=false; }
@@ -280,6 +290,7 @@ function sortVal(s,key){
  if(key==='employ') return fieldV(s,'employment_rate_pct')==null?-1:fieldV(s,'employment_rate_pct');
  if(key==='accept') return fieldV(s,'accept_rate_pct')==null?999:fieldV(s,'accept_rate_pct');
  if(key==='size') return fieldV(s,'class_size')||0;
+ if(key==='intl') return fieldV(s,'intl_pct')==null?-1:fieldV(s,'intl_pct');
  if(key==='tuition') return fieldV(s,'tuition_usd')||0;
  return rankOf(s,key)==null?999:rankOf(s,key);
 }

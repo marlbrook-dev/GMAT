@@ -54,11 +54,11 @@ nav.sfn-nav{display:flex;align-items:center}
 _NAV_GROUPS = [
     ("Exam Prep", [
         ("GMAT Focus Edition", "/exams/gmat/", "Live"),
+        ("SAT", "/exams/sat/", "Live"),
         ("Executive Assessment", "/exams/executive-assessment/", "In Development"),
         ("GRE General Test", "/exams/gre/", "In Development"),
         ("LSAT", "/exams/lsat/", "In Development"),
         ("MCAT", "/exams/mcat/", "In Development"),
-        ("SAT", "/exams/sat/", "In Development"),
         ("ACT", "/exams/act/", "In Development"),
         ("All Exam Guides", "/exams/", None),
     ]),
@@ -67,6 +67,11 @@ _NAV_GROUPS = [
         ("Undergraduate", "/schools/", "Coming Soon"),
         ("Law Schools", "/schools/", "Coming Soon"),
         ("Medical Schools", "/schools/", "Coming Soon"),
+    ]),
+    ("Admissions", [
+        ("Application Checklist", "/apply/", "Free"),
+        ("International Applicants", "/international/", "New"),
+        ("MBA Rankings", "/schools/", None),
     ]),
     ("Resources", [
         ("The Study Room (Blog)", "/blog/", None),
@@ -139,14 +144,16 @@ FOOTER_LINKS = [
     ("Forum", "/community/"),
     ("Exam Guides", "/exams/"),
     ("MBA Rankings", "/schools/"),
+    ("Application Checklist", "/apply/"),
+    ("International", "/international/"),
     ("Privacy", "/privacy.html"),
     ("Terms", "/terms.html"),
 ]
 
 LEGAL_LINE = (
-    "GMAT is a registered trademark of the Graduate Management Admission Council (GMAC), "
-    "which does not endorse this product. Practice items are original; score bands are "
-    "internal estimates, not official scores."
+    "GMAT is a registered trademark of the Graduate Management Admission Council (GMAC). "
+    "SAT is a trademark registered by the College Board. Neither organization endorses this "
+    "product. Practice items are original; score bands are internal estimates, not official scores."
 )
 
 
