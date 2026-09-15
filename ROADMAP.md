@@ -235,3 +235,84 @@ Next session queue, in order:
 10. Blog: SAT posts for the drip, written to EDITORIAL rules (the digital
    format, what module routing means for a student, how to read a score
    report by content domain).
+
+## Session log, September 15, 2026: international admissions, i18n, revenue
+
+The ask was seven parts: advance the rankings, confirm the blog drip, add
+international admissions content, add an application checklist, answer the
+translation question, build for Indian applicants, and work out ad revenue.
+
+**First, a premise correction.** The brief said exposure was heavy in Asia,
+specifically Japan, India, China and Hong Kong. The analytics do not support
+that. Over the first 28 measured days (August 19 to September 15) `site_events`
+holds 366 pageviews across 124 sessions: 95 sessions from the United States,
+5 from India, 3 Japan, 2 Korea, 2 China, 1 Vietnam, 1 Singapore, 2 Mongolia,
+and zero from Hong Kong. Two of the China hits are referrer spam. All of Asia
+is 16 sessions of 124.
+
+What is true, and more useful than the premise: the international traffic that
+does exist lands disproportionately on `/schools/`, almost all from organic
+Google search (Japan, Korea, Poland, Israel, Singapore), and ChatGPT is a real
+referrer sending visitors from India, Germany and Vietnam. So the international
+work was done, but aimed at the page the data actually points to rather than at
+an Asian surge that has not happened yet.
+
+**Blog drip: healthy, verified end to end.** The scheduled publish workflow has
+fired daily and succeeded on all 27 runs. The September 14 post is live and the
+September 16 post correctly 404s, which proves the deploy hook is wired, since
+`main` has not moved. Every gap since the launch batch is exactly 2 days. The
+one real problem was runway: the queue ended October 2. Five new posts take it
+to October 12.
+
+**Shipped:**
+- `/international/`, the international applicant guide. Sources on every figure:
+  the DHS final rule at 91 FR 44976 effective September 15 2026 (fixed period of
+  admission up to 4 years, 60-day departure window cut to 30, graduate-level
+  transfer and objective-change prohibitions), the pending NPRM at 91 FR 57807
+  labeled as proposed, USCIS on OPT and STEM OPT, the DHS STEM list itself,
+  USCIS on H-1B caps, the ICE $350 SEVIS fee, and the ETS surcharge schedule.
+- `/apply/`, the application checklist. One deadline places 27 tasks on dates
+  counted backwards, late items turn red, an international toggle adds 6 more
+  steps, and the shortlist built on `/schools/` flows in over the same
+  localStorage key. CSV export, print, no account.
+- Rankings: an Intl column and filter group over class-profile data that was
+  already sourced and simply never surfaced. 60 of 91 programs publish it;
+  20 report 40 percent or more.
+- `I18N.md` plus `src/i18n_audit.py`, which measures the translation surface
+  instead of guessing at it, and a build guard that fails when page copy drifts
+  into JavaScript where translation tools cannot reach it.
+- `GROWTH.md` revenue section: the ad question answered with arithmetic.
+
+**Access failures, reported rather than worked around:**
+- `travel.state.gov` returns 403. The visa application fee, the interview
+  process and the pre-arrival entry window are therefore absent from
+  `/international/` rather than written from memory. Named explicitly on the
+  page in a "what we could not verify" section.
+- `mba.com` returns no page content to this environment, so no GMAT price is
+  published on the new page.
+- `help.raptive.com` returns 403, so the Raptive pageview minimum in GROWTH.md
+  is flagged unverified rather than quoted.
+- `federalregister.gov` redirects this environment to an unblock page. Worked
+  around legitimately by using the official GPO text at `govinfo.gov` and the
+  Federal Register API, both of which are authoritative.
+
+**Tooling blocker from the last session is fixed.** Item 9 below was wrong about
+the cause: the container does have `pdfminer.six`, and the broken `cryptography`
+import was a missing `_cffi_backend`. `pip install cffi` repairs it, after which
+PDF text extraction works. Used it this session to read the Federal Register
+rule, the DHS STEM list and India's DPDP Act. The SAT percentile PDFs are
+therefore no longer blocked.
+
+### Next session queue (this session's additions)
+
+1. Fill the 31 missing `intl_pct` values in `data/schools/` so the new
+   international filter covers the whole table rather than two thirds of it.
+   Protocol and merge tool are in `data/research/`.
+2. Non-US programs in the rankings (INSEAD, LBS, IIM, ISB, HKUST, CEIBS and
+   peers). Needs an owner decision first, because the SFN Score's salary band
+   is calibrated on US dollar reporting and mixing currencies into one
+   composite without a PPP adjustment would be dishonest. Recommendation: a
+   separate international list rather than merging into the US composite.
+3. SAT percentile content, now unblocked by the PDF fix above.
+4. Owner decisions outstanding: flip `PAYMENTS_LIVE`, apply
+   `PROPOSED_exam_states.sql`, and the undergrad rankings scope question.
