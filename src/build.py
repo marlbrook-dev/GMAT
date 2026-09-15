@@ -99,7 +99,7 @@ for _counted in ["llms.txt", "src/blog/EDITORIAL.md"]:
     if _cp.exists():
         check_counts(_counted, _cp.read_text(), _ALLOWED_COUNTS)
 
-for _doc in ["README.md", "ROADMAP.md", "CLAUDE.md", "llms.txt", "GROWTH.md", "INTEGRATIONS.md", "data/DATA.md"]:
+for _doc in ["README.md", "ROADMAP.md", "CLAUDE.md", "llms.txt", "GROWTH.md", "INTEGRATIONS.md", "I18N.md", "data/DATA.md"]:
     _p = root / _doc
     if _p.exists():
         no_dashes(_doc, _p.read_text())
@@ -157,6 +157,30 @@ print("built app/index.html (%d bytes, %d items) and sat/app/index.html (%d byte
 
 import subprocess as _sp
 _sp.run([sys.executable, str(d/"build_rankings.py")], check=True)
+
+# I18N.md Stage 0: the content site stays translatable, which means its copy stays
+# in markup where browser and search translation can reach it. Text that moves into
+# a script literal becomes invisible to every one of those tools, so the count is
+# capped per page. Raising a ceiling is a deliberate act, not a side effect.
+_I18N_CEILING = {"index.html": 20, "schools/index.html": 60, "international/index.html": 15,
+                 "apply/index.html": 40, "exams/index.html": 5, "pricing/index.html": 5}
+sys.path.insert(0, str(d))
+import i18n_audit as _ia
+_over = []
+for _rel, _cap in _I18N_CEILING.items():
+    _f = root / _rel
+    if not _f.exists():
+        continue
+    _n = len(set(_ia.audit_file(_f)["script"]))
+    if _n > _cap:
+        _over.append(f"  {_rel}: {_n} script UI strings, ceiling {_cap}")
+if _over:
+    print("ERROR: page copy is moving into JavaScript, where translation tools cannot reach it.",
+          file=sys.stderr)
+    print("\n".join(_over), file=sys.stderr)
+    print("Move the copy into markup, or raise the ceiling in build.py deliberately. See I18N.md.",
+          file=sys.stderr)
+    sys.exit(1)
 # /apply/ carries a large inline script and is built by build_rankings.py, so it is
 # parsed here, after that step, under the same guard as every other inline script.
 check_scripts(root/"apply"/"index.html")
