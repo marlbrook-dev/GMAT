@@ -297,6 +297,7 @@ def main():
             f'<td class="num colx">{fmt(field(s, "gpa"))}</td>'
             f'<td class="num{acc_cls}">{fmt(acc, "%")}</td>'
             f'<td class="num colx">{fmt(field(s, "class_size"))}</td>'
+            f'<td class="num">{fmt(field(s, "intl_pct"), "%")}</td>'
             f'<td class="num">{tuition_cell}</td>'
             f'<td class="num">{fmt(field(s, "employment_rate_pct"), "%")}</td>'
             f'<td class="expcell"><span class="car">&#9660;</span></td>'

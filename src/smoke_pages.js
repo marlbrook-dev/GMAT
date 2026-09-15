@@ -13,7 +13,9 @@ const url = p => 'file://' + path.join(ROOT, p);
   p.on('pageerror', e => errs.push('pageerror: ' + e.message));
   // Google Fonts cannot be fetched through this sandbox's proxy CA, so the cert failure
   // it produces is environment noise rather than a page defect. Everything else counts.
-  const noise = t => /ERR_CERT_AUTHORITY_INVALID|fonts\.(googleapis|gstatic)\.com/.test(t);
+  // Google Fonts cannot be fetched through this sandbox's proxy CA, and the analytics
+  // beacon has nothing to POST to over file://. Both are environment noise.
+  const noise = t => /ERR_CERT_AUTHORITY_INVALID|fonts\.(googleapis|gstatic)\.com|Failed to fetch/.test(t);
   p.on('console', m => { if (m.type() === 'error' && !noise(m.text())) errs.push('console: ' + m.text()); });
 
   // 1. International hub renders.
