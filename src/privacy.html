@@ -9,16 +9,17 @@ body{background:var(--white)}main p,main li{font-size:15px;line-height:1.65;colo
 <main style="max-width:var(--container-narrow);margin:0 auto;padding:64px 24px 80px">
 <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-700)">Legal</div>
 <h1 style="font-size:40px;margin-top:12px">Privacy Policy</h1>
-<p style="color:var(--text-muted);margin-top:10px">Last updated: August 17, 2026 &middot; <em>Draft template. Have counsel review before charging users.</em></p>
+<p style="color:var(--text-muted);margin-top:10px">Last updated: September 16, 2026. This policy covers paid plans, which are now live.</p>
 
-<h2>1. The short version</h2>
+<h2>1. The Short Version</h2>
 <ul>
 <li>You can use the trainer without an account. In that mode your practice data lives only in your browser's local storage and never reaches our servers.</li>
 <li>If you create an account, we sync your practice data so you can move between devices. We use it to run the product, not to advertise to you.</li>
+<li>The free plan never asks for a card. We only ever see payment details if you choose a paid plan, and even then the card itself goes to Stripe and never to us.</li>
 <li>We do not sell personal data and we do not run third-party ad trackers.</li>
 </ul>
 
-<h2>2. What we collect</h2>
+<h2>2. What We Collect</h2>
 <ul>
 <li><strong>Account data.</strong> Your email address, used for passwordless sign-in links and essential service messages.</li>
 <li><strong>Practice data.</strong> Your answers, timing per question, skill ratings, review schedule, flashcard progress, session history, and settings such as your goal and test date.</li>
@@ -26,10 +27,13 @@ body{background:var(--white)}main p,main li{font-size:15px;line-height:1.65;colo
 <li><strong>Site analytics.</strong> Our pages run our own first-party measurement: page viewed, referrer, device type, viewport width, time on page, and a random session identifier that lives in your browser tab and clears when it closes. Your IP address is used in transit to derive a country code and a salted one-way hash for abuse prevention; the raw IP address is never stored in our database. We use no advertising cookies, no third-party trackers, and we never sell or share personal data with data brokers.</li>
 <li><strong>Optional profile details.</strong> If you choose to tell us your age range, gender, country, or role (student, educator, and so on) on the Account page, we store it. Every one of these fields is optional, self-reported, editable, and used only in aggregate to understand who we serve and improve the product; none of it is shown publicly.</li>
 <li><strong>Community forum.</strong> Posts are public by design, whether made under a name or the anonymous handle your browser generates. We store the post, the name you chose, a country code, and the salted IP hash above (for spam and abuse control). Anonymous posts are not linked to an account.</li>
+<li><strong>Error reports.</strong> When a page of ours throws a JavaScript error, the browser sends us the error message, the file and line it came from, the stack trace, the page you were on, the build version, your device type, and the same random session identifier the analytics beacon uses. It is how we find out that something is broken before you have to tell us. It is first party, it goes nowhere except our own database, and no third-party error service is involved. We cap what is stored and we do not put your practice answers or your email address into these reports.</li>
+<li><strong>Payment and subscription data.</strong> Only if you start a paid plan. Your card number, expiry, and security code go directly to Stripe on Stripe's own checkout pages; they never pass through our site and we never store them. What we store against your account is the tier you are on (Free, Plus, or Pro), whether it is trialing, active, past due, or cancelled, the dates your trial and billing period end, whether a cancellation is pending, the price and billing interval you signed up at, and the Stripe customer and subscription identifiers that let us look your subscription up. Stripe holds the payment method, the charge history, and the receipts; you can see all of it through Manage Billing on your account page.</li>
 </ul>
 
-<h2>3. How we use it</h2>
+<h2>3. How We Use It</h2>
 <ul>
+<li>To take payment and run your subscription, if you have one: to start the trial, charge the renewal, show you the next billing date, and act on a cancellation.</li>
 <li>To run the adaptive engine: your answers drive your skill ratings, question selection, and review schedule.</li>
 <li>To sync your progress across devices when you are signed in.</li>
 <li>To fix problems and improve question quality, using aggregate statistics such as per-question correct rates.</li>
@@ -37,29 +41,50 @@ body{background:var(--white)}main p,main li{font-size:15px;line-height:1.65;colo
 <li>To send the service emails you request, such as sign-in links. Optional email like a weekly digest has its own toggle in your account.</li>
 </ul>
 
-<h2>4. Where it lives and who processes it</h2>
+<h2>4. Where It Lives and Who Processes It</h2>
 <ul>
-<li>Synced data is stored with Supabase (hosted in the United States), protected by row-level security so each account can only read its own rows.</li>
-<li>The website and app are served by Cloudflare.</li>
-<li>When paid plans launch, payments will be processed by Stripe through Stripe-hosted checkout. Your card details go to Stripe, never to us.</li>
-<li>We do not sell or rent personal data. We share it only with the processors above, or if the law requires it.</li>
+<li><strong>Supabase</strong> (hosted in the United States) stores synced account data, protected by row-level security so each account can only read its own rows.</li>
+<li><strong>Cloudflare</strong> serves the website and the app.</li>
+<li><strong>Stripe</strong> processes payments through Stripe-hosted checkout and the Stripe billing portal. Stripe receives your email address and your card details and acts as the controller of that payment data under its own privacy policy. We receive back only the subscription facts listed in section 2.</li>
+<li>We do not sell or rent personal data, and we share it only with the processors above or where the law requires it.</li>
+<li><strong>Where your data goes.</strong> These providers are based in the United States, so if you use the Services from outside the US your data is transferred there and handled under US law. We rely on standard contractual clauses or the equivalent transfer mechanism each provider offers.</li>
 </ul>
 
-<h2>5. Your controls</h2>
+<h2>5. Who Can See It Inside Start From Nowhere</h2>
+<ul>
+<li>Access is limited to accounts on an explicit admin list held in the database, and every administrative query checks that list on the server before returning a row.</li>
+<li>Administrators mostly work with aggregates: totals, country counts, per-question correct rates, traffic by page. That is what the dashboard is built around.</li>
+<li>An administrator can also open a single account to support it or investigate abuse. That view shows the email address, sign-up and last sign-in dates, plan, exam and goal, any optional profile details you gave us, per-section and per-skill accuracy, recent practice sessions, and forum activity. It does not show payment card details, because we do not have them.</li>
+<li>We look at an individual account only for support, security, abuse, or a legal obligation. We do not browse accounts out of curiosity and we do not use individual data to target advertising.</li>
+</ul>
+
+<h2>6. Your Controls</h2>
 <ul>
 <li><strong>Export.</strong> Download your complete practice data from the Account page at any time.</li>
 <li><strong>Import or stay local.</strong> You can keep everything in your browser and never create an account.</li>
 <li><strong>Delete.</strong> Delete your account and synced data from the Account page. Deletion is permanent.</li>
-<li><strong>Questions.</strong> Write to privacy@startfromnowhere.com and we will respond within 30 days.</li>
+<li><strong>Cancel a paid plan.</strong> Account, then Plan and Billing, then Cancel Plan. One click, no email required.</li>
+<li><strong>Questions.</strong> Write to privacy@startfromnowhere.com and we will respond within 30 days. For anything about a charge or a subscription, write to billing@startfromnowhere.com.</li>
 </ul>
 
-<h2>6. Retention</h2>
+<h2>7. Your Rights Where You Live</h2>
+<p>Wherever you are, you can use the controls above to see, export, or delete your data. Some places give you further rights in law, and we honour them whether or not they apply to you by right.</p>
+<ul>
+<li><strong>Europe and the United Kingdom.</strong> You can ask for access, correction, deletion, restriction, or a portable copy, and you can object to a use. We process account and practice data to perform our agreement with you, analytics and abuse prevention on our legitimate interest in running a working product, and optional profile details on your consent, which you can withdraw at any time by clearing those fields. You can complain to your national data protection authority.</li>
+<li><strong>California.</strong> You can request the categories and specific pieces of personal information we hold, request deletion, and request correction. We do not sell or share personal information as those terms are defined in California law, and we will not discriminate against you for exercising a right.</li>
+<li><strong>India.</strong> You can access, correct, and erase your personal data, nominate someone to exercise your rights if you cannot, and raise a grievance with us at privacy@startfromnowhere.com. We do not run behavioural tracking or targeted advertising, and we do not direct advertising at children.</li>
+<li><strong>Making a request.</strong> Email privacy@startfromnowhere.com from your account address. We answer within 30 days and we do not charge for it.</li>
+</ul>
+
+<h2>8. Retention</h2>
 <p>We keep account and practice data while your account exists. If you delete your account, synced data is removed from the production database promptly and from backups on their rotation schedule. Local browser data is yours to clear at any time.</p>
+<p>Payment records are the one exception. Tax and accounting law requires us, and requires Stripe, to keep a record of what was charged and to whom for several years after the transaction, so deleting your account does not erase the invoice history. That record is limited to the transaction itself; it does not include your practice data.</p>
 
-<h2>7. Children</h2>
-<p>The Services are not directed to children under 16, and we do not knowingly collect data from them. If you believe a child has created an account, contact us and we will delete it.</p>
+<h2>9. Children and Students Under 18</h2>
+<p>The SAT trainer is for high school students, so we expect people under 18 to use the Services. If you are under 18, use them with a parent or guardian's permission. We collect the same practice data for a student under 18 as for anyone else, we do not use it for advertising, and we do not sell it. Only an adult can buy a paid plan or enter payment details.</p>
+<p>We do not knowingly create accounts for children under 13 or knowingly collect their personal information. If you believe a child under 13 has an account, email privacy@startfromnowhere.com and we will delete the account and its data.</p>
 
-<h2>8. Changes</h2>
+<h2>10. Changes</h2>
 <p>If this policy changes in a way that matters, we will note it here with a new date and, for signed-in users, flag it in the app before the change takes effect.</p>
 </main>
 {{SITE_FOOTER}}

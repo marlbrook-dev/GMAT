@@ -22,7 +22,7 @@ const BANK_QUANT6 = [
  wrong:'Picking 120 comes from using lcm / gcd x 4; picking 360 / 24 = 15 is not offered, but 90 comes from halving the correct product relationship.'},
 {id:'Q265',section:'Q',type:'PS',domain:'arithmetic',context:'pure',skill:'q_vof',diff:2,
  stem:'Which of the following is greatest?',
- choices:['7/9','11/14','4/5','17/21','0.79'],answer:3,
+ choices:['7/9','11/14','4/5','0.79','17/21'],answer:4,
  expl:'Convert to decimals: 7/9 is about 0.778, 11/14 about 0.786, 4/5 = 0.800, 17/21 about 0.810, and 0.79. The greatest is 17/21.',
  wrong:'4/5 looks biggest because it is the cleanest fraction, but 17/21 sits closer to 1: its gap below 1 is 4/21, smaller than the 1/5 gap of 4/5.'},
 {id:'Q266',section:'Q',type:'PS',domain:'arithmetic',context:'pure',skill:'q_vof',diff:4,

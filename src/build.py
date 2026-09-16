@@ -1,21 +1,115 @@
-import pathlib, subprocess, sys, tempfile, os
+import pathlib, subprocess, sys, tempfile, os, datetime
 d = pathlib.Path(__file__).parent; root = d.parent
 sys.path.insert(0, str(d))
 import partials
-BANK_FILES = ["bank_quant.js","bank_quant2.js","bank_quant3.js","bank_quant4.js","bank_quant5.js","bank_quant6.js","bank_verbal.js","bank_verbal2.js","bank_verbal3.js","bank_verbal4.js","bank_verbal5.js","bank_verbal6.js","bank_verbal7.js","bank_di.js","bank_di2.js","bank_di3.js","bank_di4.js","bank_di5.js","bank_di6.js","bank_di7.js","cards.js","cards2.js","cards3.js"]
-banks = "\n".join((d/f).read_text() for f in BANK_FILES)
+# One app per exam. Each entry names the source files that make up that exam's bank,
+# the concat expression the template uses to build BANK, and the trademark line for its footer.
+GMAT_BANKS = ["bank_quant.js","bank_quant2.js","bank_quant3.js","bank_quant4.js","bank_quant5.js","bank_quant6.js",
+              "bank_verbal.js","bank_verbal2.js","bank_verbal3.js","bank_verbal4.js","bank_verbal5.js","bank_verbal6.js","bank_verbal7.js","bank_verbal8.js",
+              "bank_di.js","bank_di2.js","bank_di3.js","bank_di4.js","bank_di5.js","bank_di6.js","bank_di7.js","bank_di8.js","bank_di9.js",
+              "cards.js","cards2.js","cards3.js","playbook_gmat.js"]
+SAT_BANKS = ["bank_sat_rw.js","bank_sat_rw2.js","bank_sat_rw3.js","bank_sat_rw4.js","bank_sat_rw5.js","bank_sat_math.js","bank_sat_math2.js","bank_sat_math3.js","bank_sat_math4.js","bank_sat_math5.js","bank_sat_easy.js","cards_sat.js","cards_sat2.js","playbook_sat.js"]
+
+APPS = [
+    {"exam": "gmat-focus", "out": "app", "files": GMAT_BANKS,
+     "concat": ("BANK_QUANT, BANK_QUANT2, BANK_QUANT3, BANK_QUANT4, BANK_QUANT5, BANK_QUANT6, "
+                "BANK_VERBAL, BANK_VERBAL2, BANK_VERBAL3, BANK_VERBAL4, BANK_VERBAL5, BANK_VERBAL6, BANK_VERBAL7, BANK_VERBAL8, "
+                "BANK_DI, BANK_DI2, BANK_DI3, BANK_DI4, BANK_DI5, BANK_DI6, BANK_DI7, BANK_DI8, BANK_DI9"),
+     "footer": ("GMAT is a registered trademark of the Graduate Management Admission Council (GMAC), which does not "
+                "endorse this product. Practice items are original and written for Start From Nowhere. Score bands "
+                "shown here are internal estimates, not official GMAT scores."),
+     "title": "Start From Nowhere | Adaptive GMAT Focus Trainer",
+     "desc": "Start From Nowhere: adaptive GMAT Focus Edition practice that studies you back.",
+     "is_404": True},
+    {"exam": "sat", "out": "sat/app", "files": SAT_BANKS,
+     "concat": "BANK_SAT_RW, BANK_SAT_RW2, BANK_SAT_RW3, BANK_SAT_RW4, BANK_SAT_RW5, BANK_SAT_MATH, BANK_SAT_MATH2, BANK_SAT_MATH3, BANK_SAT_MATH4, BANK_SAT_MATH5, BANK_SAT_EASY",
+     "footer": ("SAT is a trademark registered by the College Board, which does not endorse this product. Practice "
+                "items are original and written for Start From Nowhere. Content domains follow College Board's "
+                "published framework; nothing here reports an official 400 to 1600 score."),
+     "title": "Start From Nowhere | Adaptive Digital SAT Trainer",
+     "desc": ("Start From Nowhere: adaptive digital SAT practice across the eight official content "
+              "domains, with two-module mock sections that route like the real exam."),
+     "is_404": False},
+]
+
 engine = (d/"engine.js").read_text(); tpl = (d/"app_template.html").read_text()
-out = tpl.replace("{{BANKS}}", banks).replace("{{ENGINE}}", engine)
-(root/"app").mkdir(exist_ok=True); (root/"app"/"index.html").write_text(out); (root/"404.html").write_text(out)
+built = {}
+for app in APPS:
+    banks = "\n".join((d/f).read_text() for f in app["files"])
+    out = (tpl.replace("{{EXAM_ID}}", app["exam"])
+              .replace("{{BANKS}}", banks)
+              .replace("{{ENGINE}}", engine)
+              .replace("{{BANK_CONCAT}}", app["concat"])
+              .replace("{{FOOTER_NOTE}}", app["footer"])
+              .replace("{{APP_TITLE}}", app["title"])
+              .replace("{{APP_DESC}}", app["desc"])
+              .replace("{{SENTINEL}}", partials.sentinel_js("app-" + app["exam"] + "-" + partials.build_id())))
+    if "{{" in out:
+        import re as _r
+        print("ERROR: unresolved placeholder in " + app["out"] + ": " + str(_r.findall(r"\{\{[A-Z_]+\}\}", out)[:4]), file=sys.stderr)
+        sys.exit(1)
+    target = root
+    for part in app["out"].split("/"):
+        target = target/part
+        target.mkdir(exist_ok=True)
+    (target/"index.html").write_text(out)
+    if app["is_404"]:
+        (root/"404.html").write_text(out)
+    built[app["exam"]] = (app["out"], out, banks)
+
 import re as _re
-bank_count = len(_re.findall(r"\{\s*id: ?'[QVD]", banks))
-card_count = len(_re.findall(r"\{\s*id: ?'c\d", banks))
+gmat_banks_src = built["gmat-focus"][2]
+sat_banks_src = built["sat"][2]
+bank_count = len(_re.findall(r"\{\s*id: ?'[QVD]", gmat_banks_src))
+card_count = len(_re.findall(r"\{\s*id: ?'c\d", gmat_banks_src))
+sat_bank_count = len(_re.findall(r"\{\s*id: ?'S[RM]\d", sat_banks_src))
+sat_card_count = len(_re.findall(r"\{\s*id: ?'s\d", sat_banks_src))
+total_bank_count = bank_count + sat_bank_count
+# Tracked skills come from the engine registry itself, so the landing page can never
+# drift from the number of ratings the apps actually keep.
+_skill_probe = subprocess.run(
+    ["node", "-e",
+     "const fs=require('fs');const s=fs.readFileSync(process.argv[1],'utf8');"
+     "console.log(eval(s+'; GMAT_SKILLS.length + SAT_SKILLS.length'))",
+     str(d/"engine.js")],
+    capture_output=True, text=True)
+if _skill_probe.returncode != 0:
+    print("ERROR: could not count tracked skills from engine.js\n" + _skill_probe.stderr.strip(), file=sys.stderr); sys.exit(1)
+total_skills = _skill_probe.stdout.strip()
+
+# Bank sizes are quoted in llms.txt and in the EDITORIAL fact sheet writers must work from.
+# Those numbers go stale the moment a bank grows, so the build checks them against the real
+# counts rather than trusting anyone to remember.
+def check_counts(name, text, allowed):
+    import re as _cre
+    for n, unit in _cre.findall(r"\b(\d{2,4})\s+(original|flashcards)\b", text):
+        if int(n) not in allowed:
+            print(f"ERROR: {name} says '{n} {unit}' but the current counts are "
+                  f"{sorted(allowed)}; update it or the bank", file=sys.stderr)
+            sys.exit(1)
 
 def no_dashes(name, text):
-    if "—" in text or "–" in text:
+    if "\u2014" in text or "\u2013" in text:
         print(f"ERROR: em/en dash in {name}", file=sys.stderr); sys.exit(1)
 
-landing = (d/"landing.html").read_text().replace("{{BANK_COUNT}}", str(bank_count)).replace("{{CARD_COUNT}}", str(card_count))
+# House rule: no em or en dashes anywhere, docs and sources included. The page checks below
+# cover generated output; this covers the files people hand-edit.
+_ALLOWED_COUNTS = {bank_count, sat_bank_count, card_count, sat_card_count}
+for _counted in ["llms.txt", "src/blog/EDITORIAL.md"]:
+    _cp = root / _counted
+    if _cp.exists():
+        check_counts(_counted, _cp.read_text(), _ALLOWED_COUNTS)
+
+for _doc in ["README.md", "ROADMAP.md", "CLAUDE.md", "llms.txt", "GROWTH.md", "INTEGRATIONS.md", "I18N.md", "data/DATA.md"]:
+    _p = root / _doc
+    if _p.exists():
+        no_dashes(_doc, _p.read_text())
+for _src in sorted(d.glob("bank_*.js")) + sorted(d.glob("cards*.js")) + sorted(d.glob("playbook_*.js")) + [d/"engine.js"]:
+    no_dashes(_src.name, _src.read_text())
+
+landing = ((d/"landing.html").read_text().replace("{{BANK_COUNT}}", str(bank_count)).replace("{{CARD_COUNT}}", str(card_count))
+           .replace("{{SAT_BANK_COUNT}}", str(sat_bank_count)).replace("{{SAT_CARD_COUNT}}", str(sat_card_count))
+           .replace("{{TOTAL_BANK_COUNT}}", str(total_bank_count)).replace("{{TOTAL_SKILLS}}", total_skills))
 landing = partials.apply_chrome(landing)
 if "{{" in landing:
     print("ERROR: unresolved placeholder in landing.html", file=sys.stderr); sys.exit(1)
@@ -41,6 +135,15 @@ community = partials.apply_chrome((d/"community.html").read_text())
 no_dashes("community.html", community)
 (root/"community").mkdir(exist_ok=True); (root/"community"/"index.html").write_text(community)
 
+# Standalone content pages that only need chrome and a build date.
+_today = os.environ.get("BLOG_BUILD_DATE") or datetime.date.today().isoformat()
+for _src, _dir in [("international.html", "international")]:
+    page = partials.apply_chrome((d/_src).read_text().replace("{{TODAY}}", _today))
+    no_dashes(_src, page)
+    if "{{" in page:
+        print(f"ERROR: unresolved placeholder in {_src}", file=sys.stderr); sys.exit(1)
+    (root/_dir).mkdir(exist_ok=True); (root/_dir/"index.html").write_text(page)
+
 for name in ["terms.html", "privacy.html"]:
     page = partials.apply_chrome((d/name).read_text())
     no_dashes(name, page)
@@ -48,10 +151,38 @@ for name in ["terms.html", "privacy.html"]:
         print(f"ERROR: unresolved placeholder in {name}", file=sys.stderr); sys.exit(1)
     (root/name).write_text(page)
 
-for p in [root/"app"/"index.html", root/"index.html", root/"community"/"index.html", root/"terms.html", root/"privacy.html"]:
+for p in [root/"app"/"index.html", root/"sat"/"app"/"index.html", root/"index.html", root/"community"/"index.html", root/"international"/"index.html", root/"terms.html", root/"privacy.html"]:
     check_scripts(p)
-print("built app/index.html", len(out), "bytes; landing, community/, terms, privacy built; inline scripts parse")
+print("built app/index.html (%d bytes, %d items) and sat/app/index.html (%d bytes, %d items); landing, community/, terms, privacy built; inline scripts parse"
+      % (len(built["gmat-focus"][1]), bank_count, len(built["sat"][1]), sat_bank_count))
 
 import subprocess as _sp
 _sp.run([sys.executable, str(d/"build_rankings.py")], check=True)
+
+# I18N.md Stage 0: the content site stays translatable, which means its copy stays
+# in markup where browser and search translation can reach it. Text that moves into
+# a script literal becomes invisible to every one of those tools, so the count is
+# capped per page. Raising a ceiling is a deliberate act, not a side effect.
+_I18N_CEILING = {"index.html": 20, "schools/index.html": 60, "international/index.html": 15,
+                 "apply/index.html": 40, "exams/index.html": 5, "pricing/index.html": 5}
+sys.path.insert(0, str(d))
+import i18n_audit as _ia
+_over = []
+for _rel, _cap in _I18N_CEILING.items():
+    _f = root / _rel
+    if not _f.exists():
+        continue
+    _n = len(set(_ia.audit_file(_f)["script"]))
+    if _n > _cap:
+        _over.append(f"  {_rel}: {_n} script UI strings, ceiling {_cap}")
+if _over:
+    print("ERROR: page copy is moving into JavaScript, where translation tools cannot reach it.",
+          file=sys.stderr)
+    print("\n".join(_over), file=sys.stderr)
+    print("Move the copy into markup, or raise the ceiling in build.py deliberately. See I18N.md.",
+          file=sys.stderr)
+    sys.exit(1)
+# /apply/ carries a large inline script and is built by build_rankings.py, so it is
+# parsed here, after that step, under the same guard as every other inline script.
+check_scripts(root/"apply"/"index.html")
 _sp.run([sys.executable, str(d/"build_exams.py")], check=True)

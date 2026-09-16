@@ -128,6 +128,9 @@ FONTS = """<link rel="preconnect" href="https://fonts.googleapis.com"><link rel=
 FAVICON = """<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%23122B4E'/%3E%3Cpath d='M13 33 22 22l6 5 8.5-10' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M29.5 16.5H37V24' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">"""
 LOGO = """<svg viewBox="0 0 48 48" width="30" height="30" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#122B4E"/><path d="M13 33 22 22l6 5 8.5-10" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M29.5 16.5H37V24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>"""
 
+import partials as _partials
+SENTINEL = _partials.sentinel_js()
+
 BEACON = """<!-- sfn beacon: first-party, no third parties, raw IP never stored -->
 <script>(function(){try{
 var U="https://ftsqwbzhkzuudogkvoqa.supabase.co/rest/v1/site_events?apikey=sb_publishable_GToT4fK6RiwCZpPFE3bGiw_ThXq9qel";
@@ -157,6 +160,7 @@ def page(title, description, canonical, body, extra_head=""):
 {body}
 {partials.footer_html()}
 {BEACON}
+{SENTINEL}
 </body></html>"""
 
 def hero_block(p, big=False):
@@ -294,7 +298,7 @@ def build_post(p, posts):
     return page(p["title"] + " | Start From Nowhere", p["description"], f"{SITE}/blog/{p['slug']}/", body, extra)
 
 def build_sitemap(posts):
-    urls = [(SITE + "/", None), (SITE + "/blog/", None), (SITE + "/schools/", None), (SITE + "/exams/", None), (SITE + "/pricing/", None), (SITE + "/community/", None), (SITE + "/terms.html", None), (SITE + "/privacy.html", None)]
+    urls = [(SITE + "/", None), (SITE + "/blog/", None), (SITE + "/schools/", None), (SITE + "/exams/", None), (SITE + "/pricing/", None), (SITE + "/community/", None), (SITE + "/international/", None), (SITE + "/apply/", None), (SITE + "/terms.html", None), (SITE + "/privacy.html", None)]
     exams_data = ROOT / "data" / "exams.json"
     if exams_data.exists():
         import json as _json2

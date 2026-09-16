@@ -1,12 +1,12 @@
 # Start From Nowhere: build roadmap
 
-Updated August 20, 2026. Owner: Hunter Roberts. Builder: Claude sessions. This file is the working schedule; each week's block ships as one or more merged PRs. Dates are targets, not promises; anything user-facing ships only after the browser test suite passes.
+Updated September 14, 2026. Owner: Hunter Roberts. Builder: Claude sessions. This file is the working schedule; each week's block ships as one or more merged PRs. Dates are targets, not promises; anything user-facing ships only after the browser test suite passes.
 
 ## Comparative advantage (the why-us, revisited each cycle)
 
 1. Game-grade engagement on top of real per-skill analytics. Competitors have one or the other, not both.
 2. Radical honesty: original items, sourced statistics, no fabricated testimonials or efficacy claims, transparent methodology everywhere. Trust is the moat an institutional audience actually pays for.
-3. The rankings-to-study loop: pick target schools, get a study plan calibrated to their published numbers, watch fit improve as ratings rise. No competitor closes this loop.
+9. The rankings-to-study loop: pick target schools, get a study plan calibrated to their published numbers, watch fit improve as ratings rise. No competitor closes this loop.
 4. Speed: solo-operator economics with AI-scale content production, so the bank, blog, and features compound weekly.
 
 ## Week of Aug 19 (current)
@@ -44,10 +44,14 @@ Updated August 20, 2026. Owner: Hunter Roberts. Builder: Claude sessions. This f
 
 ## Week of Sep 16 and beyond
 
+- [x] Undergrad pilot, first half: SAT trainer live at /sat/app/ on a genuinely multi-exam engine, 248 original items across all eight official content domains, two-module mock sections with routing, grid-ins, a 112-card deck and a playbook per domain, site wiring
+- [ ] Undergrad pilot, second half: undergrad rankings vertical (one file per college, same source ladder as data/schools/), SAT bank toward GMAT parity, ACT study modes
 - [ ] GRE build: new item types (text completion, sentence equivalence, quantitative comparison), GRE bank seed, section timing
 - [ ] LSAT build: logical reasoning and reading comprehension banks
-- [ ] Undergrad pilot: SAT/ACT study modes plus undergrad rankings vertical
-- [ ] Stripe go-live checkpoint: flip PAYMENTS_LIVE once accounts and legal review are done
+- [x] Stripe go-live: live products, prices ($4.99 Plus / $9.99 Pro) and webhook created; 7-day trial wired; PAYMENTS_LIVE=true
+- [ ] Stripe go-live, remaining: owner sets Edge Function secrets, confirms charges are enabled, and gets terms plus a refund and cancellation policy reviewed
+- [ ] Decide what grandfathering means for early users, then flip FREE_LIMITS_LIVE
+- [ ] Stripe Customer Portal so students can cancel without emailing
 - [ ] SFN Assist (AI coaching) when the Anthropic API key is added
 
 ## Standing cadence
@@ -66,14 +70,252 @@ reason-tag targeted drill; sitemap school URLs restored; 4 queued blog posts
 (2 rankings-adjacent, SAT vs ACT, LSAT); EDITORIAL.md fact sheet refreshed;
 EA-format mock.
 
+## Session Log: September 14, 2026 (PR 30)
+
+Shipped the SAT vertical. src/engine.js became a real exam registry: SKILLS and
+SECTION_META now resolve from an EXAM_ID the build injects, so one engine and
+one UI template serve every exam and progress stays keyed per exam. GMAT
+behavior unchanged. Caught and fixed a latent bug in the process: pickQuestions
+defaulted its section list to the GMAT sections, which would have returned
+nothing for any other exam.
+
+SAT: eight official content domains as tracked skills, 336 original items (188
+Reading and Writing across all four domains, each with its own short passage,
+and 148 Math of which 31 are student-produced responses), 112 flashcards, a
+playbook per domain, and a trainer at /sat/app/. Mock sections run as two
+modules with the second routed harder or easier by the first, free answer
+changes inside a module, and a report broken out by module and by content
+domain against College Board's published question ranges. That depth carries
+3.5 non-repeating Reading and Writing sections and 3.4 Math sections, so three
+full mocks do not recycle.
+
+One gap found by measuring rather than by a failing test: the bank could not
+fill an easier second module. Reading and Writing had 9 items at difficulty 1
+to 2 against the 27 a module needs, so a student who struggled through module 1
+and routed down was served a module built mostly from level 3 items, failing
+exactly the students routing exists to help. 38 items written at difficulty 1
+and 2 fixed it, and a test now fails if either section drops below the easy
+items one module needs. No 400 to 1600 score is reported anywhere;
+sources and the two deliberate departures from official practice are documented
+in the Exam Content Sources section of data/DATA.md.
+
+GMAT: bank 420 to 448. Multi-Source Reasoning was the thinnest tracked skill at
+15 and is now 31, via four new three-tab sets. Plan / Construct 32 to 38,
+Identify Stated Idea 28 to 32 (new RC passage P11).
+
+Cross-exam integrity, found by auditing the built SAT app rather than by a
+failing test. The two trainers share an origin and an account, and three paths
+crossed between them: Store.load fell back to the legacy gmat_trainer_v1 key on
+any exam; targetSchools read the MBA list on both, so the SAT dashboard could
+show "Published GMAT"; and profiles.state_blob holds one state per user while
+attempts, skill_ratings and review_queue are keyed by (user_id, exam), so the
+second app a signed-in student opened would overwrite the first exam's
+progress. All three are now guarded client-side, and the Account page states
+plainly when cross-device sync for an exam is unavailable and that nothing is
+lost. The real fix is supabase/migrations/PROPOSED_exam_states.sql, written and
+deliberately not applied: it changes the owner's live project.
+
+Also fixed on the SAT app: the browser tab and meta description read "Adaptive
+GMAT Focus trainer", a new profile recorded its exam as GMAT, and Number Crunch
+was sold as no-calculator practice when Bluebook gives SAT students Desmos on
+every Math question. Site-wide, the shared footer named only GMAC and the terms
+page omitted the College Board and ACT marks.
+
+Answer key balance, the worst defect found and the one that would have been
+hardest to notice from inside the app. Of 302 SAT multiple-choice items, 225
+had their correct answer at position A and 3 at D, so a student could have
+scored well above their ability by guessing A and every rating derived from
+that would have been inflated. The same measurement on the pre-existing GMAT
+bank showed position E holding 27 of 324 non-Data-Sufficiency items against an
+even share of 65. Both are fixed: numeric choice sets are sorted ascending the
+way both real exams present them, everything else takes a permutation seeded
+by the item id, and choice-letter references in the explanations travel with
+the text. A before and after snapshot proves on every touched item that no
+correct answer changed and that every "Choice B is a comma splice" still names
+the option that is a comma splice. Data Sufficiency is untouched by design: its
+five choices are a standardized set whose order is part of the format.
+
+Length bias, measured and only partly fixed. On a well-built test the correct
+answer is no likelier to be the longest choice than any other. It currently is:
+the longest choice is correct on 33 percent of SAT items against 25 by chance,
+and on 35 percent of GMAT items against 20. The cause is structural, since on
+Rhetorical Synthesis and Command of Evidence the key has to combine two pieces
+of information while a distractor states one. 60 distractors across 22 items
+were rewritten on the model the real exam follows, which took items over
+threshold from 88 to 72 and those two item types from a mean ratio of 1.45 to
+1.33, but moved the headline figure by one point because 280 items are
+untouched. Queued with the numbers and the technique rather than claimed as
+done.
+
+Tooling: test.js runs the whole suite once per exam and adds SAT coverage for
+module construction, official domain ordering and mix, routing, whether an
+easier module can be filled, and grid-in equivalence. It fails if any answer
+position takes more than 1.6 times an even share, and reports length bias every
+run with a loose guard, because a tight one would fail on every commit until
+that content pass is finished. The build now fails on an em or en dash in any
+hand-edited doc or bank, and on any item count quoted in llms.txt or the
+EDITORIAL fact sheet that no longer matches the real banks. That guard caught
+three drifts during the session.
+
+Blog: two queued SAT posts, on the digital SAT format (September 30) and on
+building a study plan from the official domain weights (October 2), plus a
+corrected SAT vs ACT post (queued September 26, not yet published) that said
+our SAT trainer was in development. A third post on SAT percentiles was
+dropped rather than written from memory: see the tooling blocker in the queue.
+
+Site totals at the end of the session: 784 original practice items across two
+live trainers, 232 flashcards, 22 playbook entries, and two exams wired through
+the landing page, the shared header, the exam hub and the pricing matrix.
+
 Next session queue, in order:
-1. Figma iteration 2 implementation (owner's Make credits return 8/31; the
+1. SAT bank onward from 336: coverage is even across the eight domains (27 to
+   34 items each) and grid-ins are 21 percent of Math against roughly a
+   quarter on the real test. The next increment should take the bank past
+   three non-repeating sections per section and raise grid-ins the rest of the
+   way.
+2. Length bias in both banks, measured but only partly fixed. On a well-built
+   test the correct answer is no likelier to be the longest choice than any
+   other. It currently is: the longest choice is correct on 34 percent of SAT
+   items against 25 by chance, and on 35 percent of GMAT items against 20,
+   while the shortest choice is correct on only 9 percent of GMAT items. A
+   student who always picked the longest answer would beat guessing. The cause
+   is structural rather than careless: on Rhetorical Synthesis and Command of
+   Evidence the correct choice has to combine two pieces of information while
+   a distractor states one, so it runs longer unless the distractors are
+   written to match. 18 distractors on the worst items were rewritten to the
+   same specificity, which improved those items and made their traps harder,
+   but barely moved the aggregate because roughly 88 SAT items and a similar
+   number of GMAT items sit above the threshold. Fixing it properly is a
+   content pass over those items, rewriting distractors to match the correct
+   answer in length and specificity without creating a second defensible
+   answer. test.js reports the figure every run and fails only past 1.8 times
+   chance, so the number is visible without failing on every commit.
+   Progress so far: 60 distractors rewritten across 22 items, which took the
+   items over threshold from 88 to 72, the bank mean ratio from 1.09 to 1.07,
+   and the Rhetorical Synthesis and Command of Evidence mean from 1.45 to 1.33.
+   The headline figure moved only from 34 to 33 percent, because it is binary
+   and 280 items are untouched. The technique that works is on show in SR126,
+   SR091 and SR161: give each distractor two notes rather than one, aimed at
+   the wrong goal, and let at least one run longer than the key. Repeating that
+   across the remaining items is the job; the GMAT bank needs the same.
+3. Undergrad rankings vertical, to close the rankings-to-study loop for SAT
+   students the way data/schools/ does for MBA candidates. Needs an owner
+   decision on scope (how many colleges, which published figures) before the
+   source ladder can be written.
+4. Figma iteration 2 implementation (owner's Make credits return 8/31; the
    iteration-2 prompt and guidelines are already in the Make file).
-2. School data: re-verify 5 bot-blocked expansion candidates (Arizona Eller,
+5. School data: re-verify 5 bot-blocked expansion candidates (Arizona Eller,
    JHU Carey, Baruch Zicklin, Oklahoma State, Iowa State) and the blocked
    domains (Columbia, Michigan Ross, Georgia Terry, Case Western); protocol
    and merge tool live in data/research/.
-3. Forum DB decisions with owner: pinned threads, tags, post votes, view
-   counts (each needs a migration).
-4. EA score-model deepening; user-profile fit inputs (GPA, work exp, budget).
-5. Bank beyond 420, thinnest skills first (di_msr and v_pc still lowest).
+6. Supabase migrations waiting on the owner, all written and none applied:
+   supabase/migrations/PROPOSED_exam_states.sql (per-exam state, which restores
+   cross-device sync for a student's second exam, plus an exam column on
+   sessions), and the forum decisions already queued: pinned threads, tags,
+   post votes, view counts.
+7. Engine tuning question for the owner, with a reproduction in hand. The
+   weakest-first weighting in pickQuestions works as designed for an average
+   student: after 120 questions every GMAT skill has 7 to 18 attempts. For a
+   student answering about 20 percent correctly it concentrates hard, and one
+   skill can be left essentially unsampled: in a simulated run q_rrp got 29
+   attempts and di_gt 31 while di_tpa got 2, so the dashboard can tell that
+   student nothing about Two-Part Analysis. The diagnostic pass exits once
+   half the skills have 3 attempts, and grouped item types (TPA, MSR) are the
+   ones that lose out. Worth deciding whether to guarantee a floor per skill
+   before targeting takes over; not changed here because it is tuned product
+   behavior, not a defect.
+8. EA score-model deepening; user-profile fit inputs (GPA, work exp, budget).
+9. Tooling blocker, worth fixing before any SAT score-data content. College
+   Board publishes mean scores and percentile tables only in PDF (the Total
+   Group Annual Report and Understanding SAT Scores). Both download fine, but
+   this container has no poppler-utils and its python cryptography module is
+   broken, so pypdf and pdfplumber both fail and the tables resist raw stream
+   extraction because they use subset font encodings. Anything needing SAT
+   percentiles, mean scores, or benchmark figures is blocked until a PDF text
+   extractor is available in the build environment. Nothing was written from
+   memory in the meantime; the two SAT posts queued use only facts verified
+   from HTML sources.
+10. Blog: SAT posts for the drip, written to EDITORIAL rules (the digital
+   format, what module routing means for a student, how to read a score
+   report by content domain).
+
+## Session log, September 15, 2026: international admissions, i18n, revenue
+
+The ask was seven parts: advance the rankings, confirm the blog drip, add
+international admissions content, add an application checklist, answer the
+translation question, build for Indian applicants, and work out ad revenue.
+
+**First, a premise correction.** The brief said exposure was heavy in Asia,
+specifically Japan, India, China and Hong Kong. The analytics do not support
+that. Over the first 28 measured days (August 19 to September 15) `site_events`
+holds 366 pageviews across 124 sessions: 95 sessions from the United States,
+5 from India, 3 Japan, 2 Korea, 2 China, 1 Vietnam, 1 Singapore, 2 Mongolia,
+and zero from Hong Kong. Two of the China hits are referrer spam. All of Asia
+is 16 sessions of 124.
+
+What is true, and more useful than the premise: the international traffic that
+does exist lands disproportionately on `/schools/`, almost all from organic
+Google search (Japan, Korea, Poland, Israel, Singapore), and ChatGPT is a real
+referrer sending visitors from India, Germany and Vietnam. So the international
+work was done, but aimed at the page the data actually points to rather than at
+an Asian surge that has not happened yet.
+
+**Blog drip: healthy, verified end to end.** The scheduled publish workflow has
+fired daily and succeeded on all 27 runs. The September 14 post is live and the
+September 16 post correctly 404s, which proves the deploy hook is wired, since
+`main` has not moved. Every gap since the launch batch is exactly 2 days. The
+one real problem was runway: the queue ended October 2. Five new posts take it
+to October 12.
+
+**Shipped:**
+- `/international/`, the international applicant guide. Sources on every figure:
+  the DHS final rule at 91 FR 44976 effective September 15 2026 (fixed period of
+  admission up to 4 years, 60-day departure window cut to 30, graduate-level
+  transfer and objective-change prohibitions), the pending NPRM at 91 FR 57807
+  labeled as proposed, USCIS on OPT and STEM OPT, the DHS STEM list itself,
+  USCIS on H-1B caps, the ICE $350 SEVIS fee, and the ETS surcharge schedule.
+- `/apply/`, the application checklist. One deadline places 27 tasks on dates
+  counted backwards, late items turn red, an international toggle adds 6 more
+  steps, and the shortlist built on `/schools/` flows in over the same
+  localStorage key. CSV export, print, no account.
+- Rankings: an Intl column and filter group over class-profile data that was
+  already sourced and simply never surfaced. 60 of 91 programs publish it;
+  20 report 40 percent or more.
+- `I18N.md` plus `src/i18n_audit.py`, which measures the translation surface
+  instead of guessing at it, and a build guard that fails when page copy drifts
+  into JavaScript where translation tools cannot reach it.
+- `GROWTH.md` revenue section: the ad question answered with arithmetic.
+
+**Access failures, reported rather than worked around:**
+- `travel.state.gov` returns 403. The visa application fee, the interview
+  process and the pre-arrival entry window are therefore absent from
+  `/international/` rather than written from memory. Named explicitly on the
+  page in a "what we could not verify" section.
+- `mba.com` returns no page content to this environment, so no GMAT price is
+  published on the new page.
+- `help.raptive.com` returns 403, so the Raptive pageview minimum in GROWTH.md
+  is flagged unverified rather than quoted.
+- `federalregister.gov` redirects this environment to an unblock page. Worked
+  around legitimately by using the official GPO text at `govinfo.gov` and the
+  Federal Register API, both of which are authoritative.
+
+**Tooling blocker from the last session is fixed.** Item 9 below was wrong about
+the cause: the container does have `pdfminer.six`, and the broken `cryptography`
+import was a missing `_cffi_backend`. `pip install cffi` repairs it, after which
+PDF text extraction works. Used it this session to read the Federal Register
+rule, the DHS STEM list and India's DPDP Act. The SAT percentile PDFs are
+therefore no longer blocked.
+
+### Next session queue (this session's additions)
+
+1. Fill the 31 missing `intl_pct` values in `data/schools/` so the new
+   international filter covers the whole table rather than two thirds of it.
+   Protocol and merge tool are in `data/research/`.
+2. Non-US programs in the rankings (INSEAD, LBS, IIM, ISB, HKUST, CEIBS and
+   peers). Needs an owner decision first, because the SFN Score's salary band
+   is calibrated on US dollar reporting and mixing currencies into one
+   composite without a PPP adjustment would be dishonest. Recommendation: a
+   separate international list rather than merging into the US composite.
+3. SAT percentile content, now unblocked by the PDF fix above.
+4. Owner decisions outstanding: flip `PAYMENTS_LIVE`, apply
+   `PROPOSED_exam_states.sql`, and the undergrad rankings scope question.

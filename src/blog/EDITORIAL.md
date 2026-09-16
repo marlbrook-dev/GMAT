@@ -47,9 +47,22 @@ Class of 2027 profiles, additions verified against each school's own class profi
 - Georgetown McDonough: average GMAT Focus 625; average GMAT Classic 700 (McDonough class profile, 2025).
 Note in-text which figures are averages (Stanford, Wharton, Stern, Tuck, Goizueta, McDonough) versus medians (MIT, HBS, Yale, Haas, Fuqua, McCombs).
 
-Product facts (the only permitted product claims, updated August 20, 2026):
-- Start From Nowhere is an adaptive GMAT Focus trainer: 420 original practice items across Quant, Verbal, and Data Insights; 120 flashcards; six practice games plus full mock exams; a rating per skill keyed to the official score-report skill labels; misses return on a spaced schedule; timing tracked per question. First round free, no account needed.
-- The site also publishes an MBA rankings library covering 91 US full-time programs at /schools/, with a source and year on every figure.
+Product facts (the only permitted product claims, updated September 14, 2026):
+- Start From Nowhere runs two adaptive trainers on one engine. GMAT Focus at /app/: 448 original practice items across Quant, Verbal, and Data Insights; 120 flashcards; six practice games plus full mock exams. Digital SAT at /sat/app/: 336 original items across the eight official content domains, 112 flashcards, and mock sections that run as two modules with the second routed by performance on the first.
+- Both trainers keep a rating per skill keyed to that exam's official score-report labels, return misses on a spaced schedule, and track timing per question. First round free, no account needed.
+- The SAT trainer reports accuracy, per-domain results, and which second module you routed into. It does not report a 400 to 1600 score, because College Board's equating tables are not public. Never write that the trainer predicts, estimates, or gives an SAT score.
+- The site also publishes an MBA rankings library covering 91 US full-time programs at /schools/, with a source and year on every figure. There is no undergraduate rankings library yet; do not imply one.
+
+Digital SAT format and content (College Board, verified September 14, 2026):
+- Total score 400 to 1600 in 10-point intervals; Reading and Writing and Math each scored 200 to 800 (College Board, SAT test structure, 2025).
+- Reading and Writing: two 32-minute modules of 27 questions each, 54 questions in 64 minutes. Math: two 35-minute modules of 22 questions each, 44 questions in 70 minutes. 98 questions, 2 hours 14 minutes of testing, with a 10-minute break between sections (College Board, 2025).
+- Section-adaptive, not question-adaptive: performance on the first module of a section determines whether the second module is the harder or the easier form. College Board does not publish the routing threshold, so never state one as official (College Board, 2025).
+- Reading and Writing passages run 25 to 150 words, each followed by one multiple-choice question with four answer choices, drawn from literature, history and social studies, the humanities, and science (College Board, 2025).
+- The four Reading and Writing content domains and their operational question ranges: Craft and Structure 13 to 15, Information and Ideas 12 to 14, Standard English Conventions 11 to 15, Expression of Ideas 8 to 12. Within a module the domains appear in that order, Craft and Structure first, and questions testing similar skills are grouped and run easiest to hardest (Digital SAT Suite Specifications Overview, Table 2).
+- The four Math content domains and their ranges: Algebra 13 to 15, Advanced Math 13 to 15, Problem-Solving and Data Analysis 5 to 7, Geometry and Trigonometry 5 to 7. Math questions run easiest to hardest across each module (same document, Table 3).
+- The Desmos graphing calculator is built into Bluebook and allowed on the entire Math section, alongside annotation, answer elimination, and question flagging (College Board, calculator policy, 2025).
+- Fully digital in the US since March 2024, taken in the Bluebook app (College Board Newsroom, 2024). Base US registration fee $68 for the 2025-26 testing year; international testing adds a regional fee (College Board, 2025). Most students receive scores about 13 days after test day (The Princeton Review, 2026).
+- No official limit on retakes (Sallie Mae, 2026). Approved SAT sources: College Board and its SAT Suite site, and the publishers already approved above. Everything in this block is mirrored with URLs in data/exams.json and data/DATA.md; keep any figure in a post consistent with those files.
 
 ## Post file format
 `src/blog/<slug>.html`: an HTML comment front-matter block with JSON metadata, then the body.

@@ -12,20 +12,23 @@ ROOT = D.parent
 sys.path.insert(0, str(D))
 import partials
 SITE = "https://startfromnowhere.com"
-LIVE = {"gmat"}  # exams with a live trainer today
+LIVE = {"gmat", "sat"}  # exams with a live trainer today
+APP_PATH = {"gmat": "/app/", "sat": "/sat/app/"}  # where each live trainer lives
 
 # Plan feature matrix for /pricing/. Values: True = included, False = not
 # included, string = shown verbatim. Order defines the page.
 PRICING = [
     ("Training", [
+        ("Both live trainers, GMAT Focus and digital SAT", True, True, True),
         ("Adaptive questions per day", "10", "Unlimited", "Unlimited"),
         ("Original practice items (all plans, full bank)", True, True, True),
         ("Custom drills by skill and difficulty", True, True, True),
         ("Worked explanations that name the trap", True, True, True),
     ]),
     ("Mock Sections", [
-        ("Full 45-minute sections under exam rules", "1 per month", "Unlimited", "Unlimited"),
-        ("Bookmark and 3 answer changes, exactly like test day", True, True, True),
+        ("Full sections under exam rules", "1 per month", "Unlimited", "Unlimited"),
+        ("GMAT: bookmark and 3 answer changes, exactly like test day", True, True, True),
+        ("SAT: two modules per section with the second routed by the first", True, True, True),
     ]),
     ("Games and Daily Habit", [
         ("Match, Memory, Blitz, Number crunch, Boss round", True, True, True),
@@ -98,7 +101,7 @@ def txt(f):
 
 def exam_page(e, tpl, today):
     live = e["slug"] in LIVE
-    cta = ('<a class="btn" href="/app/">Start Training Free</a>' if live else
+    cta = (f'<a class="btn" href="{APP_PATH[e["slug"]]}">Start Training Free</a>' if live else
            f'<a class="btn" href="mailto:editors@startfromnowhere.com?subject={esc(e["short"])}%20waitlist">Join the {esc(e["short"])} Waitlist</a>')
     reg = (e.get("maker") or {}).get("register_url")
     reg_btn = f'<a class="btn sec" href="{esc(reg)}" rel="noopener" target="_blank">Register at {esc((e.get("maker") or {}).get("name") or "the official site")}</a>' if reg else ""
@@ -108,7 +111,15 @@ def exam_page(e, tpl, today):
         for sep in [";", ", always", " plus one", " including"]:
             if sep in s:
                 s = s.split(sep)[0]
-        return s if len(s) <= cap else s[:cap - 3].rstrip() + "..."
+        if len(s) <= cap:
+            return s
+        cut = s[:cap - 3]
+        # never leave a stat tile ending inside an unclosed parenthetical, and never cut a word
+        if cut.count("(") > cut.count(")"):
+            cut = cut[:cut.rfind("(")]
+        elif " " in cut and not s[cap - 3:cap - 2].isspace():
+            cut = cut[:cut.rfind(" ")]
+        return cut.rstrip().rstrip(",") + "..."
     tiles = []
     tt = txt(e.get("total_time"))
     if tt:

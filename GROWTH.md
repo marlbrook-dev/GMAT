@@ -31,3 +31,148 @@ AI assistants (ChatGPT, Claude, Perplexity, Google AI Overviews) increasingly an
 - On-site (done): robots.txt welcomes AI crawlers, /llms.txt gives them a structured summary, every article carries FAQ and Article structured data, sourced tables, and a quotable first paragraph.
 - Off-site (the real lever): brand mentions in credible surfaces the models cite: contributed pieces or quotes in approved outlets, tutor and consultant partner pages, university club resource lists. Track each pursuit in the Partners CRM.
 - Measure quarterly by hand until tooling matures: ask the major assistants the top 10 queries from seo-content.md pillars and log whether we appear, what they cite, and what they get wrong.
+
+## Revenue: What the Numbers Actually Support
+
+Written September 15, 2026, against real analytics rather than ambition. Every
+figure in this section is from `site_events` or a primary source, and the
+arithmetic is shown so it can be redone when the traffic changes.
+
+### The Traffic Reality
+
+First 28 days of measured traffic (August 19 to September 15, 2026):
+
+| Measure | Value |
+|---|---|
+| Pageviews | 366 |
+| Sessions | 124 |
+| Sessions from the United States | 95 (77 percent) |
+| Sessions from India | 5 |
+| Sessions from all of Asia combined | 16 |
+| Sessions from Hong Kong | 0 |
+
+Two things in there are worth more than the totals. Organic search is already
+landing non-US readers on `/schools/` specifically, from Google, in Japan,
+Korea, Poland, Israel and Singapore. And ChatGPT is a real referrer, sending
+visitors from India, Germany and Vietnam. The answer-engine work in this
+playbook is producing traffic; the volume is just small.
+
+### Why Display Advertising Earns About Five Dollars a Month Here
+
+At 366 pageviews in 28 days, call it 400 a month. Three ad units per page is
+1,200 impressions. Education content in the United States can reach a $15 RPM
+on a premium network and a small site on an open network realistically sees
+$2 to $6. So:
+
+- Optimistic: 1,200 impressions at $15 RPM = **$18 a month**
+- Realistic: 1,200 impressions at $4 RPM = **$4.80 a month**
+
+That is the whole opportunity at today's traffic, and it is not a forecast that
+improves with effort on the ad side. It improves only with traffic.
+
+The premium networks that pay the high RPM will not take us yet in any case.
+Mediavine's lowest tier, Journey, requires 1,000 monthly sessions; we have
+about 130. (Source: Mediavine's programs page, retrieved September 15, 2026.)
+Raptive's published minimum is higher still, but note that their eligibility
+page returned HTTP 403 to us, so the specific number is unverified here and
+should be checked before anyone quotes it.
+
+### The Three Costs Ads Carry Here, Which Are Not Small
+
+1. **Page speed, which is the growth engine.** Every visitor outside the United
+   States arrived through organic search or an AI assistant. Third-party ad
+   scripts are the single most reliable way to damage Core Web Vitals. Trading
+   measurable search performance for $5 a month is a bad trade at any traffic
+   level, and a catastrophic one at this level.
+
+2. **The privacy posture, which is the product's differentiator.** The site runs
+   a first-party beacon with no third-party trackers, and `privacy.html` says
+   so. An ad network is a third-party tracker by definition. Running one means
+   rewriting those disclosures, adding a consent management platform for EU
+   visitors, and giving up a claim that currently distinguishes us from every
+   competitor in this category.
+
+3. **Indian law makes it unlawful on the SAT side.** India's Digital Personal
+   Data Protection Act, 2023 defines a child as anyone under eighteen
+   (section 2(f)), requires verifiable parental consent before processing a
+   child's personal data (section 9(1)), and states plainly at section 9(3)
+   that "A Data Fiduciary shall not undertake tracking or behavioural
+   monitoring of children or targeted advertising directed at children."
+   Breach of the section 9 obligations carries a penalty that "may extend to
+   two hundred crore rupees" under the Act's Schedule. The SAT audience is
+   overwhelmingly under eighteen. Targeted advertising cannot be served to it
+   in India, and an untargeted fallback earns a fraction of an already tiny
+   number. (Source: the Act as published by the Ministry of Electronics and
+   Information Technology, retrieved September 15, 2026.)
+
+**Recommendation: do not add display advertising now.** Revisit when the site
+clears roughly 25,000 monthly pageviews, which is both the point where premium
+networks become available and the point where the revenue stops being a
+rounding error. The decision is a traffic milestone, not a judgment call, so it
+can be automated: watch monthly pageviews in the admin traffic view.
+
+### What Does Make Money at This Stage, In Order
+
+1. **Turn on the subscription that is already built.** Stripe Checkout is
+   scaffolded and `PAYMENTS_LIVE` is false. One paying subscriber is worth more
+   than a year of display ads at current traffic. This is the highest-value
+   revenue action available and it needs the owner's decision, not more code.
+
+2. **Partnerships already in this playbook.** Tutors, admissions consultants,
+   university clubs, agencies. Revenue per relationship dwarfs per-impression
+   revenue at small scale, and none of it touches the privacy posture.
+
+3. **Affiliate relationships, but only where they are honestly useful.** The
+   international audience genuinely needs lenders who do not require a US
+   cosigner, and those lenders pay referral fees. Two hard conditions if we
+   ever do this: an affiliate relationship may never influence a ranking, a
+   score, or an ordering anywhere on the site, and every affiliate link must be
+   labeled as one at the point of the link, not in a footer. If either is
+   inconvenient in a given deal, decline the deal.
+
+4. **Qualified applicant leads to schools**, which is the large money in this
+   vertical. It is also the one that most easily becomes something we would not
+   want to explain: it only works with explicit, specific, revocable opt-in from
+   the applicant, naming the schools their information goes to. Anything less is
+   selling readers. Worth building properly, later, or not at all.
+
+### The India Question, Answered Directly
+
+India is the second-largest source of traffic and the largest source of GMAT
+test takers outside the United States, so building for Indian applicants is
+plainly right. But "gather their data so we can advertise to them" is the one
+version of it that does not work, for the three reasons above and one more: it
+would be the first thing on this site that we could not explain to the reader
+it was done to.
+
+What works instead, and is already half built:
+
+- **The international guide and the checklist are the India product.** The CIP
+  code question, OPT arithmetic, H-1B caps, and funding without a US cosigner
+  are the questions an Indian applicant actually has, and almost nobody answers
+  them with sources attached.
+- **Ask for data the reader gets something back for.** Target exam, target
+  score, target schools, application round, country. The checklist and the
+  trainer need these to function, so the exchange is visible and fair. This is
+  first-party, declared, and useful, which is exactly the standing rule in
+  CLAUDE.md: demographics optional, self-reported, on the Account page only,
+  never inferred, bought, or appended.
+- **Serve the notice in the right language.** The DPDP Act section 5(3) gives a
+  data principal the right to access the notice "in English or any language
+  specified in the Eighth Schedule to the Constitution." If we take Indian
+  users seriously enough to build for them, the privacy notice is the first
+  thing to translate, ahead of the marketing copy. See I18N.md.
+- **Price for the market.** Purchasing power parity pricing does more for
+  conversion in India than any amount of targeting, and it is a pricing
+  decision, not a tracking one.
+
+### Revisit Triggers
+
+Re-read this section when any of these becomes true, and not before:
+
+- Monthly pageviews clear 25,000 (reconsider display advertising).
+- Monthly sessions clear 1,000 (Mediavine's Journey tier becomes available).
+- A non-English-speaking country produces real Search Console impressions
+  (trigger for I18N.md Stage 1).
+- `PAYMENTS_LIVE` flips to true (subscription revenue becomes measurable, which
+  changes the comparison every option above is measured against).
