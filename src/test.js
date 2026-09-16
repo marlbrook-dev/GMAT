@@ -6,7 +6,7 @@ const GMAT={id:'gmat-focus',choices:5,
  files:['bank_quant.js','bank_quant2.js','bank_quant3.js','bank_quant4.js','bank_quant5.js','bank_quant6.js','bank_verbal.js','bank_verbal2.js','bank_verbal3.js','bank_verbal4.js','bank_verbal5.js','bank_verbal6.js','bank_verbal7.js','bank_verbal8.js','bank_di.js','bank_di2.js','bank_di3.js','bank_di4.js','bank_di5.js','bank_di6.js','bank_di7.js','bank_di8.js','bank_di9.js','cards.js','cards2.js','cards3.js','playbook_gmat.js'],
  concat:'BANK_QUANT,BANK_QUANT2,BANK_QUANT3,BANK_QUANT4,BANK_QUANT5,BANK_QUANT6,BANK_VERBAL,BANK_VERBAL2,BANK_VERBAL3,BANK_VERBAL4,BANK_VERBAL5,BANK_VERBAL6,BANK_VERBAL7,BANK_VERBAL8,BANK_DI,BANK_DI2,BANK_DI3,BANK_DI4,BANK_DI5,BANK_DI6,BANK_DI7,BANK_DI8,BANK_DI9'};
 const GRE={id:'gre',choices:5,choicesByType:{QC:4},
- files:['bank_gre_verbal.js','bank_gre_verbal2.js','bank_gre_quant.js','bank_gre_quant2.js','bank_gre_easy.js','cards_gre.js','playbook_gre.js'],
+ files:['bank_gre_verbal.js','bank_gre_verbal2.js','bank_gre_quant.js','bank_gre_quant2.js','bank_gre_easy.js','writing_gre.js','cards_gre.js','playbook_gre.js'],
  concat:'BANK_GRE_VERBAL,BANK_GRE_VERBAL2,BANK_GRE_QUANT,BANK_GRE_QUANT2,BANK_GRE_EASY'};
 const SAT={id:'sat',choices:4,
  files:['bank_sat_rw.js','bank_sat_rw2.js','bank_sat_rw3.js','bank_sat_rw4.js','bank_sat_rw5.js','bank_sat_math.js','bank_sat_math2.js','bank_sat_math3.js','bank_sat_math4.js','bank_sat_math5.js','bank_sat_easy.js','cards_sat.js','cards_sat2.js','playbook_sat.js'],

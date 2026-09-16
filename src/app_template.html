@@ -187,7 +187,7 @@ body.focus header.app,body.focus footer.app{display:none}
 </style></head><body>
 <header class="app"><div class="hwrap">
 <a class="wordmark" href="/" title="Start From Nowhere home"><svg viewBox="0 0 48 48" width="30" height="30" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#122B4E"/><path d="M13 33 22 22l6 5 8.5-10" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M29.5 16.5H37V24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Start From Nowhere</a>
-<nav class="tabs" id="nav"><button data-v="dash" class="active">Dashboard</button><button data-v="study">Practice</button><button data-v="games">Games</button><button data-v="cards">Flashcards</button><button data-v="drill">Drill</button><button data-v="review">Review</button><button data-v="playbook">Playbook</button><button data-v="data">Account</button><button data-v="admin" id="navAdmin" style="display:none">Admin</button></nav>
+<nav class="tabs" id="nav"><button data-v="dash" class="active">Dashboard</button><button data-v="study">Practice</button><button data-v="games">Games</button><button data-v="cards">Flashcards</button><button data-v="drill">Drill</button><button data-v="review">Review</button><button data-v="write" id="navWrite" style="display:none">Writing</button><button data-v="playbook">Playbook</button><button data-v="data">Account</button><button data-v="admin" id="navAdmin" style="display:none">Admin</button></nav>
 <span class="badge accent" id="streakBadge">Streak x0</span>
 <div class="avatar" id="avatar">HR</div>
 </div></header>
@@ -200,6 +200,7 @@ body.focus header.app,body.focus footer.app{display:none}
 <section id="v-review" class="hidden"></section>
 <section id="v-playbook" class="hidden"></section>
 <section id="v-data" class="hidden"></section>
+<section id="v-write" class="hidden"></section>
 <section id="v-admin" class="hidden"></section>
 </main>
 <footer class="app">{{FOOTER_NOTE}}</footer>
@@ -269,10 +270,13 @@ function streakDays(){ const days=new Set(state.attempts.map(a=>new Date(a.ts).t
 function greeting(){ const h=new Date().getHours(); return h<12?'Good morning':h<18?'Good afternoon':'Good evening'; }
 function updateHeader(){ document.getElementById('streakBadge').textContent='Streak x'+streakDays(); const nm=(state.settings.name||'HR').trim(); const av=document.getElementById('avatar'); av.textContent=nm.split(/\s+/).map(x=>x[0]).join('').slice(0,2).toUpperCase()||'HR'; av.title=Cloud.status==='signed-in'?'Signed in, syncing':'Not signed in'; av.style.boxShadow=Cloud.status==='signed-in'?'0 0 0 2px var(--status-success)':'none'; av.style.cursor='pointer'; av.onclick=()=>show('data'); }
 // ---------- navigation ----------
-const views=['dash','study','games','cards','drill','review','playbook','data','admin'];
+const views=['dash','study','games','cards','drill','review','playbook','write','data','admin'];
+// The writing task exists only for exams whose bundle defines WRITING (the GRE today).
+const HAS_WRITING=(typeof WRITING!=='undefined');
+if(HAS_WRITING){ const wb=document.getElementById('navWrite'); if(wb) wb.style.display=''; }
 document.getElementById('nav').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; show(b.dataset.v); });
 function setFocus(on){ document.body.classList.toggle('focus',!!on); }
-function show(v){ setFocus(false); if(fullMock&&v!=='study'){ fullMock=null; toast('Full mock ended.'); } views.forEach(x=>{ document.getElementById('v-'+x).classList.toggle('hidden',x!==v); }); document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.v===v)); updateHeader(); if(v==='dash') renderDash(); if(v==='review') renderReview(); if(v==='data') renderData(); if(v==='drill') renderDrill(); if(v==='cards') renderCards(); if(v!=='games'&&gm.on) gmReset(); if(v==='games'&&!gm.on) renderGames(); if(v==='playbook') renderPlaybook(); if(v==='admin') renderAdmin(); if(v==='study'&&!session) renderStudyHome(); window.scrollTo(0,0); }
+function show(v){ setFocus(false); if(fullMock&&v!=='study'){ fullMock=null; toast('Full mock ended.'); } views.forEach(x=>{ document.getElementById('v-'+x).classList.toggle('hidden',x!==v); }); document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.v===v)); updateHeader(); if(v==='dash') renderDash(); if(v==='review') renderReview(); if(v==='data') renderData(); if(v==='drill') renderDrill(); if(v==='cards') renderCards(); if(v!=='games'&&gm.on) gmReset(); if(v==='games'&&!gm.on) renderGames(); if(v==='playbook') renderPlaybook(); if(v==='write') renderWrite(); if(v==='admin') renderAdmin(); if(v==='study'&&!session) renderStudyHome(); window.scrollTo(0,0); }
 // ---------- dashboard ----------
 function overallRating(){ const ks=SKILLS.map(s=>state.skills[s.id]).filter(k=>k&&k.n>0); if(!ks.length) return null;
  const tn=ks.reduce((a,k)=>a+k.n,0); return Math.round(ks.reduce((a,k)=>a+k.r*k.n,0)/tn); }
@@ -1417,6 +1421,100 @@ function exportState(){ const blob=new Blob([JSON.stringify(state)],{type:'appli
 function importState(inp){ const f=inp.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{ try{ const s=JSON.parse(r.result); if(!s.skills||!s.attempts) throw 0; state=s; SKILLS.forEach(k=>{ if(!state.skills[k.id]) state.skills[k.id]={r:START_R,n:0,c:0,t:0,hist:[]}; }); if(!state.seen) state.seen={}; if(!state.settings) state.settings={name:'Hunter',testDate:'',dailyGoal:20}; if(state.settings.onboarded===undefined) state.settings.onboarded=false; if(!state.settings.program) state.settings.program={exam:(EXAM.id==='sat'?'SAT':'GMAT'),goal:'',hours:'3 to 5 hrs / week',tools:{'Quick 10':true,'Timed sprint':true,'Flashcards':false}}; if(state.settings.digest===undefined) state.settings.digest=true; persist(); toast('Imported '+state.attempts.length+' attempts.'); renderData(); updateHeader(); }catch(e){ toast('That file is not a valid progress export.'); } }; r.readAsText(f); }
 // keyboard: 1-5 select, Enter submit/next
 document.addEventListener('keydown',e=>{ if(!session||document.getElementById('v-study').classList.contains('hidden')) return; const tag=(e.target.tagName||'').toLowerCase(); if(tag==='input'||tag==='textarea'||tag==='select') return; if(/^[1-5]$/.test(e.key)&&!session.answered){ const i=+e.key-1; if(document.getElementById('opt'+i)) selectChoice(i); } if(e.key==='Enter'){ e.preventDefault(); if(!session.answered) submitAnswer(); else nextQuestion(); } });
+// ---------- Analytical Writing ----------
+// One Analyze an Issue task under a real 30-minute clock. Nothing here scores the essay.
+// ETS scores it 0 to 6 with trained raters working to a calibrated guide; producing a
+// number from a word count would be false precision, and this product does not do that.
+// What it reports is measurable fact about the draft, and what it hands back is a
+// self-assessment built from the dimensions ETS names.
+let wrTimer=null, wrStart=0, wrPrompt=null, wrDraft='';
+function wrKeep(v){ wrDraft=v; }
+function wrState(){ return state.writing||(state.writing={responses:[],last:null}); }
+function wrPick(){ const ws=wrState(); const done=new Set((ws.responses||[]).map(r=>r.id));
+ const fresh=WRITING.prompts.filter(p=>!done.has(p.id));
+ const pool=fresh.length?fresh:WRITING.prompts;
+ return pool[Math.floor(Math.random()*pool.length)]; }
+function wrFmt(s){ const m=Math.floor(s/60), sec=s%60; return m+':'+(sec<10?'0':'')+sec; }
+function wrTick(){ const el=document.getElementById('wrClock'); if(!el) return;
+ const used=Math.floor((Date.now()-wrStart)/1000), left=WRITING.minutes*60-used;
+ el.textContent=left>=0?wrFmt(left):'-'+wrFmt(-left);
+ el.style.color=left<0?'var(--status-error)':left<300?'var(--status-warning)':'var(--text-heading)';
+ const w=document.getElementById('wrWords');
+ const box=document.getElementById('wrText'); if(box) wrDraft=box.value;
+ if(w){ const t=(wrDraft||'').trim();
+  w.textContent=(t?t.split(/\s+/).length:0)+' words'; } }
+function wrBegin(){ wrPrompt=wrPick(); wrStart=Date.now(); wrDraft='';
+ if(wrTimer) clearInterval(wrTimer); wrTimer=setInterval(wrTick,1000); show('write'); setFocus(true);
+ renderWrite(); setTimeout(()=>{ const t=document.getElementById('wrText'); if(t) t.focus(); },60); }
+function wrFinish(){ if(!wrPrompt) return;
+ const box=document.getElementById('wrText'); const text=(box?box.value:wrDraft)||'';
+ setFocus(false);
+ const secs=Math.floor((Date.now()-wrStart)/1000);
+ if(wrTimer){ clearInterval(wrTimer); wrTimer=null; }
+ const ws=wrState();
+ ws.last={id:wrPrompt.id,issue:wrPrompt.issue,text:text,secs:secs,
+          m:WRITING.measures(text,secs),self:{},ts:Date.now()};
+ ws.responses.push({id:wrPrompt.id,words:ws.last.m.words,secs:secs,ts:Date.now()});
+ persist(); track('writing_completed',{prompt:wrPrompt.id,words:ws.last.m.words});
+ wrPrompt=null; renderWrite(); }
+function wrSelf(dim,val){ const ws=wrState(); if(!ws.last) return;
+ ws.last.self[dim]=val; persist(); renderWrite(); }
+function wrDiscard(){ if(!confirm('Discard this response and start a new prompt?')) return;
+ wrState().last=null; persist(); wrPrompt=null; wrDraft=''; setFocus(false); renderWrite(); }
+function renderWrite(){ const el=document.getElementById('v-write'); if(!el||!HAS_WRITING) return;
+ const ws=wrState();
+ // Writing in progress.
+ if(wrPrompt){
+  el.innerHTML='<div class="narrow stack">'
+   +'<div class="card stack-4"><div class="card-head" style="margin:0"><span class="card-title">'+esc(WRITING.task)+'</span>'
+   +'<span class="mono" id="wrClock" style="font-size:22px;font-weight:600">'+wrFmt(WRITING.minutes*60)+'</span></div>'
+   +'<p style="margin:0;font-size:16px;line-height:1.6"><strong>'+esc(wrPrompt.issue)+'</strong></p>'
+   +'<p class="small" style="margin:0">'+esc(wrPrompt.instruction)+'</p></div>'
+   +'<div class="card stack-4"><textarea id="wrText" oninput="wrKeep(this.value)" rows="18" style="width:100%;font-family:var(--font-body);font-size:15px;line-height:1.6;padding:12px;border:1px solid var(--border);border-radius:8px;resize:vertical" placeholder="Write your response here. The clock keeps running past zero so you can see how far over you went."></textarea>'
+   +'<div class="row" style="justify-content:space-between;align-items:center"><span class="small muted" id="wrWords">0 words</span>'
+   +'<button class="btn" onclick="wrFinish()">Finish and Review</button></div></div></div>';
+  const box=document.getElementById('wrText'); if(box&&wrDraft) box.value=wrDraft;
+  wrTick(); return; }
+ // A finished response, with its measures and the self-assessment.
+ if(ws.last){ const r=ws.last, m=r.m;
+  const fact=(l,v)=>'<tr><td>'+l+'</td><td class="num">'+v+'</td></tr>';
+  el.innerHTML='<div class="narrow stack">'
+   +'<div><h1 style="font-size:var(--text-xl)">Your Response</h1><p class="muted" style="margin:6px 0 0">'+esc(r.issue)+'</p></div>'
+   +'<div class="card stack-4"><div class="card-title">What Can Be Measured</div>'
+   +'<table><tbody>'
+   +fact('Words',m.words)+fact('Paragraphs',m.paras)+fact('Sentences',m.sentences)
+   +fact('Average sentence length',m.avgSentence+' words')
+   +fact('Time used',m.minutes+' of '+WRITING.minutes+' minutes')
+   +fact('Signals a counterargument',m.concessive?'yes':'no')
+   +fact('Phrases introducing a specific example',m.specifics)
+   +'</tbody></table>'
+   +'<p class="small muted" style="margin:0">These are facts about the draft, not a judgement of it. None of them is a score. A long response is not automatically a good one, and a short one is not automatically weak.</p></div>'
+   +'<div class="card stack-4"><div class="card-title">Score Yourself Against What ETS Measures</div>'
+   +'<p class="small" style="margin:0">ETS reports Analytical Writing on a scale of '+esc(WRITING.scale)+', judged by trained raters. We do not produce that number, because guessing at it would be worse than leaving it blank. Read your draft once for each question below and answer honestly.</p>'
+   +WRITING.rubric.map(function(d){ const v=r.self[d.id];
+     return '<div style="border-top:1px solid var(--border);padding-top:10px"><div style="font-weight:600;font-size:14px">'+esc(d.label)+'</div>'
+      +'<p class="small" style="margin:4px 0 8px">'+esc(d.ask)+'</p><div class="row" style="gap:6px">'
+      +['Not yet','Partly','Yes'].map(function(opt,i){
+        return '<button class="btn sm'+(v===i?'':' secondary')+'" onclick="wrSelf(\''+d.id+'\','+i+')">'+opt+'</button>'; }).join('')
+      +'</div></div>'; }).join('')
+   +'<p class="small muted" style="margin:0">Deliberately not totalled. A self-assessment that produced a number would be a fake score wearing a rubric. Use the "Not yet" answers as your revision list.</p></div>'
+   +'<div class="card stack-4"><div class="card-title">Your Draft</div>'
+   +'<pre class="small" style="white-space:pre-wrap;margin:0;font-family:var(--font-body);line-height:1.6">'+esc(r.text||'(empty)')+'</pre></div>'
+   +'<div class="row"><button class="btn" onclick="wrBegin()">New Prompt</button><button class="btn ghost" onclick="wrDiscard()">Discard</button></div>'
+   +'</div>'; return; }
+ // Landing state.
+ const hist=(ws.responses||[]).slice(-5).reverse();
+ el.innerHTML='<div class="narrow stack">'
+  +'<div><h1 style="font-size:var(--text-xl)">Analytical Writing</h1><p class="muted" style="margin:6px 0 0">One '+esc(WRITING.task)+' task in '+WRITING.minutes+' minutes, the same shape as the real measure.</p></div>'
+  +'<div class="card stack-4"><div class="card-title">How This Works</div>'
+  +'<p class="small" style="margin:0">ETS states the measure assesses your ability to articulate and support complex ideas, construct arguments, and sustain a focused and coherent discussion, and reports it on a scale of '+esc(WRITING.scale)+'.</p>'
+  +'<p class="small" style="margin:0"><strong>We do not score your essay.</strong> That takes trained raters working to a calibrated guide, and a number invented from a word count would be exactly the false precision the rest of this product refuses. You get a real prompt under a real clock, the facts about what you wrote, and a self-assessment built from the dimensions ETS names.</p>'
+  +'<p class="small muted" style="margin:0">Source: '+esc(WRITING.source)+'. Issue statements are original and written for Start From Nowhere.</p>'
+  +'<div class="row"><button class="btn" onclick="wrBegin()">Start a 30-Minute Task</button></div></div>'
+  +(hist.length?'<div class="card stack-4"><div class="card-title">Recent Attempts</div><table><thead><tr><th>Prompt</th><th class="num">Words</th><th class="num">Minutes</th></tr></thead><tbody>'
+    +hist.map(function(h){ return '<tr><td>'+esc(h.id)+'</td><td class="num">'+h.words+'</td><td class="num">'+Math.round(h.secs/60)+'</td></tr>'; }).join('')
+    +'</tbody></table></div>':'')
+  +'</div>'; }
 // ---------- onboarding wizard (design: ui_kits/web_app/Onboarding.jsx) ----------
 // Stripe Checkout (supabase/README.md). Two flags, deliberately separate.
 //

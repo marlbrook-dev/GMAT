@@ -10,7 +10,7 @@ GMAT_BANKS = ["bank_quant.js","bank_quant2.js","bank_quant3.js","bank_quant4.js"
               "cards.js","cards2.js","cards3.js","playbook_gmat.js"]
 SAT_BANKS = ["bank_sat_rw.js","bank_sat_rw2.js","bank_sat_rw3.js","bank_sat_rw4.js","bank_sat_rw5.js","bank_sat_math.js","bank_sat_math2.js","bank_sat_math3.js","bank_sat_math4.js","bank_sat_math5.js","bank_sat_easy.js","cards_sat.js","cards_sat2.js","playbook_sat.js"]
 
-GRE_BANKS = ["bank_gre_verbal.js","bank_gre_verbal2.js","bank_gre_quant.js","bank_gre_quant2.js","bank_gre_easy.js","cards_gre.js","playbook_gre.js"]
+GRE_BANKS = ["bank_gre_verbal.js","bank_gre_verbal2.js","bank_gre_quant.js","bank_gre_quant2.js","bank_gre_easy.js","writing_gre.js","cards_gre.js","playbook_gre.js"]
 
 APPS = [
     {"exam": "gmat-focus", "out": "app", "files": GMAT_BANKS,
