@@ -51,7 +51,7 @@ const BANK_VERBAL5 = [
       'The firm\'s headquarters has only four floors, so climbing the stairs takes employees little time.',
       'Employees with chronic health conditions that cause frequent absences are often advised by their physicians to avoid climbing stairs.',
       'Some employees who regularly use the stairs do so mainly to avoid waiting for crowded elevators.',
-      'Illness-related absence rates at the firm are lower overall than the national average for office workers doing comparable work.',
+      'Illness-related absence rates at the firm are lower overall than the national average for office workers who do comparable work.',
       'The study was conducted during a winter in which influenza was unusually widespread in the region.'
     ],
     answer: 1,
@@ -108,7 +108,7 @@ const BANK_VERBAL5 = [
       'Nitrate concentrations upstream of the plant have remained at historically low levels.',
       'The plant now operates fewer hours per week than it did two years ago.',
       'A prolonged regional drought has reduced the river\'s flow to a small fraction of its former volume.',
-      'Several species of fish have recently returned to stretches of the river upstream of the plant.'
+      'Several species of fish have recently returned to the stretches of the river that lie upstream of the plant.'
     ],
     answer: 3,
     expl: 'Concentration depends on the amount of nitrate discharged and on the volume of water available to dilute it. If drought sharply reduced the river\'s flow, downstream concentrations could rise even though the total quantity discharged fell by 40 percent.',
@@ -204,7 +204,7 @@ const BANK_VERBAL5 = [
     choices: [
       'defend the standard account of containerization against criticism from skeptical economists',
       'trace a scholarly debate over the container\'s role in trade growth and identify what that debate reveals about how technologies produce economic effects',
-      'argue that tariff reductions, rather than containerization, were the principal cause of the growth in world trade over the period the passage examines',
+      'argue that tariff reductions, rather than containerization, were the principal cause of the growth in world trade across the whole period the passage examines',
       'describe the technical innovations that transformed cargo handling during the twentieth century',
       'recommend policies for ports that are seeking to modernize their infrastructure'
     ],
@@ -245,7 +245,7 @@ const BANK_VERBAL5 = [
     stem: 'The passage suggests that the trade gains identified by recent quantitative work would most likely have been smallest in a country that',
     choices: [
       'equipped its ports to handle containers but did not modernize its inland transportation or customs procedures',
-      'reduced its tariffs over the same period during which its ports were adopting container handling equipment',
+      'reduced its tariffs over the same period during which its own ports were adopting container handling equipment',
       'began handling containers earlier than its major trading partners did',
       'conducted most of its trade with countries located nearby',
       'possessed unusually deep natural harbors before containerization began'
@@ -261,7 +261,7 @@ const BANK_VERBAL5 = [
       'show that the container was adopted more slowly than is commonly believed',
       'support the claim that trade agreements had little effect on the growth of trade',
       'challenge the idea that the container\'s benefits arrived chiefly through cheaper ocean transport',
-      'demonstrate that ports failed to recover their investments in specialized ships and cranes',
+      'demonstrate that the ports failed to recover their investments in the specialized ships and cranes',
       'establish that theft and breakage remained common even after containerization'
     ],
     answer: 2,
