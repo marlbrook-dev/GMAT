@@ -237,7 +237,11 @@ const Cloud={ client:null, user:null, timer:null, status:'off',
  async checkAdmin(){ this.isAdmin=false; const b=document.getElementById('navAdmin'); const pv=location.hash==='#admin-preview'; if(b&&!pv) b.style.display='none'; if(!this.user||!this.client) return; try{ const {data}=await this.client.rpc('is_admin'); this.isAdmin=!!data; }catch(e){} if(b) b.style.display=(this.isAdmin||pv)?'':'none'; },
  async signIn(email){ if(!this.client) return {error:{message:'Sync is available on the hosted site only.'}}; return this.client.auth.signInWithOtp({email, options:{emailRedirectTo: location.origin+location.pathname}}); },
  async signOut(){ if(this.client) await this.client.auth.signOut(); this.user=null; this.status='signed-out'; },
- async pull(){ if(!this.user) return; const {data,error}=await this.client.from('profiles').select('state_blob,display_name,test_date,daily_goal,plan,consent_at').eq('id',this.user.id).maybeSingle(); if(error) return; this.plan=(data&&data.plan)||'free'; const remote=data&&data.state_blob;
+ async pull(){ if(!this.user) return; const {data,error}=await this.client.from('profiles').select('state_blob,display_name,test_date,daily_goal,plan,consent_at,plan_status,trial_end,current_period_end,cancel_at_period_end,stripe_customer_id').eq('id',this.user.id).maybeSingle(); if(error) return; this.plan=(data&&data.plan)||'free';
+  // Billing facts are written only by the Stripe webhook (service role). We read them so the
+  // Account page can say when the trial ends and when the card is charged, rather than making
+  // someone go to Stripe to find out.
+  this.billing=data?{status:data.plan_status,trialEnd:data.trial_end,periodEnd:data.current_period_end,cancelAtEnd:!!data.cancel_at_period_end,hasCustomer:!!data.stripe_customer_id}:null; const remote=data&&data.state_blob;
   // profiles.state_blob predates multi-exam and holds one state per user. A blob written by the
   // other trainer is someone's real progress: show nothing from it and overwrite nothing.
   const remoteExam=(remote&&remote.exam)||'gmat-focus';
@@ -1258,7 +1262,12 @@ function renderData(){ const el=document.getElementById('v-data'); const s=state
   +'<label class="small">How you found us <input type="text" maxlength="120" value="'+esc(ab.referral_src||'')+'" placeholder="e.g. Google, a friend" style="width:170px" onchange="aboutSave(\'referral_src\',this.value)"></label>'
   +'</div>'+(signed?'':'<p class="small muted" style="margin:0">Saved on this device now; it attaches to your account when you sign in.</p>')+'</div>'; })()+
  '<div class="card stack-4"><div class="card-head" style="margin:0"><span class="card-title">Study Program</span>'+badge(pr.exam,'sec-Q')+'</div><table><tbody><tr><td style="width:160px">Exam</td><td>'+esc(pr.exam)+' <span class="small">(GRE, LSAT, MCAT, Executive Assessment coming)</span></td></tr><tr><td>Goal</td><td><input type="text" style="width:100%" value="'+esc(pr.goal||'')+'" placeholder="e.g. Score 675+ for M7 programs" onchange="state.settings.program.goal=this.value;persist()"></td></tr><tr><td>Time</td><td><select onchange="state.settings.program.hours=this.value;persist()">'+['1 to 3 hrs / week','3 to 5 hrs / week','5 to 10 hrs / week','10+ hrs / week'].map(h=>'<option '+(pr.hours===h?'selected':'')+'>'+h+'</option>').join('')+'</select></td></tr><tr><td>Tools</td><td class="chips">'+['Quick 10','Timed sprint','Flashcards','Custom drill'].map(tl=>'<span class="chip-t '+(pr.tools[tl]?'on':'')+'" onclick="state.settings.program.tools[\''+tl+'\']=!state.settings.program.tools[\''+tl+'\'];persist();renderData()">'+tl+'</span>').join('')+'</td></tr></tbody></table><div><button class="btn secondary sm" onclick="startOnboarding()">Re-run the setup wizard</button></div></div>'+
- '<div class="card stack-4"><div class="card-head" style="margin:0"><span class="card-title">Plan and Billing</span>'+badge(userPlan()==='free'?'Free plan':userPlan()==='plus'?'Plus':'Pro','accent')+'</div><p class="small" style="margin:0">'+(PAYMENTS_LIVE?'Every paid plan starts with a '+TRIAL_DAYS+'-day free trial and you can cancel inside it at no charge. Payments run through Stripe Checkout; we never see your card.':'Everything is free while we build. This is the plan structure that switches on later; early users keep generous grandfathering.')+'</p><div class="tiles" style="grid-template-columns:repeat(3,1fr)">'+tiers.map(t=>'<div class="tile"><div class="l">'+t.name+'</div><div class="v" style="font-size:24px">'+t.mo+'<span class="small" style="font-weight:400"> '+t.sub+'</span></div><ul class="small" style="margin:8px 0 0;padding-left:16px;text-align:left">'+t.feats.map(f=>'<li>'+f+'</li>').join('')+'</ul>'+planBtn(t)+'</div>').join('')+'</div></div>'+
+ '<div class="card stack-4"><div class="card-head" style="margin:0"><span class="card-title">Plan and Billing</span>'+badge(userPlan()==='free'?'Free plan':userPlan()==='plus'?'Plus':'Pro','accent')+'</div><p class="small" style="margin:0">'+(PAYMENTS_LIVE?'The free plan never asks for a card. Every paid plan starts with a '+TRIAL_DAYS+'-day free trial you can cancel inside at no charge. Payments run through Stripe Checkout; we never see your card.':'Everything is free while we build. This is the plan structure that switches on later; early users keep generous grandfathering.')+'</p>'+(function(){ const bl=billingLine(); return bl?'<p class="small" style="margin:0"><strong>'+esc(bl)+'</strong></p>':''; })()+(function(){ const b=Cloud.billing; if(!PAYMENTS_LIVE||!b||!b.hasCustomer) return '';
+  const live=b.status==='trialing'||b.status==='active'||b.status==='past_due';
+  return '<div class="row">'
+   +(live&&!b.cancelAtEnd?'<button class="btn secondary sm" onclick="cancelPlan()">Cancel Plan</button>':'')
+   +(live&&b.cancelAtEnd?'<button class="btn secondary sm" onclick="resumePlan()">Keep My Plan</button>':'')
+   +'<button class="btn ghost sm" onclick="openBillingPortal()">Manage Billing</button></div>'; })()+'<div class="tiles" style="grid-template-columns:repeat(3,1fr)">'+tiers.map(t=>'<div class="tile"><div class="l">'+t.name+'</div><div class="v" style="font-size:24px">'+t.mo+'<span class="small" style="font-weight:400"> '+t.sub+'</span></div><ul class="small" style="margin:8px 0 0;padding-left:16px;text-align:left">'+t.feats.map(f=>'<li>'+f+'</li>').join('')+'</ul>'+planBtn(t)+'</div>').join('')+'</div></div>'+
  '<div class="card stack-4"><div class="card-title">Notifications</div><label class="row" style="gap:8px;cursor:pointer"><input type="checkbox" '+(s.digest?'checked':'')+' onchange="state.settings.digest=this.checked;persist()"> Weekly progress digest by email (when accounts launch)</label></div>'+
  '<div class="card stack-4"><div class="card-title">Privacy and Data</div><p class="small" style="margin:0">Your answers, ratings and settings. Download everything as JSON, restore from a file, or delete it. Deleting removes your data from this device'+(signed?' and from your account':'')+'.</p><div class="row"><button class="btn" onclick="exportState()">Download My Data</button><label class="btn secondary">Import From File <input type="file" accept="application/json" onchange="importState(this)"></label><button class="btn ghost" onclick="deleteEverything()">Delete My Data</button></div><table><tbody><tr><td>Attempts</td><td class="num">'+state.attempts.length+'</td></tr><tr><td>Sessions</td><td class="num">'+state.sessions.length+'</td></tr><tr><td>Events logged</td><td class="num">'+((state.events||[]).length)+'</td></tr><tr><td>Created</td><td>'+new Date(state.created).toLocaleString()+'</td></tr><tr><td>Bank</td><td class="num">'+BANK.length+' items · app '+APP_VERSION+'</td></tr></tbody></table></div></div>'; }
 async function sendMagicLink(){ const em=(document.getElementById('authEmail').value||'').trim(); if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){ toast('Enter a valid email.'); return; } state.settings.email=em; persist(); const {error}=await Cloud.signIn(em); const m=document.getElementById('authMsg'); if(error){ m.textContent='Could not send: '+error.message; } else { m.textContent='Check your inbox for the sign-in link. Open it on this device to sync here.'; } }
@@ -1291,6 +1300,47 @@ function planGate(kind){ if(!FREE_LIMITS_LIVE||userPlan()!=='free') return true;
   if(n>=PLAN_LIMITS.free.mocksPerMonth){ paywall('The free plan includes '+PLAN_LIMITS.free.mocksPerMonth+' mock section a month. Plus makes them unlimited.'); return false; } }
  return true; }
 function paywall(msg){ toast(msg); show('data'); }
+const fmtDay=iso=>{ try{ return new Date(iso).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'}); }catch(e){ return ''; } };
+// What the student sees about their own billing. Every branch states the next money event
+// in plain words, because "when will I be charged" is the question a trial has to answer.
+function billingLine(){ const b=Cloud.billing; if(!b||!b.status||b.status==='canceled') return '';
+ const plan=userPlan()==='pro'?'Pro':'Plus';
+ if(b.status==='trialing'&&b.trialEnd) return b.cancelAtEnd
+  ? 'Your free trial runs through '+fmtDay(b.trialEnd)+'. It will not convert and you will not be charged.'
+  : 'Free trial through '+fmtDay(b.trialEnd)+'. Unless you cancel before then, '+plan+' starts and your card is charged that day.';
+ if(b.status==='past_due') return 'Your last payment did not go through. Update your card to keep '+plan+'; nothing is deleted in the meantime.';
+ if(b.status==='active'&&b.periodEnd) return b.cancelAtEnd
+  ? 'Cancelled. '+plan+' access continues through '+fmtDay(b.periodEnd)+' and you will not be charged again.'
+  : plan+' renews on '+fmtDay(b.periodEnd)+'. Cancel any time before then and you keep access to that date.';
+ return ''; }
+// Cancelling, switching plans and changing a card all happen on Stripe's pages.
+async function openBillingPortal(){ if(!Cloud.user){ toast('Sign in first.'); return; }
+ toast('Opening billing...');
+ try{ const {data,error}=await Cloud.client.functions.invoke('create-portal-session',{body:{}});
+  if(data&&data.url){ location.href=data.url; return; }
+  // Supabase wraps a non-2xx as error and still gives us the body; surface what it says.
+  let msg=(data&&data.error)||'';
+  if(!msg&&error&&error.context&&error.context.json){ try{ msg=(await error.context.json()).error||''; }catch(e){} }
+  toast(msg||'Could not open billing. Email billing@startfromnowhere.com and we will sort it out the same day.');
+ }catch(e){ toast('Could not open billing. Email billing@startfromnowhere.com and we will sort it out the same day.'); } }
+// One click, no email, no phone call. Terms section 3 promises exactly this.
+async function cancelPlan(){ const b=Cloud.billing||{};
+ const until=b.status==='trialing'?b.trialEnd:b.periodEnd;
+ const tail=until?' You keep full access until '+fmtDay(until)+'.':'';
+ const charged=b.status==='trialing'?' You will not be charged at all.':' You will not be charged again.';
+ if(!confirm('Cancel your plan?'+charged+tail)) return;
+ toast('Cancelling...');
+ try{ const {data,error}=await Cloud.client.functions.invoke('cancel-subscription',{body:{}});
+  if(!data||!data.ok) throw error||new Error('no ok');
+  await Cloud.pull(); renderData();
+  toast('Cancelled.'+(data.access_until?' Access continues until '+fmtDay(data.access_until)+'.':''));
+  track('plan_cancelled',{});
+ }catch(e){ toast('Could not cancel from here. Email billing@startfromnowhere.com and we will cancel it for you the same day.'); } }
+async function resumePlan(){ toast('Restarting...');
+ try{ const {data,error}=await Cloud.client.functions.invoke('cancel-subscription',{body:{resume:true}});
+  if(!data||!data.ok) throw error||new Error('no ok');
+  await Cloud.pull(); renderData(); toast('Your plan will keep running.'); track('plan_resumed',{});
+ }catch(e){ toast('Could not restart from here. Email billing@startfromnowhere.com.'); } }
 async function startCheckout(plan){ if(!Cloud.user){ toast('Sign in first, then pick a plan.'); show('data'); return; }
  try{ const {data,error}=await Cloud.client.functions.invoke('create-checkout-session',{body:{plan}}); if(error||!data||!data.url) throw error||new Error('no url'); track('checkout_started',{plan}); location.href=data.url; }
  catch(e){ toast('Could not open checkout. Nothing was charged; please try again shortly.'); } }
