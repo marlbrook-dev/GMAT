@@ -157,6 +157,87 @@ LEGAL_LINE = (
 )
 
 
+# ---------------------------------------------------------------------------
+# Sentinel: the error beacon that every page carries.
+#
+# Stage one of the self-improving loop. A JavaScript error on a live page used to
+# be invisible: the student gave up and left, and nothing recorded that it had
+# happened. This reports the error to client_errors, which is insert-only from the
+# browser and readable only through the is_admin gated admin_errors RPC.
+#
+# Three rules it must never break, because a broken error reporter is worse than
+# none: it cannot throw (everything sits inside try/catch), it cannot loop (one
+# report per signature per page view, ten reports maximum), and it cannot report
+# its own failures.
+#
+# Same privacy posture as the analytics beacon: first party, no third parties, the
+# raw IP never leaves the request (country and a salted hash are added by a
+# trigger). Messages and stacks are capped server-side.
+
+def build_id():
+    """Short git sha when available, otherwise the build date. This is what pins a
+    regression to the build that introduced it, so it is worth the subprocess."""
+    import subprocess, datetime
+    try:
+        sha = subprocess.run(["git", "rev-parse", "--short", "HEAD"],
+                             capture_output=True, text=True, timeout=5)
+        if sha.returncode == 0 and sha.stdout.strip():
+            return sha.stdout.strip()
+    except Exception:
+        pass
+    return datetime.date.today().isoformat()
+
+
+SENTINEL_URL = ("https://ftsqwbzhkzuudogkvoqa.supabase.co/rest/v1/client_errors"
+                "?apikey=sb_publishable_GToT4fK6RiwCZpPFE3bGiw_ThXq9qel")
+
+
+def sentinel_js(app_version=None):
+    ver = app_version or build_id()
+    return (
+        "<!-- sfn sentinel: first-party error beacon, no third parties, raw IP never stored -->\n"
+        "<script>(function(){try{\n"
+        'var U="' + SENTINEL_URL + '",V="' + ver + '";\n'
+        "var sid;try{sid=sessionStorage.getItem('sfn_sid');}catch(e){}\n"
+        "// Collapse the variable parts of a message so the same bug groups as one cluster\n"
+        "// however many different numbers, urls or quoted values it happens to carry.\n"
+        "function sig(msg,src){var m=String(msg||'').slice(0,200)"
+        ".replace(/https?:\\/\\/[^\\s)]+/g,'<url>')"
+        ".replace(/0x[0-9a-f]+/gi,'<hex>')"
+        ".replace(/\\b\\d+\\b/g,'<n>')"
+        ".replace(/(['\"`])(?:(?!\\1).){0,60}\\1/g,'<str>').trim();\n"
+        " var f=String(src||'').split('/').pop().split('?')[0].slice(0,60);\n"
+        " return (f?f+': ':'')+m;}\n"
+        "var seen={},n=0;\n"
+        "function report(o){ if(n>=10||seen[o.signature]) return; seen[o.signature]=1; n++;\n"
+        " o.path=location.pathname; o.app_version=V; o.sid=sid||null;\n"
+        " o.device=/Mobi|Android/i.test(navigator.userAgent)?'mobile':'desktop';\n"
+        " o.ua=(navigator.userAgent||'').slice(0,300);\n"
+        " try{fetch(U,{method:'POST',headers:{'Content-Type':'application/json'},"
+        "body:JSON.stringify(o),keepalive:true});}catch(e){} }\n"
+        "addEventListener('error',function(e){ try{\n"
+        " if(!e) return;\n"
+        " // A resource that failed to load fires here with no message. Report it as its\n"
+        " // own kind rather than as a script error, so the two never share a cluster.\n"
+        " if(e.target&&e.target!==window&&(e.target.src||e.target.href)){\n"
+        "  var u=String(e.target.src||e.target.href).slice(0,200);\n"
+        "  return report({kind:'resource',message:'Failed to load '+(e.target.tagName||'?'),"
+        "source:u,signature:sig('Failed to load '+(e.target.tagName||'?'),u)}); }\n"
+        " var msg=e.message||'Script error.';\n"
+        " report({kind:'error',message:String(msg).slice(0,500),source:(e.filename||'').slice(0,300),"
+        "lineno:e.lineno||null,colno:e.colno||null,"
+        "stack:(e.error&&e.error.stack?String(e.error.stack):'').slice(0,2000),"
+        "signature:sig(msg,e.filename)});\n"
+        " }catch(x){} },true);\n"
+        "addEventListener('unhandledrejection',function(e){ try{\n"
+        " var r=e&&e.reason, msg=(r&&(r.message||r))||'unhandled rejection';\n"
+        " report({kind:'unhandledrejection',message:String(msg).slice(0,500),"
+        "stack:(r&&r.stack?String(r.stack):'').slice(0,2000),signature:sig(msg,'')});\n"
+        " }catch(x){} });\n"
+        "}catch(e){}})();</script>"
+    )
+
+
 def footer_html(extra_legal=""):
     links = "".join('<a href="' + h + '">' + l + "</a>" for l, h in FOOTER_LINKS)
     legal = LEGAL_LINE + ((" " + extra_legal) if extra_legal else "")
@@ -166,7 +247,7 @@ def footer_html(extra_legal=""):
         '<div class="sfnf-links">' + links + "</div>"
         '<span class="sfnf-copy">2026 Start From Nowhere</span>'
         "</div>"
-        '<div class="sfnf-legal">' + legal + "</div></footer>"
+        '<div class="sfnf-legal">' + legal + "</div></footer>" + sentinel_js()
     )
 
 

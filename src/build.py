@@ -42,7 +42,8 @@ for app in APPS:
               .replace("{{BANK_CONCAT}}", app["concat"])
               .replace("{{FOOTER_NOTE}}", app["footer"])
               .replace("{{APP_TITLE}}", app["title"])
-              .replace("{{APP_DESC}}", app["desc"]))
+              .replace("{{APP_DESC}}", app["desc"])
+              .replace("{{SENTINEL}}", partials.sentinel_js("app-" + app["exam"] + "-" + partials.build_id())))
     if "{{" in out:
         import re as _r
         print("ERROR: unresolved placeholder in " + app["out"] + ": " + str(_r.findall(r"\{\{[A-Z_]+\}\}", out)[:4]), file=sys.stderr)

@@ -1045,12 +1045,86 @@ async function renderAdminRevenue(el,preview){ el.innerHTML='<div class="stack">
  +'</ul></div>'
  +'</div>';
  window._revD=d; }
+// ---------- sentinel: error triage (reads admin_errors, writes admin_triage_error) ----------
+// Stage two and three of the loop. Stage one is the beacon in partials.sentinel_js().
+//
+// Every cluster is shown with its evidence attached: the real message, the real stack, the
+// builds it appeared in, the pages, how many separate sessions hit it. That is deliberate.
+// Winter et al. found that trust is the binding constraint on automated repair, so this
+// proposes and explains, and a human decides. Nothing here edits code.
+//
+// The decision is the part that compounds. Marking a cluster noise mutes it permanently, so
+// the queue gets quieter as it learns instead of louder, and the stored labels are what a
+// future severity model would train on.
+const ADMIN_ERR_SAMPLE={generated_at:'sample',window_days:7,total:37,muted:2,errors_this_window:37,errors_prev_window:12,
+ clusters:[
+  {signature:'app.js: Uncaught TypeError: Cannot read properties of undefined (reading <str>)',n:24,sessions:9,
+   first_seen:'2026-09-14T08:12:00Z',last_seen:'2026-09-16T17:40:00Z',message:'Uncaught TypeError: Cannot read properties of undefined (reading \'skill\')',
+   stack:'at renderReview (app.js:1180)\nat show (app.js:275)',source:'/app/index.html',paths:['/app/'],versions:['app-gmat-a1494b5'],devices:['desktop','mobile'],status:'open'},
+  {signature:'Failed to load IMG',n:11,sessions:7,first_seen:'2026-09-15T11:00:00Z',last_seen:'2026-09-16T09:20:00Z',
+   message:'Failed to load IMG',stack:'',source:'/design/missing.png',paths:['/schools/'],versions:['a1494b5'],devices:['mobile'],status:'real',severity:'low',note:'broken asset on the rankings page'},
+  {signature:'Script error.',n:2,sessions:2,first_seen:'2026-09-16T03:00:00Z',last_seen:'2026-09-16T03:05:00Z',
+   message:'Script error.',stack:'',source:'',paths:['/'],versions:['a1494b5'],devices:['desktop'],status:'open'}]};
+let errDays=7;
+function errAge(iso){ try{ const h=(Date.now()-new Date(iso).getTime())/36e5;
+ return h<1?Math.max(1,Math.round(h*60))+'m ago':h<48?Math.round(h)+'h ago':Math.round(h/24)+'d ago'; }catch(e){ return ''; } }
+async function errTriage(sig,status){ const note=status==='real'||status==='wontfix'?(prompt('Note (optional):')||null):null;
+ try{ const {error}=await Cloud.client.rpc('admin_triage_error',{p_signature:sig,p_status:status,p_note:note});
+  if(error) throw error; toast('Marked '+status+'.'); renderAdmin(); }
+ catch(e){ toast('Could not save: '+(e.message||e)); } }
+async function renderAdminErrors(el,preview){ el.innerHTML='<div class="stack"><div class="empty">Loading errors...</div></div>';
+ let d=ADMIN_ERR_SAMPLE, note='Sample data. Sign in as an admin to see real errors.';
+ if(!preview){ try{ const {data,error}=await Cloud.client.rpc('admin_errors',{p_days:errDays}); if(error) throw error; d=data; note=null; }
+  catch(e){ el.innerHTML='<div class="narrow stack"><div class="card"><div class="card-title">Errors</div><p class="small">Could not load: '+esc(String(e.message||e))+'</p></div></div>'; return; } }
+ const cl=d.clusters||[];
+ // Rolling comparison rather than a fixed threshold: what counts as a normal error rate
+ // moves every time we ship, so the baseline has to move with it.
+ const now=d.errors_this_window||0, prev=d.errors_prev_window||0;
+ const drift=prev>0?Math.round((now-prev)/prev*100):(now>0?null:0);
+ const tile=(l,v,sub)=>'<div class="tile"><div class="l">'+l+'</div><div class="v">'+v+'</div>'+(sub?'<div class="small">'+sub+'</div>':'')+'</div>';
+ const badgeFor=st=>st==='real'?badge('Real','error'):st==='fixed'?badge('Fixed','success'):st==='wontfix'?badge('Wont fix','warning'):badge('Open','accent');
+ el.innerHTML='<div class="stack">'
+ +'<div class="row" style="align-items:flex-end;justify-content:space-between"><div><h1 style="font-size:var(--text-2xl);font-weight:700">Errors</h1><p class="muted" style="margin:6px 0 0">Every JavaScript error our own pages threw, grouped by signature, with the build that produced it. First-party only; nothing leaves our database.</p></div>'+adminTabsHtml()+'</div>'
+ +(note?'<div class="card"><p class="small" style="margin:0">'+note+'</p></div>':'')
+ +'<div class="row" style="gap:6px">'+[1,7,30].map(x=>'<button class="btn sm'+(errDays===x?'':' secondary')+'" onclick="errDays='+x+';renderAdmin()">Last '+x+(x===1?' day':' days')+'</button>').join('')+'</div>'
+ +'<div class="tiles" style="grid-template-columns:repeat(4,1fr)">'
+   +tile('Errors',String(now),'in the last '+(d.window_days||7)+' days')
+   +tile('Clusters',String(cl.length),'distinct signatures')
+   +tile('Muted',String(d.muted||0),'marked noise, hidden here')
+   +tile('Versus Previous',(drift===null?'new':(drift>=0?'+':'')+drift+'%'),'same length window before')
+ +'</div>'
+ +(cl.length?cl.map(c=>{
+   const vers=(c.versions||[]).filter(Boolean), paths=(c.paths||[]).filter(Boolean);
+   const sg=String(c.signature||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+   return '<div class="card stack-4"><div class="card-head" style="margin:0"><span class="card-title">'+esc(String(c.message||c.signature).slice(0,110))+'</span>'+badgeFor(c.status)+(c.severity?badge(c.severity,'warning'):'')+'</div>'
+   +'<table><tbody>'
+   +'<tr><td style="width:130px">Signature</td><td><code class="small">'+esc(String(c.signature))+'</code></td></tr>'
+   +'<tr><td>Hits</td><td>'+c.n+' across '+c.sessions+' session'+(c.sessions===1?'':'s')+'</td></tr>'
+   +'<tr><td>Seen</td><td>first '+errAge(c.first_seen)+', last '+errAge(c.last_seen)+'</td></tr>'
+   +'<tr><td>Build</td><td>'+(vers.length?vers.map(v=>esc(v)).join(', '):'-')+'</td></tr>'
+   +'<tr><td>Pages</td><td>'+(paths.length?paths.slice(0,6).map(x=>esc(x)).join(', '):'-')+'</td></tr>'
+   +'<tr><td>Source</td><td class="small">'+esc(String(c.source||'-'))+'</td></tr>'
+   +(c.note?'<tr><td>Note</td><td class="small">'+esc(String(c.note))+'</td></tr>':'')
+   +'</tbody></table>'
+   +(c.stack?'<details><summary class="small">Stack</summary><pre class="small" style="white-space:pre-wrap;overflow-x:auto">'+esc(String(c.stack))+'</pre></details>':'')
+   +'<div class="row" style="gap:6px"><button class="btn sm" onclick="errTriage(\''+sg+'\',\'real\')">Real Bug</button>'
+   +'<button class="btn sm secondary" onclick="errTriage(\''+sg+'\',\'fixed\')">Fixed</button>'
+   +'<button class="btn sm secondary" onclick="errTriage(\''+sg+'\',\'wontfix\')">Wont Fix</button>'
+   +'<button class="btn ghost sm" onclick="errTriage(\''+sg+'\',\'noise\')">Noise, Mute It</button></div></div>'; }).join('')
+  :'<div class="card"><p class="small" style="margin:0">No errors in this window. That is the good outcome.</p></div>')
+ +'<div class="card stack-4"><div class="card-title">How This Improves</div><ul class="small" style="margin:0;padding-left:18px">'
+   +'<li>Muting a cluster is permanent, so the queue gets quieter as it learns rather than louder. Those decisions are stored and are what a severity model would train on later.</li>'
+   +'<li>The comparison above is against the previous window of the same length, not a fixed threshold. What counts as normal moves every time we ship, and a frozen threshold goes stale the day after it is set.</li>'
+   +'<li>Nothing here changes code. A cluster marked real is a diagnosis with its evidence attached; the fix still ships through a pull request a human reviewed.</li>'
+ +'</ul></div>'
+ +'</div>'; }
 let adminTab='bi';
-function adminTabsHtml(){ const T=[['bi','Overview'],['rev','Revenue'],['users','Users'],['traffic','Traffic'],['mod','Moderation'],['crm','Partners CRM']];
+function adminTabsHtml(){ const T=[['bi','Overview'],['rev','Revenue'],['err','Errors'],['users','Users'],['traffic','Traffic'],['mod','Moderation'],['crm','Partners CRM']];
  return '<div class="row" style="gap:6px;flex-wrap:wrap">'+T.map(t=>'<button class="btn sm'+(adminTab===t[0]?'':' secondary')+'" onclick="adminTab=\''+t[0]+'\';renderAdmin()">'+t[1]+'</button>').join('')+'</div>'; }
 async function renderAdmin(){ const el=document.getElementById('v-admin'); const preview=location.hash==='#admin-preview';
  if(!preview&&(!Cloud.user||!Cloud.isAdmin)){ el.innerHTML='<div class="narrow stack"><div class="card p8" style="text-align:center"><div class="card-title">Admin</div><p class="muted" style="margin-top:8px">Business intelligence is available to admin accounts. Sign in on the Account tab with an admin email.</p></div></div>'; return; }
  if(adminTab==='rev'){ return renderAdminRevenue(el,preview); }
+ if(adminTab==='err'){ return renderAdminErrors(el,preview); }
  if(adminTab==='crm'){ return renderAdminCRM(el,preview); }
  if(adminTab==='users'){ return renderAdminUsers(el,preview); }
  if(adminTab==='traffic'){ return renderAdminTraffic(el,preview); }
@@ -1419,7 +1493,9 @@ function renderOnboarding(){ let w=document.getElementById('onb'); if(!w){ w=doc
 function finishOnboarding(skipped){ if(!skipped){ state.settings.program={exam:ob.exam,goal:ob.goal,hours:ob.hours,tools:ob.tools}; track('wizard_completed',{exam:ob.exam,goal_len:ob.goal.length,hours:ob.hours}); } state.settings.onboarded=true; persist(); const w=document.getElementById('onb'); if(w) w.remove(); renderDash(); }
 // ---------- boot ----------
 updateHeader(); renderDash(); Cloud.init(); if(location.hash==='#account'){ show('data'); } if(!state.settings.onboarded&&state.attempts.length===0) startOnboarding();
-</script><!-- sfn beacon: first-party, no third parties, raw IP never stored -->
+</script>
+{{SENTINEL}}
+<!-- sfn beacon: first-party, no third parties, raw IP never stored -->
 <script>(function(){try{
 var U="https://ftsqwbzhkzuudogkvoqa.supabase.co/rest/v1/site_events?apikey=sb_publishable_GToT4fK6RiwCZpPFE3bGiw_ThXq9qel";
 var s=sessionStorage.getItem("sfn_sid");if(!s){s=Math.random().toString(36).slice(2)+Math.random().toString(36).slice(2,10);sessionStorage.setItem("sfn_sid",s);}
