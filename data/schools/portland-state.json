@@ -53,5 +53,43 @@
   }
  },
  "notes": "Class profile page publishes no GMAT, GRE, acceptance rate, or class size. Daytime cohort figures used as the full-time program; Evening figures noted in stat. Tuition year omitted because the page does not state the academic year. Portland, OR address confirmed in page footer. US News rank not included: could not fetch a usnews.com page (blocked).",
- "website": "https://www.pdx.edu/academics/programs/graduate/portland-mba"
+ "website": "https://www.pdx.edu/academics/programs/graduate/portland-mba",
+ "federal": {
+  "matched": true,
+  "instnm": "Portland State University",
+  "earn_1yr_usd": {
+   "v": 99771,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.pdx.edu/academics/programs/graduate/portland-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Portland State University"
+  },
+  "earn_4yr_usd": {
+   "v": 123281,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.pdx.edu/academics/programs/graduate/portland-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Portland State University"
+  },
+  "debt_median_usd": {
+   "v": 39595,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.pdx.edu/academics/programs/graduate/portland-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Portland State University"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.pdx.edu/academics/programs/graduate/portland-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Portland State University"
+  },
+  "earn_n": 99,
+  "low_coverage": false
+ }
 }

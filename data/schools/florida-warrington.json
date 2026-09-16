@@ -110,5 +110,43 @@
    "url": "https://warrington.ufl.edu/graduate/full-time-mba/"
   }
  },
- "notes": "UF publishes no dated class profile page. GMAT: program page says typical candidate has 'a 615 GMAT score' with no edition label and no class year, ambiguous between scales, so both GMAT fields left unset per rules. GRE: only 'average GRE score of applicants is 315' (combined, applicants not enrolled). Salary: page publishes average base salary 124783 and signing bonus 28307 for FT MBA graduates but no median, so salary_median_usd left null. Tuition: official pages publish program totals only, not annual: financial info page (undated, 'most current pricing') lists Full-Time MBA 2-Year tuition 25561 Florida resident / 69565 out-of-state plus 1000 professional development fee at https://warrington.ufl.edu/mba/financial-information/; program page lists tuition-and-fees 18041/47377 (1-year business majors, 10 months) and 26561/70565 (1-year all majors, 12 months). Class size and demographics: only a Nov 2023 news article covering the Classes of 2024/2025 (34 students, 11 pct women) at https://warrington.ufl.edu/programs/meet-the-latest-incoming-university-of-florida-full-time-mba-class/, too old and ambiguously worded to record; prior Clear Admit-sourced class_size/women_pct/GMAT figures were dropped because Clear Admit is a banned source and no current official equivalents exist."
+ "notes": "UF publishes no dated class profile page. GMAT: program page says typical candidate has 'a 615 GMAT score' with no edition label and no class year, ambiguous between scales, so both GMAT fields left unset per rules. GRE: only 'average GRE score of applicants is 315' (combined, applicants not enrolled). Salary: page publishes average base salary 124783 and signing bonus 28307 for FT MBA graduates but no median, so salary_median_usd left null. Tuition: official pages publish program totals only, not annual: financial info page (undated, 'most current pricing') lists Full-Time MBA 2-Year tuition 25561 Florida resident / 69565 out-of-state plus 1000 professional development fee at https://warrington.ufl.edu/mba/financial-information/; program page lists tuition-and-fees 18041/47377 (1-year business majors, 10 months) and 26561/70565 (1-year all majors, 12 months). Class size and demographics: only a Nov 2023 news article covering the Classes of 2024/2025 (34 students, 11 pct women) at https://warrington.ufl.edu/programs/meet-the-latest-incoming-university-of-florida-full-time-mba-class/, too old and ambiguously worded to record; prior Clear Admit-sourced class_size/women_pct/GMAT figures were dropped because Clear Admit is a banned source and no current official equivalents exist.",
+ "federal": {
+  "matched": true,
+  "instnm": "University of Florida",
+  "earn_1yr_usd": {
+   "v": 95217,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://warrington.ufl.edu/graduate/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Florida"
+  },
+  "earn_4yr_usd": {
+   "v": 137404,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://warrington.ufl.edu/graduate/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Florida"
+  },
+  "debt_median_usd": {
+   "v": 38383,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://warrington.ufl.edu/graduate/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Florida"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://warrington.ufl.edu/graduate/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Florida"
+  },
+  "earn_n": 784,
+  "low_coverage": false
+ }
 }

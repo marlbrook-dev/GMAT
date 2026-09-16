@@ -122,5 +122,43 @@
    "url": "https://www.fordham.edu/gabelli-school-of-business/academic-programs-and-admissions/graduate-programs/academic-programs/full-time-mba/"
   }
  },
- "notes": "Fast Facts page lists 'Mean GMAT: 659' for the MBA with no edition label and no class year; 659 is plausible on either scale, so both GMAT fields left unset per rules (replaces the prior gmat_classic classification of the same figure). GPA, GRE, acceptance rate, and FT MBA cohort size are not published ('average class size 26' on Fast Facts is school-wide, not the FT MBA cohort). Tuition: the official 2026-2027 Gabelli graduate tuition page at https://www.fordham.edu/student-financial-services/tuition-and-payments/graduate-tuition/gabelli-school-of-business/ prices the Cohort (Full-Time) MBA as a total program cost, 133949 for entrants Fall 2026 and later (129107 prior to Fall 2026), 4 payments over 2 years, plus a one-time 9133 enrichment fee; no annual tuition figure is published, so tuition_usd left null. Salary: no current official employment report with a median; the school's 2022 outcomes page cites an average, not a median. fordham.edu pages required following a CAS gateway redirect; fetched successfully with cookies this session."
+ "notes": "Fast Facts page lists 'Mean GMAT: 659' for the MBA with no edition label and no class year; 659 is plausible on either scale, so both GMAT fields left unset per rules (replaces the prior gmat_classic classification of the same figure). GPA, GRE, acceptance rate, and FT MBA cohort size are not published ('average class size 26' on Fast Facts is school-wide, not the FT MBA cohort). Tuition: the official 2026-2027 Gabelli graduate tuition page at https://www.fordham.edu/student-financial-services/tuition-and-payments/graduate-tuition/gabelli-school-of-business/ prices the Cohort (Full-Time) MBA as a total program cost, 133949 for entrants Fall 2026 and later (129107 prior to Fall 2026), 4 payments over 2 years, plus a one-time 9133 enrichment fee; no annual tuition figure is published, so tuition_usd left null. Salary: no current official employment report with a median; the school's 2022 outcomes page cites an average, not a median. fordham.edu pages required following a CAS gateway redirect; fetched successfully with cookies this session.",
+ "federal": {
+  "matched": true,
+  "instnm": "Fordham University",
+  "earn_1yr_usd": {
+   "v": 110316,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.fordham.edu/gabelli-school-of-business/academic-programs-and-admissions/graduate-programs/academic-programs/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Fordham University"
+  },
+  "earn_4yr_usd": {
+   "v": 143127,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.fordham.edu/gabelli-school-of-business/academic-programs-and-admissions/graduate-programs/academic-programs/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Fordham University"
+  },
+  "debt_median_usd": {
+   "v": 50293,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.fordham.edu/gabelli-school-of-business/academic-programs-and-admissions/graduate-programs/academic-programs/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Fordham University"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.fordham.edu/gabelli-school-of-business/academic-programs-and-admissions/graduate-programs/academic-programs/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Fordham University"
+  },
+  "earn_n": 166,
+  "low_coverage": false
+ }
 }

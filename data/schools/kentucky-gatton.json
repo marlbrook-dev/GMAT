@@ -123,5 +123,9 @@
    "url": ""
   }
  },
- "notes": "Gatton publishes no current full-time (One Year) MBA class profile; the only class profile page on the site is for the Professional (part-time) MBA, and newer cohort news articles (2020-21 cohort, July 2020) give no numbers. The 2019 article gives 17.4 percent minority and international combined, which cannot be split into intl_pct. The full-time MBA page states +90 percent employment rate 3 months post graduation with no class year or precise value, so it was not recorded as a figure. Tuition is a full program rate for the 12-month program, so it is treated as the annual figure; fees are bundled in and not itemized. No 2026-27 rate sheet was linked yet."
+ "notes": "Gatton publishes no current full-time (One Year) MBA class profile; the only class profile page on the site is for the Professional (part-time) MBA, and newer cohort news articles (2020-21 cohort, July 2020) give no numbers. The 2019 article gives 17.4 percent minority and international combined, which cannot be split into intl_pct. The full-time MBA page states +90 percent employment rate 3 months post graduation with no class year or precise value, so it was not recorded as a figure. Tuition is a full program rate for the 12-month program, so it is treated as the annual figure; fees are bundled in and not itemized. No 2026-27 rate sheet was linked yet.",
+ "federal": {
+  "matched": false,
+  "reason": "no CIP 5202 master's record in the federal file"
+ }
 }

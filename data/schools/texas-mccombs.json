@@ -130,5 +130,43 @@
   }
  },
  "website": "https://www.mccombs.utexas.edu/graduate/mba/full-time-mba/",
- "notes": "Official Class of 2027 profile labels the 655 as GMAT Focus median (previous Clear Admit figure of 657 replaced). GRE is published only as a total median of 319 with middle 80 percent 310-332, no quant/verbal split, so gre_quant and gre_verbal stay null. The official Class of 2027 profile page does not publish gender or acceptance rate; the prior Clear Admit women 29 percent could not be confirmed officially. Newer Class of 2025 outcomes exist only on the official MBA Insider blog (average base 154053, 80.2 percent of job seekers received offers within six months, no median given), so the Class of 2024 official employment report median and 3-month offer rate are recorded instead. Prior classic-scale GMAT averages (704-706) apply to fall 2022 and fall 2023 entrants per the employment report and were not carried into gmat_classic to keep all fields on the current Class of 2027."
+ "notes": "Official Class of 2027 profile labels the 655 as GMAT Focus median (previous Clear Admit figure of 657 replaced). GRE is published only as a total median of 319 with middle 80 percent 310-332, no quant/verbal split, so gre_quant and gre_verbal stay null. The official Class of 2027 profile page does not publish gender or acceptance rate; the prior Clear Admit women 29 percent could not be confirmed officially. Newer Class of 2025 outcomes exist only on the official MBA Insider blog (average base 154053, 80.2 percent of job seekers received offers within six months, no median given), so the Class of 2024 official employment report median and 3-month offer rate are recorded instead. Prior classic-scale GMAT averages (704-706) apply to fall 2022 and fall 2023 entrants per the employment report and were not carried into gmat_classic to keep all fields on the current Class of 2027.",
+ "federal": {
+  "matched": true,
+  "instnm": "The University of Texas at Austin",
+  "earn_1yr_usd": {
+   "v": 159326,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.mccombs.utexas.edu/graduate/mba/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "The University of Texas at Austin"
+  },
+  "earn_4yr_usd": {
+   "v": 197707,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.mccombs.utexas.edu/graduate/mba/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "The University of Texas at Austin"
+  },
+  "debt_median_usd": {
+   "v": 91092,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.mccombs.utexas.edu/graduate/mba/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "The University of Texas at Austin"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.mccombs.utexas.edu/graduate/mba/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "The University of Texas at Austin"
+  },
+  "earn_n": 532,
+  "low_coverage": false
+ }
 }

@@ -128,5 +128,43 @@
    "url": "https://damore-mckim.northeastern.edu/wp-content/uploads/2023/01/DMSB_FTMBAEmployment_StatsSheet.pdf"
   }
  },
- "notes": "Class of 2025 remains the most recent class profile published on the school's site (no 2026 or 2027 profile found). Tuition: Northeastern bills the full-time MBA per credit hour, 1931 per credit for 2026-27 (1884 for 2025-26) under the D'Amore-McKim graduate programs rate, plus a 3100 program fee billed in year one, per https://studentfinance.northeastern.edu/billing-payments/tuition-and-fees/ (fetched this session); no annual tuition figure is published, so tuition_usd left null rather than computed. Salary: the Fall 2024 employment stats sheet publishes an average salary of 97840 and average signing bonus of 10000; no median published, so salary_median_usd left null. Work experience and GRE splits are not published."
+ "notes": "Class of 2025 remains the most recent class profile published on the school's site (no 2026 or 2027 profile found). Tuition: Northeastern bills the full-time MBA per credit hour, 1931 per credit for 2026-27 (1884 for 2025-26) under the D'Amore-McKim graduate programs rate, plus a 3100 program fee billed in year one, per https://studentfinance.northeastern.edu/billing-payments/tuition-and-fees/ (fetched this session); no annual tuition figure is published, so tuition_usd left null rather than computed. Salary: the Fall 2024 employment stats sheet publishes an average salary of 97840 and average signing bonus of 10000; no median published, so salary_median_usd left null. Work experience and GRE splits are not published.",
+ "federal": {
+  "matched": true,
+  "instnm": "Northeastern University",
+  "earn_1yr_usd": {
+   "v": 64718,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://damore-mckim.northeastern.edu/programs/mba-full-time/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Northeastern University"
+  },
+  "earn_4yr_usd": {
+   "v": 84704,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://damore-mckim.northeastern.edu/programs/mba-full-time/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Northeastern University"
+  },
+  "debt_median_usd": {
+   "v": 34778,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://damore-mckim.northeastern.edu/programs/mba-full-time/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Northeastern University"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://damore-mckim.northeastern.edu/programs/mba-full-time/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Northeastern University"
+  },
+  "earn_n": 90,
+  "low_coverage": false
+ }
 }

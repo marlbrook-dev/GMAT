@@ -135,5 +135,43 @@
    "url": "https://entrepreneurship.babson.edu/career-outcomes-mba-class-2025/"
   }
  },
- "notes": "Babson does not publish a current full-time MBA class profile on babson.edu; searches found only dated Thought and Action class stories (Class of 2020-2021). The existing GMAT 618, GPA 3.22, and acceptance rate 64.3 are Poets and Quants figures with no official replacement available, so those fields are listed null for this pass. Employment and salary figures are from Babson's own Thought and Action publication (entrepreneurship.babson.edu) summarizing the school's outcomes dashboard; the babson.edu outcomes page itself renders its data via a dashboard that did not expose figures to fetch."
+ "notes": "Babson does not publish a current full-time MBA class profile on babson.edu; searches found only dated Thought and Action class stories (Class of 2020-2021). The existing GMAT 618, GPA 3.22, and acceptance rate 64.3 are Poets and Quants figures with no official replacement available, so those fields are listed null for this pass. Employment and salary figures are from Babson's own Thought and Action publication (entrepreneurship.babson.edu) summarizing the school's outcomes dashboard; the babson.edu outcomes page itself renders its data via a dashboard that did not expose figures to fetch.",
+ "federal": {
+  "matched": true,
+  "instnm": "Babson College",
+  "earn_1yr_usd": {
+   "v": 145036,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.babson.edu/graduate/academics/full-time-business-programs/mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Babson College"
+  },
+  "earn_4yr_usd": {
+   "v": 178909,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.babson.edu/graduate/academics/full-time-business-programs/mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Babson College"
+  },
+  "debt_median_usd": {
+   "v": 50194,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.babson.edu/graduate/academics/full-time-business-programs/mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Babson College"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.babson.edu/graduate/academics/full-time-business-programs/mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Babson College"
+  },
+  "earn_n": 290,
+  "low_coverage": false
+ }
 }

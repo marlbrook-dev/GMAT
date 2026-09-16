@@ -127,5 +127,43 @@
    "url": "https://mason.wm.edu/graduate/mba/full-time-mba/career-outcomes/"
   }
  },
- "notes": "W&M publishes only a 'Typical Full-Time Class Profile' on the admissions page with no class year; the stale 2018 news figures in the current data are superseded by these. Class size, acceptance rate, and GRE stats are not published on reachable official pages. Salary is an average for 2023 graduates; the 88% employment offers figure carries no timeframe definition and sits next to the 2023 salary stat. Tuition page posts fall 2024 rates and bundles tuition and fees into one annual figure."
+ "notes": "W&M publishes only a 'Typical Full-Time Class Profile' on the admissions page with no class year; the stale 2018 news figures in the current data are superseded by these. Class size, acceptance rate, and GRE stats are not published on reachable official pages. Salary is an average for 2023 graduates; the 88% employment offers figure carries no timeframe definition and sits next to the 2023 salary stat. Tuition page posts fall 2024 rates and bundles tuition and fees into one annual figure.",
+ "federal": {
+  "matched": true,
+  "instnm": "William & Mary",
+  "earn_1yr_usd": {
+   "v": 98269,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://mason.wm.edu/graduate/mba/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "William & Mary"
+  },
+  "earn_4yr_usd": {
+   "v": 125353,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://mason.wm.edu/graduate/mba/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "William & Mary"
+  },
+  "debt_median_usd": {
+   "v": 52625,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://mason.wm.edu/graduate/mba/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "William & Mary"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://mason.wm.edu/graduate/mba/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "William & Mary"
+  },
+  "earn_n": 369,
+  "low_coverage": false
+ }
 }

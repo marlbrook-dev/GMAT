@@ -128,5 +128,43 @@
   }
  },
  "notes": "US News 2026 rank is a tie at No. 7 with Columbia. The 682 average was described in coverage as the average GMAT under the current scoring system (GMAT Focus, 205-805 scale); 737 is labeled GMAT (10th edition), a school record. Employment rate (offers within 3 months) is only in the full 2-Year Employment Report PDF, hosted on Google Drive; the Drive viewer would not serve the PDF content so no figure could be read. Official summary page publishes median salary but not an offer or acceptance rate.",
- "website": "https://www.stern.nyu.edu/programs-admissions/full-time-mba"
+ "website": "https://www.stern.nyu.edu/programs-admissions/full-time-mba",
+ "federal": {
+  "matched": true,
+  "instnm": "New York University",
+  "earn_1yr_usd": {
+   "v": 184729,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.stern.nyu.edu/programs-admissions/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "New York University"
+  },
+  "earn_4yr_usd": {
+   "v": 232460,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.stern.nyu.edu/programs-admissions/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "New York University"
+  },
+  "debt_median_usd": {
+   "v": 102131,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.stern.nyu.edu/programs-admissions/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "New York University"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.stern.nyu.edu/programs-admissions/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "New York University"
+  },
+  "earn_n": 531,
+  "low_coverage": false
+ }
 }

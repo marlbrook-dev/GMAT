@@ -124,5 +124,43 @@
    "url": "https://neeley.tcu.edu/degrees-programs/graduate/mba/full-time-mba.php"
   }
  },
- "notes": "TCU Neeley does not publish a current full-time MBA class profile on reachable official pages (program page, admission requirements, tcu.edu program page checked). Salary is published only as 153K average total compensation plus 27K average signing bonus for 2025 graduates (not a median base salary), on the program page; the prior 139,142 figure was also an average total compensation, so salary_median_usd stays null. Tuition is published only as 2,315 USD per semester hour plus 4,200 USD full-time MBA fees per semester, with an estimated total program cost of 141,810 USD and no annual figure, at https://neeley.tcu.edu/admissions/graduate/tuition-fees.php. The prior employment figure (96, from a 2025 news post) is superseded by the program page's 89% accepted offers within 90 days for 2025 graduates. Prior class profile figures from Poets and Quants have no official replacement available."
+ "notes": "TCU Neeley does not publish a current full-time MBA class profile on reachable official pages (program page, admission requirements, tcu.edu program page checked). Salary is published only as 153K average total compensation plus 27K average signing bonus for 2025 graduates (not a median base salary), on the program page; the prior 139,142 figure was also an average total compensation, so salary_median_usd stays null. Tuition is published only as 2,315 USD per semester hour plus 4,200 USD full-time MBA fees per semester, with an estimated total program cost of 141,810 USD and no annual figure, at https://neeley.tcu.edu/admissions/graduate/tuition-fees.php. The prior employment figure (96, from a 2025 news post) is superseded by the program page's 89% accepted offers within 90 days for 2025 graduates. Prior class profile figures from Poets and Quants have no official replacement available.",
+ "federal": {
+  "matched": true,
+  "instnm": "Texas Christian University",
+  "earn_1yr_usd": {
+   "v": 110670,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://neeley.tcu.edu/degrees-programs/graduate/mba/full-time-mba.php",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Texas Christian University"
+  },
+  "earn_4yr_usd": {
+   "v": 151190,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://neeley.tcu.edu/degrees-programs/graduate/mba/full-time-mba.php",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Texas Christian University"
+  },
+  "debt_median_usd": {
+   "v": 41000,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://neeley.tcu.edu/degrees-programs/graduate/mba/full-time-mba.php",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Texas Christian University"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://neeley.tcu.edu/degrees-programs/graduate/mba/full-time-mba.php",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Texas Christian University"
+  },
+  "earn_n": 139,
+  "low_coverage": false
+ }
 }

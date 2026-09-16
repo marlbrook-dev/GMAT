@@ -127,5 +127,43 @@
    "url": "https://merage.uci.edu/_files/documents/career-center/Employment-Report_compiled_2025.pdf"
   }
  },
- "notes": "The class profile sheet (linked from the admissions page as 'latest class profile', filename dated 2025) does not label a class year; its figures (45 students, GMAT 670, Focus 615) differ from the employment report's Class of 2026 column (46 enrolled, avg GMAT 654, GPA 3.0), so the sheet likely covers a newer cohort. The sheet lists 'Average GMAT 670' and 'GMAT Focus 615' as separate rows, so 670 is the classic exam. No GRE figures published on official pages. merage.uci.edu returned 503 to the WebFetch agent; all pages were fetched directly with a browser user agent instead."
+ "notes": "The class profile sheet (linked from the admissions page as 'latest class profile', filename dated 2025) does not label a class year; its figures (45 students, GMAT 670, Focus 615) differ from the employment report's Class of 2026 column (46 enrolled, avg GMAT 654, GPA 3.0), so the sheet likely covers a newer cohort. The sheet lists 'Average GMAT 670' and 'GMAT Focus 615' as separate rows, so 670 is the classic exam. No GRE figures published on official pages. merage.uci.edu returned 503 to the WebFetch agent; all pages were fetched directly with a browser user agent instead.",
+ "federal": {
+  "matched": true,
+  "instnm": "University of California-Irvine",
+  "earn_1yr_usd": {
+   "v": 119774,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://merage.uci.edu/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of California-Irvine"
+  },
+  "earn_4yr_usd": {
+   "v": 148411,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://merage.uci.edu/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of California-Irvine"
+  },
+  "debt_median_usd": {
+   "v": 72394,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://merage.uci.edu/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of California-Irvine"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://merage.uci.edu/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of California-Irvine"
+  },
+  "earn_n": 219,
+  "low_coverage": false
+ }
 }

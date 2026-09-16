@@ -115,6 +115,67 @@ PROFILE_FIELDS = [
     ("employment_rate_pct", "Employed at 3 months", "%", False),
 ]
 
+def federal_section(s):
+    """Federal earnings records, next to what the school reports itself.
+
+    Two different measurements of the same thing, so both are labelled for what they
+    are. The school's own number comes from its employment report and covers the
+    graduates who responded. The federal number comes from tax and aid records and
+    covers only people who took federal aid, which at a school with large need based
+    scholarships and many international students is a minority. Where it is a small
+    minority the page says so on the row rather than in a footnote, because that is
+    the difference between a useful second opinion and a misleading one.
+    """
+    f = s.get("federal") or {}
+    if not f.get("matched"):
+        reason = f.get("reason")
+        if not reason:
+            return ""
+        return ('<div class="section"><h2>Federal Earnings Records</h2>'
+                '<p class="note">The US Department of Education publishes median '
+                'earnings and debt by field of study, but %s, so there is nothing to '
+                'show here. The class profile above is unaffected.</p></div>' % esc(reason))
+
+    def row(label, fld, note=""):
+        v = (f.get(fld) or {}).get("v")
+        return ('<tr><td>%s</td><td class="num">%s</td><td class="src">%s</td></tr>'
+                % (esc(label), fmt(v, money=True), esc(note)))
+
+    n = f.get("earn_n")
+    cls = field(s, "class_size")
+    warn = ""
+    if f.get("low_coverage") and n:
+        warn = ('<p class="note" style="background:var(--amber-50);border:1px solid #F3DDB3;'
+                'border-radius:8px;padding:10px 12px;margin-top:12px"><strong>Read this one '
+                'carefully.</strong> The federal figures below rest on %s graduates%s, '
+                'because only students who took federal aid appear in these records. At a '
+                'school with large need based scholarships and many international students '
+                'that is a small and unrepresentative slice, and the gap with the school\'s '
+                'own reported figure mostly reflects who is counted rather than what '
+                'graduates earn.</p>'
+                % (format(n, ",d"),
+                   " out of a class of %s" % format(int(cls), ",d") if cls else ""))
+    rows = "".join([
+        row("Median earnings, 1 year after completing", "earn_1yr_usd"),
+        row("Median earnings, 4 years after completing", "earn_4yr_usd"),
+        row("Median federal graduate debt", "debt_median_usd"),
+        row("National median for the field, 4 years", "national_earn_4yr_usd",
+            "all US business master's programs"),
+    ])
+    count_line = ("Based on %s graduates with federal earnings records." % format(n, ",d")
+                  if n else "")
+    return ('<div class="section"><h2>Federal Earnings Records</h2>'
+            '<table><thead><tr><th>Measure</th><th class="num">Value</th><th>Note</th></tr>'
+            '</thead><tbody>%s</tbody></table>%s'
+            '<p class="note" style="margin-top:12px">Source: US Department of Education '
+            'College Scorecard field of study file, master\'s degrees in Business '
+            'Administration (CIP 5202) at %s. %s This is an independent measurement from '
+            'tax and federal aid records, not a survey, and it does not feed the SFN Score. '
+            'Where it disagrees with the school\'s own reported salary, the two are '
+            'counting different people.</p></div>'
+            % (warn, rows, esc(f.get("instnm", "")), count_line))
+
+
 def school_page(s, tpl, today):
     p = s.get("profile", {})
     rank_rows = []
@@ -208,6 +269,7 @@ def school_page(s, tpl, today):
     out = (tpl.replace("{{NAME}}", esc(s["name"]))
               .replace("{{DESC_BITS}}", esc(desc))
               .replace("{{SLUG}}", esc(s["slug"]))
+              .replace("{{FEDERAL_SECTION}}", federal_section(s))
               .replace("{{SLUG_JSON}}", json.dumps(s["slug"]))
               .replace("{{NAME_JSON}}", json.dumps(s["name"]))
               .replace("{{GMAT_JSON}}", json.dumps(

@@ -125,5 +125,43 @@
    "url": ""
   }
  },
- "notes": "Tippie announced in August 2017 that it would end its full-time on-campus MBA; the Class of 2019 was the final cohort, so the program stopped admitting after the fall 2017 intake and ended in 2019. Confirmed by the college's own news site, which states the full-time MBA ended in 2019. Successors: online Iowa MBA (launched fall 2019, now the flagship with strong growth), the part-time professional Iowa MBA, and specialized masters (Finance, Business Analytics). Sources: https://tippie.uiowa.edu/news/2024/03/incredible-iowa-how-tippie-college-got-back-game-after-ending-its-full-time-mba"
+ "notes": "Tippie announced in August 2017 that it would end its full-time on-campus MBA; the Class of 2019 was the final cohort, so the program stopped admitting after the fall 2017 intake and ended in 2019. Confirmed by the college's own news site, which states the full-time MBA ended in 2019. Successors: online Iowa MBA (launched fall 2019, now the flagship with strong growth), the part-time professional Iowa MBA, and specialized masters (Finance, Business Analytics). Sources: https://tippie.uiowa.edu/news/2024/03/incredible-iowa-how-tippie-college-got-back-game-after-ending-its-full-time-mba",
+ "federal": {
+  "matched": true,
+  "instnm": "University of Iowa",
+  "earn_1yr_usd": {
+   "v": 116611,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://tippie.uiowa.edu/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Iowa"
+  },
+  "earn_4yr_usd": {
+   "v": 139677,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://tippie.uiowa.edu/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Iowa"
+  },
+  "debt_median_usd": {
+   "v": 42275,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://tippie.uiowa.edu/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Iowa"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://tippie.uiowa.edu/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Iowa"
+  },
+  "earn_n": 297,
+  "low_coverage": false
+ }
 }

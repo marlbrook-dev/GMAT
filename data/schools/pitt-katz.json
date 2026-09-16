@@ -132,5 +132,28 @@
    "url": "https://www.business.pitt.edu/career-outcomes-2025-ftmba/"
   }
  },
- "notes": "Katz publishes no public incoming class profile: MBA pages, admissions pages, FAQs, and the stats-and-rankings page carry no GMAT, GRE, GPA, work experience, class size, or demographic figures. Employment figures conflict across official pages: the MBA overview and stats page say 94% employed or with offers within 90 days (stats page salary labeled 2022 data), while the 2025 career outcomes page reports 81% received first offer within 3 months as a 2020-2025 five-year average; the dated 2025 outcomes page was used."
+ "notes": "Katz publishes no public incoming class profile: MBA pages, admissions pages, FAQs, and the stats-and-rankings page carry no GMAT, GRE, GPA, work experience, class size, or demographic figures. Employment figures conflict across official pages: the MBA overview and stats page say 94% employed or with offers within 90 days (stats page salary labeled 2022 data), while the 2025 career outcomes page reports 81% received first offer within 3 months as a 2020-2025 five-year average; the dated 2025 outcomes page was used.",
+ "federal": {
+  "matched": true,
+  "instnm": "University of Pittsburgh-Pittsburgh Campus",
+  "earn_1yr_usd": {
+   "v": null
+  },
+  "earn_4yr_usd": {
+   "v": null
+  },
+  "debt_median_usd": {
+   "v": null
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.business.pitt.edu/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Pittsburgh-Pittsburgh Campus"
+  },
+  "earn_n": null,
+  "low_coverage": false
+ }
 }

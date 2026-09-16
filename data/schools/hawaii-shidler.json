@@ -45,5 +45,43 @@
   }
  },
  "notes": "Class profile page states no class year or entering term anywhere on the page, so class_year and per-field year are omitted rather than guessed. Applications submitted (69) and class size (37) do not give an admit count, so acceptance rate cannot be computed. No international student percentage on the profile. No MBA-specific employment report exists on shidler.hawaii.edu (a UH news item covers BBA grads only, not used). Honolulu, HI address confirmed in site footer; University of Hawaii is public. shidler.hawaii.edu would not load via WebFetch (domain verification error) so pages were fetched directly over HTTPS with curl this session. US News rank omitted: not confirmable from a fetched page. Publishes average GMAT 539 with no edition label; not recorded per the edition-ambiguity rule.",
- "website": "https://shidler.hawaii.edu/mba"
+ "website": "https://shidler.hawaii.edu/mba",
+ "federal": {
+  "matched": true,
+  "instnm": "University of Hawaii at Manoa",
+  "earn_1yr_usd": {
+   "v": 79473,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://shidler.hawaii.edu/mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Hawaii at Manoa"
+  },
+  "earn_4yr_usd": {
+   "v": 108588,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://shidler.hawaii.edu/mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Hawaii at Manoa"
+  },
+  "debt_median_usd": {
+   "v": 49652,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://shidler.hawaii.edu/mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Hawaii at Manoa"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://shidler.hawaii.edu/mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Hawaii at Manoa"
+  },
+  "earn_n": 65,
+  "low_coverage": false
+ }
 }

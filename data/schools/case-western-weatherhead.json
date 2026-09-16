@@ -124,5 +124,43 @@
    "url": "https://case.edu/weatherhead/career-management/placement-statistics/2023-full-time-mba-career-placement"
   }
  },
- "notes": "The full-time MBA class profile page and the full-time MBA tuition page under case.edu/weatherhead/academics/graduate/mba/full-time-mba/ return HTTP 403 from this network, so no class profile figures could be verified. Salary: the school publishes only an average (90,640 average base salary, Class of 2023, same placement page), no median, so salary_median_usd is null. 2023 is the most recent placement year listed (2021 to 2023). The current Weatherhead MBA admissions page describes a flexible evening format and quotes a part-time MBA total program tuition of 69,762 for students entering fall 2026 at 1,661 per credit hour over 42 credit hours; the traditional full-time class profile appears to no longer be published. Verified pages: CWRU SFS tuition page also lists 2026-27 continuing full-time MBA at the same 1,661 per credit rate."
+ "notes": "The full-time MBA class profile page and the full-time MBA tuition page under case.edu/weatherhead/academics/graduate/mba/full-time-mba/ return HTTP 403 from this network, so no class profile figures could be verified. Salary: the school publishes only an average (90,640 average base salary, Class of 2023, same placement page), no median, so salary_median_usd is null. 2023 is the most recent placement year listed (2021 to 2023). The current Weatherhead MBA admissions page describes a flexible evening format and quotes a part-time MBA total program tuition of 69,762 for students entering fall 2026 at 1,661 per credit hour over 42 credit hours; the traditional full-time class profile appears to no longer be published. Verified pages: CWRU SFS tuition page also lists 2026-27 continuing full-time MBA at the same 1,661 per credit rate.",
+ "federal": {
+  "matched": true,
+  "instnm": "Case Western Reserve University",
+  "earn_1yr_usd": {
+   "v": 92560,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://case.edu/weatherhead/academics/graduate/mba/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Case Western Reserve University"
+  },
+  "earn_4yr_usd": {
+   "v": 117931,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://case.edu/weatherhead/academics/graduate/mba/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Case Western Reserve University"
+  },
+  "debt_median_usd": {
+   "v": 65000,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://case.edu/weatherhead/academics/graduate/mba/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Case Western Reserve University"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://case.edu/weatherhead/academics/graduate/mba/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Case Western Reserve University"
+  },
+  "earn_n": 158,
+  "low_coverage": false
+ }
 }

@@ -127,5 +127,43 @@
    "url": "https://www.mbs.miami.edu/graduate/find-and-compare-programs/full-time-mba/index.html"
   }
  },
- "notes": "The cited news article was re-fetched and quoted verbatim: it contains NO GMAT figure and NO percent-women figure, so the prior gmat_classic 650 median and women_pct 40 attributed to it are unverifiable and removed. GRE is reported combined only (rose from 318 to 320), so quant/verbal stay null. Tuition is per credit: 2337 USD per credit for AY 2026-27, 56 credit program, total estimated program tuition 133817 USD plus 2913 mandatory fees, per official cost page (https://www.mbs.miami.edu/graduate/find-and-compare-programs/full-time-mba/cost-of-attendance.html, fetched this session); no annual tuition figure is published, so tuition_usd stays null. No official salary figure found. herbert.miami.edu now redirects to mbs.miami.edu."
+ "notes": "The cited news article was re-fetched and quoted verbatim: it contains NO GMAT figure and NO percent-women figure, so the prior gmat_classic 650 median and women_pct 40 attributed to it are unverifiable and removed. GRE is reported combined only (rose from 318 to 320), so quant/verbal stay null. Tuition is per credit: 2337 USD per credit for AY 2026-27, 56 credit program, total estimated program tuition 133817 USD plus 2913 mandatory fees, per official cost page (https://www.mbs.miami.edu/graduate/find-and-compare-programs/full-time-mba/cost-of-attendance.html, fetched this session); no annual tuition figure is published, so tuition_usd stays null. No official salary figure found. herbert.miami.edu now redirects to mbs.miami.edu.",
+ "federal": {
+  "matched": true,
+  "instnm": "University of Miami",
+  "earn_1yr_usd": {
+   "v": 93230,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.herbert.miami.edu/graduate/find-and-compare-programs/full-time-mba/index.html",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Miami"
+  },
+  "earn_4yr_usd": {
+   "v": 128052,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.herbert.miami.edu/graduate/find-and-compare-programs/full-time-mba/index.html",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Miami"
+  },
+  "debt_median_usd": {
+   "v": 97088,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.herbert.miami.edu/graduate/find-and-compare-programs/full-time-mba/index.html",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Miami"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.herbert.miami.edu/graduate/find-and-compare-programs/full-time-mba/index.html",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Miami"
+  },
+  "earn_n": 172,
+  "low_coverage": false
+ }
 }

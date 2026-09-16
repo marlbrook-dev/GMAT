@@ -145,5 +145,43 @@
    "url": ""
   }
  },
- "notes": "GRE is published only as a combined Average GRE 310, not split by section, so gre_quant and gre_verbal are null. No classic GMAT figure is published. Salary: the career advising page (https://www.colorado.edu/business/mba/full-time-mba-program/why-program/career-advising) publishes only averages for the Class of 2025 (98,918 all students, 104,472 with permanent work authorization), no median, and no three-month placement rate, so salary_median_usd and employment_rate_pct are null. Acceptance rate not published."
+ "notes": "GRE is published only as a combined Average GRE 310, not split by section, so gre_quant and gre_verbal are null. No classic GMAT figure is published. Salary: the career advising page (https://www.colorado.edu/business/mba/full-time-mba-program/why-program/career-advising) publishes only averages for the Class of 2025 (98,918 all students, 104,472 with permanent work authorization), no median, and no three-month placement rate, so salary_median_usd and employment_rate_pct are null. Acceptance rate not published.",
+ "federal": {
+  "matched": true,
+  "instnm": "University of Colorado Boulder",
+  "earn_1yr_usd": {
+   "v": 94825,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.colorado.edu/business/mba-all-programs-apply",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Colorado Boulder"
+  },
+  "earn_4yr_usd": {
+   "v": 137635,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.colorado.edu/business/mba-all-programs-apply",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Colorado Boulder"
+  },
+  "debt_median_usd": {
+   "v": 41000,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.colorado.edu/business/mba-all-programs-apply",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Colorado Boulder"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.colorado.edu/business/mba-all-programs-apply",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Colorado Boulder"
+  },
+  "earn_n": 215,
+  "low_coverage": false
+ }
 }

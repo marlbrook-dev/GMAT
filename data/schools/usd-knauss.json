@@ -53,5 +53,43 @@
   }
  },
  "notes": "No GMAT, GRE, acceptance rate, or international percent published on the program page. Tuition is published only per unit: 1790 per unit for master's students, 2026-27, on the graduate catalog tuition and fees page (https://graduate.catalog.sandiego.edu/academics/tuitionandfees); no official annual or total full-time MBA tuition is posted, so tuition_usd is left null rather than derived. City and state confirmed via the university's own pages; USD is a private university.",
- "website": "https://www.sandiego.edu/business/academics/graduate/mba/full-time-mba.php"
+ "website": "https://www.sandiego.edu/business/academics/graduate/mba/full-time-mba.php",
+ "federal": {
+  "matched": true,
+  "instnm": "University of San Diego",
+  "earn_1yr_usd": {
+   "v": 105707,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.sandiego.edu/business/academics/graduate/mba/full-time-mba.php",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of San Diego"
+  },
+  "earn_4yr_usd": {
+   "v": 163311,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.sandiego.edu/business/academics/graduate/mba/full-time-mba.php",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of San Diego"
+  },
+  "debt_median_usd": {
+   "v": 48756,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.sandiego.edu/business/academics/graduate/mba/full-time-mba.php",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of San Diego"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.sandiego.edu/business/academics/graduate/mba/full-time-mba.php",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of San Diego"
+  },
+  "earn_n": 97,
+  "low_coverage": false
+ }
 }

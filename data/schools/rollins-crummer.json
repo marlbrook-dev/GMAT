@@ -25,5 +25,43 @@
   }
  },
  "notes": "Early Advantage MBA is aimed at early-career students (average age 22) and the program states no GMAT or GRE is required; no test averages, GPA, acceptance rate, or work experience figures are published. Cohort page lists 10 countries represented but no percent international. Cost is published as Total Program Investment of 87944 USD for the 16 to 20 month program, not annual tuition, so tuition_usd left null. No employment report or placement and salary statistics found on official pages; the school's career pages and resource articles cite only national GMAC survey data.",
- "website": "https://crummer.rollins.edu/programs/early-advantage-mba"
+ "website": "https://crummer.rollins.edu/programs/early-advantage-mba",
+ "federal": {
+  "matched": true,
+  "instnm": "Rollins College",
+  "earn_1yr_usd": {
+   "v": 75913,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://crummer.rollins.edu/programs/early-advantage-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Rollins College"
+  },
+  "earn_4yr_usd": {
+   "v": 105299,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://crummer.rollins.edu/programs/early-advantage-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Rollins College"
+  },
+  "debt_median_usd": {
+   "v": 41000,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://crummer.rollins.edu/programs/early-advantage-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Rollins College"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://crummer.rollins.edu/programs/early-advantage-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Rollins College"
+  },
+  "earn_n": 171,
+  "low_coverage": false
+ }
 }

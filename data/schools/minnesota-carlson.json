@@ -117,5 +117,43 @@
    "url": "https://carlsonschool.umn.edu/sites/carlsonschool.umn.edu/files/2025-10/carlson-ftmba-employment-report-2025.pdf"
   }
  },
- "notes": "Class profile page (fetched this session) is undated and does not state a class year; it now lists Average GMAT 664.4 with no edition label, so per protocol neither gmat_focus nor gmat_classic is set (the prior 685 figure no longer appears on the page). GRE is published as Average Total GRE 317.7 only, no quant/verbal split. Work experience is printed as 'Average Years of Work Experience 3.4-7', a range with no single average, so left null. Women, international, and acceptance rate are not published on the profile page. Salary: employment report publishes mean base salary only, 135058 mean for Class of 2025 (range 60000 to 192000); no median published, so salary_median_usd left null. Carlson lists average GMAT 664.4 with no edition label or class year; not recorded per the edition-ambiguity rule."
+ "notes": "Class profile page (fetched this session) is undated and does not state a class year; it now lists Average GMAT 664.4 with no edition label, so per protocol neither gmat_focus nor gmat_classic is set (the prior 685 figure no longer appears on the page). GRE is published as Average Total GRE 317.7 only, no quant/verbal split. Work experience is printed as 'Average Years of Work Experience 3.4-7', a range with no single average, so left null. Women, international, and acceptance rate are not published on the profile page. Salary: employment report publishes mean base salary only, 135058 mean for Class of 2025 (range 60000 to 192000); no median published, so salary_median_usd left null. Carlson lists average GMAT 664.4 with no edition label or class year; not recorded per the edition-ambiguity rule.",
+ "federal": {
+  "matched": true,
+  "instnm": "University of Minnesota-Twin Cities",
+  "earn_1yr_usd": {
+   "v": 132950,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://carlsonschool.umn.edu/graduate/mba/full-time",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Minnesota-Twin Cities"
+  },
+  "earn_4yr_usd": {
+   "v": 162817,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://carlsonschool.umn.edu/graduate/mba/full-time",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Minnesota-Twin Cities"
+  },
+  "debt_median_usd": {
+   "v": 67943,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://carlsonschool.umn.edu/graduate/mba/full-time",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Minnesota-Twin Cities"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://carlsonschool.umn.edu/graduate/mba/full-time",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Minnesota-Twin Cities"
+  },
+  "earn_n": 384,
+  "low_coverage": false
+ }
 }

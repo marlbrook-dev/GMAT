@@ -124,5 +124,43 @@
    "url": "https://gsm.ucdavis.edu/full-time-mba/your-career"
   }
  },
- "notes": "The official 2025 cohort profile publishes no GMAT figure on either scale and only GRE quant (161 average), no GRE verbal, and no acceptance rate. Salary is published only as 117K+ average for U.S. eligible graduates (Class of 2025), a rounded figure with no median, so salary_median_usd stays null. The standalone placement report URL returned HTTP 403."
+ "notes": "The official 2025 cohort profile publishes no GMAT figure on either scale and only GRE quant (161 average), no GRE verbal, and no acceptance rate. Salary is published only as 117K+ average for U.S. eligible graduates (Class of 2025), a rounded figure with no median, so salary_median_usd stays null. The standalone placement report URL returned HTTP 403.",
+ "federal": {
+  "matched": true,
+  "instnm": "University of California-Davis",
+  "earn_1yr_usd": {
+   "v": 120153,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://gsm.ucdavis.edu/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of California-Davis"
+  },
+  "earn_4yr_usd": {
+   "v": 155416,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://gsm.ucdavis.edu/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of California-Davis"
+  },
+  "debt_median_usd": {
+   "v": 93512,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://gsm.ucdavis.edu/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of California-Davis"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://gsm.ucdavis.edu/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of California-Davis"
+  },
+  "earn_n": 76,
+  "low_coverage": false
+ }
 }

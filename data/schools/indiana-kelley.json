@@ -134,5 +134,9 @@
   }
  },
  "website": "https://kelley.iu.edu/programs/full-time-mba/",
- "notes": "Official class profile page (Class of 2027) confirms and supersedes the P and Q figures; GMAT 607 is explicitly labeled current edition, previously called GMAT Focus, and no classic-scale GMAT is published. Acceptance rate is not published on the class profile or admissions pages. The employment report PDF now on kelley.iu.edu is the 2025-26 edition covering the graduating Class of 2025, replacing the prior Class of 2024 data; the old newdev.kelley.iu.edu host no longer resolves. Tuition confirmed on the official Kelley tuition page at the 2026-27 rate, replacing the Clear Admit sourced entry."
+ "notes": "Official class profile page (Class of 2027) confirms and supersedes the P and Q figures; GMAT 607 is explicitly labeled current edition, previously called GMAT Focus, and no classic-scale GMAT is published. Acceptance rate is not published on the class profile or admissions pages. The employment report PDF now on kelley.iu.edu is the 2025-26 edition covering the graduating Class of 2025, replacing the prior Class of 2024 data; the old newdev.kelley.iu.edu host no longer resolves. Tuition confirmed on the official Kelley tuition page at the 2026-27 rate, replacing the Clear Admit sourced entry.",
+ "federal": {
+  "matched": false,
+  "reason": "no CIP 5202 master's record in the federal file"
+ }
 }
