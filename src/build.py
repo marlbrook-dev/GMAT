@@ -13,7 +13,7 @@ SAT_BANKS = ["bank_sat_rw.js","bank_sat_rw2.js","bank_sat_rw3.js","bank_sat_rw4.
 GRE_BANKS = ["bank_gre_verbal.js","bank_gre_verbal2.js","bank_gre_quant.js","bank_gre_quant2.js","bank_gre_easy.js","writing_gre.js","cards_gre.js","playbook_gre.js"]
 
 APPS = [
-    {"exam": "gmat-focus", "out": "app", "files": GMAT_BANKS,
+    {"exam": "gmat-focus", "out": "app", "gen": "gmat", "files": GMAT_BANKS,
      "concat": ("BANK_QUANT, BANK_QUANT2, BANK_QUANT3, BANK_QUANT4, BANK_QUANT5, BANK_QUANT6, "
                 "BANK_VERBAL, BANK_VERBAL2, BANK_VERBAL3, BANK_VERBAL4, BANK_VERBAL5, BANK_VERBAL6, BANK_VERBAL7, BANK_VERBAL8, "
                 "BANK_DI, BANK_DI2, BANK_DI3, BANK_DI4, BANK_DI5, BANK_DI6, BANK_DI7, BANK_DI8, BANK_DI9"),
@@ -23,7 +23,7 @@ APPS = [
      "title": "Start From Nowhere | Adaptive GMAT Focus Trainer",
      "desc": "Start From Nowhere: adaptive GMAT Focus Edition practice that studies you back.",
      "is_404": True},
-    {"exam": "sat", "out": "sat/app", "files": SAT_BANKS,
+    {"exam": "sat", "out": "sat/app", "gen": "sat", "files": SAT_BANKS,
      "concat": "BANK_SAT_RW, BANK_SAT_RW2, BANK_SAT_RW3, BANK_SAT_RW4, BANK_SAT_RW5, BANK_SAT_MATH, BANK_SAT_MATH2, BANK_SAT_MATH3, BANK_SAT_MATH4, BANK_SAT_MATH5, BANK_SAT_EASY",
      "footer": ("SAT is a trademark registered by the College Board, which does not endorse this product. Practice "
                 "items are original and written for Start From Nowhere. Content domains follow College Board's "
@@ -32,7 +32,7 @@ APPS = [
      "desc": ("Start From Nowhere: adaptive digital SAT practice across the eight official content "
               "domains, with two-module mock sections that route like the real exam."),
      "is_404": False},
-    {"exam": "gre", "out": "gre/app", "files": GRE_BANKS,
+    {"exam": "gre", "out": "gre/app", "gen": "gre", "files": GRE_BANKS,
      "concat": "BANK_GRE_VERBAL, BANK_GRE_VERBAL2, BANK_GRE_QUANT, BANK_GRE_QUANT2, BANK_GRE_EASY",
      "footer": ("GRE is a registered trademark of ETS, which does not endorse this product. Practice items are "
                 "original and written for Start From Nowhere. The trainer covers Verbal Reasoning and Quantitative "
@@ -46,12 +46,33 @@ APPS = [
 
 engine = (d/"engine.js").read_text(); tpl = (d/"app_template.html").read_text()
 built = {}
+# The generated banks are built first; the schemas in src/gen/ are their source of truth.
+import build_banks
+print("generating item banks from src/gen/ ...")
+GEN_REPORT = build_banks.main()
+GEN_COUNT = {}
+for (_exam, _skill), (_n, _drop, _errs) in GEN_REPORT.items():
+    GEN_COUNT[_exam] = GEN_COUNT.get(_exam, 0) + _n
+GEN_DIR = d / "generated"
+
 for app in APPS:
     banks = "\n".join((d/f).read_text() for f in app["files"])
+    gen_file = GEN_DIR / ("bank_gen_%s.js" % app["gen"])
+    gen_src = gen_file.read_text() if gen_file.exists() else ""
+    gen_const = "BANK_GEN_" + app["gen"].upper()
+    concat = app["concat"] + (", " + gen_const if gen_src else "")
+    # The bank ships as its own file next to index.html. The path is absolute because the
+    # GMAT app doubles as 404.html and is served from arbitrary URLs.
+    bank_path = "/" + app["out"] + "/bank.js"
+    bank_js = ("// GENERATED FILE. Built by src/build.py; edit the banks in src/ instead.\n"
+               + banks + "\n" + gen_src + "\n"
+               + "const BANK = [].concat(%s);\n" % concat)
+    bank_out = root / app["out"]
+    bank_out.mkdir(parents=True, exist_ok=True)
+    (bank_out / "bank.js").write_text(bank_js)
     out = (tpl.replace("{{EXAM_ID}}", app["exam"])
-              .replace("{{BANKS}}", banks)
+              .replace("{{BANK_SRC}}", bank_path)
               .replace("{{ENGINE}}", engine)
-              .replace("{{BANK_CONCAT}}", app["concat"])
               .replace("{{FOOTER_NOTE}}", app["footer"])
               .replace("{{APP_TITLE}}", app["title"])
               .replace("{{APP_DESC}}", app["desc"])
@@ -72,11 +93,20 @@ for app in APPS:
 import re as _re
 gmat_banks_src = built["gmat-focus"][2]
 sat_banks_src = built["sat"][2]
-bank_count = len(_re.findall(r"\{\s*id: ?'[QVD]", gmat_banks_src))
+# Counts drive the numbers the landing page advertises, so they include the generated
+# items as well as the hand written ones. Undercounting here would understate the product;
+# overcounting would be a claim we cannot back.
+hand_gmat = len(_re.findall(r"\{\s*id: ?'[QVD]", gmat_banks_src))
 card_count = len(_re.findall(r"\{\s*id: ?'c\d", gmat_banks_src))
-sat_bank_count = len(_re.findall(r"\{\s*id: ?'S[RM]\d", sat_banks_src))
+hand_sat = len(_re.findall(r"\{\s*id: ?'S[RM]\d", sat_banks_src))
 sat_card_count = len(_re.findall(r"\{\s*id: ?'s\d", sat_banks_src))
-total_bank_count = bank_count + sat_bank_count
+gre_banks_src = built["gre"][2]
+hand_gre = len(_re.findall(r"\{\s*id: ?'G[QVE]\d", gre_banks_src))
+gre_card_count = len(_re.findall(r"\{\s*id: ?'g\d", gre_banks_src))
+bank_count = hand_gmat + GEN_COUNT.get("gmat", 0)
+sat_bank_count = hand_sat + GEN_COUNT.get("sat", 0)
+gre_bank_count = hand_gre + GEN_COUNT.get("gre", 0)
+total_bank_count = bank_count + sat_bank_count + gre_bank_count
 # Tracked skills come from the engine registry itself, so the landing page can never
 # drift from the number of ratings the apps actually keep.
 _skill_probe = subprocess.run(
@@ -106,7 +136,8 @@ def no_dashes(name, text):
 
 # House rule: no em or en dashes anywhere, docs and sources included. The page checks below
 # cover generated output; this covers the files people hand-edit.
-_ALLOWED_COUNTS = {bank_count, sat_bank_count, card_count, sat_card_count}
+_ALLOWED_COUNTS = {bank_count, sat_bank_count, gre_bank_count, card_count,
+                   sat_card_count, gre_card_count}
 for _counted in ["llms.txt", "src/blog/EDITORIAL.md"]:
     _cp = root / _counted
     if _cp.exists():
@@ -196,11 +227,14 @@ for p in _app_pages + [root/"index.html", root/"community"/"index.html",
                        root/"international"/"index.html", root/"scoring"/"index.html",
                        root/"funding"/"index.html", root/"terms.html", root/"privacy.html"]:
     check_scripts(p)
+# The shell and the bank are now separate downloads, so report both, and report the
+# whole bank rather than only the hand written part of it.
+_TOTAL = {"gmat-focus": bank_count, "sat": sat_bank_count, "gre": gre_bank_count}
 _summary = ", ".join(
-    "%s/index.html (%d bytes, %d items)" % (
-        a["out"], len(built[a["exam"]][1]),
-        len(_re.findall(r"\{\s*id: ?'[A-Z]{2}\d", built[a["exam"]][2])) or
-        len(_re.findall(r"\{\s*id: ?'[QVD]", built[a["exam"]][2])))
+    "%s (shell %dk, bank %dk, %d items)" % (
+        a["out"], round(len(built[a["exam"]][1]) / 1024),
+        round((root / a["out"] / "bank.js").stat().st_size / 1024),
+        _TOTAL[a["exam"]])
     for a in APPS)
 print("built " + _summary + "; landing, community/, terms, privacy built; inline scripts parse")
 

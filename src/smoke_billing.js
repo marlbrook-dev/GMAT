@@ -13,12 +13,36 @@
 //    Plan is reachable whenever there is something to cancel.
 const { chromium } = require('playwright');
 const path = require('path');
+const http = require('http');
+const fs = require('fs');
 const path0 = require('path');
 const ROOT = path0.resolve(__dirname, '..');
-const url = p => 'file://' + path.join(ROOT, p);
+
+// Served over HTTP rather than read off disk, because the trainer loads its item bank
+// from /app/bank.js. An absolute path like that has no meaning under file://, so a
+// file:// run would test a page whose bank never arrives, which is not the page anyone
+// visits. This also matches how Cloudflare serves the built site.
+const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css',
+                '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png',
+                '.webmanifest': 'application/manifest+json', '.txt': 'text/plain' };
+const server = http.createServer((req, res) => {
+  let rel = decodeURIComponent(req.url.split('?')[0]);
+  if (rel.endsWith('/')) rel += 'index.html';
+  const file = path0.join(ROOT, rel);
+  if (!file.startsWith(ROOT) || !fs.existsSync(file) || fs.statSync(file).isDirectory()) {
+    if(process.env.SMOKE_DEBUG) console.log('404 ->', rel);
+    res.writeHead(404); res.end('not found'); return;
+  }
+  res.writeHead(200, { 'Content-Type': TYPES[path0.extname(file)] || 'application/octet-stream' });
+  fs.createReadStream(file).pipe(res);
+});
+let PORT = 0;
+const url = p => 'http://127.0.0.1:' + PORT + '/' + String(p).replace(/^\//, '');
 const noise = t => /ERR_CERT_AUTHORITY_INVALID|fonts\.(googleapis|gstatic)\.com|Failed to fetch|net::ERR/.test(t);
 
 (async () => {
+  await new Promise(r => server.listen(0, '127.0.0.1', r));
+  PORT = server.address().port;
   const b = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH });
   let fail = 0;
   const check = (name, ok, extra) => { console.log((ok ? '  ok: ' : '  FAIL: ') + name + (extra ? ' -> ' + extra : '')); if (!ok) fail++; };
@@ -102,6 +126,7 @@ const noise = t => /ERR_CERT_AUTHORITY_INVALID|fonts\.(googleapis|gstatic)\.com|
   }
 
   await b.close();
+  server.close();
   console.log(fail ? '\n' + fail + ' CHECK(S) FAILED' : '\nall billing checks passed');
   process.exit(fail ? 1 : 0);
 })();

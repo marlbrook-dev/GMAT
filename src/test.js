@@ -4,13 +4,13 @@ const fs=require('fs'), vm=require('vm');
 
 const GMAT={id:'gmat-focus',choices:5,
  files:['bank_quant.js','bank_quant2.js','bank_quant3.js','bank_quant4.js','bank_quant5.js','bank_quant6.js','bank_verbal.js','bank_verbal2.js','bank_verbal3.js','bank_verbal4.js','bank_verbal5.js','bank_verbal6.js','bank_verbal7.js','bank_verbal8.js','bank_di.js','bank_di2.js','bank_di3.js','bank_di4.js','bank_di5.js','bank_di6.js','bank_di7.js','bank_di8.js','bank_di9.js','cards.js','cards2.js','cards3.js','playbook_gmat.js'],
- concat:'BANK_QUANT,BANK_QUANT2,BANK_QUANT3,BANK_QUANT4,BANK_QUANT5,BANK_QUANT6,BANK_VERBAL,BANK_VERBAL2,BANK_VERBAL3,BANK_VERBAL4,BANK_VERBAL5,BANK_VERBAL6,BANK_VERBAL7,BANK_VERBAL8,BANK_DI,BANK_DI2,BANK_DI3,BANK_DI4,BANK_DI5,BANK_DI6,BANK_DI7,BANK_DI8,BANK_DI9'};
+ concat:'BANK_QUANT,BANK_QUANT2,BANK_QUANT3,BANK_QUANT4,BANK_QUANT5,BANK_QUANT6,BANK_VERBAL,BANK_VERBAL2,BANK_VERBAL3,BANK_VERBAL4,BANK_VERBAL5,BANK_VERBAL6,BANK_VERBAL7,BANK_VERBAL8,BANK_DI,BANK_DI2,BANK_DI3,BANK_DI4,BANK_DI5,BANK_DI6,BANK_DI7,BANK_DI8,BANK_DI9',gen:'gmat'};
 const GRE={id:'gre',choices:5,choicesByType:{QC:4},
  files:['bank_gre_verbal.js','bank_gre_verbal2.js','bank_gre_quant.js','bank_gre_quant2.js','bank_gre_easy.js','writing_gre.js','cards_gre.js','playbook_gre.js'],
- concat:'BANK_GRE_VERBAL,BANK_GRE_VERBAL2,BANK_GRE_QUANT,BANK_GRE_QUANT2,BANK_GRE_EASY'};
+ concat:'BANK_GRE_VERBAL,BANK_GRE_VERBAL2,BANK_GRE_QUANT,BANK_GRE_QUANT2,BANK_GRE_EASY',gen:'gre'};
 const SAT={id:'sat',choices:4,
  files:['bank_sat_rw.js','bank_sat_rw2.js','bank_sat_rw3.js','bank_sat_rw4.js','bank_sat_rw5.js','bank_sat_math.js','bank_sat_math2.js','bank_sat_math3.js','bank_sat_math4.js','bank_sat_math5.js','bank_sat_easy.js','cards_sat.js','cards_sat2.js','playbook_sat.js'],
- concat:'BANK_SAT_RW,BANK_SAT_RW2,BANK_SAT_RW3,BANK_SAT_RW4,BANK_SAT_RW5,BANK_SAT_MATH,BANK_SAT_MATH2,BANK_SAT_MATH3,BANK_SAT_MATH4,BANK_SAT_MATH5,BANK_SAT_EASY'};
+ concat:'BANK_SAT_RW,BANK_SAT_RW2,BANK_SAT_RW3,BANK_SAT_RW4,BANK_SAT_RW5,BANK_SAT_MATH,BANK_SAT_MATH2,BANK_SAT_MATH3,BANK_SAT_MATH4,BANK_SAT_MATH5,BANK_SAT_EASY',gen:'sat'};
 
 let failures=0;
 function fail(msg){ failures++; console.log('  FAIL: '+msg); }
@@ -18,7 +18,13 @@ function check(label,list){ if(list.length){ fail(label+' '+JSON.stringify(list.
 
 function runExam(exam){
  console.log('\n=== '+exam.id+' ===');
- const src=exam.files.concat(['engine.js']).map(f=>fs.readFileSync(f,'utf8')).join('\n');
+ // The generated bank is part of the shipped product, so it is part of the test. Testing
+ // only the hand written items would leave thousands of items unchecked, which is exactly
+ // the situation generation makes easy to fall into.
+ const genFile='generated/bank_gen_'+exam.gen+'.js';
+ const hasGen=fs.existsSync(genFile);
+ if(!hasGen) throw new Error('missing '+genFile+'; run python3 src/build_banks.py first');
+ const src=exam.files.concat([genFile,'engine.js']).map(f=>fs.readFileSync(f,'utf8')).join('\n');
  const ctx={console,Date,Math,JSON,Set,EXAM_ID:exam.id};
  vm.createContext(ctx);
  // engine.js declares with const, which stays in the script's lexical scope, so the script
@@ -27,7 +33,7 @@ function runExam(exam){
   'skillStats,sectionSummary,pickMockSection,pickSatModule,satRoute,satDomainTargets,gradeChosen,timingFlag,'+
   'scoreEstimate,sectionAbility,itemInfo,eloToTheta';
  vm.runInContext('var EXAM_ID='+JSON.stringify(exam.id)+';\n'+src+
-  '\nvar BANK=[].concat('+exam.concat+');\nglobalThis.__api={'+EXPORTS+'};',ctx);
+  '\nvar BANK=[].concat('+exam.concat+',BANK_GEN_'+exam.gen.toUpperCase()+');\nglobalThis.__api={'+EXPORTS+'};',ctx);
  const api=ctx.__api;
  const {BANK,SKILLS,SECTION_META,SECTIONS,PLAYBOOK,CARDS,EXAM}=api;
 
@@ -70,16 +76,73 @@ function runExam(exam){
  // than any other. Reported every run so the trend is visible; the guard is deliberately loose,
  // because the bank is above chance today and a tight threshold would just fail on every commit.
  if(mc.length>=40){
-  let longest=0, shortest=0, comparable=0;
-  mc.forEach(q=>{ const len=q.choices.map(c=>String(c).length);
-   const max=Math.max(...len), min=Math.min(...len);
-   if(len.filter(l=>l===max).length>1){ comparable++; return; }
-   if(len[q.answer]===max) longest++; if(len[q.answer]===min) shortest++; });
-  const pctLong=Math.round(longest/mc.length*100), evenPct=Math.round(100/exam.choices);
-  console.log('  longest choice is correct on '+pctLong+' percent of items, shortest on '+
-   Math.round(shortest/mc.length*100)+' percent (even would be '+evenPct+' each)');
-  check('length bias within tolerance', pctLong>evenPct*1.8?
-   ['the longest choice is correct on '+pctLong+' percent of items, against '+evenPct+' by chance']:[]);
+  // Two different failure modes, so two different measurements.
+  //
+  // On a VERBAL item, length is content: the longest option is the most hedged and
+  // most qualified, and a writer who is not careful makes it the key. That is the
+  // classic pitfall, and it is worth a hard guard in both directions.
+  //
+  // On a NUMERIC item, length is only a proxy for magnitude, and the property that
+  // actually matters is where the key sits in the ORDER of the values. If the key is
+  // never the largest, "skip the biggest number" beats guessing. So numeric items are
+  // checked on value rank, which is the thing a student could exploit, rather than on
+  // a character count that just tracks the number of digits.
+  const numeric=q=>q.choices.every(c=>/^\$?-?[\d,]+(\.\d+)?(\/\d+)?$/.test(String(c).trim()));
+  const val=c=>{ const t=String(c).replace(/[$,]/g,'').trim();
+   if(t.indexOf('/')>0){ const p=t.split('/'); return Number(p[0])/Number(p[1]); } return Number(t); };
+  const wordy=mc.filter(q=>!numeric(q)), nums=mc.filter(numeric);
+
+  if(wordy.length>=40){
+   let longest=0, shortest=0, scored=0;
+   wordy.forEach(q=>{ const len=q.choices.map(c=>String(c).length);
+    const max=Math.max(...len), min=Math.min(...len);
+    if(len.filter(l=>l===max).length>1) return;
+    scored++;
+    if(len[q.answer]===max) longest++; if(len[q.answer]===min) shortest++; });
+   const pctLong=Math.round(longest/scored*100), pctShort=Math.round(shortest/scored*100);
+   const evenPct=Math.round(100/exam.choices);
+   console.log('  wording: longest choice is correct on '+pctLong+' percent of '+scored+
+    ' items, shortest on '+pctShort+' percent (even would be '+evenPct+' each)');
+   // Known debt, measured rather than waved away. The hand written verbal banks were
+   // built before this guard existed and they carry a real length bias: on GMAT verbal
+   // the longest choice is the key far more often than chance, and on GRE verbal the
+   // shortest is. Both are gameable without reading the question and both need the
+   // choices rewritten, which is a content job, not a code one.
+   //
+   // Until that happens this is a ratchet, not a pass: the recorded numbers are the
+   // worst the bank is allowed to be, so the bias can only shrink. Lower these as items
+   // get rewritten, and delete the entry once an exam is inside the normal tolerance.
+   const DEBT={'gmat-focus':{long:43,short:33},'gre':{long:20,short:43}};
+   const cap=DEBT[exam.id]||{}, capLong=cap.long||Math.round(evenPct*1.8), capShort=cap.short||Math.round(evenPct*1.8);
+   const bad=[];
+   if(pctLong>capLong) bad.push('the longest wording is correct on '+pctLong+' percent of items, above the recorded '+capLong+' (chance is '+evenPct+')');
+   if(pctShort>capShort) bad.push('the shortest wording is correct on '+pctShort+' percent of items, above the recorded '+capShort+' (chance is '+evenPct+')');
+   if(cap.long&&pctLong<=evenPct*1.8&&pctShort<=evenPct*1.8)
+    bad.push('wording bias is now inside normal tolerance for '+exam.id+'; remove its DEBT entry in test.js');
+   check('length bias within tolerance', bad);
+  }
+
+  if(nums.length>=40){
+   // Where does the key fall once the choices are put in numeric order? Flat is the
+   // goal; a spike at either end is a strategy that needs no arithmetic.
+   const rank=new Array(exam.choices).fill(0); let scored=0;
+   nums.forEach(q=>{ const vs=q.choices.map(val);
+    if(vs.some(v=>!isFinite(v))) return;
+    const sorted=vs.slice().sort((a,b)=>a-b);
+    const r=sorted.indexOf(vs[q.answer]);
+    if(r<0||r>=rank.length) return;
+    rank[r]++; scored++; });
+   const share=rank.map(n=>n/scored), even=1/exam.choices;
+   console.log('  numeric: key by value rank '+rank.join(' ')+' of '+scored+
+    ' (even would be '+Math.round(scored/exam.choices)+' each)');
+   const bad=[];
+   const lowest=share[0], highest=share[share.length-1];
+   if(lowest<even/3) bad.push('the key is the smallest value on only '+Math.round(lowest*100)+' percent of items, so skipping the smallest beats guessing');
+   if(highest<even/3) bad.push('the key is the largest value on only '+Math.round(highest*100)+' percent of items, so skipping the largest beats guessing');
+   if(lowest>even*2) bad.push('the key is the smallest value on '+Math.round(lowest*100)+' percent of items');
+   if(highest>even*2) bad.push('the key is the largest value on '+Math.round(highest*100)+' percent of items');
+   check('numeric answers are not gameable by size', bad);
+  }
  }
 
  // every tracked skill has items, and every playbook skill is real

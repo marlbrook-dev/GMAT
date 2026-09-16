@@ -18,3 +18,8 @@
 /privacy.html
 src/__pycache__/
 src/shot_*.png
+
+# Generated item banks: the schemas in src/gen/ are the source of truth.
+/src/generated/
+__pycache__/
+*.pyc
