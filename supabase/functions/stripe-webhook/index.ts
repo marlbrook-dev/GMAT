@@ -26,7 +26,10 @@ Deno.serve(async (req: Request) => {
     const s = event.data.object as Stripe.Checkout.Session;
     const uid = s.client_reference_id ?? s.metadata?.user_id;
     const plan = s.metadata?.plan ?? "plus";
-    if (uid && s.payment_status === "paid") await setPlan(uid, plan);
+    // A session that starts a free trial settles as "no_payment_required", not "paid".
+    // Checking only for "paid" would leave every trialing subscriber on the free plan.
+    const settled = s.payment_status === "paid" || s.payment_status === "no_payment_required";
+    if (uid && s.status === "complete" && settled) await setPlan(uid, plan);
   } else if (event.type === "customer.subscription.deleted") {
     const sub = event.data.object as Stripe.Subscription;
     if (sub.metadata?.user_id) await setPlan(sub.metadata.user_id, "free");

@@ -981,7 +981,7 @@ function adminInsights(d){ const out=[]; const days=d.attempts_by_day||[];
   if(prev7>0){ const chg=Math.round((last7-prev7)/prev7*100); out.push('Practice volume '+(chg>=0?'up ':'down ')+Math.abs(chg)+'% week over week ('+prev7+' to '+last7+' answers).'); } }
  if((d.item_flags||[]).length) out.push(d.item_flags.length+' question'+(d.item_flags.length===1?' looks':'s look')+' mis-tuned (accuracy under 25% or over 95% on 8+ answers). Review them below.');
  if(d.users_total>0&&!d.users_active_7d) out.push('No signed-in activity in the last 7 days.');
- if(d.users_paid>0){ const m=d.plan_mix||{}; const mrr=(m.plus||0)*9.99+(m.pro||0)*19.99; out.push('Estimated MRR up to $'+mrr.toFixed(2)+' at monthly rates ('+(m.plus||0)+' Plus, '+(m.pro||0)+' Pro); annual billing lowers the effective rate.'); }
+ if(d.users_paid>0){ const m=d.plan_mix||{}; const mrr=(m.plus||0)*4.99+(m.pro||0)*9.99; out.push('Estimated MRR up to $'+mrr.toFixed(2)+' at monthly rates ('+(m.plus||0)+' Plus, '+(m.pro||0)+' Pro); annual billing lowers the effective rate.'); }
  const sk=(d.skill_difficulty||[])[0]; if(sk){ const s=SKILLS.find(x=>x.id===sk.skill); if(s) out.push('Hardest skill across all users: '+s.label+', '+Math.round(sk.acc*100)+'% accuracy on '+sk.n+' answers. Candidate for a playbook push or easier on-ramp items.'); }
  if(!out.length) out.push('Not enough data for trends yet. This fills in as real users practice.');
  return out; }
@@ -1234,12 +1234,13 @@ function renderData(){ const el=document.getElementById('v-data'); const s=state
  else auth='<div class="row"><input type="text" id="authEmail" placeholder="you@example.com" style="min-width:260px" value="'+esc(s.email||'')+'"><button class="btn" onclick="sendMagicLink()">Email Me a Sign-In Link</button></div><div class="small" style="margin-top:8px">No password. We email a one-time link; your progress on this device is kept and merged with your account. By continuing you agree to the Terms of Use and Privacy notice.</div><div id="authMsg" class="small"></div>';
  const tiers=[
   {id:'free',name:'Free',mo:'$0',sub:'forever',feats:['10 questions a day, every mode','1 mock section a month','Flashcards, review queue, Playbook','Sync, export, import']},
-  {id:'plus',name:'Plus',mo:'$9.99',sub:'/mo · or $59.99/yr',feats:['Unlimited questions and drills','Unlimited mock sections','Full timing and skill analytics','Everything in Free']},
-  {id:'pro',name:'Pro',mo:'$19.99',sub:'/mo · or $119.99/yr',feats:['Everything in Plus','SFN Assist coaching: first access as it ships','AI practice variants as they ship','Priority support']}];
+  {id:'plus',name:'Plus',mo:'$4.99',sub:'/mo · or $49.99/yr',feats:['Unlimited questions and drills','Unlimited mock sections','Full timing and skill analytics','Everything in Free']},
+  {id:'pro',name:'Pro',mo:'$9.99',sub:'/mo · or $99.99/yr',feats:['Everything in Plus','SFN Assist coaching: first access as it ships','AI practice variants as they ship','Priority support']}];
  const planBtn=t=>{ if(t.id===userPlan()) return '<span class="badge success" style="margin-top:10px">Current plan</span>';
   if(t.id==='free') return '';
   if(!PAYMENTS_LIVE) return '<button class="btn secondary sm" style="margin-top:10px" disabled>Coming soon</button>';
-  return '<div class="row" style="gap:6px;margin-top:10px"><button class="btn sm" onclick="startCheckout(\''+t.id+'_monthly\')">Monthly</button><button class="btn sm secondary" onclick="startCheckout(\''+t.id+'_annual\')">Annual</button></div>'; };
+  return '<div class="row" style="gap:6px;margin-top:10px"><button class="btn sm" onclick="startCheckout(\''+t.id+'_monthly\')">Monthly</button><button class="btn sm secondary" onclick="startCheckout(\''+t.id+'_annual\')">Annual</button></div>'
+   +(TRIAL_DAYS>0?'<div class="small" style="margin-top:6px">'+TRIAL_DAYS+'-day free trial, cancel anytime</div>':''); };
  el.innerHTML='<div class="narrow stack"><div><h1 style="font-size:var(--text-xl)">Account</h1><p class="muted" style="margin:6px 0 0">Profile, study program, plan, and your data.</p></div>'+
  '<div class="card stack-4"><div class="card-title">Sign In and Sync</div>'+auth+'</div>'+
  (function(){ const tg=targetSchools(); return '<div class="card stack-4"><div class="card-head" style="margin:0"><span class="card-title">Target Schools</span>'+(tg.length?badge(tg.length+' saved','accent'):'')+'</div>'
@@ -1257,7 +1258,7 @@ function renderData(){ const el=document.getElementById('v-data'); const s=state
   +'<label class="small">How you found us <input type="text" maxlength="120" value="'+esc(ab.referral_src||'')+'" placeholder="e.g. Google, a friend" style="width:170px" onchange="aboutSave(\'referral_src\',this.value)"></label>'
   +'</div>'+(signed?'':'<p class="small muted" style="margin:0">Saved on this device now; it attaches to your account when you sign in.</p>')+'</div>'; })()+
  '<div class="card stack-4"><div class="card-head" style="margin:0"><span class="card-title">Study Program</span>'+badge(pr.exam,'sec-Q')+'</div><table><tbody><tr><td style="width:160px">Exam</td><td>'+esc(pr.exam)+' <span class="small">(GRE, LSAT, MCAT, Executive Assessment coming)</span></td></tr><tr><td>Goal</td><td><input type="text" style="width:100%" value="'+esc(pr.goal||'')+'" placeholder="e.g. Score 675+ for M7 programs" onchange="state.settings.program.goal=this.value;persist()"></td></tr><tr><td>Time</td><td><select onchange="state.settings.program.hours=this.value;persist()">'+['1 to 3 hrs / week','3 to 5 hrs / week','5 to 10 hrs / week','10+ hrs / week'].map(h=>'<option '+(pr.hours===h?'selected':'')+'>'+h+'</option>').join('')+'</select></td></tr><tr><td>Tools</td><td class="chips">'+['Quick 10','Timed sprint','Flashcards','Custom drill'].map(tl=>'<span class="chip-t '+(pr.tools[tl]?'on':'')+'" onclick="state.settings.program.tools[\''+tl+'\']=!state.settings.program.tools[\''+tl+'\'];persist();renderData()">'+tl+'</span>').join('')+'</td></tr></tbody></table><div><button class="btn secondary sm" onclick="startOnboarding()">Re-run the setup wizard</button></div></div>'+
- '<div class="card stack-4"><div class="card-head" style="margin:0"><span class="card-title">Plan and Billing</span>'+badge(userPlan()==='free'?'Free plan':userPlan()==='plus'?'Plus':'Pro','accent')+'</div><p class="small" style="margin:0">'+(PAYMENTS_LIVE?'Payments run through Stripe Checkout; we never see your card.':'Everything is free while we build. This is the plan structure that switches on later; early users keep generous grandfathering.')+'</p><div class="tiles" style="grid-template-columns:repeat(3,1fr)">'+tiers.map(t=>'<div class="tile"><div class="l">'+t.name+'</div><div class="v" style="font-size:24px">'+t.mo+'<span class="small" style="font-weight:400"> '+t.sub+'</span></div><ul class="small" style="margin:8px 0 0;padding-left:16px;text-align:left">'+t.feats.map(f=>'<li>'+f+'</li>').join('')+'</ul>'+planBtn(t)+'</div>').join('')+'</div></div>'+
+ '<div class="card stack-4"><div class="card-head" style="margin:0"><span class="card-title">Plan and Billing</span>'+badge(userPlan()==='free'?'Free plan':userPlan()==='plus'?'Plus':'Pro','accent')+'</div><p class="small" style="margin:0">'+(PAYMENTS_LIVE?'Every paid plan starts with a '+TRIAL_DAYS+'-day free trial and you can cancel inside it at no charge. Payments run through Stripe Checkout; we never see your card.':'Everything is free while we build. This is the plan structure that switches on later; early users keep generous grandfathering.')+'</p><div class="tiles" style="grid-template-columns:repeat(3,1fr)">'+tiers.map(t=>'<div class="tile"><div class="l">'+t.name+'</div><div class="v" style="font-size:24px">'+t.mo+'<span class="small" style="font-weight:400"> '+t.sub+'</span></div><ul class="small" style="margin:8px 0 0;padding-left:16px;text-align:left">'+t.feats.map(f=>'<li>'+f+'</li>').join('')+'</ul>'+planBtn(t)+'</div>').join('')+'</div></div>'+
  '<div class="card stack-4"><div class="card-title">Notifications</div><label class="row" style="gap:8px;cursor:pointer"><input type="checkbox" '+(s.digest?'checked':'')+' onchange="state.settings.digest=this.checked;persist()"> Weekly progress digest by email (when accounts launch)</label></div>'+
  '<div class="card stack-4"><div class="card-title">Privacy and Data</div><p class="small" style="margin:0">Your answers, ratings and settings. Download everything as JSON, restore from a file, or delete it. Deleting removes your data from this device'+(signed?' and from your account':'')+'.</p><div class="row"><button class="btn" onclick="exportState()">Download My Data</button><label class="btn secondary">Import From File <input type="file" accept="application/json" onchange="importState(this)"></label><button class="btn ghost" onclick="deleteEverything()">Delete My Data</button></div><table><tbody><tr><td>Attempts</td><td class="num">'+state.attempts.length+'</td></tr><tr><td>Sessions</td><td class="num">'+state.sessions.length+'</td></tr><tr><td>Events logged</td><td class="num">'+((state.events||[]).length)+'</td></tr><tr><td>Created</td><td>'+new Date(state.created).toLocaleString()+'</td></tr><tr><td>Bank</td><td class="num">'+BANK.length+' items · app '+APP_VERSION+'</td></tr></tbody></table></div></div>'; }
 async function sendMagicLink(){ const em=(document.getElementById('authEmail').value||'').trim(); if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){ toast('Enter a valid email.'); return; } state.settings.email=em; persist(); const {error}=await Cloud.signIn(em); const m=document.getElementById('authMsg'); if(error){ m.textContent='Could not send: '+error.message; } else { m.textContent='Check your inbox for the sign-in link. Open it on this device to sync here.'; } }
@@ -1267,13 +1268,23 @@ function importState(inp){ const f=inp.files[0]; if(!f) return; const r=new File
 // keyboard: 1-5 select, Enter submit/next
 document.addEventListener('keydown',e=>{ if(!session||document.getElementById('v-study').classList.contains('hidden')) return; const tag=(e.target.tagName||'').toLowerCase(); if(tag==='input'||tag==='textarea'||tag==='select') return; if(/^[1-5]$/.test(e.key)&&!session.answered){ const i=+e.key-1; if(document.getElementById('opt'+i)) selectChoice(i); } if(e.key==='Enter'){ e.preventDefault(); if(!session.answered) submitAnswer(); else nextQuestion(); } });
 // ---------- onboarding wizard (design: ui_kits/web_app/Onboarding.jsx) ----------
-// Stripe Checkout (supabase/README.md). Flip PAYMENTS_LIVE to true once Stripe keys,
-// prices, and the webhook are configured; until then plan buttons stay disabled
-// AND free-tier limits stay off (nothing is gated while there is nothing to buy).
-const PAYMENTS_LIVE=false;
+// Stripe Checkout (supabase/README.md). Two flags, deliberately separate.
+//
+// PAYMENTS_LIVE turns on the plan buttons and Stripe Checkout. It is safe on its own:
+// if a secret is missing the button reports that checkout could not open, and nobody
+// loses access to anything they already had.
+//
+// FREE_LIMITS_LIVE turns on the free-tier caps. That flag takes something away from
+// people already using the trainer, so it is a separate, deliberate decision rather
+// than a side effect of switching payments on. The Account page promises early users
+// generous grandfathering; settle what that means before flipping it.
+const PAYMENTS_LIVE=true;
+const FREE_LIMITS_LIVE=false;
+// Display only. Keep in step with STRIPE_TRIAL_DAYS on the checkout function.
+const TRIAL_DAYS=7;
 const PLAN_LIMITS={free:{daily:10,mocksPerMonth:1}};
 function userPlan(){ const p=Cloud.plan||'free'; return (p==='plus'||p==='pro')?p:'free'; }
-function planGate(kind){ if(!PAYMENTS_LIVE||userPlan()!=='free') return true;
+function planGate(kind){ if(!FREE_LIMITS_LIVE||userPlan()!=='free') return true;
  if(kind==='question'){ const today=new Date().toDateString(); const n=state.attempts.filter(a=>new Date(a.ts).toDateString()===today).length;
   if(n>=PLAN_LIMITS.free.daily){ paywall('The free plan covers '+PLAN_LIMITS.free.daily+' questions a day. Plus removes the cap.'); return false; } }
  if(kind==='mock'){ const now=new Date(); const n=state.sessions.filter(s=>s.mode==='mock'&&new Date(s.ts).getMonth()===now.getMonth()&&new Date(s.ts).getFullYear()===now.getFullYear()).length;
@@ -1282,8 +1293,8 @@ function planGate(kind){ if(!PAYMENTS_LIVE||userPlan()!=='free') return true;
 function paywall(msg){ toast(msg); show('data'); }
 async function startCheckout(plan){ if(!Cloud.user){ toast('Sign in first, then pick a plan.'); show('data'); return; }
  try{ const {data,error}=await Cloud.client.functions.invoke('create-checkout-session',{body:{plan}}); if(error||!data||!data.url) throw error||new Error('no url'); track('checkout_started',{plan}); location.href=data.url; }
- catch(e){ toast('Checkout is not available yet.'); } }
-if(location.search.indexOf('checkout=success')>=0){ setTimeout(()=>toast('Payment received. Your plan updates within a minute.'),800); }
+ catch(e){ toast('Could not open checkout. Nothing was charged; please try again shortly.'); } }
+if(location.search.indexOf('checkout=success')>=0){ setTimeout(()=>toast('You are all set. Your plan updates within a minute.'),800); }
 if(location.hash==='#admin-preview'){ const nb=document.getElementById('navAdmin'); if(nb) nb.style.display=''; }
 const OB_EXAMS=[['GMAT','Focus Edition · live',true],['SAT','digital format · live',true],['GRE','coming soon',false],['LSAT','coming soon',false],['MCAT','coming soon',false]];
 const OB_EXAM_APP={GMAT:'/app/',SAT:'/sat/app/'};

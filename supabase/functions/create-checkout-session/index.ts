@@ -14,6 +14,10 @@ const PRICES: Record<string, string | undefined> = {
   pro_annual: Deno.env.get("STRIPE_PRICE_PRO_ANNUAL"),
 };
 const SITE = Deno.env.get("SITE_URL") ?? "https://startfromnowhere.com";
+// Free trial length. Stripe collects a card at checkout and charges nothing until the
+// trial ends, so conversion is automatic and the student can cancel inside the window.
+// Override with STRIPE_TRIAL_DAYS; set it to 0 to sell without a trial.
+const TRIAL_DAYS = Number(Deno.env.get("STRIPE_TRIAL_DAYS") ?? "7");
 const cors = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
@@ -39,7 +43,13 @@ Deno.serve(async (req: Request) => {
       customer_email: user.email ?? undefined,
       client_reference_id: user.id,
       metadata: { user_id: user.id, plan: tier },
-      subscription_data: { metadata: { user_id: user.id, plan: tier } },
+      subscription_data: {
+        metadata: { user_id: user.id, plan: tier },
+        ...(TRIAL_DAYS > 0 ? { trial_period_days: TRIAL_DAYS } : {}),
+      },
+      // A trial checkout takes no payment today, so be explicit that we still want the
+      // card. Without this Stripe may skip collection and the trial cannot convert.
+      payment_method_collection: "always",
       success_url: `${SITE}/app/?checkout=success`,
       cancel_url: `${SITE}/app/?checkout=cancelled`,
       allow_promotion_codes: true,

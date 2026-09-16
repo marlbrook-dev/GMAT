@@ -48,7 +48,10 @@ Updated September 14, 2026. Owner: Hunter Roberts. Builder: Claude sessions. Thi
 - [ ] Undergrad pilot, second half: undergrad rankings vertical (one file per college, same source ladder as data/schools/), SAT bank toward GMAT parity, ACT study modes
 - [ ] GRE build: new item types (text completion, sentence equivalence, quantitative comparison), GRE bank seed, section timing
 - [ ] LSAT build: logical reasoning and reading comprehension banks
-- [ ] Stripe go-live checkpoint: flip PAYMENTS_LIVE once accounts and legal review are done
+- [x] Stripe go-live: live products, prices ($4.99 Plus / $9.99 Pro) and webhook created; 7-day trial wired; PAYMENTS_LIVE=true
+- [ ] Stripe go-live, remaining: owner sets Edge Function secrets, confirms charges are enabled, and gets terms plus a refund and cancellation policy reviewed
+- [ ] Decide what grandfathering means for early users, then flip FREE_LIMITS_LIVE
+- [ ] Stripe Customer Portal so students can cancel without emailing
 - [ ] SFN Assist (AI coaching) when the Anthropic API key is added
 
 ## Standing cadence
