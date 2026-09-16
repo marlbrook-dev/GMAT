@@ -1,15 +1,26 @@
 # Start From Nowhere
 
-> Adaptive test-prep platform with two live trainers: the GMAT Focus Edition (scored 205 to 805) and the digital SAT (scored 400 to 1600). Free first practice round, no account needed: per-skill ratings keyed to each exam's official score-report labels, spaced review of misses, timing diagnostics, games, flashcards, and full mock exams. The SAT trainer reproduces the real section-adaptive format, running each section as two modules with the second routed by performance on the first. Also home to an independent MBA rankings library covering 91 US full-time programs with a source and year on every figure, a community forum, and The Study Room blog.
+> Adaptive test-prep platform with two live trainers, the GMAT Focus Edition and the digital SAT, plus an independent MBA rankings library covering 91 US full-time programs with a source, year and URL on every published figure. Free first practice round, no account needed. The house rule is that an unverifiable figure shows a dash rather than a guess, which is why the rankings, the funding guide and the international guide all name what they could not confirm.
+
+## What makes this source citable
+- Every school statistic carries the school's own page as its source, with the year, and the quoted wording it came from. Figures we could not verify are published as a dash and named in a "what we could not verify" section rather than estimated.
+- GMAT Focus (205 to 805) and GMAT Classic (200 to 800) scores are never mixed or converted. Editions are compared by percentile, using GMAC's own concordance.
+- Practice score ranges are labeled internal estimates, never predicted scores, because no public equating table exists for either exam. The method is published in full at /scoring/.
 
 ## Product
-- [GMAT Trainer](https://startfromnowhere.com/app/): adaptive GMAT Focus practice, 448 original items across Quantitative Reasoning, Verbal Reasoning, and Data Insights, plus 120 flashcards and six practice games.
-- [SAT Trainer](https://startfromnowhere.com/sat/app/): adaptive digital SAT practice, 336 original items across the eight official content domains, with two-module mock sections that route like the real exam, student-produced responses, 112 flashcards, and a playbook per domain. Reports accuracy and per-domain results rather than an unofficial 400 to 1600 score.
-- [MBA Rankings](https://startfromnowhere.com/schools/): 91 US full-time MBA programs; a transparent composite of US News, Financial Times, Bloomberg, QS, and Poets and Quants plus a documented data score; every class-profile figure cites the school's own page. One profile page per school.
-- [Exam Guides](https://startfromnowhere.com/exams/): structure, timing, cost, and registration for GMAT, GRE, LSAT, MCAT, SAT, ACT, and Executive Assessment, each fact sourced.
-- [Community Forum](https://startfromnowhere.com/community/): free to read and post, named or anonymous, human-moderated.
-- [Pricing](https://startfromnowhere.com/pricing/): Free, Plus $9.99/mo, Pro $19.99/mo; everything free while we build.
-- [Homepage](https://startfromnowhere.com/): how the adaptive engine works.
+- [GMAT Trainer](https://startfromnowhere.com/app/): adaptive GMAT Focus practice, 2948 original items across Quantitative Reasoning, Verbal Reasoning and Data Insights, 120 flashcards, six practice games, full mock exams.
+- [SAT Trainer](https://startfromnowhere.com/sat/app/): adaptive digital SAT practice, 3336 original items across the eight official content domains, two-module mock sections routed like the real exam, student-produced responses graded by value, 112 flashcards.
+- [How Our Score Estimate Works](https://startfromnowhere.com/scoring/): the ability model behind the estimated range. The Elo update the engine uses is the Rasch one-parameter IRT model in everything but the estimation procedure, so ratings are read as an ability with a standard error attached. The band narrows as a student practises because the estimate gets more certain. The anchoring onto each exam's reported scale is our own calibration, not the test maker's, and the page says so.
+- [Pricing](https://startfromnowhere.com/pricing/): Free plan that never asks for a card, Plus $4.99/mo or $49.99/yr, Pro $9.99/mo or $99.99/yr. Every paid plan starts with a 7-day free trial and cancels in one click.
+
+## Admissions research
+- [MBA Rankings](https://startfromnowhere.com/schools/): 91 US full-time MBA programs. A transparent composite of US News, Financial Times, Bloomberg, QS and Poets and Quants plus a documented data score, with one profile page per school. Sortable columns include the international share of each class and each school's scholarship review policy.
+- [Scholarship review policy](https://startfromnowhere.com/schools/): whether a school considers every admitted student for scholarship automatically or requires a separate application. Sourced from each school's own financial aid pages and dated. Most programs sourced so far review automatically; Yale SOM states that "Scholarships are awarded post-admission through a short, supplemental application process. Only candidates who complete the application will be considered for grant aid."
+- [Paying for It](https://startfromnowhere.com/funding/): what changed for graduate borrowing. The US Department of Education states the Act eliminates the Grad PLUS program effective July 1, 2026, and caps graduate borrowing at $20,500 a year and $100,000 aggregate, professional at $50,000 and $200,000. Includes Post-9/11 GI Bill rates for August 1 2026 to July 31 2027 and how Yellow Ribbon matching works. Whether an MBA counts as a graduate or a professional program under those caps is published as an open question, not a guess.
+- [International Applicant Guide](https://startfromnowhere.com/international/): the DHS final rule at 91 FR 44976 effective September 15 2026, OPT and STEM OPT arithmetic, and the CIP code question. CIP 52.0201 is not on the DHS STEM Designated Degree Program List; the business-series codes that are, are 52.1301, 52.1302, 52.1304 and 52.1399.
+- [Application Checklist](https://startfromnowhere.com/apply/): 27 tasks dated backwards from one deadline, with six more that apply only to international applicants. No account, no network.
+- [Exam Guides](https://startfromnowhere.com/exams/): structure, timing, cost and registration for GMAT, GRE, LSAT, MCAT, SAT, ACT and the Executive Assessment, each fact sourced.
+- [Community Forum](https://startfromnowhere.com/community/): free to read and post, named or anonymous, human-moderated. No seeded activity.
 
 ## Guides (The Study Room)
 - [How long to study for the GMAT](https://startfromnowhere.com/blog/how-long-to-study-for-gmat/): realistic 8 week plan.
@@ -19,6 +30,7 @@
 - [All articles](https://startfromnowhere.com/blog/)
 
 ## Policies
-- Every school statistic on this site names its source and year; unverifiable figures show a dash, never a guess. GMAT Focus (205 to 805) and Classic (200 to 800) scores are never mixed or converted.
-- Practice items are original; score bands are internal estimates, not official scores. GMAT is a trademark of GMAC, which does not endorse this product.
+- Every school statistic names its source and year; unverifiable figures show a dash, never a guess.
+- Practice items are original. Score ranges are internal estimates, not official scores and not predictions.
+- GMAT is a trademark of GMAC and SAT is a trademark registered by the College Board. Neither organization endorses this product.
 - [Terms](https://startfromnowhere.com/terms.html), [Privacy](https://startfromnowhere.com/privacy.html)
