@@ -84,7 +84,18 @@ ACT_MAP = {
     "act_m_sp": ["sat_psda_center", "sat_psda_prob", "sat_psda_table", "sat_psda_model"],
     "act_m_ies": ["sat_psda_percent", "sat_psda_pctchange", "sat_psda_rate",
                   "sat_psda_units"],
+    # English. Conventions of Standard English is the same body of rules the SAT
+    # calls Standard English Conventions, and Production of Writing turns on the
+    # same transition logic, so those schemas are reused rather than rewritten.
+    # Knowledge of Language has no SAT counterpart and has its own generators in
+    # g_act_kol.py.
+    "act_e_cse": ["sat_rw_sva", "sat_rw_pronoun", "sat_rw_apostrophe", "sat_rw_boundary"],
+    "act_e_pow": ["sat_rw_transition"],
 }
+
+# A category's section is not always the exam's default. ACT English and ACT Math
+# are both mapped above, so the section is read per skill rather than per exam.
+SECTION_OVERRIDE = {"act_e_cse": "E", "act_e_pow": "E", "act_e_kol": "E"}
 
 GMAT_MAP = {
     "q_rrp": ["sat_psda_percent", "sat_psda_pctchange", "sat_psda_rate",
@@ -124,6 +135,6 @@ def build_for(exam, pool):
             g = pool.get(gid)
             if g is None:
                 raise KeyError("mapping names a schema that does not exist: %s" % gid)
-            gens.append(Remap(g, skill, section, bump))
+            gens.append(Remap(g, skill, SECTION_OVERRIDE.get(skill, section), bump))
         out[skill] = gens
     return out
