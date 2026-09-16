@@ -1,0 +1,147 @@
+{
+ "slug": "kean-university-nj",
+ "unitid": 185262,
+ "name": "Kean University",
+ "city": "Union",
+ "state": "NJ",
+ "region": "Northeast",
+ "type": "Public",
+ "website": "https://www.kean.edu/",
+ "carnegie": "Doctoral, professional",
+ "carnegie_code": "17",
+ "health_special_focus": false,
+ "scorecard": "https://collegescorecard.ed.gov/school/?185262-Kean-University",
+ "profile": {
+  "admit_rate_pct": {
+   "v": 75.9,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?185262-Kean-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "sat_avg": {
+   "v": 1040,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?185262-Kean-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "sat_reading_mid": {
+   "v": 515,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?185262-Kean-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "sat_math_mid": {
+   "v": 505,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?185262-Kean-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "act_mid": {
+   "v": 20,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?185262-Kean-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "test_policy": {
+   "v": "Considered but not required",
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?185262-Kean-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "undergrads": {
+   "v": 11433,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?185262-Kean-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "net_price_usd": {
+   "v": 12447,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?185262-Kean-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "cost_attendance_usd": {
+   "v": 26949,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?185262-Kean-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "tuition_in_state_usd": {
+   "v": 14299,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?185262-Kean-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "tuition_out_state_usd": {
+   "v": 22446,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?185262-Kean-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "grad_rate_6yr_pct": {
+   "v": 46.6,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?185262-Kean-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "retention_pct": {
+   "v": 76.1,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?185262-Kean-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "earnings_10yr_usd": {
+   "v": 57237,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?185262-Kean-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "median_debt_usd": {
+   "v": 23250,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?185262-Kean-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "pell_pct": {
+   "v": 47.9,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?185262-Kean-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "federal_loan_pct": {
+   "v": 41.1,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?185262-Kean-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  }
+ },
+ "scholarship": {
+  "pct_receiving": {
+   "v": null
+  },
+  "avg_award_usd": {
+   "v": null
+  },
+  "auto_considered": {
+   "v": null
+  },
+  "notes": null
+ }
+}

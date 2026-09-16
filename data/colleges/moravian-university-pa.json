@@ -1,0 +1,135 @@
+{
+ "slug": "moravian-university-pa",
+ "unitid": 214157,
+ "name": "Moravian University",
+ "city": "Bethlehem",
+ "state": "PA",
+ "region": "Northeast",
+ "type": "Private nonprofit",
+ "website": "https://www.moravian.edu/",
+ "carnegie": "Master's, smaller programs",
+ "carnegie_code": "20",
+ "health_special_focus": false,
+ "scorecard": "https://collegescorecard.ed.gov/school/?214157-Moravian-University",
+ "profile": {
+  "admit_rate_pct": {
+   "v": 54.2,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?214157-Moravian-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "sat_avg": {
+   "v": 1183,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?214157-Moravian-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "sat_reading_mid": {
+   "v": null
+  },
+  "sat_math_mid": {
+   "v": null
+  },
+  "act_mid": {
+   "v": null
+  },
+  "test_policy": {
+   "v": "Considered but not required",
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?214157-Moravian-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "undergrads": {
+   "v": 1949,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?214157-Moravian-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "net_price_usd": {
+   "v": 30670,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?214157-Moravian-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "cost_attendance_usd": {
+   "v": 65601,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?214157-Moravian-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "tuition_in_state_usd": {
+   "v": 53500,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?214157-Moravian-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "tuition_out_state_usd": {
+   "v": 53500,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?214157-Moravian-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "grad_rate_6yr_pct": {
+   "v": 71.7,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?214157-Moravian-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "retention_pct": {
+   "v": 79.2,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?214157-Moravian-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "earnings_10yr_usd": {
+   "v": 61860,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?214157-Moravian-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "median_debt_usd": {
+   "v": 26793,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?214157-Moravian-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "pell_pct": {
+   "v": 31.9,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?214157-Moravian-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "federal_loan_pct": {
+   "v": 74.9,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?214157-Moravian-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  }
+ },
+ "scholarship": {
+  "pct_receiving": {
+   "v": null
+  },
+  "avg_award_usd": {
+   "v": null
+  },
+  "auto_considered": {
+   "v": null
+  },
+  "notes": null
+ }
+}

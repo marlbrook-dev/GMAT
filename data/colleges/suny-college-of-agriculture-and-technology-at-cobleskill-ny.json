@@ -1,0 +1,143 @@
+{
+ "slug": "suny-college-of-agriculture-and-technology-at-cobleskill-ny",
+ "unitid": 196033,
+ "name": "SUNY College of Agriculture and Technology at Cobleskill",
+ "city": "Cobleskill",
+ "state": "NY",
+ "region": "Northeast",
+ "type": "Public",
+ "website": "https://www.cobleskill.edu/",
+ "carnegie": "Baccalaureate, diverse fields",
+ "carnegie_code": "22",
+ "health_special_focus": false,
+ "scorecard": "https://collegescorecard.ed.gov/school/?196033-SUNY-College-of-Agriculture-and-Technology-at-Cobleskill",
+ "profile": {
+  "admit_rate_pct": {
+   "v": 84.0,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?196033-SUNY-College-of-Agriculture-and-Technology-at-Cobleskill",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "sat_avg": {
+   "v": null
+  },
+  "sat_reading_mid": {
+   "v": 540,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?196033-SUNY-College-of-Agriculture-and-Technology-at-Cobleskill",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "sat_math_mid": {
+   "v": 530,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?196033-SUNY-College-of-Agriculture-and-Technology-at-Cobleskill",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "act_mid": {
+   "v": 19,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?196033-SUNY-College-of-Agriculture-and-Technology-at-Cobleskill",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "test_policy": {
+   "v": "Neither required nor recommended",
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?196033-SUNY-College-of-Agriculture-and-Technology-at-Cobleskill",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "undergrads": {
+   "v": 1904,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?196033-SUNY-College-of-Agriculture-and-Technology-at-Cobleskill",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "net_price_usd": {
+   "v": 18701,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?196033-SUNY-College-of-Agriculture-and-Technology-at-Cobleskill",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "cost_attendance_usd": {
+   "v": 27786,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?196033-SUNY-College-of-Agriculture-and-Technology-at-Cobleskill",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "tuition_in_state_usd": {
+   "v": 8768,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?196033-SUNY-College-of-Agriculture-and-Technology-at-Cobleskill",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "tuition_out_state_usd": {
+   "v": 18678,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?196033-SUNY-College-of-Agriculture-and-Technology-at-Cobleskill",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "grad_rate_6yr_pct": {
+   "v": 42.3,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?196033-SUNY-College-of-Agriculture-and-Technology-at-Cobleskill",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "retention_pct": {
+   "v": 68.7,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?196033-SUNY-College-of-Agriculture-and-Technology-at-Cobleskill",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "earnings_10yr_usd": {
+   "v": 45030,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?196033-SUNY-College-of-Agriculture-and-Technology-at-Cobleskill",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "median_debt_usd": {
+   "v": 16023,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?196033-SUNY-College-of-Agriculture-and-Technology-at-Cobleskill",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "pell_pct": {
+   "v": 43.3,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?196033-SUNY-College-of-Agriculture-and-Technology-at-Cobleskill",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "federal_loan_pct": {
+   "v": 55.6,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?196033-SUNY-College-of-Agriculture-and-Technology-at-Cobleskill",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  }
+ },
+ "scholarship": {
+  "pct_receiving": {
+   "v": null
+  },
+  "avg_award_usd": {
+   "v": null
+  },
+  "auto_considered": {
+   "v": null
+  },
+  "notes": null
+ }
+}

@@ -126,5 +126,43 @@
    "url": "https://hankamer.baylor.edu/mba/full-time/student-support/career-development"
   }
  },
- "notes": "Average GMAT 655 and average GRE 308 are published for the entering 2024 MBA program, but the GMAT edition is not labeled and the average combines the One-Year (Class of 2025) and Two-Year (Class of 2026) cohorts spanning the classic-to-Focus transition, so it is left unclassified per the edition rule. GRE 308 is a combined score with no quant/verbal split. Work experience is not published; the profile lists average age 24 (early-career program). Acceptance rate is computed from the page's own applications and accepted counts."
+ "notes": "Average GMAT 655 and average GRE 308 are published for the entering 2024 MBA program, but the GMAT edition is not labeled and the average combines the One-Year (Class of 2025) and Two-Year (Class of 2026) cohorts spanning the classic-to-Focus transition, so it is left unclassified per the edition rule. GRE 308 is a combined score with no quant/verbal split. Work experience is not published; the profile lists average age 24 (early-career program). Acceptance rate is computed from the page's own applications and accepted counts.",
+ "federal": {
+  "matched": true,
+  "instnm": "Baylor University",
+  "earn_1yr_usd": {
+   "v": 109356,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://hankamer.baylor.edu/mba/full-time",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Baylor University"
+  },
+  "earn_4yr_usd": {
+   "v": 130178,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://hankamer.baylor.edu/mba/full-time",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Baylor University"
+  },
+  "debt_median_usd": {
+   "v": 54384,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://hankamer.baylor.edu/mba/full-time",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Baylor University"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://hankamer.baylor.edu/mba/full-time",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Baylor University"
+  },
+  "earn_n": 208,
+  "low_coverage": false
+ }
 }

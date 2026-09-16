@@ -1,0 +1,147 @@
+{
+ "slug": "western-colorado-university-co",
+ "unitid": 128391,
+ "name": "Western Colorado University",
+ "city": "Gunnison",
+ "state": "CO",
+ "region": "West",
+ "type": "Public",
+ "website": "https://www.western.edu/",
+ "carnegie": "Master's, medium programs",
+ "carnegie_code": "19",
+ "health_special_focus": false,
+ "scorecard": "https://collegescorecard.ed.gov/school/?128391-Western-Colorado-University",
+ "profile": {
+  "admit_rate_pct": {
+   "v": 99.7,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?128391-Western-Colorado-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "sat_avg": {
+   "v": 1230,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?128391-Western-Colorado-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "sat_reading_mid": {
+   "v": 580,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?128391-Western-Colorado-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "sat_math_mid": {
+   "v": 555,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?128391-Western-Colorado-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "act_mid": {
+   "v": 24,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?128391-Western-Colorado-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "test_policy": {
+   "v": "Considered but not required",
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?128391-Western-Colorado-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "undergrads": {
+   "v": 1586,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?128391-Western-Colorado-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "net_price_usd": {
+   "v": 16425,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?128391-Western-Colorado-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "cost_attendance_usd": {
+   "v": 25736,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?128391-Western-Colorado-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "tuition_in_state_usd": {
+   "v": 11318,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?128391-Western-Colorado-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "tuition_out_state_usd": {
+   "v": 24434,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?128391-Western-Colorado-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "grad_rate_6yr_pct": {
+   "v": 50.5,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?128391-Western-Colorado-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "retention_pct": {
+   "v": 72.4,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?128391-Western-Colorado-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "earnings_10yr_usd": {
+   "v": 46833,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?128391-Western-Colorado-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "median_debt_usd": {
+   "v": 20250,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?128391-Western-Colorado-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "pell_pct": {
+   "v": 12.0,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?128391-Western-Colorado-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "federal_loan_pct": {
+   "v": 19.7,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?128391-Western-Colorado-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  }
+ },
+ "scholarship": {
+  "pct_receiving": {
+   "v": null
+  },
+  "avg_award_usd": {
+   "v": null
+  },
+  "auto_considered": {
+   "v": null
+  },
+  "notes": null
+ }
+}

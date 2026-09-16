@@ -1,0 +1,147 @@
+{
+ "slug": "maranatha-baptist-university-wi",
+ "unitid": 239071,
+ "name": "Maranatha Baptist University",
+ "city": "Watertown",
+ "state": "WI",
+ "region": "Midwest",
+ "type": "Private nonprofit",
+ "website": "https://www.mbu.edu/",
+ "carnegie": "Master's, smaller programs",
+ "carnegie_code": "20",
+ "health_special_focus": false,
+ "scorecard": "https://collegescorecard.ed.gov/school/?239071-Maranatha-Baptist-University",
+ "profile": {
+  "admit_rate_pct": {
+   "v": 71.9,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?239071-Maranatha-Baptist-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "sat_avg": {
+   "v": 1170,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?239071-Maranatha-Baptist-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "sat_reading_mid": {
+   "v": 570,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?239071-Maranatha-Baptist-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "sat_math_mid": {
+   "v": 510,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?239071-Maranatha-Baptist-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "act_mid": {
+   "v": 24,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?239071-Maranatha-Baptist-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "test_policy": {
+   "v": "Required",
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?239071-Maranatha-Baptist-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "undergrads": {
+   "v": 541,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?239071-Maranatha-Baptist-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "net_price_usd": {
+   "v": 26005,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?239071-Maranatha-Baptist-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "cost_attendance_usd": {
+   "v": 37092,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?239071-Maranatha-Baptist-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "tuition_in_state_usd": {
+   "v": 21550,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?239071-Maranatha-Baptist-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "tuition_out_state_usd": {
+   "v": 21550,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?239071-Maranatha-Baptist-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "grad_rate_6yr_pct": {
+   "v": 63.6,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?239071-Maranatha-Baptist-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "retention_pct": {
+   "v": 88.2,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?239071-Maranatha-Baptist-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "earnings_10yr_usd": {
+   "v": 45593,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?239071-Maranatha-Baptist-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "median_debt_usd": {
+   "v": 14143,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?239071-Maranatha-Baptist-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "pell_pct": {
+   "v": 34.0,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?239071-Maranatha-Baptist-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "federal_loan_pct": {
+   "v": 24.0,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?239071-Maranatha-Baptist-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  }
+ },
+ "scholarship": {
+  "pct_receiving": {
+   "v": null
+  },
+  "avg_award_usd": {
+   "v": null
+  },
+  "auto_considered": {
+   "v": null
+  },
+  "notes": null
+ }
+}

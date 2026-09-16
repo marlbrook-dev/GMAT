@@ -1,0 +1,147 @@
+{
+ "slug": "university-of-massachusetts-amherst-ma",
+ "unitid": 166629,
+ "name": "University of Massachusetts-Amherst",
+ "city": "Amherst",
+ "state": "MA",
+ "region": "Northeast",
+ "type": "Public",
+ "website": "https://www.umass.edu/",
+ "carnegie": "Doctoral, very high research",
+ "carnegie_code": "15",
+ "health_special_focus": false,
+ "scorecard": "https://collegescorecard.ed.gov/school/?166629-University-of-Massachusetts-Amherst",
+ "profile": {
+  "admit_rate_pct": {
+   "v": 59.7,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?166629-University-of-Massachusetts-Amherst",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "sat_avg": {
+   "v": 1423,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?166629-University-of-Massachusetts-Amherst",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "sat_reading_mid": {
+   "v": 665,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?166629-University-of-Massachusetts-Amherst",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "sat_math_mid": {
+   "v": 690,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?166629-University-of-Massachusetts-Amherst",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "act_mid": {
+   "v": 31,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?166629-University-of-Massachusetts-Amherst",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "test_policy": {
+   "v": "Considered but not required",
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?166629-University-of-Massachusetts-Amherst",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "undergrads": {
+   "v": 23671,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?166629-University-of-Massachusetts-Amherst",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "net_price_usd": {
+   "v": 22383,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?166629-University-of-Massachusetts-Amherst",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "cost_attendance_usd": {
+   "v": 34549,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?166629-University-of-Massachusetts-Amherst",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "tuition_in_state_usd": {
+   "v": 17772,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?166629-University-of-Massachusetts-Amherst",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "tuition_out_state_usd": {
+   "v": 40449,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?166629-University-of-Massachusetts-Amherst",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "grad_rate_6yr_pct": {
+   "v": 83.3,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?166629-University-of-Massachusetts-Amherst",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "retention_pct": {
+   "v": 91.9,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?166629-University-of-Massachusetts-Amherst",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "earnings_10yr_usd": {
+   "v": 71631,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?166629-University-of-Massachusetts-Amherst",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "median_debt_usd": {
+   "v": 22763,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?166629-University-of-Massachusetts-Amherst",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "pell_pct": {
+   "v": 19.9,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?166629-University-of-Massachusetts-Amherst",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "federal_loan_pct": {
+   "v": 46.6,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?166629-University-of-Massachusetts-Amherst",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  }
+ },
+ "scholarship": {
+  "pct_receiving": {
+   "v": null
+  },
+  "avg_award_usd": {
+   "v": null
+  },
+  "auto_considered": {
+   "v": null
+  },
+  "notes": null
+ }
+}

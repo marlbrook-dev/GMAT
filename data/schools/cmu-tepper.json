@@ -133,5 +133,43 @@
   }
  },
  "website": "https://www.cmu.edu/tepper/programs/mba/full-time",
- "notes": "Official class profile page confirms and replaces the Clear Admit sourcing; international is 38 percent on the official page (Clear Admit had 37). Percent women is not reported on the official class profile page or in the 2025 employment report PDF. Acceptance rate is not published. Tuition already sourced to cmu.edu in current data and was not re-verified this session."
+ "notes": "Official class profile page confirms and replaces the Clear Admit sourcing; international is 38 percent on the official page (Clear Admit had 37). Percent women is not reported on the official class profile page or in the 2025 employment report PDF. Acceptance rate is not published. Tuition already sourced to cmu.edu in current data and was not re-verified this session.",
+ "federal": {
+  "matched": true,
+  "instnm": "Carnegie Mellon University",
+  "earn_1yr_usd": {
+   "v": 165798,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.cmu.edu/tepper/programs/mba/full-time",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Carnegie Mellon University"
+  },
+  "earn_4yr_usd": {
+   "v": 208503,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.cmu.edu/tepper/programs/mba/full-time",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Carnegie Mellon University"
+  },
+  "debt_median_usd": {
+   "v": 110500,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.cmu.edu/tepper/programs/mba/full-time",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Carnegie Mellon University"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.cmu.edu/tepper/programs/mba/full-time",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Carnegie Mellon University"
+  },
+  "earn_n": 122,
+  "low_coverage": false
+ }
 }

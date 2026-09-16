@@ -137,5 +137,43 @@
   }
  },
  "website": "https://www.marshall.usc.edu/programs/graduate-programs/mba-programs/full-time-mba",
- "notes": "Official class profile lists Average GMAT 742 with no edition label; edition is ambiguous so neither GMAT field is recorded per house rule (the value would be implausibly high as a Focus average but that is inference, not a page label). GRE shown only as combined average 322, no quant/verbal split. Official Class of 2024 employment report gives average base salary 144,442 and average signing bonus 32,524 but no overall median base salary (medians only by geography, function, industry), so salary_median_usd stays null. Employment report PDF is hosted on USC Marshall's own asset bucket (uscmarshallweb S3), linked from marshall.usc.edu. The report also shows acceptance rate 23 percent for the Classes of 2025 and 2026 (upon enrollment); the 31 percent recorded above is the current Fall 2025 profile figure."
+ "notes": "Official class profile lists Average GMAT 742 with no edition label; edition is ambiguous so neither GMAT field is recorded per house rule (the value would be implausibly high as a Focus average but that is inference, not a page label). GRE shown only as combined average 322, no quant/verbal split. Official Class of 2024 employment report gives average base salary 144,442 and average signing bonus 32,524 but no overall median base salary (medians only by geography, function, industry), so salary_median_usd stays null. Employment report PDF is hosted on USC Marshall's own asset bucket (uscmarshallweb S3), linked from marshall.usc.edu. The report also shows acceptance rate 23 percent for the Classes of 2025 and 2026 (upon enrollment); the 31 percent recorded above is the current Fall 2025 profile figure.",
+ "federal": {
+  "matched": true,
+  "instnm": "University of Southern California",
+  "earn_1yr_usd": {
+   "v": 132668,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.marshall.usc.edu/programs/graduate-programs/mba-programs/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Southern California"
+  },
+  "earn_4yr_usd": {
+   "v": 181250,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.marshall.usc.edu/programs/graduate-programs/mba-programs/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Southern California"
+  },
+  "debt_median_usd": {
+   "v": 77686,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.marshall.usc.edu/programs/graduate-programs/mba-programs/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Southern California"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.marshall.usc.edu/programs/graduate-programs/mba-programs/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Southern California"
+  },
+  "earn_n": 602,
+  "low_coverage": false
+ }
 }

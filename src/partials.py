@@ -64,7 +64,7 @@ _NAV_GROUPS = [
     ]),
     ("Lists", [
         ("MBA Rankings", "/schools/", "Live"),
-        ("Undergraduate", "/schools/", "Coming Soon"),
+        ("College Rankings", "/colleges/", "Live"),
         ("Law Schools", "/schools/", "Coming Soon"),
         ("Medical Schools", "/schools/", "Coming Soon"),
     ]),
@@ -73,6 +73,7 @@ _NAV_GROUPS = [
         ("International Applicants", "/international/", "New"),
         ("Paying for It", "/funding/", "New"),
         ("MBA Rankings", "/schools/", None),
+        ("College Rankings", "/colleges/", None),
     ]),
     ("Resources", [
         ("The Study Room (Blog)", "/blog/", None),
@@ -146,6 +147,7 @@ FOOTER_LINKS = [
     ("Forum", "/community/"),
     ("Exam Guides", "/exams/"),
     ("MBA Rankings", "/schools/"),
+    ("College Rankings", "/colleges/"),
     ("Application Checklist", "/apply/"),
     ("International", "/international/"),
     ("Paying for It", "/funding/"),
@@ -252,6 +254,15 @@ def footer_html(extra_legal=""):
         "</div>"
         '<div class="sfnf-legal">' + legal + "</div></footer>" + sentinel_js()
     )
+
+
+def apply_chrome_css(css):
+    """Resolve {{CHROME_CSS}} inside a stylesheet destined for its own file.
+
+    A vertical with hundreds of pages ships one stylesheet rather than inlining the
+    same bytes into every page, but the shared chrome rules still have to reach it.
+    """
+    return css.replace("{{CHROME_CSS}}", CHROME_CSS)
 
 
 def apply_chrome(html, extra_legal=""):

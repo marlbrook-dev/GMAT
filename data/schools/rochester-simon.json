@@ -126,5 +126,43 @@
    "url": "https://simon.rochester.edu/programs/full-time-mba/careers-outcomes"
   }
  },
- "notes": "Tuition rose from 57500 (2025-26) to 60000 for 2026-27 on the official page; prior figure replaced. Class profile lists 25 countries of origin but no international percentage. GRE averages and acceptance rate not published. Careers page reports average total compensation of 162175 USD for the Class of 2025 but no median base salary; no newer employment report PDF with a median was reachable. The recruiter-facing class profile page returned 403."
+ "notes": "Tuition rose from 57500 (2025-26) to 60000 for 2026-27 on the official page; prior figure replaced. Class profile lists 25 countries of origin but no international percentage. GRE averages and acceptance rate not published. Careers page reports average total compensation of 162175 USD for the Class of 2025 but no median base salary; no newer employment report PDF with a median was reachable. The recruiter-facing class profile page returned 403.",
+ "federal": {
+  "matched": true,
+  "instnm": "University of Rochester",
+  "earn_1yr_usd": {
+   "v": 92758,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://simon.rochester.edu/programs/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Rochester"
+  },
+  "earn_4yr_usd": {
+   "v": 138177,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://simon.rochester.edu/programs/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Rochester"
+  },
+  "debt_median_usd": {
+   "v": 40170,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://simon.rochester.edu/programs/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Rochester"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://simon.rochester.edu/programs/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Rochester"
+  },
+  "earn_n": 145,
+  "low_coverage": false
+ }
 }

@@ -53,5 +53,43 @@
   }
  },
  "notes": "GMAT and GRE are optional and no averages or GPA or acceptance rate are published on the class profile page. Salary figure is an average, not a median; the outcomes page also states average base salary of 107748 USD for US placements only, plus 15289 USD average signing bonus. Tuition is published only as estimated total program cost at 2025-26 rates: in-state 57119 USD, out-of-state 99715 USD (https://mba.ncsu.edu/admissions-process/tuition-and-financial-aid/); no annual figure.",
- "website": "https://mba.ncsu.edu/full-time-mba/"
+ "website": "https://mba.ncsu.edu/full-time-mba/",
+ "federal": {
+  "matched": true,
+  "instnm": "North Carolina State University at Raleigh",
+  "earn_1yr_usd": {
+   "v": 113700,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://mba.ncsu.edu/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "North Carolina State University at Raleigh"
+  },
+  "earn_4yr_usd": {
+   "v": 127702,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://mba.ncsu.edu/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "North Carolina State University at Raleigh"
+  },
+  "debt_median_usd": {
+   "v": 41000,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://mba.ncsu.edu/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "North Carolina State University at Raleigh"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://mba.ncsu.edu/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "North Carolina State University at Raleigh"
+  },
+  "earn_n": 216,
+  "low_coverage": false
+ }
 }

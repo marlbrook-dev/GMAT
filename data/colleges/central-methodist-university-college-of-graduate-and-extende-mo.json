@@ -1,0 +1,135 @@
+{
+ "slug": "central-methodist-university-college-of-graduate-and-extende-mo",
+ "unitid": 445267,
+ "name": "Central Methodist University-College of Graduate and Extended Studies",
+ "city": "Fayette",
+ "state": "MO",
+ "region": "Midwest",
+ "type": "Private nonprofit",
+ "website": "https://www.centralmethodist.edu/",
+ "carnegie": "Master's, smaller programs",
+ "carnegie_code": "20",
+ "health_special_focus": false,
+ "scorecard": "https://collegescorecard.ed.gov/school/?445267-Central-Methodist-University-College-of-Graduate-and-Extended-Studies",
+ "profile": {
+  "admit_rate_pct": {
+   "v": 87.5,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?445267-Central-Methodist-University-College-of-Graduate-and-Extended-Studies",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "sat_avg": {
+   "v": 1120,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?445267-Central-Methodist-University-College-of-Graduate-and-Extended-Studies",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "sat_reading_mid": {
+   "v": null
+  },
+  "sat_math_mid": {
+   "v": null
+  },
+  "act_mid": {
+   "v": null
+  },
+  "test_policy": {
+   "v": "Considered but not required",
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?445267-Central-Methodist-University-College-of-Graduate-and-Extended-Studies",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "undergrads": {
+   "v": 2092,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?445267-Central-Methodist-University-College-of-Graduate-and-Extended-Studies",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "net_price_usd": {
+   "v": 14601,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?445267-Central-Methodist-University-College-of-Graduate-and-Extended-Studies",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "cost_attendance_usd": {
+   "v": 22310,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?445267-Central-Methodist-University-College-of-Graduate-and-Extended-Studies",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "tuition_in_state_usd": {
+   "v": 7440,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?445267-Central-Methodist-University-College-of-Graduate-and-Extended-Studies",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "tuition_out_state_usd": {
+   "v": 7440,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?445267-Central-Methodist-University-College-of-Graduate-and-Extended-Studies",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "grad_rate_6yr_pct": {
+   "v": 0.0,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?445267-Central-Methodist-University-College-of-Graduate-and-Extended-Studies",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "retention_pct": {
+   "v": 52.9,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?445267-Central-Methodist-University-College-of-Graduate-and-Extended-Studies",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "earnings_10yr_usd": {
+   "v": 48991,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?445267-Central-Methodist-University-College-of-Graduate-and-Extended-Studies",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "median_debt_usd": {
+   "v": 17619,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?445267-Central-Methodist-University-College-of-Graduate-and-Extended-Studies",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "pell_pct": {
+   "v": 31.9,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?445267-Central-Methodist-University-College-of-Graduate-and-Extended-Studies",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "federal_loan_pct": {
+   "v": 20.6,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?445267-Central-Methodist-University-College-of-Graduate-and-Extended-Studies",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  }
+ },
+ "scholarship": {
+  "pct_receiving": {
+   "v": null
+  },
+  "avg_award_usd": {
+   "v": null
+  },
+  "auto_considered": {
+   "v": null
+  },
+  "notes": null
+ }
+}

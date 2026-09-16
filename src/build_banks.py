@@ -1,14 +1,10 @@
 """Generate the item banks from the schemas in src/gen/.
 
 The generators are the source of truth; the emitted .js files are build output and
-are gitignored, exactly like /app/ and /blog/. The run is seeded, so the same
-commit always produces the same bank and a rebuild is a no-op rather than a diff.
-
-The per category seed is derived with zlib.crc32 rather than hash(). Python randomises
-string hashing per process unless PYTHONHASHSEED is set, so hash() here silently made
-every build produce a different bank: the promise in the paragraph above was false, and
-the per section bias figures that test.js pins in DEBT drifted from run to run, which
-turned that ratchet into a coin toss. crc32 is stable across processes and machines.
+are gitignored, exactly like /app/ and /blog/. The run is seeded with crc32 of the
+exam and category name, so the same commit always produces the same bank. It must
+not use Python's hash(), which is randomised per process and quietly made every
+build produce a different bank.
 
 Run directly to see the per category report:  python3 src/build_banks.py
 """
@@ -71,6 +67,10 @@ def main(target=TARGET, verbose=True):
             gens = plan[skill]
             got, dropped, errs, made = F.run(
                 gens, target, choices, PREFIX[exam],
+                # crc32, not hash(). Python randomises string hashing per process, so
+                # the previous seed changed on every build: the bank was different every
+                # time, the "seeded and reproducible" promise was not true, and the bias
+                # ratchet in test.js drifted a few points between runs for no reason.
                 seed=20260916 + (zlib.crc32((exam + skill).encode()) % 99991),
                 start=n, existing=seen,
             )

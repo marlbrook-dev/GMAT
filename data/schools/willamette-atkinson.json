@@ -67,5 +67,43 @@
   }
  },
  "notes": "Class profile discloses no GMAT or GRE scores and no acceptance rate. Salem, OR campus confirmed on program page; Willamette is a private university. US News rank not included: usnews.com returned 503.",
- "website": "https://willamette.edu/academics/mba/full-time/"
+ "website": "https://willamette.edu/academics/mba/full-time/",
+ "federal": {
+  "matched": true,
+  "instnm": "Willamette University",
+  "earn_1yr_usd": {
+   "v": 86704,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://willamette.edu/academics/mba/full-time/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Willamette University"
+  },
+  "earn_4yr_usd": {
+   "v": 101544,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://willamette.edu/academics/mba/full-time/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Willamette University"
+  },
+  "debt_median_usd": {
+   "v": 72115,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://willamette.edu/academics/mba/full-time/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Willamette University"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://willamette.edu/academics/mba/full-time/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Willamette University"
+  },
+  "earn_n": 135,
+  "low_coverage": false
+ }
 }

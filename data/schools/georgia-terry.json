@@ -102,5 +102,43 @@
    "url": ""
   }
  },
- "notes": "The entire terry.uga.edu domain is behind a Cloudflare bot challenge: every fetch attempt (WebFetch, curl with browser headers, headless Chromium) returned 403 Just a moment pages, so the official class profile and any employment report could not be read this session. Existing figures in the library for this school are sourced to Clear Admit, which is a banned source; they could not be replaced or confirmed. Fields above are listed null only in the sense that no official page was reachable, not confirmed unpublished. Tuition was verified on the UGA Bursar site (busfin.uga.edu), which is official and not blocked; the bursar page labels the program Master in Business Administration (MBA Athens), which is the residential full-time MBA."
+ "notes": "The entire terry.uga.edu domain is behind a Cloudflare bot challenge: every fetch attempt (WebFetch, curl with browser headers, headless Chromium) returned 403 Just a moment pages, so the official class profile and any employment report could not be read this session. Existing figures in the library for this school are sourced to Clear Admit, which is a banned source; they could not be replaced or confirmed. Fields above are listed null only in the sense that no official page was reachable, not confirmed unpublished. Tuition was verified on the UGA Bursar site (busfin.uga.edu), which is official and not blocked; the bursar page labels the program Master in Business Administration (MBA Athens), which is the residential full-time MBA.",
+ "federal": {
+  "matched": true,
+  "instnm": "University of Georgia",
+  "earn_1yr_usd": {
+   "v": 118821,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.terry.uga.edu/mba/fulltime/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Georgia"
+  },
+  "earn_4yr_usd": {
+   "v": 154042,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.terry.uga.edu/mba/fulltime/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Georgia"
+  },
+  "debt_median_usd": {
+   "v": 62722,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.terry.uga.edu/mba/fulltime/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Georgia"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.terry.uga.edu/mba/fulltime/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Georgia"
+  },
+  "earn_n": 174,
+  "low_coverage": false
+ }
 }

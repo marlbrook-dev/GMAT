@@ -1,0 +1,115 @@
+{
+ "slug": "new-orleans-baptist-theological-seminary-la",
+ "unitid": 159948,
+ "name": "New Orleans Baptist Theological Seminary",
+ "city": "New Orleans",
+ "state": "LA",
+ "region": "South",
+ "type": "Private nonprofit",
+ "website": "https://www.nobts.edu/",
+ "carnegie": "Baccalaureate and associate's",
+ "carnegie_code": "24",
+ "health_special_focus": false,
+ "scorecard": "https://collegescorecard.ed.gov/school/?159948-New-Orleans-Baptist-Theological-Seminary",
+ "profile": {
+  "admit_rate_pct": {
+   "v": null
+  },
+  "sat_avg": {
+   "v": null
+  },
+  "sat_reading_mid": {
+   "v": null
+  },
+  "sat_math_mid": {
+   "v": null
+  },
+  "act_mid": {
+   "v": null
+  },
+  "test_policy": {
+   "v": null
+  },
+  "undergrads": {
+   "v": 865,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?159948-New-Orleans-Baptist-Theological-Seminary",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "net_price_usd": {
+   "v": 10829,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?159948-New-Orleans-Baptist-Theological-Seminary",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "cost_attendance_usd": {
+   "v": 21660,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?159948-New-Orleans-Baptist-Theological-Seminary",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "tuition_in_state_usd": {
+   "v": 12468,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?159948-New-Orleans-Baptist-Theological-Seminary",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "tuition_out_state_usd": {
+   "v": 12468,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?159948-New-Orleans-Baptist-Theological-Seminary",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "grad_rate_6yr_pct": {
+   "v": 73.9,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?159948-New-Orleans-Baptist-Theological-Seminary",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "retention_pct": {
+   "v": 92.0,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?159948-New-Orleans-Baptist-Theological-Seminary",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "earnings_10yr_usd": {
+   "v": null
+  },
+  "median_debt_usd": {
+   "v": null
+  },
+  "pell_pct": {
+   "v": 8.6,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?159948-New-Orleans-Baptist-Theological-Seminary",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "federal_loan_pct": {
+   "v": 0.0,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?159948-New-Orleans-Baptist-Theological-Seminary",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  }
+ },
+ "scholarship": {
+  "pct_receiving": {
+   "v": null
+  },
+  "avg_award_usd": {
+   "v": null
+  },
+  "auto_considered": {
+   "v": null
+  },
+  "notes": null
+ }
+}

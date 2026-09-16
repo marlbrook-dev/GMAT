@@ -126,5 +126,43 @@
    "url": "https://www.business.uc.edu/programs-degrees/graduate/mba/full-time-mba.html"
   }
  },
- "notes": "Lindner does not publish a full-time MBA class profile with test scores, work experience or demographics on any official page found (program page, MBA admissions page, Lindner by the Numbers). The out-of-state surcharge figure is on https://www.uc.edu/about/bursar/tuition-fees/prior-year-fees/2023-2024-fees11/2025-26-Out-of-State-Surcharge.html. The 96,846 salary on the program page is an average, not a median, and undated; the career outcomes page median is used instead. Existing women_pct and class_size values from US News should be dropped or kept per house rules; official class size 36 (Class of 2026) replaces the US News enrollment figure."
+ "notes": "Lindner does not publish a full-time MBA class profile with test scores, work experience or demographics on any official page found (program page, MBA admissions page, Lindner by the Numbers). The out-of-state surcharge figure is on https://www.uc.edu/about/bursar/tuition-fees/prior-year-fees/2023-2024-fees11/2025-26-Out-of-State-Surcharge.html. The 96,846 salary on the program page is an average, not a median, and undated; the career outcomes page median is used instead. Existing women_pct and class_size values from US News should be dropped or kept per house rules; official class size 36 (Class of 2026) replaces the US News enrollment figure.",
+ "federal": {
+  "matched": true,
+  "instnm": "University of Cincinnati-Main Campus",
+  "earn_1yr_usd": {
+   "v": 93585,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.business.uc.edu/programs-degrees/graduate/mba/full-time-mba.html",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Cincinnati-Main Campus"
+  },
+  "earn_4yr_usd": {
+   "v": 126287,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.business.uc.edu/programs-degrees/graduate/mba/full-time-mba.html",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Cincinnati-Main Campus"
+  },
+  "debt_median_usd": {
+   "v": 33736,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.business.uc.edu/programs-degrees/graduate/mba/full-time-mba.html",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Cincinnati-Main Campus"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.business.uc.edu/programs-degrees/graduate/mba/full-time-mba.html",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Cincinnati-Main Campus"
+  },
+  "earn_n": 171,
+  "low_coverage": false
+ }
 }

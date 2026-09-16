@@ -125,5 +125,43 @@
    "url": "https://www.rhsmith.umd.edu/offices/career-services/employment-reports/full-time-mba-report"
   }
  },
- "notes": "Official admissions page reports GMAT only as a GMAT Focus Edition 55th to 72nd percentile ranking, no score, so gmat_focus stays null. Tuition is charged per credit only: Fall 2025 rates 1759.50 USD per credit Maryland resident, 2157.00 non-resident, plus semester fees, per the official Networth page (https://networth.rhsmith.umd.edu/smith/financial-information/fall-2025-tuition, fetched this session); no official annual tuition figure is published, so tuition_usd stays null. Program is 48 credits. Class of 2026 figures in the prior data (69 students, GMAT 633, GRE 324) trace to Clear Admit/P&Q and could not be found on an official page this session; the prior employment_rate 77 sourced to P&Q is now replaced by the official report figure."
+ "notes": "Official admissions page reports GMAT only as a GMAT Focus Edition 55th to 72nd percentile ranking, no score, so gmat_focus stays null. Tuition is charged per credit only: Fall 2025 rates 1759.50 USD per credit Maryland resident, 2157.00 non-resident, plus semester fees, per the official Networth page (https://networth.rhsmith.umd.edu/smith/financial-information/fall-2025-tuition, fetched this session); no official annual tuition figure is published, so tuition_usd stays null. Program is 48 credits. Class of 2026 figures in the prior data (69 students, GMAT 633, GRE 324) trace to Clear Admit/P&Q and could not be found on an official page this session; the prior employment_rate 77 sourced to P&Q is now replaced by the official report figure.",
+ "federal": {
+  "matched": true,
+  "instnm": "University of Maryland-College Park",
+  "earn_1yr_usd": {
+   "v": 125159,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.rhsmith.umd.edu/programs/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Maryland-College Park"
+  },
+  "earn_4yr_usd": {
+   "v": 160946,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.rhsmith.umd.edu/programs/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Maryland-College Park"
+  },
+  "debt_median_usd": {
+   "v": 64438,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.rhsmith.umd.edu/programs/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Maryland-College Park"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.rhsmith.umd.edu/programs/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Maryland-College Park"
+  },
+  "earn_n": 383,
+  "low_coverage": false
+ }
 }

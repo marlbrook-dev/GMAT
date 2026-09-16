@@ -111,8 +111,14 @@ function runExam(exam){
   // answer is not the only one carrying its full qualification. The quantitative entries
   // are the mirror image, short correct values against long error derived ones.
   // Lower each number as items are rewritten; delete the entry once it is in tolerance.
-  const DEBT={'gmat-focus.V':{long:82,short:20},'gmat-focus.Q':{long:20,short:79},
-              'gre.Q':{long:20,short:44},'gre.V':{long:20,short:43}};
+  // Tightened to the measured values now that the generated bank is genuinely
+  // reproducible. It was not before: build_banks.py seeded from Python's hash(),
+  // which is randomised per process, so these numbers drifted a few points every
+  // build and the caps had to be loose enough to absorb noise that should not have
+  // existed. Each number here is now the exact current measurement, so any movement
+  // is a real change in the bank.
+  const DEBT={'gmat-focus.V':{long:81,short:20},'gmat-focus.Q':{long:20,short:74},
+              'gre.Q':{long:20,short:43}};
   const bySec={};
   wordy.forEach(q=>{ (bySec[q.section]=bySec[q.section]||[]).push(q); });
   Object.keys(bySec).sort().forEach(sec=>{

@@ -1,0 +1,99 @@
+{
+ "slug": "loma-linda-university-ca",
+ "unitid": 117636,
+ "name": "Loma Linda University",
+ "city": "Loma Linda",
+ "state": "CA",
+ "region": "West",
+ "type": "Private nonprofit",
+ "website": "https://www.llu.edu/index.html",
+ "carnegie": "Doctoral, high research",
+ "carnegie_code": "16",
+ "health_special_focus": false,
+ "scorecard": "https://collegescorecard.ed.gov/school/?117636-Loma-Linda-University",
+ "profile": {
+  "admit_rate_pct": {
+   "v": null
+  },
+  "sat_avg": {
+   "v": null
+  },
+  "sat_reading_mid": {
+   "v": null
+  },
+  "sat_math_mid": {
+   "v": null
+  },
+  "act_mid": {
+   "v": null
+  },
+  "test_policy": {
+   "v": null
+  },
+  "undergrads": {
+   "v": 909,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?117636-Loma-Linda-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "net_price_usd": {
+   "v": null
+  },
+  "cost_attendance_usd": {
+   "v": null
+  },
+  "tuition_in_state_usd": {
+   "v": null
+  },
+  "tuition_out_state_usd": {
+   "v": null
+  },
+  "grad_rate_6yr_pct": {
+   "v": null
+  },
+  "retention_pct": {
+   "v": null
+  },
+  "earnings_10yr_usd": {
+   "v": 89816,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?117636-Loma-Linda-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "median_debt_usd": {
+   "v": 20854,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?117636-Loma-Linda-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "pell_pct": {
+   "v": 35.0,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?117636-Loma-Linda-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "federal_loan_pct": {
+   "v": 64.2,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?117636-Loma-Linda-University",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  }
+ },
+ "scholarship": {
+  "pct_receiving": {
+   "v": null
+  },
+  "avg_award_usd": {
+   "v": null
+  },
+  "auto_considered": {
+   "v": null
+  },
+  "notes": null
+ }
+}

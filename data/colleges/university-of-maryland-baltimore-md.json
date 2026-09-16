@@ -1,0 +1,99 @@
+{
+ "slug": "university-of-maryland-baltimore-md",
+ "unitid": 163259,
+ "name": "University of Maryland Baltimore",
+ "city": "Baltimore",
+ "state": "MD",
+ "region": "South",
+ "type": "Public",
+ "website": "https://www.umaryland.edu/",
+ "carnegie": "Special focus, medical school or center",
+ "carnegie_code": "27",
+ "health_special_focus": true,
+ "scorecard": "https://collegescorecard.ed.gov/school/?163259-University-of-Maryland-Baltimore",
+ "profile": {
+  "admit_rate_pct": {
+   "v": null
+  },
+  "sat_avg": {
+   "v": null
+  },
+  "sat_reading_mid": {
+   "v": null
+  },
+  "sat_math_mid": {
+   "v": null
+  },
+  "act_mid": {
+   "v": null
+  },
+  "test_policy": {
+   "v": null
+  },
+  "undergrads": {
+   "v": 958,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?163259-University-of-Maryland-Baltimore",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "net_price_usd": {
+   "v": null
+  },
+  "cost_attendance_usd": {
+   "v": null
+  },
+  "tuition_in_state_usd": {
+   "v": null
+  },
+  "tuition_out_state_usd": {
+   "v": null
+  },
+  "grad_rate_6yr_pct": {
+   "v": null
+  },
+  "retention_pct": {
+   "v": null
+  },
+  "earnings_10yr_usd": {
+   "v": 88174,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?163259-University-of-Maryland-Baltimore",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "median_debt_usd": {
+   "v": 15000,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?163259-University-of-Maryland-Baltimore",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "pell_pct": {
+   "v": 14.6,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?163259-University-of-Maryland-Baltimore",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "federal_loan_pct": {
+   "v": 20.4,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?163259-University-of-Maryland-Baltimore",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  }
+ },
+ "scholarship": {
+  "pct_receiving": {
+   "v": null
+  },
+  "avg_award_usd": {
+   "v": null
+  },
+  "auto_considered": {
+   "v": null
+  },
+  "notes": null
+ }
+}

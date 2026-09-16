@@ -298,7 +298,7 @@ def build_post(p, posts):
     return page(p["title"] + " | Start From Nowhere", p["description"], f"{SITE}/blog/{p['slug']}/", body, extra)
 
 def build_sitemap(posts):
-    urls = [(SITE + "/", None), (SITE + "/blog/", None), (SITE + "/schools/", None), (SITE + "/exams/", None), (SITE + "/pricing/", None), (SITE + "/community/", None), (SITE + "/international/", None), (SITE + "/apply/", None), (SITE + "/scoring/", None), (SITE + "/funding/", None), (SITE + "/terms.html", None), (SITE + "/privacy.html", None)]
+    urls = [(SITE + "/", None), (SITE + "/blog/", None), (SITE + "/schools/", None), (SITE + "/exams/", None), (SITE + "/pricing/", None), (SITE + "/community/", None), (SITE + "/international/", None), (SITE + "/apply/", None), (SITE + "/scoring/", None), (SITE + "/funding/", None), (SITE + "/colleges/", None), (SITE + "/colleges/methodology/", None), (SITE + "/terms.html", None), (SITE + "/privacy.html", None)]
     exams_data = ROOT / "data" / "exams.json"
     if exams_data.exists():
         import json as _json2
@@ -310,6 +310,11 @@ def build_sitemap(posts):
             s = _json.loads(sp.read_text())
             if not s.get("discontinued"):
                 urls.append((f"{SITE}/schools/{s['slug']}/", None))
+    colleges_dir = ROOT / "data" / "colleges"
+    if colleges_dir.is_dir():
+        import json as _json3
+        for cp in sorted(colleges_dir.glob("*.json")):
+            urls.append((f"{SITE}/colleges/{_json3.loads(cp.read_text())['slug']}/", None))
     urls += [(f"{SITE}/blog/{p['slug']}/", p.get("updated", p["date"])) for p in sorted(posts, key=lambda p: p["date"], reverse=True)]
     items = "".join(
         f"<url><loc>{u}</loc>{f'<lastmod>{d}</lastmod>' if d else ''}</url>\n" for u, d in urls)

@@ -304,4 +304,5 @@ if _over:
 # /apply/ carries a large inline script and is built by build_rankings.py, so it is
 # parsed here, after that step, under the same guard as every other inline script.
 check_scripts(root/"apply"/"index.html")
+_sp.run([sys.executable, str(d/"build_colleges.py")], check=True)
 _sp.run([sys.executable, str(d/"build_exams.py")], check=True)

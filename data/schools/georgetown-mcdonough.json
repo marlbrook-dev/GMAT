@@ -135,5 +135,43 @@
   }
  },
  "website": "https://msb.georgetown.edu/full-time-mba/",
- "notes": "Official page is titled '2025 Full-time MBA Class Profile' (fall 2025 entering class, i.e. Class of 2027); all class profile figures replace the prior Clear Admit sourcing. GRE published only as a combined average of 318 (39 pct took GRE); no quant/verbal split. Acceptance rate not published; not derived from applications vs enrolled. Class of 2025 employment release gives average base salary 146265 and average signing bonus 33768 but no overall median; the 2025 median would be in the flipbook employment report, which would not load (see _failures), so the Class of 2024 official median 148000 is recorded instead."
+ "notes": "Official page is titled '2025 Full-time MBA Class Profile' (fall 2025 entering class, i.e. Class of 2027); all class profile figures replace the prior Clear Admit sourcing. GRE published only as a combined average of 318 (39 pct took GRE); no quant/verbal split. Acceptance rate not published; not derived from applications vs enrolled. Class of 2025 employment release gives average base salary 146265 and average signing bonus 33768 but no overall median; the 2025 median would be in the flipbook employment report, which would not load (see _failures), so the Class of 2024 official median 148000 is recorded instead.",
+ "federal": {
+  "matched": true,
+  "instnm": "Georgetown University",
+  "earn_1yr_usd": {
+   "v": 147613,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://msb.georgetown.edu/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Georgetown University"
+  },
+  "earn_4yr_usd": {
+   "v": 188160,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://msb.georgetown.edu/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Georgetown University"
+  },
+  "debt_median_usd": {
+   "v": 98440,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://msb.georgetown.edu/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Georgetown University"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://msb.georgetown.edu/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Georgetown University"
+  },
+  "earn_n": 476,
+  "low_coverage": false
+ }
 }

@@ -132,5 +132,43 @@
    "url": "https://olin.washu.edu/programs/mbas/full-time-mba/career-prospects.php"
   }
  },
- "notes": "The official class profile page now renders all class statistics (medians, backgrounds, gender, international) as images with no machine-readable text, so the existing class_size, gmat_classic, and gpa figures already sourced to that page were kept but could not be re-read this session, and the remaining profile fields could not be filled. The Class of 2024 employment report PDF downloads but contains no extractable text (image-only PDF). Tuition updated from 70,250 (2025-26) to the 72,700 2026-27 rate now posted."
+ "notes": "The official class profile page now renders all class statistics (medians, backgrounds, gender, international) as images with no machine-readable text, so the existing class_size, gmat_classic, and gpa figures already sourced to that page were kept but could not be re-read this session, and the remaining profile fields could not be filled. The Class of 2024 employment report PDF downloads but contains no extractable text (image-only PDF). Tuition updated from 70,250 (2025-26) to the 72,700 2026-27 rate now posted.",
+ "federal": {
+  "matched": true,
+  "instnm": "Washington University in St Louis",
+  "earn_1yr_usd": {
+   "v": 130529,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://olin.washu.edu/programs/mbas/full-time-mba/index.php",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Washington University in St Louis"
+  },
+  "earn_4yr_usd": {
+   "v": 153933,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://olin.washu.edu/programs/mbas/full-time-mba/index.php",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Washington University in St Louis"
+  },
+  "debt_median_usd": {
+   "v": 81700,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://olin.washu.edu/programs/mbas/full-time-mba/index.php",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Washington University in St Louis"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://olin.washu.edu/programs/mbas/full-time-mba/index.php",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Washington University in St Louis"
+  },
+  "earn_n": 264,
+  "low_coverage": false
+ }
 }

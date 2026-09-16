@@ -67,5 +67,38 @@
   }
  },
  "notes": "Class profile lists Average GMAT: N/A and only a combined Average GRE: 311, so no GRE quant or verbal split is available. Tuition figure is the school's own approximate quarterly rate times three; the registrar quarterly fee page rendered only stale 2022 term tables when fetched. Salary and employment come from an official school news page, not a standalone employment report; definitions are quoted in stat. City and state confirmed from page (900 University Ave, Riverside, CA 92521); UCR is a University of California campus (public).",
- "website": "https://business.ucr.edu/mba"
+ "website": "https://business.ucr.edu/mba",
+ "federal": {
+  "matched": true,
+  "instnm": "University of California-Riverside",
+  "earn_1yr_usd": {
+   "v": null
+  },
+  "earn_4yr_usd": {
+   "v": 90857,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://business.ucr.edu/mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of California-Riverside"
+  },
+  "debt_median_usd": {
+   "v": 76013,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://business.ucr.edu/mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of California-Riverside"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://business.ucr.edu/mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of California-Riverside"
+  },
+  "earn_n": null,
+  "low_coverage": false
+ }
 }

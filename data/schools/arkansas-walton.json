@@ -126,5 +126,43 @@
    "url": "https://walton.uark.edu/why-walton/career-connections.php"
   }
  },
- "notes": "Walton publishes a student listing but no statistical class profile for the full-time MBA; the apply page lists requirements only (GMAT/GRE or 2 plus years work experience), with no averages, acceptance rate, or demographics. Program is one academic year (August through June, 38 credit hours), so the total program cost is effectively the annual cost."
+ "notes": "Walton publishes a student listing but no statistical class profile for the full-time MBA; the apply page lists requirements only (GMAT/GRE or 2 plus years work experience), with no averages, acceptance rate, or demographics. Program is one academic year (August through June, 38 credit hours), so the total program cost is effectively the annual cost.",
+ "federal": {
+  "matched": true,
+  "instnm": "University of Arkansas",
+  "earn_1yr_usd": {
+   "v": 164382,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://walton.uark.edu/gsb/mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Arkansas"
+  },
+  "earn_4yr_usd": {
+   "v": 157358,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://walton.uark.edu/gsb/mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Arkansas"
+  },
+  "debt_median_usd": {
+   "v": 40962,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://walton.uark.edu/gsb/mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Arkansas"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://walton.uark.edu/gsb/mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Arkansas"
+  },
+  "earn_n": 68,
+  "low_coverage": false
+ }
 }

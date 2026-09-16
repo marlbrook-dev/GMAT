@@ -45,5 +45,43 @@
   }
  },
  "notes": "Class profile on the program page carries no class year label; year given is page publication year. GMAT and GRE are encouraged but not required and no averages, acceptance rate, or class size are published. Employment rate definition is nonstandard (includes graduate school, self-reported). No official employment report with salary found; a school news article cites a 125381 USD average salary but that is Bloomberg ranking data, not a school employment report, so salary left null. Tuition is published as 2163 USD per credit, 45 credits, 97335 USD total program tuition at the 2026-27 rate, fees itemized separately (https://kogod.american.edu/programs-admissions/mba/tuition-fees-financial-aid); no annual figure. A school news article of April 2025 cites a US News full-time MBA rank of no. 58 in the latest rankings, but the edition is not stated and it predates the 2026 edition, so _usnews omitted.",
- "website": "https://kogod.american.edu/programs-admissions/mba"
+ "website": "https://kogod.american.edu/programs-admissions/mba",
+ "federal": {
+  "matched": true,
+  "instnm": "American University",
+  "earn_1yr_usd": {
+   "v": 99051,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://kogod.american.edu/programs-admissions/mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "American University"
+  },
+  "earn_4yr_usd": {
+   "v": 127269,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://kogod.american.edu/programs-admissions/mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "American University"
+  },
+  "debt_median_usd": {
+   "v": 89433,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://kogod.american.edu/programs-admissions/mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "American University"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://kogod.american.edu/programs-admissions/mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "American University"
+  },
+  "earn_n": 240,
+  "low_coverage": false
+ }
 }

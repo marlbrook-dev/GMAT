@@ -133,5 +133,43 @@
   }
  },
  "website": "https://business.vanderbilt.edu/mba/",
- "notes": "Class profile page publishes GMAT Focus only; no classic-scale figure. Acceptance rate not published on official pages reached. Official outcomes page reports average base starting salary 148K plus and average signing bonus 36K for the Class of 2025 but no median, so salary_median_usd is null; the prior 150,000 figure was Bloomberg's, outside this pass's allowed sources. Previously recorded tuition 74,500 (2025-26) has been superseded on the official page by the 2026-27 rate of 76,700."
+ "notes": "Class profile page publishes GMAT Focus only; no classic-scale figure. Acceptance rate not published on official pages reached. Official outcomes page reports average base starting salary 148K plus and average signing bonus 36K for the Class of 2025 but no median, so salary_median_usd is null; the prior 150,000 figure was Bloomberg's, outside this pass's allowed sources. Previously recorded tuition 74,500 (2025-26) has been superseded on the official page by the 2026-27 rate of 76,700.",
+ "federal": {
+  "matched": true,
+  "instnm": "Vanderbilt University",
+  "earn_1yr_usd": {
+   "v": 149786,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://business.vanderbilt.edu/mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Vanderbilt University"
+  },
+  "earn_4yr_usd": {
+   "v": 190365,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://business.vanderbilt.edu/mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Vanderbilt University"
+  },
+  "debt_median_usd": {
+   "v": 90787,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://business.vanderbilt.edu/mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Vanderbilt University"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://business.vanderbilt.edu/mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Vanderbilt University"
+  },
+  "earn_n": 154,
+  "low_coverage": false
+ }
 }

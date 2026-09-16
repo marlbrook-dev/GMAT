@@ -32,5 +32,43 @@
   }
  },
  "notes": "Cohort stats render via a JavaScript counter; values read from data-target attributes in the page source of the Fall 2025 cohort profile section. Page labels the score only as Average GMAT with no edition; classified as Focus because the Fall 2025 entering cohort graduates in 2026 or later and 576 is consistent with the Focus scale; treat with care. GRE is published only as a combined average of 306 with no quant or verbal split. Class size, percent women, acceptance rate, salary, and employment rate are not published. Tuition is published only as total program tuition and fees at 2026-27 rates: resident 30256 USD, non-resident 66220 USD, with tuition not itemized separately from fees (https://harbert.auburn.edu/degrees-programs/mba/full-time-mba/tuition-financial-assistance.html); no annual tuition-only figure. Publishes average GMAT 576 with no edition label; not recorded per the edition-ambiguity rule.",
- "website": "https://harbert.auburn.edu/degrees-programs/mba/full-time-mba/index.html"
+ "website": "https://harbert.auburn.edu/degrees-programs/mba/full-time-mba/index.html",
+ "federal": {
+  "matched": true,
+  "instnm": "Auburn University",
+  "earn_1yr_usd": {
+   "v": 143121,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://harbert.auburn.edu/degrees-programs/mba/full-time-mba/index.html",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Auburn University"
+  },
+  "earn_4yr_usd": {
+   "v": 154831,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://harbert.auburn.edu/degrees-programs/mba/full-time-mba/index.html",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Auburn University"
+  },
+  "debt_median_usd": {
+   "v": 41000,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://harbert.auburn.edu/degrees-programs/mba/full-time-mba/index.html",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Auburn University"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://harbert.auburn.edu/degrees-programs/mba/full-time-mba/index.html",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Auburn University"
+  },
+  "earn_n": 139,
+  "low_coverage": false
+ }
 }

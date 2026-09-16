@@ -125,5 +125,43 @@
    "url": ""
   }
  },
- "notes": "Purdue's residential full-time program is now the One-Year MBA (11 months, Daniels School); the old two-year full-time MBA is no longer offered. The class profile page states no cohort year and no publication date, so year is the fetch year (2026); a companion fact sheet PDF is dated July 2025. No GMAT, GRE, class size, or acceptance rate published. Tuition page (https://business.purdue.edu/master-of-business/one-year-mba/tuition.php) publishes per-credit rates only: 900 USD per credit Indiana resident, 1327 out-of-state, 1350 international; program is 44 credits; no annual figure published, so tuition_usd left null rather than computed. The career outcomes page shows Lightcast job-postings market data (median advertised salary), not graduate outcomes, so salary and employment rate are null."
+ "notes": "Purdue's residential full-time program is now the One-Year MBA (11 months, Daniels School); the old two-year full-time MBA is no longer offered. The class profile page states no cohort year and no publication date, so year is the fetch year (2026); a companion fact sheet PDF is dated July 2025. No GMAT, GRE, class size, or acceptance rate published. Tuition page (https://business.purdue.edu/master-of-business/one-year-mba/tuition.php) publishes per-credit rates only: 900 USD per credit Indiana resident, 1327 out-of-state, 1350 international; program is 44 credits; no annual figure published, so tuition_usd left null rather than computed. The career outcomes page shows Lightcast job-postings market data (median advertised salary), not graduate outcomes, so salary and employment rate are null.",
+ "federal": {
+  "matched": true,
+  "instnm": "Purdue University-Main Campus",
+  "earn_1yr_usd": {
+   "v": 103280,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://business.purdue.edu/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Purdue University-Main Campus"
+  },
+  "earn_4yr_usd": {
+   "v": 132747,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://business.purdue.edu/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Purdue University-Main Campus"
+  },
+  "debt_median_usd": {
+   "v": 41000,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://business.purdue.edu/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Purdue University-Main Campus"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://business.purdue.edu/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Purdue University-Main Campus"
+  },
+  "earn_n": 115,
+  "low_coverage": false
+ }
 }
