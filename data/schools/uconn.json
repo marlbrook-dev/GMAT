@@ -125,5 +125,43 @@
    "url": ""
   }
  },
- "notes": "UConn shuttered its traditional two-year full-time on-campus MBA in 2021 (Poets and Quants, November 2024, quoting UConn academic co-directors) and redirected resources into a 100% Online MBA launched fall 2021 and a part-time hybrid Flex MBA (both 42 credits). The school's official MBA programs page today lists only Online MBA, Flex MBA, and a fast-track One-Year MBA; no two-year full-time on-campus program is offered. Stopped admitting to the two-year full-time format around 2021. Sources: https://mba.business.uconn.edu/mba-programs/ ; https://poetsandquants.com/2024/11/02/anatomy-of-an-mba-makeover-uconns-flex-omba-programs/ ; https://www.business.uconn.edu/2022/01/20/mba-your-way/"
+ "notes": "UConn shuttered its traditional two-year full-time on-campus MBA in 2021 (Poets and Quants, November 2024, quoting UConn academic co-directors) and redirected resources into a 100% Online MBA launched fall 2021 and a part-time hybrid Flex MBA (both 42 credits). The school's official MBA programs page today lists only Online MBA, Flex MBA, and a fast-track One-Year MBA; no two-year full-time on-campus program is offered. Stopped admitting to the two-year full-time format around 2021. Sources: https://mba.business.uconn.edu/mba-programs/ ; https://poetsandquants.com/2024/11/02/anatomy-of-an-mba-makeover-uconns-flex-omba-programs/ ; https://www.business.uconn.edu/2022/01/20/mba-your-way/",
+ "federal": {
+  "matched": true,
+  "instnm": "University of Connecticut",
+  "earn_1yr_usd": {
+   "v": 112902,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://mba.business.uconn.edu/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Connecticut"
+  },
+  "earn_4yr_usd": {
+   "v": 150756,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://mba.business.uconn.edu/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Connecticut"
+  },
+  "debt_median_usd": {
+   "v": 48368,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://mba.business.uconn.edu/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Connecticut"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://mba.business.uconn.edu/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Connecticut"
+  },
+  "earn_n": 270,
+  "low_coverage": false
+ }
 }

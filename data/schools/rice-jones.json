@@ -135,5 +135,43 @@
   }
  },
  "website": "https://business.rice.edu/full-time-mba",
- "notes": "Class profile is labeled This Year 2025 (entering fall 2025); the program's own class profile page titles it Rice Business Full-Time MBA Class of 2027 Profile. GMAT edition is not labeled on the page; recorded as classic because a 693 average is implausible on the Focus scale (would be roughly 99th percentile) and is continuous with Rice's classic-era 3-year average of 702 shown on the same page; no Focus-labeled figure is published. Acceptance rate not published on official pages. Employment statistics PDF is hosted on cdn.uconnectlabs.com, linked from the official Rice CDO reports page (cdo.business.rice.edu/outcomes/). The school's career highlights page for the same class states 146K average starting salary and 32K average signing bonus. Rice publishes average GMAT 693 (mid-50% 675-720) with no edition label on the class profiles page; not recorded per the edition-ambiguity rule."
+ "notes": "Class profile is labeled This Year 2025 (entering fall 2025); the program's own class profile page titles it Rice Business Full-Time MBA Class of 2027 Profile. GMAT edition is not labeled on the page; recorded as classic because a 693 average is implausible on the Focus scale (would be roughly 99th percentile) and is continuous with Rice's classic-era 3-year average of 702 shown on the same page; no Focus-labeled figure is published. Acceptance rate not published on official pages. Employment statistics PDF is hosted on cdn.uconnectlabs.com, linked from the official Rice CDO reports page (cdo.business.rice.edu/outcomes/). The school's career highlights page for the same class states 146K average starting salary and 32K average signing bonus. Rice publishes average GMAT 693 (mid-50% 675-720) with no edition label on the class profiles page; not recorded per the edition-ambiguity rule.",
+ "federal": {
+  "matched": true,
+  "instnm": "Rice University",
+  "earn_1yr_usd": {
+   "v": 150476,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://business.rice.edu/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Rice University"
+  },
+  "earn_4yr_usd": {
+   "v": 201796,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://business.rice.edu/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Rice University"
+  },
+  "debt_median_usd": {
+   "v": 41000,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://business.rice.edu/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Rice University"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://business.rice.edu/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Rice University"
+  },
+  "earn_n": 280,
+  "low_coverage": false
+ }
 }

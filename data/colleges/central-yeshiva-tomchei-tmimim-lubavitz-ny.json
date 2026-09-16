@@ -1,0 +1,127 @@
+{
+ "slug": "central-yeshiva-tomchei-tmimim-lubavitz-ny",
+ "unitid": 189857,
+ "name": "Central Yeshiva Tomchei Tmimim Lubavitz",
+ "city": "Brooklyn",
+ "state": "NY",
+ "region": "Northeast",
+ "type": "Private nonprofit",
+ "website": "https://cyttl.edu/",
+ "carnegie": "Baccalaureate and associate's",
+ "carnegie_code": "24",
+ "health_special_focus": false,
+ "scorecard": "https://collegescorecard.ed.gov/school/?189857-Central-Yeshiva-Tomchei-Tmimim-Lubavitz",
+ "profile": {
+  "admit_rate_pct": {
+   "v": 87.4,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?189857-Central-Yeshiva-Tomchei-Tmimim-Lubavitz",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "sat_avg": {
+   "v": null
+  },
+  "sat_reading_mid": {
+   "v": null
+  },
+  "sat_math_mid": {
+   "v": null
+  },
+  "act_mid": {
+   "v": null
+  },
+  "test_policy": {
+   "v": "Neither required nor recommended",
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?189857-Central-Yeshiva-Tomchei-Tmimim-Lubavitz",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "undergrads": {
+   "v": 863,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?189857-Central-Yeshiva-Tomchei-Tmimim-Lubavitz",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "net_price_usd": {
+   "v": 21437,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?189857-Central-Yeshiva-Tomchei-Tmimim-Lubavitz",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "cost_attendance_usd": {
+   "v": 29697,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?189857-Central-Yeshiva-Tomchei-Tmimim-Lubavitz",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "tuition_in_state_usd": {
+   "v": 8400,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?189857-Central-Yeshiva-Tomchei-Tmimim-Lubavitz",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "tuition_out_state_usd": {
+   "v": 8400,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?189857-Central-Yeshiva-Tomchei-Tmimim-Lubavitz",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "grad_rate_6yr_pct": {
+   "v": 5.1,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?189857-Central-Yeshiva-Tomchei-Tmimim-Lubavitz",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "retention_pct": {
+   "v": 78.7,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?189857-Central-Yeshiva-Tomchei-Tmimim-Lubavitz",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "earnings_10yr_usd": {
+   "v": 35023,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?189857-Central-Yeshiva-Tomchei-Tmimim-Lubavitz",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "median_debt_usd": {
+   "v": null
+  },
+  "pell_pct": {
+   "v": 63.9,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?189857-Central-Yeshiva-Tomchei-Tmimim-Lubavitz",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "federal_loan_pct": {
+   "v": 0.0,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?189857-Central-Yeshiva-Tomchei-Tmimim-Lubavitz",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  }
+ },
+ "scholarship": {
+  "pct_receiving": {
+   "v": null
+  },
+  "avg_award_usd": {
+   "v": null
+  },
+  "auto_considered": {
+   "v": null
+  },
+  "notes": null
+ }
+}

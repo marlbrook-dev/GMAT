@@ -131,5 +131,43 @@
   }
  },
  "website": "https://www.anderson.ucla.edu/degrees/full-time-mba",
- "notes": "Anderson does not publish an acceptance rate; the class profile gives 2,422 applications and a class of 287 without an admit figure. All Class of 2028 profile figures verified on the official class profile page; previous Clear Admit figures for Class of 2027 replaced with the school's newer Class of 2028 data."
+ "notes": "Anderson does not publish an acceptance rate; the class profile gives 2,422 applications and a class of 287 without an admit figure. All Class of 2028 profile figures verified on the official class profile page; previous Clear Admit figures for Class of 2027 replaced with the school's newer Class of 2028 data.",
+ "federal": {
+  "matched": true,
+  "instnm": "University of California-Los Angeles",
+  "earn_1yr_usd": {
+   "v": 172128,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.anderson.ucla.edu/degrees/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of California-Los Angeles"
+  },
+  "earn_4yr_usd": {
+   "v": 223358,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.anderson.ucla.edu/degrees/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of California-Los Angeles"
+  },
+  "debt_median_usd": {
+   "v": 97335,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.anderson.ucla.edu/degrees/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of California-Los Angeles"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.anderson.ucla.edu/degrees/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of California-Los Angeles"
+  },
+  "earn_n": 324,
+  "low_coverage": false
+ }
 }

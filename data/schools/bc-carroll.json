@@ -124,5 +124,43 @@
    "url": "https://www.bc.edu/bc-web/schools/carroll-school/graduate/career-development.html"
   }
  },
- "notes": "BC publishes only a combined GRE average (318), not quant/verbal splits. Career page publishes average total compensation (126090, base plus signing bonus) but no median base salary. Annual tuition computed as 2 semesters at the published 35195 per-semester 2026-27 rate."
+ "notes": "BC publishes only a combined GRE average (318), not quant/verbal splits. Career page publishes average total compensation (126090, base plus signing bonus) but no median base salary. Annual tuition computed as 2 semesters at the published 35195 per-semester 2026-27 rate.",
+ "federal": {
+  "matched": true,
+  "instnm": "Boston College",
+  "earn_1yr_usd": {
+   "v": 114773,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.bc.edu/bc-web/schools/carroll-school/graduate/mba/full-time-mba.html",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Boston College"
+  },
+  "earn_4yr_usd": {
+   "v": 152252,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.bc.edu/bc-web/schools/carroll-school/graduate/mba/full-time-mba.html",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Boston College"
+  },
+  "debt_median_usd": {
+   "v": 55000,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.bc.edu/bc-web/schools/carroll-school/graduate/mba/full-time-mba.html",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Boston College"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.bc.edu/bc-web/schools/carroll-school/graduate/mba/full-time-mba.html",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Boston College"
+  },
+  "earn_n": 223,
+  "low_coverage": false
+ }
 }

@@ -128,5 +128,28 @@
    "url": "https://business.wisc.edu/graduate/mba/full-time/careers/"
   }
  },
- "notes": "Class profile publishes women and international as raw counts; percentages above are computed from the page's own counts (39/79 and 13/79). GRE averages and acceptance rate are not published on the official pages. Salary is an average, not a median; school does not publish a median. Employment and salary figures are a three-class aggregate labeled Classes of 2023-2025 on the page."
+ "notes": "Class profile publishes women and international as raw counts; percentages above are computed from the page's own counts (39/79 and 13/79). GRE averages and acceptance rate are not published on the official pages. Salary is an average, not a median; school does not publish a median. Employment and salary figures are a three-class aggregate labeled Classes of 2023-2025 on the page.",
+ "federal": {
+  "matched": true,
+  "instnm": "University of Wisconsin-Madison",
+  "earn_1yr_usd": {
+   "v": null
+  },
+  "earn_4yr_usd": {
+   "v": null
+  },
+  "debt_median_usd": {
+   "v": null
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://business.wisc.edu/graduate/mba/full-time/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Wisconsin-Madison"
+  },
+  "earn_n": null,
+  "low_coverage": false
+ }
 }

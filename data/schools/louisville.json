@@ -125,5 +125,9 @@
    "url": ""
   }
  },
- "notes": "UofL publishes no class profile or employment report for the full-time MBA on official pages reached this session. GMAT is optional; the program page says GMAT scores of 680+ are considered for additional scholarship. Class size is a marketing description (approximately 50 per cohort), not a census."
+ "notes": "UofL publishes no class profile or employment report for the full-time MBA on official pages reached this session. GMAT is optional; the program page says GMAT scores of 680+ are considered for additional scholarship. Class size is a marketing description (approximately 50 per cohort), not a census.",
+ "federal": {
+  "matched": false,
+  "reason": "no CIP 5202 master's record in the federal file"
+ }
 }

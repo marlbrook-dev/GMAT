@@ -124,5 +124,9 @@
    "url": "https://www.business.rutgers.edu/full-time-mba/employment-outcomes"
   }
  },
- "notes": "FAQ profile figures are undated; year is the fetch year (2026). GMAT edition not labeled; recorded as classic because 640 is not an attainable GMAT Focus total (Focus totals end in 5) and the phrasing describes a score. The employers-recruiters student profile page that previously carried these figures now shows only employment outcomes. No class size (FAQ elsewhere cites about 50 to 70 enrolled annually, no exact figure), no women or international percentages, no GRE, no acceptance rate published. Salary published only as a 5-year average of 103278 USD, not a median, so salary_median_usd is null. Annual tuition is the published per-semester rate doubled for fall and spring."
+ "notes": "FAQ profile figures are undated; year is the fetch year (2026). GMAT edition not labeled; recorded as classic because 640 is not an attainable GMAT Focus total (Focus totals end in 5) and the phrasing describes a score. The employers-recruiters student profile page that previously carried these figures now shows only employment outcomes. No class size (FAQ elsewhere cites about 50 to 70 enrolled annually, no exact figure), no women or international percentages, no GRE, no acceptance rate published. Salary published only as a 5-year average of 103278 USD, not a median, so salary_median_usd is null. Annual tuition is the published per-semester rate doubled for fall and spring.",
+ "federal": {
+  "matched": false,
+  "reason": "the business school spans the Newark and New Brunswick campuses, which report separately, so neither record describes the program on its own"
+ }
 }

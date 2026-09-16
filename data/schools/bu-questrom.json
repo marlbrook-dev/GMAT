@@ -125,5 +125,43 @@
    "url": "https://www.bu.edu/questrom/wp-content/uploads/sites/2/2026/03/26102_Feld_FTMBA_EmploymentReport-8.5X11-003.pdf"
   }
  },
- "notes": "Class profile page publishes GRE quant average and GRE total mean (318) but no separate verbal figure, no classic GMAT, and no acceptance rate (1385 applications received is stated but admit count is not; rate not computed). The questromworld cost of attendance page is behind BU login; tuition taken from the public admissions page instead. Employment report PDF parsed locally after fetch; salary summary table columns are domestic, international, total."
+ "notes": "Class profile page publishes GRE quant average and GRE total mean (318) but no separate verbal figure, no classic GMAT, and no acceptance rate (1385 applications received is stated but admit count is not; rate not computed). The questromworld cost of attendance page is behind BU login; tuition taken from the public admissions page instead. Employment report PDF parsed locally after fetch; salary summary table columns are domestic, international, total.",
+ "federal": {
+  "matched": true,
+  "instnm": "Boston University",
+  "earn_1yr_usd": {
+   "v": 110558,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.bu.edu/questrom/graduate-programs/mba-programs/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Boston University"
+  },
+  "earn_4yr_usd": {
+   "v": 147178,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.bu.edu/questrom/graduate-programs/mba-programs/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Boston University"
+  },
+  "debt_median_usd": {
+   "v": 47962,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.bu.edu/questrom/graduate-programs/mba-programs/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Boston University"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.bu.edu/questrom/graduate-programs/mba-programs/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Boston University"
+  },
+  "earn_n": 340,
+  "low_coverage": false
+ }
 }

@@ -115,5 +115,43 @@
    "url": "https://whitman.syracuse.edu/graduate-programs/full-time-mba-program/full-time-mba-class-profile"
   }
  },
- "notes": "The official class profile page states 650 Average GMAT with a 574-698 range (20-80th percentile) but does not label the exam edition and gives no class year, so per protocol neither gmat_focus nor gmat_classic is set; the prior third-party 645 figure should be dropped. The profile page is undated (year 2026 reflects fetch date and site copyright). Tuition is published only as a standard graduate rate of 2,086 USD per credit hour for 2026-27 (54-credit program) with no annual tuition figure, on https://whitman.syracuse.edu/graduate-programs/full-time-mba-program/full-time-mba-estimates-program-costs. No class size, GRE, women, international, or acceptance-rate figures on reachable official pages."
+ "notes": "The official class profile page states 650 Average GMAT with a 574-698 range (20-80th percentile) but does not label the exam edition and gives no class year, so per protocol neither gmat_focus nor gmat_classic is set; the prior third-party 645 figure should be dropped. The profile page is undated (year 2026 reflects fetch date and site copyright). Tuition is published only as a standard graduate rate of 2,086 USD per credit hour for 2026-27 (54-credit program) with no annual tuition figure, on https://whitman.syracuse.edu/graduate-programs/full-time-mba-program/full-time-mba-estimates-program-costs. No class size, GRE, women, international, or acceptance-rate figures on reachable official pages.",
+ "federal": {
+  "matched": true,
+  "instnm": "Syracuse University",
+  "earn_1yr_usd": {
+   "v": 122790,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://whitman.syracuse.edu/graduate-programs/full-time-mba-program",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Syracuse University"
+  },
+  "earn_4yr_usd": {
+   "v": 138634,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://whitman.syracuse.edu/graduate-programs/full-time-mba-program",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Syracuse University"
+  },
+  "debt_median_usd": {
+   "v": 64914,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://whitman.syracuse.edu/graduate-programs/full-time-mba-program",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Syracuse University"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://whitman.syracuse.edu/graduate-programs/full-time-mba-program",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Syracuse University"
+  },
+  "earn_n": 438,
+  "low_coverage": false
+ }
 }

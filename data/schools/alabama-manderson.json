@@ -126,5 +126,43 @@
    "url": "https://manderson.culverhouse.ua.edu/business-administration-mba/career-outcomes/"
   }
  },
- "notes": "School publishes only a combined GRE average (2023 average GRE is 311), no quant/verbal split. No GMAT Focus figure published. Career outcomes page covers 184 total students in the Class of 2023 across traditional and STEM/CREATE Path MBA combined, so an entering full-time class size is not published. Tuition page does not state which academic year its rates cover, hence year null. No official page found with acceptance rate, work experience, percent women, or percent international."
+ "notes": "School publishes only a combined GRE average (2023 average GRE is 311), no quant/verbal split. No GMAT Focus figure published. Career outcomes page covers 184 total students in the Class of 2023 across traditional and STEM/CREATE Path MBA combined, so an entering full-time class size is not published. Tuition page does not state which academic year its rates cover, hence year null. No official page found with acceptance rate, work experience, percent women, or percent international.",
+ "federal": {
+  "matched": true,
+  "instnm": "The University of Alabama",
+  "earn_1yr_usd": {
+   "v": 83078,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://manderson.culverhouse.ua.edu/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "The University of Alabama"
+  },
+  "earn_4yr_usd": {
+   "v": 112515,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://manderson.culverhouse.ua.edu/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "The University of Alabama"
+  },
+  "debt_median_usd": {
+   "v": 33500,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://manderson.culverhouse.ua.edu/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "The University of Alabama"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://manderson.culverhouse.ua.edu/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "The University of Alabama"
+  },
+  "earn_n": 130,
+  "low_coverage": false
+ }
 }

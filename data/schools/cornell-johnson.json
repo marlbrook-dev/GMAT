@@ -134,5 +134,43 @@
   }
  },
  "website": "https://www.johnson.cornell.edu/programs/full-time-mba/",
- "notes": "Official class profile lives on business.cornell.edu (johnson.cornell.edu URLs now 301 there); table shows Class of 2027 and Class of 2026 columns, both with GMAT median 710. The page labels the line only as GMAT (median) with no edition name; 710 is not an attainable GMAT Focus total (Focus totals end in 5), so it is recorded as classic. No GMAT Focus figure, no GRE figures, and no acceptance rate are published on the official pages reached. Prior batch tuition URL johnson.cornell.edu/programs/tuition-expenses now redirects; replaced with the current official 2026-27 figure."
+ "notes": "Official class profile lives on business.cornell.edu (johnson.cornell.edu URLs now 301 there); table shows Class of 2027 and Class of 2026 columns, both with GMAT median 710. The page labels the line only as GMAT (median) with no edition name; 710 is not an attainable GMAT Focus total (Focus totals end in 5), so it is recorded as classic. No GMAT Focus figure, no GRE figures, and no acceptance rate are published on the official pages reached. Prior batch tuition URL johnson.cornell.edu/programs/tuition-expenses now redirects; replaced with the current official 2026-27 figure.",
+ "federal": {
+  "matched": true,
+  "instnm": "Cornell University",
+  "earn_1yr_usd": {
+   "v": 179274,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.johnson.cornell.edu/programs/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Cornell University"
+  },
+  "earn_4yr_usd": {
+   "v": 226632,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.johnson.cornell.edu/programs/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Cornell University"
+  },
+  "debt_median_usd": {
+   "v": 129912,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.johnson.cornell.edu/programs/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Cornell University"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.johnson.cornell.edu/programs/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Cornell University"
+  },
+  "earn_n": 496,
+  "low_coverage": false
+ }
 }

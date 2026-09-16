@@ -137,5 +137,43 @@
    "url": "https://sc.edu/study/colleges_schools/moore/study/business_administration/fulltime_mba_programs/mba_career_services/index.php"
   }
  },
- "notes": "Moore publishes no class profile for its full-time MBA programs (International MBA and One-Year MBA); the admissions page gives only guidance (typical GPAs 3.5 to 4.0, two or more years work experience preferred). The career services page is undated, so year is the fetch year (2026); salary is published only as average compensation (International MBA 87927, One-Year MBA 100550), not a median. The official tuition page (https://sc.edu/study/colleges_schools/moore/study/business_administration/fulltime_mba_programs/tuition_and_fees/index.php) publishes whole-program fees, not annual tuition: International MBA 32000 SC resident and 60384 non-resident, One-Year MBA 25625 resident and 29520 non-resident, all 2024-25 rates; tuition_usd left null because no per-year figure exists. Prior class_size and women_pct figures were from US News, not the school, and were not re-verified this session."
+ "notes": "Moore publishes no class profile for its full-time MBA programs (International MBA and One-Year MBA); the admissions page gives only guidance (typical GPAs 3.5 to 4.0, two or more years work experience preferred). The career services page is undated, so year is the fetch year (2026); salary is published only as average compensation (International MBA 87927, One-Year MBA 100550), not a median. The official tuition page (https://sc.edu/study/colleges_schools/moore/study/business_administration/fulltime_mba_programs/tuition_and_fees/index.php) publishes whole-program fees, not annual tuition: International MBA 32000 SC resident and 60384 non-resident, One-Year MBA 25625 resident and 29520 non-resident, all 2024-25 rates; tuition_usd left null because no per-year figure exists. Prior class_size and women_pct figures were from US News, not the school, and were not re-verified this session.",
+ "federal": {
+  "matched": true,
+  "instnm": "University of South Carolina-Columbia",
+  "earn_1yr_usd": {
+   "v": 118109,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://sc.edu/study/colleges_schools/moore/study/business_administration/fulltime_mba_programs/index.php",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of South Carolina-Columbia"
+  },
+  "earn_4yr_usd": {
+   "v": 138445,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://sc.edu/study/colleges_schools/moore/study/business_administration/fulltime_mba_programs/index.php",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of South Carolina-Columbia"
+  },
+  "debt_median_usd": {
+   "v": 41000,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://sc.edu/study/colleges_schools/moore/study/business_administration/fulltime_mba_programs/index.php",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of South Carolina-Columbia"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://sc.edu/study/colleges_schools/moore/study/business_administration/fulltime_mba_programs/index.php",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of South Carolina-Columbia"
+  },
+  "earn_n": 195,
+  "low_coverage": false
+ }
 }

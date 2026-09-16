@@ -50,7 +50,7 @@ const noise = t => /ERR_CERT_AUTHORITY_INVALID|fonts\.(googleapis|gstatic)\.com|
   for (const page of ['terms.html', 'privacy.html', 'pricing/index.html']) {
     const p = await b.newPage({ viewport: { width: 1280, height: 900 } });
     const errs = [];
-    p.on('pageerror', e => errs.push('pageerror: ' + e.message));
+    p.on('pageerror', e => { if (!noise(e.message)) errs.push('pageerror: ' + e.message); });
     p.on('console', m => { if (m.type() === 'error' && !noise(m.text())) errs.push('console: ' + m.text()); });
     await p.goto(url(page), { waitUntil: 'load' });
     const txt = await p.evaluate(() => document.body.innerText);
@@ -77,7 +77,7 @@ const noise = t => /ERR_CERT_AUTHORITY_INVALID|fonts\.(googleapis|gstatic)\.com|
   for (const [name, stub, want] of states) {
     const p = await b.newPage({ viewport: { width: 1280, height: 900 } });
     const errs = [];
-    p.on('pageerror', e => errs.push('pageerror: ' + e.message));
+    p.on('pageerror', e => { if (!noise(e.message)) errs.push('pageerror: ' + e.message); });
     p.on('console', m => { if (m.type() === 'error' && !noise(m.text())) errs.push('console: ' + m.text()); });
     await p.addInitScript(s => { window.__stub = s; }, stub);
     await p.goto(url('app/index.html'), { waitUntil: 'load' });
@@ -101,7 +101,7 @@ const noise = t => /ERR_CERT_AUTHORITY_INVALID|fonts\.(googleapis|gstatic)\.com|
   for (const [who, signIn] of [['signed out', false], ['signed in, free plan', true]]) {
     const p = await b.newPage({ viewport: { width: 1280, height: 900 } });
     const errs = [];
-    p.on('pageerror', e => errs.push('pageerror: ' + e.message));
+    p.on('pageerror', e => { if (!noise(e.message)) errs.push('pageerror: ' + e.message); });
     p.on('console', m => { if (m.type() === 'error' && !noise(m.text())) errs.push('console: ' + m.text()); });
     await p.goto(url('app/index.html'), { waitUntil: 'load' });
     await p.evaluate(s => {

@@ -46,5 +46,43 @@
   }
  },
  "notes": "Cohort profile lists Average GMAT: 586 without naming the exam edition and the cohort predates Class of 2026, so per protocol it is left unclassified. GRE listed as n/a on the profile (test optional). MBA15 page gives countries represented but no international percent; the prior cohort page (MBA14, 2024, the batch URL) listed International: 14% and Average GMAT: 586. No acceptance rate and no employment report with salary or placement found on charleston.edu; career management page has no outcome figures. City and state confirmed from page footer (66 George Street, Charleston, SC). Public control is not stated on the fetched pages.",
- "website": "https://charleston.edu/mba/one-year/index.php"
+ "website": "https://charleston.edu/mba/one-year/index.php",
+ "federal": {
+  "matched": true,
+  "instnm": "College of Charleston",
+  "earn_1yr_usd": {
+   "v": 67635,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://charleston.edu/mba/one-year/index.php",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "College of Charleston"
+  },
+  "earn_4yr_usd": {
+   "v": 97539,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://charleston.edu/mba/one-year/index.php",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "College of Charleston"
+  },
+  "debt_median_usd": {
+   "v": 36116,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://charleston.edu/mba/one-year/index.php",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "College of Charleston"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://charleston.edu/mba/one-year/index.php",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "College of Charleston"
+  },
+  "earn_n": 34,
+  "low_coverage": false
+ }
 }

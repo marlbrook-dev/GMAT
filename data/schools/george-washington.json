@@ -134,5 +134,43 @@
    "url": "https://business.gwu.edu/academics/programs/mba/global-mba"
   }
  },
- "notes": "Program is test optional ('No GRE or GMAT is required'); no score averages published. Work experience published only as a range, 'Average Work Experience: 3-5 years', so no single value recorded (the previously recorded 5 with a mid-80 range is no longer on the page). Class profile page has changed: it now shows average cohort size 41, not the previously recorded class size 97. Tuition: published only as an approximate program total, 'The base tuition for this 53-credit master's degree is ~$134,000', no annual figure, so tuition_usd left null. Salary: program page cites a starting salary of 138185 and average sign-on bonus of 25500 for GW Business MBA graduates without labeling the salary average or median and without a class year, so salary_median_usd left null."
+ "notes": "Program is test optional ('No GRE or GMAT is required'); no score averages published. Work experience published only as a range, 'Average Work Experience: 3-5 years', so no single value recorded (the previously recorded 5 with a mid-80 range is no longer on the page). Class profile page has changed: it now shows average cohort size 41, not the previously recorded class size 97. Tuition: published only as an approximate program total, 'The base tuition for this 53-credit master's degree is ~$134,000', no annual figure, so tuition_usd left null. Salary: program page cites a starting salary of 138185 and average sign-on bonus of 25500 for GW Business MBA graduates without labeling the salary average or median and without a class year, so salary_median_usd left null.",
+ "federal": {
+  "matched": true,
+  "instnm": "George Washington University",
+  "earn_1yr_usd": {
+   "v": 125591,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://business.gwu.edu/academics/programs/mba/global-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "George Washington University"
+  },
+  "earn_4yr_usd": {
+   "v": 146816,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://business.gwu.edu/academics/programs/mba/global-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "George Washington University"
+  },
+  "debt_median_usd": {
+   "v": 61500,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://business.gwu.edu/academics/programs/mba/global-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "George Washington University"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://business.gwu.edu/academics/programs/mba/global-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "George Washington University"
+  },
+  "earn_n": 248,
+  "low_coverage": false
+ }
 }

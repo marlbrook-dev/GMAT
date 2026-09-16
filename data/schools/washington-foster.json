@@ -128,5 +128,43 @@
   }
  },
  "website": "https://foster.uw.edu/academics/degree-programs/full-time-mba/",
- "notes": "All prior Clear Admit sourcing replaced with Foster's own pages. The official class profile shows median GMAT 655 only; no 10th edition (classic) figure is published, so the prior Clear Admit 720 classic median is dropped. Acceptance rate not published on official pages reached. Tuition annualized transparently from the page's per-quarter tuition and its 6-quarter program total (page presents quarterly rates and a 2-year total of 122,778 tuition and fees for nonresidents). The older 2024 employment report (Class of 2024: median base 145,000, 89.0 percent offers within 3 months) was also fetched but superseded by the 2026 report covering the Class of 2025."
+ "notes": "All prior Clear Admit sourcing replaced with Foster's own pages. The official class profile shows median GMAT 655 only; no 10th edition (classic) figure is published, so the prior Clear Admit 720 classic median is dropped. Acceptance rate not published on official pages reached. Tuition annualized transparently from the page's per-quarter tuition and its 6-quarter program total (page presents quarterly rates and a 2-year total of 122,778 tuition and fees for nonresidents). The older 2024 employment report (Class of 2024: median base 145,000, 89.0 percent offers within 3 months) was also fetched but superseded by the 2026 report covering the Class of 2025.",
+ "federal": {
+  "matched": true,
+  "instnm": "University of Washington-Seattle Campus",
+  "earn_1yr_usd": {
+   "v": 149800,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://foster.uw.edu/academics/degree-programs/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Washington-Seattle Campus"
+  },
+  "earn_4yr_usd": {
+   "v": 194296,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://foster.uw.edu/academics/degree-programs/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Washington-Seattle Campus"
+  },
+  "debt_median_usd": {
+   "v": 58052,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://foster.uw.edu/academics/degree-programs/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Washington-Seattle Campus"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://foster.uw.edu/academics/degree-programs/full-time-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "University of Washington-Seattle Campus"
+  },
+  "earn_n": 434,
+  "low_coverage": false
+ }
 }

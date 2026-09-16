@@ -123,5 +123,43 @@
    "url": ""
   }
  },
- "notes": "The entire Smeal web presence was unreachable this session: oneyearmba.smeal.psu.edu returned HTTP 503 on repeated attempts via WebFetch and connection reset via headless Chromium, and www.smeal.psu.edu also returned 503. No field could be verified or updated this session. Existing figures already sourced to smeal.psu.edu domains (class_size, intl_pct, tuition, and the 2020 legacy-program GMAT, GPA, salary) should be kept as-is per protocol. A search snippet indicated the official career outcomes page lists Class of 2025 average salary 83,000 and 87% employed within six months, but the page would not load so those figures are NOT reported."
+ "notes": "The entire Smeal web presence was unreachable this session: oneyearmba.smeal.psu.edu returned HTTP 503 on repeated attempts via WebFetch and connection reset via headless Chromium, and www.smeal.psu.edu also returned 503. No field could be verified or updated this session. Existing figures already sourced to smeal.psu.edu domains (class_size, intl_pct, tuition, and the 2020 legacy-program GMAT, GPA, salary) should be kept as-is per protocol. A search snippet indicated the official career outcomes page lists Class of 2025 average salary 83,000 and 87% employed within six months, but the page would not load so those figures are NOT reported.",
+ "federal": {
+  "matched": true,
+  "instnm": "Pennsylvania State University-Main Campus",
+  "earn_1yr_usd": {
+   "v": 106923,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://oneyearmba.smeal.psu.edu/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Pennsylvania State University-Main Campus"
+  },
+  "earn_4yr_usd": {
+   "v": 127665,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://oneyearmba.smeal.psu.edu/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Pennsylvania State University-Main Campus"
+  },
+  "debt_median_usd": {
+   "v": 41000,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://oneyearmba.smeal.psu.edu/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Pennsylvania State University-Main Campus"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://oneyearmba.smeal.psu.edu/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Pennsylvania State University-Main Campus"
+  },
+  "earn_n": 427,
+  "low_coverage": false
+ }
 }

@@ -39,5 +39,43 @@
   }
  },
  "notes": "Class members page publishes only class size, GPA, work experience, and average age (25); no test scores or demographic percents. No employment outcomes or placement data found anywhere on slu.edu for the One-Year MBA. City, state, and private Jesuit control confirmed on the program page.",
- "website": "https://www.slu.edu/business/graduate/one-year-mba/"
+ "website": "https://www.slu.edu/business/graduate/one-year-mba/",
+ "federal": {
+  "matched": true,
+  "instnm": "Saint Louis University",
+  "earn_1yr_usd": {
+   "v": 81612,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.slu.edu/business/graduate/one-year-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Saint Louis University"
+  },
+  "earn_4yr_usd": {
+   "v": 110691,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.slu.edu/business/graduate/one-year-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Saint Louis University"
+  },
+  "debt_median_usd": {
+   "v": 46053,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.slu.edu/business/graduate/one-year-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Saint Louis University"
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://www.slu.edu/business/graduate/one-year-mba/",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Saint Louis University"
+  },
+  "earn_n": 69,
+  "low_coverage": false
+ }
 }

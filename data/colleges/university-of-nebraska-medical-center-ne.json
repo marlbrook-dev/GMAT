@@ -1,0 +1,99 @@
+{
+ "slug": "university-of-nebraska-medical-center-ne",
+ "unitid": 181428,
+ "name": "University of Nebraska Medical Center",
+ "city": "Omaha",
+ "state": "NE",
+ "region": "Midwest",
+ "type": "Public",
+ "website": "https://www.unmc.edu/",
+ "carnegie": "Special focus, medical school or center",
+ "carnegie_code": "27",
+ "health_special_focus": true,
+ "scorecard": "https://collegescorecard.ed.gov/school/?181428-University-of-Nebraska-Medical-Center",
+ "profile": {
+  "admit_rate_pct": {
+   "v": null
+  },
+  "sat_avg": {
+   "v": null
+  },
+  "sat_reading_mid": {
+   "v": null
+  },
+  "sat_math_mid": {
+   "v": null
+  },
+  "act_mid": {
+   "v": null
+  },
+  "test_policy": {
+   "v": null
+  },
+  "undergrads": {
+   "v": 938,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?181428-University-of-Nebraska-Medical-Center",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "net_price_usd": {
+   "v": null
+  },
+  "cost_attendance_usd": {
+   "v": null
+  },
+  "tuition_in_state_usd": {
+   "v": null
+  },
+  "tuition_out_state_usd": {
+   "v": null
+  },
+  "grad_rate_6yr_pct": {
+   "v": null
+  },
+  "retention_pct": {
+   "v": null
+  },
+  "earnings_10yr_usd": {
+   "v": 76833,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?181428-University-of-Nebraska-Medical-Center",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "median_debt_usd": {
+   "v": 15000,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?181428-University-of-Nebraska-Medical-Center",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "pell_pct": {
+   "v": 22.0,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?181428-University-of-Nebraska-Medical-Center",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "federal_loan_pct": {
+   "v": 46.6,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?181428-University-of-Nebraska-Medical-Center",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  }
+ },
+ "scholarship": {
+  "pct_receiving": {
+   "v": null
+  },
+  "avg_award_usd": {
+   "v": null
+  },
+  "auto_considered": {
+   "v": null
+  },
+  "notes": null
+ }
+}

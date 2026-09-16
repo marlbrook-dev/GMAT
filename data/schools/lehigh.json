@@ -53,5 +53,38 @@
   }
  },
  "notes": "Class profile publishes no GMAT or GRE figures and no class size. Career outcomes page gives average salary only, no placement rate. Salary value placed in salary_median_usd because it is the only salary field; stat flags it as an average. City and state confirmed from page footer (Bethlehem, PA 18015).",
- "website": "https://business.lehigh.edu/academics/graduate/masters-programs/full-time-mba"
+ "website": "https://business.lehigh.edu/academics/graduate/masters-programs/full-time-mba",
+ "federal": {
+  "matched": true,
+  "instnm": "Lehigh University",
+  "earn_1yr_usd": {
+   "v": 117962,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://business.lehigh.edu/academics/graduate/masters-programs/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Lehigh University"
+  },
+  "earn_4yr_usd": {
+   "v": 153638,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://business.lehigh.edu/academics/graduate/masters-programs/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Lehigh University"
+  },
+  "debt_median_usd": {
+   "v": null
+  },
+  "national_earn_4yr_usd": {
+   "v": 103485,
+   "src": "US Department of Education, College Scorecard field of study file",
+   "year": 2026,
+   "url": "https://business.lehigh.edu/academics/graduate/masters-programs/full-time-mba",
+   "release": "2026 release, Most Recent Cohorts field of study file",
+   "instnm": "Lehigh University"
+  },
+  "earn_n": 32,
+  "low_coverage": false
+ }
 }
