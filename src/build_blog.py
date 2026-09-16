@@ -298,7 +298,7 @@ def build_post(p, posts):
     return page(p["title"] + " | Start From Nowhere", p["description"], f"{SITE}/blog/{p['slug']}/", body, extra)
 
 def build_sitemap(posts):
-    urls = [(SITE + "/", None), (SITE + "/blog/", None), (SITE + "/schools/", None), (SITE + "/exams/", None), (SITE + "/pricing/", None), (SITE + "/community/", None), (SITE + "/international/", None), (SITE + "/apply/", None), (SITE + "/scoring/", None), (SITE + "/terms.html", None), (SITE + "/privacy.html", None)]
+    urls = [(SITE + "/", None), (SITE + "/blog/", None), (SITE + "/schools/", None), (SITE + "/exams/", None), (SITE + "/pricing/", None), (SITE + "/community/", None), (SITE + "/international/", None), (SITE + "/apply/", None), (SITE + "/scoring/", None), (SITE + "/funding/", None), (SITE + "/terms.html", None), (SITE + "/privacy.html", None)]
     exams_data = ROOT / "data" / "exams.json"
     if exams_data.exists():
         import json as _json2

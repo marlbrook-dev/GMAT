@@ -71,11 +71,13 @@ _NAV_GROUPS = [
     ("Admissions", [
         ("Application Checklist", "/apply/", "Free"),
         ("International Applicants", "/international/", "New"),
+        ("Paying for It", "/funding/", "New"),
         ("MBA Rankings", "/schools/", None),
     ]),
     ("Resources", [
         ("The Study Room (Blog)", "/blog/", None),
         ("Exam Guides", "/exams/", None),
+        ("How Scoring Works", "/scoring/", None),
         ("Compare Plans", "/pricing/", None),
         ("FAQ", "/#faq", None),
         ("Terms of Use", "/terms.html", None),
@@ -146,6 +148,7 @@ FOOTER_LINKS = [
     ("MBA Rankings", "/schools/"),
     ("Application Checklist", "/apply/"),
     ("International", "/international/"),
+    ("Paying for It", "/funding/"),
     ("Privacy", "/privacy.html"),
     ("Terms", "/terms.html"),
 ]

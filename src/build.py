@@ -137,7 +137,7 @@ no_dashes("community.html", community)
 
 # Standalone content pages that only need chrome and a build date.
 _today = os.environ.get("BLOG_BUILD_DATE") or datetime.date.today().isoformat()
-for _src, _dir in [("international.html", "international"), ("scoring.html", "scoring")]:
+for _src, _dir in [("international.html", "international"), ("scoring.html", "scoring"), ("funding.html", "funding")]:
     page = partials.apply_chrome((d/_src).read_text().replace("{{TODAY}}", _today))
     no_dashes(_src, page)
     if "{{" in page:
