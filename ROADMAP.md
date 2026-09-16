@@ -47,12 +47,66 @@ Updated September 14, 2026. Owner: Hunter Roberts. Builder: Claude sessions. Thi
 - [x] Undergrad pilot, first half: SAT trainer live at /sat/app/ on a genuinely multi-exam engine, 248 original items across all eight official content domains, two-module mock sections with routing, grid-ins, a 112-card deck and a playbook per domain, site wiring
 - [ ] Undergrad pilot, second half: undergrad rankings vertical (one file per college, same source ladder as data/schools/), SAT bank toward GMAT parity, ACT study modes
 - [ ] GRE build: new item types (text completion, sentence equivalence, quantitative comparison), GRE bank seed, section timing
-- [ ] LSAT build: logical reasoning and reading comprehension banks
+- [x] LSAT build: logical reasoning and reading comprehension banks, live at /lsat/app/
+- [x] ACT build: English, Reading and Science banks plus Mathematics remapped from the SAT schemas, live at /act/app/
+- [ ] MCAT build: BLOCKED ON SOURCE ACCESS, not on engineering (see the September 16 note below)
+- [ ] Executive Assessment build: BLOCKED ON SOURCE ACCESS, same note
 - [x] Stripe go-live: live products, prices ($4.99 Plus / $9.99 Pro) and webhook created; 7-day trial wired; PAYMENTS_LIVE=true
 - [ ] Stripe go-live, remaining: owner sets Edge Function secrets, confirms charges are enabled, and gets terms plus a refund and cancellation policy reviewed
 - [ ] Decide what grandfathering means for early users, then flip FREE_LIMITS_LIVE
 - [ ] Stripe Customer Portal so students can cancel without emailing
 - [ ] SFN Assist (AI coaching) when the Anthropic API key is added
+
+
+## Session log, September 16, 2026: LSAT and ACT live, MCAT and EA blocked
+
+Shipped LSAT at `/lsat/app/` and ACT at `/act/app/`, taking the site to five live
+trainers. Both were built entirely from the test makers' own published materials;
+the source tables are in `data/DATA.md`.
+
+**MCAT and the Executive Assessment are not held back by engineering.** The registry,
+the template and the build all take a new exam without a fork. They are held back
+because their structural facts could not be verified from this environment:
+
+- `students-residents.aamc.org`, which carries every MCAT structure, timing and
+  score-scale page, returns a bot challenge with no content. `www.aamc.org` began
+  returning the same after a few requests, and `mcatgpa.aamc.org` is refused by the
+  egress proxy.
+- `www.mba.com`, which carries the Executive Assessment structure pages, returns an
+  Imperva challenge stub on every GET.
+
+What is missing, specifically, before either can go live:
+
+- **MCAT**: section question counts and timings, the 118 to 132 and 472 to 528 scale
+  as AAMC states it, and the foundational-concept taxonomy. The rows already in
+  `data/exams.json` cannot carry this: the `sections` array has no source field at
+  all, and `total_time` and `cost_usd` cite Kaplan, which is a coaching-site blog and
+  a banned source under CLAUDE.md. Those rows need replacing, not reusing.
+- **Executive Assessment**: the mba.com structure page behind the 100 to 200 total,
+  the three 0 to 20 section scales, and the 12 / 14 / 14 question split. The existing
+  rows do cite mba.com and were verified in an earlier session, so they are usable for
+  the guide page; they were not re-verified on this date.
+
+Unblocking is a five-minute job for the owner: open the two pages and paste the text,
+or drop the AAMC "What's on the MCAT Exam?" PDF into the repo. Then both exams follow
+the same eight-step checklist as LSAT and ACT.
+
+Also fixed while in here, both pre-existing:
+
+- `src/build_banks.py` seeded each category with `abs(hash(exam + skill))`. Python
+  randomises string hashing per process, so every build produced a different bank. The
+  README's reproducibility promise was false, and the per-section bias figures pinned in
+  `test.js` DEBT drifted run to run, which is a flaky test dressed as a ratchet. It now
+  uses `zlib.crc32` and three consecutive builds produce identical output.
+- `src/app_template.html` forked on `EXAM.id === 'sat'` in seven places, treating
+  "not SAT" as "GMAT". The GRE app had therefore been shipping a score card headed
+  "Estimated GMAT Focus Range" and telling GRE students to calibrate at mba.com. The
+  copy now comes from the registry (`short`, `blurb`, `official`, `crunch`, `crunchLong`,
+  `goals`) and the headless check asserts each app names itself.
+
+Still open and not mine to fix silently: `sat.score_release` in `data/exams.json` cites
+The Princeton Review, and `mcat.total_time` and `mcat.cost_usd` cite Kaplan. All three are
+coaching-site sources, which CLAUDE.md bans outright.
 
 ## Standing cadence
 

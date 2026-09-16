@@ -344,9 +344,9 @@
    "year": 2025
   },
   "score_scale": {
-   "text": "120 to 180; the raw score is the number of questions answered correctly (about 75 to 80 scored questions) with no penalty for wrong answers",
+   "text": "120 to 180. The raw score is the number of questions answered correctly, every question is weighted the same, and nothing is deducted for a wrong answer. LSAC publishes no section subscores, so a single number is the whole score report.",
    "src": "LSAC",
-   "year": 2025,
+   "year": 2026,
    "url": "https://www.lsac.org/lsat/lsat-scoring"
   },
   "sections": [
@@ -363,7 +363,7 @@
     "scale": null
    },
    {
-    "name": "Reading Comprehension (scored)",
+    "name": "Reading Comprehension (scored): four sets of five to eight questions",
     "questions": null,
     "minutes": 35,
     "scale": null
@@ -376,9 +376,9 @@
    }
   ],
   "total_time": {
-   "text": "Four 35-minute multiple-choice sections (three scored: two Logical Reasoning and one Reading Comprehension, plus one unscored variable section), plus a separate unscored LSAT Argumentative Writing sample",
+   "text": "Four 35-minute multiple-choice sections, one Reading Comprehension, two Logical Reasoning and one unscored variable section, with a 10-minute intermission between the second and third sections, plus a separately administered and unscored LSAT Argumentative Writing sample",
    "src": "LSAC",
-   "year": 2025,
+   "year": 2026,
    "url": "https://www.lsac.org/lsat/register-lsat/accommodations/specifications-lsat-and-lsat-argumentative-writing"
   },
   "cost_usd": {
@@ -449,7 +449,19 @@
     "year": 2026,
     "url": "https://www.princetonreview.com/law/lsat-sections"
    }
-  ]
+  ],
+  "answer_choices": {
+   "text": "Five answer choices per question",
+   "src": "LSAC",
+   "year": 2026,
+   "url": "https://www.lsac.org/lsat/taking-lsat/test-format/logical-reasoning/logical-reasoning-sample-questions"
+  },
+  "section_shape": {
+   "text": "LSAC does not publish a question count for either section. For Reading Comprehension it publishes the shape: four sets, each a selection followed by five to eight questions, with three or four single passages and one or no comparative reading pair, which puts a section between 20 and 32 questions. No equivalent figure is published for Logical Reasoning.",
+   "src": "LSAC",
+   "year": 2026,
+   "url": "https://www.lsac.org/lsat/prepare/types-lsat-questions/reading-comprehension"
+  }
  },
  {
   "slug": "mcat",
@@ -695,53 +707,53 @@
    "year": 2026
   },
   "score_scale": {
-   "text": "Each section and the Composite are scored 1 to 36; on the enhanced ACT the Composite is the average of English, Math, and Reading only",
-   "src": "Applerouth",
-   "year": 2025,
-   "url": "https://www.applerouth.com/enhanced-act"
+   "text": "Each section is scored 1 to 36. The Composite is the average of English, mathematics and reading only, rounded to the nearest whole number; ACT removed science from the Composite for national online testing in April 2025 and for all testing modes in September 2025. The optional writing test is scored 2 to 12 and does not affect the Composite.",
+   "src": "ACT",
+   "year": 2026,
+   "url": "https://www.act.org/content/act/en/products-and-services/the-act/scores/understanding-your-scores.html"
   },
   "sections": [
    {
-    "name": "English",
+    "name": "English (40 of 50 scored)",
     "questions": 50,
     "minutes": 35,
     "scale": "1 to 36"
    },
    {
-    "name": "Math",
+    "name": "Mathematics (41 of 45 scored)",
     "questions": 45,
     "minutes": 50,
     "scale": "1 to 36"
    },
    {
-    "name": "Reading",
+    "name": "Reading (27 of 36 scored)",
     "questions": 36,
     "minutes": 40,
     "scale": "1 to 36"
    },
    {
-    "name": "Science (optional, not in Composite)",
+    "name": "Science, optional, not in the Composite (34 of 40 scored)",
     "questions": 40,
     "minutes": 40,
     "scale": "1 to 36"
    },
    {
-    "name": "Writing essay (optional)",
+    "name": "Writing essay, optional, not in the Composite",
     "questions": 1,
     "minutes": 40,
-    "scale": null
+    "scale": "2 to 12"
    }
   ],
   "total_time": {
-   "text": "Core test (English, Math, Reading) is 125 minutes with 131 questions; adding the optional Science section brings it to 165 minutes, and the optional Writing essay adds another 40 minutes",
-   "src": "Applerouth",
-   "year": 2025,
-   "url": "https://www.applerouth.com/enhanced-act"
+   "text": "171 multiple-choice questions across English, mathematics, reading and the optional science section, with 2 hours 45 minutes of timed testing; the optional writing essay adds 40 minutes",
+   "src": "ACT",
+   "year": 2026,
+   "url": "https://www.act.org/content/act/en/products-and-services/the-act/test-day.html"
   },
   "cost_usd": {
-   "v": 68,
-   "note": "2025-26 base registration fee for the ACT (English, Math, Reading); the optional Science section adds $4 and the optional Writing section adds $25; late registration adds $40 and standby testing $69; prices include score reports for you, your school, and up to four colleges",
-   "src": "Kaplan Test Prep; act.org",
+   "v": 70,
+   "note": "The ACT Test (English, mathematics and reading) is $70.00. The science add-on is $5.00 and the writing add-on is $25.00, or $100.00 for all three. Late registration adds $42.00 and standby testing $75.00. Additional score reports are $20.00 each.",
+   "src": "ACT",
    "year": 2026,
    "url": "https://www.act.org/content/act/en/products-and-services/the-act/registration/fees.html"
   },
@@ -764,10 +776,10 @@
    "url": "https://www.act.org/content/act/en/students-and-parents/high-school-success/testing-advice-for-the-act/reasons-to-retest.html"
   },
   "score_release": {
-   "text": "Multiple-choice scores post 2 to 8 weeks after the test date, with over 97% available online within 1 to 4 weeks; Writing scores typically follow about two weeks after multiple-choice results",
-   "src": "BestColleges",
-   "year": 2025,
-   "url": "https://www.bestcolleges.com/test-prep/act/scores-release-schedule/"
+   "text": "Multiple-choice scores are reported in two to eight weeks; if the writing test was taken, scores are reported in five to eight weeks",
+   "src": "ACT",
+   "year": 2026,
+   "url": "https://www.act.org/content/act/en/products-and-services/the-act/test-day/online-testing.html"
   },
   "used_for": {
    "text": "Used for US college admissions and scholarship qualification; ACT says the test unlocks access to more than 10,000 score-based scholarships",
@@ -806,6 +818,18 @@
     "year": 2026,
     "url": "https://www.act.org/content/act/en/products-and-services/the-act/scores.html"
    }
-  ]
+  ],
+  "answer_choices": {
+   "text": "Four answer choices in every section, including mathematics, which carried five on the ACT before the enhanced test",
+   "src": "ACT",
+   "year": 2026,
+   "url": "https://www.act.org/content/dam/act/unsecured/documents/Preparing-for-the-ACT.pdf"
+  },
+  "content_categories": {
+   "text": "English reports Production of Writing (38 to 43 percent), Knowledge of Language (18 to 23 percent) and Conventions of Standard English (38 to 43 percent). Mathematics reports Preparing for Higher Math (80 percent, split into Number and Quantity, Algebra, Functions, Geometry, and Statistics and Probability), Integrating Essential Skills (20 percent), and Modeling, which is scored across the other categories. Reading reports Key Ideas and Details (44 to 52 percent), Craft and Structure (26 to 33 percent) and Integration of Knowledge and Ideas (19 to 26 percent). Science reports Interpretation of Data (38 to 50 percent), Scientific Investigation (18 to 32 percent) and Evaluation of Scientific Arguments and Models with Evidence (24 to 38 percent).",
+   "src": "ACT",
+   "year": 2026,
+   "url": "https://www.act.org/content/dam/act/unsecured/documents/Preparing-for-the-ACT.pdf"
+  }
  }
 ]

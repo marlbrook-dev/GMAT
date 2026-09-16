@@ -88,17 +88,132 @@ const GRE_SECTIONS = {
  Q:{name:'Quantitative Reasoning',short:'Quantitative',allot:105,questions:12,minutes:21,modules:2,
     moduleSizes:[12,15],moduleMinutes:[21,26],domainOrder:['gre_arith','gre_alg','gre_geo','gre_data']}
 };
+// LSAT. Structure from LSAC: four 35-minute multiple-choice sections, one Reading
+// Comprehension, two Logical Reasoning and one unscored variable section that can be either
+// type and can appear anywhere, plus a 10-minute intermission between the second and third
+// sections. Three sections are scored. Scores are reported 120 to 180; the raw score is the
+// number of questions answered correctly with no deduction for wrong answers, so there is no
+// guessing penalty to model. Five answer choices, confirmed against LSAC sample questions.
+//
+// LSAC does not publish a subscore breakdown, so the skills below are LSAC's own published
+// lists of what each section measures, grouped so that a single practice section can cover
+// every one of them. Each group carries the published wording as its points.
+//
+// We train one Logical Reasoning section; the real exam delivers two. LSAT Argumentative
+// Writing is a separately administered, unscored essay, so it is documented on the exam guide
+// and deliberately not simulated here, the same call the GRE trainer makes on its essay.
+const LSAT_SKILLS = [
+ {id:'lsat_lr_struct',section:'LR',label:'Argument Parts and Structure',range:'Logical Reasoning',lo:3,hi:5,
+  points:['Recognizing the parts of an argument and their relationships','Telling a premise from a conclusion','The role a claim plays in the argument']},
+ {id:'lsat_lr_concl',section:'LR',label:'Drawing Well-Supported Conclusions',range:'Logical Reasoning',lo:3,hi:5,
+  points:['Drawing well-supported conclusions','What must be true on the stated evidence','Reading quantity words exactly as written']},
+ {id:'lsat_lr_assum',section:'LR',label:'Detecting Assumptions',range:'Logical Reasoning',lo:3,hi:5,
+  points:['Detecting assumptions made by particular arguments','Necessary versus sufficient assumptions','The gap between evidence and conclusion']},
+ {id:'lsat_lr_flaw',section:'LR',label:'Identifying Flaws in Arguments',range:'Logical Reasoning',lo:3,hi:5,
+  points:['Identifying flaws in arguments','Naming the error rather than disagreeing with it','Common patterns of bad reasoning']},
+ {id:'lsat_lr_evid',section:'LR',label:'Effect of Additional Evidence',range:'Logical Reasoning',lo:3,hi:5,
+  points:['Determining how additional evidence affects an argument','Strengthening and weakening','Ruling out an alternative explanation']},
+ {id:'lsat_lr_prin',section:'LR',label:'Principles, Rules and Analogy',range:'Logical Reasoning',lo:2,hi:4,
+  points:['Identifying and applying principles or rules','Reasoning by analogy','Matching a case to the rule that governs it']},
+ {id:'lsat_lr_expl',section:'LR',label:'Explanations and Parallel Reasoning',range:'Logical Reasoning',lo:2,hi:4,
+  points:['Identifying explanations','Recognizing similarities and differences between patterns of reasoning','Recognizing misunderstandings or points of disagreement']},
+ {id:'lsat_rc_main',section:'RC',label:'Main Idea and Primary Purpose',range:'Reading Comprehension',lo:3,hi:5,
+  points:['The main idea or primary purpose','Holding the whole passage in view','Separating the thesis from the supporting material']},
+ {id:'lsat_rc_stated',section:'RC',label:'Explicitly Stated Information',range:'Reading Comprehension',lo:3,hi:5,
+  points:['Information that is explicitly stated','Finding the line that settles the question','Rejecting choices the passage never makes']},
+ {id:'lsat_rc_inf',section:'RC',label:'Inference and Implication',range:'Reading Comprehension',lo:4,hi:7,
+  points:['Information or ideas that can be inferred','Staying inside what the passage supports','The difference between implied and merely plausible']},
+ {id:'lsat_rc_struct',section:'RC',label:'Meaning, Structure and Tone',range:'Reading Comprehension',lo:4,hi:6,
+  points:['The meaning or purpose of words or phrases as used in context','The organization or structure','Attitude of the author as revealed in tone or language']},
+ {id:'lsat_rc_app',section:'RC',label:'Application and Comparative Reading',range:'Reading Comprehension',lo:4,hi:7,
+  points:['The application of information in the selection to a new context','Principles that function in the selection','Analogies to claims or arguments in the selection','The impact of new information on claims or arguments','Relationships between the two passages in comparative reading']}
+];
+// LSAC publishes 35 minutes per section. For Reading Comprehension it also publishes the shape
+// of the section: four sets, each a selection followed by five to eight questions, with three or
+// four single passages and one or no comparative pair, so a section runs 20 to 32 questions and
+// our 26 sits inside that published range. LSAC does not publish a Logical Reasoning question
+// count anywhere, so the 25 below is OUR practice-section length, chosen to fit the published
+// 35 minutes, and is labeled as ours on the exam guide rather than presented as an LSAT fact.
+const LSAT_SECTIONS = {
+ LR:{name:'Logical Reasoning',short:'Logical Reasoning',allot:84,questions:25,minutes:35},
+ RC:{name:'Reading Comprehension',short:'Reading Comprehension',allot:81,questions:26,minutes:35}
+};
+// ACT. Structure from ACT's own 2026-2027 "Preparing for the ACT Test" booklet: English 50
+// questions in 35 minutes, Mathematics 45 in 50, Reading 36 in 40, and an optional Science
+// section of 40 in 40. Every section carries embedded unscored field-test questions, so the
+// scored counts are lower than the administered ones (English 40, Mathematics 41, Reading 27,
+// Science 34). act.org states the whole multiple-choice test as 171 questions in 2 hours 45
+// minutes, which is these four sections added up.
+//
+// Two things here are easy to get wrong from memory and are checked against ACT's own
+// materials. First, the enhanced ACT uses FOUR answer choices in every section including
+// Mathematics, which carried five on the legacy test. Second, the Composite is the average of
+// English, Mathematics and Reading only: ACT removed Science from the Composite for national
+// online testing in April 2025 and for all testing modes in September 2025. Science is still
+// scored 1 to 36 and still reported, it just does not feed the Composite, which is why it
+// carries inComposite:false below.
+const ACT_SKILLS = [
+ {id:'act_e_pow',section:'E',label:'Production of Writing',range:'38 to 43 percent of the section',lo:19,hi:22,
+  points:['Topic development in terms of purpose and focus','Organization, unity and cohesion','Whether a text has met its intended goal']},
+ {id:'act_e_kol',section:'E',label:'Knowledge of Language',range:'18 to 23 percent of the section',lo:9,hi:12,
+  points:['Precise and concise word choice','Consistency in style and tone','Cutting redundancy']},
+ {id:'act_e_cse',section:'E',label:'Conventions of Standard English',range:'38 to 43 percent of the section',lo:19,hi:22,
+  points:['Sentence structure and formation','Punctuation','Usage']},
+ {id:'act_m_nq',section:'M',label:'Number and Quantity',range:'10 to 12 percent of the section',lo:5,hi:6,
+  points:['Real and complex number systems','Integer and rational exponents','Vectors and matrices']},
+ {id:'act_m_alg',section:'M',label:'Algebra',range:'17 to 20 percent of the section',lo:8,hi:9,
+  points:['Linear, polynomial, radical and exponential relationships','Systems of equations','Solutions applied to real-world contexts']},
+ {id:'act_m_fun',section:'M',label:'Functions',range:'17 to 20 percent of the section',lo:8,hi:9,
+  points:['Definition, notation and representation','Linear, radical, piecewise, polynomial, exponential and logarithmic functions','Manipulating and translating functions','Interpreting features of graphs']},
+ {id:'act_m_geo',section:'M',label:'Geometry',range:'17 to 20 percent of the section',lo:8,hi:9,
+  points:['Congruence and similarity','Surface area and volume','Missing values in triangles, circles and other figures','Trigonometric ratios and conic sections']},
+ {id:'act_m_sp',section:'M',label:'Statistics and Probability',range:'12 to 15 percent of the section',lo:6,hi:7,
+  points:['Center and spread of distributions','Data collection methods','Relationships in bivariate data','Probability and sample spaces']},
+ {id:'act_m_ies',section:'M',label:'Integrating Essential Skills',range:'20 percent of the section',lo:9,hi:9,
+  points:['Rates and percentages','Proportional relationships','Area, surface area and volume','Average and median','Expressing numbers in different ways','Non-routine problems combining skills in chains of steps']},
+ {id:'act_r_kid',section:'R',label:'Key Ideas and Details',range:'44 to 52 percent of the section',lo:16,hi:19,
+  points:['Central ideas and themes','Summarizing information accurately','Logical inferences and conclusions','Sequential, comparative and cause-effect relationships']},
+ {id:'act_r_cs',section:'R',label:'Craft and Structure',range:'26 to 33 percent of the section',lo:9,hi:12,
+  points:['Word and phrase meanings','Analyzing word choice rhetorically','Text structure','Purpose and perspective of the author','Points of view of characters']},
+ {id:'act_r_iki',section:'R',label:'Integration of Knowledge and Ideas',range:'19 to 26 percent of the section',lo:7,hi:9,
+  points:['Claims and evidence in arguments','Integrating information from multiple texts','Comparing sources that disagree']},
+ {id:'act_s_iod',section:'S',label:'Interpretation of Data',range:'38 to 50 percent of the section',lo:15,hi:20,
+  points:['Reading tables, graphs and diagrams','Recognizing trends in data','Interpolating and extrapolating','Translating tabular data into graphs']},
+ {id:'act_s_si',section:'S',label:'Scientific Investigation',range:'18 to 32 percent of the section',lo:7,hi:13,
+  points:['Experimental tools, procedures and design','Identifying controls and variables','Comparing, extending and modifying experiments','Predicting the results of additional trials']},
+ {id:'act_s_esa',section:'S',label:'Evaluation of Scientific Arguments and Models',range:'24 to 38 percent of the section',lo:10,hi:15,
+  points:['Judging the validity of scientific information','Formulating conclusions and predictions','Deciding which explanation new findings support','Weighing conflicting viewpoints']}
+];
+// allot is the per-question pace each published section length implies, rounded to the second.
+// scored carries ACT's published scored count, which is what the section score is built from;
+// questions is what the examinee actually answers.
+const ACT_SECTIONS = {
+ E:{name:'English',short:'English',allot:42,questions:50,scored:40,minutes:35},
+ M:{name:'Mathematics',short:'Math',allot:67,questions:45,scored:41,minutes:50},
+ R:{name:'Reading',short:'Reading',allot:67,questions:36,scored:27,minutes:40},
+ S:{name:'Science',short:'Science',allot:60,questions:40,scored:34,minutes:40,optional:true,inComposite:false}
+};
 // Exam registry. Adding an exam (GRE, LSAT, ACT...) = a new entry here plus a tagged bank.
 // Progress is stored per exam, so a student can train for two exams without the ratings mixing.
 const EXAMS = {
  'gmat-focus': {id:'gmat-focus',name:'GMAT Focus Edition',short:'GMAT Focus',sections:GMAT_SECTIONS,skills:GMAT_SKILLS,
    scoreScale:'205-805',sectionScale:'60-90',choices:5,adaptive:'question',
    // Total scores are reported in 10-point steps ending in 5, so round to that lattice.
+   appPath:'/app/',blurb:'Focus Edition, live',
+   official:{label:'an official practice exam at mba.com',url:'https://www.mba.com/exams/gmat-exam/prepare'},
+   crunch:'Which is bigger? No-calculator number sense, timed.',
+   crunchLong:'Which is bigger? Sixty seconds of no-calculator number sense, the Quant survival skill.',
+   goals:['Score 675+ for M7 programs','Fix my Quant from the diagnostic','Balance all three sections','Retake and beat my last score'],
    scale:{min:205,max:805,step:10,offset:5,center:555,slope:70,
           sectionMin:60,sectionMax:90,sectionCenter:75,sectionSlope:4.5,
           minBand:30,minAttempts:40,calibration:'internal'}},
  'sat': {id:'sat',name:'SAT',short:'SAT',sections:SAT_SECTIONS,skills:SAT_SKILLS,
    scoreScale:'400-1600',sectionScale:'200-800',choices:4,adaptive:'module',
+   appPath:'/sat/app/',blurb:'digital format, live',
+   official:{label:'an official Bluebook practice test from College Board',url:'https://bluebook.collegeboard.org/'},
+   crunch:'Which is bigger? Estimate faster than you could type it.',
+   crunchLong:'Which is bigger? Sixty seconds of estimation. Bluebook gives you Desmos, but typing costs seconds you do not have.',
+   goals:['Clear 1400 for my target schools','Fix my Math from the diagnostic','Raise Reading and Writing accuracy','Retake and beat my last score'],
    scale:{min:400,max:1600,step:10,offset:0,center:1000,slope:200,
           sectionMin:200,sectionMax:800,sectionCenter:500,sectionSlope:100,
           minBand:30,minAttempts:40,calibration:'internal'}},
@@ -108,10 +223,45 @@ const EXAMS = {
  // scale that 30 points is on the GMAT, not a tighter claim on a smaller scale.
  'gre': {id:'gre',name:'GRE General Test',short:'GRE',sections:GRE_SECTIONS,skills:GRE_SKILLS,
    scoreScale:'260-340',sectionScale:'130-170',choices:5,adaptive:'module',
+   appPath:'/gre/app/',blurb:'Verbal and Quant, live',
+   official:{label:'an official POWERPREP practice test from ETS',url:'https://www.ets.org/gre/test-takers/general-test/prepare.html'},
+   crunch:'Which is bigger? No-calculator number sense, timed.',
+   crunchLong:'Which is bigger? Sixty seconds of no-calculator number sense, the Quant survival skill.',
+   goals:['Break 320 for my target programs','Fix my Quant from the diagnostic','Raise Verbal accuracy','Retake and beat my last score'],
    scale:{min:260,max:340,step:1,offset:0,center:300,slope:14,
           sectionMin:130,sectionMax:170,sectionCenter:150,sectionSlope:7,
-          minBand:5,minAttempts:40,calibration:'internal'}}
+          minBand:5,minAttempts:40,calibration:'internal'}},
+ // LSAT reports ONE number, 120 to 180, and no section scores at all, so the scale block
+ // deliberately carries no sectionMin/sectionMax. scoreEstimate reads that absence and
+ // suppresses per-section scores rather than inventing a subscore LSAC does not report.
+ // The band floor of 3 points is the same share of a 60-point scale that 30 points is of the
+ // GMAT's 600, not a tighter claim on a narrower scale.
+ 'lsat': {id:'lsat',name:'LSAT',short:'LSAT',sections:LSAT_SECTIONS,skills:LSAT_SKILLS,
+   scoreScale:'120-180',sectionScale:null,choices:5,adaptive:'question',
+   appPath:'/lsat/app/',blurb:'Logical Reasoning and RC, live',
+   official:{label:'an official LSAT PrepTest on LSAC LawHub',url:'https://www.lsac.org/lsat/prepare/official-lsat-practice-tests'},
+   crunch:'Which is bigger? Sixty seconds of number sense to keep timing instincts sharp.',
+   crunchLong:'Which is bigger? Sixty seconds of number sense. The LSAT has no math section, but pace under a clock is the same muscle.',
+   goals:['Break 170 for my target law schools','Fix my Logical Reasoning accuracy','Get through four RC passages in time','Retake and beat my last score'],
+   scale:{min:120,max:180,step:1,offset:0,center:151,slope:10,
+          minBand:3,minAttempts:40,calibration:'internal'}},
+ // ACT reports each section 1 to 36 and a Composite that is the average of English,
+ // Mathematics and Reading ONLY, rounded to the nearest whole number. Science is scored and
+ // reported but excluded from the Composite, which SECTION_META marks with inComposite:false.
+ 'act': {id:'act',name:'ACT',short:'ACT',sections:ACT_SECTIONS,skills:ACT_SKILLS,
+   scoreScale:'1-36',sectionScale:'1-36',choices:4,adaptive:'question',
+   appPath:'/act/app/',blurb:'enhanced format, live',
+   official:{label:'an official ACT practice test at act.org',url:'https://www.act.org/content/act/en/products-and-services/the-act/test-preparation/free-act-test-prep.html'},
+   crunch:'Which is bigger? Estimate faster than you could reach for the calculator.',
+   crunchLong:'Which is bigger? Sixty seconds of estimation. The ACT gives you 60 seconds a question on Math, so reaching for the calculator has a price.',
+   goals:['Reach a 30+ Composite','Fix my Math from the diagnostic','Speed up on Reading','Retake and beat my last score'],
+   scale:{min:1,max:36,step:1,offset:0,center:20,slope:6,
+          sectionMin:1,sectionMax:36,sectionCenter:20,sectionSlope:6,
+          minBand:2,minAttempts:40,calibration:'internal'}}
 };
+// Exams with a guide page but no trainer yet. Kept here so the onboarding picker stays honest
+// about what exists; mirrors LIVE in src/build_exams.py.
+const UPCOMING_EXAMS = ['MCAT','Executive Assessment'];
 // EXAM_ID is injected by the build (one app per exam). Node test runs default to the GMAT.
 const CURRENT_EXAM = (typeof EXAM_ID !== 'undefined' && EXAMS[EXAM_ID]) ? EXAM_ID : 'gmat-focus';
 const EXAM = EXAMS[CURRENT_EXAM];
@@ -213,12 +363,18 @@ function scoreEstimate(state){
  const parts = SECTIONS.map(sec => ({sec, a: sectionAbility(state, sec)}));
  const n = parts.reduce((t, p) => t + p.a.n, 0);
  if (n < sc.minAttempts) return {ready:false, n, need: sc.minAttempts - n, reason:'more practice'};
- // Sections are equally weighted on both live exams; SECTION_META carries the shape if that
+ // Not every reported section feeds the headline score. The ACT Composite is the average of
+ // English, Mathematics and Reading only, because ACT removed Science from the Composite in
+ // 2025, so a section marked inComposite:false is still rated and still reported per section
+ // but is kept out of the total. Everywhere else every section counts.
+ const core = parts.filter(p => (SECTION_META[p.sec] || {}).inComposite !== false);
+ const used = core.length ? core : parts;
+ // Sections are equally weighted on every live exam; SECTION_META carries the shape if that
  // ever stops being true.
- const theta = parts.reduce((t, p) => t + p.a.theta, 0) / parts.length;
+ const theta = used.reduce((t, p) => t + p.a.theta, 0) / used.length;
  // Independent section estimates, so the total standard error is the root mean square,
  // reduced by averaging across sections.
- const sem = Math.sqrt(parts.reduce((t, p) => t + Math.pow(isFinite(p.a.sem) ? p.a.sem : 2, 2), 0)) / parts.length;
+ const sem = Math.sqrt(used.reduce((t, p) => t + Math.pow(isFinite(p.a.sem) ? p.a.sem : 2, 2), 0)) / used.length;
  const raw = sc.center + sc.slope * theta;
  const half = Math.max(sc.minBand, sem * sc.slope);
  return {
@@ -226,12 +382,18 @@ function scoreEstimate(state){
   score: toLattice(raw, sc),
   lo: toLattice(raw - half, sc),
   hi: toLattice(raw + half, sc),
+  // A per-section score is only reported for exams whose maker reports one. The LSAT returns a
+  // single 120 to 180 number and no section scores, so its scale block carries no sectionMin
+  // and every section score here comes back null rather than as a subscore LSAC never gives.
+  hasSectionScores: sc.sectionMin != null,
   sections: parts.map(p => ({
    section: p.sec,
    label: (SECTION_META[p.sec] || {}).short || p.sec,
    n: p.a.n,
-   score: toLattice(sc.sectionCenter + sc.sectionSlope * p.a.theta,
-                    {min:sc.sectionMin, max:sc.sectionMax, step:1, offset:0})
+   inComposite: (SECTION_META[p.sec] || {}).inComposite !== false,
+   score: sc.sectionMin == null ? null
+    : toLattice(sc.sectionCenter + sc.sectionSlope * p.a.theta,
+                {min:sc.sectionMin, max:sc.sectionMax, step:1, offset:0})
   }))
  };
 }

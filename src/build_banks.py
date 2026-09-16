@@ -4,10 +4,17 @@ The generators are the source of truth; the emitted .js files are build output a
 are gitignored, exactly like /app/ and /blog/. The run is seeded, so the same
 commit always produces the same bank and a rebuild is a no-op rather than a diff.
 
+The per category seed is derived with zlib.crc32 rather than hash(). Python randomises
+string hashing per process unless PYTHONHASHSEED is set, so hash() here silently made
+every build produce a different bank: the promise in the paragraph above was false, and
+the per section bias figures that test.js pins in DEBT drifted from run to run, which
+turned that ratchet into a coin toss. crc32 is stable across processes and machines.
+
 Run directly to see the per category report:  python3 src/build_banks.py
 """
 import pathlib
 import sys
+import zlib
 
 D = pathlib.Path(__file__).parent
 sys.path.insert(0, str(D / "gen"))
@@ -36,7 +43,7 @@ SAT_PLAN = {
 # Data Sufficiency has no SAT counterpart, so it lives here.
 EXAM_EXTRA = {"gmat": {"di_ds": g_gmat_ds.GENS}}
 
-PREFIX = {"sat": "ZS", "gre": "ZG", "gmat": "ZM"}
+PREFIX = {"sat": "ZS", "gre": "ZG", "gmat": "ZM", "act": "ZA", "lsat": "ZL"}
 
 HEADER = """// GENERATED FILE. Do not edit.
 // Written by src/build_banks.py from the schemas in src/gen/. Every answer key here
@@ -55,7 +62,7 @@ def main(target=TARGET, verbose=True):
     OUT.mkdir(exist_ok=True)
     pool = M.by_id(POOL_MODS)
     report = {}
-    for exam, choices in (("sat", 4), ("gre", 5), ("gmat", 5)):
+    for exam, choices in (("sat", 4), ("gre", 5), ("gmat", 5), ("act", 4)):
         plan = plan_for(exam, pool)
         items = []
         seen = set()
@@ -64,7 +71,7 @@ def main(target=TARGET, verbose=True):
             gens = plan[skill]
             got, dropped, errs, made = F.run(
                 gens, target, choices, PREFIX[exam],
-                seed=20260916 + (abs(hash(exam + skill)) % 99991),
+                seed=20260916 + (zlib.crc32((exam + skill).encode()) % 99991),
                 start=n, existing=seen,
             )
             for it in got:

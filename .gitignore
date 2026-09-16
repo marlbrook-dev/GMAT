@@ -4,6 +4,8 @@
 /app/
 /sat/
 /gre/
+/lsat/
+/act/
 /blog/
 /sitemap.xml
 /schools/
@@ -18,6 +20,9 @@
 /privacy.html
 src/__pycache__/
 src/shot_*.png
+
+# Local tooling only: playwright for the headless smoke checks.
+/node_modules/
 
 # Generated item banks: the schemas in src/gen/ are the source of truth.
 /src/generated/
