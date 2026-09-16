@@ -39,7 +39,7 @@ SAT_PLAN = {
 # Data Sufficiency has no SAT counterpart, so it lives here.
 EXAM_EXTRA = {"gmat": {"di_ds": g_gmat_ds.GENS}}
 
-PREFIX = {"sat": "ZS", "gre": "ZG", "gmat": "ZM"}
+PREFIX = {"sat": "ZS", "gre": "ZG", "gmat": "ZM", "act": "ZA", "lsat": "ZL"}
 
 HEADER = """// GENERATED FILE. Do not edit.
 // Written by src/build_banks.py from the schemas in src/gen/. Every answer key here
@@ -58,7 +58,7 @@ def main(target=TARGET, verbose=True):
     OUT.mkdir(exist_ok=True)
     pool = M.by_id(POOL_MODS)
     report = {}
-    for exam, choices in (("sat", 4), ("gre", 5), ("gmat", 5)):
+    for exam, choices in (("sat", 4), ("gre", 5), ("gmat", 5), ("act", 4)):
         plan = plan_for(exam, pool)
         items = []
         seen = set()

@@ -12,6 +12,11 @@ SAT_BANKS = ["bank_sat_rw.js","bank_sat_rw2.js","bank_sat_rw3.js","bank_sat_rw4.
 
 GRE_BANKS = ["bank_gre_verbal.js","bank_gre_verbal2.js","bank_gre_quant.js","bank_gre_quant2.js","bank_gre_easy.js","writing_gre.js","cards_gre.js","playbook_gre.js"]
 
+LSAT_BANKS = ["bank_lsat_lr.js","bank_lsat_rc.js","cards_lsat.js","playbook_lsat.js"]
+# ACT Mathematics comes entirely from the generated bank, which is why no hand written math
+# file appears here; the schemas are mapped onto ACT taxonomy in src/gen/mapping.py.
+ACT_BANKS = ["bank_act_english.js","bank_act_reading.js","bank_act_science.js","cards_act.js","playbook_act.js"]
+
 APPS = [
     {"exam": "gmat-focus", "out": "app", "gen": "gmat", "files": GMAT_BANKS,
      "concat": ("BANK_QUANT, BANK_QUANT2, BANK_QUANT3, BANK_QUANT4, BANK_QUANT5, BANK_QUANT6, "
@@ -42,6 +47,29 @@ APPS = [
      "desc": ("Start From Nowhere: adaptive GRE practice across Verbal Reasoning and Quantitative Reasoning, "
               "with section-adaptive mock sections that route like the real exam."),
      "is_404": False},
+    {"exam": "lsat", "out": "lsat/app", "gen": None, "files": LSAT_BANKS,
+     "concat": "BANK_LSAT_LR, BANK_LSAT_RC",
+     "footer": ("LSAT is a registered trademark of the Law School Admission Council (LSAC), which does not "
+                "endorse this product. Practice items are original and written for Start From Nowhere. LSAC "
+                "publishes 35 minutes per section and, for Reading Comprehension, four sets of five to eight "
+                "questions; it does not publish a Logical Reasoning question count, so our 25-question practice "
+                "section is our own length, not an LSAT specification. Score ranges shown are internal "
+                "estimates, not official LSAT scores, and the LSAT reports no section scores."),
+     "title": "Start From Nowhere | Adaptive LSAT Trainer",
+     "desc": ("Start From Nowhere: adaptive LSAT practice across Logical Reasoning and Reading Comprehension, "
+              "built on the skills LSAC publishes for each section."),
+     "is_404": False},
+    {"exam": "act", "out": "act/app", "gen": "act", "files": ACT_BANKS,
+     "concat": "BANK_ACT_ENGLISH, BANK_ACT_READING, BANK_ACT_SCIENCE",
+     "footer": ("ACT is a registered trademark of ACT Education Corp., which does not endorse this product. "
+                "Practice items are original and written for Start From Nowhere. Section lengths and reporting "
+                "categories follow ACT published materials for the enhanced test, including four answer choices "
+                "in every section and a Composite drawn from English, Mathematics and Reading only. Score ranges "
+                "shown are internal estimates, not official ACT scores."),
+     "title": "Start From Nowhere | Adaptive ACT Trainer",
+     "desc": ("Start From Nowhere: adaptive ACT practice across English, Mathematics, Reading and the optional "
+              "Science section, keyed to ACT published reporting categories."),
+     "is_404": False},
 ]
 
 engine = (d/"engine.js").read_text(); tpl = (d/"app_template.html").read_text()
@@ -57,10 +85,9 @@ GEN_DIR = d / "generated"
 
 for app in APPS:
     banks = "\n".join((d/f).read_text() for f in app["files"])
-    gen_file = GEN_DIR / ("bank_gen_%s.js" % app["gen"])
-    gen_src = gen_file.read_text() if gen_file.exists() else ""
-    gen_const = "BANK_GEN_" + app["gen"].upper()
-    concat = app["concat"] + (", " + gen_const if gen_src else "")
+    gen_file = GEN_DIR / ("bank_gen_%s.js" % app["gen"]) if app["gen"] else None
+    gen_src = gen_file.read_text() if (gen_file and gen_file.exists()) else ""
+    concat = app["concat"] + (", BANK_GEN_" + app["gen"].upper() if gen_src else "")
     # The bank ships as its own file next to index.html. The path is absolute because the
     # GMAT app doubles as 404.html and is served from arbitrary URLs.
     bank_path = "/" + app["out"] + "/bank.js"
@@ -103,10 +130,18 @@ sat_card_count = len(_re.findall(r"\{\s*id: ?'s\d", sat_banks_src))
 gre_banks_src = built["gre"][2]
 hand_gre = len(_re.findall(r"\{\s*id: ?'G[QVE]\d", gre_banks_src))
 gre_card_count = len(_re.findall(r"\{\s*id: ?'g\d", gre_banks_src))
+lsat_banks_src = built["lsat"][2]
+hand_lsat = len(_re.findall(r"\{\s*id: ?'L[LC]\d", lsat_banks_src))
+lsat_card_count = len(_re.findall(r"\{\s*id: ?'l\d", lsat_banks_src))
+act_banks_src = built["act"][2]
+hand_act = len(_re.findall(r"\{\s*id: ?'A[ERS]\d", act_banks_src))
+act_card_count = len(_re.findall(r"\{\s*id: ?'a\d", act_banks_src))
 bank_count = hand_gmat + GEN_COUNT.get("gmat", 0)
 sat_bank_count = hand_sat + GEN_COUNT.get("sat", 0)
 gre_bank_count = hand_gre + GEN_COUNT.get("gre", 0)
-total_bank_count = bank_count + sat_bank_count + gre_bank_count
+lsat_bank_count = hand_lsat + GEN_COUNT.get("lsat", 0)
+act_bank_count = hand_act + GEN_COUNT.get("act", 0)
+total_bank_count = bank_count + sat_bank_count + gre_bank_count + lsat_bank_count + act_bank_count
 # Tracked skills come from the engine registry itself, so the landing page can never
 # drift from the number of ratings the apps actually keep.
 _skill_probe = subprocess.run(
@@ -136,8 +171,9 @@ def no_dashes(name, text):
 
 # House rule: no em or en dashes anywhere, docs and sources included. The page checks below
 # cover generated output; this covers the files people hand-edit.
-_ALLOWED_COUNTS = {bank_count, sat_bank_count, gre_bank_count, card_count,
-                   sat_card_count, gre_card_count}
+_ALLOWED_COUNTS = {bank_count, sat_bank_count, gre_bank_count, lsat_bank_count,
+                   act_bank_count, card_count, sat_card_count, gre_card_count,
+                   lsat_card_count, act_card_count, total_bank_count}
 for _counted in ["llms.txt", "src/blog/EDITORIAL.md"]:
     _cp = root / _counted
     if _cp.exists():
@@ -229,7 +265,8 @@ for p in _app_pages + [root/"index.html", root/"community"/"index.html",
     check_scripts(p)
 # The shell and the bank are now separate downloads, so report both, and report the
 # whole bank rather than only the hand written part of it.
-_TOTAL = {"gmat-focus": bank_count, "sat": sat_bank_count, "gre": gre_bank_count}
+_TOTAL = {"gmat-focus": bank_count, "sat": sat_bank_count, "gre": gre_bank_count,
+          "lsat": lsat_bank_count, "act": act_bank_count}
 _summary = ", ".join(
     "%s (shell %dk, bank %dk, %d items)" % (
         a["out"], round(len(built[a["exam"]][1]) / 1024),

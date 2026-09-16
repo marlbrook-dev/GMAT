@@ -8,6 +8,14 @@ const GMAT={id:'gmat-focus',choices:5,
 const GRE={id:'gre',choices:5,choicesByType:{QC:4},
  files:['bank_gre_verbal.js','bank_gre_verbal2.js','bank_gre_quant.js','bank_gre_quant2.js','bank_gre_easy.js','writing_gre.js','cards_gre.js','playbook_gre.js'],
  concat:'BANK_GRE_VERBAL,BANK_GRE_VERBAL2,BANK_GRE_QUANT,BANK_GRE_QUANT2,BANK_GRE_EASY',gen:'gre'};
+// The LSAT carries no generated bank: its items are arguments and passages, with no
+// parameterised schema behind them, so gen is null and the run skips that file.
+const LSAT={id:'lsat',choices:5,
+ files:['bank_lsat_lr.js','bank_lsat_rc.js','cards_lsat.js','playbook_lsat.js'],
+ concat:'BANK_LSAT_LR,BANK_LSAT_RC',gen:null};
+const ACT={id:'act',choices:4,
+ files:['bank_act_english.js','bank_act_reading.js','bank_act_science.js','cards_act.js','playbook_act.js'],
+ concat:'BANK_ACT_ENGLISH,BANK_ACT_READING,BANK_ACT_SCIENCE',gen:'act'};
 const SAT={id:'sat',choices:4,
  files:['bank_sat_rw.js','bank_sat_rw2.js','bank_sat_rw3.js','bank_sat_rw4.js','bank_sat_rw5.js','bank_sat_math.js','bank_sat_math2.js','bank_sat_math3.js','bank_sat_math4.js','bank_sat_math5.js','bank_sat_easy.js','cards_sat.js','cards_sat2.js','playbook_sat.js'],
  concat:'BANK_SAT_RW,BANK_SAT_RW2,BANK_SAT_RW3,BANK_SAT_RW4,BANK_SAT_RW5,BANK_SAT_MATH,BANK_SAT_MATH2,BANK_SAT_MATH3,BANK_SAT_MATH4,BANK_SAT_MATH5,BANK_SAT_EASY',gen:'sat'};
@@ -21,10 +29,9 @@ function runExam(exam){
  // The generated bank is part of the shipped product, so it is part of the test. Testing
  // only the hand written items would leave thousands of items unchecked, which is exactly
  // the situation generation makes easy to fall into.
- const genFile='generated/bank_gen_'+exam.gen+'.js';
- const hasGen=fs.existsSync(genFile);
- if(!hasGen) throw new Error('missing '+genFile+'; run python3 src/build_banks.py first');
- const src=exam.files.concat([genFile,'engine.js']).map(f=>fs.readFileSync(f,'utf8')).join('\n');
+ const genFile=exam.gen?('generated/bank_gen_'+exam.gen+'.js'):null;
+ if(genFile&&!fs.existsSync(genFile)) throw new Error('missing '+genFile+'; run python3 src/build_banks.py first');
+ const src=exam.files.concat(genFile?[genFile]:[]).concat(['engine.js']).map(f=>fs.readFileSync(f,'utf8')).join('\n');
  const ctx={console,Date,Math,JSON,Set,EXAM_ID:exam.id};
  vm.createContext(ctx);
  // engine.js declares with const, which stays in the script's lexical scope, so the script
@@ -32,8 +39,9 @@ function runExam(exam){
  const EXPORTS='BANK,SKILLS,SECTION_META,SECTIONS,PLAYBOOK,CARDS,EXAM,newState,pickQuestions,recordAttempt,'+
   'skillStats,sectionSummary,pickMockSection,pickSatModule,satRoute,satDomainTargets,gradeChosen,timingFlag,'+
   'scoreEstimate,sectionAbility,itemInfo,eloToTheta';
+ const allBanks=exam.concat+(exam.gen?(',BANK_GEN_'+exam.gen.toUpperCase()):'');
  vm.runInContext('var EXAM_ID='+JSON.stringify(exam.id)+';\n'+src+
-  '\nvar BANK=[].concat('+exam.concat+',BANK_GEN_'+exam.gen.toUpperCase()+');\nglobalThis.__api={'+EXPORTS+'};',ctx);
+  '\nvar BANK=[].concat('+allBanks+');\nglobalThis.__api={'+EXPORTS+'};',ctx);
  const api=ctx.__api;
  const {BANK,SKILLS,SECTION_META,SECTIONS,PLAYBOOK,CARDS,EXAM}=api;
 
@@ -296,9 +304,25 @@ function runExam(exam){
     if(v<sc.min||v>sc.max) bad.push('score '+v+' outside '+sc.min+' to '+sc.max);
     if(((v-(sc.offset||0))%(sc.step||10))!==0) bad.push('score '+v+' off the reporting lattice');
    });
-   eMany.sections.forEach(x=>{
-    if(x.score<sc.sectionMin||x.score>sc.sectionMax) bad.push('section '+x.section+' score '+x.score+' out of range');
-   });
+   // An exam whose maker publishes no section scores must not invent them. The LSAT reports a
+   // single 120 to 180 number and nothing per section, so its scale carries no sectionMin and
+   // every section score has to come back null rather than as a plausible looking subscore.
+   if(sc.sectionMin==null){
+    if(eMany.hasSectionScores) bad.push('claims section scores on an exam that reports none');
+    eMany.sections.forEach(x=>{ if(x.score!==null) bad.push('section '+x.section+' invented a subscore: '+x.score); });
+   } else {
+    if(!eMany.hasSectionScores) bad.push('exam has a section scale but reports no section scores');
+    eMany.sections.forEach(x=>{
+     if(x.score<sc.sectionMin||x.score>sc.sectionMax) bad.push('section '+x.section+' score '+x.score+' out of range');
+    });
+   }
+   // Sections the exam excludes from its headline score must still be rated and reported. The
+   // ACT dropped Science from the Composite in 2025 but still scores it 1 to 36.
+   const outside=SECTIONS.filter(sec=>(SECTION_META[sec]||{}).inComposite===false);
+   outside.forEach(sec=>{ if(!eMany.sections.some(x=>x.section===sec))
+    bad.push(sec+' is excluded from the total and vanished from the report entirely'); });
+   if(outside.length) console.log('  outside the headline score: '+outside.join(', ')+
+    ' (rated and reported, not averaged in)');
   }
   // More evidence must mean a smaller standard error. This is the property that makes the
   // estimate improve with use rather than just move around.
@@ -323,6 +347,6 @@ function runExam(exam){
  console.log('  items per skill '+JSON.stringify(dist));
 }
 
-[GMAT,SAT,GRE].forEach(runExam);
+[GMAT,SAT,GRE,LSAT,ACT].forEach(runExam);
 console.log('\n'+(failures?failures+' FAILURE(S)':'all checks passed'));
 process.exit(failures?1:0);

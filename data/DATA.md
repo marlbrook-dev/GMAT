@@ -90,11 +90,72 @@ can see them:
    to decide which second module a student receives. `SAT_ROUTE_CUT` in
    `src/engine.js` is 60 percent, and the routing screen says so in those
    words rather than implying an official cutoff.
-2. **The absence of a scaled score.** The equating tables that turn raw
-   performance into a 400 to 1600 score are not public. The app reports
-   accuracy, per-domain results against the official ranges, and which module
-   a student routed into. It never reports a score, and it points students to
-   an official Bluebook practice test to calibrate.
+2. **The scale anchoring.** The equating tables that turn raw performance
+   into a 400 to 1600 score are not public. Since the owner's decision of
+   September 16, 2026 the app does report an estimated range on the SAT's own
+   scale, but the centre and slope in `EXAMS.sat.scale` are our calibration,
+   not College Board's. The app says so, never calls the output a predicted
+   score, holds it back below the evidence floor, and points students to an
+   official Bluebook practice test to calibrate. The method is published at
+   `/scoring/`.
 
 Per-question pace (`allot`) is arithmetic on the sourced module lengths, not a
 published figure: 32 minutes over 27 questions is 71 seconds, 35 over 22 is 95.
+
+## LSAT, as encoded in `src/engine.js`
+
+| What | Where it comes from |
+| --- | --- |
+| Four 35-minute multiple-choice sections: one Reading Comprehension, two Logical Reasoning, one unscored variable section that can be either type and can appear anywhere | LSAC, Specifications of the LSAT and LSAT Argumentative Writing, https://www.lsac.org/lsat/register-lsat/accommodations/specifications-lsat-and-lsat-argumentative-writing |
+| A 10-minute intermission between the second and third sections | Same page |
+| Scores 120 to 180; raw score is the number answered correctly; every question weighted the same; no deduction for a wrong answer | LSAC, LSAT Scoring, https://www.lsac.org/lsat/lsat-scoring |
+| Reading Comprehension section shape: four sets, each a selection followed by five to eight questions, with three or four single passages and one or no comparative pair | LSAC, Reading Comprehension, https://www.lsac.org/lsat/prepare/types-lsat-questions/reading-comprehension |
+| The ten skills Logical Reasoning measures, grouped into the seven tracked skills | LSAC, Logical Reasoning, https://www.lsac.org/lsat/taking-lsat/test-format/logical-reasoning |
+| The ten passage characteristics Reading Comprehension questions ask about, grouped into the five tracked skills | LSAC, Reading Comprehension, as above |
+| Five answer choices per question | LSAC, Logical Reasoning Sample Questions, https://www.lsac.org/lsat/taking-lsat/test-format/logical-reasoning/logical-reasoning-sample-questions |
+| LSAT Argumentative Writing is unscored, administered separately, 50 minutes total (15 prewriting, 35 writing) | LSAC, Types of LSAT Questions, https://www.lsac.org/lsat/prepare/types-lsat-questions |
+
+Two things are ours and are labeled as ours:
+
+1. **The Logical Reasoning section length.** LSAC publishes 35 minutes per
+   section but no question count for Logical Reasoning, anywhere. The
+   25-question practice section is our own length, chosen to fit the published
+   35 minutes. The exam guide and the trainer footer say so rather than
+   presenting 25 as an LSAT specification. Reading Comprehension's 26 is also
+   ours, but it sits inside the 20 to 32 that LSAC's published "four sets of
+   five to eight questions" implies.
+2. **The scale anchoring**, exactly as for the SAT above.
+
+One thing is deliberately absent. **The LSAT reports no section scores.** LSAC
+reports a single number and publishes no subscores, so `EXAMS.lsat.scale`
+carries no `sectionMin` or `sectionMax` and `scoreEstimate` returns
+`score: null` for every section. `test.js` fails the build if that exam ever
+starts emitting a per-section number. We train one Logical Reasoning section;
+the real exam delivers two.
+
+## ACT, as encoded in `src/engine.js`
+
+| What | Where it comes from |
+| --- | --- |
+| Section lengths and timing: English 50 questions in 35 minutes, Mathematics 45 in 50, Reading 36 in 40, optional Science 40 in 40, optional Writing one essay in 40 | ACT, Preparing for the ACT Test 2026-2027, https://www.act.org/content/dam/act/unsecured/documents/Preparing-for-the-ACT.pdf |
+| Scored counts, which are lower than the administered counts because every section carries embedded unscored field-test questions: English 40, Mathematics 41, Reading 27, Science 34 | Same booklet |
+| 171 multiple-choice questions total and 2 hours 45 minutes of timed testing | ACT, Test Day, https://www.act.org/content/act/en/products-and-services/the-act/test-day.html |
+| Four answer choices in every section, Mathematics included | Same booklet, practice test forms and the Mathematics tips section |
+| Sections and Composite scored 1 to 36; Composite is the average of English, Mathematics and Reading, rounded; Science removed from the Composite in April 2025 for national online testing and September 2025 for all modes; Writing scored 2 to 12 across four domains | ACT, Understanding Your Scores, https://www.act.org/content/act/en/products-and-services/the-act/scores/understanding-your-scores.html |
+| The fifteen reporting categories and the percentage of each section devoted to each | Same booklet, Content of the ACT sections |
+| Fees: $70.00 base, $5.00 science add-on, $25.00 writing add-on, $100.00 for all three | ACT, Fees, https://www.act.org/content/act/en/products-and-services/the-act/registration/fees.html |
+
+Two things are ours and are labeled as ours:
+
+1. **The scale anchoring**, as above. The centre and slope in
+   `EXAMS.act.scale` are our calibration; ACT publishes no equating table.
+2. **Nothing else.** Every structural figure above is ACT's own, which is why
+   the earlier Applerouth, Kaplan and BestColleges rows in `data/exams.json`
+   were replaced: they are coaching-site sources, which this project bans, and
+   the fee figure had drifted (they carried $68 and a $4 science add-on
+   against ACT's published $70 and $5).
+
+`inComposite: false` on the ACT Science section is how the engine keeps a
+section that is scored and reported out of the headline average. It is rated,
+it appears in the section report, and it is not averaged into the Composite,
+which is what ACT does.

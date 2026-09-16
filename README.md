@@ -1,6 +1,6 @@
 # Start From Nowhere
 
-Adaptive test-prep platform. Two exams live: GMAT Focus Edition (Quantitative Reasoning, Verbal Reasoning, Data Insights) and the digital SAT (Reading and Writing, Math). Per-skill Elo ratings keyed to each exam's official score-report labels, spaced repetition of misses, timing diagnostics, error log, playbook. Single-file app per exam, no build tooling beyond Python.
+Adaptive test-prep platform. Five exams live: GMAT Focus Edition, the digital SAT, the GRE General Test, the LSAT and the ACT. Per-skill Elo ratings keyed to each exam's official score-report labels, spaced repetition of misses, timing diagnostics, error log, playbook. Single-file app per exam, no build tooling beyond Python.
 
 ## Exams
 
@@ -11,18 +11,24 @@ One engine, one template, one app per exam. `engine.js` holds an `EXAMS` registr
 | GMAT Focus Edition | `/app/` | Q, V, DI at 45 minutes each | per question | 12 official score-report skills |
 | SAT | `/sat/app/` | Reading and Writing 2 x 27 in 32 min; Math 2 x 22 in 35 min | per module, module 2 routed by module 1 | 8 official content domains |
 | GRE General Test | `/gre/app/` | Verbal and Quantitative, two unequal modules each (12 then 15) | per module, module 2 routed by module 1 | 7 content areas, plus an Analytical Writing task |
+| LSAT | `/lsat/app/` | Logical Reasoning and Reading Comprehension at 35 minutes each | per question | 12 skills grouped from LSAC's published lists |
+| ACT | `/act/app/` | English 50 in 35 min; Math 45 in 50; Reading 36 in 40; Science 40 in 40 | per question | 15 official reporting categories |
 
-SAT specifics: four answer choices rather than five, student-produced responses (grid-ins) graded by value so 1/2, 0.5 and .5 all count, free answer changes inside a module, and a section report that breaks results out by module and by content domain. Nothing in the app reports a 400 to 1600 score; College Board's equating tables are not public, so the app reports accuracy, per-domain results, and which second module you routed into.
+SAT specifics: four answer choices rather than five, student-produced responses (grid-ins) graded by value so 1/2, 0.5 and .5 all count, free answer changes inside a module, and a section report that breaks results out by module and by content domain.
+
+LSAT specifics: no section scores exist. LSAC reports one number, 120 to 180, and publishes no subscores, so `EXAMS.lsat.scale` deliberately carries no `sectionMin` and `scoreEstimate` returns `score: null` for every section rather than inventing a subscore. LSAC also publishes no Logical Reasoning question count; the 25-question practice section is ours, labelled as ours, and Reading Comprehension's 26 sits inside the 20 to 32 that LSAC's published "four sets of five to eight questions" implies.
+
+ACT specifics: **four** answer choices in every section including Mathematics, which carried five before the enhanced test. The Composite is the average of English, Mathematics and Reading only; ACT removed Science from it in 2025. Science is still rated and reported, which is what `inComposite: false` on that section means, and `scoreEstimate` keeps such a section out of the total while still reporting it. Every ACT section also carries embedded unscored field-test questions, so the administered and scored counts differ (English 40 of 50, Math 41 of 45, Reading 27 of 36, Science 34 of 40).
 
 ## Layout
-- `src/`: sources. `bank_*.js` (GMAT banks), `bank_sat_*.js` (SAT banks), `cards*.js` / `cards_sat.js` (flashcard decks), `playbook_gmat.js` / `playbook_sat.js` (method notes per skill), `engine.js` (exam-agnostic adaptive engine + exam registry), `app_template.html` (trainer UI, built once per exam), `landing.html` (marketing homepage), `build.py` (assembles the site), `build_blog.py` + `blog/` (The Study Room blog content and generator), `test.js` (bank validation and engine simulation, run per exam)
+- `src/`: sources. `bank_*.js` (GMAT banks), `bank_sat_*.js` (SAT banks), `bank_lsat_*.js` (LSAT banks), `bank_act_*.js` (ACT banks), `cards*.js` (flashcard decks, one per exam), `playbook_*.js` (method notes per skill), `engine.js` (exam-agnostic adaptive engine + exam registry), `app_template.html` (trainer UI, built once per exam), `landing.html` (marketing homepage), `build.py` (assembles the site), `build_blog.py` + `blog/` (The Study Room blog content and generator), `test.js` (bank validation and engine simulation, run per exam)
 - `design/`: Start From Nowhere design system (tokens, components, guidelines, UI kits). Source of truth for UI. SEO content rules: `design/guidelines/seo-content.md`
 - `supabase/`: schema and setup notes for project meridian-prep
 - `_headers`, `robots.txt`: Cloudflare Pages config
-- Generated, not committed (see `.gitignore`): `index.html` (landing), `app/index.html` and `sat/app/index.html` (trainers), `404.html`, `blog/`, `sitemap.xml`
+- Generated, not committed (see `.gitignore`): `index.html` (landing), one `index.html` per trainer under `app/`, `sat/app/`, `gre/app/`, `lsat/app/` and `act/app/`, `404.html`, `blog/`, `sitemap.xml`
 
 ## Develop
-`python3 src/build.py && python3 src/build_blog.py` then open `index.html`. Run `node test.js` from `src/` to validate every bank and simulate the engine once per exam; it checks answer keys in both directions, SAT module construction against College Board's published domain ranges, and grid-in equivalence.
+`python3 src/build.py && python3 src/build_blog.py` then open `index.html`. Run `node test.js` from `src/` to validate every bank and simulate the engine once per exam; it checks answer keys in both directions, SAT module construction against College Board's published domain ranges, grid-in equivalence, answer-position and length balance per section, and that no exam invents a score its maker does not publish.
 
 ## Deploy
 Cloudflare Workers (Git-connected): Compute > Workers & Pages > Create > import this repo.
@@ -72,7 +78,9 @@ absolute because the GMAT app doubles as `404.html`.
 3. Write a flashcard deck and a playbook file for the new skills.
 4. Add the exam to `APPS` in `src/build.py` (bank files, concat expression, `gen` key,
    trademark footer) and to the exam list in `src/test.js` (including its `gen` key, and a
-   `choicesByType` entry if any item type uses a different number of choices).
+   `choicesByType` entry if any item type uses a different number of choices). An exam with no
+   generated content sets `gen` to `None` in `build.py` and `null` in `test.js`; the LSAT does,
+   because arguments and passages have no parameterised schema behind them.
 5. Mark it live in `LIVE` and `APP_PATH` in `src/build_exams.py`, and in the header groups
    in `src/partials.py`.
 6. For generated content, either map existing schemas onto the new taxonomy in
@@ -82,6 +90,15 @@ absolute because the GMAT app doubles as `404.html`.
    `bank_gre_easy.js` exist.
 8. Add the exam's item count to `_ALLOWED_COUNTS` in `src/build.py` or the count guard will
    fail the next time a page advertises the number.
+9. Check what the exam reports before writing the `scale` block. Two honesty cases already have
+   machinery: an exam that publishes no section scores leaves `sectionMin` out entirely and
+   `scoreEstimate` returns `score: null` per section (the LSAT), and a section the maker excludes
+   from the headline score carries `inComposite: false` so it is still rated and reported but not
+   averaged in (ACT Science). `test.js` asserts both.
+10. Never fork the trainer template on `EXAM.id`. Copy that differs per exam belongs in the
+    registry: `short`, `blurb`, `official`, `crunch`, `crunchLong` and `goals` exist for that
+    reason. A binary `EXAM.id === 'sat' ? ... : ...` silently gives every later exam the GMAT's
+    copy, which is how the GRE app shipped a band labelled "Estimated GMAT Focus Range".
 
 ## Roadmap
-See `ROADMAP.md` for the current schedule. Open items include the Stripe go-live checkpoint (`PAYMENTS_LIVE`), SFN Assist AI coaching, an undergraduate rankings vertical to pair with the SAT trainer, and GRE and LSAT builds through the same exam registry.
+See `ROADMAP.md` for the current schedule. Open items include the Stripe go-live checkpoint (`PAYMENTS_LIVE`), SFN Assist AI coaching, an undergraduate rankings vertical to pair with the SAT trainer, and the MCAT and Executive Assessment builds, which are blocked on source access rather than on engineering (see ROADMAP.md).

@@ -1,6 +1,6 @@
-"""One schema, three exams.
+"""One schema, four exams.
 
-An equation is an equation. What differs between the GMAT, the GRE and the SAT is
+An equation is an equation. What differs between the GMAT, the GRE, the SAT and the ACT is
 how the content is bucketed, how many answer choices there are, and how hard the
 typical item runs. So the schemas are written once and remapped here, rather than
 written three times and drifting apart three ways.
@@ -62,6 +62,30 @@ GRE_MAP = {
     "gre_data": ["sat_psda_center", "sat_psda_prob", "sat_psda_table", "sat_psda_model"],
 }
 
+# ACT Mathematics, filed under ACT's own eight reporting categories (ACT publishes the
+# percentage of the section each one carries). Every schema sits under the category whose
+# published description actually names its content: "Integrating Essential Skills" is ACT's
+# own name for rates, percentages, proportional relationships, area and volume, and average
+# and median, which is exactly the SAT problem-solving and data-analysis pool, so that is
+# where those schemas go rather than under Statistics and Probability.
+#
+# ACT does not publish a Modeling item count because Modeling is scored across the other
+# categories rather than alongside them, so it is not a bucket here.
+ACT_MAP = {
+    "act_m_nq": ["sat_adv_exprules", "sat_adv_radical"],
+    "act_m_alg": ["sat_alg_linear1", "sat_alg_distribute", "sat_alg_system",
+                  "sat_alg_inequality", "sat_alg_abs", "sat_alg_word",
+                  "sat_adv_quadroots", "sat_adv_polyfactor", "sat_adv_nonlinsys"],
+    "act_m_fun": ["sat_alg_feval", "sat_adv_vertex", "sat_adv_exponential",
+                  "sat_adv_rational"],
+    "act_m_geo": ["sat_geo_angles", "sat_geo_pythag", "sat_geo_circle", "sat_geo_rect",
+                  "sat_geo_volume", "sat_geo_similar", "sat_geo_trig", "sat_geo_parallel",
+                  "sat_alg_slope", "sat_alg_parperp"],
+    "act_m_sp": ["sat_psda_center", "sat_psda_prob", "sat_psda_table", "sat_psda_model"],
+    "act_m_ies": ["sat_psda_percent", "sat_psda_pctchange", "sat_psda_rate",
+                  "sat_psda_units"],
+}
+
 GMAT_MAP = {
     "q_rrp": ["sat_psda_percent", "sat_psda_pctchange", "sat_psda_rate",
               "sat_psda_units", "sat_adv_exponential"],
@@ -77,6 +101,10 @@ GMAT_MAP = {
 # remapped schema moves up one band. Anything already at the top stays there.
 GRE_BUMP = 1
 GMAT_BUMP = 1
+# The ACT draws on the same school mathematics as the SAT and, like the SAT, gives four answer
+# choices, so nothing shifts. What differs is pace, about 60 seconds a question against the
+# SAT's 95, and that is a section setting rather than an item property.
+ACT_BUMP = 0
 
 
 def build_for(exam, pool):
@@ -85,6 +113,8 @@ def build_for(exam, pool):
         table, section, bump = GRE_MAP, "Q", GRE_BUMP
     elif exam == "gmat":
         table, section, bump = GMAT_MAP, "Q", GMAT_BUMP
+    elif exam == "act":
+        table, section, bump = ACT_MAP, "M", ACT_BUMP
     else:
         raise ValueError(exam)
     out = {}
