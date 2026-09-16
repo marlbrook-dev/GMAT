@@ -1,0 +1,95 @@
+{
+ "slug": "beth-medrash-govoha-nj",
+ "unitid": 183804,
+ "name": "Beth Medrash Govoha",
+ "city": "Lakewood",
+ "state": "NJ",
+ "region": "Northeast",
+ "type": "Private nonprofit",
+ "website": "https://bmg.edu/",
+ "carnegie": "Baccalaureate and associate's",
+ "carnegie_code": "24",
+ "health_special_focus": false,
+ "scorecard": "https://collegescorecard.ed.gov/school/?183804-Beth-Medrash-Govoha",
+ "profile": {
+  "admit_rate_pct": {
+   "v": null
+  },
+  "sat_avg": {
+   "v": null
+  },
+  "sat_reading_mid": {
+   "v": null
+  },
+  "sat_math_mid": {
+   "v": null
+  },
+  "act_mid": {
+   "v": null
+  },
+  "test_policy": {
+   "v": null
+  },
+  "undergrads": {
+   "v": 4027,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?183804-Beth-Medrash-Govoha",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "net_price_usd": {
+   "v": null
+  },
+  "cost_attendance_usd": {
+   "v": null
+  },
+  "tuition_in_state_usd": {
+   "v": null
+  },
+  "tuition_out_state_usd": {
+   "v": null
+  },
+  "grad_rate_6yr_pct": {
+   "v": null
+  },
+  "retention_pct": {
+   "v": null
+  },
+  "earnings_10yr_usd": {
+   "v": 47544,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?183804-Beth-Medrash-Govoha",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "median_debt_usd": {
+   "v": null
+  },
+  "pell_pct": {
+   "v": 74.5,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?183804-Beth-Medrash-Govoha",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "federal_loan_pct": {
+   "v": 0.0,
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?183804-Beth-Medrash-Govoha",
+   "release": "2026 release, Most Recent Cohorts institution file"
+  }
+ },
+ "scholarship": {
+  "pct_receiving": {
+   "v": null
+  },
+  "avg_award_usd": {
+   "v": null
+  },
+  "auto_considered": {
+   "v": null
+  },
+  "notes": null
+ }
+}

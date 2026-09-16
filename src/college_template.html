@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="manifest" href="/manifest.json"><link rel="icon" href="/icons/icon-192.png" type="image/png"><meta name="theme-color" content="#122B4E"><link rel="apple-touch-icon" href="/icons/icon-180.png">
+<title>{{NAME}}: Cost, Outcomes, and Admissions Data</title>
+<meta name="description" content="{{DESC}}">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Manrope:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="canonical" href="https://startfromnowhere.com/colleges/{{SLUG}}/">
+<script type="application/ld+json">{{LD}}</script>
+<script type="application/ld+json">{{BREADCRUMB_LD}}</script>
+<link rel="stylesheet" href="{{CSS_HREF}}">
+<style>
+.ppage{max-width:940px}
+.stat{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--gray-100)}
+.stat:last-child{border-bottom:none}
+.stat .k{font-size:14px;color:var(--gray-700)}
+.stat .v{font-family:var(--mono);font-weight:500;font-size:15px;color:var(--navy-900);text-align:right}
+.stat .s{font-size:11px;color:var(--gray-500);text-align:right;max-width:190px}
+.panel{border:1px solid var(--gray-200);border-radius:12px;padding:16px 18px;margin:14px 0;background:#fff}
+.panel h2{font-size:18px;margin-bottom:8px}
+.scorehead{display:flex;flex-wrap:wrap;gap:18px;align-items:center;margin:10px 0 2px}
+.bigscore{font-family:var(--display);font-weight:800;font-size:40px;color:var(--navy-800);line-height:1}
+.comp{display:grid;grid-template-columns:132px 1fr 46px;gap:8px;align-items:center;margin:7px 0;font-size:13px}
+.bar{height:8px;border-radius:4px;background:var(--gray-100);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--navy-600)}
+.unranked{background:var(--gray-50);border:1px solid var(--gray-200);border-radius:10px;padding:12px 14px;font-size:13.5px;color:var(--gray-700)}
+.crumb{font-size:12.5px;color:var(--gray-500);margin:14px 0 0}
+.note{font-size:12.5px;color:var(--gray-500)}
+</style></head><body>
+{{SITE_HEADER}}
+<div class="wrap ppage">
+<p class="crumb"><a href="/colleges/">College Rankings</a> / {{NAME}}</p>
+<div class="hero" style="border:none;padding:14px 0 10px">
+<p class="eyebrow">{{TYPE}} · {{CITY}}, {{STATE}}{{CARNEGIE_BIT}}</p>
+<h1>{{NAME}}</h1>
+{{RANK_LINE}}
+</div>
+{{SCORE_PANEL}}
+<div class="panel"><h2>Cost</h2>{{COST_ROWS}}
+<p class="note">Net price is the average a student actually pays after grant aid, and for a public university it is the in-state figure, the only one the Scorecard publishes. Sticker price is shown beside it.</p></div>
+<div class="panel"><h2>Outcomes</h2>{{OUTCOME_ROWS}}</div>
+<div class="panel"><h2>Admissions</h2>{{ADMIT_ROWS}}
+<p class="note">These are reported because you need them to plan. They are not part of the score: rewarding a school for turning applicants away measures demand, not teaching.</p></div>
+<div class="panel"><h2>Scholarships and Institutional Aid</h2>{{SCHOL}}</div>
+<div class="panel"><h2>Sources</h2>
+<p class="note">Every figure on this page comes from the US Department of Education College Scorecard, {{RELEASE}}. Check any of them against this school's own record: <a href="{{SCORECARD}}" rel="nofollow noopener" target="_blank">College Scorecard entry for {{NAME}}</a>. Figures the Scorecard does not report show a dash; nothing here is estimated.</p>
+{{WEBSITE_LINE}}
+</div>
+<p class="crumb"><a href="/colleges/">Back to all {{N}} colleges</a> · <a href="/colleges/methodology/">How the score works</a> · <a href="/sat/app/">Practice for the SAT</a></p>
+</div>
+{{SITE_FOOTER}}
+</body></html>

@@ -23,3 +23,6 @@ src/shot_*.png
 /src/generated/
 __pycache__/
 *.pyc
+
+# Generated college rankings; data/colleges/ is the source of truth.
+/colleges/
