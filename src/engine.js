@@ -53,6 +53,41 @@ const SAT_SECTIONS = {
  M:{name:'Math',short:'Math',allot:95,questions:22,minutes:35,modules:2,
      domainOrder:['m_alg','m_adv','m_psda','m_geo']}
 };
+// GRE General Test. Structure from ETS: Analytical Writing, then Verbal Reasoning in two
+// sections of 12 and 15 questions (18 and 23 minutes), then Quantitative Reasoning in two
+// sections of 12 and 15 (21 and 26 minutes), about 1 hour 58 minutes of testing. Verbal and
+// Quantitative are section-level adaptive: the difficulty of the second section depends on
+// performance on the first, which is the same shape as the digital SAT, so the module
+// machinery is shared rather than duplicated.
+//
+// We train Verbal and Quantitative. Analytical Writing is a single 30-minute essay scored
+// 0 to 6 by a human and an engine; scoring an essay is not something this trainer does, so
+// it is documented on the exam guide and deliberately not simulated here.
+const GRE_SKILLS = [
+ {id:'gre_rc',section:'V',label:'Reading Comprehension',range:'roughly half of the Verbal questions',lo:12,hi:14,
+  points:['Main idea and primary purpose','Inference from incomplete data','Author assumptions and perspective','Text structure and the function of a sentence','Strengthen and weaken an argument','Vocabulary in context']},
+ {id:'gre_tc',section:'V',label:'Text Completion',range:'roughly a quarter of the Verbal questions',lo:6,hi:8,
+  points:['One blank with five choices','Two or three blanks with three choices each','Reading the whole passage before committing to a blank','Signal words that reverse or continue a thought']},
+ {id:'gre_se',section:'V',label:'Sentence Equivalence',range:'roughly a quarter of the Verbal questions',lo:6,hi:8,
+  points:['Six choices, select exactly two','Both choices must produce sentences alike in meaning','Traps built from near synonyms that change the sentence','Predicting the blank before reading the choices']},
+ {id:'gre_arith',section:'Q',label:'Arithmetic',range:'arithmetic topics',lo:6,hi:8,
+  points:['Integers, divisibility, remainders','Fractions, decimals and percents','Ratios and proportion','Exponents and roots','Absolute value and number line reasoning']},
+ {id:'gre_alg',section:'Q',label:'Algebra',range:'algebra topics',lo:6,hi:8,
+  points:['Linear and quadratic equations','Inequalities','Simultaneous equations','Functions and sequences','Word problems translated into algebra']},
+ {id:'gre_geo',section:'Q',label:'Geometry',range:'geometry topics',lo:5,hi:7,
+  points:['Lines, angles and triangles','Circles','Polygons and area','Three-dimensional figures and volume','Coordinate geometry']},
+ {id:'gre_data',section:'Q',label:'Data Analysis',range:'data analysis topics',lo:6,hi:8,
+  points:['Mean, median, mode and range','Standard deviation and distributions','Counting, permutations and combinations','Probability','Reading graphs and tables']}
+];
+// Verbal 12 then 15 in 18 then 23 minutes; Quantitative 12 then 15 in 21 then 26 minutes.
+// allot is the per-question pace those lengths imply. moduleSizes carries the unequal pair,
+// which is the one structural difference from the SAT, whose modules are equal.
+const GRE_SECTIONS = {
+ V:{name:'Verbal Reasoning',short:'Verbal',allot:90,questions:12,minutes:18,modules:2,
+    moduleSizes:[12,15],moduleMinutes:[18,23],domainOrder:['gre_rc','gre_tc','gre_se']},
+ Q:{name:'Quantitative Reasoning',short:'Quantitative',allot:105,questions:12,minutes:21,modules:2,
+    moduleSizes:[12,15],moduleMinutes:[21,26],domainOrder:['gre_arith','gre_alg','gre_geo','gre_data']}
+};
 // Exam registry. Adding an exam (GRE, LSAT, ACT...) = a new entry here plus a tagged bank.
 // Progress is stored per exam, so a student can train for two exams without the ratings mixing.
 const EXAMS = {
@@ -66,7 +101,16 @@ const EXAMS = {
    scoreScale:'400-1600',sectionScale:'200-800',choices:4,adaptive:'module',
    scale:{min:400,max:1600,step:10,offset:0,center:1000,slope:200,
           sectionMin:200,sectionMax:800,sectionCenter:500,sectionSlope:100,
-          minBand:30,minAttempts:40,calibration:'internal'}}
+          minBand:30,minAttempts:40,calibration:'internal'}},
+ // GRE reports 130 to 170 per measure in 1-point steps. The 260 to 340 total is the
+ // conventional sum rather than a scale ETS publishes, so it is labeled as a range across
+ // the two measures we train. The band floor is 5 points, which is the same share of the
+ // scale that 30 points is on the GMAT, not a tighter claim on a smaller scale.
+ 'gre': {id:'gre',name:'GRE General Test',short:'GRE',sections:GRE_SECTIONS,skills:GRE_SKILLS,
+   scoreScale:'260-340',sectionScale:'130-170',choices:5,adaptive:'module',
+   scale:{min:260,max:340,step:1,offset:0,center:300,slope:14,
+          sectionMin:130,sectionMax:170,sectionCenter:150,sectionSlope:7,
+          minBand:5,minAttempts:40,calibration:'internal'}}
 };
 // EXAM_ID is injected by the build (one app per exam). Node test runs default to the GMAT.
 const CURRENT_EXAM = (typeof EXAM_ID !== 'undefined' && EXAMS[EXAM_ID]) ? EXAM_ID : 'gmat-focus';
@@ -311,6 +355,8 @@ function gradeSpr(q,raw){
 // Grade a chosen answer against a question, independent of any UI. chosen: index, [i,j] for TPA, array for GI/TA, typed string for SPR.
 function gradeChosen(q,chosen){
  if(q.answerType==='spr') return gradeSpr(q,chosen);
+ if(q.answerType==='se') return Array.isArray(chosen)&&chosen.length===2&&Array.isArray(q.answer)&&q.answer.length===2
+  &&chosen.slice().sort().join(',')===q.answer.slice().sort().join(',');
  if(q.answerType==='tpa') return Array.isArray(chosen)&&chosen[0]===q.answer[0]&&chosen[1]===q.answer[1];
  if(q.answerType==='gi') return Array.isArray(chosen)&&chosen.every((v,i)=>v===q.statements[i].answer);
  if(q.answerType==='ta') return Array.isArray(chosen)&&chosen.every((v,i)=>v===q.statements[i].answer);

@@ -10,6 +10,8 @@ GMAT_BANKS = ["bank_quant.js","bank_quant2.js","bank_quant3.js","bank_quant4.js"
               "cards.js","cards2.js","cards3.js","playbook_gmat.js"]
 SAT_BANKS = ["bank_sat_rw.js","bank_sat_rw2.js","bank_sat_rw3.js","bank_sat_rw4.js","bank_sat_rw5.js","bank_sat_math.js","bank_sat_math2.js","bank_sat_math3.js","bank_sat_math4.js","bank_sat_math5.js","bank_sat_easy.js","cards_sat.js","cards_sat2.js","playbook_sat.js"]
 
+GRE_BANKS = ["bank_gre_verbal.js","bank_gre_quant.js","bank_gre_easy.js","cards_gre.js","playbook_gre.js"]
+
 APPS = [
     {"exam": "gmat-focus", "out": "app", "files": GMAT_BANKS,
      "concat": ("BANK_QUANT, BANK_QUANT2, BANK_QUANT3, BANK_QUANT4, BANK_QUANT5, BANK_QUANT6, "
@@ -29,6 +31,16 @@ APPS = [
      "title": "Start From Nowhere | Adaptive Digital SAT Trainer",
      "desc": ("Start From Nowhere: adaptive digital SAT practice across the eight official content "
               "domains, with two-module mock sections that route like the real exam."),
+     "is_404": False},
+    {"exam": "gre", "out": "gre/app", "files": GRE_BANKS,
+     "concat": "BANK_GRE_VERBAL, BANK_GRE_QUANT, BANK_GRE_EASY",
+     "footer": ("GRE is a registered trademark of ETS, which does not endorse this product. Practice items are "
+                "original and written for Start From Nowhere. The trainer covers Verbal Reasoning and Quantitative "
+                "Reasoning; Analytical Writing is a scored essay and is not simulated here. Score ranges shown are "
+                "internal estimates, not official GRE scores."),
+     "title": "Start From Nowhere | Adaptive GRE Trainer",
+     "desc": ("Start From Nowhere: adaptive GRE practice across Verbal Reasoning and Quantitative Reasoning, "
+              "with section-adaptive mock sections that route like the real exam."),
      "is_404": False},
 ]
 
@@ -176,10 +188,21 @@ for name in ["terms.html", "privacy.html"]:
         print(f"ERROR: unresolved placeholder in {name}", file=sys.stderr); sys.exit(1)
     (root/name).write_text(page)
 
-for p in [root/"app"/"index.html", root/"sat"/"app"/"index.html", root/"index.html", root/"community"/"index.html", root/"international"/"index.html", root/"terms.html", root/"privacy.html"]:
+# Parse every inline script in every built app plus the standalone pages. The app list is
+# derived from APPS rather than hardcoded, so a new exam is covered the day it is added
+# instead of quietly shipping unparsed.
+_app_pages = [root / a["out"] / "index.html" for a in APPS]
+for p in _app_pages + [root/"index.html", root/"community"/"index.html",
+                       root/"international"/"index.html", root/"scoring"/"index.html",
+                       root/"funding"/"index.html", root/"terms.html", root/"privacy.html"]:
     check_scripts(p)
-print("built app/index.html (%d bytes, %d items) and sat/app/index.html (%d bytes, %d items); landing, community/, terms, privacy built; inline scripts parse"
-      % (len(built["gmat-focus"][1]), bank_count, len(built["sat"][1]), sat_bank_count))
+_summary = ", ".join(
+    "%s/index.html (%d bytes, %d items)" % (
+        a["out"], len(built[a["exam"]][1]),
+        len(_re.findall(r"\{\s*id: ?'[A-Z]{2}\d", built[a["exam"]][2])) or
+        len(_re.findall(r"\{\s*id: ?'[QVD]", built[a["exam"]][2])))
+    for a in APPS)
+print("built " + _summary + "; landing, community/, terms, privacy built; inline scripts parse")
 
 import subprocess as _sp
 _sp.run([sys.executable, str(d/"build_rankings.py")], check=True)

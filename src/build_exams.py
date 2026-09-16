@@ -12,8 +12,8 @@ ROOT = D.parent
 sys.path.insert(0, str(D))
 import partials
 SITE = "https://startfromnowhere.com"
-LIVE = {"gmat", "sat"}  # exams with a live trainer today
-APP_PATH = {"gmat": "/app/", "sat": "/sat/app/"}  # where each live trainer lives
+LIVE = {"gmat", "sat", "gre"}  # exams with a live trainer today
+APP_PATH = {"gmat": "/app/", "sat": "/sat/app/", "gre": "/gre/app/"}  # where each live trainer lives
 
 # Plan feature matrix for /pricing/. Values: True = included, False = not
 # included, string = shown verbatim. Order defines the page.

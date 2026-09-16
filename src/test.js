@@ -5,6 +5,9 @@ const fs=require('fs'), vm=require('vm');
 const GMAT={id:'gmat-focus',choices:5,
  files:['bank_quant.js','bank_quant2.js','bank_quant3.js','bank_quant4.js','bank_quant5.js','bank_quant6.js','bank_verbal.js','bank_verbal2.js','bank_verbal3.js','bank_verbal4.js','bank_verbal5.js','bank_verbal6.js','bank_verbal7.js','bank_verbal8.js','bank_di.js','bank_di2.js','bank_di3.js','bank_di4.js','bank_di5.js','bank_di6.js','bank_di7.js','bank_di8.js','bank_di9.js','cards.js','cards2.js','cards3.js','playbook_gmat.js'],
  concat:'BANK_QUANT,BANK_QUANT2,BANK_QUANT3,BANK_QUANT4,BANK_QUANT5,BANK_QUANT6,BANK_VERBAL,BANK_VERBAL2,BANK_VERBAL3,BANK_VERBAL4,BANK_VERBAL5,BANK_VERBAL6,BANK_VERBAL7,BANK_VERBAL8,BANK_DI,BANK_DI2,BANK_DI3,BANK_DI4,BANK_DI5,BANK_DI6,BANK_DI7,BANK_DI8,BANK_DI9'};
+const GRE={id:'gre',choices:5,choicesByType:{QC:4},
+ files:['bank_gre_verbal.js','bank_gre_quant.js','bank_gre_easy.js','cards_gre.js','playbook_gre.js'],
+ concat:'BANK_GRE_VERBAL,BANK_GRE_QUANT,BANK_GRE_EASY'};
 const SAT={id:'sat',choices:4,
  files:['bank_sat_rw.js','bank_sat_rw2.js','bank_sat_rw3.js','bank_sat_rw4.js','bank_sat_rw5.js','bank_sat_math.js','bank_sat_math2.js','bank_sat_math3.js','bank_sat_math4.js','bank_sat_math5.js','bank_sat_easy.js','cards_sat.js','cards_sat2.js','playbook_sat.js'],
  concat:'BANK_SAT_RW,BANK_SAT_RW2,BANK_SAT_RW3,BANK_SAT_RW4,BANK_SAT_RW5,BANK_SAT_MATH,BANK_SAT_MATH2,BANK_SAT_MATH3,BANK_SAT_MATH4,BANK_SAT_MATH5,BANK_SAT_EASY'};
@@ -37,10 +40,15 @@ function runExam(exam){
   if(q.answerType==='tpa'){ if(!Array.isArray(q.answer)||q.answer.some(a=>a<0||a>=q.choices.length)) bad.push('tpa ans '+q.id); }
   else if(q.answerType==='gi'||q.answerType==='ta'){ if(!q.statements||!q.statements.length) bad.push('stmts '+q.id); }
   else if(q.answerType==='spr'){ if(typeof q.answer!=='string'||!q.answer.length) bad.push('spr ans '+q.id); }
+  else if(q.answerType==='se'){ if(!Array.isArray(q.answer)||q.answer.length!==2
+   ||q.answer.some(a=>typeof a!=='number'||a<0||a>=q.choices.length)
+   ||q.answer[0]===q.answer[1]) bad.push('se ans '+q.id);
+   if(q.choices.length!==6) bad.push('se nchoices '+q.id+' '+q.choices.length); }
   else if(typeof q.answer!=='number'||q.answer<0||q.answer>=q.choices.length) bad.push('ans '+q.id);
   if(!q.expl) bad.push('expl '+q.id);
   if([1,2,3,4,5].indexOf(q.diff)<0) bad.push('diff '+q.id);
-  if(!q.answerType&&q.choices.length!==exam.choices) bad.push('nchoices '+q.id+' '+q.choices.length);
+  if(!q.answerType&&q.choices.length!==(exam.choicesByType&&exam.choicesByType[q.type]||exam.choices))
+   bad.push('nchoices '+q.id+' '+q.choices.length);
   if(/[—–]/.test(JSON.stringify(q))) bad.push('dash '+q.id);
  });
  const secCount={}; BANK.forEach(q=>secCount[q.section]=(secCount[q.section]||0)+1);
@@ -237,6 +245,6 @@ function runExam(exam){
  console.log('  items per skill '+JSON.stringify(dist));
 }
 
-[GMAT,SAT].forEach(runExam);
+[GMAT,SAT,GRE].forEach(runExam);
 console.log('\n'+(failures?failures+' FAILURE(S)':'all checks passed'));
 process.exit(failures?1:0);

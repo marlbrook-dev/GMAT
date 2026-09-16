@@ -55,8 +55,8 @@ _NAV_GROUPS = [
     ("Exam Prep", [
         ("GMAT Focus Edition", "/exams/gmat/", "Live"),
         ("SAT", "/exams/sat/", "Live"),
+        ("GRE General Test", "/exams/gre/", "Live"),
         ("Executive Assessment", "/exams/executive-assessment/", "In Development"),
-        ("GRE General Test", "/exams/gre/", "In Development"),
         ("LSAT", "/exams/lsat/", "In Development"),
         ("MCAT", "/exams/mcat/", "In Development"),
         ("ACT", "/exams/act/", "In Development"),
