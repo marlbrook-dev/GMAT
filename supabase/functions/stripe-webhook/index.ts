@@ -32,6 +32,23 @@ async function userIdFor(sub: Stripe.Subscription): Promise<string | null> {
   return data?.id ?? null;
 }
 
+// Stripe does not guarantee the order webhook events arrive in. A subscription.deleted
+// landing after a subscription.updated would resurrect a cancelled plan; the reverse would
+// downgrade a paying customer. Writing the event payload is therefore never safe. Re-read
+// the subscription and write what Stripe says it is right now, which is correct whatever
+// order the events turned up in and costs one API call on an event we already handle.
+//
+// If the re-read fails, fall back to the payload rather than dropping the event: stale
+// state beats no state, and the handler throwing would make Stripe retry anyway.
+async function currentSub(sub: Stripe.Subscription): Promise<Stripe.Subscription> {
+  try {
+    return await stripe.subscriptions.retrieve(sub.id);
+  } catch (e) {
+    console.error("subscription re-read failed, using event payload", sub.id, String(e));
+    return sub;
+  }
+}
+
 // Pinned to API version 2024-06-20, where current_period_end sits on the subscription.
 // Stripe moved it onto subscription items in 2025 versions; if you bump apiVersion above,
 // this is the line that needs to change.
@@ -82,9 +99,12 @@ Deno.serve(async (req: Request) => {
         });
       }
     } else if (event.type === "customer.subscription.deleted") {
-      const sub = event.data.object as Stripe.Subscription;
+      const raw = event.data.object as Stripe.Subscription;
+      const sub = await currentSub(raw);
       const uid = await userIdFor(sub);
-      if (uid) {
+      // A delete can be overtaken by a later update only if the subscription actually came
+      // back, which currentSub would show. Trust the re-read over the event payload.
+      if (uid && sub.status !== "active" && sub.status !== "trialing") {
         await writeProfile(uid, {
           plan: "free",
           plan_status: "canceled",
@@ -94,9 +114,11 @@ Deno.serve(async (req: Request) => {
           plan_interval: null,
           plan_amount_cents: null,
         });
+      } else if (uid) {
+        await writeProfile(uid, subPatch(sub));
       }
     } else if (event.type === "customer.subscription.updated") {
-      const sub = event.data.object as Stripe.Subscription;
+      const sub = await currentSub(event.data.object as Stripe.Subscription);
       const uid = await userIdFor(sub);
       if (uid) await writeProfile(uid, subPatch(sub));
     }

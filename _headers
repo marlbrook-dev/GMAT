@@ -1,5 +1,17 @@
+# Cloudflare applies these to every response. Kept here rather than in a Worker so the
+# rules are reviewable in one place.
+#
+# CSP note: the site is built as self-contained pages with inline <script> blocks (the
+# analytics beacon, the sentinel, and the whole trainer), so 'unsafe-inline' is required
+# for script-src until those are extracted to files. It is still worth shipping: the value
+# here is connect-src, which pins where the page may send data, plus frame-ancestors,
+# base-uri, form-action and object-src. Those close the routes that actually matter on a
+# site that takes payments and renders user-submitted forum posts.
 /*
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
   Cache-Control: public, max-age=300
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=(), interest-cohort=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https://ftsqwbzhkzuudogkvoqa.supabase.co; form-action 'self' https://checkout.stripe.com https://billing.stripe.com; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests
