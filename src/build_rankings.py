@@ -241,6 +241,33 @@ def load_schools():
         return json.loads(legacy.read_text())
     return None
 
+
+def schol_cell(s):
+    """Scholarship review policy as a badge. Sourced from the school's own aid pages; a
+    school that does not state a policy renders as a dash rather than an assumption, and
+    sorts last in both directions."""
+    sch = s.get("scholarship") or {}
+    rev = (sch.get("review") or {}).get("v")
+    pct = (sch.get("pct_receiving") or {}).get("v")
+    avg = (sch.get("avg_award_usd") or {}).get("v")
+    # A school can publish what it awards without publishing how it reviews, and vice
+    # versa. Show whichever half exists rather than hiding real data behind a missing field.
+    badge = ""
+    if rev == "automatic":
+        badge = '<span class="schol ok">Automatic</span>'
+    elif rev == "separate":
+        badge = '<span class="schol warn">Apply separately</span>'
+    bits = []
+    if pct is not None:
+        bits.append(f"{pct}% get one")
+    if avg is not None:
+        bits.append(f"avg ${avg:,.0f}/yr")
+    note = f'<span class="note">{", ".join(bits)}</span>' if bits else ""
+    if not badge and not note:
+        return '<span class="note">-</span>'
+    return badge + note
+
+
 def main():
     schools = load_schools()
     if schools is None:
@@ -298,6 +325,7 @@ def main():
             f'<td class="num{acc_cls}">{fmt(acc, "%")}</td>'
             f'<td class="num colx">{fmt(field(s, "class_size"))}</td>'
             f'<td class="num">{fmt(field(s, "intl_pct"), "%")}</td>'
+            f'<td>{schol_cell(s)}</td>'
             f'<td class="num">{tuition_cell}</td>'
             f'<td class="num">{fmt(field(s, "employment_rate_pct"), "%")}</td>'
             f'<td class="expcell"><span class="car">&#9660;</span></td>'

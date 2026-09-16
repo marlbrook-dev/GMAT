@@ -63,6 +63,9 @@ tr.srow{cursor:pointer}tr.srow:hover{background:var(--navy-50)}
 td.rank{font-family:var(--mono);font-weight:600;font-size:16px;color:var(--navy-900)}
 .sname{font-family:var(--display);font-weight:700;color:var(--navy-900);font-size:14.5px}
 .sloc{font-size:12px;color:var(--gray-500)}
+.schol{display:inline-block;font-family:var(--display);font-weight:700;font-size:11px;letter-spacing:.01em;border-radius:999px;padding:2px 8px;white-space:nowrap}
+.schol.ok{background:var(--green-50);color:var(--green-600)}
+.schol.warn{background:var(--gold-100,#FBF3E2);color:var(--gold-700)}
 .note{display:block;font-size:10.5px;color:var(--gray-500);text-transform:uppercase;letter-spacing:.04em}
 .na{color:var(--gray-300)}
 .addbtn{font-family:var(--display);font-weight:700;font-size:12px;border:1px solid var(--gray-300);background:#fff;border-radius:999px;padding:5px 11px;cursor:pointer;white-space:nowrap}
@@ -152,6 +155,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
 <label><input type="checkbox" data-g="intl" value="mid" onchange="applyFilters()">25 to 40%</label>
 <label><input type="checkbox" data-g="intl" value="lo" onchange="applyFilters()">Under 25%</label>
 <label><input type="checkbox" data-g="intl" value="pub" onchange="applyFilters()">Publishes the figure at all</label></div>
+<div class="fgroup"><div class="flab">Scholarship review</div><label><input type="checkbox" data-g="schol" value="auto" onchange="applyFilters()">Every admit considered automatically</label><label><input type="checkbox" data-g="schol" value="sep" onchange="applyFilters()">Separate application required</label><label><input type="checkbox" data-g="schol" value="pub" onchange="applyFilters()">States its policy at all</label></div>
 <div class="fgroup"><div class="ft">Ranking basis</div>
 <label><input type="checkbox" data-g="basis" value="consensus" onchange="applyFilters()">Publisher consensus</label>
 <label><input type="checkbox" data-g="basis" value="data" onchange="applyFilters()">Data-based score</label></div>
@@ -183,6 +187,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
 <th class="num" onclick="sortBy('accept')">Accept</th>
 <th class="num colx" onclick="sortBy('size')">Class</th>
 <th class="num" onclick="sortBy('intl')" title="Share of the class holding a non-US passport, as each school reports it on its own class profile">Intl</th>
+<th onclick="sortBy('schol')" title="Whether every admitted student is considered for scholarship automatically, or a separate application is required. Sourced from each school's own financial aid pages; a dash means the school does not state it.">Scholarship</th>
 <th class="num" onclick="sortBy('tuition')">Tuition/yr</th>
 <th class="num" onclick="sortBy('employ')" title="Employment rate about 3 months after graduation, as each school reports it">Employ</th>
 <th></th>
@@ -251,7 +256,7 @@ function checkedSet(group){ var out={}; var any=false;
  return any?out:null; }
 function applyFilters(){
  var q=document.getElementById('q').value.toLowerCase();
- var G={region:checkedSet('region'),type:checkedSet('type'),gmat:checkedSet('gmat'),accept:checkedSet('accept'),size:checkedSet('size'),tuition:checkedSet('tuition'),intl:checkedSet('intl'),basis:checkedSet('basis')};
+ var G={region:checkedSet('region'),type:checkedSet('type'),gmat:checkedSet('gmat'),accept:checkedSet('accept'),size:checkedSet('size'),tuition:checkedSet('tuition'),intl:checkedSet('intl'),basis:checkedSet('basis'),schol:checkedSet('schol')};
  var shown=0;
  document.querySelectorAll('#rows tr.srow').forEach(function(tr){
   var s=BY[tr.dataset.slug]; var ok=true;
@@ -268,6 +273,9 @@ function applyFilters(){
   if(ok&&G.intl){ var ip=fieldV(s,'intl_pct');
    if(ip==null) ok=false;
    else if(!(G.intl.pub||(G.intl.hi&&ip>=40)||(G.intl.mid&&ip>=25&&ip<40)||(G.intl.lo&&ip<25))) ok=false; }
+  if(ok&&G.schol){ var sr=(s.scholarship&&s.scholarship.review&&s.scholarship.review.v)||null;
+   if(sr==null) ok=false;
+   else if(!(G.schol.pub||(G.schol.auto&&sr==='automatic')||(G.schol.sep&&sr==='separate'))) ok=false; }
   if(ok&&G.basis){ var nsrc=['usnews','ft','bloomberg','qs','pq'].filter(function(k){return rankOf(s,k)!=null;}).length;
    var basis=nsrc>=3?'consensus':'data';
    if(!G.basis[basis]) ok=false; }
@@ -290,7 +298,9 @@ function sortVal(s,key){
  if(key==='employ') return fieldV(s,'employment_rate_pct')==null?-1:fieldV(s,'employment_rate_pct');
  if(key==='accept') return fieldV(s,'accept_rate_pct')==null?999:fieldV(s,'accept_rate_pct');
  if(key==='size') return fieldV(s,'class_size')||0;
- if(key==='intl') return fieldV(s,'intl_pct')==null?-1:fieldV(s,'intl_pct');
+ if(key==='intl') return fieldV(s,'intl_pct');
+ if(key==='schol'){ var v=(s.scholarship&&s.scholarship.review&&s.scholarship.review.v)||null;
+  return v==='automatic'?2:v==='separate'?1:null; }
  if(key==='tuition') return fieldV(s,'tuition_usd')||0;
  return rankOf(s,key)==null?999:rankOf(s,key);
 }
@@ -299,8 +309,10 @@ function sortBy(key){ sortState.asc=sortState.key===key?!sortState.asc:true; sor
  var rows=[].slice.call(tb.querySelectorAll('tr.srow'));
  document.querySelectorAll('tr.detail').forEach(function(d){d.remove();});
  document.querySelectorAll('tr.srow.open').forEach(function(r){r.classList.remove('open');});
- rows.sort(function(a,b){ var x=sortVal(BY[a.dataset.slug],key), y=sortVal(BY[b.dataset.slug],key); return (x<y?-1:x>y?1:0)*(sortState.asc?1:-1); });
- rows.forEach(function(r){tb.appendChild(r);}); }
+ var known=[],unknown=[];
+ rows.forEach(function(r){ var v=sortVal(BY[r.dataset.slug],key); (v==null?unknown:known).push(r); });
+ known.sort(function(a,b){ var x=sortVal(BY[a.dataset.slug],key), y=sortVal(BY[b.dataset.slug],key); return (x<y?-1:x>y?1:0)*(sortState.asc?1:-1); });
+ known.concat(unknown).forEach(function(r){tb.appendChild(r);}); }
 
 // detail rows
 function srcLine(f){ if(!f||f.v==null) return ''; var bits=[]; if(f.src) bits.push(f.src); if(f.year) bits.push(f.year);
