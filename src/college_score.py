@@ -57,6 +57,20 @@ def pct_rank(sorted_vals, v, higher_is_better=True):
     return p if higher_is_better else 100.0 - p
 
 
+def out_state_cost(s):
+    """What a non-resident is charged, on one definition for every school.
+
+    Net price is published for in-state students only, so it cannot answer the
+    out-of-state question. Published out-of-state tuition and fees can, and it is the
+    same measure for everyone: private tuition does not vary by residency, which was
+    checked rather than assumed (all 872 private colleges in the library report
+    identical in-state and out-of-state figures, while the public median premium is
+    11,352 dollars). It is a sticker price rather than a post-aid price, so the two
+    cost views answer different questions and are labelled separately, never blended.
+    """
+    return field(s, "tuition_out_state_usd")
+
+
 def build_distributions(schools):
     """Collect the reported values for each metric so ranks are computed once."""
     keys = ["grad_rate_6yr_pct", "retention_pct", "earnings_10yr_usd",
@@ -69,6 +83,8 @@ def build_distributions(schools):
         if r is not None:
             ratios.append(r)
     dist["debt_ratio"] = sorted(ratios)
+    dist["out_state_cost"] = sorted(
+        v for v in (out_state_cost(s) for s in schools) if v is not None)
     return dist
 
 
@@ -140,6 +156,20 @@ def unranked_reason(s, comps):
     return "Too few reported outcomes to score."
 
 
+# There is deliberately no second, out-of-state SCORE here.
+#
+# The obvious way to build one is to swap net price for published out-of-state
+# tuition, and it produces a table that looks plausible and is wrong: Caltech falls
+# sixteen points and Princeton nearly fourteen, when neither charges a non-resident
+# a different price. What moved was the measure, from post-aid net price to sticker
+# tuition, not the residency. A column labelled "out of state" that mostly reranks
+# private colleges by how much aid they give would mislead precisely the reader it
+# claims to serve.
+#
+# The Scorecard publishes no out-of-state net price, so the honest out-of-state
+# figure is the published tuition differential, which is reported as its own data
+# point on the table and on every college page rather than folded into a score.
+
 def score(s, dist):
     comps = components(s, dist)
     # Special focus health institutions are left unranked whatever they report.
@@ -159,6 +189,10 @@ def rank_all(schools):
         sc, comps = score(s, dist)
         s["sfn_score"] = sc
         s["sfn_components"] = {k: round(v, 1) for k, v in comps.items()}
+        # What a non-resident actually pays extra, straight from two published
+        # figures. No modelling: out-of-state tuition minus in-state tuition.
+        ti, to = field(s, "tuition_in_state_usd"), field(s, "tuition_out_state_usd")
+        s["out_state_premium"] = (to - ti) if (ti is not None and to is not None) else None
         (scored if sc is not None else unscored).append(s)
     scored.sort(key=lambda x: (-x["sfn_score"], x["name"]))
     for i, s in enumerate(scored, 1):

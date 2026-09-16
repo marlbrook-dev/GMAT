@@ -98,6 +98,72 @@ def score_panel(c, n_ranked):
             % (c["sfn_score"], c["sfn_rank"], n_ranked, "".join(bars), n_ranked))
 
 
+def lead_paragraph(c, n_ranked):
+    """The sentences an answer engine can quote.
+
+    A model asked what a college costs lifts a sentence, not a table cell, because a
+    cell carries no subject and no year. Same figures as the panels below, written so
+    they can be quoted whole. Residency is stated explicitly wherever a number depends
+    on it, since that is the difference between a useful answer and a wrong one.
+    """
+    g = lambda k: fv(c, k)
+    out = []
+    where = ", ".join(x for x in (c.get("city"), c.get("state")) if x)
+    out.append("%s is a %s four-year college in %s."
+               % (c["name"], c["type"].lower(), where or c["state"]))
+    ug = g("undergrads")
+    if ug:
+        out.append("It enrolls %s undergraduates." % format(int(ug), ",d"))
+    adm = g("admit_rate_pct")
+    if adm is not None:
+        out.append("The admission rate is %s percent." % plain(adm))
+    ti, to = g("tuition_in_state_usd"), g("tuition_out_state_usd")
+    if ti and to and to > ti:
+        out.append("Tuition and fees are %s a year for in-state students and %s for "
+                   "out-of-state students, a difference of %s."
+                   % (money(ti), money(to), money(to - ti)))
+    elif ti:
+        out.append("Tuition and fees are %s a year, the same for in-state and "
+                   "out-of-state students." % money(ti))
+    npv = g("net_price_usd")
+    if npv:
+        out.append("The average net price after grant aid is %s%s."
+                   % (money(npv), " for in-state students" if c["type"] == "Public" else ""))
+    gr = g("grad_rate_6yr_pct")
+    if gr is not None:
+        out.append("%s percent of students graduate within six years." % plain(gr))
+    ea = g("earnings_10yr_usd")
+    if ea:
+        out.append("Median earnings ten years after entry are %s." % money(ea))
+    if c.get("sfn_score") is not None:
+        out.append("Start From Nowhere ranks it number %d of the %d colleges it scores, on "
+                   "completion, earnings, cost and access."
+                   % (c["sfn_rank"], n_ranked))
+    out.append("Every figure comes from the US Department of Education College Scorecard "
+               "and links to this college's own record there.")
+    return " ".join(out)
+
+
+def title_bits(c):
+    """Promise only what this page holds, in the words people search with."""
+    have = []
+    if fv(c, "admit_rate_pct") is not None:
+        have.append("Acceptance Rate")
+    if fv(c, "net_price_usd") or fv(c, "tuition_in_state_usd"):
+        have.append("Cost")
+    if fv(c, "sat_avg") or fv(c, "act_mid"):
+        have.append("SAT Scores")
+    if fv(c, "grad_rate_6yr_pct") is not None:
+        have.append("Graduation Rate")
+    if len(have) >= 3:
+        return "%s, %s, and %s" % (have[0], have[1], have[2])
+    if len(have) == 2:
+        return "%s and %s" % (have[0], have[1])
+    if have:
+        return have[0]
+    return "Costs and Outcomes"
+
+
 def college_page(c, tpl, css_href, n_ranked, n_total):
     p = c["profile"]
     cost = "".join([
@@ -105,7 +171,12 @@ def college_page(c, tpl, css_href, n_ranked, n_total):
                  "in-state" if c["type"] == "Public" else "after grant aid"),
         stat_row("Cost of attendance", money(fv(c, "cost_attendance_usd")), "sticker price"),
         stat_row("Tuition and fees, in state", money(fv(c, "tuition_in_state_usd"))),
-        stat_row("Tuition and fees, out of state", money(fv(c, "tuition_out_state_usd"))),
+        stat_row("Tuition and fees, out of state", money(fv(c, "tuition_out_state_usd")),
+                 "same as in-state" if c.get("out_state_premium") == 0 else ""),
+        stat_row("Out-of-state premium",
+                 ("+" + money(c["out_state_premium"])) if c.get("out_state_premium")
+                 else ("none" if c.get("out_state_premium") == 0 else "-"),
+                 "what a non-resident pays on top"),
         stat_row("Median debt at graduation", money(fv(c, "median_debt_usd"))),
         stat_row("Students with federal loans", pct(fv(c, "federal_loan_pct"))),
     ])
@@ -171,6 +242,8 @@ def college_page(c, tpl, css_href, n_ranked, n_total):
                  'target="_blank">%s</a></p>' % (esc(c["website"]), esc(c["website"]))
                  ) if c.get("website") else ""
     out_html = (tpl.replace("{{CSS_HREF}}", css_href)
+                .replace("{{TITLE_BITS}}", esc(title_bits(c)))
+                .replace("{{LEAD}}", esc(lead_paragraph(c, n_ranked)))
                 .replace("{{NAME}}", esc(c["name"]))
                 .replace("{{SLUG}}", esc(c["slug"]))
                 .replace("{{DESC}}", esc(desc))
@@ -198,7 +271,7 @@ def college_page(c, tpl, css_href, n_ranked, n_total):
 # Column order for the compact payload. Arrays rather than objects: with 1451 rows,
 # repeating fifteen key names on every one costs more than the data.
 COLS = ["rank", "score", "name", "slug", "city", "state", "type", "net", "grad",
-        "ret", "earn", "debt", "pell", "admit", "sat", "act"]
+        "ret", "earn", "debt", "pell", "admit", "sat", "act", "tin", "tout", "prem"]
 
 # How many rows are written into the HTML itself. Every college has its own indexed
 # page, so the index does not need all 1451 in the DOM to be found; it needs to be
@@ -254,7 +327,9 @@ APP_JS = r"""
     +'<td class="num">'+money(r[I.net])+'</td><td class="num">'+pc(r[I.grad])+'</td>'
     +'<td class="num hidesm">'+pc(r[I.ret])+'</td><td class="num">'+money(r[I.earn])+'</td>'
     +'<td class="num hidesm">'+money(r[I.debt])+'</td><td class="num">'+pc(r[I.pell])+'</td>'
-    +'<td class="num hidesm">'+pc(r[I.admit])+'</td><td class="num hidesm">'+plain(r[I.sat])+'</td></tr>';
+    +'<td class="num hidesm">'+pc(r[I.admit])+'</td><td class="num hidesm">'+plain(r[I.sat])+'</td>'
+    +'<td class="num">'+money(r[I.tout])+'</td>'
+    +'<td class="num hidesm">'+(r[I.prem]?('+'+money(r[I.prem])):'-')+'</td></tr>';
   }).join('');
   if(all.length>show.length){ more.hidden=false;
    more.textContent='Show all '+all.length.toLocaleString('en-US')+' colleges'; }
@@ -278,8 +353,9 @@ APP_JS = r"""
  more.addEventListener('click', function(){ expanded=true; render(); });
  document.getElementById('csv').addEventListener('click', function(){
   var head=['Rank','Score','College','City','State','Type','Net price','Graduation rate',
-            'Retention','Earnings 10yr','Median debt','Pell share','Admit rate','SAT average','ACT'];
-  var keys=['rank','score','name','city','state','type','net','grad','ret','earn','debt','pell','admit','sat','act'];
+            'Retention','Earnings 10yr','Median debt','Pell share','Admit rate','SAT average','ACT',
+            'In-state tuition','Out-of-state tuition','Out-of-state premium'];
+  var keys=['rank','score','name','city','state','type','net','grad','ret','earn','debt','pell','admit','sat','act','tin','tout','prem'];
   var out=[head.join(',')];
   DATA.filter(match).forEach(function(r){
    out.push(keys.map(function(k){ var v=r[I[k]]; if(v===null||v===undefined) v='';
@@ -298,7 +374,8 @@ def payload_row(c):
     return [c["sfn_rank"], c["sfn_score"], c["name"], c["slug"], c.get("city") or "",
             c["state"], c["type"], g("net_price_usd"), g("grad_rate_6yr_pct"),
             g("retention_pct"), g("earnings_10yr_usd"), g("median_debt_usd"),
-            g("pell_pct"), g("admit_rate_pct"), g("sat_avg"), g("act_mid")]
+            g("pell_pct"), g("admit_rate_pct"), g("sat_avg"), g("act_mid"),
+            g("tuition_in_state_usd"), g("tuition_out_state_usd"), c.get("out_state_premium")]
 
 
 def row_html(c):
@@ -310,13 +387,16 @@ def row_html(c):
             '<div class="sloc">%s, %s · %s</div></td>'
             '<td class="num">%s</td><td class="num">%s</td><td class="num hidesm">%s</td>'
             '<td class="num">%s</td><td class="num hidesm">%s</td><td class="num">%s</td>'
-            '<td class="num hidesm">%s</td><td class="num hidesm">%s</td></tr>'
+            '<td class="num hidesm">%s</td><td class="num hidesm">%s</td>'
+            '<td class="num">%s</td><td class="num hidesm">%s</td></tr>'
             % (rank, score, esc(c["slug"]), esc(c["name"]),
                esc(c.get("city") or ""), esc(c["state"]), esc(c["type"]),
                money(g("net_price_usd")), pct(g("grad_rate_6yr_pct"), 0),
                pct(g("retention_pct"), 0), money(g("earnings_10yr_usd")),
                money(g("median_debt_usd")), pct(g("pell_pct"), 0),
-               pct(g("admit_rate_pct"), 0), plain(g("sat_avg"))))
+               pct(g("admit_rate_pct"), 0), plain(g("sat_avg")),
+               money(g("tuition_out_state_usd")),
+               ("+" + money(c["out_state_premium"])) if c.get("out_state_premium") else "-"))
 
 
 CONTROLS = """
@@ -341,6 +421,8 @@ TABLE_HEAD = ('<div style="overflow-x:auto"><table style="width:100%;border-coll
               '<th data-k="ret" class="num hidesm">Retention</th><th data-k="earn" class="num">Earnings</th>'
               '<th data-k="debt" class="num hidesm">Debt</th><th data-k="pell" class="num">Pell</th>'
               '<th data-k="admit" class="num hidesm">Admit</th><th data-k="sat" class="num hidesm">SAT</th>'
+              '<th data-k="tout" class="num">Out-of-State Tuition</th>'
+              '<th data-k="prem" class="num hidesm">Premium</th>'
               '</tr></thead>')
 
 
@@ -364,7 +446,9 @@ def methodology_page(css_href, n_ranked, n_total, updated):
 <p>The reason is simple. Scoring selectivity rewards a school for turning more people away, which measures how many people applied, not what the school does for the ones it admits. A college that rejects 95 percent of applicants has not yet taught anybody anything. Reputation surveys mostly measure how well known a school already was, which makes them very hard for a good school to move and very easy for a famous one to coast on.</p></div>
 
 <div class="panel"><h2>What to Watch Out For</h2>
-<p><strong>Net price for a public university is the in-state figure.</strong> It is the only one the College Scorecard publishes. Public institutions therefore score better on cost than an out-of-state student would actually experience: across the ranked set the median net price is about 9,000 dollars lower at public institutions than private ones, and that feeds a quarter of the score. If you would pay out-of-state rates, read the tuition columns and treat the cost component with suspicion.</p>
+<p><strong>Net price for a public university is the in-state figure.</strong> It is the only one the College Scorecard publishes. Public institutions therefore score better on cost than an out-of-state student would actually experience: across the ranked set the median net price is about 9,000 dollars lower at public institutions than private ones, and that feeds a quarter of the score.</p>
+<p>So the out-of-state side is reported as its own published figures rather than buried. Every table row and every college page carries in-state tuition, out-of-state tuition, and the difference between them. 507 public colleges in this library charge a non-resident premium; the largest is 43,210 dollars. No private college charges one, which was checked rather than assumed: all 872 report identical in-state and out-of-state tuition.</p>
+<p><strong>There is deliberately no second, out-of-state score.</strong> The obvious way to build one is to swap net price for published out-of-state tuition, and it produces a table that looks plausible and is wrong. Caltech falls sixteen points and Princeton nearly fourteen, when neither charges a non-resident a different price. What moved was the measure, from post-aid net price to sticker tuition, not the residency, so the column would mostly be reranking private colleges by how generous their aid is while claiming to describe out-of-state cost. The premium is a fact we can publish; that score is not.</p>
 <p><strong>Earnings cover everyone who enrolled</strong>, not only graduates, and are not adjusted for what students study or where they come from. A school heavy in engineering will out-earn a school heavy in social work without being better at teaching.</p>
 <p><strong>The score is relative.</strong> Each component is a percentile inside this library of four-year nonprofit and public institutions, so a score of 80 means better than 80 percent of them on the weighted mix, not 80 out of 100 in the abstract.</p>
 <p><strong>Special focus medical and health professions institutions are listed but not ranked.</strong> They award a few bachelor's degrees alongside a mostly graduate professional mission, so their earnings reflect doctors and pharmacists, and several report no undergraduate graduation rate at all. Ranking them against undergraduate colleges would put them near the top for the wrong reason.</p></div>

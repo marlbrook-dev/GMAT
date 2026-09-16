@@ -284,6 +284,17 @@ def school_page(s, tpl, today):
     for key, label, suf, money in PROFILE_FIELDS:
         f = p.get(key) or {}
         if f.get("v") is None:
+            # Acceptance rate is the single most searched attribute in our tracked
+            # queries and most full-time MBA programs deliberately never publish it.
+            # Dropping the row left the page silent on the question people most often
+            # arrived asking. Saying plainly that the school does not release it is
+            # both true and an answer.
+            if key == "accept_rate_pct":
+                prof_rows.append(
+                    '<tr><td>%s</td><td class="num"><span class="note">not published</span>'
+                    '</td><td class="src">Most full-time MBA programs do not release an '
+                    'acceptance rate. We show a figure only where the school or a tracked '
+                    'publisher states one.</td></tr>' % label)
             continue
         stat = f' <span class="src">{esc(f["stat"])}</span>' if f.get("stat") else ""
         mark = ""
@@ -404,6 +415,13 @@ def school_page(s, tpl, today):
         qa.append((f'What GMAT score do you need for {s["name"]}?',
                    f'The {p.get("class_year") or "latest"} profile lists a {gcl.get("stat") or "reported"} GMAT of {gcl["v"]} on the Classic 200 to 800 scale' + (f' ({gcl.get("src")}, {gcl.get("year")}).' if gcl.get("src") else ".")))
     ar = p.get("accept_rate_pct") or {}
+    if ar.get("v") is None:
+        qa.append((f'What is the acceptance rate at {s["name"]}?',
+                   f'{s["name"]} does not publish an acceptance rate, and neither do most '
+                   f'full-time MBA programs; class profiles typically report class size, '
+                   f'test scores and GPA but not selectivity. We show a rate only where the '
+                   f'school or a tracked publisher states one, rather than estimating it '
+                   f'from application counts.'))
     if ar.get("v") is not None:
         qa.append((f'What is the acceptance rate at {s["name"]}?',
                    f'Its reported acceptance rate is {ar["v"]}%' + (f' ({ar.get("src")}, {ar.get("year")}).' if ar.get("src") else ".")))
