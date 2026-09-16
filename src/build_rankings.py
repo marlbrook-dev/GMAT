@@ -20,7 +20,7 @@ Two-layer ranking, both documented verbatim on the page:
    how the major publishers weight outcomes and selectivity, applied
    transparently to published data instead of surveys.
 """
-import json, pathlib, datetime, os, html, sys
+import json, pathlib, datetime, os, html, re, sys
 
 D = pathlib.Path(__file__).parent
 ROOT = D.parent
@@ -33,6 +33,69 @@ RANKINGS_LEGAL = ("Rankings cited from US News, Financial Times, Bloomberg, QS, 
 WEIGHTS = {"usnews": 0.30, "ft": 0.25, "bloomberg": 0.15, "qs": 0.15, "pq": 0.15}
 SOURCE_LABEL = {"usnews": "US News", "ft": "Financial Times", "bloomberg": "Bloomberg", "qs": "QS", "pq": "Poets and Quants"}
 COMP_WEIGHTS = {"publishers": 0.50, "outcomes": 0.20, "gmat": 0.20, "accept": 0.10}
+
+def lead_paragraph(s, p, g, gc, acc, tui, sal, cs):
+    """The sentences an answer engine can actually quote.
+
+    A language model answering "what does the Notre Dame MBA cost" lifts a sentence.
+    It cannot lift a table cell, because a cell carries no subject and no year, so a
+    page whose facts live only in tables gets read and not cited. These are the same
+    figures the tables carry, written as complete sentences with the thing named, the
+    number stated and the year attached, which is also the form a reader skims.
+    """
+    name = s["name"]
+    out = []
+    where = ", ".join(x for x in (s.get("city"), s.get("state")) if x)
+    uni = s.get("university")
+    first = "%s is the full-time MBA program at %s" % (name, uni) if uni and uni != name \
+        else "%s is a full-time MBA program" % name
+    if where:
+        first += ", in %s" % where
+    out.append(first + ".")
+    if tui:
+        out.append("Published tuition is $%s a year%s."
+                   % (format(int(tui), ",d"),
+                      " (%s, %s)" % ((p.get("tuition_usd") or {}).get("src"),
+                                     (p.get("tuition_usd") or {}).get("year"))
+                      if (p.get("tuition_usd") or {}).get("src") else ""))
+    cls = []
+    if cs:
+        cls.append("%s students" % format(int(cs), ",d"))
+    gv = g.get("v") or gc.get("v")
+    if gv:
+        # The stat field is free text and sometimes carries a whole provenance note
+        # ("avg, Class of 2026, range 560-760, edition not labeled"). Dropping that
+        # into a sentence produced prose no one would quote, so only a recognised
+        # one word statistic is used and anything else becomes "a reported".
+        raw = (g.get("stat") or gc.get("stat") or "").strip().lower()
+        word = {"average": "an average", "avg": "an average", "mean": "an average",
+                "median": "a median"}.get(raw.split(",")[0].strip(), "a reported")
+        cls.append("%s GMAT%s of %s" % (word, " Focus" if g.get("v") else "", gv))
+    if cls:
+        # class_year is stored variously as "2027" and "Class of 2027".
+        cy = str(p.get("class_year") or "").strip()
+        if re.fullmatch(r"\d{4}", cy):
+            cy = "Class of %s" % cy
+        out.append("The %s has %s." % (cy or "most recent class",
+                                       " and ".join(cls) if len(cls) == 2 else cls[0]))
+    if acc is not None:
+        out.append("The reported acceptance rate is %s percent." % fmt_num(acc))
+    if sal:
+        out.append("Median starting salary is $%s." % format(int(sal), ",d"))
+    if s.get("_score") is not None:
+        out.append("Start From Nowhere ranks it number %d of the %d programs it scores, "
+                   "on a composite that blends published rankings with outcomes and "
+                   "selectivity." % (s["_rank"], s.get("_ranked_total") or s["_total"]))
+    out.append("Every figure on this page carries the source it came from and the year it "
+               "was published; anything unverified shows a dash rather than an estimate.")
+    return " ".join(out)
+
+
+def fmt_num(v):
+    if isinstance(v, float) and abs(v - round(v)) < 1e-9:
+        return str(int(round(v)))
+    return str(v)
+
 
 def esc(s):
     return html.escape(str(s), quote=True)
@@ -96,6 +159,34 @@ def fmt(v, suffix="", money=False):
         return "$" + format(int(v), ",")
     return f"{v}{suffix}"
 
+def host_of(url):
+    m = re.match(r"https?://([^/]+)", str(url or ""), re.I)
+    if not m:
+        return ""
+    h = m.group(1).lower()
+    return h[4:] if h.startswith("www.") else h
+
+
+def is_secondary(school, f):
+    """Did this figure come from the school itself, or from somebody else?
+
+    The source ladder in data/DATA.md always allowed a tracked publisher when a
+    school does not publish a figure, but a reader could not tell which rows those
+    were without opening every link. The test is mechanical rather than a list of
+    names: a figure is primary when its source URL sits on the school's own domain,
+    and secondary when it does not. Secondary figures are marked with an asterisk
+    and listed in a footnote, so nothing is presented as coming from the school
+    that did not come from the school.
+    """
+    if not f or f.get("v") is None or not f.get("url"):
+        return False
+    own = host_of(school.get("website"))
+    src = host_of(f.get("url"))
+    if not own or not src:
+        return False
+    return not (src == own or src.endswith("." + own) or own.endswith("." + src))
+
+
 def src_cell(f):
     if not f or f.get("v") is None:
         return ""
@@ -104,6 +195,8 @@ def src_cell(f):
     if f.get("url"):
         return f'<span class="src"><a href="{esc(f["url"])}" rel="noopener" target="_blank">{esc(t) or "source"}</a></span>'
     return f'<span class="src">{esc(t)}</span>'
+
+SECONDARY_MARK = '<sup class="sec-mark" title="From a secondary source, not the school">*</sup>'
 
 PROFILE_FIELDS = [
     ("gmat_focus", "GMAT Focus", "", False), ("gmat_classic", "GMAT Classic", "", False),
@@ -187,14 +280,35 @@ def school_page(s, tpl, today):
     if not rank_rows:
         rank_rows.append('<tr><td colspan="4">Not currently ranked by the five publishers we track. Its SFN rank comes from published outcome and selectivity data instead.</td></tr>')
     prof_rows = []
+    secondary = []
     for key, label, suf, money in PROFILE_FIELDS:
         f = p.get(key) or {}
         if f.get("v") is None:
             continue
         stat = f' <span class="src">{esc(f["stat"])}</span>' if f.get("stat") else ""
-        prof_rows.append(f'<tr><td>{label}</td><td class="num">{fmt(f["v"], suf, money)}{stat}</td><td>{src_cell(f)}</td></tr>')
+        mark = ""
+        if is_secondary(s, f):
+            mark = SECONDARY_MARK
+            secondary.append((label, f))
+        prof_rows.append(f'<tr><td>{label}</td><td class="num">{fmt(f["v"], suf, money)}{mark}{stat}</td><td>{src_cell(f)}</td></tr>')
     if not prof_rows:
         prof_rows.append('<tr><td colspan="3">This school does not publish a detailed class profile, or we have not yet verified one.</td></tr>')
+    if secondary:
+        items = "; ".join("%s (%s)" % (esc(lbl), esc(f.get("src") or "secondary source"))
+                          for lbl, f in secondary)
+        many = len(secondary) > 1
+        footnote = ('<p class="note" style="margin-top:10px"><strong>*</strong> This school '
+                    'does not publish %s on its own site, so %s from a secondary source: '
+                    '%s. We look for the school\'s own page first and replace a secondary '
+                    'figure as soon as the school publishes its own, so treat %s as '
+                    'indicative rather than official.</p>'
+                    % ("these figures" if many else "this figure",
+                       "they come" if many else "it comes",
+                       items, "them" if many else "it"))
+    else:
+        footnote = ('<p class="note" style="margin-top:10px">Every figure above comes from '
+                    'this school\'s own published pages. Nothing here relies on a '
+                    'secondary source.</p>')
     specs = [x for x in (s.get("specialties") or []) if x.get("name")]
     spec_html = ""
     if specs:
@@ -202,15 +316,52 @@ def school_page(s, tpl, today):
         spec_html = f'<div class="section"><h2>Recognized Strengths</h2><div class="chips">{chips}</div><p class="src" style="margin-top:10px">As recognized in published specialty rankings; hover for the source.</p></div>'
     g = p.get("gmat_focus") or {}
     gc = p.get("gmat_classic") or {}
+    # What the snippet says decides whether anyone clicks it. Search Console showed 120
+    # queries already ranking at position 20 or better returning one click from 679
+    # impressions, against roughly twenty expected at a normal rate for those positions.
+    # The problem was never the ranking. Someone searching "notre dame mba cost" saw a
+    # title reading "Class Profile and Rankings", with the word cost nowhere on it, and
+    # scrolled past. The three things people actually ask for, by impression volume, are
+    # acceptance rate, cost, and the class profile, so the description leads with those
+    # numbers rather than with a category name.
     bits = []
+    acc = (p.get("accept_rate_pct") or {}).get("v")
+    if acc is not None:
+        bits.append("acceptance rate %s%%" % fmt_num(acc))
     if g.get("v"):
-        bits.append(f'GMAT Focus {g["v"]} {g.get("stat") or ""}'.strip() + ",")
+        bits.append(("average GMAT Focus %s" % g["v"]) if (g.get("stat") or "") != "median"
+                    else "median GMAT Focus %s" % g["v"])
     elif gc.get("v"):
-        bits.append(f'GMAT {gc["v"]} {gc.get("stat") or ""}'.strip() + ",")
-    cs = p.get("class_size") or {}
-    if cs.get("v"):
-        bits.append(f'class of {cs["v"]},')
-    desc = (" ".join(bits) + " rankings from five major publishers.") if bits else "rankings, class profile, and sources."
+        bits.append("GMAT %s" % gc["v"])
+    tui = (p.get("tuition_usd") or {}).get("v")
+    if tui:
+        bits.append("tuition $%s a year" % format(int(tui), ",d"))
+    sal = (p.get("salary_median_usd") or {}).get("v")
+    if sal:
+        bits.append("median starting salary $%s" % format(int(sal), ",d"))
+    cs = (p.get("class_size") or {}).get("v")
+    if cs:
+        bits.append("class of %s" % format(int(cs), ",d"))
+    desc = (", ".join(bits) + ".") if bits else "cost, acceptance rate, class profile and rankings."
+    # The title promises only what this page can actually show. Only 16 of 91 schools
+    # publish an MBA acceptance rate, so a fixed title naming it would be a broken
+    # promise on four pages out of five, and a visitor who clicks and does not find the
+    # number leaves faster than one who never clicked.
+    have = []
+    if acc is not None:
+        have.append("Acceptance Rate")
+    if tui:
+        have.append("Cost")
+    if g.get("v") or gc.get("v"):
+        have.append("GMAT")
+    if sal:
+        have.append("Salary")
+    if len(have) >= 2:
+        title_bits = "%s, %s, and Class Profile" % (have[0], have[1])
+    elif have:
+        title_bits = "%s and Class Profile" % have[0]
+    else:
+        title_bits = "Class Profile and Rankings"
     badge, badge_class = tier(s["_nsrc"])
     website_btn = f'<a class="btn sec" href="{esc(s["website"])}" rel="noopener" target="_blank">Official Program Site</a>' if s.get("website") else ""
     method = "This school is ranked from a weighted consensus of the major published rankings plus published outcomes and selectivity data." if s["_nsrc"] >= 3 else \
@@ -247,18 +398,18 @@ def school_page(s, tpl, today):
     # FAQ generated only from verified fields
     qa = []
     if gm.get("v"):
-        qa.append((f'What GMAT score does {s["name"]} report?',
-                   f'The {p.get("class_year") or "latest"} profile lists a {gm.get("stat") or "reported"} GMAT Focus of {gm["v"]}' + (f' ({gm.get("src")}, {gm.get("year")}).' if gm.get("src") else ".") + " Published figures are context, not cutoffs."))
+        qa.append((f'What GMAT score do you need for {s["name"]}?',
+                   f'There is no cutoff. The {p.get("class_year") or "latest"} profile lists a {gm.get("stat") or "reported"} GMAT Focus of {gm["v"]}' + (f' ({gm.get("src")}, {gm.get("year")}).' if gm.get("src") else ".") + " Published figures are context, not cutoffs."))
     elif gcl.get("v"):
-        qa.append((f'What GMAT score does {s["name"]} report?',
+        qa.append((f'What GMAT score do you need for {s["name"]}?',
                    f'The {p.get("class_year") or "latest"} profile lists a {gcl.get("stat") or "reported"} GMAT of {gcl["v"]} on the Classic 200 to 800 scale' + (f' ({gcl.get("src")}, {gcl.get("year")}).' if gcl.get("src") else ".")))
     ar = p.get("accept_rate_pct") or {}
     if ar.get("v") is not None:
-        qa.append((f'How selective is {s["name"]}?',
+        qa.append((f'What is the acceptance rate at {s["name"]}?',
                    f'Its reported acceptance rate is {ar["v"]}%' + (f' ({ar.get("src")}, {ar.get("year")}).' if ar.get("src") else ".")))
     tu = p.get("tuition_usd") or {}
     if tu.get("v") is not None:
-        qa.append((f'How much does the {s["short"] if s.get("short") else s["name"]} MBA cost?',
+        qa.append((f'How much is tuition at {s["name"]}?',
                    f'Published tuition is ${tu["v"]:,} per year' + (f' ({tu.get("src")}, {tu.get("year")}).' if tu.get("src") else ".") + " Fees and living costs are additional; confirm on the school site."))
     faq_ld, faq_section = "", ""
     if len(qa) >= 2:
@@ -267,6 +418,8 @@ def school_page(s, tpl, today):
         faq_section = '<div class="section"><h2>Quick Answers</h2>' + "".join(
             f'<p style="margin:0 0 12px"><b>{esc(q)}</b><br>{esc(a)}</p>' for q, a in qa) + "</div>"
     out = (tpl.replace("{{NAME}}", esc(s["name"]))
+              .replace("{{TITLE_BITS}}", esc(title_bits))
+              .replace("{{LEAD}}", esc(lead_paragraph(s, p, g, gc, acc, tui, sal, cs)))
               .replace("{{DESC_BITS}}", esc(desc))
               .replace("{{SLUG}}", esc(s["slug"]))
               .replace("{{FEDERAL_SECTION}}", federal_section(s))
@@ -285,6 +438,7 @@ def school_page(s, tpl, today):
               .replace("{{SPECIALTIES_SECTION}}", spec_html)
               .replace("{{RANK_ROWS}}", "\n".join(rank_rows))
               .replace("{{PROFILE_ROWS}}", "\n".join(prof_rows))
+              .replace("{{SOURCE_FOOTNOTE}}", footnote)
               .replace("{{METHOD_LINE}}", method)
               .replace("{{UPDATED}}", today)
               .replace("{{INTRO}}", esc(intro).replace("&#x27;", "'"))
@@ -353,6 +507,10 @@ def main():
             prev = s["_score"]
         s["_rank"] = rank
     unranked = [s for s in schools if s["_score"] is None]
+    # "number 44 of 91" was wrong: 91 is every school in the library, but only the
+    # scored ones carry a rank at all.
+    for s in schools:
+        s["_ranked_total"] = len(ranked)
 
     today = os.environ.get("BLOG_BUILD_DATE") or datetime.date.today().isoformat()
     tpl = (D / "rankings_template.html").read_text()

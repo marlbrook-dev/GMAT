@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#122B4E"><link rel="apple-touch-icon" href="/icons/icon-180.png">
-<title>{{NAME}} MBA: Class Profile and Rankings</title>
-<meta name="description" content="{{NAME}} full-time MBA: {{DESC_BITS}} Every figure sourced and dated. Compare it on the Start From Nowhere MBA rankings.">
+<title>{{NAME}} MBA: {{TITLE_BITS}}</title>
+<meta name="description" content="{{NAME}} full-time MBA: {{DESC_BITS}} Every figure carries its source and year. Compare cost, selectivity and outcomes against 90 other programs.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Manrope:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%23122B4E'/%3E%3Cpath d='M13 33 22 22l6 5 8.5-10' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M29.5 16.5H37V24' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
@@ -50,6 +50,7 @@ td.num{font-family:var(--mono)}
 footer{padding:28px 0 40px;font-size:13px;color:var(--gray-500)}
 footer .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
 @media(max-width:640px){.head{flex-direction:column;align-items:flex-start}}
+.sec-mark{color:var(--gold-600);font-weight:700;margin-left:1px;cursor:help}
 </style></head><body>
 {{SITE_HEADER}}
 
@@ -61,6 +62,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
 <h1>{{NAME}}</h1>
 <div class="sub">{{UNIVERSITY}} · {{CITY}}, {{STATE}} · {{TYPE}} · {{CLASS_YEAR}}</div>
 <p style="margin:12px 0 0;max-width:72ch">{{INTRO}}</p>
+<p style="margin:10px 0 0;max-width:72ch">{{LEAD}}</p>
 <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
 <button class="btn" id="addBtn" onclick="toggleList()">+ Add to My List</button>
 {{WEBSITE_BTN}}
@@ -79,7 +81,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
 <div class="section"><h2>Class Profile</h2><table><thead><tr><th>Measure</th><th>Value</th><th>Source</th></tr></thead><tbody>
 {{PROFILE_ROWS}}
 </tbody></table>
-<p class="note" style="margin-top:14px">Figures are recorded exactly as published by the source named on each row, most recently checked {{UPDATED}}. A dash on the rankings table means the school does not publish the figure or we could not verify it; we never estimate or convert between GMAT editions. Confirm current numbers with the school before applying.</p></div>
+{{SOURCE_FOOTNOTE}}
+<p class="note" style="margin-top:8px">Figures are recorded exactly as published by the source named on each row, most recently checked {{UPDATED}}. A dash on the rankings table means the school does not publish the figure or we could not verify it; we never estimate or convert between GMAT editions. Confirm current numbers with the school before applying.</p></div>
 
 {{FEDERAL_SECTION}}
 {{FAQ_SECTION}}
