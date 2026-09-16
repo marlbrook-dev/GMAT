@@ -72,7 +72,8 @@ Deno.serve(async (req: Request) => {
       if (uid && s.status === "complete" && settled) {
         const subId = typeof s.subscription === "string" ? s.subscription : s.subscription?.id;
         // Read the subscription back rather than trusting the session: it is the only
-        // place trial_end and the renewal date exist, and the Account page shows both.
+        // place trial_end, the renewal date and the price live, and the Account page and
+        // the revenue view need all three.
         const sub = subId ? await stripe.subscriptions.retrieve(subId) : null;
         await writeProfile(uid, sub ? subPatch(sub) : {
           plan: s.metadata?.plan ?? "plus",
@@ -90,6 +91,8 @@ Deno.serve(async (req: Request) => {
           trial_end: null,
           current_period_end: null,
           cancel_at_period_end: false,
+          plan_interval: null,
+          plan_amount_cents: null,
         });
       }
     } else if (event.type === "customer.subscription.updated") {
