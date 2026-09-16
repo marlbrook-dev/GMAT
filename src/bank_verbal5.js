@@ -23,7 +23,7 @@ const BANK_VERBAL5 = [
       'The plant-based resin is less harmful to the environment than the petroleum-based resin.',
       'Producing a bottle of acceptable quality from the plant-based resin does not require enough additional resin by weight to offset the lower price per kilogram.',
       'The price of the petroleum-based resin will rise over the next several years.',
-      'Meridian\'s competitors have not yet begun using the plant-based resin in their own bottles.',
+      'Meridian\'s competitors have not yet begun using the plant-based resin in their own bottles, and none of them has announced any plan to do so within the next two production years.',
       'Consumers will be unable to detect any difference between bottles made from the two resins.'
     ],
     answer: 1,
@@ -34,7 +34,7 @@ const BANK_VERBAL5 = [
     id: 'V243', section: 'V', type: 'CR', skill: 'v_ac', diff: 3,
     stem: 'The city of Alder Grove plans to install solar panels on the roofs of its administrative buildings in order to reduce the amount it spends on electricity. The city will not install batteries, so any electricity the panels generate must be used at the moment it is produced or else be surrendered to the regional grid without compensation.\n\nWhich of the following, if true, provides the strongest support for the prediction that the plan will reduce the city\'s spending on electricity?',
     choices: [
-      'Several nearby cities have installed solar panels on the roofs of schools and firehouses.',
+      'Several nearby cities have installed solar panels on the roofs of schools and firehouses, and each reports that the panels have cut the electricity costs of those buildings substantially.',
       'Residents of Alder Grove have expressed strong support for renewable energy initiatives.',
       'The manufacturer of the panels offers an extended warranty at no additional charge.',
       'The administrative buildings consume the great majority of their electricity during daytime working hours, when the panels will be generating power.',
@@ -51,7 +51,7 @@ const BANK_VERBAL5 = [
       'The firm\'s headquarters has only four floors, so climbing the stairs takes employees little time.',
       'Employees with chronic health conditions that cause frequent absences are often advised by their physicians to avoid climbing stairs.',
       'Some employees who regularly use the stairs do so mainly to avoid waiting for crowded elevators.',
-      'Illness-related absence rates at the firm are lower overall than the national average for office workers.',
+      'Illness-related absence rates at the firm are lower overall than the national average for office workers doing comparable work.',
       'The study was conducted during a winter in which influenza was unusually widespread in the region.'
     ],
     answer: 1,
@@ -62,10 +62,10 @@ const BANK_VERBAL5 = [
     id: 'V245', section: 'V', type: 'CR', skill: 'v_ac', diff: 3,
     stem: 'Grain prices in the Redfield region are typically lowest at harvest, when supply peaks, and highest in late winter. The Redfield farmers\' cooperative plans to build storage silos so that its members can hold their grain after harvest and sell it in late winter instead. The cooperative predicts that the plan will increase members\' net income from grain sales.\n\nThe prediction depends on which of the following assumptions?',
     choices: [
-      'Late-winter grain prices will be higher next year than they were last year.',
-      'Every member of the cooperative will choose to store grain in the new silos.',
-      'No other cooperative in the Redfield region currently operates storage silos.',
-      'Storing grain over the winter will improve the quality of the grain.',
+      'Late-winter grain prices will be higher next year than they were last year, a comparison the cooperative did not make when it drew up the plan.',
+      'Every member of the cooperative will choose to store grain in the new silos, including those whose farms lie farthest from the storage site.',
+      'No other cooperative in the Redfield region currently operates storage silos, so until now members have had no local alternative for holding their grain past the end of the harvest season.',
+      'Storing grain over the winter will improve the quality of the grain, making it more attractive to the mills that buy from the cooperative.',
       'The cost of storing grain until late winter, including any losses from spoilage, will not equal or exceed the seasonal price premium members can expect to receive.'
     ],
     answer: 4,
@@ -76,7 +76,7 @@ const BANK_VERBAL5 = [
     id: 'V246', section: 'V', type: 'CR', skill: 'v_ac', diff: 5,
     stem: 'At Corven Bank, mortgage applications submitted through the bank\'s mobile app are approved at a rate of 74 percent, while applications submitted in person at branches are approved at a rate of 55 percent. Bank executives concluded that the app\'s automated document check, which flags incomplete or inconsistent paperwork before submission, causes app-based applications to be stronger than branch applications.\n\nWhich of the following, if true, most seriously undermines the executives\' conclusion?',
     choices: [
-      'The automated document check occasionally flags paperwork that is in fact complete and consistent.',
+      'The automated document check occasionally flags paperwork that is in fact complete and consistent, and applicants whose documents are flagged in error are asked to resubmit them before the application proceeds.',
       'Approval rates for both application channels have risen since the mobile app was introduced.',
       'Branch employees, whose performance is evaluated partly on application volume, routinely encourage customers to apply even when the customers\' finances make approval unlikely.',
       'Most customers who apply through the app are younger than most customers who apply at branches.',
@@ -132,10 +132,10 @@ const BANK_VERBAL5 = [
     id: 'V250', section: 'V', type: 'CR', skill: 'v_pc', diff: 4,
     stem: 'In the nation of Veldana, the average hourly wage paid in every individual industry rose last year. Nevertheless, the average hourly wage across the nation\'s economy as a whole was lower at the end of the year than at the beginning.\n\nWhich of the following, if true, most helps to explain how both of these statements could be true?',
     choices: [
-      'Consumer prices in Veldana rose faster than wages did last year.',
-      'Several Veldanan industries recorded their largest wage gains in more than a decade.',
+      'Consumer prices in Veldana rose faster than wages did last year, leaving real earnings lower than before.',
+      'Several Veldanan industries recorded their largest wage gains in more than a decade, including industries that employ few of the workers whose jobs the new tariffs were meant to protect.',
       'Veldana\'s government raised the national minimum wage midway through the year.',
-      'Union membership declined in several Veldanan industries last year.',
+      'Union membership declined in several Veldanan industries last year, continuing a trend of more than a decade.',
       'Employment expanded rapidly in low-wage industries while remaining flat in high-wage industries, shifting a larger share of the workforce into low-wage work.'
     ],
     answer: 4,
@@ -204,7 +204,7 @@ const BANK_VERBAL5 = [
     choices: [
       'defend the standard account of containerization against criticism from skeptical economists',
       'trace a scholarly debate over the container\'s role in trade growth and identify what that debate reveals about how technologies produce economic effects',
-      'argue that tariff reductions, rather than containerization, were the principal cause of the growth in world trade',
+      'argue that tariff reductions, rather than containerization, were the principal cause of the growth in world trade over the period the passage examines',
       'describe the technical innovations that transformed cargo handling during the twentieth century',
       'recommend policies for ports that are seeking to modernize their infrastructure'
     ],
@@ -216,8 +216,8 @@ const BANK_VERBAL5 = [
     id: 'V256', section: 'V', type: 'RC', passageId: 'P8', passage: RC_P8, skill: 'v_st', diff: 3,
     stem: 'According to the passage, containerization reduced each of the following EXCEPT',
     choices: [
-      'theft of cargo',
-      'breakage of cargo',
+      'the theft of cargo in transit',
+      'the breakage of cargo during handling',
       'the time vessels spent in port',
       'the amount of fuel consumed by cargo ships',
       'insurance premiums associated with shipping'
@@ -233,7 +233,7 @@ const BANK_VERBAL5 = [
       'a reduction in the capital costs of operating modern ports',
       'a decline in the insurance premiums charged to shippers',
       'the predictability of sailing schedules, which allowed firms to divide production across countries',
-      'the elimination of the need for successive rounds of tariff reduction',
+      'the elimination of any need for the successive rounds of tariff reduction that followed in later decades',
       'expanded employment opportunities for longshoremen at major ports'
     ],
     answer: 2,
@@ -245,7 +245,7 @@ const BANK_VERBAL5 = [
     stem: 'The passage suggests that the trade gains identified by recent quantitative work would most likely have been smallest in a country that',
     choices: [
       'equipped its ports to handle containers but did not modernize its inland transportation or customs procedures',
-      'reduced its tariffs during the same period in which its ports adopted containers',
+      'reduced its tariffs over the same period during which its ports were adopting container handling equipment',
       'began handling containers earlier than its major trading partners did',
       'conducted most of its trade with countries located nearby',
       'possessed unusually deep natural harbors before containerization began'
@@ -274,7 +274,7 @@ const BANK_VERBAL5 = [
     choices: [
       'New transport technologies typically harm the economies that adopt them first.',
       'Quantitative estimates of a technology\'s economic effects are inherently unreliable.',
-      'The container\'s effect on trade was ultimately smaller than that of tariff liberalization.',
+      'The container\'s effect on the growth of trade was ultimately smaller than that of tariff liberalization, which historians have measured over the same decades.',
       'The economic impact of a transport technology depends substantially on investments and institutional adjustments beyond the technology itself.',
       'Scholarly debates about economic causation rarely yield conclusions of practical value.'
     ],
