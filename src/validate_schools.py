@@ -82,7 +82,7 @@ def validate(schools):
         # Scholarship block. Same provenance rules as every other figure, plus a checked
         # date, because award terms change every admissions cycle and a 2024 number quoted
         # in 2026 is misinformation even when it was true when written.
-        sch = d.get("scholarship")
+        sch = s.get("scholarship")
         if sch is not None:
             if not isinstance(sch, dict):
                 errors.append(f"{slug}.scholarship: not an object")
