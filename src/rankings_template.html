@@ -412,6 +412,7 @@ function toggleView(){ var det=document.body.classList.contains('detailed');
   if(slugs.length){ var L=lst(); slugs.forEach(function(sl){ if(L.order.indexOf(sl)<0){ L.order.push(sl); L.meta[sl]={tag:'target',note:'',name:BY[sl].name,gmat:gmatOf(BY[sl])}; } }); saveLst(L); toggleListPanel(); } }
  refreshListUI(); applyFilters(); })();
 </script>
+{{SENTINEL}}
 <!-- sfn beacon: first-party, no third parties, raw IP never stored -->
 <script>(function(){try{
 var U="https://ftsqwbzhkzuudogkvoqa.supabase.co/rest/v1/site_events?apikey=sb_publishable_GToT4fK6RiwCZpPFE3bGiw_ThXq9qel";

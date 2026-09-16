@@ -57,9 +57,16 @@ const SAT_SECTIONS = {
 // Progress is stored per exam, so a student can train for two exams without the ratings mixing.
 const EXAMS = {
  'gmat-focus': {id:'gmat-focus',name:'GMAT Focus Edition',short:'GMAT Focus',sections:GMAT_SECTIONS,skills:GMAT_SKILLS,
-   scoreScale:'205-805',sectionScale:'60-90',choices:5,adaptive:'question'},
+   scoreScale:'205-805',sectionScale:'60-90',choices:5,adaptive:'question',
+   // Total scores are reported in 10-point steps ending in 5, so round to that lattice.
+   scale:{min:205,max:805,step:10,offset:5,center:555,slope:70,
+          sectionMin:60,sectionMax:90,sectionCenter:75,sectionSlope:4.5,
+          minBand:30,minAttempts:40,calibration:'internal'}},
  'sat': {id:'sat',name:'SAT',short:'SAT',sections:SAT_SECTIONS,skills:SAT_SKILLS,
-   scoreScale:'400-1600',sectionScale:'200-800',choices:4,adaptive:'module'}
+   scoreScale:'400-1600',sectionScale:'200-800',choices:4,adaptive:'module',
+   scale:{min:400,max:1600,step:10,offset:0,center:1000,slope:200,
+          sectionMin:200,sectionMax:800,sectionCenter:500,sectionSlope:100,
+          minBand:30,minAttempts:40,calibration:'internal'}}
 };
 // EXAM_ID is injected by the build (one app per exam). Node test runs default to the GMAT.
 const CURRENT_EXAM = (typeof EXAM_ID !== 'undefined' && EXAMS[EXAM_ID]) ? EXAM_ID : 'gmat-focus';
@@ -69,6 +76,122 @@ const SECTION_META = EXAM.sections;
 const SECTIONS = Object.keys(SECTION_META);
 const DIFF_ELO = {1:800,2:950,3:1100,4:1250,5:1400};
 const START_R = 1000, MASTERY_R = 1250;
+// ---------------------------------------------------------------------------
+// Ability model: from per-skill Elo to a scaled score band.
+//
+// Grounding. Pelanek, "Applications of the Elo rating system in adaptive educational
+// systems" (Computers and Education, 2016) shows the Elo update used here,
+//   P(correct) = 1 / (1 + e^-(theta - d)),  theta := theta + K(correct - P)
+// is the Rasch (one-parameter IRT) model in everything but the estimation procedure. That
+// is what lets us read an Elo rating as an IRT ability and attach a standard error to it,
+// without the large-sample item pretesting a true IRT calibration would need.
+//
+// What is real here and what is ours, stated plainly because the distinction matters:
+//   REAL      the Rasch functional form, the guessing-corrected information function, and
+//             the standard error that falls out of it. Those are standard psychometrics.
+//   OURS      the mapping from ability onto each exam's reported scale (the center and
+//             slope in EXAM.scale). No public equating table exists for either exam, so
+//             those constants are our calibration, not the test maker's. This is why the
+//             product never calls the output a predicted score.
+//
+// The band narrows as someone practices, because information accumulates and the standard
+// error shrinks with it. That is the system improving with use, and it is arithmetic
+// rather than a promise.
+
+// Elo uses a base-10 logistic on a 400-point spread; IRT works in natural-log logits.
+// 400 / ln(10) = 173.7 converts between them.
+const ELO_PER_LOGIT = 173.7;
+const eloToTheta = r => (r - START_R) / ELO_PER_LOGIT;
+
+// Probability of a correct answer under the shifted logistic, which credits the floor a
+// multiple-choice test gives away. c comes from EXAM.choices, so a 5-choice GMAT item and a
+// 4-choice SAT item are scored differently, as they should be.
+function pCorrect(theta, d, c){
+ const p = 1 / (1 + Math.exp(-(theta - d)));
+ return c + (1 - c) * p;
+}
+
+// Fisher information for that item, the 3PL information function with discrimination fixed
+// at 1. Guessing removes information, and the more answer choices an item has the smaller
+// that loss is: a 5-choice GMAT item (c=0.2) is worth more evidence than a 4-choice SAT
+// item (c=0.25), so the SAT needs slightly more items for the same precision. Falls back to
+// the Rasch form when c is 0.
+function itemInfo(theta, d, c){
+ const P = pCorrect(theta, d, c);
+ if (P <= 0 || P >= 1) return 0;
+ if (!c) return P * (1 - P);
+ return ((1 - P) / P) * Math.pow((P - c) / (1 - c), 2);
+}
+
+// Ability and its standard error for one section, from the attempts actually recorded.
+// Every answered item contributes information at the difficulty it was answered at, which
+// is why practising harder items tightens the band faster than drilling easy ones.
+function sectionAbility(state, section){
+ const c = 1 / (EXAM.choices || 4);
+ const skills = SKILLS.filter(s => s.section === section);
+ if (!skills.length) return {theta:0, sem:Infinity, n:0};
+ let wSum = 0, tSum = 0, n = 0;
+ skills.forEach(s => {
+  const st = state.skills[s.id];
+  if (!st) return;
+  // Weight by evidence. A skill with 2 attempts should not move the section estimate as
+  // much as one with 50.
+  const w = Math.max(1, st.n || 0);
+  tSum += eloToTheta(st.r) * w; wSum += w; n += (st.n || 0);
+ });
+ const theta = wSum ? tSum / wSum : 0;
+ let info = 0;
+ (state.attempts || []).forEach(a => {
+  if (a.section !== section) return;
+  const d = eloToTheta(DIFF_ELO[a.diff] || 1100);
+  info += itemInfo(theta, d, c);
+ });
+ // Flashcards are recognition rather than full items, so they count, but at a quarter
+ // weight. Counting them equally would shrink the band on evidence that is weaker than the
+ // band implies.
+ const cards = state.cards ? Object.keys(state.cards).length : 0;
+ info += 0.25 * itemInfo(theta, theta, c) * Math.min(cards, 40);
+ return {theta, sem: info > 0 ? 1/Math.sqrt(info) : Infinity, n};
+}
+
+const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+// Round onto the lattice the exam actually reports on (GMAT Focus totals end in 5).
+function toLattice(v, sc){
+ const step = sc.step || 10, off = sc.offset || 0;
+ return clamp(Math.round((v - off) / step) * step + off, sc.min, sc.max);
+}
+
+// The headline estimate. Returns ready:false until there is enough evidence to say
+// anything, because a score from six questions is noise wearing a number's clothes.
+function scoreEstimate(state){
+ const sc = EXAM.scale;
+ if (!sc) return {ready:false, reason:'no scale'};
+ const parts = SECTIONS.map(sec => ({sec, a: sectionAbility(state, sec)}));
+ const n = parts.reduce((t, p) => t + p.a.n, 0);
+ if (n < sc.minAttempts) return {ready:false, n, need: sc.minAttempts - n, reason:'more practice'};
+ // Sections are equally weighted on both live exams; SECTION_META carries the shape if that
+ // ever stops being true.
+ const theta = parts.reduce((t, p) => t + p.a.theta, 0) / parts.length;
+ // Independent section estimates, so the total standard error is the root mean square,
+ // reduced by averaging across sections.
+ const sem = Math.sqrt(parts.reduce((t, p) => t + Math.pow(isFinite(p.a.sem) ? p.a.sem : 2, 2), 0)) / parts.length;
+ const raw = sc.center + sc.slope * theta;
+ const half = Math.max(sc.minBand, sem * sc.slope);
+ return {
+  ready: true, n, theta, sem,
+  score: toLattice(raw, sc),
+  lo: toLattice(raw - half, sc),
+  hi: toLattice(raw + half, sc),
+  sections: parts.map(p => ({
+   section: p.sec,
+   label: (SECTION_META[p.sec] || {}).short || p.sec,
+   n: p.a.n,
+   score: toLattice(sc.sectionCenter + sc.sectionSlope * p.a.theta,
+                    {min:sc.sectionMin, max:sc.sectionMax, step:1, offset:0})
+  }))
+ };
+}
+
 const ERROR_REASONS = [
  {id:'concept',label:'Concept gap: did not know the rule or method'},
  {id:'setup',label:'Setup / translation: knew the math, built it wrong'},

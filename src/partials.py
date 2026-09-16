@@ -252,10 +252,19 @@ def footer_html(extra_legal=""):
 
 
 def apply_chrome(html, extra_legal=""):
+    # The sentinel normally rides along with the footer, which every content page carries.
+    # A template without a footer (the rankings index builds its own chrome) would silently
+    # miss it, so it can ask for the beacon directly with {{SENTINEL}}. A template must not
+    # use both: the footer already supplies one, and two beacons would double-report every
+    # error. The assertion below enforces that rather than trusting it.
+    if "{{SENTINEL}}" in html and "{{SITE_FOOTER}}" in html:
+        raise SystemExit("partials: template uses both {{SENTINEL}} and {{SITE_FOOTER}}; "
+                         "the footer already carries the sentinel")
     out = (
         html.replace("{{CHROME_CSS}}", CHROME_CSS)
         .replace("{{SITE_HEADER}}", header_html())
         .replace("{{SITE_FOOTER}}", footer_html(extra_legal))
+        .replace("{{SENTINEL}}", sentinel_js())
     )
     if "—" in out or "–" in out:
         raise SystemExit("partials: em/en dash in chrome output")

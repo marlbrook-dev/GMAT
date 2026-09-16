@@ -79,6 +79,50 @@ def validate(schools):
             for sval in [fv.get("src"), fv.get("stat"), fv.get("url")]:
                 if isinstance(sval, str) and ("—" in sval or "–" in sval):
                     errors.append(f"{slug}.{f}: em/en dash in metadata")
+        # Scholarship block. Same provenance rules as every other figure, plus a checked
+        # date, because award terms change every admissions cycle and a 2024 number quoted
+        # in 2026 is misinformation even when it was true when written.
+        sch = s.get("scholarship")
+        if sch is not None:
+            if not isinstance(sch, dict):
+                errors.append(f"{slug}.scholarship: not an object")
+            else:
+                checked = sch.get("checked")
+                if not (isinstance(checked, str) and len(checked) == 10 and checked[4] == "-"):
+                    errors.append(f"{slug}.scholarship: missing or malformed checked date "
+                                  f"{checked!r} (want YYYY-MM-DD)")
+                review = sch.get("review")
+                if review is not None and review.get("v") not in ("automatic", "separate"):
+                    errors.append(f"{slug}.scholarship.review: value must be 'automatic' or "
+                                  f"'separate', got {review.get('v')!r}")
+                for f in ("review", "pct_receiving", "avg_award_usd"):
+                    fv = sch.get(f)
+                    if fv is None:
+                        continue
+                    if not isinstance(fv, dict):
+                        errors.append(f"{slug}.scholarship.{f}: not an object")
+                        continue
+                    if fv.get("v") is None:
+                        continue
+                    for req in ("src", "year", "stat"):
+                        if not fv.get(req):
+                            errors.append(f"{slug}.scholarship.{f}: published value without {req}")
+                    if not str(fv.get("url", "")).startswith("http"):
+                        errors.append(f"{slug}.scholarship.{f}: published value without a source url")
+                    src = str(fv.get("src", "")).lower()
+                    if any(b in src for b in BANNED_SOURCES):
+                        errors.append(f"{slug}.scholarship.{f}: banned source {fv.get('src')!r}")
+                    for sval in (fv.get("src"), fv.get("stat"), fv.get("url")):
+                        if isinstance(sval, str) and ("\u2014" in sval or "\u2013" in sval):
+                            errors.append(f"{slug}.scholarship.{f}: em/en dash in metadata")
+                pct = sch.get("pct_receiving")
+                if pct and isinstance(pct.get("v"), (int, float)) and not (0 <= pct["v"] <= 100):
+                    errors.append(f"{slug}.scholarship.pct_receiving: {pct['v']} is not a percentage")
+                amt = sch.get("avg_award_usd")
+                if amt and isinstance(amt.get("v"), (int, float)) and not (1000 <= amt["v"] <= 250000):
+                    errors.append(f"{slug}.scholarship.avg_award_usd: {amt['v']} outside a plausible "
+                                  f"annual award range")
+
     if warnings:
         print(f"validate_schools: {weak_count} figures still on weak sources "
               f"(Clear Admit / Stacy Blackman / snippets), replacement queued", file=sys.stderr)

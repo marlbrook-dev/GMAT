@@ -21,7 +21,8 @@ function runExam(exam){
  // engine.js declares with const, which stays in the script's lexical scope, so the script
  // itself hands the pieces back out.
  const EXPORTS='BANK,SKILLS,SECTION_META,SECTIONS,PLAYBOOK,CARDS,EXAM,newState,pickQuestions,recordAttempt,'+
-  'skillStats,sectionSummary,pickMockSection,pickSatModule,satRoute,satDomainTargets,gradeChosen,timingFlag';
+  'skillStats,sectionSummary,pickMockSection,pickSatModule,satRoute,satDomainTargets,gradeChosen,timingFlag,'+
+  'scoreEstimate,sectionAbility,itemInfo,eloToTheta';
  vm.runInContext('var EXAM_ID='+JSON.stringify(exam.id)+';\n'+src+
   '\nvar BANK=[].concat('+exam.concat+');\nglobalThis.__api={'+EXPORTS+'};',ctx);
  const api=ctx.__api;
@@ -165,6 +166,71 @@ function runExam(exam){
    const seen={}; mq.forEach((q,i)=>{ if(q.passageId){ if(seen[q.passageId]!==undefined&&seen[q.passageId]!==i-1) mbad.push(sec+' split group '+q.passageId); seen[q.passageId]=i; } });
   });
   check('mock sections',mbad);
+ }
+
+ // ---- ability model: score band behaviour ----
+ {
+  const sc=api.EXAM.scale, bad=[];
+  if(!sc) bad.push('no scale config for '+exam.id);
+
+  // A score from a handful of questions is noise wearing a number's clothes, so the model
+  // must refuse to produce one.
+  const cold=api.newState();
+  const coldEst=api.scoreEstimate(cold);
+  if(coldEst.ready) bad.push('produced a score from zero attempts');
+
+  // Feed it answers at a fixed ability and check the band behaves.
+  function simulate(nItems,correctRate){
+   const st=api.newState();
+   let i=0;
+   SECTIONS.forEach(sec=>{
+    const pool=BANK.filter(q=>q.section===sec);
+    for(let k=0;k<nItems&&pool.length;k++){
+     const q=pool[(i*7+k)%pool.length];
+     const ok=((i*13+k*7)%100)/100 < correctRate;
+     api.recordAttempt(st,q,0,ok,20,null,false,null);
+     i++;
+    }
+   });
+   return st;
+  }
+
+  const few=simulate(8,0.6);
+  const many=simulate(60,0.6);
+  const eFew=api.scoreEstimate(few), eMany=api.scoreEstimate(many);
+  if(!eMany.ready) bad.push('60 items per section still not ready');
+  if(eMany.ready){
+   // Band must never claim more precision than the configured floor.
+   const half=(eMany.hi-eMany.lo)/2;
+   if(half<sc.minBand-0.001) bad.push('band '+half+' tighter than floor '+sc.minBand);
+   if(eMany.lo>=eMany.hi) bad.push('band not ordered: '+eMany.lo+'..'+eMany.hi);
+   if(eMany.score<eMany.lo||eMany.score>eMany.hi) bad.push('point estimate outside its own band');
+   // Everything must land inside the exam's real reported range, on its real lattice.
+   [eMany.lo,eMany.score,eMany.hi].forEach(v=>{
+    if(v<sc.min||v>sc.max) bad.push('score '+v+' outside '+sc.min+' to '+sc.max);
+    if(((v-(sc.offset||0))%(sc.step||10))!==0) bad.push('score '+v+' off the reporting lattice');
+   });
+   eMany.sections.forEach(x=>{
+    if(x.score<sc.sectionMin||x.score>sc.sectionMax) bad.push('section '+x.section+' score '+x.score+' out of range');
+   });
+  }
+  // More evidence must mean a smaller standard error. This is the property that makes the
+  // estimate improve with use rather than just move around.
+  if(eFew.ready&&eMany.ready&&!(eMany.sem<eFew.sem)) bad.push('sem did not shrink with more evidence');
+
+  // A stronger record must not score below a weaker one.
+  const strong=api.scoreEstimate(simulate(60,0.9)), weak=api.scoreEstimate(simulate(60,0.3));
+  if(strong.ready&&weak.ready&&!(strong.score>weak.score)) bad.push('90% accuracy did not outscore 30%');
+
+  // Guessing correction. More answer choices means a lower chance of a lucky hit, so a
+  // 5-choice item (c=0.2) carries MORE information than a 4-choice one (c=0.25), and an
+  // item with no guessing floor carries more than either.
+  const i5=api.itemInfo(0,0,1/5), i4=api.itemInfo(0,0,1/4), i0=api.itemInfo(0,0,0);
+  if(!(i5>i4)) bad.push('guessing correction backwards: 5-choice info '+i5+' <= 4-choice '+i4);
+  if(!(i0>i5)) bad.push('no-guess info '+i0+' should exceed 5-choice '+i5);
+
+  check('score band model',bad);
+  if(eMany.ready) console.log('  band at 60 items/section: '+eMany.lo+' to '+eMany.hi+' (sem '+eMany.sem.toFixed(3)+' logits)');
  }
 
  const dist={}; BANK.forEach(q=>dist[q.skill]=(dist[q.skill]||0)+1);
