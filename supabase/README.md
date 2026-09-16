@@ -16,9 +16,21 @@ Anonymous use stores everything in localStorage, under a key that names the exam
 
 ## Stripe Checkout (live account configured; secrets outstanding)
 
-Edge functions `create-checkout-session` (JWT-protected) and `stripe-webhook`
-(Stripe-signature-protected) are deployed to this project; sources live in
-`supabase/functions/`.
+Four edge functions are deployed; sources live in `supabase/functions/`.
+
+| Function | Auth | What it does |
+|---|---|---|
+| `create-checkout-session` | JWT | Opens Stripe Checkout for a plan. |
+| `stripe-webhook` | Stripe signature (`verify_jwt=false`) | Writes plan and billing state onto `profiles`. |
+| `cancel-subscription` | JWT | Sets `cancel_at_period_end` on the caller's own subscription. Also resumes with `{resume:true}`. |
+| `create-portal-session` | JWT | Opens the Stripe billing portal for invoices and card changes. |
+
+**Cancelling deliberately does not go through the billing portal.** The portal needs a
+portal configuration on the Stripe account and there is none yet, so a subscriber would be
+unable to cancel at all. `cancel-subscription` needs nothing but `STRIPE_SECRET_KEY`, and
+the portal reports plainly when it is not configured. Neither function ever takes a
+subscription or customer id from the request body: both read it from the caller's own
+RLS-scoped `profiles` row, so the JWT alone decides whose subscription is touched.
 
 ### Already created in the live Stripe account (`acct_1UGMl23VQZ93CQqj`, Start from Nowhere)
 
@@ -52,9 +64,24 @@ Only the account owner can do these; they cannot be done from the repo.
    prices or webhooks before this pass, which suggests onboarding may be incomplete.
    Check Stripe > Settings that charges and payouts are enabled and a bank account is
    attached, or money will authorize and never settle.
-3. **Legal.** Stripe requires visible terms and a refund policy. `terms.html` and
-   `privacy.html` exist but have not had counsel review, and neither yet describes the
-   trial, the renewal terms or how to cancel. Fix that before charging anyone.
+3. **Activate the Stripe billing portal.** Stripe > Settings > Billing > Customer portal
+   > Activate. The account has zero portal configurations today, so Manage Billing returns
+   a 503 explaining it is off. Cancelling is unaffected. The API key available to tooling
+   here cannot create the configuration, so this is a dashboard click.
+4. **Create the `billing@startfromnowhere.com` mailbox.** Terms, Privacy and the pricing
+   page all point at it. The domain's mail is routed to a cPanel host
+   (`MX -> _dc-mx.feb1e7357ba1.startfromnowhere.com` -> `162.241.217.51`, SPF
+   `include:websitewelcome.com`), so the mailbox is created there, or by moving the domain
+   to Cloudflare Email Routing and forwarding to the owner's inbox. Worth confirming
+   `legal@`, `privacy@` and `editors@` actually deliver while you are in there; they are
+   already published on the site and nothing here can verify them.
+5. **Enable leaked-password protection** (Authentication > Policies). The app signs in with
+   magic links rather than passwords, so this is precautionary, but it is a free toggle.
+6. **Legal review.** `terms.html` and `privacy.html` now describe the trial, renewal,
+   one-click cancellation, the 72-hour refund window and Stripe as processor, and they no
+   longer carry a "draft template" label because they are the operative terms for real
+   transactions. They still have not been reviewed by counsel. That is the last open item
+   before charging at any volume.
 
 ### The free trial
 
@@ -90,3 +117,42 @@ shows the Admin tab only after `rpc('is_admin')` returns true. BI reads a single
 `admin_bi()` RPC (aggregates only); the Partners CRM uses `crm_contacts`/`crm_notes`
 with admin-only RLS. Add an admin: `insert into app_admins(email) values ('...');`
 Preview the dashboard layout with sample data at `/app/#admin-preview` (no real data).
+
+## Advisor findings and the PUBLIC grant trap (2026-09-16)
+
+`revoke execute on function f() from anon, authenticated` **does not stop anon calling
+`f()`**. Postgres grants EXECUTE on every new function to `PUBLIC`, and `anon` inherits it;
+revoking a role's own grant leaves the `PUBLIC` grant in place. The tell is a leading
+`=X/postgres` in `pg_proc.proacl`. An earlier migration made exactly this mistake, and
+checking the per-role grants afterwards looked clean, because the per-role grants *were*
+clean. `20260916_revoke_public_execute_and_rls_initplan.sql` revokes from `PUBLIC` and the
+advisor count for anon-callable SECURITY DEFINER functions went from 11 to 1.
+
+Nothing was exploitable through that gap: the five trigger functions return `trigger`,
+which PostgREST will not expose and Postgres refuses to call directly, and every `admin_*`
+function opens with `if not is_admin() then raise exception 'admin only'`.
+
+**Findings that remain, and are intentional:**
+
+- `is_admin()` is callable by anon and authenticated. The app calls it to decide whether to
+  show the Admin tab. It reads `auth.jwt()` and returns false for anyone not on the admin
+  list, so an anonymous call learns nothing.
+- The six `admin_*` RPCs are callable by authenticated. They have to be: that is how an
+  admin calls them. Each one checks `is_admin()` server-side first.
+
+Performance items fixed in the same migration: every `auth.uid()` inside an RLS policy is
+now `(select auth.uid())` so it is evaluated once per statement rather than once per row,
+and the three unindexed foreign keys (`forum_posts.user_id`, `forum_threads.user_id`,
+`sessions.user_id`) have covering indexes. Left alone: five unused indexes (too early to
+call them dead) and the two overlapping SELECT policies on `profiles` (merging them is a
+micro-optimisation on a table this size and touches access control, so it is not worth the
+risk today).
+
+## Validating billing changes
+
+`node src/smoke_billing.js` (with `CHROMIUM_PATH` and `NODE_PATH` set, see the file header)
+drives the built app in headless Chromium and asserts that the free tier renders no
+checkout control signed out or signed in, that the Account card states the next money event
+correctly in all six subscription states, and that Cancel Plan appears whenever there is
+something to cancel. Run it alongside `python3 src/build.py` and `cd src && node test.js`
+after touching anything in the billing path.
