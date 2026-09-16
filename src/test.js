@@ -92,35 +92,44 @@ function runExam(exam){
    if(t.indexOf('/')>0){ const p=t.split('/'); return Number(p[0])/Number(p[1]); } return Number(t); };
   const wordy=mc.filter(q=>!numeric(q)), nums=mc.filter(numeric);
 
-  if(wordy.length>=40){
+  // Measured per SECTION, not per exam. Adding 500 unbiased Data Sufficiency items
+  // pulled the GMAT aggregate from 41 percent down to 33 without a single verbal item
+  // changing, which is dilution, not repair. Per section, a bias has nowhere to hide.
+  // Recorded debt in hand written content, measured per section so nothing dilutes it.
+  // These are the worst the bank is allowed to be, not a target. GMAT V is the serious
+  // one: the longest choice is the key on 81 percent of items, so a student who picks
+  // the longest option and never reads the question scores 81 percent. That is a bank
+  // defect, not a difficulty setting, and it needs the choices rewritten so the correct
+  // answer is not the only one carrying its full qualification. The quantitative entries
+  // are the mirror image, short correct values against long error derived ones.
+  // Lower each number as items are rewritten; delete the entry once it is in tolerance.
+  const DEBT={'gmat-focus.V':{long:82,short:20},'gmat-focus.Q':{long:20,short:79},
+              'gre.Q':{long:20,short:44},'gre.V':{long:20,short:43}};
+  const bySec={};
+  wordy.forEach(q=>{ (bySec[q.section]=bySec[q.section]||[]).push(q); });
+  Object.keys(bySec).sort().forEach(sec=>{
+   const list=bySec[sec];
+   if(list.length<40) return;
    let longest=0, shortest=0, scored=0;
-   wordy.forEach(q=>{ const len=q.choices.map(c=>String(c).length);
+   list.forEach(q=>{ const len=q.choices.map(c=>String(c).length);
     const max=Math.max(...len), min=Math.min(...len);
     if(len.filter(l=>l===max).length>1) return;
     scored++;
     if(len[q.answer]===max) longest++; if(len[q.answer]===min) shortest++; });
+   if(!scored) return;
    const pctLong=Math.round(longest/scored*100), pctShort=Math.round(shortest/scored*100);
    const evenPct=Math.round(100/exam.choices);
-   console.log('  wording: longest choice is correct on '+pctLong+' percent of '+scored+
+   console.log('  wording ['+sec+']: longest is key on '+pctLong+' percent of '+scored+
     ' items, shortest on '+pctShort+' percent (even would be '+evenPct+' each)');
-   // Known debt, measured rather than waved away. The hand written verbal banks were
-   // built before this guard existed and they carry a real length bias: on GMAT verbal
-   // the longest choice is the key far more often than chance, and on GRE verbal the
-   // shortest is. Both are gameable without reading the question and both need the
-   // choices rewritten, which is a content job, not a code one.
-   //
-   // Until that happens this is a ratchet, not a pass: the recorded numbers are the
-   // worst the bank is allowed to be, so the bias can only shrink. Lower these as items
-   // get rewritten, and delete the entry once an exam is inside the normal tolerance.
-   const DEBT={'gmat-focus':{long:43,short:33},'gre':{long:20,short:43}};
-   const cap=DEBT[exam.id]||{}, capLong=cap.long||Math.round(evenPct*1.8), capShort=cap.short||Math.round(evenPct*1.8);
+   const key=exam.id+'.'+sec;
+   const cap=DEBT[key]||{}, capLong=cap.long||Math.round(evenPct*1.8), capShort=cap.short||Math.round(evenPct*1.8);
    const bad=[];
-   if(pctLong>capLong) bad.push('the longest wording is correct on '+pctLong+' percent of items, above the recorded '+capLong+' (chance is '+evenPct+')');
-   if(pctShort>capShort) bad.push('the shortest wording is correct on '+pctShort+' percent of items, above the recorded '+capShort+' (chance is '+evenPct+')');
+   if(pctLong>capLong) bad.push(sec+': the longest wording is key on '+pctLong+' percent, above the recorded '+capLong+' (chance is '+evenPct+')');
+   if(pctShort>capShort) bad.push(sec+': the shortest wording is key on '+pctShort+' percent, above the recorded '+capShort+' (chance is '+evenPct+')');
    if(cap.long&&pctLong<=evenPct*1.8&&pctShort<=evenPct*1.8)
-    bad.push('wording bias is now inside normal tolerance for '+exam.id+'; remove its DEBT entry in test.js');
-   check('length bias within tolerance', bad);
-  }
+    bad.push(key+' is now inside normal tolerance; remove its DEBT entry in test.js');
+   check('length bias within tolerance ['+sec+']', bad);
+  });
 
   if(nums.length>=40){
    // Where does the key fall once the choices are put in numeric order? Flat is the

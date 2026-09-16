@@ -283,16 +283,18 @@ def stem_numbers(stem, want_shape, exclude, limit=6):
 
 
 def canon(item):
-    """Dedup key: the stem with every number blanked, plus the schema id.
+    """Dedup key: the schema, the stem, and the choices.
 
-    Two draws of the same schema that differ only in their numbers are still two
-    usable items, so numbers stay in the key. What this catches is the same draw
-    appearing twice, which happens more than you would think once a schema's
-    parameter space is small.
+    The choices belong in the key. Some schemas put the whole of what varies into
+    the options rather than the stem, a punctuation item whose stem is just "which
+    choice conforms" being the clearest case, and keying on the stem alone made
+    every one of those look like a repeat of the first. What the key is meant to
+    catch is the same DRAW appearing twice, and a draw is the stem plus what it
+    offers.
     """
-    return hashlib.sha1(
-        (item["gen"] + "|" + re.sub(r"\s+", " ", item["stem"]).strip()).encode("utf-8")
-    ).hexdigest()
+    body = item["gen"] + "|" + re.sub(r"\s+", " ", item["stem"]).strip()
+    body += "|" + "|".join(str(c) for c in item.get("choices", ()))
+    return hashlib.sha1(body.encode("utf-8")).hexdigest()
 
 
 def run(gens, target, choices_n, prefix, seed=20260916, start=1, existing=None):
@@ -377,6 +379,12 @@ def to_js(items, const, header):
         ]
         if it.get("answerType"):
             parts.append("answerType:%s" % jstr(it["answerType"]))
+        # Data Insights items carry the underlying quant skill and whether the item is
+        # mathematical. The engine uses qskill for a half weight rating update and for
+        # pool filtering, so leaving it out would quietly change how the app learns.
+        for extra in ("domain", "qskill"):
+            if it.get(extra):
+                parts.append("%s:%s" % (extra, jstr(it[extra])))
         head = "{" + ",".join(parts) + ","
         body = " stem:%s," % jstr(it["stem"])
         if it.get("answerType") == "spr":
@@ -392,3 +400,77 @@ def to_js(items, const, header):
         lines.append(head + "\n" + body + "\n" + ch + "\n" + tail + "},")
     lines.append("];")
     return "\n".join(lines) + "\n"
+
+
+class FixedGen(Gen):
+    """A schema whose choices are fixed and whose work is deciding which one is right.
+
+    Data Sufficiency is the case this exists for: the five options never change, so
+    there are no distractors to invent, and the entire question is which option the
+    two statements actually justify. build() returns choices and an answer index,
+    and the subclass is responsible for having DERIVED that index rather than
+    decided it.
+    """
+
+    def make(self, rng, choices_n):
+        spec = self.build(rng)
+        choices = list(spec["choices"])
+        ans = spec["answer"]
+        if not isinstance(ans, int) or not 0 <= ans < len(choices):
+            raise ItemError("%s answer index %r out of range" % (self.id, ans))
+        item = {
+            "id": None,
+            "section": spec.get("section", self.section),
+            "type": spec.get("type", self.type),
+            "sub": spec.get("sub", self.sub),
+            "skill": spec.get("skill", self.skill),
+            "diff": spec.get("diff", self.diff),
+            "stem": spec["stem"],
+            "choices": choices,
+            "answer": ans,
+            "expl": spec["expl"],
+            "wrong": spec.get("wrong", ""),
+            "gen": self.id,
+        }
+        for k in ("qskill", "domain", "answerType"):
+            if spec.get(k):
+                item[k] = spec[k]
+        if len(set(choices)) != len(choices):
+            raise ItemError("%s has duplicate choices" % self.id)
+        if item["diff"] not in (1, 2, 3, 4, 5):
+            raise ItemError("%s difficulty %r" % (self.id, item["diff"]))
+        if DASH.search(json.dumps(item)):
+            raise ItemError("%s contains an em or en dash" % self.id)
+        if not item["stem"] or not item["expl"]:
+            raise ItemError("%s missing stem or explanation" % self.id)
+        return item
+
+
+def sufficiency(domain, question, s1, s2):
+    """Decide a Data Sufficiency item by enumeration instead of by argument.
+
+    domain is an iterable of candidate assignments. question maps an assignment to
+    the answer being asked for; s1 and s2 are the statements as predicates. A
+    statement is sufficient when every assignment it admits yields the same answer,
+    which is exactly the definition, checked rather than asserted. Reasoning about
+    sufficiency by hand is where these items go wrong, so nothing here reasons.
+
+    Returns the index into the standard five options, or None when the item is
+    degenerate (a statement admits nothing at all, so the premises contradict).
+    """
+    cases = list(domain)
+    a1 = {question(c) for c in cases if s1(c)}
+    a2 = {question(c) for c in cases if s2(c)}
+    both = {question(c) for c in cases if s1(c) and s2(c)}
+    if not a1 or not a2 or not both:
+        return None
+    suf1, suf2, sufb = len(a1) == 1, len(a2) == 1, len(both) == 1
+    if suf1 and suf2:
+        return 3
+    if suf1:
+        return 0
+    if suf2:
+        return 1
+    if sufb:
+        return 2
+    return 4

@@ -15,6 +15,7 @@ sys.path.insert(0, str(D / "gen"))
 import framework as F          # noqa: E402
 import mapping as M            # noqa: E402
 import g_sat_alg, g_sat_adv, g_sat_psda, g_sat_geo   # noqa: E402,F401
+import g_sat_rw, g_gmat_ds                           # noqa: E402,F401
 
 OUT = D / "generated"
 TARGET = 500
@@ -27,7 +28,13 @@ SAT_PLAN = {
     "m_adv": g_sat_adv.GENS,
     "m_psda": g_sat_psda.GENS,
     "m_geo": g_sat_geo.GENS,
+    "rw_sec": [g for g in g_sat_rw.GENS if g.skill == "rw_sec"],
+    "rw_eoi": [g for g in g_sat_rw.GENS if g.skill == "rw_eoi"],
 }
+
+# Categories authored directly against an exam's own taxonomy rather than remapped.
+# Data Sufficiency has no SAT counterpart, so it lives here.
+EXAM_EXTRA = {"gmat": {"di_ds": g_gmat_ds.GENS}}
 
 PREFIX = {"sat": "ZS", "gre": "ZG", "gmat": "ZM"}
 
@@ -39,9 +46,9 @@ HEADER = """// GENERATED FILE. Do not edit.
 
 
 def plan_for(exam, pool):
-    if exam == "sat":
-        return SAT_PLAN
-    return M.build_for(exam, pool)
+    plan = dict(SAT_PLAN) if exam == "sat" else M.build_for(exam, pool)
+    plan.update(EXAM_EXTRA.get(exam, {}))
+    return plan
 
 
 def main(target=TARGET, verbose=True):
