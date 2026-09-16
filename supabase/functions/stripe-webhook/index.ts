@@ -37,6 +37,9 @@ async function userIdFor(sub: Stripe.Subscription): Promise<string | null> {
 // this is the line that needs to change.
 function subPatch(sub: Stripe.Subscription) {
   const active = sub.status === "active" || sub.status === "trialing";
+  // What this subscriber actually pays. Without the interval, revenue can only be a
+  // headcount times a hardcoded rate, which stops being true the first time a price moves.
+  const price = sub.items?.data?.[0]?.price;
   return {
     plan: active ? (sub.metadata?.plan ?? "plus") : "free",
     plan_status: sub.status,
@@ -45,6 +48,8 @@ function subPatch(sub: Stripe.Subscription) {
     trial_end: iso(sub.trial_end),
     current_period_end: iso(sub.current_period_end),
     cancel_at_period_end: !!sub.cancel_at_period_end,
+    plan_interval: price?.recurring?.interval ?? null,
+    plan_amount_cents: typeof price?.unit_amount === "number" ? price.unit_amount : null,
   };
 }
 

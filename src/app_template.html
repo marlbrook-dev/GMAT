@@ -985,18 +985,72 @@ function adminInsights(d){ const out=[]; const days=d.attempts_by_day||[];
   if(prev7>0){ const chg=Math.round((last7-prev7)/prev7*100); out.push('Practice volume '+(chg>=0?'up ':'down ')+Math.abs(chg)+'% week over week ('+prev7+' to '+last7+' answers).'); } }
  if((d.item_flags||[]).length) out.push(d.item_flags.length+' question'+(d.item_flags.length===1?' looks':'s look')+' mis-tuned (accuracy under 25% or over 95% on 8+ answers). Review them below.');
  if(d.users_total>0&&!d.users_active_7d) out.push('No signed-in activity in the last 7 days.');
- if(d.users_paid>0){ const m=d.plan_mix||{}; const mrr=(m.plus||0)*4.99+(m.pro||0)*9.99; out.push('Estimated MRR up to $'+mrr.toFixed(2)+' at monthly rates ('+(m.plus||0)+' Plus, '+(m.pro||0)+' Pro); annual billing lowers the effective rate.'); }
+ if(d.users_paid>0){ const m=d.plan_mix||{}; out.push((m.plus||0)+' Plus and '+(m.pro||0)+' Pro accounts. The Revenue tab has the actual MRR, taken from what each subscriber is really billed rather than a headcount times a list price.'); }
  const sk=(d.skill_difficulty||[])[0]; if(sk){ const s=SKILLS.find(x=>x.id===sk.skill); if(s) out.push('Hardest skill across all users: '+s.label+', '+Math.round(sk.acc*100)+'% accuracy on '+sk.n+' answers. Candidate for a playbook push or easier on-ramp items.'); }
  if(!out.length) out.push('Not enough data for trends yet. This fills in as real users practice.');
  return out; }
 function csvDownload(name,rows){ if(!rows||!rows.length){toast('Nothing to export yet.');return;} const cols=Object.keys(rows[0]); const escv=v=>{v=v==null?'':String(v); return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;};
  const body=[cols.join(',')].concat(rows.map(r=>cols.map(c=>escv(r[c])).join(','))).join('\n');
  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([body],{type:'text/csv'})); a.download=name+'.csv'; a.click(); toast('Exported '+name+'.csv'); }
+// ---------- admin revenue (reads admin_revenue(); aggregates only, is_admin gated) ----------
+const ADMIN_REV_SAMPLE={generated_at:'sample',mrr_cents:8492,trial_mrr_cents:1996,paying:11,trialing:4,past_due:1,cancelling:2,
+ accounts_total:128,ever_subscribed:16,status_mix:{never:112,active:11,trialing:4,past_due:1},
+ plan_mix:{'plus month':7,'plus year':2,'pro month':5,'pro year':1},
+ trials_ending:[{d:'2026-09-18',n:2,cents:998,cancelling:0},{d:'2026-09-21',n:1,cents:999,cancelling:1},{d:'2026-09-23',n:1,cents:499,cancelling:0}],
+ renewals_due:[{d:'2026-09-19',n:3,cents:1797,cancelling:1},{d:'2026-09-27',n:2,cents:1498,cancelling:0}]};
+const money=c=>'$'+((c||0)/100).toFixed(2);
+function revRows(rows,label){ if(!rows||!rows.length) return '<p class="small muted" style="margin:0">Nothing due in the next 14 days.</p>';
+ return '<table><thead><tr><th>'+label+'</th><th class="num">Accounts</th><th class="num">Amount</th><th class="num">Already cancelling</th></tr></thead><tbody>'
+  +rows.map(r=>'<tr><td>'+esc(String(r.d))+'</td><td class="num">'+r.n+'</td><td class="num">'+money(r.cents)+'</td><td class="num">'+(r.cancelling?badge(String(r.cancelling),'warning'):'0')+'</td></tr>').join('')
+  +'</tbody></table>'; }
+async function renderAdminRevenue(el,preview){ el.innerHTML='<div class="stack"><div class="empty">Loading revenue...</div></div>';
+ let d=ADMIN_REV_SAMPLE, note='Sample data. Sign in as an admin to see the real numbers.';
+ if(!preview){ try{ const {data,error}=await Cloud.client.rpc('admin_revenue'); if(error) throw error; d=data; note=null; }
+  catch(e){ el.innerHTML='<div class="narrow stack"><div class="card"><div class="card-title">Revenue</div><p class="small">Could not load: '+esc(String(e.message||e))+'</p></div></div>'; return; } }
+ const mix=d.status_mix||{}, pm=d.plan_mix||{};
+ const tile=(l,v,sub)=>'<div class="tile"><div class="l">'+l+'</div><div class="v">'+v+'</div>'+(sub?'<div class="small">'+sub+'</div>':'')+'</div>';
+ el.innerHTML='<div class="stack">'
+ +'<div class="row" style="align-items:flex-end;justify-content:space-between"><div><h1 style="font-size:var(--text-2xl);font-weight:700">Revenue</h1><p class="muted" style="margin:6px 0 0">What subscribers are actually billed, taken from Stripe through the webhook. Annual prices are divided by twelve so every figure here is monthly.</p></div>'+adminTabsHtml()+'</div>'
+ +(note?'<div class="card"><p class="small" style="margin:0">'+note+'</p></div>':'')
+ +'<div class="tiles" style="grid-template-columns:repeat(4,1fr)">'
+   +tile('MRR',money(d.mrr_cents),'active subscriptions only')
+   +tile('ARR',money((d.mrr_cents||0)*12),'MRR times twelve')
+   +tile('Paying',String(d.paying||0),'status active')
+   +tile('In Trial',String(d.trialing||0),money(d.trial_mrr_cents)+' if they all convert')
+ +'</div>'
+ +'<div class="tiles" style="grid-template-columns:repeat(4,1fr)">'
+   +tile('Cancelling',String(d.cancelling||0),'still inside a paid period')
+   +tile('Past Due',String(d.past_due||0),'payment failed, retrying')
+   +tile('Ever Subscribed',String(d.ever_subscribed||0),'of '+(d.accounts_total||0)+' accounts')
+   +tile('Take Rate',(d.accounts_total?((d.ever_subscribed||0)/d.accounts_total*100).toFixed(1):'0.0')+'%','snapshot, not a cohort rate')
+ +'</div>'
+ +'<div class="card stack-4"><div class="card-head" style="margin:0"><span class="card-title">Trials Ending, Next 14 Days</span><button class="btn ghost sm" onclick="csvDownload(\'trials-ending\',(window._revD&&window._revD.trials_ending)||[])">Download CSV</button></div>'
+   +revRows(d.trials_ending,'Trial ends')
+   +'<p class="small muted" style="margin:0">Each of these converts to a charge on the day shown unless the student cancels first. The cancelling column is how many already have.</p></div>'
+ +'<div class="card stack-4"><div class="card-head" style="margin:0"><span class="card-title">Renewals Due, Next 14 Days</span><button class="btn ghost sm" onclick="csvDownload(\'renewals-due\',(window._revD&&window._revD.renewals_due)||[])">Download CSV</button></div>'
+   +revRows(d.renewals_due,'Renews')+'</div>'
+ +'<div class="tiles" style="grid-template-columns:repeat(2,1fr)">'
+   +'<div class="card stack-4"><div class="card-title">Subscription Status</div><table><tbody>'
+     +Object.keys(mix).sort().map(k=>'<tr><td>'+esc(k)+'</td><td class="num">'+mix[k]+'</td></tr>').join('')
+     +'</tbody></table><p class="small muted" style="margin:0">"never" is an account that has not subscribed.</p></div>'
+   +'<div class="card stack-4"><div class="card-title">Plan and Interval</div>'
+     +(Object.keys(pm).length?'<table><tbody>'+Object.keys(pm).sort().map(k=>'<tr><td>'+esc(k)+'</td><td class="num">'+pm[k]+'</td></tr>').join('')+'</tbody></table>':'<p class="small muted" style="margin:0">No active or trialing subscriptions yet.</p>')
+     +'</div>'
+ +'</div>'
+ +'<div class="card stack-4"><div class="card-title">What These Numbers Are Not</div><ul class="small" style="margin:0;padding-left:18px">'
+   +'<li>Trial money is kept out of MRR. Counting a trial as revenue is how a dashboard starts lying to its owner.</li>'
+   +'<li>Take rate is a snapshot of current accounts, not a cohort conversion rate. Nothing records when a trial started, so a true trial-to-paid rate needs a billing event log. That is worth building before the first real cohort.</li>'
+   +'<li>Amounts come from the Stripe price on each subscription, so a price change is reflected automatically. They exclude tax, which Stripe adds at checkout.</li>'
+   +'<li>Refunds and failed charges are not netted out here. Stripe is the ledger; this is an operating view.</li>'
+ +'</ul></div>'
+ +'</div>';
+ window._revD=d; }
 let adminTab='bi';
-function adminTabsHtml(){ const T=[['bi','Overview'],['users','Users'],['traffic','Traffic'],['mod','Moderation'],['crm','Partners CRM']];
+function adminTabsHtml(){ const T=[['bi','Overview'],['rev','Revenue'],['users','Users'],['traffic','Traffic'],['mod','Moderation'],['crm','Partners CRM']];
  return '<div class="row" style="gap:6px;flex-wrap:wrap">'+T.map(t=>'<button class="btn sm'+(adminTab===t[0]?'':' secondary')+'" onclick="adminTab=\''+t[0]+'\';renderAdmin()">'+t[1]+'</button>').join('')+'</div>'; }
 async function renderAdmin(){ const el=document.getElementById('v-admin'); const preview=location.hash==='#admin-preview';
  if(!preview&&(!Cloud.user||!Cloud.isAdmin)){ el.innerHTML='<div class="narrow stack"><div class="card p8" style="text-align:center"><div class="card-title">Admin</div><p class="muted" style="margin-top:8px">Business intelligence is available to admin accounts. Sign in on the Account tab with an admin email.</p></div></div>'; return; }
+ if(adminTab==='rev'){ return renderAdminRevenue(el,preview); }
  if(adminTab==='crm'){ return renderAdminCRM(el,preview); }
  if(adminTab==='users'){ return renderAdminUsers(el,preview); }
  if(adminTab==='traffic'){ return renderAdminTraffic(el,preview); }
