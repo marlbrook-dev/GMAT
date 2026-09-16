@@ -13,6 +13,24 @@
 {"@type":"Question","name":"How Often Are the Rankings Updated?","acceptedAnswer":{"@type":"Answer","text":"The composite refreshes when a tracked publisher releases a new edition and when schools publish new class profiles; the data-as-of date is shown at the top of the page."}}
 ]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"ItemList","name":"Start From Nowhere MBA Rankings 2026","itemListElement":[{{LD_ITEMS}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset",
+"name":"Start From Nowhere MBA Rankings and Class Profile Data",
+"description":"Class profile, cost, outcome and scholarship-policy data for {{N}} US full-time MBA programs. Every published figure carries the source publication, the year and a URL to the page it came from; figures a school does not publish are recorded as null and render as a dash rather than being estimated.",
+"url":"https://startfromnowhere.com/schools/",
+"dateModified":"{{UPDATED}}",
+"isAccessibleForFree":true,
+"creator":{"@type":"Organization","name":"Start From Nowhere","url":"https://startfromnowhere.com/"},
+"publisher":{"@type":"Organization","name":"Start From Nowhere","url":"https://startfromnowhere.com/"},
+"measurementTechnique":"Each figure is transcribed from the school's own published class profile or financial aid page and stored with its source, year and URL. A build-time validator rejects any published figure missing provenance, any figure from a banned source, and any mixing of GMAT Focus and GMAT Classic editions.",
+"variableMeasured":[
+ {"@type":"PropertyValue","name":"GMAT score","description":"Median or average as the school reports it, labeled Focus (205 to 805) or Classic (200 to 800) and never converted between them"},
+ {"@type":"PropertyValue","name":"Acceptance rate"},
+ {"@type":"PropertyValue","name":"Class size"},
+ {"@type":"PropertyValue","name":"International share of class"},
+ {"@type":"PropertyValue","name":"Tuition per year"},
+ {"@type":"PropertyValue","name":"Median salary"},
+ {"@type":"PropertyValue","name":"Employment rate"},
+ {"@type":"PropertyValue","name":"Scholarship review policy","description":"Whether every admitted student is considered automatically or a separate scholarship application is required, quoted from the school's own financial aid page"}]}</script>
 <style>
 :root{--navy-900:#0C1F3A;--navy-800:#122B4E;--navy-600:#2C4E80;--navy-100:#DCE5F1;--navy-50:#F2F6FB;--gold-600:#A8842F;--gold-50:#FAF5E8;--gray-700:#374151;--gray-500:#6B7280;--gray-300:#D1D5DB;--gray-200:#E5E7EB;--gray-100:#F3F4F6;--gray-50:#F9FAFB;--green-600:#16A34A;--green-50:#F0FDF4;--amber-600:#D97706;--amber-50:#FFFBEB;--red-600:#DC2626;--red-50:#FEF2F2;
 --serif:'Source Serif 4',Georgia,serif;--display:'Manrope',system-ui,sans-serif;--body:'IBM Plex Sans',system-ui,sans-serif;--mono:'IBM Plex Mono',ui-monospace,monospace}

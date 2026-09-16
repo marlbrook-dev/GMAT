@@ -100,6 +100,31 @@ for _counted in ["llms.txt", "src/blog/EDITORIAL.md"]:
     if _cp.exists():
         check_counts(_counted, _cp.read_text(), _ALLOWED_COUNTS)
 
+# Prices drift the same way counts do, and llms.txt is worse than a stale page: it is the
+# file LLMs read to answer "what does this cost", so a stale number there gets repeated by
+# an AI answer engine rather than just sitting on a page nobody visits. It shipped once
+# quoting $9.99 and $19.99 months after the real prices became $4.99 and $9.99. Take the
+# truth from the trainer template and fail the build on anything that disagrees.
+def check_prices(name, text):
+    import re as _pre
+    tpl = (d / "app_template.html").read_text()
+    live = set(_pre.findall(r"mo:'(\$[0-9]+\.[0-9]{2})'", tpl))
+    live |= set(_pre.findall(r"or (\$[0-9]+\.[0-9]{2})/yr", tpl))
+    if not live:
+        print("ERROR: could not read plan prices out of app_template.html", file=sys.stderr)
+        sys.exit(1)
+    quoted = set(_pre.findall(r"\$[0-9]+\.[0-9]{2}", text))
+    # Dollar figures that are not our own prices (loan caps, GI Bill rates, awards) are
+    # everywhere in the sourced pages, so only judge figures that look like a plan price.
+    plan_like = {q for q in quoted if float(q[1:]) < 200}
+    stale = plan_like - live - {"$0.00"}
+    if stale:
+        print(f"ERROR: {name} quotes {sorted(stale)} but the live plan prices are "
+              f"{sorted(live)}; update it", file=sys.stderr)
+        sys.exit(1)
+
+check_prices("llms.txt", (root / "llms.txt").read_text())
+
 for _doc in ["README.md", "ROADMAP.md", "CLAUDE.md", "llms.txt", "GROWTH.md", "INTEGRATIONS.md", "I18N.md", "data/DATA.md"]:
     _p = root / _doc
     if _p.exists():

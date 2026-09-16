@@ -49,7 +49,13 @@ WORDY = re.compile(r"[A-Za-z][a-z]{2,}(\s+\S+)+")
 
 def strip_blocks(text):
     """Remove script/style bodies, returning (markup_only, list_of_script_bodies)."""
-    scripts = re.findall(r"<script\b[^>]*>([\s\S]*?)</script>", text, re.I)
+    # JSON-LD is structured data for search engines and answer engines, not UI copy. It is
+    # deliberately in English key names and machine-read values, a translator never touches
+    # it, and counting it as translatable copy makes the ceiling fire on schema work that
+    # has nothing to do with i18n.
+    scripts = [b for tag, b in
+               re.findall(r"(<script\b[^>]*>)([\s\S]*?)</script>", text, re.I)
+               if "ld+json" not in tag.lower()]
     for tag in SKIP_TAGS:
         text = re.sub(rf"<{tag}\b[^>]*>[\s\S]*?</{tag}>", " ", text, flags=re.I)
     return text, scripts

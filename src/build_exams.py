@@ -237,7 +237,27 @@ def main():
         ed = dest / e["slug"]
         ed.mkdir(exist_ok=True)
         pages.append((ed / "index.html", exam_page(e, tpl, today)))
-    pages.append((dest / "index.html", itpl.replace("{{CARDS}}", "\n".join(cards)).replace("{{UPDATED}}", today)))
+    # Structured data for the exam index. These pages already draw organic search for
+    # exams we do not yet have a trainer for, so declaring them as a structured list of
+    # named, sourced exam guides is cheap and directly aimed at answer engines.
+    exam_ld = json.dumps({
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Admissions exam guides",
+        "description": "Structure, timing, cost, validity and registration for the major "
+                       "graduate and undergraduate admissions exams, each fact sourced to "
+                       "the test maker.",
+        "numberOfItems": len(exams),
+        "itemListElement": [
+            {"@type": "ListItem", "position": i + 1,
+             "item": {"@type": "Course", "name": e["name"],
+                      "description": f'{e.get("audience", "")}. Scored {e.get("score_scale", "")}.'.strip(". "),
+                      "url": f'{SITE}/exams/{e["slug"]}/',
+                      "provider": {"@type": "Organization", "name": e.get("maker", "")}}}
+            for i, e in enumerate(exams)],
+    }, separators=(",", ":"))
+    pages.append((dest / "index.html", itpl.replace("{{CARDS}}", "\n".join(cards))
+                  .replace("{{UPDATED}}", today).replace("{{EXAM_LD}}", exam_ld)))
     pages = [(path, partials.apply_chrome(content)) for path, content in pages]
     for path, content in pages:
         if "{{" in content:
