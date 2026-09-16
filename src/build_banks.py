@@ -18,12 +18,12 @@ sys.path.insert(0, str(D / "gen"))
 import framework as F          # noqa: E402
 import mapping as M            # noqa: E402
 import g_sat_alg, g_sat_adv, g_sat_psda, g_sat_geo   # noqa: E402,F401
-import g_sat_rw, g_gmat_ds                           # noqa: E402,F401
+import g_sat_rw, g_gmat_ds, g_act_kol                # noqa: E402,F401
 
 OUT = D / "generated"
 TARGET = 500
 
-POOL_MODS = [g_sat_alg, g_sat_adv, g_sat_psda, g_sat_geo]
+POOL_MODS = [g_sat_alg, g_sat_adv, g_sat_psda, g_sat_geo, g_sat_rw]
 
 # SAT categories are authored directly against SAT taxonomy; the other exams remap.
 SAT_PLAN = {
@@ -37,7 +37,8 @@ SAT_PLAN = {
 
 # Categories authored directly against an exam's own taxonomy rather than remapped.
 # Data Sufficiency has no SAT counterpart, so it lives here.
-EXAM_EXTRA = {"gmat": {"di_ds": g_gmat_ds.GENS}}
+EXAM_EXTRA = {"gmat": {"di_ds": g_gmat_ds.GENS},
+              "act": {"act_e_kol": g_act_kol.GENS}}
 
 PREFIX = {"sat": "ZS", "gre": "ZG", "gmat": "ZM", "act": "ZA", "lsat": "ZL"}
 
