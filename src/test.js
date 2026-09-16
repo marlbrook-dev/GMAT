@@ -117,15 +117,14 @@ function runExam(exam){
   // build and the caps had to be loose enough to absorb noise that should not have
   // existed. Each number here is now the exact current measurement, so any movement
   // is a real change in the bank.
-  // GMAT verbal was 81 percent and is now 38, after rewriting the answer choices on
-  // roughly ninety items. The cause was structural: keys carried two clauses, a
-  // mechanism and the evidence for it, while distractors carried one, so the shape of
-  // the option gave the answer away before anyone read it. The distractors now carry
-  // comparable development, which makes them better distractors as well as longer
-  // ones. Still above the 20 percent chance level, so the work continues; lower this
-  // number as more items are rewritten and delete the entry once it is in tolerance.
-  const DEBT={'gmat-focus.V':{long:38,short:20},'gmat-focus.Q':{long:20,short:74},
-              'gre.Q':{long:20,short:43}};
+  // GMAT verbal is no longer listed here. It was 81 percent, meaning a student who
+  // always picked the longest option and never read the question scored 81 against a
+  // chance level of 20. The cause was structural: keys carried two clauses, a mechanism
+  // and the evidence for it, while distractors carried one, so the shape of the option
+  // gave the answer away before anyone read the words. After rewriting the choices on
+  // about 120 items it sits at 22 percent, inside normal tolerance, and the ordinary
+  // guard below now covers it.
+  const DEBT={'gmat-focus.Q':{long:20,short:74},'gre.Q':{long:20,short:43}};
   const bySec={};
   wordy.forEach(q=>{ (bySec[q.section]=bySec[q.section]||[]).push(q); });
   Object.keys(bySec).sort().forEach(sec=>{
