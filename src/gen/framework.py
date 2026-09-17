@@ -33,6 +33,7 @@ SHAPE_INT = re.compile(r"^-?\d{1,3}(,\d{3})*$|^-?\d+$")
 SHAPE_FRAC = re.compile(r"^-?\d+/\d+$")
 SHAPE_DEC = re.compile(r"^-?\d*\.\d+$")
 SHAPE_MONEY = re.compile(r"^\$")
+SHAPE_PCT = re.compile(r"^-?\d+(\.\d+)?%$")
 
 
 def shape(s):
@@ -46,6 +47,10 @@ def shape(s):
     s = str(s)
     if SHAPE_MONEY.match(s):
         return "money"
+    # A percent among bare integers is visibly the odd one out, so percents are their
+    # own shape rather than falling through to text with every word answer.
+    if SHAPE_PCT.match(s):
+        return "pct"
     if SHAPE_FRAC.match(s):
         return "frac"
     if SHAPE_DEC.match(s):
@@ -213,6 +218,12 @@ class Gen:
             "wrong": spec.get("wrong") or self._wrong_line(why_at, first_at),
             "gen": self.id,
         }
+        # Data Insights items are read off a table or a set of sources rather than
+        # out of the stem, so the rendered source travels with the item. domain and
+        # qskill drive the half weight rating update the engine applies to these.
+        for extra in ("passageHtml", "domain", "qskill", "answerType"):
+            if spec.get(extra):
+                item[extra] = spec[extra]
         self.verify(item, right, choices_n, fmt)
         return item
 
@@ -246,7 +257,7 @@ STEM_NUM = re.compile(r"-?\d+(?:/\d+)?")
 
 def as_value(t):
     """Numeric value of a rendered choice, or None if it is not a bare number."""
-    t = str(t).replace(",", "").replace("$", "")
+    t = str(t).replace(",", "").replace("$", "").rstrip("%")
     try:
         if "/" in t:
             n, d = t.split("/", 1)
@@ -282,6 +293,35 @@ def stem_numbers(stem, want_shape, exclude, limit=6):
     return out
 
 
+def balance(rng, right, pool, need):
+    """Choose `need` wrong answers so the key's LENGTH RANK is drawn uniformly.
+
+    For a worded answer the only thing a guesser can measure without reading is length, so
+    a key that is reliably the longest option is a free point. The numeric path solves this
+    by targeting a uniform value rank; this is the same idea for text.
+
+    It samples rather than sorts, because sorting is deterministic: an earlier version
+    picked the same few subsets for a given pool, which balanced the lengths and destroyed
+    the variety that having more wrong answer types than slots was there to provide. So it
+    draws random subsets, keeps the first whose key rank matches a target drawn uniformly,
+    and falls back to the closest it saw. Both properties survive.
+    """
+    if len(pool) < need:
+        raise ItemError("balance needs %d wrong answers, pool has %d" % (need, len(pool)))
+    target = rng.randint(0, need)
+    keylen = len(str(right))
+    best, best_gap = None, None
+    for _ in range(40):
+        pick = rng.sample(pool, need)
+        rank = sum(1 for p in pick if len(str(p[0])) < keylen)
+        if rank == target:
+            return pick
+        gap = abs(rank - target)
+        if best_gap is None or gap < best_gap:
+            best, best_gap = pick, gap
+    return best
+
+
 def canon(item):
     """Dedup key: the schema, the stem, and the choices.
 
@@ -293,7 +333,19 @@ def canon(item):
     offers.
     """
     body = item["gen"] + "|" + re.sub(r"\s+", " ", item["stem"]).strip()
-    body += "|" + "|".join(str(c) for c in item.get("choices", ()))
+    # SORTED, because the answer's position is randomised on every draw and a reshuffle of
+    # the same five options is the same question, not a new one. Keying on the order let a
+    # schema with a small scenario pool "fill" a category by serving one question over and
+    # over with its options rearranged, which is worse than being short: it looks full.
+    body += "|" + "|".join(sorted(str(c) for c in item.get("choices", ())))
+    body += "|" + "|".join(str(c) for c in item.get("columns", ()))
+    # The source counts for a question READ off it: two share of total questions over
+    # different tables are different questions. It must NOT count for a question about the
+    # design of the study, where the answer is the same whatever the numbers say, so a
+    # generator can drop it. Without that, a design question appears to produce hundreds of
+    # items when it has produced one question with the figures changed underneath it.
+    if not item.get("canon_ignores_source"):
+        body += "|" + re.sub(r"\s+", " ", item.get("passageHtml", "")).strip()
     return hashlib.sha1(body.encode("utf-8")).hexdigest()
 
 
@@ -379,6 +431,10 @@ def to_js(items, const, header):
         ]
         if it.get("answerType"):
             parts.append("answerType:%s" % jstr(it["answerType"]))
+        if it.get("passageHtml"):
+            parts.append("passageHtml:%s" % jstr(it["passageHtml"]))
+        if it.get("columns"):
+            parts.append("columns:[%s]" % ",".join(jstr(c) for c in it["columns"]))
         # Data Insights items carry the underlying quant skill and whether the item is
         # mathematical. The engine uses qskill for a half weight rating update and for
         # pool filtering, so leaving it out would quietly change how the app learns.
@@ -389,6 +445,11 @@ def to_js(items, const, header):
         body = " stem:%s," % jstr(it["stem"])
         if it.get("answerType") == "spr":
             ch = " answer:%s," % jstr(it["answer"])
+        elif isinstance(it["answer"], (list, tuple)):
+            ch = " choices:[%s],answer:[%s]," % (
+                ",".join(jstr(c) for c in it["choices"]),
+                ",".join(str(int(i)) for i in it["answer"]),
+            )
         else:
             ch = " choices:[%s],answer:%d," % (
                 ",".join(jstr(c) for c in it["choices"]),

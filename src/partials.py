@@ -45,8 +45,9 @@ nav.sfn-nav{display:flex;align-items:center}
 .sfnf{border-top:1px solid #DCE5F1;background:#F9FAFB;margin-top:48px}
 .sfnf-in{max-width:1200px;margin:0 auto;padding:34px 24px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
 .sfnf-links{display:flex;gap:22px;flex-wrap:wrap;justify-content:center}
-.sfnf-links a{font-family:Manrope,system-ui,sans-serif;font-weight:600;font-size:12.5px;color:#6B7280;text-decoration:none;transition:color 120ms ease}
-.sfnf-links a:hover{color:#0C1F3A}
+.sfnf-links a,.sfnf-links button{font-family:Manrope,system-ui,sans-serif;font-weight:600;font-size:12.5px;color:#6B7280;text-decoration:none;transition:color 120ms ease}
+.sfnf-links button{background:none;border:none;padding:0;cursor:pointer;line-height:inherit}
+.sfnf-links a:hover,.sfnf-links button:hover{color:#0C1F3A}
 .sfnf-copy{font-family:Manrope,system-ui,sans-serif;font-size:12.5px;color:#9CA3AF;white-space:nowrap}
 .sfnf-legal{max-width:1200px;margin:0 auto;padding:0 24px 28px;font-size:12px;color:#9CA3AF;line-height:1.6}
 """.strip()
@@ -197,6 +198,137 @@ SENTINEL_URL = ("https://ftsqwbzhkzuudogkvoqa.supabase.co/rest/v1/client_errors"
                 "?apikey=sb_publishable_GToT4fK6RiwCZpPFE3bGiw_ThXq9qel")
 
 
+SITE_EVENTS_URL = ("https://ftsqwbzhkzuudogkvoqa.supabase.co/rest/v1/site_events"
+                   "?apikey=sb_publishable_GToT4fK6RiwCZpPFE3bGiw_ThXq9qel")
+
+
+def consent_js():
+    """The consent banner and the analytics beacon it gates.
+
+    Two things were wrong before this existed. The page analytics beacon fired on
+    first paint, before anyone had agreed to anything, and it carries a persistent
+    session id, a referrer and a country derived from the address, which is personal
+    data under GDPR and needs consent rather than a notice. And the beacon itself was
+    copy pasted into eleven templates, which is precisely how a gate gets added to ten
+    of them.
+
+    The banner is built to be valid rather than merely present, because a banner that
+    is not valid is worse than none: it collects the data and fails anyway.
+
+      Refusing is exactly as easy as accepting. Both are buttons, side by side, the
+      same size. Regulators have fined sites for putting Reject two clicks deeper.
+      Nothing is pre-ticked, and nothing analytic fires until a choice is made.
+      A Global Privacy Control signal is honoured as a refusal without asking.
+      The choice is changeable later from the footer on every page.
+      The site works identically either way.
+
+    What is deliberately NOT gated is item telemetry, which records that an item was
+    answered, which option was chosen and how long it took, with no user, session,
+    device or address attached. It cannot be tied to a person, so it is not personal
+    data, and it is the entire signal the adaptive engine learns from. The banner says
+    so plainly rather than hiding it.
+    """
+    return (
+        "<!-- sfn consent: gates the page analytics beacon; item telemetry is unlinkable and ungated -->\n"
+        "<style>#sfn-consent{position:fixed;left:0;right:0;bottom:0;z-index:80;background:#fff;"
+        "border-top:1px solid var(--sfn-border,#E5E7EB);box-shadow:0 -6px 24px rgba(8,21,39,.12);"
+        "padding:16px 20px calc(16px + env(safe-area-inset-bottom,0px))}\n"
+        "#sfn-consent[hidden]{display:none}\n"
+        "#sfn-consent .in{max-width:1100px;margin:0 auto;display:flex;gap:18px;align-items:center;flex-wrap:wrap}\n"
+        "#sfn-consent p{margin:0;font-size:13.5px;line-height:1.5;color:#374151;flex:1 1 380px;min-width:260px}\n"
+        "#sfn-consent .btns{display:flex;gap:8px;flex-wrap:wrap}\n"
+        "#sfn-consent button{font:inherit;font-size:13px;font-weight:600;padding:9px 16px;border-radius:8px;"
+        "cursor:pointer;border:1px solid #122B4E;white-space:nowrap}\n"
+        "#sfn-consent .yes{background:#122B4E;color:#fff}\n"
+        "#sfn-consent .no{background:#fff;color:#122B4E}\n"
+        "#sfn-consent .more{background:none;border:none;color:#2C4E80;text-decoration:underline;padding:9px 4px}\n"
+        "#sfn-consent .detail{flex:1 1 100%;margin:4px 0 0;font-size:12.5px;color:#6B7280;line-height:1.55}\n"
+        "#sfn-consent .detail[hidden]{display:none}\n"
+        "#sfn-consent .now{flex:1 1 100%;margin:2px 0 0;font-size:12.5px;color:#2C4E80;font-weight:600}\n"
+        "#sfn-consent .now[hidden]{display:none}\n"
+        ".sfn-consent-link{background:none;border:none;padding:0;font:inherit;color:inherit;"
+        "text-decoration:underline;cursor:pointer}</style>\n"
+        '<div id="sfn-consent" hidden role="region" aria-label="Privacy choices">\n'
+        '  <div class="in">\n'
+        "    <p><b>Your choice about analytics.</b> We would like to record which pages are opened, "
+        "where visitors arrive from and how long they stay, so we can see what is worth building. "
+        "That needs your agreement, and the site works exactly the same if you decline.</p>\n"
+        '    <div class="btns">\n'
+        '      <button type="button" class="yes" onclick="sfnConsent(true)">Accept Analytics</button>\n'
+        '      <button type="button" class="no" onclick="sfnConsent(false)">Reject Non Essential</button>\n'
+        '      <button type="button" class="more" onclick="sfnConsentDetail()" aria-expanded="false" '
+        'aria-controls="sfn-consent-detail">What We Collect</button>\n'
+        "    </div>\n"
+        '    <p class="now" id="sfn-consent-now" hidden>'
+        '<span data-now="on" hidden>Analytics is on right now. Rejecting stops it from here on.</span>'
+        '<span data-now="off" hidden>Analytics is off right now.</span>'
+        '<span data-now="gpc" hidden> Your browser sent a Global Privacy Control signal.</span>'
+        "</p>\n"
+        '    <p class="detail" id="sfn-consent-detail" hidden>'
+        "<b>Only if you accept.</b> Pages opened, the site you came from, campaign tags in the link, "
+        "whether you are on a phone or a desktop, how long a page was open, and a country worked out "
+        "from your network address. A short lived session code ties those together for one visit. "
+        "The address itself is never stored: a one way hash is written by the database and the address "
+        "is discarded. "
+        "<b>Always, and not about you.</b> Which practice item was answered, which option was chosen, "
+        "whether it was right, how many seconds it took, how long before you picked anything, and how "
+        "often you changed your mind. Those records carry no account, no session, "
+        "no device and no address, so they cannot be tied back to anyone; they are how the practice "
+        "engine learns which questions work. "
+        "<b>Never.</b> We do not buy data about you, do not append it from anywhere else, do not sell "
+        "or share it for advertising, and run no third party trackers. "
+        'Full detail is on the <a href="/privacy.html">privacy page</a>.</p>\n'
+        "  </div>\n"
+        "</div>\n"
+        "<script>(function(){try{\n"
+        "var K='sfn_consent_v1';\n"
+        "function read(){ try{ return JSON.parse(localStorage.getItem(K)||'null'); }catch(e){ return null; } }\n"
+        "window.sfnConsentState=read;\n"
+        "// Global Privacy Control is a legally recognised refusal in several states. Honour it\n"
+        "// without asking, because asking after someone has already said no is the dark pattern.\n"
+        "var gpc = (navigator.globalPrivacyControl===true);\n"
+        "window.sfnConsent=function(yes){ try{ localStorage.setItem(K,JSON.stringify(\n"
+        "  {analytics:!!yes,ts:new Date().toISOString(),v:1})); }catch(e){}\n"
+        " var b=document.getElementById('sfn-consent'); if(b) b.hidden=true;\n"
+        " if(yes) start(); };\n"
+        "window.sfnConsentDetail=function(){ var d=document.getElementById('sfn-consent-detail');\n"
+        " var btn=document.querySelector('#sfn-consent .more'); if(!d) return;\n"
+        " d.hidden=!d.hidden; if(btn) btn.setAttribute('aria-expanded', String(!d.hidden)); };\n"
+        "window.sfnConsentReopen=function(){ var b=document.getElementById('sfn-consent');\n"
+        " if(!b) return; var c=read(), n=document.getElementById('sfn-consent-now');\n"
+        " if(n){ var on=c&&c.analytics, off=c&&!c.analytics;\n"
+        "  n.hidden = (c===null);\n"
+        "  n.querySelector('[data-now=\\'on\\']').hidden = !on;\n"
+        "  n.querySelector('[data-now=\\'off\\']').hidden = !off;\n"
+        "  n.querySelector('[data-now=\\'gpc\\']').hidden = !(off&&c.gpc); }\n"
+        " b.hidden=false; var f=b.querySelector('button'); if(f) f.focus(); };\n"
+        "function start(){\n"
+        " if(window.__sfnBeacon) return; window.__sfnBeacon=1;\n"
+        ' var U="' + SITE_EVENTS_URL + '";\n'
+        " var s=sessionStorage.getItem('sfn_sid');\n"
+        " if(!s){ s=Math.random().toString(36).slice(2)+Math.random().toString(36).slice(2,10);"
+        " sessionStorage.setItem('sfn_sid',s); }\n"
+        " var p=location.pathname,t0=Date.now(),done=false;\n"
+        " function send(o){ var c=read(); if(!c||!c.analytics) return; o.sid=s; o.path=p;\n"
+        "  try{ fetch(U,{method:'POST',headers:{'Content-Type':'application/json'},"
+        "body:JSON.stringify(o),keepalive:true}); }catch(e){} }\n"
+        " send({kind:'pageview',ref:(document.referrer||'').slice(0,290)||null,"
+        "utm:location.search.indexOf('utm_')>-1?location.search.slice(1,190):null,"
+        "device:/Mobi|Android/i.test(navigator.userAgent)?'mobile':'desktop',vw:innerWidth});\n"
+        " function dur(){ if(done) return; done=true; send({kind:'duration',dur_ms:Date.now()-t0}); }\n"
+        " document.addEventListener('visibilitychange',function(){"
+        "if(document.visibilityState==='hidden') dur(); });\n"
+        " addEventListener('pagehide',dur);\n"
+        "}\n"
+        "var c=read();\n"
+        "if(gpc){ if(!c) try{ localStorage.setItem(K,JSON.stringify("
+        "{analytics:false,ts:new Date().toISOString(),v:1,gpc:true})); }catch(e){} }\n"
+        "else if(c===null){ var b=document.getElementById('sfn-consent'); if(b) b.hidden=false; }\n"
+        "else if(c&&c.analytics){ start(); }\n"
+        "}catch(e){}})();</script>\n"
+    )
+
+
 def sentinel_js(app_version=None):
     ver = app_version or build_id()
     return (
@@ -245,6 +377,11 @@ def sentinel_js(app_version=None):
 
 def footer_html(extra_legal=""):
     links = "".join('<a href="' + h + '">' + l + "</a>" for l, h in FOOTER_LINKS)
+    # A consent choice that cannot be changed later is not a choice. Every page carries
+    # the banner, so every page can reopen it; this is the one control that has to be
+    # in the footer rather than buried on the privacy page.
+    links += ('<button type="button" class="sfn-consent-open" '
+              'onclick="sfnConsentReopen()">Privacy Choices</button>')
     legal = LEGAL_LINE + ((" " + extra_legal) if extra_legal else "")
     return (
         '<footer class="sfnf"><div class="sfnf-in">'
@@ -252,7 +389,7 @@ def footer_html(extra_legal=""):
         '<div class="sfnf-links">' + links + "</div>"
         '<span class="sfnf-copy">2026 Start From Nowhere</span>'
         "</div>"
-        '<div class="sfnf-legal">' + legal + "</div></footer>" + sentinel_js()
+        '<div class="sfnf-legal">' + legal + "</div></footer>" + consent_js() + sentinel_js()
     )
 
 
@@ -278,7 +415,7 @@ def apply_chrome(html, extra_legal=""):
         html.replace("{{CHROME_CSS}}", CHROME_CSS)
         .replace("{{SITE_HEADER}}", header_html())
         .replace("{{SITE_FOOTER}}", footer_html(extra_legal))
-        .replace("{{SENTINEL}}", sentinel_js())
+        .replace("{{SENTINEL}}", consent_js() + sentinel_js())
     )
     if "—" in out or "–" in out:
         raise SystemExit("partials: em/en dash in chrome output")

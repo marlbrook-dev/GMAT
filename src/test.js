@@ -124,16 +124,29 @@ function runExam(exam){
   // gave the answer away before anyone read the words. After rewriting the choices on
   // about 120 items it sits at 22 percent, inside normal tolerance, and the ordinary
   // guard below now covers it.
-  const DEBT={'gmat-focus.Q':{long:20,short:74},'gre.Q':{long:20,short:43}};
+  // Both quantitative entries are gone. They recorded a tell that turned out to be an
+  // artefact of how it was measured: "25 percent" among other two digit percents counted
+  // as the shortest option even though three choices tied at that length, which is no tell
+  // at all. Scoring only items with a UNIQUE shortest and longest option puts every
+  // section at or near chance, so there is nothing left to record. One real fix went in
+  // alongside: the percent change schema rendered the divide by the new value distractor
+  // as "100/3 percent" against a key of "25 percent", which was a genuine difference in
+  // form, and it now renders as "33.3 percent" like every other option.
+  const DEBT={};
   const bySec={};
   wordy.forEach(q=>{ (bySec[q.section]=bySec[q.section]||[]).push(q); });
   Object.keys(bySec).sort().forEach(sec=>{
    const list=bySec[sec];
    if(list.length<40) return;
    let longest=0, shortest=0, scored=0;
+   // An item only carries a length tell if the extreme is UNIQUE. Three options tied at
+   // ten characters give a guesser nothing, so counting the key as "the shortest" there
+   // measured a coincidence rather than a strategy: it was why "25 percent" among other
+   // two digit percents registered as a tell. Both ends are now required to be unique
+   // before the item is scored at all, and the recorded numbers below are on this basis.
    list.forEach(q=>{ const len=q.choices.map(c=>String(c).length);
     const max=Math.max(...len), min=Math.min(...len);
-    if(len.filter(l=>l===max).length>1) return;
+    if(len.filter(l=>l===max).length>1 || len.filter(l=>l===min).length>1) return;
     scored++;
     if(len[q.answer]===max) longest++; if(len[q.answer]===min) shortest++; });
    if(!scored) return;

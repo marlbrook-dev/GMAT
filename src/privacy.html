@@ -9,13 +9,15 @@ body{background:var(--white)}main p,main li{font-size:15px;line-height:1.65;colo
 <main style="max-width:var(--container-narrow);margin:0 auto;padding:64px 24px 80px">
 <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-700)">Legal</div>
 <h1 style="font-size:40px;margin-top:12px">Privacy Policy</h1>
-<p style="color:var(--text-muted);margin-top:10px">Last updated: September 16, 2026. This policy covers paid plans, which are now live.</p>
+<p style="color:var(--text-muted);margin-top:10px">Last updated: September 17, 2026. This policy covers paid plans, which are now live, and the consent banner that now gates site analytics.</p>
 
 <h2>1. The Short Version</h2>
 <ul>
 <li>You can use the trainer without an account. In that mode your practice data lives only in your browser's local storage and never reaches our servers.</li>
 <li>If you create an account, we sync your practice data so you can move between devices. We use it to run the product, not to advertise to you.</li>
 <li>The free plan never asks for a card. We only ever see payment details if you choose a paid plan, and even then the card itself goes to Stripe and never to us.</li>
+<li>Site analytics only run if you say yes. The first time you arrive, a banner asks. Rejecting is one click in the same place as accepting, the site behaves identically either way, and you can change your mind from Privacy Choices in the footer of any page.</li>
+<li>One thing we record always, because it is not about you: which practice question was answered, which option was chosen, whether it was right, and how many seconds it took. Those rows carry no account, no session, no device, and no address, so they cannot be traced to a person. They are how the practice engine learns which questions work.</li>
 <li>We do not sell personal data and we do not run third-party ad trackers.</li>
 </ul>
 
@@ -24,7 +26,8 @@ body{background:var(--white)}main p,main li{font-size:15px;line-height:1.65;colo
 <li><strong>Account data.</strong> Your email address, used for passwordless sign-in links and essential service messages.</li>
 <li><strong>Practice data.</strong> Your answers, timing per question, skill ratings, review schedule, flashcard progress, session history, and settings such as your goal and test date.</li>
 <li><strong>Product events.</strong> Basic usage events (for example: round started, question answered, round completed) tied to your account, used to understand and improve the product.</li>
-<li><strong>Site analytics.</strong> Our pages run our own first-party measurement: page viewed, referrer, device type, viewport width, time on page, and a random session identifier that lives in your browser tab and clears when it closes. Your IP address is used in transit to derive a country code and a salted one-way hash for abuse prevention; the raw IP address is never stored in our database. We use no advertising cookies, no third-party trackers, and we never sell or share personal data with data brokers.</li>
+<li><strong>Site analytics, only with your consent.</strong> If you accept, our pages run our own first-party measurement: page viewed, referrer, any campaign tags in the link you followed, device type, viewport width, time on page, and a random session identifier that lives in your browser tab and clears when it closes. Your IP address is used in transit to derive a country code and a salted one-way hash for abuse prevention; the raw IP address is never stored in our database. Nothing in this bullet is collected before you choose, nothing is collected at all if you decline, and if your browser sends a Global Privacy Control signal we treat that as a decline without asking. We use no advertising cookies, no third-party trackers, and we never sell or share personal data with data brokers.</li>
+<li><strong>Item telemetry, which is not personal data.</strong> Every time a practice question is answered anywhere on the site we record the exam, the question identifier, its skill, section and difficulty, which option was chosen, whether it was correct, how many seconds it took, which mode it was answered in, how long it took before any option was picked, how many times the answer was switched before submitting, and, when you tell us, that you were guessing and which of our fixed reasons explains the miss. That record deliberately carries no account identifier, no session identifier, no device identifier and no address, and there is no column in which any of those could be stored, so a row cannot be linked back to you or to any other row you produced. Because it identifies nobody it is not gated behind the consent banner, and the banner says so rather than hiding it. It is the only evidence we have about which questions are ambiguous, which wrong answers are tempting for the right reasons, and where the engine should send you next. We do not record keystrokes, mouse movement, screen recordings, or anything you type into an answer box or an essay.</li>
 <li><strong>Optional profile details.</strong> If you choose to tell us your age range, gender, country, or role (student, educator, and so on) on the Account page, we store it. Every one of these fields is optional, self-reported, editable, and used only in aggregate to understand who we serve and improve the product; none of it is shown publicly.</li>
 <li><strong>Community forum.</strong> Posts are public by design, whether made under a name or the anonymous handle your browser generates. We store the post, the name you chose, a country code, and the salted IP hash above (for spam and abuse control). Anonymous posts are not linked to an account.</li>
 <li><strong>Error reports.</strong> When a page of ours throws a JavaScript error, the browser sends us the error message, the file and line it came from, the stack trace, the page you were on, the build version, your device type, and the same random session identifier the analytics beacon uses. It is how we find out that something is broken before you have to tell us. It is first party, it goes nowhere except our own database, and no third-party error service is involved. We cap what is stored and we do not put your practice answers or your email address into these reports.</li>
@@ -36,7 +39,7 @@ body{background:var(--white)}main p,main li{font-size:15px;line-height:1.65;colo
 <li>To take payment and run your subscription, if you have one: to start the trial, charge the renewal, show you the next billing date, and act on a cancellation.</li>
 <li>To run the adaptive engine: your answers drive your skill ratings, question selection, and review schedule.</li>
 <li>To sync your progress across devices when you are signed in.</li>
-<li>To fix problems and improve question quality, using aggregate statistics such as per-question correct rates.</li>
+<li>To fix problems and improve question quality, using aggregate statistics such as per-question correct rates and which wrong option a question attracts most.</li>
 <li>To understand usage trends in aggregate (which pages, features, and study modes help people most) so we can build what actually works. Individual browsing is reviewed only for security, abuse, or support reasons.</li>
 <li>To send the service emails you request, such as sign-in links. Optional email like a weekly digest has its own toggle in your account.</li>
 </ul>
@@ -60,6 +63,7 @@ body{background:var(--white)}main p,main li{font-size:15px;line-height:1.65;colo
 
 <h2>6. Your Controls</h2>
 <ul>
+<li><strong>Privacy choices.</strong> Accept or reject site analytics from the banner on your first visit, and change that decision at any time from Privacy Choices in the footer of every page. Your choice is stored in your own browser, so clearing site data resets it and you will be asked again. A Global Privacy Control signal from your browser is honoured as a rejection.</li>
 <li><strong>Export.</strong> Download your complete practice data from the Account page at any time.</li>
 <li><strong>Import or stay local.</strong> You can keep everything in your browser and never create an account.</li>
 <li><strong>Delete.</strong> Delete your account and synced data from the Account page. Deletion is permanent.</li>
@@ -70,7 +74,7 @@ body{background:var(--white)}main p,main li{font-size:15px;line-height:1.65;colo
 <h2>7. Your Rights Where You Live</h2>
 <p>Wherever you are, you can use the controls above to see, export, or delete your data. Some places give you further rights in law, and we honour them whether or not they apply to you by right.</p>
 <ul>
-<li><strong>Europe and the United Kingdom.</strong> You can ask for access, correction, deletion, restriction, or a portable copy, and you can object to a use. We process account and practice data to perform our agreement with you, analytics and abuse prevention on our legitimate interest in running a working product, and optional profile details on your consent, which you can withdraw at any time by clearing those fields. You can complain to your national data protection authority.</li>
+<li><strong>Europe and the United Kingdom.</strong> You can ask for access, correction, deletion, restriction, or a portable copy, and you can object to a use. We process account and practice data to perform our agreement with you; site analytics on your consent, which you give or refuse in the banner and can withdraw at any time from Privacy Choices in the footer; abuse prevention and item telemetry on our legitimate interest in running a working product, noting that item telemetry identifies nobody and so is not personal data at all; and optional profile details on your consent, which you can withdraw by clearing those fields. You can complain to your national data protection authority.</li>
 <li><strong>California.</strong> You can request the categories and specific pieces of personal information we hold, request deletion, and request correction. We do not sell or share personal information as those terms are defined in California law, and we will not discriminate against you for exercising a right.</li>
 <li><strong>India.</strong> You can access, correct, and erase your personal data, nominate someone to exercise your rights if you cannot, and raise a grievance with us at privacy@startfromnowhere.com. We do not run behavioural tracking or targeted advertising, and we do not direct advertising at children.</li>
 <li><strong>Making a request.</strong> Email privacy@startfromnowhere.com from your account address. We answer within 30 days and we do not charge for it.</li>
@@ -88,15 +92,5 @@ body{background:var(--white)}main p,main li{font-size:15px;line-height:1.65;colo
 <p>If this policy changes in a way that matters, we will note it here with a new date and, for signed-in users, flag it in the app before the change takes effect.</p>
 </main>
 {{SITE_FOOTER}}
-<!-- sfn beacon: first-party, no third parties, raw IP never stored -->
-<script>(function(){try{
-var U="https://ftsqwbzhkzuudogkvoqa.supabase.co/rest/v1/site_events?apikey=sb_publishable_GToT4fK6RiwCZpPFE3bGiw_ThXq9qel";
-var s=sessionStorage.getItem("sfn_sid");if(!s){s=Math.random().toString(36).slice(2)+Math.random().toString(36).slice(2,10);sessionStorage.setItem("sfn_sid",s);}
-var p=location.pathname,t0=Date.now(),done=false;
-function send(o){o.sid=s;o.path=p;try{fetch(U,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(o),keepalive:true});}catch(e){}}
-send({kind:"pageview",ref:(document.referrer||"").slice(0,290)||null,utm:location.search.indexOf("utm_")>-1?location.search.slice(1,190):null,device:/Mobi|Android/i.test(navigator.userAgent)?"mobile":"desktop",vw:innerWidth});
-function dur(){if(done)return;done=true;send({kind:"duration",dur_ms:Date.now()-t0});}
-document.addEventListener("visibilitychange",function(){if(document.visibilityState==="hidden")dur();});
-addEventListener("pagehide",dur);
-}catch(e){}})();</script>
+
 </body></html>
