@@ -17,6 +17,7 @@ sys.path.insert(0, str(D))
 import partials                      # noqa: E402
 import college_score as CS           # noqa: E402
 import validate_colleges             # noqa: E402
+import validate_ranking              # noqa: E402
 
 SITE = "https://startfromnowhere.com"
 OUTDIR = ROOT / "colleges"
@@ -77,10 +78,9 @@ def score_panel(c, n_ranked):
         return ('<div class="unranked"><strong>Listed but not ranked.</strong> %s '
                 'Everything the Scorecard does report for this school is shown below.'
                 '</div>' % esc(c.get("unranked_reason", "")))
-    labels = {"completion": "Completion", "earnings": "Earnings",
-              "cost": "Cost and debt", "access": "Access"}
+    labels = {"completion": "Completion", "earnings": "Earnings", "access": "Access"}
     bars = []
-    for k in ("completion", "earnings", "cost", "access"):
+    for k in ("completion", "earnings", "access"):
         v = c["sfn_components"].get(k)
         if v is None:
             bars.append('<div class="comp"><span>%s</span><span class="note">not reported'
@@ -137,7 +137,7 @@ def lead_paragraph(c, n_ranked):
         out.append("Median earnings ten years after entry are %s." % money(ea))
     if c.get("sfn_score") is not None:
         out.append("Start From Nowhere ranks it number %d of the %d colleges it scores, on "
-                   "completion, earnings, cost and access."
+                   "completion, earnings and access."
                    % (c["sfn_rank"], n_ranked))
     out.append("Every figure comes from the US Department of Education College Scorecard "
                "and links to this college's own record there.")
@@ -214,7 +214,7 @@ def college_page(c, tpl, css_href, n_ranked, n_total):
 
     if c.get("sfn_score") is not None:
         rank_line = ('<p>Ranked <strong>#%d of %d</strong> on the SFN College Score, which '
-                     'weighs completion, earnings, cost and access and ignores selectivity.</p>'
+                     'weighs completion, earnings and access, and scores neither price nor selectivity.</p>'
                      % (c["sfn_rank"], n_ranked))
     else:
         rank_line = '<p>Listed with full data, not ranked.</p>'
@@ -436,21 +436,32 @@ def methodology_page(css_href, n_ranked, n_total, updated):
 <p class="note">Updated {UPDATED}. {NRANK} of {NTOTAL} colleges in the library are ranked.</p>
 
 <div class="panel"><h2>What It Measures</h2>
-<p>Four components, each a percentile rank within the ranked set, then weighted:</p>
-<div class="stat"><span class="k">Completion</span><span class="v">30%</span><span class="s">six-year graduation (20) and first-year retention (10)</span></div>
-<div class="stat"><span class="k">Earnings</span><span class="v">25%</span><span class="s">median earnings ten years after entry</span></div>
-<div class="stat"><span class="k">Cost and debt</span><span class="v">25%</span><span class="s">net price (15) and median debt against earnings (10)</span></div>
-<div class="stat"><span class="k">Access</span><span class="v">20%</span><span class="s">share of students on Pell grants</span></div>
+<p>Three components, each a percentile rank within the ranked set, then weighted:</p>
+<div class="stat"><span class="k">Completion</span><span class="v">50%</span><span class="s">six-year graduation and first-year retention, two parts to one</span></div>
+<div class="stat"><span class="k">Earnings</span><span class="v">40%</span><span class="s">median earnings ten years after entry</span></div>
+<div class="stat"><span class="k">Access</span><span class="v">10%</span><span class="s">share of students on Pell grants</span></div>
 <p class="note">Weights are renormalised over the components a school actually reports. A school is ranked only if it reports both completion and earnings; the rest are listed with their data and marked not ranked, with the reason stated on their page.</p></div>
+
+<div class="panel"><h2>Why Price Is Not in the Score</h2>
+<p>It used to be, and it was a mistake. Until September 2026 net price was 15 percent of the score, median debt against earnings another 10, and Pell share 20 on top. Forty-five percent of the score measured what a school charged and who it enrolled rather than what it did for them.</p>
+<p>The table that produced was headed by CUNY Baruch, with seven University of California campuses and four Cal State campuses in the top thirteen, and Harvard, Yale, MIT and Chicago outside the top twenty. Those are good schools and cheap, which is exactly the problem: the ranking was an affordability index wearing a quality ranking's clothes, and price was doing the work.</p>
+<p>A price is an input, not an outcome. What a school charges belongs on its page where you can weigh it against everything else, not inside a number claiming to say how well the school educates people. Net price, median debt, in-state and out-of-state tuition and the non-resident premium are all still published on every college page and in the table. None of them touch the score.</p>
+<p>Access stayed, at 10 rather than 20. A school that admits only students who arrive already advantaged and then posts good outcomes has done less work than one that starts further back and arrives at the same place, and Pell share is the only measure of that in the federal data. At 20 it dominated the table. At 10 it informs it.</p></div>
+
+<div class="panel"><h2>How We Check This Against Other Rankings</h2>
+<p>Weights that produce a plausible looking table are easy to write and hard to trust. So the list is checked on every build against four published rankings that disagree with each other: <a href="https://www.timeshighereducation.com/world-university-rankings/2026/world-ranking" rel="nofollow noopener" target="_blank">Times Higher Education</a> on research and reputation, and <a href="https://washingtonmonthly.com/2025-college-guide/national/" rel="nofollow noopener" target="_blank">Washington Monthly</a> on social mobility across its national, liberal arts and master's categories.</p>
+<p>Under the old weighting, 44 percent of our top 25 appeared in anybody's published top 25. Under this one it is 80 percent, and 96 percent of our top 25 appears somewhere in a published ranking, against 84 percent before.</p>
+<p>No published rank is an input to our score, which is computed from the College Scorecard alone. The comparison exists to catch the failure it caught: a ranking that shares almost nothing with every other ranking is not being independent, it is being wrong, and the only way to tell those apart is to measure.</p>
+<p>The obvious hazard in checking your weights against other people's lists is rebuilding a selectivity ranking by accident, because ranking by how hard a school is to enter is the cheapest way to agree with everybody. The correlation between this score and admission rate is -0.41, moderate rather than mechanical, and 25 of the top 100 are public institutions. Both numbers are printed on every build; if either moves sharply, the change that moved it is wrong.</p></div>
 
 <div class="panel"><h2>What It Refuses to Measure</h2>
 <p>Admission rate, test score ranges, sticker price, endowment and reputation surveys are not scored. Admission rates and score ranges are reported on every school page because an applicant needs them to plan.</p>
 <p>The reason is simple. Scoring selectivity rewards a school for turning more people away, which measures how many people applied, not what the school does for the ones it admits. A college that rejects 95 percent of applicants has not yet taught anybody anything. Reputation surveys mostly measure how well known a school already was, which makes them very hard for a good school to move and very easy for a famous one to coast on.</p></div>
 
 <div class="panel"><h2>What to Watch Out For</h2>
-<p><strong>Net price for a public university is the in-state figure.</strong> It is the only one the College Scorecard publishes. Public institutions therefore score better on cost than an out-of-state student would actually experience: across the ranked set the median net price is about 9,000 dollars lower at public institutions than private ones, and that feeds a quarter of the score.</p>
-<p>So the out-of-state side is reported as its own published figures rather than buried. Every table row and every college page carries in-state tuition, out-of-state tuition, and the difference between them. 507 public colleges in this library charge a non-resident premium; the largest is 43,210 dollars. No private college charges one, which was checked rather than assumed: all 872 report identical in-state and out-of-state tuition.</p>
-<p><strong>There is deliberately no second, out-of-state score.</strong> The obvious way to build one is to swap net price for published out-of-state tuition, and it produces a table that looks plausible and is wrong. Caltech falls sixteen points and Princeton nearly fourteen, when neither charges a non-resident a different price. What moved was the measure, from post-aid net price to sticker tuition, not the residency, so the column would mostly be reranking private colleges by how generous their aid is while claiming to describe out-of-state cost. The premium is a fact we can publish; that score is not.</p>
+<p><strong>Net price for a public university is the in-state figure.</strong> It is the only one the College Scorecard publishes, so it understates what a non-resident pays. It no longer affects the score, because price is not scored at all, but it is on every page and worth reading with that in mind.</p>
+<p>The out-of-state side is reported as its own published figures rather than buried. Every table row and every college page carries in-state tuition, out-of-state tuition, and the difference between them. 507 public colleges in this library charge a non-resident premium; the largest is 43,210 dollars. No private college charges one, which was checked rather than assumed: all 872 report identical in-state and out-of-state tuition.</p>
+<p><strong>There is deliberately no second, out-of-state score.</strong> When cost was still scored, the obvious way to build one was to swap net price for published out-of-state tuition, and it produced a table that looked plausible and was wrong: Caltech fell sixteen points and Princeton nearly fourteen, when neither charges a non-resident a different price. What moved was the measure, from post-aid net price to sticker tuition, not the residency. Now that price is out of the score entirely the question does not arise, and the premium stays what it always should have been: a published fact on every page.</p>
 <p><strong>Earnings cover everyone who enrolled</strong>, not only graduates, and are not adjusted for what students study or where they come from. A school heavy in engineering will out-earn a school heavy in social work without being better at teaching.</p>
 <p><strong>The score is relative.</strong> Each component is a percentile inside this library of four-year nonprofit and public institutions, so a score of 80 means better than 80 percent of them on the weighted mix, not 80 out of 100 in the abstract.</p>
 <p><strong>Special focus medical and health professions institutions are listed but not ranked.</strong> They award a few bachelor's degrees alongside a mostly graduate professional mission, so their earnings reflect doctors and pharmacists, and several report no undergraduate graduation rate at all. Ranking them against undergraduate colleges would put them near the top for the wrong reason.</p></div>
@@ -469,11 +480,11 @@ def methodology_page(css_href, n_ranked, n_total, updated):
             '<link rel="icon" href="/icons/icon-192.png" type="image/png">'
             '<meta name="theme-color" content="#122B4E">'
             '<title>College Rankings Methodology: What We Score and What We Refuse To</title>'
-            '<meta name="description" content="How the SFN College Score is calculated: completion 30 percent, earnings 25, cost and debt 25, access 20, and why admission rate and test scores are reported but never scored.">'
+            '<meta name="description" content="How the SFN College Score is calculated: completion 50 percent, earnings 40, access 10, why price and selectivity are reported but never scored, and how the list is checked against four published rankings.">'
             '<link rel="canonical" href="https://startfromnowhere.com/colleges/methodology/">'
             '<link rel="preconnect" href="https://fonts.googleapis.com">'
             '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
-            '<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Manrope:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">'
+            '<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">'
             '<link rel="stylesheet" href="' + css_href + '">'
             '<style>.ppage{max-width:820px}\n'
             '.stat{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--gray-100)}\n'
@@ -496,6 +507,11 @@ def main():
     colleges = [json.loads(p.read_text(encoding="utf-8")) for p in files]
     validate_colleges.validate(colleges)
     ranked, unranked = CS.rank_all(colleges)
+    # Print how our list sits against published rankings on every build. A weight
+    # change that quietly drags the table away from every other ranking shows up here
+    # rather than months later: before the 2026-09-17 reweighting, 44 percent of our
+    # top 25 appeared in anybody's published top 25.
+    validate_ranking.report(ranked)
     n_ranked, n_total = len(ranked), len(colleges)
     updated = os.environ.get("BLOG_BUILD_DATE") or datetime.date.today().isoformat()
     base_css = (D / "rankings_base.css").read_text(encoding="utf-8")

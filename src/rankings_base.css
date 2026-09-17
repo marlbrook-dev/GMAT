@@ -1,9 +1,18 @@
 /* Shared visual language for the ranking verticals. Extracted from
    rankings_template.html so the MBA and undergraduate lists cannot drift apart in
-   type, spacing or colour. {{CHROME_CSS}} inside it is filled by partials. */
+   type, spacing or colour.
+
+   The {{CHROME_CSS}} placeholder below must stay OUTSIDE this comment. It used to sit
+   inside it, on the "type, spacing or colour" line. CSS comments do not nest, so the
+   first */ in the injected block closed this one early: the rest of the comment text
+   became live CSS, the parser hit the leftover words as a selector,
+   and its error recovery swallowed the whole :root colour block that follows. Every
+   var(--gray-*) and var(--navy-*) on the college and MBA ranking pages resolved to
+   nothing, which is why the score component bars rendered as empty gaps. */
+{{CHROME_CSS}}
 
 :root{--navy-900:#0C1F3A;--navy-800:#122B4E;--navy-600:#2C4E80;--navy-100:#DCE5F1;--navy-50:#F2F6FB;--gold-600:#A8842F;--gold-50:#FAF5E8;--gray-700:#374151;--gray-500:#6B7280;--gray-300:#D1D5DB;--gray-200:#E5E7EB;--gray-100:#F3F4F6;--gray-50:#F9FAFB;--green-600:#16A34A;--green-50:#F0FDF4;--amber-600:#D97706;--amber-50:#FFFBEB;--red-600:#DC2626;--red-50:#FEF2F2;
---serif:'Source Serif 4',Georgia,serif;--display:'Manrope',system-ui,sans-serif;--body:'IBM Plex Sans',system-ui,sans-serif;--mono:'IBM Plex Mono',ui-monospace,monospace}
+--serif:'Source Serif 4',Georgia,serif;--display:var(--sans);--body:'IBM Plex Sans',system-ui,sans-serif;--mono:'IBM Plex Mono',ui-monospace,monospace}
 *{box-sizing:border-box}body{margin:0;font-family:var(--body);color:var(--gray-700);background:#fff;font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
 h1,h2,h3{font-family:var(--serif);color:var(--navy-900);letter-spacing:-.01em;line-height:1.15;margin:0}
 a{color:var(--navy-800)}

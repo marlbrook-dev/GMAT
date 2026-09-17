@@ -10,23 +10,54 @@ applicants has not taught anybody anything yet.
 So this score uses only outcomes, all from one official federal source, and leaves
 selectivity out on purpose:
 
-  Completion        30   does the school actually get students through
-                         (6 year graduation 20, first year retention 10)
-  Earnings          25   median earnings 10 years after entry
-  Cost and debt     25   net price 15, debt against earnings 10
-  Access            20   share of students on Pell grants
+  Completion        50   does the school actually get students through
+                         (6 year graduation 2 parts, first year retention 1 part)
+  Earnings          40   median earnings 10 years after entry
+  Access            10   share of students on Pell grants
 
-Admission rate, test scores, sticker price and endowment are REPORTED on every
+Admission rate, test scores, net price, debt and endowment are REPORTED on every
 school page, because an applicant needs them, and are never scored.
 
-Each component is a percentile rank within the schools that report it, so the
-score is explicitly relative to the 1400 or so four year nonprofit institutions in
-the library, not an absolute quality measure. Weights are renormalised over the
-components a school actually reports, and a school needs at least three of the four
-to be ranked at all; the rest are listed unscored rather than guessed at.
+Why price is not scored
+-----------------------
+It used to be. Net price was 15 percent of the score and debt against earnings
+another 10, with Pell share at 20 on top, so 45 percent of the score measured what a
+school charged and who it enrolled rather than what it did for them. The result was a
+table headed by CUNY Baruch, seven University of California campuses and four Cal
+State campuses, with Harvard, Yale, MIT and Chicago outside the top twenty. That is
+not an unconventional ranking, it is an affordability index wearing a quality
+ranking's clothes, and price was doing the work.
+
+A price is an input, not an outcome. What a school charges belongs on its page, where
+an applicant can weigh it against everything else, not inside a score that claims to
+say how well the school educates people. Net price, median debt, in-state and
+out-of-state tuition and the non-resident premium are all still published on every
+college page and in the table. None of them touch the score.
+
+Access stays, at 10 rather than 20. A school that admits only students who arrive
+already advantaged and then posts good outcomes has done less work than one that
+starts further back and gets to the same place, and Pell share is the only measure of
+that in the federal data. At 20 it dominated; at 10 it informs.
+
+How this was checked
+--------------------
+Weights that produce a plausible looking table are easy to write and hard to trust,
+so src/validate_ranking.py compares our list against four published rankings that
+disagree with each other: Times Higher Education on research and reputation, and
+Washington Monthly on social mobility across its national, liberal arts and master's
+categories. The old weighting put 44 percent of our top 25 in anybody's published top
+25. This one puts 80 percent, and 96 percent of our top 25 appears somewhere in a
+published ranking against 84 percent before.
+
+The obvious failure mode of tuning against other people's lists is accidentally
+rebuilding the selectivity ranking we refuse to build, because ranking by how hard a
+school is to enter is the cheapest way to agree with everybody. The correlation
+between this score and admission rate is -0.41, moderate rather than mechanical, and
+25 of the top 100 are public institutions. Those two numbers are the guard; if either
+moves sharply after a weight change, the change is wrong.
 """
 
-WEIGHTS = {"completion": 0.30, "earnings": 0.25, "cost": 0.25, "access": 0.20}
+WEIGHTS = {"completion": 0.50, "earnings": 0.40, "access": 0.10}
 
 # A school is ranked only if it reports BOTH headline outcomes. Allowing a school to
 # be ranked on the other components alone put a medical centre with no graduation rate
@@ -34,7 +65,9 @@ WEIGHTS = {"completion": 0.30, "earnings": 0.25, "cost": 0.25, "access": 0.20}
 # precisely because the demanding components were missing. A ranking about whether
 # students finish and what they earn cannot rank a school that reports neither.
 REQUIRED = ("completion", "earnings")
-MIN_COMPONENTS = 3
+# Two of the three components. Both required ones count, so this says: a school needs
+# completion and earnings, and access is allowed to be missing.
+MIN_COMPONENTS = 2
 
 
 def field(school, name):
@@ -122,18 +155,9 @@ def components(s, dist):
     if earn is not None:
         out["earnings"] = pct_rank(dist["earnings_10yr_usd"], earn)
 
-    net = field(s, "net_price_usd")
-    ratio = debt_ratio(s)
-    parts, wts = [], []
-    if net is not None:
-        # Lower net price is better, so the rank is inverted.
-        parts.append(pct_rank(dist["net_price_usd"], net, higher_is_better=False))
-        wts.append(1.5)
-    if ratio is not None:
-        parts.append(pct_rank(dist["debt_ratio"], ratio, higher_is_better=False))
-        wts.append(1.0)
-    if parts:
-        out["cost"] = sum(p * w for p, w in zip(parts, wts)) / sum(wts)
+    # No cost component. Net price and the debt ratio are computed and published on
+    # every college page, and both are deliberately absent from the score: see the
+    # module docstring for what scoring them did to the table.
 
     pell = field(s, "pell_pct")
     if pell is not None:
