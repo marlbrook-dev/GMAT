@@ -20,7 +20,7 @@ import mapping as M            # noqa: E402
 import g_sat_alg, g_sat_adv, g_sat_psda, g_sat_geo   # noqa: E402,F401
 import g_sat_rw, g_gmat_ds, g_act_kol                # noqa: E402,F401
 import g_gmat_gt, g_gmat_tpa, g_gmat_msr             # noqa: E402,F401
-import g_act_sci, g_gre_verb                         # noqa: E402,F401
+import g_act_sci, g_gre_verb, g_gmat_cr, g_act_nq    # noqa: E402,F401
 
 OUT = D / "generated"
 TARGET = 500
@@ -42,10 +42,17 @@ SAT_PLAN = {
 EXAM_EXTRA = {"gre": {"gre_tc": [g for g in g_gre_verb.GENS if g.skill == "gre_tc"],
                       "gre_se": [g for g in g_gre_verb.GENS if g.skill == "gre_se"]},
               "gmat": {"di_ds": g_gmat_ds.GENS,
+                       "v_ac": [g for g in g_gmat_cr.GENS if g.skill == "v_ac"],
+                       "v_pc": [g for g in g_gmat_cr.GENS if g.skill == "v_pc"],
                        "di_gt": g_gmat_gt.GENS,
                        "di_tpa": g_gmat_tpa.GENS,
                        "di_msr": g_gmat_msr.GENS},
               "act": {"act_e_kol": g_act_kol.GENS,
+                      # ACT files exponents, radicals, sequences, matrices, complex
+                      # numbers and proportional reasoning here. The SAT pool only
+                      # covers the first two, so the rest are written directly.
+                      "act_m_nq": M.build_for("act", M.by_id(POOL_MODS))["act_m_nq"]
+                                  + g_act_nq.GENS,
                       # ACT reports Science under three categories, so each one is its
                       # own bank filled from the schemas that target it. One shared draw
                       # of a study supports all three, which is why they share a module.

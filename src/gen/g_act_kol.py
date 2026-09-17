@@ -268,4 +268,51 @@ class ToneConsistency(Gen):
         }
 
 
-GENS = [Redundancy(), Concision(), ToneConsistency()]
+class WordPrecision(Gen):
+    """Choosing the word whose meaning the sentence actually calls for.
+
+    ACT files precision of word choice under Knowledge of Language, and it is the same
+    problem the GRE puts in a Text Completion: a sentence whose own clauses pin down a
+    meaning, and options that differ in meaning rather than in grammar. So this reuses the
+    GRE lexicon rather than building a second one, which also means a word only ever has
+    one recorded meaning across the whole bank.
+
+    Four options here, not five, because the ACT offers four.
+    """
+    id = "act_kol_precision"
+    skill = "act_e_kol"
+    section = "E"
+    sub = "Precision of word choice"
+    diff = 3
+
+    def make(self, rng, choices_n):
+        import g_gre_verb as L
+        grp, text, why = rng.choice(L.FRAMES)
+        g = L.GROUPS[grp]
+        right = rng.choice(g["words"])
+        dgroups = L.pick_distractor_groups(rng, grp, choices_n - 1)
+        opts = [right] + [rng.choice(L.GROUPS[dg]["words"]) for dg in dgroups]
+        if len(set(opts)) != choices_n:
+            raise ItemError("%s drew a repeated word" % self.id)
+        rng.shuffle(opts)
+        opp = L.OPPOSITE[grp]
+        trap = next((w for w in opts if w in L.GROUPS[opp]["words"]), None)
+        item = {
+            "id": None, "section": "E", "type": "MC", "sub": self.sub, "skill": "act_e_kol",
+            "diff": rng.choice([2, 3, 3, 4]),
+            "stem": "Which choice best fits the underlined portion of the sentence?\n\n" + text,
+            "choices": opts, "answer": opts.index(right),
+            "expl": "The sentence settles the meaning itself: " + why + ". That calls for a "
+                    "word meaning " + g["gloss"] + ", which is what " + right + " means.",
+            "wrong": ("The other choices are all real words used correctly in some sentence; "
+                      "they are wrong here because they mean something the sentence has "
+                      "already ruled out"
+                      + (", and " + trap + " reverses it, meaning " + L.GROUPS[opp]["gloss"]
+                         + "." if trap else ".")),
+            "gen": self.id,
+        }
+        self.verify(item, right, choices_n, fmt=str)
+        return item
+
+
+GENS = [Redundancy(), Concision(), ToneConsistency(), WordPrecision()]

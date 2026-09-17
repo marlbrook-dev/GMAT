@@ -29,6 +29,21 @@ class PercentOf(Gen):
         }
 
 
+def pctstr(fr):
+    """A percentage as a number, not as an improper fraction.
+
+    Dividing by the new value rather than the original one rarely lands on a whole number,
+    and rendering the result as "100/3 percent" made that distractor visibly different from
+    every other option. The key was then the SHORTEST choice on 88 percent of these items,
+    which is a tell a student can use without doing the arithmetic. One decimal place puts
+    every option in the same form, and it is how an answer choice would really be written.
+    """
+    v = float(fr)
+    if abs(v - round(v)) < 1e-9:
+        return "%d percent" % int(round(v))
+    return "%.1f percent" % v
+
+
 class PercentChange(Gen):
     id = "sat_psda_pctchange"
     skill = "m_psda"
@@ -47,10 +62,10 @@ class PercentChange(Gen):
                "increase" if up else "decrease"),
             "answer": "%s percent" % num(pct),
             "distractors": [
-                ("%s percent" % num(Fr(abs(new - old) * 100, new)) if new else None,
+                (pctstr(Fr(abs(new - old) * 100, new)) if new else None,
                  "dividing the change by the new value instead of the original value."),
                 ("%s percent" % num(abs(new - old)), "reporting the raw change instead of converting it to a percent."),
-                ("%s percent" % num(Fr(new * 100, old)), "reporting the new value as a percent of the old rather than the change."),
+                (pctstr(Fr(new * 100, old)), "reporting the new value as a percent of the old rather than the change."),
                 ("%s percent" % num(pct + 10), "an arithmetic slip in the division."),
                 ("%s percent" % num(100 - pct), "subtracting from 100, which answers what fraction remains, not how much it changed."),
             ],

@@ -293,6 +293,35 @@ def stem_numbers(stem, want_shape, exclude, limit=6):
     return out
 
 
+def balance(rng, right, pool, need):
+    """Choose `need` wrong answers so the key's LENGTH RANK is drawn uniformly.
+
+    For a worded answer the only thing a guesser can measure without reading is length, so
+    a key that is reliably the longest option is a free point. The numeric path solves this
+    by targeting a uniform value rank; this is the same idea for text.
+
+    It samples rather than sorts, because sorting is deterministic: an earlier version
+    picked the same few subsets for a given pool, which balanced the lengths and destroyed
+    the variety that having more wrong answer types than slots was there to provide. So it
+    draws random subsets, keeps the first whose key rank matches a target drawn uniformly,
+    and falls back to the closest it saw. Both properties survive.
+    """
+    if len(pool) < need:
+        raise ItemError("balance needs %d wrong answers, pool has %d" % (need, len(pool)))
+    target = rng.randint(0, need)
+    keylen = len(str(right))
+    best, best_gap = None, None
+    for _ in range(40):
+        pick = rng.sample(pool, need)
+        rank = sum(1 for p in pick if len(str(p[0])) < keylen)
+        if rank == target:
+            return pick
+        gap = abs(rank - target)
+        if best_gap is None or gap < best_gap:
+            best, best_gap = pick, gap
+    return best
+
+
 def canon(item):
     """Dedup key: the schema, the stem, and the choices.
 
@@ -304,9 +333,19 @@ def canon(item):
     offers.
     """
     body = item["gen"] + "|" + re.sub(r"\s+", " ", item["stem"]).strip()
-    body += "|" + "|".join(str(c) for c in item.get("choices", ()))
+    # SORTED, because the answer's position is randomised on every draw and a reshuffle of
+    # the same five options is the same question, not a new one. Keying on the order let a
+    # schema with a small scenario pool "fill" a category by serving one question over and
+    # over with its options rearranged, which is worse than being short: it looks full.
+    body += "|" + "|".join(sorted(str(c) for c in item.get("choices", ())))
     body += "|" + "|".join(str(c) for c in item.get("columns", ()))
-    body += "|" + re.sub(r"\s+", " ", item.get("passageHtml", "")).strip()
+    # The source counts for a question READ off it: two share of total questions over
+    # different tables are different questions. It must NOT count for a question about the
+    # design of the study, where the answer is the same whatever the numbers say, so a
+    # generator can drop it. Without that, a design question appears to produce hundreds of
+    # items when it has produced one question with the figures changed underneath it.
+    if not item.get("canon_ignores_source"):
+        body += "|" + re.sub(r"\s+", " ", item.get("passageHtml", "")).strip()
     return hashlib.sha1(body.encode("utf-8")).hexdigest()
 
 
