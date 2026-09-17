@@ -39,6 +39,18 @@ h3{font-size:var(--text-xl);letter-spacing:var(--tr-700);line-height:1.2}
 h4,h5{font-family:var(--font-display);color:var(--text-heading);line-height:1.2;margin:0;letter-spacing:var(--tr-600)}
 a{color:var(--text-link);text-decoration:none}a:hover{text-decoration:underline}
 .numeric,[data-numeric]{font-variant-numeric:tabular-nums}
+/* conversion funnel, admin traffic tab */
+.funnel{display:grid;gap:var(--space-2)}
+.fnrow{display:grid;grid-template-columns:180px 1fr 72px 168px;gap:var(--space-3);align-items:center}
+.fnrow>*{min-width:0}
+.fnl{font-size:var(--text-sm);color:var(--text-body)}
+.fnbar{display:block;height:10px;border-radius:var(--radius-pill);background:var(--navy-50);overflow:hidden}
+.fnbar i{display:block;height:100%;border-radius:var(--radius-pill);background:var(--navy-600)}
+.fnn{font-family:var(--font-mono);font-variant-numeric:tabular-nums;font-size:var(--text-sm);color:var(--text-heading);text-align:right}
+.fnp{font-size:var(--text-xs);color:var(--text-muted)}
+.fnp .num{font-family:var(--font-mono);font-variant-numeric:tabular-nums;color:var(--text-body)}
+@media(max-width:760px){.fnrow{grid-template-columns:1fr 56px;grid-template-areas:"l n" "b b" "p p";gap:var(--space-1) var(--space-2)}
+ .fnl{grid-area:l}.fnn{grid-area:n}.fnbar{grid-area:b}.fnp{grid-area:p}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:1ms!important;animation-duration:1ms!important}}
 /* shell */
 header.app{background:var(--surface-card);border-bottom:1px solid var(--border-default);position:sticky;top:0;z-index:var(--z-sticky)}
@@ -286,7 +298,7 @@ function persist(){ if(!Store.save(state)) toast('Auto-save is unavailable in th
 const Cloud={ client:null, user:null, timer:null, status:'off',
  async init(){ if(!window.supabase||location.protocol==='file:'){ this.status='local-only'; return; } try{ this.client=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY); const {data}=await this.client.auth.getSession(); this.user=data.session?data.session.user:null; this.status=this.user?'signed-in':'signed-out'; this.client.auth.onAuthStateChange(async (ev,sess)=>{ this.user=sess?sess.user:null; this.status=this.user?'signed-in':'signed-out'; if(this.user){ await this.pull(); track('session_started',{}); } this.checkAdmin(); updateHeader(); if(!document.getElementById('v-data').classList.contains('hidden')) renderData(); }); if(this.user){ await this.pull(); track('session_started',{}); } this.checkAdmin(); }catch(e){ this.status='error'; } },
  async checkAdmin(){ this.isAdmin=false; const b=document.getElementById('navAdmin'); const pv=location.hash==='#admin-preview'; if(b&&!pv) b.style.display='none'; if(!this.user||!this.client) return; try{ const {data}=await this.client.rpc('is_admin'); this.isAdmin=!!data; }catch(e){} if(b) b.style.display=(this.isAdmin||pv)?'':'none'; },
- async signIn(email){ if(!this.client) return {error:{message:'Sync is available on the hosted site only.'}}; return this.client.auth.signInWithOtp({email, options:{emailRedirectTo: location.origin+location.pathname}}); },
+ async signIn(email){ milestone('account_created'); if(!this.client) return {error:{message:'Sync is available on the hosted site only.'}}; return this.client.auth.signInWithOtp({email, options:{emailRedirectTo: location.origin+location.pathname}}); },
  async signOut(){ if(this.client) await this.client.auth.signOut(); this.user=null; this.status='signed-out'; },
  async pull(){ if(!this.user) return; const {data,error}=await this.client.from('profiles').select('state_blob,display_name,test_date,daily_goal,plan,consent_at,plan_status,trial_end,current_period_end,cancel_at_period_end,stripe_customer_id').eq('id',this.user.id).maybeSingle(); if(error) return; this.plan=(data&&data.plan)||'free';
   // Billing facts are written only by the Stripe webhook (service role). We read them so the
@@ -306,6 +318,11 @@ const Cloud={ client:null, user:null, timer:null, status:'off',
  async wipe(){ if(!this.user) return; await this.client.from('attempts').delete().eq('user_id',this.user.id); await this.client.from('events').delete().eq('user_id',this.user.id); await this.client.from('sessions').delete().eq('user_id',this.user.id); await this.client.from('profiles').update({state_blob:null}).eq('id',this.user.id); }
 };
 // Analytics events (design/guidelines/data-analytics.md). Local ring buffer always; Supabase when signed in.
+// Funnel milestones. sfnStep is defined by the consent script that ships with
+// the footer, which runs after this one, so a call before then is queued and
+// drained there rather than dropped.
+function milestone(s){ if(window.sfnStep) window.sfnStep(s);
+ else (window.__sfnStepQ=window.__sfnStepQ||[]).push(s); }
 function track(name,props){ if(!state.events) state.events=[]; const ev={name,props:props||{},ts:Date.now()}; state.events.push(ev); if(state.events.length>500) state.events.shift(); if(Cloud.user&&Cloud.client){ Cloud.client.from('events').insert({user_id:Cloud.user.id,name,exam:CURRENT_EXAM,props:props||{},platform:'web',app_version:APP_VERSION}).then(()=>{}); } }
 // ---------- modal ----------
 // Built rather than borrowed because the page ships no framework. Accessible by the
@@ -466,6 +483,10 @@ function planRows(){ const today=state.attempts.filter(a=>new Date(a.ts).toDateS
 // plain words even though consent is not legally required for it.
 const ITEM_EVENTS_URL=SUPABASE_URL+'/rest/v1/item_events?apikey='+SUPABASE_KEY;
 function logItemEvent(q,chosen,correct,secs,mode,extra){
+ // Where the visit funnel used to go dark. sfnStep is consent gated and fires
+ // once per session; the item telemetry below stays unlinkable and ungated.
+ milestone('first_answer');
+
  try{
   if(!q||!q.id) return;
   var x=extra||{};
@@ -774,7 +795,7 @@ function nextQuestion(){ const p=session.pending; if(!p) return; if(!p.correct&&
  const flag=recordAttempt(state,p.q,p.chosen,p.correct,p.secs,session.reason,session.guessed,session.id); session.results.push({q:p.q,correct:p.correct,secs:p.secs,flag,reason:session.reason}); session.pending=null; Cloud.logAttempt(state.attempts[state.attempts.length-1]); logItemEvent(p.q,p.chosen,p.correct,p.secs,session.mode,{first_ms:p.firstMs,changes:p.changes,guessed:!!session.guessed,reason:session.reason||null}); track('question_answered',{qid:p.q.id,section:p.q.section,skill:p.q.skill,correct:p.correct,secs:Math.round(p.secs)}); persist(); updateHeader();
  session.i++; if(session.i<session.qs.length) renderQuestion(); else finishSession(); }
 function endSession(){ clearInterval(qTimer); setFocus(false); if(session.results.length) finishSession(); else { session=null; renderStudyHome(); } }
-function finishSession(){ clearInterval(qTimer); setFocus(false); const r=session.results; const n=r.length, c=r.filter(x=>x.correct).length; const avg=r.reduce((a,b)=>a+b.secs,0)/n; const total=r.reduce((a,b)=>a+b.secs,0);
+function finishSession(){ milestone('round_done'); clearInterval(qTimer); setFocus(false); const r=session.results; const n=r.length, c=r.filter(x=>x.correct).length; const avg=r.reduce((a,b)=>a+b.secs,0)/n; const total=r.reduce((a,b)=>a+b.secs,0);
  state.sessions.push({id:session.id,mode:session.mode,ts:Date.now(),n,c,avg:Math.round(avg)}); track('round_completed',{mode:session.mode,correct:c,total:n,secs:Math.round(total)}); if(Cloud.user) Cloud.client.from('sessions').upsert({id:session.id,user_id:Cloud.user.id,mode:session.mode,n,c,avg_secs:Math.round(avg)}).then(()=>{}); persist();
  const pctv=Math.round(c/n*100); const secs=[...new Set(r.map(x=>x.q.section))].map(s=>SEC_SHORT[s]).join(' & ');
  const bySkill={}; r.forEach(x=>{ const k=x.q.skill; bySkill[k]=bySkill[k]||{n:0,c:0}; bySkill[k].n++; if(x.correct) bySkill[k].c++; });
@@ -1912,15 +1933,45 @@ const ADMIN_TRAFFIC_SAMPLE={days:30,pageviews:2140,sessions:610,signed_in_views:
  top_paths:[{path:'/',n:640,u:410,avg_secs:48},{path:'/schools/',n:520,u:300,avg_secs:180},{path:'/app/',n:410,u:160,avg_secs:600},{path:'/blog/',n:250,u:190,avg_secs:95},{path:'/community/',n:180,u:120,avg_secs:130}],
  top_refs:[{ref:'direct',n:900},{ref:'https://www.google.com/',n:720},{ref:'https://www.reddit.com/',n:120}],
  countries:[{c:'US',n:1300,u:380},{c:'IN',n:340,u:95},{c:'GB',n:130,u:41}],
- devices:[{d:'desktop',n:1400},{d:'mobile',n:740}]};
+ devices:[{d:'desktop',n:1400},{d:'mobile',n:740}],
+ funnel:[{step:'app_open',label:'Opened a trainer',sessions:160,share_of_visits:22.2,share_of_previous:null},
+  {step:'first_answer',label:'Answered a question',sessions:96,share_of_visits:13.3,share_of_previous:60.0},
+  {step:'round_done',label:'Finished a round',sessions:41,share_of_visits:5.7,share_of_previous:42.7},
+  {step:'account_created',label:'Asked for a sign-in link',sessions:14,share_of_visits:1.9,share_of_previous:34.1},
+  {step:'trial_started',label:'Opened checkout',sessions:3,share_of_visits:0.4,share_of_previous:21.4}]};
+// What the visit funnel used to be unable to answer. Sessions are the unit, not
+// pageviews: somebody who reloads the trainer four times is one person who opened it.
+// Each bar is a share of all visits; the right column is the share of the step above,
+// which is where the drop actually is.
+function funnelCard(rows,total){
+ if(!rows||!rows.length) return '';
+ const max=Math.max.apply(null,rows.map(r=>Number(r.sessions)||0))||1;
+ const bars=rows.map(function(r){
+  const n=Number(r.sessions)||0, w=Math.round(100*n/max);
+  const prev=(r.share_of_previous===null||r.share_of_previous===undefined)?'':
+   ('<span class="num">'+r.share_of_previous+'%</span> of the step above');
+  return '<div class="fnrow"><span class="fnl">'+esc(r.label||r.step)+'</span>'
+   +'<span class="fnbar"><i style="width:'+w+'%"></i></span>'
+   +'<span class="fnn"><span class="num">'+n.toLocaleString('en-US')+'</span></span>'
+   +'<span class="fnp">'+prev+'</span></div>'; }).join('');
+ return '<div class="card"><div class="card-head"><span class="card-title">Conversion Funnel · 30d</span>'
+  +'<button class="btn sm secondary" onclick="csvDownload(\'funnel\',window._traffic.funnel)">CSV</button></div>'
+  +'<p class="muted small" style="margin:0 0 12px">'+(total?('Out of <strong>'+total.toLocaleString('en-US')+'</strong> sessions that accepted analytics. '):'')
+  +'Steps are recorded once per session. Item telemetry stays unlinkable and is not part of this.</p>'
+  +'<div class="funnel">'+bars+'</div></div>';
+}
 async function renderAdminTraffic(el,preview){ el.innerHTML='<div class="stack"><div class="empty">Loading traffic...</div></div>';
  let d=ADMIN_TRAFFIC_SAMPLE;
- if(!preview){ try{ const {data,error}=await Cloud.client.rpc('admin_traffic',{p_days:30}); if(error) throw error; d=data; }
+ if(!preview){ try{ const {data,error}=await Cloud.client.rpc('admin_traffic',{p_days:30}); if(error) throw error; d=data;
+  // The funnel is a separate RPC so a failure there cannot blank the traffic page.
+  try{ const f=await Cloud.client.rpc('admin_funnel',{days:30}); if(!f.error) d.funnel=f.data; }catch(e2){}
+ }
   catch(e){ el.innerHTML='<div class="narrow stack"><div class="card p8"><div class="card-title">Traffic</div><p class="muted" style="margin-top:8px">Could not load traffic: '+esc(String((e&&e.message)||e))+'</p></div></div>'; return; } }
  window._traffic=d;
  el.innerHTML='<div class="stack">'
  +'<div class="row" style="align-items:flex-end;justify-content:space-between"><div><h1 style="font-size:var(--text-2xl);font-weight:700">Traffic</h1><p class="muted" style="margin:6px 0 0">First-party beacon across every page: landing, rankings, exams, blog, forum, and the app. No third-party trackers; ad blockers hide some visitors, and Cloudflare Web Analytics remains the edge-level check.</p></div>'+adminTabsHtml()+'</div>'
  +(preview?'<div class="card p5" style="background:var(--status-warning-bg);border-color:var(--amber-100)"><span class="small">Sample data preview. Sign in as an admin for live traffic.</span></div>':'')
+ +funnelCard(d.funnel||[],d.sessions||0)
  +'<div class="tiles" style="grid-template-columns:repeat(4,1fr)">'+tile('Pageviews · 30d',d.pageviews||0,'','')+tile('Sessions · 30d',d.sessions||0,'','')+tile('Avg Time on Page',(d.avg_dur_secs!=null?Math.round(d.avg_dur_secs)+'s':'n/a'),'','')+tile('Signed-In Views',d.signed_in_views||0,'','')+'</div>'
  +'<div class="card"><div class="card-head"><span class="card-title">Pageviews per Day · 30d</span><span class="row" style="gap:6px"><button class="btn sm secondary" onclick="csvDownload(\'traffic-by-day\',window._traffic.by_day)">CSV</button><button class="btn sm secondary" onclick="trPrint()">Print / PDF Report</button></span></div>'+adminBars(d.by_day||[],'n')+'</div>'
  +'<div class="grid2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">'
@@ -2176,7 +2227,7 @@ async function resumePlan(){ toast('Restarting...');
   if(!data||!data.ok) throw error||new Error('no ok');
   await Cloud.pull(); renderData(); toast('Your plan will keep running.'); track('plan_resumed',{});
  }catch(e){ toast('Could not restart from here. Email billing@startfromnowhere.com.'); } }
-async function startCheckout(plan){ if(!Cloud.user){ toast('Sign in first, then pick a plan.'); show('data'); return; }
+async function startCheckout(plan){ milestone('trial_started'); if(!Cloud.user){ toast('Sign in first, then pick a plan.'); show('data'); return; }
  try{ const {data,error}=await Cloud.client.functions.invoke('create-checkout-session',{body:{plan}}); if(error||!data||!data.url) throw error||new Error('no url'); track('checkout_started',{plan}); location.href=data.url; }
  catch(e){ toast('Could not open checkout. Nothing was charged; please try again shortly.'); } }
 if(location.search.indexOf('checkout=success')>=0){ setTimeout(()=>toast('You are all set. Your plan updates within a minute.'),800); }
@@ -2198,6 +2249,10 @@ function renderOnboarding(){ let w=document.getElementById('onb'); if(!w){ w=doc
  w.innerHTML='<div class="onb-scrim"><div class="onb-card"><div class="row" style="justify-content:space-between;margin-bottom:18px"><span class="wordmark" style="font-size:17px"><svg viewBox="0 0 48 48" width="24" height="24" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#122B4E"/><path d="M13 33 22 22l6 5 8.5-10" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M29.5 16.5H37V24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Start From Nowhere</span><button class="btn ghost sm" onclick="finishOnboarding(true)">Skip to Dashboard</button></div><div class="row" style="gap:6px;margin-bottom:22px">'+steps.map((s,i)=>'<span class="badge '+(i===ob.step?'accent':i<ob.step?'success':'')+'">'+(i+1)+' '+s+'</span>').join('')+'</div>'+body+'<div class="row" style="justify-content:space-between;margin-top:26px"><button class="btn secondary" '+(ob.step===0?'disabled':'')+' onclick="ob.step--;renderOnboarding()">Back</button><button class="btn" onclick="'+(ob.step<3?'ob.step++;renderOnboarding()':'finishOnboarding(false)')+'">'+(ob.step<3?'Continue':'Start studying')+'</button></div></div></div>'; }
 function finishOnboarding(skipped){ if(!skipped){ state.settings.program={exam:ob.exam,goal:ob.goal,hours:ob.hours,tools:ob.tools}; track('wizard_completed',{exam:ob.exam,goal_len:ob.goal.length,hours:ob.hours}); } state.settings.onboarded=true; persist(); const w=document.getElementById('onb'); if(w) w.remove(); renderDash(); }
 // ---------- boot ----------
+// The trainer actually booted on this device, which is a different fact from
+// the click that asked for it: a pageview on /app/ is recorded before any of
+// this runs. Consent gated, once per session.
+milestone('app_open');
 updateHeader(); renderDash(); Cloud.init(); if(location.hash==='#account'){ show('data'); } if(!state.settings.onboarded&&state.attempts.length===0) startOnboarding();
 </script>
 {{SENTINEL}}

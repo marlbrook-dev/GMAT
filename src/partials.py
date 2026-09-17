@@ -106,6 +106,38 @@ h4{font-size:var(--t-600);letter-spacing:var(--tr-600);line-height:var(--lh-700)
 /* One measure for prose, so every column of text is the same width. */
 .prose{max-width:var(--measure)}
 .lead{max-width:var(--measure-lead);font-size:var(--t-500);line-height:var(--lh-tight)}
+/* --- onward paths on a school page -------------------------------------------- */
+/* A school page used to carry two links out of its body, the trainer and the index,
+   and 30 of last month's consented sessions landed on one and left without a second
+   pageview. */
+.onward{margin:var(--s7) 0 0;padding-top:var(--s6);border-top:1px solid var(--gray-200)}
+.onward h2{font-size:var(--t-700);letter-spacing:var(--tr-700);margin:0 0 var(--s2)}
+.onward h2+.note{margin:0 0 var(--s5);max-width:var(--measure)}
+.onward h2:not(:first-child){margin-top:var(--s7)}
+.peergrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:var(--s3)}
+.peergrid>*{min-width:0}
+.peer{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;
+ gap:var(--s1) var(--s3);align-items:baseline;padding:var(--s4);text-decoration:none;
+ border:1px solid var(--gray-200);border-radius:var(--r-lg);background:#fff;
+ transition:box-shadow var(--dur-2) var(--ease),transform var(--dur-2) var(--ease),
+ border-color var(--dur-2) var(--ease)}
+.peer:hover{box-shadow:var(--sh-2);transform:translateY(-2px);border-color:var(--navy-600)}
+.peer .pr{grid-row:1/3;font-family:var(--mono);font-variant-numeric:tabular-nums;
+ font-size:var(--t-500);color:var(--navy-600);letter-spacing:var(--tr-600)}
+.peer .pn{font-family:var(--sans);font-weight:600;font-size:var(--t-300);
+ color:var(--navy-900);line-height:var(--lh-tight)}
+.peer .pf{font-size:var(--t-100);color:var(--gray-500)}
+.peer .pf .num{font-family:var(--mono);font-variant-numeric:tabular-nums;color:var(--gray-700)}
+.peer .pq{font-size:var(--t-100);color:var(--gray-500)}
+.nextgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));gap:var(--s3)}
+.nextgrid>*{min-width:0}
+.nx{display:block;padding:var(--s4);text-decoration:none;border:1px solid var(--gray-200);
+ border-radius:var(--r-lg);background:var(--gray-50);
+ transition:box-shadow var(--dur-2) var(--ease),border-color var(--dur-2) var(--ease)}
+.nx:hover{box-shadow:var(--sh-2);border-color:var(--navy-600);background:#fff}
+.nx strong{display:block;font-family:var(--sans);font-weight:600;font-size:var(--t-400);
+ color:var(--navy-900);letter-spacing:var(--tr-500);margin-bottom:var(--s2)}
+.nx span{display:block;font-size:var(--t-200);color:var(--gray-500);line-height:var(--lh-tight)}
 @media(prefers-reduced-motion:reduce){
  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
   transition-duration:.01ms !important;scroll-behavior:auto !important}
@@ -418,6 +450,21 @@ def consent_js():
         "utm:location.search.indexOf('utm_')>-1?location.search.slice(1,190):null,"
         "device:/Mobi|Android/i.test(navigator.userAgent)?'mobile':'desktop',vw:innerWidth});\n"
         " function dur(){ if(done) return; done=true; send({kind:'duration',dur_ms:Date.now()-t0}); }\n"
+        # Funnel milestones. The visit funnel was measurable up to the moment somebody
+        # opened a trainer and no further: item_events records the answering but carries
+        # no session id by design, so it can never be joined to a visit, and that stays
+        # true. A milestone row carries the same sid a pageview already carries and
+        # nothing new. Each step fires once per session, so one long study session
+        # cannot outvote a short one in the counts.
+        " var seen={};\n"
+        " window.sfnStep=function(step){ if(!step||seen[step]) return; seen[step]=1;\n"
+        "  send({kind:'milestone',step:String(step).slice(0,40)}); };\n"
+        # This script ships with the footer, so the trainer's own boot line runs
+        # before sfnStep exists and its app_open was being dropped silently. Callers
+        # queue instead of guarding, and the queue is drained here, so the order of
+        # the two scripts stops mattering.
+        " var q=window.__sfnStepQ; window.__sfnStepQ=null;\n"
+        " if(q) for(var i=0;i<q.length;i++) window.sfnStep(q[i]);\n"
         " document.addEventListener('visibilitychange',function(){"
         "if(document.visibilityState==='hidden') dur(); });\n"
         " addEventListener('pagehide',dur);\n"
@@ -427,6 +474,7 @@ def consent_js():
         "{analytics:false,ts:new Date().toISOString(),v:1,gpc:true})); }catch(e){} }\n"
         "else if(c===null){ var b=document.getElementById('sfn-consent'); if(b) b.hidden=false; }\n"
         "else if(c&&c.analytics){ start(); }\n"
+        "if(!window.sfnStep){ window.sfnStep=function(){}; window.__sfnStepQ=null; }\n"
         "}catch(e){}})();</script>\n"
     )
 

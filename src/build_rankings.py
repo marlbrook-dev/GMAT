@@ -269,7 +269,71 @@ def federal_section(s):
             % (warn, rows, esc(f.get("instnm", "")), count_line))
 
 
-def school_page(s, tpl, today):
+def peer_block(s, ranked):
+    """The schools nearest this one in our ranking, plus the obvious next steps.
+
+    Adjacent by rank, three either side, trimmed at the ends of the list. Each peer
+    carries the one figure most likely to separate it from its neighbours, which is
+    the average GMAT where the school reports one and the acceptance rate otherwise.
+    """
+    mine = s.get("_rank")
+    cards = []
+    if mine:
+        by_rank = {x.get("_rank"): x for x in ranked if x.get("_rank")}
+        wanted = [r for r in range(mine - 3, mine + 4) if r != mine and r in by_rank]
+        # At the top and bottom of the list, reach further the other way so the block
+        # is never a lonely two cards.
+        while len(wanted) < 6:
+            lo, hi = min(wanted or [mine]), max(wanted or [mine])
+            nxt = [r for r in (lo - 1, hi + 1) if r in by_rank and r not in wanted]
+            if not nxt:
+                break
+            wanted += nxt
+        for r in sorted(wanted)[:6]:
+            o = by_rank[r]
+            pr = o.get("profile", {})
+            gf = (pr.get("gmat_focus") or {}).get("v")
+            gc = (pr.get("gmat_classic") or {}).get("v")
+            ar = (pr.get("accept_rate_pct") or {}).get("v")
+            # Focus and Classic are different scales and are never mixed or converted,
+            # so the edition is named on the figure rather than dropped to make the
+            # cards look uniform. A card showing 689 beside 731 without saying which
+            # edition each is would be comparing two different scales.
+            if gf is not None:
+                fig = '<span class="num">%s</span> GMAT Focus' % gf
+            elif gc is not None:
+                fig = '<span class="num">%s</span> GMAT Classic' % gc
+            elif ar is not None:
+                fig = '<span class="num">%s%%</span> acceptance rate' % round(ar, 1)
+            else:
+                fig = '<span class="pq">Neither figure published</span>'
+            cards.append(
+                '<a class="peer" href="/schools/%s/"><span class="pr">#%d</span>'
+                '<span class="pn">%s</span><span class="pf">%s</span></a>'
+                % (esc(o["slug"]), r, esc(o["name"]), fig))
+    peers = ('<h2>Programs Ranked Either Side of This One</h2>'
+             '<p class="note">Adjacent in our ranking, which is usually what a '
+             'shortlist looks like. Every figure is the school\'s own published '
+             'number.</p><div class="peergrid">%s</div>' % "".join(cards)) if cards else ""
+    nxt = (
+        '<h2>Next Steps</h2><div class="nextgrid">'
+        '<a class="nx" href="/apply/"><strong>Application Checklist</strong>'
+        '<span>Track every deadline and requirement for this school and the rest of '
+        'your shortlist. Free, no account.</span></a>'
+        '<a class="nx" href="/app/"><strong>Practise for the GMAT</strong>'
+        '<span>Adaptive practice on the skills the score report names. No card, and '
+        'the first round needs no account.</span></a>'
+        '<a class="nx" href="/funding/"><strong>Paying for It</strong>'
+        '<span>What changed when Grad PLUS ended, and which schools award aid '
+        'automatically.</span></a>'
+        '<a class="nx" href="/schools/"><strong>All %d Programs</strong>'
+        '<span>Filter the full table by GMAT band, acceptance rate, cost and '
+        'region.</span></a>'
+        '</div>' % len(ranked))
+    return '<section class="onward">%s%s</section>' % (peers, nxt)
+
+
+def school_page(s, tpl, today, ranked=()):
     p = s.get("profile", {})
     rank_rows = []
     for k in WEIGHTS:
@@ -460,6 +524,7 @@ def school_page(s, tpl, today):
               .replace("{{METHOD_LINE}}", method)
               .replace("{{UPDATED}}", today)
               .replace("{{INTRO}}", esc(intro).replace("&#x27;", "'"))
+              .replace("{{ONWARD}}", peer_block(s, ranked))
               .replace("{{FAQ_SECTION}}", faq_section)
               .replace("{{FAQ_LD}}", faq_ld)
               .replace("{{BREADCRUMB_LD}}", bc)
@@ -599,7 +664,7 @@ def main():
     for s in schools:
         sd = dest / s["slug"]
         sd.mkdir(exist_ok=True)
-        pages.append((sd / "index.html", school_page(s, stpl, today)))
+        pages.append((sd / "index.html", school_page(s, stpl, today, schools)))
     pages = [(path, partials.apply_chrome(content, extra_legal=RANKINGS_LEGAL)) for path, content in pages]
     for path, content in pages:
         if "{{" in content:

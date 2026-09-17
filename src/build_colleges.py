@@ -167,7 +167,66 @@ def title_bits(c):
     return "Costs and Outcomes"
 
 
-def college_page(c, tpl, css_href, n_ranked, n_total):
+def onward_block(c, by_cat):
+    """Peers adjacent in the same category, plus the obvious next steps.
+
+    Same reasoning as the MBA school pages: a college page carried four links out of
+    its body and nothing that answered "what else should I look at". Adjacency is
+    computed inside the category, so a liberal arts college's peers are liberal arts
+    colleges rather than whatever happened to score nearby across the whole library.
+    """
+    cat = c.get("sfn_category")
+    mine = c.get("sfn_rank")
+    label = CS.CATEGORY_LABEL.get(cat, "colleges")
+    cards = []
+    if cat and mine:
+        by_rank = {x["sfn_rank"]: x for x in by_cat.get(cat, [])}
+        wanted = [r for r in range(mine - 3, mine + 4) if r != mine and r in by_rank]
+        while len(wanted) < 6:
+            lo, hi = min(wanted or [mine]), max(wanted or [mine])
+            nxt = [r for r in (lo - 1, hi + 1) if r in by_rank and r not in wanted]
+            if not nxt:
+                break
+            wanted += nxt
+        for r in sorted(wanted)[:6]:
+            o = by_rank[r]
+            g = fv(o, "grad_rate_6yr_pct")
+            e = fv(o, "earnings_10yr_usd")
+            if g is not None and e:
+                fig = ('<span class="num">%d%%</span> graduate, '
+                       '<span class="num">%s</span> median' % (round(g), money(e)))
+            elif g is not None:
+                fig = '<span class="num">%d%%</span> graduate in six years' % round(g)
+            else:
+                fig = '<span class="pq">Outcomes not reported</span>'
+            cards.append(
+                '<a class="peer" href="/colleges/%s/"><span class="pr">#%d</span>'
+                '<span class="pn">%s</span><span class="pf">%s</span></a>'
+                % (esc(o["slug"]), r, esc(o["name"]), fig))
+    peers = ('<h2>Ranked Either Side of This One</h2>'
+             '<p class="note">Adjacent among %s, the category this school is scored '
+             'in. Every figure is the College Scorecard\'s own.</p>'
+             '<div class="peergrid">%s</div>' % (esc(label), "".join(cards))) if cards else ""
+    state = esc(c.get("state") or "")
+    nxt = (
+        '<h2>Next Steps</h2><div class="nextgrid">'
+        '<a class="nx" href="/colleges/#%s"><strong>All %s</strong>'
+        '<span>Filter the full list by graduation rate, earnings, net price, '
+        'admission rate and size.</span></a>'
+        '<a class="nx" href="/sat/app/"><strong>Practise for the SAT</strong>'
+        '<span>Adaptive practice on the eight content domains the score report '
+        'names. No card, no account for the first round.</span></a>'
+        '<a class="nx" href="/funding/"><strong>Paying for It</strong>'
+        '<span>Federal borrowing limits after Grad PLUS, institutional aid policy '
+        'and outside awards.</span></a>'
+        '<a class="nx" href="/colleges/methodology/"><strong>How This Is Scored</strong>'
+        '<span>Completion 50, earnings 40, access 10, and why price and selectivity '
+        'are published but never scored.</span></a>'
+        '</div>' % (esc(cat or ""), esc(label)))
+    return '<section class="onward">%s%s</section>' % (peers, nxt)
+
+
+def college_page(c, tpl, css_href, n_ranked, n_total, by_cat=None):
     p = c["profile"]
     cost = "".join([
         stat_row("Average net price", money(fv(c, "net_price_usd")),
@@ -261,6 +320,7 @@ def college_page(c, tpl, css_href, n_ranked, n_total):
                 .replace("{{CARNEGIE_BIT}}", car)
                 .replace("{{RANK_LINE}}", rank_line)
                 .replace("{{SCORE_PANEL}}", score_panel(c, n_ranked))
+            .replace("{{ONWARD}}", onward_block(c, by_cat or {}))
                 .replace("{{COST_ROWS}}", cost)
                 .replace("{{OUTCOME_ROWS}}", out)
                 .replace("{{ADMIT_ROWS}}", adm)
@@ -699,11 +759,16 @@ def main():
         encoding="utf-8")
 
     ctpl = (D / "college_template.html").read_text(encoding="utf-8")
+    # One pass to group the ranked schools by category, so each page can find its
+    # neighbours without rescanning 1,451 records.
+    by_cat = {}
+    for c in ranked:
+        by_cat.setdefault(c["sfn_category"], []).append(c)
     for c in colleges:
         d = OUTDIR / c["slug"]
         d.mkdir(exist_ok=True)
         (d / "index.html").write_text(
-            college_page(c, ctpl, css_href, n_ranked, n_total), encoding="utf-8")
+            college_page(c, ctpl, css_href, n_ranked, n_total, by_cat), encoding="utf-8")
     print("built colleges/ index + methodology + %d college pages (%d ranked, %d unranked)"
           % (n_total, n_ranked, len(unranked)))
 
