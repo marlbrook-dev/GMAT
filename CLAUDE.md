@@ -2,12 +2,25 @@
 
 Owner: Hunter Roberts (admin emails: marlbrookgroup@gmail.com primary, hroberts@winthropcapital.com backup). Live site: startfromnowhere.com (Cloudflare Worker "gmat", deploys from main). Read ROADMAP.md for the current build schedule and src/blog/EDITORIAL.md for content rules before writing anything.
 
-## Typography and layout (essential, per the owner: "the little details matter")
+## Typography and layout
+
+Nothing in this file is settled while the site is still being built. These are the
+current decisions and the reasons behind them, not law: say so when one of them looks
+wrong, and change it when the owner says to rather than quoting it back at them.
 
 - Headers are Title Case everywhere: page titles, section headings (h1/h2/h3), nav labels, card titles, and buttons that name a destination or action ("Create Account", "Download CSV"). Small words (a, an, the, of, and, or, to, for, by, in, on, at, vs) stay lowercase unless first or last. Body copy, descriptions, and table cells stay sentence case.
-- Headers must line up: consistent section padding, aligned baselines across cards in the same row, equal gaps in grids. No section may introduce its own one-off spacing values; use the shared spacing scale already in each page's CSS.
-- No excess white space: sections are compact; nothing renders as a mostly-empty viewport.
-- Kerning and font discipline: headings use the serif display stack, UI labels use the display sans, body uses the body sans, numbers in tables use the mono stack. Never introduce new fonts.
+- One system, defined once, in src/partials.py TOKENS_CSS and injected wherever {{CHROME_CSS}} goes. It holds the type scale
+  (--t-100 to --t-900), the tracking ramp (--tr-900 to --tr-caps), a 4px spacing grid (--s1 to --s10), one page width, one gutter
+  and one reading measure. Reach for a token before a number; a raw px value in a template is how the site ended up with 37 font
+  sizes, 28 spacing values and eight page widths.
+- Type tightens as it grows and never opens up: negative tracking on headings, scaling from -.032em at the hero to 0 at body size.
+  The one positive value is .06em, for small uppercase labels, via the .eyebrow class.
+- Grid and flex children need min-width:0. Without it they hold their min-content width and push the page sideways on a phone,
+  which is what broke pricing, the rankings controls and the blog submit form.
+- Three faces, no more. Source Serif 4 sets headings; IBM Plex Sans sets everything else, UI and body alike; IBM Plex Mono is for
+  figures that sit in a column, never for words. The site used to run a fourth, Manrope, as a second sans beside IBM Plex Sans, and
+  the two were close enough to read as a mistake. Sites that do this well run one sans and use the others sparingly: Stripe sohne
+  100 declarations to 2 mono, Our World in Data Lato 396 to a display serif 117.
 - The wordmark and logo are monochrome navy (#122B4E) and identical on every page; the wordmark always links to /.
 - The site header (Exam Prep / Lists / Resources + Sign In + Create Account) is identical across landing, exams, schools, pricing, and blog pages. The trainer app keeps its own tab header, hidden during active sessions and games (focus mode).
 

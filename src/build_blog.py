@@ -104,7 +104,7 @@ def validate(posts):
 
 HEAD_CSS = """*{box-sizing:border-box}body{margin:0;font-family:var(--body);color:var(--gray-700);background:#fff;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
 :root{--navy-900:#0C1F3A;--navy-800:#122B4E;--navy-600:#2C4E80;--navy-100:#DCE5F1;--navy-50:#F2F6FB;--gold-700:#8A6A25;--gold-600:#A8842F;--gold-500:#C7A252;--gold-100:#F0E4C8;--gold-50:#FAF5E8;--gray-900:#111827;--gray-700:#374151;--gray-500:#6B7280;--gray-300:#D1D5DB;--gray-200:#E5E7EB;--gray-100:#F3F4F6;--gray-50:#F9FAFB;--blue-600:#2563EB;--blue-50:#EFF6FF;--violet-600:#7C3AED;--violet-50:#F5F3FF;--teal-600:#0D9488;--teal-50:#F0FDFA;--green-700:#15803D;--green-100:#DCFCE7;--green-50:#F0FDF4;
---serif:'Source Serif 4',Georgia,serif;--display:'Manrope',system-ui,sans-serif;--body:'IBM Plex Sans',system-ui,sans-serif;--mono:'IBM Plex Mono',ui-monospace,monospace;--ease:cubic-bezier(.16,1,.3,1)}
+--serif:'Source Serif 4',Georgia,serif;--display:var(--sans);--body:'IBM Plex Sans',system-ui,sans-serif;--mono:'IBM Plex Mono',ui-monospace,monospace;--ease:cubic-bezier(.16,1,.3,1)}
 h1,h2,h3{font-family:var(--serif);color:var(--navy-900);letter-spacing:-.01em;line-height:1.2;margin:0}
 a{color:var(--navy-600)}.wrap{max-width:1120px;margin:0 auto;padding:0 24px}.narrow{max-width:720px;margin:0 auto;padding:0 24px}
 header.site{border-bottom:1px solid var(--gray-200);background:#fff}header.site .wrap{height:68px;display:flex;align-items:center;gap:18px}
@@ -124,7 +124,7 @@ article .tablewrap{overflow-x:auto}article strong{color:var(--gray-900)}
 @media(max-width:860px){.grid3{grid-template-columns:1fr!important}.feature{grid-template-columns:1fr!important}.feature .fhero{min-height:200px}}"""
 
 FONTS = """<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,600;0,8..60,700;1,8..60,400&family=Manrope:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">"""
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,600;0,8..60,700;1,8..60,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">"""
 FAVICON = """<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%23122B4E'/%3E%3Cpath d='M13 33 22 22l6 5 8.5-10' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M29.5 16.5H37V24' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">"""
 LOGO = """<svg viewBox="0 0 48 48" width="30" height="30" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#122B4E"/><path d="M13 33 22 22l6 5 8.5-10" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M29.5 16.5H37V24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>"""
 
@@ -151,7 +151,24 @@ def page(title, description, canonical, body, extra_head=""):
 {FONTS}
 {FAVICON}
 {extra_head}<style>{HEAD_CSS}
-{partials.CHROME_CSS}</style></head><body>
+{partials.CHROME_CSS}
+/* The submit form used to carry every rule as an inline style attribute, which made the
+   markup unreadable and left its two-column row unable to shrink: the labels held a
+   min-content width and pushed the page 142px sideways on a phone. */
+.submit-block{{padding:var(--s8) var(--gutter)}}
+.submit-intro{{text-align:center;margin-bottom:var(--s6)}}
+.submit-intro h2{{margin:0}}
+.submit-intro p{{font-size:var(--t-300);color:var(--gray-500);margin:var(--s3) auto 0;max-width:var(--measure-lead)}}
+#submitForm{{display:grid;gap:var(--s4)}}
+#submitForm .pair{{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4)}}
+@media(max-width:560px){{#submitForm .pair{{grid-template-columns:1fr}}}}
+#submitForm>*,#submitForm .pair>*{{min-width:0}}
+#submitForm label{{display:grid;gap:var(--s2);font-size:var(--t-200);font-weight:600;color:var(--navy-900)}}
+#submitForm input,#submitForm textarea{{font:inherit;font-size:var(--t-300);width:100%;min-width:0;
+ border:1px solid var(--gray-300);border-radius:var(--r-md);padding:var(--s3) var(--s4);background:#fff}}
+#submitForm input:focus,#submitForm textarea:focus{{outline:2px solid var(--navy-600);outline-offset:1px;border-color:var(--navy-600)}}
+#submitForm textarea{{resize:vertical}}
+</style></head><body>
 {partials.header_html()}
 {body}
 {partials.footer_html()}
@@ -207,16 +224,16 @@ def build_index(posts):
 </div>
 </section>
 <section style="background:var(--gray-50);border-top:1px solid var(--gray-200)">
-<div class="narrow" style="padding:64px 24px">
-<div style="text-align:center"><h2 style="font-size:30px">Share your story</h2>
-<p style="font-size:15px;color:var(--gray-500);margin:10px auto 0;max-width:480px">Passed your exam? Found a study method that worked? Submit your story or article. Our editors review every submission for publication.</p></div>
-<form id="submitForm" style="display:grid;gap:14px;margin-top:28px">
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-<label style="display:grid;gap:6px;font-size:13px;font-weight:600;color:var(--navy-900)">Your name<input required name="name" style="font:inherit;font-size:15px;border:1.5px solid var(--gray-300);border-radius:8px;padding:11px 14px"></label>
-<label style="display:grid;gap:6px;font-size:13px;font-weight:600;color:var(--navy-900)">Email<input type="email" required name="email" style="font:inherit;font-size:15px;border:1.5px solid var(--gray-300);border-radius:8px;padding:11px 14px"></label>
+<div class="narrow submit-block">
+<div class="submit-intro"><h2>Share Your Story</h2>
+<p>Passed your exam? Found a study method that worked? Submit your story or article. Our editors review every submission for publication.</p></div>
+<form id="submitForm">
+<div class="pair">
+<label>Your name<input required name="name"></label>
+<label>Email<input type="email" required name="email"></label>
 </div>
-<label style="display:grid;gap:6px;font-size:13px;font-weight:600;color:var(--navy-900)">Title of your story or article<input required name="title" placeholder="e.g. How I studied for the LSAT with a newborn" style="font:inherit;font-size:15px;border:1.5px solid var(--gray-300);border-radius:8px;padding:11px 14px"></label>
-<label style="display:grid;gap:6px;font-size:13px;font-weight:600;color:var(--navy-900)">Your story<textarea required name="story" rows="6" placeholder="Paste your draft or outline. 300 words is plenty to start." style="font:inherit;font-size:15px;border:1.5px solid var(--gray-300);border-radius:8px;padding:11px 14px"></textarea></label>
+<label>Title of your story or article<input required name="title" placeholder="e.g. How I studied for the LSAT with a newborn"></label>
+<label>Your story<textarea required name="story" rows="6" placeholder="Paste your draft or outline. 300 words is plenty to start."></textarea></label>
 <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
 <span style="font-size:12px;color:var(--gray-500)">Submissions open your mail app addressed to editors@startfromnowhere.com. If we publish, we credit you and confirm edits with you first.</span>
 <button type="submit" class="btn" style="border:none;font-size:15px;padding:12px 26px;cursor:pointer">Submit for review</button>
