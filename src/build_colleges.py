@@ -17,6 +17,7 @@ sys.path.insert(0, str(D))
 import partials                      # noqa: E402
 import college_score as CS           # noqa: E402
 import validate_colleges             # noqa: E402
+import validate_ranking              # noqa: E402
 
 SITE = "https://startfromnowhere.com"
 OUTDIR = ROOT / "colleges"
@@ -77,10 +78,9 @@ def score_panel(c, n_ranked):
         return ('<div class="unranked"><strong>Listed but not ranked.</strong> %s '
                 'Everything the Scorecard does report for this school is shown below.'
                 '</div>' % esc(c.get("unranked_reason", "")))
-    labels = {"completion": "Completion", "earnings": "Earnings",
-              "cost": "Cost and debt", "access": "Access"}
+    labels = {"completion": "Completion", "earnings": "Earnings", "access": "Access"}
     bars = []
-    for k in ("completion", "earnings", "cost", "access"):
+    for k in ("completion", "earnings", "access"):
         v = c["sfn_components"].get(k)
         if v is None:
             bars.append('<div class="comp"><span>%s</span><span class="note">not reported'
@@ -88,14 +88,16 @@ def score_panel(c, n_ranked):
             continue
         bars.append('<div class="comp"><span>%s</span><span class="bar"><i style="width:%.0f%%">'
                     '</i></span><span class="v">%.0f</span></div>' % (labels[k], v, v))
+    label = CS.CATEGORY_LABEL.get(c.get("sfn_category"), "ranked colleges")
+    size = c.get("sfn_category_size") or n_ranked
     return ('<div class="panel"><div class="scorehead"><div><div class="bigscore">%s</div>'
             '<div class="l note">SFN College Score</div></div>'
-            '<div><div class="bigscore">#%d</div><div class="l note">of %d ranked</div></div>'
-            '</div>%s<p class="note">Each component is a percentile rank within the %d '
-            'ranked colleges, so the score says how this school compares with the rest of '
-            'the library, not how good it is in the abstract. '
+            '<div><div class="bigscore">#%d</div><div class="l note">of %s %s</div></div>'
+            '</div>%s<p class="note">Both the rank and every component are measured inside '
+            '%s, the %s schools doing the same job, rather than against the whole library. '
             '<a href="/colleges/methodology/">How this is calculated</a>.</p></div>'
-            % (c["sfn_score"], c["sfn_rank"], n_ranked, "".join(bars), n_ranked))
+            % (c["sfn_score"], c["sfn_rank"], format(size, ",d"), esc(label), "".join(bars),
+               esc(label), format(size, ",d")))
 
 
 def lead_paragraph(c, n_ranked):
@@ -136,9 +138,10 @@ def lead_paragraph(c, n_ranked):
     if ea:
         out.append("Median earnings ten years after entry are %s." % money(ea))
     if c.get("sfn_score") is not None:
-        out.append("Start From Nowhere ranks it number %d of the %d colleges it scores, on "
-                   "completion, earnings, cost and access."
-                   % (c["sfn_rank"], n_ranked))
+        out.append("Start From Nowhere ranks it number %d of the %d %s it scores, on "
+                   "completion, earnings and access."
+                   % (c["sfn_rank"], c.get("sfn_category_size") or n_ranked,
+                      CS.CATEGORY_LABEL.get(c.get("sfn_category"), "colleges").lower()))
     out.append("Every figure comes from the US Department of Education College Scorecard "
                "and links to this college's own record there.")
     return " ".join(out)
@@ -213,9 +216,12 @@ def college_page(c, tpl, css_href, n_ranked, n_total):
                  '<a href="/funding/">funding and scholarships guide</a>.</p>')
 
     if c.get("sfn_score") is not None:
-        rank_line = ('<p>Ranked <strong>#%d of %d</strong> on the SFN College Score, which '
-                     'weighs completion, earnings, cost and access and ignores selectivity.</p>'
-                     % (c["sfn_rank"], n_ranked))
+        rank_line = ('<p>Ranked <strong>#%d of %s %s</strong> on the SFN College Score, which '
+                     'weighs completion, earnings and access, and scores neither price nor '
+                     'selectivity. <a href="/colleges/#%s">See the full list</a>.</p>'
+                     % (c["sfn_rank"], format(c.get("sfn_category_size") or n_ranked, ",d"),
+                        esc(CS.CATEGORY_LABEL.get(c.get("sfn_category"), "ranked colleges")),
+                        esc(c.get("sfn_category") or "")))
     else:
         rank_line = '<p>Listed with full data, not ranked.</p>'
 
@@ -273,7 +279,8 @@ def college_page(c, tpl, css_href, n_ranked, n_total):
 # Column order for the compact payload. Arrays rather than objects: with 1451 rows,
 # repeating fifteen key names on every one costs more than the data.
 COLS = ["rank", "score", "name", "slug", "city", "state", "type", "net", "grad",
-        "ret", "earn", "debt", "pell", "admit", "sat", "act", "tin", "tout", "prem"]
+        "ret", "earn", "debt", "pell", "admit", "sat", "act", "tin", "tout", "prem",
+        "cat", "region", "size", "testpol"]
 
 # How many rows are written into the HTML itself. Every college has its own indexed
 # page, so the index does not need all 1451 in the DOM to be found; it needs to be
@@ -282,6 +289,7 @@ COLS = ["rank", "score", "name", "slug", "city", "state", "type", "net", "grad",
 SEED_ROWS = 300
 
 APP_JS = r"""
+var CATS=window.__CATS__||[];
 // The table has two states. On load it shows the rows the server wrote into the HTML,
 // so the page is useful with no JavaScript and cheap to open. The moment anyone
 // searches, sorts, or asks for the full list, it re-renders from the payload, which
@@ -290,9 +298,14 @@ APP_JS = r"""
  var tb=document.getElementById('tb'); if(!tb||!window.__COLLEGES__) return;
  var COLS=window.__COLS__, DATA=window.__COLLEGES__, I={};
  COLS.forEach(function(k,i){ I[k]=i; });
- var q=document.getElementById('q'), st=document.getElementById('st'),
-     ty=document.getElementById('ty'), cnt=document.getElementById('cnt'),
-     more=document.getElementById('more');
+ function $(id){ return document.getElementById(id); }
+ var q=$('q'), st=$('st'), rg=$('rg'), ty=$('ty'), cnt=$('cnt'), more=$('more');
+ // Every advanced control is read the same way, so adding one is a line here and a
+ // line of markup rather than a new branch in match().
+ var RANGE=[['fgrad','grad','min'],['fearn','earn','min'],['fnet','net','max'],
+            ['fsat','sat','min'],['fpell','pell','min'],['fdebt','debt','max'],
+            ['fret','ret','min']];
+ var cat=(CATS[0]||{}).key||'';
  var sortKey='rank', sortDir=1, expanded=false;
  function money(v){ return (v===null||v==='')?'-':'$'+Number(v).toLocaleString('en-US'); }
  function pc(v){ return (v===null||v==='')?'-':Math.round(Number(v))+'%'; }
@@ -300,10 +313,32 @@ APP_JS = r"""
  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){
    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
  function match(r){
+  if(cat && r[I.cat]!==cat) return false;
   var needle=(q.value||'').trim().toLowerCase();
   if(needle && String(r[I.name]).toLowerCase().indexOf(needle)<0) return false;
   if(st.value && r[I.state]!==st.value) return false;
+  if(rg.value && r[I.region]!==rg.value) return false;
   if(ty.value && r[I.type]!==ty.value) return false;
+  // A college that reports nothing for a figure fails a filter on that figure. The
+  // alternative, letting it through, would quietly pad every filtered list with
+  // schools whose numbers nobody has.
+  for(var i=0;i<RANGE.length;i++){
+   var el=$(RANGE[i][0]); if(!el||!el.value) continue;
+   var v=r[I[RANGE[i][1]]]; if(v===null||v==='') return false;
+   var n=Number(el.value);
+   if(RANGE[i][2]==='min'? Number(v)<n : Number(v)>n) return false;
+  }
+  var ad=$('fadmit');
+  if(ad&&ad.value){ var av=r[I.admit]; if(av===null||av==='') return false;
+   var t=Number(ad.value);
+   // A negative bound reads as "over", so one control covers both directions.
+   if(t<0? Number(av)<-t : Number(av)>t) return false; }
+  var sz=$('fsize');
+  if(sz&&sz.value){ var u=r[I.size]; if(u===null||u==='') return false;
+   var b=sz.value.split('-');
+   if(Number(u)<Number(b[0])||Number(u)>Number(b[1])) return false; }
+  var tp=$('ftest');
+  if(tp&&tp.value&&r[I.testpol]!==tp.value) return false;
   return true;
  }
  function render(){
@@ -319,7 +354,11 @@ APP_JS = r"""
    if(isText){ x=String(x).toLowerCase(); y=String(y).toLowerCase(); }
    return x<y?-sortDir:x>y?sortDir:0; });
   var all=withVal.concat(without);
-  cnt.textContent=all.length.toLocaleString('en-US')+(all.length===1?' college':' colleges');
+  // The tab shows how many are RANKED in the category; this count includes the
+  // listed-but-unranked ones the same filters match, so it says which it means.
+  var nr=all.filter(function(r){ return r[I.rank]; }).length;
+  cnt.textContent=all.length.toLocaleString('en-US')+(all.length===1?' college, ':' colleges, ')
+   +nr.toLocaleString('en-US')+' ranked';
   var show=expanded?all:all.slice(0,SEED);
   tb.innerHTML=show.map(function(r){
    return '<tr><td class="rank">'+(r[I.rank]?('#'+r[I.rank]):'<span class="note">nr</span>')+'</td>'
@@ -347,17 +386,42 @@ APP_JS = r"""
  document.querySelectorAll('th[data-k]').forEach(function(th){
   th.style.cursor='pointer';
   th.addEventListener('click', function(){ sortBy(th.getAttribute('data-k')); }); });
- [q,st,ty].forEach(function(el){
-  el.addEventListener('input', function(){ render(); });
-  el.addEventListener('change', function(){ render(); }); });
- document.getElementById('clear').addEventListener('click', function(){
-  q.value=''; st.value=''; ty.value=''; expanded=false; render(); });
+ var FILTERS=[q,st,rg,ty].concat(RANGE.map(function(r){ return $(r[0]); }))
+   .concat([$('fadmit'),$('fsize'),$('ftest')]).filter(Boolean);
+ FILTERS.forEach(function(el){
+  el.addEventListener('input', function(){ expanded=false; render(); });
+  el.addEventListener('change', function(){ expanded=false; render(); }); });
+ $('clear').addEventListener('click', function(){
+  FILTERS.forEach(function(el){ el.value=''; }); expanded=false; render(); });
+ var adv=$('adv'), advbox=$('advbox');
+ adv.addEventListener('click', function(){
+  var open=advbox.hidden; advbox.hidden=!open;
+  adv.setAttribute('aria-expanded', String(open));
+  adv.textContent=open?'Fewer Filters':'More Filters'; });
+ // Tabs pick the list. Each category is scored inside itself, so switching the tab
+ // changes which schools a rank is measured against, not just which rows show.
+ var tabs=document.querySelectorAll('.cattabs button');
+ function pickCat(key){
+  cat=key; expanded=false;
+  tabs.forEach(function(b){
+   var on=b.getAttribute('data-cat')===key;
+   b.setAttribute('aria-selected', String(on));
+   b.classList.toggle('on', on); });
+  var meta=CATS.filter(function(c){ return c.key===key; })[0];
+  var blurb=$('catblurb'); if(blurb&&meta) blurb.textContent=meta.blurb;
+  if(history.replaceState) history.replaceState(null,'','#'+key);
+  render();
+ }
+ tabs.forEach(function(b){
+  b.addEventListener('click', function(){ pickCat(b.getAttribute('data-cat')); }); });
  more.addEventListener('click', function(){ expanded=true; render(); });
  document.getElementById('csv').addEventListener('click', function(){
-  var head=['Rank','Score','College','City','State','Type','Net price','Graduation rate',
-            'Retention','Earnings 10yr','Median debt','Pell share','Admit rate','SAT average','ACT',
+  var head=['Category','Rank in category','Score','College','City','State','Region','Type',
+            'Net price','Graduation rate','Retention','Earnings 10yr','Median debt','Pell share',
+            'Admit rate','SAT average','ACT','Undergraduates','Test policy',
             'In-state tuition','Out-of-state tuition','Out-of-state premium'];
-  var keys=['rank','score','name','city','state','type','net','grad','ret','earn','debt','pell','admit','sat','act','tin','tout','prem'];
+  var keys=['cat','rank','score','name','city','state','region','type','net','grad','ret','earn',
+            'debt','pell','admit','sat','act','size','testpol','tin','tout','prem'];
   var out=[head.join(',')];
   DATA.filter(match).forEach(function(r){
    out.push(keys.map(function(k){ var v=r[I[k]]; if(v===null||v===undefined) v='';
@@ -366,7 +430,8 @@ APP_JS = r"""
   var a=document.createElement('a'); a.href=URL.createObjectURL(blob);
   a.download='sfn-college-rankings.csv'; document.body.appendChild(a); a.click();
   setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },100); });
- render();
+ var want=(location.hash||'').replace('#','');
+ pickCat(CATS.some(function(c){ return c.key===want; })?want:cat);
 })();
 """
 
@@ -377,7 +442,9 @@ def payload_row(c):
             c["state"], c["type"], g("net_price_usd"), g("grad_rate_6yr_pct"),
             g("retention_pct"), g("earnings_10yr_usd"), g("median_debt_usd"),
             g("pell_pct"), g("admit_rate_pct"), g("sat_avg"), g("act_mid"),
-            g("tuition_in_state_usd"), g("tuition_out_state_usd"), c.get("out_state_premium")]
+            g("tuition_in_state_usd"), g("tuition_out_state_usd"), c.get("out_state_premium"),
+            c.get("sfn_category") or "", c.get("region") or "", g("undergrads"),
+            g("test_policy") or ""]
 
 
 def row_html(c):
@@ -402,20 +469,54 @@ def row_html(c):
 
 
 CONTROLS = """
-<div class="controls" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:16px 0 10px">
-<input id="q" type="search" placeholder="Search colleges" aria-label="Search colleges"
- style="flex:1 1 220px;min-width:180px;padding:9px 12px;border:1px solid var(--gray-300);border-radius:8px;font:inherit">
-<select id="st" aria-label="Filter by state" style="padding:9px 10px;border:1px solid var(--gray-300);border-radius:8px;font:inherit"><option value="">All states</option>{{STATES}}</select>
-<select id="ty" aria-label="Filter by type" style="padding:9px 10px;border:1px solid var(--gray-300);border-radius:8px;font:inherit"><option value="">Public and private</option><option>Public</option><option>Private nonprofit</option></select>
-<button id="clear" class="pill" type="button">Clear</button>
-<button id="csv" class="pill" type="button">Download CSV</button>
-<span id="cnt" class="note" aria-live="polite"></span>
+<div class="cattabs" role="tablist" aria-label="Ranking category">{{CATTABS}}</div>
+<p class="catblurb" id="catblurb"></p>
+
+<div class="filters">
+ <div class="frow">
+  <input id="q" type="search" placeholder="Search colleges" aria-label="Search colleges">
+  <select id="st" aria-label="Filter by state"><option value="">All states</option>{{STATES}}</select>
+  <select id="rg" aria-label="Filter by region"><option value="">All regions</option>{{REGIONS}}</select>
+  <select id="ty" aria-label="Public or private"><option value="">Public and private</option><option>Public</option><option>Private nonprofit</option></select>
+  <button id="adv" class="pill" type="button" aria-expanded="false" aria-controls="advbox">More Filters</button>
+  <button id="clear" class="pill" type="button">Clear</button>
+  <button id="csv" class="pill" type="button">Download CSV</button>
+  <span id="cnt" class="note" aria-live="polite"></span>
+ </div>
+
+ <div class="advbox" id="advbox" hidden>
+  <div class="fgrid">
+   <label>Graduation rate at least
+    <select id="fgrad"><option value="">Any</option><option value="90">90%</option><option value="80">80%</option><option value="70">70%</option><option value="60">60%</option><option value="50">50%</option></select></label>
+   <label>Earnings at least
+    <select id="fearn"><option value="">Any</option><option value="100000">$100,000</option><option value="80000">$80,000</option><option value="70000">$70,000</option><option value="60000">$60,000</option><option value="50000">$50,000</option><option value="40000">$40,000</option></select></label>
+   <label>Net price at most
+    <select id="fnet"><option value="">Any</option><option value="10000">$10,000</option><option value="15000">$15,000</option><option value="20000">$20,000</option><option value="25000">$25,000</option><option value="35000">$35,000</option><option value="50000">$50,000</option></select></label>
+   <label>Admission rate
+    <select id="fadmit"><option value="">Any</option><option value="10">Under 10%</option><option value="25">Under 25%</option><option value="50">Under 50%</option><option value="-50">Over 50%</option><option value="-75">Over 75%</option></select></label>
+   <label>SAT average
+    <select id="fsat"><option value="">Any</option><option value="1400">1400 and up</option><option value="1300">1300 and up</option><option value="1200">1200 and up</option><option value="1100">1100 and up</option><option value="1000">1000 and up</option></select></label>
+   <label>Undergraduates
+    <select id="fsize"><option value="">Any size</option><option value="0-2000">Under 2,000</option><option value="2000-5000">2,000 to 5,000</option><option value="5000-15000">5,000 to 15,000</option><option value="15000-30000">15,000 to 30,000</option><option value="30000-999999">Over 30,000</option></select></label>
+   <label>Pell share at least
+    <select id="fpell"><option value="">Any</option><option value="50">50%</option><option value="40">40%</option><option value="30">30%</option><option value="20">20%</option></select></label>
+   <label>Median debt at most
+    <select id="fdebt"><option value="">Any</option><option value="10000">$10,000</option><option value="15000">$15,000</option><option value="20000">$20,000</option><option value="27000">$27,000</option></select></label>
+   <label>Test policy
+    <select id="ftest"><option value="">Any policy</option>{{TESTPOL}}</select></label>
+   <label>Retention at least
+    <select id="fret"><option value="">Any</option><option value="95">95%</option><option value="90">90%</option><option value="85">85%</option><option value="75">75%</option></select></label>
+  </div>
+  <p class="note">A college that does not report a figure is excluded by a filter on that figure rather than
+  quietly passing it. Every filter reads the same published numbers shown in the table.</p>
+ </div>
 </div>
-<button id="more" class="pill" type="button" hidden style="margin:0 0 10px"></button>
+<button id="more" class="pill" type="button" hidden style="margin:0 0 var(--s3)"></button>
 <p class="note">Click any column heading to sort. Colleges that do not report a figure sort to the bottom rather than to the top.</p>
 """
 
-TABLE_HEAD = ('<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse">'
+
+TABLE_HEAD = ('<div class="tablewrap"><table class="rk ctable">'
               '<thead><tr>'
               '<th data-k="rank" aria-sort="ascending">Rank</th><th data-k="score" class="num">Score</th>'
               '<th data-k="name">College</th>'
@@ -428,7 +529,7 @@ TABLE_HEAD = ('<div style="overflow-x:auto"><table style="width:100%;border-coll
               '</tr></thead>')
 
 
-def methodology_page(css_href, n_ranked, n_total, updated):
+def methodology_page(css_href, n_ranked, n_total, updated, cat_counts, agreement):
     body = """
 <div class="wrap ppage">
 <p class="crumb"><a href="/colleges/">College Rankings</a> / Methodology</p>
@@ -436,21 +537,50 @@ def methodology_page(css_href, n_ranked, n_total, updated):
 <p class="note">Updated {UPDATED}. {NRANK} of {NTOTAL} colleges in the library are ranked.</p>
 
 <div class="panel"><h2>What It Measures</h2>
-<p>Four components, each a percentile rank within the ranked set, then weighted:</p>
-<div class="stat"><span class="k">Completion</span><span class="v">30%</span><span class="s">six-year graduation (20) and first-year retention (10)</span></div>
-<div class="stat"><span class="k">Earnings</span><span class="v">25%</span><span class="s">median earnings ten years after entry</span></div>
-<div class="stat"><span class="k">Cost and debt</span><span class="v">25%</span><span class="s">net price (15) and median debt against earnings (10)</span></div>
-<div class="stat"><span class="k">Access</span><span class="v">20%</span><span class="s">share of students on Pell grants</span></div>
+<p>Three components, each a percentile rank <strong>within the school's own category</strong>, then weighted:</p>
+<div class="stat"><span class="k">Completion</span><span class="v">50%</span><span class="s">six-year graduation and first-year retention, two parts to one</span></div>
+<div class="stat"><span class="k">Earnings</span><span class="v">40%</span><span class="s">median earnings ten years after entry</span></div>
+<div class="stat"><span class="k">Access</span><span class="v">10%</span><span class="s">share of students on Pell grants</span></div>
 <p class="note">Weights are renormalised over the components a school actually reports. A school is ranked only if it reports both completion and earnings; the rest are listed with their data and marked not ranked, with the reason stated on their page.</p></div>
+
+<div class="panel"><h2>Four Lists, Not One</h2>
+<p>Until September 2026 all 1,408 ranked colleges sat in a single table. That put a liberal arts college of 1,800 students next to a research university of 45,000 and scored them against the same standard, which neither was built for.</p>
+<p>So the library is now ranked as four lists, split on the <a href="https://carnegieclassifications.acenet.edu/" rel="nofollow noopener" target="_blank">Carnegie Basic classification</a> the Scorecard already carries for every school. No judgement of ours decides which list a college appears in.</p>
+<div class="stat"><span class="k">National Universities</span><span class="v">{{N_NATIONAL}}</span><span class="s">doctoral institutions, research and professional</span></div>
+<div class="stat"><span class="k">Liberal Arts Colleges</span><span class="v">{{N_LIBARTS}}</span><span class="s">arts and sciences award at least half the degrees</span></div>
+<div class="stat"><span class="k">Master's Universities</span><span class="v">{{N_MASTERS}}</span><span class="s">highest degree is the master's, including most regional publics</span></div>
+<div class="stat"><span class="k">Baccalaureate Colleges</span><span class="v">{{N_BACC}}</span><span class="s">bachelor's colleges outside the arts and sciences</span></div>
+<p class="note">Percentiles are computed inside the category, not across the library, which is the point of splitting: a graduation rate is judged against schools doing the same job. A score of 80 means better than 80 percent of that category. Special focus institutions, concentrated in a single field, are listed with their data and not ranked, because a conservatory and a seminary share no standard worth scoring them on.</p></div>
+
+<div class="panel"><h2>Where We Disagree With the Publishers, and Why</h2>
+<p>Splitting the lists makes the comparison with published rankings honest, because it finally compares like with like. Two of the three categories we can check line up well. One does not, and the reason is worth stating rather than tuning away.</p>
+<div class="stat"><span class="k">National Universities</span><span class="v">{{AG_NATIONAL}}%</span><span class="s">of our top 25 is in a published top 25</span></div>
+<div class="stat"><span class="k">Liberal Arts Colleges</span><span class="v">{{AG_LIBARTS}}%</span><span class="s">against Washington Monthly's liberal arts list</span></div>
+<div class="stat"><span class="k">Master's Universities</span><span class="v">{{AG_MASTERS}}%</span><span class="s">against Washington Monthly's master's list</span></div>
+<p><strong>The master's number is a real disagreement, not an error.</strong> Washington Monthly's master's ranking is almost purely a social mobility measure: six of its top ten are California State campuses. Ours weighs completion at 50 and earnings at 40, so it puts Cal Poly San Luis Obispo, Bentley and Baruch near the top instead. Twenty-four of their top twenty-five are in our library and nineteen are in our master's list, so we are looking at the same schools and reaching a different answer about them.</p>
+<p>Part of the gap is not a disagreement at all but a calendar: Carnegie now classifies Cal State Long Beach and James Madison as doctoral institutions, so they appear in our national list while Washington Monthly still files them under master's.</p>
+<p>Neither ranking is wrong. If what you want is the school that lifts low-income students furthest, their list answers that question better than ours does, and it is <a href="https://washingtonmonthly.com/2025-college-guide/masters/" rel="nofollow noopener" target="_blank">free to read</a>. Ours answers whether students finish and what they earn afterwards.</p></div>
+
+<div class="panel"><h2>Why Price Is Not in the Score</h2>
+<p>It used to be, and it was a mistake. Until September 2026 net price was 15 percent of the score, median debt against earnings another 10, and Pell share 20 on top. Forty-five percent of the score measured what a school charged and who it enrolled rather than what it did for them.</p>
+<p>The table that produced was headed by CUNY Baruch, with seven University of California campuses and four Cal State campuses in the top thirteen, and Harvard, Yale, MIT and Chicago outside the top twenty. Those are good schools and cheap, which is exactly the problem: the ranking was an affordability index wearing a quality ranking's clothes, and price was doing the work.</p>
+<p>A price is an input, not an outcome. What a school charges belongs on its page where you can weigh it against everything else, not inside a number claiming to say how well the school educates people. Net price, median debt, in-state and out-of-state tuition and the non-resident premium are all still published on every college page and in the table. None of them touch the score.</p>
+<p>Access stayed, at 10 rather than 20. A school that admits only students who arrive already advantaged and then posts good outcomes has done less work than one that starts further back and arrives at the same place, and Pell share is the only measure of that in the federal data. At 20 it dominated the table. At 10 it informs it.</p></div>
+
+<div class="panel"><h2>How We Check This Against Other Rankings</h2>
+<p>Weights that produce a plausible looking table are easy to write and hard to trust. So the list is checked on every build against four published rankings that disagree with each other: <a href="https://www.timeshighereducation.com/world-university-rankings/2026/world-ranking" rel="nofollow noopener" target="_blank">Times Higher Education</a> on research and reputation, and <a href="https://washingtonmonthly.com/2025-college-guide/national/" rel="nofollow noopener" target="_blank">Washington Monthly</a> on social mobility across its national, liberal arts and master's categories.</p>
+<p>Under the old weighting, 44 percent of our top 25 appeared in anybody's published top 25. Under this one it is 80 percent, and 96 percent of our top 25 appears somewhere in a published ranking, against 84 percent before.</p>
+<p>No published rank is an input to our score, which is computed from the College Scorecard alone. The comparison exists to catch the failure it caught: a ranking that shares almost nothing with every other ranking is not being independent, it is being wrong, and the only way to tell those apart is to measure.</p>
+<p>The obvious hazard in checking your weights against other people's lists is rebuilding a selectivity ranking by accident, because ranking by how hard a school is to enter is the cheapest way to agree with everybody. The correlation between this score and admission rate is -0.41, moderate rather than mechanical, and 25 of the top 100 are public institutions. Both numbers are printed on every build; if either moves sharply, the change that moved it is wrong.</p></div>
 
 <div class="panel"><h2>What It Refuses to Measure</h2>
 <p>Admission rate, test score ranges, sticker price, endowment and reputation surveys are not scored. Admission rates and score ranges are reported on every school page because an applicant needs them to plan.</p>
 <p>The reason is simple. Scoring selectivity rewards a school for turning more people away, which measures how many people applied, not what the school does for the ones it admits. A college that rejects 95 percent of applicants has not yet taught anybody anything. Reputation surveys mostly measure how well known a school already was, which makes them very hard for a good school to move and very easy for a famous one to coast on.</p></div>
 
 <div class="panel"><h2>What to Watch Out For</h2>
-<p><strong>Net price for a public university is the in-state figure.</strong> It is the only one the College Scorecard publishes. Public institutions therefore score better on cost than an out-of-state student would actually experience: across the ranked set the median net price is about 9,000 dollars lower at public institutions than private ones, and that feeds a quarter of the score.</p>
-<p>So the out-of-state side is reported as its own published figures rather than buried. Every table row and every college page carries in-state tuition, out-of-state tuition, and the difference between them. 507 public colleges in this library charge a non-resident premium; the largest is 43,210 dollars. No private college charges one, which was checked rather than assumed: all 872 report identical in-state and out-of-state tuition.</p>
-<p><strong>There is deliberately no second, out-of-state score.</strong> The obvious way to build one is to swap net price for published out-of-state tuition, and it produces a table that looks plausible and is wrong. Caltech falls sixteen points and Princeton nearly fourteen, when neither charges a non-resident a different price. What moved was the measure, from post-aid net price to sticker tuition, not the residency, so the column would mostly be reranking private colleges by how generous their aid is while claiming to describe out-of-state cost. The premium is a fact we can publish; that score is not.</p>
+<p><strong>Net price for a public university is the in-state figure.</strong> It is the only one the College Scorecard publishes, so it understates what a non-resident pays. It no longer affects the score, because price is not scored at all, but it is on every page and worth reading with that in mind.</p>
+<p>The out-of-state side is reported as its own published figures rather than buried. Every table row and every college page carries in-state tuition, out-of-state tuition, and the difference between them. 507 public colleges in this library charge a non-resident premium; the largest is 43,210 dollars. No private college charges one, which was checked rather than assumed: all 872 report identical in-state and out-of-state tuition.</p>
+<p><strong>There is deliberately no second, out-of-state score.</strong> When cost was still scored, the obvious way to build one was to swap net price for published out-of-state tuition, and it produced a table that looked plausible and was wrong: Caltech fell sixteen points and Princeton nearly fourteen, when neither charges a non-resident a different price. What moved was the measure, from post-aid net price to sticker tuition, not the residency. Now that price is out of the score entirely the question does not arise, and the premium stays what it always should have been: a published fact on every page.</p>
 <p><strong>Earnings cover everyone who enrolled</strong>, not only graduates, and are not adjusted for what students study or where they come from. A school heavy in engineering will out-earn a school heavy in social work without being better at teaching.</p>
 <p><strong>The score is relative.</strong> Each component is a percentile inside this library of four-year nonprofit and public institutions, so a score of 80 means better than 80 percent of them on the weighted mix, not 80 out of 100 in the abstract.</p>
 <p><strong>Special focus medical and health professions institutions are listed but not ranked.</strong> They award a few bachelor's degrees alongside a mostly graduate professional mission, so their earnings reflect doctors and pharmacists, and several report no undergraduate graduation rate at all. Ranking them against undergraduate colleges would put them near the top for the wrong reason.</p></div>
@@ -463,17 +593,23 @@ def methodology_page(css_href, n_ranked, n_total, updated):
 <p class="crumb"><a href="/colleges/">Back to the rankings</a> · <a href="/schools/">MBA rankings</a> · <a href="/sat/app/">Practice for the SAT</a></p>
 </div>
 """.replace("{UPDATED}", updated).replace("{NRANK}", format(n_ranked, ",d")).replace("{NTOTAL}", format(n_total, ",d"))
+    for tok, key in (("N_NATIONAL", "national"), ("N_LIBARTS", "liberal-arts"),
+                     ("N_MASTERS", "masters"), ("N_BACC", "baccalaureate")):
+        body = body.replace("{{%s}}" % tok, format(cat_counts.get(key, 0), ",d"))
+    for tok, key in (("AG_NATIONAL", "national"), ("AG_LIBARTS", "liberal-arts"),
+                     ("AG_MASTERS", "masters")):
+        body = body.replace("{{%s}}" % tok, str((agreement or {}).get(key, "-")))
     page = ('<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">'
             '<meta name="viewport" content="width=device-width,initial-scale=1">'
             '<link rel="manifest" href="/manifest.json">'
             '<link rel="icon" href="/icons/icon-192.png" type="image/png">'
             '<meta name="theme-color" content="#122B4E">'
             '<title>College Rankings Methodology: What We Score and What We Refuse To</title>'
-            '<meta name="description" content="How the SFN College Score is calculated: completion 30 percent, earnings 25, cost and debt 25, access 20, and why admission rate and test scores are reported but never scored.">'
+            '<meta name="description" content="How the SFN College Score is calculated: completion 50 percent, earnings 40, access 10, why price and selectivity are reported but never scored, and how the list is checked against four published rankings.">'
             '<link rel="canonical" href="https://startfromnowhere.com/colleges/methodology/">'
             '<link rel="preconnect" href="https://fonts.googleapis.com">'
             '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
-            '<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Manrope:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">'
+            '<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">'
             '<link rel="stylesheet" href="' + css_href + '">'
             '<style>.ppage{max-width:820px}\n'
             '.stat{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--gray-100)}\n'
@@ -496,6 +632,12 @@ def main():
     colleges = [json.loads(p.read_text(encoding="utf-8")) for p in files]
     validate_colleges.validate(colleges)
     ranked, unranked = CS.rank_all(colleges)
+    # Print how our list sits against published rankings on every build. A weight
+    # change that quietly drags the table away from every other ranking shows up here
+    # rather than months later: before the 2026-09-17 reweighting, 44 percent of our
+    # top 25 appeared in anybody's published top 25.
+    checks = validate_ranking.report(ranked) or {}
+    agreement = checks.get("by_category") or {}
     n_ranked, n_total = len(ranked), len(colleges)
     updated = os.environ.get("BLOG_BUILD_DATE") or datetime.date.today().isoformat()
     base_css = (D / "rankings_base.css").read_text(encoding="utf-8")
@@ -506,6 +648,26 @@ def main():
     payload = json.dumps([payload_row(c) for c in ordered], separators=(",", ":"))
     states = "".join('<option>%s</option>' % s
                      for s in sorted({c["state"] for c in colleges}))
+    regions = "".join('<option>%s</option>' % r
+                      for r in sorted({c.get("region") for c in colleges if c.get("region")}))
+    testpol = "".join('<option>%s</option>' % esc(t) for t in sorted(
+        {fv(c, "test_policy") for c in colleges if fv(c, "test_policy")}))
+    # One tab per ranked category, each labelled with how many schools it holds, so a
+    # reader can see that the national list is 431 schools and the master's list 553
+    # before they read a rank out of either.
+    cat_counts = {}
+    for c in ranked:
+        cat_counts[c["sfn_category"]] = cat_counts.get(c["sfn_category"], 0) + 1
+    cattabs = "".join(
+        '<button type="button" role="tab" data-cat="%s" aria-selected="%s">%s'
+        '<span class="n">%s</span></button>'
+        % (key, "true" if i == 0 else "false", esc(label),
+           format(cat_counts.get(key, 0), ",d"))
+        for i, (key, label, _, _) in enumerate(CS.CATEGORIES))
+    cats_json = json.dumps([
+        {"key": key, "label": label, "blurb": CS.CATEGORY_BLURB[key],
+         "n": cat_counts.get(key, 0)}
+        for key, label, _, _ in CS.CATEGORIES], separators=(",", ":"))
     ld_items = "".join(
         '{"@type":"ListItem","position":%d,"name":%s,"url":"%s/colleges/%s/"},'
         % (c["sfn_rank"], json.dumps(c["name"]), SITE, c["slug"])
@@ -517,7 +679,11 @@ def main():
              .replace("{{N}}", format(n_total, ",d"))
              .replace("{{UPDATED}}", updated)
              .replace("{{LD_ITEMS}}", ld_items)
-             .replace("{{CONTROLS}}", CONTROLS.replace("{{STATES}}", states))
+             .replace("{{CONTROLS}}", CONTROLS.replace("{{STATES}}", states)
+                       .replace("{{REGIONS}}", regions)
+                       .replace("{{TESTPOL}}", testpol)
+                       .replace("{{CATTABS}}", cattabs))
+             .replace("{{CATS_JSON}}", cats_json)
              .replace("{{TABLE}}", TABLE_HEAD + tbody_open + rows + "</tbody></table></div>")
              .replace("{{DATA}}", payload)
              .replace("{{COLS}}", json.dumps(COLS, separators=(",", ":")))
@@ -529,7 +695,8 @@ def main():
     meth = OUTDIR / "methodology"
     meth.mkdir(exist_ok=True)
     (meth / "index.html").write_text(
-        methodology_page(css_href, n_ranked, n_total, updated), encoding="utf-8")
+        methodology_page(css_href, n_ranked, n_total, updated, cat_counts, agreement),
+        encoding="utf-8")
 
     ctpl = (D / "college_template.html").read_text(encoding="utf-8")
     for c in colleges:

@@ -48,10 +48,10 @@ CARDS = [
 
 CARD_HTML = """<!doctype html><meta charset="utf-8">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,700&family=Manrope:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,700&family=IBM+Plex+Sans:wght@600;700&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
 body{width:1200px;height:630px;background:#fff;display:flex;flex-direction:column;
- justify-content:space-between;padding:68px 72px;font-family:Manrope,system-ui,sans-serif}
+ justify-content:space-between;padding:68px 72px;font-family:'IBM Plex Sans',system-ui,sans-serif}
 .top{display:flex;align-items:center;gap:14px}
 .mark{font-family:'Source Serif 4',Georgia,serif;font-weight:700;font-size:30px;color:NAVY}
 h1{font-family:'Source Serif 4',Georgia,serif;font-weight:700;font-size:78px;line-height:1.05;

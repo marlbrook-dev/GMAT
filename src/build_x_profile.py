@@ -38,10 +38,10 @@ svg{display:block}</style>""" + LOGO.replace("W", "232").replace("FG", "#ffffff"
 
 HEADER = """<!doctype html><meta charset="utf-8">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,700&family=Manrope:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,700&family=IBM+Plex+Sans:wght@600;700&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:1500px;height:500px}
-body{background:#fff;font-family:Manrope,system-ui,sans-serif;position:relative}
+body{background:#fff;font-family:'IBM Plex Sans',system-ui,sans-serif;position:relative}
 .wrap{position:absolute;left:0;right:0;top:74px;display:flex;flex-direction:column;
  align-items:center;text-align:center}
 h1{font-family:'Source Serif 4',Georgia,serif;font-weight:700;font-size:78px;color:NAVY;

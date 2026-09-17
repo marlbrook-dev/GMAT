@@ -3,7 +3,7 @@
 
 // ---- Graphics Interpretation charts ----
 // Chart 1: bar chart, annual rainfall (mm) 2019-2024. Scale: 0-800 mm over 160 px (0.2 px/mm), baseline y=180.
-const GI_CHART1 = '<div class="dchart"><svg viewBox="0 0 420 220" width="100%" style="max-width:520px"><g font-family="Manrope,Inter,Arial" font-size="12">'+
+const GI_CHART1 = '<div class="dchart"><svg viewBox="0 0 420 220" width="100%" style="max-width:520px"><g font-family="IBM Plex Sans,system-ui,Arial" font-size="12">'+
  '<line x1="50" y1="180" x2="400" y2="180" stroke="#888"/><line x1="50" y1="20" x2="50" y2="180" stroke="#888"/>'+
  '<line x1="50" y1="140" x2="400" y2="140" stroke="#eee"/><line x1="50" y1="100" x2="400" y2="100" stroke="#eee"/><line x1="50" y1="60" x2="400" y2="60" stroke="#eee"/><line x1="50" y1="20" x2="400" y2="20" stroke="#eee"/>'+
  '<text x="44" y="184" text-anchor="end" fill="#666">0</text><text x="44" y="144" text-anchor="end" fill="#666">200</text><text x="44" y="104" text-anchor="end" fill="#666">400</text><text x="44" y="64" text-anchor="end" fill="#666">600</text><text x="44" y="24" text-anchor="end" fill="#666">800</text>'+
@@ -16,7 +16,7 @@ const GI_CHART1 = '<div class="dchart"><svg viewBox="0 0 420 220" width="100%" s
  '<text x="225" y="214" text-anchor="middle" fill="#666">Annual rainfall at Station K (millimeters), 2019 to 2024</text></g></svg></div>';
 
 // Chart 2: line chart, monthly revenue ($ thousands) of two stores, Jan-Jun. Scale: 20-60 over 160 px (4 px per unit), y = 180 - (v-20)*4.
-const GI_CHART2 = '<div class="dchart"><svg viewBox="0 0 420 220" width="100%" style="max-width:520px"><g font-family="Manrope,Inter,Arial" font-size="12">'+
+const GI_CHART2 = '<div class="dchart"><svg viewBox="0 0 420 220" width="100%" style="max-width:520px"><g font-family="IBM Plex Sans,system-ui,Arial" font-size="12">'+
  '<line x1="50" y1="180" x2="400" y2="180" stroke="#888"/><line x1="50" y1="20" x2="50" y2="180" stroke="#888"/>'+
  '<line x1="50" y1="140" x2="400" y2="140" stroke="#eee"/><line x1="50" y1="100" x2="400" y2="100" stroke="#eee"/><line x1="50" y1="60" x2="400" y2="60" stroke="#eee"/><line x1="50" y1="20" x2="400" y2="20" stroke="#eee"/>'+
  '<text x="44" y="184" text-anchor="end" fill="#666">20</text><text x="44" y="144" text-anchor="end" fill="#666">30</text><text x="44" y="104" text-anchor="end" fill="#666">40</text><text x="44" y="64" text-anchor="end" fill="#666">50</text><text x="44" y="24" text-anchor="end" fill="#666">60</text>'+
@@ -33,7 +33,7 @@ const GI_CHART2 = '<div class="dchart"><svg viewBox="0 0 420 220" width="100%" s
  '<text x="225" y="214" text-anchor="middle" fill="#666">Monthly revenue ($ thousands), January to June</text></g></svg></div>';
 
 // Chart 3: scatter, advertising spend (x, $ thousands, 0-10 -> 35 px/unit from x=50) vs monthly sales (y, $ thousands, 0-60 -> 8/3 px/unit from y=180).
-const GI_CHART3 = '<div class="dchart"><svg viewBox="0 0 420 220" width="100%" style="max-width:520px"><g font-family="Manrope,Inter,Arial" font-size="12">'+
+const GI_CHART3 = '<div class="dchart"><svg viewBox="0 0 420 220" width="100%" style="max-width:520px"><g font-family="IBM Plex Sans,system-ui,Arial" font-size="12">'+
  '<line x1="50" y1="180" x2="400" y2="180" stroke="#888"/><line x1="50" y1="20" x2="50" y2="180" stroke="#888"/>'+
  '<line x1="50" y1="126.7" x2="400" y2="126.7" stroke="#eee"/><line x1="50" y1="73.3" x2="400" y2="73.3" stroke="#eee"/><line x1="50" y1="20" x2="400" y2="20" stroke="#eee"/>'+
  '<text x="44" y="184" text-anchor="end" fill="#666">0</text><text x="44" y="130" text-anchor="end" fill="#666">20</text><text x="44" y="77" text-anchor="end" fill="#666">40</text><text x="44" y="24" text-anchor="end" fill="#666">60</text>'+

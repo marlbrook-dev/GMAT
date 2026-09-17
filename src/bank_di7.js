@@ -26,7 +26,7 @@ const GT_LIBRARY1 = '<table class="dtable"><thead><tr><th>Branch</th><th>Weekly 
  '<tr><td>Derwent</td><td>2,600</td><td>3,380</td><td>20</td></tr>'+
  '<tr><td>Elmswell</td><td>3,000</td><td>4,200</td><td>35</td></tr>'+
  '</tbody></table><p class="dnote">Five branches of a county library system, weekly averages. E-loans are included in items loaned.</p>';
-const GI_APPUSERS1 = '<div class="dchart"><svg viewBox="0 0 420 220" width="100%" style="max-width:520px"><g font-family="Manrope,Inter,Arial" font-size="12">'+
+const GI_APPUSERS1 = '<div class="dchart"><svg viewBox="0 0 420 220" width="100%" style="max-width:520px"><g font-family="IBM Plex Sans,system-ui,Arial" font-size="12">'+
  '<line x1="50" y1="180" x2="400" y2="180" stroke="#888"/><line x1="50" y1="20" x2="50" y2="180" stroke="#888"/>'+
  '<line x1="50" y1="140" x2="400" y2="140" stroke="#eee"/><line x1="50" y1="100" x2="400" y2="100" stroke="#eee"/><line x1="50" y1="60" x2="400" y2="60" stroke="#eee"/><line x1="50" y1="20" x2="400" y2="20" stroke="#eee"/>'+
  '<text x="44" y="184" text-anchor="end" fill="#666">0</text><text x="44" y="144" text-anchor="end" fill="#666">20</text><text x="44" y="104" text-anchor="end" fill="#666">40</text><text x="44" y="64" text-anchor="end" fill="#666">60</text><text x="44" y="24" text-anchor="end" fill="#666">80</text>'+
