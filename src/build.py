@@ -103,7 +103,11 @@ for app in APPS:
               .replace("{{FOOTER_NOTE}}", app["footer"])
               .replace("{{APP_TITLE}}", app["title"])
               .replace("{{APP_DESC}}", app["desc"])
-              .replace("{{SENTINEL}}", partials.sentinel_js("app-" + app["exam"] + "-" + partials.build_id())))
+              # The app builds its own chrome rather than going through apply_chrome, so the
+              # consent module has to be added here too. Missing it was how the trainer,
+              # the one page people spend real time on, ended up without a banner.
+              .replace("{{SENTINEL}}", partials.consent_js()
+                       + partials.sentinel_js("app-" + app["exam"] + "-" + partials.build_id())))
     if "{{" in out:
         import re as _r
         print("ERROR: unresolved placeholder in " + app["out"] + ": " + str(_r.findall(r"\{\{[A-Z_]+\}\}", out)[:4]), file=sys.stderr)
@@ -291,6 +295,12 @@ print("built " + _summary + "; landing, community/, terms, privacy built; inline
 import subprocess as _sp
 _sp.run([sys.executable, str(d/"build_rankings.py")], check=True)
 
+# /apply/ carries a large inline script and is built by build_rankings.py, so it is
+# parsed here, after that step, under the same guard as every other inline script.
+check_scripts(root/"apply"/"index.html")
+_sp.run([sys.executable, str(d/"build_colleges.py")], check=True)
+_sp.run([sys.executable, str(d/"build_exams.py")], check=True)
+
 # I18N.md Stage 0: the content site stays translatable, which means its copy stays
 # in markup where browser and search translation can reach it. Text that moves into
 # a script literal becomes invisible to every one of those tools, so the count is
@@ -314,8 +324,4 @@ if _over:
     print("Move the copy into markup, or raise the ceiling in build.py deliberately. See I18N.md.",
           file=sys.stderr)
     sys.exit(1)
-# /apply/ carries a large inline script and is built by build_rankings.py, so it is
-# parsed here, after that step, under the same guard as every other inline script.
-check_scripts(root/"apply"/"index.html")
-_sp.run([sys.executable, str(d/"build_colleges.py")], check=True)
-_sp.run([sys.executable, str(d/"build_exams.py")], check=True)
+

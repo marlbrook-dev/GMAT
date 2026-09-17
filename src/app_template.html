@@ -434,6 +434,41 @@ function studyDayIndex(){ const days=new Set(state.attempts.map(a=>new Date(a.ts
 function paceLine(){ const ranked=SKILLS.map(s=>({s,st:skillStats(state,s.id)})).filter(x=>x.st.n>0).sort((a,b)=>a.st.r-b.st.r); if(!ranked.length) return ''; return 'Today\'s round leans into '+ranked[0].s.label.toLowerCase()+'.'; }
 function nextStepText(){ if(!state.attempts.length) return 'No data yet. The first 30 to 40 questions are diagnostic; the engine samples every skill before it starts targeting.'; const ranked=SKILLS.map(s=>({s,st:skillStats(state,s.id)})).sort((a,b)=>a.st.r-b.st.r); const w=ranked[0]; return 'Weakest tracked skill: <b>'+w.s.label+'</b> (rating '+w.st.r+', '+pct(w.st.acc)+' on '+w.st.n+' items). Why: rounds weight it heavily until it clears 1250.'; }
 function planRows(){ const today=state.attempts.filter(a=>new Date(a.ts).toDateString()===new Date().toDateString()); const done=today.length; const due=Object.keys(state.review).filter(id=>state.review[id].due<=Date.now()&&BANK_BY_ID[id]).length; const rows=[['Quick 10 · adaptive','~15 min',done>=10],['Timed sprint · 15','~25 min',done>=25],['Flashcards due ('+dueCards(state,CARDS).length+')','~5 min',dueCards(state,CARDS).length===0],['Review due misses ('+due+')','~'+Math.max(2,due*2)+' min',due===0&&done>0]]; return rows.map(r=>'<div class="plan-row"><span style="width:18px;height:18px;border-radius:50%;flex-shrink:0;'+(r[2]?'background:var(--status-success);':'border:1.5px solid var(--border-strong);')+'display:inline-flex;align-items:center;justify-content:center">'+(r[2]?'<svg viewBox="0 0 24 24" width="11" height="11" style="stroke:#fff;fill:none;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round"><path d="m5 13 4 4L19 7"/></svg>':'')+'</span><span class="t" style="'+(r[2]?'color:var(--text-muted);text-decoration:line-through':'')+'">'+r[0]+'</span><span class="m">'+r[1]+'</span></div>').join(''); }
+// ---------- item telemetry ----------
+// Deliberately not personal data, and therefore not behind the consent banner.
+// A row records that an item was answered, which option was picked, whether it was
+// right and how long it took. It carries no account, no session, no device and no
+// address, so nothing in it can be traced to a person. It is also the only signal the
+// adaptive engine has: attempts only sync for signed in users, the product needs no
+// account, and that table held zero rows. The banner discloses this collection in
+// plain words even though consent is not legally required for it.
+const ITEM_EVENTS_URL=SUPABASE_URL+'/rest/v1/item_events?apikey='+SUPABASE_KEY;
+function logItemEvent(q,chosen,correct,secs,mode,extra){
+ try{
+  if(!q||!q.id) return;
+  var x=extra||{};
+  var num=function(v,hi){ return (typeof v==='number'&&isFinite(v))?Math.max(0,Math.min(hi,Math.round(v))):null; };
+  fetch(ITEM_EVENTS_URL,{method:'POST',
+   headers:{'Content-Type':'application/json','Prefer':'return=minimal'},
+   body:JSON.stringify({exam:CURRENT_EXAM,qid:q.id,skill:q.skill||null,section:q.section||null,
+    diff:q.diff||null,chosen:(typeof chosen==='number'?chosen:null),
+    correct:!!correct,secs:Math.max(0,Math.min(3600,Math.round(secs||0))),mode:mode||null,
+    first_ms:num(x.first_ms,3600000),changes:num(x.changes,50),
+    guessed:(typeof x.guessed==='boolean'?x.guessed:null),
+    reason:(typeof x.reason==='string'&&x.reason?x.reason.slice(0,40):null)}),
+   keepalive:true}).catch(function(){});
+ }catch(e){}
+}
+// How long it took to commit to anything, and how many times that commitment moved.
+// Total time cannot tell a fast wrong answer from a long grind that lands in the same
+// place, and a high mean switch count on one item is what two defensible options look
+// like from the outside. Recorded per item, attached to no one.
+function noteInput(changed){
+ if(!session) return;
+ if(session.firstMs===null||session.firstMs===undefined)
+  session.firstMs=Math.max(0,Date.now()-(session.qStart||Date.now()));
+ if(changed) session.changes=(session.changes||0)+1;
+}
 // ---------- practice session ----------
 let session=null, qTimer=null;
 function renderStudyHome(){
@@ -487,11 +522,11 @@ function typeLabel(q){ const sub=q.sub?' · '+q.sub:'';
  return {PS:'Problem solving',CR:'Critical reasoning'+sub,RC:'Reading comprehension',DS:'Data sufficiency',GT:'Graphs and tables',MSR:'Multi-source reasoning',TPA:'Two-part analysis',GI:'Graphics interpretation',TA:'Table analysis',
   RW:'Reading and Writing'+sub,MC:'Multiple choice'+sub,SPR:'Student-produced response'+sub}[q.type]||q.type; }
 function answerInputs(q){ let h='';
- if(q.answerType==='tpa'){ h='<div class="tpa"><div class="h">'+esc(q.columns[0])+'</div><div class="h">'+esc(q.columns[1])+'</div><div class="h">Value</div>'; q.choices.forEach((c,i)=>{ h+='<div><input type="radio" name="tpa0" onchange="session.tpa[0]='+i+'"></div><div><input type="radio" name="tpa1" onchange="session.tpa[1]='+i+'"></div><div class="val">'+esc(c)+'</div>'; }); h+='</div>'; }
- else if(q.answerType==='gi'){ h='<div class="stack-4">'+q.statements.map((st,si)=>'<div class="gi-st">'+esc(st.text).replace(/_{3,}/,'<select onchange="session.gi['+si+']=+this.value"><option value="-1">Select</option>'+st.options.map((o,oi)=>'<option value="'+oi+'">'+esc(o)+'</option>').join('')+'</select>')+'</div>').join('')+'</div>'; session.gi=q.statements.map(()=>-1); }
- else if(q.answerType==='ta'){ h='<table class="ta"><thead><tr><th style="width:60px">Yes</th><th style="width:60px">No</th><th>Statement</th></tr></thead><tbody>'+q.statements.map((st,si)=>'<tr><td><input type="radio" name="ta'+si+'" onchange="session.ta['+si+']=true"></td><td><input type="radio" name="ta'+si+'" onchange="session.ta['+si+']=false"></td><td>'+esc(st.text)+'</td></tr>').join('')+'</tbody></table>'; session.ta=q.statements.map(()=>null); }
+ if(q.answerType==='tpa'){ h='<div class="tpa"><div class="h">'+esc(q.columns[0])+'</div><div class="h">'+esc(q.columns[1])+'</div><div class="h">Value</div>'; q.choices.forEach((c,i)=>{ h+='<div><input type="radio" name="tpa0" onchange="noteInput(session.tpa[0]!==null);session.tpa[0]='+i+'"></div><div><input type="radio" name="tpa1" onchange="noteInput(session.tpa[1]!==null);session.tpa[1]='+i+'"></div><div class="val">'+esc(c)+'</div>'; }); h+='</div>'; }
+ else if(q.answerType==='gi'){ h='<div class="stack-4">'+q.statements.map((st,si)=>'<div class="gi-st">'+esc(st.text).replace(/_{3,}/,'<select onchange="noteInput(session.gi['+si+']>=0);session.gi['+si+']=+this.value"><option value="-1">Select</option>'+st.options.map((o,oi)=>'<option value="'+oi+'">'+esc(o)+'</option>').join('')+'</select>')+'</div>').join('')+'</div>'; session.gi=q.statements.map(()=>-1); }
+ else if(q.answerType==='ta'){ h='<table class="ta"><thead><tr><th style="width:60px">Yes</th><th style="width:60px">No</th><th>Statement</th></tr></thead><tbody>'+q.statements.map((st,si)=>'<tr><td><input type="radio" name="ta'+si+'" onchange="noteInput(session.ta['+si+']===false);session.ta['+si+']=true"></td><td><input type="radio" name="ta'+si+'" onchange="noteInput(session.ta['+si+']===true);session.ta['+si+']=false"></td><td>'+esc(st.text)+'</td></tr>').join('')+'</tbody></table>'; session.ta=q.statements.map(()=>null); }
  else if(q.answerType==='spr'){ h='<div class="spr"><label for="sprIn">Your answer</label>'
-  +'<input id="sprIn" type="text" inputmode="text" autocomplete="off" spellcheck="false" oninput="session.spr=this.value" aria-label="Student-produced response">'
+  +'<input id="sprIn" type="text" inputmode="text" autocomplete="off" spellcheck="false" oninput="noteInput(false);session.spr=this.value" aria-label="Student-produced response">'
   +'<p class="small muted">Enter a number. Fractions and decimals are both accepted, so 1/2, 0.5 and .5 all count. No units, no percent sign.</p></div>'; session.spr=''; }
  else { h='<div class="opts">'+q.choices.map((c,i)=>'<button class="opt" id="opt'+i+'" onclick="selectChoice('+i+')"><span class="chip">'+String.fromCharCode(65+i)+'</span><span class="txt">'+esc(c)+'</span></button>').join('')+'</div>'; }
  return h; }
@@ -522,7 +557,8 @@ function startSatModule(section,moduleIdx,routing){ const meta=SECTION_META[sect
  if(!qs.length){ toast('No '+meta.name+' items available.'); return; }
  if(qs.length<meta.questions) toast('Bank has '+qs.length+' usable items; running a '+qs.length+'-question module.');
  session={id:'m'+Date.now(),mode:'mock',section,satModule:moduleIdx,routing,freeEdit:true,qs,i:0,
-  answers:qs.map(()=>null),marks:qs.map(()=>false),secsArr:qs.map(()=>0),results:[],start:Date.now(),
+  answers:qs.map(()=>null),marks:qs.map(()=>false),secsArr:qs.map(()=>0),
+  firstArr:qs.map(()=>null),chgArr:qs.map(()=>0),results:[],start:Date.now(),
   deadline:Date.now()+meta.minutes*60000,editsLeft:Infinity,phase:'run',minutes:meta.minutes};
  show('study'); setFocus(true); renderMockQ(); }
 function satRoutingScreen(correct,total){ setFocus(true);
@@ -599,11 +635,14 @@ function startMock(section,partOfFull){ if(!partOfFull&&!planGate('mock')) retur
  const meta=ea?Object.assign({},SECTION_META[section],{questions:EA_META[section].questions,name:EA_META[section].label}):SECTION_META[section];
  const qs=pickMockSection(BANK,state,section,ea?EA_META[section].questions:undefined); if(!qs.length){toast('No '+meta.name+' items available.');return;}
  if(qs.length<meta.questions) toast('Bank has '+qs.length+' usable items; running a '+qs.length+'-question section.');
- session={id:'m'+Date.now(),mode:'mock',section,qs,i:0,answers:qs.map(()=>null),marks:qs.map(()=>false),secsArr:qs.map(()=>0),results:[],start:Date.now(),deadline:Date.now()+(ea?EA_META[section].minutes:45)*60000,editsLeft:3,phase:'run',ea};
+ session={id:'m'+Date.now(),mode:'mock',section,qs,i:0,answers:qs.map(()=>null),marks:qs.map(()=>false),secsArr:qs.map(()=>0),firstArr:qs.map(()=>null),chgArr:qs.map(()=>0),results:[],start:Date.now(),deadline:Date.now()+(ea?EA_META[section].minutes:45)*60000,editsLeft:3,phase:'run',ea};
  track('round_started',{mode:'mock',count:qs.length}); show('study'); setFocus(true); renderMockQ(); }
 function mockTick(){ const t=document.getElementById('timer'); if(!t||!session||session.mode!=='mock') return; const left=Math.max(0,session.deadline-Date.now()); t.textContent=fmtSecs(left/1000); t.classList.toggle('over',left<5*60000);
  if(left<=0){ clearInterval(qTimer); if(session.phase!=='done'){ mockBankTime(); toast('Time. Scoring what you answered.'); mockFinish(); } } }
-function mockBankTime(){ if(session.qStart){ session.secsArr[session.i]+=(Date.now()-session.qStart)/1000; session.qStart=null; } }
+function mockBankTime(){ if(session.qStart){ session.secsArr[session.i]+=(Date.now()-session.qStart)/1000; session.qStart=null; }
+ if(session.firstArr&&session.firstArr[session.i]===null&&session.firstMs!==null&&session.firstMs!==undefined) session.firstArr[session.i]=session.firstMs;
+ if(session.chgArr) session.chgArr[session.i]+=(session.changes||0);
+ session.changes=0; }
 function currentAnswer(q){ if(q.answerType==='spr') return (session.spr===undefined||String(session.spr).trim()==='')?null:String(session.spr).trim();
  if(q.answerType==='tpa') return (session.tpa[0]===null||session.tpa[1]===null)?null:session.tpa.slice();
  if(q.answerType==='gi') return session.gi.some(v=>v<0)?null:session.gi.slice();
@@ -615,7 +654,7 @@ function applySavedAnswer(q,a){ if(a==null) return;
  else if(q.answerType==='gi'){ session.gi=a.slice(); document.querySelectorAll('#v-study .gi-st select').forEach((s,i)=>{ s.value=String(a[i]); }); }
  else if(q.answerType==='ta'){ session.ta=a.slice(); document.querySelectorAll('#v-study table.ta tbody tr').forEach((tr,i)=>{ const r=tr.querySelectorAll('input'); if(a[i]===true) r[0].checked=true; else if(a[i]===false) r[1].checked=true; }); }
  else selectChoice(a); }
-function renderMockQ(){ const el=document.getElementById('v-study'); const q=session.qs[session.i]; session.qStart=Date.now(); session.answered=false; session.choice=null; session.tpa=[null,null]; session.spr=''; session.reason=null; session.guessed=false;
+function renderMockQ(){ const el=document.getElementById('v-study'); const q=session.qs[session.i]; session.qStart=Date.now(); session.answered=false; session.choice=null; session.tpa=[null,null]; session.spr=''; session.reason=null; session.guessed=false; session.changes=0; session.firstMs=null;
  const wide=!!(q.passage||q.passageHtml); let left=''; if(q.passage) left='<div class="passage">'+esc(q.passage)+'</div>'; else if(q.passageHtml) left='<div>'+q.passageHtml+'</div>';
  const choicesHtml=answerInputs(q); const marked=session.marks[session.i]; const editing=session.phase==='edit'; const freeEdit=!!session.freeEdit;
  const top='<div class="qtop">'+badge(SEC_SHORT[q.section],'sec-'+q.section)+badge(typeLabel(q))+(session.satModule?badge('Module '+session.satModule+(session.routing?' · '+(session.routing==='upper'?'harder form':'easier form'):''),'info'):'')+(editing&&!freeEdit?badge(session.editsLeft+' change'+(session.editsLeft===1?'':'s')+' left','warning'):'')+'<div class="grow">'+pbar(null,session.i/session.qs.length*100,'var(--brand-primary)',true)+'</div><span class="mono small">'+(session.i+1)+' / '+session.qs.length+'</span><span class="timer" id="timer" role="timer" aria-label="Section time remaining">'+fmtSecs((session.minutes||45)*60)+'</span></div>';
@@ -640,7 +679,8 @@ function renderMockReview(){ clearInterval(qTimer); qTimer=setInterval(mockTick,
  +'<div class="card"><table><thead><tr><th>#</th><th>Type</th><th></th><th>Status</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div>'
  +'<div class="row" style="justify-content:flex-end"><button class="btn" onclick="mockFinish()">'+(session.satModule?'Submit Module '+session.satModule:'Score my section')+'</button></div></div>'; mockTick(); }
 function mockFinish(){ clearInterval(qTimer); session.phase='done'; const secTotal=(Date.now()-session.start)/1000;
- session.qs.forEach((q,i)=>{ const a=session.answers[i]; const correct=a===null?false:gradeChosen(q,a); const secs=Math.max(1,Math.round(session.secsArr[i]||1)); const flag=recordAttempt(state,q,a,correct,secs,null,false,session.id); session.results.push({q,correct,secs,flag,unanswered:a===null}); Cloud.logAttempt(state.attempts[state.attempts.length-1]); });
+ session.qs.forEach((q,i)=>{ const a=session.answers[i]; const correct=a===null?false:gradeChosen(q,a); const secs=Math.max(1,Math.round(session.secsArr[i]||1)); const flag=recordAttempt(state,q,a,correct,secs,null,false,session.id); session.results.push({q,correct,secs,flag,unanswered:a===null}); Cloud.logAttempt(state.attempts[state.attempts.length-1]);
+  logItemEvent(q,a,correct,secs,'mock',{first_ms:session.firstArr?session.firstArr[i]:null,changes:session.chgArr?session.chgArr[i]:null}); });
  const n=session.results.length, c=session.results.filter(x=>x.correct).length; const avg=session.results.reduce((s,x)=>s+x.secs,0)/n;
  state.sessions.push({id:session.id,mode:'mock',ts:Date.now(),n,c,avg:Math.round(avg)}); track('round_completed',{mode:'mock',correct:c,total:n,secs:Math.round(secTotal)}); if(Cloud.user) Cloud.client.from('sessions').upsert({id:session.id,user_id:Cloud.user.id,mode:'mock',n,c,avg_secs:Math.round(avg)}).then(()=>{}); persist(); updateHeader();
  if(session.satModule&&satSec){ session.results.forEach(x=>{x.module=session.satModule;}); satSec.results=satSec.results.concat(session.results);
@@ -659,7 +699,7 @@ function _renderMockReport(secTotal){ const r=session.results; const n=r.length,
  +paceByTypeHtml(r)
  +missHtml
  +'<div class="row" style="justify-content:center"><button class="btn secondary" onclick="session=null;show(\'dash\')">Back to Dashboard</button><button class="btn" onclick="startMockIntro()">Another Section</button></div></div>'; }
-function renderQuestion(){ const el=document.getElementById('v-study'); const q=session.qs[session.i]; session.qStart=Date.now(); session.answered=false; session.choice=null; session.tpa=[null,null]; session.spr=''; session.reason=null; session.guessed=false;
+function renderQuestion(){ const el=document.getElementById('v-study'); const q=session.qs[session.i]; session.qStart=Date.now(); session.answered=false; session.choice=null; session.tpa=[null,null]; session.spr=''; session.reason=null; session.guessed=false; session.changes=0; session.firstMs=null;
  const allot=SECTION_META[q.section].allot; const wide=!!(q.passage||q.passageHtml);
  let left=''; if(q.passage) left='<div class="passage">'+esc(q.passage)+'</div>'; else if(q.passageHtml) left='<div>'+q.passageHtml+'</div>';
  const choicesHtml=answerInputs(q);
@@ -668,7 +708,7 @@ function renderQuestion(){ const el=document.getElementById('v-study'); const q=
   '<div id="fb"></div><div class="row" style="justify-content:space-between;margin-top:var(--space-6)"><button class="btn ghost" onclick="endSession()">Exit Round</button><span id="actionBtn"><button class="btn" id="submitBtn" onclick="submitAnswer()">Submit Answer</button></span></div></div></div>';
  el.innerHTML=body; clearInterval(qTimer); qTimer=setInterval(()=>{ const s=(Date.now()-session.qStart)/1000; const t=document.getElementById('timer'); if(!t) return; if(session.mode==='sprint'){ const left=allot-s; t.textContent=(left<0?'-':'')+fmtSecs(Math.abs(left)); t.classList.toggle('over',left<0); if(left<0&&!session.bailWarned){ session.bailWarned=true; toast('Bail rule: pick your best remaining choice and move on.'); } } else { t.textContent=fmtSecs(s); t.classList.toggle('over',s>allot); } },500); session.bailWarned=false;
  document.querySelectorAll('#v-study table.sortable th').forEach((th,ci)=>{ th.style.cursor='pointer'; th.title='Sort'; th.onclick=()=>sortTable(th.closest('table'),ci); }); window.scrollTo(0,0); }
-function selectChoice(i){ if(session.answered) return; session.choice=i; document.querySelectorAll('.opt').forEach((l,j)=>l.classList.toggle('selected',j===i)); }
+function selectChoice(i){ if(session.answered) return; noteInput(session.choice!==null&&session.choice!==i); session.choice=i; document.querySelectorAll('.opt').forEach((l,j)=>l.classList.toggle('selected',j===i)); }
 function submitAnswer(){ if(session.answered) return; const q=session.qs[session.i]; let correct, chosen;
  if(q.answerType==='tpa'&&(session.tpa[0]===null||session.tpa[1]===null)){toast('Select one value in each column.');return;}
  if(q.answerType==='gi'&&session.gi.some(v=>v<0)){toast('Complete every dropdown.');return;}
@@ -676,7 +716,7 @@ function submitAnswer(){ if(session.answered) return; const q=session.qs[session
  if(q.answerType==='spr'&&currentAnswer(q)===null){toast('Enter your answer first.');return;}
  if(!q.answerType&&session.choice===null){toast('Choose an answer first.');return;}
  chosen=currentAnswer(q); correct=gradeChosen(q,chosen);
- clearInterval(qTimer); session.answered=true; const secs=(Date.now()-session.qStart)/1000; session.pending={q,chosen,correct,secs};
+ clearInterval(qTimer); session.answered=true; const secs=(Date.now()-session.qStart)/1000; session.pending={q,chosen,correct,secs,firstMs:session.firstMs,changes:session.changes};
  if(session.mode==='qotd'){ const s=qotdState(); const yest=new Date(Date.now()-86400000).toDateString();
   s.streak=correct?((s.date===yest?s.streak:0)+1):0; s.date=new Date().toDateString(); s.correct=correct; persist(); track('game_completed',{game:'qotd',correct,streak:s.streak}); }
  if(q.answerType!=='tpa'){ document.querySelectorAll('.opt').forEach((l,j)=>{ l.disabled=true; l.classList.remove('selected'); if(j===q.answer) l.classList.add('correct'); else if(j===chosen) l.classList.add('incorrect'); }); }
@@ -690,7 +730,7 @@ function submitAnswer(){ if(session.answered) return; const q=session.qs[session
  document.getElementById('fb').innerHTML=fb; document.getElementById('actionBtn').innerHTML='<button class="btn" onclick="nextQuestion()">'+(session.i+1<session.qs.length?'Next Question':'See Results')+'</button>'; }
 function setReason(el,id){ el.parentElement.querySelectorAll('button').forEach(l=>l.classList.remove('sel')); el.classList.add('sel'); session.reason=id; }
 function nextQuestion(){ const p=session.pending; if(!p) return; if(!p.correct&&!session.reason){ toast('Tag a reason so the engine can learn from it.'); return; }
- const flag=recordAttempt(state,p.q,p.chosen,p.correct,p.secs,session.reason,session.guessed,session.id); session.results.push({q:p.q,correct:p.correct,secs:p.secs,flag,reason:session.reason}); session.pending=null; Cloud.logAttempt(state.attempts[state.attempts.length-1]); track('question_answered',{qid:p.q.id,section:p.q.section,skill:p.q.skill,correct:p.correct,secs:Math.round(p.secs)}); persist(); updateHeader();
+ const flag=recordAttempt(state,p.q,p.chosen,p.correct,p.secs,session.reason,session.guessed,session.id); session.results.push({q:p.q,correct:p.correct,secs:p.secs,flag,reason:session.reason}); session.pending=null; Cloud.logAttempt(state.attempts[state.attempts.length-1]); logItemEvent(p.q,p.chosen,p.correct,p.secs,session.mode,{first_ms:p.firstMs,changes:p.changes,guessed:!!session.guessed,reason:session.reason||null}); track('question_answered',{qid:p.q.id,section:p.q.section,skill:p.q.skill,correct:p.correct,secs:Math.round(p.secs)}); persist(); updateHeader();
  session.i++; if(session.i<session.qs.length) renderQuestion(); else finishSession(); }
 function endSession(){ clearInterval(qTimer); setFocus(false); if(session.results.length) finishSession(); else { session=null; renderStudyHome(); } }
 function finishSession(){ clearInterval(qTimer); setFocus(false); const r=session.results; const n=r.length, c=r.filter(x=>x.correct).length; const avg=r.reduce((a,b)=>a+b.secs,0)/n; const total=r.reduce((a,b)=>a+b.secs,0);
@@ -850,7 +890,7 @@ function gmBossQ(){ const q=gm.qs[gm.i]; const allot=SECTION_META[q.section].all
   const t=document.getElementById('ringTxt'); if(t) t.textContent=Math.max(0,Math.ceil(left)); if(left<=0) gmBossAnswer(null); },120); }
 function gmBossAnswer(i){ if(!gm.on||gm.kind!=='boss'||gm.lock) return; gm.lock=true; clearInterval(gm.timer); gm.timer=null;
  const q=gm.qs[gm.i]; const secs=Math.min(gm.allot,(Date.now()-gm.qStart)/1000); const correct=i!==null&&gradeChosen(q,i);
- recordAttempt(state,q,i,correct,secs,null,false,gm.sid); Cloud.logAttempt(state.attempts[state.attempts.length-1]);
+ recordAttempt(state,q,i,correct,secs,null,false,gm.sid); Cloud.logAttempt(state.attempts[state.attempts.length-1]); logItemEvent(q,i,correct,secs,'game_boss',{first_ms:secs*1000,changes:0});
  const bonus=correct?Math.round(Math.max(0,gm.allot-secs))*2:0; const pts=correct?q.diff*100+bonus:0; gm.score+=pts; if(!correct) gm.lives--;
  gm.results.push({q,correct,secs:Math.round(secs),pts,timeout:i===null});
  document.querySelectorAll('.opt').forEach((b,k)=>{ b.disabled=true; if(k===q.answer) b.classList.add('correct'); else if(k===i) b.classList.add('incorrect'); });
@@ -891,7 +931,7 @@ function gmLadderQ(){ const q=gmLadderPick(); if(!q){ gmLadderEnd(); return; } g
   const t=document.getElementById('ringTxt'); if(t) t.textContent=Math.max(0,Math.ceil(left)); if(left<=0) gmLadderAnswer(null); },120); }
 function gmLadderAnswer(i){ if(!gm.on||gm.kind!=='ladder'||gm.lock) return; gm.lock=true; clearInterval(gm.timer); gm.timer=null;
  const q=gm.q; const secs=Math.min(gm.allot,(Date.now()-gm.qStart)/1000); const correct=i!==null&&gradeChosen(q,i);
- recordAttempt(state,q,i,correct,secs,null,false,gm.sid); Cloud.logAttempt(state.attempts[state.attempts.length-1]);
+ recordAttempt(state,q,i,correct,secs,null,false,gm.sid); Cloud.logAttempt(state.attempts[state.attempts.length-1]); logItemEvent(q,i,correct,secs,'game_ladder',{first_ms:secs*1000,changes:0});
  const bonus=correct?Math.round(Math.max(0,gm.allot-secs)):0; const pts=correct?gm.level*100+bonus:0; gm.score+=pts;
  gm.results.push({q,correct,secs:Math.round(secs),pts,level:gm.level,timeout:i===null});
  if(correct) gm.level=Math.min(5,gm.level+1); else gm.level=Math.max(1,gm.level-1);
@@ -1274,7 +1314,7 @@ function metricDetail(id){ const m=METRICS[id]; if(!m) return; const t=METRIC_TI
   +'<tr><td>As of</td><td class="small">'+esc(asOf)+'</td></tr>'
   +'</tbody></table></div>'); }
 let adminTab='bi';
-function adminTabsHtml(){ const T=[['bi','Overview'],['learn','Learning'],['catalog','Metric Catalog'],['rev','Revenue'],['err','Errors'],['users','Users'],['traffic','Traffic'],['mod','Moderation'],['crm','Partners CRM'],['posture','Posture']];
+function adminTabsHtml(){ const T=[['bi','Overview'],['learn','Learning'],['items','Items'],['catalog','Metric Catalog'],['rev','Revenue'],['err','Errors'],['users','Users'],['traffic','Traffic'],['mod','Moderation'],['crm','Partners CRM'],['posture','Posture']];
  return '<div class="row" style="gap:6px;flex-wrap:wrap">'+T.map(t=>'<button class="btn sm'+(adminTab===t[0]?'':' secondary')+'" onclick="adminTab=\''+t[0]+'\';renderAdmin()">'+t[1]+'</button>').join('')+'</div>'; }
 async function renderAdmin(){ const el=document.getElementById('v-admin'); const preview=location.hash==='#admin-preview';
  if(!preview&&(!Cloud.user||!Cloud.isAdmin)){ el.innerHTML='<div class="narrow stack"><div class="card p8" style="text-align:center"><div class="card-title">Admin</div><p class="muted" style="margin-top:8px">Business intelligence is available to admin accounts. Sign in on the Account tab with an admin email.</p></div></div>'; return; }
@@ -1287,6 +1327,7 @@ async function renderAdmin(){ const el=document.getElementById('v-admin'); const
  if(adminTab==='catalog'){ return renderAdminCatalog(el); }
  if(adminTab==='posture'){ return renderAdminPosture(el); }
  if(adminTab==='learn'){ return renderAdminLearning(el,preview); }
+ if(adminTab==='items'){ return renderAdminItems(el,preview); }
  el.innerHTML='<div class="stack"><div class="empty">Loading business intelligence...</div></div>';
  let d=ADMIN_SAMPLE, note='Sample data preview. Sign in as an admin for live numbers.';
  if(!preview){ try{ const {data,error}=await Cloud.client.rpc('admin_bi'); if(error) throw error; d=data; note=null; }
@@ -1444,6 +1485,126 @@ async function renderAdminLearning(el,preview){
   +'written by a database trigger and the address is discarded. Nothing here trains a foundation model.</p></div>'
   +'</div>'; }
 
+// ---------- items tab ----------
+// Item telemetry is the only evidence this product has about whether a question
+// works, because attempts only sync for signed in users and the product needs no
+// account. This tab reads it and says what it implies; it changes nothing by
+// itself. Every flag below is a deterministic rule over counts, and every row
+// carries the numbers that produced it, so a person can disagree with it.
+let itExam=CURRENT_EXAM, itDays=90, itMin=8;
+function itSet(k,v){ if(k==='exam') itExam=v; else if(k==='days') itDays=v; else itMin=v; renderAdmin(); }
+const ITEM_SAMPLE=[
+ {exam:CURRENT_EXAM,qid:'sample-1',skill:SKILLS[0]&&SKILLS[0].id||'skill',diff:3,answers:64,accuracy:0.28,
+  med_secs:41,med_first_ms:9200,avg_changes:1.6,guess_rate:0.11,choice_counts:{'0':18,'1':31,'2':9,'3':6},
+  top_wrong:1,top_wrong_share:0.43,top_reason:'setup'},
+ {exam:CURRENT_EXAM,qid:'sample-2',skill:SKILLS[1]&&SKILLS[1].id||'skill',diff:1,answers:52,accuracy:0.98,
+  med_secs:19,med_first_ms:4100,avg_changes:0.1,guess_rate:0.02,choice_counts:{'0':51,'1':1,'2':0,'3':0},
+  top_wrong:1,top_wrong_share:0.02,top_reason:null},
+ {exam:CURRENT_EXAM,qid:'sample-3',skill:SKILLS[0]&&SKILLS[0].id||'skill',diff:4,answers:37,accuracy:0.51,
+  med_secs:58,med_first_ms:26000,avg_changes:2.4,guess_rate:0.46,choice_counts:{'0':10,'1':9,'2':9,'3':9},
+  top_wrong:0,top_wrong_share:0.24,top_reason:'concept'}];
+function itReason(id){ const r=ERROR_REASONS.find(x=>x.id===id); return r?r.label:id; }
+function itPct(x){ return (x===null||x===undefined)?'-':Math.round(x*100)+'%'; }
+// Four rules, each one a thing you would actually do something about. Anything
+// that does not trip one of them is a working item and is not worth a reviewer's
+// attention, which is the point of flagging at all.
+function itFlags(r){
+ const f=[], q=BANK_BY_ID[r.qid], counts=r.choice_counts||{};
+ const n=Object.keys(counts).length;
+ if(r.accuracy<0.35&&r.top_wrong_share>=0.42)
+  f.push({k:'key',label:'Check the key',why:'Only '+itPct(r.accuracy)+' pick the key while '+itPct(r.top_wrong_share)
+   +' converge on option '+String.fromCharCode(65+(r.top_wrong||0))+'. A crowd agreeing on one wrong answer usually means the key is wrong or that option is defensible.'});
+ if(r.accuracy>=0.95&&r.answers>=12)
+  f.push({k:'easy',label:'No discrimination',why:itPct(r.accuracy)+' correct over '+r.answers+' answers. It separates nobody, so it is filler at this difficulty.'});
+ if(n>1){ const dead=[]; for(let i=0;i<n;i++){ if(!counts[String(i)]) dead.push(String.fromCharCode(65+i)); }
+  if(dead.length) f.push({k:'dead',label:'Dead option'+(dead.length>1?'s':''),why:'Option'+(dead.length>1?'s ':' ')+dead.join(', ')+' chosen zero times in '+r.answers+' answers. A choice nobody considers is not a choice.'}); }
+ if(q&&SECTION_META[q.section]&&r.med_secs>SECTION_META[q.section].allot*2)
+  f.push({k:'slow',label:'Far off pace',why:'Median '+Math.round(r.med_secs)+'s against a '+SECTION_META[q.section].allot+'s section pace. Either the stem is doing unnecessary work or the skill is mis-tagged.'});
+ // Two signals that only exist because the interaction is recorded, not just the outcome.
+ if(r.guess_rate!==null&&r.guess_rate!==undefined&&r.guess_rate>=0.4&&r.answers>=12)
+  f.push({k:'guess',label:'Answered by guess',why:itPct(r.guess_rate)+' of the people who got it right said they were not confident. A question that rewards a guess measures nothing.'});
+ if(r.avg_changes!==null&&r.avg_changes!==undefined&&r.avg_changes>=1.5)
+  f.push({k:'switch',label:'Keeps changing hands',why:'Learners switch their answer '+Number(r.avg_changes).toFixed(1)+' times on average before submitting. That is what two defensible options look like from the outside.'});
+ return f; }
+function itBars(r){
+ const counts=r.choice_counts||{}, keys=Object.keys(counts).sort(), tot=keys.reduce((a,k)=>a+(counts[k]||0),0)||1;
+ const q=BANK_BY_ID[r.qid], key=(q&&typeof q.answer==='number')?q.answer:null;
+ return '<div style="display:flex;gap:3px;align-items:flex-end;height:34px">'+keys.map(function(k){
+  const v=counts[k]||0, isKey=(key!==null&&Number(k)===key);
+  return '<span title="'+String.fromCharCode(65+Number(k))+': '+v+' of '+tot+'" style="flex:1;min-width:6px;border-radius:2px 2px 0 0;'
+   +'background:'+(isKey?'var(--status-success,#15803d)':'var(--text-muted)')+';opacity:'+(isKey?'.9':'.45')
+   +';height:'+Math.max(3,Math.round(v/tot*34))+'px"></span>'; }).join('')+'</div>'
+  +'<div class="small mono muted" style="margin-top:3px;font-size:10px">'+keys.map(k=>String.fromCharCode(65+Number(k))).join(' ')+'</div>'; }
+function itOpen(qid){
+ const q=BANK_BY_ID[qid];
+ if(!q){ toast('That item is not in this build of the bank.'); return; }
+ const body='<p class="small muted" style="margin:0">'+esc(typeLabel(q))+' · '+esc(SEC_SHORT[q.section]||q.section)+' · difficulty '+q.diff+' · '+esc(q.skill||'')+'</p>'
+  +(q.passageHtml?'<div class="card" style="overflow-x:auto">'+q.passageHtml+'</div>':'')
+  +'<p style="white-space:pre-line;margin:0">'+esc(q.stem)+'</p>'
+  +'<ol type="A" style="margin:0;padding-left:22px">'+(q.choices||[]).map(function(c,i){
+    return '<li style="margin-top:4px'+(i===q.answer?';font-weight:700':'')+'">'+esc(c)+(i===q.answer?' <span class="small muted">(key)</span>':'')+'</li>'; }).join('')+'</ol>'
+  +'<p class="small" style="margin:0"><b>Explanation.</b> '+esc(q.expl||'')+'</p>';
+ alertModal('Item '+qid,body); }
+async function renderAdminItems(el,preview){
+ el.innerHTML='<div class="stack"><div class="empty">Loading item diagnostics...</div></div>';
+ let rows=ITEM_SAMPLE, note='Sample data preview. Sign in as an admin for live numbers.';
+ if(!preview){
+  try{ const r=await Cloud.client.rpc('admin_item_diagnostics',
+    {p_exam:itExam||null,p_days:itDays,p_min_answers:itMin});
+   if(r.error) throw r.error; rows=r.data||[]; note=''; }
+  catch(e){ rows=ITEM_SAMPLE; note='Could not load live diagnostics ('+(e.message||'no access')+'). Showing sample shape.'; } }
+ const flagged=rows.map(r=>({r,f:itFlags(r)})).filter(x=>x.f.length);
+ const accs=rows.map(r=>Number(r.accuracy)).filter(x=>!isNaN(x)).sort((a,b)=>a-b);
+ const med=accs.length?accs[Math.floor(accs.length/2)]:null;
+ const examBtns=[['','All exams']].concat(Object.keys(EXAMS).map(k=>[k,EXAMS[k].short||k]))
+  .map(x=>'<button class="btn sm'+(itExam===x[0]?'':' secondary')+'" onclick="itSet(\'exam\',\''+x[0]+'\')">'+esc(x[1])+'</button>').join('');
+ const dayBtns=[7,30,90].map(x=>'<button class="btn sm'+(itDays===x?'':' secondary')+'" onclick="itSet(\'days\','+x+')">Last '+x+' days</button>').join('');
+ const minBtns=[5,8,20].map(x=>'<button class="btn sm'+(itMin===x?'':' secondary')+'" onclick="itSet(\'min\','+x+')">'+x+'+ answers</button>').join('');
+ const flagRows=flagged.slice(0,40).map(function(x){
+  return '<div class="card stack-4" style="border-left:3px solid var(--status-warn,#b7791f)">'
+   +'<div class="row" style="justify-content:space-between;align-items:flex-start;gap:10px">'
+   +'<div>'+x.f.map(f=>'<span class="mtier" style="background:var(--status-info-bg);color:var(--status-info);margin-left:0;margin-right:6px">'+esc(f.label)+'</span>').join('')
+   +'<b class="mono">'+esc(x.r.qid)+'</b> <span class="small muted">'+esc(x.r.skill||'')+' · difficulty '+(x.r.diff===null?'-':x.r.diff)+'</span></div>'
+   +'<button class="btn ghost sm" onclick="itOpen(\''+esc(String(x.r.qid)).replace(/'/g,"\\'")+'\')">Read Item</button></div>'
+   +x.f.map(f=>'<p class="small" style="margin:0">'+esc(f.why)+'</p>').join('')+'</div>'; }).join('');
+ const tableRows=rows.slice(0,300).map(function(r){
+  const f=itFlags(r);
+  return '<tr><td><button class="btn ghost sm mono" style="padding:2px 6px" onclick="itOpen(\''+esc(String(r.qid)).replace(/'/g,"\\'")+'\')">'+esc(r.qid)+'</button>'
+   +(f.length?' <span class="mtier" style="background:var(--status-info-bg);color:var(--status-info)">'+f.length+'</span>':'')+'</td>'
+   +'<td class="small">'+esc(r.skill||'')+'</td><td class="num">'+(r.diff===null?'-':r.diff)+'</td>'
+   +'<td class="num">'+r.answers+'</td><td class="num">'+itPct(Number(r.accuracy))+'</td>'
+   +'<td class="num">'+(r.med_secs===null?'-':Math.round(r.med_secs)+'s')+'</td>'
+   +'<td class="num">'+(r.med_first_ms===null||r.med_first_ms===undefined?'-':(Math.round(r.med_first_ms/100)/10)+'s')+'</td>'
+   +'<td class="num">'+(r.avg_changes===null||r.avg_changes===undefined?'-':Number(r.avg_changes).toFixed(1))+'</td>'
+   +'<td class="num">'+(r.guess_rate===null||r.guess_rate===undefined?'-':itPct(Number(r.guess_rate)))+'</td>'
+   +'<td style="min-width:90px">'+itBars(r)+'</td>'
+   +'<td class="num">'+(r.top_wrong===null?'-':String.fromCharCode(65+r.top_wrong)+' '+itPct(Number(r.top_wrong_share)))+'</td>'
+   +'<td class="small">'+(r.top_reason?esc(itReason(r.top_reason)):'-')+'</td></tr>'; }).join('');
+ el.innerHTML='<div class="stack">'
+  +'<div class="row" style="align-items:flex-end;justify-content:space-between"><div>'
+  +'<h1 style="font-size:var(--text-2xl);font-weight:700">Items</h1>'
+  +'<p class="muted" style="margin:6px 0 0">Which questions work, and which wrong answer each one attracts. '
+  +'Built from item telemetry, which carries no account, session, device or address, so nothing here is about a person.</p></div>'
+  +adminTabsHtml()+'</div>'
+  +(note?'<div class="card" style="background:var(--brand-accent-soft);border-color:var(--gold-100)"><p class="small" style="margin:0">'+esc(note)+'</p></div>':'')
+  +'<div class="row" style="gap:6px;flex-wrap:wrap">'+examBtns+'</div>'
+  +'<div class="row" style="gap:6px;flex-wrap:wrap">'+dayBtns+'<span style="width:10px"></span>'+minBtns+'</div>'
+  +'<div class="row" style="gap:14px;flex-wrap:wrap">'
+  +'<div class="card grow" style="min-width:150px"><div class="small muted">Items with enough answers</div><div class="bigscore">'+rows.length+'</div></div>'
+  +'<div class="card grow" style="min-width:150px"><div class="small muted">Median accuracy</div><div class="bigscore">'+itPct(med)+'</div></div>'
+  +'<div class="card grow" style="min-width:150px"><div class="small muted">Flagged for review</div><div class="bigscore">'+flagged.length+'</div></div></div>'
+  +'<h2 style="font-size:var(--text-lg);font-weight:700;margin:4px 0 0">Flagged (' + flagged.length + ')</h2>'
+  +(flagRows||'<div class="card"><p class="small muted" style="margin:0">Nothing trips a rule at this threshold. That means no item is both hard and converging on one wrong option, none is answered right by nearly everyone, no option is going unchosen, and nothing runs at twice its section pace.</p></div>')
+  +'<div class="card"><div class="card-head"><span class="card-title">Every Item With ' + itMin + ' Or More Answers</span></div>'
+  +(rows.length?'<div style="overflow-x:auto"><table><thead><tr><th>Item</th><th>Skill</th><th class="num">Diff</th><th class="num">Answers</th>'
+    +'<th class="num">Accuracy</th><th class="num">Median</th><th class="num">To first pick</th><th class="num">Switches</th>'
+    +'<th class="num">Guessed</th><th>Choices</th><th class="num">Top wrong</th><th>Top reason</th></tr></thead><tbody>'+tableRows+'</tbody></table></div>'
+   :'<div class="empty">No item has been answered ' + itMin + ' times in the last ' + itDays + ' days yet.</div>')
+  +'<p class="small muted" style="margin:10px 0 0">Green is the keyed option. <b>To first pick</b> is how long it took to commit to anything, '
+  +'which separates recall from working it out in a way total time cannot. <b>Switches</b> is how often the answer moved before submitting. '
+  +'<b>Guessed</b> and <b>Top reason</b> are the learners\' own words, from the tags the app asks for after a miss. '
+  +'Nothing on this tab edits a question; it produces a reading, and a person decides.</p></div>'
+  +'</div>'; }
 // ---------- posture tab ----------
 function renderAdminPosture(el){
  const gates=[
@@ -1908,15 +2069,5 @@ function finishOnboarding(skipped){ if(!skipped){ state.settings.program={exam:o
 updateHeader(); renderDash(); Cloud.init(); if(location.hash==='#account'){ show('data'); } if(!state.settings.onboarded&&state.attempts.length===0) startOnboarding();
 </script>
 {{SENTINEL}}
-<!-- sfn beacon: first-party, no third parties, raw IP never stored -->
-<script>(function(){try{
-var U="https://ftsqwbzhkzuudogkvoqa.supabase.co/rest/v1/site_events?apikey=sb_publishable_GToT4fK6RiwCZpPFE3bGiw_ThXq9qel";
-var s=sessionStorage.getItem("sfn_sid");if(!s){s=Math.random().toString(36).slice(2)+Math.random().toString(36).slice(2,10);sessionStorage.setItem("sfn_sid",s);}
-var p=location.pathname,t0=Date.now(),done=false;
-function send(o){o.sid=s;o.path=p;try{fetch(U,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(o),keepalive:true});}catch(e){}}
-send({kind:"pageview",ref:(document.referrer||"").slice(0,290)||null,utm:location.search.indexOf("utm_")>-1?location.search.slice(1,190):null,device:/Mobi|Android/i.test(navigator.userAgent)?"mobile":"desktop",vw:innerWidth});
-function dur(){if(done)return;done=true;send({kind:"duration",dur_ms:Date.now()-t0});}
-document.addEventListener("visibilitychange",function(){if(document.visibilityState==="hidden")dur();});
-addEventListener("pagehide",dur);
-}catch(e){}})();</script>
+
 </body></html>

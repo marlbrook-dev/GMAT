@@ -197,7 +197,49 @@ pull request.
   first (O4), since we have almost no runtime dependencies to scan and a feed with nothing
   to match against is theatre.
 
-## 4. How to keep this document honest
+## 4. Item telemetry and the consent gate
+
+Added 2026-09-17, and the reason is worth recording: `attempts` held **zero rows**. Every
+claim about the adaptive engine learning was, in production, learning from nobody, because
+`Cloud.logAttempt` returns early without a signed-in user and the product deliberately
+needs no account. The signal was not weak; it did not exist.
+
+`item_events` fixes that by inverting the usual trade. Rather than asking people to sign in
+or to consent so that we can attribute their answers, it records the answer and attributes
+it to no one: exam, question id, skill, section, difficulty, option chosen, correct,
+seconds, mode, milliseconds to first pick, answer switches, and the learner's own guess and
+miss-reason tags. There is no user, session, device or address column, and adding one is
+the one change this table must never take. VERIFIED by column inspection: RLS on, one
+insert policy, zero select policies, zero identifying columns. VERIFIED over the wire with
+the shipped publishable key: insert returns 201, select returns 42501.
+
+That absence is what makes it lawful without a consent banner, and it is also what makes
+the banner honest about what it does and does not cover. The banner gates `site_events`,
+which carries a session id and is therefore personal data. Refusing is one click beside
+accept at the same size, a Global Privacy Control signal is honoured as a refusal without
+asking, and withdrawing stops the beacon on the page you withdrew it from rather than at
+the next load. VERIFIED in Chromium by `src/smoke_consent.js`, 33 checks, including that
+nothing is sent before a choice is made.
+
+`DATA_COLLECTION.md` works through what else is collectable, with and without consent, and
+why most of the consent-only categories are refused rather than taken.
+
+**Read back by a human, not by code.** Admin > Items applies four deterministic rules over
+the counts (key may be wrong, no discrimination, dead option, far off pace) plus two that
+only exist because the interaction is recorded (answered by guess, keeps changing hands).
+Each flag renders with the numbers that produced it and a control that opens the actual
+stem. Nothing on the tab edits a question. Same reading of C10 as stage 4 above.
+
+### What is deliberately not built yet, and why
+
+- **A retention period.** The table has none. Named as open in `DATA_COLLECTION.md` with a
+  proposal of 400 days, matching the query cap in `admin_item_diagnostics`.
+- **Automatic item retirement.** A rule that pulls a flagged item from circulation would be
+  acting on a signal that has, at time of writing, zero rows behind it. The flags exist so
+  that a person can judge them; the automation argument can be had once there is a history
+  of those judgements to check the rules against.
+
+## 5. How to keep this document honest
 
 Every claim above carries VERIFIED with the check, or UNVERIFIED. When a finding is fixed,
 move it and name the check that proved it. When a check cannot be run, say so rather than
