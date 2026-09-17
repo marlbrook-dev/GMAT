@@ -28,7 +28,7 @@ ACT specifics: **four** answer choices in every section including Mathematics, w
 - Generated, not committed (see `.gitignore`): `index.html` (landing), one `index.html` per trainer under `app/`, `sat/app/`, `gre/app/`, `lsat/app/` and `act/app/`, `404.html`, `blog/`, `sitemap.xml`
 
 ## Develop
-`python3 src/build.py && python3 src/build_blog.py` then open `index.html`. Run `node test.js` from `src/` to validate every bank and simulate the engine once per exam; it checks answer keys in both directions, SAT module construction against College Board's published domain ranges, grid-in equivalence, answer-position and length balance per section, and that no exam invents a score its maker does not publish.
+`python3 src/build.py && python3 src/build_blog.py` then open `index.html`. Run `node test.js` from `src/` to validate every bank and simulate the engine once per exam; it checks answer keys in both directions, SAT module construction against College Board's published domain ranges, grid-in equivalence, answer-position and length balance per section, and that no exam invents a score its maker does not publish. Three headless Chromium suites guard behaviour the data checks cannot see: `node src/smoke_items.js` renders and grades one item from every generator schema in every exam, at phone width, so a schema the app cannot display fails the build rather than the student; `node src/smoke_consent.js` covers the consent banner and item telemetry; `node src/smoke_billing.js` covers the billing promises. Run them with `CHROMIUM_PATH=$(ls -d /opt/pw-browsers/chromium-*/chrome-linux/chrome | head -1) NODE_PATH=/opt/node22/lib/node_modules`.
 
 ## Deploy
 Cloudflare Workers (Git-connected): Compute > Workers & Pages > Create > import this repo.

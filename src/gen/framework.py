@@ -33,6 +33,7 @@ SHAPE_INT = re.compile(r"^-?\d{1,3}(,\d{3})*$|^-?\d+$")
 SHAPE_FRAC = re.compile(r"^-?\d+/\d+$")
 SHAPE_DEC = re.compile(r"^-?\d*\.\d+$")
 SHAPE_MONEY = re.compile(r"^\$")
+SHAPE_PCT = re.compile(r"^-?\d+(\.\d+)?%$")
 
 
 def shape(s):
@@ -46,6 +47,10 @@ def shape(s):
     s = str(s)
     if SHAPE_MONEY.match(s):
         return "money"
+    # A percent among bare integers is visibly the odd one out, so percents are their
+    # own shape rather than falling through to text with every word answer.
+    if SHAPE_PCT.match(s):
+        return "pct"
     if SHAPE_FRAC.match(s):
         return "frac"
     if SHAPE_DEC.match(s):
@@ -213,6 +218,12 @@ class Gen:
             "wrong": spec.get("wrong") or self._wrong_line(why_at, first_at),
             "gen": self.id,
         }
+        # Data Insights items are read off a table or a set of sources rather than
+        # out of the stem, so the rendered source travels with the item. domain and
+        # qskill drive the half weight rating update the engine applies to these.
+        for extra in ("passageHtml", "domain", "qskill", "answerType"):
+            if spec.get(extra):
+                item[extra] = spec[extra]
         self.verify(item, right, choices_n, fmt)
         return item
 
@@ -246,7 +257,7 @@ STEM_NUM = re.compile(r"-?\d+(?:/\d+)?")
 
 def as_value(t):
     """Numeric value of a rendered choice, or None if it is not a bare number."""
-    t = str(t).replace(",", "").replace("$", "")
+    t = str(t).replace(",", "").replace("$", "").rstrip("%")
     try:
         if "/" in t:
             n, d = t.split("/", 1)
@@ -294,6 +305,8 @@ def canon(item):
     """
     body = item["gen"] + "|" + re.sub(r"\s+", " ", item["stem"]).strip()
     body += "|" + "|".join(str(c) for c in item.get("choices", ()))
+    body += "|" + "|".join(str(c) for c in item.get("columns", ()))
+    body += "|" + re.sub(r"\s+", " ", item.get("passageHtml", "")).strip()
     return hashlib.sha1(body.encode("utf-8")).hexdigest()
 
 
@@ -379,6 +392,10 @@ def to_js(items, const, header):
         ]
         if it.get("answerType"):
             parts.append("answerType:%s" % jstr(it["answerType"]))
+        if it.get("passageHtml"):
+            parts.append("passageHtml:%s" % jstr(it["passageHtml"]))
+        if it.get("columns"):
+            parts.append("columns:[%s]" % ",".join(jstr(c) for c in it["columns"]))
         # Data Insights items carry the underlying quant skill and whether the item is
         # mathematical. The engine uses qskill for a half weight rating update and for
         # pool filtering, so leaving it out would quietly change how the app learns.
@@ -389,6 +406,11 @@ def to_js(items, const, header):
         body = " stem:%s," % jstr(it["stem"])
         if it.get("answerType") == "spr":
             ch = " answer:%s," % jstr(it["answer"])
+        elif isinstance(it["answer"], (list, tuple)):
+            ch = " choices:[%s],answer:[%s]," % (
+                ",".join(jstr(c) for c in it["choices"]),
+                ",".join(str(int(i)) for i in it["answer"]),
+            )
         else:
             ch = " choices:[%s],answer:%d," % (
                 ",".join(jstr(c) for c in it["choices"]),

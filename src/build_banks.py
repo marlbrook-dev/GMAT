@@ -19,6 +19,7 @@ import framework as F          # noqa: E402
 import mapping as M            # noqa: E402
 import g_sat_alg, g_sat_adv, g_sat_psda, g_sat_geo   # noqa: E402,F401
 import g_sat_rw, g_gmat_ds, g_act_kol                # noqa: E402,F401
+import g_gmat_gt, g_gmat_tpa, g_gmat_msr             # noqa: E402,F401
 
 OUT = D / "generated"
 TARGET = 500
@@ -37,7 +38,10 @@ SAT_PLAN = {
 
 # Categories authored directly against an exam's own taxonomy rather than remapped.
 # Data Sufficiency has no SAT counterpart, so it lives here.
-EXAM_EXTRA = {"gmat": {"di_ds": g_gmat_ds.GENS},
+EXAM_EXTRA = {"gmat": {"di_ds": g_gmat_ds.GENS,
+                       "di_gt": g_gmat_gt.GENS,
+                       "di_tpa": g_gmat_tpa.GENS,
+                       "di_msr": g_gmat_msr.GENS},
               "act": {"act_e_kol": g_act_kol.GENS}}
 
 PREFIX = {"sat": "ZS", "gre": "ZG", "gmat": "ZM", "act": "ZA", "lsat": "ZL"}
