@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#122B4E"><link rel="apple-touch-icon" href="/icons/icon-180.png">
 <title>Start From Nowhere | AI-Powered Adaptive Exam Prep</title>
-<meta name="description" content="Adaptive exam prep that finds your weak spots and fixes them. GMAT Focus and the digital SAT are live. Free to start, no account needed.">
+<meta name="description" content="Adaptive practice for the GMAT, SAT, GRE, ACT and LSAT, plus sourced rankings for 1,451 colleges and 91 MBA programs, scholarships and international guidance. Free to start, no account needed.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Manrope:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%23122B4E'/%3E%3Cpath d='M13 33 22 22l6 5 8.5-10' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M29.5 16.5H37V24' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
@@ -11,7 +11,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
 {"@type":"Question","name":"What is Start From Nowhere?","acceptedAnswer":{"@type":"Answer","text":"An adaptive exam trainer for the GMAT Focus Edition and the digital SAT. It keeps a live rating for each skill on that exam's official score report, 12 for the GMAT and 8 content domains for the SAT, picks every question at the edge of your ability, and brings misses back on a spaced schedule."}},
 {"@type":"Question","name":"Is Start From Nowhere free?","acceptedAnswer":{"@type":"Answer","text":"Yes, everything is free while we build. Paid Plus and Pro plans arrive later, and early users keep generous grandfathering. The first round works without an account."}},
-{"@type":"Question","name":"Are these real GMAT or SAT questions?","acceptedAnswer":{"@type":"Answer","text":"No. Official questions are copyrighted by their test makers, so all {{TOTAL_BANK_COUNT}} items are original, written for Start From Nowhere and mapped to the official skill labels. Pair them with the official practice exams at mba.com to calibrate."}},
+{"@type":"Question","name":"Are these real exam questions?","acceptedAnswer":{"@type":"Answer","text":"No. Official questions are copyrighted by their test makers, so all {{TOTAL_BANK_COUNT}} items are original, written for Start From Nowhere and mapped to the skill labels each test maker publishes. Pair them with the official practice exams to calibrate."}},
 {"@type":"Question","name":"How does the adaptive engine work?","acceptedAnswer":{"@type":"Answer","text":"Every question and every skill carries a chess-style rating. The engine serves questions you should clear about 70% of the time and re-serves misses on a spaced schedule."}},
 {"@type":"Question","name":"Do I need an account to use Start From Nowhere?","acceptedAnswer":{"@type":"Answer","text":"No. Progress saves to your device. A free account adds cross-device sync via an email magic link, no password."}},
 {"@type":"Question","name":"Which exams does Start From Nowhere cover?","acceptedAnswer":{"@type":"Answer","text":"GMAT Focus Edition, the digital SAT, the GRE General Test, the LSAT and the ACT are live today, each with its own bank, engine settings and analytics. The Executive Assessment and the MCAT are in development with open waitlists."}}
@@ -61,6 +61,12 @@ section.block{padding:68px 0}section.gray{background:var(--gray-50)}
 .excard .es{font-family:var(--display);font-size:10px;font-weight:700;padding:2.5px 8px;border-radius:6px;flex-shrink:0;white-space:nowrap}
 .es.live{background:var(--green-600);color:#fff}.es.dev{background:var(--navy-50);color:var(--gray-500)}
 .excard p{font-size:12.5px;color:var(--gray-500);margin:0}
+.rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}@media(max-width:900px){.rgrid{grid-template-columns:1fr 1fr}}@media(max-width:560px){.rgrid{grid-template-columns:1fr}}
+.rcard{background:#fff;border:1px solid var(--gray-200);border-radius:12px;padding:18px 20px;text-decoration:none;display:block;transition:box-shadow 150ms var(--ease),transform 150ms var(--ease)}
+.rcard:hover{box-shadow:0 4px 14px rgba(8,21,39,.1);transform:translateY(-2px);border-color:var(--navy-800)}
+.rcard .rn{font-family:var(--display);font-weight:700;font-size:14px;color:var(--navy-900);display:block;margin-bottom:5px}
+.rcard .rq{font-family:var(--mono);font-size:19px;font-weight:500;color:var(--navy-800);display:block;line-height:1.1;margin-bottom:5px}
+.rcard p{font-size:12.5px;color:var(--gray-500);margin:0;line-height:1.5}
 .step{display:flex;gap:16px;align-items:flex-start}.step .n{font-family:var(--mono);font-size:13px;color:var(--navy-800);background:var(--navy-50);border:1px solid var(--navy-100);border-radius:999px;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
 .band{background:var(--navy-900);color:#fff;padding:60px 0;text-align:center}.band h2{color:#fff;font-size:32px}.band p{color:#cdd5e3;max-width:52ch;margin:12px auto 24px}
 .pricing .grid3{align-items:stretch}
@@ -85,18 +91,18 @@ section.block{padding:68px 0}section.gray{background:var(--gray-50)}
 {{SITE_HEADER}}
 
 <section class="hero"><div class="wrap">
-<span class="pill-live"><span class="dot"></span>GMAT Focus and Digital SAT Trainers &middot; Live</span>
+<span class="pill-live"><span class="dot"></span>Five Adaptive Trainers &middot; Live</span>
 <h1>Start From Nowhere.<br>Arrive Ready.</h1>
-<p>An institutional-grade <b>exam preparation platform</b> for serious candidates. Adaptive training, honest data, and a <b>community of peers</b> who started where you did.</p>
-<div class="cta"><a class="btn lg" href="app/">Start GMAT Training</a><a class="btn lg ghost" href="sat/app/">Start SAT Training</a></div>
-<div class="fine">No account needed. No card. Just start. Or <a href="/schools/">explore MBA rankings</a> first.</div>
+<p>Adaptive practice for the <b>GMAT, SAT, GRE, ACT and LSAT</b>, plus sourced rankings for <b>1,451 colleges and 91 MBA programs</b>, scholarship research, and a guide for international applicants. Every number on this site shows where it came from.</p>
+<div class="cta"><a class="btn lg" href="app/">Start Training Free</a><a class="btn lg ghost" href="/colleges/">Explore College Rankings</a></div>
+<div class="fine">No account needed. No card. Just start. Or browse the <a href="/exams/">exam guides</a>, the <a href="/schools/">MBA rankings</a>, or the <a href="/funding/">scholarship and funding guide</a>.</div>
 </div></section>
 
 <section class="statband"><div class="cells">
 <div class="st"><b>{{TOTAL_BANK_COUNT}}+</b><span>Original Practice Questions</span></div>
-<div class="st"><b>2 Exams</b><span>GMAT Focus and Digital SAT, Live</span></div>
-<div class="st"><b>{{TOTAL_SKILLS}} Skills</b><span>Adaptive Areas, One Rating Each</span></div>
-<div class="st"><b>Free</b><span>Forever Tier, $0 to Start</span></div>
+<div class="st"><b>5 Exams</b><span>GMAT, SAT, GRE, ACT and LSAT, Live</span></div>
+<div class="st"><b>{{RANKED_TOTAL}}</b><span>Colleges and MBA Programs Ranked</span></div>
+<div class="st"><b>Free</b><span>Forever Tier, No Card Ever</span></div>
 </div></section>
 
 <section class="block" id="modes"><div class="wrap">
@@ -147,6 +153,20 @@ section.block{padding:68px 0}section.gray{background:var(--gray-50)}
 <p class="sec-sub" style="margin:18px 0 0">Each exam links to a full guide: structure, timing, cost, registration, and where it is accepted. <a href="/exams/" style="color:var(--navy-800);font-weight:600">All Exam Guides</a></p>
 </div></section>
 
+<section class="block gray" id="research"><div class="wrap">
+<h2 class="sec-title">Research, Not Just Practice</h2>
+<p class="sec-sub">A test score is one input. These are the other ones, each built from published sources with the year and a link on every figure, and a dash wherever we could not verify something.</p>
+<div class="rgrid">
+<a class="rcard" href="/colleges/"><span class="rn">College Rankings</span><span class="rq">{{COLLEGE_COUNT}} Colleges</span><p>Scored on graduation, earnings, cost and access, from US Department of Education data. Admission rates are shown and deliberately not scored.</p></a>
+<a class="rcard" href="/schools/"><span class="rn">MBA Rankings</span><span class="rq">{{MBA_COUNT}} Programs</span><p>A composite of five published rankings plus class profile, cost and outcome data, with federal earnings records beside what each school reports itself.</p></a>
+<a class="rcard" href="/funding/"><span class="rn">Scholarships and Funding</span><span class="rq">Aid and the GI Bill</span><p>Institutional aid policy by school, outside awards, veteran and GI Bill benefits, and what the Grad PLUS change means for borrowing.</p></a>
+<a class="rcard" href="/international/"><span class="rn">International Applicants</span><span class="rq">Visas and Tests</span><p>English test requirements, visa timing, CIP and STEM designation, and the cost picture for applicants outside the United States.</p></a>
+<a class="rcard" href="/apply/"><span class="rn">Application Checklist</span><span class="rq">Deadlines Tracked</span><p>Build a shortlist, track every deadline and requirement per school, and export it. Free, and it needs no account.</p></a>
+<a class="rcard" href="/community/"><span class="rn">Community Forum</span><span class="rq">No Account Needed</span><p>Ask a question named or anonymously. Moderated by people, never seeded with fake activity, and open to post in without signing up.</p></a>
+</div>
+<p class="sec-sub" style="margin:18px 0 0">Also: the <a href="/scoring/" style="color:var(--navy-800);font-weight:600">score estimate methodology</a>, the <a href="/blog/" style="color:var(--navy-800);font-weight:600">Study Room blog</a>, and <a href="/exams/" style="color:var(--navy-800);font-weight:600">full guides</a> for seven exams.</p>
+</div></section>
+
 <section class="band"><div class="wrap"><h2>Your Study Guide, Built Around You.</h2><p>Everyone learns differently. The engine adapts to your answers today; custom study guide tools and AI coaching are next.</p><a class="btn gold lg" href="app/">Start Free</a></div></section>
 
 <section class="block pricing" id="pricing"><div class="wrap"><h2 class="sec-title" style="text-align:center">Pricing</h2><p class="sec-sub" style="text-align:center;margin-left:auto;margin-right:auto">Simple plans. Free while we build, and early users keep generous grandfathering.</p>
@@ -162,7 +182,7 @@ section.block{padding:68px 0}section.gray{background:var(--gray-50)}
 <div class="faq">
 <details><summary>What Is Start From Nowhere?<svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><p>An adaptive exam trainer for the GMAT Focus Edition and the digital SAT. It keeps a live rating for each skill on that exam's official score report, the 12 GMAT skills or the 8 SAT content domains, picks every question at the edge of what you can do, and brings your misses back on a spaced schedule. Practice rounds, mock sections, flashcards, and study games all feed the same engine.</p></details>
 <details><summary>Is It Really Free?<svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><p>Yes. Everything is free while we build. Paid Plus and Pro plans arrive later for heavy features like unlimited mock sections, and early users keep generous grandfathering. You can practice your first round without even creating an account.</p></details>
-<details><summary>Are These Real GMAT or SAT Questions?<svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><p>No, and that is deliberate. Official questions are copyrighted by their test makers, so every one of our {{TOTAL_BANK_COUNT}} items is original, written for Start From Nowhere and mapped to the official skill labels: the GMAT Focus score report skills, and College Board's eight SAT content domains. Pair our adaptive practice with an official practice exam, at <a href="https://www.mba.com/exams/gmat-exam" rel="noopener">mba.com</a> for the GMAT or a Bluebook practice test for the SAT, to calibrate before test day.</p></details>
+<details><summary>Are These Real Exam Questions?<svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><p>No, and that is deliberate. Official questions are copyrighted by their test makers, so every one of our {{TOTAL_BANK_COUNT}} items is original, written for Start From Nowhere and mapped to the official skill labels each test maker publishes: the GMAT Focus score report skills, College Board's eight SAT content domains, the ETS GRE content areas, the ACT reporting categories, and the LSAT question types. Pair our adaptive practice with an official practice exam, at <a href="https://www.mba.com/exams/gmat-exam" rel="noopener">mba.com</a> for the GMAT or a Bluebook practice test for the SAT, to calibrate before test day.</p></details>
 <details><summary>How Does the Adaptive Engine Actually Work?<svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><p>Every question carries a difficulty rating and every skill you train carries a skill rating, chess-style. Answer correctly and your rating rises; miss and it falls. The engine serves questions you should clear about 70% of the time, which research on deliberate practice suggests is the productive zone, and re-serves misses on a spaced schedule.</p></details>
 <details><summary>What Do the Games Do That Practice Rounds Do Not?<svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><p>Each game trains one specific muscle: Match and Memory build concept recall, Blitz builds speed, Number crunch builds the no-calculator estimation both math sections demand, and the Boss round pressure-tests you on real bank questions at the section pace. Scores come only from accuracy and speed. Nothing is luck-based, and you compete against your own bests, not a leaderboard.</p></details>
 <details><summary>Do I Need an Account?<svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><p>Not to practice. Your progress saves to your device automatically. A free account adds sync, so your ratings and history follow you across devices. Sign-in is a magic link to your email, no password to manage.</p></details>

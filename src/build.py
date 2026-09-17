@@ -147,7 +147,10 @@ total_bank_count = bank_count + sat_bank_count + gre_bank_count + lsat_bank_coun
 _skill_probe = subprocess.run(
     ["node", "-e",
      "const fs=require('fs');const s=fs.readFileSync(process.argv[1],'utf8');"
-     "console.log(eval(s+'; GMAT_SKILLS.length + SAT_SKILLS.length'))",
+     # Every live exam, not just the first two. The landing page advertises this
+     # number, and it read "20 Skills" for months after the GRE, LSAT and ACT shipped.
+     "console.log(eval(s+'; GMAT_SKILLS.length + SAT_SKILLS.length + GRE_SKILLS.length"
+     " + LSAT_SKILLS.length + ACT_SKILLS.length'))",
      str(d/"engine.js")],
     capture_output=True, text=True)
 if _skill_probe.returncode != 0:
@@ -211,9 +214,19 @@ for _doc in ["README.md", "ROADMAP.md", "CLAUDE.md", "llms.txt", "GROWTH.md", "I
 for _src in sorted(d.glob("bank_*.js")) + sorted(d.glob("cards*.js")) + sorted(d.glob("playbook_*.js")) + [d/"engine.js"]:
     no_dashes(_src.name, _src.read_text())
 
+import json as _json_mod
+_college_n = len(list((root/"data"/"colleges").glob("*.json")))
+_mba_n = sum(1 for _p in (root/"data"/"schools").glob("*.json")
+             if not _json_mod.loads(_p.read_text()).get("discontinued"))
 landing = ((d/"landing.html").read_text().replace("{{BANK_COUNT}}", str(bank_count)).replace("{{CARD_COUNT}}", str(card_count))
            .replace("{{SAT_BANK_COUNT}}", str(sat_bank_count)).replace("{{SAT_CARD_COUNT}}", str(sat_card_count))
-           .replace("{{TOTAL_BANK_COUNT}}", str(total_bank_count)).replace("{{TOTAL_SKILLS}}", total_skills))
+           .replace("{{TOTAL_BANK_COUNT}}", format(total_bank_count, ",d")).replace("{{TOTAL_SKILLS}}", total_skills)
+           # Library sizes are advertised on the landing page, so they are counted at
+           # build time rather than typed. "2 Exams" sat on that page for months after
+           # the third, fourth and fifth shipped.
+           .replace("{{COLLEGE_COUNT}}", format(_college_n, ",d"))
+           .replace("{{MBA_COUNT}}", format(_mba_n, ",d"))
+           .replace("{{RANKED_TOTAL}}", format(_college_n + _mba_n, ",d")))
 landing = partials.apply_chrome(landing)
 if "{{" in landing:
     print("ERROR: unresolved placeholder in landing.html", file=sys.stderr); sys.exit(1)
