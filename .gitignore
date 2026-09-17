@@ -31,3 +31,4 @@ __pycache__/
 
 # Generated college rankings; data/colleges/ is the source of truth.
 /colleges/
+/social.js

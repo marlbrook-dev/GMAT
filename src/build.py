@@ -97,6 +97,12 @@ for app in APPS:
     bank_out = root / app["out"]
     bank_out.mkdir(parents=True, exist_ok=True)
     (bank_out / "bank.js").write_text(bank_js)
+    # The social queue is admin only and about 76KB. It is written once to the site root and
+    # fetched on demand by Admin > Social rather than inlined into the shell, so a student
+    # loading the trainer never downloads a byte of it.
+    _social = GEN_DIR / "social.js"
+    if _social.exists():
+        (root / "social.js").write_text(_social.read_text(), encoding="utf-8")
     out = (tpl.replace("{{EXAM_ID}}", app["exam"])
               .replace("{{BANK_SRC}}", bank_path)
               .replace("{{ENGINE}}", engine)

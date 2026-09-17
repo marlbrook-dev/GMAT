@@ -1346,7 +1346,7 @@ function metricDetail(id){ const m=METRICS[id]; if(!m) return; const t=METRIC_TI
   +'<tr><td>As of</td><td class="small">'+esc(asOf)+'</td></tr>'
   +'</tbody></table></div>'); }
 let adminTab='bi';
-function adminTabsHtml(){ const T=[['bi','Overview'],['learn','Learning'],['items','Items'],['catalog','Metric Catalog'],['rev','Revenue'],['err','Errors'],['users','Users'],['traffic','Traffic'],['mod','Moderation'],['crm','Partners CRM'],['posture','Posture']];
+function adminTabsHtml(){ const T=[['bi','Overview'],['learn','Learning'],['items','Items'],['social','Social'],['catalog','Metric Catalog'],['rev','Revenue'],['err','Errors'],['users','Users'],['traffic','Traffic'],['mod','Moderation'],['crm','Partners CRM'],['posture','Posture']];
  return '<div class="row" style="gap:6px;flex-wrap:wrap">'+T.map(t=>'<button class="btn sm'+(adminTab===t[0]?'':' secondary')+'" onclick="adminTab=\''+t[0]+'\';renderAdmin()">'+t[1]+'</button>').join('')+'</div>'; }
 async function renderAdmin(){ const el=document.getElementById('v-admin'); const preview=location.hash==='#admin-preview';
  if(!preview&&(!Cloud.user||!Cloud.isAdmin)){ el.innerHTML='<div class="narrow stack"><div class="card p8" style="text-align:center"><div class="card-title">Admin</div><p class="muted" style="margin-top:8px">Business intelligence is available to admin accounts. Sign in on the Account tab with an admin email.</p></div></div>'; return; }
@@ -1360,6 +1360,7 @@ async function renderAdmin(){ const el=document.getElementById('v-admin'); const
  if(adminTab==='posture'){ return renderAdminPosture(el); }
  if(adminTab==='learn'){ return renderAdminLearning(el,preview); }
  if(adminTab==='items'){ return renderAdminItems(el,preview); }
+ if(adminTab==='social'){ return renderAdminSocial(el,preview); }
  el.innerHTML='<div class="stack"><div class="empty">Loading business intelligence...</div></div>';
  let d=ADMIN_SAMPLE, note='Sample data preview. Sign in as an admin for live numbers.';
  if(!preview){ try{ const {data,error}=await Cloud.client.rpc('admin_bi'); if(error) throw error; d=data; note=null; }
@@ -1637,6 +1638,96 @@ async function renderAdminItems(el,preview){
   +'<b>Guessed</b> and <b>Top reason</b> are the learners\' own words, from the tags the app asks for after a miss. '
   +'Nothing on this tab edits a question; it produces a reading, and a person decides.</p></div>'
   +'</div>'; }
+// ---------- social tab ----------
+// Posting through the X API costs money on the current pricing (a live POST returned 402
+// "credits depleted"), so nothing here sends anything. It hands a person the text to post.
+// That also keeps us on the right side of the publishing rule in DEVSECOPS.md: whatever
+// reaches an audience does so because someone chose to send it.
+//
+// The queue is a build artefact and has no memory, so social_posted is the memory. Without
+// it the same post surfaces every day and this is a list rather than a queue.
+let socFilter='', socDone={}, socLoaded=false;
+function socSet(v){ socFilter=v; renderAdmin(); }
+async function socLoadDone(){
+ if(socLoaded) return; socLoaded=true;
+ try{ const r=await Cloud.client.from('social_posted').select('post_key,channel,posted_at');
+  if(!r.error&&r.data) r.data.forEach(function(x){ socDone[x.post_key]=x; }); }catch(e){}
+}
+async function socMark(key,channel){
+ try{ const r=await Cloud.client.from('social_posted').insert({post_key:key,channel:channel||'x'});
+  if(r.error){ toast('Could not mark: '+r.error.message); return; }
+  socDone[key]={post_key:key,channel:channel||'x',posted_at:new Date().toISOString()};
+  toast('Marked as posted.'); renderAdmin(); }catch(e){ toast('Could not mark.'); }
+}
+async function socUnmark(key){
+ try{ const r=await Cloud.client.from('social_posted').delete().eq('post_key',key);
+  if(r.error){ toast('Could not undo: '+r.error.message); return; }
+  delete socDone[key]; toast('Marked as not posted.'); renderAdmin(); }catch(e){}
+}
+function socCopy(key){
+ const q=(typeof SOCIAL_QUEUE!=='undefined'?SOCIAL_QUEUE:[]).find(function(p){return p.key===key;});
+ if(!q) return;
+ const full=q.text+(q.reply?'\n\n--- reply with ---\n\n'+q.reply:'');
+ try{ navigator.clipboard.writeText(full).then(function(){ toast('Copied. Paste into X.'); },
+   function(){ toast('Copy failed; select the text and copy it.'); }); }
+ catch(e){ toast('Copy failed; select the text and copy it.'); }
+}
+async function renderAdminSocial(el,preview){
+ el.innerHTML='<div class="stack"><div class="empty">Loading the queue...</div></div>';
+ // Fetched on demand, never inlined: it is admin only and about 76KB, and a student
+ // loading the trainer has no reason to download any of it.
+ if(typeof SOCIAL_QUEUE==='undefined'){
+  await new Promise(function(res){ const sc=document.createElement('script');
+   sc.src='/social.js'; sc.onload=res; sc.onerror=res; document.head.appendChild(sc); });
+ }
+ const Q=(typeof SOCIAL_QUEUE!=='undefined')?SOCIAL_QUEUE:[];
+ if(!preview) await socLoadDone();
+ const kinds=[...new Set(Q.map(function(p){return p.kind;}))].sort();
+ const shown=Q.filter(function(p){ return !socFilter||p.kind===socFilter; });
+ const pending=shown.filter(function(p){ return !socDone[p.key]; });
+ const done=shown.filter(function(p){ return socDone[p.key]; });
+ const filters=[['','All '+Q.length]].concat(kinds.map(function(k){
+   return [k,k+' '+Q.filter(function(p){return p.kind===k;}).length]; }))
+  .map(function(f){ return '<button class="btn sm'+(socFilter===f[0]?'':' secondary')
+   +'" onclick="socSet(\''+esc(f[0]).replace(/'/g,"\\'")+'\')">'+esc(f[1])+'</button>'; }).join('');
+ function card(p,isDone){
+  const k=esc(p.key).replace(/'/g,"\\'");
+  return '<div class="card stack-4"'+(isDone?' style="opacity:.55"':'')+'>'
+   +'<div class="row" style="justify-content:space-between;align-items:flex-start;gap:10px">'
+   +'<div><span class="mtier" style="background:var(--status-info-bg);color:var(--status-info);margin-left:0">'
+   +esc(p.kind)+'</span> <span class="small muted">'+esc(p.audience)+' · '+p.text.length+' characters</span></div>'
+   +'<div class="row" style="gap:6px">'
+   +(isDone
+     ? '<span class="badge success">Posted</span><button class="btn ghost sm" onclick="socUnmark(\''+k+'\')">Undo</button>'
+     : '<button class="btn sm" onclick="socCopy(\''+k+'\')">Copy</button>'
+       +'<button class="btn secondary sm" onclick="socMark(\''+k+'\',\'x\')">Mark posted</button>')
+   +'</div></div>'
+   +'<pre style="white-space:pre-wrap;font-family:var(--font-body);font-size:14px;line-height:1.55;margin:0;color:var(--text-heading)">'
+   +esc(p.text)+'</pre>'
+   +(p.reply?'<div class="small muted" style="border-left:3px solid var(--border-default);padding-left:10px">'
+     +'<b>Reply with:</b><br>'+esc(p.reply).replace(/\n/g,'<br>')+'</div>':'')
+   +'</div>';
+ }
+ el.innerHTML='<div class="stack">'
+  +'<div class="row" style="align-items:flex-end;justify-content:space-between"><div>'
+  +'<h1 style="font-size:var(--text-2xl);font-weight:700">Social</h1>'
+  +'<p class="muted" style="margin:6px 0 0">Posts written from data that already carries a source, a year and a link. '
+  +'Copy one, paste it into X, then mark it posted so it does not come back.</p></div>'+adminTabsHtml()+'</div>'
+  +'<div class="card" style="background:var(--brand-accent-soft);border-color:var(--gold-100)">'
+  +'<p class="small" style="margin:0">Nothing here posts by itself. The X API charges for writes, and a live test returned '
+  +'<b>402 credits depleted</b>, so the last step is a person. That is also the rule we set ourselves: anything reaching an '
+  +'audience does so because someone chose to send it.</p></div>'
+  +'<div class="row" style="gap:6px;flex-wrap:wrap">'+filters+'</div>'
+  +'<div class="row" style="gap:14px;flex-wrap:wrap">'
+  +'<div class="card grow" style="min-width:140px"><div class="small muted">Ready to post</div><div class="bigscore">'+pending.length+'</div></div>'
+  +'<div class="card grow" style="min-width:140px"><div class="small muted">Already posted</div><div class="bigscore">'+done.length+'</div></div>'
+  +'<div class="card grow" style="min-width:140px"><div class="small muted">In the queue</div><div class="bigscore">'+Q.length+'</div></div></div>'
+  +(pending.length?pending.slice(0,40).map(function(p){return card(p,false);}).join('')
+    :'<div class="card"><p class="small muted" style="margin:0">Nothing left in this filter. Run <span class="mono">python3 src/build_social.py</span> after adding content, or clear the filter.</p></div>')
+  +(done.length?'<h2 style="font-size:var(--text-lg);font-weight:700;margin:4px 0 0">Posted ('+done.length+')</h2>'
+    +done.slice(0,20).map(function(p){return card(p,true);}).join(''):'')
+  +'</div>'; }
+
 // ---------- posture tab ----------
 function renderAdminPosture(el){
  const gates=[
