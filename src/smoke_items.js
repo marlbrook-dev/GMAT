@@ -107,6 +107,7 @@ const noise = t => /ERR_CERT_AUTHORITY_INVALID|fonts\.(googleapis|gstatic)\.com|
       const graded = await p.evaluate(() => {
         const q = session.qs[0];
         if (q.answerType === 'tpa') session.tpa = [q.answer[0], q.answer[1]];
+        else if (q.answerType === 'se') q.answer.forEach(i => toggleSE(i));
         else if (q.answerType === 'spr') session.spr = String(q.answer);
         else if (q.answerType === 'gi') session.gi = q.statements.map(s => s.answer);
         else if (q.answerType === 'ta') session.ta = q.statements.map(s => s.answer);
