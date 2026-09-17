@@ -541,8 +541,21 @@ function answerInputs(q){ let h='';
  else if(q.answerType==='spr'){ h='<div class="spr"><label for="sprIn">Your answer</label>'
   +'<input id="sprIn" type="text" inputmode="text" autocomplete="off" spellcheck="false" oninput="noteInput(false);session.spr=this.value" aria-label="Student-produced response">'
   +'<p class="small muted">Enter a number. Fractions and decimals are both accepted, so 1/2, 0.5 and .5 all count. No units, no percent sign.</p></div>'; session.spr=''; }
+ else if(q.answerType==='se'){ h='<div class="opts">'+q.choices.map((c,i)=>'<button class="opt" id="opt'+i+'" role="checkbox" aria-checked="false" onclick="toggleSE('+i+')"><span class="chip">'+String.fromCharCode(65+i)+'</span><span class="txt">'+esc(c)+'</span></button>').join('')+'</div>'
+  +'<p class="small muted" style="margin:8px 0 0">Choose exactly two. Both must fit the sentence, and the two completed sentences must mean the same thing.</p>'; session.se=[]; }
  else { h='<div class="opts">'+q.choices.map((c,i)=>'<button class="opt" id="opt'+i+'" onclick="selectChoice('+i+')"><span class="chip">'+String.fromCharCode(65+i)+'</span><span class="txt">'+esc(c)+'</span></button>').join('')+'</div>'; }
  return h; }
+// Sentence equivalence takes two answers, not one, and neither counts without the other.
+// Rendering it through the ordinary single pick path is what made every one of these
+// items impossible to get right: currentAnswer returned an index, the grader wanted a
+// pair, so the item was marked wrong however well it was answered.
+function toggleSE(i){ if(session.answered) return; session.se=session.se||[];
+ const at=session.se.indexOf(i);
+ if(at>-1) session.se.splice(at,1);
+ else if(session.se.length>=2){ toast('Two choices only. Deselect one first.'); return; }
+ else { noteInput(session.se.length>0); session.se.push(i); }
+ document.querySelectorAll('.opt').forEach((l,j)=>{ const on=session.se.indexOf(j)>-1;
+  l.classList.toggle('selected',on); l.setAttribute('aria-checked',on?'true':'false'); }); }
 // ---------- mock section: one full section under exam rules ----------
 function startMockIntro(){ return EXAM.adaptive==='module'?satMockIntro():gmatMockIntro(); }
 function satMockIntro(){ session=null; satSec=null; show('study');
@@ -660,14 +673,16 @@ function currentAnswer(q){ if(q.answerType==='spr') return (session.spr===undefi
  if(q.answerType==='tpa') return (session.tpa[0]===null||session.tpa[1]===null)?null:session.tpa.slice();
  if(q.answerType==='gi') return session.gi.some(v=>v<0)?null:session.gi.slice();
  if(q.answerType==='ta') return session.ta.some(v=>v===null)?null:session.ta.slice();
+ if(q.answerType==='se') return (session.se&&session.se.length===2)?session.se.slice().sort((a,b)=>a-b):null;
  return session.choice===null?null:session.choice; }
 function applySavedAnswer(q,a){ if(a==null) return;
  if(q.answerType==='spr'){ session.spr=a; const el=document.getElementById('sprIn'); if(el) el.value=a; }
  else if(q.answerType==='tpa'){ session.tpa=a.slice(); document.getElementsByName('tpa0')[a[0]].checked=true; document.getElementsByName('tpa1')[a[1]].checked=true; }
+ else if(q.answerType==='se'){ session.se=a.slice(); document.querySelectorAll('.opt').forEach((l,j)=>{ const on=a.indexOf(j)>-1; l.classList.toggle('selected',on); l.setAttribute('aria-checked',on?'true':'false'); }); }
  else if(q.answerType==='gi'){ session.gi=a.slice(); document.querySelectorAll('#v-study .gi-st select').forEach((s,i)=>{ s.value=String(a[i]); }); }
  else if(q.answerType==='ta'){ session.ta=a.slice(); document.querySelectorAll('#v-study table.ta tbody tr').forEach((tr,i)=>{ const r=tr.querySelectorAll('input'); if(a[i]===true) r[0].checked=true; else if(a[i]===false) r[1].checked=true; }); }
  else selectChoice(a); }
-function renderMockQ(){ const el=document.getElementById('v-study'); const q=session.qs[session.i]; session.qStart=Date.now(); session.answered=false; session.choice=null; session.tpa=[null,null]; session.spr=''; session.reason=null; session.guessed=false; session.changes=0; session.firstMs=null;
+function renderMockQ(){ const el=document.getElementById('v-study'); const q=session.qs[session.i]; session.qStart=Date.now(); session.answered=false; session.choice=null; session.tpa=[null,null]; session.spr=''; session.se=[]; session.reason=null; session.guessed=false; session.changes=0; session.firstMs=null;
  const wide=!!(q.passage||q.passageHtml); let left=''; if(q.passage) left='<div class="passage">'+esc(q.passage)+'</div>'; else if(q.passageHtml) left='<div>'+q.passageHtml+'</div>';
  const choicesHtml=answerInputs(q); const marked=session.marks[session.i]; const editing=session.phase==='edit'; const freeEdit=!!session.freeEdit;
  const top='<div class="qtop">'+badge(SEC_SHORT[q.section],'sec-'+q.section)+badge(typeLabel(q))+(session.satModule?badge('Module '+session.satModule+(session.routing?' · '+(session.routing==='upper'?'harder form':'easier form'):''),'info'):'')+(editing&&!freeEdit?badge(session.editsLeft+' change'+(session.editsLeft===1?'':'s')+' left','warning'):'')+'<div class="grow">'+pbar(null,session.i/session.qs.length*100,'var(--brand-primary)',true)+'</div><span class="mono small">'+(session.i+1)+' / '+session.qs.length+'</span><span class="timer" id="timer" role="timer" aria-label="Section time remaining">'+fmtSecs((session.minutes||45)*60)+'</span></div>';
@@ -712,7 +727,7 @@ function _renderMockReport(secTotal){ const r=session.results; const n=r.length,
  +paceByTypeHtml(r)
  +missHtml
  +'<div class="row" style="justify-content:center"><button class="btn secondary" onclick="session=null;show(\'dash\')">Back to Dashboard</button><button class="btn" onclick="startMockIntro()">Another Section</button></div></div>'; }
-function renderQuestion(){ const el=document.getElementById('v-study'); const q=session.qs[session.i]; session.qStart=Date.now(); session.answered=false; session.choice=null; session.tpa=[null,null]; session.spr=''; session.reason=null; session.guessed=false; session.changes=0; session.firstMs=null;
+function renderQuestion(){ const el=document.getElementById('v-study'); const q=session.qs[session.i]; session.qStart=Date.now(); session.answered=false; session.choice=null; session.tpa=[null,null]; session.spr=''; session.se=[]; session.reason=null; session.guessed=false; session.changes=0; session.firstMs=null;
  const allot=SECTION_META[q.section].allot; const wide=!!(q.passage||q.passageHtml);
  let left=''; if(q.passage) left='<div class="passage">'+esc(q.passage)+'</div>'; else if(q.passageHtml) left='<div>'+q.passageHtml+'</div>';
  const choicesHtml=answerInputs(q);
@@ -727,14 +742,18 @@ function submitAnswer(){ if(session.answered) return; const q=session.qs[session
  if(q.answerType==='gi'&&session.gi.some(v=>v<0)){toast('Complete every dropdown.');return;}
  if(q.answerType==='ta'&&session.ta.some(v=>v===null)){toast('Answer Yes or No for every statement.');return;}
  if(q.answerType==='spr'&&currentAnswer(q)===null){toast('Enter your answer first.');return;}
+ if(q.answerType==='se'&&currentAnswer(q)===null){toast('Select exactly two choices.');return;}
  if(!q.answerType&&session.choice===null){toast('Choose an answer first.');return;}
  chosen=currentAnswer(q); correct=gradeChosen(q,chosen);
  clearInterval(qTimer); session.answered=true; const secs=(Date.now()-session.qStart)/1000; session.pending={q,chosen,correct,secs,firstMs:session.firstMs,changes:session.changes};
  if(session.mode==='qotd'){ const s=qotdState(); const yest=new Date(Date.now()-86400000).toDateString();
   s.streak=correct?((s.date===yest?s.streak:0)+1):0; s.date=new Date().toDateString(); s.correct=correct; persist(); track('game_completed',{game:'qotd',correct,streak:s.streak}); }
- if(q.answerType!=='tpa'){ document.querySelectorAll('.opt').forEach((l,j)=>{ l.disabled=true; l.classList.remove('selected'); if(j===q.answer) l.classList.add('correct'); else if(j===chosen) l.classList.add('incorrect'); }); }
+ if(q.answerType==='se'){ const key=q.answer||[], mine=chosen||[];
+  document.querySelectorAll('.opt').forEach((l,j)=>{ l.disabled=true; l.classList.remove('selected');
+   if(key.indexOf(j)>-1) l.classList.add('correct'); else if(mine.indexOf(j)>-1) l.classList.add('incorrect'); }); }
+ else if(q.answerType!=='tpa'){ document.querySelectorAll('.opt').forEach((l,j)=>{ l.disabled=true; l.classList.remove('selected'); if(j===q.answer) l.classList.add('correct'); else if(j===chosen) l.classList.add('incorrect'); }); }
  const flag=timingFlag(q.section,secs); const flagTxt=flag==='slow'?' That was over 1.3x section pace.':flag==='fast'?' That was well under pace.':'';
- const ans=q.answerType==='spr'?String(q.answer):q.answerType==='tpa'?q.choices[q.answer[0]]+' / '+q.choices[q.answer[1]]:q.answerType==='gi'?q.statements.map(s=>s.options[s.answer]).join(' / '):q.answerType==='ta'?q.statements.map(s=>s.answer?'Yes':'No').join(' / '):String.fromCharCode(65+q.answer);
+ const ans=q.answerType==='spr'?String(q.answer):q.answerType==='tpa'?q.choices[q.answer[0]]+' / '+q.choices[q.answer[1]]:q.answerType==='gi'?q.statements.map(s=>s.options[s.answer]).join(' / '):q.answerType==='ta'?q.statements.map(s=>s.answer?'Yes':'No').join(' / '):q.answerType==='se'?q.answer.map(i=>String.fromCharCode(65+i)+' '+q.choices[i]).join(' and '):String.fromCharCode(65+q.answer);
  if(q.answerType==='spr'){ const el=document.getElementById('sprIn'); if(el) el.disabled=true; }
  if(q.answerType==='gi'||q.answerType==='ta'){ document.querySelectorAll('#v-study select, #v-study input[type=radio]').forEach(x=>x.disabled=true); }
  let fb='<div class="why"><b>'+(correct?'Correct.':'Not quite. Answer: '+ans+'.')+'</b> <span class="small mono">'+fmtSecs(secs)+' vs pace '+fmtSecs(SECTION_META[q.section].allot)+'.</span><span class="small">'+flagTxt+'</span><p><b>Why:</b> '+esc(q.expl)+'</p>'+(q.wrong?'<p class="small"><b>Watch for:</b> '+esc(q.wrong)+'</p>':'')+'</div>';

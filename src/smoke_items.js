@@ -68,7 +68,6 @@ const noise = t => /ERR_CERT_AUTHORITY_INVALID|fonts\.(googleapis|gstatic)\.com|
     // A bank with no generated items has nothing for this test to walk. That is the LSAT
     // today: every item is hand written and carries no schema tag. Say so and move on,
     // rather than reporting an absence as a failure.
-    if (!names.length) { console.log('  ' + app + ': no generated schemas yet, skipped'); await ctx.close(); continue; }
 
     for (const gen of names) {
       schemas++;
@@ -121,9 +120,40 @@ const noise = t => /ERR_CERT_AUTHORITY_INVALID|fonts\.(googleapis|gstatic)\.com|
       const wide = await p.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 2);
       check(label + ' fits a 390px screen', !wide);
     }
+    // Second pass: every ANSWER TYPE in the bank, generated or hand written. A schema
+    // sweep misses hand written items entirely, and that is how sentence equivalence
+    // shipped unanswerable: it rendered as six single pick buttons, currentAnswer handed
+    // back one index, and the grader wanted a pair, so the item was marked wrong however
+    // well it was answered. This asserts that the keyed answer grades as correct for one
+    // item of every type the bank actually contains.
+    const kinds = await p.evaluate(() => {
+      const seen = {};
+      BANK.forEach(q => { const k = q.answerType || 'mc'; if (!seen[k]) seen[k] = q.id; });
+      return seen;
+    });
+    for (const kind of Object.keys(kinds).sort()) {
+      const graded = await p.evaluate((k) => {
+        const q = BANK.find(x => (x.answerType || 'mc') === k);
+        beginSession([q], 'drill');
+        if (k === 'tpa') session.tpa = [q.answer[0], q.answer[1]];
+        else if (k === 'se') q.answer.forEach(i => toggleSE(i));
+        else if (k === 'spr') session.spr = String(q.answer);
+        else if (k === 'gi') session.gi = q.statements.map(s => s.answer);
+        else if (k === 'ta') session.ta = q.statements.map(s => s.answer);
+        else selectChoice(q.answer);
+        const before = JSON.stringify(currentAnswer(q));
+        submitAnswer();
+        return { id: q.id, read: before, correct: session.pending ? session.pending.correct : null };
+      }, kind);
+      check(app + ' answer type ' + kind + ' reads the learner\'s answer back',
+            graded.read !== 'null' && graded.read !== undefined, graded.id + ' -> ' + graded.read);
+      check(app + ' answer type ' + kind + ' grades its key as correct (' + graded.id + ')',
+            graded.correct === true, String(graded.correct));
+    }
     check(app + ' threw no console errors across ' + names.length + ' schemas',
           errs.length === 0, errs.slice(0, 3).join(' | '));
-    console.log('  ' + app + ': ' + names.length + ' schemas rendered and graded');
+    console.log('  ' + app + ': ' + names.length + ' schemas and '
+                + Object.keys(kinds).length + ' answer types rendered and graded');
     await ctx.close();
   }
 
