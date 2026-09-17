@@ -184,6 +184,15 @@ body.focus header.app,body.focus footer.app{display:none}
 .nc-box.win{border-color:var(--status-success);background:var(--status-success-bg,#effaf3)}
 .nc-box.dim{opacity:.45}
 @media(max-width:520px){.mgrid{grid-template-columns:repeat(2,1fr)}.mtile{min-height:92px;font-size:12.5px;padding:10px 8px}.bz-opt{padding:13px 14px;font-size:14px}}
+#modal{position:fixed;inset:0;z-index:90;display:flex;align-items:center;justify-content:center;padding:20px}
+#modal[hidden]{display:none}
+.modal-back{position:absolute;inset:0;background:rgba(8,21,39,.5)}
+.modal-card{position:relative;background:var(--surface,#fff);border-radius:14px;max-width:620px;width:100%;max-height:82vh;overflow:auto;padding:20px 22px;box-shadow:0 18px 50px rgba(8,21,39,.28)}
+.modal-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:12px}
+.modal-head h2{font-size:19px;margin:0}
+.mtier{font-family:var(--font-display,inherit);font-size:9.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:2px 6px;border-radius:5px;margin-left:6px;vertical-align:middle;white-space:nowrap}
+.mdef{background:none;border:none;padding:0;font:inherit;color:inherit;cursor:help;text-decoration:underline dotted;text-underline-offset:3px}
+.mdef:hover{color:var(--text-heading)}
 </style></head><body>
 <header class="app"><div class="hwrap">
 <a class="wordmark" href="/" title="Start From Nowhere home"><svg viewBox="0 0 48 48" width="30" height="30" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#122B4E"/><path d="M13 33 22 22l6 5 8.5-10" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M29.5 16.5H37V24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Start From Nowhere</a>
@@ -205,6 +214,13 @@ body.focus header.app,body.focus footer.app{display:none}
 </main>
 <footer class="app">{{FOOTER_NOTE}}</footer>
 <div id="toast" role="status" aria-live="polite"></div>
+<div id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal-back" onclick="closeModal()"></div>
+  <div class="modal-card">
+    <div class="modal-head"><h2 id="modal-title"></h2><button id="modal-close" class="btn sm secondary" onclick="closeModal()" aria-label="Close">Close</button></div>
+    <div id="modal-body"></div>
+  </div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <!-- The item bank is a separate file on purpose. It is the largest part of the app and the
      part that changes most often, so keeping it out of the shell lets the browser cache each
@@ -269,6 +285,36 @@ const Cloud={ client:null, user:null, timer:null, status:'off',
 };
 // Analytics events (design/guidelines/data-analytics.md). Local ring buffer always; Supabase when signed in.
 function track(name,props){ if(!state.events) state.events=[]; const ev={name,props:props||{},ts:Date.now()}; state.events.push(ev); if(state.events.length>500) state.events.shift(); if(Cloud.user&&Cloud.client){ Cloud.client.from('events').insert({user_id:Cloud.user.id,name,exam:CURRENT_EXAM,props:props||{},platform:'web',app_version:APP_VERSION}).then(()=>{}); } }
+// ---------- modal ----------
+// Built rather than borrowed because the page ships no framework. Accessible by the
+// playbook's WCAG 2.2 AA principle: labelled by its own heading, focus moved in and
+// restored on close, Escape closes, focus trapped while open, and the background
+// marked inert to screen readers.
+let _modalReturn=null;
+function alertModal(title,bodyHtml){
+ const m=document.getElementById('modal'); if(!m) return;
+ _modalReturn=document.activeElement;
+ document.getElementById('modal-title').textContent=title;
+ document.getElementById('modal-body').innerHTML=bodyHtml;
+ m.hidden=false; document.body.style.overflow='hidden';
+ const close=document.getElementById('modal-close'); close.focus();
+}
+function closeModal(){
+ const m=document.getElementById('modal'); if(!m||m.hidden) return;
+ m.hidden=true; document.body.style.overflow='';
+ if(_modalReturn&&_modalReturn.focus) _modalReturn.focus();
+ _modalReturn=null;
+}
+document.addEventListener('keydown',function(e){
+ const m=document.getElementById('modal'); if(!m||m.hidden) return;
+ if(e.key==='Escape'){ closeModal(); return; }
+ if(e.key!=='Tab') return;
+ const f=m.querySelectorAll('button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])');
+ if(!f.length) return;
+ const first=f[0], last=f[f.length-1];
+ if(e.shiftKey&&document.activeElement===first){ e.preventDefault(); last.focus(); }
+ else if(!e.shiftKey&&document.activeElement===last){ e.preventDefault(); first.focus(); }
+});
 function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.style.display='block'; clearTimeout(t._h); t._h=setTimeout(()=>t.style.display='none',3200); }
 function esc(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 function fmtSecs(s){ s=Math.round(s); return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); }
@@ -1147,8 +1193,88 @@ async function renderAdminErrors(el,preview){ el.innerHTML='<div class="stack"><
    +'<li>Nothing here changes code. A cluster marked real is a diagnosis with its evidence attached; the fix still ships through a pull request a human reviewed.</li>'
  +'</ul></div>'
  +'</div>'; }
+// ---------- the metric catalog: the semantic layer for the admin console ----------
+// Adapted from the AI BI Platform Playbook, rules BR-D-1 and BR-D-2: every number an
+// admin sees originates from one certified definition, and that definition travels
+// with the number rather than living in someone's head. Before this existed, a tile
+// reading "Active users 7d" meant whatever the RPC happened to compute that week, and
+// two people could read the same figure two ways.
+//
+// Each record carries: what it means in a sentence, how it is computed, the grain it
+// is counted at, where the value comes from, who owns the definition, how fresh it is,
+// and a certification tier. Only Certified figures are quoted outside this console.
+//
+//   Certified  reviewed definition, computed in SQL from a single source, safe to quote
+//   Promoted   stable and reviewed, but derived or joined; check before quoting
+//   Draft      heuristic or new; useful for steering, not for a claim
+const METRIC_TIERS={certified:{label:'Certified',bg:'var(--status-success-bg)',fg:'var(--status-success)'},
+ promoted:{label:'Promoted',bg:'var(--status-info-bg)',fg:'var(--status-info)'},
+ draft:{label:'Draft',bg:'var(--status-warning-bg)',fg:'var(--status-warning)'}};
+const METRICS={
+ users_total:{label:'Accounts',unit:'accounts',tier:'certified',owner:'Product',cadence:'On load',
+  def:'Every account row that exists, including accounts that have never answered a question.',
+  formula:'count(*) from profiles',grain:'One row per account',src:'profiles table'},
+ users_new_7d:{label:'New Accounts, 7d',unit:'accounts',tier:'certified',owner:'Product',cadence:'On load',
+  def:'Accounts created in the last seven days, counted by creation timestamp in UTC.',
+  formula:'count(*) from profiles where created_at > now() - 7 days',grain:'One row per account',src:'profiles table'},
+ users_active_7d:{label:'Active Accounts, 7d',unit:'accounts',tier:'certified',owner:'Product',cadence:'On load',
+  def:'Accounts that answered at least one question in the last seven days. Signing in without answering does not count as active.',
+  formula:'count(distinct user_id) from attempts where ts > now() - 7 days',grain:'One row per account',src:'attempts table'},
+ users_paid:{label:'Paid Accounts',unit:'accounts',tier:'certified',owner:'Billing',cadence:'On load',
+  def:'Accounts on a Plus or Pro plan with a subscription Stripe currently reports as active or trialing. Cancelled accounts still inside their paid period are counted, because they still have access.',
+  formula:'count(*) from profiles where plan in (plus, pro) and sub_status in (active, trialing)',
+  grain:'One row per account',src:'profiles table, written by the Stripe webhook'},
+ attempts_total:{label:'Answers, All Time',unit:'answers',tier:'certified',owner:'Product',cadence:'On load',
+  def:'Every question answered, across every mode, including practice, drills, games and mock sections.',
+  formula:'count(*) from attempts',grain:'One row per answered question',src:'attempts table'},
+ attempts_7d:{label:'Answers, 7d',unit:'answers',tier:'certified',owner:'Product',cadence:'On load',
+  def:'Questions answered in the last seven days, all modes.',
+  formula:'count(*) from attempts where ts > now() - 7 days',grain:'One row per answered question',src:'attempts table'},
+ accuracy_7d:{label:'Accuracy, 7d',unit:'percent',tier:'promoted',owner:'Product',cadence:'On load',
+  def:'Share of answers marked correct in the last seven days, pooled across every user, exam and difficulty. It moves when the mix of who is practising moves, so it is a health signal rather than a measure of learning.',
+  formula:'sum(correct) / count(*) from attempts where ts > now() - 7 days',
+  grain:'One row per answered question',src:'attempts table'},
+ skill_difficulty:{label:'Accuracy By Skill',unit:'percent',tier:'promoted',owner:'Content',cadence:'On load',
+  def:'Accuracy per tracked skill across all users, shown once a skill has at least ten answers. Low accuracy can mean a hard skill or a bad batch of items, and the two are told apart in the item view.',
+  formula:'sum(correct) / count(*) grouped by skill, having count(*) >= 10',
+  grain:'One row per skill',src:'attempts table joined to the bank'},
+ item_flags:{label:'Item Quality Flags',unit:'items',tier:'draft',owner:'Content',cadence:'On load',
+  def:'Items with at least eight answers whose accuracy is under 25 percent or over 95 percent. The low end usually means the item is broken, ambiguous or mis-keyed; the high end means it is easier than its difficulty label claims. It is a shortlist to inspect, not a verdict.',
+  formula:'accuracy per item where answers >= 8 and (accuracy < 0.25 or accuracy > 0.95)',
+  grain:'One row per bank item',src:'attempts table joined to the bank'},
+ sessions_by_mode:{label:'Rounds By Mode, 30d',unit:'rounds',tier:'certified',owner:'Product',cadence:'On load',
+  def:'Completed rounds in the last thirty days grouped by the mode they were started in.',
+  formula:'count(*) from sessions grouped by mode where ts > now() - 30 days',
+  grain:'One row per completed round',src:'sessions table'},
+ events_7d:{label:'Product Events, 7d',unit:'events',tier:'certified',owner:'Product',cadence:'On load',
+  def:'Named in-app events in the last seven days. These are product actions such as starting a round or finishing the wizard, not page views; page traffic is a separate source on the Traffic tab.',
+  formula:'count(*) from app_events grouped by name where ts > now() - 7 days',
+  grain:'One row per event',src:'app_events table'}};
+function metricTier(id){ const m=METRICS[id]; return m?METRIC_TIERS[m.tier]:null; }
+function metricBadge(id){ const t=metricTier(id); if(!t) return '';
+ return '<span class="mtier" style="background:'+t.bg+';color:'+t.fg+'">'+t.label+'</span>'; }
+// A tile that carries its own definition. Clicking the label opens the catalog entry,
+// so "what does this actually count" is one click away rather than a question for Slack.
+function mtile(id,v,d,tone){ const m=METRICS[id]; if(!m) return tile(id,v,d,tone);
+ return '<div class="tile"><div class="l"><button class="mdef" onclick="metricDetail(\'' +id+ '\')" '
+  +'title="What this counts">'+esc(m.label)+'</button>'+metricBadge(id)+'</div>'
+  +'<div class="v">'+v+(d?'<span class="d '+tone+'">'+d+'</span>':'')+'</div></div>'; }
+function metricDetail(id){ const m=METRICS[id]; if(!m) return; const t=METRIC_TIERS[m.tier];
+ const asOf=(window._bi&&window._bi.generated_at)?new Date(window._bi.generated_at).toLocaleString():'this page load';
+ alertModal(m.label,'<div class="stack-4">'
+  +'<p style="margin:0">'+esc(m.def)+'</p>'
+  +'<table><tbody>'
+  +'<tr><td>Certification</td><td><span class="mtier" style="background:'+t.bg+';color:'+t.fg+'">'+t.label+'</span></td></tr>'
+  +'<tr><td>Formula</td><td class="mono small">'+esc(m.formula)+'</td></tr>'
+  +'<tr><td>Grain</td><td class="small">'+esc(m.grain)+'</td></tr>'
+  +'<tr><td>Source</td><td class="small">'+esc(m.src)+'</td></tr>'
+  +'<tr><td>Unit</td><td class="small">'+esc(m.unit)+'</td></tr>'
+  +'<tr><td>Owner</td><td class="small">'+esc(m.owner)+'</td></tr>'
+  +'<tr><td>Refreshed</td><td class="small">'+esc(m.cadence)+'</td></tr>'
+  +'<tr><td>As of</td><td class="small">'+esc(asOf)+'</td></tr>'
+  +'</tbody></table></div>'); }
 let adminTab='bi';
-function adminTabsHtml(){ const T=[['bi','Overview'],['rev','Revenue'],['err','Errors'],['users','Users'],['traffic','Traffic'],['mod','Moderation'],['crm','Partners CRM']];
+function adminTabsHtml(){ const T=[['bi','Overview'],['learn','Learning'],['catalog','Metric Catalog'],['rev','Revenue'],['err','Errors'],['users','Users'],['traffic','Traffic'],['mod','Moderation'],['crm','Partners CRM'],['posture','Posture']];
  return '<div class="row" style="gap:6px;flex-wrap:wrap">'+T.map(t=>'<button class="btn sm'+(adminTab===t[0]?'':' secondary')+'" onclick="adminTab=\''+t[0]+'\';renderAdmin()">'+t[1]+'</button>').join('')+'</div>'; }
 async function renderAdmin(){ const el=document.getElementById('v-admin'); const preview=location.hash==='#admin-preview';
  if(!preview&&(!Cloud.user||!Cloud.isAdmin)){ el.innerHTML='<div class="narrow stack"><div class="card p8" style="text-align:center"><div class="card-title">Admin</div><p class="muted" style="margin-top:8px">Business intelligence is available to admin accounts. Sign in on the Account tab with an admin email.</p></div></div>'; return; }
@@ -1158,6 +1284,9 @@ async function renderAdmin(){ const el=document.getElementById('v-admin'); const
  if(adminTab==='users'){ return renderAdminUsers(el,preview); }
  if(adminTab==='traffic'){ return renderAdminTraffic(el,preview); }
  if(adminTab==='mod'){ return renderAdminMod(el,preview); }
+ if(adminTab==='catalog'){ return renderAdminCatalog(el); }
+ if(adminTab==='posture'){ return renderAdminPosture(el); }
+ if(adminTab==='learn'){ return renderAdminLearning(el,preview); }
  el.innerHTML='<div class="stack"><div class="empty">Loading business intelligence...</div></div>';
  let d=ADMIN_SAMPLE, note='Sample data preview. Sign in as an admin for live numbers.';
  if(!preview){ try{ const {data,error}=await Cloud.client.rpc('admin_bi'); if(error) throw error; d=data; note=null; }
@@ -1169,26 +1298,188 @@ async function renderAdmin(){ const el=document.getElementById('v-admin'); const
  el.innerHTML='<div class="stack">'
  +'<div class="row" style="align-items:flex-end;justify-content:space-between"><div><h1 style="font-size:var(--text-2xl);font-weight:700">Business intelligence</h1><p class="muted" style="margin:6px 0 0">Product and revenue data from the app database. Site-wide page traffic lives in the Traffic tab; search queries in Google Search Console.</p></div>'+adminTabsHtml()+'</div>'
  +(note?'<div class="card p5" style="background:var(--status-warning-bg);border-color:var(--amber-100)"><span class="small">'+note+'</span></div>':'')
+ +'<div class="small muted">Figures as of '+(d.generated_at?new Date(d.generated_at).toLocaleString():'this page load')
+ +'. Every tile and table heading below is a link to what it counts, how it is computed and how far it can be trusted. '
+ +'<button class="mdef" onclick="openCatalogTab()">Open the metric catalog</button>.</div>'
  +'<div class="card" style="background:var(--brand-accent-soft);border-color:var(--gold-100)"><div class="card-title" style="margin-bottom:8px">What the numbers say</div><ul style="margin:0;padding-left:20px;font-size:14.5px">'+adminInsights(d).map(x=>'<li>'+x+'</li>').join('')+'</ul></div>'
  +'<div class="tiles" style="grid-template-columns:repeat(3,1fr)">'
- +tile('Accounts',d.users_total,(d.users_new_7d?'+'+d.users_new_7d+' this week':''),'up')
- +tile('Active users · 7d',d.users_active_7d||0,'','')
- +tile('Paid accounts',d.users_paid||0,'','')
- +tile('Answers · all time',d.attempts_total,'','')
- +tile('Answers · 7d',d.attempts_7d||0,'','')
- +tile('Accuracy · 7d',(d.accuracy_7d!=null?Math.round(d.accuracy_7d*100)+'%':'n/a'),'','')
+ +mtile('users_total',d.users_total,(d.users_new_7d?'+'+d.users_new_7d+' this week':''),'up')
+ +mtile('users_active_7d',d.users_active_7d||0,'','')
+ +mtile('users_paid',d.users_paid||0,'','')
+ +mtile('attempts_total',d.attempts_total,'','')
+ +mtile('attempts_7d',d.attempts_7d||0,'','')
+ +mtile('accuracy_7d',(d.accuracy_7d!=null?Math.round(d.accuracy_7d*100)+'%':'n/a'),'','')
  +'</div>'
  +'<div class="grid2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">'
  +'<div class="card"><div class="card-head"><span class="card-title">Answers per day · 30d</span><button class="btn sm secondary" onclick="csvDownload(\'answers-per-day\',window._bi.attempts_by_day)">CSV</button></div>'+adminBars(d.attempts_by_day,'n')+'</div>'
  +'<div class="card"><div class="card-head"><span class="card-title">Signups per day · 30d</span><button class="btn sm secondary" onclick="csvDownload(\'signups-per-day\',window._bi.signups_by_day)">CSV</button></div>'+adminBars(d.signups_by_day,'n')+'</div>'
  +'</div>'
  +'<div class="grid2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">'
- +'<div class="card"><div class="card-head"><span class="card-title">Rounds by mode · 30d</span></div><table><thead><tr><th>Mode</th><th class="num">Rounds</th></tr></thead><tbody>'+modeRows+'</tbody></table></div>'
- +'<div class="card"><div class="card-head"><span class="card-title">Events · 7d</span></div><table><thead><tr><th>Event</th><th class="num">Count</th></tr></thead><tbody>'+evRows+'</tbody></table></div>'
+ +'<div class="card"><div class="card-head"><span class="card-title"><button class="mdef" onclick="metricDetail(\'sessions_by_mode\')">Rounds By Mode, 30d</button></span>'+metricBadge('sessions_by_mode')+'</div><table><thead><tr><th>Mode</th><th class="num">Rounds</th></tr></thead><tbody>'+modeRows+'</tbody></table></div>'
+ +'<div class="card"><div class="card-head"><span class="card-title"><button class="mdef" onclick="metricDetail(\'events_7d\')">Product Events, 7d</button></span>'+metricBadge('events_7d')+'</div><table><thead><tr><th>Event</th><th class="num">Count</th></tr></thead><tbody>'+evRows+'</tbody></table></div>'
  +'</div>'
- +'<div class="card"><div class="card-head"><span class="card-title">Hardest skills, all users</span><button class="btn sm secondary" onclick="csvDownload(\'skill-difficulty\',window._bi.skill_difficulty)">CSV</button></div><table><thead><tr><th>Skill</th><th class="num">Answers</th><th class="num">Accuracy</th></tr></thead><tbody>'+skRows+'</tbody></table></div>'
- +'<div class="card"><div class="card-head"><span class="card-title">Item quality flags</span><button class="btn sm secondary" onclick="csvDownload(\'item-flags\',window._bi.item_flags)">CSV</button></div><table><thead><tr><th>Item</th><th class="num">Answers</th><th class="num">Accuracy</th><th class="num">Median time</th></tr></thead><tbody>'+itRows+'</tbody></table><div class="small muted" style="margin-top:8px">Under 25%: probably broken, ambiguous, or mis-keyed. Over 95%: too easy for its difficulty label. Fix in the bank files and rebuild.</div></div>'
+ +'<div class="card"><div class="card-head"><span class="card-title"><button class="mdef" onclick="metricDetail(\'skill_difficulty\')">Accuracy By Skill</button></span>'+metricBadge('skill_difficulty')+'<button class="btn sm secondary" onclick="csvDownload(\'skill-difficulty\',window._bi.skill_difficulty)">CSV</button></div><table><thead><tr><th>Skill</th><th class="num">Answers</th><th class="num">Accuracy</th></tr></thead><tbody>'+skRows+'</tbody></table></div>'
+ +'<div class="card"><div class="card-head"><span class="card-title"><button class="mdef" onclick="metricDetail(\'item_flags\')">Item Quality Flags</button></span>'+metricBadge('item_flags')+'<button class="btn sm secondary" onclick="csvDownload(\'item-flags\',window._bi.item_flags)">CSV</button></div><table><thead><tr><th>Item</th><th class="num">Answers</th><th class="num">Accuracy</th><th class="num">Median time</th></tr></thead><tbody>'+itRows+'</tbody></table><div class="small muted" style="margin-top:8px">Under 25%: probably broken, ambiguous, or mis-keyed. Over 95%: too easy for its difficulty label. Fix in the bank files and rebuild.</div></div>'
  +'</div>'; }
+// ---------- metric catalog tab ----------
+// The catalog rendered as a page, so the definitions are reviewable in one place
+// rather than only reachable one tile at a time.
+function openCatalogTab(){ adminTab='catalog'; renderAdmin(); }
+function renderAdminCatalog(el){
+ const rows=Object.keys(METRICS).map(function(id){ const m=METRICS[id], t=METRIC_TIERS[m.tier];
+  return '<tr><td><button class="mdef" onclick="metricDetail(\''+id+'\')"><b>'+esc(m.label)+'</b></button>'
+   +'<div class="small muted" style="margin-top:3px;max-width:52ch">'+esc(m.def)+'</div></td>'
+   +'<td><span class="mtier" style="background:'+t.bg+';color:'+t.fg+'">'+t.label+'</span></td>'
+   +'<td class="mono small">'+esc(m.formula)+'</td>'
+   +'<td class="small">'+esc(m.grain)+'</td>'
+   +'<td class="small">'+esc(m.owner)+'</td></tr>'; }).join('');
+ const counts={certified:0,promoted:0,draft:0};
+ Object.keys(METRICS).forEach(function(id){ counts[METRICS[id].tier]++; });
+ el.innerHTML='<div class="stack">'
+  +'<div class="row" style="align-items:flex-end;justify-content:space-between"><div>'
+  +'<h1 style="font-size:var(--text-2xl);font-weight:700">Metric Catalog</h1>'
+  +'<p class="muted" style="margin:6px 0 0">One definition per number, and the number carries it. '
+  +'Nothing on this console computes a figure any other way.</p></div>'+adminTabsHtml()+'</div>'
+  +'<div class="tiles" style="grid-template-columns:repeat(3,1fr)">'
+  +tile('Certified',counts.certified,'safe to quote','')
+  +tile('Promoted',counts.promoted,'check before quoting','')
+  +tile('Draft',counts.draft,'steering only','')
+  +'</div>'
+  +'<div class="card"><table><thead><tr><th>Metric</th><th>Tier</th><th>Formula</th><th>Grain</th><th>Owner</th></tr></thead>'
+  +'<tbody>'+rows+'</tbody></table></div>'
+  +'<div class="card stack-4"><div class="card-title">Why This Exists</div>'
+  +'<p class="small" style="margin:0">A dashboard where two tiles disagree is worse than no dashboard, and the usual cause is '
+  +'not a bug: it is two people counting slightly different things and both being right. So each figure here has exactly one '
+  +'definition, written down, owned by someone, and reachable from the number itself.</p>'
+  +'<p class="small" style="margin:0">The tier says how far a figure travels. <b>Certified</b> means a reviewed definition '
+  +'computed in SQL from one source, and it is the only tier quoted outside this console. <b>Promoted</b> is stable but '
+  +'derived or joined, so it is worth a second look before it goes in front of anyone. <b>Draft</b> is a heuristic: useful '
+  +'for deciding what to look at next, not for making a claim. Item quality flags are Draft on purpose, because an item '
+  +'with low accuracy might be broken or might just be hard, and only reading it tells you which.</p></div>'
+  +'</div>'; }
+
+// ---------- learning tab ----------
+// The playbook's third learning loop, applied to a product rather than a client:
+// what users actually do becomes proposals a human accepts or declines, and agents
+// earn autonomy one rung at a time. Nothing here changes the product by itself.
+const LADDER=[
+ {rung:0,name:'Observe',can:'Read and report. No proposals.',
+  now:'Traffic and event collection, error beacon',promote:'Signal is stable for two weeks'},
+ {rung:1,name:'Suggest',can:'Raise proposals and flags for a human to act on.',
+  now:'Item quality flags, skill gaps, error clustering',promote:'Most suggestions accepted without edit over a month'},
+ {rung:2,name:'Draft',can:'Produce the artifact; a human reviews and ships it.',
+  now:'Blog drafts, item rewrites',promote:'Shipped with light edits, no factual corrections, for a defined period'},
+ {rung:3,name:'Act With Approval',can:'Execute after a one-click approval.',
+  now:'Nothing yet',promote:'Clean diffs on every run across two cycles'},
+ {rung:4,name:'Act Alone',can:'Execute routine rules-based work and report.',
+  now:'Nightly build and bank regeneration',promote:'Routine rules-based work only; judgement never reaches this rung'}];
+function proposalsFrom(d){
+ // Derived from what the data already shows, never invented. Each proposal names its
+ // evidence so the reader can disagree with it.
+ const out=[];
+ (d.item_flags||[]).forEach(function(x){
+  const low=x.acc<0.25;
+  out.push({id:'item:'+x.qid,kind:'Content',
+   title:(low?'Inspect ':'Re-label ')+x.qid,
+   why:low?('Answered '+x.n+' times at '+Math.round(x.acc*100)+' percent accuracy. Below chance on a five choice item usually means a mis-keyed answer or an ambiguous stem, not a hard question.')
+          :('Answered '+x.n+' times at '+Math.round(x.acc*100)+' percent accuracy, which is easier than its difficulty label claims. The adaptive engine will over-reward it.'),
+   act:low?'Read the item and its key in the bank file':'Lower its difficulty in the bank file',
+   rung:1});});
+ (d.skill_difficulty||[]).filter(function(x){ return x.n>=10&&x.acc<0.45; }).forEach(function(x){
+  const sk=SKILLS.find(function(k){ return k.id===x.skill; });
+  out.push({id:'skill:'+x.skill,kind:'Content',
+   title:'Add easier items to '+(sk?sk.label:x.skill),
+   why:'Accuracy is '+Math.round(x.acc*100)+' percent across '+x.n+' answers. A routed-down module cannot be filled with items nobody gets right, so the easy end of this skill is thin.',
+   act:'Write or generate items at difficulty 1 and 2 for this skill',rung:1});});
+ const ev=d.events_by_name_7d||{};
+ if(ev.round_started&&ev.round_completed!==undefined){
+  const drop=1-(ev.round_completed/Math.max(ev.round_started,1));
+  if(drop>0.35) out.push({id:'flow:round-abandon',kind:'Product',
+   title:'Rounds are being abandoned',
+   why:Math.round(drop*100)+' percent of rounds started in the last seven days were not finished ('+ev.round_started+' started, '+(ev.round_completed||0)+' completed). That is a length or difficulty problem, and the engine cannot tell which from attempts alone.',
+   act:'Compare abandonment by mode and by round length before changing anything',rung:1});}
+ return out; }
+async function renderAdminLearning(el,preview){
+ el.innerHTML='<div class="stack"><div class="empty">Loading learning signals...</div></div>';
+ let d=window._bi||ADMIN_SAMPLE;
+ if(!preview&&!window._bi){ try{ const r=await Cloud.client.rpc('admin_bi'); if(r.error) throw r.error; d=r.data; window._bi=d; }catch(e){ d=ADMIN_SAMPLE; } }
+ const props=proposalsFrom(d);
+ const propRows=props.length?props.map(function(p){
+  return '<div class="card stack-4" style="border-left:3px solid var(--status-info)">'
+   +'<div class="row" style="justify-content:space-between;align-items:flex-start;gap:10px">'
+   +'<div><span class="mtier" style="background:var(--status-info-bg);color:var(--status-info)">'+esc(p.kind)+'</span> '
+   +'<b>'+esc(p.title)+'</b></div>'
+   +'<span class="small muted">Rung '+p.rung+'</span></div>'
+   +'<p class="small" style="margin:0"><b>Evidence.</b> '+esc(p.why)+'</p>'
+   +'<p class="small muted" style="margin:0"><b>Suggested next step.</b> '+esc(p.act)+'</p></div>'; }).join('')
+  :'<div class="card"><p class="small muted" style="margin:0">No proposals right now. That means no item is flagged, no tracked skill is under 45 percent accuracy, and round completion is holding. Proposals appear here when the data gives a reason for one.</p></div>';
+ const ladderRows=LADDER.map(function(r){
+  return '<tr><td class="num">'+r.rung+'</td><td><b>'+esc(r.name)+'</b></td><td class="small">'+esc(r.can)+'</td>'
+   +'<td class="small">'+esc(r.now)+'</td><td class="small muted">'+esc(r.promote)+'</td></tr>'; }).join('');
+ el.innerHTML='<div class="stack">'
+  +'<div class="row" style="align-items:flex-end;justify-content:space-between"><div>'
+  +'<h1 style="font-size:var(--text-2xl);font-weight:700">Learning</h1>'
+  +'<p class="muted" style="margin:6px 0 0">What the product has noticed, and what it proposes doing about it. '
+  +'Everything here is a proposal. Nothing on this tab changes the product.</p></div>'+adminTabsHtml()+'</div>'
+  +'<div class="card stack-4" style="background:var(--brand-accent-soft);border-color:var(--gold-100)">'
+  +'<div class="card-title">How This Loop Works</div>'
+  +'<p class="small" style="margin:0">Every answer, round and error is a signal. Deterministic rules turn repeated signals '
+  +'into the proposals below, each carrying the evidence that produced it. A person accepts or declines. An accepted '
+  +'proposal becomes a change through the ordinary pull request path, with the same tests and scanners as any other change, '
+  +'which is why an accept here is a decision rather than a deployment.</p>'
+  +'<p class="small" style="margin:0">Agents earn autonomy one rung at a time on their record, and a material error demotes '
+  +'them two. Work that involves judgement, which is anything a user would read as our opinion, never rises above Draft.</p></div>'
+  +'<h2 style="font-size:var(--text-lg);font-weight:700;margin:4px 0 0">Open Proposals ('+props.length+')</h2>'
+  +propRows
+  +'<div class="card"><div class="card-head"><span class="card-title">Automation Ladder</span></div>'
+  +'<table><thead><tr><th class="num">Rung</th><th>Name</th><th>May Do</th><th>Here Today</th><th>Promotes When</th></tr></thead>'
+  +'<tbody>'+ladderRows+'</tbody></table>'
+  +'<p class="small muted" style="margin:10px 0 0">Publishing to users caps at Act With Approval. Nothing reaches a user '
+  +'without a person naming themselves as the one who shipped it.</p></div>'
+  +'<div class="card stack-4"><div class="card-title">What We Collect, And What We Refuse To</div>'
+  +'<p class="small" style="margin:0"><b>Collected.</b> Which skills are practised and how accurately, how long answers take, '
+  +'which modes are chosen, which pages are opened, and the errors the app throws. All of it is disclosed on the privacy page.</p>'
+  +'<p class="small" style="margin:0"><b>Refused.</b> No third party data is bought or appended to anyone. Demographics are '
+  +'optional, self reported, and asked for once on the Account page. Raw IP addresses are never stored; a salted hash is '
+  +'written by a database trigger and the address is discarded. Nothing here trains a foundation model.</p></div>'
+  +'</div>'; }
+
+// ---------- posture tab ----------
+function renderAdminPosture(el){
+ const gates=[
+  ['Every build','python3 src/build.py','Parses every inline script, fails on an em or en dash in any hand edited file, and checks advertised counts against the real bank.'],
+  ['Every build','node src/test.js','Bank integrity on all five exams, answer position balance, length bias per section, routing and score band simulation.'],
+  ['Every build','validate_schools.py and validate_colleges.py','Source, year and URL on every published figure; banned sources; plausibility ranges; the rate stored as a fraction trap.'],
+  ['Before shipping','smoke_billing.js','The free plan never asks for a card, in both auth states, and the account card tells the truth in six subscription states.'],
+  ['Before shipping','smoke_pages.js','Content pages render, state survives a reload, exports produce a real file, no horizontal overflow at 390 pixels.'],
+  ['Before shipping','Headless Chromium over HTTP','Not file protocol. The bank loads from its own path, so a file run tests a page whose bank never arrives.']];
+ const rules=[
+  ['Never publish an unverified figure','Every school and college number carries source, year and a URL. Anything unverifiable is null and renders as a dash.'],
+  ['Never report an unofficial score','The SAT app reports no 400 to 1600 score because the equating tables are not public, and the GRE writing view refuses to score an essay.'],
+  ['Secrets never enter the repository','Stripe and webhook secrets live only in Supabase Edge Function secrets.'],
+  ['Revoke from PUBLIC, not just the role','Revoking EXECUTE from anon or authenticated does nothing while PUBLIC still holds it.'],
+  ['Agents propose, humans approve','Nothing on the Learning tab changes the product. An accepted proposal ships as an ordinary reviewed change.'],
+  ['Two scopes, one gate','Nothing a user sees is published without a person naming themselves as the one who shipped it.']];
+ el.innerHTML='<div class="stack">'
+  +'<div class="row" style="align-items:flex-end;justify-content:space-between"><div>'
+  +'<h1 style="font-size:var(--text-2xl);font-weight:700">Posture</h1>'
+  +'<p class="muted" style="margin:6px 0 0">The gates every change passes, and the rules we hold ourselves to. '
+  +'Written down so a claim about how this is built can be checked rather than believed.</p></div>'+adminTabsHtml()+'</div>'
+  +'<div class="card"><div class="card-head"><span class="card-title">Blocking Gates</span></div>'
+  +'<table><thead><tr><th>When</th><th>Gate</th><th>What It Catches</th></tr></thead><tbody>'
+  +gates.map(function(g){ return '<tr><td class="small">'+esc(g[0])+'</td><td class="mono small">'+esc(g[1])+'</td><td class="small">'+esc(g[2])+'</td></tr>'; }).join('')
+  +'</tbody></table>'
+  +'<p class="small muted" style="margin:10px 0 0">A deterministic scanner is the gate, not a review by a model. '
+  +'A model can be talked out of a finding; a failing exit code cannot.</p></div>'
+  +'<div class="card"><div class="card-head"><span class="card-title">Standing Rules</span></div>'
+  +'<table><tbody>'
+  +rules.map(function(r){ return '<tr><td style="width:34%"><b>'+esc(r[0])+'</b></td><td class="small">'+esc(r[1])+'</td></tr>'; }).join('')
+  +'</tbody></table></div>'
+  +'<div class="card stack-4"><div class="card-title">Known Gaps</div>'
+  +'<p class="small" style="margin:0">Recorded rather than quietly carried. A real checkout has never been processed end to '
+  +'end. The legal pages have not been read by counsel. Supabase leaked password protection is still off. Twenty two of the '
+  +'forty six tracked skills hold fewer than 500 items, and they are the passage and argument based ones.</p></div>'
+  +'</div>'; }
 // ---------- partners CRM (admin-only tables crm_contacts / crm_notes) ----------
 const CRM_STAGES=['lead','contacted','in_talks','agreed','active','passed'];
 const CRM_TYPES=['tutor','partner','community','affiliate','school','other'];
