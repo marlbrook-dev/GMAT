@@ -38,23 +38,24 @@
 <div class="hero"><div class="wrap">
 <p class="eyebrow">Updated {{UPDATED}}</p>
 <h1>College Rankings 2026</h1>
-<p>{{N}} four-year colleges scored on what actually happens to students: whether they graduate, what they earn, what it costs, and who gets in the door. Every figure comes from the US Department of Education College Scorecard and links back to it.</p>
+<p>{{N}} four-year colleges, ranked in four lists rather than one, because a liberal arts college and a research university are not doing the same job. Each is scored on what actually happens to students: whether they graduate and what they earn. Every figure comes from the US Department of Education College Scorecard and links back to it.</p>
 </div></div>
 <div class="wrap">
 <div class="wgrid">
-<div class="wcard"><div class="w">30%</div><div class="l">Completion</div><p>Six-year graduation rate and first-year retention. Does the school get students through.</p></div>
-<div class="wcard"><div class="w">25%</div><div class="l">Earnings</div><p>Median earnings ten years after entry, across everyone who enrolled.</p></div>
-<div class="wcard"><div class="w">25%</div><div class="l">Cost and Debt</div><p>Average net price, and median graduate debt measured against those earnings.</p></div>
-<div class="wcard"><div class="w">20%</div><div class="l">Access</div><p>Share of students receiving Pell grants, so serving low-income students counts for something.</p></div>
+<div class="wcard"><div class="w">50%</div><div class="l">Completion</div><p>Six-year graduation rate and first-year retention. Does the school get students through.</p></div>
+<div class="wcard"><div class="w">40%</div><div class="l">Earnings</div><p>Median earnings ten years after entry, across everyone who enrolled.</p></div>
+<div class="wcard"><div class="w">10%</div><div class="l">Access</div><p>Share of students receiving Pell grants, so serving low-income students counts for something.</p></div>
+<div class="wcard"><div class="w">0%</div><div class="l">Price</div><p>Net price, tuition and debt are on every row and never scored. A price is what a school charges, not what it does for you.</p></div>
 </div>
-<div class="caveat"><strong>Two things to know before you read the table.</strong>
+<div class="caveat"><strong>Three things to know before you read the table.</strong>
+Ranks run <strong>within a category</strong>, so a rank of 1 means first among the schools doing that job, not first in the country. Pick a category below.
 Admission rate and test scores are shown on every row and are <strong>deliberately not scored</strong>: rewarding a school for rejecting people measures demand, not teaching.
-And net price for a public university is the <strong>in-state</strong> figure, because that is the only one the Scorecard publishes. Public institutions therefore score better on cost than an out-of-state student would actually experience; if you would pay out-of-state, read the tuition columns instead of the cost component.
+And <strong>price is not scored either</strong>, though it is on every row: net price for a public university is the in-state figure, the only one the Scorecard publishes, so read the tuition columns if you would pay out-of-state.
 <a href="/colleges/methodology/">Full methodology</a>.</div>
 {{CONTROLS}}
 {{TABLE}}
 </div>
 {{SITE_FOOTER}}
-<script>window.__COLS__={{COLS}};window.__COLLEGES__={{DATA}};</script>
+<script>window.__COLS__={{COLS}};window.__COLLEGES__={{DATA}};window.__CATS__={{CATS_JSON}};</script>
 <script>{{APP_JS}}</script>
 </body></html>

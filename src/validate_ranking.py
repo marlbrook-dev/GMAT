@@ -76,6 +76,12 @@ NOISE = re.compile(
     r'\b(?:the|at|of|in|and|a|suny|cuny|univ|university|universities|college|colleges|'
     r'institute|institution|main|campus|city|new york|ny)\b')
 
+ABBREV = {
+    'poly': 'polytechnic', 'univ': 'university', 'u': 'university',
+    'st': 'state', 'coll': 'college', 'inst': 'institute', 'tech': 'technology',
+    'intl': 'international', 'sci': 'science', 'agri': 'agricultural',
+}
+
 STATE_WORDS = {
     'ca': 'california', 'ny': 'new york', 'tx': 'texas', 'pa': 'pennsylvania',
     'il': 'illinois', 'nc': 'north carolina', 'sc': 'south carolina',
@@ -100,12 +106,29 @@ def norm(name):
     n = n.replace('&', ' and ').replace('.', ' ')
     n = re.sub(r'[^a-z0-9]+', ' ', n).strip()
     n = re.sub(r'\s+', ' ', n).strip()
+    # Publishers abbreviate hard to fit a column: "CA State Poly. Univ., Pomona" and
+    # "CA Poly. St. U., San Luis Obispo" both failed to match schools that are in the
+    # library, which showed up as three of their master's top 25 looking absent.
+    n = ' '.join(ABBREV.get(w, w) for w in n.split())
     # "MA Institute of Technology" and "CA State University" use the postal code as a word
     n = ' '.join(STATE_WORDS.get(w, w) for w in n.split())
     n = ALIASES.get(n, n)
     n = NOISE.sub(' ', n)
     toks = sorted(set(w for w in n.split() if w))
     return ' '.join(toks)
+
+
+# Which published list covers each of our categories. Baccalaureate colleges have no
+# counterpart here because neither publisher we can reach ranks them as a group.
+CATEGORY_REFS = [
+    ("national", "National Universities",
+     ("times_higher_education", "washington_monthly_national")),
+    ("liberal-arts", "Liberal Arts Colleges",
+     ("washington_monthly_liberal_arts",)),
+    ("masters", "Master's Universities",
+     ("washington_monthly_masters", "washington_monthly_national")),
+    ("baccalaureate", "Baccalaureate Colleges", ()),
+]
 
 
 def load_reference():
@@ -163,6 +186,38 @@ def report(ranked, stream=sys.stdout):
     stream.write("  %-12s %7d%% %7d%% %7d%%   in a published top N\n"
                  % ("agreement", agr[0], agr[1], agr[2]))
     results["recognised"], results["agreement"] = rec, agr
+
+    # Per category, against the publisher covering the same kind of institution.
+    #
+    # These are pooled rather than compared list to list, because the publishers and
+    # the Scorecard disagree about which list some schools belong in: Carnegie now
+    # classifies Cal State Long Beach and James Madison as doctoral, so they sit in
+    # our national list while Washington Monthly still files them under master's.
+    # Comparing our master's top 25 to theirs positionally reads as 8 percent
+    # agreement, almost all of which is that mismatch rather than a disagreement
+    # about quality.
+    cats = {}
+    for s in ranked:
+        cats.setdefault(s.get("sfn_category"), []).append(norm(s["name"]))
+    if len(cats) > 1:
+        stream.write("\n  by category, against the publisher covering that kind of school\n")
+        for key, label, counterparts in CATEGORY_REFS:
+            members = cats.get(key) or []
+            if not members:
+                continue
+            pool = set()
+            for ck in counterparts:
+                entry = ref["lists"].get(ck)
+                if entry:
+                    pool |= {norm(x) for x in entry["names"][:25]}
+            if not pool:
+                stream.write("  %-24s %4d ranked   no published counterpart captured\n"
+                             % (label, len(members)))
+                continue
+            hit = sum(1 for x in members[:25] if x in pool)
+            stream.write("  %-24s %4d ranked   top 25 agreement %3d%%\n"
+                         % (label, len(members), hit * 4))
+            results.setdefault("by_category", {})[key] = hit * 4
 
     # Ranking by selectivity is the cheap way to agree with everybody, and the one
     # thing this score refuses to do. A sharp move here means a weight change went

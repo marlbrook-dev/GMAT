@@ -168,6 +168,14 @@ def components(s, dist):
 
 def unranked_reason(s, comps):
     """Why a school is listed but not ranked, in words a reader can check."""
+    cat = s.get("sfn_category")
+    if cat == SPECIAL:
+        return ("Special focus institution, concentrated in a single field. It is "
+                "listed with everything the Scorecard reports but not ranked, because "
+                "it shares no standard with the colleges in the four ranked lists.")
+    if cat is None:
+        return ("The College Scorecard carries no Carnegie classification for this "
+                "school, so there is no category to rank it in.")
     if s.get("health_special_focus"):
         return ("Special focus medical or health professions institution: its earnings "
                 "reflect a mostly graduate professional student body, so it is not "
@@ -206,22 +214,101 @@ def score(s, dist):
     return round(total / wsum, 1), comps
 
 
+# --- categories ------------------------------------------------------------------
+# Every publisher splits the universe before ranking it, and for the same reason:
+# a liberal arts college with 1,800 undergraduates and no doctoral programs is not
+# doing the same job as a research university with 45,000, so a single table ranks
+# them against a standard neither was built for. Ranking all 1,408 together put Cal
+# State Long Beach 9th on the old weighting, while Washington Monthly has it 2nd
+# among master's universities, which is the more useful fact about it.
+#
+# The split follows the Carnegie Basic classification, which is what the publishers
+# use and what the Scorecard already carries for every school, so no judgement of
+# ours decides which list a college appears in.
+CATEGORIES = [
+    ("national", "National Universities",
+     ("Doctoral, very high research", "Doctoral, high research",
+      "Doctoral, professional"),
+     "Doctoral institutions, which award research and professional doctorates "
+     "alongside their undergraduate programs."),
+    ("liberal-arts", "Liberal Arts Colleges",
+     ("Baccalaureate, arts and sciences",),
+     "Baccalaureate colleges where the arts and sciences award at least half the "
+     "degrees."),
+    ("masters", "Master's Universities",
+     ("Master's, larger programs", "Master's, medium programs",
+      "Master's, smaller programs"),
+     "Institutions whose highest degree is the master's. Most regional public "
+     "universities are here."),
+    ("baccalaureate", "Baccalaureate Colleges",
+     ("Baccalaureate, diverse fields", "Baccalaureate and associate's",
+      "Baccalaureate, associate's dominant"),
+     "Baccalaureate colleges outside the arts and sciences, including those that "
+     "also award associate degrees."),
+]
+_BY_CARNEGIE = {c: key for key, _, carnegies, _ in CATEGORIES for c in carnegies}
+CATEGORY_LABEL = {key: label for key, label, _, _ in CATEGORIES}
+CATEGORY_BLURB = {key: blurb for key, _, _, blurb in CATEGORIES}
+SPECIAL = "special-focus"
+CATEGORY_LABEL[SPECIAL] = "Special Focus Institutions"
+CATEGORY_BLURB[SPECIAL] = (
+    "Institutions concentrated in a single field, such as engineering, the arts, "
+    "health professions or faith. They are listed with their data but not ranked, "
+    "because a conservatory and a seminary share no standard worth scoring them on.")
+
+
+def category(s):
+    """Which list a college belongs in, from its Carnegie classification."""
+    c = s.get("carnegie")
+    if not c:
+        return None
+    if c.startswith("Special focus"):
+        return SPECIAL
+    return _BY_CARNEGIE.get(c)
+
+
 def rank_all(schools):
-    dist = build_distributions(schools)
-    scored, unscored = [], []
+    """Score and rank each college inside its own category.
+
+    The percentiles are computed within the category, not across the library, which
+    is the point of splitting: a graduation rate is judged against the schools doing
+    the same job, so a score of 80 means better than 80 percent of that category
+    rather than 80 percent of everything.
+    """
     for s in schools:
-        sc, comps = score(s, dist)
-        s["sfn_score"] = sc
-        s["sfn_components"] = {k: round(v, 1) for k, v in comps.items()}
+        s["sfn_category"] = category(s)
         # What a non-resident actually pays extra, straight from two published
         # figures. No modelling: out-of-state tuition minus in-state tuition.
         ti, to = field(s, "tuition_in_state_usd"), field(s, "tuition_out_state_usd")
         s["out_state_premium"] = (to - ti) if (ti is not None and to is not None) else None
-        (scored if sc is not None else unscored).append(s)
-    scored.sort(key=lambda x: (-x["sfn_score"], x["name"]))
-    for i, s in enumerate(scored, 1):
-        s["sfn_rank"] = i
+
+    scored, unscored = [], []
+    for key, _, _, _ in CATEGORIES:
+        members = [s for s in schools if s["sfn_category"] == key]
+        dist = build_distributions(members)
+        ranked_here = []
+        for s in members:
+            sc, comps = score(s, dist)
+            s["sfn_score"] = sc
+            s["sfn_components"] = {k: round(v, 1) for k, v in comps.items()}
+            (ranked_here if sc is not None else unscored).append(s)
+        ranked_here.sort(key=lambda x: (-x["sfn_score"], x["name"]))
+        for i, s in enumerate(ranked_here, 1):
+            s["sfn_rank"] = i
+        s_count = len(ranked_here)
+        for s in ranked_here:
+            s["sfn_category_size"] = s_count
+        scored.extend(ranked_here)
+
+    # Special focus institutions and anything the Scorecard leaves unclassified are
+    # listed with their data and never ranked.
+    for s in schools:
+        if s.get("sfn_score") is None and "sfn_components" not in s:
+            s["sfn_score"] = None
+            s["sfn_components"] = {}
+            unscored.append(s)
     for s in unscored:
         s["sfn_rank"] = None
+        s["sfn_category_size"] = None
         s["unranked_reason"] = unranked_reason(s, s.get("sfn_components") or {})
     return scored, unscored
