@@ -130,6 +130,14 @@
    "year": 2026,
    "url": "https://collegescorecard.ed.gov/school/?164465-Amherst-College",
    "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "intl_share_pct": {
+   "v": 13.1,
+   "stat": "share of enrolment reported as non-resident alien",
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?164465-Amherst-College",
+   "release": "Most Recent Cohorts institution file"
   }
  },
  "scholarship": {

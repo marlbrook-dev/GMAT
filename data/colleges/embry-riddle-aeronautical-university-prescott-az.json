@@ -130,6 +130,14 @@
    "year": 2026,
    "url": "https://collegescorecard.ed.gov/school/?104586-Embry-Riddle-Aeronautical-University-Prescott",
    "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "intl_share_pct": {
+   "v": 8.1,
+   "stat": "share of enrolment reported as non-resident alien",
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?104586-Embry-Riddle-Aeronautical-University-Prescott",
+   "release": "Most Recent Cohorts institution file"
   }
  },
  "scholarship": {

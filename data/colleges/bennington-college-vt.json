@@ -118,6 +118,14 @@
    "year": 2026,
    "url": "https://collegescorecard.ed.gov/school/?230816-Bennington-College",
    "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "intl_share_pct": {
+   "v": 11.8,
+   "stat": "share of enrolment reported as non-resident alien",
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?230816-Bennington-College",
+   "release": "Most Recent Cohorts institution file"
   }
  },
  "scholarship": {

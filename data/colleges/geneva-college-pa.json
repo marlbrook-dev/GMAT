@@ -106,6 +106,14 @@
    "year": 2026,
    "url": "https://collegescorecard.ed.gov/school/?212656-Geneva-College",
    "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "intl_share_pct": {
+   "v": 2.2,
+   "stat": "share of enrolment reported as non-resident alien",
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?212656-Geneva-College",
+   "release": "Most Recent Cohorts institution file"
   }
  },
  "scholarship": {
