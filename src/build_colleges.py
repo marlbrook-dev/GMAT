@@ -537,7 +537,7 @@ def methodology_page(css_href, n_ranked, n_total, updated, cat_counts, agreement
 <p class="note">Updated {UPDATED}. {NRANK} of {NTOTAL} colleges in the library are ranked.</p>
 
 <div class="panel"><h2>What It Measures</h2>
-<p>Three components, each a percentile rank within the ranked set, then weighted:</p>
+<p>Three components, each a percentile rank <strong>within the school's own category</strong>, then weighted:</p>
 <div class="stat"><span class="k">Completion</span><span class="v">50%</span><span class="s">six-year graduation and first-year retention, two parts to one</span></div>
 <div class="stat"><span class="k">Earnings</span><span class="v">40%</span><span class="s">median earnings ten years after entry</span></div>
 <div class="stat"><span class="k">Access</span><span class="v">10%</span><span class="s">share of students on Pell grants</span></div>

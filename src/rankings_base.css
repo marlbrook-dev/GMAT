@@ -63,7 +63,12 @@ td.rank{font-family:var(--mono);font-weight:600;font-size:16px;color:var(--navy-
 .schol{display:inline-block;font-family:var(--display);font-weight:700;font-size:11px;letter-spacing:.01em;border-radius:999px;padding:2px 8px;white-space:nowrap}
 .schol.ok{background:var(--green-50);color:var(--green-600)}
 .schol.warn{background:var(--gold-100,#FBF3E2);color:var(--gold-700)}
-.note{display:block;font-size:10.5px;color:var(--gray-500);text-transform:uppercase;letter-spacing:.04em}
+/* .note was a small-uppercase LABEL style, but it is used on 18 full sentences and
+   only 2 actual labels, so explanatory paragraphs on the rankings, the methodology
+   page and every college page rendered as tracked-out capitals. It is quiet small
+   text now; the two real labels carry .l, which keeps the label treatment. */
+.note{display:block;font-size:var(--t-100);color:var(--gray-500);line-height:1.6}
+.l.note,.note.l{font-size:var(--t-100);text-transform:uppercase;letter-spacing:var(--tr-caps);line-height:1.3}
 .na{color:var(--gray-300)}
 .addbtn{font-family:var(--display);font-weight:700;font-size:12px;border:1px solid var(--gray-300);background:#fff;border-radius:999px;padding:5px 11px;cursor:pointer;white-space:nowrap}
 .addbtn:hover{border-color:var(--navy-600);color:var(--navy-800)}
