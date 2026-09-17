@@ -186,6 +186,8 @@ def college_page(c, tpl, css_href, n_ranked, n_total):
         stat_row("Median earnings, ten years after entry", money(fv(c, "earnings_10yr_usd"))),
         stat_row("Students receiving Pell grants", pct(fv(c, "pell_pct"))),
         stat_row("Undergraduate enrollment", plain(fv(c, "undergrads"))),
+        stat_row("Non-resident alien share of enrollment", pct(fv(c, "intl_share_pct")),
+                 "the federal category closest to international students"),
     ])
     adm = "".join([
         stat_row("Admission rate", pct(fv(c, "admit_rate_pct"))),

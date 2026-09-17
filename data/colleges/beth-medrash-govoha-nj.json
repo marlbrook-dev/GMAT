@@ -78,6 +78,14 @@
    "year": 2026,
    "url": "https://collegescorecard.ed.gov/school/?183804-Beth-Medrash-Govoha",
    "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "intl_share_pct": {
+   "v": 1.8,
+   "stat": "share of enrolment reported as non-resident alien",
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?183804-Beth-Medrash-Govoha",
+   "release": "Most Recent Cohorts institution file"
   }
  },
  "scholarship": {

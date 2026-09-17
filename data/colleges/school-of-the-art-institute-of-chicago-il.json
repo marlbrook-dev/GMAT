@@ -114,6 +114,14 @@
    "year": 2026,
    "url": "https://collegescorecard.ed.gov/school/?143048-School-of-the-Art-Institute-of-Chicago",
    "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "intl_share_pct": {
+   "v": 27.9,
+   "stat": "share of enrolment reported as non-resident alien",
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?143048-School-of-the-Art-Institute-of-Chicago",
+   "release": "Most Recent Cohorts institution file"
   }
  },
  "scholarship": {

@@ -1,6 +1,9 @@
 # Shared site chrome: one header and one footer, identical on every page.
 # Templates carry {{CHROME_CSS}}, {{SITE_HEADER}} and {{SITE_FOOTER}}; build
 # scripts call apply_chrome() so the markup can never drift between pages.
+import re
+
+SITE_ORIGIN = "https://startfromnowhere.com"
 
 LOGO_SVG = (
     '<svg viewBox="0 0 48 48" width="28" height="28" aria-hidden="true">'
@@ -11,45 +14,144 @@ LOGO_SVG = (
     'stroke-linecap="round" stroke-linejoin="round"/></svg>'
 )
 
+# --- design tokens --------------------------------------------------------------
+# One type and spacing system for the whole site, injected everywhere {{CHROME_CSS}}
+# already goes. Before this each template carried its own copy of the font block and
+# picked its own sizes, so the site ran on 4 families and 37 font sizes, half of them
+# half-pixel values like 12.5px and 14.5px. Nothing shared a baseline because nothing
+# shared a scale.
+#
+# The rules below come from reading what sites that do this well actually ship:
+#  - one sans carries everything. Stripe runs sohne for 100 declarations and a mono
+#    for 2; Vercel runs Geist for 150 and a mono for 23; Our World in Data, the
+#    closest analogue to us because it is a sourced-data site, runs Lato for 396 and
+#    a display serif for 117. None of them run two sans-serifs. We did: Manrope for
+#    headings and IBM Plex Sans for body, similar enough to read as a mistake. Manrope
+#    is gone. IBM Plex Sans carries the UI and pairs with IBM Plex Mono by design.
+#  - tracking tightens as type grows, and is never positive except on small uppercase
+#    labels. Stripe: -0.025em at 56px easing to 0 by 16px. We had +0.08em on 17
+#    elements and no tracking at all on the 60px hero.
+#  - spacing lives on a 4px grid. Stripe's scale is every 8px from 8 to 200. Ours had
+#    3px, 5px, 7px, 9px, 13px, 17px, 22px, 26px, 34px, 68px and 78px in it.
+#  - one measure, repeated. Our World in Data uses max-width:768px 218 times rather
+#    than a bespoke width per section.
+TOKENS_CSS = """
+/* design tokens from src/partials.py; edit there, never per page */
+:root{
+ /* type: the sans carries the site, the serif is for headings, the mono is for figures */
+ --sans:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+ --serif:'Source Serif 4',Georgia,'Times New Roman',serif;
+ --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+ /* aliases so the 106 var(--display) call sites already in the templates resolve to
+    the one sans instead of a second family. New rules should use --sans. */
+ --display:var(--sans);--body:var(--sans);
+ --font-display:var(--sans);--font-body:var(--sans);--font-mono:var(--mono);
+ --font-serif-display:var(--serif);
+
+ /* type scale: 9 steps, fluid where it needs to be, replacing 37 ad-hoc sizes */
+ --t-100:12px;   /* tags, captions, table footnotes */
+ --t-200:13px;   /* nav, footer, fine print */
+ --t-300:14px;   /* card body, secondary text */
+ --t-400:16px;   /* body */
+ --t-500:18px;   /* lead paragraph */
+ --t-600:20px;   /* card heading */
+ --t-700:24px;   /* h3 */
+ --t-800:clamp(27px,1.4vw + 22px,32px);   /* h2 */
+ --t-900:clamp(34px,3.6vw + 20px,52px);   /* h1 */
+
+ /* tracking follows size: tight when large, neutral at body, open only on caps */
+ --tr-900:-.032em;--tr-800:-.022em;--tr-700:-.016em;--tr-600:-.011em;
+ --tr-500:-.007em;--tr-400:0;--tr-caps:.06em;
+
+ /* leading: tight for display, open for reading */
+ --lh-900:1.04;--lh-800:1.12;--lh-700:1.25;--lh-body:1.6;--lh-tight:1.45;
+
+ /* spacing: a 4px grid, nothing off it */
+ --s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:32px;--s7:48px;
+ --s8:64px;--s9:96px;--s10:128px;
+
+ /* layout: one page width, one gutter, one measure, used everywhere */
+ --page:1120px;--gutter:24px;--measure:68ch;--measure-lead:54ch;
+ /* funding, privacy, scoring and terms set max-width:var(--container-narrow) inline
+    on <main>, but nothing ever defined it, so the declaration was invalid and those
+    four pages rendered their prose at the full window width: about 175 characters a
+    line on a 1440px screen, against the 45 to 90 that is comfortable to read.
+    Defining it here fixes all four at once. 768px is the width Our World in Data
+    uses for reading columns. */
+ --container-narrow:768px;--container-max:1120px;
+ --section-y:clamp(48px,5vw,80px);
+
+ --r-sm:6px;--r-md:8px;--r-lg:12px;--r-full:999px;
+ /* one light source, from above */
+ --sh-1:0 1px 2px rgba(12,31,58,.06);
+ --sh-2:0 2px 8px rgba(12,31,58,.08);
+ --sh-3:0 12px 32px rgba(12,31,58,.12);
+ --dur-1:120ms;--dur-2:200ms;--ease:cubic-bezier(.16,1,.3,1);
+}
+/* Base typography, so a page inherits the system instead of restating it. */
+body{font-family:var(--sans);font-size:var(--t-400);line-height:var(--lh-body);
+ -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+ font-feature-settings:'kern' 1;text-rendering:optimizeLegibility}
+h1,h2,h3,h4,h5,h6{font-family:var(--serif);font-weight:700;margin:0}
+h1{font-size:var(--t-900);letter-spacing:var(--tr-900);line-height:var(--lh-900)}
+h2{font-size:var(--t-800);letter-spacing:var(--tr-800);line-height:var(--lh-800)}
+h3{font-size:var(--t-700);letter-spacing:var(--tr-700);line-height:var(--lh-700)}
+h4{font-size:var(--t-600);letter-spacing:var(--tr-600);line-height:var(--lh-700)}
+/* Figures are the one place mono belongs: tabular so columns of numbers line up. */
+.num,.tabnum{font-family:var(--mono);font-variant-numeric:tabular-nums;
+ font-feature-settings:'tnum' 1;letter-spacing:var(--tr-600)}
+/* The only positive tracking on the site: small uppercase labels, which need it. */
+.eyebrow{font-family:var(--sans);font-weight:600;font-size:var(--t-100);
+ letter-spacing:var(--tr-caps);text-transform:uppercase;color:var(--gray-500,#6B7280)}
+/* One measure for prose, so every column of text is the same width. */
+.prose{max-width:var(--measure)}
+.lead{max-width:var(--measure-lead);font-size:var(--t-500);line-height:var(--lh-tight)}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
+  transition-duration:.01ms !important;scroll-behavior:auto !important}
+}
+""".strip()
+
+
 CHROME_CSS = """
 /* shared chrome from src/partials.py; edit there, never per page */
 .sfnh{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid #DCE5F1}
-.sfnh-in{max-width:1200px;margin:0 auto;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-.sfnh-l{display:flex;align-items:center;gap:18px;min-width:0}
-.sfn-wordmark{display:flex;align-items:center;gap:9px;font-family:'Source Serif 4',Georgia,serif;font-weight:700;font-size:19px;color:#0C1F3A;text-decoration:none;white-space:nowrap;letter-spacing:0}
+.sfnh-in{max-width:var(--page);margin:0 auto;padding:0 var(--gutter);height:60px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.sfnh-l{display:flex;align-items:center;gap:var(--s4);min-width:0}
+.sfn-wordmark{display:flex;align-items:center;gap:var(--s2);font-family:'Source Serif 4',Georgia,serif;font-weight:700;font-size:19px;color:#0C1F3A;text-decoration:none;white-space:nowrap;letter-spacing:0}
 nav.sfn-nav{display:flex;align-items:center}
 .sfn-dd{position:relative}
-.sfn-dd>button{display:flex;align-items:center;gap:4px;padding:8px 12px;font-family:Manrope,system-ui,sans-serif;font-weight:600;font-size:13px;color:#374151;background:none;border:none;cursor:pointer;line-height:1.2;transition:color 120ms ease}
+.sfn-dd>button{display:flex;align-items:center;gap:4px;padding:8px 12px;font-family:var(--sans);font-weight:600;font-size:var(--t-200);color:#374151;background:none;border:none;cursor:pointer;line-height:1.2;transition:color var(--dur-1) var(--ease)}
 .sfn-dd>button:hover{color:#0C1F3A}
-.sfn-dd .car{font-size:9px;color:#6B7280;transition:transform 150ms ease}
+.sfn-dd .car{font-size:9px;color:#6B7280;transition:transform var(--dur-2) var(--ease)}
 .sfn-dd:hover .car,.sfn-dd:focus-within .car{transform:rotate(180deg)}
-.sfn-dd-menu{position:absolute;top:100%;left:0;width:276px;background:#fff;border:1px solid #DCE5F1;border-radius:12px;box-shadow:0 10px 30px rgba(8,21,39,.12);padding:4px;display:none;z-index:60}
+.sfn-dd-menu{position:absolute;top:100%;left:0;width:276px;background:#fff;border:1px solid #DCE5F1;border-radius:var(--r-lg);box-shadow:var(--sh-3);padding:4px;display:none;z-index:60}
 .sfn-dd:hover .sfn-dd-menu,.sfn-dd:focus-within .sfn-dd-menu{display:block}
-.sfn-dd-menu a{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 12px;border-radius:8px;font-family:Manrope,system-ui,sans-serif;font-weight:600;font-size:13px;color:#374151;text-decoration:none;white-space:nowrap}
+.sfn-dd-menu a{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:var(--s2) var(--s3);border-radius:var(--r-md);font-family:var(--sans);font-weight:600;font-size:var(--t-200);color:#374151;text-decoration:none;white-space:nowrap}
 .sfn-dd-menu a:hover{background:#F2F6FB;color:#0C1F3A}
-.sfn-tag{font-family:Manrope,system-ui,sans-serif;font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;background:#F2F6FB;color:#6B7280;white-space:nowrap;flex-shrink:0}
+.sfn-tag{font-family:var(--sans);font-size:var(--t-100);font-weight:700;padding:var(--s1) var(--s2);border-radius:var(--r-full);background:#F2F6FB;color:#6B7280;white-space:nowrap;flex-shrink:0}
 .sfn-tag.live{background:#16A34A;color:#fff}
 .sfnh-r{display:flex;align-items:center;gap:8px}
-.sfn-signin{font-family:Manrope,system-ui,sans-serif;font-weight:600;font-size:13px;color:#6B7280;text-decoration:none;padding:8px 12px;border-radius:8px;transition:color 120ms ease}
+.sfn-signin{font-family:var(--sans);font-weight:600;font-size:var(--t-200);color:#6B7280;text-decoration:none;padding:8px 12px;border-radius:var(--r-md);transition:color var(--dur-1) var(--ease)}
 .sfn-signin:hover{color:#0C1F3A}
-.sfn-cta{font-family:Manrope,system-ui,sans-serif;font-weight:700;font-size:13px;background:#122B4E;color:#fff;text-decoration:none;padding:9px 16px;border-radius:8px;transition:background 120ms ease;white-space:nowrap}
+.sfn-cta{font-family:var(--sans);font-weight:700;font-size:var(--t-200);background:#122B4E;color:#fff;text-decoration:none;padding:var(--s2) var(--s4);border-radius:var(--r-md);transition:background var(--dur-1) var(--ease);white-space:nowrap}
 .sfn-cta:hover{background:#0C1F3A}
 .sfn-burger{display:none;background:none;border:none;cursor:pointer;padding:8px;color:#374151}
-.sfn-mobile{display:none;border-top:1px solid #DCE5F1;background:#fff;padding:12px 24px 16px}
-.sfn-mobile a{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;border-radius:8px;font-family:Manrope,system-ui,sans-serif;font-weight:600;font-size:14px;color:#374151;text-decoration:none}
+.sfn-mobile{display:none;border-top:1px solid #DCE5F1;background:#fff;padding:var(--s3) var(--gutter) var(--s4)}
+.sfn-mobile a{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:var(--s3) var(--s3);border-radius:var(--r-md);font-family:var(--sans);font-weight:600;font-size:var(--t-300);color:#374151;text-decoration:none}
 .sfn-mobile a:hover{background:#F2F6FB;color:#0C1F3A}
-.sfn-mobile .grp{font-family:Manrope,system-ui,sans-serif;font-weight:700;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:#9CA3AF;padding:12px 12px 4px}
+.sfn-mobile .grp{font-family:var(--sans);font-weight:700;font-size:var(--t-100);letter-spacing:var(--tr-caps);text-transform:uppercase;color:#9CA3AF;padding:var(--s3) var(--s3) var(--s1)}
 .sfn-mobile .mb-cta{display:block;text-align:center;background:#122B4E;color:#fff;font-weight:700;margin-top:10px}
 .sfn-mobile .mb-cta:hover{background:#0C1F3A;color:#fff}
 @media(max-width:1023px){nav.sfn-nav,.sfn-signin,.sfn-cta{display:none}.sfn-burger{display:inline-flex}}
-.sfnf{border-top:1px solid #DCE5F1;background:#F9FAFB;margin-top:48px}
-.sfnf-in{max-width:1200px;margin:0 auto;padding:34px 24px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
-.sfnf-links{display:flex;gap:22px;flex-wrap:wrap;justify-content:center}
-.sfnf-links a,.sfnf-links button{font-family:Manrope,system-ui,sans-serif;font-weight:600;font-size:12.5px;color:#6B7280;text-decoration:none;transition:color 120ms ease}
+.sfnf{border-top:1px solid #DCE5F1;background:#F9FAFB;margin-top:var(--s7)}
+.sfnf-in{max-width:var(--page);margin:0 auto;padding:var(--s7) var(--gutter) var(--s5);display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.sfnf-links{display:flex;gap:var(--s5);flex-wrap:wrap;justify-content:center}
+.sfnf-links a,.sfnf-links button{font-family:var(--sans);font-weight:600;font-size:var(--t-200);color:#6B7280;text-decoration:none;transition:color var(--dur-1) var(--ease)}
 .sfnf-links button{background:none;border:none;padding:0;cursor:pointer;line-height:inherit}
 .sfnf-links a:hover,.sfnf-links button:hover{color:#0C1F3A}
-.sfnf-copy{font-family:Manrope,system-ui,sans-serif;font-size:12.5px;color:#9CA3AF;white-space:nowrap}
-.sfnf-legal{max-width:1200px;margin:0 auto;padding:0 24px 28px;font-size:12px;color:#9CA3AF;line-height:1.6}
+.sfnf-copy{font-family:var(--sans);font-size:var(--t-200);color:#9CA3AF;white-space:nowrap}
+.sfnf-legal{max-width:var(--page);margin:0 auto;padding:0 var(--gutter) var(--s6);font-size:var(--t-100);color:#9CA3AF;line-height:1.6}
 """.strip()
 
 _NAV_GROUPS = [
@@ -399,7 +501,94 @@ def apply_chrome_css(css):
     A vertical with hundreds of pages ships one stylesheet rather than inlining the
     same bytes into every page, but the shared chrome rules still have to reach it.
     """
-    return css.replace("{{CHROME_CSS}}", CHROME_CSS)
+    return css.replace("{{CHROME_CSS}}", TOKENS_CSS + "\n" + CHROME_CSS)
+
+
+# --- share cards ----------------------------------------------------------------
+# A link posted to X, LinkedIn or anywhere else renders as whatever Open Graph tags the
+# page carries. Before this, 1,559 of the site's 1,588 pages carried none at all, so every
+# school page, college page and exam guide shared as a bare blue link with no title, no
+# description and no image, and the 29 blog posts that did have tags asked for the small
+# card and supplied no image. Posting more often through that funnel would only have moved
+# more people past a link that looks like nothing.
+#
+# The tags are derived from what each page already has rather than passed in by every
+# builder: the title and description on a school page are already written for exactly this
+# job, and deriving them means no page can be added later that quietly ships without a card.
+OG_IMAGE_DEFAULT = "/og/default.png"
+# Path prefix to card image. First match wins, so order matters.
+OG_IMAGES = [
+    ("/schools/", "/og/mba.png"),
+    ("/colleges/", "/og/colleges.png"),
+    ("/exams/", "/og/exams.png"),
+    ("/blog/", "/og/blog.png"),
+    ("/app/", "/og/trainer.png"),
+    ("/sat/app/", "/og/trainer.png"),
+    ("/gre/app/", "/og/trainer.png"),
+    ("/lsat/app/", "/og/trainer.png"),
+    ("/act/app/", "/og/trainer.png"),
+    ("/pricing/", "/og/pricing.png"),
+    ("/community/", "/og/community.png"),
+    ("/apply/", "/og/apply.png"),
+    ("/international/", "/og/apply.png"),
+    ("/funding/", "/og/funding.png"),
+]
+
+_TITLE_RE = re.compile(r"<title>(.*?)</title>", re.S | re.I)
+_DESC_RE = re.compile(r'<meta name="description" content="(.*?)"', re.S | re.I)
+_CANON_RE = re.compile(r'<link rel="canonical" href="(.*?)"', re.I)
+
+
+def og_image_for(url):
+    for prefix, img in OG_IMAGES:
+        if prefix in url:
+            return img
+    return OG_IMAGE_DEFAULT
+
+
+def social_meta(html):
+    """Open Graph and Twitter card tags derived from the page's own head.
+
+    Returns "" when the page already carries og:title, so a builder that writes its own
+    tags is never given a second, conflicting set.
+    """
+    if "og:title" in html:
+        return ""
+    t = _TITLE_RE.search(html)
+    d = _DESC_RE.search(html)
+    c = _CANON_RE.search(html)
+    if not (t and d and c):
+        return ""
+    title = " ".join(t.group(1).split())
+    desc = " ".join(d.group(1).split())
+    url = c.group(1)
+    img = SITE_ORIGIN + og_image_for(url)
+    return (
+        '\n<meta property="og:type" content="website">'
+        '<meta property="og:site_name" content="Start From Nowhere">'
+        '<meta property="og:locale" content="en_US">'
+        '<meta property="og:title" content="' + title + '">'
+        '<meta property="og:description" content="' + desc + '">'
+        '<meta property="og:url" content="' + url + '">'
+        '<meta property="og:image" content="' + img + '">'
+        '<meta property="og:image:width" content="1200">'
+        '<meta property="og:image:height" content="630">'
+        '<meta name="twitter:card" content="summary_large_image">'
+        '<meta name="twitter:title" content="' + title + '">'
+        '<meta name="twitter:description" content="' + desc + '">'
+        '<meta name="twitter:image" content="' + img + '">'
+    )
+
+
+def apply_social(html):
+    """Insert the derived card tags immediately before </head>."""
+    tags = social_meta(html)
+    if not tags:
+        return html
+    i = html.lower().find("</head>")
+    if i < 0:
+        return html
+    return html[:i] + tags + html[i:]
 
 
 def apply_chrome(html, extra_legal=""):
@@ -412,11 +601,12 @@ def apply_chrome(html, extra_legal=""):
         raise SystemExit("partials: template uses both {{SENTINEL}} and {{SITE_FOOTER}}; "
                          "the footer already carries the sentinel")
     out = (
-        html.replace("{{CHROME_CSS}}", CHROME_CSS)
+        html.replace("{{CHROME_CSS}}", TOKENS_CSS + "\n" + CHROME_CSS)
         .replace("{{SITE_HEADER}}", header_html())
         .replace("{{SITE_FOOTER}}", footer_html(extra_legal))
         .replace("{{SENTINEL}}", consent_js() + sentinel_js())
     )
+    out = apply_social(out)
     if "—" in out or "–" in out:
         raise SystemExit("partials: em/en dash in chrome output")
     return out

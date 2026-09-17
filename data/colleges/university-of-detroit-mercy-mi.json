@@ -130,6 +130,14 @@
    "year": 2026,
    "url": "https://collegescorecard.ed.gov/school/?169716-University-of-Detroit-Mercy",
    "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "intl_share_pct": {
+   "v": 7.6,
+   "stat": "share of enrolment reported as non-resident alien",
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?169716-University-of-Detroit-Mercy",
+   "release": "Most Recent Cohorts institution file"
   }
  },
  "scholarship": {

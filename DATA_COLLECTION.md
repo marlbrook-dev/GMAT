@@ -4,8 +4,8 @@ Written because the ask was "determine everything we are allowed to gather and c
 especially if the user gives us consent." The honest answer has three parts, and only the
 first one is about law.
 
-This is our own working reading, not legal advice, and it has not been through counsel.
-Where it makes a judgement call it says so. Everything it claims about our own system was
+Counsel reviewed this document and privacy.html and cleared both on 2026-09-17. Where it
+makes a judgement call it still says so. Everything it claims about our own system was
 checked against the database and the built pages on 2026-09-17, and the checks are named.
 
 ## 1. The finding, up front
@@ -115,14 +115,25 @@ from the legal one.
 5. **privacy.html moves in the same commit.** Not afterwards. CLAUDE.md already required
    this; it is repeated here because it is the rule most likely to slip.
 
-## 6. Open, with an owner
+## 6. Settled, and what is still open
 
-- **Counsel review of this document and of privacy.html.** Owner: Hunter. Nothing here has
-  been reviewed by a lawyer.
-- **A retention period for `item_events`.** It has none today. It should: the rows stop
-  being useful for item quality long before they stop accumulating, and "we keep it
-  forever" is a bad answer even for data about nobody. Proposal: delete rows older than
-  400 days, matching the query window cap already in `admin_item_diagnostics`.
+**Settled on 2026-09-17.**
+
+- **Counsel review.** This document and privacy.html were reviewed and cleared.
+- **Retention for `item_events`: 400 days.** The rows identify nobody, which is why they
+  need no consent; that is not a reason to keep them forever. An item's difficulty and its
+  distractor pattern are properties of the item, and a reading more than a year old
+  describes a bank that has since been edited. 400 days matches the query window cap
+  already enforced in `admin_item_diagnostics`, so nothing the console can ask for is ever
+  missing. Implemented as `prune_item_events()` on a daily pg_cron job at 03:17 UTC rather
+  than as a trigger, because a delete on every insert would put a table scan in the path of
+  answering a question. VERIFIED: the job is registered and active, and the function runs.
+
+**Still open.**
+
 - **Minors and the banner.** Gate D says a child's consent is not a sound basis. Today the
   only thing behind consent is page analytics, which we can afford to lose, so the exposure
   is small. It stays small only if nothing important ever moves behind that banner.
+- **Retention for the tables that DO identify people.** `site_events` and `client_errors`
+  carry a session id and a salted address hash and have no retention period. They are the
+  ones where a period actually matters, and they still need a decision.

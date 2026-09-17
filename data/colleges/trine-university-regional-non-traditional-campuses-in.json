@@ -114,6 +114,14 @@
    "year": 2026,
    "url": "https://collegescorecard.ed.gov/school/?414878-Trine-University-Regional-Non-Traditional-Campuses",
    "release": "2026 release, Most Recent Cohorts institution file"
+  },
+  "intl_share_pct": {
+   "v": 23.6,
+   "stat": "share of enrolment reported as non-resident alien",
+   "src": "US Department of Education, College Scorecard",
+   "year": 2026,
+   "url": "https://collegescorecard.ed.gov/school/?414878-Trine-University-Regional-Non-Traditional-Campuses",
+   "release": "Most Recent Cohorts institution file"
   }
  },
  "scholarship": {

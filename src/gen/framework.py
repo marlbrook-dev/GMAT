@@ -346,6 +346,14 @@ def canon(item):
     # items when it has produced one question with the figures changed underneath it.
     if not item.get("canon_ignores_source"):
         body += "|" + re.sub(r"\s+", " ", item.get("passageHtml", "")).strip()
+    # A reading item is identified by its passage and the question asked of it. Which four
+    # of the passage's other sentences happen to be offered alongside the key does NOT make
+    # a second question: a student who has answered one has answered the other. Without
+    # this, four passages produced five hundred "distinct" stated idea items, which is the
+    # same inflation the sorted choice key was added to stop.
+    if item.get("canon_ignores_choices"):
+        body = item["gen"] + "|" + re.sub(r"\s+", " ", item["stem"]).strip()
+        body += "|" + str(item.get("passageId") or "")
     return hashlib.sha1(body.encode("utf-8")).hexdigest()
 
 

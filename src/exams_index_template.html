@@ -3,37 +3,37 @@
 <title>Exam Guides: GMAT, GRE, LSAT, MCAT, SAT, ACT</title>
 <meta name="description" content="Plain-English guides to the major admissions exams: structure, timing, cost, registration, and who accepts each one. GMAT Focus and digital SAT training are live; more exams in development.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Manrope:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%23122B4E'/%3E%3Cpath d='M13 33 22 22l6 5 8.5-10' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M29.5 16.5H37V24' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="canonical" href="https://startfromnowhere.com/exams/">
 <style>
 {{CHROME_CSS}}
 :root{--navy-900:#0C1F3A;--navy-800:#122B4E;--navy-100:#DCE5F1;--navy-50:#F2F6FB;--gray-700:#374151;--gray-500:#6B7280;--gray-300:#D1D5DB;--gray-200:#E5E7EB;--gray-100:#F3F4F6;--gray-50:#F9FAFB;--green-600:#16A34A;--green-50:#F0FDF4;
---serif:'Source Serif 4',Georgia,serif;--display:'Manrope',system-ui,sans-serif;--body:'IBM Plex Sans',system-ui,sans-serif}
-*{box-sizing:border-box}body{margin:0;font-family:var(--body);color:var(--gray-700);background:#fff;font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+--serif:'Source Serif 4',Georgia,serif;--display:var(--sans);--body:'IBM Plex Sans',system-ui,sans-serif}
+*{box-sizing:border-box}body{margin:0;font-family:var(--body);color:var(--gray-700);background:#fff;font-size:var(--t-300);line-height:1.55;-webkit-font-smoothing:antialiased}
 h1{font-family:var(--serif);color:var(--navy-900);margin:0}
 a{color:var(--navy-800)}
-.wrap{max-width:960px;margin:0 auto;padding:0 24px}
+.wrap{max-width:var(--page);margin:0 auto;padding:0 var(--s5)}
 header{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--gray-200)}
-.nav{height:60px;display:flex;align-items:center;gap:20px;max-width:1200px;margin:0 auto;padding:0 24px}
-.wordmark{display:flex;align-items:center;gap:9px;font-family:var(--serif);font-weight:700;font-size:19px;color:var(--navy-900);text-decoration:none}
-.nav .links{display:flex;gap:2px;flex:1}
-.nav .links a{font-family:var(--display);font-weight:600;font-size:14px;color:var(--gray-700);text-decoration:none;padding:8px 12px;border-radius:8px}
+.nav{height:60px;display:flex;align-items:center;gap:20px;max-width:var(--page);margin:0 auto;padding:0 var(--s5)}
+.wordmark{display:flex;align-items:center;gap:var(--s2);font-family:var(--serif);font-weight:700;font-size:var(--t-500);color:var(--navy-900);text-decoration:none}
+.nav .links{display:flex;gap:var(--s1);flex:1}
+.nav .links a{font-family:var(--display);font-weight:600;font-size:var(--t-300);color:var(--gray-700);text-decoration:none;padding:var(--s2) var(--s3);border-radius:8px}
 .nav .links a:hover{background:var(--gray-50);color:var(--navy-900)}
-.btn{font-family:var(--display);font-weight:700;border-radius:8px;display:inline-flex;align-items:center;font-size:14px;padding:9px 16px;background:var(--navy-800);color:#fff;text-decoration:none}
-.hero{padding:38px 0 8px}
-.hero h1{font-size:32px;margin-bottom:8px}
+.btn{font-family:var(--display);font-weight:700;border-radius:8px;display:inline-flex;align-items:center;font-size:var(--t-300);padding:var(--s2) var(--s4);background:var(--navy-800);color:#fff;text-decoration:none}
+.hero{padding:40px 0 var(--s2)}
+.hero h1{font-size:var(--t-800);margin-bottom:8px}
 .hero p{color:var(--gray-500);max-width:70ch;margin:0}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;padding:26px 0 40px}
-.card.exam{display:block;border:1px solid var(--gray-200);border-radius:12px;padding:18px;text-decoration:none;transition:box-shadow .15s ease,transform .15s ease}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:var(--s3);padding:var(--s5) 0 40px}
+.card.exam{display:block;border:1px solid var(--gray-200);border-radius:12px;padding:var(--s4);text-decoration:none;transition:box-shadow .15s ease,transform .15s ease}
 .card.exam:hover{box-shadow:0 8px 24px rgba(8,21,39,.08);transform:translateY(-2px)}
-.card.exam .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.card.exam .en{font-family:var(--display);font-weight:800;font-size:16px;color:var(--navy-900)}
-.card.exam p{color:var(--gray-500);font-size:13.5px;margin:8px 0 0}
-.tag{font-family:var(--display);font-weight:700;font-size:11.5px;padding:3px 10px;border-radius:999px;background:var(--gray-100);color:var(--gray-500);white-space:nowrap}
+.card.exam .row{display:flex;justify-content:space-between;align-items:center;gap:var(--s2)}
+.card.exam .en{font-family:var(--display);font-weight:800;font-size:var(--t-400);color:var(--navy-900)}
+.card.exam p{color:var(--gray-500);font-size:var(--t-200);margin:var(--s2) 0 0}
+.tag{font-family:var(--display);font-weight:700;font-size:var(--t-100);padding:var(--s1) var(--s2);border-radius:999px;background:var(--gray-100);color:var(--gray-500);white-space:nowrap}
 .tag.live{background:var(--green-50);color:var(--green-600)}
-footer{border-top:1px solid var(--gray-200);padding:24px 0 36px;font-size:13px;color:var(--gray-500)}
-footer .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;max-width:1200px}
+footer{border-top:1px solid var(--gray-200);padding:var(--s5) 0 36px;font-size:var(--t-200);color:var(--gray-500)}
+footer .wrap{display:flex;justify-content:space-between;gap:var(--s4);flex-wrap:wrap;max-width:var(--page)}
 </style></head><body>
 <script type="application/ld+json">{{EXAM_LD}}</script>
 {{SITE_HEADER}}
