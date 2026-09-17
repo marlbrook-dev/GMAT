@@ -1,6 +1,9 @@
 # Shared site chrome: one header and one footer, identical on every page.
 # Templates carry {{CHROME_CSS}}, {{SITE_HEADER}} and {{SITE_FOOTER}}; build
 # scripts call apply_chrome() so the markup can never drift between pages.
+import re
+
+SITE_ORIGIN = "https://startfromnowhere.com"
 
 LOGO_SVG = (
     '<svg viewBox="0 0 48 48" width="28" height="28" aria-hidden="true">'
@@ -402,6 +405,93 @@ def apply_chrome_css(css):
     return css.replace("{{CHROME_CSS}}", CHROME_CSS)
 
 
+# --- share cards ----------------------------------------------------------------
+# A link posted to X, LinkedIn or anywhere else renders as whatever Open Graph tags the
+# page carries. Before this, 1,559 of the site's 1,588 pages carried none at all, so every
+# school page, college page and exam guide shared as a bare blue link with no title, no
+# description and no image, and the 29 blog posts that did have tags asked for the small
+# card and supplied no image. Posting more often through that funnel would only have moved
+# more people past a link that looks like nothing.
+#
+# The tags are derived from what each page already has rather than passed in by every
+# builder: the title and description on a school page are already written for exactly this
+# job, and deriving them means no page can be added later that quietly ships without a card.
+OG_IMAGE_DEFAULT = "/og/default.png"
+# Path prefix to card image. First match wins, so order matters.
+OG_IMAGES = [
+    ("/schools/", "/og/mba.png"),
+    ("/colleges/", "/og/colleges.png"),
+    ("/exams/", "/og/exams.png"),
+    ("/blog/", "/og/blog.png"),
+    ("/app/", "/og/trainer.png"),
+    ("/sat/app/", "/og/trainer.png"),
+    ("/gre/app/", "/og/trainer.png"),
+    ("/lsat/app/", "/og/trainer.png"),
+    ("/act/app/", "/og/trainer.png"),
+    ("/pricing/", "/og/pricing.png"),
+    ("/community/", "/og/community.png"),
+    ("/apply/", "/og/apply.png"),
+    ("/international/", "/og/apply.png"),
+    ("/funding/", "/og/funding.png"),
+]
+
+_TITLE_RE = re.compile(r"<title>(.*?)</title>", re.S | re.I)
+_DESC_RE = re.compile(r'<meta name="description" content="(.*?)"', re.S | re.I)
+_CANON_RE = re.compile(r'<link rel="canonical" href="(.*?)"', re.I)
+
+
+def og_image_for(url):
+    for prefix, img in OG_IMAGES:
+        if prefix in url:
+            return img
+    return OG_IMAGE_DEFAULT
+
+
+def social_meta(html):
+    """Open Graph and Twitter card tags derived from the page's own head.
+
+    Returns "" when the page already carries og:title, so a builder that writes its own
+    tags is never given a second, conflicting set.
+    """
+    if "og:title" in html:
+        return ""
+    t = _TITLE_RE.search(html)
+    d = _DESC_RE.search(html)
+    c = _CANON_RE.search(html)
+    if not (t and d and c):
+        return ""
+    title = " ".join(t.group(1).split())
+    desc = " ".join(d.group(1).split())
+    url = c.group(1)
+    img = SITE_ORIGIN + og_image_for(url)
+    return (
+        '\n<meta property="og:type" content="website">'
+        '<meta property="og:site_name" content="Start From Nowhere">'
+        '<meta property="og:locale" content="en_US">'
+        '<meta property="og:title" content="' + title + '">'
+        '<meta property="og:description" content="' + desc + '">'
+        '<meta property="og:url" content="' + url + '">'
+        '<meta property="og:image" content="' + img + '">'
+        '<meta property="og:image:width" content="1200">'
+        '<meta property="og:image:height" content="630">'
+        '<meta name="twitter:card" content="summary_large_image">'
+        '<meta name="twitter:title" content="' + title + '">'
+        '<meta name="twitter:description" content="' + desc + '">'
+        '<meta name="twitter:image" content="' + img + '">'
+    )
+
+
+def apply_social(html):
+    """Insert the derived card tags immediately before </head>."""
+    tags = social_meta(html)
+    if not tags:
+        return html
+    i = html.lower().find("</head>")
+    if i < 0:
+        return html
+    return html[:i] + tags + html[i:]
+
+
 def apply_chrome(html, extra_legal=""):
     # The sentinel normally rides along with the footer, which every content page carries.
     # A template without a footer (the rankings index builds its own chrome) would silently
@@ -417,6 +507,7 @@ def apply_chrome(html, extra_legal=""):
         .replace("{{SITE_FOOTER}}", footer_html(extra_legal))
         .replace("{{SENTINEL}}", consent_js() + sentinel_js())
     )
+    out = apply_social(out)
     if "—" in out or "–" in out:
         raise SystemExit("partials: em/en dash in chrome output")
     return out

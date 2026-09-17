@@ -139,9 +139,15 @@ def page(title, description, canonical, body, extra_head=""):
 <title>{html.escape(title)}</title>
 <meta name="description" content="{html.escape(description, quote=True)}">
 <link rel="canonical" href="{canonical}">
-<meta property="og:type" content="website"><meta property="og:site_name" content="Start From Nowhere">
+<meta property="og:type" content="article"><meta property="og:site_name" content="Start From Nowhere">
 <meta property="og:title" content="{html.escape(title, quote=True)}"><meta property="og:description" content="{html.escape(description, quote=True)}">
-<meta property="og:url" content="{canonical}"><meta name="twitter:card" content="summary">
+<meta property="og:url" content="{canonical}">
+<meta property="og:image" content="{partials.SITE_ORIGIN}/og/blog.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{html.escape(title, quote=True)}">
+<meta name="twitter:description" content="{html.escape(description, quote=True)}">
+<meta name="twitter:image" content="{partials.SITE_ORIGIN}/og/blog.png">
 {FONTS}
 {FAVICON}
 {extra_head}<style>{HEAD_CSS}
