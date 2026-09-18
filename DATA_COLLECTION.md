@@ -135,6 +135,4 @@ from the legal one.
 - **Minors and the banner.** Gate D says a child's consent is not a sound basis. Today the
   only thing behind consent is page analytics, which we can afford to lose, so the exposure
   is small. It stays small only if nothing important ever moves behind that banner.
-- **Retention for the tables that DO identify people.** `site_events` and `client_errors`
-  carry a session id and a salted address hash and have no retention period. They are the
-  ones where a period actually matters, and they still need a decision.
+- **Retention, decided 2026-09-18.** `site_events` keeps 400 days and `client_errors` 90, both enforced by pg_cron jobs (`site_events_retention` at 03:29 UTC, `client_errors_retention` at 03:41), staggered off the item_events job at 03:17 so three deletes do not contend. These were the last two tables carrying a session id and a salted address hash with no period at all, which was the weakest of the three positions. Verified by calling both functions directly, not by trusting the schedule.

@@ -193,8 +193,6 @@ _NAV_GROUPS = [
         ("GRE General Test", "/exams/gre/", "Live"),
         ("LSAT", "/exams/lsat/", "Live"),
         ("ACT", "/exams/act/", "Live"),
-        ("Executive Assessment", "/exams/executive-assessment/", "In Development"),
-        ("MCAT", "/exams/mcat/", "In Development"),
         ("All Exam Guides", "/exams/", None),
     ]),
     ("Lists", [
