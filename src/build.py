@@ -286,7 +286,8 @@ no_dashes("community.html", community)
 
 # Standalone content pages that only need chrome and a build date.
 _today = os.environ.get("BLOG_BUILD_DATE") or datetime.date.today().isoformat()
-for _src, _dir in [("international.html", "international"), ("scoring.html", "scoring"), ("funding.html", "funding")]:
+for _src, _dir in [("international.html", "international"), ("scoring.html", "scoring"),
+                   ("funding.html", "funding"), ("do_not_sell.html", "do-not-sell")]:
     page = partials.apply_chrome((d/_src).read_text().replace("{{TODAY}}", _today))
     no_dashes(_src, page)
     if "{{" in page:
@@ -306,7 +307,8 @@ for name in ["terms.html", "privacy.html"]:
 _app_pages = [root / a["out"] / "index.html" for a in APPS]
 for p in _app_pages + [root/"index.html", root/"community"/"index.html",
                        root/"international"/"index.html", root/"scoring"/"index.html",
-                       root/"funding"/"index.html", root/"terms.html", root/"privacy.html"]:
+                       root/"funding"/"index.html", root/"terms.html", root/"privacy.html",
+                       root/"do-not-sell"/"index.html"]:
     check_scripts(p)
 # The shell and the bank are now separate downloads, so report both, and report the
 # whole bank rather than only the hand written part of it.

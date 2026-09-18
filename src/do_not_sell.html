@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#122B4E">
+<link rel="icon" href="/icons/icon-192.png" type="image/png">
+<title>Do Not Sell or Share My Personal Information | Start From Nowhere</title>
+<meta name="description" content="Turn off the Start From Nowhere data sharing programme. One switch, no account required to read it, and it is already off unless you are 18 or over and switched it on yourself.">
+<link rel="canonical" href="https://startfromnowhere.com/do-not-sell/">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+{{CHROME_CSS}}
+body{background:var(--white)}
+main p,main li{font-size:var(--t-300);line-height:1.65;color:var(--text-body)}
+main h2{font-size:var(--t-600);margin-top:var(--s7)}
+main li{margin-top:var(--s1)}
+.state{border:1px solid var(--line);border-radius:12px;padding:var(--s5);margin-top:var(--s5);background:var(--tint)}
+.state h3{font-family:var(--serif);font-size:var(--t-500);letter-spacing:var(--tr-600);margin:0;color:var(--navy-900)}
+.state p{margin:var(--s2) 0 0}
+.state .row{display:flex;gap:var(--s4);align-items:center;flex-wrap:wrap;margin-top:var(--s4);min-width:0}
+.state button{font:inherit;font-size:var(--t-200);font-weight:600;padding:10px 18px;border-radius:8px;
+ cursor:pointer;border:1px solid var(--navy-800);background:var(--navy-800);color:#fff}
+.state button[disabled]{opacity:.45;cursor:not-allowed}
+.state button.ghost{background:#fff;color:var(--navy-800)}
+.flag{display:inline-block;font-size:var(--t-100);font-weight:600;letter-spacing:var(--tr-caps);
+ text-transform:uppercase;padding:3px 9px;border-radius:99px;background:var(--navy-100);color:var(--navy-800)}
+.flag.off{background:#DCFCE7;color:#166534}
+.flag.on{background:#FEF3C7;color:#92400E}
+.msg{margin-top:var(--s3);font-size:var(--t-200);color:var(--text-muted)}
+.msg.err{color:#B91C1C}
+</style></head><body>
+{{SITE_HEADER}}
+<main style="max-width:var(--container-narrow);margin:0 auto;padding:64px 24px 80px">
+<div class="eyebrow" style="color:var(--gold-700)">Legal</div>
+<h1 style="font-size:var(--t-800);margin-top:12px">Do Not Sell or Share My Personal Information</h1>
+<p style="color:var(--text-muted);margin-top:10px">California law gives you the right to tell us not to sell or share your personal information. This page is that control. You do not need an account to read it and you will not be asked to create one.</p>
+
+<h2>What We Actually Sell or Share</h2>
+<p>One category, from one group of people. If you are 18 or over, have an account, and have switched on the data sharing programme yourself, we may share the profile details you chose to fill in: education level, intended major, target schools, score goal, application year, budget band, employer industry, household income band, first-generation status, military status, weekly study hours, which exam you are preparing for, and your country. Recipients may include data brokers.</p>
+<p>That is the whole of it. We have never sold or shared anything else, and the following are excluded at every version of the policy, whatever you switch on: your practice answers and ratings, anything you type into an answer box or an essay, your email address, your name, your payment details, your IP address, your error reports, and your forum posts.</p>
+<p><strong>We do not sell or share the personal information of anyone under 18 under any circumstances</strong>, and that is enforced in the database rather than by a setting. An account whose age is under 18 cannot appear in the only view an export is permitted to read. The full description is <a href="/privacy.html">section 9 of the privacy policy</a>.</p>
+
+<h2>Turn It Off</h2>
+<div class="state" id="panel">
+  <h3 id="st-head">Checking Your Current Setting</h3>
+  <p id="st-body">One moment.</p>
+  <div class="row" id="st-row" hidden>
+    <button type="button" id="st-out" onclick="sfnOptOut()">Do Not Sell or Share My Personal Information</button>
+    <span class="flag" id="st-flag" hidden></span>
+  </div>
+  <p class="msg" id="st-msg" hidden></p>
+</div>
+<p style="margin-top:var(--s5)">If you are signed in, the button above writes your choice straight to your account and records what you chose and when. If you are not signed in, it sets a refusal in this browser that any account you later create on this device starts out honouring, and nothing of yours is in the programme in the meantime, because the programme only ever covers account holders who have switched it on.</p>
+
+<h2>Global Privacy Control</h2>
+<p id="gpc-line">We treat a Global Privacy Control signal from your browser as this request, without you having to make it. If your browser or extension sends one, there is nothing further for you to do here.</p>
+
+<h2>Making the Request Another Way</h2>
+<p>You can email <a href="mailto:privacy@startfromnowhere.com">privacy@startfromnowhere.com</a> from your account address and we will action it within 15 business days, which is sooner than the law requires. You do not have to give a reason. An authorised agent may make the request on your behalf; we will ask for written permission signed by you and we will verify you directly.</p>
+<p>We will not discriminate against you for asking. Price, features, question bank, and the free tier are identical whichever way you choose, and switching this off does not downgrade anything.</p>
+
+<h2>One Thing This Cannot Do</h2>
+<p>Opting out stops future sharing. It cannot recall a copy already delivered to a recipient, because a file that has left our servers is out of our hands. Every recipient is under contract to use the data only for the disclosed purpose and not to re-identify you, and we will pass a deletion request on, but we will not promise you an outcome we do not control. That is why the switch is off by default and why we ask before rather than after.</p>
+</main>
+{{SITE_FOOTER}}
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+(function(){
+// The browser level refusal. It matters for two people: someone with no account, for
+// whom it is a standing instruction rather than a no op, and someone who opts out here
+// and then signs in, who should not have to do it twice.
+var K='sfn_no_sell_v1';
+function setLocal(){ try{ localStorage.setItem(K,JSON.stringify({optOut:true,ts:new Date().toISOString()})); }catch(e){} }
+function readLocal(){ try{ return JSON.parse(localStorage.getItem(K)||'null'); }catch(e){ return null; } }
+window.sfnNoSell=function(){ var c=readLocal(); return !!(c&&c.optOut) || navigator.globalPrivacyControl===true; };
+
+var head=document.getElementById('st-head'), body=document.getElementById('st-body'),
+    row=document.getElementById('st-row'), btn=document.getElementById('st-out'),
+    flag=document.getElementById('st-flag'), msg=document.getElementById('st-msg');
+var client=null, signedIn=false;
+
+function show(h,b,f,fcls){ head.textContent=h; body.textContent=b; row.hidden=false;
+  if(f){ flag.textContent=f; flag.className='flag '+(fcls||''); flag.hidden=false; } else { flag.hidden=true; } }
+function say(t,bad){ msg.textContent=t; msg.hidden=!t; msg.className='msg'+(bad?' err':''); }
+
+var gpc = (navigator.globalPrivacyControl===true);
+if(gpc){
+  var g=document.getElementById('gpc-line');
+  g.textContent='Your browser is sending a Global Privacy Control signal right now, and we are '
+   +'treating it as this request. There is nothing further for you to do here.';
+  g.style.fontWeight='600';
+}
+
+function paintSignedOut(){
+  signedIn=false;
+  var out = readLocal(), on = !!(out&&out.optOut) || gpc;
+  if(on){
+    show('You Are Opted Out','Recorded in this browser. You are not signed in, so there is no account '
+      +'profile to share in any case, and any account you create on this device will start out opted out.',
+      'Off','off');
+    btn.disabled=true; btn.textContent='Already Opted Out';
+  } else {
+    show('Nothing of Yours Is in the Programme','You are not signed in. The programme only ever covers '
+      +'account holders who switched it on, so there is nothing of yours being sold or shared. You can '
+      +'still record a standing refusal in this browser.', 'Off','off');
+  }
+}
+
+function paintSignedIn(s){
+  signedIn=true;
+  var adult = (s && s.tier==='18_plus');
+  if(s && s.opt_in===true){
+    show('The Programme Is On for Your Account','Your self declared profile details may be shared with '
+      +'partners. Switching off stops that from here on.','On','on');
+    btn.disabled=false; btn.textContent='Do Not Sell or Share My Personal Information';
+  } else if(!adult){
+    show('The Programme Is Closed to Your Account','Your account is not recorded as 18 or over, so nothing '
+      +'of yours can be sold or shared and the programme cannot be switched on.','Off','off');
+    btn.disabled=true; btn.textContent='Already Opted Out';
+  } else {
+    show('You Are Opted Out','The programme is off for your account. Nothing of yours is being sold or '
+      +'shared, and it stays that way until you switch it on from the Account page yourself.','Off','off');
+    btn.disabled=true; btn.textContent='Already Opted Out';
+  }
+}
+
+window.sfnOptOut=function(){
+  setLocal();
+  if(!signedIn || !client){ paintSignedOut(); say('Recorded in this browser.'); return; }
+  btn.disabled=true; say('Saving.');
+  client.rpc('set_data_sharing',{p_opt_in:false,p_source:'do_not_sell'}).then(function(r){
+    if(r.error){ say('That did not save: '+r.error.message+'. Email privacy@startfromnowhere.com and we '
+      +'will do it by hand.', true); btn.disabled=false; return; }
+    paintSignedIn({opt_in:false,tier:'18_plus'});
+    say('Saved to your account, with a record of what you chose and when.');
+  }).catch(function(e){ say('That did not save. Email privacy@startfromnowhere.com and we will do it by '
+    +'hand.', true); btn.disabled=false; });
+};
+
+if(!window.supabase){ paintSignedOut(); return; }
+try{
+  client=window.supabase.createClient('https://ftsqwbzhkzuudogkvoqa.supabase.co',
+    'sb_publishable_GToT4fK6RiwCZpPFE3bGiw_ThXq9qel');
+  client.auth.getSession().then(function(res){
+    if(!res.data || !res.data.session){ paintSignedOut(); return; }
+    client.rpc('my_data_sharing').then(function(r){
+      if(r.error || !r.data || !r.data.length){ paintSignedIn(null); return; }
+      paintSignedIn(r.data[0]);
+    }).catch(function(){ paintSignedIn(null); });
+  }).catch(function(){ paintSignedOut(); });
+}catch(e){ paintSignedOut(); }
+})();
+</script>
+</body></html>

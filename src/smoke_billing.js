@@ -92,7 +92,7 @@ const noise = t => /ERR_CERT_AUTHORITY_INVALID|fonts\.(googleapis|gstatic)\.com|
     check('[' + name + '] no errors', errs.length === 0, errs.join(' | '));
     check('[' + name + '] Cancel Plan button ' + (want.cancel ? 'present' : 'absent'), /onclick="cancelPlan\(\)"/.test(html) === want.cancel);
     check('[' + name + '] Manage Billing ' + (want.portal ? 'present' : 'absent'), /onclick="openBillingPortal\(\)"/.test(html) === want.portal);
-    if (want.line) check('[' + name + '] status line', txt.includes(want.line), (await p.evaluate(() => { const ps=[...document.querySelectorAll('#v-data p.small strong')]; return ps.length?ps[0].innerText:'(no status paragraph)'; })));
+    if (want.line) check('[' + name + '] status line', txt.includes(want.line), (await p.evaluate(() => { const card=[...document.querySelectorAll('#v-data .card')].find(c => (c.querySelector('.card-title')||{}).textContent==='Plan and Billing'); const st=card&&card.querySelector('p.small strong'); return st?st.innerText:'(no status paragraph)'; })));
     check('[' + name + '] free plan no-card promise', /never asks for a card/.test(txt));
     await p.close();
   }

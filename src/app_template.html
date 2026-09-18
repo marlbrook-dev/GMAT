@@ -296,7 +296,7 @@ SKILLS.forEach(s=>{ if(!state.skills[s.id]) state.skills[s.id]={r:START_R,n:0,c:
 function persist(){ if(!Store.save(state)) toast('Auto-save is unavailable in this browser. Export your progress from Account.'); Cloud.scheduleSave(); }
 // ---------- Cloud sync (Supabase) ----------
 const Cloud={ client:null, user:null, timer:null, status:'off',
- async init(){ if(!window.supabase||location.protocol==='file:'){ this.status='local-only'; return; } try{ this.client=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY); const {data}=await this.client.auth.getSession(); this.user=data.session?data.session.user:null; this.status=this.user?'signed-in':'signed-out'; this.client.auth.onAuthStateChange(async (ev,sess)=>{ this.user=sess?sess.user:null; this.status=this.user?'signed-in':'signed-out'; if(this.user){ await this.pull(); track('session_started',{}); } this.checkAdmin(); updateHeader(); if(!document.getElementById('v-data').classList.contains('hidden')) renderData(); }); if(this.user){ await this.pull(); track('session_started',{}); } this.checkAdmin(); }catch(e){ this.status='error'; } },
+ async init(){ if(!window.supabase||location.protocol==='file:'){ this.status='local-only'; return; } try{ this.client=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY); const {data}=await this.client.auth.getSession(); this.user=data.session?data.session.user:null; this.status=this.user?'signed-in':'signed-out'; this.client.auth.onAuthStateChange(async (ev,sess)=>{ this.user=sess?sess.user:null; this.status=this.user?'signed-in':'signed-out'; if(this.user){ await this.pull(); track('session_started',{}); } this.checkAdmin(); updateHeader(); if(!document.getElementById('v-data').classList.contains('hidden')) renderData(); }); if(this.user){ await this.pull(); await shareLoad(); track('session_started',{}); } this.checkAdmin(); }catch(e){ this.status='error'; } },
  async checkAdmin(){ this.isAdmin=false; const b=document.getElementById('navAdmin'); const pv=location.hash==='#admin-preview'; if(b&&!pv) b.style.display='none'; if(!this.user||!this.client) return; try{ const {data}=await this.client.rpc('is_admin'); this.isAdmin=!!data; }catch(e){} if(b) b.style.display=(this.isAdmin||pv)?'':'none'; },
  async signIn(email){ milestone('account_created'); if(!this.client) return {error:{message:'Sync is available on the hosted site only.'}}; return this.client.auth.signInWithOtp({email, options:{emailRedirectTo: location.origin+location.pathname}}); },
  async signOut(){ if(this.client) await this.client.auth.signOut(); this.user=null; this.status='signed-out'; },
@@ -2019,8 +2019,87 @@ async function renderAdminMod(el,preview){ el.innerHTML='<div class="stack"><div
  +(q.length?q.map(card).join(''):'<div class="empty">Queue is clear. Flagged and hidden posts land here; severe screens (real exam content, cheating services, slurs) auto-hide until you approve them.</div>')
  +'<div class="card p5"><span class="small muted">Screen rules today: real-exam-content markers and cheating services auto-hide; link spam, contact solicitation, shouting, and abusive language flag for review. An AI reviewer upgrades this screen once the Anthropic API key is added; rules stay as the fallback.</span></div>'
  +'</div>'; }
+async function birthSave(){ const m=document.getElementById('bMonth'), y=document.getElementById('bYear');
+ if(!m||!y) return; const mv=m.value?+m.value:null, yv=y.value?+y.value:null;
+ const ab=state.settings.about||(state.settings.about={}); ab.birth_month=mv; ab.birth_year=yv; persist();
+ if(!Cloud.user||!Cloud.client){ toast(mv&&yv?'Saved on this device.':'Cleared.'); return; }
+ try{ const {error}=await Cloud.client.from('profiles').update({birth_month:mv,birth_year:yv}).eq('id',Cloud.user.id);
+  if(error){ toast('That did not save.'); return; } }catch(e){ toast('That did not save.'); return; }
+ await shareLoad(); toast('Saved.'); }
+
+// The server is the only thing that knows whether this account is eligible, so the page
+// asks rather than working it out from the numbers in the two selects above. A client
+// that decides its own eligibility is a client that can be told to decide differently.
+async function shareLoad(){ if(!Cloud.user||!Cloud.client){ Cloud.sharing=null; renderData(); return; }
+ try{ const {data,error}=await Cloud.client.rpc('my_data_sharing');
+  Cloud.sharing=(!error&&data&&data.length)?data[0]:null; }catch(e){ Cloud.sharing=null; }
+ renderData(); }
+
+async function shareSet(on){ if(!Cloud.user||!Cloud.client){ toast('Sign in first.'); return; }
+ if(on&&!confirm('Turn on data sharing?\n\nThe optional profile details you have filled in, and nothing '
+  +'else, may be shared with partners including data brokers. Your answers, anything you type, your email '
+  +'and your payment details are never included. You can turn this off at any time.')) return;
+ try{ const {error}=await Cloud.client.rpc('set_data_sharing',{p_opt_in:!!on,p_source:'account'});
+  if(error){ toast(error.message||'That did not save.'); return; } }catch(e){ toast('That did not save.'); return; }
+ await shareLoad(); toast(on?'Data sharing is on. You can turn it off here or from the Do Not Sell page.'
+  :'Data sharing is off. Nothing further will be shared.'); }
+
+function shareCard(signed){
+ const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+ const ab=state.settings.about||(state.settings.about={});
+ const nowY=new Date().getFullYear();
+ const years=[]; for(let y=nowY;y>=nowY-100;y--) years.push(y);
+ const birth='<div class="card stack-4"><div class="card-title">Your Age</div>'
+  +'<p class="small" style="margin:0">Asked once, for one purpose: working out whether you are 18. That '
+  +'decides whether you can buy a paid plan and whether the data sharing option below is offered to you at '
+  +'all. <strong>We deliberately do not store the day.</strong> A full date of birth is one of the few '
+  +'fields that identifies most people on its own, and the month and year answer the only question we '
+  +'need to ask.</p>'
+  +'<div class="row" style="flex-wrap:wrap"><label class="small">Birth month <select id="bMonth" onchange="birthSave()">'
+  +'<option value="">Prefer not to say</option>'
+  +MONTHS.map((m,i)=>'<option value="'+(i+1)+'"'+(ab.birth_month===i+1?' selected':'')+'>'+m+'</option>').join('')
+  +'</select></label><label class="small">Birth year <select id="bYear" onchange="birthSave()">'
+  +'<option value="">Prefer not to say</option>'
+  +years.map(y=>'<option value="'+y+'"'+(ab.birth_year===y?' selected':'')+'>'+y+'</option>').join('')
+  +'</select></label></div>'
+  +(signed?'':'<p class="small muted" style="margin:0">Saved on this device now; it attaches to your account when you sign in.</p>')
+  +'</div>';
+
+ const sh=signed?Cloud.sharing:null, tier=sh?sh.tier:null, on=!!(sh&&sh.opt_in);
+ let body, ctrl;
+ if(!signed){
+  body='Sign in to see this. The programme only ever covers account holders, so nothing of yours is in it.';
+  ctrl='';
+ } else if(tier==='18_plus'){
+  body=on?'<strong>It is on.</strong> The optional profile fields above may be shared with partners including '
+    +'data brokers. Your answers, anything you type, your email, your payment details, your IP address and '
+    +'your forum posts are never included, whatever this is set to.'
+   :'<strong>It is off.</strong> Nothing of yours is being shared. If you turn it on, the optional profile '
+    +'fields above, and only those, may be shared with partners including data brokers. Turning it on '
+    +'changes nothing about price, features, or the free tier, and neither does leaving it off.';
+  ctrl='<div class="row"><button class="btn '+(on?'secondary':'')+' sm" onclick="shareSet('+(on?'false':'true')+')">'
+    +(on?'Turn Data Sharing Off':'Turn Data Sharing On')+'</button>'
+    +'<a class="btn secondary sm" href="/do-not-sell/">Do Not Sell Page</a></div>';
+ } else if(tier==='under_13'||tier==='13_17'){
+  body='<strong>This is closed to your account.</strong> We do not sell or share the personal information of '
+   +'anyone under 18 under any circumstances, and that is enforced in the database rather than by this '
+   +'switch: an account under 18 cannot appear in the only view an export is allowed to read.';
+  ctrl='';
+ } else {
+  body='Tell us your birth month and year above and we can say whether this applies to you. Until then it is '
+   +'off, which is also what it is if you never tell us.';
+  ctrl='';
+ }
+ return birth+'<div class="card stack-4"><div class="card-head" style="margin:0">'
+  +'<span class="card-title">Data Sharing</span>'+badge(on?'On':'Off',on?'accent':'')+'</div>'
+  +'<p class="small" style="margin:0">'+body+'</p>'+ctrl
+  +'<p class="small muted" style="margin:0">Full detail, including who recipients are and what is excluded '
+  +'at every setting, is in <a href="/privacy.html">section 9 of the privacy policy</a>. Opting out stops '
+  +'future sharing; it cannot recall a copy already delivered, which is why this starts off.</p></div>';
+}
+
 async function aboutSave(field,value){ const ab=state.settings.about||(state.settings.about={}); ab[field]=value||null; persist(); if(Cloud.user&&Cloud.client){ const patch={}; patch[field]=value||null; try{ await Cloud.client.from('profiles').update(patch).eq('id',Cloud.user.id); }catch(e){} } toast('Saved.'); }
-async function pushAbout(){ const ab=state.settings.about; if(!ab||!Cloud.user||!Cloud.client) return; const patch={}; ['age_range','gender','country','role_type','referral_src'].forEach(k=>{ if(ab[k]) patch[k]=ab[k]; }); if(Object.keys(patch).length){ try{ await Cloud.client.from('profiles').update(patch).eq('id',Cloud.user.id); }catch(e){} } }
+async function pushAbout(){ const ab=state.settings.about; if(!ab||!Cloud.user||!Cloud.client) return; const patch={}; ['age_range','gender','country','role_type','referral_src','education_level','intended_major','score_goal','application_year','budget_band','employer_industry','household_income_band','first_generation','military_status','study_hours_band','birth_month','birth_year'].forEach(k=>{ if(ab[k]) patch[k]=ab[k]; }); if(Object.keys(patch).length){ try{ await Cloud.client.from('profiles').update(patch).eq('id',Cloud.user.id); }catch(e){} } }
 function renderData(){ const el=document.getElementById('v-data'); const s=state.settings; const pr=s.program;
  const signed=Cloud.status==='signed-in'; const local=Cloud.status==='local-only';
  if(signed) pushAbout();
@@ -2046,14 +2125,25 @@ function renderData(){ const el=document.getElementById('v-data'); const s=state
  '<div class="card stack-4"><div class="card-title">Profile</div><div class="row"><label class="small">Name <input type="text" value="'+esc(s.name||'')+'" onchange="state.settings.name=this.value;persist();updateHeader()"></label><label class="small">Test date <input type="date" value="'+esc(s.testDate||'')+'" onchange="state.settings.testDate=this.value;persist()"></label><label class="small">Daily goal <select onchange="state.settings.dailyGoal=+this.value;persist()">'+[10,15,20,30,40].map(d=>'<option '+(s.dailyGoal===d?'selected':'')+'>'+d+'</option>').join('')+'</select></label></div></div>'+
  (function(){ const ab=s.about||(s.about={});
   const sel=(field,label,opts)=>'<label class="small">'+label+' <select onchange="aboutSave(\''+field+'\',this.value)"><option value="">Prefer not to say</option>'+opts.map(o=>'<option value="'+o[0]+'"'+(ab[field]===o[0]?' selected':'')+'>'+o[1]+'</option>').join('')+'</select></label>';
-  return '<div class="card stack-4"><div class="card-title">About You (Optional)</div><p class="small" style="margin:0">Every field here is optional and self-reported. We use it only in aggregate, to understand who we serve and build the right things; it is never shown publicly and never sold.</p><div class="row" style="flex-wrap:wrap">'
+  return '<div class="card stack-4"><div class="card-title">About You (Optional)</div><p class="small" style="margin:0">Every field here is optional and self-reported. We never infer any of it from what you do, never buy it, and never append it from anywhere else, and none of it is shown publicly. We use it in aggregate to understand who we serve. These are also the only fields the data sharing option below can share, and only if you are 18 or over and switch it on yourself.</p><div class="row" style="flex-wrap:wrap">'
   +sel('age_range','Age range',[['under_18','Under 18'],['18_22','18 to 22'],['23_29','23 to 29'],['30_39','30 to 39'],['40_49','40 to 49'],['50_plus','50+']])
   +sel('gender','Gender',[['woman','Woman'],['man','Man'],['nonbinary','Nonbinary'],['self_described','Self-described']])
   +'<label class="small">Country <input type="text" maxlength="60" value="'+esc(ab.country||'')+'" placeholder="e.g. US" style="width:90px" onchange="aboutSave(\'country\',this.value)"></label>'
   +sel('role_type','I am a',[['student','Student'],['educator','Educator'],['tutor','Tutor'],['parent','Parent'],['other','Other']])
   +'<label class="small">How you found us <input type="text" maxlength="120" value="'+esc(ab.referral_src||'')+'" placeholder="e.g. Google, a friend" style="width:170px" onchange="aboutSave(\'referral_src\',this.value)"></label>'
+  +sel('education_level','Education',[['high_school','In high school'],['some_college','Some college'],['bachelors','Bachelors'],['masters','Masters'],['doctorate','Doctorate']])
+  +'<label class="small">Intended major <input type="text" maxlength="80" value="'+esc(ab.intended_major||'')+'" placeholder="e.g. Finance" style="width:150px" onchange="aboutSave(\'intended_major\',this.value)"></label>'
+  +'<label class="small">Score goal <input type="text" maxlength="20" value="'+esc(ab.score_goal||'')+'" placeholder="e.g. 675" style="width:90px" onchange="aboutSave(\'score_goal\',this.value)"></label>'
+  +'<label class="small">Applying for <input type="text" maxlength="12" value="'+esc(ab.application_year||'')+'" placeholder="e.g. 2027" style="width:90px" onchange="aboutSave(\'application_year\',this.value)"></label>'
+  +sel('budget_band','Prep budget',[['none','Nothing'],['under_100','Under 100'],['100_500','100 to 500'],['500_2000','500 to 2,000'],['over_2000','Over 2,000']])
+  +'<label class="small">Industry <input type="text" maxlength="60" value="'+esc(ab.employer_industry||'')+'" placeholder="e.g. Consulting" style="width:150px" onchange="aboutSave(\'employer_industry\',this.value)"></label>'
+  +sel('household_income_band','Household income',[['under_50k','Under 50k'],['50_100k','50k to 100k'],['100_200k','100k to 200k'],['over_200k','Over 200k']])
+  +sel('first_generation','First in family to attend college',[['yes','Yes'],['no','No']])
+  +sel('military_status','Military',[['none','Not applicable'],['active','Active duty'],['veteran','Veteran'],['family','Military family']])
+  +sel('study_hours_band','Study hours a week',[['under_3','Under 3'],['3_5','3 to 5'],['5_10','5 to 10'],['over_10','Over 10']])
   +'</div>'+(signed?'':'<p class="small muted" style="margin:0">Saved on this device now; it attaches to your account when you sign in.</p>')+'</div>'; })()+
- '<div class="card stack-4"><div class="card-head" style="margin:0"><span class="card-title">Study Program</span>'+badge(pr.exam,'sec-Q')+'</div><table><tbody><tr><td style="width:160px">Exam</td><td>'+esc(pr.exam)+' <span class="small">(GRE, LSAT, MCAT, Executive Assessment coming)</span></td></tr><tr><td>Goal</td><td><input type="text" style="width:100%" value="'+esc(pr.goal||'')+'" placeholder="e.g. Score 675+ for M7 programs" onchange="state.settings.program.goal=this.value;persist()"></td></tr><tr><td>Time</td><td><select onchange="state.settings.program.hours=this.value;persist()">'+['1 to 3 hrs / week','3 to 5 hrs / week','5 to 10 hrs / week','10+ hrs / week'].map(h=>'<option '+(pr.hours===h?'selected':'')+'>'+h+'</option>').join('')+'</select></td></tr><tr><td>Tools</td><td class="chips">'+['Quick 10','Timed sprint','Flashcards','Custom drill'].map(tl=>'<span class="chip-t '+(pr.tools[tl]?'on':'')+'" onclick="state.settings.program.tools[\''+tl+'\']=!state.settings.program.tools[\''+tl+'\'];persist();renderData()">'+tl+'</span>').join('')+'</td></tr></tbody></table><div><button class="btn secondary sm" onclick="startOnboarding()">Re-run the setup wizard</button></div></div>'+
+ shareCard(signed)+
+ '<div class="card stack-4"><div class="card-head" style="margin:0"><span class="card-title">Study Program</span>'+badge(pr.exam,'sec-Q')+'</div><table><tbody><tr><td style="width:160px">Exam</td><td>'+esc(pr.exam)+' <span class="small">(GRE, LSAT, SAT and ACT trainers are live too)</span></td></tr><tr><td>Goal</td><td><input type="text" style="width:100%" value="'+esc(pr.goal||'')+'" placeholder="e.g. Score 675+ for M7 programs" onchange="state.settings.program.goal=this.value;persist()"></td></tr><tr><td>Time</td><td><select onchange="state.settings.program.hours=this.value;persist()">'+['1 to 3 hrs / week','3 to 5 hrs / week','5 to 10 hrs / week','10+ hrs / week'].map(h=>'<option '+(pr.hours===h?'selected':'')+'>'+h+'</option>').join('')+'</select></td></tr><tr><td>Tools</td><td class="chips">'+['Quick 10','Timed sprint','Flashcards','Custom drill'].map(tl=>'<span class="chip-t '+(pr.tools[tl]?'on':'')+'" onclick="state.settings.program.tools[\''+tl+'\']=!state.settings.program.tools[\''+tl+'\'];persist();renderData()">'+tl+'</span>').join('')+'</td></tr></tbody></table><div><button class="btn secondary sm" onclick="startOnboarding()">Re-run the setup wizard</button></div></div>'+
  '<div class="card stack-4"><div class="card-head" style="margin:0"><span class="card-title">Plan and Billing</span>'+badge(userPlan()==='free'?'Free plan':userPlan()==='plus'?'Plus':'Pro','accent')+'</div><p class="small" style="margin:0">'+(PAYMENTS_LIVE?'The free plan never asks for a card. Every paid plan starts with a '+TRIAL_DAYS+'-day free trial you can cancel inside at no charge. Payments run through Stripe Checkout; we never see your card.':'Everything is free while we build. This is the plan structure that switches on later; early users keep generous grandfathering.')+'</p>'+(function(){ const bl=billingLine(); return bl?'<p class="small" style="margin:0"><strong>'+esc(bl)+'</strong></p>':''; })()+(function(){ const b=Cloud.billing; if(!PAYMENTS_LIVE||!b||!b.hasCustomer) return '';
   const live=b.status==='trialing'||b.status==='active'||b.status==='past_due';
   return '<div class="row">'

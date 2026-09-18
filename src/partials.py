@@ -286,6 +286,10 @@ FOOTER_LINKS = [
     ("Paying for It", "/funding/"),
     ("Privacy", "/privacy.html"),
     ("Terms", "/terms.html"),
+    # California wants this link conspicuous on every page, not findable only by someone
+    # already reading the privacy policy. Last in the list because it is the one people
+    # arrive looking for rather than stumble on.
+    ("Do Not Sell or Share My Personal Information", "/do-not-sell/"),
 ]
 
 LEGAL_LINE = (
@@ -407,8 +411,14 @@ def consent_js():
         "often you changed your mind. Those records carry no account, no session, "
         "no device and no address, so they cannot be tied back to anyone; they are how the practice "
         "engine learns which questions work. "
-        "<b>Never.</b> We do not buy data about you, do not append it from anywhere else, do not sell "
-        "or share it for advertising, and run no third party trackers. "
+        "<b>Never.</b> We do not buy data about you, do not append it from anywhere else, "
+        "run no third party trackers, and never sell or share anything this banner is about: "
+        "not a page view, not an item answered, not a word you typed. "
+        "<b>Separately, and only if you ask for it.</b> Account holders aged 18 and over can "
+        "switch on a programme that shares the optional profile details they filled in "
+        "themselves with partners including data brokers. It is off unless you turn it on, it "
+        "is closed to under 18s, and it is switched off again from the "
+        '<a href="/do-not-sell/">Do Not Sell</a> page linked in every footer. '
         'Full detail is on the <a href="/privacy.html">privacy page</a>.</p>\n'
         "  </div>\n"
         "</div>\n"
