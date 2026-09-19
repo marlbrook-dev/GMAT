@@ -32,6 +32,20 @@ wrong, and change it when the owner says to rather than quoting it back at them.
 - Never fabricate product stats, user counts, testimonials, or efficacy claims. Personal bests, not leaderboards; accuracy-only game scoring, nothing luck-based.
 - Blog: pen-name bylines with no invented credentials; never backdate; posts publish by date via the drip (one post every 2 days; daily publish cron).
 
+## Never invent a value (owner's rule, non-negotiable)
+
+- Every identifier, hash, ID, count, price, date, URL and statistic that goes into a tool
+  call, a commit, a page or a message must be READ from a real output first: a command
+  result, a file, a tool response. Never type one from memory, pattern, or plausibility.
+  On 2026-09-19 a 40 character hex string was typed straight into a GitHub merge call as
+  if it were a commit SHA. The API rejected it as malformed, which was luck; a
+  well-formed guess would have merged something else.
+- If the real value is not to hand, run the command that produces it (git rev-parse, a
+  read, a query). That costs one tool call. Guessing costs correctness.
+- This is the same rule as the sourcing rule below, applied to machine values instead of
+  published figures, and it fails the same way: a number that looks right is the hardest
+  kind of wrong to catch.
+
 ## Communication (owner's rule, non-negotiable)
 
 - If a link, site, or service cannot be accessed (egress blocked, login wall, rate limit, anything), say so IMMEDIATELY and ask how to proceed BEFORE doing the work another way. Never quietly substitute partial information (a screenshot, memory, a guess) for the source the owner pointed to. The owner always wants to know when there is a problem or a failed connection, at the moment it happens.

@@ -188,3 +188,90 @@ begin
                                    else 'SOMETHING FAILED, READ THE LINES ABOVE' end);
   raise exception 'RESULTS (rolled back): %', r;
 end $$;
+
+
+-- ---------------------------------------------------------------------------------
+-- Opt out model. Same shape: ends by raising, so it rolls itself back.
+--
+-- Three things here are worth more than the rest. A US adult who has never touched the
+-- setting must be sellable, because that is the entire point of the change. An account
+-- created before the policy must NOT be, because it was told the opposite and a changed
+-- default must not reach back. And an adult who opted out must still have data collected
+-- and appended, just never exported: opt out covers sale, not collection.
+do $$
+declare
+  ids uuid[] := array[
+    '00000000-0000-4000-8000-0000000000c1','00000000-0000-4000-8000-0000000000c2',
+    '00000000-0000-4000-8000-0000000000c3','00000000-0000-4000-8000-0000000000c4',
+    '00000000-0000-4000-8000-0000000000c5','00000000-0000-4000-8000-0000000000c6',
+    '00000000-0000-4000-8000-0000000000c7','00000000-0000-4000-8000-0000000000c8'];
+  r text := E'\n'; n int; ok boolean := true;
+  after_policy timestamptz := '2026-09-19T00:00:00Z';
+  before_policy timestamptz := '2026-08-01T00:00:00Z';
+begin
+  insert into auth.users (id, instance_id, aud, role, email, encrypted_password,
+                          email_confirmed_at, created_at, updated_at)
+  select x, '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated',
+         'def-' || x || '@example.invalid', '', now(), now(), now()
+  from unnest(ids) x;
+  insert into public.profiles (id, email) select x, 'x@example.invalid'
+    from unnest(ids) x on conflict (id) do nothing;
+
+  update public.profiles set birth_year=1990, birth_month=1, signup_country='US',
+    created_at=after_policy where id=ids[1];
+  update public.profiles set birth_year=1990, birth_month=1, signup_country='US',
+    created_at=after_policy, data_sharing_opt_out=true, data_sharing_opt_out_at=now() where id=ids[2];
+  update public.profiles set birth_year=1990, birth_month=1, signup_country='DE',
+    created_at=after_policy where id=ids[3];
+  update public.profiles set birth_year=1990, birth_month=1, signup_country='DE',
+    created_at=after_policy, data_sharing_opt_in=true, data_sharing_at=now(),
+    data_sharing_policy_version='2026-09-18' where id=ids[4];
+  update public.profiles set birth_year=1990, birth_month=1, signup_country='US',
+    created_at=before_policy where id=ids[5];
+  update public.profiles set birth_year=2011, birth_month=1, signup_country='US',
+    created_at=after_policy where id=ids[6];
+  update public.profiles set birth_year=1990, birth_month=1, signup_country=null,
+    created_at=after_policy where id=ids[7];
+  update public.profiles set birth_year=1990, birth_month=1, signup_country='GB',
+    created_at=after_policy where id=ids[8];
+
+  select count(*) into n from public.sellable_profiles where id=ids[1];
+  r := r || format(E'US adult, never touched the setting     -> sellable %s  (want 1, DEFAULT ON)  %s\n', n, case when n=1 then 'ok' else 'FAIL' end);
+  if n<>1 then ok:=false; end if;
+  select count(*) into n from public.sellable_profiles where id=ids[2];
+  r := r || format(E'US adult who opted out                  -> sellable %s  (want 0)  %s\n', n, case when n=0 then 'ok' else 'FAIL' end);
+  if n<>0 then ok:=false; end if;
+  select count(*) into n from public.sellable_profiles where id=ids[3];
+  r := r || format(E'German adult, never touched it          -> sellable %s  (want 0, consent needed)  %s\n', n, case when n=0 then 'ok' else 'FAIL' end);
+  if n<>0 then ok:=false; end if;
+  select count(*) into n from public.sellable_profiles where id=ids[4];
+  r := r || format(E'German adult who opted in               -> sellable %s  (want 1)  %s\n', n, case when n=1 then 'ok' else 'FAIL' end);
+  if n<>1 then ok:=false; end if;
+  select count(*) into n from public.sellable_profiles where id=ids[5];
+  r := r || format(E'US adult who signed up before the policy-> sellable %s  (want 0, no retroactive)  %s\n', n, case when n=0 then 'ok' else 'FAIL' end);
+  if n<>0 then ok:=false; end if;
+  select count(*) into n from public.sellable_profiles where id=ids[6];
+  r := r || format(E'US 15 year old                          -> sellable %s  (want 0)  %s\n', n, case when n=0 then 'ok' else 'FAIL' end);
+  if n<>0 then ok:=false; end if;
+  select count(*) into n from public.sellable_profiles where id=ids[7];
+  r := r || format(E'adult, country unknown                  -> sellable %s  (want 0, cautious)  %s\n', n, case when n=0 then 'ok' else 'FAIL' end);
+  if n<>0 then ok:=false; end if;
+  select count(*) into n from public.sellable_profiles where id=ids[8];
+  r := r || format(E'UK adult, never touched it              -> sellable %s  (want 0, consent needed)  %s\n', n, case when n=0 then 'ok' else 'FAIL' end);
+  if n<>0 then ok:=false; end if;
+
+  -- Opt out covers SALE, not collection. The owner's intent is to keep collecting and
+  -- personalising for everyone and simply never export the people who said no.
+  insert into public.profile_appended (user_id, attribute, value, source)
+  values (ids[2], 'employer_industry', 'Finance', 'TestBroker');
+  select count(*) into n from public.profile_appended where user_id=ids[2];
+  r := r || format(E'appending to an opted-out adult         -> %s row(s)  (want 1, collect but never sell)  %s\n', n, case when n=1 then 'ok' else 'FAIL' end);
+  if n<>1 then ok:=false; end if;
+  select count(*) into n from public.sellable_profiles_enriched where id=ids[2];
+  r := r || format(E'  and that row is still not exportable  -> %s  (want 0)  %s\n', n, case when n=0 then 'ok' else 'FAIL' end);
+  if n<>0 then ok:=false; end if;
+
+  r := r || format(E'\n%s\n', case when ok then 'OPT OUT MODEL HOLDS'
+                                   else 'SOMETHING FAILED, READ THE LINES ABOVE' end);
+  raise exception 'RESULTS (rolled back): %', r;
+end $$;

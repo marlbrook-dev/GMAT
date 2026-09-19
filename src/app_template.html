@@ -2040,6 +2040,9 @@ async function shareLoad(){ if(!Cloud.user||!Cloud.client){ Cloud.sharing=null; 
  renderData(); }
 
 async function shareSet(on){ if(!Cloud.user||!Cloud.client){ toast('Sign in first.'); return; }
+ // Confirm the switch ON, never the switch off. A refusal that has to get past a dialog
+ // is a refusal the interface is arguing with, and that is the dark pattern regulators
+ // actually fine people for.
  if(on&&!confirm('Turn on data sharing?\n\nThe optional profile details you have filled in, and nothing '
   +'else, may be shared with partners including data brokers. Your answers, anything you type, your email '
   +'and your payment details are never included. You can turn this off at any time.')) return;
@@ -2069,37 +2072,61 @@ function shareCard(signed){
   +(signed?'':'<p class="small muted" style="margin:0">Saved on this device now; it attaches to your account when you sign in.</p>')
   +'</div>';
 
- const sh=signed?Cloud.sharing:null, tier=sh?sh.tier:null, on=!!(sh&&sh.opt_in);
+ // Read from the server, which decides `sharing` by asking the export view itself. A card
+ // that recomputed it from the flags would eventually disagree with the thing that
+ // actually governs what leaves, and this is the one card where that is not survivable.
+ const sh=signed?Cloud.sharing:null;
+ const tier=sh?sh.tier:null, on=!!(sh&&sh.sharing);
+ const basis=sh?sh.basis:null, out=!!(sh&&sh.opted_out);
  let body, ctrl;
+ const btn=(turnOn,label)=>'<div class="row"><button class="btn '+(turnOn?'':'secondary')+' sm" '
+   +'onclick="shareSet('+(turnOn?'true':'false')+')">'+label+'</button>'
+   +'<a class="btn secondary sm" href="/do-not-sell/">Do Not Sell Page</a></div>';
+
  if(!signed){
   body='Sign in to see this. The programme only ever covers account holders, so nothing of yours is in it.';
   ctrl='';
- } else if(tier==='18_plus'){
-  body=on?'<strong>It is on.</strong> The optional profile fields above may be shared with partners including '
-    +'data brokers. Your answers, anything you type, your email, your payment details, your IP address and '
-    +'your forum posts are never included, whatever this is set to.'
-   :'<strong>It is off.</strong> Nothing of yours is being shared. If you turn it on, the optional profile '
-    +'fields above, and only those, may be shared with partners including data brokers. Turning it on '
-    +'changes nothing about price, features, or the free tier, and neither does leaving it off.';
-  ctrl='<div class="row"><button class="btn '+(on?'secondary':'')+' sm" onclick="shareSet('+(on?'false':'true')+')">'
-    +(on?'Turn Data Sharing Off':'Turn Data Sharing On')+'</button>'
-    +'<a class="btn secondary sm" href="/do-not-sell/">Do Not Sell Page</a></div>';
  } else if(tier==='under_13'||tier==='13_17'){
   body='<strong>This is closed to your account.</strong> We do not sell or share the personal information of '
    +'anyone under 18 under any circumstances, and that is enforced in the database rather than by this '
-   +'switch: an account under 18 cannot appear in the only view an export is allowed to read.';
+   +'switch: an account under 18 cannot appear in the only view an export is allowed to read. We still '
+   +'record your practice and still personalise your study plan from it. That part is the product, and it '
+   +'is never sold.';
   ctrl='';
+ } else if(tier!=='18_plus'){
+  body='Tell us your birth month and year above and we can say whether this applies to you. Until you do, '
+   +'nothing of yours is shared.';
+  ctrl='';
+ } else if(on){
+  body='<strong>It is on.</strong> The optional profile fields above may be shared with partners including '
+   +'data brokers. Your answers, anything you type, your email, your payment details, your IP address and '
+   +'your forum posts are never included, whatever this is set to. Turning it off changes nothing about '
+   +'price, features, or the free tier.';
+  ctrl=btn(false,'Turn Data Sharing Off');
+ } else if(out){
+  body='<strong>It is off, because you turned it off.</strong> Nothing further will be shared. We still '
+   +'collect and use your data to run the product and personalise your practice, which is what your '
+   +'account is for; we just do not pass any of it on.';
+  ctrl=btn(true,'Turn Data Sharing Back On');
+ } else if(basis==='opt_in'){
+  body='<strong>It is off.</strong> Where you signed up, we have to ask before sharing anything rather than '
+   +'assume, so it stays off until you say otherwise. If you turn it on, the optional profile fields above, '
+   +'and only those, may be shared with partners including data brokers.';
+  ctrl=btn(true,'Turn Data Sharing On');
  } else {
-  body='Tell us your birth month and year above and we can say whether this applies to you. Until then it is '
-   +'off, which is also what it is if you never tell us.';
-  ctrl='';
+  // Adult, no refusal, jurisdiction does not require asking first, and still not sharing.
+  // That leaves one cause: the account predates the policy that disclosed the programme.
+  body='<strong>It is off.</strong> You created this account before we published the data sharing policy, '
+   +'so you were told we would never sell your data. We are holding to what you were told: the default '
+   +'does not apply to you, and nothing of yours is shared unless you choose it here.';
+  ctrl=btn(true,'Turn Data Sharing On');
  }
  return birth+'<div class="card stack-4"><div class="card-head" style="margin:0">'
   +'<span class="card-title">Data Sharing</span>'+badge(on?'On':'Off',on?'accent':'')+'</div>'
   +'<p class="small" style="margin:0">'+body+'</p>'+ctrl
   +'<p class="small muted" style="margin:0">Full detail, including who recipients are and what is excluded '
-  +'at every setting, is in <a href="/privacy.html">section 9 of the privacy policy</a>. Opting out stops '
-  +'future sharing; it cannot recall a copy already delivered, which is why this starts off.</p></div>';
+  +'whatever this is set to, is in <a href="/privacy.html">section 9 of the privacy policy</a>. Turning it '
+  +'off stops future sharing; it cannot recall a copy already delivered.</p></div>';
 }
 
 async function aboutSave(field,value){ const ab=state.settings.about||(state.settings.about={}); ab[field]=value||null; persist(); if(Cloud.user&&Cloud.client){ const patch={}; patch[field]=value||null; try{ await Cloud.client.from('profiles').update(patch).eq('id',Cloud.user.id); }catch(e){} } toast('Saved.'); }
