@@ -261,6 +261,10 @@ body.focus header.app,body.focus footer.app{display:none}
      independently, and stops a bank of thousands of items from blocking first paint. It is a
      plain blocking script, so BANK is defined before the app code below runs. -->
 <script src="{{BANK_SRC}}"></script>
+<!-- The rest of the bank, async so it never blocks a question appearing. It pushes into
+     BANK and calls __bankGrew, which the inline script below defines. Script execution is
+     single threaded, so this cannot run before that script has finished. -->
+<script src="{{BANK_REST_SRC}}" async></script>
 <script>
 const SUPABASE_URL="https://ftsqwbzhkzuudogkvoqa.supabase.co", SUPABASE_KEY="sb_publishable_GToT4fK6RiwCZpPFE3bGiw_ThXq9qel", APP_VERSION="0.3.0";
 const EXAM_ID="{{EXAM_ID}}";
@@ -275,6 +279,15 @@ if(typeof BANK==='undefined'||!Array.isArray(BANK)||!BANK.length){
  throw new Error('bank.js did not load');
 }
 const BANK_BY_ID = {}; BANK.forEach(q=>BANK_BY_ID[q.id]=q);
+// Called by bank_rest.js once the deferred items have been pushed into BANK. Reindexing
+// is the whole job: every draw goes through BANK.filter, which now sees the full pool,
+// and BANK_BY_ID is the only derived structure. Cheap enough to just rebuild.
+window.__bankGrew = function(){
+  BANK.forEach(q=>{ if(!BANK_BY_ID[q.id]) BANK_BY_ID[q.id]=q; });
+  // The Account page prints the bank size. If it happens to be open, it is now wrong.
+  try{ const v=document.getElementById('v-data');
+       if(v && !v.classList.contains('hidden')) renderData(); }catch(e){}
+};
 // One palette slot per section, so a new exam only needs an entry here.
 const SEC_PALETTE={Q:'quant',V:'verbal',DI:'data',RW:'verbal',M:'quant'};
 const SEC_COLOR={}, SEC_BG={}, SEC_SHORT={};
@@ -296,7 +309,10 @@ SKILLS.forEach(s=>{ if(!state.skills[s.id]) state.skills[s.id]={r:START_R,n:0,c:
 function persist(){ if(!Store.save(state)) toast('Auto-save is unavailable in this browser. Export your progress from Account.'); Cloud.scheduleSave(); }
 // ---------- Cloud sync (Supabase) ----------
 const Cloud={ client:null, user:null, timer:null, status:'off',
- async init(){ if(!window.supabase||location.protocol==='file:'){ this.status='local-only'; return; } try{ this.client=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY); const {data}=await this.client.auth.getSession(); this.user=data.session?data.session.user:null; this.status=this.user?'signed-in':'signed-out'; this.client.auth.onAuthStateChange(async (ev,sess)=>{ this.user=sess?sess.user:null; this.status=this.user?'signed-in':'signed-out'; if(this.user){ await this.pull(); track('session_started',{}); } this.checkAdmin(); updateHeader(); if(!document.getElementById('v-data').classList.contains('hidden')) renderData(); }); if(this.user){ await this.pull(); await shareLoad(); track('session_started',{}); } this.checkAdmin(); }catch(e){ this.status='error'; } },
+ async init(){ if(!window.supabase||location.protocol==='file:'){ this.status='local-only'; return; } try{ this.client=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY); const {data}=await this.client.auth.getSession(); this.user=data.session?data.session.user:null; this.status=this.user?'signed-in':'signed-out'; this.client.auth.onAuthStateChange(async (ev,sess)=>{ this.user=sess?sess.user:null; this.status=this.user?'signed-in':'signed-out'; if(this.user){ await this.pull(); // This is the path a new account takes: sign up, open the emailed link, land back
+   // here. The birth date collected at signup lives in local settings until this
+   // runs, and the sharing state has never been read at all.
+   await pushAbout(); await shareLoad(); track('session_started',{}); } this.checkAdmin(); updateHeader(); if(!document.getElementById('v-data').classList.contains('hidden')) renderData(); }); if(this.user){ await this.pull(); await shareLoad(); track('session_started',{}); } this.checkAdmin(); }catch(e){ this.status='error'; } },
  async checkAdmin(){ this.isAdmin=false; const b=document.getElementById('navAdmin'); const pv=location.hash==='#admin-preview'; if(b&&!pv) b.style.display='none'; if(!this.user||!this.client) return; try{ const {data}=await this.client.rpc('is_admin'); this.isAdmin=!!data; }catch(e){} if(b) b.style.display=(this.isAdmin||pv)?'':'none'; },
  async signIn(email){ milestone('account_created'); if(!this.client) return {error:{message:'Sync is available on the hosted site only.'}}; return this.client.auth.signInWithOtp({email, options:{emailRedirectTo: location.origin+location.pathname}}); },
  async signOut(){ if(this.client) await this.client.auth.signOut(); this.user=null; this.status='signed-out'; },
@@ -2137,7 +2153,22 @@ function renderData(){ const el=document.getElementById('v-data'); const s=state
  let auth='';
  if(signed) auth='<div class="row" style="justify-content:space-between"><div><div class="card-title" style="font-size:15px">Signed in as '+esc(Cloud.user.email)+'</div><div class="small">'+(Cloud.blobLocked?'Cross-device sync for '+esc(EXAM.name)+' is not available on this account yet: your account already stores '+esc((EXAMS[Cloud.blobExam]||{name:'another exam'}).name)+' progress, and the account record holds one exam at a time. '+esc(EXAM.name)+' progress is saved on this device and is safe; nothing of yours will be overwritten. Export from below to move it.':'Progress syncs to your account a few seconds after each answer.')+'</div></div><button class="btn secondary sm" onclick="Cloud.signOut().then(()=>{toast(\'Signed out. Progress stays on this device.\');renderData();updateHeader();})">Sign out</button></div>';
  else if(local) auth='<div class="small">You are using the offline file. Sign-in and sync are available on the hosted site.</div>';
- else auth='<div class="row"><input type="text" id="authEmail" placeholder="you@example.com" style="min-width:260px" value="'+esc(s.email||'')+'"><button class="btn" onclick="sendMagicLink()">Email Me a Sign-In Link</button></div><div class="small" style="margin-top:8px">No password. We email a one-time link; your progress on this device is kept and merged with your account. By continuing you agree to the Terms of Use and Privacy notice.</div><div id="authMsg" class="small"></div>';
+ else { const ab0=s.about||(s.about={}); const nowY0=new Date().getFullYear();
+  const MO=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const yrs=[]; for(let y=nowY0;y>=nowY0-100;y--) yrs.push(y);
+  auth='<div class="row"><input type="text" id="authEmail" placeholder="you@example.com" style="min-width:260px" value="'+esc(s.email||'')+'"></div>'
+   +'<div class="row" style="flex-wrap:wrap;margin-top:8px">'
+   +'<label class="small">Birth month <select id="authMonth"><option value="">Month</option>'
+   +MO.map((m,k)=>'<option value="'+(k+1)+'"'+(ab0.birth_month===k+1?' selected':'')+'>'+m+'</option>').join('')
+   +'</select></label>'
+   +'<label class="small">Birth year <select id="authYear"><option value="">Year</option>'
+   +yrs.map(y=>'<option value="'+y+'"'+(ab0.birth_year===y?' selected':'')+'>'+y+'</option>').join('')
+   +'</select></label></div>'
+   +'<div class="row" style="margin-top:8px"><button class="btn" onclick="sendMagicLink()">Email Me a Sign-In Link</button></div>'
+   +'<div class="small" style="margin-top:8px">No password. We email a one-time link; your progress on this device is kept and merged with your account. '
+   +'We ask for your birth month and year, and deliberately not the day, because your age decides whether you can buy a paid plan and how your data may be used. '
+   +'You can correct it later from this page. By continuing you agree to the <a href="/terms.html">Terms of Use</a> and the <a href="/privacy.html">Privacy notice</a>.</div>'
+   +'<div id="authMsg" class="small"></div>'; }
  const tiers=[
   {id:'free',name:'Free',mo:'$0',sub:'forever',feats:['10 questions a day, every mode','1 mock section a month','Flashcards, review queue, Playbook','Sync, export, import']},
   {id:'plus',name:'Plus',mo:'$4.99',sub:'/mo · or $49.99/yr',feats:['Unlimited questions and drills','Unlimited mock sections','Full timing and skill analytics','Everything in Free']},
@@ -2183,7 +2214,14 @@ function renderData(){ const el=document.getElementById('v-data'); const s=state
    +'<button class="btn ghost sm" onclick="openBillingPortal()">Manage Billing</button></div>'; })()+'<div class="tiles" style="grid-template-columns:repeat(3,1fr)">'+tiers.map(t=>'<div class="tile"><div class="l">'+t.name+'</div><div class="v" style="font-size:24px">'+t.mo+'<span class="small" style="font-weight:400"> '+t.sub+'</span></div><ul class="small" style="margin:8px 0 0;padding-left:16px;text-align:left">'+t.feats.map(f=>'<li>'+f+'</li>').join('')+'</ul>'+planBtn(t)+'</div>').join('')+'</div></div>'+
  '<div class="card stack-4"><div class="card-title">Notifications</div><label class="row" style="gap:8px;cursor:pointer"><input type="checkbox" '+(s.digest?'checked':'')+' onchange="state.settings.digest=this.checked;persist()"> Weekly progress digest by email (when accounts launch)</label></div>'+
  '<div class="card stack-4"><div class="card-title">Privacy and Data</div><p class="small" style="margin:0">Your answers, ratings and settings. Download everything as JSON, restore from a file, or delete it. Deleting removes your data from this device'+(signed?' and from your account':'')+'.</p><div class="row"><button class="btn" onclick="exportState()">Download My Data</button><label class="btn secondary">Import From File <input type="file" accept="application/json" onchange="importState(this)"></label><button class="btn ghost" onclick="deleteEverything()">Delete My Data</button></div><table><tbody><tr><td>Attempts</td><td class="num">'+state.attempts.length+'</td></tr><tr><td>Sessions</td><td class="num">'+state.sessions.length+'</td></tr><tr><td>Events logged</td><td class="num">'+((state.events||[]).length)+'</td></tr><tr><td>Created</td><td>'+new Date(state.created).toLocaleString()+'</td></tr><tr><td>Bank</td><td class="num">'+BANK.length+' items · app '+APP_VERSION+'</td></tr></tbody></table></div></div>'; }
-async function sendMagicLink(){ const em=(document.getElementById('authEmail').value||'').trim(); if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){ toast('Enter a valid email.'); return; } state.settings.email=em; persist(); const {error}=await Cloud.signIn(em); const m=document.getElementById('authMsg'); if(error){ m.textContent='Could not send: '+error.message; } else { m.textContent='Check your inbox for the sign-in link. Open it on this device to sync here.'; } }
+async function sendMagicLink(){ const em=(document.getElementById('authEmail').value||'').trim(); if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){ toast('Enter a valid email.'); return; }
+ // Required, not optional. An optional field here would reproduce the exact problem
+ // moving it off the Account page was meant to fix.
+ const mEl=document.getElementById('authMonth'), yEl=document.getElementById('authYear');
+ const mv=mEl&&mEl.value?+mEl.value:null, yv=yEl&&yEl.value?+yEl.value:null;
+ if(!mv||!yv){ toast('Choose your birth month and year.'); if(yEl&&!yv) yEl.focus(); else if(mEl) mEl.focus(); return; }
+ const ab=state.settings.about||(state.settings.about={}); ab.birth_month=mv; ab.birth_year=yv;
+ state.settings.email=em; persist(); const {error}=await Cloud.signIn(em); const m=document.getElementById('authMsg'); if(error){ m.textContent='Could not send: '+error.message; } else { m.textContent='Check your inbox for the sign-in link. Open it on this device to sync here.'; } }
 async function deleteEverything(){ if(!confirm('Delete all progress'+(Cloud.user?' from this device and your account':'')+'? Download first if you want a copy.')) return; if(Cloud.user){ await Cloud.wipe(); track('account_deleted',{}); } const st=state.settings; state=newState(); state.settings=Object.assign(state.settings,{name:st.name,onboarded:true}); Store.clear(); Store.save(state); renderData(); updateHeader(); toast('Deleted.'); }
 function exportState(){ const blob=new Blob([JSON.stringify(state)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='meridian-progress-'+new Date().toISOString().slice(0,10)+'.json'; a.click(); }
 function importState(inp){ const f=inp.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{ try{ const s=JSON.parse(r.result); if(!s.skills||!s.attempts) throw 0; state=s; SKILLS.forEach(k=>{ if(!state.skills[k.id]) state.skills[k.id]={r:START_R,n:0,c:0,t:0,hist:[]}; }); if(!state.seen) state.seen={}; if(!state.settings) state.settings={name:'Hunter',testDate:'',dailyGoal:20}; if(state.settings.onboarded===undefined) state.settings.onboarded=false; if(!state.settings.program) state.settings.program={exam:(EXAM.short),goal:'',hours:'3 to 5 hrs / week',tools:{'Quick 10':true,'Timed sprint':true,'Flashcards':false}}; if(state.settings.digest===undefined) state.settings.digest=true; persist(); toast('Imported '+state.attempts.length+' attempts.'); renderData(); updateHeader(); }catch(e){ toast('That file is not a valid progress export.'); } }; r.readAsText(f); }

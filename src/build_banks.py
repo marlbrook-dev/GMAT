@@ -23,7 +23,34 @@ import g_gmat_gt, g_gmat_tpa, g_gmat_msr             # noqa: E402,F401
 import g_act_sci, g_gre_verb, g_gmat_cr, g_act_nq    # noqa: E402,F401
 
 OUT = D / "generated"
-TARGET = 500
+
+# Per category, set to what the schemas can actually produce rather than to a round
+# number. 34 categories across the four generated exams, plus 1,073 hand written items
+# (including all 65 LSAT ones, which have no generator).
+#
+# Three categories exhaust their parameter space below this and ship at their own ceiling
+# instead. That is reported, not silent: build_banks prints "categories under target" and
+# names the schemas that ran out.
+#
+#   gmat/v_pc      833   cr_plan_assume, cr_plan_eval, cr_plan_weaken
+#   sat/rw_eoi     971   sat_rw_transition
+#   act/act_e_pow  974   sat_rw_transition remapped
+#
+# So the published bank is 31 x 1200 + 833 + 971 + 974 + 1,073 = 41,051.
+#
+# Raising this further is possible: nothing else was exhausted at 1200, so the other 31
+# ceilings are somewhere above it and untested. Two reasons to think twice before doing
+# it. Bank files grow roughly linearly and the wire cost with them, which
+# src/smoke_load.js measures on every run against a 4 second budget to first question.
+# And the categories built on a single schema (sat/rw_eoi, gre/gre_se, gre/gre_tc,
+# act/act_e_pow) become variations on one template at scale, so past a point a new schema
+# is worth far more than a larger number.
+TARGET = 1200
+
+# How many items per skill ship in the blocking starter file. Eighty is several rounds
+# per skill, so a student reaches the deferred remainder long after it has arrived, while
+# keeping the blocking download around a tenth of the full bank.
+STARTER_PER_SKILL = 80
 
 POOL_MODS = [g_sat_alg, g_sat_adv, g_sat_psda, g_sat_geo, g_sat_rw]
 
@@ -82,6 +109,7 @@ def main(target=TARGET, verbose=True):
     for exam, choices in (("sat", 4), ("gre", 5), ("gmat", 5), ("act", 4)):
         plan = plan_for(exam, pool)
         items = []
+        by_skill = {}
         seen = set()
         n = 1
         for skill in sorted(plan):
@@ -99,6 +127,7 @@ def main(target=TARGET, verbose=True):
                 seen.add(F.canon(it))
             n += len(got)
             items.extend(got)
+            by_skill[skill] = list(got)
             report[(exam, skill)] = (len(got), dropped, errs)
             if verbose:
                 flag = "" if len(got) >= target else "   SHORT"
@@ -106,12 +135,35 @@ def main(target=TARGET, verbose=True):
                       % (exam, skill, len(got), len(gens), flag))
                 if len(got) < target and errs:
                     print("        %s" % errs[-1])
+        # Split into a starter slice and the remainder.
+        #
+        # The whole bank is a blocking script, so time to first question used to be time
+        # to download every item. Measured on regular 3G that was 20 seconds for GMAT and
+        # 23 for ACT, which is well past where people leave. Nothing about the items was
+        # wrong; the loading was.
+        #
+        # The starter is strided rather than taken from the front, because items within a
+        # skill come out in generation order and the front of that run is not spread
+        # across difficulty. Striding gives the engine a representative pool immediately,
+        # so a student's first rounds are drawn from the same distribution they would
+        # have been anyway.
+        starter, rest = [], []
+        for skill, group in sorted(by_skill.items()):
+            stride = max(1, len(group) // STARTER_PER_SKILL)
+            head = group[::stride][:STARTER_PER_SKILL]
+            head_ids = {id(x) for x in head}
+            starter.extend(head)
+            rest.extend([x for x in group if id(x) not in head_ids])
+
         const = "BANK_GEN_" + exam.upper()
-        js = F.to_js(items, const, HEADER)
+        js = F.to_js(starter, const, HEADER)
         (OUT / ("bank_gen_%s.js" % exam)).write_text(js, encoding="utf-8")
+        js_rest = F.to_js(rest, const + "_REST", HEADER)
+        (OUT / ("bank_gen_%s_rest.js" % exam)).write_text(js_rest, encoding="utf-8")
         if verbose:
-            print("  wrote generated/bank_gen_%s.js: %d items, %d bytes"
-                  % (exam, len(items), len(js)))
+            print("  wrote generated/bank_gen_%s.js: %d starter + %d deferred = %d items, "
+                  "%d + %d bytes"
+                  % (exam, len(starter), len(rest), len(items), len(js), len(js_rest)))
     short = [k for k, v in report.items() if v[0] < target]
     if short:
         print("  categories under target: %s"
