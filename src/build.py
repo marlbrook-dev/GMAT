@@ -151,6 +151,26 @@ sat_bank_count = hand_sat + GEN_COUNT.get("sat", 0)
 gre_bank_count = hand_gre + GEN_COUNT.get("gre", 0)
 lsat_bank_count = hand_lsat + GEN_COUNT.get("lsat", 0)
 act_bank_count = hand_act + GEN_COUNT.get("act", 0)
+def round_down(n):
+    """A round number that is still true.
+
+    The landing page is the one place a precise count reads as false precision:
+    "18,073 original practice questions" invites the reader to wonder who counted and
+    when, and it is stale the day a category grows. It always rounds DOWN, so the
+    claim stays true between builds rather than becoming a promise the bank has to
+    catch up with.
+    """
+    if n >= 10000:
+        step = 1000
+    elif n >= 1000:
+        step = 500
+    elif n >= 100:
+        step = 100
+    else:
+        return format(n, ",d")
+    return format((n // step) * step, ",d") + "+"
+
+
 total_bank_count = bank_count + sat_bank_count + gre_bank_count + lsat_bank_count + act_bank_count
 # Tracked skills come from the engine registry itself, so the landing page can never
 # drift from the number of ratings the apps actually keep.
@@ -230,12 +250,14 @@ _mba_n = sum(1 for _p in (root/"data"/"schools").glob("*.json")
              if not _json_mod.loads(_p.read_text()).get("discontinued"))
 landing = ((d/"landing.html").read_text().replace("{{BANK_COUNT}}", str(bank_count)).replace("{{CARD_COUNT}}", str(card_count))
            .replace("{{SAT_BANK_COUNT}}", str(sat_bank_count)).replace("{{SAT_CARD_COUNT}}", str(sat_card_count))
+           .replace("{{TOTAL_BANK_ROUND}}", round_down(total_bank_count))
            .replace("{{TOTAL_BANK_COUNT}}", format(total_bank_count, ",d")).replace("{{TOTAL_SKILLS}}", total_skills)
            # Library sizes are advertised on the landing page, so they are counted at
            # build time rather than typed. "2 Exams" sat on that page for months after
            # the third, fourth and fifth shipped.
            .replace("{{COLLEGE_COUNT}}", format(_college_n, ",d"))
            .replace("{{MBA_COUNT}}", format(_mba_n, ",d"))
+           .replace("{{RANKED_ROUND}}", round_down(_college_n + _mba_n))
            .replace("{{RANKED_TOTAL}}", format(_college_n + _mba_n, ",d")))
 landing = partials.apply_chrome(landing)
 if "{{" in landing:
@@ -264,7 +286,8 @@ no_dashes("community.html", community)
 
 # Standalone content pages that only need chrome and a build date.
 _today = os.environ.get("BLOG_BUILD_DATE") or datetime.date.today().isoformat()
-for _src, _dir in [("international.html", "international"), ("scoring.html", "scoring"), ("funding.html", "funding")]:
+for _src, _dir in [("international.html", "international"), ("scoring.html", "scoring"),
+                   ("funding.html", "funding"), ("do_not_sell.html", "do-not-sell")]:
     page = partials.apply_chrome((d/_src).read_text().replace("{{TODAY}}", _today))
     no_dashes(_src, page)
     if "{{" in page:
@@ -284,7 +307,8 @@ for name in ["terms.html", "privacy.html"]:
 _app_pages = [root / a["out"] / "index.html" for a in APPS]
 for p in _app_pages + [root/"index.html", root/"community"/"index.html",
                        root/"international"/"index.html", root/"scoring"/"index.html",
-                       root/"funding"/"index.html", root/"terms.html", root/"privacy.html"]:
+                       root/"funding"/"index.html", root/"terms.html", root/"privacy.html",
+                       root/"do-not-sell"/"index.html"]:
     check_scripts(p)
 # The shell and the bank are now separate downloads, so report both, and report the
 # whole bank rather than only the hand written part of it.

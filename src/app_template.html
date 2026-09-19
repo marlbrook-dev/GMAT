@@ -39,6 +39,18 @@ h3{font-size:var(--text-xl);letter-spacing:var(--tr-700);line-height:1.2}
 h4,h5{font-family:var(--font-display);color:var(--text-heading);line-height:1.2;margin:0;letter-spacing:var(--tr-600)}
 a{color:var(--text-link);text-decoration:none}a:hover{text-decoration:underline}
 .numeric,[data-numeric]{font-variant-numeric:tabular-nums}
+/* conversion funnel, admin traffic tab */
+.funnel{display:grid;gap:var(--space-2)}
+.fnrow{display:grid;grid-template-columns:180px 1fr 72px 168px;gap:var(--space-3);align-items:center}
+.fnrow>*{min-width:0}
+.fnl{font-size:var(--text-sm);color:var(--text-body)}
+.fnbar{display:block;height:10px;border-radius:var(--radius-pill);background:var(--navy-50);overflow:hidden}
+.fnbar i{display:block;height:100%;border-radius:var(--radius-pill);background:var(--navy-600)}
+.fnn{font-family:var(--font-mono);font-variant-numeric:tabular-nums;font-size:var(--text-sm);color:var(--text-heading);text-align:right}
+.fnp{font-size:var(--text-xs);color:var(--text-muted)}
+.fnp .num{font-family:var(--font-mono);font-variant-numeric:tabular-nums;color:var(--text-body)}
+@media(max-width:760px){.fnrow{grid-template-columns:1fr 56px;grid-template-areas:"l n" "b b" "p p";gap:var(--space-1) var(--space-2)}
+ .fnl{grid-area:l}.fnn{grid-area:n}.fnbar{grid-area:b}.fnp{grid-area:p}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:1ms!important;animation-duration:1ms!important}}
 /* shell */
 header.app{background:var(--surface-card);border-bottom:1px solid var(--border-default);position:sticky;top:0;z-index:var(--z-sticky)}
@@ -284,9 +296,9 @@ SKILLS.forEach(s=>{ if(!state.skills[s.id]) state.skills[s.id]={r:START_R,n:0,c:
 function persist(){ if(!Store.save(state)) toast('Auto-save is unavailable in this browser. Export your progress from Account.'); Cloud.scheduleSave(); }
 // ---------- Cloud sync (Supabase) ----------
 const Cloud={ client:null, user:null, timer:null, status:'off',
- async init(){ if(!window.supabase||location.protocol==='file:'){ this.status='local-only'; return; } try{ this.client=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY); const {data}=await this.client.auth.getSession(); this.user=data.session?data.session.user:null; this.status=this.user?'signed-in':'signed-out'; this.client.auth.onAuthStateChange(async (ev,sess)=>{ this.user=sess?sess.user:null; this.status=this.user?'signed-in':'signed-out'; if(this.user){ await this.pull(); track('session_started',{}); } this.checkAdmin(); updateHeader(); if(!document.getElementById('v-data').classList.contains('hidden')) renderData(); }); if(this.user){ await this.pull(); track('session_started',{}); } this.checkAdmin(); }catch(e){ this.status='error'; } },
+ async init(){ if(!window.supabase||location.protocol==='file:'){ this.status='local-only'; return; } try{ this.client=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY); const {data}=await this.client.auth.getSession(); this.user=data.session?data.session.user:null; this.status=this.user?'signed-in':'signed-out'; this.client.auth.onAuthStateChange(async (ev,sess)=>{ this.user=sess?sess.user:null; this.status=this.user?'signed-in':'signed-out'; if(this.user){ await this.pull(); track('session_started',{}); } this.checkAdmin(); updateHeader(); if(!document.getElementById('v-data').classList.contains('hidden')) renderData(); }); if(this.user){ await this.pull(); await shareLoad(); track('session_started',{}); } this.checkAdmin(); }catch(e){ this.status='error'; } },
  async checkAdmin(){ this.isAdmin=false; const b=document.getElementById('navAdmin'); const pv=location.hash==='#admin-preview'; if(b&&!pv) b.style.display='none'; if(!this.user||!this.client) return; try{ const {data}=await this.client.rpc('is_admin'); this.isAdmin=!!data; }catch(e){} if(b) b.style.display=(this.isAdmin||pv)?'':'none'; },
- async signIn(email){ if(!this.client) return {error:{message:'Sync is available on the hosted site only.'}}; return this.client.auth.signInWithOtp({email, options:{emailRedirectTo: location.origin+location.pathname}}); },
+ async signIn(email){ milestone('account_created'); if(!this.client) return {error:{message:'Sync is available on the hosted site only.'}}; return this.client.auth.signInWithOtp({email, options:{emailRedirectTo: location.origin+location.pathname}}); },
  async signOut(){ if(this.client) await this.client.auth.signOut(); this.user=null; this.status='signed-out'; },
  async pull(){ if(!this.user) return; const {data,error}=await this.client.from('profiles').select('state_blob,display_name,test_date,daily_goal,plan,consent_at,plan_status,trial_end,current_period_end,cancel_at_period_end,stripe_customer_id').eq('id',this.user.id).maybeSingle(); if(error) return; this.plan=(data&&data.plan)||'free';
   // Billing facts are written only by the Stripe webhook (service role). We read them so the
@@ -303,9 +315,18 @@ const Cloud={ client:null, user:null, timer:null, status:'off',
  async push(){ if(!this.user||this.blobLocked) return false; const s=state.settings||{}; const {error}=await this.client.from('profiles').upsert({id:this.user.id,email:this.user.email,state_blob:state,display_name:s.name||null,test_date:s.testDate||null,daily_goal:s.dailyGoal||20,exam:CURRENT_EXAM,updated_at:new Date().toISOString()}); return !error; },
  scheduleSave(){ if(!this.user) return; clearTimeout(this.timer); this.timer=setTimeout(()=>this.push(),2500); },
  async logAttempt(a){ if(!this.user) return; this.client.from('attempts').insert({user_id:this.user.id,exam:CURRENT_EXAM,qid:a.qid,skill:a.skill,section:a.section,diff:a.diff,correct:a.correct,secs:a.secs,flag:a.flag,reason:a.reason,guessed:a.guessed,chosen:a.chosen,session_id:a.sid}).then(()=>{}); },
- async wipe(){ if(!this.user) return; await this.client.from('attempts').delete().eq('user_id',this.user.id); await this.client.from('events').delete().eq('user_id',this.user.id); await this.client.from('sessions').delete().eq('user_id',this.user.id); await this.client.from('profiles').update({state_blob:null}).eq('id',this.user.id); }
+ async wipe(){ if(!this.user) return; await this.client.from('attempts').delete().eq('user_id',this.user.id); await this.client.from('events').delete().eq('user_id',this.user.id); await this.client.from('sessions').delete().eq('user_id',this.user.id); // Purchased attributes cascade when an auth user is deleted, but this path does not
+  // delete the account, so without this line a button labelled Delete Everything would
+  // leave behind the one category of data the person never gave us in the first place.
+  try{ await this.client.from('profile_appended').delete().eq('user_id',this.user.id); }catch(e){}
+  await this.client.from('profiles').update({state_blob:null}).eq('id',this.user.id); }
 };
 // Analytics events (design/guidelines/data-analytics.md). Local ring buffer always; Supabase when signed in.
+// Funnel milestones. sfnStep is defined by the consent script that ships with
+// the footer, which runs after this one, so a call before then is queued and
+// drained there rather than dropped.
+function milestone(s){ if(window.sfnStep) window.sfnStep(s);
+ else (window.__sfnStepQ=window.__sfnStepQ||[]).push(s); }
 function track(name,props){ if(!state.events) state.events=[]; const ev={name,props:props||{},ts:Date.now()}; state.events.push(ev); if(state.events.length>500) state.events.shift(); if(Cloud.user&&Cloud.client){ Cloud.client.from('events').insert({user_id:Cloud.user.id,name,exam:CURRENT_EXAM,props:props||{},platform:'web',app_version:APP_VERSION}).then(()=>{}); } }
 // ---------- modal ----------
 // Built rather than borrowed because the page ships no framework. Accessible by the
@@ -466,6 +487,10 @@ function planRows(){ const today=state.attempts.filter(a=>new Date(a.ts).toDateS
 // plain words even though consent is not legally required for it.
 const ITEM_EVENTS_URL=SUPABASE_URL+'/rest/v1/item_events?apikey='+SUPABASE_KEY;
 function logItemEvent(q,chosen,correct,secs,mode,extra){
+ // Where the visit funnel used to go dark. sfnStep is consent gated and fires
+ // once per session; the item telemetry below stays unlinkable and ungated.
+ milestone('first_answer');
+
  try{
   if(!q||!q.id) return;
   var x=extra||{};
@@ -774,7 +799,7 @@ function nextQuestion(){ const p=session.pending; if(!p) return; if(!p.correct&&
  const flag=recordAttempt(state,p.q,p.chosen,p.correct,p.secs,session.reason,session.guessed,session.id); session.results.push({q:p.q,correct:p.correct,secs:p.secs,flag,reason:session.reason}); session.pending=null; Cloud.logAttempt(state.attempts[state.attempts.length-1]); logItemEvent(p.q,p.chosen,p.correct,p.secs,session.mode,{first_ms:p.firstMs,changes:p.changes,guessed:!!session.guessed,reason:session.reason||null}); track('question_answered',{qid:p.q.id,section:p.q.section,skill:p.q.skill,correct:p.correct,secs:Math.round(p.secs)}); persist(); updateHeader();
  session.i++; if(session.i<session.qs.length) renderQuestion(); else finishSession(); }
 function endSession(){ clearInterval(qTimer); setFocus(false); if(session.results.length) finishSession(); else { session=null; renderStudyHome(); } }
-function finishSession(){ clearInterval(qTimer); setFocus(false); const r=session.results; const n=r.length, c=r.filter(x=>x.correct).length; const avg=r.reduce((a,b)=>a+b.secs,0)/n; const total=r.reduce((a,b)=>a+b.secs,0);
+function finishSession(){ milestone('round_done'); clearInterval(qTimer); setFocus(false); const r=session.results; const n=r.length, c=r.filter(x=>x.correct).length; const avg=r.reduce((a,b)=>a+b.secs,0)/n; const total=r.reduce((a,b)=>a+b.secs,0);
  state.sessions.push({id:session.id,mode:session.mode,ts:Date.now(),n,c,avg:Math.round(avg)}); track('round_completed',{mode:session.mode,correct:c,total:n,secs:Math.round(total)}); if(Cloud.user) Cloud.client.from('sessions').upsert({id:session.id,user_id:Cloud.user.id,mode:session.mode,n,c,avg_secs:Math.round(avg)}).then(()=>{}); persist();
  const pctv=Math.round(c/n*100); const secs=[...new Set(r.map(x=>x.q.section))].map(s=>SEC_SHORT[s]).join(' & ');
  const bySkill={}; r.forEach(x=>{ const k=x.q.skill; bySkill[k]=bySkill[k]||{n:0,c:0}; bySkill[k].n++; if(x.correct) bySkill[k].c++; });
@@ -1912,15 +1937,45 @@ const ADMIN_TRAFFIC_SAMPLE={days:30,pageviews:2140,sessions:610,signed_in_views:
  top_paths:[{path:'/',n:640,u:410,avg_secs:48},{path:'/schools/',n:520,u:300,avg_secs:180},{path:'/app/',n:410,u:160,avg_secs:600},{path:'/blog/',n:250,u:190,avg_secs:95},{path:'/community/',n:180,u:120,avg_secs:130}],
  top_refs:[{ref:'direct',n:900},{ref:'https://www.google.com/',n:720},{ref:'https://www.reddit.com/',n:120}],
  countries:[{c:'US',n:1300,u:380},{c:'IN',n:340,u:95},{c:'GB',n:130,u:41}],
- devices:[{d:'desktop',n:1400},{d:'mobile',n:740}]};
+ devices:[{d:'desktop',n:1400},{d:'mobile',n:740}],
+ funnel:[{step:'app_open',label:'Opened a trainer',sessions:160,share_of_visits:22.2,share_of_previous:null},
+  {step:'first_answer',label:'Answered a question',sessions:96,share_of_visits:13.3,share_of_previous:60.0},
+  {step:'round_done',label:'Finished a round',sessions:41,share_of_visits:5.7,share_of_previous:42.7},
+  {step:'account_created',label:'Asked for a sign-in link',sessions:14,share_of_visits:1.9,share_of_previous:34.1},
+  {step:'trial_started',label:'Opened checkout',sessions:3,share_of_visits:0.4,share_of_previous:21.4}]};
+// What the visit funnel used to be unable to answer. Sessions are the unit, not
+// pageviews: somebody who reloads the trainer four times is one person who opened it.
+// Each bar is a share of all visits; the right column is the share of the step above,
+// which is where the drop actually is.
+function funnelCard(rows,total){
+ if(!rows||!rows.length) return '';
+ const max=Math.max.apply(null,rows.map(r=>Number(r.sessions)||0))||1;
+ const bars=rows.map(function(r){
+  const n=Number(r.sessions)||0, w=Math.round(100*n/max);
+  const prev=(r.share_of_previous===null||r.share_of_previous===undefined)?'':
+   ('<span class="num">'+r.share_of_previous+'%</span> of the step above');
+  return '<div class="fnrow"><span class="fnl">'+esc(r.label||r.step)+'</span>'
+   +'<span class="fnbar"><i style="width:'+w+'%"></i></span>'
+   +'<span class="fnn"><span class="num">'+n.toLocaleString('en-US')+'</span></span>'
+   +'<span class="fnp">'+prev+'</span></div>'; }).join('');
+ return '<div class="card"><div class="card-head"><span class="card-title">Conversion Funnel · 30d</span>'
+  +'<button class="btn sm secondary" onclick="csvDownload(\'funnel\',window._traffic.funnel)">CSV</button></div>'
+  +'<p class="muted small" style="margin:0 0 12px">'+(total?('Out of <strong>'+total.toLocaleString('en-US')+'</strong> sessions that accepted analytics. '):'')
+  +'Steps are recorded once per session. Item telemetry stays unlinkable and is not part of this.</p>'
+  +'<div class="funnel">'+bars+'</div></div>';
+}
 async function renderAdminTraffic(el,preview){ el.innerHTML='<div class="stack"><div class="empty">Loading traffic...</div></div>';
  let d=ADMIN_TRAFFIC_SAMPLE;
- if(!preview){ try{ const {data,error}=await Cloud.client.rpc('admin_traffic',{p_days:30}); if(error) throw error; d=data; }
+ if(!preview){ try{ const {data,error}=await Cloud.client.rpc('admin_traffic',{p_days:30}); if(error) throw error; d=data;
+  // The funnel is a separate RPC so a failure there cannot blank the traffic page.
+  try{ const f=await Cloud.client.rpc('admin_funnel',{days:30}); if(!f.error) d.funnel=f.data; }catch(e2){}
+ }
   catch(e){ el.innerHTML='<div class="narrow stack"><div class="card p8"><div class="card-title">Traffic</div><p class="muted" style="margin-top:8px">Could not load traffic: '+esc(String((e&&e.message)||e))+'</p></div></div>'; return; } }
  window._traffic=d;
  el.innerHTML='<div class="stack">'
  +'<div class="row" style="align-items:flex-end;justify-content:space-between"><div><h1 style="font-size:var(--text-2xl);font-weight:700">Traffic</h1><p class="muted" style="margin:6px 0 0">First-party beacon across every page: landing, rankings, exams, blog, forum, and the app. No third-party trackers; ad blockers hide some visitors, and Cloudflare Web Analytics remains the edge-level check.</p></div>'+adminTabsHtml()+'</div>'
  +(preview?'<div class="card p5" style="background:var(--status-warning-bg);border-color:var(--amber-100)"><span class="small">Sample data preview. Sign in as an admin for live traffic.</span></div>':'')
+ +funnelCard(d.funnel||[],d.sessions||0)
  +'<div class="tiles" style="grid-template-columns:repeat(4,1fr)">'+tile('Pageviews · 30d',d.pageviews||0,'','')+tile('Sessions · 30d',d.sessions||0,'','')+tile('Avg Time on Page',(d.avg_dur_secs!=null?Math.round(d.avg_dur_secs)+'s':'n/a'),'','')+tile('Signed-In Views',d.signed_in_views||0,'','')+'</div>'
  +'<div class="card"><div class="card-head"><span class="card-title">Pageviews per Day · 30d</span><span class="row" style="gap:6px"><button class="btn sm secondary" onclick="csvDownload(\'traffic-by-day\',window._traffic.by_day)">CSV</button><button class="btn sm secondary" onclick="trPrint()">Print / PDF Report</button></span></div>'+adminBars(d.by_day||[],'n')+'</div>'
  +'<div class="grid2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">'
@@ -1968,8 +2023,87 @@ async function renderAdminMod(el,preview){ el.innerHTML='<div class="stack"><div
  +(q.length?q.map(card).join(''):'<div class="empty">Queue is clear. Flagged and hidden posts land here; severe screens (real exam content, cheating services, slurs) auto-hide until you approve them.</div>')
  +'<div class="card p5"><span class="small muted">Screen rules today: real-exam-content markers and cheating services auto-hide; link spam, contact solicitation, shouting, and abusive language flag for review. An AI reviewer upgrades this screen once the Anthropic API key is added; rules stay as the fallback.</span></div>'
  +'</div>'; }
+async function birthSave(){ const m=document.getElementById('bMonth'), y=document.getElementById('bYear');
+ if(!m||!y) return; const mv=m.value?+m.value:null, yv=y.value?+y.value:null;
+ const ab=state.settings.about||(state.settings.about={}); ab.birth_month=mv; ab.birth_year=yv; persist();
+ if(!Cloud.user||!Cloud.client){ toast(mv&&yv?'Saved on this device.':'Cleared.'); return; }
+ try{ const {error}=await Cloud.client.from('profiles').update({birth_month:mv,birth_year:yv}).eq('id',Cloud.user.id);
+  if(error){ toast('That did not save.'); return; } }catch(e){ toast('That did not save.'); return; }
+ await shareLoad(); toast('Saved.'); }
+
+// The server is the only thing that knows whether this account is eligible, so the page
+// asks rather than working it out from the numbers in the two selects above. A client
+// that decides its own eligibility is a client that can be told to decide differently.
+async function shareLoad(){ if(!Cloud.user||!Cloud.client){ Cloud.sharing=null; renderData(); return; }
+ try{ const {data,error}=await Cloud.client.rpc('my_data_sharing');
+  Cloud.sharing=(!error&&data&&data.length)?data[0]:null; }catch(e){ Cloud.sharing=null; }
+ renderData(); }
+
+async function shareSet(on){ if(!Cloud.user||!Cloud.client){ toast('Sign in first.'); return; }
+ if(on&&!confirm('Turn on data sharing?\n\nThe optional profile details you have filled in, and nothing '
+  +'else, may be shared with partners including data brokers. Your answers, anything you type, your email '
+  +'and your payment details are never included. You can turn this off at any time.')) return;
+ try{ const {error}=await Cloud.client.rpc('set_data_sharing',{p_opt_in:!!on,p_source:'account'});
+  if(error){ toast(error.message||'That did not save.'); return; } }catch(e){ toast('That did not save.'); return; }
+ await shareLoad(); toast(on?'Data sharing is on. You can turn it off here or from the Do Not Sell page.'
+  :'Data sharing is off. Nothing further will be shared.'); }
+
+function shareCard(signed){
+ const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+ const ab=state.settings.about||(state.settings.about={});
+ const nowY=new Date().getFullYear();
+ const years=[]; for(let y=nowY;y>=nowY-100;y--) years.push(y);
+ const birth='<div class="card stack-4"><div class="card-title">Your Age</div>'
+  +'<p class="small" style="margin:0">Asked once, for one purpose: working out whether you are 18. That '
+  +'decides whether you can buy a paid plan and whether the data sharing option below is offered to you at '
+  +'all. <strong>We deliberately do not store the day.</strong> A full date of birth is one of the few '
+  +'fields that identifies most people on its own, and the month and year answer the only question we '
+  +'need to ask.</p>'
+  +'<div class="row" style="flex-wrap:wrap"><label class="small">Birth month <select id="bMonth" onchange="birthSave()">'
+  +'<option value="">Prefer not to say</option>'
+  +MONTHS.map((m,i)=>'<option value="'+(i+1)+'"'+(ab.birth_month===i+1?' selected':'')+'>'+m+'</option>').join('')
+  +'</select></label><label class="small">Birth year <select id="bYear" onchange="birthSave()">'
+  +'<option value="">Prefer not to say</option>'
+  +years.map(y=>'<option value="'+y+'"'+(ab.birth_year===y?' selected':'')+'>'+y+'</option>').join('')
+  +'</select></label></div>'
+  +(signed?'':'<p class="small muted" style="margin:0">Saved on this device now; it attaches to your account when you sign in.</p>')
+  +'</div>';
+
+ const sh=signed?Cloud.sharing:null, tier=sh?sh.tier:null, on=!!(sh&&sh.opt_in);
+ let body, ctrl;
+ if(!signed){
+  body='Sign in to see this. The programme only ever covers account holders, so nothing of yours is in it.';
+  ctrl='';
+ } else if(tier==='18_plus'){
+  body=on?'<strong>It is on.</strong> The optional profile fields above may be shared with partners including '
+    +'data brokers. Your answers, anything you type, your email, your payment details, your IP address and '
+    +'your forum posts are never included, whatever this is set to.'
+   :'<strong>It is off.</strong> Nothing of yours is being shared. If you turn it on, the optional profile '
+    +'fields above, and only those, may be shared with partners including data brokers. Turning it on '
+    +'changes nothing about price, features, or the free tier, and neither does leaving it off.';
+  ctrl='<div class="row"><button class="btn '+(on?'secondary':'')+' sm" onclick="shareSet('+(on?'false':'true')+')">'
+    +(on?'Turn Data Sharing Off':'Turn Data Sharing On')+'</button>'
+    +'<a class="btn secondary sm" href="/do-not-sell/">Do Not Sell Page</a></div>';
+ } else if(tier==='under_13'||tier==='13_17'){
+  body='<strong>This is closed to your account.</strong> We do not sell or share the personal information of '
+   +'anyone under 18 under any circumstances, and that is enforced in the database rather than by this '
+   +'switch: an account under 18 cannot appear in the only view an export is allowed to read.';
+  ctrl='';
+ } else {
+  body='Tell us your birth month and year above and we can say whether this applies to you. Until then it is '
+   +'off, which is also what it is if you never tell us.';
+  ctrl='';
+ }
+ return birth+'<div class="card stack-4"><div class="card-head" style="margin:0">'
+  +'<span class="card-title">Data Sharing</span>'+badge(on?'On':'Off',on?'accent':'')+'</div>'
+  +'<p class="small" style="margin:0">'+body+'</p>'+ctrl
+  +'<p class="small muted" style="margin:0">Full detail, including who recipients are and what is excluded '
+  +'at every setting, is in <a href="/privacy.html">section 9 of the privacy policy</a>. Opting out stops '
+  +'future sharing; it cannot recall a copy already delivered, which is why this starts off.</p></div>';
+}
+
 async function aboutSave(field,value){ const ab=state.settings.about||(state.settings.about={}); ab[field]=value||null; persist(); if(Cloud.user&&Cloud.client){ const patch={}; patch[field]=value||null; try{ await Cloud.client.from('profiles').update(patch).eq('id',Cloud.user.id); }catch(e){} } toast('Saved.'); }
-async function pushAbout(){ const ab=state.settings.about; if(!ab||!Cloud.user||!Cloud.client) return; const patch={}; ['age_range','gender','country','role_type','referral_src'].forEach(k=>{ if(ab[k]) patch[k]=ab[k]; }); if(Object.keys(patch).length){ try{ await Cloud.client.from('profiles').update(patch).eq('id',Cloud.user.id); }catch(e){} } }
+async function pushAbout(){ const ab=state.settings.about; if(!ab||!Cloud.user||!Cloud.client) return; const patch={}; ['age_range','gender','country','role_type','referral_src','education_level','intended_major','score_goal','application_year','budget_band','employer_industry','household_income_band','first_generation','military_status','study_hours_band','birth_month','birth_year'].forEach(k=>{ if(ab[k]) patch[k]=ab[k]; }); if(Object.keys(patch).length){ try{ await Cloud.client.from('profiles').update(patch).eq('id',Cloud.user.id); }catch(e){} } }
 function renderData(){ const el=document.getElementById('v-data'); const s=state.settings; const pr=s.program;
  const signed=Cloud.status==='signed-in'; const local=Cloud.status==='local-only';
  if(signed) pushAbout();
@@ -1995,14 +2129,25 @@ function renderData(){ const el=document.getElementById('v-data'); const s=state
  '<div class="card stack-4"><div class="card-title">Profile</div><div class="row"><label class="small">Name <input type="text" value="'+esc(s.name||'')+'" onchange="state.settings.name=this.value;persist();updateHeader()"></label><label class="small">Test date <input type="date" value="'+esc(s.testDate||'')+'" onchange="state.settings.testDate=this.value;persist()"></label><label class="small">Daily goal <select onchange="state.settings.dailyGoal=+this.value;persist()">'+[10,15,20,30,40].map(d=>'<option '+(s.dailyGoal===d?'selected':'')+'>'+d+'</option>').join('')+'</select></label></div></div>'+
  (function(){ const ab=s.about||(s.about={});
   const sel=(field,label,opts)=>'<label class="small">'+label+' <select onchange="aboutSave(\''+field+'\',this.value)"><option value="">Prefer not to say</option>'+opts.map(o=>'<option value="'+o[0]+'"'+(ab[field]===o[0]?' selected':'')+'>'+o[1]+'</option>').join('')+'</select></label>';
-  return '<div class="card stack-4"><div class="card-title">About You (Optional)</div><p class="small" style="margin:0">Every field here is optional and self-reported. We use it only in aggregate, to understand who we serve and build the right things; it is never shown publicly and never sold.</p><div class="row" style="flex-wrap:wrap">'
+  return '<div class="card stack-4"><div class="card-title">About You (Optional)</div><p class="small" style="margin:0">Every field here is optional and self-reported, and none of it is shown publicly. We never infer any of it from what you do, and nothing we buy from a data partner is ever written into these boxes: purchased details are kept separately, are only ever attached to accounts recorded as 18 or over, and are deleted with your account. You can ask us what has been attached to yours at privacy@startfromnowhere.com. We use all of it in aggregate to understand who we serve, and it leaves for a partner only if you are 18 or over and switch the option below on yourself.</p><div class="row" style="flex-wrap:wrap">'
   +sel('age_range','Age range',[['under_18','Under 18'],['18_22','18 to 22'],['23_29','23 to 29'],['30_39','30 to 39'],['40_49','40 to 49'],['50_plus','50+']])
   +sel('gender','Gender',[['woman','Woman'],['man','Man'],['nonbinary','Nonbinary'],['self_described','Self-described']])
   +'<label class="small">Country <input type="text" maxlength="60" value="'+esc(ab.country||'')+'" placeholder="e.g. US" style="width:90px" onchange="aboutSave(\'country\',this.value)"></label>'
   +sel('role_type','I am a',[['student','Student'],['educator','Educator'],['tutor','Tutor'],['parent','Parent'],['other','Other']])
   +'<label class="small">How you found us <input type="text" maxlength="120" value="'+esc(ab.referral_src||'')+'" placeholder="e.g. Google, a friend" style="width:170px" onchange="aboutSave(\'referral_src\',this.value)"></label>'
+  +sel('education_level','Education',[['high_school','In high school'],['some_college','Some college'],['bachelors','Bachelors'],['masters','Masters'],['doctorate','Doctorate']])
+  +'<label class="small">Intended major <input type="text" maxlength="80" value="'+esc(ab.intended_major||'')+'" placeholder="e.g. Finance" style="width:150px" onchange="aboutSave(\'intended_major\',this.value)"></label>'
+  +'<label class="small">Score goal <input type="text" maxlength="20" value="'+esc(ab.score_goal||'')+'" placeholder="e.g. 675" style="width:90px" onchange="aboutSave(\'score_goal\',this.value)"></label>'
+  +'<label class="small">Applying for <input type="text" maxlength="12" value="'+esc(ab.application_year||'')+'" placeholder="e.g. 2027" style="width:90px" onchange="aboutSave(\'application_year\',this.value)"></label>'
+  +sel('budget_band','Prep budget',[['none','Nothing'],['under_100','Under 100'],['100_500','100 to 500'],['500_2000','500 to 2,000'],['over_2000','Over 2,000']])
+  +'<label class="small">Industry <input type="text" maxlength="60" value="'+esc(ab.employer_industry||'')+'" placeholder="e.g. Consulting" style="width:150px" onchange="aboutSave(\'employer_industry\',this.value)"></label>'
+  +sel('household_income_band','Household income',[['under_50k','Under 50k'],['50_100k','50k to 100k'],['100_200k','100k to 200k'],['over_200k','Over 200k']])
+  +sel('first_generation','First in family to attend college',[['yes','Yes'],['no','No']])
+  +sel('military_status','Military',[['none','Not applicable'],['active','Active duty'],['veteran','Veteran'],['family','Military family']])
+  +sel('study_hours_band','Study hours a week',[['under_3','Under 3'],['3_5','3 to 5'],['5_10','5 to 10'],['over_10','Over 10']])
   +'</div>'+(signed?'':'<p class="small muted" style="margin:0">Saved on this device now; it attaches to your account when you sign in.</p>')+'</div>'; })()+
- '<div class="card stack-4"><div class="card-head" style="margin:0"><span class="card-title">Study Program</span>'+badge(pr.exam,'sec-Q')+'</div><table><tbody><tr><td style="width:160px">Exam</td><td>'+esc(pr.exam)+' <span class="small">(GRE, LSAT, MCAT, Executive Assessment coming)</span></td></tr><tr><td>Goal</td><td><input type="text" style="width:100%" value="'+esc(pr.goal||'')+'" placeholder="e.g. Score 675+ for M7 programs" onchange="state.settings.program.goal=this.value;persist()"></td></tr><tr><td>Time</td><td><select onchange="state.settings.program.hours=this.value;persist()">'+['1 to 3 hrs / week','3 to 5 hrs / week','5 to 10 hrs / week','10+ hrs / week'].map(h=>'<option '+(pr.hours===h?'selected':'')+'>'+h+'</option>').join('')+'</select></td></tr><tr><td>Tools</td><td class="chips">'+['Quick 10','Timed sprint','Flashcards','Custom drill'].map(tl=>'<span class="chip-t '+(pr.tools[tl]?'on':'')+'" onclick="state.settings.program.tools[\''+tl+'\']=!state.settings.program.tools[\''+tl+'\'];persist();renderData()">'+tl+'</span>').join('')+'</td></tr></tbody></table><div><button class="btn secondary sm" onclick="startOnboarding()">Re-run the setup wizard</button></div></div>'+
+ shareCard(signed)+
+ '<div class="card stack-4"><div class="card-head" style="margin:0"><span class="card-title">Study Program</span>'+badge(pr.exam,'sec-Q')+'</div><table><tbody><tr><td style="width:160px">Exam</td><td>'+esc(pr.exam)+' <span class="small">(GRE, LSAT, SAT and ACT trainers are live too)</span></td></tr><tr><td>Goal</td><td><input type="text" style="width:100%" value="'+esc(pr.goal||'')+'" placeholder="e.g. Score 675+ for M7 programs" onchange="state.settings.program.goal=this.value;persist()"></td></tr><tr><td>Time</td><td><select onchange="state.settings.program.hours=this.value;persist()">'+['1 to 3 hrs / week','3 to 5 hrs / week','5 to 10 hrs / week','10+ hrs / week'].map(h=>'<option '+(pr.hours===h?'selected':'')+'>'+h+'</option>').join('')+'</select></td></tr><tr><td>Tools</td><td class="chips">'+['Quick 10','Timed sprint','Flashcards','Custom drill'].map(tl=>'<span class="chip-t '+(pr.tools[tl]?'on':'')+'" onclick="state.settings.program.tools[\''+tl+'\']=!state.settings.program.tools[\''+tl+'\'];persist();renderData()">'+tl+'</span>').join('')+'</td></tr></tbody></table><div><button class="btn secondary sm" onclick="startOnboarding()">Re-run the setup wizard</button></div></div>'+
  '<div class="card stack-4"><div class="card-head" style="margin:0"><span class="card-title">Plan and Billing</span>'+badge(userPlan()==='free'?'Free plan':userPlan()==='plus'?'Plus':'Pro','accent')+'</div><p class="small" style="margin:0">'+(PAYMENTS_LIVE?'The free plan never asks for a card. Every paid plan starts with a '+TRIAL_DAYS+'-day free trial you can cancel inside at no charge. Payments run through Stripe Checkout; we never see your card.':'Everything is free while we build. This is the plan structure that switches on later; early users keep generous grandfathering.')+'</p>'+(function(){ const bl=billingLine(); return bl?'<p class="small" style="margin:0"><strong>'+esc(bl)+'</strong></p>':''; })()+(function(){ const b=Cloud.billing; if(!PAYMENTS_LIVE||!b||!b.hasCustomer) return '';
   const live=b.status==='trialing'||b.status==='active'||b.status==='past_due';
   return '<div class="row">'
@@ -2176,7 +2321,7 @@ async function resumePlan(){ toast('Restarting...');
   if(!data||!data.ok) throw error||new Error('no ok');
   await Cloud.pull(); renderData(); toast('Your plan will keep running.'); track('plan_resumed',{});
  }catch(e){ toast('Could not restart from here. Email billing@startfromnowhere.com.'); } }
-async function startCheckout(plan){ if(!Cloud.user){ toast('Sign in first, then pick a plan.'); show('data'); return; }
+async function startCheckout(plan){ milestone('trial_started'); if(!Cloud.user){ toast('Sign in first, then pick a plan.'); show('data'); return; }
  try{ const {data,error}=await Cloud.client.functions.invoke('create-checkout-session',{body:{plan}}); if(error||!data||!data.url) throw error||new Error('no url'); track('checkout_started',{plan}); location.href=data.url; }
  catch(e){ toast('Could not open checkout. Nothing was charged; please try again shortly.'); } }
 if(location.search.indexOf('checkout=success')>=0){ setTimeout(()=>toast('You are all set. Your plan updates within a minute.'),800); }
@@ -2198,6 +2343,10 @@ function renderOnboarding(){ let w=document.getElementById('onb'); if(!w){ w=doc
  w.innerHTML='<div class="onb-scrim"><div class="onb-card"><div class="row" style="justify-content:space-between;margin-bottom:18px"><span class="wordmark" style="font-size:17px"><svg viewBox="0 0 48 48" width="24" height="24" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#122B4E"/><path d="M13 33 22 22l6 5 8.5-10" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M29.5 16.5H37V24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Start From Nowhere</span><button class="btn ghost sm" onclick="finishOnboarding(true)">Skip to Dashboard</button></div><div class="row" style="gap:6px;margin-bottom:22px">'+steps.map((s,i)=>'<span class="badge '+(i===ob.step?'accent':i<ob.step?'success':'')+'">'+(i+1)+' '+s+'</span>').join('')+'</div>'+body+'<div class="row" style="justify-content:space-between;margin-top:26px"><button class="btn secondary" '+(ob.step===0?'disabled':'')+' onclick="ob.step--;renderOnboarding()">Back</button><button class="btn" onclick="'+(ob.step<3?'ob.step++;renderOnboarding()':'finishOnboarding(false)')+'">'+(ob.step<3?'Continue':'Start studying')+'</button></div></div></div>'; }
 function finishOnboarding(skipped){ if(!skipped){ state.settings.program={exam:ob.exam,goal:ob.goal,hours:ob.hours,tools:ob.tools}; track('wizard_completed',{exam:ob.exam,goal_len:ob.goal.length,hours:ob.hours}); } state.settings.onboarded=true; persist(); const w=document.getElementById('onb'); if(w) w.remove(); renderDash(); }
 // ---------- boot ----------
+// The trainer actually booted on this device, which is a different fact from
+// the click that asked for it: a pageview on /app/ is recorded before any of
+// this runs. Consent gated, once per session.
+milestone('app_open');
 updateHeader(); renderDash(); Cloud.init(); if(location.hash==='#account'){ show('data'); } if(!state.settings.onboarded&&state.attempts.length===0) startOnboarding();
 </script>
 {{SENTINEL}}

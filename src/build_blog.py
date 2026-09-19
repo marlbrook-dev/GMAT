@@ -269,12 +269,107 @@ def delink_held(body, live_slugs):
     return re.sub(r'<a href="/blog/([a-z0-9-]+)/">(.*?)</a>',
                   lambda m: m.group(0) if m.group(1) in live_slugs else m.group(2), body)
 
+
+# Which destinations a post should offer, decided from its own words rather than a
+# field somebody has to remember to set. Order matters: the first match wins, so the
+# more specific exams are tested before the generic MBA admissions bucket.
+ONWARD_TOPICS = [
+    ("sat", ("sat", "digital sat", "college board", "bluebook", "psat"),
+     [("/exams/sat/", "The Digital SAT, Explained",
+       "Format, timing, scoring and what the adaptive second module actually does."),
+      ("/sat/app/", "Practise the SAT Free",
+       "Adaptive rounds on the eight content domains the score report names. No card."),
+      ("/colleges/", "College Rankings",
+       "1,451 colleges scored on graduation and earnings, filtered how you like.")]),
+    ("act", ("act", "act science", "act english"),
+     [("/exams/act/", "The ACT, Explained",
+       "Sections, timing, scoring and how it differs from the SAT."),
+      ("/act/app/", "Practise the ACT Free",
+       "Adaptive rounds across English, Math, Reading and Science."),
+      ("/colleges/", "College Rankings",
+       "1,451 colleges scored on graduation and earnings, filtered how you like.")]),
+    ("lsat", ("lsat", "law school"),
+     [("/exams/lsat/", "The LSAT, Explained",
+       "Question types, scoring and what the format asks of you."),
+      ("/lsat/app/", "Practise the LSAT Free",
+       "Adaptive rounds on logical and reading reasoning."),
+      ("/funding/", "Paying for It",
+       "Federal borrowing limits after Grad PLUS, and where aid actually comes from.")]),
+    ("gre", ("gre", "ets"),
+     [("/exams/gre/", "The GRE, Explained",
+       "Sections, timing, scoring and how programs read the two scores."),
+      ("/gre/app/", "Practise the GRE Free",
+       "Adaptive rounds on quant, verbal and the content areas ETS publishes."),
+      ("/schools/", "MBA Rankings",
+       "91 programs with class profile, cost and outcome data on every row.")]),
+    ("international", ("f-1", "opt", "visa", "international student", "stem opt", "sevis"),
+     [("/international/", "International Applicants",
+       "English tests, visa timing, CIP and STEM designation, and the cost picture."),
+      ("/colleges/", "College Rankings",
+       "Every college page carries its non-resident enrolment share, from federal data."),
+      ("/funding/", "Paying for It",
+       "What international applicants can and cannot borrow, and where aid exists.")]),
+    ("mba", ("mba", "business school", "admissions", "recommendation", "resume", "class profile"),
+     [("/schools/", "MBA Rankings",
+       "91 full-time programs, every figure carrying its source, year and link."),
+      ("/apply/", "Application Checklist",
+       "Build a shortlist, track every deadline per school, export it. No account."),
+      ("/app/", "Practise the GMAT Free",
+       "Adaptive rounds on the twelve skills the Focus score report names.")]),
+]
+ONWARD_DEFAULT = [
+    ("/app/", "Practise Free",
+     "Adaptive rounds on the skills your exam's score report actually names. No card."),
+    ("/exams/", "Exam Guides",
+     "Every major admissions exam in plain English, with each fact sourced."),
+    ("/schools/", "Rankings and Data",
+     "91 MBA programs and 1,451 colleges, every figure carrying its source."),
+]
+
+
+def onward_for(post, body):
+    """Pick the destinations that match what this post is mostly about.
+
+    Two rules were wrong before this one. Plain substring matching sent posts about
+    the MBA application timeline to the ACT trainer, because "act " is a substring of
+    "fact ". Whole-word matching fixed that and left a subtler problem: first match
+    won, so any GMAT post that mentioned the GRE once in a comparison routed to the
+    GRE. A post about the GMAT score chart went to the SAT.
+
+    So it scores rather than matches. The title counts heavily because that is where a
+    post says what it is about, and the body is counted by frequency, so a passing
+    mention loses to the subject of the piece.
+    """
+    title = (post.get("title", "") + " " + post.get("description", "")).lower()
+    text = re.sub(r"<[^>]+>", " ", body[:8000]).lower()
+    best, best_score = ONWARD_DEFAULT, 0
+    for _key, needles, dests in ONWARD_TOPICS:
+        score = 0
+        for n in needles:
+            n = n.strip()
+            pat = r"\b" + re.escape(n).replace(r"\ ", r"\s+") + r"\b"
+            score += 8 * len(re.findall(pat, title))
+            score += len(re.findall(pat, text))
+        if score > best_score:
+            best, best_score = dests, score
+    return best
+
+
+def onward_html(post, body):
+    cards = "".join(
+        '<a class="nx" href="%s"><strong>%s</strong><span>%s</span></a>' % (href, t, d)
+        for href, t, d in onward_for(post, body))
+    return ('<section class="narrow onward" style="padding:0 24px">'
+            '<h2>Where to Take This Next</h2>'
+            '<div class="nextgrid">%s</div></section>' % cards)
+
 def build_post(p, posts):
     fg, _ = PALETTES[CATEGORIES[p["category"]]]
     faq_vis = "".join(
         f"""<details><summary>{html.escape(f['q'])}</summary><div>{f['a']}</div></details>""" for f in p["faq"])
     related = [x for x in posts if x["slug"] in p.get("related", []) and x["slug"] != p["slug"]][:3]
     rel_html = ""
+    onward = onward_html(p, p["body"])
     if related:
         rel_html = f"""<section class="narrow" style="padding:8px 24px 0"><h2 style="font-size:22px;margin:32px 0 14px">Keep reading</h2>
 <div class="grid3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">{"".join(card(x) for x in related)}</div></section>"""
@@ -294,7 +389,7 @@ def build_post(p, posts):
 <div class="faq">{faq_vis}</div>
 </div>
 </article>
-{rel_html}"""
+{onward}{rel_html}"""
     ld_article = {"@context": "https://schema.org", "@type": "BlogPosting",
         "headline": p["title"], "description": p["description"],
         "datePublished": p["date"], "dateModified": updated,
@@ -311,7 +406,7 @@ def build_post(p, posts):
     return page(p["title"] + " | Start From Nowhere", p["description"], f"{SITE}/blog/{p['slug']}/", body, extra)
 
 def build_sitemap(posts):
-    urls = [(SITE + "/", None), (SITE + "/blog/", None), (SITE + "/schools/", None), (SITE + "/exams/", None), (SITE + "/pricing/", None), (SITE + "/community/", None), (SITE + "/international/", None), (SITE + "/apply/", None), (SITE + "/scoring/", None), (SITE + "/funding/", None), (SITE + "/colleges/", None), (SITE + "/colleges/methodology/", None), (SITE + "/terms.html", None), (SITE + "/privacy.html", None)]
+    urls = [(SITE + "/", None), (SITE + "/blog/", None), (SITE + "/schools/", None), (SITE + "/exams/", None), (SITE + "/pricing/", None), (SITE + "/community/", None), (SITE + "/international/", None), (SITE + "/apply/", None), (SITE + "/scoring/", None), (SITE + "/funding/", None), (SITE + "/colleges/", None), (SITE + "/colleges/methodology/", None), (SITE + "/terms.html", None), (SITE + "/privacy.html", None), (SITE + "/do-not-sell/", None)]
     exams_data = ROOT / "data" / "exams.json"
     if exams_data.exists():
         import json as _json2

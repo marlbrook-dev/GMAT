@@ -65,6 +65,7 @@ Checked against `information_schema.columns` and `pg_policies` on 2026-09-17.
 |---|---|---|---|---|---|
 | Item outcome and interaction: exam, question id, skill, section, difficulty, option chosen, correct, seconds, mode, ms to first pick, answer switches, self-reported guess, self-reported miss reason | `item_events` | Not personal data: no user, session, device or address column exists | No device read or write | Legitimate interest, and outside GDPR on gate A | Banner and privacy 2 |
 | Page analytics: path, referrer, campaign tags, device class, viewport, duration, session id, country and salted IP hash | `site_events` | Personal data: the session id links rows | Writes `sessionStorage` | **Consent**, refusable, GPC honoured | Banner and privacy 2 |
+| Funnel milestones: which of five product steps a visit reached (opened a trainer, answered a question, finished a round, asked for a sign-in link, opened checkout) | `site_events.step` | Personal data: same session id as the row above | Nothing extra | **Consent**, same gate as page analytics | Banner and privacy 2 |
 | Client errors: message, stack, file, line, build, path, device, user agent, session id | `client_errors` | Personal data by the same reasoning | Reads the same session id | Legitimate interest in a working product | Privacy 2 |
 | Account: email, practice history, ratings, review queue, settings | `profiles`, `attempts`, `sessions` | Personal data | localStorage, strictly necessary for a product that works signed out | Contract | Privacy 2 |
 | Self-reported profile: age range, gender, country, role | `profiles` | Personal data, and age range plus gender are sensitive in effect | None extra | Consent, optional, editable, Account page only | Privacy 2 |
@@ -134,6 +135,4 @@ from the legal one.
 - **Minors and the banner.** Gate D says a child's consent is not a sound basis. Today the
   only thing behind consent is page analytics, which we can afford to lose, so the exposure
   is small. It stays small only if nothing important ever moves behind that banner.
-- **Retention for the tables that DO identify people.** `site_events` and `client_errors`
-  carry a session id and a salted address hash and have no retention period. They are the
-  ones where a period actually matters, and they still need a decision.
+- **Retention, decided 2026-09-18.** `site_events` keeps 400 days and `client_errors` 90, both enforced by pg_cron jobs (`site_events_retention` at 03:29 UTC, `client_errors_retention` at 03:41), staggered off the item_events job at 03:17 so three deletes do not contend. These were the last two tables carrying a session id and a salted address hash with no period at all, which was the weakest of the three positions. Verified by calling both functions directly, not by trusting the schedule.
