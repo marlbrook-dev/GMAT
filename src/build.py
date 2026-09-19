@@ -264,7 +264,7 @@ def check_prices(name, text):
 
 check_prices("llms.txt", (root / "llms.txt").read_text())
 
-for _doc in ["README.md", "ROADMAP.md", "CLAUDE.md", "llms.txt", "GROWTH.md", "INTEGRATIONS.md", "I18N.md", "data/DATA.md"]:
+for _doc in ["README.md", "ROADMAP.md", "CLAUDE.md", "HANDOFF.md", "llms.txt", "GROWTH.md", "INTEGRATIONS.md", "I18N.md", "data/DATA.md"]:
     _p = root / _doc
     if _p.exists():
         no_dashes(_doc, _p.read_text())
