@@ -261,6 +261,10 @@ body.focus header.app,body.focus footer.app{display:none}
      independently, and stops a bank of thousands of items from blocking first paint. It is a
      plain blocking script, so BANK is defined before the app code below runs. -->
 <script src="{{BANK_SRC}}"></script>
+<!-- The rest of the bank, async so it never blocks a question appearing. It pushes into
+     BANK and calls __bankGrew, which the inline script below defines. Script execution is
+     single threaded, so this cannot run before that script has finished. -->
+<script src="{{BANK_REST_SRC}}" async></script>
 <script>
 const SUPABASE_URL="https://ftsqwbzhkzuudogkvoqa.supabase.co", SUPABASE_KEY="sb_publishable_GToT4fK6RiwCZpPFE3bGiw_ThXq9qel", APP_VERSION="0.3.0";
 const EXAM_ID="{{EXAM_ID}}";
@@ -275,6 +279,15 @@ if(typeof BANK==='undefined'||!Array.isArray(BANK)||!BANK.length){
  throw new Error('bank.js did not load');
 }
 const BANK_BY_ID = {}; BANK.forEach(q=>BANK_BY_ID[q.id]=q);
+// Called by bank_rest.js once the deferred items have been pushed into BANK. Reindexing
+// is the whole job: every draw goes through BANK.filter, which now sees the full pool,
+// and BANK_BY_ID is the only derived structure. Cheap enough to just rebuild.
+window.__bankGrew = function(){
+  BANK.forEach(q=>{ if(!BANK_BY_ID[q.id]) BANK_BY_ID[q.id]=q; });
+  // The Account page prints the bank size. If it happens to be open, it is now wrong.
+  try{ const v=document.getElementById('v-data');
+       if(v && !v.classList.contains('hidden')) renderData(); }catch(e){}
+};
 // One palette slot per section, so a new exam only needs an entry here.
 const SEC_PALETTE={Q:'quant',V:'verbal',DI:'data',RW:'verbal',M:'quant'};
 const SEC_COLOR={}, SEC_BG={}, SEC_SHORT={};

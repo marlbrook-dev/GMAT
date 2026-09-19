@@ -87,16 +87,34 @@ for app in APPS:
     banks = "\n".join((d/f).read_text() for f in app["files"])
     gen_file = GEN_DIR / ("bank_gen_%s.js" % app["gen"]) if app["gen"] else None
     gen_src = gen_file.read_text() if (gen_file and gen_file.exists()) else ""
+    rest_file = GEN_DIR / ("bank_gen_%s_rest.js" % app["gen"]) if app["gen"] else None
+    rest_src = rest_file.read_text() if (rest_file and rest_file.exists()) else ""
     concat = app["concat"] + (", BANK_GEN_" + app["gen"].upper() if gen_src else "")
     # The bank ships as its own file next to index.html. The path is absolute because the
     # GMAT app doubles as 404.html and is served from arbitrary URLs.
+    #
+    # It ships in two pieces. bank.js blocks, because nothing can render without items,
+    # and carries every hand written item plus a strided slice of the generated ones.
+    # bank_rest.js is async and pushes the remainder into the same array when it lands.
+    # Before this split, time to first question was time to download the entire bank:
+    # 20 seconds for GMAT and 23 for ACT on regular 3G, measured in src/smoke_load.js.
     bank_path = "/" + app["out"] + "/bank.js"
+    rest_path = "/" + app["out"] + "/bank_rest.js"
     bank_js = ("// GENERATED FILE. Built by src/build.py; edit the banks in src/ instead.\n"
                + banks + "\n" + gen_src + "\n"
                + "const BANK = [].concat(%s);\n" % concat)
     bank_out = root / app["out"]
     bank_out.mkdir(parents=True, exist_ok=True)
     (bank_out / "bank.js").write_text(bank_js)
+    # const forbids reassignment, not mutation, so the remainder pushes into the same
+    # array the app already holds a reference to. The hook lets the app reindex; the
+    # guard means a missing hook degrades to a bigger pool rather than an exception.
+    rest_js = ("// GENERATED FILE. Deferred half of the item bank; see src/build.py.\n"
+               + rest_src + "\n"
+               + ("BANK.push.apply(BANK, BANK_GEN_%s_REST);\n" % app["gen"].upper()
+                  if rest_src else "")
+               + "if (typeof window.__bankGrew === 'function') window.__bankGrew();\n")
+    (bank_out / "bank_rest.js").write_text(rest_js)
     # The social queue is admin only and about 76KB. It is written once to the site root and
     # fetched on demand by Admin > Social rather than inlined into the shell, so a student
     # loading the trainer never downloads a byte of it.
@@ -105,6 +123,7 @@ for app in APPS:
         (root / "social.js").write_text(_social.read_text(), encoding="utf-8")
     out = (tpl.replace("{{EXAM_ID}}", app["exam"])
               .replace("{{BANK_SRC}}", bank_path)
+              .replace("{{BANK_REST_SRC}}", rest_path)
               .replace("{{ENGINE}}", engine)
               .replace("{{FOOTER_NOTE}}", app["footer"])
               .replace("{{APP_TITLE}}", app["title"])
@@ -193,9 +212,14 @@ total_skills = _skill_probe.stdout.strip()
 # Bank sizes are quoted in llms.txt and in the EDITORIAL fact sheet writers must work from.
 # Those numbers go stale the moment a bank grows, so the build checks them against the real
 # counts rather than trusting anyone to remember.
+#
+# The digit range matters. It was {2,4} until the banks passed ten thousand, at which
+# point the two largest counts on the page stopped matching the pattern and the guard
+# would have gone on passing while checking nothing. A guard that silently narrows its
+# own scope is worse than one that fails.
 def check_counts(name, text, allowed):
     import re as _cre
-    for n, unit in _cre.findall(r"\b(\d{2,4})\s+(original|flashcards)\b", text):
+    for n, unit in _cre.findall(r"\b(\d{2,6})\s+(original|flashcards)\b", text):
         if int(n) not in allowed:
             print(f"ERROR: {name} says '{n} {unit}' but the current counts are "
                   f"{sorted(allowed)}; update it or the bank", file=sys.stderr)

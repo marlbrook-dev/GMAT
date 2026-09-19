@@ -40,7 +40,18 @@ const srv = http.createServer((q, r) => {
   }
 });
 
-const BUDGET_MS = 4000;   // time to first question, cold, on a fast connection
+const BUDGET_MS = 4000;      // time to first question, cold, unthrottled
+// And the number that actually matters. Unthrottled on localhost measures parse and
+// execute and almost no transfer, which flatters a megabyte badly. Regular 3G is what a
+// lot of this audience is on: high school students on phones, and applicants abroad. A
+// bank that is fine at 500ms on a desktop can be twenty seconds there, and the only way
+// to know which is to make the browser actually wait for the bytes.
+// 15s, not the 20s this started at. The two stage load put GMAT at 11s and everything
+// else under 8, so a 20s budget would no longer catch the regression it was written for.
+// A budget set above what the code actually does stops being a budget.
+const SLOW_BUDGET_MS = 15000;
+const SLOW_3G = { offline: false, latency: 400,
+                  downloadThroughput: 400 * 1024 / 8, uploadThroughput: 400 * 1024 / 8 };
 const fails = [];
 const check = (n, c, d) => {
   console.log((c ? '  ok: ' : '  FAIL: ') + n + (d ? '  -> ' + d : ''));
@@ -54,8 +65,15 @@ const check = (n, c, d) => {
 
   for (const [app, label] of [['app', 'GMAT'], ['act/app', 'ACT'], ['sat/app', 'SAT'],
                               ['gre/app', 'GRE'], ['lsat/app', 'LSAT']]) {
+   for (const slow of [false, true]) {
+    const tag = label + (slow ? ' on 3G' : '');
     const ctx = await b.newContext({ viewport: { width: 390, height: 844 } });
     const pg = await ctx.newPage();
+    if (slow) {
+      const cdp = await ctx.newCDPSession(pg);
+      await cdp.send('Network.enable');
+      await cdp.send('Network.emulateNetworkConditions', SLOW_3G);
+    }
     const bytes = { shell: 0, bank: 0, other: 0 };
     pg.on('response', async res => {
       const u = res.url();
@@ -69,26 +87,35 @@ const check = (n, c, d) => {
     pg.on('pageerror', e => errs.push(e.message));
 
     const t0 = Date.now();
-    await pg.goto('http://127.0.0.1:' + P + '/' + app + '/', { waitUntil: 'load' });
+    // domcontentloaded, not load. The 'load' event waits for every resource including
+    // the async bank remainder, so waiting on it would time exactly the download the
+    // split exists to stop blocking on, and would report no improvement from a change
+    // that made the page usable nine times sooner. An async script does not hold up
+    // DOMContentLoaded, which is why that is the right edge to measure from.
+    await pg.goto('http://127.0.0.1:' + P + '/' + app + '/', { waitUntil: 'domcontentloaded' });
     // Start a round and wait for a real question to be on screen. Anything earlier than
     // that is measuring paint, not usefulness.
     await pg.evaluate(() => { try { show('study'); } catch (e) {} });
+    const budget = slow ? SLOW_BUDGET_MS : BUDGET_MS;
     let ok = true;
     try {
       await pg.waitForFunction(() => {
         const v = document.getElementById('v-study');
         return v && !v.classList.contains('hidden') && v.innerText.trim().length > 40;
-      }, { timeout: BUDGET_MS * 3 });
+      }, { timeout: budget * 2 });
     } catch (e) { ok = false; }
     const ms = Date.now() - t0;
 
     const kb = n => (n / 1024).toFixed(0) + ' KB';
-    check('[' + label + '] no page errors', errs.length === 0, errs[0] || '');
-    check('[' + label + '] a question is reachable', ok);
-    check('[' + label + '] ready within ' + BUDGET_MS + 'ms', ms <= BUDGET_MS, ms + 'ms');
-    console.log('        over the wire: shell ' + kb(bytes.shell) + ', bank ' + kb(bytes.bank)
-      + ', other ' + kb(bytes.other) + '  (total ' + kb(bytes.shell + bytes.bank + bytes.other) + ')');
+    check('[' + tag + '] no page errors', errs.length === 0, errs[0] || '');
+    check('[' + tag + '] a question is reachable', ok);
+    check('[' + tag + '] ready within ' + budget + 'ms', ms <= budget, ms + 'ms');
+    if (!slow) {
+      console.log('        over the wire: shell ' + kb(bytes.shell) + ', bank ' + kb(bytes.bank)
+        + ', other ' + kb(bytes.other) + '  (total ' + kb(bytes.shell + bytes.bank + bytes.other) + ')');
+    }
     await ctx.close();
+   }
   }
 
   await b.close(); srv.close();
