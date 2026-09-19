@@ -23,7 +23,18 @@ import g_gmat_gt, g_gmat_tpa, g_gmat_msr             # noqa: E402,F401
 import g_act_sci, g_gre_verb, g_gmat_cr, g_act_nq    # noqa: E402,F401
 
 OUT = D / "generated"
-TARGET = 500
+
+# Per category. 34 categories across the four generated exams, plus 1,073 hand written
+# items (including all 65 LSAT ones, which have no generator), so 34 x 704 + 1,073 lands
+# the published bank at 25,009 against the owner's target of 25,000.
+#
+# Two things to know before raising it again. The binding cap is gmat/v_pc at 833: three
+# schemas whose parameter space runs out there, so anything above that silently ships a
+# short category. And the categories built on a single schema (sat/rw_eoi, gre/gre_se,
+# gre/gre_tc, act/act_e_pow) get more repetitive with every increase, because the whole
+# category is variations on one template. Those four are where new schemas are worth more
+# than a higher number.
+TARGET = 704
 
 POOL_MODS = [g_sat_alg, g_sat_adv, g_sat_psda, g_sat_geo, g_sat_rw]
 
