@@ -115,6 +115,21 @@ for app in APPS:
                   if rest_src else "")
                + "if (typeof window.__bankGrew === 'function') window.__bankGrew();\n")
     (bank_out / "bank_rest.js").write_text(rest_js)
+
+    # A service worker per trainer. Scoped per app rather than one at the root: the five
+    # ship different banks, and a shared cache would have them evicting each other's
+    # largest file. Offline is what lets a student keep practising on a train, and it is
+    # also the substance behind the App Review 4.2 claim that this is not a repackaged
+    # website.
+    _scope = "/" + app["out"] + "/"
+    _precache = [_scope, _scope + "bank.js", _scope + "bank_rest.js",
+                 "/manifest.json", "/icons/icon-192.png", "/icons/icon-512.png"]
+    import json as _sw_json
+    _sw = ((d / "sw_template.js").read_text()
+           .replace("{{SW_VERSION}}", partials.build_id())
+           .replace("{{SCOPE_PATH}}", _scope)
+           .replace("{{PRECACHE_JSON}}", _sw_json.dumps(_precache)))
+    (bank_out / "sw.js").write_text(_sw)
     # The social queue is admin only and about 76KB. It is written once to the site root and
     # fetched on demand by Admin > Social rather than inlined into the shell, so a student
     # loading the trainer never downloads a byte of it.
@@ -124,6 +139,8 @@ for app in APPS:
     out = (tpl.replace("{{EXAM_ID}}", app["exam"])
               .replace("{{BANK_SRC}}", bank_path)
               .replace("{{BANK_REST_SRC}}", rest_path)
+              .replace("{{SW_SRC}}", _scope + "sw.js")
+              .replace("{{SW_SCOPE}}", _scope)
               .replace("{{ENGINE}}", engine)
               .replace("{{FOOTER_NOTE}}", app["footer"])
               .replace("{{APP_TITLE}}", app["title"])

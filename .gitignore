@@ -35,3 +35,5 @@ __pycache__/
 /do-not-sell/
 # Deferred half of each item bank, written beside bank.js by src/build.py.
 */bank_rest.js
+# Service worker, generated per trainer beside bank.js by src/build.py.
+*/sw.js

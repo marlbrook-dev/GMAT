@@ -288,6 +288,17 @@ body.focus header.app,body.focus footer.app{display:none}
      part that changes most often, so keeping it out of the shell lets the browser cache each
      independently, and stops a bank of thousands of items from blocking first paint. It is a
      plain blocking script, so BANK is defined before the app code below runs. -->
+<script>
+// Register before the bank loads, so the worker is installing while the bank downloads
+// rather than after. Failure is non fatal by design: an app that will not start because
+// caching is unavailable is worse than one that simply needs the network.
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('{{SW_SRC}}', { scope: '{{SW_SCOPE}}' })
+      .catch(function(){ /* private mode, blocked storage, http: all land here */ });
+  });
+}
+</script>
 <script src="{{BANK_SRC}}"></script>
 <!-- The rest of the bank, async so it never blocks a question appearing. It pushes into
      BANK and calls __bankGrew, which the inline script below defines. Script execution is
@@ -340,7 +351,7 @@ const Cloud={ client:null, user:null, timer:null, status:'off',
  async init(){ if(!window.supabase||location.protocol==='file:'){ this.status='local-only'; return; } try{ this.client=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY); const {data}=await this.client.auth.getSession(); this.user=data.session?data.session.user:null; this.status=this.user?'signed-in':'signed-out'; this.client.auth.onAuthStateChange(async (ev,sess)=>{ this.user=sess?sess.user:null; this.status=this.user?'signed-in':'signed-out'; if(this.user){ await this.pull(); // This is the path a new account takes: sign up, open the emailed link, land back
    // here. The birth date collected at signup lives in local settings until this
    // runs, and the sharing state has never been read at all.
-   await pushAbout(); await shareLoad(); track('session_started',{}); } this.checkAdmin(); updateHeader(); if(!document.getElementById('v-data').classList.contains('hidden')) renderData(); }); if(this.user){ await this.pull(); await shareLoad(); track('session_started',{}); } this.checkAdmin(); }catch(e){ this.status='error'; } },
+   await pushAbout(); await shareLoad(); await entitlementLoad(); track('session_started',{}); } this.checkAdmin(); updateHeader(); if(!document.getElementById('v-data').classList.contains('hidden')) renderData(); }); if(this.user){ await this.pull(); await shareLoad(); await entitlementLoad(); track('session_started',{}); } this.checkAdmin(); }catch(e){ this.status='error'; } },
  async checkAdmin(){ this.isAdmin=false; const b=document.getElementById('navAdmin'); const pv=location.hash==='#admin-preview'; if(b&&!pv) b.style.display='none'; if(!this.user||!this.client) return; try{ const {data}=await this.client.rpc('is_admin'); this.isAdmin=!!data; }catch(e){} if(b) b.style.display=(this.isAdmin||pv)?'':'none'; },
  async signIn(email){ milestone('account_created'); if(!this.client) return {error:{message:'Sync is available on the hosted site only.'}}; return this.client.auth.signInWithOtp({email, options:{emailRedirectTo: location.origin+location.pathname}}); },
  async signOut(){ if(this.client) await this.client.auth.signOut(); this.user=null; this.status='signed-out'; },
@@ -2365,7 +2376,23 @@ const FREE_LIMITS_LIVE=false;
 // Display only. Keep in step with STRIPE_TRIAL_DAYS on the checkout function.
 const TRIAL_DAYS=7;
 const PLAN_LIMITS={free:{daily:10,mocksPerMonth:1}};
-function userPlan(){ const p=Cloud.plan||'free'; return (p==='plus'||p==='pro')?p:'free'; }
+function userPlan(){
+ // The entitlement is authoritative: it is computed server side across every payment
+ // source, so a plan bought on iOS survives the next Stripe webhook landing on the row.
+ // Cloud.plan is the fallback only while the entitlement has not loaded, which keeps an
+ // offline or mid boot app from flickering down to free and paywalling a paying user.
+ const e=Cloud.entitlement&&Cloud.entitlement.plan;
+ const p=e||Cloud.plan||'free';
+ return (p==='plus'||p==='pro')?p:'free';
+}
+// Who owns the subscription, which decides how it is cancelled. Apple gives no API to
+// cancel on a user's behalf and requires apps to send people to Settings.
+function planManagedBy(){ return (Cloud.entitlement&&Cloud.entitlement.managed_by)||'stripe'; }
+async function entitlementLoad(){
+ if(!Cloud.user||!Cloud.client){ Cloud.entitlement=null; return; }
+ try{ const {data,error}=await Cloud.client.rpc('my_entitlement');
+  Cloud.entitlement=(!error&&data&&data.length)?data[0]:null; }catch(e){ Cloud.entitlement=null; }
+}
 function planGate(kind){ if(!FREE_LIMITS_LIVE||userPlan()!=='free') return true;
  if(kind==='question'){ const today=new Date().toDateString(); const n=state.attempts.filter(a=>new Date(a.ts).toDateString()===today).length;
   if(n>=PLAN_LIMITS.free.daily){ paywall('The free plan covers '+PLAN_LIMITS.free.daily+' questions a day. Plus removes the cap.'); return false; } }
@@ -2397,7 +2424,16 @@ async function openBillingPortal(){ if(!Cloud.user){ toast('Sign in first.'); re
   toast(msg||'Could not open billing. Email billing@startfromnowhere.com and we will sort it out the same day.');
  }catch(e){ toast('Could not open billing. Email billing@startfromnowhere.com and we will sort it out the same day.'); } }
 // One click, no email, no phone call. Terms section 3 promises exactly this.
-async function cancelPlan(){ const b=Cloud.billing||{};
+async function cancelPlan(){
+ // Apple sourced plans are cancelled in Settings, by the person, and nowhere else. There
+ // is no API for us to do it and Apple's guidelines require the pointer. Saying so is
+ // better than a button that appears to work and does not.
+ if(planManagedBy()==='apple'){
+  toast('Apple manages this subscription. Cancel it in Settings, then Apple ID, then Subscriptions.');
+  try{ window.open('https://apps.apple.com/account/subscriptions','_blank','noopener'); }catch(e){}
+  return;
+ }
+ const b=Cloud.billing||{};
  const until=b.status==='trialing'?b.trialEnd:b.periodEnd;
  const tail=until?' You keep full access until '+fmtDay(until)+'.':'';
  const charged=b.status==='trialing'?' You will not be charged at all.':' You will not be charged again.';
