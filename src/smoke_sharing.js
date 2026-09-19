@@ -113,6 +113,8 @@ function check(name, cond, detail) {
     check('[do-not-sell ' + who + '] says it cannot recall a delivered copy',
       /cannot recall a copy already delivered/.test(txt));
     check('[do-not-sell ' + who + '] no discrimination promise', /will not discriminate/.test(txt));
+    check('[do-not-sell ' + who + '] covers purchased attributes too',
+      /bought details about you from a data partner/.test(txt));
     check('[do-not-sell ' + who + '] the control resolved out of its loading state',
       !/Checking Your Current Setting/.test(txt), txt.slice(0, 120).replace(/\n/g, ' '));
     if (gpc) check('[do-not-sell with GPC] says the signal is being honoured',
@@ -131,6 +133,11 @@ function check(name, cond, detail) {
       'We do not sell personal data and we do not run third-party ad trackers',
       'We do not sell or share personal information as those terms are defined',
       'we never sell or share personal data with data brokers',
+      // The no-buy promises, removed when the owner decided we buy and append. If any of
+      // them comes back, the page promises one thing and section 2 describes another.
+      'never buy them, and never append them from a third party',
+      'never buy it, and never append it from anywhere else',
+      'We do not buy data about you',
     ];
     const found = contradictions.filter(c => txt.includes(c));
     check('privacy page no longer promises the opposite', found.length === 0, found.join(' | '));
@@ -145,6 +152,22 @@ function check(name, cond, detail) {
       /We do sell and share personal information as California law defines those words/.test(txt));
     check('privacy page links the opt out', /Do Not Sell or Share My Personal Information/.test(txt));
     check('privacy page no dashes', !/[–—]/.test(txt));
+    // Buying is lawful on notice, so the notice has to be there and has to say the things
+    // that make it one: that we buy, which categories, from whom, and who is excluded.
+    check('privacy page discloses that we buy data',
+      /we may buy attributes about you from data partners/.test(txt));
+    check('privacy page names the categories bought',
+      /education, field of study, career stage and industry/.test(txt));
+    check('privacy page says nothing is bought about a minor',
+      /We buy nothing about anyone under 18/.test(txt));
+    check('privacy page keeps purchased values out of the declared fields',
+      /never written into the fields you filled in/.test(txt));
+    check('privacy page offers access and deletion of purchased data',
+      /Ask what is attached to your account/.test(txt));
+    check('privacy page rules out credit and employment uses',
+      /credit, employment, housing or\s+insurance/.test(txt));
+    check('the summary mentions buying too',
+      /nothing about anyone\s+under 18 is ever bought/.test(txt));
     await p.close();
   }
 

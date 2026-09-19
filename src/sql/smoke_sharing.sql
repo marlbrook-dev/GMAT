@@ -101,3 +101,90 @@ begin
                                    else 'SOMETHING FAILED, READ THE LINES ABOVE' end);
   raise exception 'RESULTS (rolled back): %', r;
 end $$;
+
+
+-- ---------------------------------------------------------------------------------
+-- Append guarantees. Same shape: always ends by raising, so it rolls itself back and
+-- the results arrive in the error message.
+--
+-- The thing being checked is that buying data about people is bounded by the same line
+-- everything else is bounded by. Adults only, refused rather than filtered; purged when
+-- an age is corrected downward; out of the export when stale; gone when the account goes;
+-- and never mixed into the columns the person filled in themselves, because the policy
+-- says those are self-declared and that has to keep being true.
+do $$
+declare
+  a uuid := '00000000-0000-4000-8000-00000000000a';  -- adult, opted in
+  m uuid := '00000000-0000-4000-8000-00000000000b';  -- 15 year old
+  r text := E'\n'; n int; ok boolean := true; msg text;
+begin
+  insert into auth.users (id, instance_id, aud, role, email, encrypted_password,
+                          email_confirmed_at, created_at, updated_at)
+  select x, '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated',
+         'append-' || x || '@example.invalid', '', now(), now(), now()
+  from unnest(array[a,m]) x;
+  insert into public.profiles (id, email) select x, 'x@example.invalid'
+    from unnest(array[a,m]) x on conflict (id) do nothing;
+  update public.profiles set birth_year=1990, birth_month=3, country='US',
+    data_sharing_opt_in=true, data_sharing_at=now(),
+    data_sharing_policy_version='2026-09-18' where id=a;
+  update public.profiles set birth_year=2011, birth_month=3, country='US' where id=m;
+
+  insert into public.profile_appended (user_id, attribute, value, source)
+  values (a, 'employer_industry', 'Consulting', 'TestBroker');
+  select count(*) into n from public.profile_appended where user_id=a;
+  r := r || format(E'append to an adult                      -> %s row(s)  (want 1)  %s\n',
+                   n, case when n=1 then 'ok' else 'FAIL' end);
+  if n<>1 then ok:=false; end if;
+
+  -- Refused at the database, not filtered out downstream by whoever remembers to filter.
+  begin
+    insert into public.profile_appended (user_id, attribute, value, source)
+    values (m, 'employer_industry', 'Retail', 'TestBroker');
+    r := r || E'append to a 15 year old                -> ALLOWED  (want refused)  FAIL\n';
+    ok := false;
+  exception when others then
+    get stacked diagnostics msg = message_text;
+    r := r || format(E'append to a 15 year old                -> refused: %s  ok\n', left(msg, 46));
+  end;
+
+  select count(*) into n from public.sellable_profiles_enriched
+   where id=a and appended ? 'employer_industry';
+  r := r || format(E'enriched view carries the attribute     -> %s  (want 1)  %s\n',
+                   n, case when n=1 then 'ok' else 'FAIL' end);
+  if n<>1 then ok:=false; end if;
+
+  -- Purchased values must never reach the self-declared columns.
+  select count(*) into n from information_schema.columns
+   where table_schema='public' and table_name='sellable_profiles' and column_name='appended';
+  r := r || format(E'plain sellable_profiles unchanged       -> %s appended col  (want 0)  %s\n',
+                   n, case when n=0 then 'ok' else 'FAIL' end);
+  if n<>0 then ok:=false; end if;
+
+  update public.profiles set birth_year=2012 where id=a;
+  select count(*) into n from public.profile_appended where user_id=a;
+  r := r || format(E'adult corrected to 14, purchased rows   -> %s  (want 0)  %s\n',
+                   n, case when n=0 then 'ok' else 'FAIL' end);
+  if n<>0 then ok:=false; end if;
+
+  update public.profiles set birth_year=1990 where id=a;
+  update public.profiles set data_sharing_opt_in=true, data_sharing_at=now(),
+    data_sharing_policy_version='2026-09-18' where id=a;
+  insert into public.profile_appended (user_id, attribute, value, source, expires_at)
+  values (a, 'budget_band', '100_500', 'TestBroker', now() - interval '1 day');
+  select count(*) into n from public.sellable_profiles_enriched
+   where id=a and appended ? 'budget_band';
+  r := r || format(E'expired purchased row in the view       -> %s  (want 0)  %s\n',
+                   n, case when n=0 then 'ok' else 'FAIL' end);
+  if n<>0 then ok:=false; end if;
+
+  delete from auth.users where id=a;
+  select count(*) into n from public.profile_appended where user_id=a;
+  r := r || format(E'account deleted, purchased rows left    -> %s  (want 0)  %s\n',
+                   n, case when n=0 then 'ok' else 'FAIL' end);
+  if n<>0 then ok:=false; end if;
+
+  r := r || format(E'\n%s\n', case when ok then 'ALL APPEND GUARANTEES HOLD'
+                                   else 'SOMETHING FAILED, READ THE LINES ABOVE' end);
+  raise exception 'RESULTS (rolled back): %', r;
+end $$;

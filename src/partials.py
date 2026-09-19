@@ -411,14 +411,15 @@ def consent_js():
         "often you changed your mind. Those records carry no account, no session, "
         "no device and no address, so they cannot be tied back to anyone; they are how the practice "
         "engine learns which questions work. "
-        "<b>Never.</b> We do not buy data about you, do not append it from anywhere else, "
-        "run no third party trackers, and never sell or share anything this banner is about: "
-        "not a page view, not an item answered, not a word you typed. "
-        "<b>Separately, and only if you ask for it.</b> Account holders aged 18 and over can "
-        "switch on a programme that shares the optional profile details they filled in "
-        "themselves with partners including data brokers. It is off unless you turn it on, it "
-        "is closed to under 18s, and it is switched off again from the "
-        '<a href="/do-not-sell/">Do Not Sell</a> page linked in every footer. '
+        "<b>Never.</b> We run no third party trackers, and nothing this banner is about is "
+        "ever sold or shared: not a page view, not an item answered, not a word you typed. "
+        "<b>On adult accounts.</b> If you are 18 or over we may buy details about you from "
+        "data partners and add them to your profile, kept separately from what you told us "
+        "yourself and deleted with your account. Nothing about anyone under 18 is ever bought, "
+        "appended, sold or shared. "
+        "<b>Only if you switch it on.</b> Sharing your profile with partners, including data "
+        "brokers, is off until an adult account turns it on, and off again in one click from "
+        'the <a href="/do-not-sell/">Do Not Sell</a> page linked in every footer. '
         'Full detail is on the <a href="/privacy.html">privacy page</a>.</p>\n'
         "  </div>\n"
         "</div>\n"
