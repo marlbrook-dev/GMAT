@@ -417,9 +417,11 @@ def consent_js():
         "data partners and add them to your profile, kept separately from what you told us "
         "yourself and deleted with your account. Nothing about anyone under 18 is ever bought, "
         "appended, sold or shared. "
-        "<b>Only if you switch it on.</b> Sharing your profile with partners, including data "
-        "brokers, is off until an adult account turns it on, and off again in one click from "
-        'the <a href="/do-not-sell/">Do Not Sell</a> page linked in every footer. '
+        "<b>On adult accounts, unless you say otherwise.</b> The optional profile details an "
+        "adult filled in may be shared with partners including data brokers. It is off in one "
+        'click from the <a href="/do-not-sell/">Do Not Sell</a> page linked in every footer, '
+        "and off by default for anyone who signed up in the EEA, the UK or Switzerland, where "
+        "we ask first instead. Nothing about anyone under 18 is ever shared. "
         'Full detail is on the <a href="/privacy.html">privacy page</a>.</p>\n'
         "  </div>\n"
         "</div>\n"

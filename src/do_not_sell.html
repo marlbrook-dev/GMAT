@@ -35,7 +35,7 @@ main li{margin-top:var(--s1)}
 <p style="color:var(--text-muted);margin-top:10px">California law gives you the right to tell us not to sell or share your personal information. This page is that control. You do not need an account to read it and you will not be asked to create one.</p>
 
 <h2>What We Actually Sell or Share</h2>
-<p>One category, from one group of people. If you are 18 or over, have an account, and have switched on the data sharing programme yourself, we may share the profile details you chose to fill in: education level, intended major, target schools, score goal, application year, budget band, employer industry, household income band, first-generation status, military status, weekly study hours, which exam you are preparing for, and your country. Recipients may include data brokers.</p>
+<p>One category, from one group of people: adults with an account. If you are 18 or over and signed up outside the EEA, the UK and Switzerland, this is on unless you turn it off, which is what the button below does. If you signed up in one of those places, it is off until you switch it on yourself. Either way, what may be shared is the profile details you chose to fill in: education level, intended major, target schools, score goal, application year, budget band, employer industry, household income band, first-generation status, military status, weekly study hours, which exam you are preparing for, and your country. Recipients may include data brokers.</p>
 <p>Where we have bought details about you from a data partner, which we do only on accounts recorded as 18 or over, those may be shared alongside the fields above while the programme is switched on. They are held separately from what you told us yourself, every row records which partner it came from, and you can ask what is attached to your account, or have it deleted, at <a href="mailto:privacy@startfromnowhere.com">privacy@startfromnowhere.com</a>.</p>
 <p>That is the whole of it. We have never sold or shared anything else, and the following are excluded at every version of the policy, whatever you switch on: your practice answers and ratings, anything you type into an answer box or an essay, your email address, your name, your payment details, your IP address, your error reports, and your forum posts.</p>
 <p><strong>We do not sell or share the personal information of anyone under 18 under any circumstances</strong>, and that is enforced in the database rather than by a setting. An account whose age is under 18 cannot appear in the only view an export is permitted to read. The full description is <a href="/privacy.html">section 9 of the privacy policy</a>.</p>
@@ -50,7 +50,7 @@ main li{margin-top:var(--s1)}
   </div>
   <p class="msg" id="st-msg" hidden></p>
 </div>
-<p style="margin-top:var(--s5)">If you are signed in, the button above writes your choice straight to your account and records what you chose and when. If you are not signed in, it sets a refusal in this browser that any account you later create on this device starts out honouring, and nothing of yours is in the programme in the meantime, because the programme only ever covers account holders who have switched it on.</p>
+<p style="margin-top:var(--s5)">This is the switch, not a form: if you are signed in, the button above writes your choice straight to your account and records what you chose and when, and it takes effect on the next export rather than after a review. If you are not signed in, it sets a refusal in this browser that any account you later create on this device starts out honouring, and nothing of yours is in the programme in the meantime, because the programme only ever covers account holders who have switched it on.</p>
 
 <h2>Global Privacy Control</h2>
 <p id="gpc-line">We treat a Global Privacy Control signal from your browser as this request, without you having to make it. If your browser or extension sends one, there is nothing further for you to do here.</p>
@@ -108,18 +108,27 @@ function paintSignedOut(){
 
 function paintSignedIn(s){
   signedIn=true;
-  var adult = (s && s.tier==='18_plus');
-  if(s && s.opt_in===true){
-    show('The Programme Is On for Your Account','Your self declared profile details may be shared with '
-      +'partners. Switching off stops that from here on.','On','on');
+  // `sharing` is computed server side from the export view itself, so it answers the only
+  // question this page exists to answer: is anything of mine leaving right now.
+  var sharing = !!(s && s.sharing), tier = s && s.tier, out = !!(s && s.opted_out);
+  var adult = (tier === '18_plus');
+  if(sharing){
+    show('Your Data Is Being Shared','Your self declared profile details may be shared with partners. '
+      +'The button below stops that from here on, immediately, and needs no reason.','On','on');
     btn.disabled=false; btn.textContent='Do Not Sell or Share My Personal Information';
+  } else if(out){
+    show('You Are Opted Out','Recorded against your account, with the date. Nothing further will be '
+      +'shared. We still collect and use your data to run the product and personalise your practice; '
+      +'we just do not pass any of it on.','Off','off');
+    btn.disabled=true; btn.textContent='Already Opted Out';
   } else if(!adult){
-    show('The Programme Is Closed to Your Account','Your account is not recorded as 18 or over, so nothing '
-      +'of yours can be sold or shared and the programme cannot be switched on.','Off','off');
+    show('Nothing of Yours Can Be Sold','Your account is not recorded as 18 or over, so nothing of '
+      +'yours is sold or shared and the programme cannot be switched on for you.','Off','off');
     btn.disabled=true; btn.textContent='Already Opted Out';
   } else {
-    show('You Are Opted Out','The programme is off for your account. Nothing of yours is being sold or '
-      +'shared, and it stays that way until you switch it on from the Account page yourself.','Off','off');
+    show('Nothing of Yours Is Being Shared','Sharing is off for your account. Either we ask before '
+      +'sharing where you signed up, or your account predates this policy. Nothing of yours leaves '
+      +'unless you choose it from your Account page.','Off','off');
     btn.disabled=true; btn.textContent='Already Opted Out';
   }
 }
@@ -131,7 +140,7 @@ window.sfnOptOut=function(){
   client.rpc('set_data_sharing',{p_opt_in:false,p_source:'do_not_sell'}).then(function(r){
     if(r.error){ say('That did not save: '+r.error.message+'. Email privacy@startfromnowhere.com and we '
       +'will do it by hand.', true); btn.disabled=false; return; }
-    paintSignedIn({opt_in:false,tier:'18_plus'});
+    paintSignedIn({sharing:false,opted_out:true,tier:'18_plus'});
     say('Saved to your account, with a record of what you chose and when.');
   }).catch(function(e){ say('That did not save. Email privacy@startfromnowhere.com and we will do it by '
     +'hand.', true); btn.disabled=false; });

@@ -39,17 +39,30 @@ function check(name, cond, detail) {
   const b = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH });
 
   // --- the Account card, across the states the server can report -------------------
+  // {sharing, basis, opted_out, tier} is what my_data_sharing returns. `sharing` is
+  // computed server side from the export view, so the card never recomputes it.
   const cases = [
-    ['never declared an age', null,
+    ['never declared an age', {sharing: false, basis: 'opt_out', opted_out: false, tier: 'undeclared'},
      { control: false, says: /birth month and year/i, flag: 'Off' }],
-    ['under 13', { opt_in: false, tier: 'under_13' },
+    ['under 13', {sharing: false, basis: 'opt_out', opted_out: false, tier: 'under_13'},
      { control: false, says: /closed to your account/i, flag: 'Off' }],
-    ['13 to 17', { opt_in: false, tier: '13_17' },
+    ['13 to 17', {sharing: false, basis: 'opt_out', opted_out: false, tier: '13_17'},
      { control: false, says: /closed to your account/i, flag: 'Off' }],
-    ['adult, never opted in', { opt_in: false, tier: '18_plus' },
-     { control: true, says: /It is off\./, flag: 'Off' }],
-    ['adult, opted in', { opt_in: true, tier: '18_plus' },
-     { control: true, says: /It is on\./, flag: 'On' }],
+    // The default-on case. This is the one the whole change exists for.
+    ['US adult, default on', {sharing: true, basis: 'opt_out', opted_out: false, tier: '18_plus'},
+     { control: true, says: /It is on\./, flag: 'On', button: /Turn Data Sharing Off/ }],
+    // A refusal is a stored fact, and must read differently from never having been asked.
+    ['US adult who opted out', {sharing: false, basis: 'opt_out', opted_out: true, tier: '18_plus'},
+     { control: true, says: /because you turned it off/i, flag: 'Off', button: /Turn Data Sharing Back On/ }],
+    // GDPR: no opt out exists for this, so the card must not imply one was declined.
+    ['EU adult, asked first', {sharing: false, basis: 'opt_in', opted_out: false, tier: '18_plus'},
+     { control: true, says: /we have to ask before sharing/i, flag: 'Off', button: /Turn Data Sharing On/ }],
+    ['EU adult who opted in', {sharing: true, basis: 'opt_in', opted_out: false, tier: '18_plus'},
+     { control: true, says: /It is on\./, flag: 'On', button: /Turn Data Sharing Off/ }],
+    // Predates the disclosure: the changed default must not reach back.
+    ['account older than the policy', {sharing: false, basis: 'opt_out', opted_out: false, tier: '18_plus'},
+     { control: true, says: /before we published the data sharing policy/i, flag: 'Off',
+       button: /Turn Data Sharing On/ }],
   ];
   for (const [name, sharing, want] of cases) {
     const p = await b.newPage({ viewport: { width: 390, height: 844 } });
@@ -86,6 +99,15 @@ function check(name, cond, detail) {
     // The age gate never asks for a day, on any path.
     check('[' + name + '] birth day is never asked for',
       !/bDay|birth day|Birth day/i.test(html));
+    if (want.button) {
+      const label = await p.evaluate(() => {
+        const c = [...document.querySelectorAll('#v-data .card')]
+          .find(x => (x.querySelector('.card-title') || {}).textContent === 'Data Sharing');
+        const b = c && c.querySelector('button[onclick^="shareSet"]');
+        return b ? b.textContent.trim() : '(none)';
+      });
+      check('[' + name + '] button offers the right action', want.button.test(label), label);
+    }
     const wide = await p.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 2);
     check('[' + name + '] no horizontal overflow at 390px', !wide);
     await p.close();
@@ -138,15 +160,19 @@ function check(name, cond, detail) {
       'never buy them, and never append them from a third party',
       'never buy it, and never append it from anywhere else',
       'We do not buy data about you',
+      // The opt in wording, removed when the default flipped. A policy describing an opt
+      // in while the database runs an opt out is the worst of both: the disclosure fails
+      // AND the selling happens.
+      'It is off unless you switch it on',
+      'data sharing programme that is open only to adults who opt in',
     ];
     const found = contradictions.filter(c => txt.includes(c));
     check('privacy page no longer promises the opposite', found.length === 0, found.join(' | '));
     check('privacy page discloses the programme', /The Data Sharing Programme/.test(txt));
-    check('privacy page says it is off unless switched on', /off unless you switch it on/i.test(txt));
     check('privacy page states the under 18 exclusion',
       /closed to you and cannot be switched on/.test(txt));
     check('privacy page excludes data collected under the old promise',
-      /while we told you we would never sell it/.test(txt));
+      /you were told we would never sell your data/.test(txt));
     check('privacy page names the recipients', /may include data brokers/.test(txt));
     check('privacy page carries the California disclosure',
       /We do sell and share personal information as California law defines those words/.test(txt));
@@ -168,6 +194,14 @@ function check(name, cond, detail) {
       /credit, employment, housing or\s+insurance/.test(txt));
     check('the summary mentions buying too',
       /nothing about anyone\s+under 18 is ever bought/.test(txt));
+    check('privacy page says sharing is on by default for most adults',
+      /it is on unless you turn it off/i.test(txt));
+    check('privacy page says the EEA, UK and Switzerland are asked first',
+      /it is off until you switch it on/i.test(txt));
+    check('privacy page still excludes accounts older than the policy',
+      /Changing the default does not reach back to you/.test(txt));
+    check('privacy page still states the under 18 exclusion under the new default',
+      /closed to you entirely and cannot be switched on/.test(txt));
     await p.close();
   }
 
