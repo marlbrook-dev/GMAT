@@ -160,10 +160,13 @@ def round_down(n):
     claim stays true between builds rather than becoming a promise the bank has to
     catch up with.
     """
+    # Two significant figures, so the step scales with the number instead of being a
+    # flat 500 across a range where 500 is most of the value. A fixed step turned 1,451
+    # into 1,000+, which is true but reads as a smaller library than we have.
     if n >= 10000:
         step = 1000
     elif n >= 1000:
-        step = 500
+        step = 100
     elif n >= 100:
         step = 100
     else:
@@ -255,6 +258,7 @@ landing = ((d/"landing.html").read_text().replace("{{BANK_COUNT}}", str(bank_cou
            # Library sizes are advertised on the landing page, so they are counted at
            # build time rather than typed. "2 Exams" sat on that page for months after
            # the third, fourth and fifth shipped.
+           .replace("{{COLLEGE_ROUND}}", round_down(_college_n))
            .replace("{{COLLEGE_COUNT}}", format(_college_n, ",d"))
            .replace("{{MBA_COUNT}}", format(_mba_n, ",d"))
            .replace("{{RANKED_ROUND}}", round_down(_college_n + _mba_n))
