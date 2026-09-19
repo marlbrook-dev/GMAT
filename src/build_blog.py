@@ -103,7 +103,7 @@ def validate(posts):
             if len(set(sib)) < 2: fail(f"{n}: needs at least 2 internal links to sibling posts")
 
 HEAD_CSS = """*{box-sizing:border-box}body{margin:0;font-family:var(--body);color:var(--gray-700);background:#fff;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
-:root{--navy-900:#0C1F3A;--navy-800:#122B4E;--navy-600:#2C4E80;--navy-100:#DCE5F1;--navy-50:#F2F6FB;--gold-700:#8A6A25;--gold-600:#A8842F;--gold-500:#C7A252;--gold-100:#F0E4C8;--gold-50:#FAF5E8;--gray-900:#111827;--gray-700:#374151;--gray-500:#6B7280;--gray-300:#D1D5DB;--gray-200:#E5E7EB;--gray-100:#F3F4F6;--gray-50:#F9FAFB;--blue-600:#2563EB;--blue-50:#EFF6FF;--violet-600:#7C3AED;--violet-50:#F5F3FF;--teal-600:#0D9488;--teal-50:#F0FDFA;--green-700:#15803D;--green-100:#DCFCE7;--green-50:#F0FDF4;
+:root{--navy-900:#0C1F3A;--navy-800:#122B4E;--navy-600:#2C4E80;--navy-100:#DCE5F1;--navy-50:#F2F6FB;--gold-700:#8A6A25;--gold-600:#A8842F;--gold-500:#C7A252;--gold-100:#F0E4C8;--gold-50:#FAF5E8;--gray-900:#111827;--gray-700:#374151;--gray-500:#4B5563;--gray-300:#D1D5DB;--gray-200:#E5E7EB;--gray-100:#F3F4F6;--gray-50:#F9FAFB;--blue-600:#2563EB;--blue-50:#EFF6FF;--violet-600:#7C3AED;--violet-50:#F5F3FF;--teal-600:#0F766E;--teal-50:#F0FDFA;--green-700:#15803D;--green-100:#DCFCE7;--green-50:#F0FDF4;
 --serif:'Source Serif 4',Georgia,serif;--display:var(--sans);--body:'IBM Plex Sans',system-ui,sans-serif;--mono:'IBM Plex Mono',ui-monospace,monospace;--ease:cubic-bezier(.16,1,.3,1)}
 h1,h2,h3{font-family:var(--serif);color:var(--navy-900);letter-spacing:-.01em;line-height:1.2;margin:0}
 a{color:var(--navy-600)}.wrap{max-width:1120px;margin:0 auto;padding:0 24px}.narrow{max-width:720px;margin:0 auto;padding:0 24px}

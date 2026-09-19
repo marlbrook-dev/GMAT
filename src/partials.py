@@ -102,7 +102,7 @@ h4{font-size:var(--t-600);letter-spacing:var(--tr-600);line-height:var(--lh-700)
  font-feature-settings:'tnum' 1;letter-spacing:var(--tr-600)}
 /* The only positive tracking on the site: small uppercase labels, which need it. */
 .eyebrow{font-family:var(--sans);font-weight:600;font-size:var(--t-100);
- letter-spacing:var(--tr-caps);text-transform:uppercase;color:var(--gray-500,#6B7280)}
+ letter-spacing:var(--tr-caps);text-transform:uppercase;color:var(--gray-500,#4B5563)}
 /* One measure for prose, so every column of text is the same width. */
 .prose{max-width:var(--measure)}
 .lead{max-width:var(--measure-lead);font-size:var(--t-500);line-height:var(--lh-tight)}
@@ -155,16 +155,16 @@ nav.sfn-nav{display:flex;align-items:center}
 .sfn-dd{position:relative}
 .sfn-dd>button{display:flex;align-items:center;gap:4px;padding:8px 12px;font-family:var(--sans);font-weight:600;font-size:var(--t-200);color:#374151;background:none;border:none;cursor:pointer;line-height:1.2;transition:color var(--dur-1) var(--ease)}
 .sfn-dd>button:hover{color:#0C1F3A}
-.sfn-dd .car{font-size:9px;color:#6B7280;transition:transform var(--dur-2) var(--ease)}
+.sfn-dd .car{font-size:9px;color:#4B5563;transition:transform var(--dur-2) var(--ease)}
 .sfn-dd:hover .car,.sfn-dd:focus-within .car{transform:rotate(180deg)}
 .sfn-dd-menu{position:absolute;top:100%;left:0;width:276px;background:#fff;border:1px solid #DCE5F1;border-radius:var(--r-lg);box-shadow:var(--sh-3);padding:4px;display:none;z-index:60}
 .sfn-dd:hover .sfn-dd-menu,.sfn-dd:focus-within .sfn-dd-menu{display:block}
 .sfn-dd-menu a{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:var(--s2) var(--s3);border-radius:var(--r-md);font-family:var(--sans);font-weight:600;font-size:var(--t-200);color:#374151;text-decoration:none;white-space:nowrap}
 .sfn-dd-menu a:hover{background:#F2F6FB;color:#0C1F3A}
-.sfn-tag{font-family:var(--sans);font-size:var(--t-100);font-weight:700;padding:var(--s1) var(--s2);border-radius:var(--r-full);background:#F2F6FB;color:#6B7280;white-space:nowrap;flex-shrink:0}
-.sfn-tag.live{background:#16A34A;color:#fff}
+.sfn-tag{font-family:var(--sans);font-size:var(--t-100);font-weight:700;padding:var(--s1) var(--s2);border-radius:var(--r-full);background:#F2F6FB;color:#4B5563;white-space:nowrap;flex-shrink:0}
+.sfn-tag.live{background:#15803D;color:#fff}
 .sfnh-r{display:flex;align-items:center;gap:8px}
-.sfn-signin{font-family:var(--sans);font-weight:600;font-size:var(--t-200);color:#6B7280;text-decoration:none;padding:8px 12px;border-radius:var(--r-md);transition:color var(--dur-1) var(--ease)}
+.sfn-signin{font-family:var(--sans);font-weight:600;font-size:var(--t-200);color:#4B5563;text-decoration:none;padding:8px 12px;border-radius:var(--r-md);transition:color var(--dur-1) var(--ease)}
 .sfn-signin:hover{color:#0C1F3A}
 .sfn-cta{font-family:var(--sans);font-weight:700;font-size:var(--t-200);background:#122B4E;color:#fff;text-decoration:none;padding:var(--s2) var(--s4);border-radius:var(--r-md);transition:background var(--dur-1) var(--ease);white-space:nowrap}
 .sfn-cta:hover{background:#0C1F3A}
@@ -172,18 +172,18 @@ nav.sfn-nav{display:flex;align-items:center}
 .sfn-mobile{display:none;border-top:1px solid #DCE5F1;background:#fff;padding:var(--s3) var(--gutter) var(--s4)}
 .sfn-mobile a{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:var(--s3) var(--s3);border-radius:var(--r-md);font-family:var(--sans);font-weight:600;font-size:var(--t-300);color:#374151;text-decoration:none}
 .sfn-mobile a:hover{background:#F2F6FB;color:#0C1F3A}
-.sfn-mobile .grp{font-family:var(--sans);font-weight:700;font-size:var(--t-100);letter-spacing:var(--tr-caps);text-transform:uppercase;color:#9CA3AF;padding:var(--s3) var(--s3) var(--s1)}
+.sfn-mobile .grp{font-family:var(--sans);font-weight:700;font-size:var(--t-100);letter-spacing:var(--tr-caps);text-transform:uppercase;color:#6B7280;padding:var(--s3) var(--s3) var(--s1)}
 .sfn-mobile .mb-cta{display:block;text-align:center;background:#122B4E;color:#fff;font-weight:700;margin-top:10px}
 .sfn-mobile .mb-cta:hover{background:#0C1F3A;color:#fff}
 @media(max-width:1023px){nav.sfn-nav,.sfn-signin,.sfn-cta{display:none}.sfn-burger{display:inline-flex}}
 .sfnf{border-top:1px solid #DCE5F1;background:#F9FAFB;margin-top:var(--s7)}
 .sfnf-in{max-width:var(--page);margin:0 auto;padding:var(--s7) var(--gutter) var(--s5);display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
 .sfnf-links{display:flex;gap:var(--s5);flex-wrap:wrap;justify-content:center}
-.sfnf-links a,.sfnf-links button{font-family:var(--sans);font-weight:600;font-size:var(--t-200);color:#6B7280;text-decoration:none;transition:color var(--dur-1) var(--ease)}
+.sfnf-links a,.sfnf-links button{font-family:var(--sans);font-weight:600;font-size:var(--t-200);color:#4B5563;text-decoration:none;transition:color var(--dur-1) var(--ease)}
 .sfnf-links button{background:none;border:none;padding:0;cursor:pointer;line-height:inherit}
 .sfnf-links a:hover,.sfnf-links button:hover{color:#0C1F3A}
-.sfnf-copy{font-family:var(--sans);font-size:var(--t-200);color:#9CA3AF;white-space:nowrap}
-.sfnf-legal{max-width:var(--page);margin:0 auto;padding:0 var(--gutter) var(--s6);font-size:var(--t-100);color:#9CA3AF;line-height:1.6}
+.sfnf-copy{font-family:var(--sans);font-size:var(--t-200);color:#4B5563;white-space:nowrap}
+.sfnf-legal{max-width:var(--page);margin:0 auto;padding:0 var(--gutter) var(--s6);font-size:var(--t-100);color:#4B5563;line-height:1.6}
 """.strip()
 
 _NAV_GROUPS = [
@@ -378,7 +378,7 @@ def consent_js():
         "#sfn-consent .yes{background:#122B4E;color:#fff}\n"
         "#sfn-consent .no{background:#fff;color:#122B4E}\n"
         "#sfn-consent .more{background:none;border:none;color:#2C4E80;text-decoration:underline;padding:9px 4px}\n"
-        "#sfn-consent .detail{flex:1 1 100%;margin:4px 0 0;font-size:12.5px;color:#6B7280;line-height:1.55}\n"
+        "#sfn-consent .detail{flex:1 1 100%;margin:4px 0 0;font-size:12.5px;color:#4B5563;line-height:1.55}\n"
         "#sfn-consent .detail[hidden]{display:none}\n"
         "#sfn-consent .now{flex:1 1 100%;margin:2px 0 0;font-size:12.5px;color:#2C4E80;font-weight:600}\n"
         "#sfn-consent .now[hidden]{display:none}\n"
