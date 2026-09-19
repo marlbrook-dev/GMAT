@@ -8,6 +8,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+/* Colours. TOKENS_CSS carries type and spacing only, so every page declares its own,
+   and this one referenced nine tokens that did not exist anywhere. Each value here is
+   checked against the size it is used at by src/smoke_launch.js. */
+:root{
+ --white:#fff;
+ --navy-900:#0C1F3A;--navy-800:#122B4E;--navy-100:#DCE5F1;
+ --gold-700:#7A5F1F;              /* 6.1:1 on white; gold-600 is 3.5 and too light at 12px */
+ --text-body:#374151;             /* 10.3:1 on white */
+ --text-muted:#4B5563;            /* 7.2:1 on the tint below; gray-500 lands at 4.4 and fails */
+ --line:#E5E7EB;--tint:#F9FAFB;
+}
 {{CHROME_CSS}}
 body{background:var(--white)}
 main p,main li{font-size:var(--t-300);line-height:1.65;color:var(--text-body)}
