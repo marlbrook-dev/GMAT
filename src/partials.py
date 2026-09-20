@@ -366,35 +366,62 @@ def consent_js():
     """
     return (
         "<!-- sfn consent: gates the page analytics beacon; item telemetry is unlinkable and ungated -->\n"
-        "<style>#sfn-consent{position:fixed;left:0;right:0;bottom:0;z-index:80;background:#fff;"
-        "border-top:1px solid var(--sfn-border,#E5E7EB);box-shadow:0 -6px 24px rgba(8,21,39,.12);"
-        "padding:16px 20px calc(16px + env(safe-area-inset-bottom,0px))}\n"
+        "<style>#sfn-consent{position:fixed;inset:0;z-index:80;display:flex;align-items:center;"
+        "justify-content:center;padding:calc(20px + env(safe-area-inset-top,0px)) 20px "
+        "calc(20px + env(safe-area-inset-bottom,0px));background:rgba(12,31,58,.45);"
+        "overflow-y:auto;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}\n"
         "#sfn-consent[hidden]{display:none}\n"
-        "#sfn-consent .in{max-width:1100px;margin:0 auto;display:flex;gap:18px;align-items:center;flex-wrap:wrap}\n"
-        "#sfn-consent p{margin:0;font-size:13.5px;line-height:1.5;color:#374151;flex:1 1 380px;min-width:260px}\n"
-        "#sfn-consent .btns{display:flex;gap:8px;flex-wrap:wrap}\n"
-        "#sfn-consent button{font:inherit;font-size:13px;font-weight:600;padding:9px 16px;border-radius:8px;"
-        "cursor:pointer;border:1px solid #122B4E;white-space:nowrap}\n"
+        "#sfn-consent .in{background:#fff;border-radius:14px;max-width:620px;width:100%;"
+        "box-shadow:0 18px 50px rgba(8,21,39,.28);padding:26px 28px 22px;margin:auto;min-width:0}\n"
+        "#sfn-consent h2{font-family:var(--serif,Georgia,serif);font-size:20px;line-height:1.25;"
+        "letter-spacing:-.012em;margin:0 0 12px;color:#0C1F3A}\n"
+        "#sfn-consent p{margin:0 0 10px;font-size:13.5px;line-height:1.6;color:#374151}\n"
+        "#sfn-consent .links{margin:14px 0 4px;font-size:13px;display:flex;gap:18px;flex-wrap:wrap}\n"
+        "#sfn-consent .links a,#sfn-consent .links button{color:#2C4E80;text-decoration:underline;"
+        "background:none;border:none;padding:0;font:inherit;cursor:pointer}\n"
+        "#sfn-consent .act{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-top:18px;"
+        "padding-top:16px;border-top:1px solid #E5E7EB;min-width:0}\n"
+        "#sfn-consent .sell{display:flex;gap:10px;align-items:center;flex:1 1 260px;min-width:0;"
+        "font-size:13px;color:#374151;cursor:pointer}\n"
+        # A real checkbox underneath, so it is focusable, announced, and toggles with a
+        # keyboard. The visual switch is drawn from it rather than replacing it.
+        "#sfn-consent .sell input{position:absolute;opacity:0;width:44px;height:26px;margin:0;cursor:pointer}\n"
+        "#sfn-consent .sw{position:relative;flex:0 0 auto;width:44px;height:26px;border-radius:99px;"
+        "background:#D1D5DB;transition:background .15s ease}\n"
+        "#sfn-consent .sw::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;"
+        "border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .15s ease}\n"
+        "#sfn-consent .sell input:checked + .sw{background:#122B4E}\n"
+        "#sfn-consent .sell input:checked + .sw::after{transform:translateX(18px)}\n"
+        "#sfn-consent .sell input:focus-visible + .sw{outline:2px solid #2C4E80;outline-offset:2px}\n"
+        "#sfn-consent .btns{display:flex;gap:10px;flex-wrap:wrap}\n"
+        "#sfn-consent button.yes,#sfn-consent button.no{font:inherit;font-size:13.5px;font-weight:600;"
+        "padding:11px 20px;border-radius:9px;cursor:pointer;border:1px solid #122B4E;white-space:nowrap}\n"
         "#sfn-consent .yes{background:#122B4E;color:#fff}\n"
         "#sfn-consent .no{background:#fff;color:#122B4E}\n"
-        "#sfn-consent .more{background:none;border:none;color:#2C4E80;text-decoration:underline;padding:9px 4px}\n"
-        "#sfn-consent .detail{flex:1 1 100%;margin:4px 0 0;font-size:12.5px;color:#4B5563;line-height:1.55}\n"
+        "#sfn-consent .detail{font-size:12.5px;color:#4B5563;line-height:1.6;margin-top:10px}\n"
         "#sfn-consent .detail[hidden]{display:none}\n"
-        "#sfn-consent .now{flex:1 1 100%;margin:2px 0 0;font-size:12.5px;color:#2C4E80;font-weight:600}\n"
+        "#sfn-consent .now{font-size:12.5px;color:#2C4E80;font-weight:600;margin-top:8px}\n"
         "#sfn-consent .now[hidden]{display:none}\n"
+        "@media(max-width:520px){#sfn-consent .in{padding:22px 20px 18px}"
+        "#sfn-consent .btns{width:100%}#sfn-consent .btns button{flex:1 1 0;min-width:0}}\n"
         ".sfn-consent-link{background:none;border:none;padding:0;font:inherit;color:inherit;"
         "text-decoration:underline;cursor:pointer}</style>\n"
-        '<div id="sfn-consent" hidden role="region" aria-label="Privacy choices">\n'
+        '<div id="sfn-consent" hidden role="dialog" aria-modal="true" '
+        'aria-labelledby="sfn-consent-h">\n'
         '  <div class="in">\n'
-        "    <p><b>Your choice about analytics.</b> We would like to record which pages are opened, "
-        "where visitors arrive from and how long they stay, so we can see what is worth building. "
-        "That needs your agreement, and the site works exactly the same if you decline.</p>\n"
-        '    <div class="btns">\n'
-        '      <button type="button" class="yes" onclick="sfnConsent(true)">Accept Analytics</button>\n'
-        '      <button type="button" class="no" onclick="sfnConsent(false)">Reject Non Essential</button>\n'
-        '      <button type="button" class="more" onclick="sfnConsentDetail()" aria-expanded="false" '
-        'aria-controls="sfn-consent-detail">What We Collect</button>\n'
-        "    </div>\n"
+        '    <h2 id="sfn-consent-h">Your Privacy Choices</h2>\n'
+        "    <p>We would like to record which pages are opened, where visitors arrive from and how "
+        "long they stay, so we can see what is worth building. That needs your agreement, and the "
+        "site works exactly the same if you decline.</p>\n"
+        "    <p>Accounts held by adults are also included in a data sharing programme by default. "
+        "The switch below turns that off for this browser, and you can change it at any time.</p>\n"
+        '    <div class="links">'
+        '<a href="/privacy.html">Privacy Policy</a>'
+        '<a href="/terms.html">Terms</a>'
+        '<a href="/do-not-sell/">Do Not Sell or Share</a>'
+        '<button type="button" onclick="sfnConsentDetail()" aria-expanded="false" '
+        'aria-controls="sfn-consent-detail">What We Collect</button>'
+        "</div>\n"
         '    <p class="now" id="sfn-consent-now" hidden>'
         '<span data-now="on" hidden>Analytics is on right now. Rejecting stops it from here on.</span>'
         '<span data-now="off" hidden>Analytics is off right now.</span>'
@@ -411,18 +438,25 @@ def consent_js():
         "often you changed your mind. Those records carry no account, no session, "
         "no device and no address, so they cannot be tied back to anyone; they are how the practice "
         "engine learns which questions work. "
-        "<b>Never.</b> We run no third party trackers, and nothing this banner is about is "
-        "ever sold or shared: not a page view, not an item answered, not a word you typed. "
-        "<b>On adult accounts.</b> If you are 18 or over we may buy details about you from "
-        "data partners and add them to your profile, kept separately from what you told us "
-        "yourself and deleted with your account. Nothing about anyone under 18 is ever bought, "
-        "appended, sold or shared. "
+        "<b>Never.</b> We do not buy data about you, do not append it from anywhere else, "
+        "run no third party trackers, and never sell or share anything this banner is about: "
+        "not a page view, not an item answered, not a word you typed. "
         "<b>On adult accounts, unless you say otherwise.</b> The optional profile details an "
         "adult filled in may be shared with partners including data brokers. It is off in one "
         'click from the <a href="/do-not-sell/">Do Not Sell</a> page linked in every footer, '
         "and off by default for anyone who signed up in the EEA, the UK or Switzerland, where "
         "we ask first instead. Nothing about anyone under 18 is ever shared. "
         'Full detail is on the <a href="/privacy.html">privacy page</a>.</p>\n'
+        '    <div class="act">\n'
+        '      <label class="sell"><input type="checkbox" id="sfn-nosell" '
+        'onchange="sfnNoSellToggle(this.checked)">'
+        '<span class="sw" aria-hidden="true"></span>'
+        "<span>Do not sell or share my personal information</span></label>\n"
+        '      <div class="btns">\n'
+        '        <button type="button" class="no" onclick="sfnConsent(false)">Reject Non Essential</button>\n'
+        '        <button type="button" class="yes" onclick="sfnConsent(true)">Save Choices</button>\n'
+        "      </div>\n"
+        "    </div>\n"
         "  </div>\n"
         "</div>\n"
         "<script>(function(){try{\n"
@@ -439,8 +473,30 @@ def consent_js():
         "window.sfnConsentDetail=function(){ var d=document.getElementById('sfn-consent-detail');\n"
         " var btn=document.querySelector('#sfn-consent .more'); if(!d) return;\n"
         " d.hidden=!d.hidden; if(btn) btn.setAttribute('aria-expanded', String(!d.hidden)); };\n"
+        # The sell and share switch. NS is the same key the Do Not Sell page reads and
+        # writes, so the two controls cannot disagree.
+        "var NS='sfn_no_sell_v1';\n"
+        "function readNoSell(){ try{ var v=JSON.parse(localStorage.getItem(NS)||'null');\n"
+        " return !!(v&&v.optOut); }catch(e){ return false; } }\n"
+        "window.sfnNoSell=function(){ return readNoSell()||gpc; };\n"
+        "window.sfnNoSellToggle=function(on){ try{ if(on){ localStorage.setItem(NS,\n"
+        "  JSON.stringify({optOut:true,ts:new Date().toISOString()})); } else { localStorage.removeItem(NS); }\n"
+        " }catch(e){}\n"
+        " // Signed in, so record it against the account too: a choice that follows the\n"
+        " // person is worth more than one that follows a browser, and this is the reliable\n"
+        " // version of that. It is best effort because a signed out visitor has no account\n"
+        " // to write to and must still get the local behaviour.\n"
+        " try{ if(window.Cloud&&Cloud.user&&Cloud.client){\n"
+        "  Cloud.client.rpc('set_data_sharing',{p_opt_in:!on,p_source:'banner'}); } }catch(e){}\n"
+        "};\n"
+        "function paintNoSell(){ var t=document.getElementById('sfn-nosell'); if(!t) return;\n"
+        " t.checked = readNoSell()||gpc;\n"
+        " // A browser sending GPC has already made this request in a form several states\n"
+        " // recognise in law. Offering to switch it back off would be arguing with it.\n"
+        " if(gpc){ t.checked=true; t.disabled=true; } }\n"
         "window.sfnConsentReopen=function(){ var b=document.getElementById('sfn-consent');\n"
-        " if(!b) return; var c=read(), n=document.getElementById('sfn-consent-now');\n"
+
+        " if(!b) return; paintNoSell(); var c=read(), n=document.getElementById('sfn-consent-now');\n"
         " if(n){ var on=c&&c.analytics, off=c&&!c.analytics;\n"
         "  n.hidden = (c===null);\n"
         "  n.querySelector('[data-now=\\'on\\']').hidden = !on;\n"
@@ -541,6 +597,14 @@ def footer_html(extra_legal=""):
     # A consent choice that cannot be changed later is not a choice. Every page carries
     # the banner, so every page can reopen it; this is the one control that has to be
     # in the footer rather than buried on the privacy page.
+    # One control, not two. The Do Not Sell link is the one California names by title and
+    # requires to be conspicuous, so it stays and the second button goes: a separate
+    # "Privacy Choices" beside it was the same decision under another name.
+    #
+    # It cannot be removed entirely, which is worth writing down rather than rediscovering.
+    # GDPR Article 7(3) requires withdrawing consent to be as easy as giving it, and CCPA
+    # 1798.135 requires the link itself. A dialog that appears once and leaves no way back
+    # fails both.
     links += ('<button type="button" class="sfn-consent-open" '
               'onclick="sfnConsentReopen()">Privacy Choices</button>')
     legal = LEGAL_LINE + ((" " + extra_legal) if extra_legal else "")

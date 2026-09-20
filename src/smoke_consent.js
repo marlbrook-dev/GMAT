@@ -59,6 +59,85 @@ async function instrument(ctx) {
   return sent;
 }
 
+// --- the dialog itself -------------------------------------------------------------
+// Rebuilt as a centred modal rather than a bottom bar. These check the properties that
+// make it a dialog rather than a div that looks like one, plus the two states that must
+// agree with the Do Not Sell page.
+async function checkDialog(b, base, check) {
+  const ctx = await b.newContext({ viewport: { width: 390, height: 844 } });
+  const pg = await ctx.newPage();
+  await pg.goto(base + '/', { waitUntil: 'domcontentloaded' });
+  await pg.waitForTimeout(400);
+
+  const d = await pg.evaluate(() => {
+    const el = document.getElementById('sfn-consent');
+    if (!el) return null;
+    const cs = getComputedStyle(el);
+    const t = document.getElementById('sfn-nosell');
+    return {
+      shown: !el.hidden,
+      role: el.getAttribute('role'),
+      modal: el.getAttribute('aria-modal'),
+      labelled: !!el.getAttribute('aria-labelledby'),
+      position: cs.position,
+      centred: cs.alignItems === 'center' && cs.justifyContent === 'center',
+      hasToggle: !!t,
+      toggleIsRealCheckbox: t ? t.type === 'checkbox' : false,
+    };
+  });
+  check('dialog is present on first visit', !!d && d.shown);
+  check('dialog is a dialog', !!d && d.role === 'dialog' && d.modal === 'true' && d.labelled,
+    d ? d.role + '/' + d.modal : 'missing');
+  check('dialog is centred', !!d && d.position === 'fixed' && d.centred);
+  // A styled span is not focusable and is not announced. The switch has to be drawn from
+  // a real checkbox or it is unusable with a keyboard or a screen reader.
+  check('the sell toggle is a real checkbox', !!d && d.hasToggle && d.toggleIsRealCheckbox);
+
+  // It has to go away on a choice, and stay gone on the next page load.
+  await pg.evaluate(() => sfnConsent(true));
+  await pg.waitForTimeout(150);
+  check('dialog closes on a choice',
+    await pg.evaluate(() => document.getElementById('sfn-consent').hidden));
+  await pg.reload({ waitUntil: 'domcontentloaded' });
+  await pg.waitForTimeout(400);
+  check('dialog stays closed on the next visit',
+    await pg.evaluate(() => document.getElementById('sfn-consent').hidden));
+
+  // The toggle and the Do Not Sell page share one key, so a choice made in one is true in
+  // the other. Two controls over one decision that disagree is worse than either alone.
+  await pg.evaluate(() => { sfnConsentReopen(); sfnNoSellToggle(true); });
+  await pg.waitForTimeout(150);
+  check('the toggle writes the Do Not Sell key',
+    await pg.evaluate(() => {
+      try { return !!JSON.parse(localStorage.getItem('sfn_no_sell_v1') || 'null').optOut; }
+      catch (e) { return false; }
+    }));
+  check('sfnNoSell agrees with it', await pg.evaluate(() => sfnNoSell() === true));
+  await pg.evaluate(() => sfnNoSellToggle(false));
+  await pg.waitForTimeout(100);
+  check('turning it back off clears the key',
+    await pg.evaluate(() => localStorage.getItem('sfn_no_sell_v1') === null));
+  await ctx.close();
+
+  // GPC must lock the toggle on rather than offer to undo a refusal the browser made.
+  const g = await b.newContext({ viewport: { width: 390, height: 844 } });
+  const gp = await g.newPage();
+  await gp.addInitScript(() => {
+    try { Object.defineProperty(navigator, 'globalPrivacyControl', { get: () => true }); } catch (e) {}
+  });
+  await gp.goto(base + '/', { waitUntil: 'domcontentloaded' });
+  await gp.waitForTimeout(300);
+  await gp.evaluate(() => sfnConsentReopen());
+  await gp.waitForTimeout(200);
+  const gs = await gp.evaluate(() => {
+    const t = document.getElementById('sfn-nosell');
+    return t ? { checked: t.checked, disabled: t.disabled } : null;
+  });
+  check('GPC locks the toggle on', !!gs && gs.checked && gs.disabled,
+    gs ? JSON.stringify(gs) : 'no toggle');
+  await g.close();
+}
+
 (async () => {
   await new Promise(r => server.listen(0, '127.0.0.1', r));
   PORT = server.address().port;
@@ -269,6 +348,8 @@ async function instrument(ctx) {
     check(app + ' items tab has no horizontal overflow', !wide);
     await ctx.close();
   }
+
+  await checkDialog(b, 'http://127.0.0.1:' + PORT, check);
 
   await b.close();
   server.close();
