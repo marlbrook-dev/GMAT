@@ -106,6 +106,46 @@ const check = (n, c, d) => {
     check('[' + app + '] still validates the email',
       (await pg.evaluate(() => window.__sent.length)) === 0);
 
+    // --- social sign in -----------------------------------------------------------
+    const oauth = await pg.evaluate(() =>
+      [...document.querySelectorAll('.oauth button')].map(b => b.textContent.trim()));
+    check('[' + app + '] all four providers offered', oauth.length === 4, oauth.join(', '));
+    // Guideline 4.8: Sign in with Apple must be at least as prominent as any other
+    // social login. First in the row is the unambiguous way to satisfy that.
+    check('[' + app + '] Apple is listed first', oauth[0] === 'Apple', oauth[0]);
+
+    // The age gate must hold across OAuth too. No provider returns a birth date, so an
+    // ungated social button is how every account ends up age undeclared.
+    await pg.evaluate(() => {
+      window.__oauth = [];
+      Cloud.client = { auth: { signInWithOAuth: async o => { window.__oauth.push(o); return {}; } } };
+      document.getElementById('authMonth').value = '';
+      document.getElementById('authYear').value = '';
+      oauthSignIn('google');
+    });
+    await pg.waitForTimeout(120);
+    check('[' + app + '] social sign-in refuses without a birth date',
+      (await pg.evaluate(() => window.__oauth.length)) === 0);
+
+    await pg.evaluate(() => {
+      document.getElementById('authMonth').value = '6';
+      document.getElementById('authYear').value = '1998';
+      oauthSignIn('google');
+    });
+    await pg.waitForTimeout(150);
+    check('[' + app + '] social sign-in proceeds once the age is given',
+      (await pg.evaluate(() => window.__oauth.length)) === 1);
+    check('[' + app + '] the birth date is kept across the redirect',
+      await pg.evaluate(() => {
+        const a = state.settings.about || {};
+        return a.birth_month === 6 && a.birth_year === 1998;
+      }));
+    // Extra scopes would put the app through provider security review and show a consent
+    // screen listing access we have no use for.
+    check('[' + app + '] no extra OAuth scopes requested',
+      await pg.evaluate(() => !(window.__oauth[0] && window.__oauth[0].options
+        && window.__oauth[0].options.scopes)));
+
     const wide = await pg.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 2);
     check('[' + app + '] no horizontal overflow at 390px', !wide);
     await pg.close();

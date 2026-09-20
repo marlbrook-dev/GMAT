@@ -2204,6 +2204,13 @@ function renderData(){ const el=document.getElementById('v-data'); const s=state
    +yrs.map(y=>'<option value="'+y+'"'+(ab0.birth_year===y?' selected':'')+'>'+y+'</option>').join('')
    +'</select></label></div>'
    +'<div class="row" style="margin-top:8px"><button class="btn" onclick="sendMagicLink()">Email Me a Sign-In Link</button></div>'
+   +'<div class="small muted" style="margin:14px 0 8px;text-align:center">or continue with</div>'
+   +'<div class="row oauth" style="flex-wrap:wrap;gap:8px">'
+   // Apple first, deliberately. Guideline 4.8 requires Sign in with Apple to be offered
+   // at least as prominently as any other social login, once an iOS build exists.
+   +OAUTH.map(o=>'<button class="btn secondary sm" onclick="oauthSignIn(\''+o[0]+'\')" '
+     +'style="flex:1 1 44%;min-width:0">'+o[1]+'</button>').join('')
+   +'</div>'
    +'<div class="small" style="margin-top:8px">No password. We email a one-time link; your progress on this device is kept and merged with your account. '
    +'We ask for your birth month and year, and deliberately not the day, because your age decides whether you can buy a paid plan and how your data may be used. '
    +'You can correct it later from this page. By continuing you agree to the <a href="/terms.html">Terms of Use</a> and the <a href="/privacy.html">Privacy notice</a>.</div>'
@@ -2253,6 +2260,37 @@ function renderData(){ const el=document.getElementById('v-data'); const s=state
    +'<button class="btn ghost sm" onclick="openBillingPortal()">Manage Billing</button></div>'; })()+'<div class="tiles" style="grid-template-columns:repeat(3,1fr)">'+tiers.map(t=>'<div class="tile"><div class="l">'+t.name+'</div><div class="v" style="font-size:24px">'+t.mo+'<span class="small" style="font-weight:400"> '+t.sub+'</span></div><ul class="small" style="margin:8px 0 0;padding-left:16px;text-align:left">'+t.feats.map(f=>'<li>'+f+'</li>').join('')+'</ul>'+planBtn(t)+'</div>').join('')+'</div></div>'+
  '<div class="card stack-4"><div class="card-title">Notifications</div><label class="row" style="gap:8px;cursor:pointer"><input type="checkbox" '+(s.digest?'checked':'')+' onchange="state.settings.digest=this.checked;persist()"> Weekly progress digest by email (when accounts launch)</label></div>'+
  '<div class="card stack-4"><div class="card-title">Privacy and Data</div><p class="small" style="margin:0">Your answers, ratings and settings. Download everything as JSON, restore from a file, or delete it. Deleting removes your data from this device'+(signed?' and from your account':'')+'.</p><div class="row"><button class="btn" onclick="exportState()">Download My Data</button><label class="btn secondary">Import From File <input type="file" accept="application/json" onchange="importState(this)"></label><button class="btn ghost" onclick="deleteEverything()">Delete My Data</button></div><table><tbody><tr><td>Attempts</td><td class="num">'+state.attempts.length+'</td></tr><tr><td>Sessions</td><td class="num">'+state.sessions.length+'</td></tr><tr><td>Events logged</td><td class="num">'+((state.events||[]).length)+'</td></tr><tr><td>Created</td><td>'+new Date(state.created).toLocaleString()+'</td></tr><tr><td>Bank</td><td class="num">'+BANK.length+' items · app '+APP_VERSION+'</td></tr></tbody></table></div></div>'; }
+// Supabase provider ids on the left, what a person reads on the right.
+const OAUTH=[['apple','Apple'],['google','Google'],['azure','Microsoft'],['github','GitHub']];
+
+// The birth date has to survive the round trip to the provider and back. Nothing in an
+// OAuth response contains one, so this is the only place it can come from.
+function ageFromForm(){
+ const m=document.getElementById('authMonth'), y=document.getElementById('authYear');
+ const mv=m&&m.value?+m.value:null, yv=y&&y.value?+y.value:null;
+ if(!mv||!yv){ toast('Choose your birth month and year first.');
+  if(y&&!yv) y.focus(); else if(m) m.focus(); return null; }
+ const ab=state.settings.about||(state.settings.about={});
+ ab.birth_month=mv; ab.birth_year=yv; persist();
+ return {m:mv,y:yv};
+}
+
+async function oauthSignIn(provider){
+ // Same gate as the email path. Signing in with Google does not tell us an age, so
+ // skipping it here would quietly create the undeclared accounts the gate exists to stop.
+ if(!ageFromForm()) return;
+ if(!Cloud.client){ toast('Sign-in is available on the hosted site.'); return; }
+ try{
+  const {error}=await Cloud.client.auth.signInWithOAuth({provider:provider,options:{
+   redirectTo: location.origin+location.pathname,
+   // No extra scopes. The default gives an id, an email and sometimes a name, which is
+   // all we use. Asking for more would put the app through provider security review and
+   // present a consent screen listing access we have no use for.
+   skipBrowserRedirect:false }});
+  if(error) toast('Could not start sign-in: '+error.message);
+ }catch(e){ toast('Could not start sign-in.'); }
+}
+
 async function sendMagicLink(){ const em=(document.getElementById('authEmail').value||'').trim(); if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){ toast('Enter a valid email.'); return; }
  // Required, not optional. An optional field here would reproduce the exact problem
  // moving it off the Account page was meant to fix.
