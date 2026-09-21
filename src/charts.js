@@ -196,7 +196,8 @@
       '--sfnc-d1:#8A4D1F;--sfnc-d2:#C08552;--sfnc-d3:#E3C6AC;--sfnc-d4:#EDEDEA;--sfnc-d5:#A9C7DC;--sfnc-d6:#4A90C0;--sfnc-d7:#0072B2;',
       '--sfnc-ink:#111827;--sfnc-ink-2:#374151;--sfnc-ink-3:#6B7280;',
       '--sfnc-rule:#E5E7EB;--sfnc-surface:#FFFFFF;--sfnc-tipbg:#111827;--sfnc-tipink:#FFFFFF;',
-      '--sfnc-good:#15803D;--sfnc-warn:#B45309;--sfnc-serious:#C2410C;--sfnc-bad:#B91C1C;}',
+      '--sfnc-good:#15803D;--sfnc-warn:#B45309;--sfnc-serious:#C2410C;--sfnc-bad:#B91C1C;',
+      '--sfnc-on-seq:#FFFFFF;}',
       // Dark is SELECTED, not an inversion. Every step was re-validated against the dark
       // surface, and three of the five light hues had to move DOWN in lightness rather
       // than up, because the dark band tops out lower than the light one.
@@ -206,7 +207,8 @@
       '--sfnc-d1:#C98A5A;--sfnc-d2:#A06A3C;--sfnc-d3:#6B4E38;--sfnc-d4:#3A3F49;--sfnc-d5:#2F5A79;--sfnc-d6:#1B6FA8;--sfnc-d7:#4FA8DF;',
       '--sfnc-ink:#F3F5F9;--sfnc-ink-2:#C7D0DD;--sfnc-ink-3:#93A0B3;',
       '--sfnc-rule:#2A3446;--sfnc-surface:#111827;--sfnc-tipbg:#E8ECF3;--sfnc-tipink:#0B1220;',
-      '--sfnc-good:#4ADE80;--sfnc-warn:#FBBF24;--sfnc-serious:#FB923C;--sfnc-bad:#F87171;}',
+      '--sfnc-good:#4ADE80;--sfnc-warn:#FBBF24;--sfnc-serious:#FB923C;--sfnc-bad:#F87171;',
+      '--sfnc-on-seq:#0B1220;}',
       '.sfnc{position:relative;font-family:var(--font-body,system-ui,sans-serif);min-width:0}',
       '.sfnc svg{display:block;width:100%;height:auto;overflow:visible}',
       '.sfnc-t{font-size:12px;fill:var(--sfnc-ink-3);font-variant-numeric:tabular-nums}',
@@ -315,8 +317,13 @@
       // Thin the labels rather than overlap them. A collided axis is unreadable at any
       // width, and 400px is the width that matters.
       var every = Math.ceil(xLabels.length / Math.max(2, Math.floor((w - m.l - m.r) / 64)));
-      for (var j = 0; j < xLabels.length; j++) {
-        if (j % every !== 0 && j !== xLabels.length - 1) continue;
+      var last = xLabels.length - 1;
+      // The end of the axis is worth labelling, but not at the cost of printing it on
+      // top of its neighbour: with twelve points and every=2 the forced last label
+      // landed right beside the one before it.
+      var showLast = every === 1 || last % every === 0 || (last % every) > every / 2;
+      for (var j = 0; j <= last; j++) {
+        if (j % every !== 0 && !(j === last && showLast)) continue;
         el('text', { x: xAt(j), y: h - m.b + 16, 'text-anchor': 'middle', class: 'sfnc-t' }, svg)
           .textContent = xLabels[j];
       }
@@ -581,7 +588,12 @@
           // dark enough to need it.
           var idx = Math.min(SEQUENTIAL.length - 1, Math.round(v / hi * (SEQUENTIAL.length - 1)));
           td.style.background = SEQUENTIAL[idx];
-          td.style.color = idx >= 4 ? '#fff' : INK.secondary;
+          // The ramp runs light to dark in the light theme and dark to light in the
+          // dark one, so the top steps need opposite ink. Hardcoding white put white
+          // text on a pale blue cell in dark mode, which the palette validator does not
+          // look at because it checks marks against the surface, not text against a
+          // mark. Caught by rendering it and looking.
+          td.style.color = idx >= 4 ? cvar('on-seq') : INK.secondary;
           td.textContent = spec.percent ? Math.round(v) + '%' : fmtNum(v);
           td.addEventListener('mousemove', function (ev) {
             var rect = box.getBoundingClientRect();

@@ -17,6 +17,16 @@ jobs:
         run: node src/smoke_redirect.js
       - name: Chart geometry and dark theme tokens
         run: node src/smoke_charts.js
+      # The browser suites were running nowhere: they need playwright, node_modules is
+      # gitignored, and nobody had ever installed it in CI. Four suites that the project
+      # relies on, including the offline one that is the App Review 4.2 evidence, were
+      # silently not running. They pass; they just had to be invoked.
+      - name: Install browser test tooling
+        run: npm install --no-audit --no-fund
+      - name: Install Chromium for Playwright
+        run: npx playwright install --with-deps chromium
+      - name: Browser suites (items, consent, billing, offline)
+        run: npm run test:browser
       - name: House rules sweep on generated pages
         run: |
           python3 - <<'EOF'
