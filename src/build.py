@@ -87,8 +87,13 @@ for app in APPS:
     banks = "\n".join((d/f).read_text() for f in app["files"])
     gen_file = GEN_DIR / ("bank_gen_%s.js" % app["gen"]) if app["gen"] else None
     gen_src = gen_file.read_text() if (gen_file and gen_file.exists()) else ""
-    rest_file = GEN_DIR / ("bank_gen_%s_rest.js" % app["gen"]) if app["gen"] else None
-    rest_src = rest_file.read_text() if (rest_file and rest_file.exists()) else ""
+    # The deferred remainder arrives in chunks because Cloudflare rejects a static asset
+    # over 25 MiB and the ACT remainder is about 30. Sorted numerically, not
+    # lexically, so rest10 lands after rest9 rather than after rest1.
+    rest_files = (sorted(GEN_DIR.glob("bank_gen_%s_rest*.js" % app["gen"]),
+                         key=lambda q: int("".join(c for c in q.stem.split("_rest")[-1] if c.isdigit()) or 0))
+                  if app["gen"] else [])
+    rest_parts = [q.read_text() for q in rest_files]
     concat = app["concat"] + (", BANK_GEN_" + app["gen"].upper() if gen_src else "")
     # The bank ships as its own file next to index.html. The path is absolute because the
     # GMAT app doubles as 404.html and is served from arbitrary URLs.
@@ -99,7 +104,6 @@ for app in APPS:
     # Before this split, time to first question was time to download the entire bank:
     # 20 seconds for GMAT and 23 for ACT on regular 3G, measured in src/smoke_load.js.
     bank_path = "/" + app["out"] + "/bank.js"
-    rest_path = "/" + app["out"] + "/bank_rest.js"
     bank_js = ("// GENERATED FILE. Built by src/build.py; edit the banks in src/ instead.\n"
                + banks + "\n" + gen_src + "\n"
                + "const BANK = [].concat(%s);\n" % concat)
@@ -109,12 +113,25 @@ for app in APPS:
     # const forbids reassignment, not mutation, so the remainder pushes into the same
     # array the app already holds a reference to. The hook lets the app reindex; the
     # guard means a missing hook degrades to a bigger pool rather than an exception.
-    rest_js = ("// GENERATED FILE. Deferred half of the item bank; see src/build.py.\n"
-               + rest_src + "\n"
-               + ("BANK.push.apply(BANK, BANK_GEN_%s_REST);\n" % app["gen"].upper()
-                  if rest_src else "")
-               + "if (typeof window.__bankGrew === 'function') window.__bankGrew();\n")
-    (bank_out / "bank_rest.js").write_text(rest_js)
+    # Clear a previous build's single-file remainder. The deploy uploads whatever is in
+    # the output directory, so a stale 30 MiB bank_rest.js left over from before the
+    # chunking would be shipped alongside the chunks and would fail the 25 MiB asset
+    # limit, which is the exact failure the chunking exists to avoid.
+    _legacy_rest = bank_out / "bank_rest.js"
+    if _legacy_rest.exists(): _legacy_rest.unlink()
+    rest_paths = []
+    for _i, _part in enumerate(rest_parts, start=1):
+        rest_js = ("// GENERATED FILE. Deferred item bank, chunk %d of %d; see src/build.py.\n"
+                   % (_i, len(rest_parts))
+                   + _part + "\n"
+                   + "BANK.push.apply(BANK, BANK_GEN_%s_REST%d);\n" % (app["gen"].upper(), _i)
+                   + "if (typeof window.__bankGrew === 'function') window.__bankGrew();\n")
+        (bank_out / ("bank_rest%d.js" % _i)).write_text(rest_js)
+        rest_paths.append("/" + app["out"] + "/bank_rest%d.js" % _i)
+    # Every chunk reindexes on arrival, so the pool grows as each lands rather than only
+    # once the last one does, and a chunk that fails to load costs its own items and no
+    # more.
+    rest_tags = "\n".join('<script src="%s" async></script>' % q for q in rest_paths)
 
     # A service worker per trainer. Scoped per app rather than one at the root: the five
     # ship different banks, and a shared cache would have them evicting each other's
@@ -122,8 +139,8 @@ for app in APPS:
     # also the substance behind the App Review 4.2 claim that this is not a repackaged
     # website.
     _scope = "/" + app["out"] + "/"
-    _precache = [_scope, _scope + "bank.js", _scope + "bank_rest.js",
-                 "/manifest.json", "/icons/icon-192.png", "/icons/icon-512.png"]
+    _precache = ([_scope, _scope + "bank.js"] + rest_paths
+                 + ["/manifest.json", "/icons/icon-192.png", "/icons/icon-512.png"])
     import json as _sw_json
     _sw = ((d / "sw_template.js").read_text()
            .replace("{{SW_VERSION}}", partials.build_id())
@@ -138,7 +155,7 @@ for app in APPS:
         (root / "social.js").write_text(_social.read_text(), encoding="utf-8")
     out = (tpl.replace("{{EXAM_ID}}", app["exam"])
               .replace("{{BANK_SRC}}", bank_path)
-              .replace("{{BANK_REST_SRC}}", rest_path)
+              .replace("{{BANK_REST_TAGS}}", rest_tags)
               .replace("{{SW_SRC}}", _scope + "sw.js")
               .replace("{{SW_SCOPE}}", _scope)
               .replace("{{ENGINE}}", engine)
@@ -365,6 +382,30 @@ _summary = ", ".join(
         round((root / a["out"] / "bank.js").stat().st_size / 1024),
         _TOTAL[a["exam"]])
     for a in APPS)
+# Cloudflare refuses any single static asset over 25 MiB, and the deploy fails outright
+# rather than degrading, so this is a build gate and not a warning. It caught the ACT
+# deferred bank at 29.9 MiB when TARGET went to 3300, which is why that bank now ships in
+# chunks. Checked across everything the deploy uploads, not just the banks, because the
+# next file to cross the line will not necessarily be one.
+_ASSET_LIMIT = 25 * 1024 * 1024
+_too_big = []
+for _p in root.rglob("*"):
+    if not _p.is_file():
+        continue
+    _rel = _p.relative_to(root).as_posix()
+    if _rel.startswith((".git/", "src/", "data/", "supabase/", "node_modules/", "design/")):
+        continue
+    _sz = _p.stat().st_size
+    if _sz > _ASSET_LIMIT:
+        _too_big.append((_rel, _sz))
+if _too_big:
+    for _rel, _sz in sorted(_too_big, key=lambda t: -t[1]):
+        print("ERROR: %s is %.1f MiB, over the 25 MiB Cloudflare static asset limit"
+              % (_rel, _sz / 1048576.0), file=sys.stderr)
+    print("ERROR: the deploy would be rejected; split the file or lower TARGET in "
+          "src/build_banks.py", file=sys.stderr)
+    sys.exit(1)
+
 print("built " + _summary + "; landing, community/, terms, privacy built; inline scripts parse")
 
 import subprocess as _sp

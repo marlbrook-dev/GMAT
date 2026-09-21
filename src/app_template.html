@@ -328,7 +328,7 @@ if ('serviceWorker' in navigator) {
 <!-- The rest of the bank, async so it never blocks a question appearing. It pushes into
      BANK and calls __bankGrew, which the inline script below defines. Script execution is
      single threaded, so this cannot run before that script has finished. -->
-<script src="{{BANK_REST_SRC}}" async></script>
+{{BANK_REST_TAGS}}
 <script>
 const SUPABASE_URL="https://ftsqwbzhkzuudogkvoqa.supabase.co", SUPABASE_KEY="sb_publishable_GToT4fK6RiwCZpPFE3bGiw_ThXq9qel", APP_VERSION="0.3.0";
 const EXAM_ID="{{EXAM_ID}}";

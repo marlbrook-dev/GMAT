@@ -26,13 +26,13 @@ that makes the site worth less than the sum of its pages.
 
 | Trainer | Path | Items |
 |---|---|---|
-| GMAT Focus | `/app/` | 12,081 |
-| ACT | `/act/app/` | 14,310 |
-| Digital SAT | `/sat/app/` | 7,307 |
-| GRE | `/gre/app/` | 7,288 |
+| GMAT Focus | `/app/` | 27,770 |
+| ACT | `/act/app/` | 36,617 |
+| Digital SAT | `/sat/app/` | 16,996 |
+| GRE | `/gre/app/` | 19,888 |
 | LSAT | `/lsat/app/` | 65 |
 
-**41,051 items total.** Also live: `/colleges/` (1,451 colleges, four ranked categories),
+**101,336 items total.** Also live: `/colleges/` (1,451 colleges, four ranked categories),
 `/schools/` (91 MBA programs), `/exams/`, `/blog/` (29 posts, drip publishing), `/apply/`,
 `/community/`, `/funding/`, `/international/`, `/scoring/`, `/pricing/`, `/do-not-sell/`.
 
@@ -206,7 +206,7 @@ LSAT everything, 3 to 10 per category, 65 total
 ```
 
 Maths categories hold 1,200 each. A student who picks reading exhausts it in one sitting.
-The headline of 41,051 is honest and the items are real, but the distribution is not, and
+The headline of 101,336 is honest and the items are real, but the distribution is not, and
 **no increase to `TARGET` will change this**. It needs written passages with item sets.
 This is the work that would most improve the product.
 
@@ -230,7 +230,7 @@ schema, verify by diffing a fresh apply, and delete that header note.
 
 ### 4. Bank scraper protection
 
-The 41,051-item bank is the asset worth defending. Cloudflare is already in front. Add
+The 101,336-item bank is the asset worth defending. Cloudflare is already in front. Add
 AI-crawler directives to `robots.txt` (GPTBot, ClaudeBot, CCBot, Google-Extended,
 PerplexityBot, Bytespider), turn on bot management against the `bank.js` and
 `bank_rest.js` endpoints, and match it in `terms.html`. Keep content pages fully
