@@ -266,6 +266,20 @@ function lst(){ try{ return JSON.parse(localStorage.getItem(LKEY))||{order:[],me
 function saveLst(L){ localStorage.setItem(LKEY,JSON.stringify(L)); refreshListUI(); }
 function fieldV(s,n){ var f=(s.profile||{})[n]||{}; return f.v==null?null:f.v; }
 function gmatOf(s){ var f=(s.profile||{}).gmat_focus||{}; if(f.v!=null) return {v:f.v,ed:'Focus',stat:f.stat||''}; var c=(s.profile||{}).gmat_classic||{}; if(c.v!=null) return {v:c.v,ed:'Classic',stat:c.stat||''}; return null; }
+// What this school publishes about its admitted class, carried into the saved list so
+// the trainer can show a fit view without a network call and without a second copy of
+// the library. Source, year and URL travel with every figure, because a number on a
+// comparison page that cannot be traced is exactly the kind this project does not ship.
+//
+// A field the school does not publish is simply absent. It is never defaulted, averaged
+// from peers, or inferred; the fit view renders a dash and says the school does not
+// publish it.
+function fitOf(s){ var p=s.profile||{}, out={};
+ ['gpa','work_exp_years','tuition_usd','accept_rate_pct','class_size','salary_median_usd'].forEach(function(k){
+  var f=p[k]; if(f&&f.v!=null) out[k]={v:f.v,stat:f.stat||'',src:f.src||'',year:f.year||null,url:f.url||''}; });
+ return out; }
+function metaFor(slug,prev){ var s=BY[slug];
+ return {tag:(prev&&prev.tag)||'target',note:(prev&&prev.note)||'',name:s.name,gmat:gmatOf(s),fit:fitOf(s)}; }
 function rankOf(s,k){ var r=(s.ranks||{})[k]||{}; return r.rank==null?null:r.rank; }
 
 // filters: checkbox groups, OR within a group, AND across groups; empty group = all
@@ -363,7 +377,7 @@ function toggleDetail(slug){ var ex=document.getElementById('det-'+slug);
 
 // list builder
 function toggleList(slug){ var L=lst(); var i=L.order.indexOf(slug);
- if(i>=0){ L.order.splice(i,1); delete L.meta[slug]; } else { L.order.push(slug); L.meta[slug]=L.meta[slug]||{tag:'target',note:''}; L.meta[slug].name=BY[slug].name; L.meta[slug].gmat=gmatOf(BY[slug]); }
+ if(i>=0){ L.order.splice(i,1); delete L.meta[slug]; } else { L.order.push(slug); L.meta[slug]=metaFor(slug,L.meta[slug]); }
  saveLst(L); }
 function moveIn(slug,dir){ var L=lst(); var i=L.order.indexOf(slug); var j=i+dir; if(j<0||j>=L.order.length) return;
  L.order[i]=L.order[j]; L.order[j]=slug; saveLst(L); renderListPanel(); }
@@ -378,7 +392,7 @@ function refreshListUI(){ var L=lst(); var n=L.order.length;
 function toggleAllVisible(on){ var L=lst(); var changed=false;
  document.querySelectorAll('#rows tr.srow').forEach(function(tr){ if(tr.style.display==='none') return;
   var slug=tr.dataset.slug; var inList=L.order.indexOf(slug)>=0;
-  if(on&&!inList){ L.order.push(slug); L.meta[slug]={tag:'target',note:'',name:BY[slug].name,gmat:gmatOf(BY[slug])}; changed=true; }
+  if(on&&!inList){ L.order.push(slug); L.meta[slug]=metaFor(slug,null); changed=true; }
   if(!on&&inList){ L.order.splice(L.order.indexOf(slug),1); delete L.meta[slug]; changed=true; } });
  if(changed) saveLst(L); }
 function toggleListPanel(){ var p=document.getElementById('listPanel'); p.classList.toggle('on'); if(p.classList.contains('on')) renderListPanel(); }

@@ -208,6 +208,7 @@ def validate_incidents(rows):
     resolved = sum(1 for c in cited if sh('git', 'cat-file', '-t', c) == 'commit')
     no_history = bool(cited) and resolved == 0
     problems = []
+    squashed = []
     if no_history:
         print('  note: no cited commit resolved, so this clone has no history; '
               'citations not verified')
@@ -227,11 +228,21 @@ def validate_incidents(rows):
             problems.append('%s has unknown detection_class %s' % (r['id'], r.get('detection_class')))
         c = r.get('commit')
         if c and not no_history and sh('git', 'cat-file', '-t', c) != 'commit':
-            problems.append('%s cites commit %s, which does not exist' % (r['id'], c))
+            # A commit hash is not a durable citation in a repository that squash merges:
+            # a branch commit ceases to exist the moment its pull request lands. The pull
+            # request survives, so a record carrying one is still traceable and the
+            # missing hash is expected rather than wrong. Without a pull request there is
+            # nothing left to check the claim against, and that is fatal.
+            if r.get('pr'):
+                squashed.append('%s cites %s (squashed into main; PR #%s is the record)'
+                                % (r['id'], c, r['pr']))
+            else:
+                problems.append('%s cites commit %s, which does not exist, and carries no '
+                                'PR number, so nothing is left to trace it to' % (r['id'], c))
         g = r.get('guard_file')
         if g and not os.path.exists(os.path.join(ROOT, g)):
             problems.append('%s cites guard_file %s, which does not exist' % (r['id'], g))
-    return problems
+    return problems, squashed
 
 
 def ledger_chapter(rows):
@@ -1011,7 +1022,11 @@ def main():
     h = harvest()
     rows = load_incidents()
 
-    problems = validate_incidents(rows)
+    problems, squashed = validate_incidents(rows)
+    if squashed:
+        print('  note: %d citation(s) squashed away, traceable by PR:' % len(squashed))
+        for sq in squashed:
+            print('    ' + sq)
     if problems:
         print('The defect ledger does not check out:')
         for p in problems:

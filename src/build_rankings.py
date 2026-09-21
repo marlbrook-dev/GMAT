@@ -405,6 +405,23 @@ def _seo_trim_generic(n):
     return s.strip(' ,')
 
 
+def fit_blob(p):
+    """What a school publishes about its admitted class, for the saved-list fit view.
+
+    Source, year and URL travel with every figure. A field the school does not publish is
+    absent rather than null-filled, so the page can say "not published" instead of
+    rendering a zero that reads as a real number.
+    """
+    out = {}
+    for k in ("gpa", "work_exp_years", "tuition_usd", "accept_rate_pct",
+              "class_size", "salary_median_usd"):
+        f = (p or {}).get(k) or {}
+        if f.get("v") is not None:
+            out[k] = {"v": f["v"], "stat": f.get("stat") or "", "src": f.get("src") or "",
+                      "year": f.get("year"), "url": f.get("url") or ""}
+    return out
+
+
 def seo_name(school):
     """Title-facing name: university plus school, only where that adds something."""
     name = (school.get('name') or '').strip()
@@ -606,6 +623,7 @@ def school_page(s, tpl, today, ranked=()):
               .replace("{{GMAT_JSON}}", json.dumps(
                   {"v": g["v"], "ed": "Focus", "stat": g.get("stat") or ""} if g.get("v") else
                   ({"v": gc["v"], "ed": "Classic", "stat": gc.get("stat") or ""} if gc.get("v") else None)))
+              .replace("{{FIT_JSON}}", json.dumps(fit_blob(p)))
               .replace("{{UNIVERSITY}}", esc(s.get("university") or ""))
               .replace("{{CITY}}", esc(s.get("city") or "")).replace("{{STATE}}", esc(s.get("state") or ""))
               .replace("{{TYPE}}", esc(s.get("type") or "")).replace("{{CLASS_YEAR}}", esc((p.get("class_year") or "profile pending")))

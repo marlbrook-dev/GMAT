@@ -59,7 +59,7 @@ a{color:var(--accent)}
 <p class="eyebrow">Start From Nowhere</p>
 <h1>The Build Playbook</h1>
 <p class="sub">How one person and a set of AI sessions built a multi-exam test-prep platform, every defect hit on the way, and the recipe for doing it again for something else</p>
-<p class="meta">Built 2026-09-21 from commit 09ca3f2 &middot; 66 commits over 35 days &middot; 55 recorded defects &middot; 17 chapters<br>
+<p class="meta">Built 2026-09-21 from commit 4acbdb4 &middot; 65 commits over 35 days &middot; 57 recorded defects &middot; 17 chapters<br>
 This document is generated. Edit the chapters in docs/playbook/ and the ledger in data/playbook/incidents.jsonl, then run python3 src/build_playbook.py.</p>
 </div>
 <div class="toc"><ol><li><a href="#how-to-use-this-book">How to Use This Book</a></li>
@@ -81,7 +81,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><a href="#the-bootstrap-pack-starting-a-new-project-with-this-loaded">The Bootstrap Pack: Starting a New Project With This Loaded</a></li></ol></div>
 <h1 id="how-to-use-this-book">How to Use This Book</h1>
 <p>This is the record of building one platform, written so it can be used to build a different one.</p>
-<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-08-17 and 2026-09-21, which is 35 days, across 66 commits, by one owner directing a series of AI coding sessions. As of this build it is 39 Python files, 89 JavaScript files, 24 TypeScript edge functions, 32 migrations and 63 documents: 1948 tracked files in total.</p>
+<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-08-17 and 2026-09-21, which is 35 days, across 65 commits, by one owner directing a series of AI coding sessions. As of this build it is 39 Python files, 90 JavaScript files, 24 TypeScript edge functions, 34 migrations and 63 documents: 1951 tracked files in total.</p>
 <p>None of those numbers were typed. They are measured from the repository every time this document is built, which is the first thing worth copying.</p>
 <h2 id="what-is-in-here">What is in here</h2>
 <p>The book has four kinds of chapter, and they age differently.</p>
@@ -441,7 +441,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 </ul>
 <p>are blocked, and recorded in the roadmap as blocked, because the test makers' pages return bot challenges. The rows that exist for them cite a banned source and are marked for replacement rather than quietly reused. Being blocked and saying so is a better state than being unblocked by a guess.</p>
 <h1 id="the-data-layer">The Data Layer</h1>
-<p>16 tables across 29 migrations, with the database rather than the application as the enforcement point.</p>
+<p>16 tables across 30 migrations, with the database rather than the application as the enforcement point.</p>
 <h2 id="row-level-security-as-the-default-posture">Row Level Security as the default posture</h2>
 <ol>
 <li><strong>Enable RLS on every table at creation.</strong> Not in a later pass.</li>
@@ -613,7 +613,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three defects here were found by taking a screenshot: a chart unreadable in dark mode, a line chart implying values that never existed, and a dashboard that was not on screen. None of them would have been caught by an assertion, because none of them were violations of anything anybody had thought to assert.</p>
 <p><strong>Budget for looking.</strong> It is the cheapest test there is and the only one that catches things you have not imagined.</p>
 <h1 id="running-the-build-as-an-ai-loop">Running the Build as an AI Loop</h1>
-<p>66 commits in 35 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
+<p>65 commits in 35 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
 <h2 id="the-division-of-labour">The division of labour</h2>
 <p><strong>The owner decides</strong>: what to build, what it means, what is acceptable, and every irreversible or outward-facing action. <strong>The session does</strong>: the building, the measuring, the testing, and the reporting of what it found.</p>
 <p>The failure mode at each end is worth naming. An owner who reviews every line becomes the bottleneck and the throughput collapses to the speed of reading. A session that decides product questions on its own produces something coherent that is not what anyone wanted.</p>
@@ -657,42 +657,42 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Long uninterrupted sessions with standing authorisation, punctuated by the owner redirecting priorities, beat short supervised ones by a wide margin. The standing authorisation that made it work was specific: merge your own work once the checks are green, do not check in on each item, and stop immediately when told to.</p>
 <p>The thing that makes that safe is not trust. It is that the checks are real, the destructive actions still require asking, and the record of what happened is written down well enough to audit later. Which is what this book is.</p>
 <h1 id="what-the-ledger-says-about-itself">What the Ledger Says About Itself</h1>
-<p>55 recorded defects, over 35 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.</p>
+<p>57 recorded defects, over 35 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.</p>
 <h2 id="how-defects-were-actually-found">How defects were actually found</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">How</th><th style="text-align:right">Count</th><th style="text-align:right">Share</th></tr></thead><tbody>
-<tr><td style="text-align:left">Found by reading the code or the output</td><td style="text-align:right">23</td><td style="text-align:right">42%</td></tr>
+<tr><td style="text-align:left">Found by reading the code or the output</td><td style="text-align:right">24</td><td style="text-align:right">42%</td></tr>
 <tr><td style="text-align:left">Found by measuring something</td><td style="text-align:right">14</td><td style="text-align:right">25%</td></tr>
-<tr><td style="text-align:left">A test caught it</td><td style="text-align:right">9</td><td style="text-align:right">16%</td></tr>
+<tr><td style="text-align:left">A test caught it</td><td style="text-align:right">10</td><td style="text-align:right">18%</td></tr>
 <tr><td style="text-align:left">Found by rendering it and looking</td><td style="text-align:right">4</td><td style="text-align:right">7%</td></tr>
 <tr><td style="text-align:left">Found by a review bot or an adversarial pass</td><td style="text-align:right">4</td><td style="text-align:right">7%</td></tr>
 <tr><td style="text-align:left">A person hit it</td><td style="text-align:right">1</td><td style="text-align:right">2%</td></tr>
 </tbody></table></div>
-<p><strong>This is the most useful table in the book.</strong> 54 of 55 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.</p>
+<p><strong>This is the most useful table in the book.</strong> 56 of 57 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.</p>
 <p><strong>Read that percentage with the bias it carries.</strong> This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.</p>
 <h2 id="by-severity">By severity</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">Severity</th><th style="text-align:right">Count</th></tr></thead><tbody>
 <tr><td style="text-align:left">Wrong data shown or stored</td><td style="text-align:right">22</td></tr>
-<tr><td style="text-align:left">Silent loss</td><td style="text-align:right">12</td></tr>
+<tr><td style="text-align:left">Silent loss</td><td style="text-align:right">14</td></tr>
 <tr><td style="text-align:left">Degraded</td><td style="text-align:right">12</td></tr>
 <tr><td style="text-align:left">Cosmetic</td><td style="text-align:right">7</td></tr>
 <tr><td style="text-align:left">Site down</td><td style="text-align:right">2</td></tr>
 </tbody></table></div>
-<p><strong>Silent loss is the dominant failure mode</strong>, at 12 of 55. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.</p>
+<p><strong>Silent loss is the dominant failure mode</strong>, at 14 of 57. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.</p>
 <h2 id="by-area">By area</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">Area</th><th style="text-align:right">Count</th></tr></thead><tbody>
-<tr><td style="text-align:left">Tests and guards</td><td style="text-align:right">12</td></tr>
+<tr><td style="text-align:left">Tests and guards</td><td style="text-align:right">13</td></tr>
 <tr><td style="text-align:left">Front end</td><td style="text-align:right">8</td></tr>
 <tr><td style="text-align:left">Content generation</td><td style="text-align:right">8</td></tr>
 <tr><td style="text-align:left">CSS and layout</td><td style="text-align:right">5</td></tr>
 <tr><td style="text-align:left">Payments</td><td style="text-align:right">5</td></tr>
 <tr><td style="text-align:left">Infrastructure and deploy</td><td style="text-align:right">5</td></tr>
 <tr><td style="text-align:left">Scoring and selection</td><td style="text-align:right">4</td></tr>
+<tr><td style="text-align:left">Database</td><td style="text-align:right">4</td></tr>
 <tr><td style="text-align:left">Search and metadata</td><td style="text-align:right">3</td></tr>
-<tr><td style="text-align:left">Database</td><td style="text-align:right">3</td></tr>
 <tr><td style="text-align:left">Interface and data display</td><td style="text-align:right">2</td></tr>
 </tbody></table></div>
 <h2 id="guard-coverage">Guard coverage</h2>
-<p>49 of 55 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.</p>
+<p>51 of 57 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.</p>
 <p>Carried by attention:</p>
 <ul>
 <li><strong>INC-0010</strong> CSS comments do not nest, and one placeholder killed the palette on 1451 pages</li>
@@ -721,7 +721,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <h1 id="the-defect-ledger">The Defect Ledger</h1>
 <p>Every entry here happened. Each one is a record of something that broke, how it was found, what fixed it, and what now stops it coming back. The last field is the one that matters for a different business: the transferable lesson, stated without reference to this codebase.</p>
 <p>They are grouped by the part of the system, and within a group by date. The <code>guard</code> field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.</p>
-<h2 id="tests-and-guards-12">Tests and guards (12)</h2>
+<h2 id="tests-and-guards-13">Tests and guards (13)</h2>
 <h3 id="inc-0016-the-performance-test-waited-for-the-load-event-which-waits-for-the-thing-being-optimised">INC-0016. The performance test waited for the load event, which waits for the thing being optimised</h3>
 <p><em>2026-09-19, Silent loss, <code>4b25169</code> PR #45</em></p>
 <ul>
@@ -853,6 +853,17 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>What stops it now.</strong> one shared resolver, so the logic cannot differ between suites in <code>src/chromium_path.js</code></li>
 <li><strong>Cost.</strong> one red CI run</li>
 <li><strong>Lesson.</strong> A path that exists on the machine you wrote the test on is not a path. Resolve environment-specific locations through one helper that falls back to the tool's own default, and return undefined rather than an empty string, because undefined means 'you decide' and an empty string means 'launch nothing'.</li>
+</ul>
+<h3 id="inc-0057-the-ledger-cited-commits-that-squash-merging-destroys">INC-0057. The ledger cited commits that squash merging destroys</h3>
+<p><em>2026-09-21, Silent loss, PR #63</em></p>
+<ul>
+<li><strong>What was seen.</strong> CI failed with three assertions at once: six citations unresolvable, the commit count wrong, and the HTML naming the wrong build commit.</li>
+<li><strong>Why.</strong> One cause behind all three. Each incident cites the commit that fixed it, and this repository squash merges, so a branch commit ceases to exist the moment its pull request lands. The builder treated an unresolvable citation as fatal, so it refused to rebuild; build.py catches that failure as a warning rather than stopping the deploy, so the stale committed artefacts stayed on disk and the two freshness assertions then failed against them.</li>
+<li><strong>How it surfaced.</strong> The first CI run after a squash merge, which is the first moment the problem could exist. (A test caught it)</li>
+<li><strong>Fix.</strong> Cite the pull request as the durable reference and treat the commit hash as best effort. A citation that no longer resolves is reported and allowed when the record carries a PR number, and is still fatal when it does not.</li>
+<li><strong>What stops it now.</strong> the builder and smoke_playbook both distinguish a squashed commit from a wrong one in <code>src/build_playbook.py</code></li>
+<li><strong>Cost.</strong> one red CI run, and a document that silently stopped rebuilding</li>
+<li><strong>Lesson.</strong> A commit hash is not a durable citation in a repository that squashes. Pull requests, issues and tags survive history rewriting; branch commits do not. Cite the thing that outlives the merge, and make any check of the other one advisory.</li>
 </ul>
 <h2 id="front-end-8">Front end (8)</h2>
 <h3 id="inc-0001-unescaped-quotes-in-onclick-strings-took-the-whole-app-down">INC-0001. Unescaped quotes in onclick strings took the whole app down</h3>
@@ -1245,6 +1256,51 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Cost.</strong> repeats persisting on two exams after the fix was believed complete</li>
 <li><strong>Lesson.</strong> When you add a filter, find every path that adds items after the filter runs. A gate on the entry point is not a gate on the set.</li>
 </ul>
+<h2 id="database-4">Database (4)</h2>
+<h3 id="inc-0012-postgres-fired-triggers-alphabetically-and-revoked-every-adult-opt-in">INC-0012. Postgres fired triggers alphabetically and revoked every adult opt-in</h3>
+<p><em>2026-09-19, Wrong data shown or stored, <code>a61eeca</code> PR #42</em></p>
+<ul>
+<li><strong>What was seen.</strong> Legitimate adult opt-ins to the data sharing programme were silently revoked.</li>
+<li><strong>Why.</strong> Postgres fires same-timing triggers in alphabetical order by name. profiles_sharing_eligibility sorted before profiles_sync_age_tier, so eligibility was judged against a stale age tier.</li>
+<li><strong>How it surfaced.</strong> Testing the guarantee the triggers were supposed to provide, rather than reading the trigger code. (A test caught it)</li>
+<li><strong>Fix.</strong> Numeric prefixes on trigger names to force the order.</li>
+<li><strong>What stops it now.</strong> src/sql smoke tests assert the guarantee, not the implementation in <code>supabase/migrations/20260918203431_fix_profiles_trigger_firing_order.sql</code></li>
+<li><strong>Cost.</strong> every adult opt-in, silently</li>
+<li><strong>Lesson.</strong> Postgres fires same-timing triggers alphabetically. If two triggers on one table have an order dependency, encode it in the name, and test the outcome rather than the code.</li>
+</ul>
+<h3 id="inc-0013-update-of-fires-on-the-columns-named-in-the-statement-not-the-ones-that-changed">INC-0013. UPDATE OF fires on the columns named in the statement, not the ones that changed</h3>
+<p><em>2026-09-19, Wrong data shown or stored, <code>a61eeca</code> PR #42</em></p>
+<ul>
+<li><strong>What was seen.</strong> Updating birth_year stored a minor's tier and skipped the eligibility check entirely.</li>
+<li><strong>Why.</strong> UPDATE OF &lt;columns&gt; keys off the columns named in the UPDATE statement, not off what actually changed and not off what an earlier BEFORE trigger wrote into NEW.</li>
+<li><strong>How it surfaced.</strong> Same guarantee test as INC-0012. (A test caught it)</li>
+<li><strong>Fix.</strong> Fire on every update and compare OLD to NEW inside the function.</li>
+<li><strong>What stops it now.</strong> sharing eligibility fires on every update in <code>supabase/migrations/20260918204223_sharing_eligibility_fires_on_every_update.sql</code></li>
+<li><strong>Cost.</strong> a minor could pass the adult gate</li>
+<li><strong>Lesson.</strong> UPDATE OF is a statement-shape filter, not a change filter. If you need 'when this value changed', compare OLD and NEW yourself.</li>
+</ul>
+<h3 id="inc-0020-revoking-execute-from-anon-did-nothing-while-public-still-held-it">INC-0020. Revoking EXECUTE from anon did nothing while PUBLIC still held it</h3>
+<p><em>2026-09-19, Wrong data shown or stored, <code>a61eeca</code> PR #42</em></p>
+<ul>
+<li><strong>What was seen.</strong> Functions stayed callable after their grants were revoked from anon and authenticated.</li>
+<li><strong>Why.</strong> PUBLIC is a separate grantee. A leading =X/postgres in pg_proc.proacl means PUBLIC holds EXECUTE, and revoking from the named roles changes nothing.</li>
+<li><strong>How it surfaced.</strong> Re-running the Supabase advisors instead of trusting the per-role grants. (A test caught it)</li>
+<li><strong>Fix.</strong> Revoke from PUBLIC as well, everywhere.</li>
+<li><strong>What stops it now.</strong> every migration revokes from public, anon, authenticated together in <code>supabase/migrations/20260916_revoke_public_execute_and_rls_initplan.sql</code></li>
+<li><strong>Cost.</strong> an open function surface believed closed</li>
+<li><strong>Lesson.</strong> In Postgres, revoking from every role you can name still leaves PUBLIC. Verify with the advisors or by reading the acl, never by reading your own migration.</li>
+</ul>
+<h3 id="inc-0056-twelve-profile-fields-said-saved-and-never-reached-the-account">INC-0056. Twelve profile fields said Saved and never reached the account</h3>
+<p><em>2026-09-21, Silent loss, PR #63</em></p>
+<ul>
+<li><strong>What was seen.</strong> A signed-in user fills in education, intended major, score goal, application year, budget, industry, household income, first generation, military status, study hours or their birth date, sees a Saved toast, and none of it is on their account. It survives only in that browser.</li>
+<li><strong>Why.</strong> Two layers disagreed and nothing compared them. Row Level Security scopes every write on the profiles table to the caller's own row, and a separate column grant decides which columns any role may write at all. The column grant to authenticated covers 5 of the 17 self-reported fields the Account page offers. The page updates the other 12 anyway, the database refuses, and aboutSave wraps the call in a try/catch with an empty body, so the refusal is discarded and the toast fires regardless.</li>
+<li><strong>How it surfaced.</strong> Reading the column privileges while adding new profile fields for something else. Nothing in the product would ever have reported it. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Grant UPDATE on the self-reported columns to authenticated, which is safe because the row policy already restricts every write to the caller's own row, and stop the save path swallowing its own error.</li>
+<li><strong>What stops it now.</strong> a SQL smoke test asserts authenticated holds UPDATE on every field the Account page writes, and none of the server-owned ones in <code>src/sql/smoke_profile_grants.sql</code></li>
+<li><strong>Cost.</strong> every signed-in user's demographics, for as long as the fields have existed</li>
+<li><strong>Lesson.</strong> An empty catch block around a write is a silent-loss defect waiting to be born. If a save can fail, the person must be told; a success toast that fires regardless of the result is worse than no toast, because it actively teaches the user the data is safe. And where two layers of authorisation have to agree, something has to compare them: the one that is wrong will not announce itself.</li>
+</ul>
 <h2 id="search-and-metadata-3">Search and metadata (3)</h2>
 <h3 id="inc-0002-school-urls-vanished-from-the-sitemap-when-the-data-file-was-split">INC-0002. School URLs vanished from the sitemap when the data file was split</h3>
 <p><em>2026-08-24, Silent loss, <code>df14c7c</code> PR #23</em></p>
@@ -1278,40 +1334,6 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>What stops it now.</strong> both figures are printed by the build from one source in <code>src/build_rankings.py</code></li>
 <li><strong>Cost.</strong> a visible contradiction between two pages</li>
 <li><strong>Lesson.</strong> When one model feeds two pages, generate both from the model in the same pass. Two places that must agree will not, and the reader who notices is the reader you were trying to convince.</li>
-</ul>
-<h2 id="database-3">Database (3)</h2>
-<h3 id="inc-0012-postgres-fired-triggers-alphabetically-and-revoked-every-adult-opt-in">INC-0012. Postgres fired triggers alphabetically and revoked every adult opt-in</h3>
-<p><em>2026-09-19, Wrong data shown or stored, <code>a61eeca</code> PR #42</em></p>
-<ul>
-<li><strong>What was seen.</strong> Legitimate adult opt-ins to the data sharing programme were silently revoked.</li>
-<li><strong>Why.</strong> Postgres fires same-timing triggers in alphabetical order by name. profiles_sharing_eligibility sorted before profiles_sync_age_tier, so eligibility was judged against a stale age tier.</li>
-<li><strong>How it surfaced.</strong> Testing the guarantee the triggers were supposed to provide, rather than reading the trigger code. (A test caught it)</li>
-<li><strong>Fix.</strong> Numeric prefixes on trigger names to force the order.</li>
-<li><strong>What stops it now.</strong> src/sql smoke tests assert the guarantee, not the implementation in <code>supabase/migrations/20260918203431_fix_profiles_trigger_firing_order.sql</code></li>
-<li><strong>Cost.</strong> every adult opt-in, silently</li>
-<li><strong>Lesson.</strong> Postgres fires same-timing triggers alphabetically. If two triggers on one table have an order dependency, encode it in the name, and test the outcome rather than the code.</li>
-</ul>
-<h3 id="inc-0013-update-of-fires-on-the-columns-named-in-the-statement-not-the-ones-that-changed">INC-0013. UPDATE OF fires on the columns named in the statement, not the ones that changed</h3>
-<p><em>2026-09-19, Wrong data shown or stored, <code>a61eeca</code> PR #42</em></p>
-<ul>
-<li><strong>What was seen.</strong> Updating birth_year stored a minor's tier and skipped the eligibility check entirely.</li>
-<li><strong>Why.</strong> UPDATE OF &lt;columns&gt; keys off the columns named in the UPDATE statement, not off what actually changed and not off what an earlier BEFORE trigger wrote into NEW.</li>
-<li><strong>How it surfaced.</strong> Same guarantee test as INC-0012. (A test caught it)</li>
-<li><strong>Fix.</strong> Fire on every update and compare OLD to NEW inside the function.</li>
-<li><strong>What stops it now.</strong> sharing eligibility fires on every update in <code>supabase/migrations/20260918204223_sharing_eligibility_fires_on_every_update.sql</code></li>
-<li><strong>Cost.</strong> a minor could pass the adult gate</li>
-<li><strong>Lesson.</strong> UPDATE OF is a statement-shape filter, not a change filter. If you need 'when this value changed', compare OLD and NEW yourself.</li>
-</ul>
-<h3 id="inc-0020-revoking-execute-from-anon-did-nothing-while-public-still-held-it">INC-0020. Revoking EXECUTE from anon did nothing while PUBLIC still held it</h3>
-<p><em>2026-09-19, Wrong data shown or stored, <code>a61eeca</code> PR #42</em></p>
-<ul>
-<li><strong>What was seen.</strong> Functions stayed callable after their grants were revoked from anon and authenticated.</li>
-<li><strong>Why.</strong> PUBLIC is a separate grantee. A leading =X/postgres in pg_proc.proacl means PUBLIC holds EXECUTE, and revoking from the named roles changes nothing.</li>
-<li><strong>How it surfaced.</strong> Re-running the Supabase advisors instead of trusting the per-role grants. (A test caught it)</li>
-<li><strong>Fix.</strong> Revoke from PUBLIC as well, everywhere.</li>
-<li><strong>What stops it now.</strong> every migration revokes from public, anon, authenticated together in <code>supabase/migrations/20260916_revoke_public_execute_and_rls_initplan.sql</code></li>
-<li><strong>Cost.</strong> an open function surface believed closed</li>
-<li><strong>Lesson.</strong> In Postgres, revoking from every role you can name still leaves PUBLIC. Verify with the advisors or by reading the acl, never by reading your own migration.</li>
 </ul>
 <h2 id="interface-and-data-display-2">Interface and data display (2)</h2>
 <h3 id="inc-0034-a-line-chart-interpolated-between-discrete-money-events">INC-0034. A line chart interpolated between discrete money events</h3>
@@ -1406,6 +1428,10 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>[ ] In Postgres, revoking from every role you can name still leaves PUBLIC. Verify with the advisors or by reading the acl, never by reading your own migration.  </li>
 </ul>
 <p>&lt;small&gt;Revoking EXECUTE from anon did nothing while PUBLIC still held it (INC-0020)&lt;/small&gt;</p>
+<ul>
+<li>[ ] An empty catch block around a write is a silent-loss defect waiting to be born. If a save can fail, the person must be told; a success toast that fires regardless of the result is worse than no toast, because it actively teaches the user the data is safe. And where two layers of authorisation have to agree, something has to compare them: the one that is wrong will not announce itself.  </li>
+</ul>
+<p>&lt;small&gt;Twelve profile fields said Saved and never reached the account (INC-0056)&lt;/small&gt;</p>
 <h2 id="front-end">Front end</h2>
 <ul>
 <li>[ ] Generated code is code. If your build writes JavaScript into a string, the build must parse the result, because the blast radius of one bad character is the whole file, not the line.  </li>
@@ -1569,6 +1595,10 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>[ ] A path that exists on the machine you wrote the test on is not a path. Resolve environment-specific locations through one helper that falls back to the tool's own default, and return undefined rather than an empty string, because undefined means 'you decide' and an empty string means 'launch nothing'.  </li>
 </ul>
 <p>&lt;small&gt;A new browser suite hardcoded this machine's browser directory and crashed in CI (INC-0055)&lt;/small&gt;</p>
+<ul>
+<li>[ ] A commit hash is not a durable citation in a repository that squashes. Pull requests, issues and tags survive history rewriting; branch commits do not. Cite the thing that outlives the merge, and make any check of the other one advisory.  </li>
+</ul>
+<p>&lt;small&gt;The ledger cited commits that squash merging destroys (INC-0057)&lt;/small&gt;</p>
 <h1 id="adapting-this-to-a-different-business">Adapting This to a Different Business</h1>
 <p>Most of this book is about a test-preparation platform. This chapter separates what was specific to that from what was structural, so you know what to keep.</p>
 <h2 id="what-was-specific">What was specific</h2>
@@ -1624,7 +1654,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p><code>python3 src/build_playbook.py</code> writes four files into <code>playbook/bootstrap/</code>, all generated from the same ledger as the book, so none of them can drift from it.</p>
 <p><strong><code>CLAUDE.template.md</code></strong> goes in the new repository's root. Claude Code reads it on every turn. It is the constitution: the house rules, the never-invent-a-value rule, the sourcing rules, the communication rule, and a short architecture section you fill in as you build. Four bracketed blanks at the top are the only things you have to change.</p>
 <p><strong><code>KICKOFF.md</code></strong> is the literal first message for a new conversation. It sets the working agreement, the phase order, and what a session should report. Paste it, then describe your business idea underneath it.</p>
-<p><strong><code>RULES_DIGEST.md</code></strong> is every lesson in the defect ledger, compressed to one line each and grouped by area. It is about three pages. This is the highest value-per-token artefact in the whole project: 55 real defects reduced to the rules that prevent them, with the specifics of this codebase stripped out.</p>
+<p><strong><code>RULES_DIGEST.md</code></strong> is every lesson in the defect ledger, compressed to one line each and grouped by area. It is about three pages. This is the highest value-per-token artefact in the whole project: 57 real defects reduced to the rules that prevent them, with the specifics of this codebase stripped out.</p>
 <p><strong><code>incidents.jsonl</code></strong> is the raw ledger, copied so the new project can start appending to it on day one rather than starting an empty one.</p>
 <h2 id="how-to-load-it-by-surface">How to load it, by surface</h2>
 <p><strong>Claude Code, new repository.</strong> Copy <code>CLAUDE.template.md</code> to the repo root as <code>CLAUDE.md</code>, fill in the four blanks, and copy <code>incidents.jsonl</code> to <code>data/playbook/incidents.jsonl</code>. Copy <code>src/build_playbook.py</code> too, so the new project's own ledger becomes its own book from the first defect. Then open a session with <code>KICKOFF.md</code> as the first message.</p>
@@ -1634,7 +1664,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three reasons, and they are worth understanding rather than just following.</p>
 <p><strong>Retrieval beats repetition.</strong> A document in project knowledge is consulted when relevant. The same document in the prompt is re-read on every single turn, at full cost, mostly when it is irrelevant. For anything longer than a few pages, retrieval is strictly better.</p>
 <p><strong>Instructions need to be short enough to be followed.</strong> A rule competing with ten thousand words of context is a rule that gets applied inconsistently. The digest is deliberately brutal: one line per lesson, imperative mood, no examples. The examples are in the book, where they can be looked up when a rule seems wrong.</p>
-<p><strong>The ledger is the part that compounds.</strong> The recipe chapters age. The rules do not, because each one is the residue of a real failure, and the failure modes of software are considerably more stable than its tooling. A new project that starts with 55 defects already prevented is genuinely ahead, and every defect it hits of its own makes the next project further ahead still.</p>
+<p><strong>The ledger is the part that compounds.</strong> The recipe chapters age. The rules do not, because each one is the residue of a real failure, and the failure modes of software are considerably more stable than its tooling. A new project that starts with 57 defects already prevented is genuinely ahead, and every defect it hits of its own makes the next project further ahead still.</p>
 <h2 id="keeping-the-loop-closed">Keeping the loop closed</h2>
 <p>The pack is only worth carrying forward if the new project feeds it back. So the working agreement in <code>KICKOFF.md</code> includes one instruction that does the whole job:</p>
 <p>&gt; When something breaks, append a record to <code>data/playbook/incidents.jsonl</code> before fixing &gt; it, while you still remember what you believed was true five minutes ago.</p>

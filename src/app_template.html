@@ -2564,8 +2564,28 @@ function shareCard(signed){
   +'off stops future sharing; it cannot recall a copy already delivered.</p></div>';
 }
 
-async function aboutSave(field,value){ const ab=state.settings.about||(state.settings.about={}); ab[field]=value||null; persist(); if(Cloud.user&&Cloud.client){ const patch={}; patch[field]=value||null; try{ await Cloud.client.from('profiles').update(patch).eq('id',Cloud.user.id); }catch(e){} } toast('Saved.'); }
-async function pushAbout(){ const ab=state.settings.about; if(!ab||!Cloud.user||!Cloud.client) return; const patch={}; ['age_range','gender','country','role_type','referral_src','education_level','intended_major','score_goal','application_year','budget_band','employer_industry','household_income_band','first_generation','military_status','study_hours_band','birth_month','birth_year'].forEach(k=>{ if(ab[k]) patch[k]=ab[k]; }); if(Object.keys(patch).length){ try{ await Cloud.client.from('profiles').update(patch).eq('id',Cloud.user.id); }catch(e){} } }
+// The empty catch that used to be here cost twelve fields. The database refused the
+// write, the refusal was discarded, and the toast said "Saved." regardless, so the data
+// lived in this browser and nowhere else for the life of the feature (INC-0056). A
+// success message that fires whatever happened is worse than none, because it actively
+// teaches the person their data is safe.
+//
+// Supabase returns an error in the result rather than throwing, so both have to be
+// handled: the try/catch alone caught nothing.
+async function aboutSave(field,value){ const ab=state.settings.about||(state.settings.about={}); ab[field]=value||null; persist();
+ if(!(Cloud.user&&Cloud.client)){ toast('Saved on this device.'); return; }
+ const patch={}; patch[field]=value||null;
+ try{ const {error}=await Cloud.client.from('profiles').update(patch).eq('id',Cloud.user.id);
+  if(error){ toast('Saved on this device only: the account would not accept that field.'); return; } }
+ catch(e){ toast('Saved on this device only: could not reach your account.'); return; }
+ toast('Saved.'); }
+async function pushAbout(){ const ab=state.settings.about; if(!ab||!Cloud.user||!Cloud.client) return; const patch={}; ['age_range','gender','country','role_type','referral_src','education_level','intended_major','score_goal','application_year','budget_band','employer_industry','household_income_band','first_generation','military_status','study_hours_band','birth_month','birth_year'].forEach(k=>{ if(ab[k]) patch[k]=ab[k]; }); if(!Object.keys(patch).length) return;
+ // Reported once rather than silently, for the same reason as aboutSave: this is the
+ // path that carries a whole browser's worth of answers up to the account on sign-in,
+ // so a refusal here loses the most.
+ try{ const {error}=await Cloud.client.from('profiles').update(patch).eq('id',Cloud.user.id);
+  if(error) console.warn('profile sync refused', error.message); }
+ catch(e){ console.warn('profile sync failed', String((e&&e.message)||e)); } }
 function renderData(){ const el=document.getElementById('v-data'); const s=state.settings; const pr=s.program;
  const signed=Cloud.status==='signed-in'; const local=Cloud.status==='local-only';
  if(signed) pushAbout();

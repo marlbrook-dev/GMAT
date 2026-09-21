@@ -74,7 +74,18 @@ if (badCommit.length === cites.length && cites.length > 0) {
   console.log('  --   cited commits NOT verified: no citation resolved, so this clone has ' +
               'no history rather than ' + cites.length + ' bad citations. Use fetch-depth: 0.');
 } else {
-  ok(badCommit.length === 0, 'every cited commit exists' + (badCommit.length ? ': ' + badCommit.map(r => r.id).join(', ') : ''));
+  // A commit hash is not durable in a repository that squash merges: a branch commit is
+  // gone the moment its pull request lands. The pull request is what survives, so an
+  // unresolvable hash is expected when the record carries one, and is only a real failure
+  // when it does not, because then nothing is left to trace the claim to.
+  const squashed = badCommit.filter(r => r.pr);
+  const orphan = badCommit.filter(r => !r.pr);
+  if (squashed.length) {
+    console.log('  --   ' + squashed.length + ' citation(s) squashed into main, traceable by PR: ' +
+      squashed.map(r => r.id + ' (#' + r.pr + ')').join(', '));
+  }
+  ok(orphan.length === 0, 'every citation is traceable' +
+    (orphan.length ? ': ' + orphan.map(r => r.id + ' cites a gone commit with no PR').join(', ') : ''));
 }
 const badFile = rows.filter(r => r.guard_file && !fs.existsSync(path.join(ROOT, r.guard_file)));
 ok(badFile.length === 0, 'every cited guard file exists' + (badFile.length ? ': ' + badFile.map(r => r.id).join(', ') : ''));
