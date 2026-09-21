@@ -105,10 +105,18 @@ const CASES = [
     if (missing.length) fail('.assetsignore does not exclude ' + JSON.stringify(missing));
     else ok('.assetsignore keeps the source out of the deploy');
     // The inverse guard. These are referenced by built pages and must stay served.
-    const mustServe = ['design/', 'icons/', 'og/', 'robots.txt', 'llms.txt', 'manifest.json'];
+    const mustServe = ['icons/', 'og/', 'robots.txt', 'llms.txt', 'manifest.json'];
     const wrongly = mustServe.filter(n => lines.includes(n) || lines.includes(n.replace(/\/$/, '')));
     if (wrongly.length) fail('.assetsignore excludes files the site needs: ' + JSON.stringify(wrongly));
-    else ok('.assetsignore still serves design, icons, og and the root text files');
+    else ok('.assetsignore still serves icons, og and the root text files');
+
+    // design/ is the one directory that is partly excluded: the design system is tooling,
+    // but /design/assets/logo.svg is on every page. The negation is what keeps the logo,
+    // so assert both halves rather than just the exclusion.
+    if (!lines.includes('design/*')) fail('.assetsignore no longer excludes the design system (design/*)');
+    else if (!lines.includes('!design/assets/')) {
+      fail('.assetsignore excludes design/* without re-including design/assets/, which drops the site logo');
+    } else ok('.assetsignore drops the design system but keeps design/assets');
   }
 
   // Security headers. _headers is the readable source and the worker restates them

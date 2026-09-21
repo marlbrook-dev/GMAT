@@ -18,6 +18,13 @@ src/
 data/
 supabase/
 
+# The design system is tooling, not part of the site: 114 files including a 98 KB bundle,
+# the component sources and their prompt files. Only the logo is actually referenced by a
+# built page, so assets/ is kept and everything else beside it goes. Checked with
+# git check-ignore, which implements the same format this file uses.
+design/*
+!design/assets/
+
 # Repository and tooling files.
 .github/
 .gitignore
