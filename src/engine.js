@@ -547,6 +547,14 @@ function pickQuestions(bank,state,opts){
    if(q.passageId) group=pool.filter(x=>x.passageId===q.passageId);
    else if(q.passageHtml&&['MSR','GI','TA'].includes(q.type)) group=pool.filter(x=>x.passageHtml===q.passageHtml&&x.type===q.type);
    group=group.filter(x=>!used.has(x.id)).sort((a,b)=>a.id<b.id?-1:1);
+   // Do not drag already seen siblings back in just because a fresh anchor happens to
+   // share their passage. This was the residual after freshness became a gate in
+   // selection: the gate picked an unserved anchor, then the group pull re-served every
+   // question the student had already answered on that passage. Re-reading a passage to
+   // answer only its new questions is good practice; re-answering the same four is not.
+   // The anchor itself always survives, so a group can never come back empty.
+   const freshGroup=group.filter(x=>lastSeenIdx[x.id]===undefined||x.id===q.id);
+   if(freshGroup.length) group=freshGroup;
    group.forEach(x=>{ if(chosen.length<count||x.id===q.id){ used.add(x.id); chosen.push(x); } }); }
  if(opts.mode==='custom'){
    const sorted=pool.slice().sort((a,b)=>recency(b)-recency(a)||Math.random()-0.5);
