@@ -1,24 +1,11 @@
 // Bank validation and engine simulation, run once per exam in the registry.
 // node test.js  (from src/)
-const fs=require('fs'), vm=require('vm');
-
-const GMAT={id:'gmat-focus',choices:5,
- files:['bank_quant.js','bank_quant2.js','bank_quant3.js','bank_quant4.js','bank_quant5.js','bank_quant6.js','bank_verbal.js','bank_verbal2.js','bank_verbal3.js','bank_verbal4.js','bank_verbal5.js','bank_verbal6.js','bank_verbal7.js','bank_verbal8.js','bank_di.js','bank_di2.js','bank_di3.js','bank_di4.js','bank_di5.js','bank_di6.js','bank_di7.js','bank_di8.js','bank_di9.js','cards.js','cards2.js','cards3.js','playbook_gmat.js'],
- concat:'BANK_QUANT,BANK_QUANT2,BANK_QUANT3,BANK_QUANT4,BANK_QUANT5,BANK_QUANT6,BANK_VERBAL,BANK_VERBAL2,BANK_VERBAL3,BANK_VERBAL4,BANK_VERBAL5,BANK_VERBAL6,BANK_VERBAL7,BANK_VERBAL8,BANK_DI,BANK_DI2,BANK_DI3,BANK_DI4,BANK_DI5,BANK_DI6,BANK_DI7,BANK_DI8,BANK_DI9',gen:'gmat'};
-const GRE={id:'gre',choices:5,choicesByType:{QC:4},
- files:['bank_gre_verbal.js','bank_gre_verbal2.js','bank_gre_quant.js','bank_gre_quant2.js','bank_gre_easy.js','writing_gre.js','cards_gre.js','playbook_gre.js'],
- concat:'BANK_GRE_VERBAL,BANK_GRE_VERBAL2,BANK_GRE_QUANT,BANK_GRE_QUANT2,BANK_GRE_EASY',gen:'gre'};
-// The LSAT carries no generated bank: its items are arguments and passages, with no
-// parameterised schema behind them, so gen is null and the run skips that file.
-const LSAT={id:'lsat',choices:5,
- files:['bank_lsat_lr.js','bank_lsat_rc.js','cards_lsat.js','playbook_lsat.js'],
- concat:'BANK_LSAT_LR,BANK_LSAT_RC',gen:null};
-const ACT={id:'act',choices:4,
- files:['bank_act_english.js','bank_act_reading.js','bank_act_science.js','cards_act.js','playbook_act.js'],
- concat:'BANK_ACT_ENGLISH,BANK_ACT_READING,BANK_ACT_SCIENCE',gen:'act'};
-const SAT={id:'sat',choices:4,
- files:['bank_sat_rw.js','bank_sat_rw2.js','bank_sat_rw3.js','bank_sat_rw4.js','bank_sat_rw5.js','bank_sat_math.js','bank_sat_math2.js','bank_sat_math3.js','bank_sat_math4.js','bank_sat_math5.js','bank_sat_easy.js','cards_sat.js','cards_sat2.js','playbook_sat.js'],
- concat:'BANK_SAT_RW,BANK_SAT_RW2,BANK_SAT_RW3,BANK_SAT_RW4,BANK_SAT_RW5,BANK_SAT_MATH,BANK_SAT_MATH2,BANK_SAT_MATH3,BANK_SAT_MATH4,BANK_SAT_MATH5,BANK_SAT_EASY',gen:'sat'};
+const fs=require('fs');
+// The bank file lists and the VM boot live in exam_harness.js so this file and the
+// review bots cannot drift apart when an exam gains a bank file.
+const harness=require('./exam_harness.js');
+const {GMAT,SAT,GRE,LSAT,ACT}={GMAT:harness.byId['gmat-focus'],SAT:harness.byId['sat'],
+ GRE:harness.byId['gre'],LSAT:harness.byId['lsat'],ACT:harness.byId['act']};
 
 let failures=0;
 function fail(msg){ failures++; console.log('  FAIL: '+msg); }
@@ -29,20 +16,10 @@ function runExam(exam){
  // The generated bank is part of the shipped product, so it is part of the test. Testing
  // only the hand written items would leave thousands of items unchecked, which is exactly
  // the situation generation makes easy to fall into.
- const genFile=exam.gen?('generated/bank_gen_'+exam.gen+'.js'):null;
- if(genFile&&!fs.existsSync(genFile)) throw new Error('missing '+genFile+'; run python3 src/build_banks.py first');
- const src=exam.files.concat(genFile?[genFile]:[]).concat(['engine.js']).map(f=>fs.readFileSync(f,'utf8')).join('\n');
- const ctx={console,Date,Math,JSON,Set,EXAM_ID:exam.id};
- vm.createContext(ctx);
- // engine.js declares with const, which stays in the script's lexical scope, so the script
- // itself hands the pieces back out.
- const EXPORTS='BANK,SKILLS,SECTION_META,SECTIONS,PLAYBOOK,CARDS,EXAM,newState,pickQuestions,recordAttempt,'+
-  'skillStats,sectionSummary,pickMockSection,pickSatModule,satRoute,satDomainTargets,gradeChosen,timingFlag,'+
-  'scoreEstimate,sectionAbility,itemInfo,eloToTheta';
- const allBanks=exam.concat+(exam.gen?(',BANK_GEN_'+exam.gen.toUpperCase()):'');
- vm.runInContext('var EXAM_ID='+JSON.stringify(exam.id)+';\n'+src+
-  '\nvar BANK=[].concat('+allBanks+');\nglobalThis.__api={'+EXPORTS+'};',ctx);
- const api=ctx.__api;
+ // The generated bank is part of the shipped product, so it is part of the test. Testing
+ // only the hand written items would leave thousands of items unchecked, which is exactly
+ // the situation generation makes easy to fall into.
+ const api=harness.load(exam);
  const {BANK,SKILLS,SECTION_META,SECTIONS,PLAYBOOK,CARDS,EXAM}=api;
 
  // ---- bank integrity ----

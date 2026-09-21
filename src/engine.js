@@ -199,7 +199,10 @@ const EXAMS = {
  'gmat-focus': {id:'gmat-focus',name:'GMAT Focus Edition',short:'GMAT Focus',sections:GMAT_SECTIONS,skills:GMAT_SKILLS,
    scoreScale:'205-805',sectionScale:'60-90',choices:5,adaptive:'question',
    // Total scores are reported in 10-point steps ending in 5, so round to that lattice.
-   appPath:'/app/',blurb:'Focus Edition, live',
+   appPath:'/app/',
+   // Which games this exam rewards most, and why. Read off this entry's own structure
+   // (adaptive mode, choices, sections), not from any remembered claim about the test.
+   gameplan:{order:['boss','crunch','ladder','blitz','match','memory'],why:{boss:'Question adaptive: every answer changes the next one, so the skill is committing under pressure and moving on.',crunch:'Five choices and no calculator. Number sense decides whether you finish the section.',ladder:'Difficulty climbs with you, which is the shape of a question adaptive section.'}},blurb:'Focus Edition, live',
    official:{label:'an official practice exam at mba.com',url:'https://www.mba.com/exams/gmat-exam/prepare'},
    crunch:'Which is bigger? No-calculator number sense, timed.',
    crunchLong:'Which is bigger? Sixty seconds of no-calculator number sense, the Quant survival skill.',
@@ -209,7 +212,10 @@ const EXAMS = {
           minBand:30,minAttempts:40,calibration:'internal'}},
  'sat': {id:'sat',name:'SAT',short:'SAT',sections:SAT_SECTIONS,skills:SAT_SKILLS,
    scoreScale:'400-1600',sectionScale:'200-800',choices:4,adaptive:'module',
-   appPath:'/sat/app/',blurb:'digital format, live',
+   appPath:'/sat/app/',
+   // Which games this exam rewards most, and why. Read off this entry's own structure
+   // (adaptive mode, choices, sections), not from any remembered claim about the test.
+   gameplan:{order:['ladder','blitz','boss','match','memory','crunch'],why:{ladder:'Module adaptive: the second module is chosen by how the first one went, so the first half matters most.',blitz:'Four choices and a short clock. Recognition speed is the constraint, not arithmetic.',boss:'Real questions on the real pace clock, which is what the second module feels like.'}},blurb:'digital format, live',
    official:{label:'an official Bluebook practice test from College Board',url:'https://bluebook.collegeboard.org/'},
    crunch:'Which is bigger? Estimate faster than you could type it.',
    crunchLong:'Which is bigger? Sixty seconds of estimation. Bluebook gives you Desmos, but typing costs seconds you do not have.',
@@ -223,7 +229,10 @@ const EXAMS = {
  // scale that 30 points is on the GMAT, not a tighter claim on a smaller scale.
  'gre': {id:'gre',name:'GRE General Test',short:'GRE',sections:GRE_SECTIONS,skills:GRE_SKILLS,
    scoreScale:'260-340',sectionScale:'130-170',choices:5,adaptive:'module',
-   appPath:'/gre/app/',blurb:'Verbal and Quant, live',
+   appPath:'/gre/app/',
+   // Which games this exam rewards most, and why. Read off this entry's own structure
+   // (adaptive mode, choices, sections), not from any remembered claim about the test.
+   gameplan:{order:['match','memory','blitz','ladder','boss','crunch'],why:{match:'Verbal turns on precise word meaning. Pairing a term with its sense is the drill for it.',memory:'The same pairs without the prompt in view, which is the harder and more useful version.',blitz:'Module adaptive, so the first module sets the ceiling. Speed early is worth more here.'}},blurb:'Verbal and Quant, live',
    official:{label:'an official POWERPREP practice test from ETS',url:'https://www.ets.org/gre/test-takers/general-test/prepare.html'},
    crunch:'Which is bigger? No-calculator number sense, timed.',
    crunchLong:'Which is bigger? Sixty seconds of no-calculator number sense, the Quant survival skill.',
@@ -238,7 +247,10 @@ const EXAMS = {
  // GMAT's 600, not a tighter claim on a narrower scale.
  'lsat': {id:'lsat',name:'LSAT',short:'LSAT',sections:LSAT_SECTIONS,skills:LSAT_SKILLS,
    scoreScale:'120-180',sectionScale:null,choices:5,adaptive:'question',
-   appPath:'/lsat/app/',blurb:'Logical Reasoning and RC, live',
+   appPath:'/lsat/app/',
+   // Which games this exam rewards most, and why. Read off this entry's own structure
+   // (adaptive mode, choices, sections), not from any remembered claim about the test.
+   gameplan:{order:['match','boss','memory','ladder','blitz','crunch'],why:{match:'Every question is an argument. Pairing a claim with the role it plays is the whole skill.',boss:'Five real arguments on the pace clock, which is the only way to practise not rereading.',memory:'Holding structure in your head is what reading comprehension asks for.'}},blurb:'Logical Reasoning and RC, live',
    official:{label:'an official LSAT PrepTest on LSAC LawHub',url:'https://www.lsac.org/lsat/prepare/official-lsat-practice-tests'},
    crunch:'Which is bigger? Sixty seconds of number sense to keep timing instincts sharp.',
    crunchLong:'Which is bigger? Sixty seconds of number sense. The LSAT has no math section, but pace under a clock is the same muscle.',
@@ -250,7 +262,10 @@ const EXAMS = {
  // reported but excluded from the Composite, which SECTION_META marks with inComposite:false.
  'act': {id:'act',name:'ACT',short:'ACT',sections:ACT_SECTIONS,skills:ACT_SKILLS,
    scoreScale:'1-36',sectionScale:'1-36',choices:4,adaptive:'question',
-   appPath:'/act/app/',blurb:'enhanced format, live',
+   appPath:'/act/app/',
+   // Which games this exam rewards most, and why. Read off this entry's own structure
+   // (adaptive mode, choices, sections), not from any remembered claim about the test.
+   gameplan:{order:['blitz','ladder','boss','crunch','match','memory'],why:{blitz:'The tightest clock of the five exams. Recognition has to be automatic.',ladder:'Difficulty climbing while the clock runs is the closest thing to the real pressure.',boss:'Four choices, real pace. Pace is the section, more than content is.'}},blurb:'enhanced format, live',
    official:{label:'an official ACT practice test at act.org',url:'https://www.act.org/content/act/en/products-and-services/the-act/test-preparation/free-act-test-prep.html'},
    crunch:'Which is bigger? Estimate faster than you could reach for the calculator.',
    crunchLong:'Which is bigger? Sixty seconds of estimation. The ACT gives you 60 seconds a question on Math, so reaching for the calculator has a price.',
@@ -320,26 +335,61 @@ function itemInfo(theta, d, c){
 // Ability and its standard error for one section, from the attempts actually recorded.
 // Every answered item contributes information at the difficulty it was answered at, which
 // is why practising harder items tightens the band faster than drilling easy ones.
+// The prior on ability, in logits. Weak on purpose: it exists to keep an all correct or
+// all wrong run from returning an infinite ability, not to pull the estimate anywhere.
+// At 20 items the evidence outweighs it about seven to one.
+const PRIOR_SD = 1.5;
+
+// Ability for one section, fitted directly to the answers given in it.
+//
+// This used to average the per-skill Elo ratings, and it was wrong twice over. The review
+// bots measured the result: at the evidence floor a struggling SAT student read 238 points
+// high and a very strong one 210 low, inside a band of plus or minus 89. The shape was
+// monotonic and symmetric about the centre, which is the signature of an estimate that has
+// not moved off its starting value.
+//
+// The first fault was that every skill voted, including the ones never practised. An
+// untested skill sits at START_R, which is theta 0, and got weight 1, so a student who
+// answered 40 Quant items across 5 of the 21 GMAT skills had 16 untouched skills each
+// pulling their estimate back to the middle of the scale.
+//
+// The second was Elo itself. It is an online update tuned to move slowly, and at the
+// 40 item floor a skill has roughly two observations, which K of 32 cannot move far. It
+// does converge, by about 800 items, which is no use to somebody reading their first band.
+//
+// So the score no longer comes from the ratings at all. It is fitted to the attempts
+// themselves by Fisher scoring on the same 3PL that itemInfo already assumes, which uses
+// every answer in the section at the difficulty it was actually answered at and needs no
+// convergence time. The skill ratings still drive what to study, which is what they are
+// good at: relative, fast moving, and never shown as a score.
 function sectionAbility(state, section){
  const c = 1 / (EXAM.choices || 4);
- const skills = SKILLS.filter(s => s.section === section);
- if (!skills.length) return {theta:0, sem:Infinity, n:0};
- let wSum = 0, tSum = 0, n = 0;
- skills.forEach(s => {
-  const st = state.skills[s.id];
-  if (!st) return;
-  // Weight by evidence. A skill with 2 attempts should not move the section estimate as
-  // much as one with 50.
-  const w = Math.max(1, st.n || 0);
-  tSum += eloToTheta(st.r) * w; wSum += w; n += (st.n || 0);
- });
- const theta = wSum ? tSum / wSum : 0;
- let info = 0;
- (state.attempts || []).forEach(a => {
-  if (a.section !== section) return;
-  const d = eloToTheta(DIFF_ELO[a.diff] || 1100);
-  info += itemInfo(theta, d, c);
- });
+ const atts = (state.attempts || []).filter(a => a.section === section);
+ const n = atts.length;
+ if (!n) return {theta:0, sem:Infinity, n:0};
+ const ds = atts.map(a => eloToTheta(DIFF_ELO[a.diff] || 1100));
+ const prec = 1 / (PRIOR_SD * PRIOR_SD);
+ let theta = 0;
+ // Fisher scoring. The information is the Hessian here, so this is the standard Newton
+ // step for an IRT fit, and it settles in a handful of passes.
+ for (let it = 0; it < 24; it++) {
+  let g = -theta * prec, info = prec;
+  for (let i = 0; i < n; i++) {
+   const P = pCorrect(theta, ds[i], c);
+   if (P <= 0 || P >= 1) continue;
+   // dP/dtheta for the 3PL with discrimination fixed at 1.
+   const Pstar = (P - c) / (1 - c);
+   const dP = (1 - c) * Pstar * (1 - Pstar);
+   g += ((atts[i].correct ? 1 : 0) - P) / (P * (1 - P)) * dP;
+   info += itemInfo(theta, ds[i], c);
+  }
+  const step = g / info;
+  theta += Math.max(-1, Math.min(1, step));   // capped so a wild first step cannot diverge
+  if (Math.abs(step) < 1e-6) break;
+ }
+ theta = Math.max(-3.5, Math.min(3.5, theta));
+ let info = prec;
+ ds.forEach(d => { info += itemInfo(theta, d, c); });
  // Flashcards are recognition rather than full items, so they count, but at a quarter
  // weight. Counting them equally would shrink the band on evidence that is weaker than the
  // band implies.
@@ -361,7 +411,11 @@ function scoreEstimate(state){
  const sc = EXAM.scale;
  if (!sc) return {ready:false, reason:'no scale'};
  const parts = SECTIONS.map(sec => ({sec, a: sectionAbility(state, sec)}));
- const n = parts.reduce((t, p) => t + p.a.n, 0);
+ // Count ITEMS ANSWERED, not skill observations. recordAttempt credits a second skill at
+ // half weight when an item carries a qskill, so summing per-skill n counted those items
+ // twice and the floor opened after 30 real items on a 40 item promise. The review bot
+ // caught it on GMAT, where the DI items are the ones with two skills.
+ const n = (state.attempts || []).length;
  if (n < sc.minAttempts) return {ready:false, n, need: sc.minAttempts - n, reason:'more practice'};
  // Not every reported section feeds the headline score. The ACT Composite is the average of
  // English, Mathematics and Reading only, because ACT removed Science from the Composite in

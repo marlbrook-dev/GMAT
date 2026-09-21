@@ -230,6 +230,26 @@ body.focus header.app,body.focus footer.app{display:none}
 .tbar.low i{background:var(--status-error)}
 .bigscore{font-family:var(--font-display);font-weight:800;font-size:var(--text-3xl);color:var(--text-heading);line-height:1}
 .scorepop{animation:mpop .3s ease}
+/* study constellation */
+.evo{display:grid;grid-template-columns:auto 1fr;gap:var(--space-6);align-items:center}
+@media(max-width:720px){.evo{grid-template-columns:1fr;text-align:center}}
+.evo svg{display:block;width:260px;height:260px;margin:0 auto;overflow:visible}
+.evo .lnk{stroke-linecap:round;opacity:.5}
+.evo .nd{transform-box:fill-box;transform-origin:center;animation:evoIn .5s var(--ease-out) both}
+.evo .nd.green{filter:drop-shadow(0 0 5px currentColor)}
+.evo .core{animation:evoPulse 4s ease-in-out infinite}
+@keyframes evoIn{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:scale(1)}}
+@keyframes evoPulse{0%,100%{opacity:.5}50%{opacity:.9}}
+/* An animation that repeats forever is the one people actually cannot tolerate, so the
+   global reduce rule that shortens durations is not enough here: it has to stop. */
+@media (prefers-reduced-motion:reduce){.evo .nd{animation:none}.evo .core{animation:none;opacity:.7}}
+.evo-stage{font-family:var(--font-display);font-weight:700;font-size:var(--text-lg);color:var(--text-heading)}
+.evo-bar{height:8px;background:var(--surface-sunken);border-radius:var(--radius-pill);overflow:hidden;margin:10px 0 8px}
+.evo-bar i{display:block;height:100%;border-radius:var(--radius-pill);background:var(--brand-primary);transition:width var(--duration-slow,.5s) var(--ease-out)}
+.evo-legend{display:flex;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--text-muted);margin-top:10px}
+.evo-legend span{display:inline-flex;align-items:center;gap:5px}
+.evo-legend i{width:9px;height:9px;border-radius:50%;display:inline-block}
+.gwhy{font-size:12.5px;color:var(--text-muted);margin:6px 0 0;font-style:italic}
 .gstreak{display:inline-flex;align-items:center;gap:6px;font-weight:700;color:var(--accent-warm,#b7791f)}
 .ring{transform:rotate(-90deg)}.ring circle{fill:none;stroke-width:7;stroke-linecap:round}.ring .bgc{stroke:var(--gray-100)}.ring .fgc{stroke:var(--navy-600);transition:stroke-dashoffset .12s linear,stroke .3s ease}
 .lives{display:inline-flex;gap:5px}.lives svg{transition:opacity .3s ease,transform .3s ease}.lives svg.lost{opacity:.18;transform:scale(.8)}
@@ -887,7 +907,10 @@ function firstSent(s){ s=String(s); const i=s.indexOf('. '); const m=i>0?s.slice
 function gmDeck(sec){ return CARDS.filter(c=>sec==='ALL'||c.sec===sec); }
 function gmPickCards(sec,n){ const pool=gmShuffle(gmDeck(sec).slice()); pool.sort((a,b)=>(((state.cards||{})[a.id]||{}).box||0)-(((state.cards||{})[b.id]||{}).box||0));
  const out=[],fs={},fr={}; for(const c of pool){ const k=firstSent(c.back); if(fs[k]||fr[c.front]) continue; fs[k]=1; fr[c.front]=1; out.push(c); if(out.length===n) break; } return out; }
-function gmConfetti(){ if(document.getElementById('confetti')) return; const c=document.createElement('canvas'); c.id='confetti'; document.body.appendChild(c); const x=c.getContext('2d'); c.width=innerWidth; c.height=innerHeight;
+function gmConfetti(){ if(document.getElementById('confetti')) return;
+ // 140 squares falling across the viewport is exactly what a motion sensitivity setting
+ // is asking us not to do, and shortening its duration does not help.
+ try{ if(matchMedia('(prefers-reduced-motion:reduce)').matches) return; }catch(e){} const c=document.createElement('canvas'); c.id='confetti'; document.body.appendChild(c); const x=c.getContext('2d'); c.width=innerWidth; c.height=innerHeight;
  const cols=['#122B4E','#3F6BB0','#7FA3D4','#2F8F5B','#D9A441','#C4574F']; const ps=[]; for(let i=0;i<140;i++) ps.push({x:Math.random()*c.width,y:-20-Math.random()*c.height*0.35,r:4+Math.random()*5,vy:2.2+Math.random()*3.2,vx:-1.5+Math.random()*3,a:Math.random()*6.3,va:-0.2+Math.random()*0.4,col:cols[i%6]});
  const t0=Date.now(); (function tick(){ x.clearRect(0,0,c.width,c.height); ps.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; p.a+=p.va; x.save(); x.translate(p.x,p.y); x.rotate(p.a); x.fillStyle=p.col; x.fillRect(-p.r/2,-p.r/2,p.r,p.r*0.62); x.restore(); }); if(Date.now()-t0<1800) requestAnimationFrame(tick); else c.remove(); })(); }
 function gmPop(id){ const e=document.getElementById(id); if(!e) return; e.classList.remove('scorepop'); void e.offsetWidth; e.classList.add('scorepop'); }
@@ -904,6 +927,71 @@ function gmCard(icon,fg,bg,title,tag,tagTone,desc,stats,controls){
  return '<div class="card gcard"><span class="gicon big" style="background:'+bg+';color:'+fg+'">'+gmIcon(icon)+'</span>'
  +'<div class="card-head" style="margin:0"><span class="card-title">'+title+'</span>'+badge(tag,tagTone)+'</div>'
  +'<p class="small" style="margin:0">'+desc+'</p><div class="gstats">'+stats+'</div><div class="row" style="gap:6px">'+controls+'</div></div>'; }
+// ---------- study constellation: mastery, drawn ----------
+//
+// The only progression system in the app, and the rule behind it is that nothing here can
+// be earned by playing more. A node lights when skillStats calls that skill green, which
+// the engine grants on rating AND volume AND accuracy together. So the picture fills in by
+// getting better and by nothing else. A bar you can farm teaches farming, and this one
+// cannot be farmed: replaying a game you are already good at moves none of it.
+function evoStage(f){
+ if(f<=0) return {name:'Unmapped',note:'Answer questions in any section to light your first skill.'};
+ if(f<.25) return {name:'Taking Shape',note:'Your first skills are holding. Keep going where the map is dark.'};
+ if(f<.5) return {name:'Emerging',note:'A quarter of your skills are solid. The gaps are the study plan.'};
+ if(f<.75) return {name:'Consolidating',note:'Half the map is lit. Weakest first is still the fastest route.'};
+ if(f<1) return {name:'Nearly Whole',note:'Most skills are green. What is left is what the exam will find.'};
+ return {name:'Complete',note:'Every skill green. Practise to hold it, and sit a full mock.'};
+}
+function renderEvolution(){
+ const R=104, CX=120, CY=120, GAP=0.22;
+ // One node per skill, grouped by section so the shape says WHERE you are strong, not
+ // just how much. A section is an arc; the gaps between arcs keep the groups readable.
+ const groups=SECTIONS.map(sec=>({sec,skills:SKILLS.filter(k=>k.section===sec)})).filter(g=>g.skills.length);
+ const total=groups.reduce((t,g)=>t+g.skills.length,0);
+ if(!total) return '';
+ const span=(Math.PI*2-GAP*groups.length)/total;
+ let a=-Math.PI/2+GAP/2, nodes=[], links=[], green=0;
+ groups.forEach(g=>{
+  const col=SEC_COLOR[g.sec]||'var(--brand-primary)';
+  let prev=null;
+  g.skills.forEach(k=>{
+   const st=skillStats(state,k.id);
+   const x=CX+R*Math.cos(a+span/2), y=CY+R*Math.sin(a+span/2);
+   const n={x,y,st:st.status,col,name:k.name||k.id,sec:g.sec};
+   if(st.status==='green') green++;
+   // Edges only between adjacent MASTERED skills, so the constellation literally draws
+   // itself as a section consolidates rather than being pre-drawn and coloured in.
+   if(prev&&prev.st==='green'&&n.st==='green') links.push({a:prev,b:n,col});
+   nodes.push(n); prev=n; a+=span;
+  });
+  a+=GAP;
+ });
+ const frac=green/total, stg=evoStage(frac);
+ const rOf=s=>s==='green'?6:(s==='amber'?4.5:(s==='red'?4.5:3));
+ const fillOf=(s,c)=>s==='green'?c:(s==='amber'?'var(--status-warning,#B7791F)':(s==='red'?'var(--status-error)':'var(--gray-200)'));
+ const opOf=s=>s==='green'?1:(s==='untested'?.45:.8);
+ let svg='<svg viewBox="0 0 240 240" role="img" aria-label="Your study constellation: '
+  +green+' of '+total+' skills mastered">';
+ links.forEach(l=>{ svg+='<line class="lnk" x1="'+l.a.x.toFixed(1)+'" y1="'+l.a.y.toFixed(1)
+  +'" x2="'+l.b.x.toFixed(1)+'" y2="'+l.b.y.toFixed(1)+'" stroke="'+l.col+'" stroke-width="1.6"/>'; });
+ svg+='<circle class="core" cx="'+CX+'" cy="'+CY+'" r="'+(14+26*frac).toFixed(1)
+  +'" fill="var(--brand-primary)" opacity=".18"/>';
+ nodes.forEach((n,i)=>{ svg+='<circle class="nd '+n.st+'" cx="'+n.x.toFixed(1)+'" cy="'+n.y.toFixed(1)
+  +'" r="'+rOf(n.st)+'" fill="'+fillOf(n.st,n.col)+'" color="'+n.col+'" opacity="'+opOf(n.st)
+  +'" style="animation-delay:'+(i*22)+'ms"><title>'+esc(n.name)+'</title></circle>'; });
+ svg+='</svg>';
+ return '<div class="card p6"><div class="evo"><div>'+svg+'</div><div>'
+  +'<div class="eyebrow">Your Constellation</div>'
+  +'<div class="evo-stage">'+stg.name+'</div>'
+  +'<div class="evo-bar"><i style="width:'+Math.round(frac*100)+'%"></i></div>'
+  +'<p class="small" style="margin:0"><strong>'+green+' of '+total+'</strong> skills mastered. '+stg.note+'</p>'
+  +'<p class="gwhy">It grows only when a skill turns green, which needs rating, volume and accuracy together. Playing more does not move it.</p>'
+  +'<div class="evo-legend"><span><i style="background:var(--brand-primary)"></i>Mastered</span>'
+  +'<span><i style="background:var(--status-warning,#B7791F)"></i>Steady</span>'
+  +'<span><i style="background:var(--status-error)"></i>Needs work</span>'
+  +'<span><i style="background:var(--gray-200)"></i>Untested</span></div>'
+  +'</div></div></div>';
+}
 function renderGames(){ gmReset(); const el=document.getElementById('v-games'); const g=gmState();
  const bestOf=(o,f)=>{ let v=null; Object.keys(o||{}).forEach(k=>{ const x=f(o[k]); if(x!=null&&(v===null||x>v)) v=x; }); return v; };
  const fastest=(o)=>{ let v=null; Object.keys(o||{}).forEach(k=>{ const x=o[k]&&o[k].best; if(x!=null&&(v===null||x<v)) v=x; }); return v; };
@@ -912,16 +1000,26 @@ function renderGames(){ gmReset(); const el=document.getElementById('v-games'); 
  const fm=fastest(g.match), bb=bestOf(g.blitz,x=>x&&x.best), bo=g.boss&&g.boss.best;
  const st=(o,fmt)=>{ const b=o&&o.best; return b==null?'Not played yet':('Best '+fmt(b)+' · '+o.plays+' play'+(o.plays===1?'':'s')); };
  const stSec=(o,fmt,better)=>{ const b=better(o); const n=playsOf(o); return b==null?'Not played yet':('Best '+fmt(b)+' · '+n+' play'+(n===1?'':'s')); };
+ const plan=(EXAM.gameplan||{}), why=plan.why||{};
+ // Ordered by what THIS exam rewards. A game that suits a question adaptive exam is not
+ // the one that suits the tightest clock of the five, and the order is the advice.
+ const cards={};
+ cards['match']=gmCard('match','var(--section-verbal)','var(--section-verbal-bg)','Match','Recognition','info','Twelve tiles, six pairs. Pair each concept with its method against the clock.',stSec(g.match,fmtSecs,fastest),gmSecBtns('gmStartMatch'));
+ cards['memory']=gmCard('memory','var(--navy-600)','var(--navy-50)','Memory','Recall','info','Same board, face down. Remember where each pair lives before flipping.',stSec(g.memory,fmtSecs,fastest),gmSecBtns('gmStartMemory'));
+ cards['blitz']=gmCard('blitz','var(--section-quant)','var(--section-quant-bg)','Blitz','60 seconds','warning','Rapid recall. Streaks multiply points up to 5x; misses go back into Flashcards.',stSec(g.blitz,x=>x,o=>bestOf(o,x=>x&&x.best)),gmSecBtns('gmStartBlitz'));
+ cards['crunch']=gmCard('crunch','var(--section-data)','var(--section-data-bg)','Number Crunch','Estimation','warning',EXAM.crunchLong,st(g.crunch,x=>x+' pts'),'<button class="btn sm" onclick="gmStartCrunch()">Start</button>');
+ cards['boss']=gmCard('boss','var(--status-error)','var(--status-error-bg,#fdf0ef)','Boss Round','Real Questions','error','Five questions at your live ratings on the real pace clock, three lives. Counts toward your stats.',st(g.boss,x=>x+' pts'),'<button class="btn sm" onclick="gmStartBoss()">Take On the Boss</button>');
+ cards['ladder']=gmCard('ladder','var(--gold-600)','var(--gold-50)','The Ladder','8 rungs','accent','Difficulty climbs when you are right and slips when you are wrong. Real bank questions, real pace clock; finish high to score high.',st(g.ladder,x=>x+' pts'),'<button class="btn sm" onclick="gmStartLadder()">Climb</button>');
+ const order=(plan.order||['match','memory','blitz','crunch','boss','ladder']);
+ const hub=order.map(function(k){ const c=cards[k]; if(!c) return '';
+   // The reason this game suits this exam sits on the card, above its stats.
+   return why[k] ? c.replace('<div class="gstats">','<p class="gwhy">'+why[k]+'</p><div class="gstats">') : c;
+  }).join('');
  el.innerHTML='<div class="stack">'
- +'<div><h1 style="font-size:var(--text-xl)">Games</h1><p class="muted" style="margin:6px 0 0">Five minutes of play is still deliberate practice. Every game reads and feeds the same adaptive engine as your rounds, and you compete against your own bests, not a leaderboard.</p></div>'
+ +'<div><h1 style="font-size:var(--text-xl)">Games</h1><p class="muted" style="margin:6px 0 0">Five minutes of play is still deliberate practice. Every game reads and feeds the same adaptive engine as your rounds, and you compete against your own bests, not a leaderboard. They are ordered by what the '+EXAM.short+' rewards.</p></div>'
+ +renderEvolution()
  +'<div class="tiles">'+tile('Games played',plays,'','')+tile('Fastest match',fm?fmtSecs(fm):'-','best time','')+tile('Best blitz',bb!=null?bb:'-','points','')+tile('Best boss round',bo!=null?bo:'-','points','')+'</div>'
- +'<div class="ghub">'
- +gmCard('match','var(--section-verbal)','var(--section-verbal-bg)','Match','Recognition','info','Twelve tiles, six pairs. Pair each concept with its method against the clock.',stSec(g.match,fmtSecs,fastest),gmSecBtns('gmStartMatch'))
- +gmCard('memory','var(--navy-600)','var(--navy-50)','Memory','Recall','info','Same board, face down. Remember where each pair lives before flipping.',stSec(g.memory,fmtSecs,fastest),gmSecBtns('gmStartMemory'))
- +gmCard('blitz','var(--section-quant)','var(--section-quant-bg)','Blitz','60 seconds','warning','Rapid recall. Streaks multiply points up to 5x; misses go back into Flashcards.',stSec(g.blitz,x=>x,o=>bestOf(o,x=>x&&x.best)),gmSecBtns('gmStartBlitz'))
- +gmCard('crunch','var(--section-data)','var(--section-data-bg)','Number Crunch','Estimation','warning',EXAM.crunchLong,st(g.crunch,x=>x+' pts'),'<button class="btn sm" onclick="gmStartCrunch()">Start</button>')
- +gmCard('boss','var(--status-error)','var(--status-error-bg,#fdf0ef)','Boss Round','Real Questions','error','Five questions at your live ratings on the real pace clock, three lives. Counts toward your stats.',st(g.boss,x=>x+' pts'),'<button class="btn sm" onclick="gmStartBoss()">Take On the Boss</button>')
- +gmCard('ladder','var(--gold-600)','var(--gold-50)','The Ladder','8 rungs','accent','Difficulty climbs when you are right and slips when you are wrong. Real bank questions, real pace clock; finish high to score high.',st(g.ladder,x=>x+' pts'),'<button class="btn sm" onclick="gmStartLadder()">Climb</button>')
+ +'<div class="ghub">'+hub
  +'<div class="card gcard" style="border-style:dashed;background:var(--surface-sunken)"><span class="gicon big" style="background:var(--gray-100);color:var(--gray-700)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span><div class="card-head" style="margin:0"><span class="card-title">More in Development</span></div><p class="small" style="margin:0">New games ship when they train something the current five do not. Request one from the Account tab.</p><div class="gstats"></div></div>'
  +'</div></div>'; }
 // Match

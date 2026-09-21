@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#122B4E"><link rel="apple-touch-icon" href="/icons/icon-180.png">
 <title>How Our Practice Score Estimate Works</title>
-<meta name="description" content="How Start From Nowhere turns your practice into an estimated GMAT Focus or SAT range: the Rasch model behind the per-skill ratings, the guessing correction, and why the range narrows as you practise. Stated plainly, including what is ours and not the test maker's.">
+<meta name="description" content="How Start From Nowhere turns your practice into an estimated GMAT Focus or SAT range: the Rasch model fitted to the questions you answered, the guessing correction, and why the range narrows as you practise. Stated plainly, including what is ours and not the test maker's.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%23122B4E'/%3E%3Cpath d='M13 33 22 22l6 5 8.5-10' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M29.5 16.5H37V24' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
@@ -76,16 +76,18 @@ footer{border-top:1px solid var(--gray-200);padding:28px 0;font-size:var(--t-200
 
 <h2>The Short Version</h2>
 <ul>
-<li>We track a rating for each skill, which moves after every question by how surprising your answer was.</li>
-<li>Those ratings are read as an ability estimate, and the width of the range you see is the statistical uncertainty in that estimate.</li>
+<li>The range is fitted to the questions you have actually answered, using each one at the difficulty it was answered at.</li>
+<li>We also track a rating for each skill, which moves after every question by how surprising your answer was. Those ratings decide what to practise next. They do not set the range.</li>
+<li>The width of the range is the statistical uncertainty in the fitted estimate.</li>
 <li>The range narrows as you practise, because the estimate becomes more certain. That is arithmetic, not a claim that you improved.</li>
 <li><strong>It is not a predicted score and it is not a guarantee.</strong> Only GMAC and College Board can give you a real one.</li>
 </ul>
 
-<h2>Where the Rating Comes From</h2>
-<p>After each question, the skill rating moves by the difference between what happened and what the model expected. Beating a hard question moves it more than beating an easy one; missing an easy question costs more than missing a hard one. The probability of a correct answer is modelled as</p>
+<h2>Where the Estimate Comes From</h2>
+<p>The probability of a correct answer is modelled as</p>
 <p style="font-family:var(--font-mono);font-size:15px;background:var(--gray-50);padding:12px 14px;border-radius:8px">P(correct) = 1 / (1 + e<sup>-(ability - difficulty)</sup>)</p>
-<p>That is the same functional form as the Rasch model, the one-parameter model used in item response theory. Pelanek, in <em>Applications of the Elo rating system in adaptive educational systems</em> (Computers and Education, 2016), sets out that the two approaches "share the same functional form of the model for predicting the probability of a correct answer, they differ only in the parameter estimation procedure." That is what lets us read a rating as an ability and put an honest error bar on it, without the large-scale item pretesting a full item response theory calibration would demand.</p>
+<p>That is the Rasch model, the one-parameter model used in item response theory. To turn your answers into an ability we fit that model directly: we search for the ability value that makes the answers you actually gave most likely, counting every question in the section at its own difficulty. A weak prior keeps the answer finite for somebody who has got everything right or everything wrong so far, and is outweighed by the evidence within about twenty questions.</p>
+<p>Skill ratings are kept separately, on the Elo update rule: after each question a rating moves by the difference between what happened and what the model expected. Pelanek, in <em>Applications of the Elo rating system in adaptive educational systems</em> (Computers and Education, 2016), sets out that the two approaches "share the same functional form of the model for predicting the probability of a correct answer, they differ only in the parameter estimation procedure." The difference matters here, and it is worth being plain about why. Elo is an online rule tuned to move gradually, which is what you want for deciding the next question but not for a number somebody reads after forty questions: spread across a dozen or more skills, a rating has barely moved by then. We used to average those ratings into the range, and the result sat close to the middle of the scale for everybody. Fitting the model to the answers instead needs no settling-in time, so the first range we show you is built on the same evidence as the hundredth.</p>
 
 <h2>Why Multiple Choice Changes the Math</h2>
 <p>On a multiple-choice test some correct answers are luck. The model accounts for it with a guessing floor: the chance of a correct answer never drops below one over the number of choices. A GMAT Focus item has five choices and an SAT item has four, so the same performance means slightly different things on the two exams, and we score them differently rather than pretending they are the same.</p>
@@ -97,7 +99,7 @@ footer{border-top:1px solid var(--gray-200);padding:28px 0;font-size:var(--t-200
 
 <h2>What Is Standard and What Is Ours</h2>
 <table><thead><tr><th>Piece</th><th>Where it comes from</th></tr></thead><tbody>
-<tr><td>The ability model and its update rule</td><td>Standard psychometrics, the Rasch model and the Elo rating system</td></tr>
+<tr><td>The ability model, the fitting procedure, and the rule that ranks skills for practice</td><td>Standard psychometrics: the Rasch model, maximum likelihood fitting, and the Elo rating system</td></tr>
 <tr><td>The guessing correction</td><td>Standard, the shifted logistic used for multiple-choice items</td></tr>
 <tr><td>The error bar on the estimate</td><td>Standard, Fisher information summed over the questions you answered</td></tr>
 <tr><td>Where the ability scale is anchored on 205 to 805 or 400 to 1600</td><td><strong>Ours.</strong> No public equating table exists for either exam, so these constants are our calibration, not the test maker's</td></tr>
