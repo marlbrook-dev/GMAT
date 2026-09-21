@@ -333,6 +333,101 @@ def peer_block(s, ranked):
     return '<section class="onward">%s%s</section>' % (peers, nxt)
 
 
+
+# The name a searcher actually types.
+#
+# Search Console for the three months to 2026-09-19: 125 queries sat at position 8 to 20
+# with 773 impressions and ZERO clicks between them. They are all school statistic
+# intents ("notre dame mba cost", "mays mba", "ross class profile") and the pattern is
+# the same every time: the query names the UNIVERSITY and the title named only the
+# business school. "Mendoza College of Business MBA: Cost, GMAT, and Class Profile" has
+# no Notre Dame in it, so someone scanning a results page for what they typed never sees
+# it.
+#
+# The title now carries both, shortened to what fits. Deliberately conservative: a page
+# whose name already holds the university's distinctive word, or its acronym, is left
+# exactly as it was, and anything over 42 characters falls back to the original rather
+# than shipping a truncated title. 62 of 91 pages change; the other 29 were already fine.
+_SEO_GENERIC = re.compile(
+    r'\s*(?:The\s+)?(?:Graduate\s+)?(?:School|College|Schools)\s+of\s+'
+    r'(?:Business(?:\s+Administration)?|Management|Industrial Administration|Public Affairs)\s*$',
+    re.I)
+
+
+def _seo_drop_given(s):
+    """Endowed schools are searched by surname: "ross class profile", not "stephen m ross"."""
+    s = re.sub(r'^(?:[A-Z]\.\s*){1,3}', '', s)
+    s = re.sub(r'^[A-Z][a-z]+\s+[A-Z]\.\s+', '', s)
+    return s.strip()
+
+
+def _seo_short_uni(u):
+    s = re.sub(r'^The\s+', '', u or '')
+    # Systems written one way and searched another. Getting this wrong is not cosmetic:
+    # calling UT Dallas "Texas" points at Austin, a different school with different
+    # numbers on the page.
+    m = re.match(r'University of California[,\s]+(.+)$', s, re.I)
+    if m:
+        campus = m.group(1).strip()
+        return 'UCLA' if campus.lower() == 'los angeles' else 'UC ' + campus
+    m = re.match(r'University of Texas at\s+(.+)$', s, re.I)
+    if m:
+        return 'UT ' + m.group(1).strip()
+    s = re.sub(r'\s+SUNY$', '', s)
+    s = re.sub(r'^University of (?:the\s+)?', '', s)
+    s = re.sub(r'\s+University$', '', s)
+    s = re.sub(r'\s*,\s*[A-Z][A-Za-z\s.-]+$', '', s)
+    s = re.sub(r'\s+at\s+[A-Z].*$', '', s)
+    return s.strip(' ,')
+
+
+def _seo_short_school(n, uni, su):
+    s = re.sub(r'^The\s+', '', n or '')
+    for pref in (uni, su):
+        if pref and s.lower().startswith(pref.lower()):
+            s = s[len(pref):].strip()
+    s = _SEO_GENERIC.sub('', s)
+    for pat in (r'\s*Business School\s*$', r'\s*School of Business\s*$',
+                r'\s*College of Business(?: and Economics)?\s*$',
+                r'\s*School of Management\s*$'):
+        s = re.sub(pat, '', s, flags=re.I)
+    return _seo_drop_given(s.strip()).strip(' ,')
+
+
+def _seo_trim_generic(n):
+    """Drop the generic tail from a name that already names its university."""
+    s = re.sub(r'^The\s+', '', n or '')
+    s = _SEO_GENERIC.sub('', s)
+    for pat in (r'\s*Business School\s*$', r'\s*School of Business\s*$',
+                r'\s*College of Business(?: and Economics)?\s*$',
+                r'\s*School of Management\s*$'):
+        s = re.sub(pat, '', s, flags=re.I)
+    return s.strip(' ,')
+
+
+def seo_name(school):
+    """Title-facing name: university plus school, only where that adds something."""
+    name = (school.get('name') or '').strip()
+    uni = (school.get('university') or '').strip()
+    su = _seo_short_uni(uni)
+    if not su:
+        return name
+    words = set(re.findall(r'[a-z]+', name.lower()))
+    if set(re.findall(r'[a-z]+', su.lower())) & words:
+        # Already carries the university, so nothing to prepend. Still drop the generic
+        # tail: "University of Southern California Marshall School of Business MBA:
+        # Acceptance Rate, Cost, and Class Profile" is 107 characters and Google shows
+        # about sixty, so the half a searcher sees ended before the numbers did.
+        return _seo_trim_generic(name) or name
+    # NYU inside "NYU Stern" already is New York University; so is FIU.
+    acronym = ''.join(w[0] for w in re.findall(r'[A-Za-z]+', uni) if w[:1].isupper())
+    if acronym and len(acronym) >= 3 and acronym in re.findall(r'[A-Z]{2,}', name):
+        return name
+    ss = _seo_short_school(name, uni, su)
+    cand = re.sub(r'\s+', ' ', ('%s %s' % (su, ss)).strip() if ss else su).strip()
+    return cand if cand and len(cand) <= 42 else name
+
+
 def school_page(s, tpl, today, ranked=()):
     p = s.get("profile", {})
     rank_rows = []
@@ -501,6 +596,7 @@ def school_page(s, tpl, today, ranked=()):
             f'<p style="margin:0 0 12px"><b>{esc(q)}</b><br>{esc(a)}</p>' for q, a in qa) + "</div>"
     out = (tpl.replace("{{NAME}}", esc(s["name"]))
               .replace("{{TITLE_BITS}}", esc(title_bits))
+              .replace("{{SEO_NAME}}", esc(seo_name(s)))
               .replace("{{LEAD}}", esc(lead_paragraph(s, p, g, gc, acc, tui, sal, cs)))
               .replace("{{DESC_BITS}}", esc(desc))
               .replace("{{SLUG}}", esc(s["slug"]))
