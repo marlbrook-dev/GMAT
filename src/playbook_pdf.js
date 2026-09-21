@@ -7,6 +7,7 @@
 const { chromium } = require('playwright');
 const fs = require('fs');
 const path = require('path');
+const { chromiumPath } = require('./chromium_path');
 const ROOT = path.resolve(__dirname, '..');
 const SRC = path.join(ROOT, 'playbook', 'index.html');
 const OUT = path.join(ROOT, 'playbook', 'BUILD_PLAYBOOK.pdf');
@@ -16,11 +17,7 @@ const OUT = path.join(ROOT, 'playbook', 'BUILD_PLAYBOOK.pdf');
     console.error('no playbook/index.html; run python3 src/build_playbook.py first');
     process.exit(1);
   }
-  const exe = process.env.CHROMIUM_PATH ||
-    (fs.existsSync('/opt/pw-browsers') &&
-      fs.readdirSync('/opt/pw-browsers').filter(d => d.startsWith('chromium-'))
-        .map(d => '/opt/pw-browsers/' + d + '/chrome-linux/chrome').find(p => fs.existsSync(p)));
-  const browser = await chromium.launch({ executablePath: exe || undefined });
+  const browser = await chromium.launch({ executablePath: chromiumPath() });
   const page = await browser.newPage();
   await page.goto('file://' + SRC, { waitUntil: 'load' });
   // Fonts come from the system here; the stylesheet names real fallbacks so the PDF is

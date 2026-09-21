@@ -17,6 +17,7 @@ const { chromium } = require('playwright');
 const http = require('http');
 const fs = require('fs');
 const path0 = require('path');
+const { chromiumPath } = require('./chromium_path');
 const ROOT = path0.resolve(__dirname, '..');
 
 const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css',
@@ -75,10 +76,7 @@ const FIXTURE = {
 (async () => {
   await new Promise(r => server.listen(0, '127.0.0.1', r));
   PORT = server.address().port;
-  const exe = process.env.CHROMIUM_PATH ||
-    (fs.readdirSync('/opt/pw-browsers').filter(d => d.startsWith('chromium-'))
-       .map(d => '/opt/pw-browsers/' + d + '/chrome-linux/chrome').find(p => fs.existsSync(p)));
-  const browser = await chromium.launch({ executablePath: exe });
+  const browser = await chromium.launch({ executablePath: chromiumPath() });
 
   for (const theme of ['light', 'dark']) {
     for (const [w, h, wide] of [[1280, 900, true], [390, 844, false]]) {

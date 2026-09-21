@@ -7,10 +7,10 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-08-17 and 2026-09-21, which is 35 days, across
-65 commits, by one owner directing a series of AI coding sessions. As of this
-build it is 38 Python files, 89 JavaScript files, 24
+66 commits, by one owner directing a series of AI coding sessions. As of this
+build it is 39 Python files, 89 JavaScript files, 24
 TypeScript edge functions, 32 migrations and 63 documents:
-1945 tracked files in total.
+1948 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -1117,7 +1117,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-65 commits in 35 days, one owner, a series of AI sessions. This
+66 commits in 35 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1209,21 +1209,21 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-54 recorded defects, over 35 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+55 recorded defects, over 35 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 23 | 43% |
-| Found by measuring something | 14 | 26% |
-| A test caught it | 8 | 15% |
+| Found by reading the code or the output | 23 | 42% |
+| Found by measuring something | 14 | 25% |
+| A test caught it | 9 | 16% |
 | Found by rendering it and looking | 4 | 7% |
 | Found by a review bot or an adversarial pass | 4 | 7% |
 | A person hit it | 1 | 2% |
 
-**This is the most useful table in the book.** 53 of 54 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 54 of 55 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1235,17 +1235,17 @@ well enough to audit later. Which is what this book is.
 | Wrong data shown or stored | 22 |
 | Silent loss | 12 |
 | Degraded | 12 |
-| Cosmetic | 6 |
+| Cosmetic | 7 |
 | Site down | 2 |
 
-**Silent loss is the dominant failure mode**, at 12 of 54. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 12 of 55. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Tests and guards | 11 |
+| Tests and guards | 12 |
 | Front end | 8 |
 | Content generation | 8 |
 | CSS and layout | 5 |
@@ -1259,7 +1259,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-48 of 54 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+49 of 55 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1296,7 +1296,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Tests and guards (11)
+## Tests and guards (12)
 
 
 ### INC-0016. The performance test waited for the load event, which waits for the thing being optimised
@@ -1440,6 +1440,19 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **What stops it now.** the check degrades only when zero citations resolve in `src/smoke_playbook.js`
 - **Cost.** a working check disabled for the length of one edit
 - **Lesson.** When you add a condition that skips a check, make sure it describes the failure and not something merely correlated with it. A skip is indistinguishable from a pass in the output, so the fix for a noisy check can silently delete it.
+
+
+### INC-0055. A new browser suite hardcoded this machine's browser directory and crashed in CI
+
+*2026-09-21, Cosmetic, PR #62*
+
+- **What was seen.** ENOENT scandir /opt/pw-browsers on the first CI run of the dashboard suite, after every other suite had passed.
+- **Why.** The suite read a browser directory that exists in the development sandbox and not on a CI runner, where Playwright installs browsers in its own location. The older suites pass process.env.CHROMIUM_PATH straight through, which is undefined in CI and correctly means 'you decide'.
+- **How it surfaced.** The first CI run of the suite. (A test caught it)
+- **Fix.** src/chromium_path.js, one shared resolver: the environment variable, then the sandbox directory if it exists, then undefined so Playwright resolves its own.
+- **What stops it now.** one shared resolver, so the logic cannot differ between suites in `src/chromium_path.js`
+- **Cost.** one red CI run
+- **Lesson.** A path that exists on the machine you wrote the test on is not a path. Resolve environment-specific locations through one helper that falls back to the tool's own default, and return undefined rather than an empty string, because undefined means 'you decide' and an empty string means 'launch nothing'.
 
 
 ## Front end (8)
@@ -2181,6 +2194,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The playbook's own citation guard failed CI on its first run (INC-0053)</small>
 - [ ] When you add a condition that skips a check, make sure it describes the failure and not something merely correlated with it. A skip is indistinguishable from a pass in the output, so the fix for a noisy check can silently delete it.  
   <small>The first fix asked the wrong question and muted a working check (INC-0054)</small>
+- [ ] A path that exists on the machine you wrote the test on is not a path. Resolve environment-specific locations through one helper that falls back to the tool's own default, and return undefined rather than an empty string, because undefined means 'you decide' and an empty string means 'launch nothing'.  
+  <small>A new browser suite hardcoded this machine's browser directory and crashed in CI (INC-0055)</small>
 
 
 # Adapting This to a Different Business
@@ -2297,7 +2312,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 54 real defects reduced to the rules that prevent them,
+the whole project: 55 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -2337,7 +2352,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-54 defects already prevented is genuinely ahead, and every defect it hits
+55 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed
