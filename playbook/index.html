@@ -59,7 +59,7 @@ a{color:var(--accent)}
 <p class="eyebrow">Start From Nowhere</p>
 <h1>The Build Playbook</h1>
 <p class="sub">How one person and a set of AI sessions built a multi-exam test-prep platform, every defect hit on the way, and the recipe for doing it again for something else</p>
-<p class="meta">Built 2026-09-21 from commit 8827e64 &middot; 64 commits over 35 days &middot; 37 recorded defects &middot; 17 chapters<br>
+<p class="meta">Built 2026-09-21 from commit 6a654d9 &middot; 65 commits over 35 days &middot; 54 recorded defects &middot; 17 chapters<br>
 This document is generated. Edit the chapters in docs/playbook/ and the ledger in data/playbook/incidents.jsonl, then run python3 src/build_playbook.py.</p>
 </div>
 <div class="toc"><ol><li><a href="#how-to-use-this-book">How to Use This Book</a></li>
@@ -81,7 +81,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><a href="#the-bootstrap-pack-starting-a-new-project-with-this-loaded">The Bootstrap Pack: Starting a New Project With This Loaded</a></li></ol></div>
 <h1 id="how-to-use-this-book">How to Use This Book</h1>
 <p>This is the record of building one platform, written so it can be used to build a different one.</p>
-<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-08-17 and 2026-09-21, which is 35 days, across 64 commits, by one owner directing a series of AI coding sessions. As of this build it is 37 Python files, 87 JavaScript files, 24 TypeScript edge functions, 32 migrations and 41 documents: 1915 tracked files in total.</p>
+<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-08-17 and 2026-09-21, which is 35 days, across 65 commits, by one owner directing a series of AI coding sessions. As of this build it is 38 Python files, 89 JavaScript files, 24 TypeScript edge functions, 32 migrations and 63 documents: 1945 tracked files in total.</p>
 <p>None of those numbers were typed. They are measured from the repository every time this document is built, which is the first thing worth copying.</p>
 <h2 id="what-is-in-here">What is in here</h2>
 <p>The book has four kinds of chapter, and they age differently.</p>
@@ -161,7 +161,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <h1 id="from-an-empty-repository-to-a-live-site">From an Empty Repository to a Live Site</h1>
 <p>The order below is the one that worked, and the order matters more than any individual step. Most of what went wrong in this build went wrong because something was done before the thing that would have caught it.</p>
 <h2 id="phase-0-the-rules-file-before-any-code">Phase 0: the rules file, before any code</h2>
-<p>Write the project's standing rules into a file the AI session reads on every turn. On this project that is <code>CLAUDE.md</code>, 41 documents in, and it is still the highest leverage file in the repository.</p>
+<p>Write the project's standing rules into a file the AI session reads on every turn. On this project that is <code>CLAUDE.md</code>, 63 documents in, and it is still the highest leverage file in the repository.</p>
 <p>It is not documentation. It is the constitution, and it should contain only things that are load-bearing and that you would otherwise have to say again:</p>
 <ul>
 <li>The house style rules that a build can enforce. Ours bans em dashes and en dashes</li>
@@ -261,6 +261,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><code>src/smoke_load.js</code></li>
 <li><code>src/smoke_offline.js</code></li>
 <li><code>src/smoke_pages.js</code></li>
+<li><code>src/smoke_playbook.js</code></li>
 <li><code>src/smoke_rankings.js</code></li>
 <li><code>src/smoke_redirect.js</code></li>
 <li><code>src/smoke_sharing.js</code></li>
@@ -268,7 +269,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><code>src/test.js</code></li>
 <li><code>src/weekly_audit.js</code></li>
 </ul>
-<p>19 test files in total. The layering is deliberate:</p>
+<p>20 test files in total. The layering is deliberate:</p>
 <ol>
 <li><strong>The build</strong> catches structural problems in the artefact.</li>
 <li><strong>Engine tests</strong> run the domain logic headlessly, once per exam.</li>
@@ -585,7 +586,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <h2 id="never-fabricate">Never fabricate</h2>
 <p>No invented user counts, testimonials, efficacy claims or seeded activity. On a forum, house-authored posts say they are house-authored. This is not only an ethics rule; a fabricated number in a dashboard eventually gets used for a decision, and by then nobody remembers it was a placeholder.</p>
 <h1 id="tests-and-guards">Tests and Guards</h1>
-<p>19 test files, and the interesting thing about them is not what they assert. It is that the analysis chapter can count how defects were <strong>actually</strong> found, and the answer reshapes where you put effort.</p>
+<p>20 test files, and the interesting thing about them is not what they assert. It is that the analysis chapter can count how defects were <strong>actually</strong> found, and the answer reshapes where you put effort.</p>
 <h2 id="the-ladder">The ladder</h2>
 <p><strong>Rung 1: the build.</strong> Structural guards on the artefact. Parse every generated script. Assert every collection size. Fail on platform limits. Compare inputs to outputs at every filter. Cheapest rung, catches the most.</p>
 <p><strong>Rung 2: domain logic, headless.</strong> The engine, run without a browser, once per variant. Fast enough to run on every change.</p>
@@ -612,7 +613,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three defects here were found by taking a screenshot: a chart unreadable in dark mode, a line chart implying values that never existed, and a dashboard that was not on screen. None of them would have been caught by an assertion, because none of them were violations of anything anybody had thought to assert.</p>
 <p><strong>Budget for looking.</strong> It is the cheapest test there is and the only one that catches things you have not imagined.</p>
 <h1 id="running-the-build-as-an-ai-loop">Running the Build as an AI Loop</h1>
-<p>64 commits in 35 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
+<p>65 commits in 35 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
 <h2 id="the-division-of-labour">The division of labour</h2>
 <p><strong>The owner decides</strong>: what to build, what it means, what is acceptable, and every irreversible or outward-facing action. <strong>The session does</strong>: the building, the measuring, the testing, and the reporting of what it found.</p>
 <p>The failure mode at each end is worth naming. An owner who reviews every line becomes the bottleneck and the throughput collapses to the speed of reading. A session that decides product questions on its own produces something coherent that is not what anyone wanted.</p>
@@ -656,42 +657,42 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Long uninterrupted sessions with standing authorisation, punctuated by the owner redirecting priorities, beat short supervised ones by a wide margin. The standing authorisation that made it work was specific: merge your own work once the checks are green, do not check in on each item, and stop immediately when told to.</p>
 <p>The thing that makes that safe is not trust. It is that the checks are real, the destructive actions still require asking, and the record of what happened is written down well enough to audit later. Which is what this book is.</p>
 <h1 id="what-the-ledger-says-about-itself">What the Ledger Says About Itself</h1>
-<p>37 recorded defects, over 35 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.</p>
+<p>54 recorded defects, over 35 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.</p>
 <h2 id="how-defects-were-actually-found">How defects were actually found</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">How</th><th style="text-align:right">Count</th><th style="text-align:right">Share</th></tr></thead><tbody>
-<tr><td style="text-align:left">Found by reading the code or the output</td><td style="text-align:right">15</td><td style="text-align:right">41%</td></tr>
-<tr><td style="text-align:left">Found by measuring something</td><td style="text-align:right">9</td><td style="text-align:right">24%</td></tr>
-<tr><td style="text-align:left">A test caught it</td><td style="text-align:right">7</td><td style="text-align:right">19%</td></tr>
-<tr><td style="text-align:left">Found by rendering it and looking</td><td style="text-align:right">3</td><td style="text-align:right">8%</td></tr>
-<tr><td style="text-align:left">Found by a review bot or an adversarial pass</td><td style="text-align:right">2</td><td style="text-align:right">5%</td></tr>
-<tr><td style="text-align:left">A person hit it</td><td style="text-align:right">1</td><td style="text-align:right">3%</td></tr>
+<tr><td style="text-align:left">Found by reading the code or the output</td><td style="text-align:right">23</td><td style="text-align:right">43%</td></tr>
+<tr><td style="text-align:left">Found by measuring something</td><td style="text-align:right">14</td><td style="text-align:right">26%</td></tr>
+<tr><td style="text-align:left">A test caught it</td><td style="text-align:right">8</td><td style="text-align:right">15%</td></tr>
+<tr><td style="text-align:left">Found by rendering it and looking</td><td style="text-align:right">4</td><td style="text-align:right">7%</td></tr>
+<tr><td style="text-align:left">Found by a review bot or an adversarial pass</td><td style="text-align:right">4</td><td style="text-align:right">7%</td></tr>
+<tr><td style="text-align:left">A person hit it</td><td style="text-align:right">1</td><td style="text-align:right">2%</td></tr>
 </tbody></table></div>
-<p><strong>This is the most useful table in the book.</strong> 36 of 37 defects, 97 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.</p>
+<p><strong>This is the most useful table in the book.</strong> 53 of 54 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.</p>
 <p><strong>Read that percentage with the bias it carries.</strong> This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.</p>
 <h2 id="by-severity">By severity</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">Severity</th><th style="text-align:right">Count</th></tr></thead><tbody>
-<tr><td style="text-align:left">Wrong data shown or stored</td><td style="text-align:right">14</td></tr>
-<tr><td style="text-align:left">Silent loss</td><td style="text-align:right">11</td></tr>
-<tr><td style="text-align:left">Degraded</td><td style="text-align:right">6</td></tr>
-<tr><td style="text-align:left">Cosmetic</td><td style="text-align:right">4</td></tr>
+<tr><td style="text-align:left">Wrong data shown or stored</td><td style="text-align:right">22</td></tr>
+<tr><td style="text-align:left">Silent loss</td><td style="text-align:right">12</td></tr>
+<tr><td style="text-align:left">Degraded</td><td style="text-align:right">12</td></tr>
+<tr><td style="text-align:left">Cosmetic</td><td style="text-align:right">6</td></tr>
 <tr><td style="text-align:left">Site down</td><td style="text-align:right">2</td></tr>
 </tbody></table></div>
-<p><strong>Silent loss is the dominant failure mode</strong>, at 11 of 37. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.</p>
+<p><strong>Silent loss is the dominant failure mode</strong>, at 12 of 54. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.</p>
 <h2 id="by-area">By area</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">Area</th><th style="text-align:right">Count</th></tr></thead><tbody>
-<tr><td style="text-align:left">Tests and guards</td><td style="text-align:right">8</td></tr>
-<tr><td style="text-align:left">Content generation</td><td style="text-align:right">6</td></tr>
-<tr><td style="text-align:left">Front end</td><td style="text-align:right">5</td></tr>
-<tr><td style="text-align:left">Infrastructure and deploy</td><td style="text-align:right">4</td></tr>
-<tr><td style="text-align:left">CSS and layout</td><td style="text-align:right">3</td></tr>
+<tr><td style="text-align:left">Tests and guards</td><td style="text-align:right">11</td></tr>
+<tr><td style="text-align:left">Front end</td><td style="text-align:right">8</td></tr>
+<tr><td style="text-align:left">Content generation</td><td style="text-align:right">8</td></tr>
+<tr><td style="text-align:left">CSS and layout</td><td style="text-align:right">5</td></tr>
+<tr><td style="text-align:left">Payments</td><td style="text-align:right">5</td></tr>
+<tr><td style="text-align:left">Infrastructure and deploy</td><td style="text-align:right">5</td></tr>
+<tr><td style="text-align:left">Scoring and selection</td><td style="text-align:right">4</td></tr>
+<tr><td style="text-align:left">Search and metadata</td><td style="text-align:right">3</td></tr>
 <tr><td style="text-align:left">Database</td><td style="text-align:right">3</td></tr>
-<tr><td style="text-align:left">Payments</td><td style="text-align:right">3</td></tr>
-<tr><td style="text-align:left">Search and metadata</td><td style="text-align:right">2</td></tr>
-<tr><td style="text-align:left">Scoring and selection</td><td style="text-align:right">2</td></tr>
-<tr><td style="text-align:left">Interface and data display</td><td style="text-align:right">1</td></tr>
+<tr><td style="text-align:left">Interface and data display</td><td style="text-align:right">2</td></tr>
 </tbody></table></div>
 <h2 id="guard-coverage">Guard coverage</h2>
-<p>32 of 37 defects produced an automated guard. 5 did not, and are carried by attention alone, which means they are the ones most likely to recur.</p>
+<p>48 of 54 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.</p>
 <p>Carried by attention:</p>
 <ul>
 <li><strong>INC-0010</strong> CSS comments do not nest, and one placeholder killed the palette on 1451 pages</li>
@@ -699,22 +700,28 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>INC-0025</strong> A stale edge cache made a fixed 404 look like a live 200</li>
 <li><strong>INC-0034</strong> A line chart interpolated between discrete money events</li>
 <li><strong>INC-0036</strong> charge.amount_refunded is cumulative, so partial refunds double-count</li>
+<li><strong>INC-0045</strong> The error reporter reported its own failures, in a loop</li>
 </ul>
 <h2 id="guards-that-fired-twice">Guards that fired twice</h2>
 <p>A guard named by two incidents is a guard that did not hold the first time. These are the places to spend effort.</p>
 <ul>
+<li><code>src/test.js</code> appears in INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044</li>
 <li><code>src/build_banks.py</code> appears in INC-0003, INC-0007, INC-0008, INC-0009, INC-0011</li>
 <li><code>src/build.py</code> appears in INC-0001, INC-0002, INC-0017, INC-0027</li>
+<li><code>src/weekly_audit.js</code> appears in INC-0050, INC-0048, INC-0018</li>
+<li><code>src/review_bot.js</code> appears in INC-0022, INC-0026, INC-0051</li>
+<li><code>src/smoke_redirect.js</code> appears in INC-0023, INC-0024, INC-0047</li>
+<li><code>src/build_rankings.py</code> appears in INC-0014, INC-0049</li>
 <li><code>src/smoke_load.js</code> appears in INC-0015, INC-0016</li>
-<li><code>src/review_bot.js</code> appears in INC-0022, INC-0026</li>
-<li><code>src/smoke_redirect.js</code> appears in INC-0023, INC-0024</li>
 <li><code>src/smoke_charts.js</code> appears in INC-0029, INC-0030</li>
+<li><code>.github/workflows/ci.yml</code> appears in INC-0031, INC-0053</li>
 <li><code>src/smoke_business.js</code> appears in INC-0032, INC-0033</li>
+<li><code>src/app_template.html</code> appears in INC-0046, INC-0052</li>
 </ul>
 <h1 id="the-defect-ledger">The Defect Ledger</h1>
 <p>Every entry here happened. Each one is a record of something that broke, how it was found, what fixed it, and what now stops it coming back. The last field is the one that matters for a different business: the transferable lesson, stated without reference to this codebase.</p>
 <p>They are grouped by the part of the system, and within a group by date. The <code>guard</code> field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.</p>
-<h2 id="tests-and-guards-8">Tests and guards (8)</h2>
+<h2 id="tests-and-guards-11">Tests and guards (11)</h2>
 <h3 id="inc-0016-the-performance-test-waited-for-the-load-event-which-waits-for-the-thing-being-optimised">INC-0016. The performance test waited for the load event, which waits for the thing being optimised</h3>
 <p><em>2026-09-19, Silent loss, <code>4b25169</code> PR #45</em></p>
 <ul>
@@ -803,74 +810,40 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Cost.</strong> a layout suite that tested nothing, caught the same day</li>
 <li><strong>Lesson.</strong> Before you measure a layout, assert the thing is rendered. Hidden elements answer most DOM questions, and they answer them wrongly.</li>
 </ul>
-<h2 id="content-generation-6">Content generation (6)</h2>
-<h3 id="inc-0003-item-banks-were-different-on-every-build-because-python-randomises-hash">INC-0003. Item banks were different on every build because Python randomises hash()</h3>
-<p><em>2026-09-16, Wrong data shown or stored, <code>0d6c357</code> PR #33</em></p>
+<h3 id="inc-0046-the-error-queue-was-81-percent-other-people-s-blocked-scripts">INC-0046. The error queue was 81 percent other people's blocked scripts</h3>
+<p><em>2026-09-21, Degraded, <code>c4698e0</code> PR #52</em></p>
 <ul>
-<li><strong>What was seen.</strong> Two builds of the same commit produced different banks, and the per-section bias figures pinned in the test file drifted run to run.</li>
-<li><strong>Why.</strong> build_banks.py seeded each category with abs(hash(exam + skill)). Python randomises string hashing per process by default.</li>
-<li><strong>How it surfaced.</strong> A pinned test figure would not stay pinned. (A test caught it)</li>
-<li><strong>Fix.</strong> Seed from zlib.crc32, which is stable across processes.</li>
-<li><strong>What stops it now.</strong> three consecutive builds must produce identical output in <code>src/build_banks.py</code></li>
-<li><strong>Cost.</strong> a flaky ratchet that would have been disabled eventually</li>
-<li><strong>Lesson.</strong> Any generator that claims reproducibility must be seeded from something stable across processes. hash() is not, in Python, and the failure shows up as a flaky test rather than as a wrong answer.</li>
+<li><strong>What was seen.</strong> 1,202 of the first 1,490 rows in the error table were one third-party beacon being blocked by ad blockers.</li>
+<li><strong>Why.</strong> The handler captured every error on the page, including ones from scripts the site does not control and cannot fix.</li>
+<li><strong>How it surfaced.</strong> Clustering the rows and looking at the largest cluster. (Found by measuring something)</li>
+<li><strong>Fix.</strong> Filter third-party script errors, and give the triage queue a permanent noise label.</li>
+<li><strong>What stops it now.</strong> the triage queue mutes a cluster marked noise in <code>src/app_template.html</code></li>
+<li><strong>Cost.</strong> a monitoring surface that was 81 percent noise</li>
+<li><strong>Lesson.</strong> An error feed with no filter is a feed nobody reads. Signal has to be defended, and the cheapest defence is a human label that mutes permanently, so the queue gets quieter as it learns.</li>
 </ul>
-<h3 id="inc-0004-a-shadowed-variable-silently-deleted-3000-items">INC-0004. A shadowed variable silently deleted 3000 items</h3>
-<p><em>2026-09-16, Silent loss, <code>aecccd9</code> PR #37</em></p>
+<h3 id="inc-0053-the-playbook-s-own-citation-guard-failed-ci-on-its-first-run">INC-0053. The playbook's own citation guard failed CI on its first run</h3>
+<p><em>2026-09-21, Cosmetic, PR #62</em></p>
 <ul>
-<li><strong>What was seen.</strong> ACT Maths dropped from 4500 items to 1500 and the build reported success.</li>
-<li><strong>Why.</strong> Adding an ACT English mapping declared a second ACT_MAP that shadowed the existing one. Nothing errors when a map is smaller than it used to be.</li>
-<li><strong>How it surfaced.</strong> Comparing the reported category counts against the previous build. (Found by measuring something)</li>
-<li><strong>Fix.</strong> Merge the maps properly and read the section per skill.</li>
-<li><strong>What stops it now.</strong> the build prints per-category counts and the test file pins them in <code>src/test.js</code></li>
-<li><strong>Cost.</strong> 3000 items, caught before merge</li>
-<li><strong>Lesson.</strong> Deletion by shadowing is invisible. Any collection whose size is a fact about the product needs its size asserted, not just its contents.</li>
+<li><strong>What was seen.</strong> CI reported all 37 cited commits as nonexistent, with 'fatal: Not a valid object name' for every one.</li>
+<li><strong>Why.</strong> The checkout action shallow-clones by default, so no historical commit is present in the CI working copy. The guard was correct and its environment assumption was not.</li>
+<li><strong>How it surfaced.</strong> The first CI run of the guard. (A test caught it)</li>
+<li><strong>Fix.</strong> fetch-depth: 0 on the checkout so the history is actually there to check.</li>
+<li><strong>What stops it now.</strong> fetch-depth: 0 in the workflow in <code>.github/workflows/ci.yml</code></li>
+<li><strong>Cost.</strong> one red CI run</li>
+<li><strong>Lesson.</strong> A guard that reads the repository needs the repository. CI checkouts are shallow by default, and anything that walks history, blames a line or resolves an old hash will fail in a way that looks like the data is wrong rather than the clone.</li>
 </ul>
-<h3 id="inc-0007-the-dedup-key-counted-a-reshuffled-question-as-a-new-one">INC-0007. The dedup key counted a reshuffled question as a new one</h3>
-<p><em>2026-09-17, Wrong data shown or stored, <code>fc4114c</code> PR #39</em></p>
+<h3 id="inc-0054-the-first-fix-asked-the-wrong-question-and-muted-a-working-check">INC-0054. The first fix asked the wrong question and muted a working check</h3>
+<p><em>2026-09-21, Silent loss, PR #62</em></p>
 <ul>
-<li><strong>What was seen.</strong> Bank counts were inflated. The same question with its options rearranged looked distinct.</li>
-<li><strong>Why.</strong> canon() hashed the choices in the order they appeared, while the answer's position is randomised per draw.</li>
-<li><strong>How it surfaced.</strong> Sorting the choices before hashing, which immediately collapsed the counts. (Found by reading the code or the output)</li>
-<li><strong>Fix.</strong> Sort the choices inside canon().</li>
-<li><strong>What stops it now.</strong> canon() sorts, and the build reports distinct counts per category in <code>src/build_banks.py</code></li>
-<li><strong>Cost.</strong> four ACT categories reported far above their real size</li>
-<li><strong>Lesson.</strong> A deduplication key must be canonical under every transformation the item legitimately undergoes. Ask what varies per draw before you hash.</li>
+<li><strong>What was seen.</strong> After guarding on 'is this a shallow clone', the citation check stopped running locally, where it had been working perfectly and verifying all 52 citations.</li>
+<li><strong>Why.</strong> This clone is shallow and still holds every commit the ledger cites, which is the normal case. Shallowness does not imply missing history, so the guard disabled itself in the one environment where it was useful.</li>
+<li><strong>How it surfaced.</strong> Reading the output after the fix and noticing a check had turned into a skip. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Ask whether ANY citation resolved. None at all means the history is absent; some means those particular citations are wrong.</li>
+<li><strong>What stops it now.</strong> the check degrades only when zero citations resolve in <code>src/smoke_playbook.js</code></li>
+<li><strong>Cost.</strong> a working check disabled for the length of one edit</li>
+<li><strong>Lesson.</strong> When you add a condition that skips a check, make sure it describes the failure and not something merely correlated with it. A skip is indistinguishable from a pass in the output, so the fix for a noisy check can silently delete it.</li>
 </ul>
-<h3 id="inc-0008-four-passages-produced-five-hundred-fake-distinct-questions">INC-0008. Four passages produced five hundred fake distinct questions</h3>
-<p><em>2026-09-17, Wrong data shown or stored, <code>61c3ed2</code> PR #40</em></p>
-<ul>
-<li><strong>What was seen.</strong> A reading generator with four passages reported five hundred distinct stated-idea items.</li>
-<li><strong>Why.</strong> The identity of a reading item is the passage plus the question asked, not the choices offered. The same stem with the same key varied only in which distractors came along.</li>
-<li><strong>How it surfaced.</strong> Reading the generated output rather than its count. (Found by reading the code or the output)</li>
-<li><strong>Fix.</strong> canon() lets a generator declare that its identity is the passage plus the question.</li>
-<li><strong>What stops it now.</strong> per-category distinct counts printed at build time in <code>src/build_banks.py</code></li>
-<li><strong>Cost.</strong> would have shipped a bank five hundred deep and four questions wide</li>
-<li><strong>Lesson.</strong> The same inflation arrives through a different door every time you close one. When you fix a dedup bug, ask what else shares an identity.</li>
-</ul>
-<h3 id="inc-0009-two-conditionals-hashed-identically-and-half-the-inference-items-would-have-vanished">INC-0009. Two conditionals hashed identically and half the inference items would have vanished</h3>
-<p><em>2026-09-17, Silent loss, <code>61c3ed2</code> PR #40</em></p>
-<ul>
-<li><strong>What was seen.</strong> Half of a passage's inference questions disappeared from the corpus.</li>
-<li><strong>Why.</strong> Both conditionals produced the stem 'which of the following can be properly inferred from the passage', so they hashed to the same value and one was dropped as a duplicate.</li>
-<li><strong>How it surfaced.</strong> Measuring true yield per passage. (Found by measuring something)</li>
-<li><strong>Fix.</strong> Each conditional names the case it asks about.</li>
-<li><strong>What stops it now.</strong> yield per passage is measured and recorded, not assumed in <code>src/build_banks.py</code></li>
-<li><strong>Cost.</strong> half the inference items in any corpus</li>
-<li><strong>Lesson.</strong> Dedup can be wrong in both directions. An over-broad key deletes real content as silently as a narrow one inflates it.</li>
-</ul>
-<h3 id="inc-0011-a-length-guard-silently-dropped-sixteen-valid-items">INC-0011. A length guard silently dropped sixteen valid items</h3>
-<p><em>2026-09-17, Silent loss, <code>61c3ed2</code> PR #40</em></p>
-<ul>
-<li><strong>What was seen.</strong> Sixteen items never appeared in the bank.</li>
-<li><strong>Why.</strong> The guard measured characters, and the items were legitimately longer than the limit in characters while being normal in content.</li>
-<li><strong>How it surfaced.</strong> Counting inputs against outputs. (Found by measuring something)</li>
-<li><strong>Fix.</strong> Measure what the guard actually cares about.</li>
-<li><strong>What stops it now.</strong> input and output counts are compared at every filter stage in <code>src/build_banks.py</code></li>
-<li><strong>Cost.</strong> sixteen items</li>
-<li><strong>Lesson.</strong> Every filter needs its rejection count reported. A filter that silently drops is indistinguishable from an input that was never there.</li>
-</ul>
-<h2 id="front-end-5">Front end (5)</h2>
+<h2 id="front-end-8">Front end (8)</h2>
 <h3 id="inc-0001-unescaped-quotes-in-onclick-strings-took-the-whole-app-down">INC-0001. Unescaped quotes in onclick strings took the whole app down</h3>
 <p><em>2026-08-19, Site down, <code>1f3ecec</code> PR #7</em></p>
 <ul>
@@ -881,6 +854,28 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>What stops it now.</strong> build.py node-parses every inline script and fails the build on a syntax error in <code>src/build.py</code></li>
 <li><strong>Cost.</strong> a live outage of the trainer</li>
 <li><strong>Lesson.</strong> Generated code is code. If your build writes JavaScript into a string, the build must parse the result, because the blast radius of one bad character is the whole file, not the line.</li>
+</ul>
+<h3 id="inc-0038-one-exam-s-progress-blob-overwrote-another-s">INC-0038. One exam's progress blob overwrote another's</h3>
+<p><em>2026-09-16, Wrong data shown or stored, <code>81eecec</code> PR #30</em></p>
+<ul>
+<li><strong>What was seen.</strong> None shipped: caught before release. A student practising two exams would have had one exam's progress destroyed by the other.</li>
+<li><strong>Why.</strong> Progress was stored under a single key. Making the engine multi-exam added a second writer to the same slot without keying the slot by exam.</li>
+<li><strong>How it surfaced.</strong> Reviewing the cross-exam data paths while adding the second exam. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Key the stored state per exam.</li>
+<li><strong>What stops it now.</strong> engine tests run once per exam and assert progress isolation in <code>src/test.js</code></li>
+<li><strong>Cost.</strong> would have destroyed real progress</li>
+<li><strong>Lesson.</strong> The moment a single-tenant store becomes multi-tenant, every key in it is a collision waiting to happen. Enumerate the writers before you add the second tenant, not after.</li>
+</ul>
+<h3 id="inc-0043-the-gre-app-told-gre-students-to-calibrate-at-the-wrong-test-maker-s-site">INC-0043. The GRE app told GRE students to calibrate at the wrong test maker's site</h3>
+<p><em>2026-09-16, Wrong data shown or stored, <code>1a003bb</code> PR #34</em></p>
+<ul>
+<li><strong>What was seen.</strong> A shipped application displayed a score card headed with a different exam's name and linked students to that exam's official site.</li>
+<li><strong>Why.</strong> The template forked on the exam id in seven places and treated not-SAT as the original exam. Adding a third exam made every one of those branches wrong.</li>
+<li><strong>How it surfaced.</strong> Reading the built page for the third exam. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Per-exam copy moved into the registry and resolved from the injected exam id.</li>
+<li><strong>What stops it now.</strong> a headless check asserts each app names itself in <code>src/test.js</code></li>
+<li><strong>Cost.</strong> a live app misidentifying itself</li>
+<li><strong>Lesson.</strong> A conditional that treats not-A as the original case is a bug the day a third case exists. Resolve variants from data, and the third one costs a row rather than a search.</li>
 </ul>
 <h3 id="inc-0015-the-whole-bank-blocked-first-paint-20-seconds-to-the-first-question-on-3g">INC-0015. The whole bank blocked first paint: 20 seconds to the first question on 3G</h3>
 <p><em>2026-09-19, Degraded, <code>4b25169</code> PR #45</em></p>
@@ -926,7 +921,219 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Cost.</strong> a wrong figure on the tile the owner reads most closely</li>
 <li><strong>Lesson.</strong> A fixed rounding rule is wrong at one end of the range or the other. Pick the precision from the magnitude, and write the expected number down before you write the code that produces it.</li>
 </ul>
-<h2 id="infrastructure-and-deploy-4">Infrastructure and deploy (4)</h2>
+<h3 id="inc-0045-the-error-reporter-reported-its-own-failures-in-a-loop">INC-0045. The error reporter reported its own failures, in a loop</h3>
+<p><em>2026-09-21, Degraded, <code>c4698e0</code> PR #52</em></p>
+<ul>
+<li><strong>What was seen.</strong> 267 rows in the error table, one per page a crawler swept.</li>
+<li><strong>Why.</strong> fetch rejects on a network error, it does not throw, so the try/catch around the reporting call caught nothing. The rejected promise reached the unhandledrejection handler, which called the reporter again. The analytics beacon had the identical trap.</li>
+<li><strong>How it surfaced.</strong> Reading the error table and noticing the shape of the rows. (Found by measuring something)</li>
+<li><strong>Fix.</strong> Handle the rejection, and never report from inside the reporter.</li>
+<li><strong>What stops it now.</strong> Nothing automated. This one is still carried by attention.</li>
+<li><strong>Cost.</strong> 267 junk rows and a self-sustaining loop</li>
+<li><strong>Lesson.</strong> Anything that reports failures must not be able to report its own. Check whether each call rejects or throws before you wrap it, and make the reporting path unable to re-enter itself.</li>
+</ul>
+<h2 id="content-generation-8">Content generation (8)</h2>
+<h3 id="inc-0003-item-banks-were-different-on-every-build-because-python-randomises-hash">INC-0003. Item banks were different on every build because Python randomises hash()</h3>
+<p><em>2026-09-16, Wrong data shown or stored, <code>0d6c357</code> PR #33</em></p>
+<ul>
+<li><strong>What was seen.</strong> Two builds of the same commit produced different banks, and the per-section bias figures pinned in the test file drifted run to run.</li>
+<li><strong>Why.</strong> build_banks.py seeded each category with abs(hash(exam + skill)). Python randomises string hashing per process by default.</li>
+<li><strong>How it surfaced.</strong> A pinned test figure would not stay pinned. (A test caught it)</li>
+<li><strong>Fix.</strong> Seed from zlib.crc32, which is stable across processes.</li>
+<li><strong>What stops it now.</strong> three consecutive builds must produce identical output in <code>src/build_banks.py</code></li>
+<li><strong>Cost.</strong> a flaky ratchet that would have been disabled eventually</li>
+<li><strong>Lesson.</strong> Any generator that claims reproducibility must be seeded from something stable across processes. hash() is not, in Python, and the failure shows up as a flaky test rather than as a wrong answer.</li>
+</ul>
+<h3 id="inc-0004-a-shadowed-variable-silently-deleted-3000-items">INC-0004. A shadowed variable silently deleted 3000 items</h3>
+<p><em>2026-09-16, Silent loss, <code>aecccd9</code> PR #37</em></p>
+<ul>
+<li><strong>What was seen.</strong> ACT Maths dropped from 4500 items to 1500 and the build reported success.</li>
+<li><strong>Why.</strong> Adding an ACT English mapping declared a second ACT_MAP that shadowed the existing one. Nothing errors when a map is smaller than it used to be.</li>
+<li><strong>How it surfaced.</strong> Comparing the reported category counts against the previous build. (Found by measuring something)</li>
+<li><strong>Fix.</strong> Merge the maps properly and read the section per skill.</li>
+<li><strong>What stops it now.</strong> the build prints per-category counts and the test file pins them in <code>src/test.js</code></li>
+<li><strong>Cost.</strong> 3000 items, caught before merge</li>
+<li><strong>Lesson.</strong> Deletion by shadowing is invisible. Any collection whose size is a fact about the product needs its size asserted, not just its contents.</li>
+</ul>
+<h3 id="inc-0039-225-of-302-correct-answers-sat-at-position-a">INC-0039. 225 of 302 correct answers sat at position A</h3>
+<p><em>2026-09-16, Wrong data shown or stored, <code>81eecec</code> PR #30</em></p>
+<ul>
+<li><strong>What was seen.</strong> Three quarters of the correct answers in a new bank were the first option.</li>
+<li><strong>Why.</strong> Items were authored with the key written first and the position never randomised.</li>
+<li><strong>How it surfaced.</strong> Counting the key positions, a check nobody had run. (Found by measuring something)</li>
+<li><strong>Fix.</strong> Randomise the key position per draw.</li>
+<li><strong>What stops it now.</strong> the test suite pins the key-position distribution in <code>src/test.js</code></li>
+<li><strong>Cost.</strong> a bank that could be beaten without reading it</li>
+<li><strong>Lesson.</strong> In any set of multiple-choice content, count where the answers are. A positional tell makes the whole set worthless to a test-wise user, and it is invisible item by item.</li>
+</ul>
+<h3 id="inc-0044-the-longest-option-was-the-correct-answer-81-percent-of-the-time">INC-0044. The longest option was the correct answer 81 percent of the time</h3>
+<p><em>2026-09-16, Wrong data shown or stored, <code>425a8bb</code> PR #35</em></p>
+<ul>
+<li><strong>What was seen.</strong> A student who picked the longest option without reading the question scored 81 percent against a chance level of 20.</li>
+<li><strong>Why.</strong> Distractors were shorter than keys because a correct answer is naturally more qualified, and nothing measured the resulting length distribution.</li>
+<li><strong>How it surfaced.</strong> Measuring the accuracy of a strategy that ignores the question entirely. (Found by measuring something)</li>
+<li><strong>Fix.</strong> About ninety items had distractors rewritten to carry comparable development, each added clause chosen to leave the option wrong for the reason it was already wrong. 81 percent to 38, then to chance in a later pass.</li>
+<li><strong>What stops it now.</strong> a ratchet pins the length tell and fails if it rises in <code>src/test.js</code></li>
+<li><strong>Cost.</strong> a section that could be beaten without reading it</li>
+<li><strong>Lesson.</strong> Test your content against the strategies a lazy adversary would use, not only against whether it is correct. Measure the score of a rule that ignores the question.</li>
+</ul>
+<h3 id="inc-0007-the-dedup-key-counted-a-reshuffled-question-as-a-new-one">INC-0007. The dedup key counted a reshuffled question as a new one</h3>
+<p><em>2026-09-17, Wrong data shown or stored, <code>fc4114c</code> PR #39</em></p>
+<ul>
+<li><strong>What was seen.</strong> Bank counts were inflated. The same question with its options rearranged looked distinct.</li>
+<li><strong>Why.</strong> canon() hashed the choices in the order they appeared, while the answer's position is randomised per draw.</li>
+<li><strong>How it surfaced.</strong> Sorting the choices before hashing, which immediately collapsed the counts. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Sort the choices inside canon().</li>
+<li><strong>What stops it now.</strong> canon() sorts, and the build reports distinct counts per category in <code>src/build_banks.py</code></li>
+<li><strong>Cost.</strong> four ACT categories reported far above their real size</li>
+<li><strong>Lesson.</strong> A deduplication key must be canonical under every transformation the item legitimately undergoes. Ask what varies per draw before you hash.</li>
+</ul>
+<h3 id="inc-0008-four-passages-produced-five-hundred-fake-distinct-questions">INC-0008. Four passages produced five hundred fake distinct questions</h3>
+<p><em>2026-09-17, Wrong data shown or stored, <code>61c3ed2</code> PR #40</em></p>
+<ul>
+<li><strong>What was seen.</strong> A reading generator with four passages reported five hundred distinct stated-idea items.</li>
+<li><strong>Why.</strong> The identity of a reading item is the passage plus the question asked, not the choices offered. The same stem with the same key varied only in which distractors came along.</li>
+<li><strong>How it surfaced.</strong> Reading the generated output rather than its count. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> canon() lets a generator declare that its identity is the passage plus the question.</li>
+<li><strong>What stops it now.</strong> per-category distinct counts printed at build time in <code>src/build_banks.py</code></li>
+<li><strong>Cost.</strong> would have shipped a bank five hundred deep and four questions wide</li>
+<li><strong>Lesson.</strong> The same inflation arrives through a different door every time you close one. When you fix a dedup bug, ask what else shares an identity.</li>
+</ul>
+<h3 id="inc-0009-two-conditionals-hashed-identically-and-half-the-inference-items-would-have-vanished">INC-0009. Two conditionals hashed identically and half the inference items would have vanished</h3>
+<p><em>2026-09-17, Silent loss, <code>61c3ed2</code> PR #40</em></p>
+<ul>
+<li><strong>What was seen.</strong> Half of a passage's inference questions disappeared from the corpus.</li>
+<li><strong>Why.</strong> Both conditionals produced the stem 'which of the following can be properly inferred from the passage', so they hashed to the same value and one was dropped as a duplicate.</li>
+<li><strong>How it surfaced.</strong> Measuring true yield per passage. (Found by measuring something)</li>
+<li><strong>Fix.</strong> Each conditional names the case it asks about.</li>
+<li><strong>What stops it now.</strong> yield per passage is measured and recorded, not assumed in <code>src/build_banks.py</code></li>
+<li><strong>Cost.</strong> half the inference items in any corpus</li>
+<li><strong>Lesson.</strong> Dedup can be wrong in both directions. An over-broad key deletes real content as silently as a narrow one inflates it.</li>
+</ul>
+<h3 id="inc-0011-a-length-guard-silently-dropped-sixteen-valid-items">INC-0011. A length guard silently dropped sixteen valid items</h3>
+<p><em>2026-09-17, Silent loss, <code>61c3ed2</code> PR #40</em></p>
+<ul>
+<li><strong>What was seen.</strong> Sixteen items never appeared in the bank.</li>
+<li><strong>Why.</strong> The guard measured characters, and the items were legitimately longer than the limit in characters while being normal in content.</li>
+<li><strong>How it surfaced.</strong> Counting inputs against outputs. (Found by measuring something)</li>
+<li><strong>Fix.</strong> Measure what the guard actually cares about.</li>
+<li><strong>What stops it now.</strong> input and output counts are compared at every filter stage in <code>src/build_banks.py</code></li>
+<li><strong>Cost.</strong> sixteen items</li>
+<li><strong>Lesson.</strong> Every filter needs its rejection count reported. A filter that silently drops is indistinguishable from an input that was never there.</li>
+</ul>
+<h2 id="css-and-layout-5">CSS and layout (5)</h2>
+<h3 id="inc-0050-a-landing-page-icon-referenced-a-colour-token-that-did-not-exist">INC-0050. A landing-page icon referenced a colour token that did not exist</h3>
+<p><em>2026-08-19, Cosmetic, <code>5337dfd</code></em></p>
+<ul>
+<li><strong>What was seen.</strong> One game icon on the landing grid rendered without its colour.</li>
+<li><strong>Why.</strong> An undefined custom property, which CSS treats as a fallback rather than an error.</li>
+<li><strong>How it surfaced.</strong> Looking at the page on a phone during a mobile pass. (Found by rendering it and looking)</li>
+<li><strong>Fix.</strong> Use a defined token.</li>
+<li><strong>What stops it now.</strong> weekly_audit checks computed colour on every page in <code>src/weekly_audit.js</code></li>
+<li><strong>Cost.</strong> one icon, and the same root cause later cost a compliance control</li>
+<li><strong>Lesson.</strong> The same undefined-property failure will find you repeatedly, at every severity from one icon to an invisible legal control. One audit of computed colour catches the whole class.</li>
+</ul>
+<h3 id="inc-0010-css-comments-do-not-nest-and-one-placeholder-killed-the-palette-on-1451-pages">INC-0010. CSS comments do not nest, and one placeholder killed the palette on 1451 pages</h3>
+<p><em>2026-09-17, Degraded, <code>61c3ed2</code> PR #40</em></p>
+<ul>
+<li><strong>What was seen.</strong> The colour palette was gone from every college page. It looked like a design problem and was chased as one for hours.</li>
+<li><strong>Why.</strong> A <code>{{CHROME_CSS}}</code> placeholder was left inside an opening CSS comment in rankings_base.css. The first */ closes the outer comment, so everything after it was live CSS that overwrote the palette.</li>
+<li><strong>How it surfaced.</strong> Eventually, by reading the built CSS rather than the template. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Remove the nested comment.</li>
+<li><strong>What stops it now.</strong> Nothing automated. This one is still carried by attention.</li>
+<li><strong>Cost.</strong> hours, on 1451 pages</li>
+<li><strong>Lesson.</strong> CSS comments do not nest. When a whole page category loses its styling, read the built artefact, not the source that produced it.</li>
+</ul>
+<h3 id="inc-0048-error-recovery-in-the-css-parser-swallowed-the-palette-silently">INC-0048. Error recovery in the CSS parser swallowed the palette silently</h3>
+<p><em>2026-09-17, Degraded, <code>a920f5c</code> PR #41</em></p>
+<ul>
+<li><strong>What was seen.</strong> Score bars rendered as empty gaps and panels lost their borders on 1,451 college pages and the rankings.</li>
+<li><strong>Why.</strong> A nested comment ended early, the leftover words became a selector, and the CSS parser's error recovery discarded the :root colour block that followed it. Every grey and navy variable on those pages resolved to nothing. There is no error anywhere in this chain; CSS is specified to recover and continue.</li>
+<li><strong>How it surfaced.</strong> The missing borders eventually gave it away, after the missing colours did not. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Remove the nested comment.</li>
+<li><strong>What stops it now.</strong> weekly_audit checks computed colour on every page in <code>src/weekly_audit.js</code></li>
+<li><strong>Cost.</strong> the palette on over 1,450 pages</li>
+<li><strong>Lesson.</strong> CSS never fails loudly. A malformed rule is skipped, a bad selector eats the block after it, and an undefined variable paints as nothing. Anything that matters visually has to be asserted on the rendered page, because the parser will not tell you.</li>
+</ul>
+<h3 id="inc-0018-the-do-not-sell-button-was-invisible-from-the-day-it-shipped">INC-0018. The Do Not Sell button was invisible from the day it shipped</h3>
+<p><em>2026-09-19, Degraded, <code>a34a798</code> PR #47</em></p>
+<ul>
+<li><strong>What was seen.</strong> White text on a transparent background on a white page. A legally required control that nobody could see.</li>
+<li><strong>Why.</strong> The page referenced nine colour custom properties that exist nowhere. CSS does not treat an undefined custom property as an error; it falls back to the initial value and paints.</li>
+<li><strong>How it surfaced.</strong> An automated contrast audit across every page. (A test caught it)</li>
+<li><strong>Fix.</strong> Define the tokens and fix seven contrast failures, all site wide because all lived in shared chrome.</li>
+<li><strong>What stops it now.</strong> weekly_audit checks computed contrast on every page in <code>src/weekly_audit.js</code></li>
+<li><strong>Cost.</strong> an invisible compliance control for the life of the page</li>
+<li><strong>Lesson.</strong> An undefined CSS custom property is silent. Audit computed colour, not authored colour, and do it on the rendered page.</li>
+</ul>
+<h3 id="inc-0029-a-sequential-colour-ramp-inverts-direction-between-themes-and-the-label-text-did-not">INC-0029. A sequential colour ramp inverts direction between themes, and the label text did not</h3>
+<p><em>2026-09-21, Degraded, <code>8af7188</code> PR #61</em></p>
+<ul>
+<li><strong>What was seen.</strong> White heatmap labels on a light cell in dark mode.</li>
+<li><strong>Why.</strong> A sequential ramp runs light to dark in a light theme and dark to light in a dark theme. The label colour was hardcoded white, so it was correct in one theme and unreadable in the other.</li>
+<li><strong>How it surfaced.</strong> Rendering the chart in dark mode and looking at it. (Found by rendering it and looking)</li>
+<li><strong>Fix.</strong> An --sfnc-on-seq token that flips with the theme.</li>
+<li><strong>What stops it now.</strong> smoke_charts asserts token parity between the light and dark blocks in <code>src/smoke_charts.js</code></li>
+<li><strong>Cost.</strong> an unreadable chart in one theme</li>
+<li><strong>Lesson.</strong> A dark mode does not break by having a wrong colour. It breaks by missing one. Any colour paired with a ramp has to move with the ramp.</li>
+</ul>
+<h2 id="payments-5">Payments (5)</h2>
+<h3 id="inc-0041-a-signed-in-user-could-grant-themselves-a-paid-plan">INC-0041. A signed-in user could grant themselves a paid plan</h3>
+<p><em>2026-09-16, Wrong data shown or stored, <code>81eecec</code> PR #30</em></p>
+<ul>
+<li><strong>What was seen.</strong> The plan column was writable by the authenticated role, so any signed-in browser session could set its own plan to the top tier.</li>
+<li><strong>Why.</strong> Column-level grants on the profiles table included the billing columns. Row Level Security controls which rows you can touch, not which columns.</li>
+<li><strong>How it surfaced.</strong> Auditing the grants rather than the policies. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Remove the billing columns from the grants entirely. Only the service role, used by the webhook, can write them.</li>
+<li><strong>What stops it now.</strong> the billing columns are absent from the column grants in <code>supabase/migrations/20260916_harden_plan_column_and_rpc_surface.sql</code></li>
+<li><strong>Cost.</strong> free access to every paid tier</li>
+<li><strong>Lesson.</strong> Row Level Security is row-level. Which columns a role may write is a separate grant, and anything money depends on belongs to the service role alone.</li>
+</ul>
+<h3 id="inc-0042-every-trialing-subscriber-would-have-been-left-on-the-free-plan">INC-0042. Every trialing subscriber would have been left on the free plan</h3>
+<p><em>2026-09-16, Wrong data shown or stored, <code>81eecec</code> PR #30</em></p>
+<ul>
+<li><strong>What was seen.</strong> A checkout that starts a free trial did not upgrade the account.</li>
+<li><strong>Why.</strong> The handler checked for a payment status of paid. A session that starts a trial settles as no payment required, which is not paid.</li>
+<li><strong>How it surfaced.</strong> Reading the processor's status vocabulary rather than assuming it. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Accept both settled states.</li>
+<li><strong>What stops it now.</strong> smoke_billing covers the trial path in both auth states in <code>src/smoke_billing.js</code></li>
+<li><strong>Cost.</strong> every trial would have failed to grant access</li>
+<li><strong>Lesson.</strong> Enumerate every value a third-party status field can take before you branch on one of them. The value you did not think of is usually the one that matters commercially.</li>
+</ul>
+<h3 id="inc-0035-two-stripe-event-types-announce-one-new-subscription">INC-0035. Two Stripe event types announce one new subscription</h3>
+<p><em>2026-09-21, Wrong data shown or stored, <code>8827e64</code> PR #62</em></p>
+<ul>
+<li><strong>What was seen.</strong> None: caught in design. Logging new subscriptions from both checkout.session.completed and customer.subscription.created would have doubled new MRR.</li>
+<li><strong>Why.</strong> Stripe announces a new subscription through both events, with different event ids, in no guaranteed order.</li>
+<li><strong>How it surfaced.</strong> Working out the idempotency key before writing the handler. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> A partial unique index on (source, subscription_id, kind) for the once-per-lifetime kinds, so the database decides rather than whichever event arrived first.</li>
+<li><strong>What stops it now.</strong> billing_events_once_idx in <code>supabase/migrations/20260921_billing_events_ledger.sql</code></li>
+<li><strong>Cost.</strong> would have doubled the headline revenue figure</li>
+<li><strong>Lesson.</strong> Idempotency belongs in the database, not in the handler. Handlers race; unique indexes do not.</li>
+</ul>
+<h3 id="inc-0036-charge-amount-refunded-is-cumulative-so-partial-refunds-double-count">INC-0036. charge.amount_refunded is cumulative, so partial refunds double-count</h3>
+<p><em>2026-09-21, Wrong data shown or stored, <code>8827e64</code> PR #62</em></p>
+<ul>
+<li><strong>What was seen.</strong> None: caught in design. A second partial refund reports the running total, which would have counted the first refund twice.</li>
+<li><strong>Why.</strong> Stripe's charge object reports total refunded to date, not the amount of this refund.</li>
+<li><strong>How it surfaced.</strong> Reading the field's semantics rather than its name. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Use the most recent entry in the refunds list, falling back to the cumulative total for the ordinary single full refund.</li>
+<li><strong>What stops it now.</strong> Nothing automated. This one is still carried by attention.</li>
+<li><strong>Cost.</strong> would have overstated refunds</li>
+<li><strong>Lesson.</strong> Read what a payment field means, not what it is called. Cumulative and incremental fields look identical until the second event.</li>
+</ul>
+<h3 id="inc-0037-cancellation-erases-the-number-you-need-to-record-the-cancellation">INC-0037. Cancellation erases the number you need to record the cancellation</h3>
+<p><em>2026-09-21, Wrong data shown or stored, <code>8827e64</code> PR #62</em></p>
+<ul>
+<li><strong>What was seen.</strong> None: caught in design. Churned MRR would always have been zero.</li>
+<li><strong>Why.</strong> The profile write on cancellation nulls plan_amount_cents and plan_interval. That row was the only place the departing subscriber's price still existed.</li>
+<li><strong>How it surfaced.</strong> Tracing the order of writes in the handler. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Read the prior profile state before the cancellation write, and log what they were paying.</li>
+<li><strong>What stops it now.</strong> priorState() is called before writeProfile in both the deleted and updated branches in <code>supabase/functions/stripe-webhook/index.ts</code></li>
+<li><strong>Cost.</strong> would have reported zero churn forever</li>
+<li><strong>Lesson.</strong> When a write is destructive, capture what you need from the old value first. Ask what question you will want to answer after this row is gone.</li>
+</ul>
+<h2 id="infrastructure-and-deploy-5">Infrastructure and deploy (5)</h2>
 <h3 id="inc-0023-www-and-the-apex-were-two-origins-so-consent-and-rankings-split-in-half">INC-0023. www and the apex were two origins, so consent and rankings split in half</h3>
 <p><em>2026-09-21, Wrong data shown or stored, <code>b852727</code> PR #54</em></p>
 <ul>
@@ -971,39 +1178,95 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Cost.</strong> would have broken the deploy</li>
 <li><strong>Lesson.</strong> Know your platform's hard limits and assert them in the build. A deploy-time rejection is a bad place to learn a number your build could have told you.</li>
 </ul>
-<h2 id="css-and-layout-3">CSS and layout (3)</h2>
-<h3 id="inc-0010-css-comments-do-not-nest-and-one-placeholder-killed-the-palette-on-1451-pages">INC-0010. CSS comments do not nest, and one placeholder killed the palette on 1451 pages</h3>
-<p><em>2026-09-17, Degraded, <code>61c3ed2</code> PR #40</em></p>
+<h3 id="inc-0047-excluding-the-design-directory-would-have-shipped-the-legal-pages-with-no-styling">INC-0047. Excluding the design directory would have shipped the legal pages with no styling</h3>
+<p><em>2026-09-21, Degraded, <code>07f0646</code> PR #55</em></p>
 <ul>
-<li><strong>What was seen.</strong> The colour palette was gone from every college page. It looked like a design problem and was chased as one for hours.</li>
-<li><strong>Why.</strong> A <code>{{CHROME_CSS}}</code> placeholder was left inside an opening CSS comment in rankings_base.css. The first */ closes the outer comment, so everything after it was live CSS that overwrote the palette.</li>
-<li><strong>How it surfaced.</strong> Eventually, by reading the built CSS rather than the template. (Found by reading the code or the output)</li>
-<li><strong>Fix.</strong> Remove the nested comment.</li>
-<li><strong>What stops it now.</strong> Nothing automated. This one is still carried by attention.</li>
-<li><strong>Cost.</strong> hours, on 1451 pages</li>
-<li><strong>Lesson.</strong> CSS comments do not nest. When a whole page category loses its styling, read the built artefact, not the source that produced it.</li>
+<li><strong>What was seen.</strong> None: caught in draft. Terms and Privacy would have rendered with no font, no colour and no background.</li>
+<li><strong>Why.</strong> Those two pages load a stylesheet from the design directory that is nothing but imports of the token files. Excluding the directory from the deploy removed both the stylesheet and the tokens it imports.</li>
+<li><strong>How it surfaced.</strong> An adversarial re-read of the exclusion list against what the built pages actually reference. (Found by a review bot or an adversarial pass)</li>
+<li><strong>Fix.</strong> Re-include the tokens and the stylesheet, and rewrite the guard to read every href and src out of the built pages and follow one level of CSS import, instead of comparing against a list kept by hand.</li>
+<li><strong>What stops it now.</strong> smoke_redirect derives the must-serve set from the built pages in <code>src/smoke_redirect.js</code></li>
+<li><strong>Cost.</strong> two legal pages unstyled, caught before deploy</li>
+<li><strong>Lesson.</strong> A guard that is a hand-kept list of safe paths is written by the same hand that made the mistake. Derive the safe set from the artefact, not from memory.</li>
 </ul>
-<h3 id="inc-0018-the-do-not-sell-button-was-invisible-from-the-day-it-shipped">INC-0018. The Do Not Sell button was invisible from the day it shipped</h3>
-<p><em>2026-09-19, Degraded, <code>a34a798</code> PR #47</em></p>
+<h2 id="scoring-and-selection-4">Scoring and selection (4)</h2>
+<h3 id="inc-0040-the-easier-module-was-not-easier">INC-0040. The easier module was not easier</h3>
+<p><em>2026-09-16, Wrong data shown or stored, <code>81eecec</code> PR #30</em></p>
 <ul>
-<li><strong>What was seen.</strong> White text on a transparent background on a white page. A legally required control that nobody could see.</li>
-<li><strong>Why.</strong> The page referenced nine colour custom properties that exist nowhere. CSS does not treat an undefined custom property as an error; it falls back to the initial value and paints.</li>
-<li><strong>How it surfaced.</strong> An automated contrast audit across every page. (A test caught it)</li>
-<li><strong>Fix.</strong> Define the tokens and fix seven contrast failures, all site wide because all lived in shared chrome.</li>
-<li><strong>What stops it now.</strong> weekly_audit checks computed contrast on every page in <code>src/weekly_audit.js</code></li>
-<li><strong>Cost.</strong> an invisible compliance control for the life of the page</li>
-<li><strong>Lesson.</strong> An undefined CSS custom property is silent. Audit computed colour, not authored colour, and do it on the rendered page.</li>
+<li><strong>What was seen.</strong> An adaptive test routed weaker students to a second module that was supposed to be easier, and was not.</li>
+<li><strong>Why.</strong> The two modules were assembled without comparing their difficulty distributions.</li>
+<li><strong>How it surfaced.</strong> Measuring the mean difficulty of each module. (Found by measuring something)</li>
+<li><strong>Fix.</strong> Assemble the modules against a difficulty target and assert it.</li>
+<li><strong>What stops it now.</strong> module difficulty is asserted at build time in <code>src/test.js</code></li>
+<li><strong>Cost.</strong> adaptive routing that did nothing</li>
+<li><strong>Lesson.</strong> If your system branches on difficulty, measure that the branches actually differ. A label is not a property.</li>
 </ul>
-<h3 id="inc-0029-a-sequential-colour-ramp-inverts-direction-between-themes-and-the-label-text-did-not">INC-0029. A sequential colour ramp inverts direction between themes, and the label text did not</h3>
-<p><em>2026-09-21, Degraded, <code>8af7188</code> PR #61</em></p>
+<h3 id="inc-0005-the-adaptive-engine-was-learning-from-nobody">INC-0005. The adaptive engine was learning from nobody</h3>
+<p><em>2026-09-17, Silent loss, <code>fc4114c</code> PR #39</em></p>
 <ul>
-<li><strong>What was seen.</strong> White heatmap labels on a light cell in dark mode.</li>
-<li><strong>Why.</strong> A sequential ramp runs light to dark in a light theme and dark to light in a dark theme. The label colour was hardcoded white, so it was correct in one theme and unreadable in the other.</li>
-<li><strong>How it surfaced.</strong> Rendering the chart in dark mode and looking at it. (Found by rendering it and looking)</li>
-<li><strong>Fix.</strong> An --sfnc-on-seq token that flips with the theme.</li>
-<li><strong>What stops it now.</strong> smoke_charts asserts token parity between the light and dark blocks in <code>src/smoke_charts.js</code></li>
-<li><strong>Cost.</strong> an unreadable chart in one theme</li>
-<li><strong>Lesson.</strong> A dark mode does not break by having a wrong colour. It breaks by missing one. Any colour paired with a ramp has to move with the ramp.</li>
+<li><strong>What was seen.</strong> The attempts table held zero rows in production while the app was plainly being used.</li>
+<li><strong>Why.</strong> Cloud.logAttempt returns early without a signed-in user, and the product deliberately requires no account. So the one path that recorded answers was the one path most users never took.</li>
+<li><strong>How it surfaced.</strong> Querying the production table and finding it empty. (Found by measuring something)</li>
+<li><strong>Fix.</strong> item_events: an unlinkable telemetry table with no user, session, device or address column, which is exactly why it needs no consent gate.</li>
+<li><strong>What stops it now.</strong> smoke_consent asserts the telemetry body carries no identifying field in <code>src/smoke_consent.js</code></li>
+<li><strong>Cost.</strong> weeks of telemetry never recorded</li>
+<li><strong>Lesson.</strong> Check that your instrumentation fired at all before you trust anything built on it. An empty table looks identical to a quiet week.</li>
+</ul>
+<h3 id="inc-0006-sentence-equivalence-items-were-unanswerable-however-well-you-answered">INC-0006. Sentence equivalence items were unanswerable however well you answered</h3>
+<p><em>2026-09-17, Wrong data shown or stored, <code>fc4114c</code> PR #39</em></p>
+<ul>
+<li><strong>What was seen.</strong> Every GRE sentence equivalence item graded as wrong.</li>
+<li><strong>Why.</strong> The items carry a two-element key and the engine graded by requiring an array of two, but answerInputs had no branch for that type, so they rendered as single pick and returned a scalar.</li>
+<li><strong>How it surfaced.</strong> Rendering and grading one item of every schema. (A test caught it)</li>
+<li><strong>Fix.</strong> Add the missing input branch.</li>
+<li><strong>What stops it now.</strong> smoke_items renders and grades one item from all 182 generator schemas at phone width in <code>src/smoke_items.js</code></li>
+<li><strong>Cost.</strong> eleven items unusable since they shipped</li>
+<li><strong>Lesson.</strong> A type system spread across a renderer and a grader will drift. The cheapest guard is one that exercises every variant end to end, once.</li>
+</ul>
+<h3 id="inc-0051-fixing-repeats-directly-left-a-side-door-through-passage-groups">INC-0051. Fixing repeats directly left a side door through passage groups</h3>
+<p><em>2026-09-21, Degraded, <code>65bd09d</code> PR #58</em></p>
+<ul>
+<li><strong>What was seen.</strong> After a freshness gate cut avoidable repeats from 276 to 9 on one exam, one exam still served 117 and another 941 across 25 sittings.</li>
+<li><strong>Why.</strong> The gate picked an unserved anchor item, and then the group expansion pulled in every question sharing that passage, including the ones already answered. The gate was applied to the anchor and not to what the anchor dragged with it.</li>
+<li><strong>How it surfaced.</strong> A review bot counting avoidable repeats across 25 sittings per exam. (Found by a review bot or an adversarial pass)</li>
+<li><strong>Fix.</strong> The group keeps the anchor and any unseen sibling and drops the rest, so a group can never come back empty.</li>
+<li><strong>What stops it now.</strong> the review bot counts avoidable repeats and the number is pinned in <code>src/review_bot.js</code></li>
+<li><strong>Cost.</strong> repeats persisting on two exams after the fix was believed complete</li>
+<li><strong>Lesson.</strong> When you add a filter, find every path that adds items after the filter runs. A gate on the entry point is not a gate on the set.</li>
+</ul>
+<h2 id="search-and-metadata-3">Search and metadata (3)</h2>
+<h3 id="inc-0002-school-urls-vanished-from-the-sitemap-when-the-data-file-was-split">INC-0002. School URLs vanished from the sitemap when the data file was split</h3>
+<p><em>2026-08-24, Silent loss, <code>df14c7c</code> PR #23</em></p>
+<ul>
+<li><strong>What was seen.</strong> Per-school pages were live and correct, and absent from sitemap.xml.</li>
+<li><strong>Why.</strong> The sitemap generator read schools.json. When the library was split into one file per school, nothing read the new directory, and a loop over an empty list emits nothing rather than failing.</li>
+<li><strong>How it surfaced.</strong> Noticed while reviewing the built sitemap. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Generate sitemap entries from the same directory scan the pages are built from.</li>
+<li><strong>What stops it now.</strong> the build asserts the sitemap URL count matches the page count in <code>src/build.py</code></li>
+<li><strong>Cost.</strong> unknown period of missing indexation</li>
+<li><strong>Lesson.</strong> A refactor that moves data has to be followed to every reader, and a loop over nothing is the quietest failure in programming. Derive counts from one source and assert they agree.</li>
+</ul>
+<h3 id="inc-0014-a-hardcoded-count-in-the-meta-description-went-stale-and-google-showed-it">INC-0014. A hardcoded count in the meta description went stale, and Google showed it</h3>
+<p><em>2026-09-19, Wrong data shown or stored, <code>36b1e92</code> PR #43</em></p>
+<ul>
+<li><strong>What was seen.</strong> The meta description claimed 1,451 colleges after the number changed. og:description and twitter:description both derive from that tag, so all three were wrong.</li>
+<li><strong>Why.</strong> A figure typed into a template instead of computed at build time, which is the exact failure build-time counting exists to prevent.</li>
+<li><strong>How it surfaced.</strong> Reading the built page. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Derive the number from the same count the pages are built from.</li>
+<li><strong>What stops it now.</strong> no hardcoded corpus counts in templates in <code>src/build_rankings.py</code></li>
+<li><strong>Cost.</strong> a wrong figure in the search result snippet</li>
+<li><strong>Lesson.</strong> Any number in user-facing copy that describes the size of something must be computed from that thing at build time. The moment it is typed, it has a half-life.</li>
+</ul>
+<h3 id="inc-0049-two-pages-told-the-same-story-with-different-numbers-after-a-reweighting">INC-0049. Two pages told the same story with different numbers after a reweighting</h3>
+<p><em>2026-09-19, Wrong data shown or stored, <code>a34a798</code> PR #47</em></p>
+<ul>
+<li><strong>What was seen.</strong> The rankings index still showed figures from before a scoring change while the methodology page showed the new ones.</li>
+<li><strong>Why.</strong> Two artefacts derived from one model, and only one was regenerated.</li>
+<li><strong>How it surfaced.</strong> Reading both pages after the change. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Derive both from the same computed values at build time.</li>
+<li><strong>What stops it now.</strong> both figures are printed by the build from one source in <code>src/build_rankings.py</code></li>
+<li><strong>Cost.</strong> a visible contradiction between two pages</li>
+<li><strong>Lesson.</strong> When one model feeds two pages, generate both from the model in the same pass. Two places that must agree will not, and the reader who notices is the reader you were trying to convince.</li>
 </ul>
 <h2 id="database-3">Database (3)</h2>
 <h3 id="inc-0012-postgres-fired-triggers-alphabetically-and-revoked-every-adult-opt-in">INC-0012. Postgres fired triggers alphabetically and revoked every adult opt-in</h3>
@@ -1039,87 +1302,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Cost.</strong> an open function surface believed closed</li>
 <li><strong>Lesson.</strong> In Postgres, revoking from every role you can name still leaves PUBLIC. Verify with the advisors or by reading the acl, never by reading your own migration.</li>
 </ul>
-<h2 id="payments-3">Payments (3)</h2>
-<h3 id="inc-0035-two-stripe-event-types-announce-one-new-subscription">INC-0035. Two Stripe event types announce one new subscription</h3>
-<p><em>2026-09-21, Wrong data shown or stored, <code>8827e64</code> PR #62</em></p>
-<ul>
-<li><strong>What was seen.</strong> None: caught in design. Logging new subscriptions from both checkout.session.completed and customer.subscription.created would have doubled new MRR.</li>
-<li><strong>Why.</strong> Stripe announces a new subscription through both events, with different event ids, in no guaranteed order.</li>
-<li><strong>How it surfaced.</strong> Working out the idempotency key before writing the handler. (Found by reading the code or the output)</li>
-<li><strong>Fix.</strong> A partial unique index on (source, subscription_id, kind) for the once-per-lifetime kinds, so the database decides rather than whichever event arrived first.</li>
-<li><strong>What stops it now.</strong> billing_events_once_idx in <code>supabase/migrations/20260921_billing_events_ledger.sql</code></li>
-<li><strong>Cost.</strong> would have doubled the headline revenue figure</li>
-<li><strong>Lesson.</strong> Idempotency belongs in the database, not in the handler. Handlers race; unique indexes do not.</li>
-</ul>
-<h3 id="inc-0036-charge-amount-refunded-is-cumulative-so-partial-refunds-double-count">INC-0036. charge.amount_refunded is cumulative, so partial refunds double-count</h3>
-<p><em>2026-09-21, Wrong data shown or stored, <code>8827e64</code> PR #62</em></p>
-<ul>
-<li><strong>What was seen.</strong> None: caught in design. A second partial refund reports the running total, which would have counted the first refund twice.</li>
-<li><strong>Why.</strong> Stripe's charge object reports total refunded to date, not the amount of this refund.</li>
-<li><strong>How it surfaced.</strong> Reading the field's semantics rather than its name. (Found by reading the code or the output)</li>
-<li><strong>Fix.</strong> Use the most recent entry in the refunds list, falling back to the cumulative total for the ordinary single full refund.</li>
-<li><strong>What stops it now.</strong> Nothing automated. This one is still carried by attention.</li>
-<li><strong>Cost.</strong> would have overstated refunds</li>
-<li><strong>Lesson.</strong> Read what a payment field means, not what it is called. Cumulative and incremental fields look identical until the second event.</li>
-</ul>
-<h3 id="inc-0037-cancellation-erases-the-number-you-need-to-record-the-cancellation">INC-0037. Cancellation erases the number you need to record the cancellation</h3>
-<p><em>2026-09-21, Wrong data shown or stored, <code>8827e64</code> PR #62</em></p>
-<ul>
-<li><strong>What was seen.</strong> None: caught in design. Churned MRR would always have been zero.</li>
-<li><strong>Why.</strong> The profile write on cancellation nulls plan_amount_cents and plan_interval. That row was the only place the departing subscriber's price still existed.</li>
-<li><strong>How it surfaced.</strong> Tracing the order of writes in the handler. (Found by reading the code or the output)</li>
-<li><strong>Fix.</strong> Read the prior profile state before the cancellation write, and log what they were paying.</li>
-<li><strong>What stops it now.</strong> priorState() is called before writeProfile in both the deleted and updated branches in <code>supabase/functions/stripe-webhook/index.ts</code></li>
-<li><strong>Cost.</strong> would have reported zero churn forever</li>
-<li><strong>Lesson.</strong> When a write is destructive, capture what you need from the old value first. Ask what question you will want to answer after this row is gone.</li>
-</ul>
-<h2 id="search-and-metadata-2">Search and metadata (2)</h2>
-<h3 id="inc-0002-school-urls-vanished-from-the-sitemap-when-the-data-file-was-split">INC-0002. School URLs vanished from the sitemap when the data file was split</h3>
-<p><em>2026-08-24, Silent loss, <code>df14c7c</code> PR #23</em></p>
-<ul>
-<li><strong>What was seen.</strong> Per-school pages were live and correct, and absent from sitemap.xml.</li>
-<li><strong>Why.</strong> The sitemap generator read schools.json. When the library was split into one file per school, nothing read the new directory, and a loop over an empty list emits nothing rather than failing.</li>
-<li><strong>How it surfaced.</strong> Noticed while reviewing the built sitemap. (Found by reading the code or the output)</li>
-<li><strong>Fix.</strong> Generate sitemap entries from the same directory scan the pages are built from.</li>
-<li><strong>What stops it now.</strong> the build asserts the sitemap URL count matches the page count in <code>src/build.py</code></li>
-<li><strong>Cost.</strong> unknown period of missing indexation</li>
-<li><strong>Lesson.</strong> A refactor that moves data has to be followed to every reader, and a loop over nothing is the quietest failure in programming. Derive counts from one source and assert they agree.</li>
-</ul>
-<h3 id="inc-0014-a-hardcoded-count-in-the-meta-description-went-stale-and-google-showed-it">INC-0014. A hardcoded count in the meta description went stale, and Google showed it</h3>
-<p><em>2026-09-19, Wrong data shown or stored, <code>36b1e92</code> PR #43</em></p>
-<ul>
-<li><strong>What was seen.</strong> The meta description claimed 1,451 colleges after the number changed. og:description and twitter:description both derive from that tag, so all three were wrong.</li>
-<li><strong>Why.</strong> A figure typed into a template instead of computed at build time, which is the exact failure build-time counting exists to prevent.</li>
-<li><strong>How it surfaced.</strong> Reading the built page. (Found by reading the code or the output)</li>
-<li><strong>Fix.</strong> Derive the number from the same count the pages are built from.</li>
-<li><strong>What stops it now.</strong> no hardcoded corpus counts in templates in <code>src/build_rankings.py</code></li>
-<li><strong>Cost.</strong> a wrong figure in the search result snippet</li>
-<li><strong>Lesson.</strong> Any number in user-facing copy that describes the size of something must be computed from that thing at build time. The moment it is typed, it has a half-life.</li>
-</ul>
-<h2 id="scoring-and-selection-2">Scoring and selection (2)</h2>
-<h3 id="inc-0005-the-adaptive-engine-was-learning-from-nobody">INC-0005. The adaptive engine was learning from nobody</h3>
-<p><em>2026-09-17, Silent loss, <code>fc4114c</code> PR #39</em></p>
-<ul>
-<li><strong>What was seen.</strong> The attempts table held zero rows in production while the app was plainly being used.</li>
-<li><strong>Why.</strong> Cloud.logAttempt returns early without a signed-in user, and the product deliberately requires no account. So the one path that recorded answers was the one path most users never took.</li>
-<li><strong>How it surfaced.</strong> Querying the production table and finding it empty. (Found by measuring something)</li>
-<li><strong>Fix.</strong> item_events: an unlinkable telemetry table with no user, session, device or address column, which is exactly why it needs no consent gate.</li>
-<li><strong>What stops it now.</strong> smoke_consent asserts the telemetry body carries no identifying field in <code>src/smoke_consent.js</code></li>
-<li><strong>Cost.</strong> weeks of telemetry never recorded</li>
-<li><strong>Lesson.</strong> Check that your instrumentation fired at all before you trust anything built on it. An empty table looks identical to a quiet week.</li>
-</ul>
-<h3 id="inc-0006-sentence-equivalence-items-were-unanswerable-however-well-you-answered">INC-0006. Sentence equivalence items were unanswerable however well you answered</h3>
-<p><em>2026-09-17, Wrong data shown or stored, <code>fc4114c</code> PR #39</em></p>
-<ul>
-<li><strong>What was seen.</strong> Every GRE sentence equivalence item graded as wrong.</li>
-<li><strong>Why.</strong> The items carry a two-element key and the engine graded by requiring an array of two, but answerInputs had no branch for that type, so they rendered as single pick and returned a scalar.</li>
-<li><strong>How it surfaced.</strong> Rendering and grading one item of every schema. (A test caught it)</li>
-<li><strong>Fix.</strong> Add the missing input branch.</li>
-<li><strong>What stops it now.</strong> smoke_items renders and grades one item from all 182 generator schemas at phone width in <code>src/smoke_items.js</code></li>
-<li><strong>Cost.</strong> eleven items unusable since they shipped</li>
-<li><strong>Lesson.</strong> A type system spread across a renderer and a grader will drift. The cheapest guard is one that exercises every variant end to end, once.</li>
-</ul>
-<h2 id="interface-and-data-display-1">Interface and data display (1)</h2>
+<h2 id="interface-and-data-display-2">Interface and data display (2)</h2>
 <h3 id="inc-0034-a-line-chart-interpolated-between-discrete-money-events">INC-0034. A line chart interpolated between discrete money events</h3>
 <p><em>2026-09-21, Degraded, <code>8827e64</code> PR #62</em></p>
 <ul>
@@ -1131,14 +1314,33 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Cost.</strong> a chart that implied numbers that never happened</li>
 <li><strong>Lesson.</strong> Chart form is a claim about the data. A line claims the values in between existed. Ask whether that claim is true before choosing it.</li>
 </ul>
+<h3 id="inc-0052-two-games-signalled-right-and-wrong-by-colour-alone">INC-0052. Two games signalled right and wrong by colour alone</h3>
+<p><em>2026-09-21, Degraded, <code>b4742a7</code> PR #57</em></p>
+<ul>
+<li><strong>What was seen.</strong> Outcomes in two timed games were distinguishable only by colour, and nothing was announced.</li>
+<li><strong>Why.</strong> The games were built for speed and the feedback was styling rather than content.</li>
+<li><strong>How it surfaced.</strong> An accessibility pass over the games. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Announce outcomes in a live region, and give a flipped tile a spoken identity. Colour is now secondary to a word in both.</li>
+<li><strong>What stops it now.</strong> smoke tests assert the live region announces outcomes in <code>src/app_template.html</code></li>
+<li><strong>Cost.</strong> two games unusable with a screen reader</li>
+<li><strong>Lesson.</strong> Never encode a state by colour alone. The word also survives greyscale printing, forced-colors mode and a glance from across a room, so it is better for everyone and not only for the people it is required by.</li>
+</ul>
 <h1 id="the-checklist">The Checklist</h1>
 <p>Generated from the defect ledger. Every line exists because something went wrong once. Nothing is here for completeness.</p>
 <p>Read it before starting a piece of work in the matching area, and again before you push.</p>
 <h2 id="css-and-layout">CSS and layout</h2>
 <ul>
+<li>[ ] The same undefined-property failure will find you repeatedly, at every severity from one icon to an invisible legal control. One audit of computed colour catches the whole class.  </li>
+</ul>
+<p>&lt;small&gt;A landing-page icon referenced a colour token that did not exist (INC-0050)&lt;/small&gt;</p>
+<ul>
 <li>[ ] CSS comments do not nest. When a whole page category loses its styling, read the built artefact, not the source that produced it.  </li>
 </ul>
 <p>&lt;small&gt;CSS comments do not nest, and one placeholder killed the palette on 1451 pages (INC-0010)&lt;/small&gt;</p>
+<ul>
+<li>[ ] CSS never fails loudly. A malformed rule is skipped, a bad selector eats the block after it, and an undefined variable paints as nothing. Anything that matters visually has to be asserted on the rendered page, because the parser will not tell you.  </li>
+</ul>
+<p>&lt;small&gt;Error recovery in the CSS parser swallowed the palette silently (INC-0048)&lt;/small&gt;</p>
 <ul>
 <li>[ ] An undefined CSS custom property is silent. Audit computed colour, not authored colour, and do it on the rendered page.  </li>
 </ul>
@@ -1156,6 +1358,14 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>[ ] Deletion by shadowing is invisible. Any collection whose size is a fact about the product needs its size asserted, not just its contents.  </li>
 </ul>
 <p>&lt;small&gt;A shadowed variable silently deleted 3000 items (INC-0004)&lt;/small&gt;</p>
+<ul>
+<li>[ ] In any set of multiple-choice content, count where the answers are. A positional tell makes the whole set worthless to a test-wise user, and it is invisible item by item.  </li>
+</ul>
+<p>&lt;small&gt;225 of 302 correct answers sat at position A (INC-0039)&lt;/small&gt;</p>
+<ul>
+<li>[ ] Test your content against the strategies a lazy adversary would use, not only against whether it is correct. Measure the score of a rule that ignores the question.  </li>
+</ul>
+<p>&lt;small&gt;The longest option was the correct answer 81 percent of the time (INC-0044)&lt;/small&gt;</p>
 <ul>
 <li>[ ] A deduplication key must be canonical under every transformation the item legitimately undergoes. Ask what varies per draw before you hash.  </li>
 </ul>
@@ -1191,6 +1401,14 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 </ul>
 <p>&lt;small&gt;Unescaped quotes in onclick strings took the whole app down (INC-0001)&lt;/small&gt;</p>
 <ul>
+<li>[ ] The moment a single-tenant store becomes multi-tenant, every key in it is a collision waiting to happen. Enumerate the writers before you add the second tenant, not after.  </li>
+</ul>
+<p>&lt;small&gt;One exam's progress blob overwrote another's (INC-0038)&lt;/small&gt;</p>
+<ul>
+<li>[ ] A conditional that treats not-A as the original case is a bug the day a third case exists. Resolve variants from data, and the third one costs a row rather than a search.  </li>
+</ul>
+<p>&lt;small&gt;The GRE app told GRE students to calibrate at the wrong test maker's site (INC-0043)&lt;/small&gt;</p>
+<ul>
 <li>[ ] Nobody notices a page getting slower one commit at a time. Put the number in a test the first time you care about it, not the first time somebody complains.  </li>
 </ul>
 <p>&lt;small&gt;The whole bank blocked first paint: 20 seconds to the first question on 3G (INC-0015)&lt;/small&gt;</p>
@@ -1206,6 +1424,10 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>[ ] A fixed rounding rule is wrong at one end of the range or the other. Pick the precision from the magnitude, and write the expected number down before you write the code that produces it.  </li>
 </ul>
 <p>&lt;small&gt;ARR was rounded to whole dollars and lost real money at small scale (INC-0032)&lt;/small&gt;</p>
+<ul>
+<li>[ ] Anything that reports failures must not be able to report its own. Check whether each call rejects or throws before you wrap it, and make the reporting path unable to re-enter itself.  </li>
+</ul>
+<p>&lt;small&gt;The error reporter reported its own failures, in a loop (INC-0045)&lt;/small&gt;</p>
 <h2 id="infrastructure-and-deploy">Infrastructure and deploy</h2>
 <ul>
 <li>[ ] Two hostnames are two origins and therefore two of everything the browser scopes by origin. Pick one and redirect on the server, not in a meta tag.  </li>
@@ -1223,12 +1445,28 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>[ ] Know your platform's hard limits and assert them in the build. A deploy-time rejection is a bad place to learn a number your build could have told you.  </li>
 </ul>
 <p>&lt;small&gt;A 29.88 MiB bank file would have failed the deploy the moment it merged (INC-0027)&lt;/small&gt;</p>
+<ul>
+<li>[ ] A guard that is a hand-kept list of safe paths is written by the same hand that made the mistake. Derive the safe set from the artefact, not from memory.  </li>
+</ul>
+<p>&lt;small&gt;Excluding the design directory would have shipped the legal pages with no styling (INC-0047)&lt;/small&gt;</p>
 <h2 id="interface-and-data-display">Interface and data display</h2>
 <ul>
 <li>[ ] Chart form is a claim about the data. A line claims the values in between existed. Ask whether that claim is true before choosing it.  </li>
 </ul>
 <p>&lt;small&gt;A line chart interpolated between discrete money events (INC-0034)&lt;/small&gt;</p>
+<ul>
+<li>[ ] Never encode a state by colour alone. The word also survives greyscale printing, forced-colors mode and a glance from across a room, so it is better for everyone and not only for the people it is required by.  </li>
+</ul>
+<p>&lt;small&gt;Two games signalled right and wrong by colour alone (INC-0052)&lt;/small&gt;</p>
 <h2 id="payments">Payments</h2>
+<ul>
+<li>[ ] Row Level Security is row-level. Which columns a role may write is a separate grant, and anything money depends on belongs to the service role alone.  </li>
+</ul>
+<p>&lt;small&gt;A signed-in user could grant themselves a paid plan (INC-0041)&lt;/small&gt;</p>
+<ul>
+<li>[ ] Enumerate every value a third-party status field can take before you branch on one of them. The value you did not think of is usually the one that matters commercially.  </li>
+</ul>
+<p>&lt;small&gt;Every trialing subscriber would have been left on the free plan (INC-0042)&lt;/small&gt;</p>
 <ul>
 <li>[ ] Idempotency belongs in the database, not in the handler. Handlers race; unique indexes do not.  </li>
 </ul>
@@ -1243,6 +1481,10 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>&lt;small&gt;Cancellation erases the number you need to record the cancellation (INC-0037)&lt;/small&gt;</p>
 <h2 id="scoring-and-selection">Scoring and selection</h2>
 <ul>
+<li>[ ] If your system branches on difficulty, measure that the branches actually differ. A label is not a property.  </li>
+</ul>
+<p>&lt;small&gt;The easier module was not easier (INC-0040)&lt;/small&gt;</p>
+<ul>
 <li>[ ] Check that your instrumentation fired at all before you trust anything built on it. An empty table looks identical to a quiet week.  </li>
 </ul>
 <p>&lt;small&gt;The adaptive engine was learning from nobody (INC-0005)&lt;/small&gt;</p>
@@ -1250,6 +1492,10 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>[ ] A type system spread across a renderer and a grader will drift. The cheapest guard is one that exercises every variant end to end, once.  </li>
 </ul>
 <p>&lt;small&gt;Sentence equivalence items were unanswerable however well you answered (INC-0006)&lt;/small&gt;</p>
+<ul>
+<li>[ ] When you add a filter, find every path that adds items after the filter runs. A gate on the entry point is not a gate on the set.  </li>
+</ul>
+<p>&lt;small&gt;Fixing repeats directly left a side door through passage groups (INC-0051)&lt;/small&gt;</p>
 <h2 id="search-and-metadata">Search and metadata</h2>
 <ul>
 <li>[ ] A refactor that moves data has to be followed to every reader, and a loop over nothing is the quietest failure in programming. Derive counts from one source and assert they agree.  </li>
@@ -1259,6 +1505,10 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>[ ] Any number in user-facing copy that describes the size of something must be computed from that thing at build time. The moment it is typed, it has a half-life.  </li>
 </ul>
 <p>&lt;small&gt;A hardcoded count in the meta description went stale, and Google showed it (INC-0014)&lt;/small&gt;</p>
+<ul>
+<li>[ ] When one model feeds two pages, generate both from the model in the same pass. Two places that must agree will not, and the reader who notices is the reader you were trying to convince.  </li>
+</ul>
+<p>&lt;small&gt;Two pages told the same story with different numbers after a reweighting (INC-0049)&lt;/small&gt;</p>
 <h2 id="tests-and-guards">Tests and guards</h2>
 <ul>
 <li>[ ] Measure the moment the user can act, not a browser lifecycle event. A test that measures the wrong instant is worse than no test, because it produces a number people trust.  </li>
@@ -1292,6 +1542,18 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>[ ] Before you measure a layout, assert the thing is rendered. Hidden elements answer most DOM questions, and they answer them wrongly.  </li>
 </ul>
 <p>&lt;small&gt;The dashboard test measured a hidden element and passed (INC-0033)&lt;/small&gt;</p>
+<ul>
+<li>[ ] An error feed with no filter is a feed nobody reads. Signal has to be defended, and the cheapest defence is a human label that mutes permanently, so the queue gets quieter as it learns.  </li>
+</ul>
+<p>&lt;small&gt;The error queue was 81 percent other people's blocked scripts (INC-0046)&lt;/small&gt;</p>
+<ul>
+<li>[ ] A guard that reads the repository needs the repository. CI checkouts are shallow by default, and anything that walks history, blames a line or resolves an old hash will fail in a way that looks like the data is wrong rather than the clone.  </li>
+</ul>
+<p>&lt;small&gt;The playbook's own citation guard failed CI on its first run (INC-0053)&lt;/small&gt;</p>
+<ul>
+<li>[ ] When you add a condition that skips a check, make sure it describes the failure and not something merely correlated with it. A skip is indistinguishable from a pass in the output, so the fix for a noisy check can silently delete it.  </li>
+</ul>
+<p>&lt;small&gt;The first fix asked the wrong question and muted a working check (INC-0054)&lt;/small&gt;</p>
 <h1 id="adapting-this-to-a-different-business">Adapting This to a Different Business</h1>
 <p>Most of this book is about a test-preparation platform. This chapter separates what was specific to that from what was structural, so you know what to keep.</p>
 <h2 id="what-was-specific">What was specific</h2>
@@ -1347,7 +1609,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p><code>python3 src/build_playbook.py</code> writes four files into <code>playbook/bootstrap/</code>, all generated from the same ledger as the book, so none of them can drift from it.</p>
 <p><strong><code>CLAUDE.template.md</code></strong> goes in the new repository's root. Claude Code reads it on every turn. It is the constitution: the house rules, the never-invent-a-value rule, the sourcing rules, the communication rule, and a short architecture section you fill in as you build. Four bracketed blanks at the top are the only things you have to change.</p>
 <p><strong><code>KICKOFF.md</code></strong> is the literal first message for a new conversation. It sets the working agreement, the phase order, and what a session should report. Paste it, then describe your business idea underneath it.</p>
-<p><strong><code>RULES_DIGEST.md</code></strong> is every lesson in the defect ledger, compressed to one line each and grouped by area. It is about three pages. This is the highest value-per-token artefact in the whole project: 37 real defects reduced to the rules that prevent them, with the specifics of this codebase stripped out.</p>
+<p><strong><code>RULES_DIGEST.md</code></strong> is every lesson in the defect ledger, compressed to one line each and grouped by area. It is about three pages. This is the highest value-per-token artefact in the whole project: 54 real defects reduced to the rules that prevent them, with the specifics of this codebase stripped out.</p>
 <p><strong><code>incidents.jsonl</code></strong> is the raw ledger, copied so the new project can start appending to it on day one rather than starting an empty one.</p>
 <h2 id="how-to-load-it-by-surface">How to load it, by surface</h2>
 <p><strong>Claude Code, new repository.</strong> Copy <code>CLAUDE.template.md</code> to the repo root as <code>CLAUDE.md</code>, fill in the four blanks, and copy <code>incidents.jsonl</code> to <code>data/playbook/incidents.jsonl</code>. Copy <code>src/build_playbook.py</code> too, so the new project's own ledger becomes its own book from the first defect. Then open a session with <code>KICKOFF.md</code> as the first message.</p>
@@ -1357,7 +1619,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three reasons, and they are worth understanding rather than just following.</p>
 <p><strong>Retrieval beats repetition.</strong> A document in project knowledge is consulted when relevant. The same document in the prompt is re-read on every single turn, at full cost, mostly when it is irrelevant. For anything longer than a few pages, retrieval is strictly better.</p>
 <p><strong>Instructions need to be short enough to be followed.</strong> A rule competing with ten thousand words of context is a rule that gets applied inconsistently. The digest is deliberately brutal: one line per lesson, imperative mood, no examples. The examples are in the book, where they can be looked up when a rule seems wrong.</p>
-<p><strong>The ledger is the part that compounds.</strong> The recipe chapters age. The rules do not, because each one is the residue of a real failure, and the failure modes of software are considerably more stable than its tooling. A new project that starts with 37 defects already prevented is genuinely ahead, and every defect it hits of its own makes the next project further ahead still.</p>
+<p><strong>The ledger is the part that compounds.</strong> The recipe chapters age. The rules do not, because each one is the residue of a real failure, and the failure modes of software are considerably more stable than its tooling. A new project that starts with 54 defects already prevented is genuinely ahead, and every defect it hits of its own makes the next project further ahead still.</p>
 <h2 id="keeping-the-loop-closed">Keeping the loop closed</h2>
 <p>The pack is only worth carrying forward if the new project feeds it back. So the working agreement in <code>KICKOFF.md</code> includes one instruction that does the whole job:</p>
 <p>&gt; When something breaks, append a record to <code>data/playbook/incidents.jsonl</code> before fixing &gt; it, while you still remember what you believed was true five minutes ago.</p>

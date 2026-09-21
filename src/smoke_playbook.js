@@ -57,12 +57,25 @@ ok(text.includes(String(rows.length) + ' recorded defects') || read(htm).include
   'the stated incident count matches the ledger');
 const ids = new Set(rows.map(r => r.id));
 ok(ids.size === rows.length, 'incident ids are unique');
-// A citation nobody can check is the thing this whole project exists to avoid.
-const badCommit = rows.filter(r => r.commit && (() => {
+// A citation nobody can check is the thing this whole project exists to avoid. But a
+// shallow clone has no historical commits at all, and reporting every citation as broken
+// because the history is missing is a checker crying wolf, which is its own ledger entry.
+// So the two cases are distinguished and only one of them is a failure.
+const cites = rows.filter(r => r.commit);
+const badCommit = cites.filter(r => {
   try { return execFileSync('git', ['cat-file', '-t', r.commit], { cwd: ROOT }).toString().trim() !== 'commit'; }
   catch (e) { return true; }
-})());
-ok(badCommit.length === 0, 'every cited commit exists' + (badCommit.length ? ': ' + badCommit.map(r => r.id).join(', ') : ''));
+});
+// "is-shallow-repository" is the wrong question: a clone can be shallow and still hold
+// every commit the ledger cites, which is the normal case here. The question that
+// actually distinguishes the two failures is whether ANY citation resolved. None at all
+// means the history is absent; some means those particular citations are wrong.
+if (badCommit.length === cites.length && cites.length > 0) {
+  console.log('  --   cited commits NOT verified: no citation resolved, so this clone has ' +
+              'no history rather than ' + cites.length + ' bad citations. Use fetch-depth: 0.');
+} else {
+  ok(badCommit.length === 0, 'every cited commit exists' + (badCommit.length ? ': ' + badCommit.map(r => r.id).join(', ') : ''));
+}
 const badFile = rows.filter(r => r.guard_file && !fs.existsSync(path.join(ROOT, r.guard_file)));
 ok(badFile.length === 0, 'every cited guard file exists' + (badFile.length ? ': ' + badFile.map(r => r.id).join(', ') : ''));
 // Every incident must reach the checklist, because the checklist is generated from the

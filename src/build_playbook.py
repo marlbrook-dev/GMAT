@@ -200,7 +200,17 @@ def validate_incidents(rows):
     exists to avoid."""
     need = ['id', 'date', 'title', 'area', 'severity', 'symptom', 'root_cause',
             'detection', 'detection_class', 'fix', 'lesson']
+    # A clone with no history reports every citation as broken, which is a checker crying
+    # wolf, and a tool that cries wolf gets muted. "Is this shallow" is the wrong question,
+    # because a shallow clone usually still holds every commit the ledger cites. The
+    # question that separates the two is whether ANY citation resolved at all.
+    cited = [r['commit'] for r in rows if r.get('commit')]
+    resolved = sum(1 for c in cited if sh('git', 'cat-file', '-t', c) == 'commit')
+    no_history = bool(cited) and resolved == 0
     problems = []
+    if no_history:
+        print('  note: no cited commit resolved, so this clone has no history; '
+              'citations not verified')
     seen = set()
     for r in rows:
         for k in need:
@@ -216,7 +226,7 @@ def validate_incidents(rows):
         if r.get('detection_class') not in DET_LABEL:
             problems.append('%s has unknown detection_class %s' % (r['id'], r.get('detection_class')))
         c = r.get('commit')
-        if c and sh('git', 'cat-file', '-t', c) != 'commit':
+        if c and not no_history and sh('git', 'cat-file', '-t', c) != 'commit':
             problems.append('%s cites commit %s, which does not exist' % (r['id'], c))
         g = r.get('guard_file')
         if g and not os.path.exists(os.path.join(ROOT, g)):

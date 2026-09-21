@@ -7,10 +7,10 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-08-17 and 2026-09-21, which is 35 days, across
-64 commits, by one owner directing a series of AI coding sessions. As of this
-build it is 37 Python files, 87 JavaScript files, 24
-TypeScript edge functions, 32 migrations and 41 documents:
-1915 tracked files in total.
+65 commits, by one owner directing a series of AI coding sessions. As of this
+build it is 38 Python files, 89 JavaScript files, 24
+TypeScript edge functions, 32 migrations and 63 documents:
+1945 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -195,7 +195,7 @@ the thing that would have caught it.
 ## Phase 0: the rules file, before any code
 
 Write the project's standing rules into a file the AI session reads on every turn. On this
-project that is `CLAUDE.md`, 41 documents in, and it is still the highest
+project that is `CLAUDE.md`, 63 documents in, and it is still the highest
 leverage file in the repository.
 
 It is not documentation. It is the constitution, and it should contain only things that
@@ -393,6 +393,7 @@ The build is the first rung. Above it, in the order they run:
 - `src/smoke_load.js`
 - `src/smoke_offline.js`
 - `src/smoke_pages.js`
+- `src/smoke_playbook.js`
 - `src/smoke_rankings.js`
 - `src/smoke_redirect.js`
 - `src/smoke_sharing.js`
@@ -400,7 +401,7 @@ The build is the first rung. Above it, in the order they run:
 - `src/test.js`
 - `src/weekly_audit.js`
 
-19 test files in total. The layering is deliberate:
+20 test files in total. The layering is deliberate:
 
 1. **The build** catches structural problems in the artefact.
 2. **Engine tests** run the domain logic headlessly, once per exam.
@@ -1023,7 +1024,7 @@ remembers it was a placeholder.
 
 # Tests and Guards
 
-19 test files, and the interesting thing about them is not what they assert.
+20 test files, and the interesting thing about them is not what they assert.
 It is that the analysis chapter can count how defects were **actually** found, and the
 answer reshapes where you put effort.
 
@@ -1116,7 +1117,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-64 commits in 35 days, one owner, a series of AI sessions. This
+65 commits in 35 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1208,21 +1209,21 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-37 recorded defects, over 35 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+54 recorded defects, over 35 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 15 | 41% |
-| Found by measuring something | 9 | 24% |
-| A test caught it | 7 | 19% |
-| Found by rendering it and looking | 3 | 8% |
-| Found by a review bot or an adversarial pass | 2 | 5% |
-| A person hit it | 1 | 3% |
+| Found by reading the code or the output | 23 | 43% |
+| Found by measuring something | 14 | 26% |
+| A test caught it | 8 | 15% |
+| Found by rendering it and looking | 4 | 7% |
+| Found by a review bot or an adversarial pass | 4 | 7% |
+| A person hit it | 1 | 2% |
 
-**This is the most useful table in the book.** 36 of 37 defects, 97 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 53 of 54 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1231,34 +1232,34 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 14 |
-| Silent loss | 11 |
-| Degraded | 6 |
-| Cosmetic | 4 |
+| Wrong data shown or stored | 22 |
+| Silent loss | 12 |
+| Degraded | 12 |
+| Cosmetic | 6 |
 | Site down | 2 |
 
-**Silent loss is the dominant failure mode**, at 11 of 37. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 12 of 54. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Tests and guards | 8 |
-| Content generation | 6 |
-| Front end | 5 |
-| Infrastructure and deploy | 4 |
-| CSS and layout | 3 |
+| Tests and guards | 11 |
+| Front end | 8 |
+| Content generation | 8 |
+| CSS and layout | 5 |
+| Payments | 5 |
+| Infrastructure and deploy | 5 |
+| Scoring and selection | 4 |
+| Search and metadata | 3 |
 | Database | 3 |
-| Payments | 3 |
-| Search and metadata | 2 |
-| Scoring and selection | 2 |
-| Interface and data display | 1 |
+| Interface and data display | 2 |
 
 
 ## Guard coverage
 
-32 of 37 defects produced an automated guard. 5 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+48 of 54 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1267,19 +1268,25 @@ Carried by attention:
 - **INC-0025** A stale edge cache made a fixed 404 look like a live 200
 - **INC-0034** A line chart interpolated between discrete money events
 - **INC-0036** charge.amount_refunded is cumulative, so partial refunds double-count
+- **INC-0045** The error reporter reported its own failures, in a loop
 
 
 ## Guards that fired twice
 
 A guard named by two incidents is a guard that did not hold the first time. These are the places to spend effort.
 
+- `src/test.js` appears in INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044
 - `src/build_banks.py` appears in INC-0003, INC-0007, INC-0008, INC-0009, INC-0011
 - `src/build.py` appears in INC-0001, INC-0002, INC-0017, INC-0027
+- `src/weekly_audit.js` appears in INC-0050, INC-0048, INC-0018
+- `src/review_bot.js` appears in INC-0022, INC-0026, INC-0051
+- `src/smoke_redirect.js` appears in INC-0023, INC-0024, INC-0047
+- `src/build_rankings.py` appears in INC-0014, INC-0049
 - `src/smoke_load.js` appears in INC-0015, INC-0016
-- `src/review_bot.js` appears in INC-0022, INC-0026
-- `src/smoke_redirect.js` appears in INC-0023, INC-0024
 - `src/smoke_charts.js` appears in INC-0029, INC-0030
+- `.github/workflows/ci.yml` appears in INC-0031, INC-0053
 - `src/smoke_business.js` appears in INC-0032, INC-0033
+- `src/app_template.html` appears in INC-0046, INC-0052
 
 
 # The Defect Ledger
@@ -1289,7 +1296,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Tests and guards (8)
+## Tests and guards (11)
 
 
 ### INC-0016. The performance test waited for the load event, which waits for the thing being optimised
@@ -1396,88 +1403,46 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** Before you measure a layout, assert the thing is rendered. Hidden elements answer most DOM questions, and they answer them wrongly.
 
 
-## Content generation (6)
+### INC-0046. The error queue was 81 percent other people's blocked scripts
+
+*2026-09-21, Degraded, `c4698e0` PR #52*
+
+- **What was seen.** 1,202 of the first 1,490 rows in the error table were one third-party beacon being blocked by ad blockers.
+- **Why.** The handler captured every error on the page, including ones from scripts the site does not control and cannot fix.
+- **How it surfaced.** Clustering the rows and looking at the largest cluster. (Found by measuring something)
+- **Fix.** Filter third-party script errors, and give the triage queue a permanent noise label.
+- **What stops it now.** the triage queue mutes a cluster marked noise in `src/app_template.html`
+- **Cost.** a monitoring surface that was 81 percent noise
+- **Lesson.** An error feed with no filter is a feed nobody reads. Signal has to be defended, and the cheapest defence is a human label that mutes permanently, so the queue gets quieter as it learns.
 
 
-### INC-0003. Item banks were different on every build because Python randomises hash()
+### INC-0053. The playbook's own citation guard failed CI on its first run
 
-*2026-09-16, Wrong data shown or stored, `0d6c357` PR #33*
+*2026-09-21, Cosmetic, PR #62*
 
-- **What was seen.** Two builds of the same commit produced different banks, and the per-section bias figures pinned in the test file drifted run to run.
-- **Why.** build_banks.py seeded each category with abs(hash(exam + skill)). Python randomises string hashing per process by default.
-- **How it surfaced.** A pinned test figure would not stay pinned. (A test caught it)
-- **Fix.** Seed from zlib.crc32, which is stable across processes.
-- **What stops it now.** three consecutive builds must produce identical output in `src/build_banks.py`
-- **Cost.** a flaky ratchet that would have been disabled eventually
-- **Lesson.** Any generator that claims reproducibility must be seeded from something stable across processes. hash() is not, in Python, and the failure shows up as a flaky test rather than as a wrong answer.
-
-
-### INC-0004. A shadowed variable silently deleted 3000 items
-
-*2026-09-16, Silent loss, `aecccd9` PR #37*
-
-- **What was seen.** ACT Maths dropped from 4500 items to 1500 and the build reported success.
-- **Why.** Adding an ACT English mapping declared a second ACT_MAP that shadowed the existing one. Nothing errors when a map is smaller than it used to be.
-- **How it surfaced.** Comparing the reported category counts against the previous build. (Found by measuring something)
-- **Fix.** Merge the maps properly and read the section per skill.
-- **What stops it now.** the build prints per-category counts and the test file pins them in `src/test.js`
-- **Cost.** 3000 items, caught before merge
-- **Lesson.** Deletion by shadowing is invisible. Any collection whose size is a fact about the product needs its size asserted, not just its contents.
+- **What was seen.** CI reported all 37 cited commits as nonexistent, with 'fatal: Not a valid object name' for every one.
+- **Why.** The checkout action shallow-clones by default, so no historical commit is present in the CI working copy. The guard was correct and its environment assumption was not.
+- **How it surfaced.** The first CI run of the guard. (A test caught it)
+- **Fix.** fetch-depth: 0 on the checkout so the history is actually there to check.
+- **What stops it now.** fetch-depth: 0 in the workflow in `.github/workflows/ci.yml`
+- **Cost.** one red CI run
+- **Lesson.** A guard that reads the repository needs the repository. CI checkouts are shallow by default, and anything that walks history, blames a line or resolves an old hash will fail in a way that looks like the data is wrong rather than the clone.
 
 
-### INC-0007. The dedup key counted a reshuffled question as a new one
+### INC-0054. The first fix asked the wrong question and muted a working check
 
-*2026-09-17, Wrong data shown or stored, `fc4114c` PR #39*
+*2026-09-21, Silent loss, PR #62*
 
-- **What was seen.** Bank counts were inflated. The same question with its options rearranged looked distinct.
-- **Why.** canon() hashed the choices in the order they appeared, while the answer's position is randomised per draw.
-- **How it surfaced.** Sorting the choices before hashing, which immediately collapsed the counts. (Found by reading the code or the output)
-- **Fix.** Sort the choices inside canon().
-- **What stops it now.** canon() sorts, and the build reports distinct counts per category in `src/build_banks.py`
-- **Cost.** four ACT categories reported far above their real size
-- **Lesson.** A deduplication key must be canonical under every transformation the item legitimately undergoes. Ask what varies per draw before you hash.
-
-
-### INC-0008. Four passages produced five hundred fake distinct questions
-
-*2026-09-17, Wrong data shown or stored, `61c3ed2` PR #40*
-
-- **What was seen.** A reading generator with four passages reported five hundred distinct stated-idea items.
-- **Why.** The identity of a reading item is the passage plus the question asked, not the choices offered. The same stem with the same key varied only in which distractors came along.
-- **How it surfaced.** Reading the generated output rather than its count. (Found by reading the code or the output)
-- **Fix.** canon() lets a generator declare that its identity is the passage plus the question.
-- **What stops it now.** per-category distinct counts printed at build time in `src/build_banks.py`
-- **Cost.** would have shipped a bank five hundred deep and four questions wide
-- **Lesson.** The same inflation arrives through a different door every time you close one. When you fix a dedup bug, ask what else shares an identity.
+- **What was seen.** After guarding on 'is this a shallow clone', the citation check stopped running locally, where it had been working perfectly and verifying all 52 citations.
+- **Why.** This clone is shallow and still holds every commit the ledger cites, which is the normal case. Shallowness does not imply missing history, so the guard disabled itself in the one environment where it was useful.
+- **How it surfaced.** Reading the output after the fix and noticing a check had turned into a skip. (Found by reading the code or the output)
+- **Fix.** Ask whether ANY citation resolved. None at all means the history is absent; some means those particular citations are wrong.
+- **What stops it now.** the check degrades only when zero citations resolve in `src/smoke_playbook.js`
+- **Cost.** a working check disabled for the length of one edit
+- **Lesson.** When you add a condition that skips a check, make sure it describes the failure and not something merely correlated with it. A skip is indistinguishable from a pass in the output, so the fix for a noisy check can silently delete it.
 
 
-### INC-0009. Two conditionals hashed identically and half the inference items would have vanished
-
-*2026-09-17, Silent loss, `61c3ed2` PR #40*
-
-- **What was seen.** Half of a passage's inference questions disappeared from the corpus.
-- **Why.** Both conditionals produced the stem 'which of the following can be properly inferred from the passage', so they hashed to the same value and one was dropped as a duplicate.
-- **How it surfaced.** Measuring true yield per passage. (Found by measuring something)
-- **Fix.** Each conditional names the case it asks about.
-- **What stops it now.** yield per passage is measured and recorded, not assumed in `src/build_banks.py`
-- **Cost.** half the inference items in any corpus
-- **Lesson.** Dedup can be wrong in both directions. An over-broad key deletes real content as silently as a narrow one inflates it.
-
-
-### INC-0011. A length guard silently dropped sixteen valid items
-
-*2026-09-17, Silent loss, `61c3ed2` PR #40*
-
-- **What was seen.** Sixteen items never appeared in the bank.
-- **Why.** The guard measured characters, and the items were legitimately longer than the limit in characters while being normal in content.
-- **How it surfaced.** Counting inputs against outputs. (Found by measuring something)
-- **Fix.** Measure what the guard actually cares about.
-- **What stops it now.** input and output counts are compared at every filter stage in `src/build_banks.py`
-- **Cost.** sixteen items
-- **Lesson.** Every filter needs its rejection count reported. A filter that silently drops is indistinguishable from an input that was never there.
-
-
-## Front end (5)
+## Front end (8)
 
 
 ### INC-0001. Unescaped quotes in onclick strings took the whole app down
@@ -1491,6 +1456,32 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **What stops it now.** build.py node-parses every inline script and fails the build on a syntax error in `src/build.py`
 - **Cost.** a live outage of the trainer
 - **Lesson.** Generated code is code. If your build writes JavaScript into a string, the build must parse the result, because the blast radius of one bad character is the whole file, not the line.
+
+
+### INC-0038. One exam's progress blob overwrote another's
+
+*2026-09-16, Wrong data shown or stored, `81eecec` PR #30*
+
+- **What was seen.** None shipped: caught before release. A student practising two exams would have had one exam's progress destroyed by the other.
+- **Why.** Progress was stored under a single key. Making the engine multi-exam added a second writer to the same slot without keying the slot by exam.
+- **How it surfaced.** Reviewing the cross-exam data paths while adding the second exam. (Found by reading the code or the output)
+- **Fix.** Key the stored state per exam.
+- **What stops it now.** engine tests run once per exam and assert progress isolation in `src/test.js`
+- **Cost.** would have destroyed real progress
+- **Lesson.** The moment a single-tenant store becomes multi-tenant, every key in it is a collision waiting to happen. Enumerate the writers before you add the second tenant, not after.
+
+
+### INC-0043. The GRE app told GRE students to calibrate at the wrong test maker's site
+
+*2026-09-16, Wrong data shown or stored, `1a003bb` PR #34*
+
+- **What was seen.** A shipped application displayed a score card headed with a different exam's name and linked students to that exam's official site.
+- **Why.** The template forked on the exam id in seven places and treated not-SAT as the original exam. Adding a third exam made every one of those branches wrong.
+- **How it surfaced.** Reading the built page for the third exam. (Found by reading the code or the output)
+- **Fix.** Per-exam copy moved into the registry and resolved from the injected exam id.
+- **What stops it now.** a headless check asserts each app names itself in `src/test.js`
+- **Cost.** a live app misidentifying itself
+- **Lesson.** A conditional that treats not-A as the original case is a bug the day a third case exists. Resolve variants from data, and the third one costs a row rather than a search.
 
 
 ### INC-0015. The whole bank blocked first paint: 20 seconds to the first question on 3G
@@ -1545,7 +1536,263 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** A fixed rounding rule is wrong at one end of the range or the other. Pick the precision from the magnitude, and write the expected number down before you write the code that produces it.
 
 
-## Infrastructure and deploy (4)
+### INC-0045. The error reporter reported its own failures, in a loop
+
+*2026-09-21, Degraded, `c4698e0` PR #52*
+
+- **What was seen.** 267 rows in the error table, one per page a crawler swept.
+- **Why.** fetch rejects on a network error, it does not throw, so the try/catch around the reporting call caught nothing. The rejected promise reached the unhandledrejection handler, which called the reporter again. The analytics beacon had the identical trap.
+- **How it surfaced.** Reading the error table and noticing the shape of the rows. (Found by measuring something)
+- **Fix.** Handle the rejection, and never report from inside the reporter.
+- **What stops it now.** Nothing automated. This one is still carried by attention.
+- **Cost.** 267 junk rows and a self-sustaining loop
+- **Lesson.** Anything that reports failures must not be able to report its own. Check whether each call rejects or throws before you wrap it, and make the reporting path unable to re-enter itself.
+
+
+## Content generation (8)
+
+
+### INC-0003. Item banks were different on every build because Python randomises hash()
+
+*2026-09-16, Wrong data shown or stored, `0d6c357` PR #33*
+
+- **What was seen.** Two builds of the same commit produced different banks, and the per-section bias figures pinned in the test file drifted run to run.
+- **Why.** build_banks.py seeded each category with abs(hash(exam + skill)). Python randomises string hashing per process by default.
+- **How it surfaced.** A pinned test figure would not stay pinned. (A test caught it)
+- **Fix.** Seed from zlib.crc32, which is stable across processes.
+- **What stops it now.** three consecutive builds must produce identical output in `src/build_banks.py`
+- **Cost.** a flaky ratchet that would have been disabled eventually
+- **Lesson.** Any generator that claims reproducibility must be seeded from something stable across processes. hash() is not, in Python, and the failure shows up as a flaky test rather than as a wrong answer.
+
+
+### INC-0004. A shadowed variable silently deleted 3000 items
+
+*2026-09-16, Silent loss, `aecccd9` PR #37*
+
+- **What was seen.** ACT Maths dropped from 4500 items to 1500 and the build reported success.
+- **Why.** Adding an ACT English mapping declared a second ACT_MAP that shadowed the existing one. Nothing errors when a map is smaller than it used to be.
+- **How it surfaced.** Comparing the reported category counts against the previous build. (Found by measuring something)
+- **Fix.** Merge the maps properly and read the section per skill.
+- **What stops it now.** the build prints per-category counts and the test file pins them in `src/test.js`
+- **Cost.** 3000 items, caught before merge
+- **Lesson.** Deletion by shadowing is invisible. Any collection whose size is a fact about the product needs its size asserted, not just its contents.
+
+
+### INC-0039. 225 of 302 correct answers sat at position A
+
+*2026-09-16, Wrong data shown or stored, `81eecec` PR #30*
+
+- **What was seen.** Three quarters of the correct answers in a new bank were the first option.
+- **Why.** Items were authored with the key written first and the position never randomised.
+- **How it surfaced.** Counting the key positions, a check nobody had run. (Found by measuring something)
+- **Fix.** Randomise the key position per draw.
+- **What stops it now.** the test suite pins the key-position distribution in `src/test.js`
+- **Cost.** a bank that could be beaten without reading it
+- **Lesson.** In any set of multiple-choice content, count where the answers are. A positional tell makes the whole set worthless to a test-wise user, and it is invisible item by item.
+
+
+### INC-0044. The longest option was the correct answer 81 percent of the time
+
+*2026-09-16, Wrong data shown or stored, `425a8bb` PR #35*
+
+- **What was seen.** A student who picked the longest option without reading the question scored 81 percent against a chance level of 20.
+- **Why.** Distractors were shorter than keys because a correct answer is naturally more qualified, and nothing measured the resulting length distribution.
+- **How it surfaced.** Measuring the accuracy of a strategy that ignores the question entirely. (Found by measuring something)
+- **Fix.** About ninety items had distractors rewritten to carry comparable development, each added clause chosen to leave the option wrong for the reason it was already wrong. 81 percent to 38, then to chance in a later pass.
+- **What stops it now.** a ratchet pins the length tell and fails if it rises in `src/test.js`
+- **Cost.** a section that could be beaten without reading it
+- **Lesson.** Test your content against the strategies a lazy adversary would use, not only against whether it is correct. Measure the score of a rule that ignores the question.
+
+
+### INC-0007. The dedup key counted a reshuffled question as a new one
+
+*2026-09-17, Wrong data shown or stored, `fc4114c` PR #39*
+
+- **What was seen.** Bank counts were inflated. The same question with its options rearranged looked distinct.
+- **Why.** canon() hashed the choices in the order they appeared, while the answer's position is randomised per draw.
+- **How it surfaced.** Sorting the choices before hashing, which immediately collapsed the counts. (Found by reading the code or the output)
+- **Fix.** Sort the choices inside canon().
+- **What stops it now.** canon() sorts, and the build reports distinct counts per category in `src/build_banks.py`
+- **Cost.** four ACT categories reported far above their real size
+- **Lesson.** A deduplication key must be canonical under every transformation the item legitimately undergoes. Ask what varies per draw before you hash.
+
+
+### INC-0008. Four passages produced five hundred fake distinct questions
+
+*2026-09-17, Wrong data shown or stored, `61c3ed2` PR #40*
+
+- **What was seen.** A reading generator with four passages reported five hundred distinct stated-idea items.
+- **Why.** The identity of a reading item is the passage plus the question asked, not the choices offered. The same stem with the same key varied only in which distractors came along.
+- **How it surfaced.** Reading the generated output rather than its count. (Found by reading the code or the output)
+- **Fix.** canon() lets a generator declare that its identity is the passage plus the question.
+- **What stops it now.** per-category distinct counts printed at build time in `src/build_banks.py`
+- **Cost.** would have shipped a bank five hundred deep and four questions wide
+- **Lesson.** The same inflation arrives through a different door every time you close one. When you fix a dedup bug, ask what else shares an identity.
+
+
+### INC-0009. Two conditionals hashed identically and half the inference items would have vanished
+
+*2026-09-17, Silent loss, `61c3ed2` PR #40*
+
+- **What was seen.** Half of a passage's inference questions disappeared from the corpus.
+- **Why.** Both conditionals produced the stem 'which of the following can be properly inferred from the passage', so they hashed to the same value and one was dropped as a duplicate.
+- **How it surfaced.** Measuring true yield per passage. (Found by measuring something)
+- **Fix.** Each conditional names the case it asks about.
+- **What stops it now.** yield per passage is measured and recorded, not assumed in `src/build_banks.py`
+- **Cost.** half the inference items in any corpus
+- **Lesson.** Dedup can be wrong in both directions. An over-broad key deletes real content as silently as a narrow one inflates it.
+
+
+### INC-0011. A length guard silently dropped sixteen valid items
+
+*2026-09-17, Silent loss, `61c3ed2` PR #40*
+
+- **What was seen.** Sixteen items never appeared in the bank.
+- **Why.** The guard measured characters, and the items were legitimately longer than the limit in characters while being normal in content.
+- **How it surfaced.** Counting inputs against outputs. (Found by measuring something)
+- **Fix.** Measure what the guard actually cares about.
+- **What stops it now.** input and output counts are compared at every filter stage in `src/build_banks.py`
+- **Cost.** sixteen items
+- **Lesson.** Every filter needs its rejection count reported. A filter that silently drops is indistinguishable from an input that was never there.
+
+
+## CSS and layout (5)
+
+
+### INC-0050. A landing-page icon referenced a colour token that did not exist
+
+*2026-08-19, Cosmetic, `5337dfd`*
+
+- **What was seen.** One game icon on the landing grid rendered without its colour.
+- **Why.** An undefined custom property, which CSS treats as a fallback rather than an error.
+- **How it surfaced.** Looking at the page on a phone during a mobile pass. (Found by rendering it and looking)
+- **Fix.** Use a defined token.
+- **What stops it now.** weekly_audit checks computed colour on every page in `src/weekly_audit.js`
+- **Cost.** one icon, and the same root cause later cost a compliance control
+- **Lesson.** The same undefined-property failure will find you repeatedly, at every severity from one icon to an invisible legal control. One audit of computed colour catches the whole class.
+
+
+### INC-0010. CSS comments do not nest, and one placeholder killed the palette on 1451 pages
+
+*2026-09-17, Degraded, `61c3ed2` PR #40*
+
+- **What was seen.** The colour palette was gone from every college page. It looked like a design problem and was chased as one for hours.
+- **Why.** A `{{CHROME_CSS}}` placeholder was left inside an opening CSS comment in rankings_base.css. The first */ closes the outer comment, so everything after it was live CSS that overwrote the palette.
+- **How it surfaced.** Eventually, by reading the built CSS rather than the template. (Found by reading the code or the output)
+- **Fix.** Remove the nested comment.
+- **What stops it now.** Nothing automated. This one is still carried by attention.
+- **Cost.** hours, on 1451 pages
+- **Lesson.** CSS comments do not nest. When a whole page category loses its styling, read the built artefact, not the source that produced it.
+
+
+### INC-0048. Error recovery in the CSS parser swallowed the palette silently
+
+*2026-09-17, Degraded, `a920f5c` PR #41*
+
+- **What was seen.** Score bars rendered as empty gaps and panels lost their borders on 1,451 college pages and the rankings.
+- **Why.** A nested comment ended early, the leftover words became a selector, and the CSS parser's error recovery discarded the :root colour block that followed it. Every grey and navy variable on those pages resolved to nothing. There is no error anywhere in this chain; CSS is specified to recover and continue.
+- **How it surfaced.** The missing borders eventually gave it away, after the missing colours did not. (Found by reading the code or the output)
+- **Fix.** Remove the nested comment.
+- **What stops it now.** weekly_audit checks computed colour on every page in `src/weekly_audit.js`
+- **Cost.** the palette on over 1,450 pages
+- **Lesson.** CSS never fails loudly. A malformed rule is skipped, a bad selector eats the block after it, and an undefined variable paints as nothing. Anything that matters visually has to be asserted on the rendered page, because the parser will not tell you.
+
+
+### INC-0018. The Do Not Sell button was invisible from the day it shipped
+
+*2026-09-19, Degraded, `a34a798` PR #47*
+
+- **What was seen.** White text on a transparent background on a white page. A legally required control that nobody could see.
+- **Why.** The page referenced nine colour custom properties that exist nowhere. CSS does not treat an undefined custom property as an error; it falls back to the initial value and paints.
+- **How it surfaced.** An automated contrast audit across every page. (A test caught it)
+- **Fix.** Define the tokens and fix seven contrast failures, all site wide because all lived in shared chrome.
+- **What stops it now.** weekly_audit checks computed contrast on every page in `src/weekly_audit.js`
+- **Cost.** an invisible compliance control for the life of the page
+- **Lesson.** An undefined CSS custom property is silent. Audit computed colour, not authored colour, and do it on the rendered page.
+
+
+### INC-0029. A sequential colour ramp inverts direction between themes, and the label text did not
+
+*2026-09-21, Degraded, `8af7188` PR #61*
+
+- **What was seen.** White heatmap labels on a light cell in dark mode.
+- **Why.** A sequential ramp runs light to dark in a light theme and dark to light in a dark theme. The label colour was hardcoded white, so it was correct in one theme and unreadable in the other.
+- **How it surfaced.** Rendering the chart in dark mode and looking at it. (Found by rendering it and looking)
+- **Fix.** An --sfnc-on-seq token that flips with the theme.
+- **What stops it now.** smoke_charts asserts token parity between the light and dark blocks in `src/smoke_charts.js`
+- **Cost.** an unreadable chart in one theme
+- **Lesson.** A dark mode does not break by having a wrong colour. It breaks by missing one. Any colour paired with a ramp has to move with the ramp.
+
+
+## Payments (5)
+
+
+### INC-0041. A signed-in user could grant themselves a paid plan
+
+*2026-09-16, Wrong data shown or stored, `81eecec` PR #30*
+
+- **What was seen.** The plan column was writable by the authenticated role, so any signed-in browser session could set its own plan to the top tier.
+- **Why.** Column-level grants on the profiles table included the billing columns. Row Level Security controls which rows you can touch, not which columns.
+- **How it surfaced.** Auditing the grants rather than the policies. (Found by reading the code or the output)
+- **Fix.** Remove the billing columns from the grants entirely. Only the service role, used by the webhook, can write them.
+- **What stops it now.** the billing columns are absent from the column grants in `supabase/migrations/20260916_harden_plan_column_and_rpc_surface.sql`
+- **Cost.** free access to every paid tier
+- **Lesson.** Row Level Security is row-level. Which columns a role may write is a separate grant, and anything money depends on belongs to the service role alone.
+
+
+### INC-0042. Every trialing subscriber would have been left on the free plan
+
+*2026-09-16, Wrong data shown or stored, `81eecec` PR #30*
+
+- **What was seen.** A checkout that starts a free trial did not upgrade the account.
+- **Why.** The handler checked for a payment status of paid. A session that starts a trial settles as no payment required, which is not paid.
+- **How it surfaced.** Reading the processor's status vocabulary rather than assuming it. (Found by reading the code or the output)
+- **Fix.** Accept both settled states.
+- **What stops it now.** smoke_billing covers the trial path in both auth states in `src/smoke_billing.js`
+- **Cost.** every trial would have failed to grant access
+- **Lesson.** Enumerate every value a third-party status field can take before you branch on one of them. The value you did not think of is usually the one that matters commercially.
+
+
+### INC-0035. Two Stripe event types announce one new subscription
+
+*2026-09-21, Wrong data shown or stored, `8827e64` PR #62*
+
+- **What was seen.** None: caught in design. Logging new subscriptions from both checkout.session.completed and customer.subscription.created would have doubled new MRR.
+- **Why.** Stripe announces a new subscription through both events, with different event ids, in no guaranteed order.
+- **How it surfaced.** Working out the idempotency key before writing the handler. (Found by reading the code or the output)
+- **Fix.** A partial unique index on (source, subscription_id, kind) for the once-per-lifetime kinds, so the database decides rather than whichever event arrived first.
+- **What stops it now.** billing_events_once_idx in `supabase/migrations/20260921_billing_events_ledger.sql`
+- **Cost.** would have doubled the headline revenue figure
+- **Lesson.** Idempotency belongs in the database, not in the handler. Handlers race; unique indexes do not.
+
+
+### INC-0036. charge.amount_refunded is cumulative, so partial refunds double-count
+
+*2026-09-21, Wrong data shown or stored, `8827e64` PR #62*
+
+- **What was seen.** None: caught in design. A second partial refund reports the running total, which would have counted the first refund twice.
+- **Why.** Stripe's charge object reports total refunded to date, not the amount of this refund.
+- **How it surfaced.** Reading the field's semantics rather than its name. (Found by reading the code or the output)
+- **Fix.** Use the most recent entry in the refunds list, falling back to the cumulative total for the ordinary single full refund.
+- **What stops it now.** Nothing automated. This one is still carried by attention.
+- **Cost.** would have overstated refunds
+- **Lesson.** Read what a payment field means, not what it is called. Cumulative and incremental fields look identical until the second event.
+
+
+### INC-0037. Cancellation erases the number you need to record the cancellation
+
+*2026-09-21, Wrong data shown or stored, `8827e64` PR #62*
+
+- **What was seen.** None: caught in design. Churned MRR would always have been zero.
+- **Why.** The profile write on cancellation nulls plan_amount_cents and plan_interval. That row was the only place the departing subscriber's price still existed.
+- **How it surfaced.** Tracing the order of writes in the handler. (Found by reading the code or the output)
+- **Fix.** Read the prior profile state before the cancellation write, and log what they were paying.
+- **What stops it now.** priorState() is called before writeProfile in both the deleted and updated branches in `supabase/functions/stripe-webhook/index.ts`
+- **Cost.** would have reported zero churn forever
+- **Lesson.** When a write is destructive, capture what you need from the old value first. Ask what question you will want to answer after this row is gone.
+
+
+## Infrastructure and deploy (5)
 
 
 ### INC-0023. www and the apex were two origins, so consent and rankings split in half
@@ -1600,46 +1847,114 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** Know your platform's hard limits and assert them in the build. A deploy-time rejection is a bad place to learn a number your build could have told you.
 
 
-## CSS and layout (3)
+### INC-0047. Excluding the design directory would have shipped the legal pages with no styling
+
+*2026-09-21, Degraded, `07f0646` PR #55*
+
+- **What was seen.** None: caught in draft. Terms and Privacy would have rendered with no font, no colour and no background.
+- **Why.** Those two pages load a stylesheet from the design directory that is nothing but imports of the token files. Excluding the directory from the deploy removed both the stylesheet and the tokens it imports.
+- **How it surfaced.** An adversarial re-read of the exclusion list against what the built pages actually reference. (Found by a review bot or an adversarial pass)
+- **Fix.** Re-include the tokens and the stylesheet, and rewrite the guard to read every href and src out of the built pages and follow one level of CSS import, instead of comparing against a list kept by hand.
+- **What stops it now.** smoke_redirect derives the must-serve set from the built pages in `src/smoke_redirect.js`
+- **Cost.** two legal pages unstyled, caught before deploy
+- **Lesson.** A guard that is a hand-kept list of safe paths is written by the same hand that made the mistake. Derive the safe set from the artefact, not from memory.
 
 
-### INC-0010. CSS comments do not nest, and one placeholder killed the palette on 1451 pages
-
-*2026-09-17, Degraded, `61c3ed2` PR #40*
-
-- **What was seen.** The colour palette was gone from every college page. It looked like a design problem and was chased as one for hours.
-- **Why.** A `{{CHROME_CSS}}` placeholder was left inside an opening CSS comment in rankings_base.css. The first */ closes the outer comment, so everything after it was live CSS that overwrote the palette.
-- **How it surfaced.** Eventually, by reading the built CSS rather than the template. (Found by reading the code or the output)
-- **Fix.** Remove the nested comment.
-- **What stops it now.** Nothing automated. This one is still carried by attention.
-- **Cost.** hours, on 1451 pages
-- **Lesson.** CSS comments do not nest. When a whole page category loses its styling, read the built artefact, not the source that produced it.
+## Scoring and selection (4)
 
 
-### INC-0018. The Do Not Sell button was invisible from the day it shipped
+### INC-0040. The easier module was not easier
 
-*2026-09-19, Degraded, `a34a798` PR #47*
+*2026-09-16, Wrong data shown or stored, `81eecec` PR #30*
 
-- **What was seen.** White text on a transparent background on a white page. A legally required control that nobody could see.
-- **Why.** The page referenced nine colour custom properties that exist nowhere. CSS does not treat an undefined custom property as an error; it falls back to the initial value and paints.
-- **How it surfaced.** An automated contrast audit across every page. (A test caught it)
-- **Fix.** Define the tokens and fix seven contrast failures, all site wide because all lived in shared chrome.
-- **What stops it now.** weekly_audit checks computed contrast on every page in `src/weekly_audit.js`
-- **Cost.** an invisible compliance control for the life of the page
-- **Lesson.** An undefined CSS custom property is silent. Audit computed colour, not authored colour, and do it on the rendered page.
+- **What was seen.** An adaptive test routed weaker students to a second module that was supposed to be easier, and was not.
+- **Why.** The two modules were assembled without comparing their difficulty distributions.
+- **How it surfaced.** Measuring the mean difficulty of each module. (Found by measuring something)
+- **Fix.** Assemble the modules against a difficulty target and assert it.
+- **What stops it now.** module difficulty is asserted at build time in `src/test.js`
+- **Cost.** adaptive routing that did nothing
+- **Lesson.** If your system branches on difficulty, measure that the branches actually differ. A label is not a property.
 
 
-### INC-0029. A sequential colour ramp inverts direction between themes, and the label text did not
+### INC-0005. The adaptive engine was learning from nobody
 
-*2026-09-21, Degraded, `8af7188` PR #61*
+*2026-09-17, Silent loss, `fc4114c` PR #39*
 
-- **What was seen.** White heatmap labels on a light cell in dark mode.
-- **Why.** A sequential ramp runs light to dark in a light theme and dark to light in a dark theme. The label colour was hardcoded white, so it was correct in one theme and unreadable in the other.
-- **How it surfaced.** Rendering the chart in dark mode and looking at it. (Found by rendering it and looking)
-- **Fix.** An --sfnc-on-seq token that flips with the theme.
-- **What stops it now.** smoke_charts asserts token parity between the light and dark blocks in `src/smoke_charts.js`
-- **Cost.** an unreadable chart in one theme
-- **Lesson.** A dark mode does not break by having a wrong colour. It breaks by missing one. Any colour paired with a ramp has to move with the ramp.
+- **What was seen.** The attempts table held zero rows in production while the app was plainly being used.
+- **Why.** Cloud.logAttempt returns early without a signed-in user, and the product deliberately requires no account. So the one path that recorded answers was the one path most users never took.
+- **How it surfaced.** Querying the production table and finding it empty. (Found by measuring something)
+- **Fix.** item_events: an unlinkable telemetry table with no user, session, device or address column, which is exactly why it needs no consent gate.
+- **What stops it now.** smoke_consent asserts the telemetry body carries no identifying field in `src/smoke_consent.js`
+- **Cost.** weeks of telemetry never recorded
+- **Lesson.** Check that your instrumentation fired at all before you trust anything built on it. An empty table looks identical to a quiet week.
+
+
+### INC-0006. Sentence equivalence items were unanswerable however well you answered
+
+*2026-09-17, Wrong data shown or stored, `fc4114c` PR #39*
+
+- **What was seen.** Every GRE sentence equivalence item graded as wrong.
+- **Why.** The items carry a two-element key and the engine graded by requiring an array of two, but answerInputs had no branch for that type, so they rendered as single pick and returned a scalar.
+- **How it surfaced.** Rendering and grading one item of every schema. (A test caught it)
+- **Fix.** Add the missing input branch.
+- **What stops it now.** smoke_items renders and grades one item from all 182 generator schemas at phone width in `src/smoke_items.js`
+- **Cost.** eleven items unusable since they shipped
+- **Lesson.** A type system spread across a renderer and a grader will drift. The cheapest guard is one that exercises every variant end to end, once.
+
+
+### INC-0051. Fixing repeats directly left a side door through passage groups
+
+*2026-09-21, Degraded, `65bd09d` PR #58*
+
+- **What was seen.** After a freshness gate cut avoidable repeats from 276 to 9 on one exam, one exam still served 117 and another 941 across 25 sittings.
+- **Why.** The gate picked an unserved anchor item, and then the group expansion pulled in every question sharing that passage, including the ones already answered. The gate was applied to the anchor and not to what the anchor dragged with it.
+- **How it surfaced.** A review bot counting avoidable repeats across 25 sittings per exam. (Found by a review bot or an adversarial pass)
+- **Fix.** The group keeps the anchor and any unseen sibling and drops the rest, so a group can never come back empty.
+- **What stops it now.** the review bot counts avoidable repeats and the number is pinned in `src/review_bot.js`
+- **Cost.** repeats persisting on two exams after the fix was believed complete
+- **Lesson.** When you add a filter, find every path that adds items after the filter runs. A gate on the entry point is not a gate on the set.
+
+
+## Search and metadata (3)
+
+
+### INC-0002. School URLs vanished from the sitemap when the data file was split
+
+*2026-08-24, Silent loss, `df14c7c` PR #23*
+
+- **What was seen.** Per-school pages were live and correct, and absent from sitemap.xml.
+- **Why.** The sitemap generator read schools.json. When the library was split into one file per school, nothing read the new directory, and a loop over an empty list emits nothing rather than failing.
+- **How it surfaced.** Noticed while reviewing the built sitemap. (Found by reading the code or the output)
+- **Fix.** Generate sitemap entries from the same directory scan the pages are built from.
+- **What stops it now.** the build asserts the sitemap URL count matches the page count in `src/build.py`
+- **Cost.** unknown period of missing indexation
+- **Lesson.** A refactor that moves data has to be followed to every reader, and a loop over nothing is the quietest failure in programming. Derive counts from one source and assert they agree.
+
+
+### INC-0014. A hardcoded count in the meta description went stale, and Google showed it
+
+*2026-09-19, Wrong data shown or stored, `36b1e92` PR #43*
+
+- **What was seen.** The meta description claimed 1,451 colleges after the number changed. og:description and twitter:description both derive from that tag, so all three were wrong.
+- **Why.** A figure typed into a template instead of computed at build time, which is the exact failure build-time counting exists to prevent.
+- **How it surfaced.** Reading the built page. (Found by reading the code or the output)
+- **Fix.** Derive the number from the same count the pages are built from.
+- **What stops it now.** no hardcoded corpus counts in templates in `src/build_rankings.py`
+- **Cost.** a wrong figure in the search result snippet
+- **Lesson.** Any number in user-facing copy that describes the size of something must be computed from that thing at build time. The moment it is typed, it has a half-life.
+
+
+### INC-0049. Two pages told the same story with different numbers after a reweighting
+
+*2026-09-19, Wrong data shown or stored, `a34a798` PR #47*
+
+- **What was seen.** The rankings index still showed figures from before a scoring change while the methodology page showed the new ones.
+- **Why.** Two artefacts derived from one model, and only one was regenerated.
+- **How it surfaced.** Reading both pages after the change. (Found by reading the code or the output)
+- **Fix.** Derive both from the same computed values at build time.
+- **What stops it now.** both figures are printed by the build from one source in `src/build_rankings.py`
+- **Cost.** a visible contradiction between two pages
+- **Lesson.** When one model feeds two pages, generate both from the model in the same pass. Two places that must agree will not, and the reader who notices is the reader you were trying to convince.
 
 
 ## Database (3)
@@ -1684,107 +1999,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** In Postgres, revoking from every role you can name still leaves PUBLIC. Verify with the advisors or by reading the acl, never by reading your own migration.
 
 
-## Payments (3)
-
-
-### INC-0035. Two Stripe event types announce one new subscription
-
-*2026-09-21, Wrong data shown or stored, `8827e64` PR #62*
-
-- **What was seen.** None: caught in design. Logging new subscriptions from both checkout.session.completed and customer.subscription.created would have doubled new MRR.
-- **Why.** Stripe announces a new subscription through both events, with different event ids, in no guaranteed order.
-- **How it surfaced.** Working out the idempotency key before writing the handler. (Found by reading the code or the output)
-- **Fix.** A partial unique index on (source, subscription_id, kind) for the once-per-lifetime kinds, so the database decides rather than whichever event arrived first.
-- **What stops it now.** billing_events_once_idx in `supabase/migrations/20260921_billing_events_ledger.sql`
-- **Cost.** would have doubled the headline revenue figure
-- **Lesson.** Idempotency belongs in the database, not in the handler. Handlers race; unique indexes do not.
-
-
-### INC-0036. charge.amount_refunded is cumulative, so partial refunds double-count
-
-*2026-09-21, Wrong data shown or stored, `8827e64` PR #62*
-
-- **What was seen.** None: caught in design. A second partial refund reports the running total, which would have counted the first refund twice.
-- **Why.** Stripe's charge object reports total refunded to date, not the amount of this refund.
-- **How it surfaced.** Reading the field's semantics rather than its name. (Found by reading the code or the output)
-- **Fix.** Use the most recent entry in the refunds list, falling back to the cumulative total for the ordinary single full refund.
-- **What stops it now.** Nothing automated. This one is still carried by attention.
-- **Cost.** would have overstated refunds
-- **Lesson.** Read what a payment field means, not what it is called. Cumulative and incremental fields look identical until the second event.
-
-
-### INC-0037. Cancellation erases the number you need to record the cancellation
-
-*2026-09-21, Wrong data shown or stored, `8827e64` PR #62*
-
-- **What was seen.** None: caught in design. Churned MRR would always have been zero.
-- **Why.** The profile write on cancellation nulls plan_amount_cents and plan_interval. That row was the only place the departing subscriber's price still existed.
-- **How it surfaced.** Tracing the order of writes in the handler. (Found by reading the code or the output)
-- **Fix.** Read the prior profile state before the cancellation write, and log what they were paying.
-- **What stops it now.** priorState() is called before writeProfile in both the deleted and updated branches in `supabase/functions/stripe-webhook/index.ts`
-- **Cost.** would have reported zero churn forever
-- **Lesson.** When a write is destructive, capture what you need from the old value first. Ask what question you will want to answer after this row is gone.
-
-
-## Search and metadata (2)
-
-
-### INC-0002. School URLs vanished from the sitemap when the data file was split
-
-*2026-08-24, Silent loss, `df14c7c` PR #23*
-
-- **What was seen.** Per-school pages were live and correct, and absent from sitemap.xml.
-- **Why.** The sitemap generator read schools.json. When the library was split into one file per school, nothing read the new directory, and a loop over an empty list emits nothing rather than failing.
-- **How it surfaced.** Noticed while reviewing the built sitemap. (Found by reading the code or the output)
-- **Fix.** Generate sitemap entries from the same directory scan the pages are built from.
-- **What stops it now.** the build asserts the sitemap URL count matches the page count in `src/build.py`
-- **Cost.** unknown period of missing indexation
-- **Lesson.** A refactor that moves data has to be followed to every reader, and a loop over nothing is the quietest failure in programming. Derive counts from one source and assert they agree.
-
-
-### INC-0014. A hardcoded count in the meta description went stale, and Google showed it
-
-*2026-09-19, Wrong data shown or stored, `36b1e92` PR #43*
-
-- **What was seen.** The meta description claimed 1,451 colleges after the number changed. og:description and twitter:description both derive from that tag, so all three were wrong.
-- **Why.** A figure typed into a template instead of computed at build time, which is the exact failure build-time counting exists to prevent.
-- **How it surfaced.** Reading the built page. (Found by reading the code or the output)
-- **Fix.** Derive the number from the same count the pages are built from.
-- **What stops it now.** no hardcoded corpus counts in templates in `src/build_rankings.py`
-- **Cost.** a wrong figure in the search result snippet
-- **Lesson.** Any number in user-facing copy that describes the size of something must be computed from that thing at build time. The moment it is typed, it has a half-life.
-
-
-## Scoring and selection (2)
-
-
-### INC-0005. The adaptive engine was learning from nobody
-
-*2026-09-17, Silent loss, `fc4114c` PR #39*
-
-- **What was seen.** The attempts table held zero rows in production while the app was plainly being used.
-- **Why.** Cloud.logAttempt returns early without a signed-in user, and the product deliberately requires no account. So the one path that recorded answers was the one path most users never took.
-- **How it surfaced.** Querying the production table and finding it empty. (Found by measuring something)
-- **Fix.** item_events: an unlinkable telemetry table with no user, session, device or address column, which is exactly why it needs no consent gate.
-- **What stops it now.** smoke_consent asserts the telemetry body carries no identifying field in `src/smoke_consent.js`
-- **Cost.** weeks of telemetry never recorded
-- **Lesson.** Check that your instrumentation fired at all before you trust anything built on it. An empty table looks identical to a quiet week.
-
-
-### INC-0006. Sentence equivalence items were unanswerable however well you answered
-
-*2026-09-17, Wrong data shown or stored, `fc4114c` PR #39*
-
-- **What was seen.** Every GRE sentence equivalence item graded as wrong.
-- **Why.** The items carry a two-element key and the engine graded by requiring an array of two, but answerInputs had no branch for that type, so they rendered as single pick and returned a scalar.
-- **How it surfaced.** Rendering and grading one item of every schema. (A test caught it)
-- **Fix.** Add the missing input branch.
-- **What stops it now.** smoke_items renders and grades one item from all 182 generator schemas at phone width in `src/smoke_items.js`
-- **Cost.** eleven items unusable since they shipped
-- **Lesson.** A type system spread across a renderer and a grader will drift. The cheapest guard is one that exercises every variant end to end, once.
-
-
-## Interface and data display (1)
+## Interface and data display (2)
 
 
 ### INC-0034. A line chart interpolated between discrete money events
@@ -1800,6 +2015,19 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** Chart form is a claim about the data. A line claims the values in between existed. Ask whether that claim is true before choosing it.
 
 
+### INC-0052. Two games signalled right and wrong by colour alone
+
+*2026-09-21, Degraded, `b4742a7` PR #57*
+
+- **What was seen.** Outcomes in two timed games were distinguishable only by colour, and nothing was announced.
+- **Why.** The games were built for speed and the feedback was styling rather than content.
+- **How it surfaced.** An accessibility pass over the games. (Found by reading the code or the output)
+- **Fix.** Announce outcomes in a live region, and give a flipped tile a spoken identity. Colour is now secondary to a word in both.
+- **What stops it now.** smoke tests assert the live region announces outcomes in `src/app_template.html`
+- **Cost.** two games unusable with a screen reader
+- **Lesson.** Never encode a state by colour alone. The word also survives greyscale printing, forced-colors mode and a glance from across a room, so it is better for everyone and not only for the people it is required by.
+
+
 # The Checklist
 
 Generated from the defect ledger. Every line exists because something went wrong once. Nothing is here for completeness.
@@ -1809,8 +2037,12 @@ Read it before starting a piece of work in the matching area, and again before y
 
 ## CSS and layout
 
+- [ ] The same undefined-property failure will find you repeatedly, at every severity from one icon to an invisible legal control. One audit of computed colour catches the whole class.  
+  <small>A landing-page icon referenced a colour token that did not exist (INC-0050)</small>
 - [ ] CSS comments do not nest. When a whole page category loses its styling, read the built artefact, not the source that produced it.  
   <small>CSS comments do not nest, and one placeholder killed the palette on 1451 pages (INC-0010)</small>
+- [ ] CSS never fails loudly. A malformed rule is skipped, a bad selector eats the block after it, and an undefined variable paints as nothing. Anything that matters visually has to be asserted on the rendered page, because the parser will not tell you.  
+  <small>Error recovery in the CSS parser swallowed the palette silently (INC-0048)</small>
 - [ ] An undefined CSS custom property is silent. Audit computed colour, not authored colour, and do it on the rendered page.  
   <small>The Do Not Sell button was invisible from the day it shipped (INC-0018)</small>
 - [ ] A dark mode does not break by having a wrong colour. It breaks by missing one. Any colour paired with a ramp has to move with the ramp.  
@@ -1823,6 +2055,10 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Item banks were different on every build because Python randomises hash() (INC-0003)</small>
 - [ ] Deletion by shadowing is invisible. Any collection whose size is a fact about the product needs its size asserted, not just its contents.  
   <small>A shadowed variable silently deleted 3000 items (INC-0004)</small>
+- [ ] In any set of multiple-choice content, count where the answers are. A positional tell makes the whole set worthless to a test-wise user, and it is invisible item by item.  
+  <small>225 of 302 correct answers sat at position A (INC-0039)</small>
+- [ ] Test your content against the strategies a lazy adversary would use, not only against whether it is correct. Measure the score of a rule that ignores the question.  
+  <small>The longest option was the correct answer 81 percent of the time (INC-0044)</small>
 - [ ] A deduplication key must be canonical under every transformation the item legitimately undergoes. Ask what varies per draw before you hash.  
   <small>The dedup key counted a reshuffled question as a new one (INC-0007)</small>
 - [ ] The same inflation arrives through a different door every time you close one. When you fix a dedup bug, ask what else shares an identity.  
@@ -1847,6 +2083,10 @@ Read it before starting a piece of work in the matching area, and again before y
 
 - [ ] Generated code is code. If your build writes JavaScript into a string, the build must parse the result, because the blast radius of one bad character is the whole file, not the line.  
   <small>Unescaped quotes in onclick strings took the whole app down (INC-0001)</small>
+- [ ] The moment a single-tenant store becomes multi-tenant, every key in it is a collision waiting to happen. Enumerate the writers before you add the second tenant, not after.  
+  <small>One exam's progress blob overwrote another's (INC-0038)</small>
+- [ ] A conditional that treats not-A as the original case is a bug the day a third case exists. Resolve variants from data, and the third one costs a row rather than a search.  
+  <small>The GRE app told GRE students to calibrate at the wrong test maker's site (INC-0043)</small>
 - [ ] Nobody notices a page getting slower one commit at a time. Put the number in a test the first time you care about it, not the first time somebody complains.  
   <small>The whole bank blocked first paint: 20 seconds to the first question on 3G (INC-0015)</small>
 - [ ] try/catch around an API that returns errors is decoration. Know which convention each call uses before you wrap it.  
@@ -1855,6 +2095,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The service worker precache regex did not match the chunked files (INC-0028)</small>
 - [ ] A fixed rounding rule is wrong at one end of the range or the other. Pick the precision from the magnitude, and write the expected number down before you write the code that produces it.  
   <small>ARR was rounded to whole dollars and lost real money at small scale (INC-0032)</small>
+- [ ] Anything that reports failures must not be able to report its own. Check whether each call rejects or throws before you wrap it, and make the reporting path unable to re-enter itself.  
+  <small>The error reporter reported its own failures, in a loop (INC-0045)</small>
 
 
 ## Infrastructure and deploy
@@ -1867,16 +2109,24 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A stale edge cache made a fixed 404 look like a live 200 (INC-0025)</small>
 - [ ] Know your platform's hard limits and assert them in the build. A deploy-time rejection is a bad place to learn a number your build could have told you.  
   <small>A 29.88 MiB bank file would have failed the deploy the moment it merged (INC-0027)</small>
+- [ ] A guard that is a hand-kept list of safe paths is written by the same hand that made the mistake. Derive the safe set from the artefact, not from memory.  
+  <small>Excluding the design directory would have shipped the legal pages with no styling (INC-0047)</small>
 
 
 ## Interface and data display
 
 - [ ] Chart form is a claim about the data. A line claims the values in between existed. Ask whether that claim is true before choosing it.  
   <small>A line chart interpolated between discrete money events (INC-0034)</small>
+- [ ] Never encode a state by colour alone. The word also survives greyscale printing, forced-colors mode and a glance from across a room, so it is better for everyone and not only for the people it is required by.  
+  <small>Two games signalled right and wrong by colour alone (INC-0052)</small>
 
 
 ## Payments
 
+- [ ] Row Level Security is row-level. Which columns a role may write is a separate grant, and anything money depends on belongs to the service role alone.  
+  <small>A signed-in user could grant themselves a paid plan (INC-0041)</small>
+- [ ] Enumerate every value a third-party status field can take before you branch on one of them. The value you did not think of is usually the one that matters commercially.  
+  <small>Every trialing subscriber would have been left on the free plan (INC-0042)</small>
 - [ ] Idempotency belongs in the database, not in the handler. Handlers race; unique indexes do not.  
   <small>Two Stripe event types announce one new subscription (INC-0035)</small>
 - [ ] Read what a payment field means, not what it is called. Cumulative and incremental fields look identical until the second event.  
@@ -1887,10 +2137,14 @@ Read it before starting a piece of work in the matching area, and again before y
 
 ## Scoring and selection
 
+- [ ] If your system branches on difficulty, measure that the branches actually differ. A label is not a property.  
+  <small>The easier module was not easier (INC-0040)</small>
 - [ ] Check that your instrumentation fired at all before you trust anything built on it. An empty table looks identical to a quiet week.  
   <small>The adaptive engine was learning from nobody (INC-0005)</small>
 - [ ] A type system spread across a renderer and a grader will drift. The cheapest guard is one that exercises every variant end to end, once.  
   <small>Sentence equivalence items were unanswerable however well you answered (INC-0006)</small>
+- [ ] When you add a filter, find every path that adds items after the filter runs. A gate on the entry point is not a gate on the set.  
+  <small>Fixing repeats directly left a side door through passage groups (INC-0051)</small>
 
 
 ## Search and metadata
@@ -1899,6 +2153,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>School URLs vanished from the sitemap when the data file was split (INC-0002)</small>
 - [ ] Any number in user-facing copy that describes the size of something must be computed from that thing at build time. The moment it is typed, it has a half-life.  
   <small>A hardcoded count in the meta description went stale, and Google showed it (INC-0014)</small>
+- [ ] When one model feeds two pages, generate both from the model in the same pass. Two places that must agree will not, and the reader who notices is the reader you were trying to convince.  
+  <small>Two pages told the same story with different numbers after a reweighting (INC-0049)</small>
 
 
 ## Tests and guards
@@ -1919,6 +2175,12 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The browser suites had never actually run, because npm install had not (INC-0031)</small>
 - [ ] Before you measure a layout, assert the thing is rendered. Hidden elements answer most DOM questions, and they answer them wrongly.  
   <small>The dashboard test measured a hidden element and passed (INC-0033)</small>
+- [ ] An error feed with no filter is a feed nobody reads. Signal has to be defended, and the cheapest defence is a human label that mutes permanently, so the queue gets quieter as it learns.  
+  <small>The error queue was 81 percent other people's blocked scripts (INC-0046)</small>
+- [ ] A guard that reads the repository needs the repository. CI checkouts are shallow by default, and anything that walks history, blames a line or resolves an old hash will fail in a way that looks like the data is wrong rather than the clone.  
+  <small>The playbook's own citation guard failed CI on its first run (INC-0053)</small>
+- [ ] When you add a condition that skips a check, make sure it describes the failure and not something merely correlated with it. A skip is indistinguishable from a pass in the output, so the fix for a noisy check can silently delete it.  
+  <small>The first fix asked the wrong question and muted a working check (INC-0054)</small>
 
 
 # Adapting This to a Different Business
@@ -2035,7 +2297,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 37 real defects reduced to the rules that prevent them,
+the whole project: 54 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -2075,7 +2337,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-37 defects already prevented is genuinely ahead, and every defect it hits
+54 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed
