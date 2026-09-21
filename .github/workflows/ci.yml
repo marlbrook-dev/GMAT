@@ -13,6 +13,8 @@ jobs:
         run: python3 src/build.py && python3 src/build_blog.py
       - name: Bank validation and engine simulation
         run: cd src && node test.js
+      - name: Hostname redirect and deploy surface
+        run: node src/smoke_redirect.js
       - name: House rules sweep on generated pages
         run: |
           python3 - <<'EOF'

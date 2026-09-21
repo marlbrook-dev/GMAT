@@ -1,0 +1,37 @@
+# Files in this repository that must never be served as part of the site.
+#
+# assets.directory in wrangler.jsonc is the repository root, so without this list
+# Cloudflare uploads and serves the source. Before this file existed, all of these
+# returned 200 on the live site: /src/bank_quant.js and every other item bank,
+# /src/engine.js, /src/build.py, /CLAUDE.md, /data/DATA.md and /wrangler.jsonc.
+#
+# Anything the built pages reference must stay OUT of this list. design/ is referenced
+# (/design/assets, /design/missing.png), and icons/, og/, robots.txt, llms.txt and
+# manifest.json are all served deliberately. src/smoke_redirect.js asserts both
+# directions so this cannot drift.
+#
+# Excluding src/ does not affect the worker: main is bundled into the Worker script
+# rather than uploaded as an asset, which is the documented pattern.
+
+# Source of the site. The built output lives at the repository root and is what ships.
+src/
+data/
+supabase/
+
+# Repository and tooling files.
+.github/
+.gitignore
+.assetsignore
+wrangler.jsonc
+
+# Internal documentation. CLAUDE.md in particular carries the Supabase project ref, the
+# Stripe account id and both admin email addresses.
+CLAUDE.md
+README.md
+ROADMAP.md
+HANDOFF.md
+DEVSECOPS.md
+GROWTH.md
+INTEGRATIONS.md
+I18N.md
+DATA_COLLECTION.md

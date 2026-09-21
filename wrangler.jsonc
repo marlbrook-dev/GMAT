@@ -1,11 +1,23 @@
-// Cloudflare Workers config: serves the built site as static assets.
+// Cloudflare Workers config: serves the built site as static assets, behind one small
+// Worker script (src/worker.mjs) that canonicalises the hostname.
 // Dashboard build command runs `python3 src/build.py && python3 src/build_blog.py`
 // first, then `npx wrangler deploy` uploads the repo root (built pages included).
+//
+// assets.directory is the repository root, so .assetsignore is what keeps the source of
+// the site from being served as part of the site. Read that file before adding anything.
 {
   "name": "gmat",
   "compatibility_date": "2026-08-17",
+  "main": "src/worker.mjs",
   "assets": {
     "directory": "./",
-    "not_found_handling": "404-page"
+    "not_found_handling": "404-page",
+    // Gives the worker env.ASSETS. Requests passed through it keep html_handling and
+    // not_found_handling, so the .html redirect and the 404 page still work.
+    "binding": "ASSETS",
+    // Load bearing. False, or absent, and the asset router answers first: the worker
+    // never sees a request for a path that matches a file, and browser navigation
+    // requests skip it entirely. The hostname redirect would silently never fire.
+    "run_worker_first": true
   }
 }
