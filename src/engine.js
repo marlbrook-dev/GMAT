@@ -532,15 +532,28 @@ function pickQuestions(bank,state,opts){
  if(untested.length>ranked.length/2){ // diagnostic mode: round-robin across under-sampled skills at difficulty 3
    let idx=0, guard=0; const order=untested.slice().sort(()=>Math.random()-0.5);
    while(chosen.length<count&&guard<300){ guard++; const sk=order[idx%order.length]; idx++;
-     const cands=pool.filter(q=>!used.has(q.id)&&q.skill===sk).sort((a,b)=>Math.abs(a.diff-3)-Math.abs(b.diff-3)||recency(b)-recency(a)||Math.random()-0.5);
+     let cands=pool.filter(q=>!used.has(q.id)&&q.skill===sk);
+     // Never served beats seen, as a gate rather than a tiebreak. Sorting by difficulty
+     // distance first meant a seen item sitting exactly at difficulty 3 was picked over a
+     // fresh one at difficulty 2, while the fresh one was right there in the same skill.
+     const unseenD=cands.filter(q=>lastSeenIdx[q.id]===undefined); if(unseenD.length) cands=unseenD;
+     cands=cands.sort((a,b)=>Math.abs(a.diff-3)-Math.abs(b.diff-3)||recency(b)-recency(a)||Math.random()-0.5);
      if(cands.length) addWithGroup(cands[0]); }
    if(chosen.length>=count) return chosen.slice(0,count); }
  const weak=ranked.slice(0,3).map(s=>s.id); const mid=ranked.slice(3).map(s=>s.id);
  const nWeak=Math.round((count-chosen.length)*0.7);
  function bestFor(skillSet,n){ let added=0; let guard=0;
    while(added<n&&guard<200){ guard++;
-     const cands=pool.filter(q=>!used.has(q.id)&&(skillSet.includes(q.skill)));
+     let cands=pool.filter(q=>!used.has(q.id)&&(skillSet.includes(q.skill)));
      if(!cands.length) break;
+     // Freshness is a gate, not a nudge. The `fresh` penalty below decays to zero after 40
+     // attempts, which made an item served 41 questions ago score identically to one the
+     // student has never seen, so difficulty matching would re-serve it while unserved
+     // items remained in the same section. That is the whole of the avoidable repeat
+     // defect the review bots measure. Only fall through to seen items once the unseen
+     // stock for these skills is genuinely exhausted.
+     const unseen=cands.filter(q=>lastSeenIdx[q.id]===undefined);
+     if(unseen.length) cands=unseen;
      const scored=cands.map(q=>{ const sk=state.skills[q.skill]; const target=sk.n<6?1100:sk.r-150; // calibrate at difficulty 3 first, then ~70% expected success
         const d=Math.abs(DIFF_ELO[q.diff]-target); const rec=recency(q); const fresh=rec>=1e9?0:Math.max(0,40-rec)*10; return {q,score:d+fresh+Math.random()*60}; }).sort((a,b)=>a.score-b.score);
      const before=chosen.length; addWithGroup(scored[0].q); added+=chosen.length-before; }
