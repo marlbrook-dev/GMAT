@@ -1,0 +1,15 @@
+{
+  "name": "start-from-nowhere",
+  "private": true,
+  "description": "Tooling only. The site itself ships as self contained pages with no runtime dependency; this file exists so the browser suites can be installed and run, in CI as well as by hand.",
+  "scripts": {
+    "test": "cd src && node test.js",
+    "test:charts": "node src/smoke_charts.js",
+    "test:redirect": "node src/smoke_redirect.js",
+    "test:browser": "node src/smoke_items.js && node src/smoke_consent.js && node src/smoke_billing.js && node src/smoke_offline.js",
+    "audit": "node src/weekly_audit.js"
+  },
+  "devDependencies": {
+    "playwright": "^1.47.0"
+  }
+}

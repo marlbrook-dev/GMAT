@@ -73,6 +73,7 @@ APPS = [
 ]
 
 engine = (d/"engine.js").read_text(); tpl = (d/"app_template.html").read_text()
+charts = (d/"charts.js").read_text()
 built = {}
 # The generated banks are built first; the schemas in src/gen/ are their source of truth.
 import build_banks
@@ -159,6 +160,7 @@ for app in APPS:
               .replace("{{SW_SRC}}", _scope + "sw.js")
               .replace("{{SW_SCOPE}}", _scope)
               .replace("{{ENGINE}}", engine)
+              .replace("{{CHARTS}}", charts)
               .replace("{{FOOTER_NOTE}}", app["footer"])
               .replace("{{APP_TITLE}}", app["title"])
               .replace("{{APP_DESC}}", app["desc"])
