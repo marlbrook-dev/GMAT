@@ -7,10 +7,10 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-08-17 and 2026-09-21, which is 35 days, across
-66 commits, by one owner directing a series of AI coding sessions. As of this
-build it is 39 Python files, 89 JavaScript files, 24
+64 commits, by one owner directing a series of AI coding sessions. As of this
+build it is 39 Python files, 90 JavaScript files, 24
 TypeScript edge functions, 32 migrations and 63 documents:
-1948 tracked files in total.
+1949 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -736,7 +736,7 @@ they need a different regime.
 
 # The Data Layer
 
-16 tables across 29 migrations, with the database rather
+16 tables across 30 migrations, with the database rather
 than the application as the enforcement point.
 
 ## Row Level Security as the default posture
@@ -1117,7 +1117,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-66 commits in 35 days, one owner, a series of AI sessions. This
+64 commits in 35 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1209,21 +1209,21 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-55 recorded defects, over 35 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+56 recorded defects, over 35 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 23 | 42% |
+| Found by reading the code or the output | 24 | 43% |
 | Found by measuring something | 14 | 25% |
 | A test caught it | 9 | 16% |
 | Found by rendering it and looking | 4 | 7% |
 | Found by a review bot or an adversarial pass | 4 | 7% |
 | A person hit it | 1 | 2% |
 
-**This is the most useful table in the book.** 54 of 55 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 55 of 56 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1233,12 +1233,12 @@ well enough to audit later. Which is what this book is.
 | Severity | Count |
 | --- | ---: |
 | Wrong data shown or stored | 22 |
-| Silent loss | 12 |
+| Silent loss | 13 |
 | Degraded | 12 |
 | Cosmetic | 7 |
 | Site down | 2 |
 
-**Silent loss is the dominant failure mode**, at 12 of 55. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 13 of 56. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
@@ -1252,14 +1252,14 @@ well enough to audit later. Which is what this book is.
 | Payments | 5 |
 | Infrastructure and deploy | 5 |
 | Scoring and selection | 4 |
+| Database | 4 |
 | Search and metadata | 3 |
-| Database | 3 |
 | Interface and data display | 2 |
 
 
 ## Guard coverage
 
-49 of 55 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+50 of 56 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1928,6 +1928,61 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** When you add a filter, find every path that adds items after the filter runs. A gate on the entry point is not a gate on the set.
 
 
+## Database (4)
+
+
+### INC-0012. Postgres fired triggers alphabetically and revoked every adult opt-in
+
+*2026-09-19, Wrong data shown or stored, `a61eeca` PR #42*
+
+- **What was seen.** Legitimate adult opt-ins to the data sharing programme were silently revoked.
+- **Why.** Postgres fires same-timing triggers in alphabetical order by name. profiles_sharing_eligibility sorted before profiles_sync_age_tier, so eligibility was judged against a stale age tier.
+- **How it surfaced.** Testing the guarantee the triggers were supposed to provide, rather than reading the trigger code. (A test caught it)
+- **Fix.** Numeric prefixes on trigger names to force the order.
+- **What stops it now.** src/sql smoke tests assert the guarantee, not the implementation in `supabase/migrations/20260918203431_fix_profiles_trigger_firing_order.sql`
+- **Cost.** every adult opt-in, silently
+- **Lesson.** Postgres fires same-timing triggers alphabetically. If two triggers on one table have an order dependency, encode it in the name, and test the outcome rather than the code.
+
+
+### INC-0013. UPDATE OF fires on the columns named in the statement, not the ones that changed
+
+*2026-09-19, Wrong data shown or stored, `a61eeca` PR #42*
+
+- **What was seen.** Updating birth_year stored a minor's tier and skipped the eligibility check entirely.
+- **Why.** UPDATE OF <columns> keys off the columns named in the UPDATE statement, not off what actually changed and not off what an earlier BEFORE trigger wrote into NEW.
+- **How it surfaced.** Same guarantee test as INC-0012. (A test caught it)
+- **Fix.** Fire on every update and compare OLD to NEW inside the function.
+- **What stops it now.** sharing eligibility fires on every update in `supabase/migrations/20260918204223_sharing_eligibility_fires_on_every_update.sql`
+- **Cost.** a minor could pass the adult gate
+- **Lesson.** UPDATE OF is a statement-shape filter, not a change filter. If you need 'when this value changed', compare OLD and NEW yourself.
+
+
+### INC-0020. Revoking EXECUTE from anon did nothing while PUBLIC still held it
+
+*2026-09-19, Wrong data shown or stored, `a61eeca` PR #42*
+
+- **What was seen.** Functions stayed callable after their grants were revoked from anon and authenticated.
+- **Why.** PUBLIC is a separate grantee. A leading =X/postgres in pg_proc.proacl means PUBLIC holds EXECUTE, and revoking from the named roles changes nothing.
+- **How it surfaced.** Re-running the Supabase advisors instead of trusting the per-role grants. (A test caught it)
+- **Fix.** Revoke from PUBLIC as well, everywhere.
+- **What stops it now.** every migration revokes from public, anon, authenticated together in `supabase/migrations/20260916_revoke_public_execute_and_rls_initplan.sql`
+- **Cost.** an open function surface believed closed
+- **Lesson.** In Postgres, revoking from every role you can name still leaves PUBLIC. Verify with the advisors or by reading the acl, never by reading your own migration.
+
+
+### INC-0056. Twelve profile fields said Saved and never reached the account
+
+*2026-09-21, Silent loss*
+
+- **What was seen.** A signed-in user fills in education, intended major, score goal, application year, budget, industry, household income, first generation, military status, study hours or their birth date, sees a Saved toast, and none of it is on their account. It survives only in that browser.
+- **Why.** Two layers disagreed and nothing compared them. Row Level Security scopes every write on the profiles table to the caller's own row, and a separate column grant decides which columns any role may write at all. The column grant to authenticated covers 5 of the 17 self-reported fields the Account page offers. The page updates the other 12 anyway, the database refuses, and aboutSave wraps the call in a try/catch with an empty body, so the refusal is discarded and the toast fires regardless.
+- **How it surfaced.** Reading the column privileges while adding new profile fields for something else. Nothing in the product would ever have reported it. (Found by reading the code or the output)
+- **Fix.** Grant UPDATE on the self-reported columns to authenticated, which is safe because the row policy already restricts every write to the caller's own row, and stop the save path swallowing its own error.
+- **What stops it now.** a SQL smoke test asserts authenticated holds UPDATE on every field the Account page writes, and none of the server-owned ones in `src/sql/smoke_profile_grants.sql`
+- **Cost.** every signed-in user's demographics, for as long as the fields have existed
+- **Lesson.** An empty catch block around a write is a silent-loss defect waiting to be born. If a save can fail, the person must be told; a success toast that fires regardless of the result is worse than no toast, because it actively teaches the user the data is safe. And where two layers of authorisation have to agree, something has to compare them: the one that is wrong will not announce itself.
+
+
 ## Search and metadata (3)
 
 
@@ -1968,48 +2023,6 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **What stops it now.** both figures are printed by the build from one source in `src/build_rankings.py`
 - **Cost.** a visible contradiction between two pages
 - **Lesson.** When one model feeds two pages, generate both from the model in the same pass. Two places that must agree will not, and the reader who notices is the reader you were trying to convince.
-
-
-## Database (3)
-
-
-### INC-0012. Postgres fired triggers alphabetically and revoked every adult opt-in
-
-*2026-09-19, Wrong data shown or stored, `a61eeca` PR #42*
-
-- **What was seen.** Legitimate adult opt-ins to the data sharing programme were silently revoked.
-- **Why.** Postgres fires same-timing triggers in alphabetical order by name. profiles_sharing_eligibility sorted before profiles_sync_age_tier, so eligibility was judged against a stale age tier.
-- **How it surfaced.** Testing the guarantee the triggers were supposed to provide, rather than reading the trigger code. (A test caught it)
-- **Fix.** Numeric prefixes on trigger names to force the order.
-- **What stops it now.** src/sql smoke tests assert the guarantee, not the implementation in `supabase/migrations/20260918203431_fix_profiles_trigger_firing_order.sql`
-- **Cost.** every adult opt-in, silently
-- **Lesson.** Postgres fires same-timing triggers alphabetically. If two triggers on one table have an order dependency, encode it in the name, and test the outcome rather than the code.
-
-
-### INC-0013. UPDATE OF fires on the columns named in the statement, not the ones that changed
-
-*2026-09-19, Wrong data shown or stored, `a61eeca` PR #42*
-
-- **What was seen.** Updating birth_year stored a minor's tier and skipped the eligibility check entirely.
-- **Why.** UPDATE OF <columns> keys off the columns named in the UPDATE statement, not off what actually changed and not off what an earlier BEFORE trigger wrote into NEW.
-- **How it surfaced.** Same guarantee test as INC-0012. (A test caught it)
-- **Fix.** Fire on every update and compare OLD to NEW inside the function.
-- **What stops it now.** sharing eligibility fires on every update in `supabase/migrations/20260918204223_sharing_eligibility_fires_on_every_update.sql`
-- **Cost.** a minor could pass the adult gate
-- **Lesson.** UPDATE OF is a statement-shape filter, not a change filter. If you need 'when this value changed', compare OLD and NEW yourself.
-
-
-### INC-0020. Revoking EXECUTE from anon did nothing while PUBLIC still held it
-
-*2026-09-19, Wrong data shown or stored, `a61eeca` PR #42*
-
-- **What was seen.** Functions stayed callable after their grants were revoked from anon and authenticated.
-- **Why.** PUBLIC is a separate grantee. A leading =X/postgres in pg_proc.proacl means PUBLIC holds EXECUTE, and revoking from the named roles changes nothing.
-- **How it surfaced.** Re-running the Supabase advisors instead of trusting the per-role grants. (A test caught it)
-- **Fix.** Revoke from PUBLIC as well, everywhere.
-- **What stops it now.** every migration revokes from public, anon, authenticated together in `supabase/migrations/20260916_revoke_public_execute_and_rls_initplan.sql`
-- **Cost.** an open function surface believed closed
-- **Lesson.** In Postgres, revoking from every role you can name still leaves PUBLIC. Verify with the advisors or by reading the acl, never by reading your own migration.
 
 
 ## Interface and data display (2)
@@ -2090,6 +2103,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>UPDATE OF fires on the columns named in the statement, not the ones that changed (INC-0013)</small>
 - [ ] In Postgres, revoking from every role you can name still leaves PUBLIC. Verify with the advisors or by reading the acl, never by reading your own migration.  
   <small>Revoking EXECUTE from anon did nothing while PUBLIC still held it (INC-0020)</small>
+- [ ] An empty catch block around a write is a silent-loss defect waiting to be born. If a save can fail, the person must be told; a success toast that fires regardless of the result is worse than no toast, because it actively teaches the user the data is safe. And where two layers of authorisation have to agree, something has to compare them: the one that is wrong will not announce itself.  
+  <small>Twelve profile fields said Saved and never reached the account (INC-0056)</small>
 
 
 ## Front end
@@ -2312,7 +2327,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 55 real defects reduced to the rules that prevent them,
+the whole project: 56 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -2352,7 +2367,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-55 defects already prevented is genuinely ahead, and every defect it hits
+56 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed
