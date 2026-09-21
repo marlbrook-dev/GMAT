@@ -56,6 +56,8 @@ Updated September 14, 2026. Owner: Hunter Roberts. Builder: Claude sessions. Thi
 - [ ] Decide what grandfathering means for early users, then flip FREE_LIMITS_LIVE
 - [ ] Stripe Customer Portal so students can cancel without emailing
 - [ ] SFN Assist (AI coaching) when the Anthropic API key is added
+- [x] Business intelligence: billing event ledger (Stripe and Apple), admin_business RPC, Business tab on the chart library
+- [ ] The Build Playbook: a living, exportable guidebook that captures how this platform was built, every defect and misfire hit along the way, and the reusable infrastructure recipe for standing the same stack up again for a different business (scope below)
 
 
 ## Session log, September 16, 2026: LSAT and ACT live, MCAT and EA blocked
@@ -107,6 +109,70 @@ Also fixed while in here, both pre-existing:
 Still open and not mine to fix silently: `sat.score_release` in `data/exams.json` cites
 The Princeton Review, and `mcat.total_time` and `mcat.cost_usd` cite Kaplan. All three are
 coaching-site sources, which CLAUDE.md bans outright.
+
+## The Build Playbook (owner's ask, September 21, 2026)
+
+The ask, in the owner's words: document every single bug, error, misfire and step
+involved in building this platform, so the process can be recreated for a different
+business idea, with the infrastructure for the website, the app, UI and UX, the business
+intelligence system, the algorithm work, the loops, and every other part of the system.
+It should cover the open-source options available and the best way to get the right
+infrastructure in place. It must be a physical deliverable, a PDF or a Word file, and it
+must keep evolving as the build does.
+
+**What makes this hard, and the design that answers it.** A handwritten guide rots. It is
+accurate the week it is written and quietly wrong a month later, which is worse than
+having none, because a wrong playbook is followed. So the playbook is not a document that
+someone maintains. It is a document that is BUILT, the same way the site is built, from
+sources that are already kept true for other reasons:
+
+- **Chapters** are prose, in `docs/playbook/`, one file per part of the system. This is
+  the part a person writes: the judgement, the reasoning, the tradeoffs, the why.
+- **The defect ledger** is structured data, in `data/playbook/incidents.jsonl`, one record
+  per bug, error or misfire: what broke, how it was found, what the root cause was, what
+  the fix was, what now stops it recurring, and what it cost. Every entry cites the commit
+  or the PR it was fixed in, so a claim in the playbook can be checked against the
+  repository.
+- **The evidence** is harvested at build time, never typed: the guard list comes from the
+  real test files, the stack inventory from the real config, the schema from the real
+  migrations, the module sizes from the real files on disk. A figure in the playbook that
+  nobody can regenerate is a figure that will be wrong eventually.
+- **The renderer** is `src/build_playbook.py`, which assembles all three into one document
+  and produces HTML, PDF and DOCX. It runs in the same build as everything else and fails
+  the same way, so the playbook cannot silently fall behind the thing it describes.
+
+**Adaptive, concretely.** Every incident record carries the rule or guard it produced.
+That turns the ledger into the input for the next build rather than a museum: the checklist
+chapter is generated FROM the ledger, so a new defect automatically becomes a line on the
+checklist the next time the document is built. Recurrence is measurable, because an
+incident that happens twice is two records pointing at the same guard, and the renderer
+counts them.
+
+Deliverables, in order:
+
+- [x] `docs/playbook/` chapter set and `data/playbook/incidents.jsonl` seeded from this
+      repository's real history: 17 chapters, 37 incidents reconstructed from the git log,
+      the PR record, the session logs in this file, and the standing rules in CLAUDE.md,
+      which are themselves a defect ledger written as instructions
+- [x] `src/build_playbook.py`: harvest, assemble, render to Markdown, HTML, PDF and Word,
+      with a guard that fails when a chapter cites a file or a commit that does not exist,
+      when a harvested figure stops resolving, or when the document breaks the house style
+      rule it documents
+- [x] The infrastructure recipe chapter: the whole stack priced and justified, the
+      open-source alternative for each paid piece, and what it actually takes to stand the
+      same thing up from an empty repository
+- [x] Wire it into `python3 src/build.py` and CI so the deliverable is regenerated on every
+      merge rather than on request. `src/smoke_playbook.js` is where it is blocking; the
+      site build warns rather than failing, because a stale chapter should not stop a deploy
+- [x] The bootstrap pack: `CLAUDE.template.md`, `KICKOFF.md` and a prompt-sized
+      `RULES_DIGEST.md` generated from the same ledger, so a new Claude project starts with
+      every defect this build hit already prevented. Layered rather than pasted: the rules
+      go in the prompt, the book goes in project knowledge
+- [ ] Backfill the ledger further: the August sessions are represented by their commit
+      messages only, and the incidents recorded from them are thinner than the ones written
+      the day they happened
+- [ ] A per-incident recurrence count, so the analysis chapter can say which lessons were
+      learned twice rather than only which guards are named twice
 
 ## Standing cadence
 

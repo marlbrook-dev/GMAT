@@ -46,6 +46,24 @@ wrong, and change it when the owner says to rather than quoting it back at them.
   published figures, and it fails the same way: a number that looks right is the hardest
   kind of wrong to catch.
 
+## The build playbook (write the record before you fix the bug)
+
+- When something breaks, append a record to data/playbook/incidents.jsonl BEFORE fixing
+  it, while you still remember what you believed was true five minutes ago. That belief is
+  the actual defect and it is the first thing you lose. The record needs what was seen,
+  why, how it surfaced, the fix, the guard that now catches it, and the lesson stated so
+  it makes sense to someone who has never seen this code.
+- python3 src/build_playbook.py regenerates the whole deliverable from those records: the
+  book in playbook/ as Markdown, HTML, PDF and Word, the generated checklist, the analysis
+  chapter, and the bootstrap pack for seeding a new project. Nothing is copied by hand, so
+  writing the record is the only step.
+- python3 src/playbook_harvest.py says which commits look like they describe a defect the
+  ledger does not have. A weekly workflow runs it and opens an issue. If a flagged commit
+  carries no real defect, put it in data/playbook/cleared.jsonl with a reason rather than
+  skipping it silently: the ledger is the place that remembers what was looked at.
+- playbook/ and docs/ are excluded from the deploy. The ledger is a list of this
+  platform's historical weaknesses with the commits that fixed them.
+
 ## Communication (owner's rule, non-negotiable)
 
 - If a link, site, or service cannot be accessed (egress blocked, login wall, rate limit, anything), say so IMMEDIATELY and ask how to proceed BEFORE doing the work another way. Never quietly substitute partial information (a screenshot, memory, a guess) for the source the owner pointed to. The owner always wants to know when there is a problem or a failed connection, at the moment it happens.

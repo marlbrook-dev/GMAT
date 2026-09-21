@@ -1443,6 +1443,223 @@ async function renderAdminRevenue(el,preview){ el.innerHTML='<div class="stack">
  +'</ul></div>'
  +'</div>';
  window._revD=d; }
+// ---------- Business: the one page that answers "how is this doing" ----------
+//
+// The Revenue tab reads profiles, which holds what every account pays RIGHT NOW. That is
+// a snapshot, and a snapshot cannot say how much revenue arrived this month, how much of
+// it left, what share of trials convert, or what came back out as refunds. profiles is
+// overwritten on every webhook, so the moment somebody cancels the evidence they ever
+// paid is gone.
+//
+// This page reads billing_events instead, the append-only ledger the payment functions
+// write to, through admin_business(). It pairs that with traffic and the funnel from
+// site_events, because revenue without the top of the funnel tells you what happened and
+// not why.
+//
+// The honesty constraint that shapes everything below: the ledger began the day it was
+// deployed and is never backfilled with estimates. admin_business returns log.first_at,
+// and the page says so on its face rather than implying the numbers cover all time. A
+// figure that silently covers less than its label claims is the hardest kind of wrong to
+// catch, which is exactly the failure this whole page exists to stop.
+const ADMIN_BIZ_SAMPLE={generated_at:'sample',days:90,
+ log:{events:0,first_at:null,last_at:null,covers_window:false},
+ snapshot:{mrr_cents:0,trial_mrr_cents:0,paying:0,trialing:0,past_due:0,cancelling:0,accounts_total:0,ever_subscribed:0},
+ movement:[],cash:[],
+ window:{new_mrr_cents:0,expansion_mrr_cents:0,contraction_mrr_cents:0,churned_mrr_cents:0,
+  charged_cents:0,refunded_cents:0,refunds:0,failed_payments:0,trials_started:0,
+  trials_converted:0,subscriptions_started:0,cancellations:0,renewals:0},
+ trial_cohorts:[],recent_churn:[],recent_refunds:[],by_source:{}};
+let bizDays=90;
+// Cents in, dollars out, with the precision the size of the number deserves: cents shown
+// below a thousand dollars, dropped above it. A fixed rule is wrong at one end or the
+// other. Rounding $159.84 of ARR to $160 hides real money when the business is small,
+// which is exactly when the owner is reading these tiles most closely; carrying cents on
+// $1,284,113 is noise.
+const usd=function(c,dp){ const v=(Number(c)||0)/100;
+ const d=(dp===undefined)?(Math.abs(v)>=1000?0:2):dp;
+ return '$'+v.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d}); };
+// Daily resolution over three months is mostly zeros and unreadable at phone width, so
+// anything past six weeks is summed into calendar weeks. The totals do not change; only
+// the resolution does, and the table view under every chart still has the raw days.
+function bizGroup(rows,keys){ rows=rows||[];
+ if(rows.length<=45) return rows.map(function(r){ return Object.assign({},r); });
+ const out=[],byW={};
+ rows.forEach(function(r){ const d=new Date(String(r.d)+'T00:00:00Z');
+  if(isNaN(d.getTime())) return;
+  d.setUTCDate(d.getUTCDate()-((d.getUTCDay()+6)%7));
+  const k=d.toISOString().slice(0,10); let b=byW[k];
+  if(!b){ b=byW[k]={d:k}; keys.forEach(function(x){ b[x]=0; }); out.push(b); }
+  keys.forEach(function(x){ b[x]+=Number(r[x])||0; }); });
+ return out; }
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function bizLabel(iso){ const p=String(iso).slice(0,10).split('-');
+ return p.length===3?MON[(+p[1]||1)-1]+' '+(+p[2]):String(iso); }
+function bizDate(iso){ if(!iso) return 'never';
+ const p=String(iso).slice(0,10).split('-');
+ return p.length===3?MON[(+p[1]||1)-1]+' '+(+p[2])+', '+p[0]:String(iso); }
+function bizChart(id,fn,spec){ const n=document.getElementById(id);
+ if(!n||!window.SFNCharts||typeof SFNCharts[fn]!=='function') return;
+ try{ SFNCharts[fn](n,spec); }catch(e){ n.innerHTML='<p class="small muted" style="margin:0">Chart unavailable: '+esc(String((e&&e.message)||e))+'</p>'; } }
+function bizTiles(from,n){ let h='';
+ for(let i=from;i<from+n;i++) h+='<div class="card" style="min-width:0" id="bizTile'+i+'"></div>';
+ return '<div class="tiles">'+h+'</div>'; }
+function bizRows(rows,cols,empty){ if(!rows||!rows.length) return '<p class="small muted" style="margin:0">'+empty+'</p>';
+ return '<div style="overflow-x:auto"><table><thead><tr>'+cols.map(function(c){ return '<th'+(c.num?' class="num"':'')+'>'+esc(c.h)+'</th>'; }).join('')
+  +'</tr></thead><tbody>'+rows.map(function(r){ return '<tr>'+cols.map(function(c){
+    return '<td'+(c.num?' class="num"':'')+'>'+c.f(r)+'</td>'; }).join('')+'</tr>'; }).join('')+'</tbody></table></div>'; }
+
+async function renderAdminBusiness(el,preview){
+ el.innerHTML='<div class="stack"><div class="empty">Loading the business view...</div></div>';
+ let d=ADMIN_BIZ_SAMPLE, tr=ADMIN_TRAFFIC_SAMPLE;
+ if(!preview){
+  try{ const r=await Cloud.client.rpc('admin_business',{p_days:bizDays}); if(r.error) throw r.error; d=r.data; }
+  catch(e){ el.innerHTML='<div class="narrow stack"><div class="card p8"><div class="card-title">Business</div>'
+   +'<p class="muted" style="margin-top:8px">Could not load the business view: '+esc(String((e&&e.message)||e))+'</p></div></div>'; return; }
+  // Traffic is a separate read on purpose: a failure there must not blank the revenue
+  // half of the page, which is the half somebody opened this for.
+  try{ const t=await Cloud.client.rpc('admin_traffic',{p_days:Math.min(bizDays,90)}); if(!t.error) tr=t.data; }catch(e2){}
+  try{ const f=await Cloud.client.rpc('admin_funnel',{days:Math.min(bizDays,90)}); if(!f.error&&tr) tr.funnel=f.data; }catch(e3){}
+ }
+ window._biz=d; window._bizTraffic=tr;
+ const snap=d.snapshot||{}, w=d.window||{}, log=d.log||{};
+ const net=(w.new_mrr_cents||0)+(w.expansion_mrr_cents||0)-(w.contraction_mrr_cents||0)-(w.churned_mrr_cents||0);
+ const cohorts=d.trial_cohorts||[];
+ const cohConv=cohorts.reduce(function(a,c){ return a+(c.converted||0); },0);
+ const cohDecided=cohorts.reduce(function(a,c){ return a+(c.converted||0)+(c.lapsed||0); },0);
+ const mv=bizGroup(d.movement,['new_cents','expansion_cents','contraction_cents','churned_cents']);
+ const cs=bizGroup(d.cash,['charged_cents','refunded_cents']);
+ const byDay=(tr&&tr.by_day)||[];
+ const winBtn=function(n,lbl){ return '<button class="btn sm'+(bizDays===n?'':' secondary')+'" onclick="bizDays='+n+';renderAdmin()">'+lbl+'</button>'; };
+
+ el.innerHTML='<div class="stack">'
+ +'<div class="row" style="align-items:flex-end;justify-content:space-between"><div style="min-width:0">'
+   +'<h1 style="font-size:var(--text-2xl);font-weight:700">Business</h1>'
+   +'<p class="muted" style="margin:6px 0 0">Money and demand on one page. The recurring half comes from the billing ledger, which records what each subscription did rather than what it is; the demand half comes from the first-party beacon. Cash and recurring value are kept apart throughout: an annual plan is one charge and twelve months of revenue, and adding those together is wrong in both directions.</p>'
+ +'</div>'+adminTabsHtml()+'</div>'
+ +(preview?'<div class="card p5" style="background:var(--status-warning-bg);border-color:var(--amber-100)"><span class="small">Sample data preview, all zeros. Sign in as an admin for the real ledger.</span></div>':'')
+
+ // The provenance line. Everything below is "since the ledger began", and saying so on
+ // the face of the page is cheaper than explaining a wrong number later.
+ +'<div class="card p5"><div class="row" style="justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center">'
+   +'<span class="small muted" style="min-width:0">'
+     +(log.events?('Ledger holds <strong>'+Number(log.events).toLocaleString('en-US')+'</strong> events, first on <strong>'+esc(bizDate(log.first_at))+'</strong>. '
+        +(log.covers_window?'That covers this whole window.':'That is <strong>less than the window below</strong>, so movement and cash figures start from the ledger, not from the first day shown.'))
+       :'The ledger is empty. It began the day it was deployed and is never backfilled with estimates, so movement, trials and refunds stay blank until the first billing event lands. The snapshot tiles read from profiles and are true now.')
+   +'</span><span class="row" style="gap:6px;flex:none">'+winBtn(30,'30d')+winBtn(90,'90d')+winBtn(365,'365d')+'</span></div></div>'
+
+ +bizTiles(0,4)
+ +bizTiles(4,4)
+
+ +'<div class="card"><div class="card-head"><span class="card-title">Recurring Revenue Movement</span>'
+   +'<button class="btn sm secondary" onclick="csvDownload(\'mrr-movement\',(window._biz&&window._biz.movement)||[])">CSV</button></div>'
+   +'<div id="bizMove" style="min-width:0"></div>'
+   +'<p class="small muted" style="margin:10px 0 0">New is a subscription starting or a trial converting. Churn is what a cancelling subscriber was paying, captured at the moment of cancellation because that is the last instant the figure exists. A trial that lapses churns nothing, because it was never revenue; it shows up in the cohort table instead.</p></div>'
+
+ +'<div class="card"><div class="card-head"><span class="card-title">Cash Collected and Refunded</span>'
+   +'<button class="btn sm secondary" onclick="csvDownload(\'cash\',(window._biz&&window._biz.cash)||[])">CSV</button></div>'
+   +'<div id="bizCash" style="min-width:0"></div>'
+   +'<p class="small muted" style="margin:10px 0 0">Gross, not net, and refunds shown beside charges rather than subtracted from them. Netting hides the month where a fifth of revenue came back. Excludes tax, which Stripe adds at checkout and remits separately.</p></div>'
+
+ +'<div class="grid2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">'
+  +'<div class="card" style="min-width:0"><div class="card-head"><span class="card-title">Trial Cohorts</span>'
+    +'<button class="btn sm secondary" onclick="csvDownload(\'trial-cohorts\',(window._biz&&window._biz.trial_cohorts)||[])">CSV</button></div>'
+    +'<div id="bizCoh" style="min-width:0"></div>'
+    +'<p class="small muted" style="margin:10px 0 0">Grouped by the week the trial <em>started</em>, which is the only grouping that gives an honest rate: counting conversions in the week they convert flatters a growing month and punishes a shrinking one. A cohort still inside its trial is pending, not a zero.</p></div>'
+  +'<div class="card" style="min-width:0"><div class="card-head"><span class="card-title">Demand</span>'
+    +'<button class="btn sm secondary" onclick="csvDownload(\'sessions\',(window._bizTraffic&&window._bizTraffic.by_day)||[])">CSV</button></div>'
+    +'<div id="bizTraf" style="min-width:0"></div>'
+    +'<p class="small muted" style="margin:10px 0 0">First-party beacon, consented sessions only. Ad blockers hide some visitors, so treat this as a floor rather than a count.</p></div>'
+ +'</div>'
+
+ +funnelCardBiz((tr&&tr.funnel)||[],(tr&&tr.sessions)||0)
+
+ +'<div class="grid2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">'
+  +'<div class="card stack-4" style="min-width:0"><div class="card-title">Who Left, and What It Cost</div>'
+    +bizRows(d.recent_churn||[],[
+      {h:'When',f:function(r){ return esc(bizDate(r.at)); }},
+      {h:'Plan',f:function(r){ return esc(String((r.plan||'unknown')+' '+(r.interval||''))); }},
+      {h:'MRR lost',num:1,f:function(r){ return usd(r.mrr_cents); }}],
+      'No cancellations in this window.')+'</div>'
+  +'<div class="card stack-4" style="min-width:0"><div class="card-title">Refunds</div>'
+    +bizRows(d.recent_refunds||[],[
+      {h:'When',f:function(r){ return esc(bizDate(r.at)); }},
+      {h:'Plan',f:function(r){ return esc(String(r.plan||'unknown')); }},
+      {h:'Amount',num:1,f:function(r){ return usd(r.cents); }}],
+      'No refunds in this window. Policy is 72 hours from the charge, plus our own billing errors, which are always refunded.')+'</div>'
+ +'</div>'
+
+ +'<div class="card stack-4"><div class="card-title">What This Page Can and Cannot Tell You</div><ul class="small" style="margin:0;padding-left:18px">'
+  +'<li><strong>Trial money is never in MRR.</strong> A trial contributes zero until it converts. '+(snap.trialing||0)+' trialing '+((snap.trialing===1)?'account is':'accounts are')+' worth '+usd(snap.trial_mrr_cents)+' a month if every one of them converts, which is a pipeline figure, not revenue.</li>'
+  +'<li><strong>Churn rate is not shown, on purpose.</strong> A percentage needs a denominator held at the start of the window, and the ledger cannot supply one for any period beginning before '+esc(bizDate(log.first_at))+'. The counts and the lost MRR are real; the ratio would be a guess dressed as a metric. It appears here once the ledger is older than the window.</li>'
+  +'<li><strong>Stripe is the ledger of record.</strong> This is an operating view built from webhook events. Disputes, tax and payout timing live in Stripe and are not modelled here.</li>'
+  +'<li><strong>Apple cash is gross of Apple\'s commission.</strong> Apple keeps 15 or 30 percent depending on the programme and its notifications do not say which, so what is recorded is what the customer paid. Apple sandbox transactions are never recorded at all: fictional dollars in a revenue chart are worse than a gap.</li>'
+  +'<li><strong>Revenue and demand are not joined.</strong> Item telemetry is deliberately unlinkable and the beacon is per session, so nothing here attributes a subscription to a visit. That is a design choice, not a gap to close.</li>'
+ +'</ul></div>'
+ +'</div>';
+
+ // Charts render after the markup exists, because they take a live node rather than a
+ // string. Every one degrades to a message if the library is missing rather than leaving
+ // an empty box that reads as "zero".
+ const tiles=[
+  {label:'MRR',value:usd(snap.mrr_cents),note:'active subscriptions, annual prices divided by twelve'},
+  {label:'ARR',value:usd((snap.mrr_cents||0)*12),note:'MRR times twelve, not a forecast'},
+  {label:'Paying',value:String(snap.paying||0),note:String(snap.cancelling||0)+' cancelling, '+String(snap.past_due||0)+' past due'},
+  {label:'In Trial',value:String(snap.trialing||0),note:usd(snap.trial_mrr_cents)+' a month if all convert'},
+  {label:'Net New MRR',value:usd(net),note:'last '+(d.days||bizDays)+' days, new plus expansion less churn'},
+  {label:'Churned MRR',value:usd(w.churned_mrr_cents),note:String(w.cancellations||0)+' cancellation'+((w.cancellations===1)?'':'s')+' in window'},
+  {label:'Cash Collected',value:usd(w.charged_cents),note:String(w.renewals||0)+' renewal'+((w.renewals===1)?'':'s')+', excludes tax'},
+  {label:'Trial Conversion',value:cohDecided?String(Math.round(cohConv*1000/cohDecided)/10)+'%':'n/a',
+   note:cohDecided?(cohConv+' of '+cohDecided+' decided cohorts'):'no trial has finished yet'}
+ ];
+ tiles.forEach(function(t,i){ bizChart('bizTile'+i,'statTile',t); });
+
+ // Bars, not a line, and the reason is not taste. Money movement is a set of discrete
+ // events on particular days: $13.32 arrived on the 18th and $4.99 left on the 19th. A
+ // line drawn between those two points reads as a continuous quantity passing through
+ // every value in between, and it never did. Bars say "this much, on this day" and stay
+ // silent about the gaps, which is the truth. The same argument applies to cash.
+ bizChart('bizMove','comparison',{
+  title:'', height:230,
+  categories:mv.map(function(r){ return bizLabel(r.d); }),
+  series:[{name:'New and expansion',values:mv.map(function(r){ return ((r.new_cents||0)+(r.expansion_cents||0))/100; })},
+          {name:'Churn and contraction',values:mv.map(function(r){ return ((r.churned_cents||0)+(r.contraction_cents||0))/100; })}]});
+
+ bizChart('bizCash','comparison',{
+  title:'', height:230,
+  categories:cs.map(function(r){ return bizLabel(r.d); }),
+  series:[{name:'Charged',values:cs.map(function(r){ return (r.charged_cents||0)/100; })},
+          {name:'Refunded',values:cs.map(function(r){ return (r.refunded_cents||0)/100; })}]});
+
+ if(cohorts.length){ bizChart('bizCoh','comparison',{
+   title:'', height:230, stacked:true,
+   categories:cohorts.map(function(c){ return bizLabel(c.w); }),
+   series:[{name:'Converted',values:cohorts.map(function(c){ return c.converted||0; })},
+           {name:'Lapsed',values:cohorts.map(function(c){ return c.lapsed||0; })},
+           {name:'Still trialing',values:cohorts.map(function(c){ return c.pending||0; })}]}); }
+ else { const n=document.getElementById('bizCoh');
+   if(n) n.innerHTML='<p class="small muted" style="margin:0">No trial has started since the ledger began, so there is nothing to group yet.</p>'; }
+
+ if(byDay.length){ bizChart('bizTraf','timeSeries',{
+   title:'', height:230, zero:true,
+   labels:byDay.map(function(r){ return bizLabel(r.d); }),
+   series:[{name:'Pageviews',values:byDay.map(function(r){ return Number(r.n)||0; })},
+           {name:'Sessions',values:byDay.map(function(r){ return Number(r.u)||0; })}]}); }
+ else { const n2=document.getElementById('bizTraf');
+   if(n2) n2.innerHTML='<p class="small muted" style="margin:0">No beacon data in this window.</p>'; }
+
+ const fn=(tr&&tr.funnel)||[];
+ if(fn.length) bizChart('bizFunnel','funnel',{ title:'',
+  steps:fn.map(function(r){ return {label:String(r.label||r.step),value:Number(r.sessions)||0}; }) });
+}
+// The traffic tab's funnel card reads window._traffic for its CSV button. This page keeps
+// its own copy under a different key, so it gets its own card rather than sharing one and
+// having the export quietly pull the other page's numbers.
+function funnelCardBiz(rows,total){ if(!rows||!rows.length) return '';
+ return '<div class="card"><div class="card-head"><span class="card-title">Conversion Funnel</span>'
+  +'<button class="btn sm secondary" onclick="csvDownload(\'funnel\',(window._bizTraffic&&window._bizTraffic.funnel)||[])">CSV</button></div>'
+  +'<p class="muted small" style="margin:0 0 12px">'+(total?('Out of <strong>'+Number(total).toLocaleString('en-US')+'</strong> sessions that accepted analytics. '):'')
+  +'Steps are recorded once per session. Item telemetry stays unlinkable and is not part of this.</p>'
+  +'<div id="bizFunnel" style="min-width:0"></div></div>'; }
 // ---------- sentinel: error triage (reads admin_errors, writes admin_triage_error) ----------
 // Stage two and three of the loop. Stage one is the beacon in partials.sentinel_js().
 //
@@ -1597,10 +1814,11 @@ function metricDetail(id){ const m=METRICS[id]; if(!m) return; const t=METRIC_TI
   +'<tr><td>As of</td><td class="small">'+esc(asOf)+'</td></tr>'
   +'</tbody></table></div>'); }
 let adminTab='bi';
-function adminTabsHtml(){ const T=[['bi','Overview'],['learn','Learning'],['items','Items'],['social','Social'],['catalog','Metric Catalog'],['rev','Revenue'],['err','Errors'],['users','Users'],['traffic','Traffic'],['mod','Moderation'],['crm','Partners CRM'],['posture','Posture']];
+function adminTabsHtml(){ const T=[['bi','Overview'],['business','Business'],['learn','Learning'],['items','Items'],['social','Social'],['catalog','Metric Catalog'],['rev','Revenue'],['err','Errors'],['users','Users'],['traffic','Traffic'],['mod','Moderation'],['crm','Partners CRM'],['posture','Posture']];
  return '<div class="row" style="gap:6px;flex-wrap:wrap">'+T.map(t=>'<button class="btn sm'+(adminTab===t[0]?'':' secondary')+'" onclick="adminTab=\''+t[0]+'\';renderAdmin()">'+t[1]+'</button>').join('')+'</div>'; }
 async function renderAdmin(){ const el=document.getElementById('v-admin'); const preview=location.hash==='#admin-preview';
  if(!preview&&(!Cloud.user||!Cloud.isAdmin)){ el.innerHTML='<div class="narrow stack"><div class="card p8" style="text-align:center"><div class="card-title">Admin</div><p class="muted" style="margin-top:8px">Business intelligence is available to admin accounts. Sign in on the Account tab with an admin email.</p></div></div>'; return; }
+ if(adminTab==='business'){ return renderAdminBusiness(el,preview); }
  if(adminTab==='rev'){ return renderAdminRevenue(el,preview); }
  if(adminTab==='err'){ return renderAdminErrors(el,preview); }
  if(adminTab==='crm'){ return renderAdminCRM(el,preview); }

@@ -9,6 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # The playbook's defect ledger cites the commit that fixed each incident, and
+          # smoke_playbook verifies every one of them resolves. checkout defaults to a
+          # shallow clone, where every historical SHA is simply absent, so the guard
+          # reported 37 phantom bad citations on its first CI run.
+          fetch-depth: 0
       - name: Build site (app + blog with content validation)
         run: python3 src/build.py && python3 src/build_blog.py
       - name: Bank validation and engine simulation
@@ -17,6 +23,12 @@ jobs:
         run: node src/smoke_redirect.js
       - name: Chart geometry and dark theme tokens
         run: node src/smoke_charts.js
+      # The playbook is generated from the chapters, the defect ledger and a harvest of
+      # this repository. build.py rebuilds it but does not fail on it, because a stale
+      # chapter should not stop a deploy. This is where it is allowed to be blocking: a
+      # document that promises every figure is measured has to have that checked.
+      - name: The Build Playbook and its bootstrap pack
+        run: node src/smoke_playbook.js
       # The browser suites were running nowhere: they need playwright, node_modules is
       # gitignored, and nobody had ever installed it in CI. Four suites that the project
       # relies on, including the offline one that is the App Review 4.2 evidence, were
@@ -25,8 +37,10 @@ jobs:
         run: npm install --no-audit --no-fund
       - name: Install Chromium for Playwright
         run: npx playwright install --with-deps chromium
-      - name: Browser suites (items, consent, billing, offline)
+      - name: Browser suites (items, consent, billing, offline, business)
         run: npm run test:browser
+      - name: Render the playbook to PDF
+        run: node src/playbook_pdf.js
       - name: House rules sweep on generated pages
         run: |
           python3 - <<'EOF'

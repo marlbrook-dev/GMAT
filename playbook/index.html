@@ -1,0 +1,1658 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The Build Playbook</title><style>
+:root{--ink:#111827;--ink2:#374151;--mut:#6b7280;--rule:#e5e7eb;--navy:#122B4E;
+--bg:#ffffff;--soft:#f8fafc;--code:#f1f5f9;--accent:#0072B2;--max:46rem}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+ font:16px/1.65 "IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 20px 120px}
+h1,h2,h3,h4{font-family:"Source Serif 4",Georgia,"Times New Roman",serif;
+ color:var(--navy);line-height:1.2;letter-spacing:-.02em;margin:2.2em 0 .5em}
+h1{font-size:2.1rem;letter-spacing:-.028em;margin-top:2.6em;padding-top:1.4em;border-top:2px solid var(--navy)}
+h2{font-size:1.45rem}h3{font-size:1.12rem;letter-spacing:-.012em}h4{font-size:1rem}
+p,li{color:var(--ink2)}
+p{margin:0 0 1em}
+ul,ol{margin:0 0 1.1em;padding-left:1.3em}
+li{margin:.3em 0}
+li>small{color:var(--mut);font-size:.82em}
+code{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+ font-size:.86em;background:var(--code);padding:.12em .35em;border-radius:4px;
+ word-break:break-word}
+pre{background:var(--code);border:1px solid var(--rule);border-radius:8px;
+ padding:14px 16px;overflow-x:auto;margin:0 0 1.2em}
+pre code{background:none;padding:0;font-size:.8rem;line-height:1.55}
+.tw{overflow-x:auto;margin:0 0 1.3em}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{border-bottom:1px solid var(--rule);padding:8px 10px;vertical-align:top}
+th{color:var(--navy);font-weight:600;text-align:left;border-bottom:2px solid var(--rule);
+ font-size:.78rem;letter-spacing:.06em;text-transform:uppercase}
+td{color:var(--ink2)}
+hr{border:0;border-top:1px solid var(--rule);margin:2.4em 0}
+strong{color:var(--ink);font-weight:600}
+a{color:var(--accent)}
+.cover{padding:16vh 0 8vh;border-bottom:1px solid var(--rule);margin-bottom:1em}
+.cover h1{border:0;padding:0;margin:0 0 .35em;font-size:2.9rem;letter-spacing:-.032em}
+.cover .sub{font-size:1.06rem;color:var(--mut);max-width:34rem;margin:0 0 2.2em}
+.cover .meta{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.78rem;
+ color:var(--mut);letter-spacing:.02em}
+.eyebrow{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);
+ margin:0 0 1.4em;font-weight:600}
+.toc{background:var(--soft);border:1px solid var(--rule);border-radius:10px;padding:18px 22px;margin:0 0 2em}
+.toc ol{margin:0;padding-left:1.2em}
+.toc a{color:var(--navy);text-decoration:none}
+.toc a:hover{text-decoration:underline}
+@media print{
+ body{font-size:10.5pt}
+ .wrap{max-width:none;padding:0}
+ h1{page-break-before:always;border-top:0;padding-top:0;margin-top:0}
+ .cover h1,.toc+h1{page-break-before:avoid}
+ h1,h2,h3{page-break-after:avoid}
+ pre,table,li{page-break-inside:avoid}
+ .cover{padding:6cm 0 2cm;page-break-after:always;border:0}
+ a{color:var(--ink);text-decoration:none}
+}
+@media (max-width:640px){.wrap{padding:0 16px 80px}.cover{padding:8vh 0 5vh}.cover h1{font-size:2.1rem}}
+</style></head><body><div class="wrap">
+<div class="cover">
+<p class="eyebrow">Start From Nowhere</p>
+<h1>The Build Playbook</h1>
+<p class="sub">How one person and a set of AI sessions built a multi-exam test-prep platform, every defect hit on the way, and the recipe for doing it again for something else</p>
+<p class="meta">Built 2026-09-21 from commit 09ca3f2 &middot; 66 commits over 35 days &middot; 55 recorded defects &middot; 17 chapters<br>
+This document is generated. Edit the chapters in docs/playbook/ and the ledger in data/playbook/incidents.jsonl, then run python3 src/build_playbook.py.</p>
+</div>
+<div class="toc"><ol><li><a href="#how-to-use-this-book">How to Use This Book</a></li>
+<li><a href="#the-stack-priced-and-what-it-would-cost-in-open-source">The Stack, Priced, and What It Would Cost in Open Source</a></li>
+<li><a href="#from-an-empty-repository-to-a-live-site">From an Empty Repository to a Live Site</a></li>
+<li><a href="#the-build-system">The Build System</a></li>
+<li><a href="#the-interface-one-system-defined-once">The Interface: One System, Defined Once</a></li>
+<li><a href="#the-algorithm-adaptive-selection-and-honest-scoring">The Algorithm: Adaptive Selection and Honest Scoring</a></li>
+<li><a href="#content-at-scale-without-lying-about-it">Content at Scale, Without Lying About It</a></li>
+<li><a href="#the-data-layer">The Data Layer</a></li>
+<li><a href="#payments">Payments</a></li>
+<li><a href="#business-intelligence">Business Intelligence</a></li>
+<li><a href="#tests-and-guards">Tests and Guards</a></li>
+<li><a href="#running-the-build-as-an-ai-loop">Running the Build as an AI Loop</a></li>
+<li><a href="#what-the-ledger-says-about-itself">What the Ledger Says About Itself</a></li>
+<li><a href="#the-defect-ledger">The Defect Ledger</a></li>
+<li><a href="#the-checklist">The Checklist</a></li>
+<li><a href="#adapting-this-to-a-different-business">Adapting This to a Different Business</a></li>
+<li><a href="#the-bootstrap-pack-starting-a-new-project-with-this-loaded">The Bootstrap Pack: Starting a New Project With This Loaded</a></li></ol></div>
+<h1 id="how-to-use-this-book">How to Use This Book</h1>
+<p>This is the record of building one platform, written so it can be used to build a different one.</p>
+<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-08-17 and 2026-09-21, which is 35 days, across 66 commits, by one owner directing a series of AI coding sessions. As of this build it is 39 Python files, 89 JavaScript files, 24 TypeScript edge functions, 32 migrations and 63 documents: 1948 tracked files in total.</p>
+<p>None of those numbers were typed. They are measured from the repository every time this document is built, which is the first thing worth copying.</p>
+<h2 id="what-is-in-here">What is in here</h2>
+<p>The book has four kinds of chapter, and they age differently.</p>
+<p><strong>The recipe chapters</strong> say how to stand up each part of the system: the infrastructure, the build, the interface, the algorithm, the content pipeline, the database, payments, business intelligence. These are the slowest to rot, because they are mostly about sequence and tradeoff rather than about any particular API.</p>
+<p><strong>The defect ledger</strong> is every bug, error and misfire that cost real time, with what was seen, why it happened, how it surfaced, what fixed it, and what now stops it recurring. Each entry ends with a lesson stated without reference to this codebase, because that is the part that transfers.</p>
+<p><strong>The analysis chapter</strong> is computed from the ledger. It counts how defects were actually found, which failure modes dominate, and which guards have already failed more than once. A handwritten guide cannot contain this chapter, because it has to be recounted every time the ledger changes.</p>
+<p><strong>The bootstrap pack</strong> is the part you use to start something new. It is a set of ready-to-paste artefacts for opening a fresh Claude project on a different business idea, with everything this build learned already loaded.</p>
+<h2 id="how-to-actually-use-it">How to actually use it</h2>
+<p><strong>Starting something new.</strong> Go straight to the last chapter, The Bootstrap Pack. It gives you three files and the order to use them in. You do not need to read the rest first; the pack carries the distilled rules.</p>
+<p><strong>Building a specific part.</strong> Read the matching recipe chapter, then read the ledger entries for that area. The recipe says what to do; the ledger says what will go wrong. The second is worth more.</p>
+<p><strong>Reviewing work before it ships.</strong> Use The Checklist. It is generated from the ledger, so every line on it exists because something went wrong once, and nothing is on it for completeness.</p>
+<h2 id="how-this-document-stays-true">How this document stays true</h2>
+<p>It is built, not maintained. Three sources go in:</p>
+<ol>
+<li><code>docs/playbook/*.md</code>, the prose. Written by a person; this is the judgement.</li>
+<li><code>data/playbook/incidents.jsonl</code>, the defect ledger. One JSON record per incident,</li>
+</ol>
+<p>carrying the commit that fixed it and the file that now guards it.</p>
+<ol>
+<li>The repository itself, harvested at build time for every figure in the text.</li>
+</ol>
+<p><code>python3 src/build_playbook.py</code> assembles them and writes Markdown, HTML, PDF and Word. Three things fail the build rather than shipping quietly:</p>
+<ul>
+<li>An unresolved <code>{{PLACEHOLDER}}</code>, which means a fact the document wanted no longer exists.</li>
+<li>An incident citing a commit hash or a guard file that cannot be found.</li>
+<li>An em dash or en dash, because the house style bans them and the document about the</li>
+</ul>
+<p>house rules should not break them.</p>
+<p>That last one is a joke with a serious point behind it. A rule that is only enforced by attention is a rule that decays. Every rule worth having should have something that notices when it is broken.</p>
+<h2 id="adding-to-it">Adding to it</h2>
+<p>When something breaks, add a record to <code>data/playbook/incidents.jsonl</code> before you fix it, while you still remember what you believed was true five minutes ago. That belief is the most valuable field and the first one you lose.</p>
+<p>The record needs: what was seen, why, how it surfaced, the fix, the guard that now catches it, and the lesson stated so it makes sense to someone who has never seen this code. The <code>guard</code> field is what makes the ledger adaptive: the checklist chapter is generated from those fields, so writing the record is the only step. Nothing has to be copied anywhere.</p>
+<p>If two records name the same guard, the analysis chapter will say so, and that means the guard did not hold and needs rebuilding rather than trusting.</p>
+<h1 id="the-stack-priced-and-what-it-would-cost-in-open-source">The Stack, Priced, and What It Would Cost in Open Source</h1>
+<p>The whole platform runs for roughly the price of a couple of lunches a month. That is not a boast, it is the design constraint that produced most of the interesting decisions in this book, and it is reproducible.</p>
+<h2 id="what-is-actually-running">What is actually running</h2>
+<div class="tw"><table><thead><tr><th style="text-align:left">Layer</th><th style="text-align:left">Choice</th><th style="text-align:left">Why this one</th><th style="text-align:left">Monthly at this scale</th></tr></thead><tbody>
+<tr><td style="text-align:left">Hosting and CDN</td><td style="text-align:left">Cloudflare Workers with static assets</td><td style="text-align:left">Global edge, generous free tier, and a real runtime in front of the files when you need one</td><td style="text-align:left">$0 to $5</td></tr>
+<tr><td style="text-align:left">Domain</td><td style="text-align:left">Registrar of choice at cost</td><td style="text-align:left">Nothing clever here</td><td style="text-align:left">about $1 amortised</td></tr>
+<tr><td style="text-align:left">Database, auth, storage</td><td style="text-align:left">Supabase (managed Postgres)</td><td style="text-align:left">Row Level Security means the database enforces authorisation, not the app</td><td style="text-align:left">$0 to $25</td></tr>
+<tr><td style="text-align:left">Serverless functions</td><td style="text-align:left">Supabase Edge Functions (Deno)</td><td style="text-align:left">Same project, same secrets store, no second vendor</td><td style="text-align:left">included</td></tr>
+<tr><td style="text-align:left">Payments</td><td style="text-align:left">Stripe Checkout, Apple In-App Purchase</td><td style="text-align:left">Checkout removes PCI scope entirely; Apple is mandatory if you ship an iOS app</td><td style="text-align:left">percentage of revenue</td></tr>
+<tr><td style="text-align:left">Email</td><td style="text-align:left">Transactional provider of choice</td><td style="text-align:left">Deliberately last. Do not build this before you have users</td><td style="text-align:left">$0 at low volume</td></tr>
+<tr><td style="text-align:left">Source and CI</td><td style="text-align:left">GitHub with Actions</td><td style="text-align:left">The deploy hook and the test runner live in the same place as the code</td><td style="text-align:left">$0</td></tr>
+<tr><td style="text-align:left">Error and product telemetry</td><td style="text-align:left">Written in house, about 200 lines</td><td style="text-align:left">Covered below; this is the surprising one</td><td style="text-align:left">$0</td></tr>
+<tr><td style="text-align:left">Analytics</td><td style="text-align:left">First-party beacon, written in house</td><td style="text-align:left">Covered below</td><td style="text-align:left">$0</td></tr>
+<tr><td style="text-align:left">Charts</td><td style="text-align:left">Written in house, one file</td><td style="text-align:left">Covered below</td><td style="text-align:left">$0</td></tr>
+</tbody></table></div>
+<p>Total fixed cost at the scale this platform runs: under thirty dollars a month, most of which is the database.</p>
+<h2 id="the-three-things-not-to-buy">The three things not to buy</h2>
+<p>These are the decisions that saved the most money and, more importantly, the most complexity. Each replaced a product that would have been reasonable to buy.</p>
+<p><strong>Analytics.</strong> A first-party beacon is a <code>fetch</code> on page load carrying path, referrer, UTM parameters, a session id from <code>sessionStorage</code>, device class and time on page, into one table. Country and a salted address hash are added by a database trigger so the raw address is never stored. That is a few dozen lines. What you get that you cannot buy: the data is in your own database next to your users, so a question like "which landing pages precede a subscription" is a join rather than an integration project. What you give up: nothing an ad blocker was not already taking from the paid product.</p>
+<p><strong>Error monitoring.</strong> A global <code>error</code> and <code>unhandledrejection</code> handler posting to an insert-only table, with a clustering view and a human triage queue. The clustering matters more than the capture: raw errors are noise, and the value is in a human marking each cluster real, fixed, will not fix, or noise, so the queue gets quieter as it learns rather than louder. Nothing in it edits code, and that is deliberate.</p>
+<p><strong>Charts.</strong> A charting library is two hundred kilobytes and a second thing to pin in your Content Security Policy. Five chart forms plus a stat tile, built as inline SVG from numbers, is about six hundred lines and smaller than the smallest library's minified core. The chapter on the interface explains why the colours in it are computed rather than chosen.</p>
+<p>The rule behind all three: <strong>buy the thing that would be dangerous to get wrong, build the thing that is mostly a shape.</strong> Payments are dangerous. Authentication is dangerous. A bar chart is a shape.</p>
+<h2 id="the-open-source-equivalent-of-every-paid-piece">The open-source equivalent of every paid piece</h2>
+<p>If the managed services are unavailable, too expensive, or politically impossible, here is the substitution, and honestly what it costs you.</p>
+<div class="tw"><table><thead><tr><th style="text-align:left">Managed</th><th style="text-align:left">Open source</th><th style="text-align:left">What changes</th></tr></thead><tbody>
+<tr><td style="text-align:left">Cloudflare Workers</td><td style="text-align:left">Caddy or nginx on a small VPS; Nixpacks or Dokku for deploys</td><td style="text-align:left">You now own TLS renewal, log rotation and the box. Budget half a day to set up and an hour a month forever</td></tr>
+<tr><td style="text-align:left">Supabase</td><td style="text-align:left">Postgres plus PostgREST plus GoTrue, or the self-hosted Supabase compose file</td><td style="text-align:left">You get the same API surface. You also get backups, upgrades and connection pooling as your job. This is the biggest jump in operational load of anything in this table</td></tr>
+<tr><td style="text-align:left">Supabase Edge Functions</td><td style="text-align:left">Deno Deploy, or a plain Node or Deno process behind the reverse proxy</td><td style="text-align:left">Straightforward. The awkward part is secrets, which you will end up managing with something like SOPS or a mounted env file</td></tr>
+<tr><td style="text-align:left">Stripe Checkout</td><td style="text-align:left">There is no real substitute, and you should not want one</td><td style="text-align:left">Self-hosting payments means PCI scope. Do not</td></tr>
+<tr><td style="text-align:left">GitHub Actions</td><td style="text-align:left">Forgejo Actions, Woodpecker, or Drone</td><td style="text-align:left">Fine. Slower to set up, one fewer vendor</td></tr>
+<tr><td style="text-align:left">Managed Postgres backups</td><td style="text-align:left">pgBackRest or WAL-G to object storage</td><td style="text-align:left">Works well and is genuinely worth learning even on a managed service, because it is also your migration path off it</td></tr>
+<tr><td style="text-align:left">Supabase Auth</td><td style="text-align:left">Keycloak, Authentik, Ory Kratos</td><td style="text-align:left">All three are more capable and considerably more work. Keycloak in particular is a serious piece of infrastructure</td></tr>
+<tr><td style="text-align:left">Cloudflare Web Analytics</td><td style="text-align:left">Plausible, Umami, Matomo, all self-hostable</td><td style="text-align:left">Umami is the lightest. But see the point above: once you have a first-party beacon into your own database, a second analytics product is mostly duplication</td></tr>
+<tr><td style="text-align:left">Playwright</td><td style="text-align:left">Already open source</td><td style="text-align:left">No change</td></tr>
+<tr><td style="text-align:left">Anything for charts</td><td style="text-align:left">ECharts, Chart.js, Observable Plot</td><td style="text-align:left">All good. Weigh the bundle against the six hundred lines</td></tr>
+<tr><td style="text-align:left">Anything for PDF</td><td style="text-align:left">Headless Chromium print-to-PDF, WeasyPrint, Typst</td><td style="text-align:left">Chromium is already on the machine if you run browser tests. That is how this document is produced</td></tr>
+</tbody></table></div>
+<p><strong>The honest summary of that table:</strong> the only irreplaceable paid component is the payment processor. Everything else is a convenience purchase, and the convenience is real but bounded. The thing you are actually buying from a managed database is not Postgres; it is somebody else being on call for it.</p>
+<h2 id="what-the-architecture-buys-you">What the architecture buys you</h2>
+<p>Two structural choices shaped everything else, and both are worth copying.</p>
+<p><strong>Static pages, built ahead of time, with no runtime framework.</strong> Every page on the site is a self-contained HTML file with inline CSS and inline JavaScript, generated by a Python build. There is no server rendering, no hydration and no client-side router. The consequences compound: pages are fast because there is nothing to boot; the whole site can be served from a CDN for nothing; there is no dependency tree to keep patched; and the security surface of a page is what you can read in that page. The cost is that anything dynamic has to be deliberate, which turns out to be a feature.</p>
+<p><strong>The database enforces authorisation, not the application.</strong> Row Level Security on every table, and every privileged read behind a <code>SECURITY DEFINER</code> function that checks an admin table. The app cannot grant itself anything, because the app is a browser, and a browser is not trusted. This is what makes it safe to ship a site with no backend of your own.</p>
+<p>Both decisions have the same shape: <strong>push the guarantee down to the layer that cannot be bypassed.</strong> A rule enforced in JavaScript is a suggestion.</p>
+<h1 id="from-an-empty-repository-to-a-live-site">From an Empty Repository to a Live Site</h1>
+<p>The order below is the one that worked, and the order matters more than any individual step. Most of what went wrong in this build went wrong because something was done before the thing that would have caught it.</p>
+<h2 id="phase-0-the-rules-file-before-any-code">Phase 0: the rules file, before any code</h2>
+<p>Write the project's standing rules into a file the AI session reads on every turn. On this project that is <code>CLAUDE.md</code>, 63 documents in, and it is still the highest leverage file in the repository.</p>
+<p>It is not documentation. It is the constitution, and it should contain only things that are load-bearing and that you would otherwise have to say again:</p>
+<ul>
+<li>The house style rules that a build can enforce. Ours bans em dashes and en dashes</li>
+</ul>
+<p>outright, everywhere, including commit messages. That sounds trivial. It means a single grep decides whether copy was written by hand or pasted from somewhere, and the build fails on a violation.</p>
+<ul>
+<li>The sourcing rules. Ours: never state a statistic, price or external fact from memory;</li>
+</ul>
+<p>every published figure carries a source, a year and a URL; unverifiable means null, never a guess; and a named list of banned sources.</p>
+<ul>
+<li><strong>Never invent a value.</strong> Every identifier, hash, id, count, price, date and URL that</li>
+</ul>
+<p>goes into a tool call, a commit or a page must be read from real output first. This rule exists on this project because a forty-character hex string was once typed straight into a merge call as though it were a commit SHA. The API rejected it as malformed, which was luck. A well-formed guess would have merged something else.</p>
+<ul>
+<li>The communication rule. Ours: if a link or a service cannot be reached, say so</li>
+</ul>
+<p>immediately and ask, before doing the work another way. Never quietly substitute a screenshot or a memory for the source that was pointed to.</p>
+<p>Every one of those was written after something went wrong. Start with them anyway.</p>
+<h2 id="phase-1-the-build-before-the-content">Phase 1: the build, before the content</h2>
+<p>Write the thing that turns sources into pages before you have many pages. Ours is <code>src/build.py</code>, and on day one it did almost nothing. What matters is that it exists, so that every guard you later need has somewhere to live.</p>
+<p>By the end it does all of this, and each item was added the day it was needed:</p>
+<ul>
+<li>Injects shared header, footer and CSS into every page from one place</li>
+<li>Parses every inline script with node and fails on a syntax error</li>
+<li>Fails on an em or en dash in any hand-edited document or item bank</li>
+<li>Fails on any asset larger than the platform's per-file limit</li>
+<li>Counts what it produced and asserts the counts agree across artefacts</li>
+<li>Writes the sitemap from the same directory scan that writes the pages</li>
+</ul>
+<p>None of these are clever. All of them exist because of an entry in the defect ledger.</p>
+<h2 id="phase-2-one-page-deployed-for-real">Phase 2: one page, deployed, for real</h2>
+<p>Deploy the simplest possible page to the real domain before building anything else. Not a staging environment: the actual production host, on the actual domain, through the actual pipeline.</p>
+<p>Everything you learn here is cheap now and expensive later. The per-file size limit. Which directories the asset uploader walks. Whether your headers file applies to responses your own code generates. Whether <code>www</code> and the apex are the same origin. That last one cost this project a split consent state and a diluted ranking signal, and it is ten lines of redirect in the right place.</p>
+<h2 id="phase-3-the-data-layer-with-the-guarantees-tested">Phase 3: the data layer, with the guarantees tested</h2>
+<p>Before the interface, get the database right, because it is the thing you cannot casually change later.</p>
+<ol>
+<li>Every table has Row Level Security enabled, from creation. Not later.</li>
+<li>A table with no policy denies everyone, which is the correct default for anything only</li>
+</ol>
+<p>your server should touch.</p>
+<ol>
+<li>Every privileged read goes through a <code>SECURITY DEFINER</code> function that checks admin</li>
+</ol>
+<p>membership. Clients never read a privileged table directly.</p>
+<ol>
+<li>Revoke from <code>PUBLIC</code> as well as from <code>anon</code> and <code>authenticated</code>. Revoking from the roles</li>
+</ol>
+<p>you can name leaves <code>PUBLIC</code> holding the grant, and it will not show up in the place you think to look.</p>
+<ol>
+<li>Test the guarantee, not the code. Write a SQL smoke test that asserts what must be true</li>
+</ol>
+<p>and rolls itself back. Two trigger bugs on this project were found exactly that way and would not have been found by reading.</p>
+<h2 id="phase-4-the-interface-system-before-the-interfaces">Phase 4: the interface system, before the interfaces</h2>
+<p>One file that defines the type scale, the tracking ramp, the spacing grid, one page width, one gutter and one reading measure, injected everywhere. On this project that is <code>src/partials.py</code>, currently 57 tokens.</p>
+<p>The reason to do this early is arithmetic. This site reached thirty-seven font sizes, twenty-eight spacing values and eight page widths before the system landed, and pulling them back to one scale was a multi-day job that touched everything. Doing it on day one costs an hour.</p>
+<h2 id="phase-5-the-product">Phase 5: the product</h2>
+<p>Now build the thing. By this point the build catches syntax errors, the database refuses unauthorised reads, the type system stops the interface drifting, and you can deploy.</p>
+<h2 id="phase-6-instrumentation-before-growth">Phase 6: instrumentation, before growth</h2>
+<p>Before spending anything on acquisition, be able to answer: how many people arrive, what they do, where they stop. That is the beacon, the funnel and the error queue. All three are small. All three are useless retroactively, which is the entire argument for doing them before you need them.</p>
+<h2 id="phase-7-payments">Phase 7: payments</h2>
+<p>Last, and only when there is something worth paying for. The payments chapter has the details. The one scheduling note: the event ledger that lets you answer "how much revenue arrived and how much left" has to exist <strong>before</strong> the first real subscriber, because it cannot be reconstructed afterwards from a table you overwrite on every webhook. This project learned that in the right order by luck rather than judgement.</p>
+<h2 id="the-shape-of-the-whole-thing">The shape of the whole thing</h2>
+<p>Read backwards, the order is: make failure loud, make authorisation impossible to bypass, make the interface consistent, then build features, then measure, then charge. Each phase makes the next one cheaper to get wrong.</p>
+<h1 id="the-build-system">The Build System</h1>
+<p>The build is the most valuable thing in the repository, and it is the part people skip.</p>
+<h2 id="what-it-is">What it is</h2>
+<p><code>python3 src/build.py</code> takes sources in <code>src/</code> and <code>data/</code> and writes every page of the site. Nothing in the deployed output is hand-edited; the generated directories are gitignored so there is no temptation. Sources of truth live in exactly one place, and the build is the only thing that reads them.</p>
+<p>The build currently produces five exam trainer applications, a landing page, a rankings library of 94 business schools and a separate college library, exam guide pages, pricing, a blog, a forum shell, and the legal pages. It also produces this document.</p>
+<h2 id="why-a-build-rather-than-a-framework">Why a build rather than a framework</h2>
+<p>A framework gives you composition and gives up legibility. A build gives you a directory of finished files you can open, diff, grep and serve from anything. At this scale that trade is heavily in favour of the build, for a specific reason: <strong>the output is inspectable, so guards can run on the output.</strong></p>
+<p>That turns out to be where most defects were caught. Not in the source, in the artefact. Reading the built CSS rather than the template is what eventually found a nested comment that had killed the palette on over a thousand pages. Reading the built page is what found a stale count in a meta description that Google was showing.</p>
+<h2 id="the-guards-and-what-each-one-is-for">The guards, and what each one is for</h2>
+<p>Every one of these exists because of an incident. They are listed here in the order they would catch a problem.</p>
+<p><strong>Parse every generated script.</strong> The build writes JavaScript into HTML. It runs node over each inline script and refuses to write the page on a syntax error. One unescaped quote inside a <code>onclick</code> string once took down the entire trainer, because a parse error kills the whole script, not the one handler.</p>
+<p><strong>Ban the characters you said you would ban.</strong> Em dashes and en dashes fail the build in any hand-edited document or item bank. It is a one-line check that makes a style rule real.</p>
+<p><strong>Assert the size of every collection.</strong> Item counts per category, page counts, sitemap entry counts, school counts. Not the contents, the size. Deletion by shadowing, a filter dropping rows, a loop over an empty list: none of these raise anything, and all of them show up instantly as a count that moved.</p>
+<p><strong>Assert how many things you checked.</strong> A guard that matched <code>\d{2,4}</code> silently stopped checking the two largest item counts when they passed ten thousand, and kept passing. Any guard that selects a subset should report the size of the subset it selected.</p>
+<p><strong>Assert the platform's hard limits.</strong> Cloudflare rejects a static asset over 25 MiB. The build now fails on any asset over that, because a deploy-time rejection is an expensive place to learn a number your build already knew.</p>
+<p><strong>Compare inputs to outputs at every filter.</strong> A length filter measuring the wrong unit silently dropped sixteen valid items. Every stage that can reject should say how many it rejected.</p>
+<p><strong>Derive, never type.</strong> Any number in copy that describes the size of something is computed from that thing at build time. A typed number has a half-life.</p>
+<h2 id="reproducibility">Reproducibility</h2>
+<p>Three consecutive builds must produce identical output. This is worth enforcing because the failure is subtle: this project's item generator seeded from Python's <code>hash()</code>, which is randomised per process, so every build produced a different bank and the pinned statistics in the test file drifted run to run. It looked like a flaky test. It was a broken promise. <code>zlib.crc32</code> fixed it.</p>
+<p>If your build has any randomness, seed it from something stable and assert the reproducibility, or you will eventually delete a test that was telling you the truth.</p>
+<h2 id="the-test-ladder-above-the-build">The test ladder above the build</h2>
+<p>The build is the first rung. Above it, in the order they run:</p>
+<ul>
+<li><code>src/review_bot.js</code></li>
+<li><code>src/smoke.js</code></li>
+<li><code>src/smoke_billing.js</code></li>
+<li><code>src/smoke_business.js</code></li>
+<li><code>src/smoke_charts.js</code></li>
+<li><code>src/smoke_consent.js</code></li>
+<li><code>src/smoke_funnel.js</code></li>
+<li><code>src/smoke_ios.js</code></li>
+<li><code>src/smoke_items.js</code></li>
+<li><code>src/smoke_launch.js</code></li>
+<li><code>src/smoke_load.js</code></li>
+<li><code>src/smoke_offline.js</code></li>
+<li><code>src/smoke_pages.js</code></li>
+<li><code>src/smoke_playbook.js</code></li>
+<li><code>src/smoke_rankings.js</code></li>
+<li><code>src/smoke_redirect.js</code></li>
+<li><code>src/smoke_sharing.js</code></li>
+<li><code>src/smoke_signup.js</code></li>
+<li><code>src/test.js</code></li>
+<li><code>src/weekly_audit.js</code></li>
+</ul>
+<p>20 test files in total. The layering is deliberate:</p>
+<ol>
+<li><strong>The build</strong> catches structural problems in the artefact.</li>
+<li><strong>Engine tests</strong> run the domain logic headlessly, once per exam.</li>
+<li><strong>Smoke tests</strong> drive a real browser against the real built site at desktop and phone</li>
+</ol>
+<p>width, and assert behaviour rather than markup.</p>
+<ol>
+<li><strong>Review bots</strong> play the product adversarially and report what only use reveals.</li>
+<li><strong>A weekly audit</strong> re-checks contrast, links and metadata across every page.</li>
+</ol>
+<p>Rung three is where the most valuable failures show up, and rung four is where the embarrassing ones do.</p>
+<h1 id="the-interface-one-system-defined-once">The Interface: One System, Defined Once</h1>
+<h2 id="the-type-and-spacing-system">The type and spacing system</h2>
+<p>One file holds the whole visual system and is injected into every page. Currently 57 tokens covering:</p>
+<ul>
+<li>A type scale, <code>--t-100</code> to <code>--t-900</code></li>
+<li>A tracking ramp, <code>--tr-900</code> to <code>--tr-caps</code></li>
+<li>A four-pixel spacing grid, <code>--s1</code> to <code>--s10</code></li>
+<li>One page width, one gutter, one reading measure</li>
+<li>The full colour palette, in both themes</li>
+</ul>
+<p><strong>Reach for a token before a number.</strong> A raw pixel value in a template is how this site reached thirty-seven font sizes, twenty-eight spacing values and eight page widths.</p>
+<p>Two type rules worth stealing outright:</p>
+<p><strong>Type tightens as it grows and never opens up.</strong> Negative tracking on headings, scaling from about -0.032em at hero size to 0 at body size. The single positive value is +0.06em, reserved for small uppercase labels.</p>
+<p><strong>Three faces, no more.</strong> A serif for headings, one sans for everything else, and a mono for figures that sit in a column, never for words. This site once ran a fourth face as a second sans, and the two were close enough that the result read as a mistake rather than as a choice. Sites that do this well are lopsided on purpose: Stripe runs roughly a hundred declarations of its sans to two of mono.</p>
+<h2 id="the-layout-traps">The layout traps</h2>
+<p>Three CSS behaviours caused more wasted hours on this project than anything else. They are not obscure. They are just silent.</p>
+<p><strong>Grid and flex children need <code>min-width: 0</code>.</strong> Without it a child holds its min-content width and pushes the page sideways on a phone. This broke pricing, the rankings controls and the blog submit form, separately, each time looking like a different bug.</p>
+<p><strong>CSS comments do not nest.</strong> The first <code>*/</code> closes the outer comment. A template placeholder left inside an opening comment killed the colour palette on over a thousand pages and was chased as a design problem for hours.</p>
+<p><strong>An undefined custom property is silent.</strong> CSS does not treat <code>var(--nope)</code> as an error; it falls back and paints. A page here referenced nine colour tokens that existed nowhere, and the legally required Do Not Sell button rendered as white text on a transparent background on a white page, invisible from the day it shipped. <strong>Audit computed colour on the rendered page, not authored colour in the source.</strong></p>
+<p>And one more, for completeness: <code>overflow: hidden</code> makes an element the scroll container that <code>position: sticky</code> resolves against. A sticky header that will not stick almost always means an ancestor picked up an <code>overflow</code>.</p>
+<h2 id="dark-mode-and-the-way-it-actually-breaks">Dark mode, and the way it actually breaks</h2>
+<p>A dark mode does not break by having a wrong colour. It breaks by <strong>missing</strong> one. A token defined only inside a media query falls back to whatever it inherits, and the result is usually legible enough to pass a glance and wrong enough to matter.</p>
+<p>The structure that avoids it:</p>
+<ol>
+<li>Define the <strong>complete</strong> palette on bare <code>:root</code>. Every token, no exceptions.</li>
+<li>Redefine <strong>only</strong> those tokens under <code>@media (prefers-color-scheme: dark)</code>, guarded as</li>
+</ol>
+<p><code>:root:not([data-theme="light"])</code>.</p>
+<ol>
+<li>Redefine them again under <code>:root[data-theme="dark"]</code>, so an explicit choice wins in</li>
+</ol>
+<p>both directions.</p>
+<p>Three states, not two: light, dark, and follow the system. A two-state toggle cannot express "follow the system", and that is the most common way a dark mode is got wrong.</p>
+<p>Then test it by parity: read both <code>:root</code> blocks and assert every colour token defined in one is defined in the other. Select by whether the <strong>value</strong> is a colour, not by whether the <strong>name</strong> starts with a colour-ish prefix. Classifying by name caught a font size on this project.</p>
+<p>Finally, resolve the theme before first paint, in a tiny inline script in the head. A theme applied after paint is a flash of the wrong one.</p>
+<h2 id="colour-in-data-display">Colour in data display</h2>
+<p>This is the part most teams get wrong, and it is measurable rather than a matter of taste.</p>
+<p><strong>Brand colours are usually wrong inside a chart.</strong> This site's navy, teal and secondary navy all sit below the chroma floor and read as grey in a plot; its blue against its violet is a deuteranopia delta-E of 0.4, which means two series a colourblind reader cannot distinguish at all. Brand colour belongs on the page around the chart. Inside the plot, the job is telling series apart.</p>
+<p><strong>Validate the palette under simulated colour vision deficiency, across every pair, not just neighbours.</strong> The categorical set here passes protanopia, deuteranopia and tritanopia on all pairs in light mode.</p>
+<p><strong>A dark palette has about half the lightness range to work with.</strong> Roughly 0.48 to 0.67, against 0.43 to 0.77 for light, so hue has to carry more of the separation, and hue is exactly what collapses under deuteranopia. Measured, this palette tops out at three slots distinguishable by colour alone on dark. That is only workable with secondary encoding, so secondary encoding is not optional: every chart with two or more series ships a legend, small sets are direct labelled, and every chart has a table view.</p>
+<p><strong>Status colours are reserved and never used for a series.</strong> A chart with four series and a red one implies the red one is bad.</p>
+<p><strong>Never encode identity by colour alone.</strong> Two games on this site signalled right and wrong only by colour until an accessibility pass; outcomes now carry a word as well, which also survives greyscale printing and forced-colors mode.</p>
+<h2 id="chart-form-is-a-claim">Chart form is a claim</h2>
+<p>The form you choose asserts something about the data.</p>
+<p><strong>A line claims the values in between existed.</strong> Money movement on this site was charted as a line, and the line between $13.32 on one day and $4.99 on the next passed through every value in between, none of which happened. Discrete events are bars.</p>
+<p><strong>A funnel drawn as a tapering polygon encodes the number twice</strong>, once in width and once in area, and area is the one people misread. A ranked list of bars with the drop-off written between them says the same thing without the illusion.</p>
+<p><strong>Every chart should be able to become its own numbers.</strong> A table view under each chart is the accessibility backstop, and it is also what a person actually wants when they are trying to copy a figure out.</p>
+<h2 id="accessibility-as-a-set-of-habits">Accessibility, as a set of habits</h2>
+<ul>
+<li>Announce outcomes in a live region, not just in colour or motion.</li>
+<li>A flipped card, a revealed tile, a state change: say what it is.</li>
+<li>Contrast is measured on the rendered page, in both themes, on every page. A near miss</li>
+</ul>
+<p>is a fail; the grey carrying most of the secondary text here measured 4.83:1 on white and 4.41:1 on the tinted cards, and only the second one is obviously wrong.</p>
+<ul>
+<li>No horizontal scroll at 390 pixels. Assert it in a test rather than checking it by eye,</li>
+</ul>
+<p>and measure the component, not the document, or a wide child can hide behind a narrower page.</p>
+<h1 id="the-algorithm-adaptive-selection-and-honest-scoring">The Algorithm: Adaptive Selection and Honest Scoring</h1>
+<p>This chapter is about a test-preparation engine, but the transferable part is the last section, and it applies to any product that shows a person a number about themselves.</p>
+<h2 id="the-shape-of-the-engine">The shape of the engine</h2>
+<p>One engine serves unknown exams (see src/engine.js). Adding an exam is a registry entry plus a tagged bank, not a fork. That was not free: the single most useful refactor in the project was making the section keys, skill lists and copy resolve from an exam id injected at build time, instead of being hardcoded. Before it, one application had been shipping a score card headed with the wrong exam's name and telling students to calibrate at the wrong test maker's site.</p>
+<p><strong>If you have two of something, resolve the differences from data, not from conditionals.</strong> A conditional on <code>if (exam === 'sat')</code> treats "not SAT" as "the original one", and that assumption breaks silently the moment there is a third.</p>
+<h2 id="ability-estimation">Ability estimation</h2>
+<p>Three-parameter logistic item response theory, fitted by Fisher scoring, producing an ability estimate and a standard error. Alongside it, an Elo-style per-skill rating that moves faster and is what the learner actually sees at the skill level.</p>
+<p>The two exist for different jobs and it is worth being clear about which is which. The IRT estimate is for the score band, because it has a defensible error term. The Elo rating is for selection and for the skill table, because it responds quickly enough to feel like it is paying attention.</p>
+<h2 id="item-selection-and-the-two-bugs-in-it">Item selection, and the two bugs in it</h2>
+<p>Selection targets an item near the learner's current ability, with a damping factor so a run of luck does not send the difficulty somewhere absurd.</p>
+<p><strong>Bug one: selecting on a per-skill counter instead of measured ability.</strong> Early on, a skill with fewer than six answers targeted a fixed starting rating rather than the learner's measured ability in that section. A strong student answering a new skill got beginner items. The fix targets the section's measured ability until the skill has its own evidence.</p>
+<p><strong>Bug two: re-serving items the learner had already answered.</strong> The candidate pool did not exclude seen items, so a short session could serve the same question twice. The fix filters to unseen candidates and falls back to the full pool only when unseen is empty. The same fix had to be applied separately to passage groups, because a passage drags its sibling questions along with it and the group was not being filtered.</p>
+<p>Both were found by a <strong>review bot</strong>: a script that sits the exam repeatedly against the real engine and reports what only playing reveals. It measures estimate recovery, band coverage across ability levels, whether selection actually adapts, bank reach, starving skills, and whether a deliberately planted weakness is diagnosed. That last one is the sharpest test in the suite, because it has a known right answer.</p>
+<p><strong>Measuring a stochastic system on one seed is an anecdote.</strong> A change here looked like it dropped band coverage from 88 percent to 72. Across three seeds the baseline was 52, 88 and 80 against 72, 80 and 72 for the change. The spread between seeds was larger than the effect, and the regression did not exist.</p>
+<h2 id="scoring-and-the-honesty-constraints">Scoring, and the honesty constraints</h2>
+<p>This is the transferable part.</p>
+<p>The product reports an estimated <strong>range</strong> on the exam's own scale, never a single number, never called a predicted score, and never shown before a minimum evidence threshold. The band half-width is the standard error of the ability estimate with a floor, so it can narrow with evidence but never collapses to a point.</p>
+<p>Four rules sit behind that, and every one of them is a rule about not overclaiming:</p>
+<ol>
+<li><strong>A range, not a number.</strong> A single number implies a precision the estimate does not</li>
+</ol>
+<p>have. The interval is the honest object.</p>
+<ol>
+<li><strong>A floor on the interval.</strong> Even with a lot of evidence, the interval never gets</li>
+</ol>
+<p>narrower than the floor, because the model's error is not the only error.</p>
+<ol>
+<li><strong>Nothing before the evidence threshold.</strong> An estimate from four answers is noise with</li>
+</ol>
+<p>a decimal point.</p>
+<ol>
+<li><strong>The method is published, and the calibration is named as ours.</strong> The scale anchoring</li>
+</ol>
+<p>is this product's calibration, not the test maker's, and the page that explains the method says so and stays in step with the code.</p>
+<p>Two further rules are specific but generalise:</p>
+<ul>
+<li><strong>Never mix incomparable scales.</strong> Two editions of one exam use different ranges and are</li>
+</ul>
+<p>not convertible; they are compared by percentile only, with the concordance cited. Any product with a legacy unit and a current one has this problem.</p>
+<ul>
+<li><strong>Never present an internal threshold as official.</strong> A routing cut chosen here is ours</li>
+</ul>
+<p>and is labelled ours.</p>
+<p>The pattern underneath all of it: <strong>when you show someone a number about themselves, the number is a claim, and the claim has an error bar whether or not you print it.</strong> Printing it is the difference between a product people trust and one they catch out.</p>
+<h1 id="content-at-scale-without-lying-about-it">Content at Scale, Without Lying About It</h1>
+<p>This platform ships over a hundred thousand practice items across 44 bank files. Almost all are generated. The chapter is about how to do that without producing a number that is technically true and substantively false.</p>
+<h2 id="generators-not-text">Generators, not text</h2>
+<p>An item is produced by a schema: a template plus a parameter space plus a rule for generating distractors. The schema knows how to make a correct answer and how to make wrong answers that are wrong for a reason.</p>
+<p><strong>Every key is computed, never asserted.</strong> The generator does not record which option is correct; it computes the answer from the parameters and then places it. An asserted key is a key that can be wrong, and a wrong key in a practice bank is the worst possible defect because the learner concludes they are wrong.</p>
+<h2 id="the-counting-problem">The counting problem</h2>
+<p>The hard part of generated content is not generating it. It is counting it honestly. This project got the count wrong in four distinct ways.</p>
+<p><strong>The dedup key must be canonical under every transformation the item legitimately undergoes.</strong> Answer position is randomised per draw, and the key hashed choices in order, so one question with its options rearranged counted as two. Sort before hashing.</p>
+<p><strong>Identity is not always the choices.</strong> For reading items, identity is the passage plus the question asked. Four passages produced five hundred "distinct" stated-idea items that differed only in which of the passage's other sentences came along as distractors. A student who has answered one has answered all of them.</p>
+<p><strong>An over-broad key deletes as silently as a narrow one inflates.</strong> Two different conditional questions produced the same stem, hashed identically, and half the inference items in any corpus would have vanished without a word.</p>
+<p><strong>A filter that drops must say so.</strong> A length guard measuring the wrong unit silently removed sixteen valid items. Every rejection stage reports its rejection count.</p>
+<p>The honest yield number for reading items here, once both dedup bugs were fixed, is about six stated-idea and two inferred-idea questions per passage. That means five hundred inference items needs roughly a hundred and seventy passages. <strong>That number is the entire cost of the category, and it is recorded rather than discovered later.</strong></p>
+<h2 id="quality-ratchets">Quality ratchets</h2>
+<p>A generated bank drifts toward exploitable patterns unless something measures them. Two that mattered here:</p>
+<p><strong>The length tell.</strong> In one section the longest option was the correct answer 81 percent of the time. A test-wise student does not need to read the question. The generator now draws distractors so that the key's length rank is uniform, and a ratchet in the test suite fails if the tell reappears. It is down to chance.</p>
+<p><strong>Comparable development.</strong> Each added clause in a distractor is chosen to leave the option wrong for the reason it was already wrong, so length and elaboration carry no signal about correctness.</p>
+<p><strong>A ratchet is a pinned number that may only move one way.</strong> If a fix makes a statistic better, pin the better number. This is the cheapest possible regression test for anything statistical, and it works where an exact assertion cannot.</p>
+<h2 id="shipping-a-large-bank-to-a-browser">Shipping a large bank to a browser</h2>
+<p>At a hundred thousand items the bank is tens of megabytes, and this is where content scale becomes a performance problem.</p>
+<ul>
+<li>The whole bank as a blocking script meant **20.3 seconds to the first question on</li>
+</ul>
+<p>throttled 3G**. Nobody noticed, because nobody had measured it.</p>
+<ul>
+<li>The fix is a strided starter bank, small and covering every category, plus an async</li>
+</ul>
+<p>remainder that pushes into the same array. Time to first question fell to 7.6 and 11.0 seconds, and blocking download from 11.3 MB to 1.2 MB.</p>
+<ul>
+<li>Platform limits bite here. Cloudflare rejects a single static asset over 25 MiB, so the</li>
+</ul>
+<p>remainder is chunked, and the build fails on any asset over the limit.</p>
+<ul>
+<li>When you change a file naming scheme, grep for the old name as a <strong>string</strong>, including</li>
+</ul>
+<p>inside regular expressions. A service worker precache pattern of <code>bank_rest\.js$</code> does not match <code>bank_rest1.js</code>, and the failure is silent degradation of offline support.</p>
+<h2 id="the-sourcing-discipline-for-facts">The sourcing discipline for facts</h2>
+<p>Generated practice items are one thing. Published facts about the world are another, and they need a different regime.</p>
+<ul>
+<li><strong>Every figure carries a source, a year and a URL.</strong> Not a citation in prose: fields, on</li>
+</ul>
+<p>the record, validated at build time.</p>
+<ul>
+<li><strong>Unverifiable means null, and null renders as a dash.</strong> Never a guess, never a</li>
+</ul>
+<p>plausible round number.</p>
+<ul>
+<li><strong>A named list of banned sources</strong>, enforced by the validator. Forums, aggregators,</li>
+</ul>
+<p>crowd-edited encyclopaedias and coaching-company blogs. A build fails if one appears.</p>
+<ul>
+<li><strong>One file per entity</strong>, so a fix touches one file and a validator can walk them all.</li>
+</ul>
+<p>This project holds 94 school files under that scheme.</p>
+<ul>
+<li><strong>When a source cannot be reached, say so immediately and stop.</strong> Two exams on this site</li>
+</ul>
+<p>are blocked, and recorded in the roadmap as blocked, because the test makers' pages return bot challenges. The rows that exist for them cite a banned source and are marked for replacement rather than quietly reused. Being blocked and saying so is a better state than being unblocked by a guess.</p>
+<h1 id="the-data-layer">The Data Layer</h1>
+<p>16 tables across 29 migrations, with the database rather than the application as the enforcement point.</p>
+<h2 id="row-level-security-as-the-default-posture">Row Level Security as the default posture</h2>
+<ol>
+<li><strong>Enable RLS on every table at creation.</strong> Not in a later pass.</li>
+<li><strong>No policy means no access</strong>, which is exactly right for anything only your server</li>
+</ol>
+<p>should touch. This project's telemetry, error and billing tables all have RLS on and no policies at all; the service role bypasses RLS, and admins read through functions.</p>
+<ol>
+<li><strong>Public read where public read is the point</strong>, scoped: forum rows that are not hidden,</li>
+</ol>
+<p>for instance.</p>
+<ol>
+<li><strong>Open insert with server-side stamping.</strong> The forum takes posts from anyone with no</li>
+</ol>
+<p>account. The client cannot set the author, the country or the address hash; triggers do. A client-supplied field is a claim.</p>
+<h2 id="the-security-definer-pattern">The <code>SECURITY DEFINER</code> pattern</h2>
+<p>Every privileged read is a function that checks admin membership and then reads. Clients never touch the underlying table.</p>
+<p>Two rules that are easy to get wrong:</p>
+<p><strong>Revoke from <code>PUBLIC</code>, not just from <code>anon</code> and <code>authenticated</code>.</strong> A leading <code>=X/postgres</code> in <code>pg_proc.proacl</code> means <code>PUBLIC</code> holds <code>EXECUTE</code>, and revoking from every role you can name changes nothing. Verify with the platform's advisors or by reading the ACL. Never verify by reading your own migration.</p>
+<p><strong>Never take an id from the request body.</strong> The cancel-subscription and portal functions here read the caller's id from their own RLS-scoped row. A function that accepts an id and acts on it is a function that acts on anyone's row.</p>
+<h2 id="triggers-and-the-two-that-bit">Triggers, and the two that bit</h2>
+<p><strong>Postgres fires same-timing triggers in alphabetical order by name.</strong> On this project <code>profiles_sharing_eligibility</code> sorted before <code>profiles_sync_age_tier</code>, so eligibility was judged against a stale age tier and <strong>silently revoked every legitimate adult opt-in</strong>. If two triggers on one table have an order dependency, encode it in the name with a numeric prefix.</p>
+<p><strong><code>UPDATE OF &lt;columns&gt;</code> fires on the columns named in the statement</strong>, not on what actually changed, and not on what an earlier <code>BEFORE</code> trigger wrote into <code>NEW</code>. So <code>update profiles set birth_year = 2011</code> ran the sync, stored a minor's tier, and skipped the eligibility check entirely. If you need "when this value changed", fire on every update and compare <code>OLD</code> to <code>NEW</code> yourself.</p>
+<p>Both were found by a SQL smoke test that asserted the <strong>guarantee</strong> and rolled itself back. Neither would have been found by reading the trigger.</p>
+<h2 id="ordering-idempotency-and-the-event-problem">Ordering, idempotency and the event problem</h2>
+<p>Webhooks do not arrive in order. Notifications do not arrive in order. This is not an edge case, it is the normal condition, and the consequences are severe: a <code>deleted</code> landing after an <code>updated</code> resurrects a cancelled plan, and the reverse downgrades a paying customer.</p>
+<p>The discipline, which applies to any external event source:</p>
+<ol>
+<li><strong>Never write the event payload.</strong> The payload tells you <em>which</em> thing changed. Re-read</li>
+</ol>
+<p>the current state from the source of truth and write that.</p>
+<ol>
+<li><strong>Guard on a monotonic field.</strong> A notification older than what you last wrote is</li>
+</ol>
+<p>discarded. Apple provides <code>signedDate</code>; most systems provide something.</p>
+<ol>
+<li><strong>Terminal states are terminal.</strong> A refund or a revocation is never overwritten by a</li>
+</ol>
+<p>late renewal.</p>
+<ol>
+<li><strong>Put idempotency in the database, not the handler.</strong> A unique index on the natural key</li>
+</ol>
+<p>is correct under concurrency. A check-then-insert in application code is not.</p>
+<h2 id="retention">Retention</h2>
+<ul>
+<li>Unlinkable telemetry: 400 days here, on a scheduled job rather than a trigger, because</li>
+</ul>
+<p>a delete on every insert puts a table scan in the path of the user's action.</p>
+<ul>
+<li>The retention window should match the longest window your console can query, so nothing</li>
+</ul>
+<p>the interface can ask for is ever missing.</p>
+<ul>
+<li><strong>A billing ledger is not telemetry.</strong> It is a financial record and it is kept.</li>
+</ul>
+<h2 id="migrations-as-a-readable-record">Migrations as a readable record</h2>
+<p>Every migration in this repository opens with a comment explaining what it does and, more importantly, <strong>why the obvious alternative was rejected</strong>. Read six months later, the "why not" is the part you need; the "what" is in the SQL.</p>
+<p>Keep the applied migrations mirrored in the repository, and keep a manifest with checksums. Applying through a console and forgetting to mirror is how a schema and its history diverge, and the divergence is invisible until somebody tries to rebuild.</p>
+<h2 id="privacy-as-a-data-model-decision">Privacy as a data-model decision</h2>
+<p>Two ideas here are worth copying wholesale.</p>
+<p><strong>Unlinkability by construction.</strong> The item telemetry table has no user column, no session column, no device column and no address column, <strong>by design, and must never gain one</strong>. That absence is precisely why it needs no consent gate. Privacy enforced by a schema is stronger than privacy enforced by a policy document, because a schema cannot be forgotten.</p>
+<p><strong>Keep what someone told you separate from what you were told about them.</strong> Self-reported attributes live on the profile. Third-party appended attributes live in a separate table that cascades on deletion. They are never merged, so what a person said about themselves stays distinguishable from what was bought about them, forever.</p>
+<h1 id="payments">Payments</h1>
+<p>5 edge functions handle money here: <code>apple-notifications</code>, <code>cancel-subscription</code>, <code>create-checkout-session</code>, <code>create-portal-session</code>, <code>stripe-webhook</code>.</p>
+<h2 id="the-shape">The shape</h2>
+<p>Hosted checkout, not a card form. The processor's hosted page removes PCI scope entirely, and there is no version of building your own that is worth the saving.</p>
+<p>The webhook is authenticated by the processor's signature rather than by your own auth, which means it must be deployed with JWT verification <strong>off</strong> and the signature check <strong>on</strong>. Get that pairing wrong in either direction and you have either an endpoint that rejects every legitimate call or one that accepts every illegitimate one.</p>
+<p>Every column the webhook writes is service-role only, left out of the column grants entirely, so no browser session can forge a plan. <strong>A signed-in user was once able to grant themselves a paid plan on this project</strong>; that is what the grant hardening is for.</p>
+<h2 id="two-processors-and-why-the-plan-column-stops-being-the-answer">Two processors, and why the plan column stops being the answer</h2>
+<p>The moment a second payment source exists, "what has this person paid for" cannot be a column, because it becomes a race: whichever webhook fired last wins, and a user who subscribed on iOS gets downgraded the next time a card event lands on their row.</p>
+<p>The resolution here: the original column stays exactly as it was, owned by the original processor and untouched by anything new, and a function derives the <strong>effective entitlement</strong> across every source. The application reads the function. Nothing about the live, money-taking path changed, which was deliberate.</p>
+<p><strong>Generalisation: when a second source of truth appears, do not teach the first one to share. Add a derivation on top and move readers to it.</strong></p>
+<h2 id="promises-that-are-load-bearing">Promises that are load-bearing</h2>
+<p>Write these down and test them, because they are the ones that turn into complaints.</p>
+<ul>
+<li><strong>The free plan never asks for a card.</strong> Tested in both signed-in and signed-out states.</li>
+<li><strong>Cancelling is one click, in the account page, through your own function.</strong> Not through</li>
+</ul>
+<p>the processor's hosted portal, which may not be configured, and which puts the most important retention moment on somebody else's page.</p>
+<ul>
+<li><strong>The exception you cannot engineer around.</strong> An Apple-sourced subscription is Apple's:</li>
+</ul>
+<p>there is no API to cancel on a user's behalf and the guidelines require pointing at Settings. So the button opens Apple's subscription management and explains why, rather than appearing to work and not. <strong>Which path applies is decided by the entitlement record, never guessed from the platform the page happens to be open on.</strong></p>
+<ul>
+<li><strong>A refund window, stated, plus your own errors always refunded.</strong></li>
+<li><strong>Access continues to the end of the paid period.</strong></li>
+</ul>
+<h2 id="the-ledger-and-the-mistake-to-avoid">The ledger, and the mistake to avoid</h2>
+<p>The most consequential payments decision in this project was made late and should have been made first.</p>
+<p>The profile row holds what an account pays <strong>right now</strong>, and it is overwritten on every webhook. That means the instant a subscriber cancels, the evidence they ever paid is gone. It is enough to gate access and useless for running a business: it cannot answer how much revenue arrived this month, how much left, what share of trials converted, or what came back out as refunds.</p>
+<p><strong>Build the append-only billing event ledger before the first real subscriber.</strong> It cannot be reconstructed afterwards.</p>
+<p>The design that works:</p>
+<ul>
+<li>One row per fact, normalised across processors so a chart reads one vocabulary.</li>
+<li><strong>Cash and recurring value in separate columns.</strong> An annual plan is $99.99 of cash on one</li>
+</ul>
+<p>day and $8.33 of monthly revenue. A dashboard that adds those together is wrong in both directions.</p>
+<ul>
+<li>A <code>kind</code> column of your own verbs, not the processor's event names.</li>
+<li><code>mrr_delta_cents</code> on every row, so new plus expansion minus contraction minus churn is</li>
+</ul>
+<p>the movement bridge by construction, and cannot be off by a rounding rule applied in one place and not another.</p>
+<p>Four traps, all of which would have produced a plausible wrong number:</p>
+<p><strong>Two event types announce one new subscription.</strong> Hosted checkout completion and subscription creation both fire, with different event ids, in no guaranteed order. Logging both doubles new revenue. A partial unique index on (source, subscription id, kind) for the once-per-lifetime kinds lets the database decide which arrived first.</p>
+<p><strong>The first invoice is also an invoice.</strong> Counting every paid invoice as a renewal double-counts every new subscriber as a returning one. Only a cycle invoice is a renewal. The cash still counts.</p>
+<p><strong>The refunded amount is cumulative.</strong> A charge reports total refunded to date, not the amount of this refund, so a second partial refund counts the first one again. Use the most recent refund entry.</p>
+<p><strong>The cancellation write erases what you need to record the cancellation.</strong> Read the prior state before writing, or churned revenue is always zero.</p>
+<p><strong>Sandbox is not money.</strong> Test transactions carry real-looking prices. A sandbox row in a revenue chart is a fictional dollar, and it will be believed.</p>
+<p><strong>Know the units.</strong> One processor reports price in milliunits: 4990 means $4.99. Reading it as cents overstates revenue by a factor of ten, which is an error that looks like success.</p>
+<h2 id="secrets">Secrets</h2>
+<p>Secret keys and signing secrets live in the platform's secret store. Never in the repository, never in an environment file that is committed, never in a log line. This is the one rule in this book with no nuance attached to it.</p>
+<h1 id="business-intelligence">Business Intelligence</h1>
+<h2 id="the-three-streams">The three streams</h2>
+<p>Keep them separate and know what each can answer.</p>
+<p><strong>Site events.</strong> A first-party beacon on every page: path, referrer, UTM, a session id from <code>sessionStorage</code>, device class, duration. Country and a salted address hash added by a trigger so the raw address is never stored. Behind a consent banner that honours Global Privacy Control and can be reopened from any page footer.</p>
+<p><strong>Product telemetry.</strong> What happened inside the product. Here that is item telemetry with <strong>no user, session, device or address column, by design</strong>. It answers "is this item too hard" and cannot answer "what did this person do", and that is the trade that lets it run without a consent gate.</p>
+<p><strong>Billing events.</strong> Money. Covered in the payments chapter.</p>
+<p><strong>They are deliberately not joined.</strong> Nothing here attributes a subscription to a visit. That is a design choice with a real cost, and it should be stated on the page rather than quietly left as a gap the reader assumes is filled.</p>
+<h2 id="read-through-functions-always">Read through functions, always</h2>
+<p>No client reads an analytics table. Every admin view is a <code>SECURITY DEFINER</code> function gated on admin membership, returning exactly the shape the page needs.</p>
+<p><strong>One read per page, not six.</strong> Six reads can disagree with each other: the tile says eleven paying and the chart says twelve because a webhook landed between the two queries. One statement, one snapshot, one story.</p>
+<h2 id="the-numbers-not-to-compute">The numbers not to compute</h2>
+<p>This is the part that separates a dashboard from a decoration.</p>
+<p><strong>A churn rate needs a denominator held at the start of the window.</strong> If your ledger is younger than the window, you cannot supply one. The counts and the lost revenue are real; the ratio would be a guess wearing a percentage sign. This dashboard prints the counts and explicitly declines the rate, and says why, and starts printing it automatically once the ledger is old enough.</p>
+<p><strong>A conversion rate must exclude the undecided.</strong> A trial still running is not a failed trial. Counting it in the denominator produces a rate that rises on its own as trials mature, which is worse than no rate at all.</p>
+<p><strong>Trial revenue is never revenue.</strong> State the pipeline figure separately and label it as conditional.</p>
+<p><strong>Gross and net are different numbers.</strong> Show refunds beside charges, not subtracted from them. Netting hides the month where a fifth of revenue came back.</p>
+<p><strong>A snapshot take rate is not a cohort conversion rate.</strong> Say which one you are showing.</p>
+<h2 id="say-what-the-data-covers">Say what the data covers</h2>
+<p>Every derived figure is "since the log began". Print that date on the page. A figure that silently covers less than its label claims is the hardest kind of wrong to catch, and it is the failure the whole discipline exists to prevent.</p>
+<h2 id="the-triage-loop">The triage loop</h2>
+<p>Errors and moderation both work the same way, and the pattern is worth naming.</p>
+<ol>
+<li>Capture into an insert-only table.</li>
+<li>Cluster by signature, and attach the evidence to the cluster: the real message, the</li>
+</ol>
+<p>real stack, the builds, the pages, how many separate sessions hit it.</p>
+<ol>
+<li><strong>A human decides.</strong> Real, fixed, will not fix, or noise.</li>
+<li>The decision is stored, and it mutes the cluster permanently.</li>
+</ol>
+<p>The queue gets quieter as it learns rather than louder, and the stored labels are exactly what a future model would train on. Nothing in it edits code, and that is deliberate: trust is the binding constraint on automated repair, so the system proposes and explains, and a person decides.</p>
+<h2 id="never-fabricate">Never fabricate</h2>
+<p>No invented user counts, testimonials, efficacy claims or seeded activity. On a forum, house-authored posts say they are house-authored. This is not only an ethics rule; a fabricated number in a dashboard eventually gets used for a decision, and by then nobody remembers it was a placeholder.</p>
+<h1 id="tests-and-guards">Tests and Guards</h1>
+<p>20 test files, and the interesting thing about them is not what they assert. It is that the analysis chapter can count how defects were <strong>actually</strong> found, and the answer reshapes where you put effort.</p>
+<h2 id="the-ladder">The ladder</h2>
+<p><strong>Rung 1: the build.</strong> Structural guards on the artefact. Parse every generated script. Assert every collection size. Fail on platform limits. Compare inputs to outputs at every filter. Cheapest rung, catches the most.</p>
+<p><strong>Rung 2: domain logic, headless.</strong> The engine, run without a browser, once per variant. Fast enough to run on every change.</p>
+<p><strong>Rung 3: the real browser against the real built site.</strong> Playwright against the built output over a local server, at desktop and phone width, in both themes. <strong>Assert behaviour, not markup.</strong> A markup assertion breaks on every refactor and passes through every real bug.</p>
+<p><strong>Rung 4: adversarial play.</strong> A bot that uses the product the way a user would, repeatedly, and reports what only use reveals. Three real defects here came from nowhere else.</p>
+<p><strong>Rung 5: the periodic audit.</strong> Contrast, links and metadata across every page, weekly. Catches the slow rot that no single change is responsible for.</p>
+<h2 id="the-failure-modes-of-tests-themselves">The failure modes of tests themselves</h2>
+<p>Five entries in the defect ledger are about tests being wrong, and that proportion is not an accident. <strong>A broken test is invisible, because its output is identical to a working one.</strong></p>
+<p><strong>A negative assertion passes when the system is broken in the right way.</strong> "Nothing is sent when consent is refused" passed here because the test used the wrong storage key, so consent was never configured, so nothing was ever sent. It would have passed with the feature deleted. <strong>Always pair a negative assertion with the positive case</strong>, or you are asserting nothing.</p>
+<p><strong>A test can measure the wrong instant.</strong> A performance test waited for the browser load event, which waits for the async resource the optimisation moved off the critical path. A change that made the page usable nine times faster would have reported no improvement. <strong>Measure the moment the user can act.</strong></p>
+<p><strong>A guard can narrow its own scope.</strong> A count check matching <code>\d{2,4}</code> stopped checking the two largest counts when they passed ten thousand, and kept passing. <strong>Assert how many things you checked</strong>, not only that the checks passed.</p>
+<p><strong>A test can measure something that was never rendered.</strong> A hidden element still answers <code>innerText</code> and <code>getComputedStyle</code>. Layout and contrast assertions passed here on a view that was never displayed. <strong>Assert the thing is on screen before you measure its layout.</strong></p>
+<p><strong>A test can classify by name instead of by value.</strong> A theme parity check selected tokens by name prefix and flagged a font size as a missing colour.</p>
+<h2 id="ratchets">Ratchets</h2>
+<p>For anything statistical, pin the number and allow it to move one way. If a fix improves a statistic, pin the better value. This is how the length tell in the item bank went from 81 percent to chance and stayed there.</p>
+<p>A ratchet only works if it is stable. This project's ratchets drifted run to run because the generator seeded from a randomised hash, and a flaky ratchet gets deleted. <strong>Seed from something stable and assert reproducibility first.</strong></p>
+<h2 id="write-the-expected-number-before-the-code">Write the expected number before the code</h2>
+<p>The dashboard test here carries a fixture of two subscriptions and a comment block computing, by hand, what every tile must show. The test knew $159.84 was the right answer before the page existed, which is how it caught the page printing $160.</p>
+<p><strong>If you cannot write down the expected output before you write the code, you do not yet understand the requirement.</strong></p>
+<h2 id="wire-it-into-ci-and-prove-it-ran">Wire it into CI, and prove it ran</h2>
+<p>The browser suites on this project <strong>had never actually run.</strong> Playwright was a declared dependency in a repository where nothing had installed it. The tests existed, the command existed, and the coverage was zero.</p>
+<p>A test that is not wired into CI is a test that does not exist. Prove a suite runs in the place it is supposed to run.</p>
+<h2 id="render-it-and-look-at-it">Render it and look at it</h2>
+<p>Three defects here were found by taking a screenshot: a chart unreadable in dark mode, a line chart implying values that never existed, and a dashboard that was not on screen. None of them would have been caught by an assertion, because none of them were violations of anything anybody had thought to assert.</p>
+<p><strong>Budget for looking.</strong> It is the cheapest test there is and the only one that catches things you have not imagined.</p>
+<h1 id="running-the-build-as-an-ai-loop">Running the Build as an AI Loop</h1>
+<p>66 commits in 35 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
+<h2 id="the-division-of-labour">The division of labour</h2>
+<p><strong>The owner decides</strong>: what to build, what it means, what is acceptable, and every irreversible or outward-facing action. <strong>The session does</strong>: the building, the measuring, the testing, and the reporting of what it found.</p>
+<p>The failure mode at each end is worth naming. An owner who reviews every line becomes the bottleneck and the throughput collapses to the speed of reading. A session that decides product questions on its own produces something coherent that is not what anyone wanted.</p>
+<h2 id="the-rules-file-is-the-highest-leverage-artefact">The rules file is the highest-leverage artefact</h2>
+<p>One file, read every turn, holding only load-bearing rules. Not documentation, not architecture notes. The test for whether a line belongs in it: <strong>would you otherwise have to say this again?</strong></p>
+<p>What earns a place:</p>
+<ul>
+<li>Style rules a build can enforce.</li>
+<li>Sourcing rules, with a named list of banned sources.</li>
+<li><strong>Never invent a value.</strong> Every id, hash, count, price, date and URL must be read from</li>
+</ul>
+<p>real output before it goes into a tool call, a commit or a page.</p>
+<ul>
+<li><strong>Report a blocked resource immediately</strong> and ask, rather than quietly working around it.</li>
+<li>The handful of architectural facts that are expensive to rediscover.</li>
+</ul>
+<p>Every one of these was written after something went wrong. Write them at the start anyway; the list above is transferable as-is.</p>
+<h2 id="ratchets-not-reviews">Ratchets, not reviews</h2>
+<p>The owner cannot read every line. So the correctness that matters is encoded in things that fail loudly: build guards, pinned statistics, browser suites, review bots. The review budget then goes to the few decisions that are genuinely judgement, rather than being spread thinly over everything.</p>
+<p>This is the same principle as the data layer. <strong>Push the guarantee down to the layer that cannot be bypassed.</strong></p>
+<h2 id="what-a-session-should-report">What a session should report</h2>
+<p>Not a list of files changed. The useful report is:</p>
+<ol>
+<li>What was built, in one paragraph.</li>
+<li><strong>What broke on the way, and why.</strong> This is the most valuable part and the easiest to</li>
+</ol>
+<p>omit, because it reads as failure. It is the opposite.</p>
+<ol>
+<li>What is now guarded against, and where.</li>
+<li>What was left undone, and whether that is a decision or a blocker.</li>
+<li>Numbers, with the command that produced them.</li>
+</ol>
+<p>The commit messages in this repository are written that way, which is why a defect ledger could be reconstructed from them 35 days later. <strong>Write the commit message as though someone will need to mine it. Someone will.</strong></p>
+<h2 id="failure-modes-observed-in-this-project">Failure modes observed in this project</h2>
+<p><strong>Reporting a regression from one seed.</strong> A stochastic measurement compared before and after on a single seed showed an 88 to 72 percent drop. Across three seeds the spread between seeds was larger than the effect. Run more seeds before reporting.</p>
+<p><strong>Pausing to report when told to keep working.</strong> A session that stops to summarise every few minutes converts working time into reading time. If the owner has said to keep going, keep going, and batch the reporting.</p>
+<p><strong>Treating a policy document as a blocker.</strong> A missing stylesheet reference was reported as a privacy concern because the file lived in a directory named after the privacy page. Be precise about what kind of problem you have found; a 404 is a 404.</p>
+<p><strong>Typing a value that looked right.</strong> A forty-character hex string was typed into a merge call as though it were a commit SHA. It was rejected as malformed, which was luck; a well-formed guess would have merged the wrong thing. <code>git rev-parse</code> costs one call.</p>
+<p><strong>Adding a guard that did not guard.</strong> Several ledger entries are guards that were too narrow, too broad, or measuring the wrong thing. After writing a guard, break the thing on purpose and confirm the guard fails.</p>
+<h2 id="the-cadence-that-worked">The cadence that worked</h2>
+<p>Long uninterrupted sessions with standing authorisation, punctuated by the owner redirecting priorities, beat short supervised ones by a wide margin. The standing authorisation that made it work was specific: merge your own work once the checks are green, do not check in on each item, and stop immediately when told to.</p>
+<p>The thing that makes that safe is not trust. It is that the checks are real, the destructive actions still require asking, and the record of what happened is written down well enough to audit later. Which is what this book is.</p>
+<h1 id="what-the-ledger-says-about-itself">What the Ledger Says About Itself</h1>
+<p>55 recorded defects, over 35 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.</p>
+<h2 id="how-defects-were-actually-found">How defects were actually found</h2>
+<div class="tw"><table><thead><tr><th style="text-align:left">How</th><th style="text-align:right">Count</th><th style="text-align:right">Share</th></tr></thead><tbody>
+<tr><td style="text-align:left">Found by reading the code or the output</td><td style="text-align:right">23</td><td style="text-align:right">42%</td></tr>
+<tr><td style="text-align:left">Found by measuring something</td><td style="text-align:right">14</td><td style="text-align:right">25%</td></tr>
+<tr><td style="text-align:left">A test caught it</td><td style="text-align:right">9</td><td style="text-align:right">16%</td></tr>
+<tr><td style="text-align:left">Found by rendering it and looking</td><td style="text-align:right">4</td><td style="text-align:right">7%</td></tr>
+<tr><td style="text-align:left">Found by a review bot or an adversarial pass</td><td style="text-align:right">4</td><td style="text-align:right">7%</td></tr>
+<tr><td style="text-align:left">A person hit it</td><td style="text-align:right">1</td><td style="text-align:right">2%</td></tr>
+</tbody></table></div>
+<p><strong>This is the most useful table in the book.</strong> 54 of 55 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.</p>
+<p><strong>Read that percentage with the bias it carries.</strong> This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.</p>
+<h2 id="by-severity">By severity</h2>
+<div class="tw"><table><thead><tr><th style="text-align:left">Severity</th><th style="text-align:right">Count</th></tr></thead><tbody>
+<tr><td style="text-align:left">Wrong data shown or stored</td><td style="text-align:right">22</td></tr>
+<tr><td style="text-align:left">Silent loss</td><td style="text-align:right">12</td></tr>
+<tr><td style="text-align:left">Degraded</td><td style="text-align:right">12</td></tr>
+<tr><td style="text-align:left">Cosmetic</td><td style="text-align:right">7</td></tr>
+<tr><td style="text-align:left">Site down</td><td style="text-align:right">2</td></tr>
+</tbody></table></div>
+<p><strong>Silent loss is the dominant failure mode</strong>, at 12 of 55. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.</p>
+<h2 id="by-area">By area</h2>
+<div class="tw"><table><thead><tr><th style="text-align:left">Area</th><th style="text-align:right">Count</th></tr></thead><tbody>
+<tr><td style="text-align:left">Tests and guards</td><td style="text-align:right">12</td></tr>
+<tr><td style="text-align:left">Front end</td><td style="text-align:right">8</td></tr>
+<tr><td style="text-align:left">Content generation</td><td style="text-align:right">8</td></tr>
+<tr><td style="text-align:left">CSS and layout</td><td style="text-align:right">5</td></tr>
+<tr><td style="text-align:left">Payments</td><td style="text-align:right">5</td></tr>
+<tr><td style="text-align:left">Infrastructure and deploy</td><td style="text-align:right">5</td></tr>
+<tr><td style="text-align:left">Scoring and selection</td><td style="text-align:right">4</td></tr>
+<tr><td style="text-align:left">Search and metadata</td><td style="text-align:right">3</td></tr>
+<tr><td style="text-align:left">Database</td><td style="text-align:right">3</td></tr>
+<tr><td style="text-align:left">Interface and data display</td><td style="text-align:right">2</td></tr>
+</tbody></table></div>
+<h2 id="guard-coverage">Guard coverage</h2>
+<p>49 of 55 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.</p>
+<p>Carried by attention:</p>
+<ul>
+<li><strong>INC-0010</strong> CSS comments do not nest, and one placeholder killed the palette on 1451 pages</li>
+<li><strong>INC-0019</strong> The audit reported a working link as broken</li>
+<li><strong>INC-0025</strong> A stale edge cache made a fixed 404 look like a live 200</li>
+<li><strong>INC-0034</strong> A line chart interpolated between discrete money events</li>
+<li><strong>INC-0036</strong> charge.amount_refunded is cumulative, so partial refunds double-count</li>
+<li><strong>INC-0045</strong> The error reporter reported its own failures, in a loop</li>
+</ul>
+<h2 id="guards-that-fired-twice">Guards that fired twice</h2>
+<p>A guard named by two incidents is a guard that did not hold the first time. These are the places to spend effort.</p>
+<ul>
+<li><code>src/test.js</code> appears in INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044</li>
+<li><code>src/build_banks.py</code> appears in INC-0003, INC-0007, INC-0008, INC-0009, INC-0011</li>
+<li><code>src/build.py</code> appears in INC-0001, INC-0002, INC-0017, INC-0027</li>
+<li><code>src/weekly_audit.js</code> appears in INC-0050, INC-0048, INC-0018</li>
+<li><code>src/review_bot.js</code> appears in INC-0022, INC-0026, INC-0051</li>
+<li><code>src/smoke_redirect.js</code> appears in INC-0023, INC-0024, INC-0047</li>
+<li><code>src/build_rankings.py</code> appears in INC-0014, INC-0049</li>
+<li><code>src/smoke_load.js</code> appears in INC-0015, INC-0016</li>
+<li><code>src/smoke_charts.js</code> appears in INC-0029, INC-0030</li>
+<li><code>.github/workflows/ci.yml</code> appears in INC-0031, INC-0053</li>
+<li><code>src/smoke_business.js</code> appears in INC-0032, INC-0033</li>
+<li><code>src/app_template.html</code> appears in INC-0046, INC-0052</li>
+</ul>
+<h1 id="the-defect-ledger">The Defect Ledger</h1>
+<p>Every entry here happened. Each one is a record of something that broke, how it was found, what fixed it, and what now stops it coming back. The last field is the one that matters for a different business: the transferable lesson, stated without reference to this codebase.</p>
+<p>They are grouped by the part of the system, and within a group by date. The <code>guard</code> field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.</p>
+<h2 id="tests-and-guards-12">Tests and guards (12)</h2>
+<h3 id="inc-0016-the-performance-test-waited-for-the-load-event-which-waits-for-the-thing-being-optimised">INC-0016. The performance test waited for the load event, which waits for the thing being optimised</h3>
+<p><em>2026-09-19, Silent loss, <code>4b25169</code> PR #45</em></p>
+<ul>
+<li><strong>What was seen.</strong> A change that made the page usable nine times faster would have reported no improvement.</li>
+<li><strong>Why.</strong> smoke_load waited for the load event. The load event waits for the async bank, which is precisely the part the fix moved off the critical path.</li>
+<li><strong>How it surfaced.</strong> The number refused to move when it obviously should have. (Found by measuring something)</li>
+<li><strong>Fix.</strong> Wait for the first question to be answerable.</li>
+<li><strong>What stops it now.</strong> smoke_load waits on the user-visible milestone in <code>src/smoke_load.js</code></li>
+<li><strong>Cost.</strong> would have hidden the entire win</li>
+<li><strong>Lesson.</strong> Measure the moment the user can act, not a browser lifecycle event. A test that measures the wrong instant is worse than no test, because it produces a number people trust.</li>
+</ul>
+<h3 id="inc-0017-a-build-guard-silently-narrowed-its-own-scope-when-the-counts-grew">INC-0017. A build guard silently narrowed its own scope when the counts grew</h3>
+<p><em>2026-09-19, Silent loss, <code>4b25169</code> PR #45</em></p>
+<ul>
+<li><strong>What was seen.</strong> The item-count guard kept passing while checking nothing.</li>
+<li><strong>Why.</strong> The guard matched \d{2,4}. When the banks passed ten thousand, the two largest counts stopped matching the pattern and fell out of the check.</li>
+<li><strong>How it surfaced.</strong> Reading the guard while raising the counts. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Match any run of digits.</li>
+<li><strong>What stops it now.</strong> the guard asserts how many counts it checked in <code>src/build.py</code></li>
+<li><strong>Cost.</strong> the two largest banks unchecked</li>
+<li><strong>Lesson.</strong> A regex with a length bound is a guard with an expiry date. Assert the number of things checked, not only that the checks passed.</li>
+</ul>
+<h3 id="inc-0019-the-audit-reported-a-working-link-as-broken">INC-0019. The audit reported a working link as broken</h3>
+<p><em>2026-09-19, Cosmetic, <code>a34a798</code> PR #47</em></p>
+<ul>
+<li><strong>What was seen.</strong> A false positive in the launch audit.</li>
+<li><strong>Why.</strong> Relative link resolution in the audit did not match the browser's.</li>
+<li><strong>How it surfaced.</strong> Checking a reported failure by hand. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Resolve links the way the browser does.</li>
+<li><strong>What stops it now.</strong> Nothing automated. This one is still carried by attention.</li>
+<li><strong>Cost.</strong> trust in the audit</li>
+<li><strong>Lesson.</strong> Check your checker. A tool that cries wolf gets muted, and then it is worse than nothing.</li>
+</ul>
+<h3 id="inc-0021-a-test-passed-because-nothing-was-configured-at-all">INC-0021. A test passed because nothing was configured at all</h3>
+<p><em>2026-09-19, Silent loss, <code>489363b</code> PR #46</em></p>
+<ul>
+<li><strong>What was seen.</strong> smoke_funnel's 'nothing sent on refusal' assertion passed. It would have passed with the feature deleted.</li>
+<li><strong>Why.</strong> The test used storage key sfn_consent instead of sfn_consent_v1, so consent was never set up, so nothing was ever sent, so the assertion held vacuously.</li>
+<li><strong>How it surfaced.</strong> Fixing the key, which immediately exposed a real bug underneath. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Use the real key, and assert the positive case as well as the negative.</li>
+<li><strong>What stops it now.</strong> every 'nothing happens' assertion is paired with a 'something happens' assertion in <code>src/smoke_funnel.js</code></li>
+<li><strong>Cost.</strong> a real bug hidden behind a green check</li>
+<li><strong>Lesson.</strong> A negative assertion passes when the system is broken in the right way. Always pair it with the positive case, or it is testing nothing.</li>
+</ul>
+<h3 id="inc-0026-i-reported-a-regression-that-was-seed-noise">INC-0026. I reported a regression that was seed noise</h3>
+<p><em>2026-09-21, Cosmetic, <code>c63654a</code> PR #56</em></p>
+<ul>
+<li><strong>What was seen.</strong> I reported that SAT band coverage fell from 88 to 72 percent after an engine change.</li>
+<li><strong>Why.</strong> I compared a single seed before and after. Across seeds 3, 7 and 11 the baseline was 52, 88 and 80 against 72, 80 and 72 for the change. The spread between seeds was larger than the effect.</li>
+<li><strong>How it surfaced.</strong> Running more seeds because the number looked too clean. (Found by measuring something)</li>
+<li><strong>Fix.</strong> Report across seeds, never one.</li>
+<li><strong>What stops it now.</strong> review_bot runs multiple seeds and reports the spread in <code>src/review_bot.js</code></li>
+<li><strong>Cost.</strong> a false regression report, corrected in the same session</li>
+<li><strong>Lesson.</strong> A stochastic measurement on one seed is an anecdote. If your system has randomness, a single-run before-and-after cannot distinguish a change from the weather.</li>
+</ul>
+<h3 id="inc-0030-the-theme-parity-test-matched-by-name-prefix-and-caught-a-font-size">INC-0030. The theme parity test matched by name prefix and caught a font size</h3>
+<p><em>2026-09-21, Cosmetic, <code>8af7188</code> PR #61</em></p>
+<ul>
+<li><strong>What was seen.</strong> The parity guard flagged --text-xs, which is a length, not a colour.</li>
+<li><strong>Why.</strong> Token selection was by name prefix rather than by whether the value is a colour.</li>
+<li><strong>How it surfaced.</strong> Reading the failure. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Select tokens by inspecting the value.</li>
+<li><strong>What stops it now.</strong> smoke_charts selects by value, not name in <code>src/smoke_charts.js</code></li>
+<li><strong>Cost.</strong> a false failure</li>
+<li><strong>Lesson.</strong> Classify by what a thing is, not by what it is called. Naming conventions are a hint, never a type.</li>
+</ul>
+<h3 id="inc-0031-the-browser-suites-had-never-actually-run-because-npm-install-had-not">INC-0031. The browser suites had never actually run, because npm install had not</h3>
+<p><em>2026-09-21, Silent loss, <code>8af7188</code> PR #61</em></p>
+<ul>
+<li><strong>What was seen.</strong> Browser tests appeared to be part of the suite and were not being executed.</li>
+<li><strong>Why.</strong> playwright was listed as a devDependency and node_modules did not exist in the environment.</li>
+<li><strong>How it surfaced.</strong> Running them by hand and getting a module-not-found. (Found by measuring something)</li>
+<li><strong>Fix.</strong> Add npm install and playwright install to CI, and check in package.json.</li>
+<li><strong>What stops it now.</strong> CI runs npm run test:browser in <code>.github/workflows/ci.yml</code></li>
+<li><strong>Cost.</strong> an unknown number of regressions unnoticed</li>
+<li><strong>Lesson.</strong> A test that is not wired into CI is a test that does not exist. Prove a suite runs in the place it is supposed to run, not on your machine.</li>
+</ul>
+<h3 id="inc-0033-the-dashboard-test-measured-a-hidden-element-and-passed">INC-0033. The dashboard test measured a hidden element and passed</h3>
+<p><em>2026-09-21, Silent loss, <code>8827e64</code> PR #62</em></p>
+<ul>
+<li><strong>What was seen.</strong> Layout and contrast assertions passed on a view that was never displayed.</li>
+<li><strong>Why.</strong> The admin view carries a hidden class. A display:none element still answers innerText and getComputedStyle, so every assertion held on a box that had never been laid out.</li>
+<li><strong>How it surfaced.</strong> Screenshotting the result and seeing the dashboard was not in it. (Found by rendering it and looking)</li>
+<li><strong>Fix.</strong> Call show('admin') and dismiss the onboarding overlay before measuring.</li>
+<li><strong>What stops it now.</strong> smoke_business asserts the view is on screen and taller than 400px before measuring it in <code>src/smoke_business.js</code></li>
+<li><strong>Cost.</strong> a layout suite that tested nothing, caught the same day</li>
+<li><strong>Lesson.</strong> Before you measure a layout, assert the thing is rendered. Hidden elements answer most DOM questions, and they answer them wrongly.</li>
+</ul>
+<h3 id="inc-0046-the-error-queue-was-81-percent-other-people-s-blocked-scripts">INC-0046. The error queue was 81 percent other people's blocked scripts</h3>
+<p><em>2026-09-21, Degraded, <code>c4698e0</code> PR #52</em></p>
+<ul>
+<li><strong>What was seen.</strong> 1,202 of the first 1,490 rows in the error table were one third-party beacon being blocked by ad blockers.</li>
+<li><strong>Why.</strong> The handler captured every error on the page, including ones from scripts the site does not control and cannot fix.</li>
+<li><strong>How it surfaced.</strong> Clustering the rows and looking at the largest cluster. (Found by measuring something)</li>
+<li><strong>Fix.</strong> Filter third-party script errors, and give the triage queue a permanent noise label.</li>
+<li><strong>What stops it now.</strong> the triage queue mutes a cluster marked noise in <code>src/app_template.html</code></li>
+<li><strong>Cost.</strong> a monitoring surface that was 81 percent noise</li>
+<li><strong>Lesson.</strong> An error feed with no filter is a feed nobody reads. Signal has to be defended, and the cheapest defence is a human label that mutes permanently, so the queue gets quieter as it learns.</li>
+</ul>
+<h3 id="inc-0053-the-playbook-s-own-citation-guard-failed-ci-on-its-first-run">INC-0053. The playbook's own citation guard failed CI on its first run</h3>
+<p><em>2026-09-21, Cosmetic, PR #62</em></p>
+<ul>
+<li><strong>What was seen.</strong> CI reported all 37 cited commits as nonexistent, with 'fatal: Not a valid object name' for every one.</li>
+<li><strong>Why.</strong> The checkout action shallow-clones by default, so no historical commit is present in the CI working copy. The guard was correct and its environment assumption was not.</li>
+<li><strong>How it surfaced.</strong> The first CI run of the guard. (A test caught it)</li>
+<li><strong>Fix.</strong> fetch-depth: 0 on the checkout so the history is actually there to check.</li>
+<li><strong>What stops it now.</strong> fetch-depth: 0 in the workflow in <code>.github/workflows/ci.yml</code></li>
+<li><strong>Cost.</strong> one red CI run</li>
+<li><strong>Lesson.</strong> A guard that reads the repository needs the repository. CI checkouts are shallow by default, and anything that walks history, blames a line or resolves an old hash will fail in a way that looks like the data is wrong rather than the clone.</li>
+</ul>
+<h3 id="inc-0054-the-first-fix-asked-the-wrong-question-and-muted-a-working-check">INC-0054. The first fix asked the wrong question and muted a working check</h3>
+<p><em>2026-09-21, Silent loss, PR #62</em></p>
+<ul>
+<li><strong>What was seen.</strong> After guarding on 'is this a shallow clone', the citation check stopped running locally, where it had been working perfectly and verifying all 52 citations.</li>
+<li><strong>Why.</strong> This clone is shallow and still holds every commit the ledger cites, which is the normal case. Shallowness does not imply missing history, so the guard disabled itself in the one environment where it was useful.</li>
+<li><strong>How it surfaced.</strong> Reading the output after the fix and noticing a check had turned into a skip. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Ask whether ANY citation resolved. None at all means the history is absent; some means those particular citations are wrong.</li>
+<li><strong>What stops it now.</strong> the check degrades only when zero citations resolve in <code>src/smoke_playbook.js</code></li>
+<li><strong>Cost.</strong> a working check disabled for the length of one edit</li>
+<li><strong>Lesson.</strong> When you add a condition that skips a check, make sure it describes the failure and not something merely correlated with it. A skip is indistinguishable from a pass in the output, so the fix for a noisy check can silently delete it.</li>
+</ul>
+<h3 id="inc-0055-a-new-browser-suite-hardcoded-this-machine-s-browser-directory-and-crashed-in-ci">INC-0055. A new browser suite hardcoded this machine's browser directory and crashed in CI</h3>
+<p><em>2026-09-21, Cosmetic, PR #62</em></p>
+<ul>
+<li><strong>What was seen.</strong> ENOENT scandir /opt/pw-browsers on the first CI run of the dashboard suite, after every other suite had passed.</li>
+<li><strong>Why.</strong> The suite read a browser directory that exists in the development sandbox and not on a CI runner, where Playwright installs browsers in its own location. The older suites pass process.env.CHROMIUM_PATH straight through, which is undefined in CI and correctly means 'you decide'.</li>
+<li><strong>How it surfaced.</strong> The first CI run of the suite. (A test caught it)</li>
+<li><strong>Fix.</strong> src/chromium_path.js, one shared resolver: the environment variable, then the sandbox directory if it exists, then undefined so Playwright resolves its own.</li>
+<li><strong>What stops it now.</strong> one shared resolver, so the logic cannot differ between suites in <code>src/chromium_path.js</code></li>
+<li><strong>Cost.</strong> one red CI run</li>
+<li><strong>Lesson.</strong> A path that exists on the machine you wrote the test on is not a path. Resolve environment-specific locations through one helper that falls back to the tool's own default, and return undefined rather than an empty string, because undefined means 'you decide' and an empty string means 'launch nothing'.</li>
+</ul>
+<h2 id="front-end-8">Front end (8)</h2>
+<h3 id="inc-0001-unescaped-quotes-in-onclick-strings-took-the-whole-app-down">INC-0001. Unescaped quotes in onclick strings took the whole app down</h3>
+<p><em>2026-08-19, Site down, <code>1f3ecec</code> PR #7</em></p>
+<ul>
+<li><strong>What was seen.</strong> On the deployed site no tab rendered and every nav click was dead. The page looked fine; nothing worked.</li>
+<li><strong>Why.</strong> Five onclick handlers were built as JS strings containing unescaped single quotes inside single-quoted string literals. That is a parse error, and a parse error anywhere in an inline script kills the entire script, not the one handler.</li>
+<li><strong>How it surfaced.</strong> Reported from the live site after deploy. (A person hit it)</li>
+<li><strong>Fix.</strong> Escape the quotes, and make the build parse every inline script with node before it will write a page.</li>
+<li><strong>What stops it now.</strong> build.py node-parses every inline script and fails the build on a syntax error in <code>src/build.py</code></li>
+<li><strong>Cost.</strong> a live outage of the trainer</li>
+<li><strong>Lesson.</strong> Generated code is code. If your build writes JavaScript into a string, the build must parse the result, because the blast radius of one bad character is the whole file, not the line.</li>
+</ul>
+<h3 id="inc-0038-one-exam-s-progress-blob-overwrote-another-s">INC-0038. One exam's progress blob overwrote another's</h3>
+<p><em>2026-09-16, Wrong data shown or stored, <code>81eecec</code> PR #30</em></p>
+<ul>
+<li><strong>What was seen.</strong> None shipped: caught before release. A student practising two exams would have had one exam's progress destroyed by the other.</li>
+<li><strong>Why.</strong> Progress was stored under a single key. Making the engine multi-exam added a second writer to the same slot without keying the slot by exam.</li>
+<li><strong>How it surfaced.</strong> Reviewing the cross-exam data paths while adding the second exam. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Key the stored state per exam.</li>
+<li><strong>What stops it now.</strong> engine tests run once per exam and assert progress isolation in <code>src/test.js</code></li>
+<li><strong>Cost.</strong> would have destroyed real progress</li>
+<li><strong>Lesson.</strong> The moment a single-tenant store becomes multi-tenant, every key in it is a collision waiting to happen. Enumerate the writers before you add the second tenant, not after.</li>
+</ul>
+<h3 id="inc-0043-the-gre-app-told-gre-students-to-calibrate-at-the-wrong-test-maker-s-site">INC-0043. The GRE app told GRE students to calibrate at the wrong test maker's site</h3>
+<p><em>2026-09-16, Wrong data shown or stored, <code>1a003bb</code> PR #34</em></p>
+<ul>
+<li><strong>What was seen.</strong> A shipped application displayed a score card headed with a different exam's name and linked students to that exam's official site.</li>
+<li><strong>Why.</strong> The template forked on the exam id in seven places and treated not-SAT as the original exam. Adding a third exam made every one of those branches wrong.</li>
+<li><strong>How it surfaced.</strong> Reading the built page for the third exam. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Per-exam copy moved into the registry and resolved from the injected exam id.</li>
+<li><strong>What stops it now.</strong> a headless check asserts each app names itself in <code>src/test.js</code></li>
+<li><strong>Cost.</strong> a live app misidentifying itself</li>
+<li><strong>Lesson.</strong> A conditional that treats not-A as the original case is a bug the day a third case exists. Resolve variants from data, and the third one costs a row rather than a search.</li>
+</ul>
+<h3 id="inc-0015-the-whole-bank-blocked-first-paint-20-seconds-to-the-first-question-on-3g">INC-0015. The whole bank blocked first paint: 20 seconds to the first question on 3G</h3>
+<p><em>2026-09-19, Degraded, <code>4b25169</code> PR #45</em></p>
+<ul>
+<li><strong>What was seen.</strong> On throttled regular 3G, 20.3 seconds to the first GMAT question and 23.4 for ACT.</li>
+<li><strong>Why.</strong> The entire item bank shipped as a blocking script. It grew past ten megabytes without anyone measuring what that cost.</li>
+<li><strong>How it surfaced.</strong> A throttled measurement, added because the number had never been taken. (Found by measuring something)</li>
+<li><strong>Fix.</strong> A strided starter bank plus an async remainder that pushes into the same array. ACT 7.6s, GMAT 11.0s; blocking download 11.3MB to 1.2MB.</li>
+<li><strong>What stops it now.</strong> smoke_load measures time to first question under throttling in <code>src/smoke_load.js</code></li>
+<li><strong>Cost.</strong> every visitor on a slow connection, for weeks</li>
+<li><strong>Lesson.</strong> Nobody notices a page getting slower one commit at a time. Put the number in a test the first time you care about it, not the first time somebody complains.</li>
+</ul>
+<h3 id="inc-0022-a-try-catch-caught-nothing-because-the-call-inside-it-does-not-throw">INC-0022. A try/catch caught nothing because the call inside it does not throw</h3>
+<p><em>2026-09-21, Silent loss, <code>c4698e0</code> PR #52</em></p>
+<ul>
+<li><strong>What was seen.</strong> An error path never ran.</li>
+<li><strong>Why.</strong> The wrapped call signals failure by return value, not by throwing, so the catch was unreachable.</li>
+<li><strong>How it surfaced.</strong> A review bot playing a full exam against the real engine. (Found by a review bot or an adversarial pass)</li>
+<li><strong>Fix.</strong> Check the return value.</li>
+<li><strong>What stops it now.</strong> review_bot.js sits each exam repeatedly against the real engine in <code>src/review_bot.js</code></li>
+<li><strong>Cost.</strong> a silent failure path</li>
+<li><strong>Lesson.</strong> try/catch around an API that returns errors is decoration. Know which convention each call uses before you wrap it.</li>
+</ul>
+<h3 id="inc-0028-the-service-worker-precache-regex-did-not-match-the-chunked-files">INC-0028. The service worker precache regex did not match the chunked files</h3>
+<p><em>2026-09-21, Degraded, <code>58f3a93</code> PR #59</em></p>
+<ul>
+<li><strong>What was seen.</strong> Chunked bank files would not have been precached offline.</li>
+<li><strong>Why.</strong> The IMMUTABLE pattern was /bank_rest\.js$/, which does not match bank_rest1.js.</li>
+<li><strong>How it surfaced.</strong> Reading the service worker while changing the file naming. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> /bank_rest\d*\.js$/.</li>
+<li><strong>What stops it now.</strong> smoke_offline asserts every bank chunk is precached in <code>src/smoke_offline.js</code></li>
+<li><strong>Cost.</strong> offline would have silently degraded</li>
+<li><strong>Lesson.</strong> When you change a filename scheme, grep for the old name as a string, including inside regexes. A pattern is a hardcoded name wearing a disguise.</li>
+</ul>
+<h3 id="inc-0032-arr-was-rounded-to-whole-dollars-and-lost-real-money-at-small-scale">INC-0032. ARR was rounded to whole dollars and lost real money at small scale</h3>
+<p><em>2026-09-21, Wrong data shown or stored, <code>8827e64</code> PR #62</em></p>
+<ul>
+<li><strong>What was seen.</strong> $159.84 of ARR printed as $160.</li>
+<li><strong>Why.</strong> The currency formatter was called with zero decimal places for the larger tiles, a rule chosen for readability at scale and applied at a scale where cents still matter.</li>
+<li><strong>How it surfaced.</strong> A smoke test whose expected values were computed by hand before the page was written. (A test caught it)</li>
+<li><strong>Fix.</strong> Keep cents below a thousand dollars, drop them above.</li>
+<li><strong>What stops it now.</strong> smoke_business asserts the exact printed figures in <code>src/smoke_business.js</code></li>
+<li><strong>Cost.</strong> a wrong figure on the tile the owner reads most closely</li>
+<li><strong>Lesson.</strong> A fixed rounding rule is wrong at one end of the range or the other. Pick the precision from the magnitude, and write the expected number down before you write the code that produces it.</li>
+</ul>
+<h3 id="inc-0045-the-error-reporter-reported-its-own-failures-in-a-loop">INC-0045. The error reporter reported its own failures, in a loop</h3>
+<p><em>2026-09-21, Degraded, <code>c4698e0</code> PR #52</em></p>
+<ul>
+<li><strong>What was seen.</strong> 267 rows in the error table, one per page a crawler swept.</li>
+<li><strong>Why.</strong> fetch rejects on a network error, it does not throw, so the try/catch around the reporting call caught nothing. The rejected promise reached the unhandledrejection handler, which called the reporter again. The analytics beacon had the identical trap.</li>
+<li><strong>How it surfaced.</strong> Reading the error table and noticing the shape of the rows. (Found by measuring something)</li>
+<li><strong>Fix.</strong> Handle the rejection, and never report from inside the reporter.</li>
+<li><strong>What stops it now.</strong> Nothing automated. This one is still carried by attention.</li>
+<li><strong>Cost.</strong> 267 junk rows and a self-sustaining loop</li>
+<li><strong>Lesson.</strong> Anything that reports failures must not be able to report its own. Check whether each call rejects or throws before you wrap it, and make the reporting path unable to re-enter itself.</li>
+</ul>
+<h2 id="content-generation-8">Content generation (8)</h2>
+<h3 id="inc-0003-item-banks-were-different-on-every-build-because-python-randomises-hash">INC-0003. Item banks were different on every build because Python randomises hash()</h3>
+<p><em>2026-09-16, Wrong data shown or stored, <code>0d6c357</code> PR #33</em></p>
+<ul>
+<li><strong>What was seen.</strong> Two builds of the same commit produced different banks, and the per-section bias figures pinned in the test file drifted run to run.</li>
+<li><strong>Why.</strong> build_banks.py seeded each category with abs(hash(exam + skill)). Python randomises string hashing per process by default.</li>
+<li><strong>How it surfaced.</strong> A pinned test figure would not stay pinned. (A test caught it)</li>
+<li><strong>Fix.</strong> Seed from zlib.crc32, which is stable across processes.</li>
+<li><strong>What stops it now.</strong> three consecutive builds must produce identical output in <code>src/build_banks.py</code></li>
+<li><strong>Cost.</strong> a flaky ratchet that would have been disabled eventually</li>
+<li><strong>Lesson.</strong> Any generator that claims reproducibility must be seeded from something stable across processes. hash() is not, in Python, and the failure shows up as a flaky test rather than as a wrong answer.</li>
+</ul>
+<h3 id="inc-0004-a-shadowed-variable-silently-deleted-3000-items">INC-0004. A shadowed variable silently deleted 3000 items</h3>
+<p><em>2026-09-16, Silent loss, <code>aecccd9</code> PR #37</em></p>
+<ul>
+<li><strong>What was seen.</strong> ACT Maths dropped from 4500 items to 1500 and the build reported success.</li>
+<li><strong>Why.</strong> Adding an ACT English mapping declared a second ACT_MAP that shadowed the existing one. Nothing errors when a map is smaller than it used to be.</li>
+<li><strong>How it surfaced.</strong> Comparing the reported category counts against the previous build. (Found by measuring something)</li>
+<li><strong>Fix.</strong> Merge the maps properly and read the section per skill.</li>
+<li><strong>What stops it now.</strong> the build prints per-category counts and the test file pins them in <code>src/test.js</code></li>
+<li><strong>Cost.</strong> 3000 items, caught before merge</li>
+<li><strong>Lesson.</strong> Deletion by shadowing is invisible. Any collection whose size is a fact about the product needs its size asserted, not just its contents.</li>
+</ul>
+<h3 id="inc-0039-225-of-302-correct-answers-sat-at-position-a">INC-0039. 225 of 302 correct answers sat at position A</h3>
+<p><em>2026-09-16, Wrong data shown or stored, <code>81eecec</code> PR #30</em></p>
+<ul>
+<li><strong>What was seen.</strong> Three quarters of the correct answers in a new bank were the first option.</li>
+<li><strong>Why.</strong> Items were authored with the key written first and the position never randomised.</li>
+<li><strong>How it surfaced.</strong> Counting the key positions, a check nobody had run. (Found by measuring something)</li>
+<li><strong>Fix.</strong> Randomise the key position per draw.</li>
+<li><strong>What stops it now.</strong> the test suite pins the key-position distribution in <code>src/test.js</code></li>
+<li><strong>Cost.</strong> a bank that could be beaten without reading it</li>
+<li><strong>Lesson.</strong> In any set of multiple-choice content, count where the answers are. A positional tell makes the whole set worthless to a test-wise user, and it is invisible item by item.</li>
+</ul>
+<h3 id="inc-0044-the-longest-option-was-the-correct-answer-81-percent-of-the-time">INC-0044. The longest option was the correct answer 81 percent of the time</h3>
+<p><em>2026-09-16, Wrong data shown or stored, <code>425a8bb</code> PR #35</em></p>
+<ul>
+<li><strong>What was seen.</strong> A student who picked the longest option without reading the question scored 81 percent against a chance level of 20.</li>
+<li><strong>Why.</strong> Distractors were shorter than keys because a correct answer is naturally more qualified, and nothing measured the resulting length distribution.</li>
+<li><strong>How it surfaced.</strong> Measuring the accuracy of a strategy that ignores the question entirely. (Found by measuring something)</li>
+<li><strong>Fix.</strong> About ninety items had distractors rewritten to carry comparable development, each added clause chosen to leave the option wrong for the reason it was already wrong. 81 percent to 38, then to chance in a later pass.</li>
+<li><strong>What stops it now.</strong> a ratchet pins the length tell and fails if it rises in <code>src/test.js</code></li>
+<li><strong>Cost.</strong> a section that could be beaten without reading it</li>
+<li><strong>Lesson.</strong> Test your content against the strategies a lazy adversary would use, not only against whether it is correct. Measure the score of a rule that ignores the question.</li>
+</ul>
+<h3 id="inc-0007-the-dedup-key-counted-a-reshuffled-question-as-a-new-one">INC-0007. The dedup key counted a reshuffled question as a new one</h3>
+<p><em>2026-09-17, Wrong data shown or stored, <code>fc4114c</code> PR #39</em></p>
+<ul>
+<li><strong>What was seen.</strong> Bank counts were inflated. The same question with its options rearranged looked distinct.</li>
+<li><strong>Why.</strong> canon() hashed the choices in the order they appeared, while the answer's position is randomised per draw.</li>
+<li><strong>How it surfaced.</strong> Sorting the choices before hashing, which immediately collapsed the counts. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Sort the choices inside canon().</li>
+<li><strong>What stops it now.</strong> canon() sorts, and the build reports distinct counts per category in <code>src/build_banks.py</code></li>
+<li><strong>Cost.</strong> four ACT categories reported far above their real size</li>
+<li><strong>Lesson.</strong> A deduplication key must be canonical under every transformation the item legitimately undergoes. Ask what varies per draw before you hash.</li>
+</ul>
+<h3 id="inc-0008-four-passages-produced-five-hundred-fake-distinct-questions">INC-0008. Four passages produced five hundred fake distinct questions</h3>
+<p><em>2026-09-17, Wrong data shown or stored, <code>61c3ed2</code> PR #40</em></p>
+<ul>
+<li><strong>What was seen.</strong> A reading generator with four passages reported five hundred distinct stated-idea items.</li>
+<li><strong>Why.</strong> The identity of a reading item is the passage plus the question asked, not the choices offered. The same stem with the same key varied only in which distractors came along.</li>
+<li><strong>How it surfaced.</strong> Reading the generated output rather than its count. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> canon() lets a generator declare that its identity is the passage plus the question.</li>
+<li><strong>What stops it now.</strong> per-category distinct counts printed at build time in <code>src/build_banks.py</code></li>
+<li><strong>Cost.</strong> would have shipped a bank five hundred deep and four questions wide</li>
+<li><strong>Lesson.</strong> The same inflation arrives through a different door every time you close one. When you fix a dedup bug, ask what else shares an identity.</li>
+</ul>
+<h3 id="inc-0009-two-conditionals-hashed-identically-and-half-the-inference-items-would-have-vanished">INC-0009. Two conditionals hashed identically and half the inference items would have vanished</h3>
+<p><em>2026-09-17, Silent loss, <code>61c3ed2</code> PR #40</em></p>
+<ul>
+<li><strong>What was seen.</strong> Half of a passage's inference questions disappeared from the corpus.</li>
+<li><strong>Why.</strong> Both conditionals produced the stem 'which of the following can be properly inferred from the passage', so they hashed to the same value and one was dropped as a duplicate.</li>
+<li><strong>How it surfaced.</strong> Measuring true yield per passage. (Found by measuring something)</li>
+<li><strong>Fix.</strong> Each conditional names the case it asks about.</li>
+<li><strong>What stops it now.</strong> yield per passage is measured and recorded, not assumed in <code>src/build_banks.py</code></li>
+<li><strong>Cost.</strong> half the inference items in any corpus</li>
+<li><strong>Lesson.</strong> Dedup can be wrong in both directions. An over-broad key deletes real content as silently as a narrow one inflates it.</li>
+</ul>
+<h3 id="inc-0011-a-length-guard-silently-dropped-sixteen-valid-items">INC-0011. A length guard silently dropped sixteen valid items</h3>
+<p><em>2026-09-17, Silent loss, <code>61c3ed2</code> PR #40</em></p>
+<ul>
+<li><strong>What was seen.</strong> Sixteen items never appeared in the bank.</li>
+<li><strong>Why.</strong> The guard measured characters, and the items were legitimately longer than the limit in characters while being normal in content.</li>
+<li><strong>How it surfaced.</strong> Counting inputs against outputs. (Found by measuring something)</li>
+<li><strong>Fix.</strong> Measure what the guard actually cares about.</li>
+<li><strong>What stops it now.</strong> input and output counts are compared at every filter stage in <code>src/build_banks.py</code></li>
+<li><strong>Cost.</strong> sixteen items</li>
+<li><strong>Lesson.</strong> Every filter needs its rejection count reported. A filter that silently drops is indistinguishable from an input that was never there.</li>
+</ul>
+<h2 id="css-and-layout-5">CSS and layout (5)</h2>
+<h3 id="inc-0050-a-landing-page-icon-referenced-a-colour-token-that-did-not-exist">INC-0050. A landing-page icon referenced a colour token that did not exist</h3>
+<p><em>2026-08-19, Cosmetic, <code>5337dfd</code></em></p>
+<ul>
+<li><strong>What was seen.</strong> One game icon on the landing grid rendered without its colour.</li>
+<li><strong>Why.</strong> An undefined custom property, which CSS treats as a fallback rather than an error.</li>
+<li><strong>How it surfaced.</strong> Looking at the page on a phone during a mobile pass. (Found by rendering it and looking)</li>
+<li><strong>Fix.</strong> Use a defined token.</li>
+<li><strong>What stops it now.</strong> weekly_audit checks computed colour on every page in <code>src/weekly_audit.js</code></li>
+<li><strong>Cost.</strong> one icon, and the same root cause later cost a compliance control</li>
+<li><strong>Lesson.</strong> The same undefined-property failure will find you repeatedly, at every severity from one icon to an invisible legal control. One audit of computed colour catches the whole class.</li>
+</ul>
+<h3 id="inc-0010-css-comments-do-not-nest-and-one-placeholder-killed-the-palette-on-1451-pages">INC-0010. CSS comments do not nest, and one placeholder killed the palette on 1451 pages</h3>
+<p><em>2026-09-17, Degraded, <code>61c3ed2</code> PR #40</em></p>
+<ul>
+<li><strong>What was seen.</strong> The colour palette was gone from every college page. It looked like a design problem and was chased as one for hours.</li>
+<li><strong>Why.</strong> A <code>{{CHROME_CSS}}</code> placeholder was left inside an opening CSS comment in rankings_base.css. The first */ closes the outer comment, so everything after it was live CSS that overwrote the palette.</li>
+<li><strong>How it surfaced.</strong> Eventually, by reading the built CSS rather than the template. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Remove the nested comment.</li>
+<li><strong>What stops it now.</strong> Nothing automated. This one is still carried by attention.</li>
+<li><strong>Cost.</strong> hours, on 1451 pages</li>
+<li><strong>Lesson.</strong> CSS comments do not nest. When a whole page category loses its styling, read the built artefact, not the source that produced it.</li>
+</ul>
+<h3 id="inc-0048-error-recovery-in-the-css-parser-swallowed-the-palette-silently">INC-0048. Error recovery in the CSS parser swallowed the palette silently</h3>
+<p><em>2026-09-17, Degraded, <code>a920f5c</code> PR #41</em></p>
+<ul>
+<li><strong>What was seen.</strong> Score bars rendered as empty gaps and panels lost their borders on 1,451 college pages and the rankings.</li>
+<li><strong>Why.</strong> A nested comment ended early, the leftover words became a selector, and the CSS parser's error recovery discarded the :root colour block that followed it. Every grey and navy variable on those pages resolved to nothing. There is no error anywhere in this chain; CSS is specified to recover and continue.</li>
+<li><strong>How it surfaced.</strong> The missing borders eventually gave it away, after the missing colours did not. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Remove the nested comment.</li>
+<li><strong>What stops it now.</strong> weekly_audit checks computed colour on every page in <code>src/weekly_audit.js</code></li>
+<li><strong>Cost.</strong> the palette on over 1,450 pages</li>
+<li><strong>Lesson.</strong> CSS never fails loudly. A malformed rule is skipped, a bad selector eats the block after it, and an undefined variable paints as nothing. Anything that matters visually has to be asserted on the rendered page, because the parser will not tell you.</li>
+</ul>
+<h3 id="inc-0018-the-do-not-sell-button-was-invisible-from-the-day-it-shipped">INC-0018. The Do Not Sell button was invisible from the day it shipped</h3>
+<p><em>2026-09-19, Degraded, <code>a34a798</code> PR #47</em></p>
+<ul>
+<li><strong>What was seen.</strong> White text on a transparent background on a white page. A legally required control that nobody could see.</li>
+<li><strong>Why.</strong> The page referenced nine colour custom properties that exist nowhere. CSS does not treat an undefined custom property as an error; it falls back to the initial value and paints.</li>
+<li><strong>How it surfaced.</strong> An automated contrast audit across every page. (A test caught it)</li>
+<li><strong>Fix.</strong> Define the tokens and fix seven contrast failures, all site wide because all lived in shared chrome.</li>
+<li><strong>What stops it now.</strong> weekly_audit checks computed contrast on every page in <code>src/weekly_audit.js</code></li>
+<li><strong>Cost.</strong> an invisible compliance control for the life of the page</li>
+<li><strong>Lesson.</strong> An undefined CSS custom property is silent. Audit computed colour, not authored colour, and do it on the rendered page.</li>
+</ul>
+<h3 id="inc-0029-a-sequential-colour-ramp-inverts-direction-between-themes-and-the-label-text-did-not">INC-0029. A sequential colour ramp inverts direction between themes, and the label text did not</h3>
+<p><em>2026-09-21, Degraded, <code>8af7188</code> PR #61</em></p>
+<ul>
+<li><strong>What was seen.</strong> White heatmap labels on a light cell in dark mode.</li>
+<li><strong>Why.</strong> A sequential ramp runs light to dark in a light theme and dark to light in a dark theme. The label colour was hardcoded white, so it was correct in one theme and unreadable in the other.</li>
+<li><strong>How it surfaced.</strong> Rendering the chart in dark mode and looking at it. (Found by rendering it and looking)</li>
+<li><strong>Fix.</strong> An --sfnc-on-seq token that flips with the theme.</li>
+<li><strong>What stops it now.</strong> smoke_charts asserts token parity between the light and dark blocks in <code>src/smoke_charts.js</code></li>
+<li><strong>Cost.</strong> an unreadable chart in one theme</li>
+<li><strong>Lesson.</strong> A dark mode does not break by having a wrong colour. It breaks by missing one. Any colour paired with a ramp has to move with the ramp.</li>
+</ul>
+<h2 id="payments-5">Payments (5)</h2>
+<h3 id="inc-0041-a-signed-in-user-could-grant-themselves-a-paid-plan">INC-0041. A signed-in user could grant themselves a paid plan</h3>
+<p><em>2026-09-16, Wrong data shown or stored, <code>81eecec</code> PR #30</em></p>
+<ul>
+<li><strong>What was seen.</strong> The plan column was writable by the authenticated role, so any signed-in browser session could set its own plan to the top tier.</li>
+<li><strong>Why.</strong> Column-level grants on the profiles table included the billing columns. Row Level Security controls which rows you can touch, not which columns.</li>
+<li><strong>How it surfaced.</strong> Auditing the grants rather than the policies. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Remove the billing columns from the grants entirely. Only the service role, used by the webhook, can write them.</li>
+<li><strong>What stops it now.</strong> the billing columns are absent from the column grants in <code>supabase/migrations/20260916_harden_plan_column_and_rpc_surface.sql</code></li>
+<li><strong>Cost.</strong> free access to every paid tier</li>
+<li><strong>Lesson.</strong> Row Level Security is row-level. Which columns a role may write is a separate grant, and anything money depends on belongs to the service role alone.</li>
+</ul>
+<h3 id="inc-0042-every-trialing-subscriber-would-have-been-left-on-the-free-plan">INC-0042. Every trialing subscriber would have been left on the free plan</h3>
+<p><em>2026-09-16, Wrong data shown or stored, <code>81eecec</code> PR #30</em></p>
+<ul>
+<li><strong>What was seen.</strong> A checkout that starts a free trial did not upgrade the account.</li>
+<li><strong>Why.</strong> The handler checked for a payment status of paid. A session that starts a trial settles as no payment required, which is not paid.</li>
+<li><strong>How it surfaced.</strong> Reading the processor's status vocabulary rather than assuming it. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Accept both settled states.</li>
+<li><strong>What stops it now.</strong> smoke_billing covers the trial path in both auth states in <code>src/smoke_billing.js</code></li>
+<li><strong>Cost.</strong> every trial would have failed to grant access</li>
+<li><strong>Lesson.</strong> Enumerate every value a third-party status field can take before you branch on one of them. The value you did not think of is usually the one that matters commercially.</li>
+</ul>
+<h3 id="inc-0035-two-stripe-event-types-announce-one-new-subscription">INC-0035. Two Stripe event types announce one new subscription</h3>
+<p><em>2026-09-21, Wrong data shown or stored, <code>8827e64</code> PR #62</em></p>
+<ul>
+<li><strong>What was seen.</strong> None: caught in design. Logging new subscriptions from both checkout.session.completed and customer.subscription.created would have doubled new MRR.</li>
+<li><strong>Why.</strong> Stripe announces a new subscription through both events, with different event ids, in no guaranteed order.</li>
+<li><strong>How it surfaced.</strong> Working out the idempotency key before writing the handler. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> A partial unique index on (source, subscription_id, kind) for the once-per-lifetime kinds, so the database decides rather than whichever event arrived first.</li>
+<li><strong>What stops it now.</strong> billing_events_once_idx in <code>supabase/migrations/20260921_billing_events_ledger.sql</code></li>
+<li><strong>Cost.</strong> would have doubled the headline revenue figure</li>
+<li><strong>Lesson.</strong> Idempotency belongs in the database, not in the handler. Handlers race; unique indexes do not.</li>
+</ul>
+<h3 id="inc-0036-charge-amount-refunded-is-cumulative-so-partial-refunds-double-count">INC-0036. charge.amount_refunded is cumulative, so partial refunds double-count</h3>
+<p><em>2026-09-21, Wrong data shown or stored, <code>8827e64</code> PR #62</em></p>
+<ul>
+<li><strong>What was seen.</strong> None: caught in design. A second partial refund reports the running total, which would have counted the first refund twice.</li>
+<li><strong>Why.</strong> Stripe's charge object reports total refunded to date, not the amount of this refund.</li>
+<li><strong>How it surfaced.</strong> Reading the field's semantics rather than its name. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Use the most recent entry in the refunds list, falling back to the cumulative total for the ordinary single full refund.</li>
+<li><strong>What stops it now.</strong> Nothing automated. This one is still carried by attention.</li>
+<li><strong>Cost.</strong> would have overstated refunds</li>
+<li><strong>Lesson.</strong> Read what a payment field means, not what it is called. Cumulative and incremental fields look identical until the second event.</li>
+</ul>
+<h3 id="inc-0037-cancellation-erases-the-number-you-need-to-record-the-cancellation">INC-0037. Cancellation erases the number you need to record the cancellation</h3>
+<p><em>2026-09-21, Wrong data shown or stored, <code>8827e64</code> PR #62</em></p>
+<ul>
+<li><strong>What was seen.</strong> None: caught in design. Churned MRR would always have been zero.</li>
+<li><strong>Why.</strong> The profile write on cancellation nulls plan_amount_cents and plan_interval. That row was the only place the departing subscriber's price still existed.</li>
+<li><strong>How it surfaced.</strong> Tracing the order of writes in the handler. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Read the prior profile state before the cancellation write, and log what they were paying.</li>
+<li><strong>What stops it now.</strong> priorState() is called before writeProfile in both the deleted and updated branches in <code>supabase/functions/stripe-webhook/index.ts</code></li>
+<li><strong>Cost.</strong> would have reported zero churn forever</li>
+<li><strong>Lesson.</strong> When a write is destructive, capture what you need from the old value first. Ask what question you will want to answer after this row is gone.</li>
+</ul>
+<h2 id="infrastructure-and-deploy-5">Infrastructure and deploy (5)</h2>
+<h3 id="inc-0023-www-and-the-apex-were-two-origins-so-consent-and-rankings-split-in-half">INC-0023. www and the apex were two origins, so consent and rankings split in half</h3>
+<p><em>2026-09-21, Wrong data shown or stored, <code>b852727</code> PR #54</em></p>
+<ul>
+<li><strong>What was seen.</strong> Two hostnames served the same site. localStorage is per origin, so a visitor who arrived on both had two consent states and their ranking signal was split.</li>
+<li><strong>Why.</strong> No canonical host redirect. The Cloudflare connector available here has no zone-level tools, so it had to be solved in the Worker.</li>
+<li><strong>How it surfaced.</strong> Reasoning about origin scoping while investigating traffic. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> src/worker.mjs 301s www to the apex, with run_worker_first true so the asset router does not answer first.</li>
+<li><strong>What stops it now.</strong> smoke_redirect asserts the redirect and that run_worker_first stays true in <code>src/smoke_redirect.js</code></li>
+<li><strong>Cost.</strong> split consent state and diluted ranking signal</li>
+<li><strong>Lesson.</strong> Two hostnames are two origins and therefore two of everything the browser scopes by origin. Pick one and redirect on the server, not in a meta tag.</li>
+</ul>
+<h3 id="inc-0024-the-git-directory-was-being-served-on-production">INC-0024. The .git directory was being served on production</h3>
+<p><em>2026-09-21, Wrong data shown or stored, <code>07f0646</code> PR #55</em></p>
+<ul>
+<li><strong>What was seen.</strong> https://startfromnowhere.com/.git/config returned 200.</li>
+<li><strong>Why.</strong> .assetsignore excluded src/, data/ and supabase/ but not **/.git. Cloudflare's asset uploader walks the repository root, which is the assets directory.</li>
+<li><strong>How it surfaced.</strong> An adversarial review of the deploy exclusion list, after the first version of that list had already shipped. (Found by a review bot or an adversarial pass)</li>
+<li><strong>Fix.</strong> Exclude **/.git, and rewrite the guard to derive what must be served from real references rather than a hand-written allowlist.</li>
+<li><strong>What stops it now.</strong> smoke_redirect derives the must-serve set with git check-ignore and asserts the source is excluded in <code>src/smoke_redirect.js</code></li>
+<li><strong>Cost.</strong> the full repository history publicly readable</li>
+<li><strong>Lesson.</strong> An exclusion list is a denylist, and denylists are wrong by omission. Derive the allowed set from what the built pages actually reference.</li>
+</ul>
+<h3 id="inc-0025-a-stale-edge-cache-made-a-fixed-404-look-like-a-live-200">INC-0025. A stale edge cache made a fixed 404 look like a live 200</h3>
+<p><em>2026-09-21, Cosmetic, <code>07f0646</code> PR #55</em></p>
+<ul>
+<li><strong>What was seen.</strong> After the fix deployed, /.git/config still returned 200.</li>
+<li><strong>Why.</strong> Cloudflare had cached the response with max-age=300. The fix was live; the verification was reading the cache.</li>
+<li><strong>How it surfaced.</strong> Re-requesting with a cache-busting query string, which returned 404. (Found by measuring something)</li>
+<li><strong>Fix.</strong> None needed in code.</li>
+<li><strong>What stops it now.</strong> Nothing automated. This one is still carried by attention.</li>
+<li><strong>Cost.</strong> minutes, and nearly a wrong conclusion</li>
+<li><strong>Lesson.</strong> Verify a cache-fronted fix with a cache-busting request, or you are testing the cache. This costs one query parameter and saves an hour of chasing a fix that already worked.</li>
+</ul>
+<h3 id="inc-0027-a-29-88-mib-bank-file-would-have-failed-the-deploy-the-moment-it-merged">INC-0027. A 29.88 MiB bank file would have failed the deploy the moment it merged</h3>
+<p><em>2026-09-21, Site down, <code>58f3a93</code> PR #59</em></p>
+<ul>
+<li><strong>What was seen.</strong> None yet. The build succeeded locally and the deploy would have rejected the file.</li>
+<li><strong>Why.</strong> Cloudflare Workers static assets cap a single file at 25 MiB. Raising the generated banks pushed the ACT rest-bank past it.</li>
+<li><strong>How it surfaced.</strong> Checking the platform limit against the real output size before pushing. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Chunk the rest-bank at 18 MiB per file and glob the chunks in numeric order.</li>
+<li><strong>What stops it now.</strong> the build fails on any asset over 25 MiB in <code>src/build.py</code></li>
+<li><strong>Cost.</strong> would have broken the deploy</li>
+<li><strong>Lesson.</strong> Know your platform's hard limits and assert them in the build. A deploy-time rejection is a bad place to learn a number your build could have told you.</li>
+</ul>
+<h3 id="inc-0047-excluding-the-design-directory-would-have-shipped-the-legal-pages-with-no-styling">INC-0047. Excluding the design directory would have shipped the legal pages with no styling</h3>
+<p><em>2026-09-21, Degraded, <code>07f0646</code> PR #55</em></p>
+<ul>
+<li><strong>What was seen.</strong> None: caught in draft. Terms and Privacy would have rendered with no font, no colour and no background.</li>
+<li><strong>Why.</strong> Those two pages load a stylesheet from the design directory that is nothing but imports of the token files. Excluding the directory from the deploy removed both the stylesheet and the tokens it imports.</li>
+<li><strong>How it surfaced.</strong> An adversarial re-read of the exclusion list against what the built pages actually reference. (Found by a review bot or an adversarial pass)</li>
+<li><strong>Fix.</strong> Re-include the tokens and the stylesheet, and rewrite the guard to read every href and src out of the built pages and follow one level of CSS import, instead of comparing against a list kept by hand.</li>
+<li><strong>What stops it now.</strong> smoke_redirect derives the must-serve set from the built pages in <code>src/smoke_redirect.js</code></li>
+<li><strong>Cost.</strong> two legal pages unstyled, caught before deploy</li>
+<li><strong>Lesson.</strong> A guard that is a hand-kept list of safe paths is written by the same hand that made the mistake. Derive the safe set from the artefact, not from memory.</li>
+</ul>
+<h2 id="scoring-and-selection-4">Scoring and selection (4)</h2>
+<h3 id="inc-0040-the-easier-module-was-not-easier">INC-0040. The easier module was not easier</h3>
+<p><em>2026-09-16, Wrong data shown or stored, <code>81eecec</code> PR #30</em></p>
+<ul>
+<li><strong>What was seen.</strong> An adaptive test routed weaker students to a second module that was supposed to be easier, and was not.</li>
+<li><strong>Why.</strong> The two modules were assembled without comparing their difficulty distributions.</li>
+<li><strong>How it surfaced.</strong> Measuring the mean difficulty of each module. (Found by measuring something)</li>
+<li><strong>Fix.</strong> Assemble the modules against a difficulty target and assert it.</li>
+<li><strong>What stops it now.</strong> module difficulty is asserted at build time in <code>src/test.js</code></li>
+<li><strong>Cost.</strong> adaptive routing that did nothing</li>
+<li><strong>Lesson.</strong> If your system branches on difficulty, measure that the branches actually differ. A label is not a property.</li>
+</ul>
+<h3 id="inc-0005-the-adaptive-engine-was-learning-from-nobody">INC-0005. The adaptive engine was learning from nobody</h3>
+<p><em>2026-09-17, Silent loss, <code>fc4114c</code> PR #39</em></p>
+<ul>
+<li><strong>What was seen.</strong> The attempts table held zero rows in production while the app was plainly being used.</li>
+<li><strong>Why.</strong> Cloud.logAttempt returns early without a signed-in user, and the product deliberately requires no account. So the one path that recorded answers was the one path most users never took.</li>
+<li><strong>How it surfaced.</strong> Querying the production table and finding it empty. (Found by measuring something)</li>
+<li><strong>Fix.</strong> item_events: an unlinkable telemetry table with no user, session, device or address column, which is exactly why it needs no consent gate.</li>
+<li><strong>What stops it now.</strong> smoke_consent asserts the telemetry body carries no identifying field in <code>src/smoke_consent.js</code></li>
+<li><strong>Cost.</strong> weeks of telemetry never recorded</li>
+<li><strong>Lesson.</strong> Check that your instrumentation fired at all before you trust anything built on it. An empty table looks identical to a quiet week.</li>
+</ul>
+<h3 id="inc-0006-sentence-equivalence-items-were-unanswerable-however-well-you-answered">INC-0006. Sentence equivalence items were unanswerable however well you answered</h3>
+<p><em>2026-09-17, Wrong data shown or stored, <code>fc4114c</code> PR #39</em></p>
+<ul>
+<li><strong>What was seen.</strong> Every GRE sentence equivalence item graded as wrong.</li>
+<li><strong>Why.</strong> The items carry a two-element key and the engine graded by requiring an array of two, but answerInputs had no branch for that type, so they rendered as single pick and returned a scalar.</li>
+<li><strong>How it surfaced.</strong> Rendering and grading one item of every schema. (A test caught it)</li>
+<li><strong>Fix.</strong> Add the missing input branch.</li>
+<li><strong>What stops it now.</strong> smoke_items renders and grades one item from all 182 generator schemas at phone width in <code>src/smoke_items.js</code></li>
+<li><strong>Cost.</strong> eleven items unusable since they shipped</li>
+<li><strong>Lesson.</strong> A type system spread across a renderer and a grader will drift. The cheapest guard is one that exercises every variant end to end, once.</li>
+</ul>
+<h3 id="inc-0051-fixing-repeats-directly-left-a-side-door-through-passage-groups">INC-0051. Fixing repeats directly left a side door through passage groups</h3>
+<p><em>2026-09-21, Degraded, <code>65bd09d</code> PR #58</em></p>
+<ul>
+<li><strong>What was seen.</strong> After a freshness gate cut avoidable repeats from 276 to 9 on one exam, one exam still served 117 and another 941 across 25 sittings.</li>
+<li><strong>Why.</strong> The gate picked an unserved anchor item, and then the group expansion pulled in every question sharing that passage, including the ones already answered. The gate was applied to the anchor and not to what the anchor dragged with it.</li>
+<li><strong>How it surfaced.</strong> A review bot counting avoidable repeats across 25 sittings per exam. (Found by a review bot or an adversarial pass)</li>
+<li><strong>Fix.</strong> The group keeps the anchor and any unseen sibling and drops the rest, so a group can never come back empty.</li>
+<li><strong>What stops it now.</strong> the review bot counts avoidable repeats and the number is pinned in <code>src/review_bot.js</code></li>
+<li><strong>Cost.</strong> repeats persisting on two exams after the fix was believed complete</li>
+<li><strong>Lesson.</strong> When you add a filter, find every path that adds items after the filter runs. A gate on the entry point is not a gate on the set.</li>
+</ul>
+<h2 id="search-and-metadata-3">Search and metadata (3)</h2>
+<h3 id="inc-0002-school-urls-vanished-from-the-sitemap-when-the-data-file-was-split">INC-0002. School URLs vanished from the sitemap when the data file was split</h3>
+<p><em>2026-08-24, Silent loss, <code>df14c7c</code> PR #23</em></p>
+<ul>
+<li><strong>What was seen.</strong> Per-school pages were live and correct, and absent from sitemap.xml.</li>
+<li><strong>Why.</strong> The sitemap generator read schools.json. When the library was split into one file per school, nothing read the new directory, and a loop over an empty list emits nothing rather than failing.</li>
+<li><strong>How it surfaced.</strong> Noticed while reviewing the built sitemap. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Generate sitemap entries from the same directory scan the pages are built from.</li>
+<li><strong>What stops it now.</strong> the build asserts the sitemap URL count matches the page count in <code>src/build.py</code></li>
+<li><strong>Cost.</strong> unknown period of missing indexation</li>
+<li><strong>Lesson.</strong> A refactor that moves data has to be followed to every reader, and a loop over nothing is the quietest failure in programming. Derive counts from one source and assert they agree.</li>
+</ul>
+<h3 id="inc-0014-a-hardcoded-count-in-the-meta-description-went-stale-and-google-showed-it">INC-0014. A hardcoded count in the meta description went stale, and Google showed it</h3>
+<p><em>2026-09-19, Wrong data shown or stored, <code>36b1e92</code> PR #43</em></p>
+<ul>
+<li><strong>What was seen.</strong> The meta description claimed 1,451 colleges after the number changed. og:description and twitter:description both derive from that tag, so all three were wrong.</li>
+<li><strong>Why.</strong> A figure typed into a template instead of computed at build time, which is the exact failure build-time counting exists to prevent.</li>
+<li><strong>How it surfaced.</strong> Reading the built page. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Derive the number from the same count the pages are built from.</li>
+<li><strong>What stops it now.</strong> no hardcoded corpus counts in templates in <code>src/build_rankings.py</code></li>
+<li><strong>Cost.</strong> a wrong figure in the search result snippet</li>
+<li><strong>Lesson.</strong> Any number in user-facing copy that describes the size of something must be computed from that thing at build time. The moment it is typed, it has a half-life.</li>
+</ul>
+<h3 id="inc-0049-two-pages-told-the-same-story-with-different-numbers-after-a-reweighting">INC-0049. Two pages told the same story with different numbers after a reweighting</h3>
+<p><em>2026-09-19, Wrong data shown or stored, <code>a34a798</code> PR #47</em></p>
+<ul>
+<li><strong>What was seen.</strong> The rankings index still showed figures from before a scoring change while the methodology page showed the new ones.</li>
+<li><strong>Why.</strong> Two artefacts derived from one model, and only one was regenerated.</li>
+<li><strong>How it surfaced.</strong> Reading both pages after the change. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Derive both from the same computed values at build time.</li>
+<li><strong>What stops it now.</strong> both figures are printed by the build from one source in <code>src/build_rankings.py</code></li>
+<li><strong>Cost.</strong> a visible contradiction between two pages</li>
+<li><strong>Lesson.</strong> When one model feeds two pages, generate both from the model in the same pass. Two places that must agree will not, and the reader who notices is the reader you were trying to convince.</li>
+</ul>
+<h2 id="database-3">Database (3)</h2>
+<h3 id="inc-0012-postgres-fired-triggers-alphabetically-and-revoked-every-adult-opt-in">INC-0012. Postgres fired triggers alphabetically and revoked every adult opt-in</h3>
+<p><em>2026-09-19, Wrong data shown or stored, <code>a61eeca</code> PR #42</em></p>
+<ul>
+<li><strong>What was seen.</strong> Legitimate adult opt-ins to the data sharing programme were silently revoked.</li>
+<li><strong>Why.</strong> Postgres fires same-timing triggers in alphabetical order by name. profiles_sharing_eligibility sorted before profiles_sync_age_tier, so eligibility was judged against a stale age tier.</li>
+<li><strong>How it surfaced.</strong> Testing the guarantee the triggers were supposed to provide, rather than reading the trigger code. (A test caught it)</li>
+<li><strong>Fix.</strong> Numeric prefixes on trigger names to force the order.</li>
+<li><strong>What stops it now.</strong> src/sql smoke tests assert the guarantee, not the implementation in <code>supabase/migrations/20260918203431_fix_profiles_trigger_firing_order.sql</code></li>
+<li><strong>Cost.</strong> every adult opt-in, silently</li>
+<li><strong>Lesson.</strong> Postgres fires same-timing triggers alphabetically. If two triggers on one table have an order dependency, encode it in the name, and test the outcome rather than the code.</li>
+</ul>
+<h3 id="inc-0013-update-of-fires-on-the-columns-named-in-the-statement-not-the-ones-that-changed">INC-0013. UPDATE OF fires on the columns named in the statement, not the ones that changed</h3>
+<p><em>2026-09-19, Wrong data shown or stored, <code>a61eeca</code> PR #42</em></p>
+<ul>
+<li><strong>What was seen.</strong> Updating birth_year stored a minor's tier and skipped the eligibility check entirely.</li>
+<li><strong>Why.</strong> UPDATE OF &lt;columns&gt; keys off the columns named in the UPDATE statement, not off what actually changed and not off what an earlier BEFORE trigger wrote into NEW.</li>
+<li><strong>How it surfaced.</strong> Same guarantee test as INC-0012. (A test caught it)</li>
+<li><strong>Fix.</strong> Fire on every update and compare OLD to NEW inside the function.</li>
+<li><strong>What stops it now.</strong> sharing eligibility fires on every update in <code>supabase/migrations/20260918204223_sharing_eligibility_fires_on_every_update.sql</code></li>
+<li><strong>Cost.</strong> a minor could pass the adult gate</li>
+<li><strong>Lesson.</strong> UPDATE OF is a statement-shape filter, not a change filter. If you need 'when this value changed', compare OLD and NEW yourself.</li>
+</ul>
+<h3 id="inc-0020-revoking-execute-from-anon-did-nothing-while-public-still-held-it">INC-0020. Revoking EXECUTE from anon did nothing while PUBLIC still held it</h3>
+<p><em>2026-09-19, Wrong data shown or stored, <code>a61eeca</code> PR #42</em></p>
+<ul>
+<li><strong>What was seen.</strong> Functions stayed callable after their grants were revoked from anon and authenticated.</li>
+<li><strong>Why.</strong> PUBLIC is a separate grantee. A leading =X/postgres in pg_proc.proacl means PUBLIC holds EXECUTE, and revoking from the named roles changes nothing.</li>
+<li><strong>How it surfaced.</strong> Re-running the Supabase advisors instead of trusting the per-role grants. (A test caught it)</li>
+<li><strong>Fix.</strong> Revoke from PUBLIC as well, everywhere.</li>
+<li><strong>What stops it now.</strong> every migration revokes from public, anon, authenticated together in <code>supabase/migrations/20260916_revoke_public_execute_and_rls_initplan.sql</code></li>
+<li><strong>Cost.</strong> an open function surface believed closed</li>
+<li><strong>Lesson.</strong> In Postgres, revoking from every role you can name still leaves PUBLIC. Verify with the advisors or by reading the acl, never by reading your own migration.</li>
+</ul>
+<h2 id="interface-and-data-display-2">Interface and data display (2)</h2>
+<h3 id="inc-0034-a-line-chart-interpolated-between-discrete-money-events">INC-0034. A line chart interpolated between discrete money events</h3>
+<p><em>2026-09-21, Degraded, <code>8827e64</code> PR #62</em></p>
+<ul>
+<li><strong>What was seen.</strong> A line drawn between $13.32 on the 18th and $4.99 on the 19th, passing through every value in between.</li>
+<li><strong>Why.</strong> Money movement was charted as a time series. A line encodes continuity, and these are discrete events on particular days.</li>
+<li><strong>How it surfaced.</strong> Rendering it and looking at it. (Found by rendering it and looking)</li>
+<li><strong>Fix.</strong> Bars for movement and cash. Lines are reserved for measures that genuinely vary continuously.</li>
+<li><strong>What stops it now.</strong> Nothing automated. This one is still carried by attention.</li>
+<li><strong>Cost.</strong> a chart that implied numbers that never happened</li>
+<li><strong>Lesson.</strong> Chart form is a claim about the data. A line claims the values in between existed. Ask whether that claim is true before choosing it.</li>
+</ul>
+<h3 id="inc-0052-two-games-signalled-right-and-wrong-by-colour-alone">INC-0052. Two games signalled right and wrong by colour alone</h3>
+<p><em>2026-09-21, Degraded, <code>b4742a7</code> PR #57</em></p>
+<ul>
+<li><strong>What was seen.</strong> Outcomes in two timed games were distinguishable only by colour, and nothing was announced.</li>
+<li><strong>Why.</strong> The games were built for speed and the feedback was styling rather than content.</li>
+<li><strong>How it surfaced.</strong> An accessibility pass over the games. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Announce outcomes in a live region, and give a flipped tile a spoken identity. Colour is now secondary to a word in both.</li>
+<li><strong>What stops it now.</strong> smoke tests assert the live region announces outcomes in <code>src/app_template.html</code></li>
+<li><strong>Cost.</strong> two games unusable with a screen reader</li>
+<li><strong>Lesson.</strong> Never encode a state by colour alone. The word also survives greyscale printing, forced-colors mode and a glance from across a room, so it is better for everyone and not only for the people it is required by.</li>
+</ul>
+<h1 id="the-checklist">The Checklist</h1>
+<p>Generated from the defect ledger. Every line exists because something went wrong once. Nothing is here for completeness.</p>
+<p>Read it before starting a piece of work in the matching area, and again before you push.</p>
+<h2 id="css-and-layout">CSS and layout</h2>
+<ul>
+<li>[ ] The same undefined-property failure will find you repeatedly, at every severity from one icon to an invisible legal control. One audit of computed colour catches the whole class.  </li>
+</ul>
+<p>&lt;small&gt;A landing-page icon referenced a colour token that did not exist (INC-0050)&lt;/small&gt;</p>
+<ul>
+<li>[ ] CSS comments do not nest. When a whole page category loses its styling, read the built artefact, not the source that produced it.  </li>
+</ul>
+<p>&lt;small&gt;CSS comments do not nest, and one placeholder killed the palette on 1451 pages (INC-0010)&lt;/small&gt;</p>
+<ul>
+<li>[ ] CSS never fails loudly. A malformed rule is skipped, a bad selector eats the block after it, and an undefined variable paints as nothing. Anything that matters visually has to be asserted on the rendered page, because the parser will not tell you.  </li>
+</ul>
+<p>&lt;small&gt;Error recovery in the CSS parser swallowed the palette silently (INC-0048)&lt;/small&gt;</p>
+<ul>
+<li>[ ] An undefined CSS custom property is silent. Audit computed colour, not authored colour, and do it on the rendered page.  </li>
+</ul>
+<p>&lt;small&gt;The Do Not Sell button was invisible from the day it shipped (INC-0018)&lt;/small&gt;</p>
+<ul>
+<li>[ ] A dark mode does not break by having a wrong colour. It breaks by missing one. Any colour paired with a ramp has to move with the ramp.  </li>
+</ul>
+<p>&lt;small&gt;A sequential colour ramp inverts direction between themes, and the label text did not (INC-0029)&lt;/small&gt;</p>
+<h2 id="content-generation">Content generation</h2>
+<ul>
+<li>[ ] Any generator that claims reproducibility must be seeded from something stable across processes. hash() is not, in Python, and the failure shows up as a flaky test rather than as a wrong answer.  </li>
+</ul>
+<p>&lt;small&gt;Item banks were different on every build because Python randomises hash() (INC-0003)&lt;/small&gt;</p>
+<ul>
+<li>[ ] Deletion by shadowing is invisible. Any collection whose size is a fact about the product needs its size asserted, not just its contents.  </li>
+</ul>
+<p>&lt;small&gt;A shadowed variable silently deleted 3000 items (INC-0004)&lt;/small&gt;</p>
+<ul>
+<li>[ ] In any set of multiple-choice content, count where the answers are. A positional tell makes the whole set worthless to a test-wise user, and it is invisible item by item.  </li>
+</ul>
+<p>&lt;small&gt;225 of 302 correct answers sat at position A (INC-0039)&lt;/small&gt;</p>
+<ul>
+<li>[ ] Test your content against the strategies a lazy adversary would use, not only against whether it is correct. Measure the score of a rule that ignores the question.  </li>
+</ul>
+<p>&lt;small&gt;The longest option was the correct answer 81 percent of the time (INC-0044)&lt;/small&gt;</p>
+<ul>
+<li>[ ] A deduplication key must be canonical under every transformation the item legitimately undergoes. Ask what varies per draw before you hash.  </li>
+</ul>
+<p>&lt;small&gt;The dedup key counted a reshuffled question as a new one (INC-0007)&lt;/small&gt;</p>
+<ul>
+<li>[ ] The same inflation arrives through a different door every time you close one. When you fix a dedup bug, ask what else shares an identity.  </li>
+</ul>
+<p>&lt;small&gt;Four passages produced five hundred fake distinct questions (INC-0008)&lt;/small&gt;</p>
+<ul>
+<li>[ ] Dedup can be wrong in both directions. An over-broad key deletes real content as silently as a narrow one inflates it.  </li>
+</ul>
+<p>&lt;small&gt;Two conditionals hashed identically and half the inference items would have vanished (INC-0009)&lt;/small&gt;</p>
+<ul>
+<li>[ ] Every filter needs its rejection count reported. A filter that silently drops is indistinguishable from an input that was never there.  </li>
+</ul>
+<p>&lt;small&gt;A length guard silently dropped sixteen valid items (INC-0011)&lt;/small&gt;</p>
+<h2 id="database">Database</h2>
+<ul>
+<li>[ ] Postgres fires same-timing triggers alphabetically. If two triggers on one table have an order dependency, encode it in the name, and test the outcome rather than the code.  </li>
+</ul>
+<p>&lt;small&gt;Postgres fired triggers alphabetically and revoked every adult opt-in (INC-0012)&lt;/small&gt;</p>
+<ul>
+<li>[ ] UPDATE OF is a statement-shape filter, not a change filter. If you need 'when this value changed', compare OLD and NEW yourself.  </li>
+</ul>
+<p>&lt;small&gt;UPDATE OF fires on the columns named in the statement, not the ones that changed (INC-0013)&lt;/small&gt;</p>
+<ul>
+<li>[ ] In Postgres, revoking from every role you can name still leaves PUBLIC. Verify with the advisors or by reading the acl, never by reading your own migration.  </li>
+</ul>
+<p>&lt;small&gt;Revoking EXECUTE from anon did nothing while PUBLIC still held it (INC-0020)&lt;/small&gt;</p>
+<h2 id="front-end">Front end</h2>
+<ul>
+<li>[ ] Generated code is code. If your build writes JavaScript into a string, the build must parse the result, because the blast radius of one bad character is the whole file, not the line.  </li>
+</ul>
+<p>&lt;small&gt;Unescaped quotes in onclick strings took the whole app down (INC-0001)&lt;/small&gt;</p>
+<ul>
+<li>[ ] The moment a single-tenant store becomes multi-tenant, every key in it is a collision waiting to happen. Enumerate the writers before you add the second tenant, not after.  </li>
+</ul>
+<p>&lt;small&gt;One exam's progress blob overwrote another's (INC-0038)&lt;/small&gt;</p>
+<ul>
+<li>[ ] A conditional that treats not-A as the original case is a bug the day a third case exists. Resolve variants from data, and the third one costs a row rather than a search.  </li>
+</ul>
+<p>&lt;small&gt;The GRE app told GRE students to calibrate at the wrong test maker's site (INC-0043)&lt;/small&gt;</p>
+<ul>
+<li>[ ] Nobody notices a page getting slower one commit at a time. Put the number in a test the first time you care about it, not the first time somebody complains.  </li>
+</ul>
+<p>&lt;small&gt;The whole bank blocked first paint: 20 seconds to the first question on 3G (INC-0015)&lt;/small&gt;</p>
+<ul>
+<li>[ ] try/catch around an API that returns errors is decoration. Know which convention each call uses before you wrap it.  </li>
+</ul>
+<p>&lt;small&gt;A try/catch caught nothing because the call inside it does not throw (INC-0022)&lt;/small&gt;</p>
+<ul>
+<li>[ ] When you change a filename scheme, grep for the old name as a string, including inside regexes. A pattern is a hardcoded name wearing a disguise.  </li>
+</ul>
+<p>&lt;small&gt;The service worker precache regex did not match the chunked files (INC-0028)&lt;/small&gt;</p>
+<ul>
+<li>[ ] A fixed rounding rule is wrong at one end of the range or the other. Pick the precision from the magnitude, and write the expected number down before you write the code that produces it.  </li>
+</ul>
+<p>&lt;small&gt;ARR was rounded to whole dollars and lost real money at small scale (INC-0032)&lt;/small&gt;</p>
+<ul>
+<li>[ ] Anything that reports failures must not be able to report its own. Check whether each call rejects or throws before you wrap it, and make the reporting path unable to re-enter itself.  </li>
+</ul>
+<p>&lt;small&gt;The error reporter reported its own failures, in a loop (INC-0045)&lt;/small&gt;</p>
+<h2 id="infrastructure-and-deploy">Infrastructure and deploy</h2>
+<ul>
+<li>[ ] Two hostnames are two origins and therefore two of everything the browser scopes by origin. Pick one and redirect on the server, not in a meta tag.  </li>
+</ul>
+<p>&lt;small&gt;www and the apex were two origins, so consent and rankings split in half (INC-0023)&lt;/small&gt;</p>
+<ul>
+<li>[ ] An exclusion list is a denylist, and denylists are wrong by omission. Derive the allowed set from what the built pages actually reference.  </li>
+</ul>
+<p>&lt;small&gt;The .git directory was being served on production (INC-0024)&lt;/small&gt;</p>
+<ul>
+<li>[ ] Verify a cache-fronted fix with a cache-busting request, or you are testing the cache. This costs one query parameter and saves an hour of chasing a fix that already worked.  </li>
+</ul>
+<p>&lt;small&gt;A stale edge cache made a fixed 404 look like a live 200 (INC-0025)&lt;/small&gt;</p>
+<ul>
+<li>[ ] Know your platform's hard limits and assert them in the build. A deploy-time rejection is a bad place to learn a number your build could have told you.  </li>
+</ul>
+<p>&lt;small&gt;A 29.88 MiB bank file would have failed the deploy the moment it merged (INC-0027)&lt;/small&gt;</p>
+<ul>
+<li>[ ] A guard that is a hand-kept list of safe paths is written by the same hand that made the mistake. Derive the safe set from the artefact, not from memory.  </li>
+</ul>
+<p>&lt;small&gt;Excluding the design directory would have shipped the legal pages with no styling (INC-0047)&lt;/small&gt;</p>
+<h2 id="interface-and-data-display">Interface and data display</h2>
+<ul>
+<li>[ ] Chart form is a claim about the data. A line claims the values in between existed. Ask whether that claim is true before choosing it.  </li>
+</ul>
+<p>&lt;small&gt;A line chart interpolated between discrete money events (INC-0034)&lt;/small&gt;</p>
+<ul>
+<li>[ ] Never encode a state by colour alone. The word also survives greyscale printing, forced-colors mode and a glance from across a room, so it is better for everyone and not only for the people it is required by.  </li>
+</ul>
+<p>&lt;small&gt;Two games signalled right and wrong by colour alone (INC-0052)&lt;/small&gt;</p>
+<h2 id="payments">Payments</h2>
+<ul>
+<li>[ ] Row Level Security is row-level. Which columns a role may write is a separate grant, and anything money depends on belongs to the service role alone.  </li>
+</ul>
+<p>&lt;small&gt;A signed-in user could grant themselves a paid plan (INC-0041)&lt;/small&gt;</p>
+<ul>
+<li>[ ] Enumerate every value a third-party status field can take before you branch on one of them. The value you did not think of is usually the one that matters commercially.  </li>
+</ul>
+<p>&lt;small&gt;Every trialing subscriber would have been left on the free plan (INC-0042)&lt;/small&gt;</p>
+<ul>
+<li>[ ] Idempotency belongs in the database, not in the handler. Handlers race; unique indexes do not.  </li>
+</ul>
+<p>&lt;small&gt;Two Stripe event types announce one new subscription (INC-0035)&lt;/small&gt;</p>
+<ul>
+<li>[ ] Read what a payment field means, not what it is called. Cumulative and incremental fields look identical until the second event.  </li>
+</ul>
+<p>&lt;small&gt;charge.amount_refunded is cumulative, so partial refunds double-count (INC-0036)&lt;/small&gt;</p>
+<ul>
+<li>[ ] When a write is destructive, capture what you need from the old value first. Ask what question you will want to answer after this row is gone.  </li>
+</ul>
+<p>&lt;small&gt;Cancellation erases the number you need to record the cancellation (INC-0037)&lt;/small&gt;</p>
+<h2 id="scoring-and-selection">Scoring and selection</h2>
+<ul>
+<li>[ ] If your system branches on difficulty, measure that the branches actually differ. A label is not a property.  </li>
+</ul>
+<p>&lt;small&gt;The easier module was not easier (INC-0040)&lt;/small&gt;</p>
+<ul>
+<li>[ ] Check that your instrumentation fired at all before you trust anything built on it. An empty table looks identical to a quiet week.  </li>
+</ul>
+<p>&lt;small&gt;The adaptive engine was learning from nobody (INC-0005)&lt;/small&gt;</p>
+<ul>
+<li>[ ] A type system spread across a renderer and a grader will drift. The cheapest guard is one that exercises every variant end to end, once.  </li>
+</ul>
+<p>&lt;small&gt;Sentence equivalence items were unanswerable however well you answered (INC-0006)&lt;/small&gt;</p>
+<ul>
+<li>[ ] When you add a filter, find every path that adds items after the filter runs. A gate on the entry point is not a gate on the set.  </li>
+</ul>
+<p>&lt;small&gt;Fixing repeats directly left a side door through passage groups (INC-0051)&lt;/small&gt;</p>
+<h2 id="search-and-metadata">Search and metadata</h2>
+<ul>
+<li>[ ] A refactor that moves data has to be followed to every reader, and a loop over nothing is the quietest failure in programming. Derive counts from one source and assert they agree.  </li>
+</ul>
+<p>&lt;small&gt;School URLs vanished from the sitemap when the data file was split (INC-0002)&lt;/small&gt;</p>
+<ul>
+<li>[ ] Any number in user-facing copy that describes the size of something must be computed from that thing at build time. The moment it is typed, it has a half-life.  </li>
+</ul>
+<p>&lt;small&gt;A hardcoded count in the meta description went stale, and Google showed it (INC-0014)&lt;/small&gt;</p>
+<ul>
+<li>[ ] When one model feeds two pages, generate both from the model in the same pass. Two places that must agree will not, and the reader who notices is the reader you were trying to convince.  </li>
+</ul>
+<p>&lt;small&gt;Two pages told the same story with different numbers after a reweighting (INC-0049)&lt;/small&gt;</p>
+<h2 id="tests-and-guards">Tests and guards</h2>
+<ul>
+<li>[ ] Measure the moment the user can act, not a browser lifecycle event. A test that measures the wrong instant is worse than no test, because it produces a number people trust.  </li>
+</ul>
+<p>&lt;small&gt;The performance test waited for the load event, which waits for the thing being optimised (INC-0016)&lt;/small&gt;</p>
+<ul>
+<li>[ ] A regex with a length bound is a guard with an expiry date. Assert the number of things checked, not only that the checks passed.  </li>
+</ul>
+<p>&lt;small&gt;A build guard silently narrowed its own scope when the counts grew (INC-0017)&lt;/small&gt;</p>
+<ul>
+<li>[ ] Check your checker. A tool that cries wolf gets muted, and then it is worse than nothing.  </li>
+</ul>
+<p>&lt;small&gt;The audit reported a working link as broken (INC-0019)&lt;/small&gt;</p>
+<ul>
+<li>[ ] A negative assertion passes when the system is broken in the right way. Always pair it with the positive case, or it is testing nothing.  </li>
+</ul>
+<p>&lt;small&gt;A test passed because nothing was configured at all (INC-0021)&lt;/small&gt;</p>
+<ul>
+<li>[ ] A stochastic measurement on one seed is an anecdote. If your system has randomness, a single-run before-and-after cannot distinguish a change from the weather.  </li>
+</ul>
+<p>&lt;small&gt;I reported a regression that was seed noise (INC-0026)&lt;/small&gt;</p>
+<ul>
+<li>[ ] Classify by what a thing is, not by what it is called. Naming conventions are a hint, never a type.  </li>
+</ul>
+<p>&lt;small&gt;The theme parity test matched by name prefix and caught a font size (INC-0030)&lt;/small&gt;</p>
+<ul>
+<li>[ ] A test that is not wired into CI is a test that does not exist. Prove a suite runs in the place it is supposed to run, not on your machine.  </li>
+</ul>
+<p>&lt;small&gt;The browser suites had never actually run, because npm install had not (INC-0031)&lt;/small&gt;</p>
+<ul>
+<li>[ ] Before you measure a layout, assert the thing is rendered. Hidden elements answer most DOM questions, and they answer them wrongly.  </li>
+</ul>
+<p>&lt;small&gt;The dashboard test measured a hidden element and passed (INC-0033)&lt;/small&gt;</p>
+<ul>
+<li>[ ] An error feed with no filter is a feed nobody reads. Signal has to be defended, and the cheapest defence is a human label that mutes permanently, so the queue gets quieter as it learns.  </li>
+</ul>
+<p>&lt;small&gt;The error queue was 81 percent other people's blocked scripts (INC-0046)&lt;/small&gt;</p>
+<ul>
+<li>[ ] A guard that reads the repository needs the repository. CI checkouts are shallow by default, and anything that walks history, blames a line or resolves an old hash will fail in a way that looks like the data is wrong rather than the clone.  </li>
+</ul>
+<p>&lt;small&gt;The playbook's own citation guard failed CI on its first run (INC-0053)&lt;/small&gt;</p>
+<ul>
+<li>[ ] When you add a condition that skips a check, make sure it describes the failure and not something merely correlated with it. A skip is indistinguishable from a pass in the output, so the fix for a noisy check can silently delete it.  </li>
+</ul>
+<p>&lt;small&gt;The first fix asked the wrong question and muted a working check (INC-0054)&lt;/small&gt;</p>
+<ul>
+<li>[ ] A path that exists on the machine you wrote the test on is not a path. Resolve environment-specific locations through one helper that falls back to the tool's own default, and return undefined rather than an empty string, because undefined means 'you decide' and an empty string means 'launch nothing'.  </li>
+</ul>
+<p>&lt;small&gt;A new browser suite hardcoded this machine's browser directory and crashed in CI (INC-0055)&lt;/small&gt;</p>
+<h1 id="adapting-this-to-a-different-business">Adapting This to a Different Business</h1>
+<p>Most of this book is about a test-preparation platform. This chapter separates what was specific to that from what was structural, so you know what to keep.</p>
+<h2 id="what-was-specific">What was specific</h2>
+<p>The item response theory, the exam registries, the score bands, the school library, the concordance between two editions of one exam. If you are not building an assessment product, none of it applies directly.</p>
+<h2 id="what-was-structural-and-transfers-unchanged">What was structural, and transfers unchanged</h2>
+<p><strong>The infrastructure.</strong> Edge-hosted static pages, managed Postgres with Row Level Security, serverless functions, hosted checkout. Under thirty dollars a month, and it serves a hundred thousand generated items and fifteen hundred generated pages.</p>
+<p><strong>The build as the guard rail.</strong> Sources in, pages out, and every guard living in the build because the build is the only thing that sees the artefact.</p>
+<p><strong>Authorisation in the database.</strong> RLS everywhere, privileged reads behind definer functions, revoke from <code>PUBLIC</code>, never take an id from a request body.</p>
+<p><strong>The event-ledger pattern.</strong> Any external system that sends you events sends them out of order, more than once, and sometimes twice under different names. Never write the payload; re-read state. Put idempotency in a unique index. Keep an append-only record of facts alongside whatever current-state row you maintain, because current state is destroyed on every update.</p>
+<p><strong>The honesty discipline.</strong> Every published figure carries a source, a year and a URL. Unverifiable is null, never a guess. Never present an internal threshold as official. Never show a number about a person without its error bar. Decline to compute a metric you cannot compute honestly, and say why on the page.</p>
+<p><strong>The interface system.</strong> One token file, three typefaces, negative tracking on headings, <code>min-width: 0</code> on every grid and flex child, a complete palette on bare <code>:root</code> with only overrides in the theme blocks, colours in charts validated under simulated colour vision deficiency rather than chosen.</p>
+<p><strong>The test ladder and its failure modes.</strong> Every one of the five ways a test can be silently wrong applies to any codebase.</p>
+<p><strong>The defect ledger itself.</strong> The single most transferable artefact in this repository is <code>data/playbook/incidents.jsonl</code> and the script that turns it into this book.</p>
+<h2 id="the-substitution-table">The substitution table</h2>
+<div class="tw"><table><thead><tr><th style="text-align:left">This project</th><th style="text-align:left">Yours</th><th style="text-align:left">Keep</th></tr></thead><tbody>
+<tr><td style="text-align:left">Item bank generators</td><td style="text-align:left">Whatever your content is</td><td style="text-align:left">Dedup keys canonical under every legitimate transformation; counts reported per stage; filters report rejections</td></tr>
+<tr><td style="text-align:left">Exam registry</td><td style="text-align:left">Any multi-tenant or multi-variant dimension</td><td style="text-align:left">Resolve differences from data, never from <code>if (x === 'a')</code>, which treats "not a" as "the original"</td></tr>
+<tr><td style="text-align:left">Ability estimation</td><td style="text-align:left">Any inferred number about a user</td><td style="text-align:left">A range not a point, a floor on the interval, a minimum evidence threshold, the method published</td></tr>
+<tr><td style="text-align:left">School library</td><td style="text-align:left">Any library of external facts</td><td style="text-align:left">One file per entity, source and year and URL on every figure, banned-source list enforced at build time</td></tr>
+<tr><td style="text-align:left">Two exam editions</td><td style="text-align:left">Any legacy unit beside a current one</td><td style="text-align:left">Never convert, compare on a common normalised measure, cite the concordance</td></tr>
+<tr><td style="text-align:left">Stripe plus Apple</td><td style="text-align:left">Any two sources of one truth</td><td style="text-align:left">Leave the first alone, add a derivation on top, move readers to the derivation</td></tr>
+<tr><td style="text-align:left">Forum moderation</td><td style="text-align:left">Any user-generated content</td><td style="text-align:left">Automatic screen flags, a human decides, the decision is stored and mutes permanently</td></tr>
+</tbody></table></div>
+<h2 id="the-first-week-for-something-new">The first week, for something new</h2>
+<ol>
+<li>Write the rules file. Use the template in the bootstrap pack and fill in the four</li>
+</ol>
+<p>blanks.</p>
+<ol>
+<li>Create the repository, the build script, and one page. Deploy that page to the real</li>
+</ol>
+<p>domain.</p>
+<ol>
+<li>Learn the platform's limits now: per-file size, which directories the uploader walks,</li>
+</ol>
+<p>whether <code>www</code> and the apex are one origin, whether your headers file applies to responses your own code generates.</p>
+<ol>
+<li>Stand up the database with RLS on every table from creation, and write one SQL smoke</li>
+</ol>
+<p>test that asserts a guarantee and rolls itself back.</p>
+<ol>
+<li>Write the token file. All of it, both themes, before the second page exists.</li>
+<li>Then build the product.</li>
+</ol>
+<h2 id="the-one-paragraph-version">The one paragraph version</h2>
+<p>Make failure loud before you make anything else. Put every guarantee in the layer that cannot be bypassed: the database for authorisation, the build for correctness of the artefact, a pinned number for anything statistical. Never write a figure you cannot regenerate. Never show a number you cannot defend. When something breaks, write down what you believed five minutes earlier, because that belief is the actual defect and it is the first thing you will lose.</p>
+<h1 id="the-bootstrap-pack-starting-a-new-project-with-this-loaded">The Bootstrap Pack: Starting a New Project With This Loaded</h1>
+<p>This chapter answers one question: what do you actually paste into a fresh Claude conversation so that a new build starts with everything this one learned?</p>
+<h2 id="the-wrong-answer-first">The wrong answer, first</h2>
+<p>Do not paste the book. It is roughly the length of a short novel, and pasting it has three problems. It consumes context that the actual work needs. It buries the twenty operative rules inside several thousand sentences of reasoning about a test-prep site. And most of it is <em>explanation</em>, which is what you want when you are deciding something and noise when you are executing.</p>
+<p><strong>Reference material and operating instructions are different artefacts and need different delivery.</strong> The book is reference. The rules are instructions. Only the second goes in the prompt.</p>
+<h2 id="the-pack">The pack</h2>
+<p><code>python3 src/build_playbook.py</code> writes four files into <code>playbook/bootstrap/</code>, all generated from the same ledger as the book, so none of them can drift from it.</p>
+<p><strong><code>CLAUDE.template.md</code></strong> goes in the new repository's root. Claude Code reads it on every turn. It is the constitution: the house rules, the never-invent-a-value rule, the sourcing rules, the communication rule, and a short architecture section you fill in as you build. Four bracketed blanks at the top are the only things you have to change.</p>
+<p><strong><code>KICKOFF.md</code></strong> is the literal first message for a new conversation. It sets the working agreement, the phase order, and what a session should report. Paste it, then describe your business idea underneath it.</p>
+<p><strong><code>RULES_DIGEST.md</code></strong> is every lesson in the defect ledger, compressed to one line each and grouped by area. It is about three pages. This is the highest value-per-token artefact in the whole project: 55 real defects reduced to the rules that prevent them, with the specifics of this codebase stripped out.</p>
+<p><strong><code>incidents.jsonl</code></strong> is the raw ledger, copied so the new project can start appending to it on day one rather than starting an empty one.</p>
+<h2 id="how-to-load-it-by-surface">How to load it, by surface</h2>
+<p><strong>Claude Code, new repository.</strong> Copy <code>CLAUDE.template.md</code> to the repo root as <code>CLAUDE.md</code>, fill in the four blanks, and copy <code>incidents.jsonl</code> to <code>data/playbook/incidents.jsonl</code>. Copy <code>src/build_playbook.py</code> too, so the new project's own ledger becomes its own book from the first defect. Then open a session with <code>KICKOFF.md</code> as the first message.</p>
+<p><strong>A Claude Project on claude.ai.</strong> Put <code>BUILD_PLAYBOOK.md</code> and <code>RULES_DIGEST.md</code> into Project Knowledge, where they are retrieved on demand rather than sitting in every message. Put the contents of <code>CLAUDE.template.md</code>, filled in, into the project's custom instructions. Start the first conversation with <code>KICKOFF.md</code>.</p>
+<p><strong>A single conversation, no project.</strong> Paste <code>RULES_DIGEST.md</code>, then <code>KICKOFF.md</code>, then your idea. Attach <code>BUILD_PLAYBOOK.md</code> as a file if the surface allows it. That ordering matters: rules first, so they frame everything after, and the long reference last or not at all.</p>
+<h2 id="why-this-layering-works">Why this layering works</h2>
+<p>Three reasons, and they are worth understanding rather than just following.</p>
+<p><strong>Retrieval beats repetition.</strong> A document in project knowledge is consulted when relevant. The same document in the prompt is re-read on every single turn, at full cost, mostly when it is irrelevant. For anything longer than a few pages, retrieval is strictly better.</p>
+<p><strong>Instructions need to be short enough to be followed.</strong> A rule competing with ten thousand words of context is a rule that gets applied inconsistently. The digest is deliberately brutal: one line per lesson, imperative mood, no examples. The examples are in the book, where they can be looked up when a rule seems wrong.</p>
+<p><strong>The ledger is the part that compounds.</strong> The recipe chapters age. The rules do not, because each one is the residue of a real failure, and the failure modes of software are considerably more stable than its tooling. A new project that starts with 55 defects already prevented is genuinely ahead, and every defect it hits of its own makes the next project further ahead still.</p>
+<h2 id="keeping-the-loop-closed">Keeping the loop closed</h2>
+<p>The pack is only worth carrying forward if the new project feeds it back. So the working agreement in <code>KICKOFF.md</code> includes one instruction that does the whole job:</p>
+<p>&gt; When something breaks, append a record to <code>data/playbook/incidents.jsonl</code> before fixing &gt; it, while you still remember what you believed was true five minutes ago.</p>
+<p>That is the entire maintenance burden. Everything else, the checklist, the analysis, the digest, the book, is generated from those records.</p>
+<h2 id="what-to-change-for-a-different-domain">What to change for a different domain</h2>
+<p><code>CLAUDE.template.md</code> has four blanks:</p>
+<ol>
+<li><strong>The product, in one sentence</strong>, and who it is for.</li>
+<li><strong>The house style rules you will enforce.</strong> Keep the dash ban unless you have a reason</li>
+</ol>
+<p>not to; it is free and it makes the build's style enforcement real.</p>
+<ol>
+<li><strong>The sourcing regime.</strong> If you publish external facts, keep the whole thing including</li>
+</ol>
+<p>the banned-source list. If you do not, delete that block rather than leaving it as decoration.</p>
+<ol>
+<li><strong>The architecture section.</strong> Empty at the start. Fill it in as decisions are made, and</li>
+</ol>
+<p>only with things that are expensive to rediscover.</p>
+<p>Everything else in the template is domain-independent and should be kept verbatim.</p>
+</div></body></html>

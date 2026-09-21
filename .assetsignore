@@ -54,3 +54,11 @@ GROWTH.md
 INTEGRATIONS.md
 I18N.md
 DATA_COLLECTION.md
+docs/
+
+# The Build Playbook. Generated into playbook/ as Markdown, HTML, PDF and Word, and it is
+# internal: it names the infrastructure, quotes the rules file, and its defect ledger is a
+# list of this platform's historical weaknesses with the commits that fixed them. Useful
+# to the owner, a gift to anyone else. The bootstrap pack under it carries the same
+# content in a more concentrated form.
+playbook/

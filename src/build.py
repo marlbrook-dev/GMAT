@@ -443,3 +443,27 @@ if _over:
           file=sys.stderr)
     sys.exit(1)
 
+
+# ---------------------------------------------------------------------------
+# The Build Playbook, rebuilt with the site.
+#
+# It is generated from the chapters, the defect ledger and a harvest of this repository,
+# so it goes stale the moment either moves. Running it here rather than on request is the
+# whole point: a document that has to be remembered is a document that falls behind the
+# thing it describes.
+#
+# It is deliberately NOT fatal. The playbook is a deliverable about the build, not part of
+# the site, and a chapter citing a file that was just renamed should not stop a deploy. It
+# prints loudly instead, and src/smoke_playbook.js fails the test suite, which is the
+# right place for it to be blocking.
+try:
+    _pb = subprocess.run([sys.executable, str(d / "build_playbook.py")],
+                         capture_output=True, text=True, timeout=300)
+    if _pb.returncode == 0:
+        print(_pb.stdout.strip())
+    else:
+        print("WARNING: the playbook did not build; the site did. Run "
+              "python3 src/build_playbook.py to see why.", file=sys.stderr)
+        print((_pb.stderr or _pb.stdout).strip(), file=sys.stderr)
+except Exception as _e:
+    print("WARNING: could not run the playbook build: %s" % _e, file=sys.stderr)
