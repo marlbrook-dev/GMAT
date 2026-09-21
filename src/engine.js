@@ -339,6 +339,13 @@ function itemInfo(theta, d, c){
 // all wrong run from returning an infinite ability, not to pull the estimate anywhere.
 // At 20 items the evidence outweighs it about seven to one.
 const PRIOR_SD = 1.5;
+// How hard selection chases the measured ability. 1.0 aims squarely at the estimate, which
+// separates ability tiers best but feeds the estimate its own output: items chosen from the
+// current estimate make later answers non-independent, the standard errors go optimistic,
+// and measured SAT band coverage fell from 88 to 72 percent against an unbiased difficulty
+// 3. 0.6 was picked by measuring, not by taste. It keeps most of the separation while the
+// first band a student is ever shown comes out better than it was before any of this.
+const ADAPT_DAMP = 0.6;
 
 // Ability for one section, fitted directly to the answers given in it.
 //
@@ -513,6 +520,28 @@ function pickQuestions(bank,state,opts){
  const now=Date.now(); const chosen=[]; const used=new Set();
  const lastSeenIdx={}; state.attempts.forEach((a,i)=>{lastSeenIdx[a.qid]=i;});
  const recency=q=>lastSeenIdx[q.id]===undefined?1e9:(state.attempts.length-lastSeenIdx[q.id]);
+ // What difficulty to aim at while a SKILL is still under-sampled.
+ //
+ // This used to be the constant 1100, difficulty 3, until a skill had six attempts of its
+ // own. A real sitting spreads 140 questions over twenty-odd skills, so most skills never
+ // reach six and the target stayed at 1100 for nearly the whole session. That is why the
+ // bots measured no separation between ability tiers: everyone was served difficulty 3
+ // regardless of how they were doing.
+ //
+ // The section ability fitted by sectionAbility needs no per-skill warm up. It uses every
+ // answer in the section at the difficulty it was answered, so it has a usable signal long
+ // before any single skill does. Anchoring at DIFF_ELO[3] rather than at thetaToElo(0)
+ // keeps the blank state behaviour exactly as it was: a student with no attempts has
+ // theta 0 and is still calibrated at difficulty 3. From there the target moves with
+ // measured ability instead of waiting for a per-skill count that never arrives.
+ const _secTheta={};
+ function sectionTargetElo(sec){
+  if(_secTheta[sec]===undefined){
+   const sa=sectionAbility(state,sec);
+   _secTheta[sec]=(sa&&isFinite(sa.theta))?sa.theta:0;
+  }
+  return DIFF_ELO[3]+ADAPT_DAMP*_secTheta[sec]*ELO_PER_LOGIT;
+ }
  function addWithGroup(q){ if(used.has(q.id)) return;
    let group=[q];
    if(q.passageId) group=pool.filter(x=>x.passageId===q.passageId);
@@ -537,7 +566,9 @@ function pickQuestions(bank,state,opts){
      // distance first meant a seen item sitting exactly at difficulty 3 was picked over a
      // fresh one at difficulty 2, while the fresh one was right there in the same skill.
      const unseenD=cands.filter(q=>lastSeenIdx[q.id]===undefined); if(unseenD.length) cands=unseenD;
-     cands=cands.sort((a,b)=>Math.abs(a.diff-3)-Math.abs(b.diff-3)||recency(b)-recency(a)||Math.random()-0.5);
+     // Aim at the section target too, not a hardcoded difficulty 3. This is the early
+     // part of a session, which is exactly where separating tiers matters most.
+     cands=cands.sort((a,b)=>Math.abs(DIFF_ELO[a.diff]-sectionTargetElo(a.section))-Math.abs(DIFF_ELO[b.diff]-sectionTargetElo(b.section))||recency(b)-recency(a)||Math.random()-0.5);
      if(cands.length) addWithGroup(cands[0]); }
    if(chosen.length>=count) return chosen.slice(0,count); }
  const weak=ranked.slice(0,3).map(s=>s.id); const mid=ranked.slice(3).map(s=>s.id);
@@ -554,7 +585,7 @@ function pickQuestions(bank,state,opts){
      // stock for these skills is genuinely exhausted.
      const unseen=cands.filter(q=>lastSeenIdx[q.id]===undefined);
      if(unseen.length) cands=unseen;
-     const scored=cands.map(q=>{ const sk=state.skills[q.skill]; const target=sk.n<6?1100:sk.r-150; // calibrate at difficulty 3 first, then ~70% expected success
+     const scored=cands.map(q=>{ const sk=state.skills[q.skill]; const target=sk.n<6?sectionTargetElo(q.section):sk.r-150; // section ability until the skill itself has evidence, then ~70% expected success
         const d=Math.abs(DIFF_ELO[q.diff]-target); const rec=recency(q); const fresh=rec>=1e9?0:Math.max(0,40-rec)*10; return {q,score:d+fresh+Math.random()*60}; }).sort((a,b)=>a.score-b.score);
      const before=chosen.length; addWithGroup(scored[0].q); added+=chosen.length-before; }
    return added; }
