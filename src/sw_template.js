@@ -35,7 +35,7 @@ const PRECACHE = {{PRECACHE_JSON}};
 
 // Matched by suffix: these are rebuilt every deploy under the same name, so the cache
 // name carrying VERSION is what invalidates them rather than any header.
-const IMMUTABLE = [/\/bank\.js$/, /\/bank_rest\.js$/, /\/icons\//];
+const IMMUTABLE = [/\/bank\.js$/, /\/bank_rest\d*\.js$/, /\/icons\//];
 
 self.addEventListener('install', event => {
   event.waitUntil((async () => {

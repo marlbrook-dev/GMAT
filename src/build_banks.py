@@ -167,12 +167,40 @@ def main(target=TARGET, verbose=True):
         const = "BANK_GEN_" + exam.upper()
         js = F.to_js(starter, const, HEADER)
         (OUT / ("bank_gen_%s.js" % exam)).write_text(js, encoding="utf-8")
-        js_rest = F.to_js(rest, const + "_REST", HEADER)
-        (OUT / ("bank_gen_%s_rest.js" % exam)).write_text(js_rest, encoding="utf-8")
+        # The deferred remainder ships in chunks, not one file. Cloudflare rejects any
+        # static asset over 25 MiB, and at TARGET 3300 the ACT remainder alone is about
+        # 30 MiB, so a single file fails the deploy outright rather than degrading. The
+        # budget below is well under the limit so the next raise of TARGET does not walk
+        # back into it: each chunk defines its own const and pushes itself, so the count
+        # is free to grow.
+        CHUNK_BYTES = 18 * 1024 * 1024
+        chunks, cur, cur_n = [], [], 0
+        for it in rest:
+            # Cheap size estimate: the real cost is the emitted JSON-ish text, and the
+            # stem plus the prompt and choices is almost all of it.
+            approx = len(str(it))
+            if cur and cur_n + approx > CHUNK_BYTES:
+                chunks.append(cur); cur, cur_n = [], 0
+            cur.append(it); cur_n += approx
+        if cur: chunks.append(cur)
+        if not chunks: chunks = [[]]
+        rest_bytes = 0
+        for ci, part in enumerate(chunks, start=1):
+            js_rest = F.to_js(part, "%s_REST%d" % (const, ci), HEADER)
+            (OUT / ("bank_gen_%s_rest%d.js" % (exam, ci))).write_text(js_rest, encoding="utf-8")
+            rest_bytes += len(js_rest)
+        # Remove a single-file remainder left by an older build, so a stale 30 MiB asset
+        # cannot be picked up by the glob in build.py and shipped alongside the chunks.
+        _legacy = OUT / ("bank_gen_%s_rest.js" % exam)
+        if _legacy.exists(): _legacy.unlink()
+        js_rest = "x" * rest_bytes  # only its length is used in the report below
         if verbose:
-            print("  wrote generated/bank_gen_%s.js: %d starter + %d deferred = %d items, "
-                  "%d + %d bytes"
-                  % (exam, len(starter), len(rest), len(items), len(js), len(js_rest)))
+            print("  wrote generated/bank_gen_%s.js: %d starter + %d deferred in %d chunk(s)"
+                  " = %d items, %d + %d bytes (largest chunk %.1f MiB)"
+                  % (exam, len(starter), len(rest), len(chunks), len(items), len(js),
+                     len(js_rest),
+                     max((OUT / ("bank_gen_%s_rest%d.js" % (exam, i + 1))).stat().st_size
+                         for i in range(len(chunks))) / 1048576.0))
     short = [k for k, v in report.items() if v[0] < target]
     if short:
         print("  categories under target: %s"
