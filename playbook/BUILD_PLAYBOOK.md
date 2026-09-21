@@ -7,10 +7,10 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-08-17 and 2026-09-21, which is 35 days, across
-64 commits, by one owner directing a series of AI coding sessions. As of this
+65 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 39 Python files, 90 JavaScript files, 24
-TypeScript edge functions, 32 migrations and 63 documents:
-1949 tracked files in total.
+TypeScript edge functions, 34 migrations and 63 documents:
+1951 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -1117,7 +1117,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-64 commits in 35 days, one owner, a series of AI sessions. This
+65 commits in 35 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1209,21 +1209,21 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-56 recorded defects, over 35 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+57 recorded defects, over 35 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 24 | 43% |
+| Found by reading the code or the output | 24 | 42% |
 | Found by measuring something | 14 | 25% |
-| A test caught it | 9 | 16% |
+| A test caught it | 10 | 18% |
 | Found by rendering it and looking | 4 | 7% |
 | Found by a review bot or an adversarial pass | 4 | 7% |
 | A person hit it | 1 | 2% |
 
-**This is the most useful table in the book.** 55 of 56 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 56 of 57 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1233,19 +1233,19 @@ well enough to audit later. Which is what this book is.
 | Severity | Count |
 | --- | ---: |
 | Wrong data shown or stored | 22 |
-| Silent loss | 13 |
+| Silent loss | 14 |
 | Degraded | 12 |
 | Cosmetic | 7 |
 | Site down | 2 |
 
-**Silent loss is the dominant failure mode**, at 13 of 56. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 14 of 57. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Tests and guards | 12 |
+| Tests and guards | 13 |
 | Front end | 8 |
 | Content generation | 8 |
 | CSS and layout | 5 |
@@ -1259,7 +1259,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-50 of 56 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+51 of 57 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1296,7 +1296,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Tests and guards (12)
+## Tests and guards (13)
 
 
 ### INC-0016. The performance test waited for the load event, which waits for the thing being optimised
@@ -1453,6 +1453,19 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **What stops it now.** one shared resolver, so the logic cannot differ between suites in `src/chromium_path.js`
 - **Cost.** one red CI run
 - **Lesson.** A path that exists on the machine you wrote the test on is not a path. Resolve environment-specific locations through one helper that falls back to the tool's own default, and return undefined rather than an empty string, because undefined means 'you decide' and an empty string means 'launch nothing'.
+
+
+### INC-0057. The ledger cited commits that squash merging destroys
+
+*2026-09-21, Silent loss, PR #63*
+
+- **What was seen.** CI failed with three assertions at once: six citations unresolvable, the commit count wrong, and the HTML naming the wrong build commit.
+- **Why.** One cause behind all three. Each incident cites the commit that fixed it, and this repository squash merges, so a branch commit ceases to exist the moment its pull request lands. The builder treated an unresolvable citation as fatal, so it refused to rebuild; build.py catches that failure as a warning rather than stopping the deploy, so the stale committed artefacts stayed on disk and the two freshness assertions then failed against them.
+- **How it surfaced.** The first CI run after a squash merge, which is the first moment the problem could exist. (A test caught it)
+- **Fix.** Cite the pull request as the durable reference and treat the commit hash as best effort. A citation that no longer resolves is reported and allowed when the record carries a PR number, and is still fatal when it does not.
+- **What stops it now.** the builder and smoke_playbook both distinguish a squashed commit from a wrong one in `src/build_playbook.py`
+- **Cost.** one red CI run, and a document that silently stopped rebuilding
+- **Lesson.** A commit hash is not a durable citation in a repository that squashes. Pull requests, issues and tags survive history rewriting; branch commits do not. Cite the thing that outlives the merge, and make any check of the other one advisory.
 
 
 ## Front end (8)
@@ -1972,7 +1985,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0056. Twelve profile fields said Saved and never reached the account
 
-*2026-09-21, Silent loss*
+*2026-09-21, Silent loss, PR #63*
 
 - **What was seen.** A signed-in user fills in education, intended major, score goal, application year, budget, industry, household income, first generation, military status, study hours or their birth date, sees a Saved toast, and none of it is on their account. It survives only in that browser.
 - **Why.** Two layers disagreed and nothing compared them. Row Level Security scopes every write on the profiles table to the caller's own row, and a separate column grant decides which columns any role may write at all. The column grant to authenticated covers 5 of the 17 self-reported fields the Account page offers. The page updates the other 12 anyway, the database refuses, and aboutSave wraps the call in a try/catch with an empty body, so the refusal is discarded and the toast fires regardless.
@@ -2211,6 +2224,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The first fix asked the wrong question and muted a working check (INC-0054)</small>
 - [ ] A path that exists on the machine you wrote the test on is not a path. Resolve environment-specific locations through one helper that falls back to the tool's own default, and return undefined rather than an empty string, because undefined means 'you decide' and an empty string means 'launch nothing'.  
   <small>A new browser suite hardcoded this machine's browser directory and crashed in CI (INC-0055)</small>
+- [ ] A commit hash is not a durable citation in a repository that squashes. Pull requests, issues and tags survive history rewriting; branch commits do not. Cite the thing that outlives the merge, and make any check of the other one advisory.  
+  <small>The ledger cited commits that squash merging destroys (INC-0057)</small>
 
 
 # Adapting This to a Different Business
@@ -2327,7 +2342,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 56 real defects reduced to the rules that prevent them,
+the whole project: 57 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -2367,7 +2382,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-56 defects already prevented is genuinely ahead, and every defect it hits
+57 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

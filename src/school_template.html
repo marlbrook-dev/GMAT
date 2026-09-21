@@ -93,12 +93,12 @@ footer .wrap{display:flex;justify-content:space-between;gap:var(--s4);flex-wrap:
 {{SITE_FOOTER}}
 
 <script>
-var SLUG={{SLUG_JSON}}, NAME={{NAME_JSON}}, GMAT={{GMAT_JSON}};
+var SLUG={{SLUG_JSON}}, NAME={{NAME_JSON}}, GMAT={{GMAT_JSON}}, FIT={{FIT_JSON}};
 var LKEY='sfn_school_list_v1';
 function lst(){ try{ return JSON.parse(localStorage.getItem(LKEY))||{order:[],meta:{}}; }catch(e){ return {order:[],meta:{}}; } }
 function refresh(){ var on=lst().order.indexOf(SLUG)>=0; var b=document.getElementById('addBtn'); b.textContent=on?'Saved to My List':'+ Add to My List'; }
 function toggleList(){ var L=lst(); var i=L.order.indexOf(SLUG);
- if(i>=0){ L.order.splice(i,1); delete L.meta[SLUG]; } else { L.order.push(SLUG); L.meta[SLUG]={tag:'target',note:'',name:NAME,gmat:GMAT}; }
+ if(i>=0){ L.order.splice(i,1); delete L.meta[SLUG]; } else { L.order.push(SLUG); L.meta[SLUG]={tag:'target',note:'',name:NAME,gmat:GMAT,fit:FIT}; }
  localStorage.setItem(LKEY,JSON.stringify(L)); refresh(); }
 refresh();
 </script>
