@@ -56,7 +56,7 @@ Updated September 14, 2026. Owner: Hunter Roberts. Builder: Claude sessions. Thi
 - [ ] Decide what grandfathering means for early users, then flip FREE_LIMITS_LIVE
 - [ ] Stripe Customer Portal so students can cancel without emailing
 - [ ] SFN Assist (AI coaching) when the Anthropic API key is added
-- [ ] Business intelligence: billing event ledger (Stripe and Apple), admin_business RPC, Business tab on the chart library
+- [x] Business intelligence: billing event ledger (Stripe and Apple), admin_business RPC, Business tab on the chart library
 - [ ] The Build Playbook: a living, exportable guidebook that captures how this platform was built, every defect and misfire hit along the way, and the reusable infrastructure recipe for standing the same stack up again for a different business (scope below)
 
 
@@ -150,18 +150,29 @@ counts them.
 
 Deliverables, in order:
 
-- [ ] `docs/playbook/` chapter set and `data/playbook/incidents.jsonl` seeded from this
-      repository's real history: the git log, the PR record, the session logs in this file,
-      and the standing rules in CLAUDE.md, which are themselves a defect ledger written as
-      instructions
-- [ ] `src/build_playbook.py`: harvest, assemble, render to HTML and PDF, with DOCX where
-      the toolchain allows it, plus a guard that fails the build when a chapter cites a
-      file that no longer exists
-- [ ] The infrastructure recipe chapter: the whole stack priced and justified, the
+- [x] `docs/playbook/` chapter set and `data/playbook/incidents.jsonl` seeded from this
+      repository's real history: 17 chapters, 37 incidents reconstructed from the git log,
+      the PR record, the session logs in this file, and the standing rules in CLAUDE.md,
+      which are themselves a defect ledger written as instructions
+- [x] `src/build_playbook.py`: harvest, assemble, render to Markdown, HTML, PDF and Word,
+      with a guard that fails when a chapter cites a file or a commit that does not exist,
+      when a harvested figure stops resolving, or when the document breaks the house style
+      rule it documents
+- [x] The infrastructure recipe chapter: the whole stack priced and justified, the
       open-source alternative for each paid piece, and what it actually takes to stand the
       same thing up from an empty repository
-- [ ] Wire it into `python3 src/build.py` and CI so the deliverable is regenerated on every
-      merge rather than on request
+- [x] Wire it into `python3 src/build.py` and CI so the deliverable is regenerated on every
+      merge rather than on request. `src/smoke_playbook.js` is where it is blocking; the
+      site build warns rather than failing, because a stale chapter should not stop a deploy
+- [x] The bootstrap pack: `CLAUDE.template.md`, `KICKOFF.md` and a prompt-sized
+      `RULES_DIGEST.md` generated from the same ledger, so a new Claude project starts with
+      every defect this build hit already prevented. Layered rather than pasted: the rules
+      go in the prompt, the book goes in project knowledge
+- [ ] Backfill the ledger further: the August sessions are represented by their commit
+      messages only, and the incidents recorded from them are thinner than the ones written
+      the day they happened
+- [ ] A per-incident recurrence count, so the analysis chapter can say which lessons were
+      learned twice rather than only which guards are named twice
 
 ## Standing cadence
 

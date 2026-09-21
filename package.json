@@ -7,7 +7,9 @@
     "test:charts": "node src/smoke_charts.js",
     "test:redirect": "node src/smoke_redirect.js",
     "test:browser": "node src/smoke_items.js && node src/smoke_consent.js && node src/smoke_billing.js && node src/smoke_offline.js && node src/smoke_business.js",
-    "audit": "node src/weekly_audit.js"
+    "audit": "node src/weekly_audit.js",
+    "playbook": "python3 src/build_playbook.py && node src/playbook_pdf.js && node src/smoke_playbook.js",
+    "test:playbook": "node src/smoke_playbook.js"
   },
   "devDependencies": {
     "playwright": "^1.47.0"
