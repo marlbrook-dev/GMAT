@@ -15,6 +15,8 @@ jobs:
         run: cd src && node test.js
       - name: Hostname redirect and deploy surface
         run: node src/smoke_redirect.js
+      - name: Chart geometry and dark theme tokens
+        run: node src/smoke_charts.js
       - name: House rules sweep on generated pages
         run: |
           python3 - <<'EOF'
