@@ -255,6 +255,7 @@ body.focus header.app,body.focus footer.app{display:none}
 .lives{display:inline-flex;gap:5px}.lives svg{transition:opacity .3s ease,transform .3s ease}.lives svg.lost{opacity:.18;transform:scale(.8)}
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:9999}
 .mtile .qm{display:none;position:absolute;inset:0;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:800;font-size:26px;color:var(--navy-400)}
+.sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
 .mtile.fdown{background:var(--navy-50)}.mtile.fdown .face{visibility:hidden}.mtile.fdown .qm{display:flex}
 .mtile.fdown.front{border-top:1.5px solid var(--border-default)}
 .ghub{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-4)}@media(max-width:1000px){.ghub{grid-template-columns:repeat(2,1fr)}}@media(max-width:640px){.ghub{grid-template-columns:1fr}}
@@ -296,6 +297,10 @@ body.focus header.app,body.focus footer.app{display:none}
 </main>
 <footer class="app">{{FOOTER_NOTE}}</footer>
 <div id="toast" role="status" aria-live="polite"></div>
+<!-- Game outcomes are announced here. It sits outside v-games on purpose: that container is
+     replaced wholesale seven times, and a live region inside it would be torn out and
+     re-announced on every render. -->
+<div id="gmLive" class="sr-only" role="status" aria-live="polite"></div>
 <div id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="modal-title">
   <div class="modal-back" onclick="closeModal()"></div>
   <div class="modal-card">
@@ -1029,6 +1034,11 @@ function gmStartMatch(sec){ gmReset(); const cards=gmPickCards(sec,6); if(cards.
  track('game_started',{game:'match',sec}); show('games'); setFocus(true); gmMatchRender();
  gm.timer=setInterval(()=>{ const e=document.getElementById('gmClock'); if(!e){ gmReset(); return; } e.textContent=fmtSecs((Date.now()-gm.t0)/1000); },500); }
 function gmTile(k){ return document.getElementById('mt'+k); }
+// Say what just happened, for anyone not reading the colour. Blitz and Number Crunch
+// signalled right and wrong ONLY by adding a CSS class, then advanced the question after
+// 260 to 1050 milliseconds, so a screen reader user got no feedback at all and the board
+// changed under them. Colour alone also fails a colour blind player who can see fine.
+function gmSay(m){ const e=document.getElementById('gmLive'); if(e) e.textContent=m; }
 function gmMatchRender(){ const el=document.getElementById('v-games');
  el.innerHTML='<div class="stack">'
  +'<div class="row" style="justify-content:space-between;align-items:flex-end"><div><h1 style="font-size:var(--text-xl)">Match · '+gmSecName(gm.sec)+'</h1><p class="muted" style="margin:6px 0 0">Pair each prompt with its method.</p></div>'
@@ -1041,8 +1051,9 @@ function gmPick(i){ if(!gm.on||gm.kind!=='match'||gm.lock) return; const t=gm.ti
  const j=gm.selIdx; const u=gm.tiles[j]; gm.selIdx=null; gm.moves++; const mv=document.getElementById('gmMoves'); if(mv) mv.textContent=gm.moves+' moves';
  if(t.p===u.p&&t.kind!==u.kind){ t.done=true; u.done=true; gm.found++; [i,j].forEach(k=>{ const e=gmTile(k); e.classList.remove('sel'); e.classList.add('done'); });
   const f=document.getElementById('gmFound'); if(f) f.textContent=gm.found+' / '+(gm.tiles.length/2);
+  gmSay('Pair found, '+t.txt+'. '+gm.found+' of '+(gm.tiles.length/2)+'.');
   if(gm.found===gm.tiles.length/2) gmMatchDone(); }
- else { gm.lock=true; gmTile(i).classList.add('miss'); gmTile(j).classList.add('miss');
+ else { gm.lock=true; gmSay('Not a pair.'); gmTile(i).classList.add('miss'); gmTile(j).classList.add('miss');
   setTimeout(()=>{ [i,j].forEach(k=>{ const e=gmTile(k); if(e){ e.classList.remove('miss'); e.classList.remove('sel'); } }); gm.lock=false; },450); } }
 function gmMatchDone(){ clearInterval(gm.timer); gm.timer=null; gm.on=false; setFocus(false); const secs=Math.round((Date.now()-gm.t0)/1000);
  const g=gmState(); if(!g.match) g.match={}; const rec=g.match[gm.sec]||(g.match[gm.sec]={best:null,plays:0}); rec.plays++;
@@ -1074,10 +1085,13 @@ function gmBlitzAnswer(i){ if(!gm.on||gm.kind!=='blitz'||gm.lock) return; gm.loc
  if(o.ok){ gm.streak++; gm.maxStreak=Math.max(gm.maxStreak,gm.streak); gm.hits++; const mult=Math.min(5,gm.streak); gm.score+=10*mult;
   if(btn) btn.classList.add('hit'); const s=document.getElementById('bzScore'); if(s){ s.textContent=gm.score; gmPop('bzScore'); }
   const st=document.getElementById('bzStreak'); if(st) st.textContent=gm.streak>=2?gm.streak+' streak · x'+mult:'';
+  gmSay('Correct. '+gm.score+' points'+(gm.streak>=2?', '+gm.streak+' in a row':'')+'.');
   gm.qi++; setTimeout(()=>{ if(gm.on&&gm.kind==='blitz') gmBlitzQ(); },260); }
  else { gm.streak=0; gm.missed.push(gm.card); rateCard(state,gm.card.id,false);
   if(btn) btn.classList.add('bad'); gm.opts.forEach((x,k)=>{ if(x.ok){ const e=document.getElementById('bz'+k); if(e) e.classList.add('reveal'); } });
   const st=document.getElementById('bzStreak'); if(st) st.textContent='';
+  const right=gm.opts.filter(x=>x.ok)[0];
+  gmSay('Not right. The answer was '+(right?right.txt:'shown')+'.');
   gm.qi++; setTimeout(()=>{ if(gm.on&&gm.kind==='blitz') gmBlitzQ(); },950); } }
 function gmBlitzDone(){ clearInterval(gm.timer); gm.timer=null; gm.on=false; setFocus(false);
  const g=gmState(); if(!g.blitz) g.blitz={}; const rec=g.blitz[gm.sec]||(g.blitz[gm.sec]={best:null,plays:0}); rec.plays++;
@@ -1185,15 +1199,21 @@ function gmMemRender(){ const el=document.getElementById('v-games');
  +'<div class="mgrid">'+gm.tiles.map((t,i)=>'<button class="mtile fdown'+(t.kind==='f'?' front':'')+'" id="mt'+i+'" style="--tilec:'+gmSecColor(t.sec)+'" onclick="gmMemPick('+i+')" aria-label="Tile '+(i+1)+'"><span class="face">'+esc(t.txt)+'</span><span class="qm" aria-hidden="true">?</span></button>').join('')+'</div>'
  +'</div>'; }
 function gmMemPick(i){ if(!gm.on||gm.kind!=='memory'||gm.lock) return; const t=gm.tiles[i]; if(t.done||gm.up.indexOf(i)>=0) return;
- gmTile(i).classList.remove('fdown'); gm.up.push(i); if(gm.up.length<2) return;
+ // A revealed tile has to change its accessible NAME, not only its appearance. The label
+ // is a static 'Tile N' so the face is not leaked while face down, which is right, but it
+ // left a screen reader user flipping tiles and learning nothing.
+ gmTile(i).classList.remove('fdown'); gmTile(i).setAttribute('aria-label',t.txt);
+ gmSay(t.txt); gm.up.push(i); if(gm.up.length<2) return;
  gm.moves++; const mv=document.getElementById('gmMoves'); if(mv) mv.textContent=gm.moves+' flips';
  const a=gm.up[0], b=gm.up[1];
  if(gm.tiles[a].p===gm.tiles[b].p&&gm.tiles[a].kind!==gm.tiles[b].kind){ gm.tiles[a].done=true; gm.tiles[b].done=true; gm.found++;
   [a,b].forEach(k=>gmTile(k).classList.add('done')); gm.up=[];
+  gmSay('Pair found. '+gm.found+' of '+(gm.tiles.length/2)+'.');
   const f=document.getElementById('gmFound'); if(f) f.textContent=gm.found+' / '+(gm.tiles.length/2);
   if(gm.found===gm.tiles.length/2) gmMemDone(); }
  else { gm.lock=true; [a,b].forEach(k=>gmTile(k).classList.add('miss'));
-  setTimeout(()=>{ [a,b].forEach(k=>{ const e=gmTile(k); if(e){ e.classList.add('fdown'); e.classList.remove('miss'); } }); gm.up=[]; gm.lock=false; },800); } }
+  gmSay('Not a pair.');
+  setTimeout(()=>{ [a,b].forEach(k=>{ const e=gmTile(k); if(e){ e.classList.add('fdown'); e.classList.remove('miss'); e.setAttribute('aria-label','Tile '+(k+1)); } }); gm.up=[]; gm.lock=false; },800); } }
 function gmMemDone(){ clearInterval(gm.timer); gm.timer=null; gm.on=false; setFocus(false); const secs=Math.round((Date.now()-gm.t0)/1000);
  const g=gmState(); if(!g.memory) g.memory={}; const rec=g.memory[gm.sec]||(g.memory[gm.sec]={best:null,plays:0}); rec.plays++;
  const isBest=rec.best===null||secs<rec.best; if(isBest) rec.best=secs; persist();
@@ -1239,8 +1259,10 @@ function gmCrunchAnswer(i){ if(!gm.on||gm.kind!=='crunch'||gm.lock) return; gm.l
  if(ok){ gm.streak++; gm.maxStreak=Math.max(gm.maxStreak,gm.streak); gm.hits++; gm.score+=10*Math.min(5,gm.streak);
   const s=document.getElementById('ncScore'); if(s){ s.textContent=gm.score; gmPop('ncScore'); }
   const st=document.getElementById('ncStreak'); if(st) st.textContent=gm.streak>=2?gm.streak+' streak · x'+Math.min(5,gm.streak):'';
+  gmSay('Correct. '+gm.score+' points. '+(fb?fb.textContent:''));
   setTimeout(()=>{ if(gm.on&&gm.kind==='crunch') gmCrunchQ(); },420); }
  else { gm.streak=0; const st=document.getElementById('ncStreak'); if(st) st.textContent='';
+  gmSay('Not right. '+(fb?fb.textContent:''));
   setTimeout(()=>{ if(gm.on&&gm.kind==='crunch') gmCrunchQ(); },1050); } }
 function gmCrunchDone(){ clearInterval(gm.timer); gm.timer=null; gm.on=false; setFocus(false);
  const g=gmState(); if(!g.crunch) g.crunch={best:null,plays:0}; g.crunch.plays++;
