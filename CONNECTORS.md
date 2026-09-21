@@ -88,3 +88,38 @@ attach-at-session-start rule at the top of this file.
 There is no screen sharing, remote desktop or computer control in the Claude Code session
 toolset. Claude does have screen sharing in other products, but not here. Anything requiring
 a GUI (the Apple Developer portal, App Store Connect, a Mac running Xcode) has to be you.
+
+---
+
+## Local tooling, fixed by a session start hook
+
+Separate from connectors, but it bit us the same way: a capability that looked present
+and was not.
+
+`.claude/hooks/session-start.sh` now runs at the start of every remote session and
+installs what a fresh container lacks. **This only takes effect once it is merged to
+`main`.**
+
+What it fixes:
+
+- **Playwright.** `node_modules` is gitignored and the container is rebuilt from a clean
+  clone, so all four browser smoke suites (`smoke_items`, `smoke_consent`, `smoke_billing`,
+  `smoke_offline`) failed on a fresh session with "Cannot find module 'playwright'". The
+  browser itself is preinstalled, so only the package is fetched.
+- **LibreOffice Writer.** The image ships `libreoffice-core` and `libreoffice-common` with
+  no Writer module. This fails confusingly: `soffice` exists, reports version 24.2.7.2, and
+  then refuses every document with "source file could not be loaded", including a plain
+  `.txt`, because text to PDF also goes through Writer. This is why a Word document could
+  be built and validated on 2026-09-21 but not rendered and inspected.
+- **poppler-utils and pandoc**, for turning a PDF into images to look at and for reading a
+  `.docx` back as text.
+- **The python modules the docx skill imports**: defusedxml, lxml, python-docx, openpyxl.
+  Without defusedxml its `validate.py` cannot run at all.
+- **`CHROMIUM_PATH`, `PLAYWRIGHT_BROWSERS_PATH` and `PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD`**
+  exported through `CLAUDE_ENV_FILE`, so the smoke suites run exactly as CLAUDE.md writes
+  them instead of needing a wrapper each time.
+
+Verified: runs clean twice, writes its env lines once rather than stacking them, exits
+silently outside a remote session, and reinstalls a module after it was deliberately
+uninstalled. Engine tests, the build and `smoke_consent` all pass using only the
+environment the hook exports.
