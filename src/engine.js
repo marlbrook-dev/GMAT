@@ -361,7 +361,11 @@ function scoreEstimate(state){
  const sc = EXAM.scale;
  if (!sc) return {ready:false, reason:'no scale'};
  const parts = SECTIONS.map(sec => ({sec, a: sectionAbility(state, sec)}));
- const n = parts.reduce((t, p) => t + p.a.n, 0);
+ // Count ITEMS ANSWERED, not skill observations. recordAttempt credits a second skill at
+ // half weight when an item carries a qskill, so summing per-skill n counted those items
+ // twice and the floor opened after 30 real items on a 40 item promise. The review bot
+ // caught it on GMAT, where the DI items are the ones with two skills.
+ const n = (state.attempts || []).length;
  if (n < sc.minAttempts) return {ready:false, n, need: sc.minAttempts - n, reason:'more practice'};
  // Not every reported section feeds the headline score. The ACT Composite is the average of
  // English, Mathematics and Reading only, because ACT removed Science from the Composite in
