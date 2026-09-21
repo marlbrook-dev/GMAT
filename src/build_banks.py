@@ -28,24 +28,33 @@ OUT = D / "generated"
 # number. 34 categories across the four generated exams, plus 1,073 hand written items
 # (including all 65 LSAT ones, which have no generator).
 #
-# Three categories exhaust their parameter space below this and ship at their own ceiling
+# Seven categories exhaust their parameter space below this and ship at their own ceiling
 # instead. That is reported, not silent: build_banks prints "categories under target" and
 # names the schemas that ran out.
 #
-#   gmat/v_pc      833   cr_plan_assume, cr_plan_eval, cr_plan_weaken
-#   sat/rw_eoi     971   sat_rw_transition
-#   act/act_e_pow  974   sat_rw_transition remapped
+#   gmat/v_pc        833   cr_plan_assume, cr_plan_eval, cr_plan_weaken
+#   act/act_e_pow    974   sat_rw_transition remapped
+#   sat/rw_eoi       971   sat_rw_transition
+#   gmat/v_ac      1,422
+#   gmat/q_vof     1,967
+#   sat/rw_sec     2,489
+#   act/act_e_cse  2,507
 #
-# So the published bank is 31 x 1200 + 833 + 971 + 974 + 1,073 = 41,051.
+# So the published bank is 27 x 3300 + 11,163 + 1,073 = 101,336.
 #
-# Raising this further is possible: nothing else was exhausted at 1200, so the other 31
-# ceilings are somewhere above it and untested. Two reasons to think twice before doing
-# it. Bank files grow roughly linearly and the wire cost with them, which
-# src/smoke_load.js measures on every run against a 4 second budget to first question.
-# And the categories built on a single schema (sat/rw_eoi, gre/gre_se, gre/gre_tc,
-# act/act_e_pow) become variations on one template at scale, so past a point a new schema
-# is worth far more than a larger number.
-TARGET = 1200
+# On why 3300 and not more. The ceilings were measured by running at 4000: 24 categories
+# still had room there and the total came to 118,447, so the parameter space is not the
+# binding constraint. Size is. The deferred remainder grows roughly linearly with this
+# number while the blocking download does not, because the starter is strided at
+# STARTER_PER_SKILL per skill and is the same size whatever this is set to. 3300 is the
+# smallest round value that clears one hundred thousand items, which keeps the deferred
+# download as small as that goal allows.
+#
+# The older caution still stands and is worth re-reading before raising it again: the
+# categories built on a single schema (sat/rw_eoi, gre/gre_se, gre/gre_tc, act/act_e_pow)
+# become variations on one template at scale, so past a point a new schema is worth far
+# more than a larger number. Three of those four are now at their ceiling anyway.
+TARGET = 3300
 
 # How many items per skill ship in the blocking starter file. Eighty is several rounds
 # per skill, so a student reaches the deferred remainder long after it has arrived, while
