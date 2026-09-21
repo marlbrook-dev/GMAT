@@ -199,7 +199,10 @@ const EXAMS = {
  'gmat-focus': {id:'gmat-focus',name:'GMAT Focus Edition',short:'GMAT Focus',sections:GMAT_SECTIONS,skills:GMAT_SKILLS,
    scoreScale:'205-805',sectionScale:'60-90',choices:5,adaptive:'question',
    // Total scores are reported in 10-point steps ending in 5, so round to that lattice.
-   appPath:'/app/',blurb:'Focus Edition, live',
+   appPath:'/app/',
+   // Which games this exam rewards most, and why. Read off this entry's own structure
+   // (adaptive mode, choices, sections), not from any remembered claim about the test.
+   gameplan:{order:['boss','crunch','ladder','blitz','match','memory'],why:{boss:'Question adaptive: every answer changes the next one, so the skill is committing under pressure and moving on.',crunch:'Five choices and no calculator. Number sense decides whether you finish the section.',ladder:'Difficulty climbs with you, which is the shape of a question adaptive section.'}},blurb:'Focus Edition, live',
    official:{label:'an official practice exam at mba.com',url:'https://www.mba.com/exams/gmat-exam/prepare'},
    crunch:'Which is bigger? No-calculator number sense, timed.',
    crunchLong:'Which is bigger? Sixty seconds of no-calculator number sense, the Quant survival skill.',
@@ -209,7 +212,10 @@ const EXAMS = {
           minBand:30,minAttempts:40,calibration:'internal'}},
  'sat': {id:'sat',name:'SAT',short:'SAT',sections:SAT_SECTIONS,skills:SAT_SKILLS,
    scoreScale:'400-1600',sectionScale:'200-800',choices:4,adaptive:'module',
-   appPath:'/sat/app/',blurb:'digital format, live',
+   appPath:'/sat/app/',
+   // Which games this exam rewards most, and why. Read off this entry's own structure
+   // (adaptive mode, choices, sections), not from any remembered claim about the test.
+   gameplan:{order:['ladder','blitz','boss','match','memory','crunch'],why:{ladder:'Module adaptive: the second module is chosen by how the first one went, so the first half matters most.',blitz:'Four choices and a short clock. Recognition speed is the constraint, not arithmetic.',boss:'Real questions on the real pace clock, which is what the second module feels like.'}},blurb:'digital format, live',
    official:{label:'an official Bluebook practice test from College Board',url:'https://bluebook.collegeboard.org/'},
    crunch:'Which is bigger? Estimate faster than you could type it.',
    crunchLong:'Which is bigger? Sixty seconds of estimation. Bluebook gives you Desmos, but typing costs seconds you do not have.',
@@ -223,7 +229,10 @@ const EXAMS = {
  // scale that 30 points is on the GMAT, not a tighter claim on a smaller scale.
  'gre': {id:'gre',name:'GRE General Test',short:'GRE',sections:GRE_SECTIONS,skills:GRE_SKILLS,
    scoreScale:'260-340',sectionScale:'130-170',choices:5,adaptive:'module',
-   appPath:'/gre/app/',blurb:'Verbal and Quant, live',
+   appPath:'/gre/app/',
+   // Which games this exam rewards most, and why. Read off this entry's own structure
+   // (adaptive mode, choices, sections), not from any remembered claim about the test.
+   gameplan:{order:['match','memory','blitz','ladder','boss','crunch'],why:{match:'Verbal turns on precise word meaning. Pairing a term with its sense is the drill for it.',memory:'The same pairs without the prompt in view, which is the harder and more useful version.',blitz:'Module adaptive, so the first module sets the ceiling. Speed early is worth more here.'}},blurb:'Verbal and Quant, live',
    official:{label:'an official POWERPREP practice test from ETS',url:'https://www.ets.org/gre/test-takers/general-test/prepare.html'},
    crunch:'Which is bigger? No-calculator number sense, timed.',
    crunchLong:'Which is bigger? Sixty seconds of no-calculator number sense, the Quant survival skill.',
@@ -238,7 +247,10 @@ const EXAMS = {
  // GMAT's 600, not a tighter claim on a narrower scale.
  'lsat': {id:'lsat',name:'LSAT',short:'LSAT',sections:LSAT_SECTIONS,skills:LSAT_SKILLS,
    scoreScale:'120-180',sectionScale:null,choices:5,adaptive:'question',
-   appPath:'/lsat/app/',blurb:'Logical Reasoning and RC, live',
+   appPath:'/lsat/app/',
+   // Which games this exam rewards most, and why. Read off this entry's own structure
+   // (adaptive mode, choices, sections), not from any remembered claim about the test.
+   gameplan:{order:['match','boss','memory','ladder','blitz','crunch'],why:{match:'Every question is an argument. Pairing a claim with the role it plays is the whole skill.',boss:'Five real arguments on the pace clock, which is the only way to practise not rereading.',memory:'Holding structure in your head is what reading comprehension asks for.'}},blurb:'Logical Reasoning and RC, live',
    official:{label:'an official LSAT PrepTest on LSAC LawHub',url:'https://www.lsac.org/lsat/prepare/official-lsat-practice-tests'},
    crunch:'Which is bigger? Sixty seconds of number sense to keep timing instincts sharp.',
    crunchLong:'Which is bigger? Sixty seconds of number sense. The LSAT has no math section, but pace under a clock is the same muscle.',
@@ -250,7 +262,10 @@ const EXAMS = {
  // reported but excluded from the Composite, which SECTION_META marks with inComposite:false.
  'act': {id:'act',name:'ACT',short:'ACT',sections:ACT_SECTIONS,skills:ACT_SKILLS,
    scoreScale:'1-36',sectionScale:'1-36',choices:4,adaptive:'question',
-   appPath:'/act/app/',blurb:'enhanced format, live',
+   appPath:'/act/app/',
+   // Which games this exam rewards most, and why. Read off this entry's own structure
+   // (adaptive mode, choices, sections), not from any remembered claim about the test.
+   gameplan:{order:['blitz','ladder','boss','crunch','match','memory'],why:{blitz:'The tightest clock of the five exams. Recognition has to be automatic.',ladder:'Difficulty climbing while the clock runs is the closest thing to the real pressure.',boss:'Four choices, real pace. Pace is the section, more than content is.'}},blurb:'enhanced format, live',
    official:{label:'an official ACT practice test at act.org',url:'https://www.act.org/content/act/en/products-and-services/the-act/test-preparation/free-act-test-prep.html'},
    crunch:'Which is bigger? Estimate faster than you could reach for the calculator.',
    crunchLong:'Which is bigger? Sixty seconds of estimation. The ACT gives you 60 seconds a question on Math, so reaching for the calculator has a price.',
