@@ -18,7 +18,26 @@ src/
 data/
 supabase/
 
-# Repository and tooling files.
+# The design system is tooling, not part of the site: 114 files including a 98 KB bundle,
+# the component sources and their prompt files. Three things in it ARE part of the site and
+# must survive: assets/ holds the logo, and terms.html and privacy.html load styles.css,
+# which is nothing but six @imports of tokens/. Excluding those two shipped the legal pages
+# with no font, no colour and no background. The guard in src/smoke_redirect.js now derives
+# what must be served from the built pages themselves rather than from a list kept by hand,
+# because the hand kept list is what got this wrong.
+design/*
+!design/assets/
+!design/tokens/
+!design/styles.css
+
+# Repository and tooling files. .git matters most: Workers static assets, unlike Pages,
+# does NOT exclude it automatically, so the build clone's .git was being served. /.git/config
+# gave out the origin remote and /.git/index gave out the full inventory of every path this
+# file is meant to hide, which defeated the point of the rest of the list.
+**/.git
+.git/
+**/node_modules
+**/.DS_Store
 .github/
 .gitignore
 .assetsignore

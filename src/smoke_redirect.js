@@ -11,6 +11,7 @@
 const fs = require('fs');
 const path = require('path');
 const { pathToFileURL } = require('url');
+const { spawnSync } = require('child_process');
 
 let failures = 0;
 function fail(msg) { failures++; console.log('  FAIL: ' + msg); }
@@ -104,11 +105,76 @@ const CASES = [
     const missing = need.filter(n => !lines.includes(n));
     if (missing.length) fail('.assetsignore does not exclude ' + JSON.stringify(missing));
     else ok('.assetsignore keeps the source out of the deploy');
-    // The inverse guard. These are referenced by built pages and must stay served.
-    const mustServe = ['design/', 'icons/', 'og/', 'robots.txt', 'llms.txt', 'manifest.json'];
-    const wrongly = mustServe.filter(n => lines.includes(n) || lines.includes(n.replace(/\/$/, '')));
-    if (wrongly.length) fail('.assetsignore excludes files the site needs: ' + JSON.stringify(wrongly));
-    else ok('.assetsignore still serves design, icons, og and the root text files');
+    // The inverse guard, derived rather than listed.
+    //
+    // This used to be a list of paths kept by hand, and that list is exactly what got it
+    // wrong: it named design/ as safe to exclude while terms.html and privacy.html were
+    // loading /design/styles.css, so the legal pages would have shipped with no font, no
+    // colour and no background. So read what the built pages actually reference and prove
+    // the deploy still serves every one of them.
+    //
+    // Exclusion is decided by git itself, because .assetsignore uses gitignore format and
+    // reimplementing that here would be a second thing to get wrong. A path the repository
+    // .gitignore already covers is generated output, which ships and is not our concern, so
+    // the test is "ignored once .assetsignore is added, but not ignored without it".
+    const ROOT = path.join(__dirname, '..');
+    function ignoredBy(file, useAssets) {
+      const args = useAssets ? ['-c', 'core.excludesFile=' + path.join(ROOT, '.assetsignore')] : [];
+      const r = spawnSync('git', args.concat(['check-ignore', '--no-index', '-q', file]),
+                          { cwd: ROOT, encoding: 'utf8' });
+      return r.status === 0;
+    }
+
+    const pages = [];
+    for (const f of ['index.html', '404.html', 'terms.html', 'privacy.html']) {
+      if (fs.existsSync(path.join(ROOT, f))) pages.push(f);
+    }
+    if (!pages.length) {
+      console.log('  skipped: no built pages on disk, run python3 src/build.py first');
+    } else {
+      const refs = new Set();
+      for (const rel of pages) {
+        const text = fs.readFileSync(path.join(ROOT, rel), 'utf8');
+        let m;
+        const re = /(?:href|src)="(\/[A-Za-z0-9_.\/-]+)"/g;
+        while ((m = re.exec(text)) !== null) refs.add(m[1]);
+      }
+      // One level of CSS @import, because /design/styles.css is nothing but imports and the
+      // files it pulls in are the ones that actually carry the tokens.
+      for (const ref of Array.from(refs)) {
+        if (!ref.endsWith('.css')) continue;
+        const f = path.join(ROOT, ref.replace(/^\//, ''));
+        if (!fs.existsSync(f)) continue;
+        const css = fs.readFileSync(f, 'utf8');
+        let m;
+        const re = /@import\s+['"]([^'"]+)['"]/g;
+        while ((m = re.exec(css)) !== null) {
+          refs.add('/' + path.posix.normalize(path.posix.join(path.posix.dirname(ref), m[1])).replace(/^\//, ''));
+        }
+      }
+
+      const dropped = [];
+      for (const ref of refs) {
+        const rel = ref.replace(/^\//, '');
+        if (!rel || !fs.existsSync(path.join(ROOT, rel))) continue;   // generated at build time
+        if (ignoredBy(rel, false)) continue;                          // build output, ships anyway
+        if (ignoredBy(rel, true)) dropped.push(ref);
+      }
+      if (dropped.length) {
+        fail('.assetsignore excludes ' + dropped.length + ' path(s) that built pages load:\n      ' +
+             dropped.sort().join('\n      '));
+      } else {
+        ok(refs.size + ' referenced paths checked, none excluded by the deploy');
+      }
+    }
+
+    // The source of the site, and the repository itself, must not be served. Workers static
+    // assets does not exclude .git the way Pages did, and /.git/index alone gives out the
+    // full inventory of every path the rest of this list hides.
+    for (const mustGo of ['src/engine.js', 'data/DATA.md', 'CLAUDE.md', '.git/config']) {
+      if (!ignoredBy(mustGo, true)) fail('.assetsignore does NOT exclude ' + mustGo);
+    }
+    if (!failures) ok('source, data, docs and .git are all excluded from the deploy');
   }
 
   // Security headers. _headers is the readable source and the worker restates them
