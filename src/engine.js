@@ -320,26 +320,61 @@ function itemInfo(theta, d, c){
 // Ability and its standard error for one section, from the attempts actually recorded.
 // Every answered item contributes information at the difficulty it was answered at, which
 // is why practising harder items tightens the band faster than drilling easy ones.
+// The prior on ability, in logits. Weak on purpose: it exists to keep an all correct or
+// all wrong run from returning an infinite ability, not to pull the estimate anywhere.
+// At 20 items the evidence outweighs it about seven to one.
+const PRIOR_SD = 1.5;
+
+// Ability for one section, fitted directly to the answers given in it.
+//
+// This used to average the per-skill Elo ratings, and it was wrong twice over. The review
+// bots measured the result: at the evidence floor a struggling SAT student read 238 points
+// high and a very strong one 210 low, inside a band of plus or minus 89. The shape was
+// monotonic and symmetric about the centre, which is the signature of an estimate that has
+// not moved off its starting value.
+//
+// The first fault was that every skill voted, including the ones never practised. An
+// untested skill sits at START_R, which is theta 0, and got weight 1, so a student who
+// answered 40 Quant items across 5 of the 21 GMAT skills had 16 untouched skills each
+// pulling their estimate back to the middle of the scale.
+//
+// The second was Elo itself. It is an online update tuned to move slowly, and at the
+// 40 item floor a skill has roughly two observations, which K of 32 cannot move far. It
+// does converge, by about 800 items, which is no use to somebody reading their first band.
+//
+// So the score no longer comes from the ratings at all. It is fitted to the attempts
+// themselves by Fisher scoring on the same 3PL that itemInfo already assumes, which uses
+// every answer in the section at the difficulty it was actually answered at and needs no
+// convergence time. The skill ratings still drive what to study, which is what they are
+// good at: relative, fast moving, and never shown as a score.
 function sectionAbility(state, section){
  const c = 1 / (EXAM.choices || 4);
- const skills = SKILLS.filter(s => s.section === section);
- if (!skills.length) return {theta:0, sem:Infinity, n:0};
- let wSum = 0, tSum = 0, n = 0;
- skills.forEach(s => {
-  const st = state.skills[s.id];
-  if (!st) return;
-  // Weight by evidence. A skill with 2 attempts should not move the section estimate as
-  // much as one with 50.
-  const w = Math.max(1, st.n || 0);
-  tSum += eloToTheta(st.r) * w; wSum += w; n += (st.n || 0);
- });
- const theta = wSum ? tSum / wSum : 0;
- let info = 0;
- (state.attempts || []).forEach(a => {
-  if (a.section !== section) return;
-  const d = eloToTheta(DIFF_ELO[a.diff] || 1100);
-  info += itemInfo(theta, d, c);
- });
+ const atts = (state.attempts || []).filter(a => a.section === section);
+ const n = atts.length;
+ if (!n) return {theta:0, sem:Infinity, n:0};
+ const ds = atts.map(a => eloToTheta(DIFF_ELO[a.diff] || 1100));
+ const prec = 1 / (PRIOR_SD * PRIOR_SD);
+ let theta = 0;
+ // Fisher scoring. The information is the Hessian here, so this is the standard Newton
+ // step for an IRT fit, and it settles in a handful of passes.
+ for (let it = 0; it < 24; it++) {
+  let g = -theta * prec, info = prec;
+  for (let i = 0; i < n; i++) {
+   const P = pCorrect(theta, ds[i], c);
+   if (P <= 0 || P >= 1) continue;
+   // dP/dtheta for the 3PL with discrimination fixed at 1.
+   const Pstar = (P - c) / (1 - c);
+   const dP = (1 - c) * Pstar * (1 - Pstar);
+   g += ((atts[i].correct ? 1 : 0) - P) / (P * (1 - P)) * dP;
+   info += itemInfo(theta, ds[i], c);
+  }
+  const step = g / info;
+  theta += Math.max(-1, Math.min(1, step));   // capped so a wild first step cannot diverge
+  if (Math.abs(step) < 1e-6) break;
+ }
+ theta = Math.max(-3.5, Math.min(3.5, theta));
+ let info = prec;
+ ds.forEach(d => { info += itemInfo(theta, d, c); });
  // Flashcards are recognition rather than full items, so they count, but at a quarter
  // weight. Counting them equally would shrink the band on evidence that is weaker than the
  // band implies.
