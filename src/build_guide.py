@@ -26,6 +26,7 @@ from guide import gmat_quant, gmat_verbal, gmat_di  # noqa: E402
 from guide import sat_math, sat_rw                   # noqa: E402
 from guide import gre_verbal, gre_quant             # noqa: E402
 from guide import lsat_lr, lsat_rc                  # noqa: E402
+from guide import act_english                       # noqa: E402
 from guide.model import check_all                   # noqa: E402
 from guide import coverage                          # noqa: E402
 
@@ -154,6 +155,20 @@ SECTIONS = {
                   "application. One set per section is Comparative Reading: two "
                   "passages by different authors, asked about together."),
     },
+    "act": {
+        "english": dict(
+            title="English", short="English", topics=act_english.TOPICS,
+            exam_section="English (40 of 50 scored)",
+            facts_title="The Rules and the Method",
+            facts_word="rules",
+            facts_lede="Fifty questions in thirty-five minutes is about forty-two "
+                       "seconds each, so this section rewards rules you can apply on "
+                       "sight rather than reasoning you have to construct.",
+            blurb="Conventions of standard English, production of writing, and knowledge "
+                  "of language: ACT's own three reporting categories. The tightest "
+                  "per-question budget of any section we cover, which is what shapes "
+                  "the strategy."),
+    },
 }
 
 # Sections we have not written yet. The hub lists these as unwritten rather than leaving
@@ -164,8 +179,7 @@ PLANNED = {
     "sat": [],
     "gre": [],
     "lsat": [],
-    "act": [("English", "Usage, mechanics and rhetorical skill."),
-            ("Mathematics", "Every topic the exam covers, by difficulty."),
+    "act": [("Mathematics", "Every topic the exam covers, by difficulty."),
             ("Reading", "How the passages are built and what is asked of them."),
             ("Science", "Reading data, designing experiments, and conflicting "
                         "viewpoints.")],
