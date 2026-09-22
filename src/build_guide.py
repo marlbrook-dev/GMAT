@@ -24,6 +24,7 @@ sys.path.insert(0, str(D))
 import partials                                     # noqa: E402
 from guide import gmat_quant, gmat_verbal, gmat_di  # noqa: E402
 from guide import sat_math, sat_rw                   # noqa: E402
+from guide import gre_verbal, gre_quant             # noqa: E402
 from guide.model import check_all                   # noqa: E402
 from guide import coverage                          # noqa: E402
 
@@ -105,6 +106,26 @@ SECTIONS = {
                            "domains. Desmos is built in and allowed throughout, which "
                            "changes what solving means."),
     },
+    "gre": {
+        "verbal": dict(
+            title="Verbal Reasoning", short="Verbal", topics=gre_verbal.TOPICS,
+            exam_section="Verbal Reasoning (two sections)",
+            facts_title="The Rules and the Method",
+            facts_word="rules",
+            facts_lede="Three question types, and each one has a method that works "
+                       "whether or not you know every word in it. What replaces a "
+                       "formula here is the rule that decides the question.",
+            blurb="Text completion, sentence equivalence and reading comprehension. "
+                  "Vocabulary is load bearing on this exam in a way it is not on the "
+                  "others, and the method is what lets you work when a word is "
+                  "unfamiliar."),
+        "quant": dict(
+            title="Quantitative Reasoning", short="Quant", topics=gre_quant.TOPICS,
+            exam_section="Quantitative Reasoning (two sections, 12 + 15 questions)",
+            blurb="Arithmetic, algebra, geometry and data analysis, plus quantitative "
+                  "comparison, which is a format rather than a content area and is "
+                  "where most of the wasted time on this section goes."),
+    },
 }
 
 # Sections we have not written yet. The hub lists these as unwritten rather than leaving
@@ -113,10 +134,7 @@ SECTIONS = {
 PLANNED = {
     "gmat": [],
     "sat": [],
-    "gre": [("Verbal Reasoning", "Reading comprehension, text completion and sentence "
-                                 "equivalence."),
-            ("Quantitative Reasoning", "Arithmetic, algebra, geometry and data "
-                                       "analysis.")],
+    "gre": [],
     "lsat": [("Logical Reasoning", "Every question form and the logic underneath it."),
              ("Reading Comprehension", "How the passages are built and what is asked "
                                        "of them.")],
@@ -152,11 +170,10 @@ for (const sk of want) {
     // no real item on it looks like a deliberate omission, not a gap.
     const plain = api.BANK.filter(q => q.skill === sk && q.diff === d
                                        && Array.isArray(q.choices) && !q.answerType);
-    const tpa = api.BANK.filter(q => q.skill === sk && q.diff === d
-                                     && q.answerType === 'tpa'
-                                     && Array.isArray(q.columns)
+    const alt = api.BANK.filter(q => q.skill === sk && q.diff === d
+                                     && (q.answerType === 'tpa' || q.answerType === 'se')
                                      && Array.isArray(q.answer));
-    const c = plain.length ? plain : tpa;
+    const c = plain.length ? plain : alt;
     if (c.length) {
       const q = c[Math.floor(c.length / 2)];
       out[sk][d] = {stem: q.stem, choices: q.choices, answer: q.answer,
@@ -271,6 +288,19 @@ def ladder_html(t, samples, app):
                      '<p class="lx-key">One selection per column, from the shared list.'
                      '</p></details>'
                      % (d, item["n"], esc(item["stem"]), head, rows_html))
+        elif item and item.get("kind") == "se":
+            # Select two from six, and the pair is the answer: both are marked, and the
+            # instruction says so, because one marked choice would read as the key.
+            picks = set(item["answer"])
+            opts = "".join(
+                '<li%s>%s</li>' % (' class="key"' if i in picks else "", esc(c))
+                for i, c in enumerate(item["choices"]))
+            shown = ('<details class="lx"><summary>See a real level %d item '
+                     '(%d in the bank)</summary>'
+                     '<p class="lx-stem">%s</p><ol type="A" class="lx-opts">%s</ol>'
+                     '<p class="lx-key">Select <b>%d</b>. Both marked choices are '
+                     'required; either alone scores nothing.</p></details>'
+                     % (d, item["n"], esc(item["stem"]), opts, len(picks)))
         elif item:
             letters = "ABCDE"
             opts = "".join(
