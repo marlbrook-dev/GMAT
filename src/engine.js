@@ -645,7 +645,7 @@ function pickMockSection(bank,state,section,countOverride){
   if(q.passageId) g=pool.filter(x=>x.passageId===q.passageId);
   else if(q.passageHtml&&['MSR','GI','TA'].includes(q.type)) g=pool.filter(x=>x.passageHtml===q.passageHtml&&x.type===q.type);
   return g.filter(x=>!used.has(x.id)).sort((a,b)=>a.id<b.id?-1:1); }
- let idx=0, guard=0;
+ let idx=0, guard=0; const covered=new Set();
  while(chosen.length<count&&guard<400){ guard++;
   const sk=skillIds[idx%skillIds.length]; idx++;
   const cands=pool.filter(q=>!used.has(q.id)&&q.skill===sk);
@@ -653,7 +653,21 @@ function pickMockSection(bank,state,section,countOverride){
   const skR=state.skills[sk]?state.skills[sk].r:START_R;
   const spread=[0,120,-120][idx%3]; const target=Math.max(DIFF_ELO[1],Math.min(DIFF_ELO[5],skR+spread));
   const best=cands.map(q=>{ const d=Math.abs(DIFF_ELO[q.diff]-target); const rec=recency(q); const fresh=rec>=1e9?0:Math.max(0,40-rec)*10; return {q,score:d+fresh+Math.random()*80}; }).sort((a,b)=>a.score-b.score)[0].q;
-  groupOf(best).forEach(x=>{ if(chosen.length<count){ used.add(x.id); chosen.push(x); } }); }
+  // Keep a slot for every skill still waiting for one. A passage group is taken whole,
+  // and a reading section is 26 questions: three groups of ten fill it, so whichever
+  // skills those three passages happen to ask about are the only ones the student is
+  // tested on. The hand written passages carry seven or eight questions spanning most
+  // of the skills, which is why this never showed until generated passages arrived with
+  // ten questions across three. Truncating a group is not a problem for the student:
+  // a section has never had to use every question a passage offers, and the part taken
+  // is still contiguous.
+  const unseen=skillIds.filter(s=>s!==sk&&!covered.has(s)&&pool.some(q=>!used.has(q.id)&&q.skill===s)).length;
+  const room=Math.max(1,count-chosen.length-unseen);
+  // When only part of a group fits, take the part that asks something new. Slicing it in
+  // id order reserves the slot and then fills it with whatever happened to be first,
+  // which can be the very question whose skill is already covered twice over.
+  const grp=groupOf(best).sort((a,b)=>(covered.has(a.skill)?1:0)-(covered.has(b.skill)?1:0)||(a.id<b.id?-1:1));
+  grp.slice(0,room).forEach(x=>{ if(chosen.length<count){ used.add(x.id); chosen.push(x); covered.add(x.skill); } }); }
  if(chosen.length<count){ const rest=pool.filter(q=>!used.has(q.id)).sort((a,b)=>recency(b)-recency(a)||Math.random()-0.5);
   for(const q of rest){ if(chosen.length>=count) break; used.add(q.id); chosen.push(q); } }
  return chosen.slice(0,count);

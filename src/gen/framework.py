@@ -619,9 +619,53 @@ def jstr(s):
     return "'" + "".join(JS_ESC.get(ch, ch) for ch in str(s)) + "'"
 
 
+# Every field to_js writes, and every field it deliberately does not. A field a
+# generator sets that is in neither list fails the build, because the alternative is
+# what happened to passage: set on the item, read by the app, named nowhere here, and so
+# correct in memory and absent from the file that ships (INC-0099). Adding a line to
+# to_js means adding its name here; forgetting to is a loud failure rather than a quiet
+# one, which is the direction this should fail in.
+EMITTED_FIELDS = {
+    "id", "section", "type", "sub", "skill", "diff", "gen", "answerType",
+    "passageHtml", "passage", "passageId", "columns", "domain", "qskill",
+    "stem", "choices", "answer", "expl", "wrong", "statements",
+}
+# Build time only: the two canon flags tell the dedup key what to ignore while the bank
+# is being assembled, and nothing in the app reads them.
+BUILD_ONLY_FIELDS = {"canon_ignores_source", "canon_ignores_choices"}
+
+
 def to_js(items, const, header):
-    """Emit a bank file in the same shape as the hand written banks."""
-    lines = [header.rstrip(), "const %s = [" % const]
+    """Emit a bank file in the same shape as the hand written banks.
+
+    Every field the app reads has to be named here, and one that is not named is lost
+    between a correct item in memory and the file that ships. passage was not named for
+    as long as generated reading items have existed, so 280 of them reached the site
+    with nothing to read (INC-0099). A passage is written once as a constant and
+    referenced by name, which is what the hand written banks do, because the alternative
+    is a 300 word passage repeated on every question asked about it.
+    """
+    unknown = set()
+    for it in items:
+        unknown |= {k for k, v in it.items()
+                    if v is not None and v != "" and v != [] and v != {}}
+    unknown -= EMITTED_FIELDS | BUILD_ONLY_FIELDS
+    if unknown:
+        raise SystemExit(
+            "framework.to_js: %s sets field(s) this emitter does not write and has not "
+            "been told to skip: %s. A field the app reads has to be written here; one "
+            "that only matters during the build goes in BUILD_ONLY_FIELDS."
+            % (const, ", ".join(sorted(unknown))))
+    lines = [header.rstrip()]
+    pvar = {}
+    for it in items:
+        text = it.get("passage")
+        if text and text not in pvar:
+            pvar[text] = "%s_P%d" % (const, len(pvar))
+            lines.append("const %s = %s;" % (pvar[text], jstr(text)))
+    if pvar:
+        lines.append("")
+    lines.append("const %s = [" % const)
     for it in items:
         parts = [
             "id:%s" % jstr(it["id"]),
@@ -636,6 +680,13 @@ def to_js(items, const, header):
             parts.append("answerType:%s" % jstr(it["answerType"]))
         if it.get("passageHtml"):
             parts.append("passageHtml:%s" % jstr(it["passageHtml"]))
+        if it.get("passage"):
+            parts.append("passage:%s" % pvar[it["passage"]])
+        # The app's game pools filter on passageId to keep passage based items out of
+        # views that show no passage, so an item that loses it does not just lose its
+        # text, it turns up where there was never anywhere to put it.
+        if it.get("passageId"):
+            parts.append("passageId:%s" % jstr(it["passageId"]))
         if it.get("columns"):
             parts.append("columns:[%s]" % ",".join(jstr(c) for c in it["columns"]))
         # Data Insights items carry the underlying quant skill and whether the item is

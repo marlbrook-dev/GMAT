@@ -77,7 +77,12 @@ const noise = t => /ERR_CERT_AUTHORITY_INVALID|fonts\.(googleapis|gstatic)\.com|
       const info = await p.evaluate((g) => {
         const q = BANK.find(x => x.gen === g);
         beginSession([q], 'drill');
-        return { id: q.id, at: q.answerType || null, passage: !!q.passageHtml,
+        // READING is what the item is, not what it happens to carry. Asking whether a
+        // source field is set to decide whether a source is expected cannot fail on a
+        // missing one: absence reads as nothing to look for, and 280 reading items
+        // shipped with no passage while this walked past them (INC-0099).
+        return { id: q.id, at: q.answerType || null, type: q.type,
+                 html: !!q.passageHtml, prose: !!q.passage,
                  n: Array.isArray(q.choices) ? q.choices.length : 0 };
       }, gen);
       await p.waitForTimeout(90);
@@ -89,6 +94,7 @@ const noise = t => /ERR_CERT_AUTHORITY_INVALID|fonts\.(googleapis|gstatic)\.com|
                  selects: el.querySelectorAll('select').length,
                  spr: !!el.querySelector('#sprIn'),
                  tables: el.querySelectorAll('table.dtable').length,
+                 passages: el.querySelectorAll('.passage').length,
                  submit: !!document.getElementById('submitBtn') };
       });
       const label = app + ' ' + gen + ' (' + info.id + ')';
@@ -104,7 +110,17 @@ const noise = t => /ERR_CERT_AUTHORITY_INVALID|fonts\.(googleapis|gstatic)\.com|
       if (info.at === 'tpa') {
         check(label + ' renders both columns', view.radios === info.n * 2, 'radios ' + view.radios);
       }
-      if (info.passage) check(label + ' renders its source', view.tables >= 1, 'tables ' + view.tables);
+      if (info.html) check(label + ' renders its source', view.tables >= 1, 'tables ' + view.tables);
+      // A reading item has to carry a passage and has to put it on screen. Both halves,
+      // because the bank row and the rendering are different failures: the field was
+      // dropped by the emitter while the app was perfectly willing to draw it.
+      const reads = info.type === 'RC' || info.type === 'R';
+      if (reads) {
+        check(label + ' carries the passage it asks about', info.prose || info.html,
+              'no passage on the bank row');
+        check(label + ' puts that passage on screen', view.passages >= 1 || view.tables >= 1,
+              'passages ' + view.passages + ' tables ' + view.tables);
+      }
 
       // The key the generator computed has to grade as correct through the real path.
       const graded = await p.evaluate(() => {
