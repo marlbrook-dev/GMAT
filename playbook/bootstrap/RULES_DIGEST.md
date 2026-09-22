@@ -1,14 +1,14 @@
 # Rules Digest
 
-101 defects from a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
+102 defects from a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
 
-Generated 2026-09-22 from a ledger spanning 36 days and 93 commits.
+Generated 2026-09-22 from a ledger spanning 36 days and 94 commits.
 
 ## Read this first
 
-The three ways defects were most often found, in order: found by reading the code or the output (43), found by measuring something (30), a test caught it (13). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
+The three ways defects were most often found, in order: found by reading the code or the output (44), found by measuring something (30), a test caught it (13). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
 
-The dominant failure mode is silent loss, 23 of 101: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
+The dominant failure mode is silent loss, 23 of 102: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
 
 ## Learned the hard way, more than once
 
@@ -32,6 +32,8 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (2 times) A module that nothing imports fails no test, and an exception raised on every draw is indistinguishable from an exception raised on a hard draw.
 - (2 times) A generator's wrong answers are written as labels and read as labels, and nobody looks at the values two labels produce.
 - (2 times) A template is a promise about the grammar of what goes into it, and the promise is invisible: the code says name and the sentence needs a singular noun phrase.
+- (2 times) A generated item is checked as data, and this one was correct as data: the logic was valid, the key was right, the distractors were the intended errors.
+- (2 times) When a defect is about a KIND of code rather than a line of code, a guard bolted to the site of the failure does not generalise, and writing one feels like closing the case.
 
 ## Content generation
 
@@ -46,6 +48,8 @@ These cost this build twice or more each. If you read nothing else here, read th
 - A module that nothing imports fails no test, and an exception raised on every draw is indistinguishable from an exception raised on a hard draw.
 - A generator's wrong answers are written as labels and read as labels, and nobody looks at the values two labels produce.
 - A template is a promise about the grammar of what goes into it, and the promise is invisible: the code says name and the sentence needs a singular noun phrase.
+- A generated item is checked as data, and this one was correct as data: the logic was valid, the key was right, the distractors were the intended errors.
+- When a defect is about a KIND of code rather than a line of code, a guard bolted to the site of the failure does not generalise, and writing one feels like closing the case.
 - Any generator that claims reproducibility must be seeded from something stable across processes.
 - Deletion by shadowing is invisible. Any collection whose size is a fact about the product needs its size asserted, not just its contents.
 - A deduplication key must be canonical under every transformation the item legitimately undergoes.
@@ -70,9 +74,8 @@ These cost this build twice or more each. If you read nothing else here, read th
 - A list of misconceptions is a list of labels and a student sees numbers. Where every characteristic error runs the same direction the key sits at a predictable place in the ordered options however carefully the item is shuffled, because the shuffler can only place it among the candidates it is handed.
 - Generated data gets checked for the properties the questions need, monotone and positive and distinguishable, and not for the properties the world needs.
 - Fixing an instance of a defect is the moment to sweep for the rest of it, and the sweep is worth running even when it is too noisy to become a check.
-- A generated item is checked as data, and this one was correct as data: the logic was valid, the key was right, the distractors were the intended errors.
 - A check downgraded because a source is unreachable carries an assumption with no expiry date on it, and the assumption is usually narrower than the downgrade.
-- When a defect is about a KIND of code rather than a line of code, a guard bolted to the site of the failure does not generalise, and writing one feels like closing the case.
+- When the same file already solves a problem correctly, the second implementation is the one to distrust: the reference was available and was not used, so whatever made it easy to skip will make it easy to skip again.
 
 ## Tests and guards
 
