@@ -546,6 +546,7 @@ _sp.run([sys.executable, str(d/"build_colleges.py")], check=True)
 # a line later (INC-0082).
 _sp.run([sys.executable, str(d/"validate_exams.py")], check=True)
 _sp.run([sys.executable, str(d/"build_exams.py")], check=True)
+_sp.run([sys.executable, str(d/"build_guide.py")], check=True)
 
 # I18N.md Stage 0: the content site stays translatable, which means its copy stays
 # in markup where browser and search translation can reach it. Text that moves into

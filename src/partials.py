@@ -195,6 +195,17 @@ _NAV_GROUPS = [
         ("ACT", "/exams/act/", "Live"),
         ("All Exam Guides", "/exams/", None),
     ]),
+    ("Study Guides", [
+        ("GMAT Diagnostic", "/guide/gmat/diagnostic/", "New"),
+        ("GMAT Quant", "/guide/gmat/quant/", None),
+        ("GMAT Verbal", "/guide/gmat/verbal/", None),
+        ("GMAT Data Insights", "/guide/gmat/data-insights/", None),
+        ("SAT Math", "/guide/sat/math/", "New"),
+        ("SAT Reading and Writing", "/guide/sat/reading-writing/", "New"),
+        ("GRE Verbal", "/guide/gre/verbal/", "New"),
+        ("GRE Quant", "/guide/gre/quant/", "New"),
+        ("All Study Guides", "/guide/", None),
+    ]),
     ("Lists", [
         ("MBA Rankings", "/schools/", "Live"),
         ("College Rankings", "/colleges/", "Live"),

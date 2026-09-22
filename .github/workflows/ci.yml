@@ -37,7 +37,7 @@ jobs:
         run: npm install --no-audit --no-fund
       - name: Install Chromium for Playwright
         run: npx playwright install --with-deps chromium
-      - name: Browser suites (items, consent, billing, offline, business)
+      - name: Browser suites (items, consent, billing, offline, business, guide)
         run: npm run test:browser
       - name: Render the playbook to PDF
         run: node src/playbook_pdf.js
@@ -52,7 +52,12 @@ jobs:
           sys.path.insert(0, "src")
           from sources import BANNED_LINK_DOMAINS
           bad = []
-          for f in pathlib.Path("blog").rglob("*.html"):
+          # The study guide is generated prose too, and a lot of it. build_guide has its
+          # own dash guard; the banned-source half of this policy was reaching blog/
+          # only, so the guide was outside the one check that enforces it.
+          pages = (list(pathlib.Path("blog").rglob("*.html"))
+                   + list(pathlib.Path("guide").rglob("*.html")))
+          for f in pages:
               t = f.read_text()
               if "—" in t or "–" in t: bad.append(f"{f}: em/en dash")
               for s in BANNED_LINK_DOMAINS:
