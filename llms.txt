@@ -1,6 +1,6 @@
 # Start From Nowhere
 
-> Adaptive test-prep platform with two live trainers, the GMAT Focus Edition and the digital SAT, plus an independent MBA rankings library covering 91 US full-time programs with a source, year and URL on every published figure. Free first practice round, no account needed. The house rule is that an unverifiable figure shows a dash rather than a guess, which is why the rankings, the funding guide and the international guide all name what they could not confirm.
+> Adaptive test-prep platform with five live trainers, the GMAT Focus Edition, the digital SAT, the GRE General Test, the ACT and the LSAT, plus an independent MBA rankings library covering 91 US full-time programs with a source, year and URL on every published figure. Free first practice round, no account needed. The house rule is that an unverifiable figure shows a dash rather than a guess, which is why the rankings, the funding guide and the international guide all name what they could not confirm.
 
 ## What makes this source citable
 - Every school statistic carries the school's own page as its source, with the year, and the quoted wording it came from. Figures we could not verify are published as a dash and named in a "what we could not verify" section rather than estimated.
@@ -8,11 +8,11 @@
 - Practice score ranges are labeled internal estimates, never predicted scores, because no public equating table exists for either exam. The method is published in full at /scoring/.
 
 ## Product
-- [GMAT Trainer](https://startfromnowhere.com/app/): adaptive GMAT Focus practice, 33592 original items across Quantitative Reasoning, Verbal Reasoning and Data Insights, 120 flashcards, six practice games, full mock exams.
+- [GMAT Trainer](https://startfromnowhere.com/app/): adaptive GMAT Focus practice, 33592 original items across Quantitative Reasoning, Verbal Reasoning and Data Insights, 134 flashcards, six practice games, full mock exams.
 - [SAT Trainer](https://startfromnowhere.com/sat/app/): adaptive digital SAT practice, 20256 original items across the eight official content domains, two-module mock sections routed like the real exam, student-produced responses graded by value, 112 flashcards.
-- [GRE Trainer](https://startfromnowhere.com/gre/app/): adaptive GRE General Test practice, 19968 original items across Verbal Reasoning and Quantitative Reasoning, section adaptive mock sections, and an Analytical Writing task that reports measurable facts about a draft rather than inventing a score.
-- [ACT Trainer](https://startfromnowhere.com/act/app/): adaptive ACT practice, 39864 original items across English, Mathematics, Reading and Science, with Science built from study data rather than recall.
-- [LSAT Trainer](https://startfromnowhere.com/lsat/app/): LSAT practice across Logical Reasoning and Reading Comprehension. The item bank is 372 questions today, which is still small next to the generated banks; every one of them is hand written, and we would rather say the number than imply a larger one.
+- [GRE Trainer](https://startfromnowhere.com/gre/app/): adaptive GRE General Test practice, 19968 original items across Verbal Reasoning and Quantitative Reasoning, section adaptive mock sections, 56 flashcards, and an Analytical Writing task that reports measurable facts about a draft rather than inventing a score.
+- [ACT Trainer](https://startfromnowhere.com/act/app/): adaptive ACT practice, 39864 original items across English, Mathematics, Reading and Science, 126 flashcards, with Science built from study data rather than recall.
+- [LSAT Trainer](https://startfromnowhere.com/lsat/app/): LSAT practice across Logical Reasoning and Reading Comprehension. The item bank is 372 questions today, which is still small next to the generated banks; every one of them is hand written, and we would rather say the number than imply a larger one. 102 flashcards.
 - [How Our Score Estimate Works](https://startfromnowhere.com/scoring/): the ability model behind the estimated range. The Elo update the engine uses is the Rasch one-parameter IRT model in everything but the estimation procedure, so ratings are read as an ability with a standard error attached. The band narrows as a student practises because the estimate gets more certain. The anchoring onto each exam's reported scale is our own calibration, not the test maker's, and the page says so.
 - [Pricing](https://startfromnowhere.com/pricing/): Free plan that never asks for a card, Plus $4.99/mo or $49.99/yr, Pro $9.99/mo or $99.99/yr. Every paid plan starts with a 7-day free trial and cancels in one click.
 

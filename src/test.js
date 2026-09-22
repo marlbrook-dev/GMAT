@@ -243,6 +243,15 @@ function runExam(exam){
  check('every skill has items',SKILLS.filter(s=>!covered.has(s.id)).map(s=>s.id));
  check('playbook skills exist',PLAYBOOK.filter(pb=>pb.sec!=='G'&&!SKILLS.find(s=>s.id===pb.skill)).map(pb=>pb.skill));
  check('card sections valid',CARDS.filter(c=>c.sec!=='G'&&!SECTION_META[c.sec]).map(c=>c.id));
+ // The bank has had a per-skill floor since the start and the deck was checked only for
+ // valid section codes, so the deck was measured by its total. A total over twelve skills
+ // hides one of them holding a single card, which is what it was hiding: LSAT stated
+ // information and inference had one card each, and the exam total of 33 looked fine
+ // (INC-0085). Same shape of check as the bank one directly above.
+ const CARD_FLOOR=8;
+ const cardBySkill={}; CARDS.forEach(c=>{ if(c.skill) cardBySkill[c.skill]=(cardBySkill[c.skill]||0)+1; });
+ check('every skill has at least '+CARD_FLOOR+' cards',
+   SKILLS.filter(s=>(cardBySkill[s.id]||0)<CARD_FLOOR).map(s=>s.id+' has '+(cardBySkill[s.id]||0)));
 
  // ---- grading, in both directions ----
  const g=[];
