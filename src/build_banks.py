@@ -209,12 +209,16 @@ SCHEMA_NOTES = {
         "and only redundancy was ever recorded, because concision ships 28 items and the "
         "check did not look below fifty until INC-0088.",
     ("act", "act_s_claim"):
-        "REAL and not yet fixed. Three distinct answers across thirty items, and 70 "
-        "percent of them carry the same one, so a student who always picks it beats "
-        "chance by a wide margin. Surfaced by INC-0088 widening the check to small "
-        "schemas; recorded rather than fixed here because it belongs to the science "
-        "generator and not to the change that found it. The next work on this table "
-        "starts here.",
+        "Half fixed. It had three possible correct answers in the whole schema and two "
+        "of them opened with Yes, so answering Yes was right on 70 percent of items "
+        "without reading the table. Each study now also carries the mirror claim it "
+        "does not support, which balances the verdict at 50 percent, takes the distinct "
+        "answers from three to six and the most common one from 70 percent to 35, and "
+        "doubles the schema to 60 items along the way. What remains is a length rank "
+        "holding on 55 percent: the correct reason names the specific comparison and "
+        "the two wrong ones are generic, so the key sits at a predictable place in the "
+        "ordered options. That wants distractors as specific as the key, which is a "
+        "rewrite of the reason clauses rather than an addition to them.",
     ("sat", "sat_geo_trig"):
         "REAL, small, and one point over a cap that is itself widened for a twenty item "
         "sample. Shares its figures with the ACT remap of the same schema, which is the "
@@ -243,7 +247,7 @@ SCHEMA_DEBT = {
     ('act', 'act_kol_redundancy'): (0, 100, 100, 4),
     ('act', 'act_nq_proportion'): (24, 3, 48, 5),
     ('act', 'act_nq_scinot'): (6, 10, 50, 1),
-    ('act', 'act_s_claim'): (43, 0, 57, 70),
+    ('act', 'act_s_claim'): (41, 2, 55, 35),
     ('act', 'act_s_interp'): (46, 0, 39, 1),
     ('act', 'act_s_support'): (0, 0, 51, 3),
     ('act', 'act_s_why2'): (1, 19, 52, 4),
