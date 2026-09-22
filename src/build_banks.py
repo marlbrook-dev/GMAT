@@ -567,6 +567,13 @@ def main(target=TARGET, verbose=True):
         for line in wording:
             print("  " + line, file=sys.stderr)
         sys.exit(1)
+    premises = g_rc.check_premises()
+    if premises:
+        print("ERROR: reading inference stems and the premises they turn on (INC-0097)",
+              file=sys.stderr)
+        for line in premises:
+            print("  " + line, file=sys.stderr)
+        sys.exit(1)
     pool = M.by_id(POOL_MODS)
     pool.update({g.id: g for g in POOL_EXTRA})
     report = {}

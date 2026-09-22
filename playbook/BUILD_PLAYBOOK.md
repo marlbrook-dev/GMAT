@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-08-17 and 2026-09-22, which is 36 days, across
-86 commits, by one owner directing a series of AI coding sessions. As of this
+87 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 54 Python files, 101 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 63 documents:
 1978 tracked files in total.
@@ -1118,7 +1118,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-86 commits in 36 days, one owner, a series of AI sessions. This
+87 commits in 36 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1210,22 +1210,22 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-96 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+97 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 40 | 42% |
+| Found by reading the code or the output | 41 | 42% |
 | Found by measuring something | 29 | 30% |
-| A test caught it | 13 | 14% |
+| A test caught it | 13 | 13% |
 | Found by rendering it and looking | 6 | 6% |
 | Found by a review bot or an adversarial pass | 5 | 5% |
 | A build guard caught it | 2 | 2% |
 | A person hit it | 1 | 1% |
 
-**This is the most useful table in the book.** 95 of 96 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 96 of 97 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1234,20 +1234,20 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 36 |
+| Wrong data shown or stored | 37 |
 | Silent loss | 22 |
 | Degraded | 20 |
 | Cosmetic | 15 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 22 of 96. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 22 of 97. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 33 |
+| Content generation | 34 |
 | Tests and guards | 18 |
 | Front end | 8 |
 | Build system | 7 |
@@ -1262,7 +1262,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-90 of 96 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+91 of 97 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1283,7 +1283,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-19 of 96 incidents record that they repeat an earlier lesson, 26 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+19 of 97 incidents record that they repeat an earlier lesson, 26 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1338,7 +1338,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (33)
+## Content generation (34)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -1744,6 +1744,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** Three renames. The cycle racks became the cycle parking and the traffic islands the traffic calming, both of which match the installation each scenario already describes. The two independent reviews became a second independent review, which is the same necessary condition and reads correctly in all four slots that field lands in.
 - **What stops it now.** framework.plural_head names the shape, and each module asserts it of the fields that land in a bare subject slot: the causal scenarios' short name and the necessary condition's requirement. Only those fields, because the same test applied to a field that lands anywhere else is 99 percent false alarms in `src/gen/framework.py`
 - **Lesson.** Fixing an instance of a defect is the moment to sweep for the rest of it, and the sweep is worth running even when it is too noisy to become a check. A hundred to one false alarm rate is useless in CI and perfectly workable for one person reading the hits once, and it found three defects that no guard would have. What ships from the sweep is the narrow check on the fields that actually failed, not the broad one that found them.
+
+
+### INC-0097. Every reading inference question asked about something the passage never mentions
+
+*2026-09-22, Wrong data shown or stored*
+
+- **What was seen.** 'Which of the following can be properly inferred from the passage about the Sweetwater jurisdiction?' The passage is about water rights doctrine in nine western jurisdictions and never names Sweetwater, or the Karoo section, or Agnes Thorne, or the falling-tone item. 800 of 800 inference items sampled asked about a subject that appears nowhere in the text they were asked about. The explanation then told the student 'The passage states that the Sweetwater jurisdiction had no mining district of any kind', which the passage does not say either. The question type is the one that tests valid inference, it runs on both the GMAT and the LSAT, and not one of its items could be answered by reading.
+- **Why.** The question is a modus tollens with three parts: a universal the passage establishes, a particular case, and the conclusion that follows. The case is the part the QUESTION supplies, which is why the corpus stores it separately from everything that goes into the prose. The stem template asks what can be inferred about the case and never states it, so the premise the whole item turns on was held in the data, used to compute the key and to write the explanation, and never shown to the person answering. The explanation compounded it by attributing the case to the passage in the same sentence pattern as the universal, which made the item look internally consistent to anyone reading the explanation rather than the passage.
+- **How it surfaced.** Reading one rendered inference item end to end, passage included, while looking at the corpus for an unrelated reason. Every existing check passes: the key is genuinely the only valid conclusion, the distractors are genuinely the converse and the inverse, the choices balance, and nothing in a bank of strings can tell that a noun phrase in the stem is absent from the passage beside it. (Found by reading the code or the output)
+- **Fix.** The stem supplies the case, which is what a conditional question does: 'If the Sweetwater jurisdiction had no mining district of any kind, which of the following can be properly inferred from the passage?' The explanation says the passage states the universal and the question adds the case, because that is what each of them is. Nothing in the corpus changed; the premise was always there and was simply never printed.
+- **What stops it now.** g_rc.check_subjects renders items from every reading schema and fails when a stem names a subject that appears in neither the passage nor the stem's own premise, which is the property that was violated in `src/gen/g_rc.py`
+- **Lesson.** A generated item is checked as data, and this one was correct as data: the logic was valid, the key was right, the distractors were the intended errors. What was missing was a fact about the RELATION between two strings, that a name in the question also occurs in the passage, and no property of either string alone can see it. When a question and its source are assembled from separate fields, write down what has to be true of them together, because every check that looks at one field at a time will pass.
 
 
 ## Tests and guards (18)
@@ -2695,6 +2707,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A reading of 100.2 for a quantity the table itself calls out of 100 (INC-0094)</small>
 - [ ] Fixing an instance of a defect is the moment to sweep for the rest of it, and the sweep is worth running even when it is too noisy to become a check. A hundred to one false alarm rate is useless in CI and perfectly workable for one person reading the hits once, and it found three defects that no guard would have. What ships from the sweep is the narrow check on the fields that actually failed, not the broad one that found them.  
   <small>Three more stored phrases in front of a verb that did not agree with them (INC-0096)</small>
+- [ ] A generated item is checked as data, and this one was correct as data: the logic was valid, the key was right, the distractors were the intended errors. What was missing was a fact about the RELATION between two strings, that a name in the question also occurs in the passage, and no property of either string alone can see it. When a question and its source are assembled from separate fields, write down what has to be true of them together, because every check that looks at one field at a time will pass.  
+  <small>Every reading inference question asked about something the passage never mentions (INC-0097)</small>
 
 
 ## Database
@@ -2945,7 +2959,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 96 real defects reduced to the rules that prevent them,
+the whole project: 97 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -2985,7 +2999,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-96 defects already prevented is genuinely ahead, and every defect it hits
+97 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

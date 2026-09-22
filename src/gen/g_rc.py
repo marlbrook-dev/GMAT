@@ -30,6 +30,8 @@ Two question families come out of that, and they are the two the GMAT reports se
 Nothing here asserts a key. What the passage states is data; what follows from it is
 derived by the same rule every time.
 """
+import re
+
 from framework import Gen, ItemError, balance
 
 # --- the corpus --------------------------------------------------------------------
@@ -739,17 +741,31 @@ class Inference(RCBase):
                 continue
             for c in (q["cond1"], q["cond2"]):
                 pool.append(c[2][0].upper() + c[2][1:] + ".")
-        expl = ("The passage states that %s. It also states that %s. If every case of the "
-                "one kind has the property, then a case lacking the property is not a case "
-                "of that kind, so %s. The two tempting wrong answers reverse that reasoning: "
-                "one assumes that having the property makes a case a member, and the other "
-                "assumes that a non-member cannot have it. Neither follows."
+        expl = ("The passage establishes that %s. The question adds that %s. If every case "
+                "of the one kind has the property, then a case lacking the property is not "
+                "a case of that kind, so %s. The two tempting wrong answers reverse that "
+                "reasoning: one assumes that having the property makes a case a member, and "
+                "the other assumes that a non-member cannot have it. Neither follows."
                 % (univ, case, concl))
-        # The stem names the case it asks about. Both conditionals in a passage otherwise
-        # produce the identical stem "which of the following can be inferred", so the two
-        # collapse into one item and half the inference questions in the corpus vanish.
-        stem = ("Which of the following can be properly inferred from the passage about %s?"
-                % subject)
+        # The stem STATES the case, which is the whole point of a conditional question and
+        # is why the corpus keeps the case apart from everything that goes into the prose.
+        # It used to only name the subject, so the item asked what could be inferred about
+        # the Sweetwater jurisdiction from a passage that never mentions Sweetwater: the
+        # premise the question turns on was used to compute the key and to write the
+        # explanation and was never shown to the person answering (INC-0097).
+        #
+        # Stating the case also keeps the two conditionals in a passage apart. The stem
+        # used to end by naming the subject for exactly that reason, since otherwise both
+        # produced the identical "which of the following can be inferred" and collapsed
+        # into one item; the case does the same job and says something while doing it.
+        # Not lower1(case). Every case clause is already stored in the form a sentence
+        # wants it in the middle: "the Sweetwater jurisdiction had no mining district",
+        # "Hedingham's rolls break off in 1348". Four of the forty open with a proper
+        # noun, and lowercasing the first letter turned them into "hedingham's rolls" and
+        # "thornbury changed stewards". Transforming a stored field to fit a slot is the
+        # fault this file has already been fixed for twice; the field goes in as stored.
+        stem = ("If %s, which of the following can be properly inferred from the passage?"
+                % case)
         return self.emit(rng, choices_n, p, stem, right, pool, expl,
                          rng.choice([3, 4, 4, 5]), "v_inf", self.sub)
 
@@ -785,3 +801,90 @@ GENS = [StatedIdea(P + P_LONG), MainIdea(P + P_LONG),
         Inference(P + P_LONG), CaveatImplication(P + P_LONG)]
 GENS_LONG = [StatedIdea(P_LONG, "_long"), MainIdea(P_LONG, "_long"),
              Inference(P_LONG, "_long"), CaveatImplication(P_LONG, "_long")]
+
+
+def check_premises(draws=300, choices_n=5):
+    """An inference stem has to state the premise the answer turns on.
+
+    The question is a modus tollens: the passage supplies the universal, the QUESTION
+    supplies the particular case, and the key is what follows. The case is stored apart
+    from the prose for exactly that reason, and for a long time the stem named the
+    subject of the case without stating the case itself, so every item asked what could
+    be inferred about a Sweetwater jurisdiction that the passage never mentions and the
+    explanation told the student the passage had said so (INC-0097).
+
+    Nothing about either string on its own was wrong, which is why no existing check saw
+    it. What has to hold is a relation between the stem and the passage: the stem states
+    a premise, and that premise is new, because a case already in the passage would make
+    the question trivial rather than unanswerable. Both are checked here.
+    """
+    import random as _random
+    bad = []
+    # The corpus pass. Each conditional stores the subject its case is about, which the
+    # stem no longer prints now that it prints the whole case; it is checked instead,
+    # because the premise the question supplies and the conclusion it licenses have to
+    # be about the same thing.
+    #
+    # Two partial tests rather than one strict one. Requiring the full subject phrase in
+    # both clauses was tried and is wrong: the corpus properly writes "the male ringed
+    # as B12" once and "B12" after, which is how the sentences want to read. So the
+    # subject has to appear in at least one of the two, and the two have to share a
+    # token that identifies something, a name or a code or a long word. Neither test
+    # proves they are about the same thing; between them they catch a pair that plainly
+    # is not.
+    stop = set("""the that this which with from into over under about every each some
+    their there where when what whose been were have they them then than only also more
+    most much many less least other others another same such only not and but for nor
+    was had has does did will would could should before after while during within""".split())
+    for p in P + P_LONG:
+        for which in ("cond1", "cond2"):
+            univ, case, concl, subject = p[which]
+            if subject.lower() not in (case + " " + concl).lower():
+                bad.append("%s %s: neither the case nor the conclusion names %r"
+                           % (p["key"], which, subject))
+            def tokens(t):
+                """Words that name something: a code, a name, or a long content word.
+
+                The possessive is stripped, because the corpus writes "Hedingham's rolls"
+                in the case and "Hedingham" in the conclusion and they are the same town.
+                Capitalisation counts only away from the first word, where it means a
+                proper noun rather than the start of a clause.
+                """
+                out = set()
+                for m in re.finditer(r"[A-Za-z0-9]+(?:'s)?", t):
+                    w = m.group(0)
+                    base = w[:-2].lower() if w.endswith("'s") else w.lower()
+                    if any(ch.isdigit() for ch in base):
+                        out.add(base)
+                    elif w[:1].isupper() and m.start() > 0:
+                        out.add(base)
+                    elif len(base) >= 6 and base not in stop:
+                        out.add(base)
+                return out
+            if not (tokens(case) & tokens(concl)):
+                bad.append("%s %s: the case and the conclusion share nothing that names "
+                           "a thing, so they may not be about the same one" % (p["key"], which))
+    for g in GENS + GENS_LONG:
+        if not g.id.startswith("rc_infer"):
+            continue
+        rng = _random.Random(20260922)
+        seen = set()
+        for _ in range(draws):
+            try:
+                it = g.make(rng, choices_n)
+            except ItemError:
+                continue
+            stem, key = it["stem"], it["stem"][:60]
+            if key in seen:
+                continue
+            seen.add(key)
+            if not stem.startswith("If ") or ", which of the following" not in stem:
+                bad.append("%s: stem states no premise: %s" % (g.id, stem[:70]))
+                continue
+            premise = stem[3:stem.index(", which of the following")].strip()
+            if len(premise.split()) < 4:
+                bad.append("%s: premise is too thin to be one: %s" % (g.id, premise))
+            if premise.lower() in it["passage"].lower():
+                bad.append("%s: the premise is already in the passage, so the question "
+                           "asks nothing: %s" % (g.id, premise[:60]))
+    return bad
