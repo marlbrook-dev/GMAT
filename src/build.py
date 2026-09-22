@@ -10,7 +10,7 @@ GMAT_BANKS = ["bank_quant.js","bank_quant2.js","bank_quant3.js","bank_quant4.js"
               "cards.js","cards2.js","cards3.js","playbook_gmat.js"]
 SAT_BANKS = ["bank_sat_rw.js","bank_sat_rw2.js","bank_sat_rw3.js","bank_sat_rw4.js","bank_sat_rw5.js","bank_sat_math.js","bank_sat_math2.js","bank_sat_math3.js","bank_sat_math4.js","bank_sat_math5.js","bank_sat_easy.js","cards_sat.js","cards_sat2.js","playbook_sat.js"]
 
-GRE_BANKS = ["bank_gre_verbal.js","bank_gre_verbal2.js","bank_gre_quant.js","bank_gre_quant2.js","bank_gre_easy.js","writing_gre.js","cards_gre.js","playbook_gre.js"]
+GRE_BANKS = ["bank_gre_verbal.js","bank_gre_verbal2.js","bank_gre_rc2.js","bank_gre_quant.js","bank_gre_quant2.js","bank_gre_easy.js","writing_gre.js","cards_gre.js","playbook_gre.js"]
 
 LSAT_BANKS = ["bank_lsat_lr.js","bank_lsat_lr2.js","bank_lsat_rc.js","bank_lsat_rc2.js","cards_lsat.js","playbook_lsat.js"]
 # ACT Mathematics comes entirely from the generated bank, which is why no hand written math
@@ -38,7 +38,7 @@ APPS = [
               "domains, with two-module mock sections that route like the real exam."),
      "is_404": False},
     {"exam": "gre", "out": "gre/app", "gen": "gre", "files": GRE_BANKS,
-     "concat": "BANK_GRE_VERBAL, BANK_GRE_VERBAL2, BANK_GRE_QUANT, BANK_GRE_QUANT2, BANK_GRE_EASY",
+     "concat": "BANK_GRE_VERBAL, BANK_GRE_VERBAL2, BANK_GRE_RC2, BANK_GRE_QUANT, BANK_GRE_QUANT2, BANK_GRE_EASY",
      "footer": ("GRE is a registered trademark of ETS, which does not endorse this product. Practice items are "
                 "original and written for Start From Nowhere. The trainer covers Verbal Reasoning and Quantitative "
                 "Reasoning; Analytical Writing is a scored essay and is not simulated here. Score ranges shown are "
@@ -193,7 +193,7 @@ card_count = len(_re.findall(r"\{\s*id: ?'c\d", gmat_banks_src))
 hand_sat = len(_re.findall(r"\{\s*id: ?'S[RM]\d", sat_banks_src))
 sat_card_count = len(_re.findall(r"\{\s*id: ?'s\d", sat_banks_src))
 gre_banks_src = built["gre"][2]
-hand_gre = len(_re.findall(r"\{\s*id: ?'G[QVE]\d", gre_banks_src))
+hand_gre = len(_re.findall(r"\{\s*id: ?['\"]G[QVER]\d", gre_banks_src))
 gre_card_count = len(_re.findall(r"\{\s*id: ?'g\d", gre_banks_src))
 lsat_banks_src = built["lsat"][2]
 hand_lsat = len(_re.findall(r"\{\s*id: ?['\"]L[LC]\d", lsat_banks_src))
@@ -210,11 +210,16 @@ act_card_count = len(_re.findall(r"\{\s*id: ?'a\d", act_banks_src))
 # detect that; only a per-source check can.
 _ID_PAT = {"gmat": r"\{\s*id: ?['\"](?:Q|V|D)\w*\d",
            "sat": r"\{\s*id: ?['\"]S[RM]\d",
-           "gre": r"\{\s*id: ?['\"]G[VQ]\d",
+           "gre": r"\{\s*id: ?['\"]G[VQER]\d",
            "lsat": r"\{\s*id: ?['\"]L[LC]\d",
            "act": r"\{\s*id: ?['\"]A[ERS]\d"}
 _blind = []
-for _ex, _files in (("lsat", LSAT_BANKS), ("act", ACT_BANKS)):
+# All five exams, not the two that happened to be in hand when the guard was written.
+# A guard covering a subset is the same gap one level up, and it showed: the GRE id
+# pattern was G[QVE] and a reading bank using GR ids counted zero, silently, exactly as
+# INC-0059 did for the LSAT.
+for _ex, _files in (("gmat", GMAT_BANKS), ("sat", SAT_BANKS), ("gre", GRE_BANKS),
+                    ("lsat", LSAT_BANKS), ("act", ACT_BANKS)):
     for _f in _files:
         if not _f.startswith("bank_"):
             continue

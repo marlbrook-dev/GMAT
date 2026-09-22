@@ -306,12 +306,25 @@ def analysis_chapter(rows):
     guarded = [r for r in rows if r.get('guard')]
     unguarded = [r for r in rows if not r.get('guard')]
 
-    # Two incidents pointing at one guard means the guard is not working. This is the
-    # recurrence signal, and it is computed rather than remembered.
+    # Two incidents pointing at THE SAME GUARD means that guard is not working. Keyed on
+    # the guard description, which names the mechanism, and not on guard_file, which names
+    # the file it lives in. Grouping by file reported src/build.py as one guard that had
+    # failed eight times, when build.py is simply where most build guards live and those
+    # were eight different checks (INC-0065). An aggregate is a claim about whatever you
+    # grouped by.
     byguard = {}
     for r in guarded:
-        byguard.setdefault(r['guard_file'] or r['guard'], []).append(r['id'])
+        byguard.setdefault(r['guard'].strip().lower(), []).append(r['id'])
     repeats = {k: v for k, v in byguard.items() if len(v) > 1}
+
+    # File level clustering is a weaker signal and a real one: it says where defects
+    # concentrate, not that any single check failed. Reported separately and described
+    # as what it is.
+    byfile = {}
+    for r in guarded:
+        if r.get('guard_file'):
+            byfile.setdefault(r['guard_file'], []).append(r['id'])
+    hotfiles = {k: v for k, v in byfile.items() if len(v) > 2}
 
     pre = [r for r in rows if r['detection_class'] in ('review', 'test', 'measurement', 'render', 'adversarial-review', 'build-guard')]
 
@@ -368,17 +381,27 @@ def analysis_chapter(rows):
         for r in unguarded:
             o.append('- **%s** %s' % (r['id'], r['title']))
         o.append('')
+    o.append('\n## Guards that did not hold\n')
     if repeats:
-        o.append('\n## Guards that fired twice\n')
-        o.append('A guard named by two incidents is a guard that did not hold the first time. '
-                 'These are the places to spend effort.\n')
+        o.append('The same guard named by two incidents is a guard that did not hold the first '
+                 'time. These are the places to spend effort.\n')
         for k, v in sorted(repeats.items(), key=lambda kv: -len(kv[1])):
-            o.append('- `%s` appears in %s' % (k, ', '.join(v)))
+            o.append('- %s (%s)' % (k, ', '.join(v)))
         o.append('')
     else:
-        o.append('\nNo guard appears in more than one incident yet. When one does, it will be '
-                 'listed here automatically, and it will mean that guard needs rebuilding rather '
-                 'than trusting.\n')
+        o.append('No single guard appears in more than one incident yet. When one does it will '
+                 'be listed here automatically, and it will mean that guard needs rebuilding '
+                 'rather than trusting.\n')
+
+    if hotfiles:
+        o.append('\n## Where defects concentrate\n')
+        o.append('Files named by three or more incidents. This is not the same signal as the '
+                 'list above: a file that is the natural home for many checks will appear here '
+                 'without any one of them having failed. It says where the work has been, and '
+                 'where a reader new to the codebase should look first.\n')
+        for k, v in sorted(hotfiles.items(), key=lambda kv: -len(kv[1])):
+            o.append('- `%s`, %d incidents (%s)' % (k, len(v), ', '.join(v)))
+        o.append('')
     return '\n'.join(o)
 
 
