@@ -1210,22 +1210,22 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-83 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+84 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 36 | 43% |
-| Found by measuring something | 22 | 27% |
-| A test caught it | 13 | 16% |
+| Found by reading the code or the output | 37 | 44% |
+| Found by measuring something | 22 | 26% |
+| A test caught it | 13 | 15% |
 | Found by rendering it and looking | 5 | 6% |
 | Found by a review bot or an adversarial pass | 5 | 6% |
 | A person hit it | 1 | 1% |
 | A build guard caught it | 1 | 1% |
 
-**This is the most useful table in the book.** 82 of 83 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 83 of 84 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1237,10 +1237,10 @@ well enough to audit later. Which is what this book is.
 | Wrong data shown or stored | 33 |
 | Silent loss | 19 |
 | Degraded | 17 |
-| Cosmetic | 11 |
+| Cosmetic | 12 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 19 of 83. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 19 of 84. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
@@ -1250,7 +1250,7 @@ well enough to audit later. Which is what this book is.
 | Content generation | 23 |
 | Tests and guards | 17 |
 | Front end | 8 |
-| Build system | 6 |
+| Build system | 7 |
 | CSS and layout | 5 |
 | Payments | 5 |
 | Infrastructure and deploy | 5 |
@@ -1262,7 +1262,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-77 of 83 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+78 of 84 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1279,6 +1279,32 @@ Carried by attention:
 The same guard named by two incidents is a guard that did not hold the first time. These are the places to spend effort.
 
 - weekly_audit checks computed colour on every page (INC-0050, INC-0048)
+
+
+## Lessons learned more than once
+
+8 of 84 incidents record that they repeat an earlier lesson, 10 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+
+| Lesson first recorded in | Repeated by | Times |
+| --- | --- | ---: |
+| INC-0059 The item counter missed a whole bank file because it assumed a quoting style | INC-0064, INC-0067 | 2 |
+| INC-0064 The guard against a blind counter was itself blind to three exams | INC-0067, INC-0082 | 2 |
+| INC-0050 A landing-page icon referenced a colour token that did not exist | INC-0018 | 1 |
+| INC-0055 A new browser suite hardcoded this machine's browser directory and crashed in CI | INC-0067 | 1 |
+| INC-0067 The browser path fix covered two suites and three others kept crashing | INC-0070 | 1 |
+| INC-0069 A bank a student can play at 88 percent, inside a section the check passed | INC-0079 | 1 |
+| INC-0074 A corpus field written for one grammatical slot was spliced into another | INC-0075 | 1 |
+| INC-0083 The rules digest promises to be prompt sized and its generator grows without bound | INC-0084 | 1 |
+
+The largest family runs to 6 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0070, INC-0082. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
+
+Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.
+
+- INC-0013 names INC-0012
+- INC-0068 names INC-0039
+- INC-0076 names INC-0075
+- INC-0080 names INC-0077
+- INC-0084 names INC-0059, INC-0064, INC-0074
 
 
 ## Where defects concentrate
@@ -1921,7 +1947,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** Anything that reports failures must not be able to report its own. Check whether each call rejects or throws before you wrap it, and make the reporting path unable to re-enter itself.
 
 
-## Build system (6)
+## Build system (7)
 
 
 ### INC-0059. The item counter missed a whole bank file because it assumed a quoting style
@@ -1998,6 +2024,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** The digest now prints the operative rule rather than the whole lesson: sentences from the front of the lesson until it reads as a complete thought, at least 80 characters. That is 2,119 words instead of 3,742, and 37 of the 82 lessons are already one sentence and are unchanged. The 80 character floor is not cosmetic: the companion guard asserts every lesson reaches the digest by looking for its first 60 characters, and 27 lessons have a first sentence shorter than that, so truncating at the first full stop would have satisfied one guard by breaking the other. The reasoning behind each rule stays in BUILD_PLAYBOOK.md, which the digest already tells the reader to consult.
 - **What stops it now.** smoke_playbook already held the bound; what it lacked was a generator that respects one. The word count is now roughly flat per incident rather than proportional to the lesson someone happened to write in `src/build_playbook.py`
 - **Lesson.** A size limit on a generated file is only a guard if something bounds the generator too; otherwise it is a delayed failure that lands on whoever commits next, and reads as their fault. When two guards constrain the same output, check the fix against both: shortening this file to satisfy the size check would have broken the completeness check that reads its first 60 characters.
+
+
+### INC-0084. The bootstrap digest ships incident ids to a project that has no incidents
+
+*2026-09-22, Cosmetic*
+
+- **What was seen.** RULES_DIGEST.md, the file a new project pastes into its prompt, carries three rules that cite this repository's own incident ids: one reads 'which is INC-0059 and INC-0064 in a different costume' and another opens 'INC-0074 was a bare infinitive in a noun slot'. In the book those ids resolve to records a reader can turn to. In the bootstrap pack there is no ledger yet, so they resolve to nothing.
+- **Why.** The digest is generated from the same lesson text as the book, and its docstring says it strips the specifics of this codebase out, because a rule competing with context is a rule applied inconsistently. An incident id is exactly such a specific and nothing stripped it. The generator was written thinking about length, which is measured and guarded, and not about audience, which is not.
+- **How it surfaced.** Reading the generated digest after adding a section to it, rather than reading the code that generates it. (Found by reading the code or the output)
+- **Fix.** The digest de-identifies incident references as it renders: a run of ids becomes 'two earlier defects' and a single one 'an earlier defect', capitalised when it opens a sentence. The book keeps the ids, because there they are links.
+- **What stops it now.** smoke_playbook refuses an incident id anywhere in the bootstrap pack, which is the audience boundary stated as an assertion rather than as a docstring in `src/smoke_playbook.js`
+- **Lesson.** A file generated for a different audience has to be read as that audience, not as the one that generated it. The size of this one was bounded and guarded; who it was for was written in a docstring and checked by nobody.
 
 
 ## CSS and layout (5)
@@ -2407,44 +2445,46 @@ Read it before starting a piece of work in the matching area, and again before y
 
 ## Build system
 
-- [ ] A regex that counts things assumes a formatting convention, and a file that legitimately breaks the convention counts as zero rather than as an error. Any counter that can return zero for a non-empty input needs a per-source assertion, not just a total.  
+- [ ] **Learned 3 times over.** A regex that counts things assumes a formatting convention, and a file that legitimately breaks the convention counts as zero rather than as an error. Any counter that can return zero for a non-empty input needs a per-source assertion, not just a total.  
   <small>The item counter missed a whole bank file because it assumed a quoting style (INC-0059)</small>
+- [ ] **Learned 3 times over.** A guard that covers a subset of cases reproduces the original defect in the cases it skips, and it is more dangerous than no guard because the incident it was written for feels closed. When you add a check, enumerate everything of that kind and cover all of it, or state in the code which cases are deliberately excluded and why.  
+  <small>The guard against a blind counter was itself blind to three exams (INC-0064)</small>
+- [ ] **Learned 2 times over.** A size limit on a generated file is only a guard if something bounds the generator too; otherwise it is a delayed failure that lands on whoever commits next, and reads as their fault. When two guards constrain the same output, check the fix against both: shortening this file to satisfy the size check would have broken the completeness check that reads its first 60 characters.  
+  <small>The rules digest promises to be prompt sized and its generator grows without bound (INC-0083)</small>
 - [ ] A parse guard covers the file shapes someone thought of. When the same code moves into a new shape, a separate file, a chunk, a worker, the guard does not follow it. List what the guard covers against what the deploy actually ships, and check the difference rather than the intention.  
   <small>Nothing parsed the one file every user downloads (INC-0060)</small>
 - [ ] A guard keyed to wording is a guard on the wording, not the fact, and every synonym is a hole in it. Widening the wording is the obvious repair and it trades missed defects for false alarms, which cost more because they get the guard switched off. Match a phrase that only the thing you care about can produce, rather than every word it might happen to use.  
   <small>The stale count guard checked two nouns and the page used a third (INC-0063)</small>
-- [ ] A guard that covers a subset of cases reproduces the original defect in the cases it skips, and it is more dangerous than no guard because the incident it was written for feels closed. When you add a check, enumerate everything of that kind and cover all of it, or state in the code which cases are deliberately excluded and why.  
-  <small>The guard against a blind counter was itself blind to three exams (INC-0064)</small>
 - [ ] Two habits, both mine rather than the code's. Verify with the sequence the pipeline runs, read out of its config, not with the subset you remember: a suite chosen from memory drifts to the parts that were failing last week. And when a step is deliberately non fatal, the word it fails with is the whole of its signal, so it has to be the word people grep for. WARNING on a line that means a deliverable did not build is an invitation to miss it, and the cost of saying ERROR while still exiting zero is nothing at all.  
   <small>A build step that fails while the build exits zero, and a verification run that was a remembered subset (INC-0080)</small>
-- [ ] A size limit on a generated file is only a guard if something bounds the generator too; otherwise it is a delayed failure that lands on whoever commits next, and reads as their fault. When two guards constrain the same output, check the fix against both: shortening this file to satisfy the size check would have broken the completeness check that reads its first 60 characters.  
-  <small>The rules digest promises to be prompt sized and its generator grows without bound (INC-0083)</small>
+- [ ] A file generated for a different audience has to be read as that audience, not as the one that generated it. The size of this one was bounded and guarded; who it was for was written in a docstring and checked by nobody.  
+  <small>The bootstrap digest ships incident ids to a project that has no incidents (INC-0084)</small>
 
 
 ## CSS and layout
 
-- [ ] The same undefined-property failure will find you repeatedly, at every severity from one icon to an invisible legal control. One audit of computed colour catches the whole class.  
+- [ ] **Learned 2 times over.** The same undefined-property failure will find you repeatedly, at every severity from one icon to an invisible legal control. One audit of computed colour catches the whole class.  
   <small>A landing-page icon referenced a colour token that did not exist (INC-0050)</small>
 - [ ] CSS comments do not nest. When a whole page category loses its styling, read the built artefact, not the source that produced it.  
   <small>CSS comments do not nest, and one placeholder killed the palette on 1451 pages (INC-0010)</small>
-- [ ] CSS never fails loudly. A malformed rule is skipped, a bad selector eats the block after it, and an undefined variable paints as nothing. Anything that matters visually has to be asserted on the rendered page, because the parser will not tell you.  
-  <small>Error recovery in the CSS parser swallowed the palette silently (INC-0048)</small>
 - [ ] An undefined CSS custom property is silent. Audit computed colour, not authored colour, and do it on the rendered page.  
   <small>The Do Not Sell button was invisible from the day it shipped (INC-0018)</small>
 - [ ] A dark mode does not break by having a wrong colour. It breaks by missing one. Any colour paired with a ramp has to move with the ramp.  
   <small>A sequential colour ramp inverts direction between themes, and the label text did not (INC-0029)</small>
+- [ ] CSS never fails loudly. A malformed rule is skipped, a bad selector eats the block after it, and an undefined variable paints as nothing. Anything that matters visually has to be asserted on the rendered page, because the parser will not tell you.  
+  <small>Error recovery in the CSS parser swallowed the palette silently (INC-0048)</small>
 
 
 ## Content generation
 
+- [ ] **Learned 2 times over.** An aggregate over a mixed population reports the population, and if part of that population is flat by construction it will hide the part that is not. The rule that follows is about what the unit of the measurement should be: measure at the grain the defect can exist at, which here is the file, because a file is written by one person in one sitting with one set of habits. The section was the grain the data was convenient at.  
+  <small>A bank a student can play at 88 percent, inside a section the check passed (INC-0069)</small>
+- [ ] **Learned 2 times over.** A corpus field is written against the one sentence the author had in mind, and the schema that reuses it three templates later has no way to know which shape it is. The type system says str in both places. Two things follow. Store the field in every shape a template needs and name the shapes, rather than storing one shape and trusting the next author to notice. And guard the output, not the corpus: the generated sentence is the only place the mismatch becomes visible, and a cheap pattern over the rendered text catches a class that no check on the inputs can see.  
+  <small>A corpus field written for one grammatical slot was spliced into another (INC-0074)</small>
 - [ ] Any generator that claims reproducibility must be seeded from something stable across processes. hash() is not, in Python, and the failure shows up as a flaky test rather than as a wrong answer.  
   <small>Item banks were different on every build because Python randomises hash() (INC-0003)</small>
 - [ ] Deletion by shadowing is invisible. Any collection whose size is a fact about the product needs its size asserted, not just its contents.  
   <small>A shadowed variable silently deleted 3000 items (INC-0004)</small>
-- [ ] In any set of multiple-choice content, count where the answers are. A positional tell makes the whole set worthless to a test-wise user, and it is invisible item by item.  
-  <small>225 of 302 correct answers sat at position A (INC-0039)</small>
-- [ ] Test your content against the strategies a lazy adversary would use, not only against whether it is correct. Measure the score of a rule that ignores the question.  
-  <small>The longest option was the correct answer 81 percent of the time (INC-0044)</small>
 - [ ] A deduplication key must be canonical under every transformation the item legitimately undergoes. Ask what varies per draw before you hash.  
   <small>The dedup key counted a reshuffled question as a new one (INC-0007)</small>
 - [ ] The same inflation arrives through a different door every time you close one. When you fix a dedup bug, ask what else shares an identity.  
@@ -2453,14 +2493,16 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Two conditionals hashed identically and half the inference items would have vanished (INC-0009)</small>
 - [ ] Every filter needs its rejection count reported. A filter that silently drops is indistinguishable from an input that was never there.  
   <small>A length guard silently dropped sixteen valid items (INC-0011)</small>
+- [ ] In any set of multiple-choice content, count where the answers are. A positional tell makes the whole set worthless to a test-wise user, and it is invisible item by item.  
+  <small>225 of 302 correct answers sat at position A (INC-0039)</small>
+- [ ] Test your content against the strategies a lazy adversary would use, not only against whether it is correct. Measure the score of a rule that ignores the question.  
+  <small>The longest option was the correct answer 81 percent of the time (INC-0044)</small>
 - [ ] A guard on the extreme of a distribution can be satisfied by moving the mass next to the extreme. When you correct for a measured bias, measure the whole distribution afterwards, not the statistic you were correcting.  
   <small>Correcting a length tell moves it one rank over, every time (INC-0062)</small>
 - [ ] A correction table is a set of claims about outcomes, and an entry that quietly fails still counts as applied. Aggregate metrics hide this well: a table where half the entries work still moves the number in the right direction, which reads as success. State the per item intent in a form the machine can check, and every entry that did nothing says so by name.  
   <small>Half the length tell correction did nothing and the build said it had worked (INC-0066)</small>
 - [ ] A seeded shuffle is deterministic, which makes calling it twice look harmless: the same input gives the same output. What repeats is the permutation, not the randomisation, and a permutation applied to its own result is biased toward leaving things where they were. Any function whose value comes from being applied exactly once should refuse to be applied twice rather than relying on the caller to remember. The second lesson is about reading: the generator printed the defect on every run, above the line being watched.  
   <small>Shuffling the answers twice put 37 percent of the keys at A (INC-0068)</small>
-- [ ] An aggregate over a mixed population reports the population, and if part of that population is flat by construction it will hide the part that is not. The rule that follows is about what the unit of the measurement should be: measure at the grain the defect can exist at, which here is the file, because a file is written by one person in one sitting with one set of habits. The section was the grain the data was convenient at.  
-  <small>A bank a student can play at 88 percent, inside a section the check passed (INC-0069)</small>
 - [ ] Writing a second tool for the same job in a different context reproduces every detail the first one learned the hard way, unless the detail is written down somewhere the second author will look. This is INC-0067 seen from the other side: there the callers were not migrated to the helper, here the helper's behaviour was not carried into the second implementation. Both are the cost of a rule living in code rather than in a statement of the rule.  
   <small>The second tool that appends a clause did not carry the first one's rule about the full stop (INC-0070)</small>
 - [ ] A report that truncates its output invites the reader to write text that continues it, and a tool that appends will put that text somewhere else. Either the report should not truncate the field the caller has to write against, or the tool should refuse input shaped like a continuation. The cheap half is the refusal, because it is one condition and it cannot be forgotten, while remembering not to write continuations is a habit that has to hold every time.  
@@ -2469,8 +2511,6 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A distractor was replaced and the explanation went on naming the old one (INC-0072)</small>
 - [ ] A guard that takes the intent as an argument is only as good as the argument, and an argument derived by hand from the same data the guard is checking is a second implementation of the thing being checked. It fails in the direction that is hardest to see: too high an intent demands a rank the clauses cannot reach, and the author satisfies it by writing more clauses than the plan called for, which skews the distribution the other way while every check passes. Derive the intent from the data with the code that already reads it.  
   <small>check_lift was told a one clause entry lifted two distractors (INC-0073)</small>
-- [ ] A corpus field is written against the one sentence the author had in mind, and the schema that reuses it three templates later has no way to know which shape it is. The type system says str in both places. Two things follow. Store the field in every shape a template needs and name the shapes, rather than storing one shape and trusting the next author to notice. And guard the output, not the corpus: the generated sentence is the only place the mismatch becomes visible, and a cheap pattern over the rendered text catches a class that no check on the inputs can see.  
-  <small>A corpus field written for one grammatical slot was spliced into another (INC-0074)</small>
 - [ ] A guard written from the instance in front of you covers that instance. INC-0074 was a bare infinitive in a noun slot, so the guard looked for bare infinitives, and the sentence one screen away in the same file was a wh clause in a clause slot and went straight through. The general defect was never the infinitive; it was that a corpus field carries no record of the grammatical shape it was written in, and any template may reuse it. So the guard has to be stated over the class, every field against every slot, not over the token that happened to be wrong first. The other half of this is where it was found: the distractor version was spotted first because it is louder, and the version in the key, which is three times as damaging, was found only because the first one prompted a second look. Reading one rendered item per schema would have caught both on the day they were written, and costs less than either fix.  
   <small>Every correct answer on one GMAT schema was ungrammatical, and the guard written an hour earlier could not see it (INC-0075)</small>
 - [ ] A standard library function whose name is a plausible description of half of what it does will be used for that half. capitalize() reads as "make this the start of a sentence" and is in fact "make this the start of a sentence and flatten everything else", and the damage is invisible until a value happens to contain a capital. The guard is not a test that the output looks right, because the output looked right for every value that had no name in it. The guard is to ban the function: the correct one is three characters of slicing, the wrong one is never what a generator wants, and a lint catches it in the diff rather than in the bank.  
@@ -2501,10 +2541,6 @@ Read it before starting a piece of work in the matching area, and again before y
 
 - [ ] Generated code is code. If your build writes JavaScript into a string, the build must parse the result, because the blast radius of one bad character is the whole file, not the line.  
   <small>Unescaped quotes in onclick strings took the whole app down (INC-0001)</small>
-- [ ] The moment a single-tenant store becomes multi-tenant, every key in it is a collision waiting to happen. Enumerate the writers before you add the second tenant, not after.  
-  <small>One exam's progress blob overwrote another's (INC-0038)</small>
-- [ ] A conditional that treats not-A as the original case is a bug the day a third case exists. Resolve variants from data, and the third one costs a row rather than a search.  
-  <small>The GRE app told GRE students to calibrate at the wrong test maker's site (INC-0043)</small>
 - [ ] Nobody notices a page getting slower one commit at a time. Put the number in a test the first time you care about it, not the first time somebody complains.  
   <small>The whole bank blocked first paint: 20 seconds to the first question on 3G (INC-0015)</small>
 - [ ] try/catch around an API that returns errors is decoration. Know which convention each call uses before you wrap it.  
@@ -2513,6 +2549,10 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The service worker precache regex did not match the chunked files (INC-0028)</small>
 - [ ] A fixed rounding rule is wrong at one end of the range or the other. Pick the precision from the magnitude, and write the expected number down before you write the code that produces it.  
   <small>ARR was rounded to whole dollars and lost real money at small scale (INC-0032)</small>
+- [ ] The moment a single-tenant store becomes multi-tenant, every key in it is a collision waiting to happen. Enumerate the writers before you add the second tenant, not after.  
+  <small>One exam's progress blob overwrote another's (INC-0038)</small>
+- [ ] A conditional that treats not-A as the original case is a bug the day a third case exists. Resolve variants from data, and the third one costs a row rather than a search.  
+  <small>The GRE app told GRE students to calibrate at the wrong test maker's site (INC-0043)</small>
 - [ ] Anything that reports failures must not be able to report its own. Check whether each call rejects or throws before you wrap it, and make the reporting path unable to re-enter itself.  
   <small>The error reporter reported its own failures, in a loop (INC-0045)</small>
 
@@ -2543,26 +2583,26 @@ Read it before starting a piece of work in the matching area, and again before y
 
 ## Payments
 
-- [ ] Row Level Security is row-level. Which columns a role may write is a separate grant, and anything money depends on belongs to the service role alone.  
-  <small>A signed-in user could grant themselves a paid plan (INC-0041)</small>
-- [ ] Enumerate every value a third-party status field can take before you branch on one of them. The value you did not think of is usually the one that matters commercially.  
-  <small>Every trialing subscriber would have been left on the free plan (INC-0042)</small>
 - [ ] Idempotency belongs in the database, not in the handler. Handlers race; unique indexes do not.  
   <small>Two Stripe event types announce one new subscription (INC-0035)</small>
 - [ ] Read what a payment field means, not what it is called. Cumulative and incremental fields look identical until the second event.  
   <small>charge.amount_refunded is cumulative, so partial refunds double-count (INC-0036)</small>
 - [ ] When a write is destructive, capture what you need from the old value first. Ask what question you will want to answer after this row is gone.  
   <small>Cancellation erases the number you need to record the cancellation (INC-0037)</small>
+- [ ] Row Level Security is row-level. Which columns a role may write is a separate grant, and anything money depends on belongs to the service role alone.  
+  <small>A signed-in user could grant themselves a paid plan (INC-0041)</small>
+- [ ] Enumerate every value a third-party status field can take before you branch on one of them. The value you did not think of is usually the one that matters commercially.  
+  <small>Every trialing subscriber would have been left on the free plan (INC-0042)</small>
 
 
 ## Scoring and selection
 
-- [ ] If your system branches on difficulty, measure that the branches actually differ. A label is not a property.  
-  <small>The easier module was not easier (INC-0040)</small>
 - [ ] Check that your instrumentation fired at all before you trust anything built on it. An empty table looks identical to a quiet week.  
   <small>The adaptive engine was learning from nobody (INC-0005)</small>
 - [ ] A type system spread across a renderer and a grader will drift. The cheapest guard is one that exercises every variant end to end, once.  
   <small>Sentence equivalence items were unanswerable however well you answered (INC-0006)</small>
+- [ ] If your system branches on difficulty, measure that the branches actually differ. A label is not a property.  
+  <small>The easier module was not easier (INC-0040)</small>
 - [ ] When you add a filter, find every path that adds items after the filter runs. A gate on the entry point is not a gate on the set.  
   <small>Fixing repeats directly left a side door through passage groups (INC-0051)</small>
 
@@ -2579,6 +2619,10 @@ Read it before starting a piece of work in the matching area, and again before y
 
 ## Tests and guards
 
+- [ ] **Learned 2 times over.** A path that exists on the machine you wrote the test on is not a path. Resolve environment-specific locations through one helper that falls back to the tool's own default, and return undefined rather than an empty string, because undefined means 'you decide' and an empty string means 'launch nothing'.  
+  <small>A new browser suite hardcoded this machine's browser directory and crashed in CI (INC-0055)</small>
+- [ ] **Learned 2 times over.** Extracting a shared helper does not migrate the callers. The extraction fixes the file it was extracted from and leaves every sibling on the old path, which is INC-0059 and INC-0064 in a different costume: a correction applied to the instances in hand rather than to the pattern. Three suites had failed visibly and ten were wrong; the seven silent ones were found by the guard, not by reading. When a helper exists because a direct call was wrong, make the direct call fail the build, and let it enumerate the callers rather than enumerating them by hand.  
+  <small>The browser path fix covered two suites and three others kept crashing (INC-0067)</small>
 - [ ] Measure the moment the user can act, not a browser lifecycle event. A test that measures the wrong instant is worse than no test, because it produces a number people trust.  
   <small>The performance test waited for the load event, which waits for the thing being optimised (INC-0016)</small>
 - [ ] A regex with a length bound is a guard with an expiry date. Assert the number of things checked, not only that the checks passed.  
@@ -2601,16 +2645,12 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The playbook's own citation guard failed CI on its first run (INC-0053)</small>
 - [ ] When you add a condition that skips a check, make sure it describes the failure and not something merely correlated with it. A skip is indistinguishable from a pass in the output, so the fix for a noisy check can silently delete it.  
   <small>The first fix asked the wrong question and muted a working check (INC-0054)</small>
-- [ ] A path that exists on the machine you wrote the test on is not a path. Resolve environment-specific locations through one helper that falls back to the tool's own default, and return undefined rather than an empty string, because undefined means 'you decide' and an empty string means 'launch nothing'.  
-  <small>A new browser suite hardcoded this machine's browser directory and crashed in CI (INC-0055)</small>
 - [ ] A commit hash is not a durable citation in a repository that squashes. Pull requests, issues and tags survive history rewriting; branch commits do not. Cite the thing that outlives the merge, and make any check of the other one advisory.  
   <small>The ledger cited commits that squash merging destroys (INC-0057)</small>
 - [ ] A metric that moves against you when the product improves will eventually be used to justify reverting an improvement. When a number goes the wrong way after a change that should only have helped, measure the underlying thing directly before believing either the number or your own explanation of it. Never redefine the metric in the same change that made it look bad.  
   <small>A repeat metric that gets worse when the bank gets better (INC-0061)</small>
 - [ ] An aggregate is a claim about whatever you grouped by. Group by the file and you have measured the file. State the grouping in the sentence that reports the result, and the overclaim becomes visible while you are writing it.  
   <small>The analysis chapter called one file eight failing guards (INC-0065)</small>
-- [ ] Extracting a shared helper does not migrate the callers. The extraction fixes the file it was extracted from and leaves every sibling on the old path, which is INC-0059 and INC-0064 in a different costume: a correction applied to the instances in hand rather than to the pattern. Three suites had failed visibly and ten were wrong; the seven silent ones were found by the guard, not by reading. When a helper exists because a direct call was wrong, make the direct call fail the build, and let it enumerate the callers rather than enumerating them by hand.  
-  <small>The browser path fix covered two suites and three others kept crashing (INC-0067)</small>
 - [ ] A check that reports pass or fail from a handful of random draws is a check that will flip on work that has nothing to do with it, and the cost is not the false alarm. It is that the next real alarm arrives in a tool people have learned to shrug at. Before believing or dismissing a warning, run the thing it measures enough times to know its rate: that answers both whether this alarm is real and whether the check is worth keeping in its current form. Here the answer was that the engine was fine and the check was wrong, and both were worth knowing.  
   <small>A review bot check whose verdict was three coin flips warned on an unrelated bank change (INC-0077)</small>
 
@@ -2729,7 +2769,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 83 real defects reduced to the rules that prevent them,
+the whole project: 84 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -2769,7 +2809,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-83 defects already prevented is genuinely ahead, and every defect it hits
+84 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed
