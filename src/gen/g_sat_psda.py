@@ -68,6 +68,15 @@ class PercentChange(Gen):
                 (pctstr(Fr(new * 100, old)), "reporting the new value as a percent of the old rather than the change."),
                 ("%s percent" % num(pct + 10), "an arithmetic slip in the division."),
                 ("%s percent" % num(100 - pct), "subtracting from 100, which answers what fraction remains, not how much it changed."),
+                # Below the answer. Every candidate above it is larger, so the key sat near
+                # the bottom of the pool on half this schema's items. These went in once
+                # and came out again, because with a unit after the number the balancer was
+                # ranking these choices by character count and they moved the key the wrong
+                # way; framework.as_value now reads the unit, so they work as intended.
+                ("%s percent" % num(pct - 5), "an arithmetic slip in the other direction."),
+                (pctstr(Fr(abs(new - old) * 200, old + new)) if old + new else None,
+                 "dividing the change by the average of the two values rather than by the "
+                 "value it started from."),
             ],
             "expl": "Percent change is the change divided by the original value: %s divided by "
             "%d is %s, which is %d percent."

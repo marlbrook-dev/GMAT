@@ -173,7 +173,6 @@ SCHEMA_DEBT = {
     ('act', 'sat_geo_circle>act_m_geo'): (0, 29, 49, 11),
     ('act', 'sat_geo_similar>act_m_geo'): (31, 4, 55, 12),
     ('act', 'sat_geo_volume>act_m_geo'): (27, 1, 50, 4),
-    ('act', 'sat_psda_pctchange>act_m_ies'): (0, 50, 64, 13),
     ('act', 'sat_rw_apostrophe>act_e_cse'): (14, 17, 47, 1),
     ('act', 'sat_rw_boundary>act_e_cse'): (34, 0, 50, 0),
     ('gmat', 'gmat_ds_percent'): (41, 3, 41, 41),
@@ -183,15 +182,14 @@ SCHEMA_DEBT = {
     ('gmat', 'gt_gap'): (0, 18, 49, 3),
     ('gmat', 'gt_ratio'): (7, 0, 81, 8),
     ('gmat', 'msr_count'): (0, 3, 45, 42),
-    ('gmat', 'sat_adv_exponential>q_rrp'): (42, 0, 44, 10),
+    ('gmat', 'sat_adv_exponential>q_rrp'): (39, 0, 46, 8),
     ('gmat', 'sat_adv_exprules>q_vof'): (19, 6, 44, 8),
     ('gmat', 'sat_adv_radical>q_vof'): (47, 2, 47, 2),
     ('gmat', 'sat_alg_distribute>q_alg'): (40, 42, 42, 3),
     ('gmat', 'sat_alg_linear1>q_alg'): (1, 7, 45, 9),
-    ('gmat', 'sat_psda_pctchange>q_rrp'): (0, 0, 47, 14),
     ('gmat', 'sat_psda_percent>q_rrp'): (0, 45, 45, 5),
-    ('gre', 'sat_adv_exponential>gre_arith'): (41, 0, 44, 8),
-    ('gre', 'sat_adv_exprules>gre_arith'): (19, 6, 44, 9),
+    ('gre', 'sat_adv_exponential>gre_arith'): (40, 0, 45, 10),
+    ('gre', 'sat_adv_exprules>gre_arith'): (17, 6, 45, 9),
     ('gre', 'sat_adv_polyfactor>gre_alg'): (11, 41, 41, 4),
     ('gre', 'sat_adv_radical>gre_alg'): (52, 2, 52, 3),
     ('gre', 'sat_alg_distribute>gre_alg'): (37, 41, 41, 4),
@@ -201,28 +199,40 @@ SCHEMA_DEBT = {
     ('gre', 'sat_geo_rect>gre_geo'): (21, 0, 38, 4),
     ('gre', 'sat_geo_similar>gre_geo'): (25, 0, 55, 12),
     ('gre', 'sat_geo_volume>gre_geo'): (20, 0, 44, 3),
-    ('gre', 'sat_psda_pctchange>gre_arith'): (0, 0, 50, 14),
     ('gre', 'sat_psda_percent>gre_arith'): (0, 45, 45, 6),
     ('sat', 'sat_adv_exponential'): (35, 3, 50, 4),
     ('sat', 'sat_adv_radical'): (52, 3, 52, 2),
     ('sat', 'sat_alg_word'): (6, 0, 53, 3),
     ('sat', 'sat_geo_circle'): (0, 28, 49, 11),
     ('sat', 'sat_geo_similar'): (35, 6, 50, 13),
-    ('sat', 'sat_psda_pctchange'): (0, 50, 62, 13),
-    ('sat', 'sat_psda_percent'): (0, 39, 49, 6),
+    ('sat', 'sat_psda_percent'): (0, 38, 49, 5),
     ('sat', 'sat_rw_boundary'): (34, 0, 50, 0),
 }
 
 
 NUMERIC = re.compile(r"^\$?-?[\d,]+(\.\d+)?(/\d+)?$")
+# A number with a unit word after it, as the percent change schema renders its choices.
+# Ranked by value like any other number: the character count there tracks the digits, not
+# anything a student could use. The unit has to be the same on every choice, so "5 hours"
+# against "5 minutes" is not quietly treated as a tie.
+UNIT_NUM = re.compile(r"^(\$?-?[\d,]+(\.\d+)?(/\d+)?) ([a-z][a-z ]*)$")
+
+
+def _split(c):
+    t = str(c).strip()
+    m = UNIT_NUM.match(t)
+    return (m.group(1), m.group(4)) if m else (t, "")
 
 
 def _numeric(it):
-    return all(NUMERIC.match(str(c).strip()) for c in it["choices"])
+    parts = [_split(c) for c in it["choices"]]
+    if not all(NUMERIC.match(n) for n, _ in parts):
+        return False
+    return len(set(u for _, u in parts)) == 1
 
 
 def _value(c):
-    t = str(c).replace("$", "").replace(",", "").strip()
+    t = _split(c)[0].replace("$", "").replace(",", "").strip()
     if "/" in t:
         a, b = t.split("/", 1)
         return float(a) / float(b)
