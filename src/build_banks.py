@@ -23,6 +23,7 @@ import g_sat_alg, g_sat_adv, g_sat_psda, g_sat_geo   # noqa: E402,F401
 import g_sat_rw, g_gmat_ds, g_act_kol                # noqa: E402,F401
 import g_gmat_gt, g_gmat_tpa, g_gmat_msr             # noqa: E402,F401
 import g_act_sci, g_gre_verb, g_gmat_cr, g_act_nq    # noqa: E402,F401
+import g_rc                                          # noqa: E402,F401
 
 OUT = D / "generated"
 
@@ -100,7 +101,23 @@ EXAM_EXTRA = {"gre": {"gre_tc": [g for g in g_gre_verb.GENS if g.skill == "gre_t
                        "v_pc": [g for g in g_gmat_cr.GENS if g.skill == "v_pc"],
                        "di_gt": g_gmat_gt.GENS,
                        "di_tpa": g_gmat_tpa.GENS,
-                       "di_msr": g_gmat_msr.GENS},
+                       "di_msr": g_gmat_msr.GENS,
+                       # Reading comprehension. These two were the only GMAT categories
+                       # with no generated items, because g_rc.py was written and never
+                       # imported (INC-0086). The count is gated on how many passages
+                       # exist, not on generator cleverness: a question worded the same
+                       # way over two passages is two items, and the same question over
+                       # one passage is one. Twelve passages is the corpus today.
+                       #
+                       # Not mapped onto the LSAT reading categories, which also have no
+                       # generated items. These passages average 192 words, which sits
+                       # inside the GMAT range; the hand written LSAT passages in this
+                       # repository run 289 to 330. Length is most of what distinguishes
+                       # LSAT reading, so serving a GMAT length passage under that label
+                       # would misdescribe the format. Longer passages written for it
+                       # would map straight across.
+                       "v_st": [g for g in g_rc.GENS if g.skill == "v_st"],
+                       "v_inf": [g for g in g_rc.GENS if g.skill == "v_inf"]},
               "act": {"act_e_kol": g_act_kol.GENS,
                       # ACT files exponents, radicals, sequences, matrices, complex
                       # numbers and proportional reasoning here. The SAT pool only
@@ -400,6 +417,19 @@ def main(target=TARGET, verbose=True):
             items.extend(got)
             by_skill[skill] = list(got)
             report[(exam, skill)] = (len(got), dropped, errs)
+            # A schema that contributes nothing is a failure, not a small number. rc_main
+            # and rc_caveat raised ItemError on every draw for want of one more passage,
+            # and because ItemError is the ordinary way a schema says this draw did not
+            # work, a schema saying it every time looked exactly like a fussy one. Only
+            # the category total was reported, so a zero inside it was invisible
+            # (INC-0086). Fatal, because there is no honest reason to wire a schema into
+            # a plan and ship none of it.
+            silent = [g.id for g in gens if made.get(g.id, 0) == 0]
+            if silent:
+                raise SystemExit(
+                    "build_banks: %s/%s wires %d schema(s) that produced no items at all: "
+                    "%s. Either they cannot draw, or the plan should not name them."
+                    % (exam, skill, len(silent), ", ".join(sorted(silent))))
             if verbose:
                 flag = "" if len(got) >= target else "   SHORT"
                 print("  %-5s %-10s %4d items from %2d schemas%s"

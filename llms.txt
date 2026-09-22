@@ -8,7 +8,7 @@
 - Practice score ranges are labeled internal estimates, never predicted scores, because no public equating table exists for either exam. The method is published in full at /scoring/.
 
 ## Product
-- [GMAT Trainer](https://startfromnowhere.com/app/): adaptive GMAT Focus practice, 33592 original items across Quantitative Reasoning, Verbal Reasoning and Data Insights, 134 flashcards, six practice games, full mock exams.
+- [GMAT Trainer](https://startfromnowhere.com/app/): adaptive GMAT Focus practice, 33712 original items across Quantitative Reasoning, Verbal Reasoning and Data Insights, 134 flashcards, six practice games, full mock exams.
 - [SAT Trainer](https://startfromnowhere.com/sat/app/): adaptive digital SAT practice, 20256 original items across the eight official content domains, two-module mock sections routed like the real exam, student-produced responses graded by value, 112 flashcards.
 - [GRE Trainer](https://startfromnowhere.com/gre/app/): adaptive GRE General Test practice, 19968 original items across Verbal Reasoning and Quantitative Reasoning, section adaptive mock sections, 56 flashcards, and an Analytical Writing task that reports measurable facts about a draft rather than inventing a score.
 - [ACT Trainer](https://startfromnowhere.com/act/app/): adaptive ACT practice, 39864 original items across English, Mathematics, Reading and Science, 126 flashcards, with Science built from study data rather than recall.
