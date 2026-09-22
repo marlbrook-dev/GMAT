@@ -29,8 +29,20 @@ from collections import Counter
 
 
 def permute(items):
-    """Move each key off position A, deterministically, and recompute the index."""
+    """Move each key off position A, deterministically, and recompute the index.
+
+    Refuses an item it has already shuffled. The seed is the item id, so a second call
+    applies the same permutation again, and a permutation composed with itself favours
+    its own fixed points: on the LSAT reading bank a duplicated call left 37 percent of
+    the keys at A, which is the defect this function exists to prevent (INC-0068). What
+    repeats is the permutation, not the randomisation.
+    """
     for it in items:
+        if it.get('_permuted'):
+            sys.exit('permute: %s has already been shuffled; calling permute twice '
+                     'composes the permutation with itself and biases the key position'
+                     % it['id'])
+        it['_permuted'] = True
         key = it['choices'][it['answer']]
         rnd = random.Random(zlib.crc32(it['id'].encode('ascii')))
         ch = list(it['choices'])
@@ -38,6 +50,21 @@ def permute(items):
         it['choices'] = ch
         it['answer'] = ch.index(key)
     return items
+
+
+def _pairs(entry):
+    """One table entry as a list of (needle, clause) pairs.
+
+    A bare tuple is one pair, a list is however many it holds. This is the only place
+    that decides which, because when extend knew it and each check_lift caller worked it
+    out again, one caller read a two element tuple as two lifts (INC-0073).
+    """
+    return entry if isinstance(entry, list) else [entry]
+
+
+def lift_counts(table):
+    """The intent map for check_lift: how many distractors each entry lifts."""
+    return dict((iid, len(_pairs(ext))) for iid, ext in table.items())
 
 
 def extend(items, table, label='EXTEND'):
@@ -61,7 +88,7 @@ def extend(items, table, label='EXTEND'):
         ext = table.get(it['id'])
         if not ext:
             continue
-        pairs = ext if isinstance(ext, list) else [ext]
+        pairs = _pairs(ext)
         seen = set()
         for needle, clause in pairs:
             if needle in seen:

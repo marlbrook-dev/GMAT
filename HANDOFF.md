@@ -27,12 +27,12 @@ that makes the site worth less than the sum of its pages.
 | Trainer | Path | Items |
 |---|---|---|
 | GMAT Focus | `/app/` | 27,914 |
-| ACT | `/act/app/` | 36,661 |
-| Digital SAT | `/sat/app/` | 16,996 |
+| ACT | `/act/app/` | 36,745 |
+| Digital SAT | `/sat/app/` | 17,116 |
 | GRE | `/gre/app/` | 19,914 |
-| LSAT | `/lsat/app/` | 282 |
+| LSAT | `/lsat/app/` | 372 |
 
-**101,767 items total.** Also live: `/colleges/` (1,451 colleges, four ranked categories),
+**102,061 items total.** Also live: `/colleges/` (1,451 colleges, four ranked categories),
 `/schools/` (91 MBA programs), `/exams/`, `/blog/` (29 posts, drip publishing), `/apply/`,
 `/community/`, `/funding/`, `/international/`, `/scoring/`, `/pricing/`, `/do-not-sell/`.
 
@@ -200,7 +200,6 @@ generator makes them:
 ```
 GRE  gre_rc            14
 ACT  act_r_kid 18, act_r_cs 11, act_r_iki 11
-SAT  rw_cs 46, rw_ii 48
 LSAT reading, 10 to 20 per category; Logical Reasoning is now 29 to 31
 ```
 

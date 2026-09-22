@@ -1935,7 +1935,7 @@ LIFT.update({
 })
 
 E.extend(I, LIFT, 'LIFT')
-INTENT = {k: len(v) for k, v in LIFT.items()}
+INTENT = E.lift_counts(LIFT)
 E.check_lift(I, INTENT)
 
 HEADER = '''// bank_lsat_lr3.js - Original LSAT Logical Reasoning items LL101-LL240.

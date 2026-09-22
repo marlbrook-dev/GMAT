@@ -8,14 +8,14 @@ GMAT_BANKS = ["bank_quant.js","bank_quant2.js","bank_quant3.js","bank_quant4.js"
               "bank_verbal.js","bank_verbal2.js","bank_verbal3.js","bank_verbal4.js","bank_verbal5.js","bank_verbal6.js","bank_verbal7.js","bank_verbal8.js","bank_verbal9.js",
               "bank_di.js","bank_di2.js","bank_di3.js","bank_di4.js","bank_di5.js","bank_di6.js","bank_di7.js","bank_di8.js","bank_di9.js",
               "cards.js","cards2.js","cards3.js","playbook_gmat.js"]
-SAT_BANKS = ["bank_sat_rw.js","bank_sat_rw2.js","bank_sat_rw3.js","bank_sat_rw4.js","bank_sat_rw5.js","bank_sat_math.js","bank_sat_math2.js","bank_sat_math3.js","bank_sat_math4.js","bank_sat_math5.js","bank_sat_easy.js","cards_sat.js","cards_sat2.js","playbook_sat.js"]
+SAT_BANKS = ["bank_sat_rw.js","bank_sat_rw2.js","bank_sat_rw3.js","bank_sat_rw4.js","bank_sat_rw5.js","bank_sat_rw6.js","bank_sat_math.js","bank_sat_math2.js","bank_sat_math3.js","bank_sat_math4.js","bank_sat_math5.js","bank_sat_easy.js","cards_sat.js","cards_sat2.js","playbook_sat.js"]
 
-GRE_BANKS = ["bank_gre_verbal.js","bank_gre_verbal2.js","bank_gre_rc2.js","bank_gre_quant.js","bank_gre_quant2.js","bank_gre_easy.js","writing_gre.js","cards_gre.js","playbook_gre.js"]
+GRE_BANKS = ["bank_gre_verbal.js","bank_gre_verbal2.js","bank_gre_rc2.js","bank_gre_rc3.js","bank_gre_quant.js","bank_gre_quant2.js","bank_gre_easy.js","writing_gre.js","cards_gre.js","playbook_gre.js"]
 
-LSAT_BANKS = ["bank_lsat_lr.js","bank_lsat_lr2.js","bank_lsat_lr3.js","bank_lsat_rc.js","bank_lsat_rc2.js","cards_lsat.js","playbook_lsat.js"]
+LSAT_BANKS = ["bank_lsat_lr.js","bank_lsat_lr2.js","bank_lsat_lr3.js","bank_lsat_rc.js","bank_lsat_rc2.js","bank_lsat_rc3.js","cards_lsat.js","playbook_lsat.js"]
 # ACT Mathematics comes entirely from the generated bank, which is why no hand written math
 # file appears here; the schemas are mapped onto ACT taxonomy in src/gen/mapping.py.
-ACT_BANKS = ["bank_act_english.js","bank_act_reading.js","bank_act_reading2.js","bank_act_science.js","cards_act.js","playbook_act.js"]
+ACT_BANKS = ["bank_act_english.js","bank_act_reading.js","bank_act_reading2.js","bank_act_reading3.js","bank_act_science.js","cards_act.js","playbook_act.js"]
 
 APPS = [
     {"exam": "gmat-focus", "out": "app", "gen": "gmat", "files": GMAT_BANKS,
@@ -29,7 +29,7 @@ APPS = [
      "desc": "Start From Nowhere: adaptive GMAT Focus Edition practice that studies you back.",
      "is_404": True},
     {"exam": "sat", "out": "sat/app", "gen": "sat", "files": SAT_BANKS,
-     "concat": "BANK_SAT_RW, BANK_SAT_RW2, BANK_SAT_RW3, BANK_SAT_RW4, BANK_SAT_RW5, BANK_SAT_MATH, BANK_SAT_MATH2, BANK_SAT_MATH3, BANK_SAT_MATH4, BANK_SAT_MATH5, BANK_SAT_EASY",
+     "concat": "BANK_SAT_RW, BANK_SAT_RW2, BANK_SAT_RW3, BANK_SAT_RW4, BANK_SAT_RW5, BANK_SAT_RW6, BANK_SAT_MATH, BANK_SAT_MATH2, BANK_SAT_MATH3, BANK_SAT_MATH4, BANK_SAT_MATH5, BANK_SAT_EASY",
      "footer": ("SAT is a trademark registered by the College Board, which does not endorse this product. Practice "
                 "items are original and written for Start From Nowhere. Content domains follow College Board's "
                 "published framework; nothing here reports an official 400 to 1600 score."),
@@ -38,7 +38,7 @@ APPS = [
               "domains, with two-module mock sections that route like the real exam."),
      "is_404": False},
     {"exam": "gre", "out": "gre/app", "gen": "gre", "files": GRE_BANKS,
-     "concat": "BANK_GRE_VERBAL, BANK_GRE_VERBAL2, BANK_GRE_RC2, BANK_GRE_QUANT, BANK_GRE_QUANT2, BANK_GRE_EASY",
+     "concat": "BANK_GRE_VERBAL, BANK_GRE_VERBAL2, BANK_GRE_RC2, BANK_GRE_RC3, BANK_GRE_QUANT, BANK_GRE_QUANT2, BANK_GRE_EASY",
      "footer": ("GRE is a registered trademark of ETS, which does not endorse this product. Practice items are "
                 "original and written for Start From Nowhere. The trainer covers Verbal Reasoning and Quantitative "
                 "Reasoning; Analytical Writing is a scored essay and is not simulated here. Score ranges shown are "
@@ -48,7 +48,7 @@ APPS = [
               "with section-adaptive mock sections that route like the real exam."),
      "is_404": False},
     {"exam": "lsat", "out": "lsat/app", "gen": None, "files": LSAT_BANKS,
-     "concat": "BANK_LSAT_LR, BANK_LSAT_LR2, BANK_LSAT_LR3, BANK_LSAT_RC, BANK_LSAT_RC2",
+     "concat": "BANK_LSAT_LR, BANK_LSAT_LR2, BANK_LSAT_LR3, BANK_LSAT_RC, BANK_LSAT_RC2, BANK_LSAT_RC3",
      "footer": ("LSAT is a registered trademark of the Law School Admission Council (LSAC), which does not "
                 "endorse this product. Practice items are original and written for Start From Nowhere. LSAC "
                 "publishes 35 minutes per section and, for Reading Comprehension, four sets of five to eight "
@@ -60,7 +60,7 @@ APPS = [
               "built on the skills LSAC publishes for each section."),
      "is_404": False},
     {"exam": "act", "out": "act/app", "gen": "act", "files": ACT_BANKS,
-     "concat": "BANK_ACT_ENGLISH, BANK_ACT_READING, BANK_ACT_READING2, BANK_ACT_SCIENCE",
+     "concat": "BANK_ACT_ENGLISH, BANK_ACT_READING, BANK_ACT_READING2, BANK_ACT_READING3, BANK_ACT_SCIENCE",
      "footer": ("ACT is a registered trademark of ACT Education Corp., which does not endorse this product. "
                 "Practice items are original and written for Start From Nowhere. Section lengths and reporting "
                 "categories follow ACT published materials for the enhanced test, including four answer choices "
