@@ -59,7 +59,7 @@ a{color:var(--accent)}
 <p class="eyebrow">Start From Nowhere</p>
 <h1>The Build Playbook</h1>
 <p class="sub">How one person and a set of AI sessions built a multi-exam test-prep platform, every defect hit on the way, and the recipe for doing it again for something else</p>
-<p class="meta">Built 2026-09-22 from commit 558c171 &middot; 94 commits over 36 days &middot; 102 recorded defects &middot; 17 chapters<br>
+<p class="meta">Built 2026-09-22 from commit e32605f &middot; 95 commits over 36 days &middot; 102 recorded defects &middot; 17 chapters<br>
 This document is generated. Edit the chapters in docs/playbook/ and the ledger in data/playbook/incidents.jsonl, then run python3 src/build_playbook.py.</p>
 </div>
 <div class="toc"><ol><li><a href="#how-to-use-this-book">How to Use This Book</a></li>
@@ -81,7 +81,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><a href="#the-bootstrap-pack-starting-a-new-project-with-this-loaded">The Bootstrap Pack: Starting a New Project With This Loaded</a></li></ol></div>
 <h1 id="how-to-use-this-book">How to Use This Book</h1>
 <p>This is the record of building one platform, written so it can be used to build a different one.</p>
-<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-08-17 and 2026-09-22, which is 36 days, across 94 commits, by one owner directing a series of AI coding sessions. As of this build it is 71 Python files, 102 JavaScript files, 24 TypeScript edge functions, 35 migrations and 63 documents: 2000 tracked files in total.</p>
+<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-08-17 and 2026-09-22, which is 36 days, across 95 commits, by one owner directing a series of AI coding sessions. As of this build it is 71 Python files, 102 JavaScript files, 24 TypeScript edge functions, 35 migrations and 63 documents: 2000 tracked files in total.</p>
 <p>None of those numbers were typed. They are measured from the repository every time this document is built, which is the first thing worth copying.</p>
 <h2 id="what-is-in-here">What is in here</h2>
 <p>The book has four kinds of chapter, and they age differently.</p>
@@ -615,7 +615,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three defects here were found by taking a screenshot: a chart unreadable in dark mode, a line chart implying values that never existed, and a dashboard that was not on screen. None of them would have been caught by an assertion, because none of them were violations of anything anybody had thought to assert.</p>
 <p><strong>Budget for looking.</strong> It is the cheapest test there is and the only one that catches things you have not imagined.</p>
 <h1 id="running-the-build-as-an-ai-loop">Running the Build as an AI Loop</h1>
-<p>94 commits in 36 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
+<p>95 commits in 36 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
 <h2 id="the-division-of-labour">The division of labour</h2>
 <p><strong>The owner decides</strong>: what to build, what it means, what is acceptable, and every irreversible or outward-facing action. <strong>The session does</strong>: the building, the measuring, the testing, and the reporting of what it found.</p>
 <p>The failure mode at each end is worth naming. An owner who reviews every line becomes the bottleneck and the throughput collapses to the speed of reading. A session that decides product questions on its own produces something coherent that is not what anyone wanted.</p>
@@ -853,7 +853,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> Every filter needs its rejection count reported. A filter that silently drops is indistinguishable from an input that was never there.</li>
 </ul>
 <h3 id="inc-0062-correcting-a-length-tell-moves-it-one-rank-over-every-time">INC-0062. Correcting a length tell moves it one rank over, every time</h3>
-<p><em>2026-09-22, Degraded, PR #66</em></p>
+<p><em>2026-09-22, Degraded, <code>b958ed11194565fcd5d1fb5fe3ccddd699e305e7</code> PR #66</em></p>
 <ul>
 <li><strong>What was seen.</strong> On two separate hand written banks, extending one distractor per item took the longest-is-key rate to near zero and left 25 of 35 and then 30 of 42 keys sitting second longest, so a reader picking the second longest option scored 71 percent on both.</li>
 <li><strong>Why.</strong> Mechanical rather than careless. Extending exactly one distractor past the key moves every key from rank 5 to rank 4 by construction. The recorded ratchet measures only the two extremes, so a corrected bank passes it while carrying a stronger tell one position in.</li>
@@ -864,7 +864,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A guard on the extreme of a distribution can be satisfied by moving the mass next to the extreme. When you correct for a measured bias, measure the whole distribution afterwards, not the statistic you were correcting.</li>
 </ul>
 <h3 id="inc-0066-half-the-length-tell-correction-did-nothing-and-the-build-said-it-had-worked">INC-0066. Half the length tell correction did nothing and the build said it had worked</h3>
-<p><em>2026-09-22, Silent loss</em></p>
+<p><em>2026-09-22, Silent loss, <code>1fd4e0529fe06171c90528558b16358e25b71c6a</code> PR #69</em></p>
 <ul>
 <li><strong>What was seen.</strong> The new GMAT reading bank corrected its length tell with a table that carries a named number of distractors past the key on each item, so the keys land at spread ranks rather than all at one. The table named 65 items. On 31 of them the authored clause was shorter than the gap it had to close, so the distractor stayed below the key and the item did not move. The run printed an improved distribution and no error, and the 31 were only found by measuring intent against outcome by hand.</li>
 <li><strong>Why.</strong> extend() appends whatever clause the author supplies and checks only that the needle matches exactly one non key choice. Whether the choice ends up longer than the key, which is the entire point of the call, was never checked. The author sizes each clause by eye against a gap reported in a separate run, and an estimate made that way is wrong about half the time.</li>
@@ -874,7 +874,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A correction table is a set of claims about outcomes, and an entry that quietly fails still counts as applied. Aggregate metrics hide this well: a table where half the entries work still moves the number in the right direction, which reads as success. State the per item intent in a form the machine can check, and every entry that did nothing says so by name.</li>
 </ul>
 <h3 id="inc-0068-shuffling-the-answers-twice-put-37-percent-of-the-keys-at-a">INC-0068. Shuffling the answers twice put 37 percent of the keys at A</h3>
-<p><em>2026-09-22, Silent loss</em></p>
+<p><em>2026-09-22, Silent loss, <code>879f9584ae538423484f8990f3eb93b23dd320ae</code> PR #70</em></p>
 <ul>
 <li><strong>What was seen.</strong> The new LSAT reading generator printed a key position distribution of 33, 15, 14, 17, 11 across 90 items where an even split is 18 each. Position A held 37 percent of the keys, against a chance rate of 20, which is the exact defect permute() exists to prevent (INC-0039) and which the engine test's answer position check would have failed.</li>
 <li><strong>Why.</strong> The generator called E.permute(I) twice. An intermediate run had ended with permute and measure so the skill counts could be read, and the final block added its own permute before the extend pass, and the earlier pair was never removed. permute seeds a shuffle with crc32 of the item id, so the second call applies the same permutation again, composing it with itself. A permutation composed with itself is not uniform: it favours its own fixed points and short cycles, and with five choices that piles keys onto the position they started at, which is A because items are authored key first.</li>
@@ -884,7 +884,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A seeded shuffle is deterministic, which makes calling it twice look harmless: the same input gives the same output. What repeats is the permutation, not the randomisation, and a permutation applied to its own result is biased toward leaving things where they were. Any function whose value comes from being applied exactly once should refuse to be applied twice rather than relying on the caller to remember. The second lesson is about reading: the generator printed the defect on every run, above the line being watched.</li>
 </ul>
 <h3 id="inc-0069-a-bank-a-student-can-play-at-88-percent-inside-a-section-the-check-passed">INC-0069. A bank a student can play at 88 percent, inside a section the check passed</h3>
-<p><em>2026-09-22, Degraded</em></p>
+<p><em>2026-09-22, Degraded, <code>879f9584ae538423484f8990f3eb93b23dd320ae</code> PR #70</em></p>
 <ul>
 <li><strong>What was seen.</strong> bank_sat_rw.js ships 32 items on which the longest answer choice is the key 88 percent of the time, and a student who always picks the longest option scores 84 percent on that file against a chance rate of 25. Eighteen other hand written bank files across all five exams carry the same tell at lower strength, several above 50 percent. The engine test reported the SAT Reading and Writing section at 35 percent and passed it.</li>
 <li><strong>Why.</strong> The length bias check groups items by section. A section mixes hand written items with generated ones, and the generated items are flat by construction because the schemas assemble choices mechanically. For SAT Reading and Writing the generated bank supplies 160 of 348 items at 7 percent, which pulls a hand written 88 percent down to a section figure of 35 and under the recorded tolerance of 36. The aggregate was not wrong; it was answering a question nobody needed the answer to. A student does not meet a section, they meet items, and the items arrive from one file at a time.</li>
@@ -894,7 +894,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> An aggregate over a mixed population reports the population, and if part of that population is flat by construction it will hide the part that is not. The rule that follows is about what the unit of the measurement should be: measure at the grain the defect can exist at, which here is the file, because a file is written by one person in one sitting with one set of habits. The section was the grain the data was convenient at.</li>
 </ul>
 <h3 id="inc-0070-the-second-tool-that-appends-a-clause-did-not-carry-the-first-one-s-rule-about-the-full-stop">INC-0070. The second tool that appends a clause did not carry the first one's rule about the full stop</h3>
-<p><em>2026-09-22, Cosmetic</em></p>
+<p><em>2026-09-22, Cosmetic, <code>879f9584ae538423484f8990f3eb93b23dd320ae</code> PR #70</em></p>
 <ul>
 <li><strong>What was seen.</strong> Two repaired SAT items read 'the number of purchases. made' and 'sleep debt over the course of a week. that they do not fully repay at the weekend'. The clause had been appended after the sentence's own full stop.</li>
 <li><strong>Why.</strong> bank_emit.extend has handled this since it was written: it strips a trailing period, appends the clause and puts the period back. bank_repair.repair was written months later for hand written banks that a generator never produced, and it inserts at the closing quote of the string literal, which is after the period. The rule lived in one implementation rather than in a place both could use, and the second implementation was written from the problem rather than from the first solution.</li>
@@ -904,7 +904,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> Writing a second tool for the same job in a different context reproduces every detail the first one learned the hard way, unless the detail is written down somewhere the second author will look. This is INC-0067 seen from the other side: there the callers were not migrated to the helper, here the helper's behaviour was not carried into the second implementation. Both are the cost of a rule living in code rather than in a statement of the rule.</li>
 </ul>
 <h3 id="inc-0071-clauses-written-from-a-truncated-report-were-appended-to-the-end-of-the-wrong-word">INC-0071. Clauses written from a truncated report were appended to the end of the wrong word</h3>
-<p><em>2026-09-22, Wrong data shown or stored</em></p>
+<p><em>2026-09-22, Wrong data shown or stored, <code>879f9584ae538423484f8990f3eb93b23dd320ae</code> PR #70</em></p>
 <ul>
 <li><strong>What was seen.</strong> Repaired choices read 'in chronological orderorder', 'return to them afterwardsards', 'how it would spend itintends to spend the money' and 'the bags the proposal would affectl would charge for'. Eleven choices across four bank files were garbled in a way that leaves the file valid JavaScript, leaves the item longer, and moves the measured distribution in the intended direction.</li>
 <li><strong>Why.</strong> The report that shows which distractors need lengthening truncates each choice to fit a terminal line. Several clauses were written as continuations of the truncated text, on the assumption that the tool inserts at the point the needle ends. It does not: repair() appends at the end of the string literal, which is correct for a clause and wrong for a continuation. Nothing distinguished the two, because a continuation is just a clause whose first character is a letter.</li>
@@ -914,7 +914,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A report that truncates its output invites the reader to write text that continues it, and a tool that appends will put that text somewhere else. Either the report should not truncate the field the caller has to write against, or the tool should refuse input shaped like a continuation. The cheap half is the refusal, because it is one condition and it cannot be forgotten, while remembering not to write continuations is a habit that has to hold every time.</li>
 </ul>
 <h3 id="inc-0072-a-distractor-was-replaced-and-the-explanation-went-on-naming-the-old-one">INC-0072. A distractor was replaced and the explanation went on naming the old one</h3>
-<p><em>2026-09-22, Wrong data shown or stored</em></p>
+<p><em>2026-09-22, Wrong data shown or stored, <code>879f9584ae538423484f8990f3eb93b23dd320ae</code> PR #70</em></p>
 <ul>
 <li><strong>What was seen.</strong> SR001 offers unremarkable, unaccounted for, unrelated and undisturbed, and its wrong answer note begins 'Unnoticed reverses the point'. Unnoticed is not on the paper. A student reading the explanation after answering is told why an option they were never shown is wrong.</li>
 <li><strong>Why.</strong> The length tell on vocabulary in context items cannot be fixed by appending a clause to a single word, so bank_repair.swap replaces the distractor with a longer one of the same register. It replaces the text in the choices array and nowhere else. An item is not just its choices: expl and wrong name particular options, and on this bank they name them by word.</li>
@@ -924,7 +924,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A record has parts that refer to one another, and a tool that edits one part by text is editing a graph while looking at a string. The cheap guard is not to check every reference but to refuse the edit when the old text occurs anywhere else in the record, because that is the only place a reference to it can be. Refusing on a false positive costs one rewritten table entry; not refusing ships an explanation about an option nobody saw.</li>
 </ul>
 <h3 id="inc-0073-check-lift-was-told-a-one-clause-entry-lifted-two-distractors">INC-0073. check_lift was told a one clause entry lifted two distractors</h3>
-<p><em>2026-09-22, Degraded</em></p>
+<p><em>2026-09-22, Degraded, <code>879f9584ae538423484f8990f3eb93b23dd320ae</code> PR #70</em></p>
 <ul>
 <li><strong>What was seen.</strong> The GRE reading generator failed with three items named: GR104, GR128 and GR133 were said to have lifted 2 distractors and to belong at rank 3, and each sat at rank 4. Each of the three had exactly one clause in the table.</li>
 <li><strong>Why.</strong> bank_emit.extend accepts a table entry as either one (needle, clause) pair or a list of them, and it is the only place that knows the difference. Every caller of check_lift then has to re-derive the count, and the obvious expression, len(v), reads a bare two element tuple as two lifts. The rule for reading the table lives in extend; the callers each hold a private copy of it, and one copy was wrong.</li>
@@ -934,7 +934,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A guard that takes the intent as an argument is only as good as the argument, and an argument derived by hand from the same data the guard is checking is a second implementation of the thing being checked. It fails in the direction that is hardest to see: too high an intent demands a rank the clauses cannot reach, and the author satisfies it by writing more clauses than the plan called for, which skews the distribution the other way while every check passes. Derive the intent from the data with the code that already reads it.</li>
 </ul>
 <h3 id="inc-0074-a-corpus-field-written-for-one-grammatical-slot-was-spliced-into-another">INC-0074. A corpus field written for one grammatical slot was spliced into another</h3>
-<p><em>2026-09-22, Wrong data shown or stored</em></p>
+<p><em>2026-09-22, Wrong data shown or stored, <code>2c72da1fde8a3819ca9bda7eabe9fb75ac0754b7</code> PR #71</em></p>
 <ul>
 <li><strong>What was seen.</strong> 160 of the 833 shipped GMAT v_pc items, 19 percent, offer a choice like "That shorten the time taken to settle a claim is the most urgent of the problems facing Calloway Insurance." It is not English. A student reading it can strike it out without considering the argument, which is a free elimination on a five choice item and makes the item easier than the rating it carries.</li>
 <li><strong>Why.</strong> A PLAN scenario stores goal as a bare infinitive phrase, because the stem it was written for reads "X intends to &lt;goal&gt;". Two other templates splice the same field after "has tried to", where a bare infinitive is also right. One splices it into a subject position, "That &lt;goal&gt; is the most urgent of the problems facing X", where English wants a gerund or a noun phrase. The field is correct; the slot it was reused in is not, and nothing connected the two.</li>
@@ -944,7 +944,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A corpus field is written against the one sentence the author had in mind, and the schema that reuses it three templates later has no way to know which shape it is. The type system says str in both places. Two things follow. Store the field in every shape a template needs and name the shapes, rather than storing one shape and trusting the next author to notice. And guard the output, not the corpus: the generated sentence is the only place the mismatch becomes visible, and a cheap pattern over the rendered text catches a class that no check on the inputs can see.</li>
 </ul>
 <h3 id="inc-0075-every-correct-answer-on-one-gmat-schema-was-ungrammatical-and-the-guard-written-an-hour-earlier-could-not-see-it">INC-0075. Every correct answer on one GMAT schema was ungrammatical, and the guard written an hour earlier could not see it</h3>
-<p><em>2026-09-22, Wrong data shown or stored</em></p>
+<p><em>2026-09-22, Wrong data shown or stored, <code>2c72da1fde8a3819ca9bda7eabe9fb75ac0754b7</code> PR #71</em></p>
 <ul>
 <li><strong>What was seen.</strong> All 277 shipped cr_plan_eval items, a third of the GMAT Plan and Construct category, have a key reading "Whether what share of the traffic on Bridge Street stops there at all is what the measure would change." Every one of the eight scenarios produces one, across all six wh words. The student is asked to choose between four fluent distractors and one sentence that is not English, so the item is answerable without reading the argument and is rated as though it were not.</li>
 <li><strong>Why.</strong> The same class as INC-0074 and the same corpus: check is stored as a wh clause because the explanation reads "Establish &lt;check&gt;, and one answer means ...". A second template put it after "Whether" and before "is what the measure would change", where a wh clause cannot go. INC-0074 was the same mistake with the goal field, found in the same reading, and the guard written for it tests for an infinitive after That or Whether. check is not an infinitive, so the guard passed it.</li>
@@ -954,7 +954,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A guard written from the instance in front of you covers that instance. INC-0074 was a bare infinitive in a noun slot, so the guard looked for bare infinitives, and the sentence one screen away in the same file was a wh clause in a clause slot and went straight through. The general defect was never the infinitive; it was that a corpus field carries no record of the grammatical shape it was written in, and any template may reuse it. So the guard has to be stated over the class, every field against every slot, not over the token that happened to be wrong first. The other half of this is where it was found: the distractor version was spotted first because it is louder, and the version in the key, which is three times as damaging, was found only because the first one prompted a second look. Reading one rendered item per schema would have caught both on the day they were written, and costs less than either fix.</li>
 </ul>
 <h3 id="inc-0076-str-capitalize-lowercased-the-rest-of-the-sentence-and-took-the-proper-nouns-with-it">INC-0076. str.capitalize() lowercased the rest of the sentence, and took the proper nouns with it</h3>
-<p><em>2026-09-22, Wrong data shown or stored</em></p>
+<p><em>2026-09-22, Wrong data shown or stored, <code>2c72da1fde8a3819ca9bda7eabe9fb75ac0754b7</code> PR #71</em></p>
 <ul>
 <li><strong>What was seen.</strong> 180 shipped generated items render a proper noun in lower case. 70 of them carry it in the correct answer: "The fenwick track is the only one in the county, so every competitive runner trains there whether they win or not" and "The halloran fund supplies the starting grant for nearly all of the laboratory's work". The stem two lines above spells both correctly, so the item contradicts itself on the page and the key is the choice that looks wrong.</li>
 <li><strong>Why.</strong> Python's str.capitalize() is not what its name suggests to a reader in a hurry. It uppercases the first character and lower cases every other one. The generators use it twenty one times to render a stored fragment as the start of a sentence, which is right for a fragment of ordinary prose and wrong for any fragment containing a name. Four corpus fields contain one.</li>
@@ -964,7 +964,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A standard library function whose name is a plausible description of half of what it does will be used for that half. capitalize() reads as "make this the start of a sentence" and is in fact "make this the start of a sentence and flatten everything else", and the damage is invisible until a value happens to contain a capital. The guard is not a test that the output looks right, because the output looked right for every value that had no name in it. The guard is to ban the function: the correct one is three characters of slicing, the wrong one is never what a generator wants, and a lint catches it in the diff rather than in the bank.</li>
 </ul>
 <h3 id="inc-0078-a-coefficient-of-one-was-printed-as-1x-on-2-353-shipped-items">INC-0078. A coefficient of one was printed as 1x on 2,353 shipped items</h3>
-<p><em>2026-09-22, Wrong data shown or stored</em></p>
+<p><em>2026-09-22, Wrong data shown or stored, <code>2c72da1fde8a3819ca9bda7eabe9fb75ac0754b7</code> PR #71</em></p>
 <ul>
 <li><strong>What was seen.</strong> 2,353 items across eight schemas and every exam that remaps them read "x squared - 1x - 30 = 0", "5(x - 7) = 1x - 6" and "2x + 3y = 10 and 1x + 5y = 12". The arithmetic is right and the key is right. The notation is not how anyone writes algebra, and on a test preparation product it tells the student the question was produced by a machine that does not know the convention.</li>
 <li><strong>Why.</strong> Every schema that draws a coefficient formats the term itself, as the number followed by the variable. That is correct for every value except one and minus one, which are written as the bare variable. The rule is a convention of notation rather than of arithmetic, so no computation check could see it, and it was reimplemented at each of the sites that needed it, each time without the exception.</li>
@@ -974,7 +974,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> Presentation rules travel with the value, and a value formatted at the point of use is formatted by whoever was writing that line. Eight schemas each wrote the same two characters and all eight omitted the same exception, which is not eight mistakes but one missing function. The give away is the shape of the defect: identical output in unrelated files means the knowledge was never in one place. The check that catches it cannot be on the arithmetic, because the arithmetic was always right, so it has to be on the rendered string.</li>
 </ul>
 <h3 id="inc-0079-a-generated-schema-was-playable-at-100-percent-by-picking-the-third-shortest-option-and-no-check-looked-at-generated-schemas">INC-0079. A generated schema was playable at 100 percent by picking the third shortest option, and no check looked at generated schemas</h3>
-<p><em>2026-09-22, Wrong data shown or stored</em></p>
+<p><em>2026-09-22, Wrong data shown or stored, <code>2c72da1fde8a3819ca9bda7eabe9fb75ac0754b7</code> PR #71</em></p>
 <ul>
 <li><strong>What was seen.</strong> A student who always picks the third shortest option answers 861 of 861 sat_rw_apostrophe items correctly, and another 887 through the ACT remap, without reading a word. It is the largest single schema in Standard English Conventions on two exams. Measuring the rest found 39 of 92 generated schemas over the 1.8 times chance cap on one of the three figures, among them cr_plan_eval at 98 percent on one rank over 1,117 items, act_kol_redundancy at 100, act_s_changed at 97 percent shortest, and cr_plan_weaken at 65 percent longest.</li>
 <li><strong>Why.</strong> INC-0069 added a length bias check per hand written source file, because a section figure hid a file at 88 percent. The same argument applies one level down and was not followed there. Generated items are checked only at the section level, and the section check runs on what the harness loads, which is the hand written banks plus the strided starter slice, so a schema contributes a few dozen items to a figure covering hundreds. The apostrophe schema is worse than an accident of drafting: its four choices are the four forms of one noun, and for a regular noun those forms are ordered by length by construction, so the key sits at the same rank on every item the schema can produce.</li>
@@ -984,7 +984,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A check is scoped to a grain, and the grain is a claim about where a defect can live. INC-0069 moved the grain from the section to the file for hand written banks and stopped there, so the same defect went on living one level down in generated ones, where there are far more items. When a check finds something by being made finer, the question to ask immediately is what else is measured at the old grain. The second half is about which populations a check can see: this one ran on what the test harness loads, which is a sample chosen for a different purpose, and a sample chosen for a different purpose is not a population you can make claims about.</li>
 </ul>
 <h3 id="inc-0081-a-student-who-always-answers-1-scores-98-percent-on-a-schema-and-no-check-looked-at-the-answer-itself">INC-0081. A student who always answers 1 scores 98 percent on a schema, and no check looked at the answer itself</h3>
-<p><em>2026-09-22, Wrong data shown or stored</em></p>
+<p><em>2026-09-22, Wrong data shown or stored, <code>2c72da1fde8a3819ca9bda7eabe9fb75ac0754b7</code> PR #71</em></p>
 <ul>
 <li><strong>What was seen.</strong> msr_count ships 1,867 items and the correct answer is 1 on 98 percent of them: the case sets it builds almost always contain exactly one compliant row. act_s_trend ships 820 and the answer is the rising option on 76 percent, because the studies it draws trend upward three times in four. gt_count is at 47 percent on 1, and three Data Sufficiency schemas sit at 42 to 45 percent on one of their five fixed statements against a chance rate of 20.</li>
 <li><strong>Why.</strong> Three checks look at where the answer sits: the position among the choices, the length rank, and for numeric items the value rank. All three are about the answer's place in the set it was shown in. None looks at the answer itself. A schema whose parameters happen to produce the same answer over and over passes every one of them, because the answer moves around the choices perfectly well; it is only always the same answer.</li>
@@ -994,7 +994,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> Every guard here measured the answer's place in its set, and a set of guards that all take the same kind of measurement shares a blind spot the size of everything else. The tell they could not see was the simplest one a student would find: the answer is the same answer. When adding the third check of a kind, the question worth asking is not whether it is stricter than the other two but what all three have in common, because that is what is going unmeasured.</li>
 </ul>
 <h3 id="inc-0082-nine-published-exam-facts-cite-test-prep-companies-in-the-one-published-corpus-with-no-source-validator">INC-0082. Nine published exam facts cite test prep companies, in the one published corpus with no source validator</h3>
-<p><em>2026-09-22, Wrong data shown or stored</em></p>
+<p><em>2026-09-22, Wrong data shown or stored, <code>5d7e45dc41329917f8576f90107e1eb36ebf2c89</code> PR #73</em></p>
 <ul>
 <li><strong>What was seen.</strong> The five exam guide pages publish nine figures sourced to test prep and content marketing companies: The Princeton Review three times (the digital SAT score release window, and the two LSAT facts that logic games are retired and that the variable section can appear anywhere), Applerouth twice (the enhanced ACT rollout dates and Science becoming optional), plus Menlo Coaching for how the GRE is delivered, Achievable for the GRE fee reduction amount, UWorld College Prep for SAT superscoring, and Sallie Mae for the SAT retake limit. CLAUDE.md bans coaching site blogs outright as sources. Several of these are structural facts a student plans around, carried under a citation the house rules forbid.</li>
 <li><strong>Why.</strong> Two things, and the second is why the first went unseen. The published figure corpora are data/schools, data/colleges and data/exams.json. validate_schools.py and validate_colleges.py enforce the source policy on the first two and run from their builds; data/exams.json has no validator at all and build_exams.py calls none, so nothing has ever read a source on it. Even had one existed, it would have passed all nine: BANNED_SOURCES lists the six sites CLAUDE.md names as examples, and CLAUDE.md bans those six AND the category coaching site blogs. The general clause was dropped in transcription, so the list refuses GMAT Club by name and accepts Kaplan.</li>
@@ -1004,7 +1004,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> Two lessons, and they compound. A rule copied into code by its examples loses the clause the examples were illustrating: CLAUDE.md bans six named sites and coaching site blogs, and the list kept the six and dropped the category, which is the half that generalises. And a validator gets written for the corpus that had the problem at the time, then quietly defines what is checked: two of three published corpora were enforced and the third had never had a source read, which is not a weaker check but an absent one. When a guard exists, the question is not only whether it is strict enough but which of the things it could be pointed at it is not pointed at.</li>
 </ul>
 <h3 id="inc-0085-one-flashcard-for-a-skill-for-as-long-as-anyone-cared-to-look">INC-0085. One flashcard for a skill, for as long as anyone cared to look</h3>
-<p><em>2026-09-22, Degraded</em></p>
+<p><em>2026-09-22, Degraded, <code>052472e3ac614a5aa268405b0b1f1004b7a1b097</code> PR #75</em></p>
 <ul>
 <li><strong>What was seen.</strong> Counting cards per skill rather than per exam for the first time: LSAT explicitly stated information had 1 card and inference 1, ACT integration of knowledge had 1, GRE sentence equivalence had 2, and 9 more skills across the three exams had 2. A student drilling one of those skills saw the same card come round immediately. The totals looked reasonable, which is why nobody looked further: 30, 33 and 45 cards against the GMAT 120.</li>
 <li><strong>Why.</strong> test.js asserts that every tracked skill has bank items, and for the deck it asserts only that each card names a real section. So the bank has a per-skill floor and the deck has none, and the deck was measured by its total, which is an average over twelve or fifteen skills and hides any one of them being empty.</li>
@@ -1014,7 +1014,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> Two corpora side by side, one guarded per unit and one guarded only in total, is not two levels of rigour but one measurement and one blind spot. When a check exists for the bank, ask what else is shipped alongside it and counted only in aggregate.</li>
 </ul>
 <h3 id="inc-0086-a-finished-generator-module-that-nothing-imported-and-two-of-its-four-schemas-produced-nothing">INC-0086. A finished generator module that nothing imported, and two of its four schemas produced nothing</h3>
-<p><em>2026-09-22, Silent loss</em></p>
+<p><em>2026-09-22, Silent loss, <code>3a45d4d2a9d679e94e07163a2e11cb012940b6e2</code> PR #77</em></p>
 <ul>
 <li><strong>What was seen.</strong> src/gen/g_rc.py is 339 lines of working reading comprehension generator with an authored passage corpus, and no file in the repository imports it. Its four schemas were therefore contributing nothing. Two of them could not have contributed anyway: rc_main and rc_caveat raised ItemError on every single draw, because they build their distractors from OTHER passages and need choices_n minus one of them, which is four, and the corpus held four passages in total. The two GMAT skills the module targets, v_st and v_inf, were the only two of the twelve with no generated items at all.</li>
 <li><strong>Why.</strong> Two failures that hid each other. The module is not in the import list in build_banks.py, so nothing ever called it and nothing ever reported that it was silent. And the corpus is one short of the minimum its own schemas require, which is a data shortfall that reads as an exception rather than as a count: ItemError is the framework's ordinary way of saying this draw did not work, so a schema that raises it every time looks exactly like a schema that is merely fussy.</li>
@@ -1024,7 +1024,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A module that nothing imports fails no test, and an exception raised on every draw is indistinguishable from an exception raised on a hard draw. Both are silence, and a build that reports totals hears neither. Count what each schema contributed, not what the category holds, and treat a contribution of zero as a failure rather than as a small number.</li>
 </ul>
 <h3 id="inc-0087-the-same-corpus-field-in-two-grammatical-slots-in-a-schema-written-the-same-day-the-guard-was-read">INC-0087. The same corpus field in two grammatical slots, in a schema written the same day the guard was read</h3>
-<p><em>2026-09-22, Wrong data shown or stored</em></p>
+<p><em>2026-09-22, Wrong data shown or stored, <code>51a41537e6f9b8877295392ab15a91d2e98f67ce</code> PR #78</em></p>
 <ul>
 <li><strong>What was seen.</strong> A new flaw schema, cr_necsuff, renders its correct answer as 'treats a condition that is required for be admitted to the conservatoire as though meeting it were enough'. The goal field holds a bare infinitive because the stem needs one after may: 'Wen may be admitted to the conservatoire' is right. After 'required for' the same string needs a gerund. Caught before the schema was committed, by rendering one item from each of the three new schemas and reading them.</li>
 <li><strong>Why.</strong> One field written against the slot the author had in mind and reused in a second slot that takes a different form. That is INC-0074 exactly, and INC-0074's own lesson says what to do instead: store the field in every shape a template needs and name the shapes. I read that record while building the recurrence counting earlier in the same session and then wrote the schema with one shape anyway.</li>
@@ -1034,7 +1034,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> Reading the record does not prevent the defect; the practice does. This one was written hours after its own lesson was read closely enough to be catalogued as a recurrence, and it was caught by rendering three items rather than by remembering. Budget the render, not the recollection.</li>
 </ul>
 <h3 id="inc-0088-a-shipped-schema-answerable-at-68-percent-by-picking-the-shortest-option-under-the-size-at-which-anything-is-checked">INC-0088. A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked</h3>
-<p><em>2026-09-22, Wrong data shown or stored</em></p>
+<p><em>2026-09-22, Wrong data shown or stored, <code>144c1b209e20e910682c987f214eb4c9e36a0e86</code> PR #79</em></p>
 <ul>
 <li><strong>What was seen.</strong> rc_infer ships 40 items to GMAT v_inf and the correct answer is the shortest of the five choices on 68 percent of them, against a chance rate of 20 and a cap of 36. It merged and went live without the bias check ever looking at it. The same schema over the long passage corpus is at 62 percent on 16 items. The cause is structural: the key is a modus tollens conclusion, a single clause, and the distractors are the converse and inverse of a conditional plus sentences lifted from the passage, all of which run longer.</li>
 <li><strong>Why.</strong> check_bias opens with 'if n &lt; 50: continue', so a schema contributing fewer than fifty items is not measured at all. The threshold is defensible for the cap it applies, because 36 percent on a handful of items is within sampling noise, but skipping is the wrong response to that: at 40 items a rate of 68 percent is nearly eight standard errors above chance and is not noise by any reading. The check switched off where it should have widened.</li>
@@ -1044,7 +1044,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell. When a measurement cannot be trusted at a small sample, widen the tolerance to what the sample supports rather than declining to measure, and notice when a count of what was measured does not move after you add something to measure.</li>
 </ul>
 <h3 id="inc-0090-two-of-a-schema-s-three-question-forms-could-not-build-and-the-only-sign-was-an-item-count">INC-0090. Two of a schema's three question forms could not build, and the only sign was an item count</h3>
-<p><em>2026-09-22, Silent loss</em></p>
+<p><em>2026-09-22, Silent loss, <code>9056b8daa4fe87508a82591b79adb7b8a9fd181f</code> PR #82</em></p>
 <ul>
 <li><strong>What was seen.</strong> The GRE shipped 48 items of the trigonometry schema where the SAT shipped 96, and the key was the smallest of the five options on half of them. The schema listed five wrong answers and its SAT and ACT copies built without complaint. Checking the other banks the same way found it again in the quadratic roots schema: the sum question never built at five choices, so the GMAT and the GRE carried that schema's product and greater-solution questions and none of its sum questions. Between them, two whole question forms were missing from three exams.</li>
 <li><strong>Why.</strong> Two entries in a distractor list can be the same arithmetic without looking alike. Swapping the opposite and adjacent sides and inverting the ratio both turn a tangent into its reciprocal. The sum of the roots IS the negated coefficient of x and their product IS the constant term, so on a sum question 'flip the sign' and 'read the coefficient off the equation' are one wrong answer wearing two labels, and so are 'give the product' and 'read the constant term'. Once the duplicates are dropped the list is shorter than the exam asks for, make() raises, and the draw is discarded. That is unremarkable on its own: ItemError is the ordinary way a schema says not this draw, the next draw is a new set of numbers, and the category still fills from its neighbours. But when the collision is in the SHAPE of the wrong answers rather than in the numbers, every draw of that question form is discarded and the form is absent from that exam.</li>
@@ -1054,7 +1054,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A generator's wrong answers are written as labels and read as labels, and nobody looks at the values two labels produce. Where the question type makes two misconceptions arithmetically identical the list is shorter than it reads, and because a discarded draw is the ordinary way a schema says no, a whole question form can vanish from an exam leaving nothing behind but a number nobody has a reference for. Count what a schema actually produces at each width it has to serve, and compare the widths against each other.</li>
 </ul>
 <h3 id="inc-0091-every-wrong-answer-a-schema-could-think-of-was-bigger-than-the-right-one">INC-0091. Every wrong answer a schema could think of was bigger than the right one</h3>
-<p><em>2026-09-22, Degraded</em></p>
+<p><em>2026-09-22, Degraded, <code>9056b8daa4fe87508a82591b79adb7b8a9fd181f</code> PR #82</em></p>
 <ul>
 <li><strong>What was seen.</strong> Four generated schemas put the correct answer at the same value rank on 39 to 47 percent of their items against a 36 percent line, and on the five choice exams the key was never the largest of the options and was the smallest on half of them. The rectangle schema, the box volume schema, the trigonometry schema and the polynomial expansion schema, each measured on its own draws rather than on the mix the bank happened to ship.</li>
 <li><strong>Why.</strong> The characteristic errors for these questions all run one way. On an area question every slip, adding the sides or subtracting them or computing the perimeter, is smaller than the product. On a volume question every slip but doubling is smaller than three edges multiplied. On a trigonometry question every slip either inverts the ratio or trades a leg for the longer hypotenuse, so all of them are larger. The lists were written by naming misconceptions, which is the right way to write them, and nobody asked which side of the answer the resulting numbers land on. make() aims for a value rank drawn uniformly, but it can only place the key among the candidates it is handed, so with five candidates above it and one below it the key can occupy two ranks out of five and no shuffling changes that.</li>
@@ -1064,7 +1064,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A list of misconceptions is a list of labels and a student sees numbers. Where every characteristic error runs the same direction the key sits at a predictable place in the ordered options however carefully the item is shuffled, because the shuffler can only place it among the candidates it is handed. When writing wrong answers, sort them next to the right one and look at which side they fall on.</li>
 </ul>
 <h3 id="inc-0092-a-schema-threw-away-three-draws-in-four-and-the-counter-that-knew-was-read-by-nobody">INC-0092. A schema threw away three draws in four, and the counter that knew was read by nobody</h3>
-<p><em>2026-09-22, Silent loss</em></p>
+<p><em>2026-09-22, Silent loss, <code>be6b0736906afbb45e883a29de8c8752ed707465</code> PR #83</em></p>
 <ul>
 <li><strong>What was seen.</strong> The exponential growth schema discarded 69 to 75 percent of everything it built, on all four exams that carry it, and the absolute value schema discarded 48 percent on the two that ask for five choices. Twenty nine schema and exam pairs lose draws this way. None of it appeared anywhere: not in the per category report, not in the bias check, not in the starvation check written the same day, and not in any test. The banks still filled, because a category that comes up short is topped up by the schema's neighbours.</li>
 <li><strong>Why.</strong> Two causes, one on top of the other. The item cause is that a distractor which does not LOOK like the answer is never chosen, so make() keeps only candidates whose rendered shape matches the key's, and drops the draw when too few remain. The exponential schema multiplies a starting amount by a fraction raised to a power, so its key renders as a whole number on one draw, two decimal places on the next and a fraction on the one after, while its wrong answers render differently again: the pool of same shaped candidates is empty most of the time and the question type has no stable shape to hold them to. The reporting cause is the one that let it sit: make() counts these rejections into self.shape_misses, and shape_misses is written in exactly one place and read in none. A counter incremented for nobody is not a measurement, and the number it held was the largest single loss in the bank.</li>
@@ -1074,7 +1074,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A counter that nothing reads is not instrumentation, it is a comment that looks like instrumentation, and it is worse than nothing because it answers the question 'is anyone watching this' with a yes. Every time a guard is written against one symptom, ask what the same failure looks like arriving another way, and count the whole category rather than the instance that prompted it.</li>
 </ul>
 <h3 id="inc-0093-seven-variable-names-were-plural-and-every-sentence-built-around-them-said-was">INC-0093. Seven variable names were plural and every sentence built around them said was</h3>
-<p><em>2026-09-22, Cosmetic</em></p>
+<p><em>2026-09-22, Cosmetic, <code>cbd9af348b8a1e7a8e467196d6d2e979096baa00</code> PR #84</em></p>
 <ul>
 <li><strong>What was seen.</strong> Eight of the ACT science schemas shipped sentences like 'when the minutes in the dye bath was 30 minutes' and 'the particles remaining is what the students measured'. Seven of the thirty study scenarios name a variable with a plural noun, and every template that puts a variable name in front of a verb assumes a singular one, so roughly a quarter of the science section read as though written by someone who does not speak English. It was on the page, in stems and in explanations, and no check looks at whether a sentence agrees with itself.</li>
 <li><strong>Why.</strong> A scenario stores its variables as a name and a unit, and the name is dropped into whatever slot a template needs: the object of a preposition in one, the subject of a verb in another. Most names are singular noun phrases and the templates were written against those. Nobody wrote down that the templates need a singular, so seven scenarios with names like Days of curing and Seeds germinating out of 100 were added over time and each one broke every sentence that used it as a subject.</li>
@@ -1084,7 +1084,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A template is a promise about the grammar of what goes into it, and the promise is invisible: the code says name and the sentence needs a singular noun phrase. Whenever a stored string lands next to a verb, an article or a plural, write the requirement down beside the data rather than in the template, and make adding a new row state that it meets it. Renaming the data to fit one grammar is usually cheaper and always safer than teaching the templates to handle two.</li>
 </ul>
 <h3 id="inc-0094-a-reading-of-100-2-for-a-quantity-the-table-itself-calls-out-of-100">INC-0094. A reading of 100.2 for a quantity the table itself calls out of 100</h3>
-<p><em>2026-09-22, Wrong data shown or stored</em></p>
+<p><em>2026-09-22, Wrong data shown or stored, <code>cbd9af348b8a1e7a8e467196d6d2e979096baa00</code> PR #84</em></p>
 <ul>
 <li><strong>What was seen.</strong> One ACT science study measures seeds germinating out of 100, and on a fifth of its draws the table's first row read 100.2. Every question built on that table then asked about a number that cannot exist, and the ones asking for a trend or a comparison were still answerable, so nothing looked broken. The same table also reported a count of seeds to one decimal place.</li>
 <li><strong>Why.</strong> A study's readings are a base and a step scaled by a jitter drawn per draw, and the only thing checked about the result is that it is positive and that the column is monotone. A quantity with a natural ceiling has no way to say so: this one tops out at 100 by its own name, and at the largest jitter the base alone cleared it. The decimal is the same gap from the other side, a quantity that can only be a whole number rendered by a formatter that gives every reading one decimal place.</li>
@@ -1094,7 +1094,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> Generated data gets checked for the properties the questions need, monotone and positive and distinguishable, and not for the properties the world needs. A quantity whose name contains its own bound is stating a constraint that the generator has no way to hear unless someone writes it down as data. When a field's name says out of 100, or percent, or per 100, that is a ceiling and the generator should be told.</li>
 </ul>
 <h3 id="inc-0096-three-more-stored-phrases-in-front-of-a-verb-that-did-not-agree-with-them">INC-0096. Three more stored phrases in front of a verb that did not agree with them</h3>
-<p><em>2026-09-22, Cosmetic</em></p>
+<p><em>2026-09-22, Cosmetic, <code>d7ec4a71aaf8ed28e38d45d840ea1846fa83863d</code> PR #85</em></p>
 <ul>
 <li><strong>What was seen.</strong> Two causal reasoning scenarios shipped 'Officials concluded that the cycle racks was responsible for the change' and the same for the traffic islands, and one necessary condition scenario shipped 'The rule says that two independent reviews is needed'. Three corpus entries across two modules, in schemas that between them carry several thousand items.</li>
 <li><strong>Why.</strong> The same shape as the ACT science scenario names fixed hours earlier: a stored noun phrase dropped into a template that writes a singular verb after it. The templates were written against the entries that existed, every one of them singular, and later entries were added by reading their neighbours rather than the sentence they would end up inside.</li>
@@ -1104,7 +1104,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> Fixing an instance of a defect is the moment to sweep for the rest of it, and the sweep is worth running even when it is too noisy to become a check. A hundred to one false alarm rate is useless in CI and perfectly workable for one person reading the hits once, and it found three defects that no guard would have. What ships from the sweep is the narrow check on the fields that actually failed, not the broad one that found them.</li>
 </ul>
 <h3 id="inc-0097-every-reading-inference-question-asked-about-something-the-passage-never-mentions">INC-0097. Every reading inference question asked about something the passage never mentions</h3>
-<p><em>2026-09-22, Wrong data shown or stored</em></p>
+<p><em>2026-09-22, Wrong data shown or stored, <code>4beeeda2c23720a47ca80348d2122ee2f2e7597b</code> PR #86</em></p>
 <ul>
 <li><strong>What was seen.</strong> 'Which of the following can be properly inferred from the passage about the Sweetwater jurisdiction?' The passage is about water rights doctrine in nine western jurisdictions and never names Sweetwater, or the Karoo section, or Agnes Thorne, or the falling-tone item. 800 of 800 inference items sampled asked about a subject that appears nowhere in the text they were asked about. The explanation then told the student 'The passage states that the Sweetwater jurisdiction had no mining district of any kind', which the passage does not say either. The question type is the one that tests valid inference, it runs on both the GMAT and the LSAT, and not one of its items could be answered by reading.</li>
 <li><strong>Why.</strong> The question is a modus tollens with three parts: a universal the passage establishes, a particular case, and the conclusion that follows. The case is the part the QUESTION supplies, which is why the corpus stores it separately from everything that goes into the prose. The stem template asks what can be inferred about the case and never states it, so the premise the whole item turns on was held in the data, used to compute the key and to write the explanation, and never shown to the person answering. The explanation compounded it by attributing the case to the passage in the same sentence pattern as the universal, which made the item look internally consistent to anyone reading the explanation rather than the passage.</li>
@@ -1114,7 +1114,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A generated item is checked as data, and this one was correct as data: the logic was valid, the key was right, the distractors were the intended errors. What was missing was a fact about the RELATION between two strings, that a name in the question also occurs in the passage, and no property of either string alone can see it. When a question and its source are assembled from separate fields, write down what has to be true of them together, because every check that looks at one field at a time will pass.</li>
 </ul>
 <h3 id="inc-0098-the-table-said-31-0-and-the-explanation-said-31-because-the-fix-covered-the-table-only">INC-0098. The table said 31.0 and the explanation said 31, because the fix covered the table only</h3>
-<p><em>2026-09-22, Cosmetic</em></p>
+<p><em>2026-09-22, Cosmetic, <code>c59d046c09369c1a24bfa19301b1268fd255fc56</code> PR #87</em></p>
 <ul>
 <li><strong>What was seen.</strong> An ACT science table printed a reading of 31.0 and the explanation beside it wrote the same reading as 31, in six of the twelve schemas in the module. A student checking the explanation against the table finds two spellings of one measurement.</li>
 <li><strong>Why.</strong> Earlier the same day a formatter was added that prints every reading to one decimal place, because a reading that lands on a whole number rendered as 6 beside a neighbour rendered as 7.2 is visibly a different kind of thing and the choices could not be assembled from them. It was applied to the table, to the one schema whose choices are readings, and to that schema's explanation, which is where the evidence was. Every other schema in the module renders readings in prose, and those were left on the formatter that drops the decimal. The change was scoped to where the failure had been measured rather than to the quantity it was about.</li>
@@ -1124,7 +1124,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A fix scoped to where the evidence was is a fix scoped to the sample, not to the defect. When the change is to how a QUANTITY is written, the unit of work is the quantity and every place it is written, not the place where the failure happened to be visible. Finding the other call sites costs one search; the fix that covers a subset leaves a difference the reader can see and the measurement cannot.</li>
 </ul>
 <h3 id="inc-0099-every-generated-reading-comprehension-question-shipped-without-its-passage">INC-0099. Every generated reading comprehension question shipped without its passage</h3>
-<p><em>2026-09-22, Wrong data shown or stored</em></p>
+<p><em>2026-09-22, Wrong data shown or stored, <code>9928611571de97064408629c343ac56d8b34251b</code> PR #88</em></p>
 <ul>
 <li><strong>What was seen.</strong> The owner was served a reading comprehension question on the live site with nothing to read: 'If the first season used fixed speakers, which of the following can be properly inferred from the passage?' and five options, on a page with no passage. 280 items are like this, every generated reading item the GMAT and the LSAT carry, across all eight reading schemas. The worst of them ask what the passage says and offer five options all drawn from passages, so without the text there is nothing to choose between.</li>
 <li><strong>Why.</strong> The generator attaches the passage to the item as the field the app reads, and the emitter that writes the bank file names the fields it copies one by one. It copies passageHtml, which the data tables use, and has never copied passage, which the reading items use. So the item was right in memory, right in every test that builds items in process, and lost the moment it was written to the file that ships. The item also lost its passageId, which is what the app's game pools filter on to keep passage based items out of a view that has no passage.</li>
@@ -1134,7 +1134,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A check that infers what to expect from the same data it is checking cannot fail on a missing field: absence reads as nothing to look for. Derive the expectation from something the data cannot erase, the item's TYPE, and then look for what that type requires. A field that is set in memory, used by every in-process test and copied by hand into the shipped format has no test at all between the two, so the copying should be checked as a whole rather than field by field. And a check that runs one random draw is not a check of a random process: this one was correct for months and simply never asked often enough to see the answer.</li>
 </ul>
 <h3 id="inc-0100-a-blocked-source-turned-a-real-check-into-a-permanent-warning-and-the-flagship-exam-published-its-structure-table-uncited-for-as-long-as-the-page-existed">INC-0100. A blocked source turned a real check into a permanent warning, and the flagship exam published its structure table uncited for as long as the page existed</h3>
-<p><em>2026-09-22, Silent loss</em></p>
+<p><em>2026-09-22, Silent loss, <code>fce7f003a6953e6985c9ad985c9c9cc8ffa9303e</code> PR #89</em></p>
 <ul>
 <li><strong>What was seen.</strong> The GMAT exam page published the section structure table, 21 questions in 45 minutes for Quantitative Reasoning and so on, with no source line under it. Every other exam on the site, SAT, GRE, LSAT and ACT, carried one. The figures themselves were right, confirmed later against the exam maker, so nothing looked wrong on the page: it simply asserted four numbers on our own authority, which is the thing the sourcing rule exists to forbid.</li>
 <li><strong>Why.</strong> The check was already written and already correct: validate_exams knows the sections array is a set of published figures and knows sections_src is what sources it. It was deliberately downgraded to a warning, with a comment saying why, because www.mba.com serves this environment an Imperva challenge stub instead of the GMAT structure page, so the figures could not be verified from here. That reasoning was sound about the page and wrong about the fact. Unreachable was a property of one URL, not of the figure, and it was never retested against a different publisher. GMAC's own corporate site states all three sections with their question counts and times, is not behind the challenge, and is the exam maker rather than a reseller.</li>
@@ -1144,7 +1144,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A check downgraded because a source is unreachable carries an assumption with no expiry date on it, and the assumption is usually narrower than the downgrade. Blocked was true of one URL; it was applied to the fact. Before accepting that a figure cannot be sourced, try the organisation that publishes it and not just the page you first landed on. And a warning nobody can act on is not a lesser guard, it is a comment: if the condition is genuinely acceptable, record why and clear it, and if it is not, make it fail.</li>
 </ul>
 <h3 id="inc-0101-a-new-field-by-field-copier-reproduced-the-passage-loss-defect-four-days-after-the-ledger-recorded-it">INC-0101. A new field-by-field copier reproduced the passage loss defect four days after the ledger recorded it</h3>
-<p><em>2026-09-22, Wrong data shown or stored</em></p>
+<p><em>2026-09-22, Wrong data shown or stored, <code>fce7f003a6953e6985c9ad985c9c9cc8ffa9303e</code> PR #89</em></p>
 <ul>
 <li><strong>What was seen.</strong> The diagnostic being built for the study guide selected one real item per scored skill and copied it into the page. It named the fields it copied, and it named passage. Multi-source reasoning and graphs-and-tables items do not use passage: they carry their material in passageHtml. So two of the twelve questions would have reached a student with no source material at all, including one reading 'How many of the five pending requests comply with the booking policy exactly as submitted?' with no policy and no requests on screen.</li>
 <li><strong>Why.</strong> Exactly INC-0099's root cause in new code. A copier that enumerates the fields it carries is correct only for the item shapes its author had in mind, and silently drops everything else. The guard written for INC-0099, EMITTED_FIELDS in gen/framework.py, closes that class of bug for the bank emitter and only for the bank emitter, because it is a check on one function rather than on the idea. Four days later the same author wrote a second copier and made the same mistake, which is the strongest possible evidence that the guard was in the wrong place.</li>
@@ -1154,7 +1154,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> When a defect is about a KIND of code rather than a line of code, a guard bolted to the site of the failure does not generalise, and writing one feels like closing the case. Ask instead what the next instance of this code will look like and where it will live: here the answer was anywhere an item is copied out of the bank, and the durable check is that an item asking about source material has to be carrying it, wherever it is being rendered.</li>
 </ul>
 <h3 id="inc-0102-a-table-question-asked-which-row-rose-the-most-when-every-row-had-fallen">INC-0102. A table question asked which row rose the most when every row had fallen</h3>
-<p><em>2026-09-22, Wrong data shown or stored</em></p>
+<p><em>2026-09-22, Wrong data shown or stored, <code>e32605f9d66884d57cef73a8894a9679d2f94bc8</code> PR #93</em></p>
 <ul>
 <li><strong>What was seen.</strong> Item ZM4859 shipped live asking 'Which store had the greatest percent increase in units sold from Q2 to Q3?' over a table in which every store fell: Ashford down 22 percent, Belmont 55, Carlisle 40, Dunmore 40, Eastgate 19. The credited answer is Eastgate, which declined least. A student who reads the question correctly concludes that no store increased and that none of the five choices answers it, and is marked wrong for being right.</li>
 <li><strong>Why.</strong> gt_leader_pct picks two columns at random, computes each row's percent change between them, takes the maximum, and writes the word increase into the stem unconditionally. Nothing checks the sign of the winner. When every row falls, the maximum is the least negative number and the stem asserts a direction the data does not contain. The correct handling already existed ninety lines above in the same file: gt_change computes rose = b &gt; a and writes increase or decrease accordingly. The pattern was there to copy and was not copied.</li>
@@ -1242,7 +1242,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A test that is not wired into CI is a test that does not exist. Prove a suite runs in the place it is supposed to run, not on your machine.</li>
 </ul>
 <h3 id="inc-0033-the-dashboard-test-measured-a-hidden-element-and-passed">INC-0033. The dashboard test measured a hidden element and passed</h3>
-<p><em>2026-09-21, Silent loss, <code>8827e64</code> PR #62</em></p>
+<p><em>2026-09-21, Silent loss, <code>37241958be4dadca750f76742818b18b88e5a5b1</code> PR #62</em></p>
 <ul>
 <li><strong>What was seen.</strong> Layout and contrast assertions passed on a view that was never displayed.</li>
 <li><strong>Why.</strong> The admin view carries a hidden class. A display:none element still answers innerText and getComputedStyle, so every assertion held on a box that had never been laid out.</li>
@@ -1264,7 +1264,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> An error feed with no filter is a feed nobody reads. Signal has to be defended, and the cheapest defence is a human label that mutes permanently, so the queue gets quieter as it learns.</li>
 </ul>
 <h3 id="inc-0053-the-playbook-s-own-citation-guard-failed-ci-on-its-first-run">INC-0053. The playbook's own citation guard failed CI on its first run</h3>
-<p><em>2026-09-21, Cosmetic, PR #62</em></p>
+<p><em>2026-09-21, Cosmetic, <code>37241958be4dadca750f76742818b18b88e5a5b1</code> PR #62</em></p>
 <ul>
 <li><strong>What was seen.</strong> CI reported all 37 cited commits as nonexistent, with 'fatal: Not a valid object name' for every one.</li>
 <li><strong>Why.</strong> The checkout action shallow-clones by default, so no historical commit is present in the CI working copy. The guard was correct and its environment assumption was not.</li>
@@ -1275,7 +1275,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A guard that reads the repository needs the repository. CI checkouts are shallow by default, and anything that walks history, blames a line or resolves an old hash will fail in a way that looks like the data is wrong rather than the clone.</li>
 </ul>
 <h3 id="inc-0054-the-first-fix-asked-the-wrong-question-and-muted-a-working-check">INC-0054. The first fix asked the wrong question and muted a working check</h3>
-<p><em>2026-09-21, Silent loss, PR #62</em></p>
+<p><em>2026-09-21, Silent loss, <code>37241958be4dadca750f76742818b18b88e5a5b1</code> PR #62</em></p>
 <ul>
 <li><strong>What was seen.</strong> After guarding on 'is this a shallow clone', the citation check stopped running locally, where it had been working perfectly and verifying all 52 citations.</li>
 <li><strong>Why.</strong> This clone is shallow and still holds every commit the ledger cites, which is the normal case. Shallowness does not imply missing history, so the guard disabled itself in the one environment where it was useful.</li>
@@ -1286,7 +1286,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> When you add a condition that skips a check, make sure it describes the failure and not something merely correlated with it. A skip is indistinguishable from a pass in the output, so the fix for a noisy check can silently delete it.</li>
 </ul>
 <h3 id="inc-0055-a-new-browser-suite-hardcoded-this-machine-s-browser-directory-and-crashed-in-ci">INC-0055. A new browser suite hardcoded this machine's browser directory and crashed in CI</h3>
-<p><em>2026-09-21, Cosmetic, PR #62</em></p>
+<p><em>2026-09-21, Cosmetic, <code>37241958be4dadca750f76742818b18b88e5a5b1</code> PR #62</em></p>
 <ul>
 <li><strong>What was seen.</strong> ENOENT scandir /opt/pw-browsers on the first CI run of the dashboard suite, after every other suite had passed.</li>
 <li><strong>Why.</strong> The suite read a browser directory that exists in the development sandbox and not on a CI runner, where Playwright installs browsers in its own location. The older suites pass process.env.CHROMIUM_PATH straight through, which is undefined in CI and correctly means 'you decide'.</li>
@@ -1297,7 +1297,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A path that exists on the machine you wrote the test on is not a path. Resolve environment-specific locations through one helper that falls back to the tool's own default, and return undefined rather than an empty string, because undefined means 'you decide' and an empty string means 'launch nothing'.</li>
 </ul>
 <h3 id="inc-0057-the-ledger-cited-commits-that-squash-merging-destroys">INC-0057. The ledger cited commits that squash merging destroys</h3>
-<p><em>2026-09-21, Silent loss, PR #63</em></p>
+<p><em>2026-09-21, Silent loss, <code>724ef0ec90a8344f0a17530450d13c792b71e573</code> PR #63</em></p>
 <ul>
 <li><strong>What was seen.</strong> CI failed with three assertions at once: six citations unresolvable, the commit count wrong, and the HTML naming the wrong build commit.</li>
 <li><strong>Why.</strong> One cause behind all three. Each incident cites the commit that fixed it, and this repository squash merges, so a branch commit ceases to exist the moment its pull request lands. The builder treated an unresolvable citation as fatal, so it refused to rebuild; build.py catches that failure as a warning rather than stopping the deploy, so the stale committed artefacts stayed on disk and the two freshness assertions then failed against them.</li>
@@ -1308,7 +1308,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A commit hash is not a durable citation in a repository that squashes. Pull requests, issues and tags survive history rewriting; branch commits do not. Cite the thing that outlives the merge, and make any check of the other one advisory.</li>
 </ul>
 <h3 id="inc-0061-a-repeat-metric-that-gets-worse-when-the-bank-gets-better">INC-0061. A repeat metric that gets worse when the bank gets better</h3>
-<p><em>2026-09-22, Cosmetic, PR #65</em></p>
+<p><em>2026-09-22, Cosmetic, <code>de67a0eaeab023593685c7e5f5a0ffee944d3599</code> PR #65</em></p>
 <ul>
 <li><strong>What was seen.</strong> Doubling the LSAT reading bank cut the repeats a student actually sees by 46 percent, from 1875 to 1006, and the bot's avoidable repeats figure went up, from 258 to 309.</li>
 <li><strong>Why.</strong> A repeat counts as avoidable when the student has not yet exhausted that section's pool. Enlarging the pool keeps that condition true for longer in every sitting, so the window in which a repeat is classified avoidable widens with the pool. Measured directly, only 5 of 1300 repeats in a single long run were genuinely avoidable, and both pools were exhausted.</li>
@@ -1319,7 +1319,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A metric that moves against you when the product improves will eventually be used to justify reverting an improvement. When a number goes the wrong way after a change that should only have helped, measure the underlying thing directly before believing either the number or your own explanation of it. Never redefine the metric in the same change that made it look bad.</li>
 </ul>
 <h3 id="inc-0065-the-analysis-chapter-called-one-file-eight-failing-guards">INC-0065. The analysis chapter called one file eight failing guards</h3>
-<p><em>2026-09-22, Wrong data shown or stored, PR #68</em></p>
+<p><em>2026-09-22, Wrong data shown or stored, <code>a91b158cb151cd88b19421a525e406d568f58ee3</code> PR #68</em></p>
 <ul>
 <li><strong>What was seen.</strong> The generated chapter reported src/build.py as a guard named by eight incidents, under a heading saying a guard named twice is one that did not hold. build.py contains dozens of unrelated guards and most of those eight are different ones.</li>
 <li><strong>Why.</strong> The recurrence grouping keys on guard_file, which is the file a guard lives in, not the guard. A file that is the natural home for many checks therefore looks like a single check failing repeatedly, and the chapter states that reading in the heading as though it were established.</li>
@@ -1330,7 +1330,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> An aggregate is a claim about whatever you grouped by. Group by the file and you have measured the file. State the grouping in the sentence that reports the result, and the overclaim becomes visible while you are writing it.</li>
 </ul>
 <h3 id="inc-0067-the-browser-path-fix-covered-two-suites-and-three-others-kept-crashing">INC-0067. The browser path fix covered two suites and three others kept crashing</h3>
-<p><em>2026-09-22, Silent loss</em></p>
+<p><em>2026-09-22, Silent loss, <code>1fd4e0529fe06171c90528558b16358e25b71c6a</code> PR #69</em></p>
 <ul>
 <li><strong>What was seen.</strong> smoke_items.js, smoke_consent.js and smoke_billing.js all died at launch with 'Executable doesn't exist at /opt/pw-browsers/chromium_headless_shell-1243/...'. The sandbox holds chromium-1194 and chromium_headless_shell-1194, so Playwright's own resolved path pointed at a build that is not installed. CI passed throughout, because a CI runner installs the browser Playwright expects.</li>
 <li><strong>Why.</strong> INC-0055 was the same failure in smoke_business.js, and the fix was src/chromium_path.js, a shared resolver that prefers CHROMIUM_PATH, falls back to the newest /opt/pw-browsers/chromium-*, and otherwise returns undefined so Playwright decides. Two suites were changed to use it, smoke_business and smoke_fit. The three older suites were left reading process.env.CHROMIUM_PATH directly, which with the variable unset passes executablePath: undefined and hands the decision back to Playwright, which is exactly the case the resolver exists to override. A shared module only helps the callers that call it.</li>
@@ -1340,7 +1340,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> Extracting a shared helper does not migrate the callers. The extraction fixes the file it was extracted from and leaves every sibling on the old path, which is INC-0059 and INC-0064 in a different costume: a correction applied to the instances in hand rather than to the pattern. Three suites had failed visibly and ten were wrong; the seven silent ones were found by the guard, not by reading. When a helper exists because a direct call was wrong, make the direct call fail the build, and let it enumerate the callers rather than enumerating them by hand.</li>
 </ul>
 <h3 id="inc-0077-a-review-bot-check-whose-verdict-was-three-coin-flips-warned-on-an-unrelated-bank-change">INC-0077. A review bot check whose verdict was three coin flips warned on an unrelated bank change</h3>
-<p><em>2026-09-22, Cosmetic</em></p>
+<p><em>2026-09-22, Cosmetic, <code>2c72da1fde8a3819ca9bda7eabe9fb75ac0754b7</code> PR #71</em></p>
 <ul>
 <li><strong>What was seen.</strong> Widening two GMAT critical reasoning corpora turned the bot's planted weakness check from ok to warn: 2 of 3 sections correctly identified as weakest. Nothing about the diagnosis had changed. The bot threads one seeded generator through every check in an exam, so more items meant the earlier checks consumed a different number of draws and the planted weakness test started from a different point in the stream.</li>
 <li><strong>Why.</strong> The check sat one simulated student per section, three sittings in total, and reported a pass only if all three came out right. Measured over 60 independent seeds the diagnosis is right on 179 of 180 sittings, so at three sittings the check warns on roughly three percent of seeds by sampling alone. Every other check in the bot already averages over 25 sittings; this one did not, and its verdict was therefore a property of the seed as much as of the engine.</li>
@@ -1350,7 +1350,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A check that reports pass or fail from a handful of random draws is a check that will flip on work that has nothing to do with it, and the cost is not the false alarm. It is that the next real alarm arrives in a tool people have learned to shrug at. Before believing or dismissing a warning, run the thing it measures enough times to know its rate: that answers both whether this alarm is real and whether the check is worth keeping in its current form. Here the answer was that the engine was fine and the check was wrong, and both were worth knowing.</li>
 </ul>
 <h3 id="inc-0089-a-ratchet-that-trips-on-sampling-noise-gets-re-recorded-rather-than-read">INC-0089. A ratchet that trips on sampling noise gets re-recorded rather than read</h3>
-<p><em>2026-09-22, Degraded</em></p>
+<p><em>2026-09-22, Degraded, <code>9056b8daa4fe87508a82591b79adb7b8a9fd181f</code> PR #82</em></p>
 <ul>
 <li><strong>What was seen.</strong> Widening one geometry schema from 20 items to 96 made six sibling schemas fail their recorded bias figures, every one of them by between 1 and 4 points: 55 to 57, 45 to 46, 39 to 41, 44 to 45, 36 to 40, 53 to 54. None of those schemas changed. The same thing happened one change earlier, in the other direction, when two entries cleared and two got worse by 2. Each time the response is to re-measure and re-record, which is a ratchet being rewritten rather than read.</li>
 <li><strong>Why.</strong> A recorded figure is a property of the schema AND of the mix it was measured in, and the mix is a shared resource: a category stops at TARGET, so growing one schema shrinks its neighbours and changes which items the shared dedup set had already taken when they ran. The check then compares a fresh measurement against a figure recorded under a different mix, with no allowance for the sampling error at that size, so a difference well inside noise reads as a regression.</li>
@@ -1427,7 +1427,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> When you change a filename scheme, grep for the old name as a string, including inside regexes. A pattern is a hardcoded name wearing a disguise.</li>
 </ul>
 <h3 id="inc-0032-arr-was-rounded-to-whole-dollars-and-lost-real-money-at-small-scale">INC-0032. ARR was rounded to whole dollars and lost real money at small scale</h3>
-<p><em>2026-09-21, Wrong data shown or stored, <code>8827e64</code> PR #62</em></p>
+<p><em>2026-09-21, Wrong data shown or stored, <code>37241958be4dadca750f76742818b18b88e5a5b1</code> PR #62</em></p>
 <ul>
 <li><strong>What was seen.</strong> $159.84 of ARR printed as $160.</li>
 <li><strong>Why.</strong> The currency formatter was called with zero decimal places for the larger tiles, a rule chosen for readability at scale and applied at a scale where cents still matter.</li>
@@ -1450,7 +1450,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 </ul>
 <h2 id="build-system-7">Build system (7)</h2>
 <h3 id="inc-0059-the-item-counter-missed-a-whole-bank-file-because-it-assumed-a-quoting-style">INC-0059. The item counter missed a whole bank file because it assumed a quoting style</h3>
-<p><em>2026-09-22, Silent loss, PR #65</em></p>
+<p><em>2026-09-22, Silent loss, <code>de67a0eaeab023593685c7e5f5a0ffee944d3599</code> PR #65</em></p>
 <ul>
 <li><strong>What was seen.</strong> A new bank added 35 items and the build reported the exam's total unchanged at 65. The engine tests, which load the bank for real, saw all 100.</li>
 <li><strong>Why.</strong> The count is a regex over the concatenated source looking for an id in single quotes. The new file emits JSON escaped strings, so its ids are double quoted and none of them matched. Nothing compared the regex count to the number of items that actually load.</li>
@@ -1461,7 +1461,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A regex that counts things assumes a formatting convention, and a file that legitimately breaks the convention counts as zero rather than as an error. Any counter that can return zero for a non-empty input needs a per-source assertion, not just a total.</li>
 </ul>
 <h3 id="inc-0060-nothing-parsed-the-one-file-every-user-downloads">INC-0060. Nothing parsed the one file every user downloads</h3>
-<p><em>2026-09-22, Site down, PR #65</em></p>
+<p><em>2026-09-22, Site down, <code>de67a0eaeab023593685c7e5f5a0ffee944d3599</code> PR #65</em></p>
 <ul>
 <li><strong>What was seen.</strong> None shipped. A bank file with a syntax error built cleanly and the build exited zero, leaving invalid JavaScript in the bank the trainer loads on every visit.</li>
 <li><strong>Why.</strong> The build parses every inline script in every built page, a guard added after an unescaped quote took the whole trainer down at parse time. The item bank is not an inline script. It ships as a separate file and was never in the list, so the largest generated artefact on the site was the one thing the parser never saw.</li>
@@ -1472,7 +1472,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A parse guard covers the file shapes someone thought of. When the same code moves into a new shape, a separate file, a chunk, a worker, the guard does not follow it. List what the guard covers against what the deploy actually ships, and check the difference rather than the intention.</li>
 </ul>
 <h3 id="inc-0063-the-stale-count-guard-checked-two-nouns-and-the-page-used-a-third">INC-0063. The stale count guard checked two nouns and the page used a third</h3>
-<p><em>2026-09-22, Wrong data shown or stored, PR #67</em></p>
+<p><em>2026-09-22, Wrong data shown or stored, <code>ecc19483fbe90db9796f445d2811daeef3bb8f3d</code> PR #67</em></p>
 <ul>
 <li><strong>What was seen.</strong> llms.txt told every model that reads it the LSAT bank holds 65 questions. It held 142. The build's count guard passed the file.</li>
 <li><strong>Why.</strong> The guard matches a number followed by original or flashcards. The LSAT line was phrased as 65 questions today, deliberately, because the number was small and the page said so plainly. The phrasing that made the sentence honest is what put it outside the pattern.</li>
@@ -1483,7 +1483,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A guard keyed to wording is a guard on the wording, not the fact, and every synonym is a hole in it. Widening the wording is the obvious repair and it trades missed defects for false alarms, which cost more because they get the guard switched off. Match a phrase that only the thing you care about can produce, rather than every word it might happen to use.</li>
 </ul>
 <h3 id="inc-0064-the-guard-against-a-blind-counter-was-itself-blind-to-three-exams">INC-0064. The guard against a blind counter was itself blind to three exams</h3>
-<p><em>2026-09-22, Silent loss, PR #68</em></p>
+<p><em>2026-09-22, Silent loss, <code>a91b158cb151cd88b19421a525e406d568f58ee3</code> PR #68</em></p>
 <ul>
 <li><strong>What was seen.</strong> A new GRE reading bank of 26 items was registered, built, and counted as zero. The published GRE total stayed at 19,888. The guard written a day earlier to catch exactly this said nothing.</li>
 <li><strong>Why.</strong> Two failures of the same shape, one inside the other. The GRE id pattern was G[QVE] and the new ids begin GR, so the counter could not see them. And the per-file guard added for INC-0059, which asserts that every listed bank file contributes at least one counted item, looped over only the two exams that happened to be in hand when it was written.</li>
@@ -1494,7 +1494,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A guard that covers a subset of cases reproduces the original defect in the cases it skips, and it is more dangerous than no guard because the incident it was written for feels closed. When you add a check, enumerate everything of that kind and cover all of it, or state in the code which cases are deliberately excluded and why.</li>
 </ul>
 <h3 id="inc-0080-a-build-step-that-fails-while-the-build-exits-zero-and-a-verification-run-that-was-a-remembered-subset">INC-0080. A build step that fails while the build exits zero, and a verification run that was a remembered subset</h3>
-<p><em>2026-09-22, Degraded</em></p>
+<p><em>2026-09-22, Degraded, <code>2c72da1fde8a3819ca9bda7eabe9fb75ac0754b7</code> PR #71</em></p>
 <ul>
 <li><strong>What was seen.</strong> Three commits shipped with a playbook that had not been rebuilt, because the ledger no longer checked out: INC-0077 carried an area of tooling, which is not one of the twelve the builder accepts. The site build printed WARNING and exited zero, so nothing local said no. CI said no, on the commit after the one that broke it.</li>
 <li><strong>Why.</strong> Two things had to be true at once. The playbook build is deliberately non fatal, because playbook/ is excluded from the deploy and a broken chapter should not stop the site shipping, and it says so with a line beginning WARNING. And the run that was supposed to catch it was four smoke suites chosen from memory rather than the eight steps CI actually runs, so smoke_playbook, which does check this, was never run. Either alone is survivable. Together they mean a failure that is reported, in a form nobody was reading, to a process that had already decided what to look at.</li>
@@ -1504,7 +1504,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> Two habits, both mine rather than the code's. Verify with the sequence the pipeline runs, read out of its config, not with the subset you remember: a suite chosen from memory drifts to the parts that were failing last week. And when a step is deliberately non fatal, the word it fails with is the whole of its signal, so it has to be the word people grep for. WARNING on a line that means a deliverable did not build is an invitation to miss it, and the cost of saying ERROR while still exiting zero is nothing at all.</li>
 </ul>
 <h3 id="inc-0083-the-rules-digest-promises-to-be-prompt-sized-and-its-generator-grows-without-bound">INC-0083. The rules digest promises to be prompt sized and its generator grows without bound</h3>
-<p><em>2026-09-22, Degraded</em></p>
+<p><em>2026-09-22, Degraded, <code>5d7e45dc41329917f8576f90107e1eb36ebf2c89</code> PR #73</em></p>
 <ul>
 <li><strong>What was seen.</strong> smoke_playbook failed with 'the digest stays prompt sized (4046 words)' against a 4000 word limit, on a commit whose only relation to the playbook was adding one incident. The bootstrap pack's RULES_DIGEST.md is the file a new project pastes into its prompt, so crossing the limit is the one failure that makes the deliverable useless for its purpose.</li>
 <li><strong>Why.</strong> rules_digest prints every incident's lesson field in full, so the digest grows linearly with the ledger while the guard holds a fixed bound. At 82 incidents the lessons alone were 3,742 words against a 4,000 word budget. Nothing about the triggering commit was special: the next incident would have tripped it whoever wrote it, which is the signature of a bound asserted on an output nobody bounded.</li>
@@ -1514,7 +1514,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A size limit on a generated file is only a guard if something bounds the generator too; otherwise it is a delayed failure that lands on whoever commits next, and reads as their fault. When two guards constrain the same output, check the fix against both: shortening this file to satisfy the size check would have broken the completeness check that reads its first 60 characters.</li>
 </ul>
 <h3 id="inc-0084-the-bootstrap-digest-ships-incident-ids-to-a-project-that-has-no-incidents">INC-0084. The bootstrap digest ships incident ids to a project that has no incidents</h3>
-<p><em>2026-09-22, Cosmetic</em></p>
+<p><em>2026-09-22, Cosmetic, <code>eea3d86f9e6851734eb453a94c6902afec4cb3df</code> PR #74</em></p>
 <ul>
 <li><strong>What was seen.</strong> RULES_DIGEST.md, the file a new project pastes into its prompt, carries three rules that cite this repository's own incident ids: one reads 'which is INC-0059 and INC-0064 in a different costume' and another opens 'INC-0074 was a bare infinitive in a noun slot'. In the book those ids resolve to records a reader can turn to. In the bootstrap pack there is no ledger yet, so they resolve to nothing.</li>
 <li><strong>Why.</strong> The digest is generated from the same lesson text as the book, and its docstring says it strips the specifics of this codebase out, because a rule competing with context is a rule applied inconsistently. An incident id is exactly such a specific and nothing stripped it. The generator was written thinking about length, which is measured and guarded, and not about audience, which is not.</li>
@@ -1580,7 +1580,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A guard that is a hand-kept list of safe paths is written by the same hand that made the mistake. Derive the safe set from the artefact, not from memory.</li>
 </ul>
 <h3 id="inc-0095-a-safety-parameter-filled-in-from-memory-which-makes-it-a-coin-flip-rather-than-a-guard">INC-0095. A safety parameter filled in from memory, which makes it a coin flip rather than a guard</h3>
-<p><em>2026-09-22, Cosmetic</em></p>
+<p><em>2026-09-22, Cosmetic, <code>d7ec4a71aaf8ed28e38d45d840ea1846fa83863d</code> PR #85</em></p>
 <ul>
 <li><strong>What was seen.</strong> A merge call carried the head commit it expected to merge, and the forty character hex in it was typed from a remembered seven character prefix with the rest supplied by whatever looked like a commit hash. GitHub compared it against the real head, found it different, and refused. Nothing was merged and nothing was lost.</li>
 <li><strong>Why.</strong> The parameter exists so that a merge cannot land on a head other than the one that was reviewed, and its whole value is that the number in it came from somewhere other than the person making the call. Filling it in from memory keeps the shape of the check and removes the thing being checked. The standing rule says every identifier must be read from a real output first, the rule names an earlier occasion when a hex string was typed straight into a merge call, and it was broken anyway, on the fourth merge of a session where the previous three had read the value with git rev-parse.</li>
@@ -1669,7 +1669,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> Enumerate every value a third-party status field can take before you branch on one of them. The value you did not think of is usually the one that matters commercially.</li>
 </ul>
 <h3 id="inc-0035-two-stripe-event-types-announce-one-new-subscription">INC-0035. Two Stripe event types announce one new subscription</h3>
-<p><em>2026-09-21, Wrong data shown or stored, <code>8827e64</code> PR #62</em></p>
+<p><em>2026-09-21, Wrong data shown or stored, <code>37241958be4dadca750f76742818b18b88e5a5b1</code> PR #62</em></p>
 <ul>
 <li><strong>What was seen.</strong> None: caught in design. Logging new subscriptions from both checkout.session.completed and customer.subscription.created would have doubled new MRR.</li>
 <li><strong>Why.</strong> Stripe announces a new subscription through both events, with different event ids, in no guaranteed order.</li>
@@ -1680,7 +1680,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> Idempotency belongs in the database, not in the handler. Handlers race; unique indexes do not.</li>
 </ul>
 <h3 id="inc-0036-charge-amount-refunded-is-cumulative-so-partial-refunds-double-count">INC-0036. charge.amount_refunded is cumulative, so partial refunds double-count</h3>
-<p><em>2026-09-21, Wrong data shown or stored, <code>8827e64</code> PR #62</em></p>
+<p><em>2026-09-21, Wrong data shown or stored, <code>37241958be4dadca750f76742818b18b88e5a5b1</code> PR #62</em></p>
 <ul>
 <li><strong>What was seen.</strong> None: caught in design. A second partial refund reports the running total, which would have counted the first refund twice.</li>
 <li><strong>Why.</strong> Stripe's charge object reports total refunded to date, not the amount of this refund.</li>
@@ -1691,7 +1691,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> Read what a payment field means, not what it is called. Cumulative and incremental fields look identical until the second event.</li>
 </ul>
 <h3 id="inc-0037-cancellation-erases-the-number-you-need-to-record-the-cancellation">INC-0037. Cancellation erases the number you need to record the cancellation</h3>
-<p><em>2026-09-21, Wrong data shown or stored, <code>8827e64</code> PR #62</em></p>
+<p><em>2026-09-21, Wrong data shown or stored, <code>37241958be4dadca750f76742818b18b88e5a5b1</code> PR #62</em></p>
 <ul>
 <li><strong>What was seen.</strong> None: caught in design. Churned MRR would always have been zero.</li>
 <li><strong>Why.</strong> The profile write on cancellation nulls plan_amount_cents and plan_interval. That row was the only place the departing subscriber's price still existed.</li>
@@ -1781,7 +1781,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> In Postgres, revoking from every role you can name still leaves PUBLIC. Verify with the advisors or by reading the acl, never by reading your own migration.</li>
 </ul>
 <h3 id="inc-0056-twelve-profile-fields-said-saved-and-never-reached-the-account">INC-0056. Twelve profile fields said Saved and never reached the account</h3>
-<p><em>2026-09-21, Silent loss, PR #63</em></p>
+<p><em>2026-09-21, Silent loss, <code>724ef0ec90a8344f0a17530450d13c792b71e573</code> PR #63</em></p>
 <ul>
 <li><strong>What was seen.</strong> A signed-in user fills in education, intended major, score goal, application year, budget, industry, household income, first generation, military status, study hours or their birth date, sees a Saved toast, and none of it is on their account. It survives only in that browser.</li>
 <li><strong>Why.</strong> Two layers disagreed and nothing compared them. Row Level Security scopes every write on the profiles table to the caller's own row, and a separate column grant decides which columns any role may write at all. The column grant to authenticated covers 5 of the 17 self-reported fields the Account page offers. The page updates the other 12 anyway, the database refuses, and aboutSave wraps the call in a try/catch with an empty body, so the refusal is discarded and the toast fires regardless.</li>
@@ -1827,7 +1827,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 </ul>
 <h2 id="interface-and-data-display-3">Interface and data display (3)</h2>
 <h3 id="inc-0034-a-line-chart-interpolated-between-discrete-money-events">INC-0034. A line chart interpolated between discrete money events</h3>
-<p><em>2026-09-21, Degraded, <code>8827e64</code> PR #62</em></p>
+<p><em>2026-09-21, Degraded, <code>37241958be4dadca750f76742818b18b88e5a5b1</code> PR #62</em></p>
 <ul>
 <li><strong>What was seen.</strong> A line drawn between $13.32 on the 18th and $4.99 on the 19th, passing through every value in between.</li>
 <li><strong>Why.</strong> Money movement was charted as a time series. A line encodes continuity, and these are discrete events on particular days.</li>
@@ -1849,7 +1849,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> Never encode a state by colour alone. The word also survives greyscale printing, forced-colors mode and a glance from across a room, so it is better for everyone and not only for the people it is required by.</li>
 </ul>
 <h3 id="inc-0058-the-fit-card-told-readers-to-fill-in-fields-that-were-below-it">INC-0058. The fit card told readers to fill in fields that were below it</h3>
-<p><em>2026-09-22, Cosmetic, PR #64</em></p>
+<p><em>2026-09-22, Cosmetic, <code>0dcabb42faceedc6c3838ff1e17151e02b1c0423</code> PR #64</em></p>
 <ul>
 <li><strong>What was seen.</strong> With nothing entered, the comparison card said to fill the three inputs in above, and they are further down the same page.</li>
 <li><strong>Why.</strong> The copy was written while building the card, before deciding where the inputs would live, and was never re-read against the rendered page.</li>
