@@ -59,7 +59,7 @@ a{color:var(--accent)}
 <p class="eyebrow">Start From Nowhere</p>
 <h1>The Build Playbook</h1>
 <p class="sub">How one person and a set of AI sessions built a multi-exam test-prep platform, every defect hit on the way, and the recipe for doing it again for something else</p>
-<p class="meta">Built 2026-09-22 from commit 1fd4e05 &middot; 71 commits over 35 days &middot; 68 recorded defects &middot; 17 chapters<br>
+<p class="meta">Built 2026-09-22 from commit ffa6fe4 &middot; 72 commits over 36 days &middot; 71 recorded defects &middot; 17 chapters<br>
 This document is generated. Edit the chapters in docs/playbook/ and the ledger in data/playbook/incidents.jsonl, then run python3 src/build_playbook.py.</p>
 </div>
 <div class="toc"><ol><li><a href="#how-to-use-this-book">How to Use This Book</a></li>
@@ -81,7 +81,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><a href="#the-bootstrap-pack-starting-a-new-project-with-this-loaded">The Bootstrap Pack: Starting a New Project With This Loaded</a></li></ol></div>
 <h1 id="how-to-use-this-book">How to Use This Book</h1>
 <p>This is the record of building one platform, written so it can be used to build a different one.</p>
-<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-08-17 and 2026-09-21, which is 35 days, across 71 commits, by one owner directing a series of AI coding sessions. As of this build it is 46 Python files, 97 JavaScript files, 24 TypeScript edge functions, 35 migrations and 63 documents: 1966 tracked files in total.</p>
+<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-08-17 and 2026-09-22, which is 36 days, across 72 commits, by one owner directing a series of AI coding sessions. As of this build it is 47 Python files, 98 JavaScript files, 24 TypeScript edge functions, 35 migrations and 63 documents: 1968 tracked files in total.</p>
 <p>None of those numbers were typed. They are measured from the repository every time this document is built, which is the first thing worth copying.</p>
 <h2 id="what-is-in-here">What is in here</h2>
 <p>The book has four kinds of chapter, and they age differently.</p>
@@ -385,7 +385,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>and is labelled ours.</p>
 <p>The pattern underneath all of it: <strong>when you show someone a number about themselves, the number is a claim, and the claim has an error bar whether or not you print it.</strong> Printing it is the difference between a product people trust and one they catch out.</p>
 <h1 id="content-at-scale-without-lying-about-it">Content at Scale, Without Lying About It</h1>
-<p>This platform ships over a hundred thousand practice items across 50 bank files. Almost all are generated. The chapter is about how to do that without producing a number that is technically true and substantively false.</p>
+<p>This platform ships over a hundred thousand practice items across 51 bank files. Almost all are generated. The chapter is about how to do that without producing a number that is technically true and substantively false.</p>
 <h2 id="generators-not-text">Generators, not text</h2>
 <p>An item is produced by a schema: a template plus a parameter space plus a rule for generating distractors. The schema knows how to make a correct answer and how to make wrong answers that are wrong for a reason.</p>
 <p><strong>Every key is computed, never asserted.</strong> The generator does not record which option is correct; it computes the answer from the parameters and then places it. An asserted key is a key that can be wrong, and a wrong key in a practice bank is the worst possible defect because the learner concludes they are wrong.</p>
@@ -614,7 +614,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three defects here were found by taking a screenshot: a chart unreadable in dark mode, a line chart implying values that never existed, and a dashboard that was not on screen. None of them would have been caught by an assertion, because none of them were violations of anything anybody had thought to assert.</p>
 <p><strong>Budget for looking.</strong> It is the cheapest test there is and the only one that catches things you have not imagined.</p>
 <h1 id="running-the-build-as-an-ai-loop">Running the Build as an AI Loop</h1>
-<p>71 commits in 35 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
+<p>72 commits in 36 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
 <h2 id="the-division-of-labour">The division of labour</h2>
 <p><strong>The owner decides</strong>: what to build, what it means, what is acceptable, and every irreversible or outward-facing action. <strong>The session does</strong>: the building, the measuring, the testing, and the reporting of what it found.</p>
 <p>The failure mode at each end is worth naming. An owner who reviews every line becomes the bottleneck and the throughput collapses to the speed of reading. A session that decides product questions on its own produces something coherent that is not what anyone wanted.</p>
@@ -647,7 +647,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>What was left undone, and whether that is a decision or a blocker.</li>
 <li>Numbers, with the command that produced them.</li>
 </ol>
-<p>The commit messages in this repository are written that way, which is why a defect ledger could be reconstructed from them 35 days later. <strong>Write the commit message as though someone will need to mine it. Someone will.</strong></p>
+<p>The commit messages in this repository are written that way, which is why a defect ledger could be reconstructed from them 36 days later. <strong>Write the commit message as though someone will need to mine it. Someone will.</strong></p>
 <h2 id="failure-modes-observed-in-this-project">Failure modes observed in this project</h2>
 <p><strong>Reporting a regression from one seed.</strong> A stochastic measurement compared before and after on a single seed showed an 88 to 72 percent drop. Across three seeds the spread between seeds was larger than the effect. Run more seeds before reporting.</p>
 <p><strong>Pausing to report when told to keep working.</strong> A session that stops to summarise every few minutes converts working time into reading time. If the owner has said to keep going, keep going, and batch the reporting.</p>
@@ -658,31 +658,31 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Long uninterrupted sessions with standing authorisation, punctuated by the owner redirecting priorities, beat short supervised ones by a wide margin. The standing authorisation that made it work was specific: merge your own work once the checks are green, do not check in on each item, and stop immediately when told to.</p>
 <p>The thing that makes that safe is not trust. It is that the checks are real, the destructive actions still require asking, and the record of what happened is written down well enough to audit later. Which is what this book is.</p>
 <h1 id="what-the-ledger-says-about-itself">What the Ledger Says About Itself</h1>
-<p>68 recorded defects, over 35 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.</p>
+<p>71 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.</p>
 <h2 id="how-defects-were-actually-found">How defects were actually found</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">How</th><th style="text-align:right">Count</th><th style="text-align:right">Share</th></tr></thead><tbody>
-<tr><td style="text-align:left">Found by reading the code or the output</td><td style="text-align:right">27</td><td style="text-align:right">40%</td></tr>
-<tr><td style="text-align:left">Found by measuring something</td><td style="text-align:right">19</td><td style="text-align:right">28%</td></tr>
-<tr><td style="text-align:left">A test caught it</td><td style="text-align:right">11</td><td style="text-align:right">16%</td></tr>
+<tr><td style="text-align:left">Found by reading the code or the output</td><td style="text-align:right">29</td><td style="text-align:right">41%</td></tr>
+<tr><td style="text-align:left">Found by measuring something</td><td style="text-align:right">20</td><td style="text-align:right">28%</td></tr>
+<tr><td style="text-align:left">A test caught it</td><td style="text-align:right">11</td><td style="text-align:right">15%</td></tr>
 <tr><td style="text-align:left">Found by rendering it and looking</td><td style="text-align:right">5</td><td style="text-align:right">7%</td></tr>
 <tr><td style="text-align:left">Found by a review bot or an adversarial pass</td><td style="text-align:right">5</td><td style="text-align:right">7%</td></tr>
 <tr><td style="text-align:left">A person hit it</td><td style="text-align:right">1</td><td style="text-align:right">1%</td></tr>
 </tbody></table></div>
-<p><strong>This is the most useful table in the book.</strong> 67 of 68 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.</p>
+<p><strong>This is the most useful table in the book.</strong> 70 of 71 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.</p>
 <p><strong>Read that percentage with the bias it carries.</strong> This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.</p>
 <h2 id="by-severity">By severity</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">Severity</th><th style="text-align:right">Count</th></tr></thead><tbody>
-<tr><td style="text-align:left">Wrong data shown or stored</td><td style="text-align:right">24</td></tr>
+<tr><td style="text-align:left">Wrong data shown or stored</td><td style="text-align:right">25</td></tr>
 <tr><td style="text-align:left">Silent loss</td><td style="text-align:right">19</td></tr>
-<tr><td style="text-align:left">Degraded</td><td style="text-align:right">13</td></tr>
-<tr><td style="text-align:left">Cosmetic</td><td style="text-align:right">9</td></tr>
+<tr><td style="text-align:left">Degraded</td><td style="text-align:right">14</td></tr>
+<tr><td style="text-align:left">Cosmetic</td><td style="text-align:right">10</td></tr>
 <tr><td style="text-align:left">Site down</td><td style="text-align:right">3</td></tr>
 </tbody></table></div>
-<p><strong>Silent loss is the dominant failure mode</strong>, at 19 of 68. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.</p>
+<p><strong>Silent loss is the dominant failure mode</strong>, at 19 of 71. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.</p>
 <h2 id="by-area">By area</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">Area</th><th style="text-align:right">Count</th></tr></thead><tbody>
 <tr><td style="text-align:left">Tests and guards</td><td style="text-align:right">16</td></tr>
-<tr><td style="text-align:left">Content generation</td><td style="text-align:right">11</td></tr>
+<tr><td style="text-align:left">Content generation</td><td style="text-align:right">14</td></tr>
 <tr><td style="text-align:left">Front end</td><td style="text-align:right">8</td></tr>
 <tr><td style="text-align:left">CSS and layout</td><td style="text-align:right">5</td></tr>
 <tr><td style="text-align:left">Payments</td><td style="text-align:right">5</td></tr>
@@ -694,7 +694,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <tr><td style="text-align:left">Interface and data display</td><td style="text-align:right">3</td></tr>
 </tbody></table></div>
 <h2 id="guard-coverage">Guard coverage</h2>
-<p>62 of 68 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.</p>
+<p>65 of 71 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.</p>
 <p>Carried by attention:</p>
 <ul>
 <li><strong>INC-0010</strong> CSS comments do not nest, and one placeholder killed the palette on 1451 pages</li>
@@ -713,7 +713,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Files named by three or more incidents. This is not the same signal as the list above: a file that is the natural home for many checks will appear here without any one of them having failed. It says where the work has been, and where a reader new to the codebase should look first.</p>
 <ul>
 <li><code>src/build.py</code>, 9 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067)</li>
-<li><code>src/test.js</code>, 6 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044)</li>
+<li><code>src/test.js</code>, 7 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069)</li>
 <li><code>src/build_banks.py</code>, 5 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011)</li>
 <li><code>src/review_bot.js</code>, 4 incidents (INC-0022, INC-0026, INC-0051, INC-0061)</li>
 <li><code>src/weekly_audit.js</code>, 3 incidents (INC-0050, INC-0048, INC-0018)</li>
@@ -899,7 +899,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>What stops it now.</strong> the build refuses a Playwright launch that reads CHROMIUM_PATH instead of calling chromiumPath() in <code>src/build.py</code></li>
 <li><strong>Lesson.</strong> Extracting a shared helper does not migrate the callers. The extraction fixes the file it was extracted from and leaves every sibling on the old path, which is INC-0059 and INC-0064 in a different costume: a correction applied to the instances in hand rather than to the pattern. Three suites had failed visibly and ten were wrong; the seven silent ones were found by the guard, not by reading. When a helper exists because a direct call was wrong, make the direct call fail the build, and let it enumerate the callers rather than enumerating them by hand.</li>
 </ul>
-<h2 id="content-generation-11">Content generation (11)</h2>
+<h2 id="content-generation-14">Content generation (14)</h2>
 <h3 id="inc-0003-item-banks-were-different-on-every-build-because-python-randomises-hash">INC-0003. Item banks were different on every build because Python randomises hash()</h3>
 <p><em>2026-09-16, Wrong data shown or stored, <code>0d6c357</code> PR #33</em></p>
 <ul>
@@ -1018,6 +1018,36 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Fix.</strong> permute() now stamps each item it has shuffled and exits if it is handed one twice, naming the item. The duplicate call in mk_bank_lsat_rc3.py is removed. The measured distribution after the fix is 20, 19, 19, 16, 16 across 90 items, and the length rank is 18 in every position.</li>
 <li><strong>What stops it now.</strong> permute refuses to shuffle an item it has already shuffled in <code>src/bank_emit.py</code></li>
 <li><strong>Lesson.</strong> A seeded shuffle is deterministic, which makes calling it twice look harmless: the same input gives the same output. What repeats is the permutation, not the randomisation, and a permutation applied to its own result is biased toward leaving things where they were. Any function whose value comes from being applied exactly once should refuse to be applied twice rather than relying on the caller to remember. The second lesson is about reading: the generator printed the defect on every run, above the line being watched.</li>
+</ul>
+<h3 id="inc-0069-a-bank-a-student-can-play-at-88-percent-inside-a-section-the-check-passed">INC-0069. A bank a student can play at 88 percent, inside a section the check passed</h3>
+<p><em>2026-09-22, Degraded</em></p>
+<ul>
+<li><strong>What was seen.</strong> bank_sat_rw.js ships 32 items on which the longest answer choice is the key 88 percent of the time, and a student who always picks the longest option scores 84 percent on that file against a chance rate of 25. Eighteen other hand written bank files across all five exams carry the same tell at lower strength, several above 50 percent. The engine test reported the SAT Reading and Writing section at 35 percent and passed it.</li>
+<li><strong>Why.</strong> The length bias check groups items by section. A section mixes hand written items with generated ones, and the generated items are flat by construction because the schemas assemble choices mechanically. For SAT Reading and Writing the generated bank supplies 160 of 348 items at 7 percent, which pulls a hand written 88 percent down to a section figure of 35 and under the recorded tolerance of 36. The aggregate was not wrong; it was answering a question nobody needed the answer to. A student does not meet a section, they meet items, and the items arrive from one file at a time.</li>
+<li><strong>How it surfaced.</strong> Measuring the same statistic per source file rather than per section, which was written to find out where the new LSAT and GMAT banks sat relative to the old ones and reported the old ones instead. (Found by measuring something)</li>
+<li><strong>Fix.</strong> The check now runs per hand written source file as well as per section, with its own recorded baseline per file, so a file can only improve. Numeric answer banks are excluded because the separate numeric rank check covers them and character length is the wrong measure for a number. src/bank_repair.py applies an authored clause table to a hand written bank in place, by textual substitution inside the named choice, so the remaining files can be corrected without regenerating a file that was never generated.</li>
+<li><strong>What stops it now.</strong> length bias is measured per hand written bank file against a recorded baseline, not only per section in <code>src/test.js</code></li>
+<li><strong>Lesson.</strong> An aggregate over a mixed population reports the population, and if part of that population is flat by construction it will hide the part that is not. The rule that follows is about what the unit of the measurement should be: measure at the grain the defect can exist at, which here is the file, because a file is written by one person in one sitting with one set of habits. The section was the grain the data was convenient at.</li>
+</ul>
+<h3 id="inc-0070-the-second-tool-that-appends-a-clause-did-not-carry-the-first-one-s-rule-about-the-full-stop">INC-0070. The second tool that appends a clause did not carry the first one's rule about the full stop</h3>
+<p><em>2026-09-22, Cosmetic</em></p>
+<ul>
+<li><strong>What was seen.</strong> Two repaired SAT items read 'the number of purchases. made' and 'sleep debt over the course of a week. that they do not fully repay at the weekend'. The clause had been appended after the sentence's own full stop.</li>
+<li><strong>Why.</strong> bank_emit.extend has handled this since it was written: it strips a trailing period, appends the clause and puts the period back. bank_repair.repair was written months later for hand written banks that a generator never produced, and it inserts at the closing quote of the string literal, which is after the period. The rule lived in one implementation rather than in a place both could use, and the second implementation was written from the problem rather than from the first solution.</li>
+<li><strong>How it surfaced.</strong> Reading the per item report after the repair, where the appended text appears at the end of each changed choice. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> repair() now inserts before a trailing period, matching extend(). Both behaviours are stated in one comment naming the other function, so the next tool that appends to a choice is written from a rule rather than from scratch.</li>
+<li><strong>What stops it now.</strong> bank_repair.repair inserts before a trailing full stop, as bank_emit.extend does in <code>src/bank_repair.py</code></li>
+<li><strong>Lesson.</strong> Writing a second tool for the same job in a different context reproduces every detail the first one learned the hard way, unless the detail is written down somewhere the second author will look. This is INC-0067 seen from the other side: there the callers were not migrated to the helper, here the helper's behaviour was not carried into the second implementation. Both are the cost of a rule living in code rather than in a statement of the rule.</li>
+</ul>
+<h3 id="inc-0071-clauses-written-from-a-truncated-report-were-appended-to-the-end-of-the-wrong-word">INC-0071. Clauses written from a truncated report were appended to the end of the wrong word</h3>
+<p><em>2026-09-22, Wrong data shown or stored</em></p>
+<ul>
+<li><strong>What was seen.</strong> Repaired choices read 'in chronological orderorder', 'return to them afterwardsards', 'how it would spend itintends to spend the money' and 'the bags the proposal would affectl would charge for'. Eleven choices across four bank files were garbled in a way that leaves the file valid JavaScript, leaves the item longer, and moves the measured distribution in the intended direction.</li>
+<li><strong>Why.</strong> The report that shows which distractors need lengthening truncates each choice to fit a terminal line. Several clauses were written as continuations of the truncated text, on the assumption that the tool inserts at the point the needle ends. It does not: repair() appends at the end of the string literal, which is correct for a clause and wrong for a continuation. Nothing distinguished the two, because a continuation is just a clause whose first character is a letter.</li>
+<li><strong>How it surfaced.</strong> Reading the source after a needle failed to match, which showed the previous pass had written 'would spend itintends to spend the money' into the same choice. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> repair() refuses a clause that does not begin with a space or punctuation, which is exactly the shape of a continuation. The four affected files were reverted and the repairs redone with clauses written to append rather than to continue.</li>
+<li><strong>What stops it now.</strong> bank_repair.repair refuses a clause beginning with a letter or digit, which would run into the preceding word in <code>src/bank_repair.py</code></li>
+<li><strong>Lesson.</strong> A report that truncates its output invites the reader to write text that continues it, and a tool that appends will put that text somewhere else. Either the report should not truncate the field the caller has to write against, or the tool should refuse input shaped like a continuation. The cheap half is the refusal, because it is one condition and it cannot be forgotten, while remembering not to write continuations is a habit that has to hold every time.</li>
 </ul>
 <h2 id="front-end-8">Front end (8)</h2>
 <h3 id="inc-0001-unescaped-quotes-in-onclick-strings-took-the-whole-app-down">INC-0001. Unescaped quotes in onclick strings took the whole app down</h3>
@@ -1565,6 +1595,18 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>[ ] A seeded shuffle is deterministic, which makes calling it twice look harmless: the same input gives the same output. What repeats is the permutation, not the randomisation, and a permutation applied to its own result is biased toward leaving things where they were. Any function whose value comes from being applied exactly once should refuse to be applied twice rather than relying on the caller to remember. The second lesson is about reading: the generator printed the defect on every run, above the line being watched.  </li>
 </ul>
 <p>&lt;small&gt;Shuffling the answers twice put 37 percent of the keys at A (INC-0068)&lt;/small&gt;</p>
+<ul>
+<li>[ ] An aggregate over a mixed population reports the population, and if part of that population is flat by construction it will hide the part that is not. The rule that follows is about what the unit of the measurement should be: measure at the grain the defect can exist at, which here is the file, because a file is written by one person in one sitting with one set of habits. The section was the grain the data was convenient at.  </li>
+</ul>
+<p>&lt;small&gt;A bank a student can play at 88 percent, inside a section the check passed (INC-0069)&lt;/small&gt;</p>
+<ul>
+<li>[ ] Writing a second tool for the same job in a different context reproduces every detail the first one learned the hard way, unless the detail is written down somewhere the second author will look. This is INC-0067 seen from the other side: there the callers were not migrated to the helper, here the helper's behaviour was not carried into the second implementation. Both are the cost of a rule living in code rather than in a statement of the rule.  </li>
+</ul>
+<p>&lt;small&gt;The second tool that appends a clause did not carry the first one's rule about the full stop (INC-0070)&lt;/small&gt;</p>
+<ul>
+<li>[ ] A report that truncates its output invites the reader to write text that continues it, and a tool that appends will put that text somewhere else. Either the report should not truncate the field the caller has to write against, or the tool should refuse input shaped like a continuation. The cheap half is the refusal, because it is one condition and it cannot be forgotten, while remembering not to write continuations is a habit that has to hold every time.  </li>
+</ul>
+<p>&lt;small&gt;Clauses written from a truncated report were appended to the end of the wrong word (INC-0071)&lt;/small&gt;</p>
 <h2 id="database">Database</h2>
 <ul>
 <li>[ ] Postgres fires same-timing triggers alphabetically. If two triggers on one table have an order dependency, encode it in the name, and test the outcome rather than the code.  </li>
@@ -1820,7 +1862,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p><code>python3 src/build_playbook.py</code> writes four files into <code>playbook/bootstrap/</code>, all generated from the same ledger as the book, so none of them can drift from it.</p>
 <p><strong><code>CLAUDE.template.md</code></strong> goes in the new repository's root. Claude Code reads it on every turn. It is the constitution: the house rules, the never-invent-a-value rule, the sourcing rules, the communication rule, and a short architecture section you fill in as you build. Four bracketed blanks at the top are the only things you have to change.</p>
 <p><strong><code>KICKOFF.md</code></strong> is the literal first message for a new conversation. It sets the working agreement, the phase order, and what a session should report. Paste it, then describe your business idea underneath it.</p>
-<p><strong><code>RULES_DIGEST.md</code></strong> is every lesson in the defect ledger, compressed to one line each and grouped by area. It is about three pages. This is the highest value-per-token artefact in the whole project: 68 real defects reduced to the rules that prevent them, with the specifics of this codebase stripped out.</p>
+<p><strong><code>RULES_DIGEST.md</code></strong> is every lesson in the defect ledger, compressed to one line each and grouped by area. It is about three pages. This is the highest value-per-token artefact in the whole project: 71 real defects reduced to the rules that prevent them, with the specifics of this codebase stripped out.</p>
 <p><strong><code>incidents.jsonl</code></strong> is the raw ledger, copied so the new project can start appending to it on day one rather than starting an empty one.</p>
 <h2 id="how-to-load-it-by-surface">How to load it, by surface</h2>
 <p><strong>Claude Code, new repository.</strong> Copy <code>CLAUDE.template.md</code> to the repo root as <code>CLAUDE.md</code>, fill in the four blanks, and copy <code>incidents.jsonl</code> to <code>data/playbook/incidents.jsonl</code>. Copy <code>src/build_playbook.py</code> too, so the new project's own ledger becomes its own book from the first defect. Then open a session with <code>KICKOFF.md</code> as the first message.</p>
@@ -1830,7 +1872,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three reasons, and they are worth understanding rather than just following.</p>
 <p><strong>Retrieval beats repetition.</strong> A document in project knowledge is consulted when relevant. The same document in the prompt is re-read on every single turn, at full cost, mostly when it is irrelevant. For anything longer than a few pages, retrieval is strictly better.</p>
 <p><strong>Instructions need to be short enough to be followed.</strong> A rule competing with ten thousand words of context is a rule that gets applied inconsistently. The digest is deliberately brutal: one line per lesson, imperative mood, no examples. The examples are in the book, where they can be looked up when a rule seems wrong.</p>
-<p><strong>The ledger is the part that compounds.</strong> The recipe chapters age. The rules do not, because each one is the residue of a real failure, and the failure modes of software are considerably more stable than its tooling. A new project that starts with 68 defects already prevented is genuinely ahead, and every defect it hits of its own makes the next project further ahead still.</p>
+<p><strong>The ledger is the part that compounds.</strong> The recipe chapters age. The rules do not, because each one is the residue of a real failure, and the failure modes of software are considerably more stable than its tooling. A new project that starts with 71 defects already prevented is genuinely ahead, and every defect it hits of its own makes the next project further ahead still.</p>
 <h2 id="keeping-the-loop-closed">Keeping the loop closed</h2>
 <p>The pack is only worth carrying forward if the new project feeds it back. So the working agreement in <code>KICKOFF.md</code> includes one instruction that does the whole job:</p>
 <p>&gt; When something breaks, append a record to <code>data/playbook/incidents.jsonl</code> before fixing &gt; it, while you still remember what you believed was true five minutes ago.</p>
