@@ -103,9 +103,18 @@ function targets() {
       if (kind === 'diagnostic') {
         // Drive it end to end. A quiz that renders and cannot be finished is a page
         // that looks fine in a screenshot and is broken for every student who opens it.
-        const n = await p.evaluate(() =>
-          JSON.parse(document.getElementById('diag-data').textContent).items.length);
-        check(at + ' ships a question for every scored skill', n >= 12, 'items=' + n);
+        // Shape comes from the page's own data, not from GMAT's: the ACT has four
+        // sections and the GRE seven skills, and a check that hardcodes one exam's
+        // numbers fails the others for being themselves.
+        const shape = await p.evaluate(() => {
+          const d = JSON.parse(document.getElementById('diag-data').textContent);
+          const skills = d.items.map(i => i.skill);
+          return { n: d.items.length, uniq: new Set(skills).size,
+                   secs: new Set(d.items.map(i => i.section)).size };
+        });
+        const n = shape.n;
+        check(at + ' asks about each skill once', shape.uniq === n,
+              n + ' items, ' + shape.uniq + ' distinct skills');
         const reads = await p.evaluate(() => {
           const d = JSON.parse(document.getElementById('diag-data').textContent);
           const R = ['RC', 'R', 'MSR', 'GT', 'GI', 'TA'];
@@ -127,7 +136,15 @@ function targets() {
               await p.click('input[name="tpa' + c + '"]');
             }
           } else {
-            await p.click('.opts button');
+            // Sentence equivalence needs exactly n picks before Next unlocks.
+            const want = await p.evaluate((idx) => {
+              const d = JSON.parse(document.getElementById('diag-data').textContent);
+              return d.items[idx].kind === 'se' ? (d.items[idx].pick || 2) : 1;
+            }, i);
+            const opts = await p.locator('.opts button').all();
+            for (let k = 0; k < want && k < opts.length; k++) {
+              await opts[k].click();
+            }
           }
           const enabled = await p.evaluate(() => !document.getElementById('next').disabled);
           check(at + ' enables Next after answering q' + (i + 1), enabled);
@@ -141,14 +158,61 @@ function targets() {
           read: document.querySelectorAll('#res-read li').length,
         }));
         check(at + ' reaches the results', done.shown);
-        check(at + ' reports every section', done.secs === 3, 'secs=' + done.secs);
+        check(at + ' reports every section', done.secs === shape.secs,
+              'reported ' + done.secs + ', data has ' + shape.secs);
         check(at + ' reports every skill', done.skills === n, 'skills=' + done.skills);
         check(at + ' gives a reading order', done.read > 0, 'read=' + done.read);
         check(at + ' states a count, not a score',
               /answered \d+ of \d+/.test(done.lede), done.lede.slice(0, 80));
-        check(at + ' never claims a score or a prediction',
-              !/(predicted|your score is|estimated score)/i.test(
-                await p.content()));
+        // Only OUR copy. The bank items quoted on the page are passages and stems,
+        // and an ACT reading passage about traffic planning uses the word predicted.
+        const ours = await p.evaluate(() =>
+          (document.getElementById('intro').textContent || '') + ' '
+          + (document.getElementById('results').textContent || ''));
+        const claim = ours.match(/(predicted score|your score is|estimated score|we predict)/i);
+        check(at + ' never claims a score or a prediction', !claim,
+              claim ? claim[0] : '');
+
+        // Now answer every question CORRECTLY, from the page's own answer key, and
+        // require a perfect score. This is what actually tests the grading, and it
+        // covers all three answer shapes: plain choice, two-part, and select-two,
+        // where select-two must not care about the order the picks were made in.
+        await p.reload({ waitUntil: 'domcontentloaded' });
+        if (await p.isVisible('#sfn-consent').catch(() => false)) {
+          await p.click('#sfn-consent .no');
+        }
+        await p.click('#start');
+        for (let i = 0; i < n; i++) {
+          const q = await p.evaluate((idx) =>
+            JSON.parse(document.getElementById('diag-data').textContent).items[idx], i);
+          if (q.kind === 'tpa') {
+            for (let c = 0; c < q.columns.length; c++) {
+              await p.click('input[name="tpa' + c + '"][value="' + q.answer[c] + '"]');
+            }
+          } else if (q.kind === 'se') {
+            const opts = await p.locator('.opts button').all();
+            // Clicked in reverse, though that does not by itself prove order
+            // independence: buildSe rebuilds the pick list by scanning the DOM, so it
+            // always comes out ascending whatever order you clicked. The set compare in
+            // correct() is there for a bank item whose stored answer is not ascending;
+            // all 91 today are, so nothing here can reach it. Claiming otherwise would
+            // make this a test that passes for a reason it does not state.
+            for (const idx of q.answer.slice().reverse()) { await opts[idx].click(); }
+          } else {
+            const opts = await p.locator('.opts button').all();
+            await opts[q.answer].click();
+          }
+          await p.click('#next');
+        }
+        const perfect = await p.evaluate(() =>
+          (document.getElementById('res-lede').textContent || '').trim());
+        const m = perfect.match(/answered (\d+) of (\d+)/);
+        check(at + ' grades a fully correct run as fully correct',
+              !!m && m[1] === m[2] && Number(m[2]) === n, perfect.slice(0, 90));
+        const noMiss = await p.evaluate(() =>
+          document.querySelectorAll('.tag.no').length);
+        check(at + ' marks nothing missed on a perfect run', noMiss === 0,
+              'missed=' + noMiss);
       } else if (kind === 'topic') {
         check(at + ' has formula cards', m.fx > 0, 'fx=' + m.fx);
         check(at + ' has worked examples', m.worked > 0, 'worked=' + m.worked);

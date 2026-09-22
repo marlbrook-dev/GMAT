@@ -111,8 +111,8 @@ table.tpa input{width:18px;height:18px;cursor:pointer}
   </div>
   <div id="res-secs"></div>
   <div class="read">
-    <h2>Your Reading Order</h2>
-    <p>Hardest first. Each of these is a guide page with the formulas, worked examples and what the question looks like at every level.</p>
+    <h2 id="res-read-h">Your Reading Order</h2>
+    <p id="res-read-p"></p>
     <ol id="res-read"></ol>
   </div>
   <div class="note">
@@ -156,6 +156,7 @@ table.tpa input{width:18px;height:18px;cursor:pointer}
     var body = el('qbody');
     body.textContent = '';
     if (q.kind === 'tpa') { body.appendChild(buildTpa(q)); }
+    else if (q.kind === 'se') { body.appendChild(buildSe(q)); }
     else { body.appendChild(buildMc(q)); }
     el('next').disabled = true;
     el('next').textContent = (at + 1 === items.length) ? 'See where to start' : 'Next';
@@ -214,6 +215,38 @@ table.tpa input{width:18px;height:18px;cursor:pointer}
     return wrap;
   }
 
+  function buildSe(q) {
+    // Pick exactly n, and the order you clicked them in is not part of the answer.
+    var ul = document.createElement('ul');
+    ul.className = 'opts';
+    var want = q.pick || 2;
+    var hint = document.createElement('p');
+    hint.className = 'q-sk';
+    hint.style.marginBottom = 'var(--s3)';
+    hint.textContent = 'Select ' + want;
+    ul.appendChild(hint);
+    q.choices.forEach(function (c, i) {
+      var li = document.createElement('li');
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('aria-pressed', 'false');
+      b.innerHTML = '<span class="lt">' + LETTERS[i] + '</span><span class="tx">' + esc(c) + '</span>';
+      b.addEventListener('click', function () {
+        var on = b.getAttribute('aria-pressed') === 'true';
+        b.setAttribute('aria-pressed', on ? 'false' : 'true');
+        var got = [];
+        Array.prototype.forEach.call(ul.querySelectorAll('button'), function (x, j) {
+          if (x.getAttribute('aria-pressed') === 'true') { got.push(j); }
+        });
+        picks[at] = got;
+        el('next').disabled = got.length !== want;
+      });
+      li.appendChild(b);
+      ul.appendChild(li);
+    });
+    return ul;
+  }
+
   function correct(q, pick) {
     if (pick === undefined || pick === null) { return false; }
     if (q.kind === 'tpa') {
@@ -221,6 +254,13 @@ table.tpa input{width:18px;height:18px;cursor:pointer}
       return q.answer.length === pick.length && q.answer.every(function (v, i) {
         return v === pick[i];
       });
+    }
+    if (q.kind === 'se') {
+      // A set, not a sequence: the same two choices in either order is the same answer.
+      if (!Array.isArray(pick) || !Array.isArray(q.answer)) { return false; }
+      if (pick.length !== q.answer.length) { return false; }
+      var a = q.answer.slice().sort(), b = pick.slice().sort();
+      return a.every(function (v, i) { return v === b[i]; });
     }
     return pick === q.answer;
   }
@@ -264,21 +304,38 @@ table.tpa input{width:18px;height:18px;cursor:pointer}
 
     var read = el('res-read');
     read.textContent = '';
-    var list = weak.length ? weak : items;
+    // The written guide exists for some exams and not yet for others. Where it does
+    // not, this says what to work on and sends you to the trainer, rather than
+    // promising a reading list and rendering an empty one.
+    var written = Object.keys(topics).length > 0;
+    el('res-read-h').textContent = written ? 'Your Reading Order' : 'What to Work On';
+    el('res-read-p').textContent = written
+      ? 'Each of these is a guide page with the formulas, worked examples, the traps '
+        + 'the topic invites, and what the question looks like at every level.'
+      : 'The written guide for this exam is still being built, so this is the list of '
+        + 'skills to drill. The trainer adapts to your level on each of them.';
     if (!weak.length) {
-      var p = document.createElement('li');
-      p.innerHTML = '<b>You did not miss any of them.</b> That means this diagnostic is '
-        + 'too coarse to tell you where to go next, which is a good problem. Open the '
-        + 'trainer: it adapts upward until it finds your edge.';
-      read.appendChild(p);
+      var none = document.createElement('li');
+      none.innerHTML = '<b>You did not miss any of them.</b> That means this diagnostic '
+        + 'is too coarse to tell you where to go next, which is a good problem. Open '
+        + 'the trainer: it adapts upward until it finds your edge.';
+      read.appendChild(none);
     } else {
-      list.forEach(function (q) {
-        (topics[q.skill] || []).forEach(function (t) {
-          var li = document.createElement('li');
-          li.innerHTML = '<a href="' + esc(t.url) + '">' + esc(t.title) + '</a> '
-            + '<span style="color:var(--gray-500)">(' + esc(q.skillName) + ')</span>';
-          read.appendChild(li);
-        });
+      weak.forEach(function (q) {
+        var pages = topics[q.skill] || [];
+        if (pages.length) {
+          pages.forEach(function (t) {
+            var li = document.createElement('li');
+            li.innerHTML = '<a href="' + esc(t.url) + '">' + esc(t.title) + '</a> '
+              + '<span style="color:var(--gray-500)">(' + esc(q.skillName) + ')</span>';
+            read.appendChild(li);
+          });
+        } else {
+          var li2 = document.createElement('li');
+          li2.innerHTML = '<b>' + esc(q.skillName) + '</b> '
+            + '<span style="color:var(--gray-500)">(' + esc(q.sectionName) + ')</span>';
+          read.appendChild(li2);
+        }
       });
     }
     el('results').hidden = false;

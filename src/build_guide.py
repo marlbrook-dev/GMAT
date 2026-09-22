@@ -36,6 +36,18 @@ EXAMS = {
                  short="GMAT",
                  blurb="Three sections, 2 hours 15 minutes, every one of them adaptive. "
                        "The guides below cover what each section actually asks."),
+    "sat": dict(harness="sat", app="/sat/app/", name="Digital SAT", short="SAT",
+                blurb="Two sections delivered in adaptive modules. The diagnostic below "
+                      "covers every skill the exam scores."),
+    "gre": dict(harness="gre", app="/gre/app/", name="GRE General Test", short="GRE",
+                blurb="Verbal and quantitative reasoning, section adaptive. The "
+                      "diagnostic below covers every skill the exam scores."),
+    "lsat": dict(harness="lsat", app="/lsat/app/", name="LSAT", short="LSAT",
+                 blurb="Logical reasoning and reading comprehension. The diagnostic "
+                       "below covers every skill the exam scores."),
+    "act": dict(harness="act", app="/act/app/", name="ACT", short="ACT",
+                blurb="English, mathematics, reading and science. The diagnostic below "
+                      "covers every skill the exam scores."),
 }
 
 # exam -> section key -> the section. Adding a section is an entry here and a topic
@@ -77,6 +89,21 @@ SECTIONS = {
 # failure the coverage check exists to prevent, one level up.
 PLANNED = {
     "gmat": [],
+    "sat": [("Reading and Writing", "Every skill the section scores, the way the quant "
+                                    "guide covers the GMAT."),
+            ("Math", "Every equation and function the exam asks about.")],
+    "gre": [("Verbal Reasoning", "Reading comprehension, text completion and sentence "
+                                 "equivalence."),
+            ("Quantitative Reasoning", "Arithmetic, algebra, geometry and data "
+                                       "analysis.")],
+    "lsat": [("Logical Reasoning", "Every question form and the logic underneath it."),
+             ("Reading Comprehension", "How the passages are built and what is asked "
+                                       "of them.")],
+    "act": [("English", "Usage, mechanics and rhetorical skill."),
+            ("Mathematics", "Every topic the exam covers, by difficulty."),
+            ("Reading", "How the passages are built and what is asked of them."),
+            ("Science", "Reading data, designing experiments, and conflicting "
+                        "viewpoints.")],
 }
 
 
@@ -255,8 +282,13 @@ const meta = api.SECTION_META || {};
 const skills = api.SKILLS || [];
 const out = [];
 for (const sk of skills) {
+  // Plain multiple choice, plus the two formats that are the ONLY form some skills
+  // have: GMAT two-part analysis and GRE sentence equivalence. Excluding them would
+  // drop those skills from the diagnostic silently, which is the thing the coverage
+  // check below exists to prevent.
   const pool = api.BANK.filter(q => q.skill === sk.id && Array.isArray(q.choices)
-                                    && (!q.answerType || q.answerType === 'tpa'));
+                                    && (!q.answerType || q.answerType === 'tpa'
+                                        || q.answerType === 'se'));
   if (!pool.length) continue;
   const mid = pool.filter(q => q.diff === 3);
   const c = mid.length ? mid : pool;
@@ -267,7 +299,10 @@ for (const sk of skills) {
   out.push({id: q.id, section: q.section, type: q.type,
             sectionName: (meta[q.section] || {}).name || q.section,
             skill: sk.id, skillName: sk.label,
-            kind: q.answerType === 'tpa' ? 'tpa' : 'mc',
+            kind: (q.answerType === 'tpa' || q.answerType === 'se')
+                  ? q.answerType : 'mc',
+            pick: q.answerType === 'se' && Array.isArray(q.answer)
+                  ? q.answer.length : 1,
             passage: q.passage || null, passageHtml: q.passageHtml || null,
             stem: q.stem,
             columns: q.columns || null, choices: q.choices, answer: q.answer});
@@ -291,9 +326,9 @@ def diagnostic_page(tpl, exam):
     items = d["items"]
     missing = [s for s in d["skills"] if not any(i["skill"] == s for i in items)]
     if missing:
-        raise SystemExit("build_guide: the %s diagnostic covers no item for skill(s) %s, "
-                         "so it would report on a smaller exam than the real one: %s"
-                         % (exam, len(missing), ", ".join(missing)))
+        raise SystemExit("build_guide: the %s diagnostic covers no item for %d of its "
+                         "skills, so it would report on a smaller exam than the real "
+                         "one: %s" % (exam, len(missing), ", ".join(missing)))
     # An item whose TYPE asks about source material has to be carrying some. Derived
     # from the type, never from whether a field happens to be populated, because a check
     # that reads the same field it is checking cannot fail on that field being absent.
@@ -330,7 +365,7 @@ def diagnostic_page(tpl, exam):
             .replace("{{MINS}}", str(mins))
             .replace("{{FLOOR}}", str(d["floor"]))
             .replace("{{APP}}", esc(e["app"]))
-            .replace("{{DATA}}", data))
+            .replace("{{DATA}}", data)), len(items)
 
 
 def topic_page(tpl, exam, sec_key, t, samples, prev_t, next_t):
@@ -424,6 +459,7 @@ def main():
     hub_tpl = (D / "guide_hub_template.html").read_text()
     diag_tpl = (D / "guide_diagnostic_template.html").read_text()
     written = 0
+    diag_counts = {}
     for exam, e in EXAMS.items():
         secs = SECTIONS.get(exam, {})
         skills = sorted({t.skill for s in secs.values() for t in s["topics"]})
@@ -464,12 +500,14 @@ def main():
                 written += 1
         diag = OUT / exam / "diagnostic"
         diag.mkdir(parents=True, exist_ok=True)
-        page = partials.apply_chrome(diagnostic_page(diag_tpl, exam))
+        page, n_diag = diagnostic_page(diag_tpl, exam)
+        diag_counts[exam] = n_diag
+        page = partials.apply_chrome(page)
         guard(page, "%s diagnostic" % exam)
         (diag / "index.html").write_text(page)
         written += 1
     OUT.mkdir(parents=True, exist_ok=True)
-    page = partials.apply_chrome(hub_page(hub_tpl))
+    page = partials.apply_chrome(hub_page(hub_tpl, diag_counts))
     guard(page, "guide hub")
     (OUT / "index.html").write_text(page)
     written += 1
@@ -484,7 +522,7 @@ def all_formula_count(): return sum(len(t.facts) for t in all_topics())
 def all_worked_count(): return sum(len(t.worked) for t in all_topics())
 
 
-def hub_page(tpl):
+def hub_page(tpl, diag_counts):
     """The /guide/ index: every exam, its live sections, and the ones still unwritten.
 
     Built from the registry rather than hand-written, so it cannot advertise a section
@@ -501,6 +539,13 @@ def hub_page(tpl):
                 % (esc(exam), esc(sec_key), esc(sec["title"]), esc(sec["blurb"]),
                    len(sec["topics"]), sum(len(t.facts) for t in sec["topics"]),
                    esc(sec.get("facts_word", "formulas"))))
+        cards.insert(0,
+            '<a class="scard" href="/guide/%s/diagnostic/">'
+            '<span class="scard-t">Diagnostic</span>'
+            '<span class="scard-i">One question from every skill the %s scores, then a '
+            'list of what to work on first. Not a score and not a prediction.</span>'
+            '<span class="scard-m">%d questions</span></a>'
+            % (esc(exam), esc(e["short"]), diag_counts[exam]))
         for title, note in PLANNED.get(exam, []):
             cards.append('<div class="scard soon"><span class="scard-t">%s</span>'
                          '<span class="scard-i">%s</span>'
