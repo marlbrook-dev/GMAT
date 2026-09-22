@@ -1,14 +1,14 @@
 # Rules Digest
 
-61 defects from a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
+62 defects from a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
 
-Generated 2026-09-22 from a ledger spanning 35 days and 66 commits.
+Generated 2026-09-22 from a ledger spanning 35 days and 67 commits.
 
 ## Read this first
 
-The three ways defects were most often found, in order: found by reading the code or the output (24), found by measuring something (16), a test caught it (10). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
+The three ways defects were most often found, in order: found by reading the code or the output (24), found by measuring something (17), a test caught it (10). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
 
-The dominant failure mode is silent loss, 15 of 61: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
+The dominant failure mode is silent loss, 15 of 62: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
 
 ## Tests and guards
 
@@ -27,17 +27,6 @@ The dominant failure mode is silent loss, 15 of 61: something quietly did less t
 - A commit hash is not a durable citation in a repository that squashes. Pull requests, issues and tags survive history rewriting; branch commits do not. Cite the thing that outlives the merge, and make any check of the other one advisory.
 - A metric that moves against you when the product improves will eventually be used to justify reverting an improvement. When a number goes the wrong way after a change that should only have helped, measure the underlying thing directly before believing either the number or your own explanation of it. Never redefine the metric in the same change that made it look bad.
 
-## Front end
-
-- Generated code is code. If your build writes JavaScript into a string, the build must parse the result, because the blast radius of one bad character is the whole file, not the line.
-- The moment a single-tenant store becomes multi-tenant, every key in it is a collision waiting to happen. Enumerate the writers before you add the second tenant, not after.
-- A conditional that treats not-A as the original case is a bug the day a third case exists. Resolve variants from data, and the third one costs a row rather than a search.
-- Nobody notices a page getting slower one commit at a time. Put the number in a test the first time you care about it, not the first time somebody complains.
-- try/catch around an API that returns errors is decoration. Know which convention each call uses before you wrap it.
-- When you change a filename scheme, grep for the old name as a string, including inside regexes. A pattern is a hardcoded name wearing a disguise.
-- A fixed rounding rule is wrong at one end of the range or the other. Pick the precision from the magnitude, and write the expected number down before you write the code that produces it.
-- Anything that reports failures must not be able to report its own. Check whether each call rejects or throws before you wrap it, and make the reporting path unable to re-enter itself.
-
 ## Content generation
 
 - Any generator that claims reproducibility must be seeded from something stable across processes. hash() is not, in Python, and the failure shows up as a flaky test rather than as a wrong answer.
@@ -48,6 +37,18 @@ The dominant failure mode is silent loss, 15 of 61: something quietly did less t
 - The same inflation arrives through a different door every time you close one. When you fix a dedup bug, ask what else shares an identity.
 - Dedup can be wrong in both directions. An over-broad key deletes real content as silently as a narrow one inflates it.
 - Every filter needs its rejection count reported. A filter that silently drops is indistinguishable from an input that was never there.
+- A guard on the extreme of a distribution can be satisfied by moving the mass next to the extreme. When you correct for a measured bias, measure the whole distribution afterwards, not the statistic you were correcting.
+
+## Front end
+
+- Generated code is code. If your build writes JavaScript into a string, the build must parse the result, because the blast radius of one bad character is the whole file, not the line.
+- The moment a single-tenant store becomes multi-tenant, every key in it is a collision waiting to happen. Enumerate the writers before you add the second tenant, not after.
+- A conditional that treats not-A as the original case is a bug the day a third case exists. Resolve variants from data, and the third one costs a row rather than a search.
+- Nobody notices a page getting slower one commit at a time. Put the number in a test the first time you care about it, not the first time somebody complains.
+- try/catch around an API that returns errors is decoration. Know which convention each call uses before you wrap it.
+- When you change a filename scheme, grep for the old name as a string, including inside regexes. A pattern is a hardcoded name wearing a disguise.
+- A fixed rounding rule is wrong at one end of the range or the other. Pick the precision from the magnitude, and write the expected number down before you write the code that produces it.
+- Anything that reports failures must not be able to report its own. Check whether each call rejects or throws before you wrap it, and make the reporting path unable to re-enter itself.
 
 ## CSS and layout
 
