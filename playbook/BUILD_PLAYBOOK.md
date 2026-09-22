@@ -6,11 +6,11 @@ different one.
 The platform is Start From Nowhere, a test-preparation site with five adaptive exam
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
-2026-08-17 and 2026-09-21, which is 35 days, across
-69 commits, by one owner directing a series of AI coding sessions. As of this
-build it is 43 Python files, 94 JavaScript files, 24
+2026-08-17 and 2026-09-22, which is 36 days, across
+71 commits, by one owner directing a series of AI coding sessions. As of this
+build it is 45 Python files, 96 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 63 documents:
-1960 tracked files in total.
+1964 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -640,7 +640,7 @@ it is the difference between a product people trust and one they catch out.
 
 # Content at Scale, Without Lying About It
 
-This platform ships over a hundred thousand practice items across 47 bank
+This platform ships over a hundred thousand practice items across 49 bank
 files. Almost all are generated. The chapter is about how to do that without producing a
 number that is technically true and substantively false.
 
@@ -1118,7 +1118,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-69 commits in 35 days, one owner, a series of AI sessions. This
+71 commits in 36 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1171,7 +1171,7 @@ Not a list of files changed. The useful report is:
 5. Numbers, with the command that produced them.
 
 The commit messages in this repository are written that way, which is why a defect ledger
-could be reconstructed from them 35 days later. **Write the commit message
+could be reconstructed from them 36 days later. **Write the commit message
 as though someone will need to mine it. Someone will.**
 
 ## Failure modes observed in this project
@@ -1210,21 +1210,21 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-65 recorded defects, over 35 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+67 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 27 | 42% |
-| Found by measuring something | 17 | 26% |
-| A test caught it | 10 | 15% |
-| Found by rendering it and looking | 5 | 8% |
-| Found by a review bot or an adversarial pass | 5 | 8% |
-| A person hit it | 1 | 2% |
+| Found by reading the code or the output | 27 | 40% |
+| Found by measuring something | 18 | 27% |
+| A test caught it | 11 | 16% |
+| Found by rendering it and looking | 5 | 7% |
+| Found by a review bot or an adversarial pass | 5 | 7% |
+| A person hit it | 1 | 1% |
 
-**This is the most useful table in the book.** 64 of 65 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 66 of 67 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1234,20 +1234,20 @@ well enough to audit later. Which is what this book is.
 | Severity | Count |
 | --- | ---: |
 | Wrong data shown or stored | 24 |
-| Silent loss | 16 |
+| Silent loss | 18 |
 | Degraded | 13 |
 | Cosmetic | 9 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 16 of 65. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 18 of 67. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Tests and guards | 15 |
-| Content generation | 9 |
+| Tests and guards | 16 |
+| Content generation | 10 |
 | Front end | 8 |
 | CSS and layout | 5 |
 | Payments | 5 |
@@ -1261,7 +1261,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-59 of 65 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+61 of 67 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1284,7 +1284,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 Files named by three or more incidents. This is not the same signal as the list above: a file that is the natural home for many checks will appear here without any one of them having failed. It says where the work has been, and where a reader new to the codebase should look first.
 
-- `src/build.py`, 8 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064)
+- `src/build.py`, 9 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067)
 - `src/test.js`, 6 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044)
 - `src/build_banks.py`, 5 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011)
 - `src/review_bot.js`, 4 incidents (INC-0022, INC-0026, INC-0051, INC-0061)
@@ -1299,7 +1299,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Tests and guards (15)
+## Tests and guards (16)
 
 
 ### INC-0016. The performance test waited for the load event, which waits for the thing being optimised
@@ -1497,7 +1497,19 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** An aggregate is a claim about whatever you grouped by. Group by the file and you have measured the file. State the grouping in the sentence that reports the result, and the overclaim becomes visible while you are writing it.
 
 
-## Content generation (9)
+### INC-0067. The browser path fix covered two suites and three others kept crashing
+
+*2026-09-22, Silent loss*
+
+- **What was seen.** smoke_items.js, smoke_consent.js and smoke_billing.js all died at launch with 'Executable doesn't exist at /opt/pw-browsers/chromium_headless_shell-1243/...'. The sandbox holds chromium-1194 and chromium_headless_shell-1194, so Playwright's own resolved path pointed at a build that is not installed. CI passed throughout, because a CI runner installs the browser Playwright expects.
+- **Why.** INC-0055 was the same failure in smoke_business.js, and the fix was src/chromium_path.js, a shared resolver that prefers CHROMIUM_PATH, falls back to the newest /opt/pw-browsers/chromium-*, and otherwise returns undefined so Playwright decides. Two suites were changed to use it, smoke_business and smoke_fit. The three older suites were left reading process.env.CHROMIUM_PATH directly, which with the variable unset passes executablePath: undefined and hands the decision back to Playwright, which is exactly the case the resolver exists to override. A shared module only helps the callers that call it.
+- **How it surfaced.** Running the three suites after a bank change, as the pre push checklist requires. They had not been run in this sandbox since the resolver was introduced. (A test caught it)
+- **Fix.** All ten browser suites and playbook_pdf.js now call chromiumPath() from src/chromium_path.js. A check in src/build.py fails the build if any file that launches Playwright does not, and on its first run it named six suites beyond the three the failure had surfaced, plus four more that a grep written from its output then found.
+- **What stops it now.** the build refuses a Playwright launch that reads CHROMIUM_PATH instead of calling chromiumPath() in `src/build.py`
+- **Lesson.** Extracting a shared helper does not migrate the callers. The extraction fixes the file it was extracted from and leaves every sibling on the old path, which is INC-0059 and INC-0064 in a different costume: a correction applied to the instances in hand rather than to the pattern. Three suites had failed visibly and ten were wrong; the seven silent ones were found by the guard, not by reading. When a helper exists because a direct call was wrong, make the direct call fail the build, and let it enumerate the callers rather than enumerating them by hand.
+
+
+## Content generation (10)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -1615,6 +1627,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **What stops it now.** bank_emit.measure prints the full rank and the best single-rank score in `src/bank_emit.py`
 - **Cost.** two banks that would have passed the ratchet carrying a 71 percent tell
 - **Lesson.** A guard on the extreme of a distribution can be satisfied by moving the mass next to the extreme. When you correct for a measured bias, measure the whole distribution afterwards, not the statistic you were correcting.
+
+
+### INC-0066. Half the length tell correction did nothing and the build said it had worked
+
+*2026-09-22, Silent loss*
+
+- **What was seen.** The new GMAT reading bank corrected its length tell with a table that carries a named number of distractors past the key on each item, so the keys land at spread ranks rather than all at one. The table named 65 items. On 31 of them the authored clause was shorter than the gap it had to close, so the distractor stayed below the key and the item did not move. The run printed an improved distribution and no error, and the 31 were only found by measuring intent against outcome by hand.
+- **Why.** extend() appends whatever clause the author supplies and checks only that the needle matches exactly one non key choice. Whether the choice ends up longer than the key, which is the entire point of the call, was never checked. The author sizes each clause by eye against a gap reported in a separate run, and an estimate made that way is wrong about half the time.
+- **How it surfaced.** Comparing the intended lift count for each listed item against the key's actual rank after the run, in a scratch script written because the printed distribution was flatter than before but not as flat as the table should have made it. (Found by measuring something)
+- **Fix.** check_lift() in bank_emit.py takes the same intent the tables express, one entry per item saying how many distractors were meant to pass the key, and exits naming every item whose key did not land at the matching rank and by how much the clause fell short. The generator calls it after the last extend pass, so a clause that does nothing fails the build instead of being averaged into a number that looks better.
+- **What stops it now.** check_lift asserts each lifted item's key rank matches the number of distractors the table lifted in `src/bank_emit.py`
+- **Lesson.** A correction table is a set of claims about outcomes, and an entry that quietly fails still counts as applied. Aggregate metrics hide this well: a table where half the entries work still moves the number in the right direction, which reads as success. State the per item intent in a form the machine can check, and every entry that did nothing says so by name.
 
 
 ## Front end (8)
@@ -2230,6 +2254,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A length guard silently dropped sixteen valid items (INC-0011)</small>
 - [ ] A guard on the extreme of a distribution can be satisfied by moving the mass next to the extreme. When you correct for a measured bias, measure the whole distribution afterwards, not the statistic you were correcting.  
   <small>Correcting a length tell moves it one rank over, every time (INC-0062)</small>
+- [ ] A correction table is a set of claims about outcomes, and an entry that quietly fails still counts as applied. Aggregate metrics hide this well: a table where half the entries work still moves the number in the right direction, which reads as success. State the per item intent in a form the machine can check, and every entry that did nothing says so by name.  
+  <small>Half the length tell correction did nothing and the build said it had worked (INC-0066)</small>
 
 
 ## Database
@@ -2356,6 +2382,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A repeat metric that gets worse when the bank gets better (INC-0061)</small>
 - [ ] An aggregate is a claim about whatever you grouped by. Group by the file and you have measured the file. State the grouping in the sentence that reports the result, and the overclaim becomes visible while you are writing it.  
   <small>The analysis chapter called one file eight failing guards (INC-0065)</small>
+- [ ] Extracting a shared helper does not migrate the callers. The extraction fixes the file it was extracted from and leaves every sibling on the old path, which is INC-0059 and INC-0064 in a different costume: a correction applied to the instances in hand rather than to the pattern. Three suites had failed visibly and ten were wrong; the seven silent ones were found by the guard, not by reading. When a helper exists because a direct call was wrong, make the direct call fail the build, and let it enumerate the callers rather than enumerating them by hand.  
+  <small>The browser path fix covered two suites and three others kept crashing (INC-0067)</small>
 
 
 # Adapting This to a Different Business
@@ -2472,7 +2500,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 65 real defects reduced to the rules that prevent them,
+the whole project: 67 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -2512,7 +2540,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-65 defects already prevented is genuinely ahead, and every defect it hits
+67 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

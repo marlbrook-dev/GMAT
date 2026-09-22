@@ -18,6 +18,7 @@
 // absence is the whole reason it is allowed to run without consent, so it is tested rather
 // than assumed.
 const { chromium } = require('playwright');
+const { chromiumPath } = require('./chromium_path.js');
 const http = require('http');
 const fs = require('fs');
 const path0 = require('path');
@@ -141,7 +142,7 @@ async function checkDialog(b, base, check) {
 (async () => {
   await new Promise(r => server.listen(0, '127.0.0.1', r));
   PORT = server.address().port;
-  const b = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH });
+  const b = await chromium.launch({ executablePath: chromiumPath() });
   let fail = 0;
   const check = (name, ok, extra) => {
     console.log((ok ? '  ok: ' : '  FAIL: ') + name + (extra ? ' -> ' + extra : ''));

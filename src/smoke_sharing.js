@@ -14,6 +14,7 @@
 // The database half of this (the view that excludes minors, the function that refuses a
 // non-adult opt-in) is not testable from a browser and is asserted in SQL instead.
 const { chromium } = require('playwright');
+const { chromiumPath } = require('./chromium_path.js');
 const http = require('http'), fs = require('fs'), p0 = require('path');
 const ROOT = p0.join(__dirname, '..');
 const T = {'.html':'text/html','.js':'text/javascript','.css':'text/css','.png':'image/png',
@@ -36,7 +37,7 @@ function check(name, cond, detail) {
   await new Promise(r => srv.listen(0, '127.0.0.1', r));
   const P = srv.address().port;
   const url = p => 'http://127.0.0.1:' + P + '/' + String(p).replace(/^\//, '');
-  const b = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH });
+  const b = await chromium.launch({ executablePath: chromiumPath() });
 
   // --- the Account card, across the states the server can report -------------------
   // {sharing, basis, opted_out, tier} is what my_data_sharing returns. `sharing` is

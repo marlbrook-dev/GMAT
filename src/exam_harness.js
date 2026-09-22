@@ -14,16 +14,16 @@ const SRC = __dirname;
 
 const EXAM_FILES = [
  {id:'gmat-focus', choices:5,
-  files:['bank_quant.js','bank_quant2.js','bank_quant3.js','bank_quant4.js','bank_quant5.js','bank_quant6.js','bank_verbal.js','bank_verbal2.js','bank_verbal3.js','bank_verbal4.js','bank_verbal5.js','bank_verbal6.js','bank_verbal7.js','bank_verbal8.js','bank_di.js','bank_di2.js','bank_di3.js','bank_di4.js','bank_di5.js','bank_di6.js','bank_di7.js','bank_di8.js','bank_di9.js','cards.js','cards2.js','cards3.js','playbook_gmat.js'],
-  concat:'BANK_QUANT,BANK_QUANT2,BANK_QUANT3,BANK_QUANT4,BANK_QUANT5,BANK_QUANT6,BANK_VERBAL,BANK_VERBAL2,BANK_VERBAL3,BANK_VERBAL4,BANK_VERBAL5,BANK_VERBAL6,BANK_VERBAL7,BANK_VERBAL8,BANK_DI,BANK_DI2,BANK_DI3,BANK_DI4,BANK_DI5,BANK_DI6,BANK_DI7,BANK_DI8,BANK_DI9', gen:'gmat'},
+  files:['bank_quant.js','bank_quant2.js','bank_quant3.js','bank_quant4.js','bank_quant5.js','bank_quant6.js','bank_verbal.js','bank_verbal2.js','bank_verbal3.js','bank_verbal4.js','bank_verbal5.js','bank_verbal6.js','bank_verbal7.js','bank_verbal8.js','bank_verbal9.js','bank_di.js','bank_di2.js','bank_di3.js','bank_di4.js','bank_di5.js','bank_di6.js','bank_di7.js','bank_di8.js','bank_di9.js','cards.js','cards2.js','cards3.js','playbook_gmat.js'],
+  concat:'BANK_QUANT,BANK_QUANT2,BANK_QUANT3,BANK_QUANT4,BANK_QUANT5,BANK_QUANT6,BANK_VERBAL,BANK_VERBAL2,BANK_VERBAL3,BANK_VERBAL4,BANK_VERBAL5,BANK_VERBAL6,BANK_VERBAL7,BANK_VERBAL8,BANK_VERBAL9,BANK_DI,BANK_DI2,BANK_DI3,BANK_DI4,BANK_DI5,BANK_DI6,BANK_DI7,BANK_DI8,BANK_DI9', gen:'gmat'},
  {id:'gre', choices:5, choicesByType:{QC:4},
   files:['bank_gre_verbal.js','bank_gre_verbal2.js','bank_gre_rc2.js','bank_gre_quant.js','bank_gre_quant2.js','bank_gre_easy.js','writing_gre.js','cards_gre.js','playbook_gre.js'],
   concat:'BANK_GRE_VERBAL,BANK_GRE_VERBAL2,BANK_GRE_RC2,BANK_GRE_QUANT,BANK_GRE_QUANT2,BANK_GRE_EASY', gen:'gre'},
  // The LSAT carries no generated bank: its items are arguments and passages, with no
  // parameterised schema behind them, so gen is null and the run skips that file.
  {id:'lsat', choices:5,
-  files:['bank_lsat_lr.js','bank_lsat_lr2.js','bank_lsat_rc.js','bank_lsat_rc2.js','cards_lsat.js','playbook_lsat.js'],
-  concat:'BANK_LSAT_LR,BANK_LSAT_LR2,BANK_LSAT_RC,BANK_LSAT_RC2', gen:null},
+  files:['bank_lsat_lr.js','bank_lsat_lr2.js','bank_lsat_lr3.js','bank_lsat_rc.js','bank_lsat_rc2.js','cards_lsat.js','playbook_lsat.js'],
+  concat:'BANK_LSAT_LR,BANK_LSAT_LR2,BANK_LSAT_LR3,BANK_LSAT_RC,BANK_LSAT_RC2', gen:null},
  {id:'act', choices:4,
   files:['bank_act_english.js','bank_act_reading.js','bank_act_reading2.js','bank_act_science.js','cards_act.js','playbook_act.js'],
   concat:'BANK_ACT_ENGLISH,BANK_ACT_READING,BANK_ACT_READING2,BANK_ACT_SCIENCE', gen:'act'},

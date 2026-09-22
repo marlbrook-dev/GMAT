@@ -26,13 +26,13 @@ that makes the site worth less than the sum of its pages.
 
 | Trainer | Path | Items |
 |---|---|---|
-| GMAT Focus | `/app/` | 27,770 |
-| ACT | `/act/app/` | 36,617 |
+| GMAT Focus | `/app/` | 27,914 |
+| ACT | `/act/app/` | 36,661 |
 | Digital SAT | `/sat/app/` | 16,996 |
-| GRE | `/gre/app/` | 19,888 |
-| LSAT | `/lsat/app/` | 65 |
+| GRE | `/gre/app/` | 19,914 |
+| LSAT | `/lsat/app/` | 282 |
 
-**101,336 items total.** Also live: `/colleges/` (1,451 colleges, four ranked categories),
+**101,767 items total.** Also live: `/colleges/` (1,451 colleges, four ranked categories),
 `/schools/` (91 MBA programs), `/exams/`, `/blog/` (29 posts, drip publishing), `/apply/`,
 `/community/`, `/funding/`, `/international/`, `/scoring/`, `/pricing/`, `/do-not-sell/`.
 
@@ -201,8 +201,7 @@ generator makes them:
 GRE  gre_rc            14
 ACT  act_r_kid 18, act_r_cs 11, act_r_iki 11
 SAT  rw_cs 46, rw_ii 48
-GMAT v_inf 39, v_st 32
-LSAT everything, 3 to 10 per category, 65 total
+LSAT reading, 10 to 20 per category; Logical Reasoning is now 29 to 31
 ```
 
 Maths categories hold 1,200 each. A student who picks reading exhausts it in one sitting.
@@ -245,8 +244,9 @@ crawlable: the point is to stop bulk bank extraction, not indexing.
 ### Smaller, still open
 
 - Scholarship sourcing, column and articles (task 15).
-- The LSAT bank is 65 items and says so on its own page rather than implying more. It needs
-  either real investment or a decision to drop it.
+- The LSAT bank is 282 items and says so on its own page rather than implying more. Logical
+  Reasoning is now 29 to 31 per skill; the five reading skills are still 10 to 20 and are
+  what the review bot warns about.
 
 ---
 

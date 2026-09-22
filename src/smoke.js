@@ -1,6 +1,7 @@
 const { chromium } = require('playwright');
+const { chromiumPath } = require('./chromium_path.js');
 (async()=>{
- const b=await chromium.launch(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{}); const p=await b.newPage({viewport:{width:1280,height:900}});
+ const b=await chromium.launch({executablePath:chromiumPath()}); const p=await b.newPage({viewport:{width:1280,height:900}});
  const errs=[]; p.on('pageerror',e=>errs.push(e.message)); p.on('console',m=>{ if(m.type()==='error') errs.push(m.text()); });
  await p.goto(process.env.SMOKE_URL||'file://'+require('path').resolve(__dirname,'..','app','index.html')); await p.waitForTimeout(800);
  const skip=await p.$('text=Skip to dashboard'); if(skip){ await skip.click(); await p.waitForTimeout(300); }

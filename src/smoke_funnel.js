@@ -4,6 +4,7 @@
 // full of zeros that reads as "nobody converts" rather than "nothing is recorded".
 // So this intercepts the requests rather than trusting the code to be wired.
 const { chromium } = require('playwright');
+const { chromiumPath } = require('./chromium_path.js');
 const http = require('http'), fs = require('fs'), p0 = require('path');
 const ROOT = p0.join(__dirname, '..');
 const T = {'.html':'text/html','.js':'text/javascript','.css':'text/css','.png':'image/png','.svg':'image/svg+xml','.json':'application/json','.webmanifest':'application/manifest+json'};
@@ -23,7 +24,7 @@ function check(name, cond, detail) {
 (async () => {
   await new Promise(r => srv.listen(0, '127.0.0.1', r));
   const P = srv.address().port;
-  const b = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH });
+  const b = await chromium.launch({ executablePath: chromiumPath() });
 
   // --- with consent granted: the milestones must actually be sent ----------------
   {

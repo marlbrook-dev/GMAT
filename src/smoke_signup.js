@@ -23,6 +23,7 @@
 // fields that re-identifies most people on its own; the month and year answer the only
 // question we need.
 const { chromium } = require('playwright');
+const { chromiumPath } = require('./chromium_path.js');
 const http = require('http'), fs = require('fs'), p0 = require('path');
 const ROOT = p0.join(__dirname, '..');
 const T = {'.html':'text/html','.js':'text/javascript','.css':'text/css','.png':'image/png',
@@ -44,7 +45,7 @@ const check = (n, c, d) => {
 (async () => {
   await new Promise(r => srv.listen(0, '127.0.0.1', r));
   const P = srv.address().port;
-  const b = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH });
+  const b = await chromium.launch({ executablePath: chromiumPath() });
 
   // Every trainer shares one template, so a regression in one is a regression in all.
   // The SAT and ACT apps are the ones whose users are most likely to be minors.
