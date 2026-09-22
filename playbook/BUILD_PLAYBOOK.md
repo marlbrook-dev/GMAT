@@ -7,10 +7,10 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-08-17 and 2026-09-21, which is 35 days, across
-67 commits, by one owner directing a series of AI coding sessions. As of this
-build it is 40 Python files, 92 JavaScript files, 24
+68 commits, by one owner directing a series of AI coding sessions. As of this
+build it is 42 Python files, 93 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 63 documents:
-1955 tracked files in total.
+1958 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -640,7 +640,7 @@ it is the difference between a product people trust and one they catch out.
 
 # Content at Scale, Without Lying About It
 
-This platform ships over a hundred thousand practice items across 45 bank
+This platform ships over a hundred thousand practice items across 46 bank
 files. Almost all are generated. The chapter is about how to do that without producing a
 number that is technically true and substantively false.
 
@@ -1118,7 +1118,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-67 commits in 35 days, one owner, a series of AI sessions. This
+68 commits in 35 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1210,21 +1210,21 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-62 recorded defects, over 35 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+63 recorded defects, over 35 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 24 | 39% |
+| Found by reading the code or the output | 25 | 40% |
 | Found by measuring something | 17 | 27% |
 | A test caught it | 10 | 16% |
 | Found by rendering it and looking | 5 | 8% |
 | Found by a review bot or an adversarial pass | 5 | 8% |
 | A person hit it | 1 | 2% |
 
-**This is the most useful table in the book.** 61 of 62 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 62 of 63 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1233,13 +1233,13 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 22 |
+| Wrong data shown or stored | 23 |
 | Silent loss | 15 |
 | Degraded | 13 |
 | Cosmetic | 9 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 15 of 62. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 15 of 63. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
@@ -1256,12 +1256,12 @@ well enough to audit later. Which is what this book is.
 | Database | 4 |
 | Search and metadata | 3 |
 | Interface and data display | 3 |
-| Build system | 2 |
+| Build system | 3 |
 
 
 ## Guard coverage
 
-56 of 62 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+57 of 63 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1277,7 +1277,7 @@ Carried by attention:
 
 A guard named by two incidents is a guard that did not hold the first time. These are the places to spend effort.
 
-- `src/build.py` appears in INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060
+- `src/build.py` appears in INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063
 - `src/test.js` appears in INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044
 - `src/build_banks.py` appears in INC-0003, INC-0007, INC-0008, INC-0009, INC-0011
 - `src/review_bot.js` appears in INC-0022, INC-0026, INC-0051, INC-0061
@@ -2108,7 +2108,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** Copy that says above, below, left or right is a hard dependency on layout that nothing checks. Name the thing instead, and the sentence survives every rearrangement.
 
 
-## Build system (2)
+## Build system (3)
 
 
 ### INC-0059. The item counter missed a whole bank file because it assumed a quoting style
@@ -2137,6 +2137,19 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** A parse guard covers the file shapes someone thought of. When the same code moves into a new shape, a separate file, a chunk, a worker, the guard does not follow it. List what the guard covers against what the deploy actually ships, and check the difference rather than the intention.
 
 
+### INC-0063. The stale count guard checked two nouns and the page used a third
+
+*2026-09-22, Wrong data shown or stored, PR #67*
+
+- **What was seen.** llms.txt told every model that reads it the LSAT bank holds 65 questions. It held 142. The build's count guard passed the file.
+- **Why.** The guard matches a number followed by original or flashcards. The LSAT line was phrased as 65 questions today, deliberately, because the number was small and the page said so plainly. The phrasing that made the sentence honest is what put it outside the pattern.
+- **How it surfaced.** Reading the file while fixing a different count the guard did catch, then watching the widened guard flag a correct sourced figure. (Found by reading the code or the output)
+- **Fix.** Match a second, unambiguous pattern rather than more nouns. Widening the noun list to items and questions did catch the stale figure, and immediately raised a false positive on '64 questions', which is the real GMAT Focus question count from GMAC and not a bank size at all. A checker that cries wolf gets muted, so the guard now matches 'N original', 'N flashcards' and the specific phrase 'item bank is N', which names our bank and cannot match an exam fact.
+- **What stops it now.** the count guard matches original, flashcards, items and questions in `src/build.py`
+- **Cost.** a published figure less than half the true one, on the page written for machines
+- **Lesson.** A guard keyed to wording is a guard on the wording, not the fact, and every synonym is a hole in it. Widening the wording is the obvious repair and it trades missed defects for false alarms, which cost more because they get the guard switched off. Match a phrase that only the thing you care about can produce, rather than every word it might happen to use.
+
+
 # The Checklist
 
 Generated from the defect ledger. Every line exists because something went wrong once. Nothing is here for completeness.
@@ -2150,6 +2163,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The item counter missed a whole bank file because it assumed a quoting style (INC-0059)</small>
 - [ ] A parse guard covers the file shapes someone thought of. When the same code moves into a new shape, a separate file, a chunk, a worker, the guard does not follow it. List what the guard covers against what the deploy actually ships, and check the difference rather than the intention.  
   <small>Nothing parsed the one file every user downloads (INC-0060)</small>
+- [ ] A guard keyed to wording is a guard on the wording, not the fact, and every synonym is a hole in it. Widening the wording is the obvious repair and it trades missed defects for false alarms, which cost more because they get the guard switched off. Match a phrase that only the thing you care about can produce, rather than every word it might happen to use.  
+  <small>The stale count guard checked two nouns and the page used a third (INC-0063)</small>
 
 
 ## CSS and layout
@@ -2426,7 +2441,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 62 real defects reduced to the rules that prevent them,
+the whole project: 63 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -2466,7 +2481,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-62 defects already prevented is genuinely ahead, and every defect it hits
+63 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

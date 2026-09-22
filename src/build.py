@@ -15,7 +15,7 @@ GRE_BANKS = ["bank_gre_verbal.js","bank_gre_verbal2.js","bank_gre_quant.js","ban
 LSAT_BANKS = ["bank_lsat_lr.js","bank_lsat_lr2.js","bank_lsat_rc.js","bank_lsat_rc2.js","cards_lsat.js","playbook_lsat.js"]
 # ACT Mathematics comes entirely from the generated bank, which is why no hand written math
 # file appears here; the schemas are mapped onto ACT taxonomy in src/gen/mapping.py.
-ACT_BANKS = ["bank_act_english.js","bank_act_reading.js","bank_act_science.js","cards_act.js","playbook_act.js"]
+ACT_BANKS = ["bank_act_english.js","bank_act_reading.js","bank_act_reading2.js","bank_act_science.js","cards_act.js","playbook_act.js"]
 
 APPS = [
     {"exam": "gmat-focus", "out": "app", "gen": "gmat", "files": GMAT_BANKS,
@@ -60,7 +60,7 @@ APPS = [
               "built on the skills LSAC publishes for each section."),
      "is_404": False},
     {"exam": "act", "out": "act/app", "gen": "act", "files": ACT_BANKS,
-     "concat": "BANK_ACT_ENGLISH, BANK_ACT_READING, BANK_ACT_SCIENCE",
+     "concat": "BANK_ACT_ENGLISH, BANK_ACT_READING, BANK_ACT_READING2, BANK_ACT_SCIENCE",
      "footer": ("ACT is a registered trademark of ACT Education Corp., which does not endorse this product. "
                 "Practice items are original and written for Start From Nowhere. Section lengths and reporting "
                 "categories follow ACT published materials for the enhanced test, including four answer choices "
@@ -214,7 +214,7 @@ _ID_PAT = {"gmat": r"\{\s*id: ?['\"](?:Q|V|D)\w*\d",
            "lsat": r"\{\s*id: ?['\"]L[LC]\d",
            "act": r"\{\s*id: ?['\"]A[ERS]\d"}
 _blind = []
-for _ex, _files in (("lsat", LSAT_BANKS),):
+for _ex, _files in (("lsat", LSAT_BANKS), ("act", ACT_BANKS)):
     for _f in _files:
         if not _f.startswith("bank_"):
             continue
@@ -281,7 +281,20 @@ total_skills = _skill_probe.stdout.strip()
 # own scope is worse than one that fails.
 def check_counts(name, text, allowed):
     import re as _cre
-    for n, unit in _cre.findall(r"\b(\d{2,6})\s+(original|flashcards)\b", text):
+    # Two patterns, and the second one matters. The first was original|flashcards alone,
+    # and the LSAT line in llms.txt was phrased "65 questions today" precisely because the
+    # number was small and the page said so plainly. That honest phrasing put it outside
+    # the pattern and the figure sat at less than half the true count.
+    #
+    # The obvious repair, adding items and questions to the noun list, immediately flagged
+    # "64 questions" in the editorial fact sheet, which is the real GMAT Focus question
+    # count from GMAC and not a bank size at all. A guard that cries wolf gets switched
+    # off, so widening the wording was the wrong trade (INC-0063). The second pattern
+    # matches a phrase only our own bank size can produce.
+    hits = (_cre.findall(r"\b(\d{2,6})\s+(original|flashcards)\b", text)
+            + [(n, "in the item bank") for n in
+               _cre.findall(r"item bank is (\d{2,6})\b", text)])
+    for n, unit in hits:
         if int(n) not in allowed:
             print(f"ERROR: {name} says '{n} {unit}' but the current counts are "
                   f"{sorted(allowed)}; update it or the bank", file=sys.stderr)
