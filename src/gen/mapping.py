@@ -90,7 +90,16 @@ ACT_MAP = {
     # Knowledge of Language has no SAT counterpart and has its own generators in
     # g_act_kol.py.
     "act_e_cse": ["sat_rw_sva", "sat_rw_pronoun", "sat_rw_apostrophe", "sat_rw_boundary"],
-    "act_e_pow": ["sat_rw_transition"],
+    # Rhetorical Synthesis sits here on ACT's own description of the category, not on a
+    # resemblance: Production of Writing "requires you to apply your understanding of the
+    # purpose and focus of a piece of writing", and its Topic Development strand asks the
+    # student to "determine whether a text or part of a text has met its intended goal,
+    # and evaluate the relevance of material in terms of a text's focus" (Preparing for
+    # the ACT, ACT, 2026,
+    # https://www.act.org/content/dam/act/unsecured/documents/Preparing-for-the-ACT.pdf).
+    # A synthesis item states the goal and asks which sentence meets it using relevant
+    # material from the notes, which is that sentence read as an instruction.
+    "act_e_pow": ["sat_rw_transition", "sat_rw_synthesis"],
 }
 
 # A category's section is not always the exam's default. ACT English and ACT Math

@@ -347,4 +347,253 @@ class Transitions(Gen):
         }
 
 
-GENS = [SubjectVerbAgreement(), PronounAgreement(), ApostropheUse(), CommaSplice(), Transitions()]
+# --- Rhetorical Synthesis -----------------------------------------------------
+# Expression of Ideas holds two skills, Rhetorical Synthesis and Transitions, together
+# 8 to 12 questions (Table 2, The Digital SAT Suite of Assessments Specifications
+# Overview, Summer 2022,
+# https://satsuite.collegeboard.org/media/pdf/digital-sat-test-spec-overview.pdf).
+# Only Transitions had a schema, so half the published domain had no items at all and
+# the category shipped at 971 of its 3300 target on one template.
+#
+# The item format is the College Board's own, read off RW question 12 of Digital SAT
+# Sample Questions and Answer Explanations
+# (https://satsuite.collegeboard.org/media/pdf/digital-sat-sample-questions.pdf): a set
+# of bulleted research notes, a stated rhetorical goal, and the question "Which choice
+# most effectively uses relevant information from the notes to accomplish this goal?"
+#
+# Generating this honestly needs a different trick from the grammar schemas. There is no
+# rule to apply, so the key cannot be derived from one. What can be derived is the
+# relationship between the notes: the topic is stored as structured facts, each goal
+# names one relationship over those facts, and the sentence that expresses exactly that
+# relationship is the key. Every distractor is then another goal's sentence, which makes
+# it accurate, drawn from the notes, and wrong only in what it accomplishes. That is the
+# actual skill, and it means no distractor is a throwaway.
+NAMES = [
+    "Dalia Renner", "Tomas Ivarsson", "Priya Ganeshan", "Marcus Oyelaran",
+    "Freya Lindholm", "Idris Bakare", "Noor Haddad", "Rafael Quintero",
+    "Sunniva Aalto", "Jonah Beckett", "Amara Nwosu", "Kiran Mehta",
+    "Elsa Brandt", "Toma Kuwahara", "Lucien Faure", "Rosa Delgado",
+    "Owen Trevelyan", "Mei Sato", "Anselm Roth", "Hana Vukovic",
+    "Ciaran Doyle", "Yara Mansour", "Petra Novak", "Emeka Chukwu",
+]
+CITIES = [
+    "Lisbon", "Halifax", "Dunedin", "Trieste", "Bergen", "Cork",
+    "Valparaiso", "Tallinn", "Hobart", "Ghent", "Reykjavik", "Kaunas",
+]
+# Each topic is one coherent practice. shared_pl is the trait both works have, written
+# for a plural subject; shared_noun is the same trait as a noun phrase; works supply the
+# particular that distinguishes them. Nothing here is asserted as fact about a real
+# person: these are item parameters, the same way the transition pairs above are.
+SYN_TOPICS = [
+    dict(role="sculptor", thing="sculpture", things="sculptures",
+         shared_pl="are assembled from materials salvaged from demolition sites",
+         verb="incorporates",
+         works=[("Ridgeline", "roof slates and copper flashing"),
+                ("Quarter Turn", "window sashes and cast iron door handles"),
+                ("Long Shadow", "scaffold boards and sash weights"),
+                ("Undercroft", "floor joists and lengths of lead pipe"),
+                ("Second Fixing", "plaster cornice and skirting board"),
+                ("Party Wall", "brick, lath, and horsehair plaster")]),
+    dict(role="printmaker", thing="print series", things="print series",
+         shared_pl="are printed from plates the artist leaves out of doors to corrode",
+         verb="was printed from",
+         works=[("Tideline", "a zinc plate left in an estuary for a winter"),
+                ("Saltmarsh", "a copper plate buried in brackish mud"),
+                ("Windbreak", "a steel plate fixed to a fence post for a year"),
+                ("Rainshadow", "a plate left under a leaking gutter"),
+                ("Hoarfrost", "a plate exposed on a roof through three frosts"),
+                ("Spoil Heap", "a plate weighted down in colliery waste")]),
+    dict(role="composer", thing="piece", things="pieces",
+         shared_pl="are built on recordings of machinery made in working buildings",
+         verb="is built on",
+         works=[("Card Room", "the sound of a cotton carding machine"),
+                ("Dry Dock", "the sound of a riveting hammer"),
+                ("Lock Keeper", "the sound of canal lock gates"),
+                ("Bell Pit", "the sound of a winding engine"),
+                ("Flour Mill", "the sound of a stone dressing hammer"),
+                ("Tannery", "the sound of a drum of oak bark")]),
+    dict(role="photographer", thing="series", things="series",
+         shared_pl="record buildings in the month before they were demolished",
+         verb="records",
+         works=[("Last Term", "a village school closed after ninety years"),
+                ("Notice to Quit", "a terrace of railway cottages"),
+                ("Closing Time", "a dockside public house"),
+                ("Final Shift", "a rope walk still in use the week before"),
+                ("Deconsecrated", "a chapel emptied of its fittings"),
+                ("Summer Season", "a pier pavilion after its last concert")]),
+    dict(role="weaver", thing="hanging", things="hangings",
+         shared_pl="use yarn dyed with plants gathered within a mile of the loom",
+         verb="uses",
+         works=[("Headland", "weld gathered from a field margin"),
+                ("Green Lane", "woad grown on an allotment"),
+                ("Coppice", "alder bark from a managed wood"),
+                ("Verge", "dyer's chamomile from a roadside"),
+                ("Dune Slack", "lichen taken from fallen branches"),
+                ("Millrace", "madder root from a garden bed")]),
+    dict(role="bookbinder", thing="binding", things="bindings",
+         shared_pl="reuse boards taken from books too damaged to repair",
+         verb="reuses",
+         works=[("Interleaved", "boards from a water damaged atlas"),
+                ("Recto", "boards from a fire damaged ledger"),
+                ("Endpaper", "boards from a mould damaged hymnal"),
+                ("Gathering", "boards from a broken parish register"),
+                ("Headband", "boards from a split herbal"),
+                ("Fore Edge", "boards from a warped account book")]),
+    dict(role="furniture maker", thing="cabinet", things="cabinets",
+         shared_pl="are made from single trees felled by storms",
+         verb="is made from",
+         works=[("Windthrow", "an oak brought down in a gale"),
+                ("Crown Shy", "a beech split by lightning"),
+                ("Root Plate", "an ash uprooted in flood water"),
+                ("Standing Dead", "an elm killed by disease"),
+                ("Leader Loss", "a pine snapped above the first branch"),
+                ("Hedgerow", "a field maple lost to a storm")]),
+    dict(role="ceramicist", thing="vessel", things="vessels",
+         shared_pl="are glazed with ash from a single species of wood",
+         verb="is glazed with",
+         works=[("Sessile", "ash from oak offcuts"),
+                ("Withy", "ash from willow prunings"),
+                ("Stool Shoot", "ash from hazel rods"),
+                ("Suckered", "ash from cherry branches"),
+                ("Pollard", "ash from lime poles"),
+                ("Windfall", "ash from apple wood")]),
+]
+# Each goal names one relationship over the stored facts and one sentence that expresses
+# it. The other three sentences become this goal's distractors, so what makes a choice
+# wrong is never that it is false.
+SYN_GOALS = ["similarity", "difference", "introduce", "dates"]
+# Transitions runs at a single difficulty, so before this schema every item in the
+# category sat at 3 and the adaptive model had nothing to move between. The goals differ
+# in what they actually ask for: reading one pair of notes off the list, holding two
+# notes against each other, or judging what a reader who knows none of it needs first.
+SYN_DIFF = {"dates": 2, "similarity": 3, "difference": 3, "introduce": 4}
+SYN_WHY = {
+    "similarity": "a sentence that emphasizes what the two %s have in common, which is "
+                  "not the goal stated in the question",
+    "difference": "a sentence that emphasizes how the two %s differ, which is not the "
+                  "goal stated in the question",
+    "introduce": "a sentence that introduces the %s, which an audience that already "
+                 "knows the work does not need",
+    "dates": "a sentence that dates the two %s accurately and establishes no "
+             "relationship between them",
+    "unsupported": "a claim the notes do not support: they say both %s were shown "
+                   "outside the city, not that these were the first to be",
+    "onesided": "a note repeated accurately about one %s, where the question asks "
+                "about both %s",
+    "place": "a true but bare fact about where the %s works, which meets no "
+             "rhetorical goal at all",
+    "kind": "a sentence that names the two %s and says nothing about them that the "
+            "notes had not already said",
+    "exhibited": "the one note about the two %s that no stated goal asks for",
+}
+
+
+class RhetoricalSynthesis(Gen):
+    id = "sat_rw_synthesis"
+    skill = "rw_eoi"
+    section = "RW"
+    sub = "Rhetorical Synthesis"
+    diff = 3
+    fmt = staticmethod(str)
+
+    def build(self, rng):
+        t = rng.choice(SYN_TOPICS)
+        name = rng.choice(NAMES)
+        city = rng.choice(CITIES)
+        (an, ad), (bn, bd) = rng.sample(t["works"], 2)
+        ya = rng.randint(2004, 2015)
+        yb = ya + rng.randint(1, 6)
+        last = name.split()[-1]
+        gap = "a year" if yb - ya == 1 else (
+            "%s years" % ["", "", "two", "three", "four", "five", "six"][yb - ya])
+        thing, things, role = t["thing"], t["things"], t["role"]
+
+        notes = [
+            "%s is a %s based in %s." % (name, role, city),
+            "Most of %s's %s %s." % (last, things, t["shared_pl"]),
+            "%s (%d) %s %s." % (an, ya, t["verb"], ad),
+            "%s (%d) %s %s." % (bn, yb, t["verb"], bd),
+            "Both %s were made for exhibitions outside %s." % (things, city),
+        ]
+        rng.shuffle(notes)
+
+        sent = {
+            "similarity": "%s (%d) and %s (%d) %s, like most of %s's %s."
+                          % (an, ya, bn, yb, t["shared_pl"], last, things),
+            "difference": "%s (%d) %s %s, whereas %s %s %s."
+                          % (an, ya, t["verb"], ad, bn, t["verb"], bd),
+            "introduce": "%s is a %s based in %s whose %s %s."
+                         % (name, role, city, things, t["shared_pl"]),
+            # Drawn from the notes and plausible, but the notes say the two were made
+            # for exhibitions outside the city, not that they were the first to be.
+            "unsupported": "%s (%d) and %s (%d) were the first of %s's %s to be shown "
+                           "outside %s, the city where %s is based."
+                           % (an, ya, bn, yb, last, things, city, last),
+            # Accurate and specific, but about one work where every goal needs both.
+            "onesided": "%s (%d) %s %s." % (an, ya, t["verb"], ad),
+            # Two more, accurate and off the goal like the rest, and deliberately one
+            # much shorter and one much longer than any key. Without them the pool has
+            # nothing on one side of a given key and the framework cannot balance where
+            # the key falls by length, so the goal becomes readable off the lengths.
+            "place": "%s works in %s." % (last, city),
+            "kind": "%s (%d) and %s (%d) are both %s." % (an, ya, bn, yb, things),
+            "onesidedlong": "%s (%d) %s %s, and it was made for an exhibition held "
+                            "outside %s, where %s is based."
+                            % (an, ya, t["verb"], ad, city, last),
+            "exhibited": "Both %s (%d) and %s (%d) were made for exhibitions held "
+                         "outside %s, which is the city where %s is based."
+                         % (an, ya, bn, yb, city, last),
+            "dates": "%s completed %s in %d and %s in %d, %s later."
+                     % (last, an, ya, bn, yb, gap),
+        }
+        ask = {
+            "similarity": "emphasize a similarity between the two %s" % things,
+            "difference": "emphasize a difference between the two %s" % things,
+            "introduce": "introduce %s's work to an audience unfamiliar with it" % last,
+            "dates": "specify when each of the two %s was completed" % things,
+        }
+        goal = rng.choice(SYN_GOALS)
+        # Four candidates for three slots, so the framework can balance the key's
+        # length rank. With exactly three the pool has no slack and the rank is fixed by
+        # the goal, which would make the goal readable off the choice lengths.
+        wrong = [(sent[g], SYN_WHY[g] % (things if g != "introduce" else role))
+                 for g in SYN_GOALS if g != goal]
+        wrong.append((sent["unsupported"], SYN_WHY["unsupported"] % things))
+        wrong.append((sent["onesided"], SYN_WHY["onesided"] % (thing, things)))
+        wrong.append((sent["place"], SYN_WHY["place"] % role))
+        wrong.append((sent["exhibited"], SYN_WHY["exhibited"] % things))
+        wrong.append((sent["kind"], SYN_WHY["kind"] % things))
+        wrong.append((sent["onesidedlong"], SYN_WHY["onesided"] % (thing, things)))
+        # Shuffled after every candidate is in, not before. The framework fills each
+        # side of the key from the front of this list, so anything appended after the
+        # shuffle is systematically last in its side and the key's length rank piles up
+        # in one place.
+        rng.shuffle(wrong)
+        rng.shuffle(wrong)
+        return {
+            "stem": "While researching a topic, a student has taken the following "
+                    "notes:\n\n%s\n\nThe student wants to %s. Which choice most "
+                    "effectively uses relevant information from the notes to "
+                    "accomplish this goal?"
+                    % ("\n".join("- " + n for n in notes), ask[goal]),
+            "answer": sent[goal],
+            "distractors": wrong,
+            "diff": SYN_DIFF[goal],
+            "expl": "The goal is to %s, and only this choice does that: %s"
+                    % (ask[goal], self.BECAUSE[goal] % things),
+        }
+
+    BECAUSE = {
+        "similarity": "it names both %s and then the trait the notes give to the whole "
+                      "body of work, so the reader sees what the two have in common.",
+        "difference": "it sets the two %s side by side on the one point where the notes "
+                      "have them differ, and says what each one does.",
+        "introduce": "it says who the maker is, where they work, and what the %s have "
+                     "in common, which is what a reader meeting the work for the first "
+                     "time needs.",
+        "dates": "it gives the completion year of each of the two %s and claims nothing "
+                 "further about them.",
+    }
+
+GENS = [SubjectVerbAgreement(), PronounAgreement(), ApostropheUse(), CommaSplice(),
+        Transitions(), RhetoricalSynthesis()]

@@ -28,19 +28,24 @@ OUT = D / "generated"
 # number. 34 categories across the four generated exams, plus 1,073 hand written items
 # (including all 65 LSAT ones, which have no generator).
 #
-# Seven categories exhaust their parameter space below this and ship at their own ceiling
+# Five categories exhaust their parameter space below this and ship at their own ceiling
 # instead. That is reported, not silent: build_banks prints "categories under target" and
 # names the schemas that ran out.
 #
 #   gmat/v_pc        833   cr_plan_assume, cr_plan_eval, cr_plan_weaken
-#   act/act_e_pow    974   sat_rw_transition remapped
-#   sat/rw_eoi       971   sat_rw_transition
-#   gmat/v_ac      1,422
-#   gmat/q_vof     1,967
-#   sat/rw_sec     2,489
-#   act/act_e_cse  2,507
+#   gmat/v_ac      1,422   cr_cause_assume, cr_cause_weaken, cr_necessary, cr_percent,
+#                          cr_sample
+#   gmat/q_vof     1,967   the five sat_adv_* schemas, remapped
+#   sat/rw_sec     2,489   sat_rw_apostrophe, sat_rw_boundary, sat_rw_pronoun, sat_rw_sva
+#   act/act_e_cse  2,507   the same four, remapped
 #
-# So the published bank is 27 x 3300 + 11,163 + 1,073 = 101,336.
+# So the generated bank is 29 x 3300 + 9,218 = 104,918, and with the hand written banks
+# the build counts a published total of 106,770.
+#
+# sat/rw_eoi and act/act_e_pow were on this list at 971 and 974 until sat_rw_synthesis
+# was written. Both are now at target, and the fix was a second schema rather than a
+# wider one: the category held one template, and Expression of Ideas holds two published
+# skills, so half the domain had no items at all.
 #
 # On why 3300 and not more. The ceilings were measured by running at 4000: 24 categories
 # still had room there and the total came to 118,447, so the parameter space is not the
@@ -50,10 +55,11 @@ OUT = D / "generated"
 # smallest round value that clears one hundred thousand items, which keeps the deferred
 # download as small as that goal allows.
 #
-# The older caution still stands and is worth re-reading before raising it again: the
-# categories built on a single schema (sat/rw_eoi, gre/gre_se, gre/gre_tc, act/act_e_pow)
-# become variations on one template at scale, so past a point a new schema is worth far
-# more than a larger number. Three of those four are now at their ceiling anyway.
+# The older caution still stands and is worth re-reading before raising it again: a
+# category built on a single schema becomes variations on one template at scale, so past
+# a point a new schema is worth far more than a larger number. That is what closed
+# sat/rw_eoi and act/act_e_pow. gre/gre_se and gre/gre_tc are the two still on one
+# schema each, and are the next places a second schema would pay.
 TARGET = 3300
 
 # How many items per skill ship in the blocking starter file. Eighty is several rounds
