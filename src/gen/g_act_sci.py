@@ -53,6 +53,7 @@ def n1f(x):
 SCEN = [
     dict(key="enzyme", title="reaction rate of the enzyme amylase",
          iv=("Substrate concentration", "mM"), dv=("Reaction rate", "micromol per minute"),
+         num=("sing", "sing"),
          levels=[2, 4, 8, 16, 32], base=6.0, step=1.8, rising=True,
          mod=("Temperature of the reaction mixture", "25 degrees C", "35 degrees C", 1.6),
          fixed=["the volume of enzyme solution added", "the pH of the buffer",
@@ -60,6 +61,7 @@ SCEN = [
                 "the make of the water bath", "the tube the reaction ran in"]),
     dict(key="solubility", title="solubility of a salt in water",
          iv=("Water temperature", "degrees C"), dv=("Salt dissolved", "g per 100 g water"),
+         num=("sing", "sing"),
          levels=[10, 20, 40, 60, 80], base=14.0, step=0.9, rising=True,
          mod=("The salt used", "potassium nitrate", "sodium chloride", 0.55),
          fixed=["the mass of water used", "the stirring time",
@@ -67,13 +69,15 @@ SCEN = [
                 "the purity of the salt", "the balance used for weighing"]),
     dict(key="pendulum", title="period of a swinging pendulum",
          iv=("String length", "cm"), dv=("Period", "seconds"),
+         num=("sing", "sing"),
          levels=[20, 40, 60, 80, 100], base=0.9, step=0.011, rising=True,
          mod=("Mass of the bob", "50 g", "200 g", 1.0),
          fixed=["the angle of release", "the number of swings timed",
                 "the place where the timing was taken",
                 "the stopwatch used", "the way the string was clamped"]),
     dict(key="plants", title="growth of seedlings under lamps",
-         iv=("Hours of light per day", "hours"), dv=("Height gained in 14 days", "mm"),
+         iv=("Light per day", "hours"), dv=("Height gained in 14 days", "mm"),
+         num=("sing", "sing"),
          levels=[4, 8, 12, 16, 20], base=11.0, step=2.4, rising=True,
          mod=("Nitrogen in the nutrient solution", "full strength", "one quarter strength", 0.6),
          fixed=["the seed variety", "the volume of solution given each day",
@@ -81,6 +85,7 @@ SCEN = [
                 "the size of the pots", "the person who measured the seedlings"]),
     dict(key="resistor", title="current through a circuit element",
          iv=("Applied voltage", "volts"), dv=("Current", "milliamps"),
+         num=("sing", "sing"),
          levels=[2, 4, 6, 8, 10], base=0.0, step=7.5, rising=True,
          mod=("Resistance in the circuit", "200 ohms", "400 ohms", 0.5),
          fixed=["the temperature of the element", "the meter used to read the current",
@@ -88,6 +93,7 @@ SCEN = [
                 "the supply used to set the voltage", "the way the element was mounted"]),
     dict(key="evaporation", title="evaporation from an open dish",
          iv=("Air speed over the dish", "cm per second"), dv=("Water lost in 6 hours", "g"),
+         num=("sing", "sing"),
          levels=[0, 10, 20, 30, 40], base=2.0, step=0.14, rising=True,
          mod=("Relative humidity of the air", "30 percent", "70 percent", 0.45),
          fixed=["the surface area of the dish", "the air temperature",
@@ -95,6 +101,7 @@ SCEN = [
                 "the shape of the dish", "the balance used for weighing"]),
     dict(key="yeast", title="carbon dioxide produced by fermenting yeast",
          iv=("Sugar concentration", "g per litre"), dv=("Gas produced in 20 minutes", "mL"),
+         num=("sing", "sing"),
          levels=[5, 10, 20, 40, 60], base=8.0, step=0.7, rising=True,
          mod=("Temperature of the flask", "20 degrees C", "30 degrees C", 1.5),
          fixed=["the mass of yeast added", "the volume of liquid in the flask",
@@ -102,20 +109,23 @@ SCEN = [
                 "the time for which gas was collected"]),
     dict(key="spring", title="extension of a steel spring under load",
          iv=("Load applied", "newtons"), dv=("Extension", "mm"),
+         num=("sing", "sing"),
          levels=[2, 4, 6, 8, 10], base=0.0, step=3.1, rising=True,
          mod=("Thickness of the spring wire", "1.0 mm", "1.4 mm", 0.55),
          fixed=["the material of the spring", "the way the load was hung",
                 "the ruler used to measure extension", "the temperature of the room",
                 "the point from which extension was measured"]),
     dict(key="rust", title="mass of rust forming on iron nails",
-         iv=("Days in the humid chamber", "days"), dv=("Mass of rust formed", "mg"),
+         iv=("Time in the humid chamber", "days"), dv=("Mass of rust formed", "mg"),
+         num=("sing", "sing"),
          levels=[2, 4, 6, 8, 10], base=1.0, step=2.7, rising=True,
          mod=("Coating on the nails", "bare iron", "painted", 0.3),
          fixed=["the size of the nails", "the humidity in the chamber",
                 "the air temperature", "the balance used for weighing",
                 "the way rust was separated before weighing"]),
     dict(key="filter", title="clarity of water after filtering",
-         iv=("Depth of sand in the filter", "cm"), dv=("Particles remaining", "per mL"),
+         iv=("Depth of sand in the filter", "cm"), dv=("Particle count remaining", "per mL"),
+         num=("sing", "sing"),
          levels=[5, 10, 15, 20, 25], base=520.0, step=-16.0, rising=False,
          mod=("Grain size of the sand", "coarse", "fine", 0.6),
          fixed=["the volume of water poured through", "the starting particle count",
@@ -123,20 +133,27 @@ SCEN = [
                 "the counting method used"]),
     dict(key="insulation", title="heat lost through a wall panel",
          iv=("Thickness of insulation", "mm"), dv=("Heat lost per hour", "watts"),
+         num=("sing", "sing"),
          levels=[10, 20, 30, 40, 50], base=88.0, step=-1.3, rising=False,
          mod=("Material of the insulation", "mineral wool", "rigid foam", 0.72),
          fixed=["the area of the panel", "the temperature on each side of the panel",
                 "the sensor used", "the length of each test",
                 "the way the panel was sealed at its edges"]),
     dict(key="seedbed", title="germination of seeds at different depths",
-         iv=("Sowing depth", "mm"), dv=("Seeds germinating out of 100", "seeds"),
-         levels=[5, 10, 20, 30, 40], base=92.0, step=-1.7, rising=False,
+         iv=("Sowing depth", "mm"), dv=("Germination rate", "percent"),
+         num=("sing", "sing"),
+         # A rate rather than a count of seeds, because a reading carries one decimal
+         # place and two tenths of a seed does not germinate. The ceiling is the one
+         # this quantity has by its own definition, and the base leaves headroom under
+         # it at every jitter rather than relying on the check to catch the top one.
+         levels=[5, 10, 20, 30, 40], base=88.0, step=-1.7, rising=False, cap=100,
          mod=("Soil type in the tray", "loam", "heavy clay", 0.8),
          fixed=["the seed variety", "the water given to each tray",
                 "the temperature of the greenhouse", "the number of seeds sown per tray",
                 "the number of days before counting"]),
     dict(key="sound", title="sound level measured from a speaker",
          iv=("Distance from the speaker", "m"), dv=("Sound level", "decibels"),
+         num=("sing", "sing"),
          levels=[1, 2, 4, 8, 16], base=86.0, step=-1.1, rising=False,
          mod=("Surface behind the meter", "bare wall", "heavy curtain", 0.94),
          fixed=["the volume setting on the speaker", "the meter used",
@@ -144,27 +161,31 @@ SCEN = [
                 "the background noise in the room"]),
     dict(key="battery", title="running time of a torch on one cell",
          iv=("Cell capacity", "mAh"), dv=("Running time", "minutes"),
+         num=("sing", "sing"),
          levels=[500, 1000, 1500, 2000, 2500], base=4.0, step=0.11, rising=True,
          mod=("Bulb fitted to the torch", "filament bulb", "light emitting diode", 2.2),
          fixed=["the make of the torch", "the starting condition of each cell",
                 "the temperature of the room", "the way running time was judged to end",
                 "the switch position used"]),
     dict(key="dye", title="uptake of dye by fabric squares",
-         iv=("Minutes in the dye bath", "minutes"), dv=("Dye taken up", "mg per gram"),
+         iv=("Time in the dye bath", "minutes"), dv=("Dye taken up", "mg per gram"),
+         num=("sing", "sing"),
          levels=[5, 10, 20, 30, 45], base=3.0, step=0.42, rising=True,
          mod=("Fibre of the fabric", "cotton", "polyester", 0.4),
          fixed=["the concentration of the dye bath", "the temperature of the bath",
                 "the mass of each fabric square", "the rinsing procedure",
                 "the drying time before weighing"]),
     dict(key="concrete", title="strength of concrete cubes as they cure",
-         iv=("Days of curing", "days"), dv=("Crushing strength", "MPa"),
+         iv=("Curing time", "days"), dv=("Crushing strength", "MPa"),
+         num=("sing", "sing"),
          levels=[3, 7, 14, 21, 28], base=9.0, step=0.7, rising=True,
          mod=("Water added to the mix", "the standard amount", "one fifth more", 0.78),
          fixed=["the cement used", "the size of the cube moulds",
                 "the temperature of the curing room", "the compaction method",
                 "the press used for crushing"]),
     dict(key="algae", title="growth of algae in lit tanks",
-         iv=("Nutrient added", "mg per litre"), dv=("Algae after 10 days", "mg dry mass"),
+         iv=("Nutrient added", "mg per litre"), dv=("Algae mass after 10 days", "mg dry mass"),
+         num=("sing", "sing"),
          levels=[1, 2, 4, 8, 16], base=6.0, step=1.9, rising=True,
          mod=("Colour of the light", "white", "green", 0.65),
          fixed=["the volume of water in each tank", "the hours of light per day",
@@ -172,6 +193,7 @@ SCEN = [
                 "the way dry mass was measured"]),
     dict(key="friction", title="force needed to start a block sliding",
          iv=("Mass on the block", "g"), dv=("Force at the moment of sliding", "N"),
+         num=("sing", "sing"),
          levels=[100, 200, 300, 400, 500], base=0.0, step=0.006, rising=True,
          mod=("Surface under the block", "varnished wood", "glass", 0.5),
          fixed=["the block used", "the way the force was applied",
@@ -179,6 +201,7 @@ SCEN = [
                 "the temperature of the room"]),
     dict(key="catalyst", title="gas produced by a decomposition reaction",
          iv=("Mass of catalyst", "mg"), dv=("Gas collected in 5 minutes", "mL"),
+         num=("sing", "sing"),
          levels=[10, 20, 30, 40, 50], base=4.0, step=1.3, rising=True,
          mod=("Shape of the reaction vessel", "tall and narrow", "short and wide", 1.0),
          fixed=["the concentration of the reactant", "the temperature",
@@ -190,6 +213,7 @@ SCEN = [
     # cooling; it does not reheat the block.
     dict(key="lamp", title="light reaching a sensor from a lamp",
          iv=("Distance from the lamp", "cm"), dv=("Light reaching the sensor", "lux"),
+         num=("sing", "sing"),
          levels=[10, 20, 40, 60, 80], base=90.0, step=-0.95, rising=False,
          mod=("Power of the lamp", "60 watts", "25 watts", 0.45),
          fixed=["the sensor used", "the alignment of the sensor with the lamp",
@@ -203,6 +227,7 @@ SCEN = [
     # by flipping a table the scenario does not support.
     dict(key="shielding", title="count rate through lead shielding",
          iv=("Thickness of the shielding", "mm"), dv=("Count rate", "counts per minute"),
+         num=("sing", "sing"),
          levels=[1, 2, 4, 6, 8], base=90.0, step=-8.0, rising=False,
          mod=("The source used", "the stronger source", "the weaker source", 0.6),
          fixed=["the distance from source to detector", "the counting time",
@@ -210,6 +235,7 @@ SCEN = [
                 "the alignment of the source with the detector"]),
     dict(key="ramp", title="time for a trolley to run down a ramp",
          iv=("Angle of the ramp", "degrees"), dv=("Time to reach the bottom", "s"),
+         num=("sing", "sing"),
          levels=[5, 10, 15, 20, 25], base=4.6, step=-0.12, rising=False,
          mod=("Surface of the ramp", "a bare board", "a board with a cloth cover", 1.35),
          fixed=["the mass of the trolley", "the length of the ramp",
@@ -217,6 +243,7 @@ SCEN = [
                 "the timing method", "the wheels fitted to the trolley"]),
     dict(key="wire", title="resistance of a wire of varying diameter",
          iv=("Diameter of the wire", "tenths of a mm"), dv=("Resistance", "ohms"),
+         num=("sing", "sing"),
          levels=[2, 4, 6, 8, 10], base=9.5, step=-0.75, rising=False,
          mod=("Length of the wire", "1 metre", "2 metres", 1.9),
          fixed=["the metal the wire is made of", "the temperature of the wire",
@@ -224,6 +251,7 @@ SCEN = [
                 "the contacts the wire was held in"]),
     dict(key="layers", title="light passing through layers of filter paper",
          iv=("Number of layers", "layers"), dv=("Light reaching the sensor", "lux"),
+         num=("sing", "sing"),
          levels=[1, 2, 3, 4, 5], base=520.0, step=-90.0, rising=False,
          mod=("The lamp used", "a 60 watt lamp", "a 40 watt lamp", 0.7),
          fixed=["the distance from lamp to sensor", "the make of filter paper",
@@ -231,6 +259,7 @@ SCEN = [
                 "the warm up time before reading"]),
     dict(key="oxygen", title="oxygen dissolved at depth in a lake",
          iv=("Depth below the surface", "m"), dv=("Oxygen dissolved", "mg per litre"),
+         num=("sing", "sing"),
          levels=[1, 3, 5, 7, 9], base=11.0, step=-0.85, rising=False,
          mod=("Time of year sampled", "March", "August", 0.72),
          fixed=["the point on the lake sampled", "the time of day",
@@ -238,6 +267,7 @@ SCEN = [
                 "the depth gauge used"]),
     dict(key="signal", title="signal strength away from a transmitter",
          iv=("Distance from the transmitter", "km"), dv=("Signal strength", "dB"),
+         num=("sing", "sing"),
          levels=[2, 4, 6, 8, 10], base=68.0, step=-5.2, rising=False,
          mod=("Height of the receiving aerial", "2 metres", "8 metres", 1.3),
          fixed=["the transmitter power", "the frequency used",
@@ -246,6 +276,7 @@ SCEN = [
     dict(key="inhibitor", title="reaction rate with an inhibitor added",
          iv=("Concentration of the inhibitor", "mM"),
          dv=("Reaction rate", "micromol per minute"),
+         num=("sing", "sing"),
          levels=[1, 2, 3, 4, 5], base=9.0, step=-1.4, rising=False,
          mod=("Temperature of the mixture", "20 degrees C", "30 degrees C", 1.45),
          fixed=["the volume of enzyme solution", "the substrate concentration",
@@ -253,6 +284,7 @@ SCEN = [
                 "the tube the reaction ran in"]),
     dict(key="battery", title="charge held by batteries of different ages",
          iv=("Age of the battery", "months"), dv=("Charge held after a day", "percent"),
+         num=("sing", "sing"),
          levels=[3, 6, 9, 12, 15], base=97.0, step=-4.6, rising=False,
          mod=("Storage temperature", "5 degrees C", "25 degrees C", 0.85),
          fixed=["the make of battery", "the charger used",
@@ -261,6 +293,7 @@ SCEN = [
     dict(key="heater", title="plate temperature away from a heater",
          iv=("Distance from the heater", "cm"),
          dv=("Temperature of the plate", "degrees C"),
+         num=("sing", "sing"),
          levels=[10, 20, 30, 40, 50], base=62.0, step=-0.95, rising=False,
          mod=("Power of the heater", "500 watts", "300 watts", 0.72),
          fixed=["the material of the plate", "the room temperature",
@@ -269,6 +302,7 @@ SCEN = [
     dict(key="marble", title="time for marble chips to dissolve in acid",
          iv=("Concentration of the acid", "M"),
          dv=("Time for the chips to dissolve", "s"),
+         num=("sing", "sing"),
          levels=[1, 2, 3, 4, 5], base=210.0, step=-33.0, rising=False,
          mod=("Size of the chips", "large chips", "small chips", 0.6),
          fixed=["the mass of marble used", "the volume of acid",
@@ -287,6 +321,14 @@ def build_study(rng, scen):
     s2 = [round(v * mult, 1) for v in s1]
     if any(v <= 0 for v in s2):
         raise ItemError("study 2 produced a non positive reading")
+    # Some quantities have a ceiling in their own definition: a rate out of a hundred
+    # cannot read 100.2, which the germination study did on a fifth of its draws because
+    # nothing here knew the number meant anything (INC-0094). Positive was checked
+    # because a negative reading looks wrong at a glance; this did not, and a question
+    # about the trend was still answerable on top of it.
+    top = scen.get("cap")
+    if top is not None and any(v > top for v in s1 + s2):
+        raise ItemError("a reading passed the %s ceiling of %s" % (scen["key"], top))
     # A trend question needs a strict direction, and a cross study question needs the two
     # studies to be tellable apart. Both are checked rather than assumed.
     up = all(b > a for a, b in zip(s1, s1[1:]))
@@ -858,3 +900,71 @@ class ClaimAtSetting(SciBase):
 GENS = [ReadValue(), Interpolate(), Trend(), WhatChanged(), HeldConstant(), NextStep(),
         WhyTwoStudies(), IdentifyVariable(), AttributeDifference(),
         ClaimCheck(), BestSupported(), ClaimAtSetting()]
+
+
+# A template is a promise about the grammar of what goes into it, and the promise is
+# invisible: the code says scen["iv"][0] and the sentence around it needs a singular noun
+# phrase. Seven of these scenarios were named with a plural one, added over time by
+# somebody reading the neighbouring rows rather than the templates, and eight schemas
+# shipped sentences like "when the minutes in the dye bath was 30 minutes" (INC-0093).
+#
+# So the requirement is written down beside the data rather than left in the templates,
+# every scenario has to state it, and this refuses a plural. A plural name is not
+# forbidden in principle; it is forbidden until the templates can take one, and the
+# schema that wants one should change them and then change this.
+SING_ONLY = ("Every ACT science variable name goes into a slot like 'the {name} was' "
+             "and 'as the {name} rises', so the templates need a singular noun phrase. "
+             "Rename the variable rather than declaring it plural, which is what the "
+             "seven that were plural turned out to want anyway: four of them carried "
+             "their own unit ('Days of curing (days)') and read better without it.")
+
+# The verbs a template puts straight after a variable name, and what each looks like when
+# the subject is plural. Rendered items are searched for the wrong pairing, because a
+# declaration that nothing checks against the text is the same invisible promise one
+# level up.
+AGREEMENT = {"was": "were", "is": "are", "rises": "rise", "falls": "fall",
+             "runs": "run", "moves": "move", "changes": "change", "goes": "go",
+             "has": "have", "increases": "increase", "decreases": "decrease"}
+
+
+def check_names(draws=400, choices_n=4):
+    """Fail on a scenario that does not declare singular variables, or on an item whose
+    text puts a variable name in front of a verb that disagrees with it."""
+    import random as _random
+    bad = []
+    for sc in SCEN:
+        got = sc.get("num")
+        if not (isinstance(got, tuple) and len(got) == 2):
+            bad.append("scenario %s does not declare the number of its variables. %s"
+                       % (sc["key"], SING_ONLY))
+        elif got != ("sing", "sing"):
+            bad.append("scenario %s declares %r. %s" % (sc["key"], got, SING_ONLY))
+    names = sorted({sc[k][0].lower() for sc in SCEN for k in ("iv", "dv")},
+                   key=len, reverse=True)
+    for g in GENS:
+        rng = _random.Random(20260922)
+        seen = set()
+        for _ in range(draws):
+            try:
+                it = g.make(rng, choices_n)
+            except (ItemError, ArithmeticError):
+                continue
+            text = " ".join([it["stem"], it["expl"], " ".join(map(str, it["choices"]))])
+            low = " " + " ".join(text.lower().split()) + " "
+            for name in names:
+                for sing, plur in AGREEMENT.items():
+                    # The singular verb is the one the templates write, so a plural name
+                    # in front of it is the fault; the reverse would mean a template was
+                    # changed to suit a plural and the rest were not.
+                    for verb, wrong_when in ((sing, "plur"), (plur, "sing")):
+                        if (" " + name + " " + verb + " ") in low:
+                            num = [sc["num"][0 if sc["iv"][0].lower() == name else 1]
+                                   for sc in SCEN
+                                   if name in (sc["iv"][0].lower(), sc["dv"][0].lower())]
+                            if wrong_when in num:
+                                key = (g.id, name, verb)
+                                if key not in seen:
+                                    seen.add(key)
+                                    bad.append("%s: '%s %s' does not agree"
+                                               % (g.id, name, verb))
+    return bad
