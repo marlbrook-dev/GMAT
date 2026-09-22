@@ -43,7 +43,7 @@ ALLOWED_ELSEWHERE = {
 FIGURE_FIELDS = ["score_scale", "total_time", "cost_usd", "validity_years",
                  "delivery", "retake_policy", "score_release", "used_for",
                  "acceptance", "answer_choices", "section_shape",
-                 "content_categories"]
+                 "content_categories", "sections_src"]
 
 RANGES = {"cost_usd": (0, 1000), "validity_years": (1, 10)}
 
@@ -114,10 +114,13 @@ def validate(exams):
         for i, fact in enumerate(e.get("key_facts") or []):
             _check_figure(slug, "key_facts[%d]" % i, fact, errors)
         # The sections array carries question counts and minutes, which are
-        # published exam facts, and it has no provenance fields at all. Warned
-        # rather than fatal: making it fatal today would block the build on a gap
-        # that predates this check, and the fix is to source them, not to delete
-        # them. Recorded here so the gap is counted rather than forgotten.
+        # published exam facts. sections_src is the one figure that sources the
+        # whole table, because one structure page publishes all of it. Warned
+        # rather than fatal, and only one exam is short: www.mba.com serves an
+        # Imperva challenge stub to this environment rather than the GMAT
+        # structure page, so those counts cannot be verified from here. That is
+        # a blocked source, not a missing one, and deleting the table to satisfy
+        # a check would be the wrong way to go green.
         if e.get("sections") and not e.get("sections_src"):
             warnings.append("%s.sections: question counts and minutes carry no source, "
                             "year or url" % slug)

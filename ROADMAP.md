@@ -116,9 +116,18 @@ fact must come from the maker's own domain, which is an allowlist rather than a 
 sites, because a blocklist only ever refuses the prep companies somebody thought to name. The
 MCAT rows the note also flagged are gone; that exam is not in the file. See INC-0082.
 
-Still open in the same file: the `sections` array carries question counts and minutes for all
-five exams and has no source, year or url on any of it. `validate_exams.py` warns on this rather
-than failing, because the fix is to source those figures, not to delete them.
+The `sections` arrays were sourced in the same pass. Four of the five now carry a
+`sections_src` verified against the maker's own structure page and rendered under the table:
+College Board and ETS and ACT all publish a table that matches ours figure for figure, and LSAC
+publishes four 35-minute sections with no per-section question count, which is why ours are null.
+
+**GMAT is the exception and it is a blocked source, not a missing one.** `www.mba.com` answers
+this environment with a 2 character Imperva challenge stub rather than the exam structure page,
+so the 21 / 23 / 20 question counts and their 45 minute sections could not be re-verified.
+`validate_exams.py` warns on exactly that one exam. The table is not deleted and no substitute
+source is used: CLAUDE.md bans going around a blocked official page, and this needs the owner to
+open `https://www.mba.com/exams/gmat-exam/about/exam-structure` and paste the structure table, the
+same five minute unblock the MCAT and EA note above asks for.
 
 ## The Build Playbook (owner's ask, September 21, 2026)
 

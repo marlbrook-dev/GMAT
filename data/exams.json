@@ -143,6 +143,12 @@
     "scale": "200 to 800"
    }
   ],
+  "sections_src": {
+   "text": "Reading and Writing 64 minutes in two 32-minute modules with 54 questions; Math 70 minutes in two 35-minute modules with 44 questions; total 134 minutes and 98 questions",
+   "src": "College Board",
+   "year": 2026,
+   "url": "https://satsuite.collegeboard.org/sat/whats-on-the-test/structure"
+  },
   "total_time": {
    "text": "2 hours 14 minutes of testing (98 questions), with a 10-minute break between the Reading and Writing section and the Math section",
    "src": "College Board",
@@ -256,6 +262,12 @@
     "scale": "130 to 170"
    }
   ],
+  "sections_src": {
+   "text": "Computer-delivered test, about 1 hour 58 minutes in five sections. Analytical Writing one Analyze an Issue task in 30 minutes; Verbal Reasoning two sections of 12 questions in 18 minutes then 15 in 23; Quantitative Reasoning two sections of 12 questions in 21 minutes then 15 in 26",
+   "src": "ETS",
+   "year": 2026,
+   "url": "https://www.ets.org/gre/test-takers/general-test/prepare/test-structure.html"
+  },
   "total_time": {
    "text": "About 1 hour 58 minutes; Analytical Writing always comes first, and the Verbal and Quantitative sections may appear in any order after it",
    "src": "ETS",
@@ -375,6 +387,12 @@
     "scale": null
    }
   ],
+  "sections_src": {
+   "text": "Four 35-minute multiple-choice sections with a 10-minute intermission between the second and third, about 3 hours for standard test takers. Two scored Logical Reasoning sections and one scored Reading Comprehension section, plus one unscored section of either type that can occur at any point. LSAC publishes no per-section question count, so ours are null rather than estimated",
+   "src": "LSAC",
+   "year": 2026,
+   "url": "https://www.lsac.org/lsat/frequently-asked-questions-about-lsat"
+  },
   "total_time": {
    "text": "Four 35-minute multiple-choice sections, one Reading Comprehension, two Logical Reasoning and one unscored variable section, with a 10-minute intermission between the second and third sections, plus a separately administered and unscored LSAT Argumentative Writing sample",
    "src": "LSAC",
@@ -512,6 +530,12 @@
     "scale": "2 to 12"
    }
   ],
+  "sections_src": {
+   "text": "English 35 minutes and 50 questions; mathematics 50 minutes and 45 questions; reading 40 minutes and 36 questions; optional science 40 minutes and 40 questions; 171 questions and 2 hours 45 minutes of timed multiple choice, with the optional writing essay a further 40 minutes after a 5-minute break",
+   "src": "ACT",
+   "year": 2026,
+   "url": "https://www.act.org/content/act/en/products-and-services/the-act/test-day.html"
+  },
   "total_time": {
    "text": "171 multiple-choice questions across English, mathematics, reading and the optional science section, with 2 hours 45 minutes of timed testing; the optional writing essay adds 40 minutes",
    "src": "ACT",

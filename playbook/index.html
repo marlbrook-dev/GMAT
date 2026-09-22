@@ -59,7 +59,7 @@ a{color:var(--accent)}
 <p class="eyebrow">Start From Nowhere</p>
 <h1>The Build Playbook</h1>
 <p class="sub">How one person and a set of AI sessions built a multi-exam test-prep platform, every defect hit on the way, and the recipe for doing it again for something else</p>
-<p class="meta">Built 2026-09-22 from commit e103fc8 &middot; 74 commits over 36 days &middot; 83 recorded defects &middot; 17 chapters<br>
+<p class="meta">Built 2026-09-22 from commit 667cf8f &middot; 75 commits over 36 days &middot; 83 recorded defects &middot; 17 chapters<br>
 This document is generated. Edit the chapters in docs/playbook/ and the ledger in data/playbook/incidents.jsonl, then run python3 src/build_playbook.py.</p>
 </div>
 <div class="toc"><ol><li><a href="#how-to-use-this-book">How to Use This Book</a></li>
@@ -81,7 +81,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><a href="#the-bootstrap-pack-starting-a-new-project-with-this-loaded">The Bootstrap Pack: Starting a New Project With This Loaded</a></li></ol></div>
 <h1 id="how-to-use-this-book">How to Use This Book</h1>
 <p>This is the record of building one platform, written so it can be used to build a different one.</p>
-<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-08-17 and 2026-09-22, which is 36 days, across 74 commits, by one owner directing a series of AI coding sessions. As of this build it is 51 Python files, 101 JavaScript files, 24 TypeScript edge functions, 35 migrations and 63 documents: 1975 tracked files in total.</p>
+<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-08-17 and 2026-09-22, which is 36 days, across 75 commits, by one owner directing a series of AI coding sessions. As of this build it is 53 Python files, 101 JavaScript files, 24 TypeScript edge functions, 35 migrations and 63 documents: 1977 tracked files in total.</p>
 <p>None of those numbers were typed. They are measured from the repository every time this document is built, which is the first thing worth copying.</p>
 <h2 id="what-is-in-here">What is in here</h2>
 <p>The book has four kinds of chapter, and they age differently.</p>
@@ -614,7 +614,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three defects here were found by taking a screenshot: a chart unreadable in dark mode, a line chart implying values that never existed, and a dashboard that was not on screen. None of them would have been caught by an assertion, because none of them were violations of anything anybody had thought to assert.</p>
 <p><strong>Budget for looking.</strong> It is the cheapest test there is and the only one that catches things you have not imagined.</p>
 <h1 id="running-the-build-as-an-ai-loop">Running the Build as an AI Loop</h1>
-<p>74 commits in 36 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
+<p>75 commits in 36 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
 <h2 id="the-division-of-labour">The division of labour</h2>
 <p><strong>The owner decides</strong>: what to build, what it means, what is acceptable, and every irreversible or outward-facing action. <strong>The session does</strong>: the building, the measuring, the testing, and the reporting of what it found.</p>
 <p>The failure mode at each end is worth naming. An owner who reviews every line becomes the bottleneck and the throughput collapses to the speed of reading. A session that decides product questions on its own produces something coherent that is not what anyone wanted.</p>

@@ -152,6 +152,13 @@ def exam_page(e, tpl, today):
     structure = f'<div class="section"><h2>Structure</h2><div class="tw"><table><thead><tr><th>Section</th><th class="num">Questions</th><th class="num">Time</th><th class="num">Scored</th></tr></thead><tbody>{sec_rows}</tbody></table></div>' if sec_rows else ""
     if structure and tt:
         structure += f'<p class="small">Total: {esc(tt)}.{src_note(e.get("total_time"))}</p>'
+    # The section table is a set of published figures like any other, so it carries
+    # its source where a reader can see it. One source per table, because one
+    # structure page publishes the whole thing.
+    if structure and isinstance(e.get("sections_src"), dict):
+        structure += (f'<p class="small">Structure as the test maker publishes it: '
+                      f'{esc(e["sections_src"].get("text") or "")}.'
+                      f'{src_note(e.get("sections_src"))}</p>')
     structure += "</div>" if structure else ""
 
     rows = []
