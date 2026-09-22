@@ -47,7 +47,7 @@ APPS = [
      "desc": ("Start From Nowhere: adaptive GRE practice across Verbal Reasoning and Quantitative Reasoning, "
               "with section-adaptive mock sections that route like the real exam."),
      "is_404": False},
-    {"exam": "lsat", "out": "lsat/app", "gen": None, "files": LSAT_BANKS,
+    {"exam": "lsat", "out": "lsat/app", "gen": "lsat", "files": LSAT_BANKS,
      "concat": "BANK_LSAT_LR, BANK_LSAT_LR2, BANK_LSAT_LR3, BANK_LSAT_RC, BANK_LSAT_RC2, BANK_LSAT_RC3",
      "footer": ("LSAT is a registered trademark of the Law School Admission Council (LSAC), which does not "
                 "endorse this product. Practice items are original and written for Start From Nowhere. LSAC "

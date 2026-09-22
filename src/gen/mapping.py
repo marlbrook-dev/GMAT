@@ -38,6 +38,50 @@ class Remap(Gen):
         return spec
 
 
+class RemapItem(Gen):
+    """The same schema under another exam's taxonomy, for a generator that builds the
+    whole item itself.
+
+    Remap above rewrites the SPEC before the framework assembles an item from it, which
+    works for every schema that implements build(). The Critical Reasoning schemas
+    implement make() instead, assembling the item directly and hardcoding its section, so
+    Remap could only reach them after the fact. This rewrites the finished item.
+
+    Which wrapper applies is decided per generator by whether its class overrides make(),
+    not per exam, so mapping an item-level schema onto some third exam needs no change
+    here.
+    """
+
+    def __init__(self, inner, skill, section, bump=0, sub=None):
+        self.inner = inner
+        self.id = "%s>%s" % (inner.id, skill)
+        self.skill = skill
+        self.section = section
+        self.sub = sub or getattr(inner, "sub", None)
+        self.diff = max(1, min(5, getattr(inner, "diff", 2) + bump))
+        self.bump = bump
+        self.type = getattr(inner, "type", "MC")
+        self.fmt = getattr(inner, "fmt", None)
+        self.domain = getattr(inner, "domain", None)
+
+    def make(self, rng, choices_n):
+        it = dict(self.inner.make(rng, choices_n))
+        it["skill"] = self.skill
+        it["section"] = self.section
+        it["gen"] = self.id
+        if self.sub:
+            it["sub"] = self.sub
+        it["diff"] = max(1, min(5, it.get("diff", self.inner.diff) + self.bump))
+        return it
+
+
+def wrap(inner, skill, section, bump):
+    """Remap or RemapItem, whichever the inner generator needs."""
+    own_make = type(inner).make is not Gen.make
+    cls = RemapItem if own_make else Remap
+    return cls(inner, skill, section, bump)
+
+
 def by_id(mods):
     out = {}
     for m in mods:
@@ -106,6 +150,42 @@ ACT_MAP = {
 # are both mapped above, so the section is read per skill rather than per exam.
 SECTION_OVERRIDE = {"act_e_cse": "E", "act_e_pow": "E", "act_e_kol": "E"}
 
+# The LSAT had no generated bank at all: 372 hand written items against 20,000 to 40,000
+# on the other four. Its Logical Reasoning section is the same genre as GMAT Critical
+# Reasoning, five choices and all, so the CR schemas serve it.
+#
+# Mapped by what each item ASKS, not by what its schema is called, because the two come
+# apart. cr_necessary is named for necessary-condition reasoning and its stem reads
+# "most seriously undermines", which makes it an evidence question and not an assumption
+# one. Checking the rendered stem rather than the id moved it a category.
+#
+# LSAC's own descriptions, carried as the points arrays in LSAT_SKILLS, are the test of
+# whether a schema belongs:
+#   lsat_lr_assum  "Detecting assumptions made by particular arguments"
+#   lsat_lr_evid   "Determining how additional evidence affects an argument",
+#                  "Strengthening and weakening", "Ruling out an alternative explanation"
+#
+# lsat_lr_flaw is deliberately NOT here. cr_sample asks "most vulnerable to criticism on
+# the grounds that it", which is a flaw stem exactly, but it is the only flaw schema in
+# the pool and every generated flaw item would be an unrepresentative sample. A category
+# whose label promises the common patterns of bad reasoning and delivers one of them
+# teaches the wrong model of it, which is worse than leaving it hand written. A second
+# and third flaw schema is where the next work on this bank pays.
+#
+# The four remaining LR categories, structure, conclusion, principle and explanation,
+# have no counterpart in the pool and stay hand written.
+LSAT_MAP = {
+    "lsat_lr_assum": ["cr_cause_assume", "cr_plan_assume"],
+    "lsat_lr_evid": ["cr_cause_weaken", "cr_plan_weaken", "cr_plan_eval",
+                     "cr_percent", "cr_necessary"],
+}
+
+# An editorial judgement, recorded so it can be argued with, like the other two. The CR
+# schemas are authored at GMAT difficulty, and the LSAT is sat by a population that has
+# already self-selected into graduate admissions, so the same argument runs easier there
+# than it does on the GMAT. One band, and anything already at the top stays there.
+LSAT_BUMP = 1
+
 GMAT_MAP = {
     "q_rrp": ["sat_psda_percent", "sat_psda_pctchange", "sat_psda_rate",
               "sat_psda_units", "sat_adv_exponential"],
@@ -135,6 +215,8 @@ def build_for(exam, pool):
         table, section, bump = GMAT_MAP, "Q", GMAT_BUMP
     elif exam == "act":
         table, section, bump = ACT_MAP, "M", ACT_BUMP
+    elif exam == "lsat":
+        table, section, bump = LSAT_MAP, "LR", LSAT_BUMP
     else:
         raise ValueError(exam)
     out = {}
@@ -144,6 +226,6 @@ def build_for(exam, pool):
             g = pool.get(gid)
             if g is None:
                 raise KeyError("mapping names a schema that does not exist: %s" % gid)
-            gens.append(Remap(g, skill, SECTION_OVERRIDE.get(skill, section), bump))
+            gens.append(wrap(g, skill, SECTION_OVERRIDE.get(skill, section), bump))
         out[skill] = gens
     return out
