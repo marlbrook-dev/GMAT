@@ -47,6 +47,34 @@ class AssemblyError(ItemError):
     """
 
 
+# Words that end in s and are singular anyway, so a singular verb after one of them is
+# correct. Not a dictionary: the ones that have actually turned up in these corpora.
+SINGULAR_S = set("""gas mass class glass loss plus bus lens axis basis analysis crisis
+series species campus census focus status surplus virus process access address business
+witness progress success stress press illness fitness dress chaos bias news physics
+mathematics statistics logistics""".split())
+
+
+def plural_head(phrase):
+    """Does this short noun phrase end in a plural noun?
+
+    For a stored phrase that a template drops in front of a singular verb: "the cycle
+    racks was responsible", "two independent reviews is needed". It reads the LAST word,
+    which is the head of a short noun phrase like these, and it does not try to parse
+    English. Applied to a field that lands anywhere other than a bare subject slot it is
+    almost all false alarms, because a plural noun is usually not the subject: the sum of
+    the solutions IS twelve, each of its players IS known, every one of the drivers WAS
+    aware. So it is asserted of named fields, at the module that owns them, and never
+    swept across item text (INC-0096).
+    """
+    words = re.sub(r"[^a-z ]", " ", str(phrase).lower()).split()
+    if not words:
+        return False
+    w = words[-1]
+    return (w.endswith("s") and not w.endswith(("ss", "us", "is"))
+            and w not in SINGULAR_S)
+
+
 SHAPE_INT = re.compile(r"^-?\d{1,3}(,\d{3})*$|^-?\d+$")
 SHAPE_FRAC = re.compile(r"^-?\d+/\d+$")
 SHAPE_DEC = re.compile(r"^-?\d*\.\d+$")

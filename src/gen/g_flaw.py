@@ -21,7 +21,7 @@ student has to rule out and not only in the letters.
               records why the source does not settle it: wrong field, an interest in the
               answer, or a consensus that is not evidence.
 """
-from framework import upfirst
+from framework import plural_head, upfirst
 from g_gmat_cr import CRBase
 
 # --- necessary confused with sufficient ---------------------------------------------
@@ -65,8 +65,8 @@ NECSUFF = [
     dict(req="a rating above 1800", goal="enter the master section", goal_ing="entering the master section",
          who="Ferreira", extra="is rated 1930",
          also="the section is capped at sixty and fills by order of application"),
-    dict(req="two independent reviews", goal="publish in the journal", goal_ing="publishing in the journal",
-         who="the Meier paper", extra="has two reviews",
+    dict(req="a second independent review", goal="publish in the journal", goal_ing="publishing in the journal",
+         who="the Meier paper", extra="has a second independent review",
          also="the editor publishes only what the board then also approves"),
     dict(req="a permit from the harbour master", goal="moor overnight in the basin", goal_ing="mooring overnight in the basin",
          who="the Caldera", extra="holds a permit",
@@ -379,3 +379,14 @@ class SourceFlaw(CRBase):
 
 
 GENS = [NecSuff(), PartWhole(), SourceFlaw()]
+
+
+# The necessary condition templates write "The rule says that {req} is needed" and
+# "whether {req} was obtained by a means the rule would not recognise", so the
+# requirement is a bare subject twice over. One entry read "two independent reviews is
+# needed" (INC-0096).
+_plural = [d["req"] for d in NECSUFF if plural_head(d["req"])]
+if _plural:
+    raise SystemExit(
+        "g_flaw: a necessary condition goes straight in front of 'is needed', so it has "
+        "to be singular. Rename: " + ", ".join(_plural))
