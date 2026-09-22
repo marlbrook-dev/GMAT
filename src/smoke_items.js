@@ -66,9 +66,11 @@ const noise = t => /ERR_CERT_AUTHORITY_INVALID|fonts\.(googleapis|gstatic)\.com|
       return seen;
     });
     const names = Object.keys(gens).sort();
-    // A bank with no generated items has nothing for this test to walk. That is the LSAT
-    // today: every item is hand written and carries no schema tag. Say so and move on,
-    // rather than reporting an absence as a failure.
+    // A bank with no generated items has nothing for this test to walk, so an absence is
+    // reported rather than failed. That used to describe the LSAT, whose items were all
+    // hand written and carried no schema tag; it gained a generated bank and no longer
+    // does. No exam is exempt today, and the branch stays because the next exam added
+    // will start without one.
 
     for (const gen of names) {
       schemas++;

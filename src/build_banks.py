@@ -23,7 +23,7 @@ import g_sat_alg, g_sat_adv, g_sat_psda, g_sat_geo   # noqa: E402,F401
 import g_sat_rw, g_gmat_ds, g_act_kol                # noqa: E402,F401
 import g_gmat_gt, g_gmat_tpa, g_gmat_msr             # noqa: E402,F401
 import g_act_sci, g_gre_verb, g_gmat_cr, g_act_nq    # noqa: E402,F401
-import g_rc                                          # noqa: E402,F401
+import g_rc, g_flaw                                  # noqa: E402,F401
 
 OUT = D / "generated"
 
@@ -77,10 +77,10 @@ TARGET = 3300
 STARTER_PER_SKILL = 80
 
 # The SAT modules are the shared quantitative and writing pool every exam remaps from.
-# g_gmat_cr joins it because the LSAT map draws on the Critical Reasoning schemas; they
-# still reach the GMAT through EXAM_EXTRA, which is where a schema authored against one
-# exam's own taxonomy belongs.
-POOL_MODS = [g_sat_alg, g_sat_adv, g_sat_psda, g_sat_geo, g_sat_rw, g_gmat_cr]
+# g_gmat_cr and g_flaw join it because the LSAT map draws on the Critical Reasoning and
+# flaw schemas; they still reach the GMAT through EXAM_EXTRA, which is where a schema
+# authored against one exam's own taxonomy belongs.
+POOL_MODS = [g_sat_alg, g_sat_adv, g_sat_psda, g_sat_geo, g_sat_rw, g_gmat_cr, g_flaw]
 
 # SAT categories are authored directly against SAT taxonomy; the other exams remap.
 SAT_PLAN = {
@@ -97,7 +97,12 @@ SAT_PLAN = {
 EXAM_EXTRA = {"gre": {"gre_tc": [g for g in g_gre_verb.GENS if g.skill == "gre_tc"],
                       "gre_se": [g for g in g_gre_verb.GENS if g.skill == "gre_se"]},
               "gmat": {"di_ds": g_gmat_ds.GENS,
-                       "v_ac": [g for g in g_gmat_cr.GENS if g.skill == "v_ac"],
+                       # Analysis / Critique, including the flaw schemas. g_flaw adds
+                       # three named patterns beside cr_sample, which was the only one
+                       # this category had and the reason lsat_lr_flaw could not be
+                       # generated honestly at all.
+                       "v_ac": [g for g in g_gmat_cr.GENS if g.skill == "v_ac"]
+                                + g_flaw.GENS,
                        "v_pc": [g for g in g_gmat_cr.GENS if g.skill == "v_pc"],
                        "di_gt": g_gmat_gt.GENS,
                        "di_tpa": g_gmat_tpa.GENS,
