@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-08-17 and 2026-09-22, which is 36 days, across
-73 commits, by one owner directing a series of AI coding sessions. As of this
+75 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 48 Python files, 98 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 63 documents:
 1969 tracked files in total.
@@ -1118,7 +1118,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-73 commits in 36 days, one owner, a series of AI sessions. This
+75 commits in 36 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1210,21 +1210,21 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-71 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+72 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 29 | 41% |
+| Found by reading the code or the output | 30 | 42% |
 | Found by measuring something | 20 | 28% |
 | A test caught it | 11 | 15% |
 | Found by rendering it and looking | 5 | 7% |
 | Found by a review bot or an adversarial pass | 5 | 7% |
 | A person hit it | 1 | 1% |
 
-**This is the most useful table in the book.** 70 of 71 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 71 of 72 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1233,13 +1233,13 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 25 |
+| Wrong data shown or stored | 26 |
 | Silent loss | 19 |
 | Degraded | 14 |
 | Cosmetic | 10 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 19 of 71. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 19 of 72. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
@@ -1247,7 +1247,7 @@ well enough to audit later. Which is what this book is.
 | Area | Count |
 | --- | ---: |
 | Tests and guards | 16 |
-| Content generation | 14 |
+| Content generation | 15 |
 | Front end | 8 |
 | CSS and layout | 5 |
 | Payments | 5 |
@@ -1261,7 +1261,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-65 of 71 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+66 of 72 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1291,6 +1291,7 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/weekly_audit.js`, 3 incidents (INC-0050, INC-0048, INC-0018)
 - `src/smoke_redirect.js`, 3 incidents (INC-0023, INC-0024, INC-0047)
 - `src/bank_emit.py`, 3 incidents (INC-0062, INC-0066, INC-0068)
+- `src/bank_repair.py`, 3 incidents (INC-0070, INC-0071, INC-0072)
 
 
 # The Defect Ledger
@@ -1510,7 +1511,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** Extracting a shared helper does not migrate the callers. The extraction fixes the file it was extracted from and leaves every sibling on the old path, which is INC-0059 and INC-0064 in a different costume: a correction applied to the instances in hand rather than to the pattern. Three suites had failed visibly and ten were wrong; the seven silent ones were found by the guard, not by reading. When a helper exists because a direct call was wrong, make the direct call fail the build, and let it enumerate the callers rather than enumerating them by hand.
 
 
-## Content generation (14)
+## Content generation (15)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -1688,6 +1689,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** repair() refuses a clause that does not begin with a space or punctuation, which is exactly the shape of a continuation. The four affected files were reverted and the repairs redone with clauses written to append rather than to continue.
 - **What stops it now.** bank_repair.repair refuses a clause beginning with a letter or digit, which would run into the preceding word in `src/bank_repair.py`
 - **Lesson.** A report that truncates its output invites the reader to write text that continues it, and a tool that appends will put that text somewhere else. Either the report should not truncate the field the caller has to write against, or the tool should refuse input shaped like a continuation. The cheap half is the refusal, because it is one condition and it cannot be forgotten, while remembering not to write continuations is a habit that has to hold every time.
+
+
+### INC-0072. A distractor was replaced and the explanation went on naming the old one
+
+*2026-09-22, Wrong data shown or stored*
+
+- **What was seen.** SR001 offers unremarkable, unaccounted for, unrelated and undisturbed, and its wrong answer note begins 'Unnoticed reverses the point'. Unnoticed is not on the paper. A student reading the explanation after answering is told why an option they were never shown is wrong.
+- **Why.** The length tell on vocabulary in context items cannot be fixed by appending a clause to a single word, so bank_repair.swap replaces the distractor with a longer one of the same register. It replaces the text in the choices array and nowhere else. An item is not just its choices: expl and wrong name particular options, and on this bank they name them by word.
+- **How it surfaced.** Reading the item while looking at its shape for a different purpose, three commits after the swap was made. (Found by reading the code or the output)
+- **Fix.** swap() refuses when the text being replaced appears anywhere else inside the same item, which is exactly where an explanation that names it would be. The one affected note is rewritten to name a distractor that exists.
+- **What stops it now.** bank_repair.swap refuses to replace a choice whose text appears elsewhere in the same item in `src/bank_repair.py`
+- **Lesson.** A record has parts that refer to one another, and a tool that edits one part by text is editing a graph while looking at a string. The cheap guard is not to check every reference but to refuse the edit when the old text occurs anywhere else in the record, because that is the only place a reference to it can be. Refusing on a false positive costs one rewritten table entry; not refusing ships an explanation about an option nobody saw.
 
 
 ## Front end (8)
@@ -2313,6 +2326,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The second tool that appends a clause did not carry the first one's rule about the full stop (INC-0070)</small>
 - [ ] A report that truncates its output invites the reader to write text that continues it, and a tool that appends will put that text somewhere else. Either the report should not truncate the field the caller has to write against, or the tool should refuse input shaped like a continuation. The cheap half is the refusal, because it is one condition and it cannot be forgotten, while remembering not to write continuations is a habit that has to hold every time.  
   <small>Clauses written from a truncated report were appended to the end of the wrong word (INC-0071)</small>
+- [ ] A record has parts that refer to one another, and a tool that edits one part by text is editing a graph while looking at a string. The cheap guard is not to check every reference but to refuse the edit when the old text occurs anywhere else in the record, because that is the only place a reference to it can be. Refusing on a false positive costs one rewritten table entry; not refusing ships an explanation about an option nobody saw.  
+  <small>A distractor was replaced and the explanation went on naming the old one (INC-0072)</small>
 
 
 ## Database
@@ -2557,7 +2572,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 71 real defects reduced to the rules that prevent them,
+the whole project: 72 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -2597,7 +2612,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-71 defects already prevented is genuinely ahead, and every defect it hits
+72 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

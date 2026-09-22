@@ -28,8 +28,8 @@ const EXAM_FILES = [
   files:['bank_act_english.js','bank_act_reading.js','bank_act_reading2.js','bank_act_science.js','cards_act.js','playbook_act.js'],
   concat:'BANK_ACT_ENGLISH,BANK_ACT_READING,BANK_ACT_READING2,BANK_ACT_SCIENCE', gen:'act'},
  {id:'sat', choices:4,
-  files:['bank_sat_rw.js','bank_sat_rw2.js','bank_sat_rw3.js','bank_sat_rw4.js','bank_sat_rw5.js','bank_sat_math.js','bank_sat_math2.js','bank_sat_math3.js','bank_sat_math4.js','bank_sat_math5.js','bank_sat_easy.js','cards_sat.js','cards_sat2.js','playbook_sat.js'],
-  concat:'BANK_SAT_RW,BANK_SAT_RW2,BANK_SAT_RW3,BANK_SAT_RW4,BANK_SAT_RW5,BANK_SAT_MATH,BANK_SAT_MATH2,BANK_SAT_MATH3,BANK_SAT_MATH4,BANK_SAT_MATH5,BANK_SAT_EASY', gen:'sat'},
+  files:['bank_sat_rw.js','bank_sat_rw2.js','bank_sat_rw3.js','bank_sat_rw4.js','bank_sat_rw5.js','bank_sat_rw6.js','bank_sat_math.js','bank_sat_math2.js','bank_sat_math3.js','bank_sat_math4.js','bank_sat_math5.js','bank_sat_easy.js','cards_sat.js','cards_sat2.js','playbook_sat.js'],
+  concat:'BANK_SAT_RW,BANK_SAT_RW2,BANK_SAT_RW3,BANK_SAT_RW4,BANK_SAT_RW5,BANK_SAT_RW6,BANK_SAT_MATH,BANK_SAT_MATH2,BANK_SAT_MATH3,BANK_SAT_MATH4,BANK_SAT_MATH5,BANK_SAT_EASY', gen:'sat'},
 ];
 
 const byId = {};
