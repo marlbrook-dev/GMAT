@@ -22,6 +22,8 @@ One scenario deliberately has a second study where the changed condition does NO
 result, because "the variable you changed turned out not to matter" is a real finding and
 a student who assumes every manipulation must produce an effect should get that wrong.
 """
+import re
+
 from framework import Gen, ItemError, balance, upfirst
 
 
@@ -533,7 +535,7 @@ class Trend(SciBase):
                  "stayed the same throughout", "changed by the same amount each time",
                  "rose and fell without a clear direction"]
         expl = ("Reading down the Study 1 column, the " + scen["dv"][0].lower()
-                + " goes " + ", ".join(n1(v) for v in st["s1"])
+                + " goes " + ", ".join(n1f(v) for v in st["s1"])
                 + ". Each reading is " + ("higher" if rising else "lower")
                 + " than the one before it, with no reversal and no reading equal to "
                 "the one before it.")
@@ -691,8 +693,8 @@ class ClaimCheck(SciBase):
                  + "the two studies used the same settings of the "
                  + scen["iv"][0].lower()]
         expl = ("Compare the two columns setting by setting: Study 1 reads "
-                + ", ".join(n1(v) for v in st["s1"]) + " and Study 2 reads "
-                + ", ".join(n1(v) for v in st["s2"]) + ". " + upfirst(because)
+                + ", ".join(n1f(v) for v in st["s1"]) + " and Study 2 reads "
+                + ", ".join(n1f(v) for v in st["s2"]) + ". " + upfirst(because)
                 + ", so the prediction is " + ("supported" if holds else "not supported") + ".")
         stem = ("A student predicts that, at any setting used in these studies, " + claim
                 + ". Is this prediction consistent with the results?")
@@ -710,21 +712,38 @@ class BestSupported(SciBase):
         scen = st["scen"]
         rising = st["up"]
         iv, dv = scen["iv"][0].lower(), scen["dv"][0].lower()
-        right = ("increasing the " + iv + " " + ("raises" if rising else "lowers")
-                 + " the " + dv)
-        mirror = ("increasing the " + iv + " " + ("lowers" if rising else "raises")
-                  + " the " + dv)
+        # Two ways of saying the same thing, drawn independently for the key and for
+        # the mirror. Phrased identically apart from one verb they are always the same
+        # length, and since the mirror is required on every item the key had a guaranteed
+        # near twin: whatever else was offered, the key sat in the bottom two of four and
+        # one length rank held half the schema. Drawing the phrasing separately makes the
+        # key shorter than its mirror about as often as it is longer, which is the only
+        # thing that moves a rank the shuffler cannot.
+        def say(up):
+            verb = "raises" if up else "lowers"
+            return (("increasing the " + iv + " " + verb + " the " + dv)
+                    if rng.random() < 0.5 else
+                    ("the " + dv + " " + ("rises" if up else "falls")
+                     + " as the " + iv + " increases"))
+        right = say(rising)
+        mirror = say(not rising)
         wrong = [mirror,
                  "the " + dv + " is unaffected by the " + iv,
                  "the " + dv + " reaches its highest value at the lowest " + iv
                  if rising else
                  "the " + dv + " reaches its lowest value at the lowest " + iv]
         wrong.append("the " + iv + " is determined by the " + dv)
+        # Written at a range of lengths on purpose. The key and the mirror differ by one
+        # word, so they are the two shortest options whatever the scenario, and while
+        # every other wrong answer ran longer the key could only ever sit in the bottom
+        # two of four: one length rank held half the schema. These say the same three
+        # things as before, one of them shorter than the key and one longer, so the
+        # order carries nothing.
+        wrong.append("the two studies point in opposite directions")
+        wrong.append("the effect appears only above the lowest setting tested")
         wrong.append("increasing the " + iv + " " + ("raises" if rising else "lowers")
                      + " the " + dv + " in Study 1 but has the opposite effect in Study 2")
-        wrong.append("the " + dv + " depends on the " + iv
-                     + " only above the lowest setting that was tested")
-        expl = ("In Study 1 the " + dv + " runs " + ", ".join(n1(v) for v in st["s1"])
+        expl = ("In Study 1 the " + dv + " runs " + ", ".join(n1f(v) for v in st["s1"])
                 + " as the " + iv + " runs " + ", ".join(n1(v) for v in scen["levels"])
                 + ", and Study 2 shows the same direction. Only the conclusion that the "
                 + dv + " " + ("rises" if rising else "falls")
@@ -824,14 +843,14 @@ class AttributeDifference(SciBase):
                  "studies and the readings were taken by the same person working to the "
                  "same written procedure"]
         expl = ("At a " + scen["iv"][0].lower() + " of " + n1(scen["levels"][i]) + " "
-                + scen["iv"][1] + ", Study 1 recorded " + n1(a) + " and Study 2 recorded "
-                + n1(b) + ". A difference can be put down to " + what.lower()
+                + scen["iv"][1] + ", Study 1 recorded " + n1f(a) + " and Study 2 recorded "
+                + n1f(b) + ". A difference can be put down to " + what.lower()
                 + " only if nothing else differed; if some other condition had changed too, "
                 "the two effects could not be separated. Using the same settings and the same "
                 "students matters for other reasons but would not rescue the comparison.")
         stem = ("At a " + scen["iv"][0].lower() + " of " + n1(scen["levels"][i]) + " "
-                + scen["iv"][1] + ", the " + scen["dv"][0].lower() + " was " + n1(a)
-                + " " + scen["dv"][1] + " in Study 1 and " + n1(b) + " " + scen["dv"][1]
+                + scen["iv"][1] + ", the " + scen["dv"][0].lower() + " was " + n1f(a)
+                + " " + scen["dv"][1] + " in Study 1 and " + n1f(b) + " " + scen["dv"][1]
                 + " in Study 2. This difference can properly be attributed to " + what.lower()
                 + " only if:")
         return self.choice_item(rng, st, stem, right, wrong, expl, 3, choices_n)
@@ -860,19 +879,19 @@ class ClaimAtSetting(SciBase):
         over = rng.choice([True, False])
         thresh = round(actual + (gap if over else -gap), 1)
         holds = actual >= thresh
-        right = ("Yes, because the reading at that setting is " + n1(actual) + ", which is "
-                 "at least " + n1(thresh)) if holds else \
-                ("No, because the reading at that setting is " + n1(actual) + ", which is "
-                 "below " + n1(thresh))
-        opposite = ("No, because the reading at that setting is " + n1(actual)
-                    + ", which is below " + n1(thresh)) if holds else \
-                   ("Yes, because the reading at that setting is " + n1(actual)
-                    + ", which is at least " + n1(thresh))
+        right = ("Yes, because the reading at that setting is " + n1f(actual) + ", which is "
+                 "at least " + n1f(thresh)) if holds else \
+                ("No, because the reading at that setting is " + n1f(actual) + ", which is "
+                 "below " + n1f(thresh))
+        opposite = ("No, because the reading at that setting is " + n1f(actual)
+                    + ", which is below " + n1f(thresh)) if holds else \
+                   ("Yes, because the reading at that setting is " + n1f(actual)
+                    + ", which is at least " + n1f(thresh))
         other = st["s2"] if which == 1 else st["s1"]
         wrong = [opposite,
                  ("Yes, because the reading rises across the settings tested"
                   if st["up"] else "Yes, because the reading falls across the settings tested"),
-                 "No, because the other study records " + n1(other[i]) + " at that setting",
+                 "No, because the other study records " + n1f(other[i]) + " at that setting",
                  "Yes, because the two studies were run under otherwise identical conditions",
                  "No, because a single reading cannot settle a prediction of this kind",
                  # Two long ones. The key carries a reading and a comparison, and only
@@ -880,19 +899,19 @@ class ClaimAtSetting(SciBase):
                  # key and balance could not place it: one rank held 60 percent of this
                  # schema's 3,200 items (INC-0079). Both are the same kind of wrong
                  # answer, written at the length a real one would be.
-                 "Yes, because the reading at that setting is " + n1(actual)
+                 "Yes, because the reading at that setting is " + n1f(actual)
                  + ", and the two studies agree at every setting that was tested",
-                 "No, because the other study records " + n1(other[i])
-                 + " at that setting, which is below " + n1(thresh)]
+                 "No, because the other study records " + n1f(other[i])
+                 + " at that setting, which is below " + n1f(thresh)]
         expl = ("Read the Study " + str(which) + " column at a " + scen["iv"][0].lower()
                 + " of " + n1(scen["levels"][i]) + " " + scen["iv"][1] + ": it records "
-                + n1(actual) + " " + scen["dv"][1] + ". The prediction asks for at least "
-                + n1(thresh) + ", so it is " + ("met" if holds else "not met")
+                + n1f(actual) + " " + scen["dv"][1] + ". The prediction asks for at least "
+                + n1f(thresh) + ", so it is " + ("met" if holds else "not met")
                 + ". The direction of the trend and the other study's reading are both true "
                 "statements that do not answer the question asked.")
         stem = ("A student predicts that, in Study " + str(which) + ", the "
                 + scen["dv"][0].lower() + " at a " + scen["iv"][0].lower() + " of "
-                + n1(scen["levels"][i]) + " " + scen["iv"][1] + " is at least " + n1(thresh)
+                + n1(scen["levels"][i]) + " " + scen["iv"][1] + " is at least " + n1f(thresh)
                 + " " + scen["dv"][1] + ". Is this prediction consistent with the results?")
         return self.choice_item(rng, st, stem, right, wrong, expl, rng.choice([2, 3]), choices_n)
 
@@ -967,4 +986,62 @@ def check_names(draws=400, choices_n=4):
                                     seen.add(key)
                                     bad.append("%s: '%s %s' does not agree"
                                                % (g.id, name, verb))
+    return bad
+
+
+def check_readings(draws=250, choices_n=4):
+    """A reading has to be written the same way in the prose as in the table.
+
+    The table prints readings to one decimal place, because a column of measurements has
+    uniform precision and because the choices are drawn from it. A reading that lands on
+    a whole number and is written as 31 in an explanation, beside a table that says 31.0,
+    is the same measurement in two spellings, which is what a student notices when they
+    check their answer (INC-0098).
+
+    Read off the rendered item rather than the source, so it covers any schema that
+    quotes a reading however the sentence is built. A whole reading whose bare form is
+    also one of the settings is skipped: the two columns are different quantities and
+    the number belongs to the other one.
+    """
+    import random as _random
+    bad = []
+    cell = re.compile(r"<td>([^<]*)</td>")
+    for g in GENS:
+        rng = _random.Random(20260922)
+        seen = set()
+        for _ in range(draws):
+            try:
+                it = g.make(rng, choices_n)
+            except (ItemError, ArithmeticError):
+                continue
+            cells = cell.findall(it.get("passageHtml", ""))
+            if len(cells) < 3:
+                continue
+            levels = {cells[i] for i in range(0, len(cells) - 2, 3)}
+            readings = [cells[i] for i in range(1, len(cells), 3)] + \
+                       [cells[i] for i in range(2, len(cells), 3)]
+            text = " ".join([it.get("stem", ""), it.get("expl", ""),
+                             " ".join(map(str, it.get("choices", [])))])
+            # A bare number is evidence of nothing on its own: a small integer turns up
+            # as Study 2, as a setting, as a count of rows. What says "this is a reading"
+            # is the context a column is quoted in, a run of comma separated numbers with
+            # a decimal next to it. That is where the mismatch was visible and it is the
+            # only place this claims to look.
+            for r in readings:
+                if not r.endswith(".0"):
+                    continue
+                bare = r[:-2]
+                if bare in levels:
+                    continue
+                n = re.escape(bare)
+                as_reading = (
+                    # inside a quoted column: ", 24.8, 31" or "31, 24.8,"
+                    re.search(r"\d+\.\d+,\s*" + n + r"(?![\d.])", text)
+                    or re.search(r"(?<![\d.])" + n + r",\s*\d+\.\d+", text))
+                if as_reading:
+                    key = (g.id, r)
+                    if key not in seen:
+                        seen.add(key)
+                        bad.append("%s: the table reads %s and the text quotes the column "
+                                   "with %s" % (g.id, r, bare))
     return bad
