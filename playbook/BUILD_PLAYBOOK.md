@@ -6,11 +6,11 @@ different one.
 The platform is Start From Nowhere, a test-preparation site with five adaptive exam
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
-2026-08-17 and 2026-09-22, which is 36 days, across
+2026-08-17 and 2026-09-21, which is 35 days, across
 71 commits, by one owner directing a series of AI coding sessions. As of this
-build it is 45 Python files, 96 JavaScript files, 24
+build it is 46 Python files, 97 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 63 documents:
-1964 tracked files in total.
+1966 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -640,7 +640,7 @@ it is the difference between a product people trust and one they catch out.
 
 # Content at Scale, Without Lying About It
 
-This platform ships over a hundred thousand practice items across 49 bank
+This platform ships over a hundred thousand practice items across 50 bank
 files. Almost all are generated. The chapter is about how to do that without producing a
 number that is technically true and substantively false.
 
@@ -1118,7 +1118,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-71 commits in 36 days, one owner, a series of AI sessions. This
+71 commits in 35 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1171,7 +1171,7 @@ Not a list of files changed. The useful report is:
 5. Numbers, with the command that produced them.
 
 The commit messages in this repository are written that way, which is why a defect ledger
-could be reconstructed from them 36 days later. **Write the commit message
+could be reconstructed from them 35 days later. **Write the commit message
 as though someone will need to mine it. Someone will.**
 
 ## Failure modes observed in this project
@@ -1210,7 +1210,7 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-67 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+68 recorded defects, over 35 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
@@ -1218,13 +1218,13 @@ well enough to audit later. Which is what this book is.
 | How | Count | Share |
 | --- | ---: | ---: |
 | Found by reading the code or the output | 27 | 40% |
-| Found by measuring something | 18 | 27% |
+| Found by measuring something | 19 | 28% |
 | A test caught it | 11 | 16% |
 | Found by rendering it and looking | 5 | 7% |
 | Found by a review bot or an adversarial pass | 5 | 7% |
 | A person hit it | 1 | 1% |
 
-**This is the most useful table in the book.** 66 of 67 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 67 of 68 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1234,12 +1234,12 @@ well enough to audit later. Which is what this book is.
 | Severity | Count |
 | --- | ---: |
 | Wrong data shown or stored | 24 |
-| Silent loss | 18 |
+| Silent loss | 19 |
 | Degraded | 13 |
 | Cosmetic | 9 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 18 of 67. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 19 of 68. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
@@ -1247,7 +1247,7 @@ well enough to audit later. Which is what this book is.
 | Area | Count |
 | --- | ---: |
 | Tests and guards | 16 |
-| Content generation | 10 |
+| Content generation | 11 |
 | Front end | 8 |
 | CSS and layout | 5 |
 | Payments | 5 |
@@ -1261,7 +1261,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-61 of 67 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+62 of 68 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1290,6 +1290,7 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/review_bot.js`, 4 incidents (INC-0022, INC-0026, INC-0051, INC-0061)
 - `src/weekly_audit.js`, 3 incidents (INC-0050, INC-0048, INC-0018)
 - `src/smoke_redirect.js`, 3 incidents (INC-0023, INC-0024, INC-0047)
+- `src/bank_emit.py`, 3 incidents (INC-0062, INC-0066, INC-0068)
 
 
 # The Defect Ledger
@@ -1509,7 +1510,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** Extracting a shared helper does not migrate the callers. The extraction fixes the file it was extracted from and leaves every sibling on the old path, which is INC-0059 and INC-0064 in a different costume: a correction applied to the instances in hand rather than to the pattern. Three suites had failed visibly and ten were wrong; the seven silent ones were found by the guard, not by reading. When a helper exists because a direct call was wrong, make the direct call fail the build, and let it enumerate the callers rather than enumerating them by hand.
 
 
-## Content generation (10)
+## Content generation (11)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -1639,6 +1640,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** check_lift() in bank_emit.py takes the same intent the tables express, one entry per item saying how many distractors were meant to pass the key, and exits naming every item whose key did not land at the matching rank and by how much the clause fell short. The generator calls it after the last extend pass, so a clause that does nothing fails the build instead of being averaged into a number that looks better.
 - **What stops it now.** check_lift asserts each lifted item's key rank matches the number of distractors the table lifted in `src/bank_emit.py`
 - **Lesson.** A correction table is a set of claims about outcomes, and an entry that quietly fails still counts as applied. Aggregate metrics hide this well: a table where half the entries work still moves the number in the right direction, which reads as success. State the per item intent in a form the machine can check, and every entry that did nothing says so by name.
+
+
+### INC-0068. Shuffling the answers twice put 37 percent of the keys at A
+
+*2026-09-22, Silent loss*
+
+- **What was seen.** The new LSAT reading generator printed a key position distribution of 33, 15, 14, 17, 11 across 90 items where an even split is 18 each. Position A held 37 percent of the keys, against a chance rate of 20, which is the exact defect permute() exists to prevent (INC-0039) and which the engine test's answer position check would have failed.
+- **Why.** The generator called E.permute(I) twice. An intermediate run had ended with permute and measure so the skill counts could be read, and the final block added its own permute before the extend pass, and the earlier pair was never removed. permute seeds a shuffle with crc32 of the item id, so the second call applies the same permutation again, composing it with itself. A permutation composed with itself is not uniform: it favours its own fixed points and short cycles, and with five choices that piles keys onto the position they started at, which is A because items are authored key first.
+- **How it surfaced.** Reading the generator's own measure output after the length tell was cleared. The length rank line was flat and the key position line on the same screen was not, and it had been on the screen for several runs before it was read. (Found by measuring something)
+- **Fix.** permute() now stamps each item it has shuffled and exits if it is handed one twice, naming the item. The duplicate call in mk_bank_lsat_rc3.py is removed. The measured distribution after the fix is 20, 19, 19, 16, 16 across 90 items, and the length rank is 18 in every position.
+- **What stops it now.** permute refuses to shuffle an item it has already shuffled in `src/bank_emit.py`
+- **Lesson.** A seeded shuffle is deterministic, which makes calling it twice look harmless: the same input gives the same output. What repeats is the permutation, not the randomisation, and a permutation applied to its own result is biased toward leaving things where they were. Any function whose value comes from being applied exactly once should refuse to be applied twice rather than relying on the caller to remember. The second lesson is about reading: the generator printed the defect on every run, above the line being watched.
 
 
 ## Front end (8)
@@ -2256,6 +2269,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Correcting a length tell moves it one rank over, every time (INC-0062)</small>
 - [ ] A correction table is a set of claims about outcomes, and an entry that quietly fails still counts as applied. Aggregate metrics hide this well: a table where half the entries work still moves the number in the right direction, which reads as success. State the per item intent in a form the machine can check, and every entry that did nothing says so by name.  
   <small>Half the length tell correction did nothing and the build said it had worked (INC-0066)</small>
+- [ ] A seeded shuffle is deterministic, which makes calling it twice look harmless: the same input gives the same output. What repeats is the permutation, not the randomisation, and a permutation applied to its own result is biased toward leaving things where they were. Any function whose value comes from being applied exactly once should refuse to be applied twice rather than relying on the caller to remember. The second lesson is about reading: the generator printed the defect on every run, above the line being watched.  
+  <small>Shuffling the answers twice put 37 percent of the keys at A (INC-0068)</small>
 
 
 ## Database
@@ -2500,7 +2515,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 67 real defects reduced to the rules that prevent them,
+the whole project: 68 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -2540,7 +2555,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-67 defects already prevented is genuinely ahead, and every defect it hits
+68 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

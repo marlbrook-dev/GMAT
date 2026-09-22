@@ -30,9 +30,9 @@ that makes the site worth less than the sum of its pages.
 | ACT | `/act/app/` | 36,661 |
 | Digital SAT | `/sat/app/` | 16,996 |
 | GRE | `/gre/app/` | 19,914 |
-| LSAT | `/lsat/app/` | 282 |
+| LSAT | `/lsat/app/` | 372 |
 
-**101,767 items total.** Also live: `/colleges/` (1,451 colleges, four ranked categories),
+**101,857 items total.** Also live: `/colleges/` (1,451 colleges, four ranked categories),
 `/schools/` (91 MBA programs), `/exams/`, `/blog/` (29 posts, drip publishing), `/apply/`,
 `/community/`, `/funding/`, `/international/`, `/scoring/`, `/pricing/`, `/do-not-sell/`.
 
