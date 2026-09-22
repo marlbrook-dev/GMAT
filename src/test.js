@@ -114,28 +114,20 @@ function runExam(exam){
   // where the bank actually is. Lower each number as a file is rewritten and delete the
   // entry when the file is inside normal tolerance, which the check below insists on.
   //
-  // Every entry below is a MEASURED value, not a guess, recorded so the file can only
-  // improve. Lower each number as the file is rewritten and delete the entry when the
-  // file is inside normal tolerance, which the check insists on rather than leaving to
-  // whoever notices. The five SAT Reading and Writing files and bank_verbal.js came off
-  // this list in the same change that created it: bank_sat_rw.js went from 88 percent
-  // longest and 84 percent on one rank to 36 and 31, and bank_verbal.js from 83 percent
-  // on one rank to 29. The remaining eight are the same work, not a different kind.
+  // Empty, and it stayed empty. The table existed for one commit and held the eight files
+  // that were still out of tolerance when the per file check was written; all eight were
+  // rewritten in the same change, so every entry came off. Any file that fails now fails
+  // against the ordinary tolerance, which is what a new bank should be held to.
   //
-  // The 'rank' number is the one that matters most on these files. Their longest is key
-  // figures are already ordinary, because an earlier pass extended ONE distractor per
-  // item, which moves the pile from longest to second longest and leaves it just as
-  // findable. That is INC-0062, and it is why the rank column exists.
-  const FILE_DEBT={
-   'bank_verbal2.js':   {long:23, short:10, rank:67},
-   'bank_verbal3.js':   {long:15, short:10, rank:80},
-   'bank_verbal4.js':   {long:47, short:10, rank:50},
-   'bank_verbal5.js':   {long:17, short:10, rank:75},
-   'bank_lsat_rc.js':   {long:19, short:16, rank:54},
-   'bank_lsat_rc2.js':  {long:10, short:10, rank:46},
-   'bank_act_reading.js': {long:24, short:45, rank:55},
-   'bank_act_science.js': {long:39, short:45, rank:46},
-  };
+  // If an entry is ever added, it is a MEASURED value and not a guess, and the check
+  // below insists that it be removed once the file is inside tolerance rather than
+  // leaving that to whoever notices.
+  //
+  // The 'rank' number is the one that matters most. A file can sit at an ordinary
+  // longest is key figure and still be playable, because extending ONE distractor per
+  // item moves the pile from longest to second longest and leaves it exactly as
+  // findable. That is INC-0062, and it is why the rank column exists at all.
+  const FILE_DEBT={};
   const bySec={};
   wordy.forEach(q=>{ (bySec[q.section]=bySec[q.section]||[]).push(q); });
   Object.keys(bySec).sort().forEach(sec=>{

@@ -6,10 +6,10 @@ const BANK_VERBAL5 = [
     id: 'V241', section: 'V', type: 'CR', skill: 'v_ac', diff: 2,
     stem: 'The Brightleaf chain of garden supply stores began keeping all of its locations open two hours later into the evening starting in March. Over the following quarter, the chain\'s revenue was 14 percent higher than in the same quarter of the previous year. The chain\'s management concluded that the extended evening hours were responsible for the increase in revenue.\n\nWhich of the following, if true, most seriously weakens the management\'s conclusion?',
     choices: [
-      'Brightleaf\'s spending on staff wages increased when the stores began staying open later.',
-      'Sales of garden supplies are subject to strong seasonal fluctuations over the course of a year.',
+      'Brightleaf\'s spending on staff wages increased when the stores began staying open later into the evening on weekdays.',
+      'Sales of garden supplies are subject to strong seasonal fluctuations over the course of a year in every region the chain trades in.',
       'A regional competitor with stores near most Brightleaf locations went out of business in February.',
-      'Several Brightleaf locations carry specialty products that no nearby retailer offers.',
+      'Several Brightleaf locations carry specialty products that no nearby retailer offers at any price during the season.',
       'Customer satisfaction surveys at Brightleaf showed no change after the extended hours were introduced.'
     ],
     answer: 2,
@@ -20,11 +20,11 @@ const BANK_VERBAL5 = [
     id: 'V242', section: 'V', type: 'CR', skill: 'v_ac', diff: 3,
     stem: 'Meridian Bottling currently makes its beverage bottles from a petroleum-based resin. A newly available plant-based resin costs 8 percent less per kilogram than the petroleum-based resin. Meridian therefore projects that switching to the plant-based resin will lower its total spending on bottle material.\n\nThe projection relies on which of the following assumptions?',
     choices: [
-      'The plant-based resin is less harmful to the environment than the petroleum-based resin.',
+      'The plant-based resin is less harmful to the environment than the petroleum-based resin over the whole of a bottle life, from its manufacture through to its disposal.',
       'Producing a bottle of acceptable quality from the plant-based resin does not require enough additional resin by weight to offset the lower price per kilogram.',
-      'The price of the petroleum-based resin will rise over the next several years.',
+      'The price of the petroleum-based resin will rise over the next several years by enough to close the gap between the two of them, according to the resin suppliers.',
       'Meridian\'s competitors have not yet begun using the plant-based resin in their own bottles, and none of them has announced any plan to do so within the next two production years.',
-      'Consumers will be unable to detect any difference between bottles made from the two resins.'
+      'Consumers will be unable to detect any difference between bottles made from the two resins once the bottles have been filled, capped and labelled ready for sale.'
     ],
     answer: 1,
     expl: 'The projection moves from a lower price per kilogram to lower total spending on material, which holds only if the amount of resin needed per bottle does not rise enough to cancel the savings. If each bottle required, say, 15 percent more of the cheaper resin, total spending would actually increase. The argument therefore depends on this assumption.',
@@ -35,10 +35,10 @@ const BANK_VERBAL5 = [
     stem: 'The city of Alder Grove plans to install solar panels on the roofs of its administrative buildings in order to reduce the amount it spends on electricity. The city will not install batteries, so any electricity the panels generate must be used at the moment it is produced or else be surrendered to the regional grid without compensation.\n\nWhich of the following, if true, provides the strongest support for the prediction that the plan will reduce the city\'s spending on electricity?',
     choices: [
       'Several nearby cities have installed solar panels on the roofs of schools and firehouses, and each reports that the panels have cut the electricity costs of those buildings substantially.',
-      'Residents of Alder Grove have expressed strong support for renewable energy initiatives.',
-      'The manufacturer of the panels offers an extended warranty at no additional charge.',
+      'Residents of Alder Grove have expressed strong support for renewable energy initiatives of the kind the council has put before them on several occasions in the past.',
+      'The manufacturer of the panels offers an extended warranty at no additional charge to municipal buyers who order more than a certain number of units.',
       'The administrative buildings consume the great majority of their electricity during daytime working hours, when the panels will be generating power.',
-      'The panels can be installed without closing the administrative buildings to the public.'
+      'The panels can be installed without closing the administrative buildings to the public for any part of the working week while the installation work goes on.'
     ],
     answer: 3,
     expl: 'Because unstored power is surrendered without payment, the plan saves money only if the buildings can use the electricity when it is generated. Establishing that consumption is concentrated in daylight hours shows that the solar output will displace electricity the city would otherwise purchase, which directly supports the prediction of lower spending.',
@@ -62,8 +62,8 @@ const BANK_VERBAL5 = [
     id: 'V245', section: 'V', type: 'CR', skill: 'v_ac', diff: 3,
     stem: 'Grain prices in the Redfield region are typically lowest at harvest, when supply peaks, and highest in late winter. The Redfield farmers\' cooperative plans to build storage silos so that its members can hold their grain after harvest and sell it in late winter instead. The cooperative predicts that the plan will increase members\' net income from grain sales.\n\nThe prediction depends on which of the following assumptions?',
     choices: [
-      'Late-winter grain prices will be higher next year than they were last year, a comparison the cooperative did not make when it drew up the plan.',
-      'Every member of the cooperative will choose to store grain in the new silos, including those whose farms lie farthest from the storage site.',
+      'Late-winter grain prices will be higher next year than they were last year, a comparison the cooperative did not make when it drew up the plan for the coming season.',
+      'Every member of the cooperative will choose to store grain in the new silos, including those whose farms lie farthest from the storage site and would have the longest distance to haul.',
       'No other cooperative in the Redfield region currently operates storage silos, so until now members have had no local alternative for holding their grain past the end of the harvest season.',
       'Storing grain over the winter will improve the quality of the grain, making it more attractive to the mills that buy from the cooperative.',
       'The cost of storing grain until late winter, including any losses from spoilage, will not equal or exceed the seasonal price premium members can expect to receive.'
@@ -79,8 +79,8 @@ const BANK_VERBAL5 = [
       'The automated document check occasionally flags paperwork that is in fact complete and consistent, and applicants whose documents are flagged in error are asked to resubmit them before the application proceeds.',
       'Approval rates for both application channels have risen since the mobile app was introduced.',
       'Branch employees, whose performance is evaluated partly on application volume, routinely encourage customers to apply even when the customers\' finances make approval unlikely.',
-      'Most customers who apply through the app are younger than most customers who apply at branches.',
-      'The app allows applicants to save a partially completed application and finish it at a later time.'
+      'Most customers who apply through the app are younger than most customers who apply at branches of the same bank, though that gap has narrowed in each of the last three years.',
+      'The app allows applicants to save a partially completed application and finish it at a later time without having to start the whole of the application again from the beginning.'
     ],
     answer: 2,
     expl: 'The executives treat the approval gap as evidence that the document check strengthens applications, but the correct choice shows the two channels draw from different applicant pools. If branch staff solicit applications from customers with weak finances, the branch approval rate would be lower even if the document check had no effect whatsoever. The comparison therefore cannot establish the claimed cause.',
@@ -104,8 +104,8 @@ const BANK_VERBAL5 = [
     id: 'V248', section: 'V', type: 'CR', skill: 'v_pc', diff: 3,
     stem: 'Over the past two years, the chemical plant on the Kestrel River has reduced its discharge of nitrates into the river by 40 percent, and no other facility discharges nitrates into the river. Yet monitoring stations downstream of the plant now record higher nitrate concentrations than they did two years ago.\n\nWhich of the following, if true, most helps to resolve the apparent discrepancy?',
     choices: [
-      'The plant achieved its reduction in discharge by installing new filtration equipment.',
-      'Nitrate concentrations upstream of the plant have remained at historically low levels.',
+      'The plant achieved its reduction in discharge by installing new filtration equipment rather than by reducing its output.',
+      'Nitrate concentrations upstream of the plant have remained at historically low levels throughout the two years in question.',
       'The plant now operates fewer hours per week than it did two years ago.',
       'A prolonged regional drought has reduced the river\'s flow to a small fraction of its former volume.',
       'Several species of fish have recently returned to the stretches of the river that lie upstream of the plant.'
@@ -118,11 +118,11 @@ const BANK_VERBAL5 = [
     id: 'V249', section: 'V', type: 'CR', skill: 'v_pc', diff: 4,
     stem: 'Two years ago, Halbrook Medical Center required its surgical teams to adopt a standardized safety checklist that controlled trials have shown to reduce surgical complications. Since the requirement took effect, the rate of complications recorded at Halbrook has risen by 20 percent.\n\nWhich of the following, if true, does most to explain the rise in Halbrook\'s recorded complication rate?',
     choices: [
-      'Many of Halbrook\'s surgeons initially regarded the checklist as an unnecessary administrative burden.',
+      'Many of Halbrook\'s surgeons initially regarded the checklist as an unnecessary administrative burden on the time they had with each patient.',
       'The checklist requires surgical teams to document minor complications that, before the requirement, went almost entirely unrecorded.',
       'The controlled trials of the checklist were conducted at hospitals considerably larger than Halbrook.',
       'Since adopting the checklist, Halbrook has performed a growing share of routine operations that carry the lowest risk of complications.',
-      'Most complications recorded at Halbrook arise during patients\' recovery rather than during surgery itself.'
+      'Most complications recorded at Halbrook arise during patients\' recovery rather than during surgery itself recovery on the ward rather than during the surgery itself.'
     ],
     answer: 1,
     expl: 'A recorded rate can climb because documentation improves even while actual outcomes hold steady or improve. If the checklist forces teams to log minor complications that previously went unrecorded, the 20 percent rise reflects a change in measurement rather than a decline in surgical safety, dissolving the apparent conflict with the trial evidence.',
@@ -135,7 +135,7 @@ const BANK_VERBAL5 = [
       'Consumer prices in Veldana rose faster than wages did last year, leaving real earnings lower than before.',
       'Several Veldanan industries recorded their largest wage gains in more than a decade, including industries that employ few of the workers whose jobs the new tariffs were meant to protect.',
       'Veldana\'s government raised the national minimum wage midway through the year.',
-      'Union membership declined in several Veldanan industries last year, continuing a trend of more than a decade.',
+      'Union membership declined in several Veldanan industries last year, continuing a trend of more than a decade that shows no sign of reversing in any of the industries concerned.',
       'Employment expanded rapidly in low-wage industries while remaining flat in high-wage industries, shifting a larger share of the workforce into low-wage work.'
     ],
     answer: 4,
@@ -178,7 +178,7 @@ const BANK_VERBAL5 = [
       'Torvald hired more new employees in 2025 than it did in 2023.',
       'The overall quality of Torvald\'s applicant pool declined between 2023 and 2025.',
       'Torvald applied stricter standards when reviewing applications in 2025 than in 2023.',
-      'Fewer invited applicants declined their interview invitations in 2025 than in 2023.'
+      'Fewer invited applicants declined their interview invitations in 2025 than in 2023 at the same stage of the hiring process.'
     ],
     answer: 0,
     expl: 'Invitations equaled 20 percent of applications in 2023 and 10 percent of applications in 2025. For 10 percent of the 2025 total to exceed 20 percent of the 2023 total, the 2025 application count must be more than double the 2023 count. This follows arithmetically from the stated figures.',
@@ -205,7 +205,7 @@ const BANK_VERBAL5 = [
       'defend the standard account of containerization against criticism from skeptical economists',
       'trace a scholarly debate over the container\'s role in trade growth and identify what that debate reveals about how technologies produce economic effects',
       'argue that tariff reductions, rather than containerization, were the principal cause of the growth in world trade across the whole period the passage examines',
-      'describe the technical innovations that transformed cargo handling during the twentieth century',
+      'describe the technical innovations that transformed cargo handling during the twentieth century and the ports around the world that adopted each of them first',
       'recommend policies for ports that are seeking to modernize their infrastructure'
     ],
     answer: 1,
@@ -217,7 +217,7 @@ const BANK_VERBAL5 = [
     stem: 'According to the passage, containerization reduced each of the following EXCEPT',
     choices: [
       'the theft of cargo in transit',
-      'the breakage of cargo during handling',
+      'the breakage of cargo during handling at either end of the voyage',
       'the time vessels spent in port',
       'the amount of fuel consumed by cargo ships',
       'insurance premiums associated with shipping'

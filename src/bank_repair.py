@@ -131,11 +131,22 @@ def repair(path, table, answers=None):
             # and a clause written as though the needle were the end then says the same
             # thing twice: "with pumice replacing heavier aggregate in the upper courses
             # replacing heavier aggregate in the upper courses of the structure".
-            head = ' '.join(clause.strip(' ,.;:').split()[:3]).lower()
-            if head and head in seg[max(0, end - 160):end].lower():
+            tail = seg[max(0, end - 160):end]
+            words = clause.strip(' ,.;:').split()
+            head = ' '.join(words[:3]).lower()
+            if head and head in tail.lower():
                 sys.exit('%s: clause %r repeats text already at the end of the choice; '
                          'it is appended at the end, not at the needle'
                          % (iid, clause))
+            # The three word check misses a single repeated word, which is what a needle
+            # ending one word short produces: "measure of the company's performance" plus
+            # " performance, ahead of cost per call". Compare the first word of the clause
+            # with the last word of the choice as well.
+            last = tail.strip(' .,;:').split()
+            if words and last and words[0].strip('.,;:').lower() == last[-1].strip('.,;:').lower():
+                sys.exit('%s: clause %r begins with the word the choice already ends on '
+                         '(%r); the clause is appended at the end, not at the needle'
+                         % (iid, clause, last[-1]))
             # Insert BEFORE a trailing full stop, which is what bank_emit.extend does.
             # Appending at the closing quote instead put the clause after the sentence's
             # own period and produced "the number of purchases. made" (INC-0070). Any
