@@ -661,6 +661,20 @@ def main(target=TARGET, verbose=True):
             starter.extend(head)
             rest.extend([x for x in group if id(x) not in head_ids])
 
+        # A reading item without its passage is an unanswerable question, and the way
+        # it happened was a field the emitter never copied: right in memory, right in
+        # every test that builds items in process, gone in the file that ships
+        # (INC-0099). Checked here, against what the item IS, before anything is
+        # written, and checked again in the browser against what reaches the screen.
+        mute = ["%s (%s)" % (it["id"], it.get("gen") or "")
+                for it in items
+                if it.get("type") in ("RC", "R")
+                and not (it.get("passage") or it.get("passageHtml"))]
+        if mute:
+            raise SystemExit(
+                "build_banks: %s has %d reading item(s) with nothing to read: %s"
+                % (exam, len(mute), ", ".join(mute[:6])))
+
         const = "BANK_GEN_" + exam.upper()
         js = F.to_js(starter, const, HEADER)
         (OUT / ("bank_gen_%s.js" % exam)).write_text(js, encoding="utf-8")
