@@ -391,6 +391,21 @@ class PercentFlaw(CRBase):
             ("The definition of " + d["subject"] + " was unchanged throughout the period.",
              "rules out a definitional artefact, which would be needed for the conclusion to "
              "hold rather than being a reason to doubt it"),
+            # One short and two long. The key is the denominator sentence and every
+            # distractor above sat within a few characters of it, so the key never came
+            # out shortest and one rank held 49 percent of this schema's items
+            # (INC-0079).
+            ("The period was five years.",
+             "restates the span the figures cover, which is in the argument already"),
+            ("The share was reported to the nearest percentage point throughout the "
+             "period, so a movement of less than a point would not have shown up in the "
+             "figures at all.",
+             "raises the precision of the reporting, which bears on how the share was "
+             "measured rather than on the step from a share to a count"),
+            ("A second body publishing its own figures for the same period recorded the "
+             "same fall in the share, using a method it describes in detail and the "
+             "commentator does not.",
+             "corroborates the share, which is not the part of the argument in question"),
             ("The period studied includes two years of unusual weather.",
              "offers a possible cause of movement without addressing the share to count step"),
         ]
@@ -437,6 +452,18 @@ class NecessaryFlaw(CRBase):
              "so their outcomes are simply unrecorded.",
              "points at a gap in the data, which weakens the evidence without showing the "
              "conclusion false"),
+            # Short ones. The key is the one specific sentence and every distractor above
+            # was a long generic one, so the key was the shortest option on 57 percent of
+            # this schema's items (INC-0079).
+            ("The group described is a small one.",
+             "counts the cases, which does not bear on what they have in common"),
+            ("The pattern has held for a decade.",
+             "restates the evidence rather than testing the step taken from it"),
+            ("No alternative has been proposed.",
+             "notes that nobody has offered another account, which is not a reason to "
+             "accept this one"),
+            ("The advantage is expensive to obtain.",
+             "reports a cost, which says nothing about who else has had it"),
             ("The result in question is also achieved, though less often, by people well "
              "outside the group described here.",
              "shows the result is not unique to the group, which is a different objection"),
@@ -482,6 +509,17 @@ class PlanAssume(CRBase):
              "concerns what happens afterwards, not whether the effect follows"),
             ("That " + d["who"] + " has tried to " + d["goal"] + " before.",
              "asks about history, which the plan's prospects do not depend on"),
+            # One short and one long, for the same reason as the schemas beside it: with
+            # every distractor written at about the key's length, one rank held 42 percent
+            # of this schema's 1,077 items (INC-0079).
+            ("That the measure is lawful.",
+             "asks whether the measure may be taken, not whether taking it would work"),
+            ("That the people the measure is aimed at will notice that it has been taken, "
+             "and will understand what it is for well enough to change what they do in "
+             "response to it.",
+             "supposes a further condition about awareness, which the plan does not need: "
+             "the action is claimed to work by removing the constraint, not by persuading "
+             "anyone"),
         ]
         expl = ("A plan works only if the cause of the problem is the one the action "
                 "addresses. This action addresses the problem only if " + d["needs"]

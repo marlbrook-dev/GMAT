@@ -562,8 +562,12 @@ try:
     if _pb.returncode == 0:
         print(_pb.stdout.strip())
     else:
-        print("WARNING: the playbook did not build; the site did. Run "
+        # ERROR, not WARNING, and still exit zero. playbook/ is excluded from the
+        # deploy so a broken chapter must not stop the site shipping, but the word a
+        # non fatal step fails with is the whole of its signal, and three commits went
+        # out with a stale playbook because this said WARNING (INC-0080).
+        print("ERROR: the playbook did not build; the site did. Run "
               "python3 src/build_playbook.py to see why.", file=sys.stderr)
         print((_pb.stderr or _pb.stdout).strip(), file=sys.stderr)
 except Exception as _e:
-    print("WARNING: could not run the playbook build: %s" % _e, file=sys.stderr)
+    print("ERROR: could not run the playbook build: %s" % _e, file=sys.stderr)
