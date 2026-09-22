@@ -159,6 +159,10 @@ class LinearInequality(Gen):
             "stem": "Which of the following describes all values of x that satisfy "
             "%dx %s %d > %d?" % (a, "+" if b >= 0 else "-", abs(b), k),
             "answer": "x %s %s" % (rel, num(bound)),
+            # The sign flip is what this item tests, so it is always on the paper. It is
+            # also the same length as the key, which is what stops the key being the
+            # uniquely longest option.
+            "require": ["x %s %s" % (">" if flips else "<", num(bound))],
             "distractors": [
                 ("x %s %s" % (">" if flips else "<", num(bound)),
                  "forgetting that dividing by a negative number reverses the inequality sign."

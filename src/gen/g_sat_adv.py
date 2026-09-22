@@ -11,8 +11,10 @@ class QuadraticRoots(Gen):
     diff = 3
 
     def build(self, rng):
-        r1 = rng.choice([-9, -7, -6, -5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 6, 8])
-        r2 = rng.choice([-8, -6, -5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 7, 9])
+        r1 = rng.choice([-12, -11, -10, -9, -8, -7, -6, -5, -4, -3, -2, -1,
+                         1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+        r2 = rng.choice([-10, -9, -8, -7, -6, -5, -4, -3, -2, -1,
+                         1, 2, 3, 4, 5, 6, 7, 9, 11, 12])
         if r1 == r2:
             raise ItemError("repeated root makes the sum question trivial")
         b, c = -(r1 + r2), r1 * r2
@@ -110,9 +112,9 @@ class PolynomialValue(Gen):
     diff = 3
 
     def build(self, rng):
-        a = rng.choice([1, 2, 3])
-        b = rng.choice([-7, -5, -3, 2, 4, 6])
-        c = rng.choice([-6, -4, 3, 5, 8])
+        a = rng.choice([1, 2, 3, 4, 5])
+        b = rng.choice([-9, -8, -7, -6, -5, -3, -2, 2, 3, 4, 6, 7])
+        c = rng.choice([-9, -7, -6, -4, -2, 3, 4, 5, 8, 9])
         # (ax + b)(x + c) expanded
         A, B, C = a, a * c + b, b * c
         ask = rng.choice(["b", "c"])
@@ -143,8 +145,9 @@ class RadicalEquation(Gen):
     diff = 4
 
     def build(self, rng):
-        k = rng.choice([2, 3, 4, 5, 6, 7, 8])
-        b = rng.choice([-8, -5, -3, 2, 4, 7, 11])
+        k = rng.choice([2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
+        b = rng.choice([-13, -11, -9, -8, -7, -6, -5, -3, -2,
+                        2, 3, 4, 5, 6, 7, 9, 11, 13])
         # sqrt(x + b) = k  ->  x = k^2 - b
         x = k * k - b
         return {
@@ -171,11 +174,11 @@ class RationalExpression(Gen):
     diff = 4
 
     def build(self, rng):
-        r = rng.choice([-6, -5, -4, -3, -2, 2, 3, 4, 5, 7])
-        s = rng.choice([-7, -4, -3, 3, 5, 6, 8])
+        r = rng.choice([-9, -8, -7, -6, -5, -4, -3, -2, 2, 3, 4, 5, 6, 7, 8, 9])
+        s = rng.choice([-9, -8, -7, -6, -5, -4, -3, -2, 3, 4, 5, 6, 8, 9])
         if r == s:
             raise ItemError("cancelling factor must differ")
-        k = rng.choice([2, 3, 4, 5, 6, 8])
+        k = rng.choice([2, 3, 4, 5, 6, 7, 8, 9, 10])
         val = k - s
         return {
             "stem": "For x not equal to %d, the expression (x squared %s %dx %s %d) divided by "
@@ -247,21 +250,23 @@ class ExponentRules(Gen):
     diff = 2
 
     def build(self, rng):
-        a = rng.choice([2, 3, 4, 5, 6])
-        m = rng.choice([2, 3, 4, 5])
-        n = rng.choice([2, 3, 4])
+        m = rng.choice([2, 3, 4, 5, 6, 7, 8, 9])
+        n = rng.choice([2, 3, 4, 5, 6, 7])
         op = rng.choice(["mul", "div", "pow"])
         if op == "mul":
             stem = "The expression x to the %d times x to the %d is equivalent to x to the k. What is k?" % (m, n)
             val, wrong1, why1 = m + n, m * n, "multiplying the exponents, which is the rule for a power raised to a power, not for a product."
+            wrong2, why2 = abs(m - n), "subtracting the exponents, which is the rule for a quotient, not for a product."
         elif op == "div":
             if m <= n:
                 m, n = n + rng.choice([1, 2, 3]), n
             stem = "The expression x to the %d divided by x to the %d is equivalent to x to the k. What is k?" % (m, n)
             val, wrong1, why1 = m - n, Fr(m, n), "dividing the exponents rather than subtracting them."
+            wrong2, why2 = m + n, "adding the exponents, which is the rule for a product, not for a quotient."
         else:
             stem = "The expression (x to the %d) raised to the power %d is equivalent to x to the k. What is k?" % (m, n)
             val, wrong1, why1 = m * n, m + n, "adding the exponents, which is the rule for multiplying like bases, not for a power of a power."
+            wrong2, why2 = abs(m - n), "subtracting the exponents, which is the rule for a quotient, not for a power of a power."
         return {
             "stem": stem,
             "answer": val,
@@ -270,7 +275,7 @@ class ExponentRules(Gen):
                 (m, "keeping only the first exponent."),
                 (n, "keeping only the second exponent."),
                 (val + 1, "an off by one slip applying the rule."),
-                (a, "reporting an unrelated number from the problem."),
+                (wrong2, why2),
             ],
             "expl": "Like bases combine by adding exponents when multiplied, subtracting when "
             "divided, and multiplying when a power is raised to a power. Here k = %s." % num(val),

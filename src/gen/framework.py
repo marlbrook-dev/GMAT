@@ -112,6 +112,9 @@ class Gen:
     # -- emission ---------------------------------------------------------
     def make(self, rng, choices_n):
         spec = self.build(rng)
+        # Before the distractors are chosen, because stem_numbers reads the stem and a
+        # "1" that only existed as a unit coefficient is not a number the student saw.
+        spec["stem"] = tidy_math(spec["stem"])
         fmt = spec.get("fmt") or self.fmt
         right = spec["answer"]
         pairs = list(spec["distractors"])
@@ -129,6 +132,14 @@ class Gen:
             raise ItemError("only %d distinct distractors for %s" % (len(kept), self.id))
         want = shape(fmt(right))
         target_len = len(fmt(right))
+        # A distractor a schema marks as required is the misconception the item exists to
+        # test, and it goes in before anything is balanced. On the linear inequality
+        # schema that is the same bound with the sign not flipped: without it the item
+        # asks about a rule it never offers the student a chance to break, and because it
+        # is the same string length as the key its absence is also what let the key be
+        # uniquely the longest option on 43 percent of that schema's scored items.
+        required = [p for p in kept if p[0] in set(map(fmt, spec.get("require") or []))]
+        kept = [p for p in kept if p not in required]
         good = [p for p in kept if shape(p[0]) == want]
         rest = [p for p in kept if shape(p[0]) != want]
         # Characteristic errors skew long: an unsimplified sum or an undivided
@@ -151,7 +162,7 @@ class Gen:
         # rank drawn uniformly instead: pick how many distractors should fall below
         # the answer, and fill from each side accordingly. Over a bank this leaves
         # the answer's position in both the value order and the length order flat.
-        need = choices_n - 1
+        need = choices_n - 1 - len(required)
         rv = as_value(fmt(right))
         if rv is not None:
             below, above, side = [], [], []
@@ -183,12 +194,12 @@ class Gen:
         # integers is visibly the odd one out, and since the odd one out is almost
         # never the key, a mixed set leaks the answer on sight. Rather than pad with
         # a mismatched shape, drop the draw and let the runner try again.
-        if len(good) < choices_n - 1:
+        if len(good) < need:
             self.shape_misses = getattr(self, "shape_misses", 0) + 1
             raise ItemError(
                 "%s could not fill %d same shaped distractors (%s)"
-                % (self.id, choices_n - 1, want))
-        kept = good[: choices_n - 1]
+                % (self.id, need, want))
+        kept = required + good[:need]
         # The correct answer lands in a random position; a generator that always
         # put it first would hand every student a free strategy.
         slot = rng.randrange(choices_n)
@@ -214,8 +225,8 @@ class Gen:
             "stem": spec["stem"],
             "choices": texts,
             "answer": slot,
-            "expl": spec["expl"],
-            "wrong": spec.get("wrong") or self._wrong_line(why_at, first_at),
+            "expl": tidy_math(spec["expl"]),
+            "wrong": tidy_math(spec.get("wrong") or self._wrong_line(why_at, first_at)),
             "gen": self.id,
         }
         # Data Insights items are read off a table or a set of sources rather than
@@ -247,9 +258,50 @@ class Gen:
         blob = json.dumps(item)
         if DASH.search(blob):
             raise ItemError("%s contains an em or en dash" % self.id)
+        # A coefficient of one or zero left in, or a sign pair a person would not write.
+        # tidy_math fixes what it is given; this is what proves it was given everything,
+        # including a choice or a rendered source the pass does not reach (INC-0078).
+        for k in ("stem", "expl", "wrong"):
+            m = _MATH_BAD.search(str(item.get(k) or ""))
+            if m:
+                raise ItemError("%s %s has unwritten notation %r" % (self.id, k, m.group(0)))
+        for ch in item["choices"]:
+            m = _MATH_BAD.search(str(ch))
+            if m:
+                raise ItemError("%s choice has unwritten notation %r" % (self.id, m.group(0)))
         for k in ("stem", "expl"):
             if not item[k] or not str(item[k]).strip():
                 raise ItemError("%s missing %s" % (self.id, k))
+
+
+# Notation the schemas got wrong in eight places by each formatting a term where it stood
+# (INC-0078). Every rule here is a convention of writing rather than of arithmetic, so no
+# check on the computed answer could see any of them, and the give away was identical
+# output in unrelated files: that is one missing function, not eight mistakes.
+_MATH_FIXES = (
+    # "8i + -4i" is a machine adding a negative, not a person writing algebra.
+    (re.compile(r"\+ -"), "- "),
+    # A coefficient of zero deletes its whole term: "y = 0x + 4" is "y = 4".
+    (re.compile(r"(?<=[a-z0-9)]) [+] 0[xyi]\b"), ""),
+    (re.compile(r"(?<=[a-z0-9)]) - 0[xyi]\b"), ""),
+    (re.compile(r"(?<![0-9.])0[xyi] \+ "), ""),
+    (re.compile(r"(?<![0-9.])0[xyi] - "), "-"),
+    # A coefficient of one is not written.
+    (re.compile(r"(?<![0-9.])1(?=[xyi]\b)"), ""),
+    # A subtracted negative takes brackets: "2 - -1" is "2 - (-1)".
+    (re.compile(r"- -(\d)"), r"- (-\1)"),
+)
+# What must not survive the pass, checked on the way out so a schema that formats a term
+# by hand in future fails here instead of shipping.
+_MATH_BAD = re.compile(r"(?<![0-9.])[01][xyi]\b|\+ -\d|(?<!\()-\s-\d")
+
+
+def tidy_math(t):
+    """Render algebraic notation the way a person writes it."""
+    t = str(t)
+    for pat, rep in _MATH_FIXES:
+        t = pat.sub(rep, t)
+    return t
 
 
 def upfirst(t):
