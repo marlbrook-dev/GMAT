@@ -7,10 +7,10 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-08-17 and 2026-09-22, which is 36 days, across
-79 commits, by one owner directing a series of AI coding sessions. As of this
-build it is 53 Python files, 101 JavaScript files, 24
+81 commits, by one owner directing a series of AI coding sessions. As of this
+build it is 54 Python files, 101 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 63 documents:
-1977 tracked files in total.
+1978 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -1118,7 +1118,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-79 commits in 36 days, one owner, a series of AI sessions. This
+81 commits in 36 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1210,22 +1210,22 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-87 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+88 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 38 | 44% |
-| Found by measuring something | 23 | 26% |
+| Found by reading the code or the output | 38 | 43% |
+| Found by measuring something | 24 | 27% |
 | A test caught it | 13 | 15% |
 | Found by rendering it and looking | 6 | 7% |
 | Found by a review bot or an adversarial pass | 5 | 6% |
 | A person hit it | 1 | 1% |
 | A build guard caught it | 1 | 1% |
 
-**This is the most useful table in the book.** 86 of 87 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 87 of 88 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1234,20 +1234,20 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 34 |
+| Wrong data shown or stored | 35 |
 | Silent loss | 20 |
 | Degraded | 18 |
 | Cosmetic | 12 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 20 of 87. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 20 of 88. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 26 |
+| Content generation | 27 |
 | Tests and guards | 17 |
 | Front end | 8 |
 | Build system | 7 |
@@ -1262,7 +1262,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-81 of 87 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+82 of 88 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1283,12 +1283,12 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-11 of 87 incidents record that they repeat an earlier lesson, 14 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+12 of 88 incidents record that they repeat an earlier lesson, 16 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
-| INC-0064 The guard against a blind counter was itself blind to three exams | INC-0067, INC-0082, INC-0085 | 3 |
-| INC-0069 A bank a student can play at 88 percent, inside a section the check passed | INC-0079, INC-0085, INC-0086 | 3 |
+| INC-0064 The guard against a blind counter was itself blind to three exams | INC-0067, INC-0082, INC-0085, INC-0088 | 4 |
+| INC-0069 A bank a student can play at 88 percent, inside a section the check passed | INC-0079, INC-0085, INC-0086, INC-0088 | 4 |
 | INC-0059 The item counter missed a whole bank file because it assumed a quoting style | INC-0064, INC-0067 | 2 |
 | INC-0074 A corpus field written for one grammatical slot was spliced into another | INC-0075, INC-0087 | 2 |
 | INC-0050 A landing-page icon referenced a colour token that did not exist | INC-0018 | 1 |
@@ -1296,7 +1296,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0067 The browser path fix covered two suites and three others kept crashing | INC-0070 | 1 |
 | INC-0083 The rules digest promises to be prompt sized and its generator grows without bound | INC-0084 | 1 |
 
-The largest family runs to 10 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0082, INC-0085, INC-0086. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
+The largest family runs to 11 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0082, INC-0085, INC-0086, INC-0088. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
 
 Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.
 
@@ -1313,7 +1313,7 @@ Incidents that name an earlier one without claiming to repeat it. Each was read 
 Files named by three or more incidents. This is not the same signal as the list above: a file that is the natural home for many checks will appear here without any one of them having failed. It says where the work has been, and where a reader new to the codebase should look first.
 
 - `src/build.py`, 11 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067, INC-0076, INC-0080)
-- `src/build_banks.py`, 8 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011, INC-0079, INC-0081, INC-0086)
+- `src/build_banks.py`, 9 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011, INC-0079, INC-0081, INC-0086, INC-0088)
 - `src/test.js`, 8 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085)
 - `src/review_bot.js`, 5 incidents (INC-0022, INC-0026, INC-0051, INC-0061, INC-0077)
 - `src/bank_emit.py`, 4 incidents (INC-0062, INC-0066, INC-0068, INC-0073)
@@ -1331,7 +1331,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (26)
+## Content generation (27)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -1653,6 +1653,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** The scenario carries goal and goal_ing, both written out, and each template slot names the one it needs. No transformation between them, because the transformation is where the assumption hides.
 - **What stops it now.** check_clause_splice and the class level guard from INC-0075 already cover the wh clause and infinitive cases at emit time; the practice that caught this one, rendering an item per schema before widening its corpus, is the guard that works on a shape nobody has written a check for yet in `src/gen/framework.py`
 - **Lesson.** Reading the record does not prevent the defect; the practice does. This one was written hours after its own lesson was read closely enough to be catalogued as a recurrence, and it was caught by rendering three items rather than by remembering. Budget the render, not the recollection.
+
+
+### INC-0088. A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked
+
+*2026-09-22, Wrong data shown or stored*
+
+- **What was seen.** rc_infer ships 40 items to GMAT v_inf and the correct answer is the shortest of the five choices on 68 percent of them, against a chance rate of 20 and a cap of 36. It merged and went live without the bias check ever looking at it. The same schema over the long passage corpus is at 62 percent on 16 items. The cause is structural: the key is a modus tollens conclusion, a single clause, and the distractors are the converse and inverse of a conditional plus sentences lifted from the passage, all of which run longer.
+- **Why.** check_bias opens with 'if n < 50: continue', so a schema contributing fewer than fifty items is not measured at all. The threshold is defensible for the cap it applies, because 36 percent on a handful of items is within sampling noise, but skipping is the wrong response to that: at 40 items a rate of 68 percent is nearly eight standard errors above chance and is not noise by any reading. The check switched off where it should have widened.
+- **How it surfaced.** Measuring the four reading schemas directly after noticing that adding them did not move the 'schemas measured' figure the build prints. The count staying at 188 while four schemas were added is what gave it away. (Found by measuring something)
+- **Fix.** The cap widens for small samples instead of the check switching off. Below ten items nothing is measured, because even a perfect run there is thin; from ten up the cap is the ordinary one or chance plus two and a half standard errors of a proportion at that sample size, whichever is larger. At 40 items that is 36 percent and rc_infer fails; at 8 items it is 55 and a schema is not condemned for noise. rc_infer itself gained distractors at the key's length, since its key is short by the nature of the inference it tests.
+- **What stops it now.** check_bias measures every schema of ten items or more, with a cap widened by the sampling error at that size, so a small schema is held to a fair standard rather than to none in `src/build_banks.py`
+- **Lesson.** A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell. When a measurement cannot be trusted at a small sample, widen the tolerance to what the sample supports rather than declining to measure, and notice when a count of what was measured does not move after you add something to measure.
 
 
 ## Tests and guards (17)
@@ -2482,7 +2494,7 @@ Read it before starting a piece of work in the matching area, and again before y
 
 ## Build system
 
-- [ ] **Learned 4 times over.** A guard that covers a subset of cases reproduces the original defect in the cases it skips, and it is more dangerous than no guard because the incident it was written for feels closed. When you add a check, enumerate everything of that kind and cover all of it, or state in the code which cases are deliberately excluded and why.  
+- [ ] **Learned 5 times over.** A guard that covers a subset of cases reproduces the original defect in the cases it skips, and it is more dangerous than no guard because the incident it was written for feels closed. When you add a check, enumerate everything of that kind and cover all of it, or state in the code which cases are deliberately excluded and why.  
   <small>The guard against a blind counter was itself blind to three exams (INC-0064)</small>
 - [ ] **Learned 3 times over.** A regex that counts things assumes a formatting convention, and a file that legitimately breaks the convention counts as zero rather than as an error. Any counter that can return zero for a non-empty input needs a per-source assertion, not just a total.  
   <small>The item counter missed a whole bank file because it assumed a quoting style (INC-0059)</small>
@@ -2514,7 +2526,7 @@ Read it before starting a piece of work in the matching area, and again before y
 
 ## Content generation
 
-- [ ] **Learned 4 times over.** An aggregate over a mixed population reports the population, and if part of that population is flat by construction it will hide the part that is not. The rule that follows is about what the unit of the measurement should be: measure at the grain the defect can exist at, which here is the file, because a file is written by one person in one sitting with one set of habits. The section was the grain the data was convenient at.  
+- [ ] **Learned 5 times over.** An aggregate over a mixed population reports the population, and if part of that population is flat by construction it will hide the part that is not. The rule that follows is about what the unit of the measurement should be: measure at the grain the defect can exist at, which here is the file, because a file is written by one person in one sitting with one set of habits. The section was the grain the data was convenient at.  
   <small>A bank a student can play at 88 percent, inside a section the check passed (INC-0069)</small>
 - [ ] **Learned 3 times over.** A corpus field is written against the one sentence the author had in mind, and the schema that reuses it three templates later has no way to know which shape it is. The type system says str in both places. Two things follow. Store the field in every shape a template needs and name the shapes, rather than storing one shape and trusting the next author to notice. And guard the output, not the corpus: the generated sentence is the only place the mismatch becomes visible, and a cheap pattern over the rendered text catches a class that no check on the inputs can see.  
   <small>A corpus field written for one grammatical slot was spliced into another (INC-0074)</small>
@@ -2566,6 +2578,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A finished generator module that nothing imported, and two of its four schemas produced nothing (INC-0086)</small>
 - [ ] Reading the record does not prevent the defect; the practice does. This one was written hours after its own lesson was read closely enough to be catalogued as a recurrence, and it was caught by rendering three items rather than by remembering. Budget the render, not the recollection.  
   <small>The same corpus field in two grammatical slots, in a schema written the same day the guard was read (INC-0087)</small>
+- [ ] A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell. When a measurement cannot be trusted at a small sample, widen the tolerance to what the sample supports rather than declining to measure, and notice when a count of what was measured does not move after you add something to measure.  
+  <small>A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked (INC-0088)</small>
 
 
 ## Database
@@ -2812,7 +2826,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 87 real defects reduced to the rules that prevent them,
+the whole project: 88 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -2852,7 +2866,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-87 defects already prevented is genuinely ahead, and every defect it hits
+88 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed
