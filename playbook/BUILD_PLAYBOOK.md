@@ -7,10 +7,10 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-08-17 and 2026-09-22, which is 36 days, across
-75 commits, by one owner directing a series of AI coding sessions. As of this
-build it is 48 Python files, 98 JavaScript files, 24
+76 commits, by one owner directing a series of AI coding sessions. As of this
+build it is 49 Python files, 99 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 63 documents:
-1969 tracked files in total.
+1971 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -640,7 +640,7 @@ it is the difference between a product people trust and one they catch out.
 
 # Content at Scale, Without Lying About It
 
-This platform ships over a hundred thousand practice items across 51 bank
+This platform ships over a hundred thousand practice items across 52 bank
 files. Almost all are generated. The chapter is about how to do that without producing a
 number that is technically true and substantively false.
 
@@ -1118,7 +1118,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-75 commits in 36 days, one owner, a series of AI sessions. This
+76 commits in 36 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour

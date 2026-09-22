@@ -15,7 +15,7 @@ GRE_BANKS = ["bank_gre_verbal.js","bank_gre_verbal2.js","bank_gre_rc2.js","bank_
 LSAT_BANKS = ["bank_lsat_lr.js","bank_lsat_lr2.js","bank_lsat_lr3.js","bank_lsat_rc.js","bank_lsat_rc2.js","bank_lsat_rc3.js","cards_lsat.js","playbook_lsat.js"]
 # ACT Mathematics comes entirely from the generated bank, which is why no hand written math
 # file appears here; the schemas are mapped onto ACT taxonomy in src/gen/mapping.py.
-ACT_BANKS = ["bank_act_english.js","bank_act_reading.js","bank_act_reading2.js","bank_act_science.js","cards_act.js","playbook_act.js"]
+ACT_BANKS = ["bank_act_english.js","bank_act_reading.js","bank_act_reading2.js","bank_act_reading3.js","bank_act_science.js","cards_act.js","playbook_act.js"]
 
 APPS = [
     {"exam": "gmat-focus", "out": "app", "gen": "gmat", "files": GMAT_BANKS,
@@ -60,7 +60,7 @@ APPS = [
               "built on the skills LSAC publishes for each section."),
      "is_404": False},
     {"exam": "act", "out": "act/app", "gen": "act", "files": ACT_BANKS,
-     "concat": "BANK_ACT_ENGLISH, BANK_ACT_READING, BANK_ACT_READING2, BANK_ACT_SCIENCE",
+     "concat": "BANK_ACT_ENGLISH, BANK_ACT_READING, BANK_ACT_READING2, BANK_ACT_READING3, BANK_ACT_SCIENCE",
      "footer": ("ACT is a registered trademark of ACT Education Corp., which does not endorse this product. "
                 "Practice items are original and written for Start From Nowhere. Section lengths and reporting "
                 "categories follow ACT published materials for the enhanced test, including four answer choices "
