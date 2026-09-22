@@ -22,7 +22,10 @@ declare
     'education_level','intended_major','score_goal','application_year',
     'budget_band','employer_industry','household_income_band',
     'first_generation','military_status','study_hours_band',
-    'birth_month','birth_year'];
+    'birth_month','birth_year',
+    -- The fit inputs. Compared against published figures in the page and never stored
+    -- as a derived score, so the raw three are all that exist.
+    'gpa','work_exp_years','tuition_budget_usd'];
   -- Derived, or written only by an edge function or a trigger. A person may state their
   -- birth date; they may not state the age tier the site derives from it, and they may
   -- certainly not state their plan.
