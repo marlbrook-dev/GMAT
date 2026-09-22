@@ -30,6 +30,24 @@ HEADS = [
     ("The stack", "The stacks", "of survey maps"),
     ("The crate", "The crates", "of glass negatives"),
     ("The register", "The registers", "of parish births"),
+    ("The folder", "The folders", "of planning applications"),
+    ("The carton", "The cartons", "of glass slides"),
+    ("The album", "The albums", "of pressed flowers"),
+    ("The ledger", "The ledgers", "of quarterly accounts"),
+    ("The catalogue", "The catalogues", "of donated instruments"),
+    ("The report", "The reports", "of the inspection visits"),
+    ("The index", "The indexes", "of parish surnames"),
+    ("The tray", "The trays", "of seedlings"),
+    ("The reel", "The reels", "of survey film"),
+    ("The drawer", "The drawers", "of type"),
+    ("The chart", "The charts", "of tidal readings"),
+    ("The file", "The files", "of correspondence"),
+    ("The sample", "The samples", "of river sediment"),
+    ("The batch", "The batches", "of test castings"),
+    ("The roll", "The rolls", "of drawings"),
+    ("The packet", "The packets", "of seed"),
+    ("The case", "The cases", "of mounted specimens"),
+    ("The portfolio", "The portfolios", "of student drawings"),
 ]
 MODIFIERS = [
     "that the museum acquired last spring",
@@ -42,6 +60,22 @@ MODIFIERS = [
     "recovered from the flooded basement",
     "assembled by the previous curator",
     "kept in the north reading room",
+    "catalogued by the previous assistant",
+    "left in the basement since the move",
+    "listed in the appendix",
+    "returned by the lending library",
+    "prepared for the inspection",
+    "marked for disposal last year",
+    "drawn up before the boundary changed",
+    "kept under the counter",
+    "sent on from the county office",
+    "checked against the original",
+    "withdrawn from display in June",
+    "copied for the planning committee",
+    "gathered during the first season",
+    "annotated by an unknown hand",
+    "shelved beside the map cabinet",
+    "found folded inside another volume",
 ]
 # (third person singular, plural or base form, predicate tail)
 VERBS = [
@@ -53,6 +87,16 @@ VERBS = [
     ("arrives", "arrive", "on Thursday."),
     ("remains", "remain", "in the city archive."),
     ("describes", "describe", "a method no longer in use."),
+    ("shows", "show", "a gap of several years."),
+    ("appears", "appear", "in the 1931 inventory."),
+    ("names", "name", "three people not listed elsewhere."),
+    ("covers", "cover", "only the first two seasons."),
+    ("requires", "require", "attention from a conservator."),
+    ("records", "record", "the weather on each day."),
+    ("belongs", "belong", "to the founding collection."),
+    ("needs", "need", "rehousing before the winter."),
+    ("carries", "carry", "a note in the same hand."),
+    ("contradicts", "contradict", "the published account."),
 ]
 
 
@@ -109,15 +153,55 @@ PRONOUN_SUBJECTS = [
     ("The research team", "its", False),
     ("Neither of the two proposals", "its", False),
     ("Each of the museums", "its", False),
+    ("Each of the applicants", "his or her", True),
+    ("Every researcher", "his or her", True),
+    ("Neither of the two surveyors", "his or her", True),
+    ("Each of the trustees", "his or her", True),
+    ("Every candidate", "his or her", True),
+    ("Neither of the two editors", "his or her", True),
+    ("Each of the apprentices", "his or her", True),
+    ("Every contributor", "his or her", True),
+    ("Each of the delegates", "his or her", True),
+    ("The society", "its", False),
+    ("The panel", "its", False),
+    ("The foundation", "its", False),
+    ("The consortium", "its", False),
+    ("The tribunal", "its", False),
+    ("Neither of the two agencies", "its", False),
+    ("Each of the archives", "its", False),
+    ("The partnership", "its", False),
+    ("Neither of the two reports", "its", False),
 ]
+# Each tail says which antecedent it fits: any, a person, or a body. The schema used to
+# carry one hand written exception, "if human and album in tail", which is the shape of
+# rule that only covers the case its author had in front of them: the next incompatible
+# tail needs a new exception and the person adding it has no way to know that. A tag on
+# the data cannot be forgotten in the same way.
 PRONOUN_TAILS = [
-    "submitted ______ findings before the deadline.",
-    "published ______ recommendations in March.",
-    "revised ______ position after the hearing.",
-    "recorded ______ first album in a converted church.",
-    "must list ______ previous affiliations.",
-    "defended ______ conclusions at the symposium.",
-    "withdrew ______ application in the spring.",
+    ("submitted ______ findings before the deadline.", "any"),
+    ("published ______ recommendations in March.", "any"),
+    ("revised ______ position after the hearing.", "any"),
+    ("recorded ______ first album in a converted church.", "body"),
+    ("must list ______ previous affiliations.", "any"),
+    ("defended ______ conclusions at the symposium.", "any"),
+    ("withdrew ______ application in the spring.", "any"),
+    ("circulated ______ draft to the other members.", "any"),
+    ("entered ______ objection in the minutes.", "any"),
+    ("filed ______ accounts a month late.", "any"),
+    ("named ______ successor at the meeting.", "any"),
+    ("presented ______ evidence to the inquiry.", "any"),
+    ("kept ______ records in the same format throughout.", "any"),
+    ("declared ______ interest before the vote.", "any"),
+    ("set out ______ reasoning in an appendix.", "any"),
+    ("withheld ______ support until the second reading.", "any"),
+    ("moved ______ collection into storage.", "body"),
+    ("amended ______ constitution that year.", "body"),
+    ("opened ______ reading room to the public.", "body"),
+    ("published ______ first catalogue in 1958.", "body"),
+    ("signed ______ name at the foot of the page.", "person"),
+    ("left ______ notebooks to the institution.", "person"),
+    ("gave ______ address without notes.", "person"),
+    ("completed ______ training in under a year.", "person"),
 ]
 
 
@@ -131,9 +215,9 @@ class PronounAgreement(Gen):
 
     def build(self, rng):
         subj, right, human = rng.choice(PRONOUN_SUBJECTS)
-        tail = rng.choice(PRONOUN_TAILS)
-        if human and "album" in tail:
-            raise ItemError("predicate does not fit a personal antecedent")
+        want = "person" if human else "body"
+        pool = [t for t, fits in PRONOUN_TAILS if fits in ("any", want)]
+        tail = rng.choice(pool)
         other = "its" if human else "his or her"
         return {
             "stem": "Which choice completes the text so that it conforms to the conventions "
@@ -157,11 +241,33 @@ APOS_NOUNS = [("student", "students"), ("scientist", "scientists"), ("architect"
               ("author", "authors"), ("engineer", "engineers"), ("curator", "curators"),
               ("botanist", "botanists"), ("historian", "historians"),
               ("translator", "translators"), ("surveyor", "surveyors"),
-              ("composer", "composers"), ("printer", "printers")]
+              ("composer", "composers"), ("printer", "printers"),
+              ("conservator", "conservators"), ("editor", "editors"),
+              ("geologist", "geologists"), ("archivist", "archivists"),
+              ("cartographer", "cartographers"), ("naturalist", "naturalists"),
+              ("photographer", "photographers"), ("librarian", "librarians"),
+              ("chemist", "chemists"), ("sculptor", "sculptors"),
+              ("weaver", "weavers"), ("binder", "binders"),
+              ("physician", "physicians"), ("inspector", "inspectors"),
+              ("registrar", "registrars"), ("astronomer", "astronomers"),
+              ("apprentice", "apprentices"), ("collector", "collectors"),
+              ("lecturer", "lecturers")]
 APOS_TAILS = ["notes were later published.", "conclusions drew wide attention.",
               "designs were exhibited that autumn.", "records remain in the archive.",
               "drafts were bound in a single volume.", "objections were entered into the minutes.",
-              "instruments were sold at auction.", "correspondence filled four boxes."]
+              "instruments were sold at auction.", "correspondence filled four boxes.",
+              "letters were catalogued in 1962.", "sketchbooks were left to the college.",
+              "measurements were checked twice.", "reports were bound for the library.",
+              "specimens were relabelled that year.",
+              "photographs were printed from the originals.",
+              "lecture notes survive in two copies.", "accounts were audited in the spring.",
+              "plans were approved without amendment.",
+              "testimony was read into the record.", "proofs were returned uncorrected.",
+              "observations were published posthumously.",
+              "tools were given to the workshop.",
+              "maps were redrawn for the second edition.",
+              "papers were deposited with the county archive.",
+              "findings were disputed at the time."]
 
 
 class ApostropheUse(Gen):
@@ -196,29 +302,134 @@ class ApostropheUse(Gen):
         }
 
 
-CLAUSE_A = [
-    "The tide receded well past the usual mark",
-    "The kiln reached temperature just after dawn",
-    "Snow fell steadily through the afternoon",
-    "The archive opened to the public in 1974",
-    "The bridge was closed for inspection",
-    "Rain had softened the ground overnight",
-    "The ferry ran only twice a day that winter",
-    "The survey stakes had been moved",
-    "The press was installed on the ground floor",
-    "The lease expired at the end of the quarter",
-]
-CLAUSE_B = [
-    "the boats settled into the mud",
-    "the glaze began to fuse",
-    "the survey crew turned back",
-    "its catalogue remained incomplete for years",
-    "traffic was diverted through the old town",
-    "the excavation resumed at first light",
-    "supplies had to be ordered well in advance",
-    "the boundary had to be walked again",
-    "deliveries came through the side entrance",
-    "the tenants moved to a building two streets away",
+# Two clauses drawn from two flat lists gave items like "The lease expired at the end of
+# the quarter. The glaze began to fuse.", which is punctuated correctly and about nothing.
+# The punctuation is what is being tested, so an incoherent pair is not wrong, but a
+# student reading it has to decide whether they have misunderstood the sentence, and that
+# is not the skill. Grouping by subject costs nothing and multiplies the same way: twelve
+# sets of five and five is three hundred coherent pairs where two flat lists of ten gave
+# a hundred incoherent ones.
+CLAUSE_SETS = [
+    (["The tide receded well past the usual mark",
+      "The ferry ran only twice a day that winter",
+      "A gale had been blowing since the small hours",
+      "The harbour master closed the north quay",
+      "The channel had silted badly over the summer"],
+     ["the boats settled into the mud",
+      "the crossing had to be booked a week ahead",
+      "no vessel left the harbour for three days",
+      "cargo was landed on the south side instead",
+      "the dredger was brought back into service"]),
+    (["The kiln reached temperature just after dawn",
+      "The clay had been left to weather for a year",
+      "The glaze was mixed to an old recipe",
+      "A crack opened in the kiln floor",
+      "The firing ran six hours longer than planned"],
+     ["the glaze began to fuse",
+      "the weathered clay threw more easily than fresh",
+      "the colour came out darker than expected",
+      "the next firing had to be postponed",
+      "the fuel bill for the month doubled"]),
+    (["The archive opened to the public in 1974",
+      "The catalogue was compiled by a single volunteer",
+      "A water pipe burst above the store room",
+      "The reading room was rewired that summer",
+      "The collection arrived in eighty unlabelled boxes"],
+     ["the catalogue remained incomplete for years",
+      "cataloguing took the better part of a decade",
+      "several boxes of correspondence were lost",
+      "readers were sent to the annexe for a term",
+      "sorting the boxes took three seasons of work"]),
+    (["The bridge was closed for inspection",
+      "Rain had softened the ground overnight",
+      "The old surface was lifted in a single day",
+      "A water main was found under the verge",
+      "The diversion added four miles to the route"],
+     ["traffic was diverted through the old town",
+      "the excavation resumed at first light",
+      "the new layer went down before the frost",
+      "the work stopped for a fortnight",
+      "the bus timetable was rewritten for the duration"]),
+    (["The survey stakes had been moved",
+      "Snow fell steadily through the afternoon",
+      "The theodolite had not been calibrated since spring",
+      "Fog closed in before the second reading",
+      "The landowner withdrew permission at short notice"],
+     ["the boundary had to be walked again",
+      "the survey crew turned back",
+      "every angle was taken twice as a check",
+      "the team returned the following week",
+      "the eastern field was left unmapped"]),
+    (["The press was installed on the ground floor",
+      "The type had been cast for an earlier edition",
+      "The paper arrived damp from the mill",
+      "A single compositor set the whole volume",
+      "The binder was working two streets away"],
+     ["deliveries came through the side entrance",
+      "several sorts were missing from the case",
+      "the sheets were hung to dry for two days",
+      "composition took the better part of a year",
+      "finished sheets were carried across by hand"]),
+    (["The lease expired at the end of the quarter",
+      "The roof had been patched rather than replaced",
+      "The building was listed the following year",
+      "Damp had reached the first floor",
+      "The freeholder refused to renew"],
+     ["the tenants moved to a building two streets away",
+      "water came through at the first heavy rain",
+      "no further alterations were permitted",
+      "the lower rooms were taken out of use",
+      "the shop closed after forty years"]),
+    (["The frost came three weeks early that year",
+      "The orchard had not been pruned in a decade",
+      "A hedge was taken out to widen the field",
+      "The well ran dry in August",
+      "The herd was sold at the autumn market"],
+     ["the blossom was lost across the whole valley",
+      "the trees carried far more wood than fruit",
+      "the yield rose but the soil began to blow",
+      "water had to be carted from the village",
+      "the pasture was ploughed the following spring"]),
+    (["The school took its first pupils in 1908",
+      "The hall was requisitioned for two years",
+      "A second teacher was appointed that term",
+      "The roll fell below thirty",
+      "The playground was resurfaced over the summer"],
+     ["the logbook survives from the first day",
+      "lessons were held in the chapel instead",
+      "the older children were taught separately",
+      "the authority proposed closing the school",
+      "the children used the village green for a month"]),
+    (["The museum acquired the collection in 1953",
+      "A single case held the whole of the bequest",
+      "The lighting was replaced with fibre optics",
+      "The gallery was closed for six months",
+      "The founder left no record of provenance"],
+     ["much of the collection has never been displayed",
+      "the remainder went into the reserve store",
+      "the watercolours could be shown at last",
+      "the touring exhibition went ahead regardless",
+      "several attributions remain uncertain"]),
+    (["The branch line closed in 1964",
+      "The signal box was manned until the end",
+      "Frost lifted the ballast that winter",
+      "A landslip blocked the cutting",
+      "The station buildings were sold at auction"],
+     ["the track was lifted the following spring",
+      "the levers are now in a museum",
+      "speed was restricted for most of the season",
+      "services terminated at the junction for a month",
+      "one of the station buildings is now a private house"]),
+    (["The samples were collected before the thaw",
+      "The balance had drifted since its last service",
+      "A power cut stopped the centrifuge",
+      "The reagent was two years past its date",
+      "The freezer failed over the holiday"],
+     ["the samples were analysed within the week",
+      "every weight was taken three times",
+      "the run had to be started again",
+      "the results were discarded as unreliable",
+      "the whole series was lost"]),
 ]
 
 
@@ -231,8 +442,9 @@ class CommaSplice(Gen):
     fmt = staticmethod(str)
 
     def build(self, rng):
-        a = rng.choice(CLAUSE_A)
-        b = rng.choice(CLAUSE_B)
+        ca, cb = rng.choice(CLAUSE_SETS)
+        a = rng.choice(ca)
+        b = rng.choice(cb)
         style = rng.choice(["semicolon", "period", "and"])
         right = {"semicolon": "%s; %s." % (a, b),
                  "period": "%s. %s." % (a, b[0].upper() + b[1:]),
