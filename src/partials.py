@@ -201,6 +201,7 @@ _NAV_GROUPS = [
         ("GMAT Verbal", "/guide/gmat/verbal/", None),
         ("GMAT Data Insights", "/guide/gmat/data-insights/", None),
         ("SAT Math", "/guide/sat/math/", "New"),
+        ("SAT Reading and Writing", "/guide/sat/reading-writing/", "New"),
         ("All Study Guides", "/guide/", None),
     ]),
     ("Lists", [

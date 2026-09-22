@@ -23,7 +23,7 @@ ROOT = D.parent
 sys.path.insert(0, str(D))
 import partials                                     # noqa: E402
 from guide import gmat_quant, gmat_verbal, gmat_di  # noqa: E402
-from guide import sat_math                          # noqa: E402
+from guide import sat_math, sat_rw                   # noqa: E402
 from guide.model import check_all                   # noqa: E402
 from guide import coverage                          # noqa: E402
 
@@ -84,6 +84,20 @@ SECTIONS = {
                   "Edition, and the only one with a calculator."),
     },
     "sat": {
+        "reading-writing": dict(
+            title="Reading and Writing", short="Reading and Writing",
+            topics=sat_rw.TOPICS,
+            exam_section="Reading and Writing (two 32-minute modules of 27 questions "
+                         "each)",
+            facts_title="The Rules and the Method",
+            facts_word="rules",
+            facts_lede="Every question here has its own short passage, so there is "
+                       "nothing to skim and come back to. What replaces a formula is the "
+                       "rule or the test that decides the question.",
+            blurb="Information and ideas, craft and structure, expression of ideas, and "
+                  "standard English conventions: College Board's own four domains. Every "
+                  "question carries its own one-paragraph passage, which changes the "
+                  "strategy completely."),
         "math": dict(title="Math", short="Math", topics=sat_math.TOPICS,
                      exam_section="Math (two 35-minute modules of 22 questions each)",
                      blurb="Algebra, advanced math, problem solving and data analysis, "
@@ -98,8 +112,7 @@ SECTIONS = {
 # failure the coverage check exists to prevent, one level up.
 PLANNED = {
     "gmat": [],
-    "sat": [("Reading and Writing", "Every skill the section scores, the way the quant "
-                                    "guide covers the GMAT.")],
+    "sat": [],
     "gre": [("Verbal Reasoning", "Reading comprehension, text completion and sentence "
                                  "equivalence."),
             ("Quantitative Reasoning", "Arithmetic, algebra, geometry and data "
