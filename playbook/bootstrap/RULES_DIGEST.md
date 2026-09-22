@@ -1,14 +1,14 @@
 # Rules Digest
 
-96 defects from a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
+97 defects from a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
 
-Generated 2026-09-22 from a ledger spanning 36 days and 86 commits.
+Generated 2026-09-22 from a ledger spanning 36 days and 87 commits.
 
 ## Read this first
 
-The three ways defects were most often found, in order: found by reading the code or the output (40), found by measuring something (29), a test caught it (13). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
+The three ways defects were most often found, in order: found by reading the code or the output (41), found by measuring something (29), a test caught it (13). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
 
-The dominant failure mode is silent loss, 22 of 96: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
+The dominant failure mode is silent loss, 22 of 97: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
 
 ## Learned the hard way, more than once
 
@@ -65,6 +65,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - A counter that nothing reads is not instrumentation, it is a comment that looks like instrumentation, and it is worse than nothing because it answers the question 'is anyone watching this' with a yes.
 - Generated data gets checked for the properties the questions need, monotone and positive and distinguishable, and not for the properties the world needs.
 - Fixing an instance of a defect is the moment to sweep for the rest of it, and the sweep is worth running even when it is too noisy to become a check.
+- A generated item is checked as data, and this one was correct as data: the logic was valid, the key was right, the distractors were the intended errors.
 
 ## Tests and guards
 
