@@ -1,14 +1,14 @@
 # Rules Digest
 
-88 defects from a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
+91 defects from a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
 
-Generated 2026-09-22 from a ledger spanning 36 days and 82 commits.
+Generated 2026-09-22 from a ledger spanning 36 days and 83 commits.
 
 ## Read this first
 
-The three ways defects were most often found, in order: found by reading the code or the output (38), found by measuring something (24), a test caught it (13). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
+The three ways defects were most often found, in order: found by reading the code or the output (39), found by measuring something (26), a test caught it (13). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
 
-The dominant failure mode is silent loss, 20 of 88: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
+The dominant failure mode is silent loss, 21 of 91: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
 
 ## Learned the hard way, more than once
 
@@ -18,15 +18,21 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (5 times) An aggregate over a mixed population reports the population, and if part of that population is flat by construction it will hide the part that is not.
 - (3 times) A regex that counts things assumes a formatting convention, and a file that legitimately breaks the convention counts as zero rather than as an error.
 - (3 times) A corpus field is written against the one sentence the author had in mind, and the schema that reuses it three templates later has no way to know which shape it is.
+- (2 times) Test your content against the strategies a lazy adversary would use, not only against whether it is correct.
 - (2 times) The same undefined-property failure will find you repeatedly, at every severity from one icon to an invisible legal control.
 - (2 times) A path that exists on the machine you wrote the test on is not a path. Resolve environment-specific locations through one helper that falls back to the tool's own default, and return undefined rather than an empty string, because undefined means 'you decide' and an empty string means 'launch nothing'.
 - (2 times) Extracting a shared helper does not migrate the callers. The extraction fixes the file it was extracted from and leaves every sibling on the old path, which is two earlier defects in a different costume: a correction applied to the instances in hand rather than to the pattern.
 - (2 times) A size limit on a generated file is only a guard if something bounds the generator too; otherwise it is a delayed failure that lands on whoever commits next, and reads as their fault.
+- (2 times) A module that nothing imports fails no test, and an exception raised on every draw is indistinguishable from an exception raised on a hard draw.
+- (2 times) A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell.
 
 ## Content generation
 
 - An aggregate over a mixed population reports the population, and if part of that population is flat by construction it will hide the part that is not.
 - A corpus field is written against the one sentence the author had in mind, and the schema that reuses it three templates later has no way to know which shape it is.
+- Test your content against the strategies a lazy adversary would use, not only against whether it is correct.
+- A module that nothing imports fails no test, and an exception raised on every draw is indistinguishable from an exception raised on a hard draw.
+- A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell.
 - Any generator that claims reproducibility must be seeded from something stable across processes.
 - Deletion by shadowing is invisible. Any collection whose size is a fact about the product needs its size asserted, not just its contents.
 - A deduplication key must be canonical under every transformation the item legitimately undergoes.
@@ -34,7 +40,6 @@ These cost this build twice or more each. If you read nothing else here, read th
 - Dedup can be wrong in both directions. An over-broad key deletes real content as silently as a narrow one inflates it.
 - Every filter needs its rejection count reported. A filter that silently drops is indistinguishable from an input that was never there.
 - In any set of multiple-choice content, count where the answers are. A positional tell makes the whole set worthless to a test-wise user, and it is invisible item by item.
-- Test your content against the strategies a lazy adversary would use, not only against whether it is correct.
 - A guard on the extreme of a distribution can be satisfied by moving the mass next to the extreme.
 - A correction table is a set of claims about outcomes, and an entry that quietly fails still counts as applied.
 - A seeded shuffle is deterministic, which makes calling it twice look harmless: the same input gives the same output.
@@ -49,9 +54,9 @@ These cost this build twice or more each. If you read nothing else here, read th
 - Every guard here measured the answer's place in its set, and a set of guards that all take the same kind of measurement shares a blind spot the size of everything else.
 - Two lessons, and they compound. A rule copied into code by its examples loses the clause the examples were illustrating: CLAUDE.md bans six named sites and coaching site blogs, and the list kept the six and dropped the category, which is the half that generalises.
 - Two corpora side by side, one guarded per unit and one guarded only in total, is not two levels of rigour but one measurement and one blind spot.
-- A module that nothing imports fails no test, and an exception raised on every draw is indistinguishable from an exception raised on a hard draw.
 - Reading the record does not prevent the defect; the practice does. This one was written hours after its own lesson was read closely enough to be catalogued as a recurrence, and it was caught by rendering three items rather than by remembering.
-- A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell.
+- A generator's wrong answers are written as labels and read as labels, and nobody looks at the values two labels produce.
+- A list of misconceptions is a list of labels and a student sees numbers. Where every characteristic error runs the same direction the key sits at a predictable place in the ordered options however carefully the item is shuffled, because the shuffler can only place it among the candidates it is handed.
 
 ## Tests and guards
 
@@ -72,6 +77,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - A metric that moves against you when the product improves will eventually be used to justify reverting an improvement.
 - An aggregate is a claim about whatever you grouped by. Group by the file and you have measured the file.
 - A check that reports pass or fail from a handful of random draws is a check that will flip on work that has nothing to do with it, and the cost is not the false alarm.
+- A ratchet is only read while it is quiet. One that fires on noise gets re-recorded as a reflex, and the re-recording is indistinguishable from accepting a real regression, so the mechanism that exists to catch regressions becomes the mechanism that launders them.
 
 ## Front end
 

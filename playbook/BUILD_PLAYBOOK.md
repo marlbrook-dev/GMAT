@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-08-17 and 2026-09-22, which is 36 days, across
-82 commits, by one owner directing a series of AI coding sessions. As of this
+83 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 54 Python files, 101 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 63 documents:
 1978 tracked files in total.
@@ -1118,7 +1118,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-82 commits in 36 days, one owner, a series of AI sessions. This
+83 commits in 36 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1210,22 +1210,22 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-88 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+91 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 38 | 43% |
-| Found by measuring something | 24 | 27% |
-| A test caught it | 13 | 15% |
+| Found by reading the code or the output | 39 | 43% |
+| Found by measuring something | 26 | 29% |
+| A test caught it | 13 | 14% |
 | Found by rendering it and looking | 6 | 7% |
-| Found by a review bot or an adversarial pass | 5 | 6% |
+| Found by a review bot or an adversarial pass | 5 | 5% |
 | A person hit it | 1 | 1% |
 | A build guard caught it | 1 | 1% |
 
-**This is the most useful table in the book.** 87 of 88 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 90 of 91 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1235,20 +1235,20 @@ well enough to audit later. Which is what this book is.
 | Severity | Count |
 | --- | ---: |
 | Wrong data shown or stored | 35 |
-| Silent loss | 20 |
-| Degraded | 18 |
+| Silent loss | 21 |
+| Degraded | 20 |
 | Cosmetic | 12 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 20 of 88. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 21 of 91. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 27 |
-| Tests and guards | 17 |
+| Content generation | 29 |
+| Tests and guards | 18 |
 | Front end | 8 |
 | Build system | 7 |
 | CSS and layout | 5 |
@@ -1262,7 +1262,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-82 of 88 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+85 of 91 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1283,7 +1283,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-12 of 88 incidents record that they repeat an earlier lesson, 16 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+15 of 91 incidents record that they repeat an earlier lesson, 19 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1291,12 +1291,15 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0069 A bank a student can play at 88 percent, inside a section the check passed | INC-0079, INC-0085, INC-0086, INC-0088 | 4 |
 | INC-0059 The item counter missed a whole bank file because it assumed a quoting style | INC-0064, INC-0067 | 2 |
 | INC-0074 A corpus field written for one grammatical slot was spliced into another | INC-0075, INC-0087 | 2 |
+| INC-0044 The longest option was the correct answer 81 percent of the time | INC-0091 | 1 |
 | INC-0050 A landing-page icon referenced a colour token that did not exist | INC-0018 | 1 |
 | INC-0055 A new browser suite hardcoded this machine's browser directory and crashed in CI | INC-0067 | 1 |
 | INC-0067 The browser path fix covered two suites and three others kept crashing | INC-0070 | 1 |
 | INC-0083 The rules digest promises to be prompt sized and its generator grows without bound | INC-0084 | 1 |
+| INC-0086 A finished generator module that nothing imported, and two of its four schemas produced nothing | INC-0090 | 1 |
+| INC-0088 A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked | INC-0089 | 1 |
 
-The largest family runs to 11 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0082, INC-0085, INC-0086, INC-0088. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
+The largest family runs to 13 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
 
 Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.
 
@@ -1312,8 +1315,8 @@ Incidents that name an earlier one without claiming to repeat it. Each was read 
 
 Files named by three or more incidents. This is not the same signal as the list above: a file that is the natural home for many checks will appear here without any one of them having failed. It says where the work has been, and where a reader new to the codebase should look first.
 
+- `src/build_banks.py`, 12 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011, INC-0079, INC-0081, INC-0086, INC-0088, INC-0089, INC-0090, INC-0091)
 - `src/build.py`, 11 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067, INC-0076, INC-0080)
-- `src/build_banks.py`, 9 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011, INC-0079, INC-0081, INC-0086, INC-0088)
 - `src/test.js`, 8 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085)
 - `src/review_bot.js`, 5 incidents (INC-0022, INC-0026, INC-0051, INC-0061, INC-0077)
 - `src/bank_emit.py`, 4 incidents (INC-0062, INC-0066, INC-0068, INC-0073)
@@ -1331,7 +1334,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (27)
+## Content generation (29)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -1667,7 +1670,31 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell. When a measurement cannot be trusted at a small sample, widen the tolerance to what the sample supports rather than declining to measure, and notice when a count of what was measured does not move after you add something to measure.
 
 
-## Tests and guards (17)
+### INC-0090. Two of a schema's three question forms could not build, and the only sign was an item count
+
+*2026-09-22, Silent loss*
+
+- **What was seen.** The GRE shipped 48 items of the trigonometry schema where the SAT shipped 96, and the key was the smallest of the five options on half of them. The schema listed five wrong answers and its SAT and ACT copies built without complaint. Checking the other banks the same way found it again in the quadratic roots schema: the sum question never built at five choices, so the GMAT and the GRE carried that schema's product and greater-solution questions and none of its sum questions. Between them, two whole question forms were missing from three exams.
+- **Why.** Two entries in a distractor list can be the same arithmetic without looking alike. Swapping the opposite and adjacent sides and inverting the ratio both turn a tangent into its reciprocal. The sum of the roots IS the negated coefficient of x and their product IS the constant term, so on a sum question 'flip the sign' and 'read the coefficient off the equation' are one wrong answer wearing two labels, and so are 'give the product' and 'read the constant term'. Once the duplicates are dropped the list is shorter than the exam asks for, make() raises, and the draw is discarded. That is unremarkable on its own: ItemError is the ordinary way a schema says not this draw, the next draw is a new set of numbers, and the category still fills from its neighbours. But when the collision is in the SHAPE of the wrong answers rather than in the numbers, every draw of that question form is discarded and the form is absent from that exam.
+- **How it surfaced.** A geometry schema failed the answer bias check for a reason that only made sense if a whole question form were missing, so the schema was built directly at four and five choices and what came back was counted. (Found by measuring something)
+- **Fix.** The wrong answers are written out per question form instead of as parallel lookups keyed by the form, which is what hid the collision: the list reads as five entries whatever the form is. Each form now carries six or seven distinct wrong answers where five choices need four. The trigonometry schema went from 48 distinct items to 242 and builds all three of its functions at both widths; the quadratic roots schema stopped discarding two draws in five. Widening the polynomial expansion schema the same way cleared a third.
+- **What stops it now.** check_starved draws a fixed number of times from every schema at every exam's choice count and fails the build on one that loses more than a twentieth of its draws for want of distinct wrong answers, with the sixteen already over it recorded in STARVED_DEBT so the table has to shrink rather than grow in `src/build_banks.py`
+- **Lesson.** A generator's wrong answers are written as labels and read as labels, and nobody looks at the values two labels produce. Where the question type makes two misconceptions arithmetically identical the list is shorter than it reads, and because a discarded draw is the ordinary way a schema says no, a whole question form can vanish from an exam leaving nothing behind but a number nobody has a reference for. Count what a schema actually produces at each width it has to serve, and compare the widths against each other.
+
+
+### INC-0091. Every wrong answer a schema could think of was bigger than the right one
+
+*2026-09-22, Degraded*
+
+- **What was seen.** Four generated schemas put the correct answer at the same value rank on 39 to 47 percent of their items against a 36 percent line, and on the five choice exams the key was never the largest of the options and was the smallest on half of them. The rectangle schema, the box volume schema, the trigonometry schema and the polynomial expansion schema, each measured on its own draws rather than on the mix the bank happened to ship.
+- **Why.** The characteristic errors for these questions all run one way. On an area question every slip, adding the sides or subtracting them or computing the perimeter, is smaller than the product. On a volume question every slip but doubling is smaller than three edges multiplied. On a trigonometry question every slip either inverts the ratio or trades a leg for the longer hypotenuse, so all of them are larger. The lists were written by naming misconceptions, which is the right way to write them, and nobody asked which side of the answer the resulting numbers land on. make() aims for a value rank drawn uniformly, but it can only place the key among the candidates it is handed, so with five candidates above it and one below it the key can occupy two ranks out of five and no shuffling changes that.
+- **How it surfaced.** Measured each schema on its own seeded draws once a change elsewhere pushed them over the line, which separates what the schema does from what the bank happened to draw. (Found by measuring something)
+- **Fix.** Each of the four now offers wrong answers on both sides of the key, taken from real slips rather than invented to fill a side: counting grid lines rather than the squares between them and adding the perimeter to the area sit above an area key, squaring the rectangle on its longer or its shorter side sits below a perimeter key, the sum of the three face areas sits below a volume and cubing the longest edge sits above it, and dividing by the sum of the two legs or by the perimeter is the one common trigonometric slip that lands below the ratio. The worst value rank across the four went from 47 percent to 30, and smallest is key on the trigonometry schema from 49 percent to 11.
+- **What stops it now.** check_bias already measures which value rank the key holds for every schema at every width; what this change adds is that none of the four is recorded as debt any more, so the check holds all of them to the ordinary cap in `src/build_banks.py`
+- **Lesson.** A list of misconceptions is a list of labels and a student sees numbers. Where every characteristic error runs the same direction the key sits at a predictable place in the ordered options however carefully the item is shuffled, because the shuffler can only place it among the candidates it is handed. When writing wrong answers, sort them next to the right one and look at which side they fall on.
+
+
+## Tests and guards (18)
 
 
 ### INC-0016. The performance test waited for the load event, which waits for the thing being optimised
@@ -1887,6 +1914,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** The check sits five students per section and reports the rate, passing at 90 percent or better and failing below half. The threshold is stated against the measured 99 percent so the margin is visible rather than implied.
 - **What stops it now.** the planted weakness check reports a rate over 15 sittings rather than a verdict over 3 in `src/review_bot.js`
 - **Lesson.** A check that reports pass or fail from a handful of random draws is a check that will flip on work that has nothing to do with it, and the cost is not the false alarm. It is that the next real alarm arrives in a tool people have learned to shrug at. Before believing or dismissing a warning, run the thing it measures enough times to know its rate: that answers both whether this alarm is real and whether the check is worth keeping in its current form. Here the answer was that the engine was fine and the check was wrong, and both were worth knowing.
+
+
+### INC-0089. A ratchet that trips on sampling noise gets re-recorded rather than read
+
+*2026-09-22, Degraded*
+
+- **What was seen.** Widening one geometry schema from 20 items to 96 made six sibling schemas fail their recorded bias figures, every one of them by between 1 and 4 points: 55 to 57, 45 to 46, 39 to 41, 44 to 45, 36 to 40, 53 to 54. None of those schemas changed. The same thing happened one change earlier, in the other direction, when two entries cleared and two got worse by 2. Each time the response is to re-measure and re-record, which is a ratchet being rewritten rather than read.
+- **Why.** A recorded figure is a property of the schema AND of the mix it was measured in, and the mix is a shared resource: a category stops at TARGET, so growing one schema shrinks its neighbours and changes which items the shared dedup set had already taken when they ran. The check then compares a fresh measurement against a figure recorded under a different mix, with no allowance for the sampling error at that size, so a difference well inside noise reads as a regression.
+- **How it surfaced.** Doing the same re-recording twice in two changes and noticing that every delta was between 1 and 4 points while the schemas themselves were untouched. (Found by reading the code or the output)
+- **Fix.** Every ceiling in the check is now either a line someone chose or an error bar, and only the error bar stands on its own. The policy cap and any recorded figure are lines, so a measurement fails against them only when it is over by more than the standard error of a proportion at the size it was measured at, which is about two points on a bank of five hundred and nowhere near the thirty two points the worst real tell showed. The small sample floor already is two and a half standard errors and takes no second allowance. The staleness check mirrors it: an entry is called unnecessary only when the measurement sits clear of the cap by that same margin rather than a point under it. Nothing is re-recorded for drift, so the figures stay the ones a person chose. Where the drift can be removed instead of tolerated it is: the starvation check added alongside this one measures each schema on its own fixed seeded draws rather than on whatever the bank build happened to ask of it, so its figures are exact and need no allowance at all.
+- **What stops it now.** check_bias compares against recorded figures with the sampling error at the measured size, so mix drift does not fail the build and a real regression still does in `src/build_banks.py`
+- **Lesson.** A ratchet is only read while it is quiet. One that fires on noise gets re-recorded as a reflex, and the re-recording is indistinguishable from accepting a real regression, so the mechanism that exists to catch regressions becomes the mechanism that launders them. Give a comparison the same error bars as the measurement it is made from, and fix the thing that fires wrongly before the habit of clearing it forms.
 
 
 ## Front end (8)
@@ -2530,6 +2569,12 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A bank a student can play at 88 percent, inside a section the check passed (INC-0069)</small>
 - [ ] **Learned 3 times over.** A corpus field is written against the one sentence the author had in mind, and the schema that reuses it three templates later has no way to know which shape it is. The type system says str in both places. Two things follow. Store the field in every shape a template needs and name the shapes, rather than storing one shape and trusting the next author to notice. And guard the output, not the corpus: the generated sentence is the only place the mismatch becomes visible, and a cheap pattern over the rendered text catches a class that no check on the inputs can see.  
   <small>A corpus field written for one grammatical slot was spliced into another (INC-0074)</small>
+- [ ] **Learned 2 times over.** Test your content against the strategies a lazy adversary would use, not only against whether it is correct. Measure the score of a rule that ignores the question.  
+  <small>The longest option was the correct answer 81 percent of the time (INC-0044)</small>
+- [ ] **Learned 2 times over.** A module that nothing imports fails no test, and an exception raised on every draw is indistinguishable from an exception raised on a hard draw. Both are silence, and a build that reports totals hears neither. Count what each schema contributed, not what the category holds, and treat a contribution of zero as a failure rather than as a small number.  
+  <small>A finished generator module that nothing imported, and two of its four schemas produced nothing (INC-0086)</small>
+- [ ] **Learned 2 times over.** A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell. When a measurement cannot be trusted at a small sample, widen the tolerance to what the sample supports rather than declining to measure, and notice when a count of what was measured does not move after you add something to measure.  
+  <small>A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked (INC-0088)</small>
 - [ ] Any generator that claims reproducibility must be seeded from something stable across processes. hash() is not, in Python, and the failure shows up as a flaky test rather than as a wrong answer.  
   <small>Item banks were different on every build because Python randomises hash() (INC-0003)</small>
 - [ ] Deletion by shadowing is invisible. Any collection whose size is a fact about the product needs its size asserted, not just its contents.  
@@ -2544,8 +2589,6 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A length guard silently dropped sixteen valid items (INC-0011)</small>
 - [ ] In any set of multiple-choice content, count where the answers are. A positional tell makes the whole set worthless to a test-wise user, and it is invisible item by item.  
   <small>225 of 302 correct answers sat at position A (INC-0039)</small>
-- [ ] Test your content against the strategies a lazy adversary would use, not only against whether it is correct. Measure the score of a rule that ignores the question.  
-  <small>The longest option was the correct answer 81 percent of the time (INC-0044)</small>
 - [ ] A guard on the extreme of a distribution can be satisfied by moving the mass next to the extreme. When you correct for a measured bias, measure the whole distribution afterwards, not the statistic you were correcting.  
   <small>Correcting a length tell moves it one rank over, every time (INC-0062)</small>
 - [ ] A correction table is a set of claims about outcomes, and an entry that quietly fails still counts as applied. Aggregate metrics hide this well: a table where half the entries work still moves the number in the right direction, which reads as success. State the per item intent in a form the machine can check, and every entry that did nothing says so by name.  
@@ -2574,12 +2617,12 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Nine published exam facts cite test prep companies, in the one published corpus with no source validator (INC-0082)</small>
 - [ ] Two corpora side by side, one guarded per unit and one guarded only in total, is not two levels of rigour but one measurement and one blind spot. When a check exists for the bank, ask what else is shipped alongside it and counted only in aggregate.  
   <small>One flashcard for a skill, for as long as anyone cared to look (INC-0085)</small>
-- [ ] A module that nothing imports fails no test, and an exception raised on every draw is indistinguishable from an exception raised on a hard draw. Both are silence, and a build that reports totals hears neither. Count what each schema contributed, not what the category holds, and treat a contribution of zero as a failure rather than as a small number.  
-  <small>A finished generator module that nothing imported, and two of its four schemas produced nothing (INC-0086)</small>
 - [ ] Reading the record does not prevent the defect; the practice does. This one was written hours after its own lesson was read closely enough to be catalogued as a recurrence, and it was caught by rendering three items rather than by remembering. Budget the render, not the recollection.  
   <small>The same corpus field in two grammatical slots, in a schema written the same day the guard was read (INC-0087)</small>
-- [ ] A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell. When a measurement cannot be trusted at a small sample, widen the tolerance to what the sample supports rather than declining to measure, and notice when a count of what was measured does not move after you add something to measure.  
-  <small>A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked (INC-0088)</small>
+- [ ] A generator's wrong answers are written as labels and read as labels, and nobody looks at the values two labels produce. Where the question type makes two misconceptions arithmetically identical the list is shorter than it reads, and because a discarded draw is the ordinary way a schema says no, a whole question form can vanish from an exam leaving nothing behind but a number nobody has a reference for. Count what a schema actually produces at each width it has to serve, and compare the widths against each other.  
+  <small>Two of a schema's three question forms could not build, and the only sign was an item count (INC-0090)</small>
+- [ ] A list of misconceptions is a list of labels and a student sees numbers. Where every characteristic error runs the same direction the key sits at a predictable place in the ordered options however carefully the item is shuffled, because the shuffler can only place it among the candidates it is handed. When writing wrong answers, sort them next to the right one and look at which side they fall on.  
+  <small>Every wrong answer a schema could think of was bigger than the right one (INC-0091)</small>
 
 
 ## Database
@@ -2710,6 +2753,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The analysis chapter called one file eight failing guards (INC-0065)</small>
 - [ ] A check that reports pass or fail from a handful of random draws is a check that will flip on work that has nothing to do with it, and the cost is not the false alarm. It is that the next real alarm arrives in a tool people have learned to shrug at. Before believing or dismissing a warning, run the thing it measures enough times to know its rate: that answers both whether this alarm is real and whether the check is worth keeping in its current form. Here the answer was that the engine was fine and the check was wrong, and both were worth knowing.  
   <small>A review bot check whose verdict was three coin flips warned on an unrelated bank change (INC-0077)</small>
+- [ ] A ratchet is only read while it is quiet. One that fires on noise gets re-recorded as a reflex, and the re-recording is indistinguishable from accepting a real regression, so the mechanism that exists to catch regressions becomes the mechanism that launders them. Give a comparison the same error bars as the measurement it is made from, and fix the thing that fires wrongly before the habit of clearing it forms.  
+  <small>A ratchet that trips on sampling noise gets re-recorded rather than read (INC-0089)</small>
 
 
 # Adapting This to a Different Business
@@ -2826,7 +2871,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 88 real defects reduced to the rules that prevent them,
+the whole project: 91 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -2866,7 +2911,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-88 defects already prevented is genuinely ahead, and every defect it hits
+91 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed
