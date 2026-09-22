@@ -7,10 +7,10 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-08-17 and 2026-09-22, which is 36 days, across
-91 commits, by one owner directing a series of AI coding sessions. As of this
-build it is 54 Python files, 101 JavaScript files, 24
+92 commits, by one owner directing a series of AI coding sessions. As of this
+build it is 59 Python files, 102 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 63 documents:
-1978 tracked files in total.
+1987 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -388,6 +388,7 @@ The build is the first rung. Above it, in the order they run:
 - `src/smoke_consent.js`
 - `src/smoke_fit.js`
 - `src/smoke_funnel.js`
+- `src/smoke_guide.js`
 - `src/smoke_ios.js`
 - `src/smoke_items.js`
 - `src/smoke_launch.js`
@@ -402,7 +403,7 @@ The build is the first rung. Above it, in the order they run:
 - `src/test.js`
 - `src/weekly_audit.js`
 
-21 test files in total. The layering is deliberate:
+22 test files in total. The layering is deliberate:
 
 1. **The build** catches structural problems in the artefact.
 2. **Engine tests** run the domain logic headlessly, once per exam.
@@ -1025,7 +1026,7 @@ remembers it was a placeholder.
 
 # Tests and Guards
 
-21 test files, and the interesting thing about them is not what they assert.
+22 test files, and the interesting thing about them is not what they assert.
 It is that the analysis chapter can count how defects were **actually** found, and the
 answer reshapes where you put effort.
 
@@ -1118,7 +1119,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-91 commits in 36 days, one owner, a series of AI sessions. This
+92 commits in 36 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour

@@ -22,8 +22,9 @@ D = pathlib.Path(__file__).parent
 ROOT = D.parent
 sys.path.insert(0, str(D))
 import partials                                     # noqa: E402
-from guide import gmat_quant                        # noqa: E402
+from guide import gmat_quant, gmat_verbal           # noqa: E402
 from guide.model import check_all                   # noqa: E402
+from guide import coverage                          # noqa: E402
 
 SITE = "https://startfromnowhere.com"
 OUT = ROOT / "guide"
@@ -45,6 +46,18 @@ SECTIONS = {
                       blurb="Arithmetic, algebra, word problems and the statistics that "
                             "sit on top of them. No calculator, so the work is chosen to "
                             "be short when you see the shape of it."),
+        "verbal": dict(title="Verbal Reasoning", short="Verbal",
+                       topics=gmat_verbal.TOPICS,
+                       facts_title="The Question Forms",
+                       facts_word="question forms",
+                       facts_lede="What replaces a formula here is the skeleton of each "
+                                  "question and what it is really asking underneath the "
+                                  "wording. The exam rewrites the wording constantly and "
+                                  "changes the skeleton almost never.",
+                       blurb="Reading comprehension and critical reasoning. There is no "
+                             "formula sheet, which is why people assume it cannot be "
+                             "studied, and every question here still has a mechanical "
+                             "structure underneath it."),
     },
 }
 
@@ -53,8 +66,6 @@ SECTIONS = {
 # failure the coverage check exists to prevent, one level up.
 PLANNED = {
     "gmat": [
-        ("Verbal Reasoning", "Reading comprehension and critical reasoning: how each "
-                             "question form is built, and how to review one."),
         ("Data Insights", "Table analysis, graphics, multi-source reasoning, two-part "
                           "analysis and data sufficiency."),
     ],
@@ -76,6 +87,7 @@ const h = require('./exam_harness.js');
 const api = h.load(h.byId[process.argv[1]]);
 const want = process.argv.slice(2);
 const out = {};
+out.__known = [...new Set(api.BANK.map(q => q.skill))].sort();
 for (const sk of want) {
   out[sk] = {};
   for (let d = 1; d <= 5; d++) {
@@ -162,6 +174,11 @@ def topic_page(tpl, exam, sec_key, t, samples, prev_t, next_t):
         "teaches": t.title,
         "publisher": {"@type": "Organization", "name": "Start From Nowhere"}})
     return (tpl
+            .replace("{{FACTS_TITLE}}", esc(sec.get("facts_title", "The Formulas")))
+            .replace("{{FACTS_LEDE}}", esc(sec.get(
+                "facts_lede",
+                "Each one with what it actually says, because a formula you can only "
+                "recite is a formula you will misapply under time.")))
             .replace("{{TITLE}}", esc(t.title))
             .replace("{{EXAM_SHORT}}", esc(e["short"]))
             .replace("{{EXAM}}", esc(exam))
@@ -191,8 +208,9 @@ def section_index(tpl, exam, sec_key):
         cards = "".join(
             '<a class="tcard" href="%s/"><span class="tcard-t">%s</span>'
             '<span class="tcard-i">%s</span>'
-            '<span class="tcard-m">%d formulas &middot; %d worked examples</span></a>'
-            % (esc(t.slug), esc(t.title), esc(t.idea), len(t.facts), len(t.worked))
+            '<span class="tcard-m">%d %s &middot; %d worked examples</span></a>'
+            % (esc(t.slug), esc(t.title), esc(t.idea), len(t.facts),
+               esc(sec.get("facts_word", "formulas")), len(t.worked))
             for t in ts)
         blocks.append('<section class="area"><h2>%s</h2><div class="tgrid">%s</div></section>'
                       % (esc(area), cards))
@@ -208,6 +226,7 @@ def section_index(tpl, exam, sec_key):
             .replace("{{SEC_TITLE}}", esc(sec["title"]))
             .replace("{{BLURB}}", esc(sec["blurb"]))
             .replace("{{COUNT}}", str(len(sec["topics"])))
+            .replace("{{FACTS_WORD}}", esc(sec.get("facts_word", "formulas").title()))
             .replace("{{FORMULAS}}", str(sum(len(t.facts) for t in sec["topics"])))
             .replace("{{BLOCKS}}", "".join(blocks))
             .replace("{{APP}}", esc(e["app"]))
@@ -230,6 +249,23 @@ def main():
         secs = SECTIONS.get(exam, {})
         skills = sorted({t.skill for s in secs.values() for t in s["topics"]})
         samples = bank_samples(e["harness"], skills) if skills else {}
+        # A topic whose skill the engine does not know still renders: the ladder just
+        # comes out with prose and no real items, which looks deliberate. Checked
+        # against the bank itself rather than a list kept here, because a second list
+        # is a second thing to drift.
+        known = set(samples.pop("__known", []))
+        unknown = sorted(sk for sk in skills if sk not in known)
+        if unknown:
+            raise SystemExit(
+                "build_guide: %s has topics whose skill the %s bank does not know: %s.\n"
+                "Known skills: %s" % (exam, e["harness"], ", ".join(unknown),
+                                      ", ".join(sorted(known))))
+        mute = sorted(sk for sk in skills if not samples.get(sk))
+        if mute:
+            raise SystemExit(
+                "build_guide: %s has topics whose skill yields no bank item at any "
+                "level, so their ladders would show nothing real: %s"
+                % (exam, ", ".join(mute)))
         for sec_key, sec in secs.items():
             base = OUT / exam / sec_key
             base.mkdir(parents=True, exist_ok=True)
@@ -276,9 +312,10 @@ def hub_page(tpl):
             cards.append(
                 '<a class="scard" href="/guide/%s/%s/"><span class="scard-t">%s</span>'
                 '<span class="scard-i">%s</span>'
-                '<span class="scard-m">%d topics &middot; %d formulas</span></a>'
+                '<span class="scard-m">%d topics &middot; %d %s</span></a>'
                 % (esc(exam), esc(sec_key), esc(sec["title"]), esc(sec["blurb"]),
-                   len(sec["topics"]), sum(len(t.facts) for t in sec["topics"])))
+                   len(sec["topics"]), sum(len(t.facts) for t in sec["topics"]),
+                   esc(sec.get("facts_word", "formulas"))))
         for title, note in PLANNED.get(exam, []):
             cards.append('<div class="scard soon"><span class="scard-t">%s</span>'
                          '<span class="scard-i">%s</span>'
@@ -287,6 +324,9 @@ def hub_page(tpl):
         blocks.append('<section class="ex"><h2>%s</h2><p class="lede">%s</p>'
                       '<div class="sgrid">%s</div></section>'
                       % (esc(e["name"]), esc(e["blurb"]), "".join(cards)))
+    cov = coverage.report(SECTIONS["gmat"]["quant"]["topics"])
+    note = ("The GMAT quant guide currently covers %d of the %d headings in the "
+            "reference syllabus we hold." % (len(cov["covered"]), cov["total"]))
     ld = json.dumps({"@context": "https://schema.org", "@type": "CollectionPage",
                      "name": "Start From Nowhere Study Guides",
                      "description": "Free topic-by-topic study guides for every exam "
@@ -299,6 +339,7 @@ def hub_page(tpl):
             .replace("{{FORMULAS}}", str(all_formula_count()))
             .replace("{{WORKED}}", str(all_worked_count()))
             .replace("{{BLOCKS}}", "".join(blocks))
+            .replace("{{COVERAGE}}", esc(note))
             .replace("{{LD}}", ld))
 
 
