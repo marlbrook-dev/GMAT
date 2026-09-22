@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-08-17 and 2026-09-22, which is 36 days, across
-89 commits, by one owner directing a series of AI coding sessions. As of this
+90 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 54 Python files, 101 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 63 documents:
 1978 tracked files in total.
@@ -1118,7 +1118,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-89 commits in 36 days, one owner, a series of AI sessions. This
+90 commits in 36 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1780,9 +1780,9 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **What was seen.** The owner was served a reading comprehension question on the live site with nothing to read: 'If the first season used fixed speakers, which of the following can be properly inferred from the passage?' and five options, on a page with no passage. 280 items are like this, every generated reading item the GMAT and the LSAT carry, across all eight reading schemas. The worst of them ask what the passage says and offer five options all drawn from passages, so without the text there is nothing to choose between.
 - **Why.** The generator attaches the passage to the item as the field the app reads, and the emitter that writes the bank file names the fields it copies one by one. It copies passageHtml, which the data tables use, and has never copied passage, which the reading items use. So the item was right in memory, right in every test that builds items in process, and lost the moment it was written to the file that ships. The item also lost its passageId, which is what the app's game pools filter on to keep passage based items out of a view that has no passage.
 - **How it surfaced.** The owner hit it in a live round and sent a screenshot. No check saw it: the browser suite renders one item per schema through the real session path and asserts the source renders, but it decides whether an item HAS a source by looking at passageHtml alone, so a reading item was read as an item with no source and the assertion was skipped rather than failed. (A person hit it)
-- **Fix.** The emitter copies passage and passageId as it copies every other field. Passages are written once per file as constants and referenced by name, which is the convention the hand written banks already use, so 280 copies of a 300 word passage do not go into the payload. The browser suite decides an item has a source from what the item is rather than from one field: a reading item without a source now fails.
-- **What stops it now.** smoke_items asserts that every item whose type is RC or R renders a passage, and that no item carries a stem referring to a passage it does not have; build_banks fails a generated reading item emitted without one in `src/smoke_items.js`
-- **Lesson.** A check that infers what to expect from the same data it is checking cannot fail on a missing field: absence reads as nothing to look for. Derive the expectation from something the data cannot erase, the item's TYPE, and then look for what that type requires. And a field that is set in memory, used by every in-process test and copied by hand into the shipped format has no test at all between the two.
+- **Fix.** The emitter copies passage and passageId as it copies every other field, and passages are written once per file as constants and referenced by name, which is the convention the hand written banks already use, so 280 copies of a 300 word passage do not go into the payload. Carrying passageId turned out to change more than the game pools: the mock section picker takes a passage's questions as a group to keep them together, and a generated passage offers ten questions across three skills where a hand written one offers seven or eight across most of them, so three groups filled a 26 question reading section and two skills were never tested. The picker now keeps a slot for every skill still waiting for one, and when only part of a group fits it takes the part that asks something new rather than the part that sorts first.
+- **What stops it now.** smoke_items asserts that every item whose type is RC or R carries a passage and puts it on screen, derived from the type rather than from a field that can be absent; build_banks refuses to write a reading item with nothing to read; to_js refuses any generator field it has not been told to write or to skip, which is the whole class rather than this one field; and the mock section check draws twenty sections instead of one, because a single draw passed while a third of them left two skills untested in `src/smoke_items.js`
+- **Lesson.** A check that infers what to expect from the same data it is checking cannot fail on a missing field: absence reads as nothing to look for. Derive the expectation from something the data cannot erase, the item's TYPE, and then look for what that type requires. A field that is set in memory, used by every in-process test and copied by hand into the shipped format has no test at all between the two, so the copying should be checked as a whole rather than field by field. And a check that runs one random draw is not a check of a random process: this one was correct for months and simply never asked often enough to see the answer.
 
 
 ## Tests and guards (18)
@@ -2738,7 +2738,7 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Three more stored phrases in front of a verb that did not agree with them (INC-0096)</small>
 - [ ] A generated item is checked as data, and this one was correct as data: the logic was valid, the key was right, the distractors were the intended errors. What was missing was a fact about the RELATION between two strings, that a name in the question also occurs in the passage, and no property of either string alone can see it. When a question and its source are assembled from separate fields, write down what has to be true of them together, because every check that looks at one field at a time will pass.  
   <small>Every reading inference question asked about something the passage never mentions (INC-0097)</small>
-- [ ] A check that infers what to expect from the same data it is checking cannot fail on a missing field: absence reads as nothing to look for. Derive the expectation from something the data cannot erase, the item's TYPE, and then look for what that type requires. And a field that is set in memory, used by every in-process test and copied by hand into the shipped format has no test at all between the two.  
+- [ ] A check that infers what to expect from the same data it is checking cannot fail on a missing field: absence reads as nothing to look for. Derive the expectation from something the data cannot erase, the item's TYPE, and then look for what that type requires. A field that is set in memory, used by every in-process test and copied by hand into the shipped format has no test at all between the two, so the copying should be checked as a whole rather than field by field. And a check that runs one random draw is not a check of a random process: this one was correct for months and simply never asked often enough to see the answer.  
   <small>Every generated reading comprehension question shipped without its passage (INC-0099)</small>
 
 

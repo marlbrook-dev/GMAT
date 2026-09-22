@@ -329,16 +329,24 @@ function runExam(exam){
   check('grid-in equivalence',sbad);
  } else {
   const mbad=[];
+  // Twenty draws per section, not one. The picker is random, and a single draw passed
+  // while one section in three was leaving two skills untested: the check was right and
+  // simply had not been asked often enough to see it.
   SECTIONS.forEach(sec=>{
-   const mq=api.pickMockSection(BANK,st,sec); const want=SECTION_META[sec].questions;
-   if(mq.length!==want) mbad.push(sec+' len '+mq.length+'!='+want);
-   if(new Set(mq.map(q=>q.id)).size!==mq.length) mbad.push(sec+' dup items');
-   if(mq.some(q=>q.section!==sec)) mbad.push(sec+' wrong section item');
-   const cov=new Set(mq.map(q=>q.skill));
-   SKILLS.filter(s=>s.section===sec).forEach(s=>{ if(!cov.has(s.id)) mbad.push(sec+' missing skill '+s.id); });
-   const seen={}; mq.forEach((q,i)=>{ if(q.passageId){ if(seen[q.passageId]!==undefined&&seen[q.passageId]!==i-1) mbad.push(sec+' split group '+q.passageId); seen[q.passageId]=i; } });
+   const want=SECTION_META[sec].questions;
+   for(let d=0;d<20;d++){
+    const mq=api.pickMockSection(BANK,st,sec);
+    if(mq.length!==want) mbad.push(sec+' len '+mq.length+'!='+want);
+    if(new Set(mq.map(q=>q.id)).size!==mq.length) mbad.push(sec+' dup items');
+    if(mq.some(q=>q.section!==sec)) mbad.push(sec+' wrong section item');
+    const cov=new Set(mq.map(q=>q.skill));
+    SKILLS.filter(s=>s.section===sec).forEach(s=>{ if(!cov.has(s.id)) mbad.push(sec+' missing skill '+s.id); });
+    const seen={}; mq.forEach((q,i)=>{ if(q.passageId){ if(seen[q.passageId]!==undefined&&seen[q.passageId]!==i-1) mbad.push(sec+' split group '+q.passageId); seen[q.passageId]=i; } });
+    // A reading question with nothing to read is not a question (INC-0099).
+    mq.forEach(q=>{ if((q.type==='RC'||q.type==='R')&&!q.passage&&!q.passageHtml) mbad.push(sec+' '+q.id+' reading item with no passage'); });
+   }
   });
-  check('mock sections',mbad);
+  check('mock sections',[...new Set(mbad)]);
  }
 
  // ---- ability model: score band behaviour ----

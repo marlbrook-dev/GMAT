@@ -619,6 +619,22 @@ def jstr(s):
     return "'" + "".join(JS_ESC.get(ch, ch) for ch in str(s)) + "'"
 
 
+# Every field to_js writes, and every field it deliberately does not. A field a
+# generator sets that is in neither list fails the build, because the alternative is
+# what happened to passage: set on the item, read by the app, named nowhere here, and so
+# correct in memory and absent from the file that ships (INC-0099). Adding a line to
+# to_js means adding its name here; forgetting to is a loud failure rather than a quiet
+# one, which is the direction this should fail in.
+EMITTED_FIELDS = {
+    "id", "section", "type", "sub", "skill", "diff", "gen", "answerType",
+    "passageHtml", "passage", "passageId", "columns", "domain", "qskill",
+    "stem", "choices", "answer", "expl", "wrong", "statements",
+}
+# Build time only: the two canon flags tell the dedup key what to ignore while the bank
+# is being assembled, and nothing in the app reads them.
+BUILD_ONLY_FIELDS = {"canon_ignores_source", "canon_ignores_choices"}
+
+
 def to_js(items, const, header):
     """Emit a bank file in the same shape as the hand written banks.
 
@@ -629,6 +645,17 @@ def to_js(items, const, header):
     referenced by name, which is what the hand written banks do, because the alternative
     is a 300 word passage repeated on every question asked about it.
     """
+    unknown = set()
+    for it in items:
+        unknown |= {k for k, v in it.items()
+                    if v is not None and v != "" and v != [] and v != {}}
+    unknown -= EMITTED_FIELDS | BUILD_ONLY_FIELDS
+    if unknown:
+        raise SystemExit(
+            "framework.to_js: %s sets field(s) this emitter does not write and has not "
+            "been told to skip: %s. A field the app reads has to be written here; one "
+            "that only matters during the build goes in BUILD_ONLY_FIELDS."
+            % (const, ", ".join(sorted(unknown))))
     lines = [header.rstrip()]
     pvar = {}
     for it in items:
