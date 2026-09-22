@@ -204,6 +204,8 @@ _NAV_GROUPS = [
         ("SAT Reading and Writing", "/guide/sat/reading-writing/", "New"),
         ("GRE Verbal", "/guide/gre/verbal/", "New"),
         ("GRE Quant", "/guide/gre/quant/", "New"),
+        ("LSAT Logical Reasoning", "/guide/lsat/logical-reasoning/", "New"),
+        ("LSAT Reading", "/guide/lsat/reading-comprehension/", "New"),
         ("All Study Guides", "/guide/", None),
     ]),
     ("Lists", [

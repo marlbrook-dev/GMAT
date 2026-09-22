@@ -25,6 +25,7 @@ import partials                                     # noqa: E402
 from guide import gmat_quant, gmat_verbal, gmat_di  # noqa: E402
 from guide import sat_math, sat_rw                   # noqa: E402
 from guide import gre_verbal, gre_quant             # noqa: E402
+from guide import lsat_lr, lsat_rc                  # noqa: E402
 from guide.model import check_all                   # noqa: E402
 from guide import coverage                          # noqa: E402
 
@@ -126,6 +127,33 @@ SECTIONS = {
                   "comparison, which is a format rather than a content area and is "
                   "where most of the wasted time on this section goes."),
     },
+    "lsat": {
+        "logical-reasoning": dict(
+            title="Logical Reasoning", short="Logical Reasoning", topics=lsat_lr.TOPICS,
+            exam_section="Logical Reasoning (scored)",
+            facts_title="The Rules and the Method",
+            facts_word="rules",
+            facts_lede="Conditional logic is explicit and load bearing on this exam in a "
+                       "way it is not on the others. What replaces a formula here is the "
+                       "rule, the translation, or the test that decides the question.",
+            blurb="Argument structure, conditional logic, assumptions, flaws, additional "
+                  "evidence, conclusions, principles and parallel reasoning. The "
+                  "arguments are tighter than any other exam's and the gap is usually "
+                  "one precise logical step."),
+        "reading-comprehension": dict(
+            title="Reading Comprehension", short="Reading Comprehension",
+            topics=lsat_rc.TOPICS,
+            exam_section="Reading Comprehension (scored): four sets of five to eight "
+                         "questions",
+            facts_title="The Rules and the Method",
+            facts_word="rules",
+            facts_lede="Longer passages than any other exam we cover, so there is "
+                       "genuinely something to map and come back to. What replaces a "
+                       "formula here is the test that decides each question type.",
+            blurb="Main idea, stated information, inference, structure and tone, and "
+                  "application. One set per section is Comparative Reading: two "
+                  "passages by different authors, asked about together."),
+    },
 }
 
 # Sections we have not written yet. The hub lists these as unwritten rather than leaving
@@ -135,9 +163,7 @@ PLANNED = {
     "gmat": [],
     "sat": [],
     "gre": [],
-    "lsat": [("Logical Reasoning", "Every question form and the logic underneath it."),
-             ("Reading Comprehension", "How the passages are built and what is asked "
-                                       "of them.")],
+    "lsat": [],
     "act": [("English", "Usage, mechanics and rhetorical skill."),
             ("Mathematics", "Every topic the exam covers, by difficulty."),
             ("Reading", "How the passages are built and what is asked of them."),
