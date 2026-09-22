@@ -335,6 +335,215 @@ P = [
 ]
 
 
+# The same structure at LSAT length. P runs 171 to 224 words, which is GMAT length; these
+# run 259 to 358, which is where the hand written LSAT passages in this repository sit.
+# Length is most of what distinguishes LSAT reading, so the two corpora are kept apart and
+# the LSAT draws only from this one. The GMAT draws from both, because a real GMAT section
+# mixes short passages with longer ones.
+P_LONG = [
+ dict( key="riparian",
+  topic="water rights doctrine",
+  old="Legal historians long treated the shift from riparian rights to prior appropriation in the western United States as a straightforward response to aridity, arguing that a doctrine tying water use to ownership of the adjoining bank could not survive in country where the rain did not fall reliably and the rivers ran far from the land that needed them.",
+  old_why="The doctrine of prior appropriation, which awards water to whoever first puts it to beneficial use regardless of where their land lies, appears purpose-built for such conditions, and the territories that adopted it earliest were among the driest, so the correlation between climate and doctrine seemed to require no further explanation.",
+  problem="The account cannot explain why several equally arid territories retained riparian rules for decades, nor why some comparatively wet jurisdictions adopted appropriation early, and it treats a body of law made by particular legislatures and courts as though it were a precipitation map.",
+  ev1who="Ferreira and Lindgren",
+  ev1where="the territorial statutes and court records of nine western jurisdictions",
+  ev1what="the doctrine adopted tracked the dominant early industry far more closely than it tracked rainfall, with placer mining districts adopting appropriation within a decade of settlement and ranching districts retaining riparian rules well beyond it",
+  ev1detail="they coded each jurisdiction by the industry that first organised its water claims, using the claims registers themselves rather than later economic summaries written after the doctrine was settled",
+  ev2who="A subsequent study of litigation",
+  ev2where="three of those same jurisdictions across forty years",
+  ev2what="the timing of doctrinal change followed the arrival of capital that needed secure title to water at a distance from the stream, not any measurable change in the water available",
+  ev2detail="the investment records survive because the ventures were incorporated, which means the dates can be fixed independently of the court records they are being compared against",
+  revision="the doctrine followed the pattern of industrial demand for transportable, securable water rights rather than the physical scarcity of water itself",
+  caveat="All nine jurisdictions were organised under territorial rather than state legislatures, whose members were appointed and whose statutes were subject to congressional revision.",
+  cond1=("every jurisdiction in the study that adopted appropriation within a decade had an organised placer mining district",
+         "the Sweetwater jurisdiction had no mining district of any kind",
+         "the Sweetwater jurisdiction did not adopt appropriation within a decade",
+         "the Sweetwater jurisdiction"),
+  cond2=("every date Ferreira fixes comes from a claims register kept at the time",
+         "the Bitterroot date was reconstructed from a later economic summary",
+         "the Bitterroot date is not among those Ferreira fixes",
+         "the Bitterroot date"),
+  about="displacing a climatic explanation of a legal change with one that turns on who needed the water and on what terms",
+  implies="the pattern was established under territorial legislatures whose lawmaking differed from that of the states which succeeded them"),
+ dict( key="lichen",
+  topic="lichen symbiosis",
+  old="For more than a century after Simon Schwendener proposed it in 1867, the standard account of lichens held that each one is a partnership of exactly two organisms, a fungus that provides the structure and an alga or cyanobacterium that provides the sugars, and that the fungal partner alone determines which species a given lichen belongs to.",
+  old_why="The two-partner account was established by separating lichens into their components and growing each in isolation, which reliably yielded one fungus and one photosynthetic partner, and by the observation that lichen taxonomy built on fungal characters produced a classification that was stable and predictive.",
+  problem="It could not explain why two lichens with identical fungal and algal partners sometimes differ markedly in form, chemistry and habitat, a discrepancy that was recorded repeatedly and set aside as an effect of local conditions.",
+  ev1who="Nkemelu and Oberti",
+  ev1where="paired collections of two such lichens from the same rock faces",
+  ev1what="a basidiomycete yeast is embedded in the outer layer of one form and absent from the other, in every pair examined",
+  ev1detail="they searched for it with sequencing rather than by culture, which matters because the yeast does not grow in isolation and a century of separation experiments would therefore have missed it",
+  ev2who="A survey of herbarium material",
+  ev2where="collections from six continents",
+  ev2what="the same yeast lineage occurs across lichens that are otherwise unrelated, and its presence predicts the chemical differences that had been attributed to habitat",
+  ev2detail="the herbarium specimens predate the hypothesis by decades, so the sampling cannot have been shaped by what the investigators expected to find",
+  revision="a lichen is a community whose members are not fully enumerated by separating and culturing its parts, and some of its characters belong to partners the classical method could not see",
+  caveat="The yeast has been shown to be present rather than shown to be necessary, and no lichen has yet been assembled from its components with and without it.",
+  cond1=("every pair Nkemelu examined was collected from a single rock face",
+         "the Patagonian pair was assembled from two localities",
+         "Nkemelu did not examine the Patagonian pair",
+         "the Patagonian pair"),
+  cond2=("every specimen in the herbarium survey was collected before the hypothesis was proposed",
+         "the Tasmanian material was collected in 2019",
+         "the Tasmanian material is not in the herbarium survey",
+         "the Tasmanian material"),
+  about="showing that a long-standing account of an organism was limited by the method used to establish it rather than by the evidence available",
+  implies="the revised account establishes that a third partner is present without yet establishing what it does"),
+ dict( key="assize",
+  topic="medieval grain prices",
+  old="Economic historians of medieval England long read the assize of bread, the regulation fixing the weight of a loaf against the price of grain, as evidence that town authorities were able to control the cost of food, and they used the surviving assize records as a direct index of what bread actually cost.",
+  old_why="The assize tables are unusually complete, they were revised whenever grain prices moved, and the penalties for selling underweight loaves were recorded and enforced, so the records appeared to describe a functioning price mechanism rather than an aspiration.",
+  problem="The records show what the authorities ordered and what they punished, and a series built from enforcement actions cannot distinguish a market in which the rule was generally obeyed from one in which it was generally ignored and occasionally prosecuted.",
+  ev1who="Duarte",
+  ev1where="the borough court rolls of four towns alongside their assize tables",
+  ev1what="prosecutions cluster in the weeks following each revision of the table and fall away afterwards, a pattern that fits intermittent enforcement rather than steady compliance",
+  ev1detail="she counted prosecutions per baker rather than in total, which separates a rise caused by more bakers from one caused by more enforcement",
+  ev2who="A comparison with institutional accounts",
+  ev2where="two monastic houses in the same towns",
+  ev2what="the prices those houses actually paid diverge from the assize price by margins that widen in years of poor harvest",
+  ev2detail="the houses bought in bulk and recorded what they paid, so their accounts are evidence of transactions rather than of regulation",
+  revision="the assize describes what authorities attempted rather than what buyers paid, and the divergence between the two is itself the more informative series",
+  caveat="Both monastic houses bought at a scale no household could match, and their prices need not resemble those paid in the market by the week.",
+  cond1=("every town in Duarte's comparison kept borough court rolls for the whole period",
+         "Hedingham's rolls break off in 1348",
+         "Hedingham is not among the towns in Duarte's comparison",
+         "Hedingham"),
+  cond2=("every price used from the institutional accounts records an actual purchase",
+         "the 1361 figure is an estimate entered by the cellarer",
+         "the 1361 figure is not among the prices used",
+         "the 1361 figure"),
+  about="distinguishing a record of what was ordered from a record of what was paid, and showing that the gap between them carries the information",
+  implies="the transaction evidence comes from buyers whose scale was unlike that of ordinary purchasers"),
+ dict( key="wayfinding",
+  topic="animal navigation",
+  old="It was long held that migratory songbirds navigate principally by a magnetic compass, an account that grew out of orientation cage experiments in which birds deprived of any view of the sky still oriented in their seasonally appropriate direction and reversed when the surrounding field was reversed.",
+  old_why="The cage results were replicated across species and decades, the effect was large, and the discovery of magnetically sensitive proteins in the avian retina supplied a mechanism that made the behavioural finding seem settled.",
+  problem="An orientation cage measures which way a bird attempts to go, not whether it can reach anywhere in particular, and a compass alone cannot explain how a displaced bird corrects toward a goal it has never approached from that direction.",
+  ev1who="Abad and Tsuruoka",
+  ev1where="a displacement experiment on adult and first-year birds of one species",
+  ev1what="adults displaced a thousand kilometres corrected toward the original goal while first-year birds continued on the original heading",
+  ev1detail="both groups were displaced in the same aircraft on the same day, so the difference cannot be attributed to the conditions of transport",
+  ev2who="A tracking study",
+  ev2where="the same population over three seasons",
+  ev2what="the correction appears only after a bird has completed one full migration, and its accuracy improves with each subsequent one",
+  ev2detail="the tags recorded position continuously rather than at capture points, which is what allows a correction to be distinguished from a lucky arrival",
+  revision="the compass is one component of a system whose map is learned, and the learning rather than the sensing is what distinguishes an experienced migrant",
+  caveat="Both studies concern a single species that migrates along a coastline, where landmarks are unusually continuous.",
+  cond1=("every bird that corrected toward the goal had completed at least one full migration",
+         "the bird tagged A19 was in its first autumn",
+         "A19 did not correct toward the goal",
+         "the bird tagged A19"),
+  cond2=("every position used in the tracking study came from a continuously recording tag",
+         "the 2021 positions were taken at capture points only",
+         "the 2021 positions are not used in the tracking study",
+         "the 2021 positions"),
+  about="separating a sensory mechanism from the learned knowledge that makes it useful, and locating the difference between novice and experienced migrants in the latter",
+  implies="the finding rests on a species whose route offers landmarks that most migratory routes do not"),
+ dict( key="perspective",
+  topic="linear perspective in painting",
+  old="Art historians long explained the appearance of linear perspective in fifteenth-century Florence as the consequence of a mathematical discovery, treating Brunelleschi's demonstration and Alberti's treatise as the moment a technique became available and was thereafter adopted because it was correct.",
+  old_why="The chronology appears to support it: the demonstration precedes the treatise, the treatise precedes the wide adoption, and painters who worked after it produced constructions that are geometrically consistent in a way that earlier work is not.",
+  problem="The account explains adoption by correctness, which cannot distinguish a technique taken up because it solved a problem painters had from one taken up because patrons began to ask for it, and the workshop records that might settle the question were not consulted.",
+  ev1who="Mancuso",
+  ev1where="the surviving contracts of eleven Florentine workshops",
+  ev1what="clauses specifying the depicted setting and the viewer's position enter the contracts before the constructions appear in the paintings, not after",
+  ev1detail="she dated the contracts by the notarial registers rather than by the paintings they commissioned, which keeps the two chronologies independent",
+  ev2who="A technical examination",
+  ev2where="underdrawings in nine panels from those workshops",
+  ev2what="the earliest geometrically consistent constructions were laid out over drawings that had already fixed the architecture, so the geometry was fitted to a scheme rather than generating it",
+  ev2detail="the underdrawings were recorded by infrared reflectography, which shows the sequence of layers and not merely their presence",
+  revision="the technique spread because patrons specified the effect it produced, and the geometry was recruited to deliver a result that had already been asked for",
+  caveat="The eleven workshops are all Florentine, and the contract practice of other centres in the same decades is not documented to the same standard.",
+  cond1=("every contract Mancuso dated was entered in a surviving notarial register",
+         "the Strozzi commission is known only from a later inventory",
+         "Mancuso did not date the Strozzi commission",
+         "the Strozzi commission"),
+  cond2=("every panel in the technical examination was recorded by infrared reflectography",
+         "the Arezzo panel was examined by raking light alone",
+         "the Arezzo panel is not in the technical examination",
+         "the Arezzo panel"),
+  about="reversing the assumed order between a technique and the demand for what it produces, using records that fix the two chronologies independently",
+  implies="the conclusion describes the practice of one city and is not established for the others"),
+ dict( key="antibiotic",
+  topic="resistance in soil bacteria",
+  old="Resistance to antibiotics was for decades understood as a consequence of clinical use, on the view that exposure in hospitals and on farms selects for resistant strains and that the genes conferring resistance are therefore recent in origin.",
+  old_why="The timing fits: resistance to each compound was detected in clinical isolates within a few years of its introduction, and the genes could be traced spreading between species on plasmids in exactly the settings where the drugs were used most heavily.",
+  problem="Detection in the clinic records where resistance was looked for, and the reasoning moves from the place a gene was first noticed to the place it arose, which is a step the evidence does not support.",
+  ev1who="Iwasaki and Boateng",
+  ev1where="permafrost cores from two Arctic sites",
+  ev1what="genes conferring resistance to three modern compounds are present in sediment sealed for thirty thousand years",
+  ev1detail="they authenticated the sequences by the damage patterns characteristic of ancient DNA, which distinguishes genuinely old material from modern contamination",
+  ev2who="A survey of soil isolates",
+  ev2where="four sites with no recorded agricultural or clinical exposure",
+  ev2what="resistance is common and its genetic architecture is more varied than anything found in clinical isolates",
+  ev2detail="the sites were chosen from land-use records compiled for other purposes, so the selection cannot have been made to favour the result",
+  revision="resistance genes are ancient features of soil communities, and clinical use selects and concentrates them rather than creating them",
+  caveat="That a gene is ancient in soil says nothing about how it reached the clinical strains that now carry it, which remains unexplained for most compounds.",
+  cond1=("every sequence Iwasaki reports showed the damage patterns characteristic of ancient DNA",
+         "the Yukon sequence showed no such damage",
+         "Iwasaki does not report the Yukon sequence",
+         "the Yukon sequence"),
+  cond2=("every site in the soil survey was selected from land-use records compiled for other purposes",
+         "the Cairngorm site was chosen after a preliminary result there",
+         "the Cairngorm site is not in the soil survey",
+         "the Cairngorm site"),
+  about="relocating the origin of a trait from the setting where it was first observed to one where nobody had looked",
+  implies="the revised account leaves the route between the ancient reservoir and present clinical strains undescribed"),
+ dict( key="enclosure",
+  topic="common field agriculture",
+  old="The open field system of medieval and early modern England was long described as inefficient, on the grounds that scattered strips wasted labour in movement, that common grazing invited overstocking, and that collective decisions about rotation prevented any individual from improving.",
+  old_why="The description follows from the standard model of common property, it was endorsed by the eighteenth-century improvers whose writings supply much of the surviving commentary, and the yields recorded after enclosure are generally higher than those recorded before it.",
+  problem="The improvers were arguing for enclosure and their accounts are advocacy, and the yield comparison sets post-enclosure records against pre-enclosure records collected by different means for different purposes.",
+  ev1who="Okoro",
+  ev1where="manorial accounts from twenty-two villages, matched before and after enclosure",
+  ev1what="where the same measurement method spans the change, the yield gain is a third of what the standard comparison reports",
+  ev1detail="she restricted the comparison to villages where the same steward kept accounts across the transition, which holds the measurement constant",
+  ev2who="A study of strip allocation",
+  ev2where="eight of those villages",
+  ev2what="the scattering of strips distributes each household's holdings across soil types in a pattern that closely tracks local variation in drainage",
+  ev2detail="the soil mapping was done independently of the strip records and the two were matched afterwards, so the pattern was not read into the allocation",
+  revision="the open field system traded some efficiency for insurance against local failure, and the scattering that looks wasteful is the mechanism by which it did so",
+  caveat="The insurance account explains the pattern of holdings and does not establish that the households involved chose it for that reason.",
+  cond1=("every village in Okoro's matched comparison had one steward across the transition",
+         "Thornbury changed stewards in 1761",
+         "Thornbury is not in Okoro's matched comparison",
+         "Thornbury"),
+  cond2=("every soil map used in the allocation study was produced independently of the strip records",
+         "the Wendle map was drawn from the strip records themselves",
+         "the Wendle map was not used in the allocation study",
+         "the Wendle map"),
+  about="reinterpreting an apparently wasteful practice as a response to risk, after correcting a comparison that had been made with mismatched measurements",
+  implies="the account explains why the pattern would be advantageous without showing that it was adopted for that advantage"),
+ dict( key="phonotactic",
+  topic="infant speech perception",
+  old="Infants were long held to learn the sound categories of their language by hearing the words of that language, on a model in which repeated exposure to a word establishes the contrasts it depends on.",
+  old_why="Infants do discriminate non-native contrasts early and lose that ability across the first year, and the loss is faster for contrasts absent from the words they hear most often, which fits the exposure account closely.",
+  problem="The frequency of a contrast in speech and the frequency of the words carrying it are almost perfectly correlated in natural language, so no observational study can separate them.",
+  ev1who="Kirchner and Adeyemi",
+  ev1where="an experiment using an artificial language",
+  ev1what="infants acquired a contrast presented only in nonsense sequences, as reliably as one presented in words with referents",
+  ev1detail="the two conditions used the same acoustic contrast and the same total exposure, differing only in whether the sequences were paired with objects",
+  ev2who="A follow-up",
+  ev2where="the same infants four months later",
+  ev2what="the contrast acquired from nonsense sequences persisted and transferred to sequences the infants had not heard",
+  ev2detail="the transfer items were constructed after the first session, so they cannot have been present in the original exposure",
+  revision="the statistical distribution of sounds is sufficient for category formation, and the words are the usual carrier of that distribution rather than its source",
+  caveat="The artificial language used a contrast that does not occur in the infants' ambient language, and whether the same holds for a contrast they hear daily is untested.",
+  cond1=("every infant who acquired the contrast heard the full exposure schedule",
+         "infant 14 missed the third session",
+         "infant 14 did not acquire the contrast",
+         "infant 14"),
+  cond2=("every transfer item was constructed after the first session",
+         "the falling-tone item was in the original stimulus set",
+         "the falling-tone item is not a transfer item",
+         "the falling-tone item"),
+  about="separating two explanations that natural language confounds, by building a language in which they come apart",
+  implies="the result is established for a contrast the infants do not otherwise hear and may not extend to one they do"),
+]
+
+
 def check_corpus():
     """A malformed passage would produce a question with no defensible key, so the shape
     is checked at import rather than trusted."""
@@ -392,6 +601,21 @@ class RCBase(Gen):
     section = "V"
     type = "RC"
     domain = "nonmath"
+    corpus = None
+
+    def __init__(self, corpus=None, suffix=""):
+        """A schema over one corpus of passages.
+
+        Two corpora exist because two exams want different passages, not because the
+        questions differ: P runs 171 to 224 words, which is GMAT length, and P_LONG runs
+        at LSAT length. The id carries the suffix so the two variants are separate
+        schemas to the bias check and the debt table, which they have to be: they draw
+        from different prose and can skew differently.
+        """
+        if corpus is not None:
+            self.corpus = corpus
+        if suffix:
+            self.id = self.id + suffix
 
     def emit(self, rng, choices_n, p, stem, right, pool, expl, diff, skill, sub):
         cands = [(w, "") for w in pool if w != right]
@@ -438,7 +662,7 @@ class StatedIdea(RCBase):
     ]
 
     def make(self, rng, choices_n):
-        p = rng.choice(P)
+        p = rng.choice(self.corpus)
         field, stem = rng.choice(self.ASKS)
         s = sentences(p)
         right = lower1(s[field])
@@ -458,8 +682,8 @@ class MainIdea(RCBase):
     diff = 3
 
     def make(self, rng, choices_n):
-        p = rng.choice(P)
-        others = [q for q in P if q["key"] != p["key"]]
+        p = rng.choice(self.corpus)
+        others = [q for q in self.corpus if q["key"] != p["key"]]
         if len(others) < choices_n - 1:
             raise ItemError("rc_main needs more passages for distractors")
         right = p["about"]
@@ -486,7 +710,7 @@ class Inference(RCBase):
     diff = 4
 
     def make(self, rng, choices_n):
-        p = rng.choice(P)
+        p = rng.choice(self.corpus)
         cond = rng.choice([p["cond1"], p["cond2"]])
         univ, case, concl, subject = cond
         other = p["cond2"] if cond is p["cond1"] else p["cond1"]
@@ -502,6 +726,19 @@ class Inference(RCBase):
             lower1(p["revision"])[0].upper() + lower1(p["revision"])[1:] + " in every case.",
             p["caveat"].rstrip(".") + " for the same reason.",
         ]
+        # Conclusions belonging to other passages, which are the same shape and length as
+        # the key and are safely wrong because the stem names the subject it asks about.
+        #
+        # Without them the key was the shortest of the five choices on 68 percent of
+        # items and the schema was answerable without reading (INC-0088). The key is one
+        # clause by the nature of modus tollens, while the converse, the inverse, the
+        # revision and the caveat all run long, so the pool had nothing at the key's
+        # length but other[2]. Balance can only straddle a key with what it is given.
+        for q in self.corpus:
+            if q["key"] == p["key"]:
+                continue
+            for c in (q["cond1"], q["cond2"]):
+                pool.append(c[2][0].upper() + c[2][1:] + ".")
         expl = ("The passage states that %s. It also states that %s. If every case of the "
                 "one kind has the property, then a case lacking the property is not a case "
                 "of that kind, so %s. The two tempting wrong answers reverse that reasoning: "
@@ -525,8 +762,8 @@ class CaveatImplication(RCBase):
     diff = 3
 
     def make(self, rng, choices_n):
-        p = rng.choice(P)
-        others = [q for q in P if q["key"] != p["key"]]
+        p = rng.choice(self.corpus)
+        others = [q for q in self.corpus if q["key"] != p["key"]]
         if len(others) < choices_n - 1:
             raise ItemError("rc_caveat needs more passages for distractors")
         right = p["implies"]
@@ -540,4 +777,11 @@ class CaveatImplication(RCBase):
                          rng.choice([2, 3, 3, 4]), "v_inf", self.sub)
 
 
-GENS = [StatedIdea(), MainIdea(), Inference(), CaveatImplication()]
+# The GMAT draws on both corpora, because a real section mixes passage lengths. The LSAT
+# variants draw only on the long one and carry a suffix, so the bias check and the debt
+# table treat them as the separate schemas they are: different prose can skew differently,
+# and a figure recorded against one corpus says nothing about the other.
+GENS = [StatedIdea(P + P_LONG), MainIdea(P + P_LONG),
+        Inference(P + P_LONG), CaveatImplication(P + P_LONG)]
+GENS_LONG = [StatedIdea(P_LONG, "_long"), MainIdea(P_LONG, "_long"),
+             Inference(P_LONG, "_long"), CaveatImplication(P_LONG, "_long")]

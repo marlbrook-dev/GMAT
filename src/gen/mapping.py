@@ -148,7 +148,8 @@ ACT_MAP = {
 
 # A category's section is not always the exam's default. ACT English and ACT Math
 # are both mapped above, so the section is read per skill rather than per exam.
-SECTION_OVERRIDE = {"act_e_cse": "E", "act_e_pow": "E", "act_e_kol": "E"}
+SECTION_OVERRIDE = {"act_e_cse": "E", "act_e_pow": "E", "act_e_kol": "E",
+                    "lsat_rc_stated": "RC", "lsat_rc_main": "RC", "lsat_rc_inf": "RC"}
 
 # The LSAT had no generated bank at all: 372 hand written items against 20,000 to 40,000
 # on the other four. Its Logical Reasoning section is the same genre as GMAT Critical
@@ -180,6 +181,16 @@ LSAT_MAP = {
     "lsat_lr_evid": ["cr_cause_weaken", "cr_plan_weaken", "cr_plan_eval",
                      "cr_percent", "cr_necessary"],
     "lsat_lr_flaw": ["cr_sample", "cr_necsuff", "cr_partwhole", "cr_authority"],
+    # Reading Comprehension, from the long passage corpus only. The short corpus is GMAT
+    # length and serving it under an LSAT label would misdescribe the format, which is why
+    # these are the _long variants rather than the schemas the GMAT uses. These categories
+    # ship well under target and say so: the count is gated on how many passages exist,
+    # and eight is what is written.
+    "lsat_rc_stated": ["rc_stated_long"],
+    "lsat_rc_main": ["rc_main_long"],
+    # Both of these ask what follows from the passage rather than what it states, which is
+    # LSAC's "information or ideas that can be inferred".
+    "lsat_rc_inf": ["rc_infer_long", "rc_caveat_long"],
 }
 
 # An editorial judgement, recorded so it can be argued with, like the other two. The CR

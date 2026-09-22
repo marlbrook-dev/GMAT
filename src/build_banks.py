@@ -8,6 +8,7 @@ build produce a different bank.
 
 Run directly to see the per category report:  python3 src/build_banks.py
 """
+import math
 import pathlib
 import re
 import sys
@@ -81,6 +82,9 @@ STARTER_PER_SKILL = 80
 # flaw schemas; they still reach the GMAT through EXAM_EXTRA, which is where a schema
 # authored against one exam's own taxonomy belongs.
 POOL_MODS = [g_sat_alg, g_sat_adv, g_sat_psda, g_sat_geo, g_sat_rw, g_gmat_cr, g_flaw]
+# The LSAT reading map names the _long variants, which live in GENS_LONG rather than
+# GENS, so that list is added to the pool by hand.
+POOL_EXTRA = list(g_rc.GENS_LONG)
 
 # SAT categories are authored directly against SAT taxonomy; the other exams remap.
 SAT_PLAN = {
@@ -197,6 +201,29 @@ FIXED_CHOICE = {"gmat_ds_linear", "gmat_ds_percent", "gmat_ds_rectangle",
 # a defect to grind down, so the next person does not spend an hour on one I already spent
 # an hour on. A schema not named here has no excuse and should come down.
 SCHEMA_NOTES = {
+    ("act", "act_kol_concision"):
+        "as act_kol_redundancy, and for the same reason: the key is the concise option "
+        "and no shorter one preserves the meaning. Both were written in the same module "
+        "and only redundancy was ever recorded, because concision ships 28 items and the "
+        "check did not look below fifty until INC-0088.",
+    ("act", "act_s_claim"):
+        "REAL and not yet fixed. Three distinct answers across thirty items, and 70 "
+        "percent of them carry the same one, so a student who always picks it beats "
+        "chance by a wide margin. Surfaced by INC-0088 widening the check to small "
+        "schemas; recorded rather than fixed here because it belongs to the science "
+        "generator and not to the change that found it. The next work on this table "
+        "starts here.",
+    ("sat", "sat_geo_trig"):
+        "REAL, small, and one point over a cap that is itself widened for a twenty item "
+        "sample. Shares its figures with the ACT remap of the same schema, which is the "
+        "same fact counted twice rather than two findings.",
+    ("act", "sat_geo_trig>act_m_geo"): "as sat/sat_geo_trig, the same schema remapped.",
+    ("gre", "sat_geo_circle>gre_geo"):
+        "REAL. One value rank holds on 57 percent of 42 items, which means the answer "
+        "sits in a predictable place in the ordered set of options. Surfaced by "
+        "INC-0088; the schema is shared with the SAT, where it ships enough items to "
+        "have been measured all along and is inside tolerance, so the skew belongs to "
+        "the GRE draw rather than to the schema.",
     ("act", "act_kol_redundancy"):
         "the key is the concise option, which is the shortest by the nature of the "
         "skill, and no shorter option can preserve the meaning. Picking the shortest "
@@ -210,9 +237,11 @@ SCHEMA_NOTES = {
 }
 
 SCHEMA_DEBT = {
+    ('act', 'act_kol_concision'): (0, 100, 100, 23),
     ('act', 'act_kol_redundancy'): (0, 100, 100, 4),
     ('act', 'act_nq_proportion'): (24, 3, 48, 5),
     ('act', 'act_nq_scinot'): (6, 10, 50, 1),
+    ('act', 'act_s_claim'): (43, 0, 57, 70),
     ('act', 'act_s_interp'): (46, 0, 39, 1),
     ('act', 'act_s_support'): (0, 0, 51, 3),
     ('act', 'act_s_why2'): (1, 19, 52, 4),
@@ -221,6 +250,7 @@ SCHEMA_DEBT = {
     ('act', 'sat_alg_word>act_m_alg'): (8, 0, 48, 2),
     ('act', 'sat_geo_circle>act_m_geo'): (0, 29, 49, 11),
     ('act', 'sat_geo_similar>act_m_geo'): (31, 4, 55, 12),
+    ('act', 'sat_geo_trig>act_m_geo'): (0, 30, 50, 10),
     ('act', 'sat_geo_volume>act_m_geo'): (27, 1, 50, 4),
     ('act', 'sat_rw_apostrophe>act_e_cse'): (14, 17, 47, 1),
     ('act', 'sat_rw_boundary>act_e_cse'): (34, 0, 50, 0),
@@ -244,6 +274,7 @@ SCHEMA_DEBT = {
     ('gre', 'sat_alg_distribute>gre_alg'): (37, 41, 41, 4),
     ('gre', 'sat_alg_linear1>gre_alg'): (1, 8, 47, 12),
     ('gre', 'sat_geo_angles>gre_geo'): (2, 26, 40, 3),
+    ('gre', 'sat_geo_circle>gre_geo'): (0, 0, 57, 12),
     ('gre', 'sat_geo_parallel>gre_geo'): (0, 22, 44, 2),
     ('gre', 'sat_geo_rect>gre_geo'): (21, 0, 38, 4),
     ('gre', 'sat_geo_similar>gre_geo'): (25, 0, 55, 12),
@@ -254,6 +285,7 @@ SCHEMA_DEBT = {
     ('sat', 'sat_alg_word'): (6, 0, 53, 3),
     ('sat', 'sat_geo_circle'): (0, 28, 49, 11),
     ('sat', 'sat_geo_similar'): (35, 6, 50, 13),
+    ('sat', 'sat_geo_trig'): (0, 30, 50, 10),
     ('sat', 'sat_psda_percent'): (0, 38, 49, 5),
     ('sat', 'sat_rw_boundary'): (34, 0, 50, 0),
 }
@@ -342,7 +374,17 @@ def check_bias(measured, verbose=True):
     problems, stale = [], []
     for (exam, gen, choices), (lo, sh, best, scored, n, num, top, ndist) in \
             sorted(measured.items()):
-        if n < 50:
+        # A size threshold that skips is a silent exemption, and it falls on exactly the
+        # schemas most likely to carry a structural tell: the ones built from a small
+        # authored corpus. rc_infer shipped 40 items whose key was the shortest choice on
+        # 68 percent of them and was never measured, because 40 is under 50 (INC-0088).
+        #
+        # So the cap widens with the sampling error instead of the check switching off.
+        # Below ten items nothing is measured, because even a perfect run is thin there.
+        # From ten up the tolerance is the ordinary cap or chance plus two and a half
+        # standard errors of a proportion at this sample size, whichever is larger: at 40
+        # items that is the ordinary 36 percent, and at 8 it would have been 55.
+        if n < 10:
             continue
         # A fixed choice schema offers the same five statements on every item, so its
         # length and value ranks are the answer position wearing another name and the
@@ -350,7 +392,9 @@ def check_bias(measured, verbose=True):
         # always says the same one is using the fourth figure, so that one still applies.
         fixed = gen in FIXED_CHOICE
         chance = int(round(100.0 / choices))
-        cap = int(round(1.8 * chance))
+        p_ch = 1.0 / choices
+        noise = 2.5 * math.sqrt(p_ch * (1 - p_ch) / n) * 100
+        cap = max(int(round(1.8 * chance)), int(round(chance + noise)))
         rec = SCHEMA_DEBT.get((exam, gen))
         limit = tuple(max(cap, r) for r in rec[:3]) if rec else (cap, cap, cap)
         big, small, one = (("largest is key", "smallest is key", "one value rank holds")
@@ -386,13 +430,22 @@ def check_bias(measured, verbose=True):
             print(line, file=sys.stderr)
         sys.exit(1)
     if verbose:
+        # Counted at the threshold the check actually uses. It used to say 50 while the
+        # check said 50 too, and when the check moved to 10 this line was what would have
+        # gone on reporting the old number: adding four schemas left the count unchanged
+        # at 188, and noticing that is what found INC-0088 in the first place. A headline
+        # that counts something other than what was checked is how the next one hides.
+        checked = sum(1 for v in measured.values() if v[4] >= 10)
+        small = sum(1 for v in measured.values() if 10 <= v[4] < 50)
         print("  schema answer bias: %d schemas measured, all inside recorded tolerance"
-              % sum(1 for v in measured.values() if v[4] >= 50))
+              " (%d of them under 50 items, held to a cap widened for the sample)"
+              % (checked, small))
 
 
 def main(target=TARGET, verbose=True):
     OUT.mkdir(exist_ok=True)
     pool = M.by_id(POOL_MODS)
+    pool.update({g.id: g for g in POOL_EXTRA})
     report = {}
     by_gen = {}
     # LSAT gives five choices, confirmed against LSAC sample questions and carried in
