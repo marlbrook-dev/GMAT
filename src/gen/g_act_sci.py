@@ -236,7 +236,8 @@ class SciBase(Gen):
         spec["passageHtml"] = render(st)
         return spec
 
-    def choice_item(self, rng, st, stem, right, wrong, expl, diff, choices_n):
+    def choice_item(self, rng, st, stem, right, wrong, expl, diff, choices_n,
+                    require=()):
         """An item whose options are sentences: build the set directly and verify.
 
         Where a schema offers more wrong answers than the exam has slots, the subset is
@@ -244,12 +245,18 @@ class SciBase(Gen):
         question naturally carries a condition and so runs long, which left the key the
         longest option on more than half of these items until this was measured.
         """
-        pool = [w for w in wrong if w != right]
-        if len(pool) > choices_n - 1:
-            opts = [right] + balance(rng, right, [(w, "") for w in pool], choices_n - 1)
-            opts = [opts[0]] + [w for w, _ in opts[1:]]
+        # A required option is the one the item exists to distinguish the key from, and it
+        # goes in before anything is balanced. On the trend schema that is the opposite
+        # direction, which is the same length as the key, so its presence is also what
+        # stops the key being uniquely the shortest option (INC-0079).
+        req = [w for w in require if w != right]
+        pool = [w for w in wrong if w != right and w not in req]
+        need = choices_n - 1 - len(req)
+        if len(pool) > need:
+            picked = balance(rng, right, [(w, "") for w in pool], need)
+            opts = [right] + req + [w for w, _ in picked]
         else:
-            opts = [right] + pool[:choices_n - 1]
+            opts = [right] + req + pool[:need]
         if len(opts) < choices_n or len(set(opts)) != choices_n:
             raise ItemError("%s could not build %d distinct options" % (self.id, choices_n))
         rng.shuffle(opts)
@@ -346,17 +353,21 @@ class Trend(SciBase):
         st = self.study(rng)
         scen = st["scen"]
         rising = st["up"]
-        right = ("increased only" if rising else "decreased only")
-        wrong = ["decreased only" if rising else "increased only",
-                 "increased, then decreased", "decreased, then increased",
-                 "remained the same"]
+        right = ("increased at every setting" if rising
+                 else "decreased at every setting")
+        mirror = "decreased at every setting" if rising else "increased at every setting"
+        wrong = [mirror, "increased then decreased", "decreased then increased",
+                 "stayed the same throughout", "changed by the same amount each time",
+                 "rose and fell without a clear direction"]
         expl = ("Reading down the Study 1 column, the " + scen["dv"][0].lower()
                 + " goes " + ", ".join(n1(v) for v in st["s1"])
                 + ". Each reading is " + ("higher" if rising else "lower")
-                + " than the one before it, with no reversal.")
+                + " than the one before it, with no reversal and no reading equal to "
+                "the one before it.")
         stem = ("As the " + scen["iv"][0].lower() + " increased in Study 1, the "
                 + scen["dv"][0].lower() + ":")
-        return self.choice_item(rng, st, stem, right, wrong, expl, 1, choices_n)
+        return self.choice_item(rng, st, stem, right, wrong, expl, 1, choices_n,
+                                require=[mirror])
 
 
 # --- Scientific Investigation ------------------------------------------------------
@@ -514,20 +525,26 @@ class BestSupported(SciBase):
         iv, dv = scen["iv"][0].lower(), scen["dv"][0].lower()
         right = ("increasing the " + iv + " " + ("raises" if rising else "lowers")
                  + " the " + dv)
-        wrong = ["increasing the " + iv + " " + ("lowers" if rising else "raises")
-                 + " the " + dv,
+        mirror = ("increasing the " + iv + " " + ("lowers" if rising else "raises")
+                  + " the " + dv)
+        wrong = [mirror,
                  "the " + dv + " is unaffected by the " + iv,
                  "the " + dv + " reaches its highest value at the lowest " + iv
                  if rising else
                  "the " + dv + " reaches its lowest value at the lowest " + iv]
         wrong.append("the " + iv + " is determined by the " + dv)
+        wrong.append("increasing the " + iv + " " + ("raises" if rising else "lowers")
+                     + " the " + dv + " in Study 1 but has the opposite effect in Study 2")
+        wrong.append("the " + dv + " depends on the " + iv
+                     + " only above the lowest setting that was tested")
         expl = ("In Study 1 the " + dv + " runs " + ", ".join(n1(v) for v in st["s1"])
                 + " as the " + iv + " runs " + ", ".join(n1(v) for v in scen["levels"])
                 + ", and Study 2 shows the same direction. Only the conclusion that the "
                 + dv + " " + ("rises" if rising else "falls")
                 + " with the " + iv + " is supported by both.")
         stem = "The results of Studies 1 and 2 best support the conclusion that:"
-        return self.choice_item(rng, st, stem, right, wrong, expl, 3, choices_n)
+        return self.choice_item(rng, st, stem, right, wrong, expl, 3, choices_n,
+                                require=[mirror])
 
 
 class WhyTwoStudies(SciBase):
@@ -614,7 +631,11 @@ class AttributeDifference(SciBase):
                  "the readings in Study 2 were taken after those in Study 1 rather than "
                  "before them",
                  "the difference between the two readings is larger than the smallest "
-                 "difference the instrument can detect"]
+                 "difference the instrument can detect",
+                 "the two studies were run in the same week",
+                 "every condition other than " + what.lower() + " was the same in the two "
+                 "studies and the readings were taken by the same person working to the "
+                 "same written procedure"]
         expl = ("At a " + scen["iv"][0].lower() + " of " + n1(scen["levels"][i]) + " "
                 + scen["iv"][1] + ", Study 1 recorded " + n1(a) + " and Study 2 recorded "
                 + n1(b) + ". A difference can be put down to " + what.lower()
