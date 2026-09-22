@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-08-17 and 2026-09-22, which is 36 days, across
-82 commits, by one owner directing a series of AI coding sessions. As of this
+73 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 51 Python files, 101 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 63 documents:
 1975 tracked files in total.
@@ -1118,7 +1118,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-82 commits in 36 days, one owner, a series of AI sessions. This
+73 commits in 36 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
