@@ -190,8 +190,17 @@ Deliverables, in order:
 - [ ] Backfill the ledger further: the August sessions are represented by their commit
       messages only, and the incidents recorded from them are thinner than the ones written
       the day they happened
-- [ ] A per-incident recurrence count, so the analysis chapter can say which lessons were
-      learned twice rather than only which guards are named twice
+- [x] A per-incident recurrence count, so the analysis chapter can say which lessons were
+      learned twice rather than only which guards are named twice. Each record can name the
+      earlier incident whose lesson it repeats, with the quote that justifies it, and the
+      count flows into three places: an analysis section, the checklist (repeated rules lead
+      their area and say how many times they cost), and the rules digest, which now opens
+      with them. It is an explicit claim rather than a computed similarity on purpose:
+      trigram overlap across the 84 lessons finds zero pairs, because they are written in
+      genuinely different words, and tuning a score down until it reports something would be
+      manufacturing a signal. Nine links across seven incidents so far, and the largest
+      family runs to six: a correction applied to the instances in hand rather than to the
+      pattern, which is this ledger's most expensive habit
 
 ## Standing cadence
 

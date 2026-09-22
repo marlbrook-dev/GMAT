@@ -242,6 +242,23 @@ def validate_incidents(rows):
         g = r.get('guard_file')
         if g and not os.path.exists(os.path.join(ROOT, g)):
             problems.append('%s cites guard_file %s, which does not exist' % (r['id'], g))
+    # recurs is the claim "this lesson had to be learned again". It only means anything
+    # if it points backwards at a record that exists, so both are checked rather than
+    # trusted: a forward reference would make the recurrence counts depend on file order.
+    seen_order = {r['id']: i for i, r in enumerate(rows)}
+    for r in rows:
+        for p in (r.get('recurs') or []):
+            if p not in seen_order:
+                problems.append('%s says it recurs %s, which is not in the ledger'
+                                % (r['id'], p))
+            elif p == r['id']:
+                problems.append('%s says it recurs itself' % r['id'])
+            elif seen_order[p] > seen_order[r['id']]:
+                problems.append('%s says it recurs %s, which comes after it. A recurrence '
+                                'points at the earlier incident.' % (r['id'], p))
+        if r.get('recurs') and not r.get('recurs_why'):
+            problems.append('%s claims a recurrence with no recurs_why, so nobody can '
+                            'check it' % r['id'])
     return problems, squashed
 
 
@@ -289,6 +306,14 @@ def ledger_chapter(rows):
             out.append('- **Lesson.** %s' % r['lesson'])
             out.append('')
     return '\n'.join(out)
+
+
+def _title_of(rows, rid):
+    """The title of one incident, for a table that names another record."""
+    for r in rows:
+        if r['id'] == rid:
+            return r['title']
+    return ''
 
 
 def analysis_chapter(rows):
@@ -393,6 +418,95 @@ def analysis_chapter(rows):
                  'be listed here automatically, and it will mean that guard needs rebuilding '
                  'rather than trusting.\n')
 
+    # Which LESSONS were learned twice, which is a different and harder question than which
+    # guards are named twice. Two incidents can teach the same lesson while naming different
+    # guards, and that is the worse case: a new guard was built and the understanding still
+    # did not transfer. It cannot be computed from the text. Trigram overlap across the 83
+    # lessons finds zero pairs, because they are written in genuinely different words, and
+    # tuning a similarity score down until it reports something would be manufacturing a
+    # signal. So recurs is an explicit claim on the record, and recurs_why carries the quote
+    # that justifies it, so a reader can check the claim rather than trust it.
+    seen_ids = {r['id'] for r in rows}
+    recur_children = {}
+    for r in rows:
+        for p in (r.get('recurs') or []):
+            recur_children.setdefault(p, []).append(r)
+    o.append('\n## Lessons learned more than once\n')
+    if recur_children:
+        total_links = sum(len(v) for v in recur_children.values())
+        repeated = sorted(recur_children.items(), key=lambda kv: (-len(kv[1]), kv[0]))
+        o.append('%d of %d incidents record that they repeat an earlier lesson, %d links in '
+                 'all. This is the count the guard table above cannot produce: a repeat here '
+                 'means the lesson did not transfer, whether or not the same guard was '
+                 'named.\n'
+                 % (len([r for r in rows if r.get('recurs')]), n, total_links))
+        o.append('| Lesson first recorded in | Repeated by | Times |')
+        o.append('| --- | --- | ---: |')
+        for pid, kids in repeated:
+            o.append('| %s %s | %s | %d |'
+                     % (pid, _title_of(rows, pid), ', '.join(k['id'] for k in kids), len(kids)))
+        o.append('')
+        # The transitive family: follow recurs links to their roots and report the largest
+        # connected set. One incident repeated once is noise; a chain of six is the shape of
+        # the build's actual weakness, and it is the thing a reader should take away.
+        parent = {}
+        for r in rows:
+            for p in (r.get('recurs') or []):
+                parent.setdefault(r['id'], set()).add(p)
+        groups = []
+        for r in rows:
+            if not r.get('recurs'):
+                continue
+            fam = {r['id']}
+            stack = list(r['recurs'])
+            while stack:
+                cur = stack.pop()
+                if cur in fam:
+                    continue
+                fam.add(cur)
+                stack.extend(parent.get(cur, ()))
+            groups.append(fam)
+        merged = []
+        for fam in groups:
+            hit = [m for m in merged if m & fam]
+            for m in hit:
+                merged.remove(m)
+                fam = fam | m
+            merged.append(fam)
+        merged.sort(key=len, reverse=True)
+        if merged and len(merged[0]) > 2:
+            big = sorted(merged[0])
+            o.append('The largest family runs to %d incidents: %s. Every one of them is the '
+                     'same shape, a correction applied to the instances in hand rather than '
+                     'to the pattern, and it is the most expensive habit this ledger '
+                     'records.\n' % (len(big), ', '.join(big)))
+        # An incident that names an earlier one in prose without declaring a recurrence is a
+        # candidate the writer has not ruled on. Listed rather than counted, because three of
+        # them are deliberately not recurrences: INC-0013 reused INC-0012's test, INC-0076 was
+        # found BY the practice INC-0075 ended with, and INC-0068 was caught by INC-0039's
+        # guard. Those are the guard working, which is the opposite of a repeat.
+        undeclared = []
+        for r in rows:
+            named = set()
+            for f in ('symptom', 'root_cause', 'detection', 'fix', 'guard', 'lesson'):
+                for m in re.finditer(r'INC-\d{4}', str(r.get(f) or '')):
+                    if m.group(0) != r['id'] and m.group(0) in seen_ids:
+                        named.add(m.group(0))
+            open_refs = sorted(named - set(r.get('recurs') or []))
+            if open_refs:
+                undeclared.append((r['id'], open_refs))
+        if undeclared:
+            o.append('Incidents that name an earlier one without claiming to repeat it. Each '
+                     'was read and ruled on: these are the cases where the earlier guard or '
+                     'practice worked, or its test was reused, which is the opposite of a '
+                     'repeat. They are listed so the ruling stays visible rather than '
+                     'becoming an omission.\n')
+            for rid, refs in undeclared:
+                o.append('- %s names %s' % (rid, ', '.join(refs)))
+            o.append('')
+    else:
+        o.append('No incident yet records that it repeats an earlier lesson.\n')
+
     if hotfiles:
         o.append('\n## Where defects concentrate\n')
         o.append('Files named by three or more incidents. This is not the same signal as the '
@@ -413,13 +527,24 @@ def checklist_chapter(rows):
              'once. Nothing is here for completeness.\n')
     o.append('Read it before starting a piece of work in the matching area, and again before '
              'you push.\n')
+    # A rule that had to be learned twice is not the same weight as one learned once, and a
+    # flat checklist hides that. The count comes from the recurs links, so it is the ledger
+    # saying which of its own rules did not stick.
+    repeats = {}
+    for r in rows:
+        for p in (r.get('recurs') or []):
+            repeats[p] = repeats.get(p, 0) + 1
     by_area = {}
     for r in rows:
         by_area.setdefault(r['area'], []).append(r)
     for area in sorted(by_area, key=lambda a: AREA_LABEL[a]):
         o.append('\n## %s\n' % AREA_LABEL[area])
-        for r in by_area[area]:
-            o.append('- [ ] %s  \n  <small>%s (%s)</small>' % (r['lesson'], r['title'], r['id']))
+        # Within an area, the rules that were learned more than once go first.
+        for r in sorted(by_area[area], key=lambda x: (-repeats.get(x['id'], 0), x['id'])):
+            n = repeats.get(r['id'], 0)
+            mark = (' **Learned %d times over.** ' % (n + 1)) if n else ' '
+            o.append('- [ ]%s%s  \n  <small>%s (%s)</small>'
+                     % (mark, r['lesson'], r['title'], r['id']))
         o.append('')
     return '\n'.join(o)
 
@@ -783,6 +908,28 @@ def operative_rule(lesson, floor=80):
     return out
 
 
+_INC_RUN = re.compile(r'\bINC-\d{4}(?:\s*(?:,|and)\s*INC-\d{4})*')
+
+
+def deidentify(text):
+    """Replace this ledger's incident ids with what they mean to a reader who has none.
+
+    The digest ships in the bootstrap pack, where there is no ledger to look an id up in,
+    so "which is INC-0059 and INC-0064 in a different costume" resolves to nothing at all
+    (INC-0084). The book keeps its ids, because there they are links.
+    """
+    def one(m):
+        k = len(re.findall(r'INC-\d{4}', m.group(0)))
+        n = {1: 'an earlier defect', 2: 'two earlier defects'}.get(k, '%d earlier defects' % k)
+        # Capitalise when the reference opens the sentence, which is where a bare id most
+        # often sat: "INC-0074 was a bare infinitive" has to become "An earlier defect was".
+        before = text[:m.start()].rstrip()
+        if not before or before[-1] in '.!?':
+            n = n[:1].upper() + n[1:]
+        return n
+    return _INC_RUN.sub(one, str(text))
+
+
 def rules_digest(rows, h):
     """The ledger compressed to operative rules. One line each, imperative, with the
     specifics of this codebase stripped out, because a rule competing with ten thousand
@@ -828,11 +975,31 @@ def rules_digest(rows, h):
              % (sl, len(rows)))
     o.append('')
 
+    # A rule this build had to learn more than once is the rule most worth carrying into the
+    # next one, so it leads its area and says how many times it cost. This is the whole point
+    # of counting recurrence: the digest is a prompt, and a prompt has an order.
+    repeats = {}
+    for r in rows:
+        for p in (r.get('recurs') or []):
+            repeats[p] = repeats.get(p, 0) + 1
+    if repeats:
+        o.append('## Learned the hard way, more than once')
+        o.append('')
+        o.append('These cost this build twice or more each. If you read nothing else here, '
+                 'read these.')
+        o.append('')
+        for rid, k in sorted(repeats.items(), key=lambda kv: (-kv[1], kv[0])):
+            for r in rows:
+                if r['id'] == rid:
+                    o.append('- (%d times) %s' % (k + 1, deidentify(operative_rule(r['lesson']))))
+                    break
+        o.append('')
+
     for area in sorted(by_area, key=lambda a: -len(by_area[a])):
         o.append('## %s' % AREA_LABEL[area])
         o.append('')
-        for r in by_area[area]:
-            o.append('- %s' % operative_rule(r['lesson']))
+        for r in sorted(by_area[area], key=lambda x: (-repeats.get(x['id'], 0), x['id'])):
+            o.append('- %s' % deidentify(operative_rule(r['lesson'])))
         o.append('')
     return '\n'.join(o)
 

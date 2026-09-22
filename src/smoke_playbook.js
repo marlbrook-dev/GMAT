@@ -107,6 +107,49 @@ ok(missingRule.length === 0, 'every lesson reaches the rules digest');
 // thousand words it has become a second book and stops being followed.
 const words = digest.split(/\s+/).filter(Boolean).length;
 ok(words < 4000, 'the digest stays prompt sized (' + words + ' words)');
+// The bootstrap pack seeds a project that has no ledger, so an incident id in it points at
+// nothing (INC-0084). incidents.jsonl is exempt: it IS the ledger, shipped as the worked
+// example, and its ids are its own.
+const leaked = ['CLAUDE.template.md', 'KICKOFF.md', 'RULES_DIGEST.md', 'README.md']
+  .filter(f => /INC-\d{4}/.test(read(path.join(B, f))));
+ok(leaked.length === 0,
+  'the bootstrap pack names no incident id' + (leaked.length ? ': ' + leaked.join(', ') : ''));
+// The completeness check above looks for each lesson's first 60 characters in the digest,
+// and the digest rewrites incident ids into prose. A lesson that cites an id inside that
+// window would satisfy neither guard, so the coupling is asserted rather than left implicit
+// (INC-0083 is the same two-guards-on-one-output shape).
+const earlyId = rows.filter(r => /INC-\d{4}/.test(r.lesson.slice(0, 60)));
+ok(earlyId.length === 0,
+  'no lesson cites an incident id in its first 60 characters, which the digest rewrites'
+  + (earlyId.length ? ': ' + earlyId.map(r => r.id).join(', ') : ''));
+// Recurrence links: a claim that a lesson had to be learned again only means something if
+// it points backwards at a record that exists and carries the quote that justifies it.
+// Ordered by date, exactly as build_playbook orders them, and NOT by id. The two diverge:
+// the first 37 records were backfilled from git history, so an id says when someone wrote
+// the record and a date says when the defect happened. INC-0050 is dated August 19 with a
+// higher id than INC-0018, dated September 19. A recurrence is about the second occurrence,
+// so the date decides, and checking the two orderings against each other is what caught
+// this link pointing the wrong way.
+const byDate = rows.slice().sort((a, b) =>
+  (a.date || '').localeCompare(b.date || '') || (a.id || '').localeCompare(b.id || ''));
+const pos = new Map(byDate.map((r, i) => [r.id, i]));
+const byId = new Map(rows.map(r => [r.id, r]));
+const badRecur = [];
+rows.forEach(r => {
+  (r.recurs || []).forEach(p => {
+    if (!byId.has(p)) badRecur.push(r.id + ' recurs ' + p + ', which is not in the ledger');
+    else if (pos.get(p) > pos.get(r.id))
+      badRecur.push(r.id + ' recurs ' + p + ', which happened later (' + byId.get(p).date + ')');
+  });
+  if ((r.recurs || []).length && !r.recurs_why) badRecur.push(r.id + ' claims a recurrence with no recurs_why');
+});
+ok(badRecur.length === 0, 'every recurrence points back at a record, with its evidence'
+  + (badRecur.length ? ': ' + badRecur.join('; ') : ''));
+const repeated = rows.filter(r => (r.recurs || []).length);
+if (repeated.length) {
+  ok(/Learned the hard way, more than once/.test(digest),
+    'the digest leads with the rules this build learned more than once');
+}
 ok(read(path.join(B, 'CLAUDE.template.md')).includes('Never invent a value'),
   'the template carries the never-invent-a-value rule');
 ok(read(path.join(B, 'KICKOFF.md')).includes('incidents.jsonl'),
