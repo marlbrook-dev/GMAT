@@ -1305,7 +1305,7 @@ LIFT.update({
 
 E.permute(I)
 E.extend(I, LIFT, 'LIFT')
-E.check_lift(I, {k: len(v) for k, v in LIFT.items()})
+E.check_lift(I, E.lift_counts(LIFT))
 
 HEADER = '''// bank_lsat_rc3.js - Original LSAT Reading Comprehension items LC101-LC190.
 //

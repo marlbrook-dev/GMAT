@@ -894,7 +894,7 @@ LIFT.update({
 
 E.permute(I)
 E.extend(I, LIFT, 'LIFT')
-E.check_lift(I, {k: len(v) for k, v in LIFT.items()})
+E.check_lift(I, E.lift_counts(LIFT))
 
 HEADER = '''// bank_act_reading3.js - Original ACT Reading items AR101-AR184.
 //

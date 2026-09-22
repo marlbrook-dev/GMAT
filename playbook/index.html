@@ -59,7 +59,7 @@ a{color:var(--accent)}
 <p class="eyebrow">Start From Nowhere</p>
 <h1>The Build Playbook</h1>
 <p class="sub">How one person and a set of AI sessions built a multi-exam test-prep platform, every defect hit on the way, and the recipe for doing it again for something else</p>
-<p class="meta">Built 2026-09-22 from commit 0e00d36 &middot; 76 commits over 36 days &middot; 72 recorded defects &middot; 17 chapters<br>
+<p class="meta">Built 2026-09-22 from commit d26a0ff &middot; 77 commits over 36 days &middot; 73 recorded defects &middot; 17 chapters<br>
 This document is generated. Edit the chapters in docs/playbook/ and the ledger in data/playbook/incidents.jsonl, then run python3 src/build_playbook.py.</p>
 </div>
 <div class="toc"><ol><li><a href="#how-to-use-this-book">How to Use This Book</a></li>
@@ -81,7 +81,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><a href="#the-bootstrap-pack-starting-a-new-project-with-this-loaded">The Bootstrap Pack: Starting a New Project With This Loaded</a></li></ol></div>
 <h1 id="how-to-use-this-book">How to Use This Book</h1>
 <p>This is the record of building one platform, written so it can be used to build a different one.</p>
-<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-08-17 and 2026-09-22, which is 36 days, across 76 commits, by one owner directing a series of AI coding sessions. As of this build it is 49 Python files, 99 JavaScript files, 24 TypeScript edge functions, 35 migrations and 63 documents: 1971 tracked files in total.</p>
+<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-08-17 and 2026-09-22, which is 36 days, across 77 commits, by one owner directing a series of AI coding sessions. As of this build it is 50 Python files, 100 JavaScript files, 24 TypeScript edge functions, 35 migrations and 63 documents: 1973 tracked files in total.</p>
 <p>None of those numbers were typed. They are measured from the repository every time this document is built, which is the first thing worth copying.</p>
 <h2 id="what-is-in-here">What is in here</h2>
 <p>The book has four kinds of chapter, and they age differently.</p>
@@ -385,7 +385,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>and is labelled ours.</p>
 <p>The pattern underneath all of it: <strong>when you show someone a number about themselves, the number is a claim, and the claim has an error bar whether or not you print it.</strong> Printing it is the difference between a product people trust and one they catch out.</p>
 <h1 id="content-at-scale-without-lying-about-it">Content at Scale, Without Lying About It</h1>
-<p>This platform ships over a hundred thousand practice items across 52 bank files. Almost all are generated. The chapter is about how to do that without producing a number that is technically true and substantively false.</p>
+<p>This platform ships over a hundred thousand practice items across 53 bank files. Almost all are generated. The chapter is about how to do that without producing a number that is technically true and substantively false.</p>
 <h2 id="generators-not-text">Generators, not text</h2>
 <p>An item is produced by a schema: a template plus a parameter space plus a rule for generating distractors. The schema knows how to make a correct answer and how to make wrong answers that are wrong for a reason.</p>
 <p><strong>Every key is computed, never asserted.</strong> The generator does not record which option is correct; it computes the answer from the parameters and then places it. An asserted key is a key that can be wrong, and a wrong key in a practice bank is the worst possible defect because the learner concludes they are wrong.</p>
@@ -614,7 +614,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three defects here were found by taking a screenshot: a chart unreadable in dark mode, a line chart implying values that never existed, and a dashboard that was not on screen. None of them would have been caught by an assertion, because none of them were violations of anything anybody had thought to assert.</p>
 <p><strong>Budget for looking.</strong> It is the cheapest test there is and the only one that catches things you have not imagined.</p>
 <h1 id="running-the-build-as-an-ai-loop">Running the Build as an AI Loop</h1>
-<p>76 commits in 36 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
+<p>77 commits in 36 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
 <h2 id="the-division-of-labour">The division of labour</h2>
 <p><strong>The owner decides</strong>: what to build, what it means, what is acceptable, and every irreversible or outward-facing action. <strong>The session does</strong>: the building, the measuring, the testing, and the reporting of what it found.</p>
 <p>The failure mode at each end is worth naming. An owner who reviews every line becomes the bottleneck and the throughput collapses to the speed of reading. A session that decides product questions on its own produces something coherent that is not what anyone wanted.</p>
@@ -658,31 +658,32 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Long uninterrupted sessions with standing authorisation, punctuated by the owner redirecting priorities, beat short supervised ones by a wide margin. The standing authorisation that made it work was specific: merge your own work once the checks are green, do not check in on each item, and stop immediately when told to.</p>
 <p>The thing that makes that safe is not trust. It is that the checks are real, the destructive actions still require asking, and the record of what happened is written down well enough to audit later. Which is what this book is.</p>
 <h1 id="what-the-ledger-says-about-itself">What the Ledger Says About Itself</h1>
-<p>72 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.</p>
+<p>73 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.</p>
 <h2 id="how-defects-were-actually-found">How defects were actually found</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">How</th><th style="text-align:right">Count</th><th style="text-align:right">Share</th></tr></thead><tbody>
-<tr><td style="text-align:left">Found by reading the code or the output</td><td style="text-align:right">30</td><td style="text-align:right">42%</td></tr>
-<tr><td style="text-align:left">Found by measuring something</td><td style="text-align:right">20</td><td style="text-align:right">28%</td></tr>
+<tr><td style="text-align:left">Found by reading the code or the output</td><td style="text-align:right">30</td><td style="text-align:right">41%</td></tr>
+<tr><td style="text-align:left">Found by measuring something</td><td style="text-align:right">20</td><td style="text-align:right">27%</td></tr>
 <tr><td style="text-align:left">A test caught it</td><td style="text-align:right">11</td><td style="text-align:right">15%</td></tr>
 <tr><td style="text-align:left">Found by rendering it and looking</td><td style="text-align:right">5</td><td style="text-align:right">7%</td></tr>
 <tr><td style="text-align:left">Found by a review bot or an adversarial pass</td><td style="text-align:right">5</td><td style="text-align:right">7%</td></tr>
 <tr><td style="text-align:left">A person hit it</td><td style="text-align:right">1</td><td style="text-align:right">1%</td></tr>
+<tr><td style="text-align:left">A build guard caught it</td><td style="text-align:right">1</td><td style="text-align:right">1%</td></tr>
 </tbody></table></div>
-<p><strong>This is the most useful table in the book.</strong> 71 of 72 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.</p>
+<p><strong>This is the most useful table in the book.</strong> 72 of 73 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.</p>
 <p><strong>Read that percentage with the bias it carries.</strong> This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.</p>
 <h2 id="by-severity">By severity</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">Severity</th><th style="text-align:right">Count</th></tr></thead><tbody>
 <tr><td style="text-align:left">Wrong data shown or stored</td><td style="text-align:right">26</td></tr>
 <tr><td style="text-align:left">Silent loss</td><td style="text-align:right">19</td></tr>
-<tr><td style="text-align:left">Degraded</td><td style="text-align:right">14</td></tr>
+<tr><td style="text-align:left">Degraded</td><td style="text-align:right">15</td></tr>
 <tr><td style="text-align:left">Cosmetic</td><td style="text-align:right">10</td></tr>
 <tr><td style="text-align:left">Site down</td><td style="text-align:right">3</td></tr>
 </tbody></table></div>
-<p><strong>Silent loss is the dominant failure mode</strong>, at 19 of 72. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.</p>
+<p><strong>Silent loss is the dominant failure mode</strong>, at 19 of 73. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.</p>
 <h2 id="by-area">By area</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">Area</th><th style="text-align:right">Count</th></tr></thead><tbody>
+<tr><td style="text-align:left">Content generation</td><td style="text-align:right">16</td></tr>
 <tr><td style="text-align:left">Tests and guards</td><td style="text-align:right">16</td></tr>
-<tr><td style="text-align:left">Content generation</td><td style="text-align:right">15</td></tr>
 <tr><td style="text-align:left">Front end</td><td style="text-align:right">8</td></tr>
 <tr><td style="text-align:left">CSS and layout</td><td style="text-align:right">5</td></tr>
 <tr><td style="text-align:left">Payments</td><td style="text-align:right">5</td></tr>
@@ -694,7 +695,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <tr><td style="text-align:left">Interface and data display</td><td style="text-align:right">3</td></tr>
 </tbody></table></div>
 <h2 id="guard-coverage">Guard coverage</h2>
-<p>66 of 72 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.</p>
+<p>67 of 73 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.</p>
 <p>Carried by attention:</p>
 <ul>
 <li><strong>INC-0010</strong> CSS comments do not nest, and one placeholder killed the palette on 1451 pages</li>
@@ -716,14 +717,184 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><code>src/test.js</code>, 7 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069)</li>
 <li><code>src/build_banks.py</code>, 5 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011)</li>
 <li><code>src/review_bot.js</code>, 4 incidents (INC-0022, INC-0026, INC-0051, INC-0061)</li>
+<li><code>src/bank_emit.py</code>, 4 incidents (INC-0062, INC-0066, INC-0068, INC-0073)</li>
 <li><code>src/weekly_audit.js</code>, 3 incidents (INC-0050, INC-0048, INC-0018)</li>
 <li><code>src/smoke_redirect.js</code>, 3 incidents (INC-0023, INC-0024, INC-0047)</li>
-<li><code>src/bank_emit.py</code>, 3 incidents (INC-0062, INC-0066, INC-0068)</li>
 <li><code>src/bank_repair.py</code>, 3 incidents (INC-0070, INC-0071, INC-0072)</li>
 </ul>
 <h1 id="the-defect-ledger">The Defect Ledger</h1>
 <p>Every entry here happened. Each one is a record of something that broke, how it was found, what fixed it, and what now stops it coming back. The last field is the one that matters for a different business: the transferable lesson, stated without reference to this codebase.</p>
 <p>They are grouped by the part of the system, and within a group by date. The <code>guard</code> field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.</p>
+<h2 id="content-generation-16">Content generation (16)</h2>
+<h3 id="inc-0003-item-banks-were-different-on-every-build-because-python-randomises-hash">INC-0003. Item banks were different on every build because Python randomises hash()</h3>
+<p><em>2026-09-16, Wrong data shown or stored, <code>0d6c357</code> PR #33</em></p>
+<ul>
+<li><strong>What was seen.</strong> Two builds of the same commit produced different banks, and the per-section bias figures pinned in the test file drifted run to run.</li>
+<li><strong>Why.</strong> build_banks.py seeded each category with abs(hash(exam + skill)). Python randomises string hashing per process by default.</li>
+<li><strong>How it surfaced.</strong> A pinned test figure would not stay pinned. (A test caught it)</li>
+<li><strong>Fix.</strong> Seed from zlib.crc32, which is stable across processes.</li>
+<li><strong>What stops it now.</strong> three consecutive builds must produce identical output in <code>src/build_banks.py</code></li>
+<li><strong>Cost.</strong> a flaky ratchet that would have been disabled eventually</li>
+<li><strong>Lesson.</strong> Any generator that claims reproducibility must be seeded from something stable across processes. hash() is not, in Python, and the failure shows up as a flaky test rather than as a wrong answer.</li>
+</ul>
+<h3 id="inc-0004-a-shadowed-variable-silently-deleted-3000-items">INC-0004. A shadowed variable silently deleted 3000 items</h3>
+<p><em>2026-09-16, Silent loss, <code>aecccd9</code> PR #37</em></p>
+<ul>
+<li><strong>What was seen.</strong> ACT Maths dropped from 4500 items to 1500 and the build reported success.</li>
+<li><strong>Why.</strong> Adding an ACT English mapping declared a second ACT_MAP that shadowed the existing one. Nothing errors when a map is smaller than it used to be.</li>
+<li><strong>How it surfaced.</strong> Comparing the reported category counts against the previous build. (Found by measuring something)</li>
+<li><strong>Fix.</strong> Merge the maps properly and read the section per skill.</li>
+<li><strong>What stops it now.</strong> the build prints per-category counts and the test file pins them in <code>src/test.js</code></li>
+<li><strong>Cost.</strong> 3000 items, caught before merge</li>
+<li><strong>Lesson.</strong> Deletion by shadowing is invisible. Any collection whose size is a fact about the product needs its size asserted, not just its contents.</li>
+</ul>
+<h3 id="inc-0039-225-of-302-correct-answers-sat-at-position-a">INC-0039. 225 of 302 correct answers sat at position A</h3>
+<p><em>2026-09-16, Wrong data shown or stored, <code>81eecec</code> PR #30</em></p>
+<ul>
+<li><strong>What was seen.</strong> Three quarters of the correct answers in a new bank were the first option.</li>
+<li><strong>Why.</strong> Items were authored with the key written first and the position never randomised.</li>
+<li><strong>How it surfaced.</strong> Counting the key positions, a check nobody had run. (Found by measuring something)</li>
+<li><strong>Fix.</strong> Randomise the key position per draw.</li>
+<li><strong>What stops it now.</strong> the test suite pins the key-position distribution in <code>src/test.js</code></li>
+<li><strong>Cost.</strong> a bank that could be beaten without reading it</li>
+<li><strong>Lesson.</strong> In any set of multiple-choice content, count where the answers are. A positional tell makes the whole set worthless to a test-wise user, and it is invisible item by item.</li>
+</ul>
+<h3 id="inc-0044-the-longest-option-was-the-correct-answer-81-percent-of-the-time">INC-0044. The longest option was the correct answer 81 percent of the time</h3>
+<p><em>2026-09-16, Wrong data shown or stored, <code>425a8bb</code> PR #35</em></p>
+<ul>
+<li><strong>What was seen.</strong> A student who picked the longest option without reading the question scored 81 percent against a chance level of 20.</li>
+<li><strong>Why.</strong> Distractors were shorter than keys because a correct answer is naturally more qualified, and nothing measured the resulting length distribution.</li>
+<li><strong>How it surfaced.</strong> Measuring the accuracy of a strategy that ignores the question entirely. (Found by measuring something)</li>
+<li><strong>Fix.</strong> About ninety items had distractors rewritten to carry comparable development, each added clause chosen to leave the option wrong for the reason it was already wrong. 81 percent to 38, then to chance in a later pass.</li>
+<li><strong>What stops it now.</strong> a ratchet pins the length tell and fails if it rises in <code>src/test.js</code></li>
+<li><strong>Cost.</strong> a section that could be beaten without reading it</li>
+<li><strong>Lesson.</strong> Test your content against the strategies a lazy adversary would use, not only against whether it is correct. Measure the score of a rule that ignores the question.</li>
+</ul>
+<h3 id="inc-0007-the-dedup-key-counted-a-reshuffled-question-as-a-new-one">INC-0007. The dedup key counted a reshuffled question as a new one</h3>
+<p><em>2026-09-17, Wrong data shown or stored, <code>fc4114c</code> PR #39</em></p>
+<ul>
+<li><strong>What was seen.</strong> Bank counts were inflated. The same question with its options rearranged looked distinct.</li>
+<li><strong>Why.</strong> canon() hashed the choices in the order they appeared, while the answer's position is randomised per draw.</li>
+<li><strong>How it surfaced.</strong> Sorting the choices before hashing, which immediately collapsed the counts. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Sort the choices inside canon().</li>
+<li><strong>What stops it now.</strong> canon() sorts, and the build reports distinct counts per category in <code>src/build_banks.py</code></li>
+<li><strong>Cost.</strong> four ACT categories reported far above their real size</li>
+<li><strong>Lesson.</strong> A deduplication key must be canonical under every transformation the item legitimately undergoes. Ask what varies per draw before you hash.</li>
+</ul>
+<h3 id="inc-0008-four-passages-produced-five-hundred-fake-distinct-questions">INC-0008. Four passages produced five hundred fake distinct questions</h3>
+<p><em>2026-09-17, Wrong data shown or stored, <code>61c3ed2</code> PR #40</em></p>
+<ul>
+<li><strong>What was seen.</strong> A reading generator with four passages reported five hundred distinct stated-idea items.</li>
+<li><strong>Why.</strong> The identity of a reading item is the passage plus the question asked, not the choices offered. The same stem with the same key varied only in which distractors came along.</li>
+<li><strong>How it surfaced.</strong> Reading the generated output rather than its count. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> canon() lets a generator declare that its identity is the passage plus the question.</li>
+<li><strong>What stops it now.</strong> per-category distinct counts printed at build time in <code>src/build_banks.py</code></li>
+<li><strong>Cost.</strong> would have shipped a bank five hundred deep and four questions wide</li>
+<li><strong>Lesson.</strong> The same inflation arrives through a different door every time you close one. When you fix a dedup bug, ask what else shares an identity.</li>
+</ul>
+<h3 id="inc-0009-two-conditionals-hashed-identically-and-half-the-inference-items-would-have-vanished">INC-0009. Two conditionals hashed identically and half the inference items would have vanished</h3>
+<p><em>2026-09-17, Silent loss, <code>61c3ed2</code> PR #40</em></p>
+<ul>
+<li><strong>What was seen.</strong> Half of a passage's inference questions disappeared from the corpus.</li>
+<li><strong>Why.</strong> Both conditionals produced the stem 'which of the following can be properly inferred from the passage', so they hashed to the same value and one was dropped as a duplicate.</li>
+<li><strong>How it surfaced.</strong> Measuring true yield per passage. (Found by measuring something)</li>
+<li><strong>Fix.</strong> Each conditional names the case it asks about.</li>
+<li><strong>What stops it now.</strong> yield per passage is measured and recorded, not assumed in <code>src/build_banks.py</code></li>
+<li><strong>Cost.</strong> half the inference items in any corpus</li>
+<li><strong>Lesson.</strong> Dedup can be wrong in both directions. An over-broad key deletes real content as silently as a narrow one inflates it.</li>
+</ul>
+<h3 id="inc-0011-a-length-guard-silently-dropped-sixteen-valid-items">INC-0011. A length guard silently dropped sixteen valid items</h3>
+<p><em>2026-09-17, Silent loss, <code>61c3ed2</code> PR #40</em></p>
+<ul>
+<li><strong>What was seen.</strong> Sixteen items never appeared in the bank.</li>
+<li><strong>Why.</strong> The guard measured characters, and the items were legitimately longer than the limit in characters while being normal in content.</li>
+<li><strong>How it surfaced.</strong> Counting inputs against outputs. (Found by measuring something)</li>
+<li><strong>Fix.</strong> Measure what the guard actually cares about.</li>
+<li><strong>What stops it now.</strong> input and output counts are compared at every filter stage in <code>src/build_banks.py</code></li>
+<li><strong>Cost.</strong> sixteen items</li>
+<li><strong>Lesson.</strong> Every filter needs its rejection count reported. A filter that silently drops is indistinguishable from an input that was never there.</li>
+</ul>
+<h3 id="inc-0062-correcting-a-length-tell-moves-it-one-rank-over-every-time">INC-0062. Correcting a length tell moves it one rank over, every time</h3>
+<p><em>2026-09-22, Degraded, PR #66</em></p>
+<ul>
+<li><strong>What was seen.</strong> On two separate hand written banks, extending one distractor per item took the longest-is-key rate to near zero and left 25 of 35 and then 30 of 42 keys sitting second longest, so a reader picking the second longest option scored 71 percent on both.</li>
+<li><strong>Why.</strong> Mechanical rather than careless. Extending exactly one distractor past the key moves every key from rank 5 to rank 4 by construction. The recorded ratchet measures only the two extremes, so a corrected bank passes it while carrying a stronger tell one position in.</li>
+<li><strong>How it surfaced.</strong> Measuring the full length rank rather than only the extremes, after the extreme came back clean. (Found by measuring something)</li>
+<li><strong>Fix.</strong> Three passes rather than one, extending a second and third distractor on overlapping subsets, and a shared measure() that prints the whole rank distribution and the best single-rank strategy so the artefact cannot hide behind a passing extreme.</li>
+<li><strong>What stops it now.</strong> bank_emit.measure prints the full rank and the best single-rank score in <code>src/bank_emit.py</code></li>
+<li><strong>Cost.</strong> two banks that would have passed the ratchet carrying a 71 percent tell</li>
+<li><strong>Lesson.</strong> A guard on the extreme of a distribution can be satisfied by moving the mass next to the extreme. When you correct for a measured bias, measure the whole distribution afterwards, not the statistic you were correcting.</li>
+</ul>
+<h3 id="inc-0066-half-the-length-tell-correction-did-nothing-and-the-build-said-it-had-worked">INC-0066. Half the length tell correction did nothing and the build said it had worked</h3>
+<p><em>2026-09-22, Silent loss</em></p>
+<ul>
+<li><strong>What was seen.</strong> The new GMAT reading bank corrected its length tell with a table that carries a named number of distractors past the key on each item, so the keys land at spread ranks rather than all at one. The table named 65 items. On 31 of them the authored clause was shorter than the gap it had to close, so the distractor stayed below the key and the item did not move. The run printed an improved distribution and no error, and the 31 were only found by measuring intent against outcome by hand.</li>
+<li><strong>Why.</strong> extend() appends whatever clause the author supplies and checks only that the needle matches exactly one non key choice. Whether the choice ends up longer than the key, which is the entire point of the call, was never checked. The author sizes each clause by eye against a gap reported in a separate run, and an estimate made that way is wrong about half the time.</li>
+<li><strong>How it surfaced.</strong> Comparing the intended lift count for each listed item against the key's actual rank after the run, in a scratch script written because the printed distribution was flatter than before but not as flat as the table should have made it. (Found by measuring something)</li>
+<li><strong>Fix.</strong> check_lift() in bank_emit.py takes the same intent the tables express, one entry per item saying how many distractors were meant to pass the key, and exits naming every item whose key did not land at the matching rank and by how much the clause fell short. The generator calls it after the last extend pass, so a clause that does nothing fails the build instead of being averaged into a number that looks better.</li>
+<li><strong>What stops it now.</strong> check_lift asserts each lifted item's key rank matches the number of distractors the table lifted in <code>src/bank_emit.py</code></li>
+<li><strong>Lesson.</strong> A correction table is a set of claims about outcomes, and an entry that quietly fails still counts as applied. Aggregate metrics hide this well: a table where half the entries work still moves the number in the right direction, which reads as success. State the per item intent in a form the machine can check, and every entry that did nothing says so by name.</li>
+</ul>
+<h3 id="inc-0068-shuffling-the-answers-twice-put-37-percent-of-the-keys-at-a">INC-0068. Shuffling the answers twice put 37 percent of the keys at A</h3>
+<p><em>2026-09-22, Silent loss</em></p>
+<ul>
+<li><strong>What was seen.</strong> The new LSAT reading generator printed a key position distribution of 33, 15, 14, 17, 11 across 90 items where an even split is 18 each. Position A held 37 percent of the keys, against a chance rate of 20, which is the exact defect permute() exists to prevent (INC-0039) and which the engine test's answer position check would have failed.</li>
+<li><strong>Why.</strong> The generator called E.permute(I) twice. An intermediate run had ended with permute and measure so the skill counts could be read, and the final block added its own permute before the extend pass, and the earlier pair was never removed. permute seeds a shuffle with crc32 of the item id, so the second call applies the same permutation again, composing it with itself. A permutation composed with itself is not uniform: it favours its own fixed points and short cycles, and with five choices that piles keys onto the position they started at, which is A because items are authored key first.</li>
+<li><strong>How it surfaced.</strong> Reading the generator's own measure output after the length tell was cleared. The length rank line was flat and the key position line on the same screen was not, and it had been on the screen for several runs before it was read. (Found by measuring something)</li>
+<li><strong>Fix.</strong> permute() now stamps each item it has shuffled and exits if it is handed one twice, naming the item. The duplicate call in mk_bank_lsat_rc3.py is removed. The measured distribution after the fix is 20, 19, 19, 16, 16 across 90 items, and the length rank is 18 in every position.</li>
+<li><strong>What stops it now.</strong> permute refuses to shuffle an item it has already shuffled in <code>src/bank_emit.py</code></li>
+<li><strong>Lesson.</strong> A seeded shuffle is deterministic, which makes calling it twice look harmless: the same input gives the same output. What repeats is the permutation, not the randomisation, and a permutation applied to its own result is biased toward leaving things where they were. Any function whose value comes from being applied exactly once should refuse to be applied twice rather than relying on the caller to remember. The second lesson is about reading: the generator printed the defect on every run, above the line being watched.</li>
+</ul>
+<h3 id="inc-0069-a-bank-a-student-can-play-at-88-percent-inside-a-section-the-check-passed">INC-0069. A bank a student can play at 88 percent, inside a section the check passed</h3>
+<p><em>2026-09-22, Degraded</em></p>
+<ul>
+<li><strong>What was seen.</strong> bank_sat_rw.js ships 32 items on which the longest answer choice is the key 88 percent of the time, and a student who always picks the longest option scores 84 percent on that file against a chance rate of 25. Eighteen other hand written bank files across all five exams carry the same tell at lower strength, several above 50 percent. The engine test reported the SAT Reading and Writing section at 35 percent and passed it.</li>
+<li><strong>Why.</strong> The length bias check groups items by section. A section mixes hand written items with generated ones, and the generated items are flat by construction because the schemas assemble choices mechanically. For SAT Reading and Writing the generated bank supplies 160 of 348 items at 7 percent, which pulls a hand written 88 percent down to a section figure of 35 and under the recorded tolerance of 36. The aggregate was not wrong; it was answering a question nobody needed the answer to. A student does not meet a section, they meet items, and the items arrive from one file at a time.</li>
+<li><strong>How it surfaced.</strong> Measuring the same statistic per source file rather than per section, which was written to find out where the new LSAT and GMAT banks sat relative to the old ones and reported the old ones instead. (Found by measuring something)</li>
+<li><strong>Fix.</strong> The check now runs per hand written source file as well as per section, with its own recorded baseline per file, so a file can only improve. Numeric answer banks are excluded because the separate numeric rank check covers them and character length is the wrong measure for a number. src/bank_repair.py applies an authored clause table to a hand written bank in place, by textual substitution inside the named choice, so the remaining files can be corrected without regenerating a file that was never generated.</li>
+<li><strong>What stops it now.</strong> length bias is measured per hand written bank file against a recorded baseline, not only per section in <code>src/test.js</code></li>
+<li><strong>Lesson.</strong> An aggregate over a mixed population reports the population, and if part of that population is flat by construction it will hide the part that is not. The rule that follows is about what the unit of the measurement should be: measure at the grain the defect can exist at, which here is the file, because a file is written by one person in one sitting with one set of habits. The section was the grain the data was convenient at.</li>
+</ul>
+<h3 id="inc-0070-the-second-tool-that-appends-a-clause-did-not-carry-the-first-one-s-rule-about-the-full-stop">INC-0070. The second tool that appends a clause did not carry the first one's rule about the full stop</h3>
+<p><em>2026-09-22, Cosmetic</em></p>
+<ul>
+<li><strong>What was seen.</strong> Two repaired SAT items read 'the number of purchases. made' and 'sleep debt over the course of a week. that they do not fully repay at the weekend'. The clause had been appended after the sentence's own full stop.</li>
+<li><strong>Why.</strong> bank_emit.extend has handled this since it was written: it strips a trailing period, appends the clause and puts the period back. bank_repair.repair was written months later for hand written banks that a generator never produced, and it inserts at the closing quote of the string literal, which is after the period. The rule lived in one implementation rather than in a place both could use, and the second implementation was written from the problem rather than from the first solution.</li>
+<li><strong>How it surfaced.</strong> Reading the per item report after the repair, where the appended text appears at the end of each changed choice. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> repair() now inserts before a trailing period, matching extend(). Both behaviours are stated in one comment naming the other function, so the next tool that appends to a choice is written from a rule rather than from scratch.</li>
+<li><strong>What stops it now.</strong> bank_repair.repair inserts before a trailing full stop, as bank_emit.extend does in <code>src/bank_repair.py</code></li>
+<li><strong>Lesson.</strong> Writing a second tool for the same job in a different context reproduces every detail the first one learned the hard way, unless the detail is written down somewhere the second author will look. This is INC-0067 seen from the other side: there the callers were not migrated to the helper, here the helper's behaviour was not carried into the second implementation. Both are the cost of a rule living in code rather than in a statement of the rule.</li>
+</ul>
+<h3 id="inc-0071-clauses-written-from-a-truncated-report-were-appended-to-the-end-of-the-wrong-word">INC-0071. Clauses written from a truncated report were appended to the end of the wrong word</h3>
+<p><em>2026-09-22, Wrong data shown or stored</em></p>
+<ul>
+<li><strong>What was seen.</strong> Repaired choices read 'in chronological orderorder', 'return to them afterwardsards', 'how it would spend itintends to spend the money' and 'the bags the proposal would affectl would charge for'. Eleven choices across four bank files were garbled in a way that leaves the file valid JavaScript, leaves the item longer, and moves the measured distribution in the intended direction.</li>
+<li><strong>Why.</strong> The report that shows which distractors need lengthening truncates each choice to fit a terminal line. Several clauses were written as continuations of the truncated text, on the assumption that the tool inserts at the point the needle ends. It does not: repair() appends at the end of the string literal, which is correct for a clause and wrong for a continuation. Nothing distinguished the two, because a continuation is just a clause whose first character is a letter.</li>
+<li><strong>How it surfaced.</strong> Reading the source after a needle failed to match, which showed the previous pass had written 'would spend itintends to spend the money' into the same choice. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> repair() refuses a clause that does not begin with a space or punctuation, which is exactly the shape of a continuation. The four affected files were reverted and the repairs redone with clauses written to append rather than to continue.</li>
+<li><strong>What stops it now.</strong> bank_repair.repair refuses a clause beginning with a letter or digit, which would run into the preceding word in <code>src/bank_repair.py</code></li>
+<li><strong>Lesson.</strong> A report that truncates its output invites the reader to write text that continues it, and a tool that appends will put that text somewhere else. Either the report should not truncate the field the caller has to write against, or the tool should refuse input shaped like a continuation. The cheap half is the refusal, because it is one condition and it cannot be forgotten, while remembering not to write continuations is a habit that has to hold every time.</li>
+</ul>
+<h3 id="inc-0072-a-distractor-was-replaced-and-the-explanation-went-on-naming-the-old-one">INC-0072. A distractor was replaced and the explanation went on naming the old one</h3>
+<p><em>2026-09-22, Wrong data shown or stored</em></p>
+<ul>
+<li><strong>What was seen.</strong> SR001 offers unremarkable, unaccounted for, unrelated and undisturbed, and its wrong answer note begins 'Unnoticed reverses the point'. Unnoticed is not on the paper. A student reading the explanation after answering is told why an option they were never shown is wrong.</li>
+<li><strong>Why.</strong> The length tell on vocabulary in context items cannot be fixed by appending a clause to a single word, so bank_repair.swap replaces the distractor with a longer one of the same register. It replaces the text in the choices array and nowhere else. An item is not just its choices: expl and wrong name particular options, and on this bank they name them by word.</li>
+<li><strong>How it surfaced.</strong> Reading the item while looking at its shape for a different purpose, three commits after the swap was made. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> swap() refuses when the text being replaced appears anywhere else inside the same item, which is exactly where an explanation that names it would be. The one affected note is rewritten to name a distractor that exists.</li>
+<li><strong>What stops it now.</strong> bank_repair.swap refuses to replace a choice whose text appears elsewhere in the same item in <code>src/bank_repair.py</code></li>
+<li><strong>Lesson.</strong> A record has parts that refer to one another, and a tool that edits one part by text is editing a graph while looking at a string. The cheap guard is not to check every reference but to refuse the edit when the old text occurs anywhere else in the record, because that is the only place a reference to it can be. Refusing on a false positive costs one rewritten table entry; not refusing ships an explanation about an option nobody saw.</li>
+</ul>
+<h3 id="inc-0073-check-lift-was-told-a-one-clause-entry-lifted-two-distractors">INC-0073. check_lift was told a one clause entry lifted two distractors</h3>
+<p><em>2026-09-22, Degraded</em></p>
+<ul>
+<li><strong>What was seen.</strong> The GRE reading generator failed with three items named: GR104, GR128 and GR133 were said to have lifted 2 distractors and to belong at rank 3, and each sat at rank 4. Each of the three had exactly one clause in the table.</li>
+<li><strong>Why.</strong> bank_emit.extend accepts a table entry as either one (needle, clause) pair or a list of them, and it is the only place that knows the difference. Every caller of check_lift then has to re-derive the count, and the obvious expression, len(v), reads a bare two element tuple as two lifts. The rule for reading the table lives in extend; the callers each hold a private copy of it, and one copy was wrong.</li>
+<li><strong>How it surfaced.</strong> check_lift failed the generator run and named all three items with their shortfalls. (A build guard caught it)</li>
+<li><strong>Fix.</strong> bank_emit.lift_counts(table) derives the intent from the table using the same tuple or list test extend uses, and every generator that had spelled it out by hand now calls it.</li>
+<li><strong>What stops it now.</strong> bank_emit.lift_counts is the single reader of the table shape, so check_lift and extend cannot disagree about what an entry says in <code>src/bank_emit.py</code></li>
+<li><strong>Lesson.</strong> A guard that takes the intent as an argument is only as good as the argument, and an argument derived by hand from the same data the guard is checking is a second implementation of the thing being checked. It fails in the direction that is hardest to see: too high an intent demands a rank the clauses cannot reach, and the author satisfies it by writing more clauses than the plan called for, which skews the distribution the other way while every check passes. Derive the intent from the data with the code that already reads it.</li>
+</ul>
 <h2 id="tests-and-guards-16">Tests and guards (16)</h2>
 <h3 id="inc-0016-the-performance-test-waited-for-the-load-event-which-waits-for-the-thing-being-optimised">INC-0016. The performance test waited for the load event, which waits for the thing being optimised</h3>
 <p><em>2026-09-19, Silent loss, <code>4b25169</code> PR #45</em></p>
@@ -899,166 +1070,6 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Fix.</strong> All ten browser suites and playbook_pdf.js now call chromiumPath() from src/chromium_path.js. A check in src/build.py fails the build if any file that launches Playwright does not, and on its first run it named six suites beyond the three the failure had surfaced, plus four more that a grep written from its output then found.</li>
 <li><strong>What stops it now.</strong> the build refuses a Playwright launch that reads CHROMIUM_PATH instead of calling chromiumPath() in <code>src/build.py</code></li>
 <li><strong>Lesson.</strong> Extracting a shared helper does not migrate the callers. The extraction fixes the file it was extracted from and leaves every sibling on the old path, which is INC-0059 and INC-0064 in a different costume: a correction applied to the instances in hand rather than to the pattern. Three suites had failed visibly and ten were wrong; the seven silent ones were found by the guard, not by reading. When a helper exists because a direct call was wrong, make the direct call fail the build, and let it enumerate the callers rather than enumerating them by hand.</li>
-</ul>
-<h2 id="content-generation-15">Content generation (15)</h2>
-<h3 id="inc-0003-item-banks-were-different-on-every-build-because-python-randomises-hash">INC-0003. Item banks were different on every build because Python randomises hash()</h3>
-<p><em>2026-09-16, Wrong data shown or stored, <code>0d6c357</code> PR #33</em></p>
-<ul>
-<li><strong>What was seen.</strong> Two builds of the same commit produced different banks, and the per-section bias figures pinned in the test file drifted run to run.</li>
-<li><strong>Why.</strong> build_banks.py seeded each category with abs(hash(exam + skill)). Python randomises string hashing per process by default.</li>
-<li><strong>How it surfaced.</strong> A pinned test figure would not stay pinned. (A test caught it)</li>
-<li><strong>Fix.</strong> Seed from zlib.crc32, which is stable across processes.</li>
-<li><strong>What stops it now.</strong> three consecutive builds must produce identical output in <code>src/build_banks.py</code></li>
-<li><strong>Cost.</strong> a flaky ratchet that would have been disabled eventually</li>
-<li><strong>Lesson.</strong> Any generator that claims reproducibility must be seeded from something stable across processes. hash() is not, in Python, and the failure shows up as a flaky test rather than as a wrong answer.</li>
-</ul>
-<h3 id="inc-0004-a-shadowed-variable-silently-deleted-3000-items">INC-0004. A shadowed variable silently deleted 3000 items</h3>
-<p><em>2026-09-16, Silent loss, <code>aecccd9</code> PR #37</em></p>
-<ul>
-<li><strong>What was seen.</strong> ACT Maths dropped from 4500 items to 1500 and the build reported success.</li>
-<li><strong>Why.</strong> Adding an ACT English mapping declared a second ACT_MAP that shadowed the existing one. Nothing errors when a map is smaller than it used to be.</li>
-<li><strong>How it surfaced.</strong> Comparing the reported category counts against the previous build. (Found by measuring something)</li>
-<li><strong>Fix.</strong> Merge the maps properly and read the section per skill.</li>
-<li><strong>What stops it now.</strong> the build prints per-category counts and the test file pins them in <code>src/test.js</code></li>
-<li><strong>Cost.</strong> 3000 items, caught before merge</li>
-<li><strong>Lesson.</strong> Deletion by shadowing is invisible. Any collection whose size is a fact about the product needs its size asserted, not just its contents.</li>
-</ul>
-<h3 id="inc-0039-225-of-302-correct-answers-sat-at-position-a">INC-0039. 225 of 302 correct answers sat at position A</h3>
-<p><em>2026-09-16, Wrong data shown or stored, <code>81eecec</code> PR #30</em></p>
-<ul>
-<li><strong>What was seen.</strong> Three quarters of the correct answers in a new bank were the first option.</li>
-<li><strong>Why.</strong> Items were authored with the key written first and the position never randomised.</li>
-<li><strong>How it surfaced.</strong> Counting the key positions, a check nobody had run. (Found by measuring something)</li>
-<li><strong>Fix.</strong> Randomise the key position per draw.</li>
-<li><strong>What stops it now.</strong> the test suite pins the key-position distribution in <code>src/test.js</code></li>
-<li><strong>Cost.</strong> a bank that could be beaten without reading it</li>
-<li><strong>Lesson.</strong> In any set of multiple-choice content, count where the answers are. A positional tell makes the whole set worthless to a test-wise user, and it is invisible item by item.</li>
-</ul>
-<h3 id="inc-0044-the-longest-option-was-the-correct-answer-81-percent-of-the-time">INC-0044. The longest option was the correct answer 81 percent of the time</h3>
-<p><em>2026-09-16, Wrong data shown or stored, <code>425a8bb</code> PR #35</em></p>
-<ul>
-<li><strong>What was seen.</strong> A student who picked the longest option without reading the question scored 81 percent against a chance level of 20.</li>
-<li><strong>Why.</strong> Distractors were shorter than keys because a correct answer is naturally more qualified, and nothing measured the resulting length distribution.</li>
-<li><strong>How it surfaced.</strong> Measuring the accuracy of a strategy that ignores the question entirely. (Found by measuring something)</li>
-<li><strong>Fix.</strong> About ninety items had distractors rewritten to carry comparable development, each added clause chosen to leave the option wrong for the reason it was already wrong. 81 percent to 38, then to chance in a later pass.</li>
-<li><strong>What stops it now.</strong> a ratchet pins the length tell and fails if it rises in <code>src/test.js</code></li>
-<li><strong>Cost.</strong> a section that could be beaten without reading it</li>
-<li><strong>Lesson.</strong> Test your content against the strategies a lazy adversary would use, not only against whether it is correct. Measure the score of a rule that ignores the question.</li>
-</ul>
-<h3 id="inc-0007-the-dedup-key-counted-a-reshuffled-question-as-a-new-one">INC-0007. The dedup key counted a reshuffled question as a new one</h3>
-<p><em>2026-09-17, Wrong data shown or stored, <code>fc4114c</code> PR #39</em></p>
-<ul>
-<li><strong>What was seen.</strong> Bank counts were inflated. The same question with its options rearranged looked distinct.</li>
-<li><strong>Why.</strong> canon() hashed the choices in the order they appeared, while the answer's position is randomised per draw.</li>
-<li><strong>How it surfaced.</strong> Sorting the choices before hashing, which immediately collapsed the counts. (Found by reading the code or the output)</li>
-<li><strong>Fix.</strong> Sort the choices inside canon().</li>
-<li><strong>What stops it now.</strong> canon() sorts, and the build reports distinct counts per category in <code>src/build_banks.py</code></li>
-<li><strong>Cost.</strong> four ACT categories reported far above their real size</li>
-<li><strong>Lesson.</strong> A deduplication key must be canonical under every transformation the item legitimately undergoes. Ask what varies per draw before you hash.</li>
-</ul>
-<h3 id="inc-0008-four-passages-produced-five-hundred-fake-distinct-questions">INC-0008. Four passages produced five hundred fake distinct questions</h3>
-<p><em>2026-09-17, Wrong data shown or stored, <code>61c3ed2</code> PR #40</em></p>
-<ul>
-<li><strong>What was seen.</strong> A reading generator with four passages reported five hundred distinct stated-idea items.</li>
-<li><strong>Why.</strong> The identity of a reading item is the passage plus the question asked, not the choices offered. The same stem with the same key varied only in which distractors came along.</li>
-<li><strong>How it surfaced.</strong> Reading the generated output rather than its count. (Found by reading the code or the output)</li>
-<li><strong>Fix.</strong> canon() lets a generator declare that its identity is the passage plus the question.</li>
-<li><strong>What stops it now.</strong> per-category distinct counts printed at build time in <code>src/build_banks.py</code></li>
-<li><strong>Cost.</strong> would have shipped a bank five hundred deep and four questions wide</li>
-<li><strong>Lesson.</strong> The same inflation arrives through a different door every time you close one. When you fix a dedup bug, ask what else shares an identity.</li>
-</ul>
-<h3 id="inc-0009-two-conditionals-hashed-identically-and-half-the-inference-items-would-have-vanished">INC-0009. Two conditionals hashed identically and half the inference items would have vanished</h3>
-<p><em>2026-09-17, Silent loss, <code>61c3ed2</code> PR #40</em></p>
-<ul>
-<li><strong>What was seen.</strong> Half of a passage's inference questions disappeared from the corpus.</li>
-<li><strong>Why.</strong> Both conditionals produced the stem 'which of the following can be properly inferred from the passage', so they hashed to the same value and one was dropped as a duplicate.</li>
-<li><strong>How it surfaced.</strong> Measuring true yield per passage. (Found by measuring something)</li>
-<li><strong>Fix.</strong> Each conditional names the case it asks about.</li>
-<li><strong>What stops it now.</strong> yield per passage is measured and recorded, not assumed in <code>src/build_banks.py</code></li>
-<li><strong>Cost.</strong> half the inference items in any corpus</li>
-<li><strong>Lesson.</strong> Dedup can be wrong in both directions. An over-broad key deletes real content as silently as a narrow one inflates it.</li>
-</ul>
-<h3 id="inc-0011-a-length-guard-silently-dropped-sixteen-valid-items">INC-0011. A length guard silently dropped sixteen valid items</h3>
-<p><em>2026-09-17, Silent loss, <code>61c3ed2</code> PR #40</em></p>
-<ul>
-<li><strong>What was seen.</strong> Sixteen items never appeared in the bank.</li>
-<li><strong>Why.</strong> The guard measured characters, and the items were legitimately longer than the limit in characters while being normal in content.</li>
-<li><strong>How it surfaced.</strong> Counting inputs against outputs. (Found by measuring something)</li>
-<li><strong>Fix.</strong> Measure what the guard actually cares about.</li>
-<li><strong>What stops it now.</strong> input and output counts are compared at every filter stage in <code>src/build_banks.py</code></li>
-<li><strong>Cost.</strong> sixteen items</li>
-<li><strong>Lesson.</strong> Every filter needs its rejection count reported. A filter that silently drops is indistinguishable from an input that was never there.</li>
-</ul>
-<h3 id="inc-0062-correcting-a-length-tell-moves-it-one-rank-over-every-time">INC-0062. Correcting a length tell moves it one rank over, every time</h3>
-<p><em>2026-09-22, Degraded, PR #66</em></p>
-<ul>
-<li><strong>What was seen.</strong> On two separate hand written banks, extending one distractor per item took the longest-is-key rate to near zero and left 25 of 35 and then 30 of 42 keys sitting second longest, so a reader picking the second longest option scored 71 percent on both.</li>
-<li><strong>Why.</strong> Mechanical rather than careless. Extending exactly one distractor past the key moves every key from rank 5 to rank 4 by construction. The recorded ratchet measures only the two extremes, so a corrected bank passes it while carrying a stronger tell one position in.</li>
-<li><strong>How it surfaced.</strong> Measuring the full length rank rather than only the extremes, after the extreme came back clean. (Found by measuring something)</li>
-<li><strong>Fix.</strong> Three passes rather than one, extending a second and third distractor on overlapping subsets, and a shared measure() that prints the whole rank distribution and the best single-rank strategy so the artefact cannot hide behind a passing extreme.</li>
-<li><strong>What stops it now.</strong> bank_emit.measure prints the full rank and the best single-rank score in <code>src/bank_emit.py</code></li>
-<li><strong>Cost.</strong> two banks that would have passed the ratchet carrying a 71 percent tell</li>
-<li><strong>Lesson.</strong> A guard on the extreme of a distribution can be satisfied by moving the mass next to the extreme. When you correct for a measured bias, measure the whole distribution afterwards, not the statistic you were correcting.</li>
-</ul>
-<h3 id="inc-0066-half-the-length-tell-correction-did-nothing-and-the-build-said-it-had-worked">INC-0066. Half the length tell correction did nothing and the build said it had worked</h3>
-<p><em>2026-09-22, Silent loss</em></p>
-<ul>
-<li><strong>What was seen.</strong> The new GMAT reading bank corrected its length tell with a table that carries a named number of distractors past the key on each item, so the keys land at spread ranks rather than all at one. The table named 65 items. On 31 of them the authored clause was shorter than the gap it had to close, so the distractor stayed below the key and the item did not move. The run printed an improved distribution and no error, and the 31 were only found by measuring intent against outcome by hand.</li>
-<li><strong>Why.</strong> extend() appends whatever clause the author supplies and checks only that the needle matches exactly one non key choice. Whether the choice ends up longer than the key, which is the entire point of the call, was never checked. The author sizes each clause by eye against a gap reported in a separate run, and an estimate made that way is wrong about half the time.</li>
-<li><strong>How it surfaced.</strong> Comparing the intended lift count for each listed item against the key's actual rank after the run, in a scratch script written because the printed distribution was flatter than before but not as flat as the table should have made it. (Found by measuring something)</li>
-<li><strong>Fix.</strong> check_lift() in bank_emit.py takes the same intent the tables express, one entry per item saying how many distractors were meant to pass the key, and exits naming every item whose key did not land at the matching rank and by how much the clause fell short. The generator calls it after the last extend pass, so a clause that does nothing fails the build instead of being averaged into a number that looks better.</li>
-<li><strong>What stops it now.</strong> check_lift asserts each lifted item's key rank matches the number of distractors the table lifted in <code>src/bank_emit.py</code></li>
-<li><strong>Lesson.</strong> A correction table is a set of claims about outcomes, and an entry that quietly fails still counts as applied. Aggregate metrics hide this well: a table where half the entries work still moves the number in the right direction, which reads as success. State the per item intent in a form the machine can check, and every entry that did nothing says so by name.</li>
-</ul>
-<h3 id="inc-0068-shuffling-the-answers-twice-put-37-percent-of-the-keys-at-a">INC-0068. Shuffling the answers twice put 37 percent of the keys at A</h3>
-<p><em>2026-09-22, Silent loss</em></p>
-<ul>
-<li><strong>What was seen.</strong> The new LSAT reading generator printed a key position distribution of 33, 15, 14, 17, 11 across 90 items where an even split is 18 each. Position A held 37 percent of the keys, against a chance rate of 20, which is the exact defect permute() exists to prevent (INC-0039) and which the engine test's answer position check would have failed.</li>
-<li><strong>Why.</strong> The generator called E.permute(I) twice. An intermediate run had ended with permute and measure so the skill counts could be read, and the final block added its own permute before the extend pass, and the earlier pair was never removed. permute seeds a shuffle with crc32 of the item id, so the second call applies the same permutation again, composing it with itself. A permutation composed with itself is not uniform: it favours its own fixed points and short cycles, and with five choices that piles keys onto the position they started at, which is A because items are authored key first.</li>
-<li><strong>How it surfaced.</strong> Reading the generator's own measure output after the length tell was cleared. The length rank line was flat and the key position line on the same screen was not, and it had been on the screen for several runs before it was read. (Found by measuring something)</li>
-<li><strong>Fix.</strong> permute() now stamps each item it has shuffled and exits if it is handed one twice, naming the item. The duplicate call in mk_bank_lsat_rc3.py is removed. The measured distribution after the fix is 20, 19, 19, 16, 16 across 90 items, and the length rank is 18 in every position.</li>
-<li><strong>What stops it now.</strong> permute refuses to shuffle an item it has already shuffled in <code>src/bank_emit.py</code></li>
-<li><strong>Lesson.</strong> A seeded shuffle is deterministic, which makes calling it twice look harmless: the same input gives the same output. What repeats is the permutation, not the randomisation, and a permutation applied to its own result is biased toward leaving things where they were. Any function whose value comes from being applied exactly once should refuse to be applied twice rather than relying on the caller to remember. The second lesson is about reading: the generator printed the defect on every run, above the line being watched.</li>
-</ul>
-<h3 id="inc-0069-a-bank-a-student-can-play-at-88-percent-inside-a-section-the-check-passed">INC-0069. A bank a student can play at 88 percent, inside a section the check passed</h3>
-<p><em>2026-09-22, Degraded</em></p>
-<ul>
-<li><strong>What was seen.</strong> bank_sat_rw.js ships 32 items on which the longest answer choice is the key 88 percent of the time, and a student who always picks the longest option scores 84 percent on that file against a chance rate of 25. Eighteen other hand written bank files across all five exams carry the same tell at lower strength, several above 50 percent. The engine test reported the SAT Reading and Writing section at 35 percent and passed it.</li>
-<li><strong>Why.</strong> The length bias check groups items by section. A section mixes hand written items with generated ones, and the generated items are flat by construction because the schemas assemble choices mechanically. For SAT Reading and Writing the generated bank supplies 160 of 348 items at 7 percent, which pulls a hand written 88 percent down to a section figure of 35 and under the recorded tolerance of 36. The aggregate was not wrong; it was answering a question nobody needed the answer to. A student does not meet a section, they meet items, and the items arrive from one file at a time.</li>
-<li><strong>How it surfaced.</strong> Measuring the same statistic per source file rather than per section, which was written to find out where the new LSAT and GMAT banks sat relative to the old ones and reported the old ones instead. (Found by measuring something)</li>
-<li><strong>Fix.</strong> The check now runs per hand written source file as well as per section, with its own recorded baseline per file, so a file can only improve. Numeric answer banks are excluded because the separate numeric rank check covers them and character length is the wrong measure for a number. src/bank_repair.py applies an authored clause table to a hand written bank in place, by textual substitution inside the named choice, so the remaining files can be corrected without regenerating a file that was never generated.</li>
-<li><strong>What stops it now.</strong> length bias is measured per hand written bank file against a recorded baseline, not only per section in <code>src/test.js</code></li>
-<li><strong>Lesson.</strong> An aggregate over a mixed population reports the population, and if part of that population is flat by construction it will hide the part that is not. The rule that follows is about what the unit of the measurement should be: measure at the grain the defect can exist at, which here is the file, because a file is written by one person in one sitting with one set of habits. The section was the grain the data was convenient at.</li>
-</ul>
-<h3 id="inc-0070-the-second-tool-that-appends-a-clause-did-not-carry-the-first-one-s-rule-about-the-full-stop">INC-0070. The second tool that appends a clause did not carry the first one's rule about the full stop</h3>
-<p><em>2026-09-22, Cosmetic</em></p>
-<ul>
-<li><strong>What was seen.</strong> Two repaired SAT items read 'the number of purchases. made' and 'sleep debt over the course of a week. that they do not fully repay at the weekend'. The clause had been appended after the sentence's own full stop.</li>
-<li><strong>Why.</strong> bank_emit.extend has handled this since it was written: it strips a trailing period, appends the clause and puts the period back. bank_repair.repair was written months later for hand written banks that a generator never produced, and it inserts at the closing quote of the string literal, which is after the period. The rule lived in one implementation rather than in a place both could use, and the second implementation was written from the problem rather than from the first solution.</li>
-<li><strong>How it surfaced.</strong> Reading the per item report after the repair, where the appended text appears at the end of each changed choice. (Found by reading the code or the output)</li>
-<li><strong>Fix.</strong> repair() now inserts before a trailing period, matching extend(). Both behaviours are stated in one comment naming the other function, so the next tool that appends to a choice is written from a rule rather than from scratch.</li>
-<li><strong>What stops it now.</strong> bank_repair.repair inserts before a trailing full stop, as bank_emit.extend does in <code>src/bank_repair.py</code></li>
-<li><strong>Lesson.</strong> Writing a second tool for the same job in a different context reproduces every detail the first one learned the hard way, unless the detail is written down somewhere the second author will look. This is INC-0067 seen from the other side: there the callers were not migrated to the helper, here the helper's behaviour was not carried into the second implementation. Both are the cost of a rule living in code rather than in a statement of the rule.</li>
-</ul>
-<h3 id="inc-0071-clauses-written-from-a-truncated-report-were-appended-to-the-end-of-the-wrong-word">INC-0071. Clauses written from a truncated report were appended to the end of the wrong word</h3>
-<p><em>2026-09-22, Wrong data shown or stored</em></p>
-<ul>
-<li><strong>What was seen.</strong> Repaired choices read 'in chronological orderorder', 'return to them afterwardsards', 'how it would spend itintends to spend the money' and 'the bags the proposal would affectl would charge for'. Eleven choices across four bank files were garbled in a way that leaves the file valid JavaScript, leaves the item longer, and moves the measured distribution in the intended direction.</li>
-<li><strong>Why.</strong> The report that shows which distractors need lengthening truncates each choice to fit a terminal line. Several clauses were written as continuations of the truncated text, on the assumption that the tool inserts at the point the needle ends. It does not: repair() appends at the end of the string literal, which is correct for a clause and wrong for a continuation. Nothing distinguished the two, because a continuation is just a clause whose first character is a letter.</li>
-<li><strong>How it surfaced.</strong> Reading the source after a needle failed to match, which showed the previous pass had written 'would spend itintends to spend the money' into the same choice. (Found by reading the code or the output)</li>
-<li><strong>Fix.</strong> repair() refuses a clause that does not begin with a space or punctuation, which is exactly the shape of a continuation. The four affected files were reverted and the repairs redone with clauses written to append rather than to continue.</li>
-<li><strong>What stops it now.</strong> bank_repair.repair refuses a clause beginning with a letter or digit, which would run into the preceding word in <code>src/bank_repair.py</code></li>
-<li><strong>Lesson.</strong> A report that truncates its output invites the reader to write text that continues it, and a tool that appends will put that text somewhere else. Either the report should not truncate the field the caller has to write against, or the tool should refuse input shaped like a continuation. The cheap half is the refusal, because it is one condition and it cannot be forgotten, while remembering not to write continuations is a habit that has to hold every time.</li>
-</ul>
-<h3 id="inc-0072-a-distractor-was-replaced-and-the-explanation-went-on-naming-the-old-one">INC-0072. A distractor was replaced and the explanation went on naming the old one</h3>
-<p><em>2026-09-22, Wrong data shown or stored</em></p>
-<ul>
-<li><strong>What was seen.</strong> SR001 offers unremarkable, unaccounted for, unrelated and undisturbed, and its wrong answer note begins 'Unnoticed reverses the point'. Unnoticed is not on the paper. A student reading the explanation after answering is told why an option they were never shown is wrong.</li>
-<li><strong>Why.</strong> The length tell on vocabulary in context items cannot be fixed by appending a clause to a single word, so bank_repair.swap replaces the distractor with a longer one of the same register. It replaces the text in the choices array and nowhere else. An item is not just its choices: expl and wrong name particular options, and on this bank they name them by word.</li>
-<li><strong>How it surfaced.</strong> Reading the item while looking at its shape for a different purpose, three commits after the swap was made. (Found by reading the code or the output)</li>
-<li><strong>Fix.</strong> swap() refuses when the text being replaced appears anywhere else inside the same item, which is exactly where an explanation that names it would be. The one affected note is rewritten to name a distractor that exists.</li>
-<li><strong>What stops it now.</strong> bank_repair.swap refuses to replace a choice whose text appears elsewhere in the same item in <code>src/bank_repair.py</code></li>
-<li><strong>Lesson.</strong> A record has parts that refer to one another, and a tool that edits one part by text is editing a graph while looking at a string. The cheap guard is not to check every reference but to refuse the edit when the old text occurs anywhere else in the record, because that is the only place a reference to it can be. Refusing on a false positive costs one rewritten table entry; not refusing ships an explanation about an option nobody saw.</li>
 </ul>
 <h2 id="front-end-8">Front end (8)</h2>
 <h3 id="inc-0001-unescaped-quotes-in-onclick-strings-took-the-whole-app-down">INC-0001. Unescaped quotes in onclick strings took the whole app down</h3>
@@ -1622,6 +1633,10 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>[ ] A record has parts that refer to one another, and a tool that edits one part by text is editing a graph while looking at a string. The cheap guard is not to check every reference but to refuse the edit when the old text occurs anywhere else in the record, because that is the only place a reference to it can be. Refusing on a false positive costs one rewritten table entry; not refusing ships an explanation about an option nobody saw.  </li>
 </ul>
 <p>&lt;small&gt;A distractor was replaced and the explanation went on naming the old one (INC-0072)&lt;/small&gt;</p>
+<ul>
+<li>[ ] A guard that takes the intent as an argument is only as good as the argument, and an argument derived by hand from the same data the guard is checking is a second implementation of the thing being checked. It fails in the direction that is hardest to see: too high an intent demands a rank the clauses cannot reach, and the author satisfies it by writing more clauses than the plan called for, which skews the distribution the other way while every check passes. Derive the intent from the data with the code that already reads it.  </li>
+</ul>
+<p>&lt;small&gt;check_lift was told a one clause entry lifted two distractors (INC-0073)&lt;/small&gt;</p>
 <h2 id="database">Database</h2>
 <ul>
 <li>[ ] Postgres fires same-timing triggers alphabetically. If two triggers on one table have an order dependency, encode it in the name, and test the outcome rather than the code.  </li>
@@ -1877,7 +1892,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p><code>python3 src/build_playbook.py</code> writes four files into <code>playbook/bootstrap/</code>, all generated from the same ledger as the book, so none of them can drift from it.</p>
 <p><strong><code>CLAUDE.template.md</code></strong> goes in the new repository's root. Claude Code reads it on every turn. It is the constitution: the house rules, the never-invent-a-value rule, the sourcing rules, the communication rule, and a short architecture section you fill in as you build. Four bracketed blanks at the top are the only things you have to change.</p>
 <p><strong><code>KICKOFF.md</code></strong> is the literal first message for a new conversation. It sets the working agreement, the phase order, and what a session should report. Paste it, then describe your business idea underneath it.</p>
-<p><strong><code>RULES_DIGEST.md</code></strong> is every lesson in the defect ledger, compressed to one line each and grouped by area. It is about three pages. This is the highest value-per-token artefact in the whole project: 72 real defects reduced to the rules that prevent them, with the specifics of this codebase stripped out.</p>
+<p><strong><code>RULES_DIGEST.md</code></strong> is every lesson in the defect ledger, compressed to one line each and grouped by area. It is about three pages. This is the highest value-per-token artefact in the whole project: 73 real defects reduced to the rules that prevent them, with the specifics of this codebase stripped out.</p>
 <p><strong><code>incidents.jsonl</code></strong> is the raw ledger, copied so the new project can start appending to it on day one rather than starting an empty one.</p>
 <h2 id="how-to-load-it-by-surface">How to load it, by surface</h2>
 <p><strong>Claude Code, new repository.</strong> Copy <code>CLAUDE.template.md</code> to the repo root as <code>CLAUDE.md</code>, fill in the four blanks, and copy <code>incidents.jsonl</code> to <code>data/playbook/incidents.jsonl</code>. Copy <code>src/build_playbook.py</code> too, so the new project's own ledger becomes its own book from the first defect. Then open a session with <code>KICKOFF.md</code> as the first message.</p>
@@ -1887,7 +1902,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three reasons, and they are worth understanding rather than just following.</p>
 <p><strong>Retrieval beats repetition.</strong> A document in project knowledge is consulted when relevant. The same document in the prompt is re-read on every single turn, at full cost, mostly when it is irrelevant. For anything longer than a few pages, retrieval is strictly better.</p>
 <p><strong>Instructions need to be short enough to be followed.</strong> A rule competing with ten thousand words of context is a rule that gets applied inconsistently. The digest is deliberately brutal: one line per lesson, imperative mood, no examples. The examples are in the book, where they can be looked up when a rule seems wrong.</p>
-<p><strong>The ledger is the part that compounds.</strong> The recipe chapters age. The rules do not, because each one is the residue of a real failure, and the failure modes of software are considerably more stable than its tooling. A new project that starts with 72 defects already prevented is genuinely ahead, and every defect it hits of its own makes the next project further ahead still.</p>
+<p><strong>The ledger is the part that compounds.</strong> The recipe chapters age. The rules do not, because each one is the residue of a real failure, and the failure modes of software are considerably more stable than its tooling. A new project that starts with 73 defects already prevented is genuinely ahead, and every defect it hits of its own makes the next project further ahead still.</p>
 <h2 id="keeping-the-loop-closed">Keeping the loop closed</h2>
 <p>The pack is only worth carrying forward if the new project feeds it back. So the working agreement in <code>KICKOFF.md</code> includes one instruction that does the whole job:</p>
 <p>&gt; When something breaks, append a record to <code>data/playbook/incidents.jsonl</code> before fixing &gt; it, while you still remember what you believed was true five minutes ago.</p>
