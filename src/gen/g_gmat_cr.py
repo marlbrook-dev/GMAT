@@ -27,7 +27,7 @@ The length discipline from the verbal rewrite applies: a key that carries a mech
 its evidence while distractors carry one clause is a key spottable by length alone. Here
 every option is a single clause of comparable weight, and test.js measures what came out.
 """
-from framework import Gen, ItemError, balance
+from framework import Gen, ItemError, balance, check_clause_splice
 
 # Each scenario supplies the nouns. The reasoning is in the schema, not here, so a new
 # scenario multiplies every schema without touching any of them.
@@ -115,31 +115,31 @@ PERCENT = [
 ]
 
 PLAN = [
-    dict(who="Hollis City Council", goal="reduce traffic on Bridge Street",
+    dict(who="Hollis City Council", goal="reduce traffic on Bridge Street", goal_np="reducing traffic on Bridge Street",
          action="make parking on Bridge Street free after six in the evening",
          needs="the traffic on Bridge Street is mostly drivers circling in search of a space",
          fails="most of the traffic is through traffic with no intention of stopping",
-         check="what share of the traffic on Bridge Street stops there at all"),
-    dict(who="Aldergate Hospital", goal="cut the number of missed appointments",
+         check="most of the traffic on Bridge Street stops there rather than passing through"),
+    dict(who="Aldergate Hospital", goal="cut the number of missed appointments", goal_np="cutting the number of missed appointments",
          action="send every patient a reminder by text the day before",
          needs="patients miss appointments because they forget them",
          fails="most missed appointments are missed because patients cannot get there",
-         check="why patients who missed an appointment say they missed it"),
-    dict(who="Marden Publishing", goal="raise the number of manuscripts it reviews each month",
+         check="patients who missed an appointment say they forgot it rather than could not reach it"),
+    dict(who="Marden Publishing", goal="raise the number of manuscripts it reviews each month", goal_np="raising the number of manuscripts it reviews each month",
          action="hire two more editors",
          needs="reviewing is limited by how many editors are available",
          fails="manuscripts wait longest at the legal check, which the new editors do not do",
-         check="which stage of the process manuscripts spend the longest waiting at"),
-    dict(who="the Thorne Museum", goal="increase weekday attendance",
+         check="manuscripts wait longest at the reviewing stage rather than at some later one"),
+    dict(who="the Thorne Museum", goal="increase weekday attendance", goal_np="increasing weekday attendance",
          action="open two hours earlier on weekdays",
          needs="there are people who would visit on a weekday but cannot come at the current hours",
          fails="weekday visitors already arrive well after opening and leave before closing",
-         check="when weekday visitors currently arrive and leave"),
-    dict(who="Bellwood Transit", goal="reduce the time buses spend at stops",
+         check="there are people who would visit on a weekday but cannot come at the current hours"),
+    dict(who="Bellwood Transit", goal="reduce the time buses spend at stops", goal_np="reducing the time buses spend at stops",
          action="require passengers to pay before boarding",
          needs="the time at a stop is mostly taken up by passengers paying as they board",
          fails="most of the time at a stop is taken by passengers finding seats after boarding",
-         check="how the time a bus spends at a stop is currently divided"),
+         check="most of the time a bus spends at a stop is taken up by passengers paying as they board"),
 ]
 
 NECESSARY = [
@@ -160,22 +160,22 @@ NECESSARY = [
 
 
 PLAN += [
-    dict(who="Ferndale School", goal="raise the number of pupils walking to school",
+    dict(who="Ferndale School", goal="raise the number of pupils walking to school", goal_np="raising the number of pupils walking to school",
          action="close the road outside the gates to cars at drop off time",
          needs="the pupils who are driven live close enough to walk",
          fails="most pupils who are driven live several miles away",
-         check="how far from the school the pupils who are driven actually live"),
-    dict(who="Calloway Insurance", goal="shorten the time taken to settle a claim",
+         check="the pupils who are driven live close enough to walk"),
+    dict(who="Calloway Insurance", goal="shorten the time taken to settle a claim", goal_np="shortening the time taken to settle a claim",
          action="allow claims to be submitted through an app as well as by post",
          needs="the delay is in getting the claim to the assessor",
          fails="claims already reach the assessor within a day and wait weeks after that",
-         check="where in the process a claim currently spends the most time"),
-    dict(who="the Whitcombe Estate", goal="reduce water used on the gardens",
+         check="the delay in settling a claim is in getting it to the assessor rather than after that"),
+    dict(who="the Whitcombe Estate", goal="reduce water used on the gardens", goal_np="reducing water used on the gardens",
          action="water the beds at dawn rather than at midday",
          needs="a large share of the water applied at midday is lost to evaporation",
          fails="the beds are watered below the surface, where evaporation is negligible",
-         check="how much of the water applied at midday is currently lost before it reaches "
-               "the roots"),
+         check="a large share of the water applied at midday is lost before it "
+               "reaches the roots"),
 ]
 
 
@@ -211,6 +211,10 @@ class CRBase(Gen):
             "wrong": ("Choice " + "ABCDE"[opts.index(first)] + " " + why[first] + "."
                       if first else ""),
         }
+        # goal and action are stored as infinitive phrases for the stem; neither is a
+        # clause, so neither may follow a sentence initial That or Whether (INC-0074).
+        check_clause_splice(self.id, [stem] + opts + [expl],
+                            [d["goal"] for d in PLAN] + [d["action"] for d in PLAN])
         self.verify(item, right, choices_n, fmt=str)
         return item
 
@@ -466,8 +470,10 @@ class PlanAssume(CRBase):
              "intended effect"),
             ("That the measure will be popular with those it affects.",
              "concerns how the measure is received rather than whether it achieves the goal"),
-            ("That " + d["goal"] + " is the most urgent of the problems facing " + d["who"]
-             + ".", "ranks the goal against other goals, which the plan's success does not "
+            # goal_np, not goal: the field the stem uses is a bare infinitive and this
+            # slot is a subject (INC-0074).
+            ("That " + d["who"] + " has no goal more urgent than " + d["goal_np"] + ".",
+             "ranks the goal against other goals, which the plan's success does not "
              "turn on"),
             ("That no other body has objected to the measure.",
              "raises opposition, which bears on whether the measure happens rather than on "
@@ -531,8 +537,8 @@ class PlanEvaluate(CRBase):
         stem = (d["who"] + " intends to " + d["goal"] + ". To that end it will "
                 + d["action"] + ".\n\nWhich of the following would be most useful to "
                 "establish in evaluating whether the plan will achieve its goal?")
-        right = "Whether " + d["check"].capitalize()[0].lower() + d["check"][1:] + " is what "\
-                "the measure would change."
+        # "Whether " plus a clause, not plus a wh clause with a tail bolted on (INC-0075).
+        right = "Whether " + d["check"] + "."
         wrongs = [
             ("Whether " + d["who"] + " has the legal power to carry out a measure of this "
              "kind without seeking approval from anyone else.",
@@ -558,7 +564,7 @@ class PlanEvaluate(CRBase):
              "tests agreement rather than effect"),
         ]
         expl = ("A question is useful for evaluating a plan when the two possible answers "
-                "point in opposite directions. Establish " + d["check"]
+                "point in opposite directions. Establish whether " + d["check"]
                 + ", and one answer means the measure addresses the cause while the other "
                 "means it does not. The remaining choices are worth knowing but leave the "
                 "plan's prospects unchanged either way.")
@@ -568,3 +574,178 @@ class PlanEvaluate(CRBase):
 
 GENS = [CauseWeaken(), CauseAssume(), SampleFlaw(), PercentFlaw(), NecessaryFlaw(),
         PlanAssume(), PlanWeaken(), PlanEvaluate()]
+
+
+# v_pc shipped 833 items of a 3300 target off eight scenarios, so most of those items
+# were the same three arguments with a different subset of wrong answers. A scenario
+# multiplies all three plan schemas, so this is where the category was actually short.
+# Each one is a bottleneck misidentification: the action addresses one cause, the plan
+# needs that to be the cause, and it fails if the real constraint sits elsewhere.
+#
+# Every entry carries goal as a bare infinitive AND goal_np as a noun phrase, because
+# the templates need both and a field carries no record of which shape it is in
+# (INC-0074). check reads after "Whether" (INC-0075).
+PLAN += [
+    dict(who="Restwick Harbour Authority", goal="shorten the time cargo waits on the quay",
+         goal_np="shortening the time cargo waits on the quay",
+         action="add two more cranes",
+         needs="unloading is what holds cargo on the quay",
+         fails="cargo is unloaded within hours and then waits for customs clearance",
+         check="cargo spends longer being unloaded than waiting for customs clearance"),
+    dict(who="Larkfield Utilities", goal="reduce the number of calls its helpline receives",
+         goal_np="reducing the number of calls its helpline receives",
+         action="publish a page of answers to common questions on its website",
+         needs="callers ring because they cannot find the answer themselves",
+         fails="most callers ring because the answer they found did not fit their account",
+         check="callers ring because they could not find an answer rather than because the "
+               "answer did not fit"),
+    dict(who="Marchmont Stores", goal="shorten the queues at its checkouts",
+         goal_np="shortening the queues at its checkouts",
+         action="install four self service tills",
+         needs="the queues form because there are too few tills",
+         fails="the queues form at the one hour when too few staff are on to open the "
+               "tills already installed",
+         check="the existing tills are all staffed at the times when the queues are longest"),
+    dict(who="Ledbury Borough Council",
+         goal="raise the share of household waste that is recycled",
+         goal_np="raising the share of household waste that is recycled",
+         action="give every household a larger recycling bin",
+         needs="households recycle less than they would because their bins fill up",
+         fails="most households put out bins that are less than half full",
+         check="the recycling bins households put out are usually full"),
+    dict(who="Ashcombe Farm", goal="increase the yield of its apple orchard",
+         goal_np="increasing the yield of its apple orchard",
+         action="place twice as many hives at the orchard edge",
+         needs="the crop is limited by how much of the blossom is pollinated",
+         fails="the blossom is already fully pollinated and the crop is limited by water "
+               "in late summer",
+         check="a meaningful share of the blossom currently goes unpollinated"),
+    dict(who="Tallis Systems", goal="cut the number of support tickets it reopens",
+         goal_np="cutting the number of support tickets it reopens",
+         action="require every engineer to write a summary before closing a ticket",
+         needs="tickets are reopened because the fix was recorded unclearly",
+         fails="tickets are reopened because the underlying fault recurs whatever is "
+               "written down",
+         check="reopened tickets describe a fault that had been fixed rather than one "
+               "that came back"),
+    dict(who="the Brackenbury Theatre", goal="fill more seats at its weekday performances",
+         goal_np="filling more seats at its weekday performances",
+         action="cut the price of a weekday ticket by a third",
+         needs="the people who stay away on weekdays are put off by the price",
+         fails="weekday audiences are limited by how few people can reach the theatre "
+               "before the curtain",
+         check="the people who stay away on weekdays are kept away by the price"),
+    dict(who="Hallamshire Veterinary Practice",
+         goal="reduce the number of animals brought in with advanced illness",
+         goal_np="reducing the number of animals brought in with advanced illness",
+         action="offer a free annual examination to every registered animal",
+         needs="illness goes undetected because animals are not examined often enough",
+         fails="the illnesses that arrive late are ones a routine examination does not reveal",
+         check="the illnesses that arrive late are detectable at a routine examination"),
+    dict(who="the Denholme Estate", goal="raise the survival rate of the saplings it plants",
+         goal_np="raising the survival rate of the saplings it plants",
+         action="plant in autumn rather than in spring",
+         needs="the saplings that die are lost to drought in their first summer",
+         fails="most losses are to deer browsing, which the planting season does not affect",
+         check="the saplings that die are lost to drought rather than to browsing"),
+    dict(who="Kirkhaven Post", goal="reduce the number of parcels returned as undelivered",
+         goal_np="reducing the number of parcels returned as undelivered",
+         action="text each recipient on the morning of delivery",
+         needs="parcels are returned because nobody is at home when the van calls",
+         fails="most returns are caused by addresses written incompletely at the point of sale",
+         check="returned parcels were addressed correctly in the first place"),
+    dict(who="Ravensworth Leisure Centre", goal="raise the number of members who renew",
+         goal_np="raising the number of members who renew",
+         action="extend its opening hours into the late evening",
+         needs="the members who leave cannot get to the centre while it is open",
+         fails="the members who leave say the equipment they came for is always in use",
+         check="the members who do not renew were kept away by the opening hours"),
+    dict(who="Wrenfield Bakery", goal="cut the amount of bread it throws away each day",
+         goal_np="cutting the amount of bread it throws away each day",
+         action="bake a second, smaller batch in the afternoon",
+         needs="the waste is bread baked in the morning that does not sell by closing",
+         fails="the waste is bread returned unsold by the shops it supplies, which order "
+               "in the morning",
+         check="the bread thrown away is bread left in the shop rather than bread "
+               "returned by other shops"),
+    dict(who="Cleveley Rail", goal="improve the punctuality of its evening services",
+         goal_np="improving the punctuality of its evening services",
+         action="add three minutes to the timetable at each of the two busiest stations",
+         needs="the delay accumulates while trains stand at those two stations",
+         fails="evening trains leave the depot late and lose no further time on the route",
+         check="evening trains are on time when they reach the two busiest stations"),
+    dict(who="the Corbridge Museum shop", goal="raise the value of the average sale",
+         goal_np="raising the value of the average sale",
+         action="move the higher priced items to the counter",
+         needs="visitors buy what they happen to see on the way out",
+         fails="most purchases are decided before a visitor enters the shop",
+         check="visitors decide what to buy after entering the shop rather than before"),
+    dict(who="the Ardley University Library",
+         goal="reduce the number of books returned late",
+         goal_np="reducing the number of books returned late",
+         action="double the fine charged for a late return",
+         needs="books are kept late by readers who are choosing to accept the fine",
+         fails="most late returns are by readers who have forgotten the due date",
+         check="readers who return a book late were aware it was due"),
+    dict(who="the Salterton Inn", goal="shorten the wait between ordering and serving",
+         goal_np="shortening the wait between ordering and serving",
+         action="take on a second chef",
+         needs="the wait is created in the kitchen",
+         fails="orders reach the kitchen late because one server covers every table",
+         check="an order spends longer in the kitchen than it does waiting to reach it"),
+    dict(who="Penhale Water", goal="reduce the volume of water lost from its network",
+         goal_np="reducing the volume of water lost from its network",
+         action="replace the oldest mile of pipe in each district",
+         needs="most of the loss is from the oldest pipe",
+         fails="most of the loss is from joints and fittings of every age",
+         check="the oldest pipe accounts for most of the water lost"),
+    dict(who="the Nettleford Trust",
+         goal="increase the number of volunteers who stay past a year",
+         goal_np="increasing the number of volunteers who stay past a year",
+         action="offer every volunteer a training course in their first month",
+         needs="volunteers leave because they feel unprepared for the work",
+         fails="volunteers leave because the shifts they are offered do not fit around "
+               "their jobs",
+         check="volunteers who leave felt unprepared rather than badly scheduled"),
+    dict(who="Caldbeck Airport", goal="reduce the time passengers spend at security",
+         goal_np="reducing the time passengers spend at security",
+         action="open two more scanning lanes",
+         needs="the queue at security is limited by how many lanes are open",
+         fails="the queue is limited by how many staff are trained to run a lane, and no "
+               "more are",
+         check="there are staff available to run more lanes than are currently open"),
+    dict(who="Ryedale Housing", goal="cut the time an empty flat stays empty",
+         goal_np="cutting the time an empty flat stays empty",
+         action="redecorate every flat as soon as it is vacated",
+         needs="flats stand empty while they are being made ready",
+         fails="flats are ready within a week and then wait for an applicant to be approved",
+         check="an empty flat spends longer being made ready than waiting for an approved "
+               "applicant"),
+    dict(who="Oakhanger Tools",
+         goal="raise the number of finished tools it ships each week",
+         goal_np="raising the number of finished tools it ships each week",
+         action="run the grinding shop for an extra shift",
+         needs="output is limited by grinding capacity",
+         fails="output is limited by the supply of castings, which an extra grinding "
+               "shift does not increase",
+         check="grinding is the stage at which unfinished work accumulates"),
+    dict(who="Thurlby School", goal="increase the number of pupils taking a hot lunch",
+         goal_np="increasing the number of pupils taking a hot lunch",
+         action="add three new dishes to the menu",
+         needs="pupils avoid the hot lunch because the choice is too narrow",
+         fails="pupils avoid it because the lunch break is too short to queue and eat",
+         check="the pupils who do not take a hot lunch are put off by the choice"),
+    dict(who="Barrowfield Energy", goal="reduce the heat lost from its district network",
+         goal_np="reducing the heat lost from its district network",
+         action="insulate the pipes running between buildings",
+         needs="most of the loss happens in the pipes between buildings",
+         fails="most of the loss happens inside the buildings, at the heat exchangers",
+         check="more heat is lost between the buildings than inside them"),
+    dict(who="Oakmere Coaches", goal="reduce the fuel its fleet uses",
+         goal_np="reducing the fuel its fleet uses",
+         action="fit every coach with a device that limits its top speed",
+         needs="the fuel is used mainly on long stretches at high speed",
+         fails="the fleet runs almost entirely on town routes where the limit is never reached",
+         check="the fleet runs a meaningful share of its mileage above the speed the "
+               "device would impose"),
+]

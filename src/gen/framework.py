@@ -252,6 +252,65 @@ class Gen:
                 raise ItemError("%s missing %s" % (self.id, k))
 
 
+WH = ("what", "why", "which", "when", "how", "where", "whether")
+
+
+def check_clause_splice(label, texts, not_clauses):
+    """Refuse a rendered sentence whose That or Whether is followed by a non clause.
+
+    A corpus field is written against the one sentence its author had in mind and carries
+    no record of the grammatical shape it is in. Both slots take a str, so nothing
+    upstream can see a mismatch. It happened twice in one file. A goal, stored as a bare
+    infinitive for "X intends to <goal>", went into a subject slot and shipped 160 items
+    saying "That shorten the time taken to settle a claim is the most urgent ..."
+    (INC-0074). A check, stored as a wh clause for "Establish <check>, and ...", went
+    after Whether and shipped 277, every key of its schema, saying "Whether what share of
+    the traffic stops there at all is what the measure would change" (INC-0075).
+
+    The guard written for the first could only see infinitives and let the second
+    through, one screen away in the same file. So this one is stated over the class
+    rather than over the token that was wrong first, and it tests two things:
+
+      provenance   nothing in not_clauses, the fields the corpus stores in a shape that
+                   is not a clause, may follow a sentence initial That or Whether.
+      shape        no sentence initial That or Whether may be followed by a wh word,
+                   which no grammatical English sentence does.
+
+    The second is what makes it general: it needs no list, and it fires on a field the
+    author of this function never saw.
+    """
+    for t in texts:
+        for opener in sentence_starts(str(t)):
+            for word in ("That ", "Whether "):
+                if not opener.startswith(word):
+                    continue
+                rest = opener[len(word):]
+                if rest.split(" ")[0].lower().strip(",") in WH:
+                    raise ItemError("%s opens a sentence with %r plus a wh word: %r"
+                                    % (label, word.strip(), opener[:90]))
+                for bad in not_clauses:
+                    if bad and rest.startswith(bad):
+                        raise ItemError(
+                            "%s splices a non clause corpus field after %r: %r"
+                            % (label, word.strip(), (word + bad)[:90]))
+
+
+def sentence_starts(t):
+    """Every position in t where a sentence begins, as the text from there on."""
+    out = []
+    if t[:1].strip():
+        out.append(t[:200])
+    i = None
+    for j, ch in enumerate(t):
+        if ch in ".?!\n":
+            i = None
+        elif i is None and ch not in " \n":
+            i = j
+            if j:
+                out.append(t[j:j + 200])
+    return out
+
+
 STEM_NUM = re.compile(r"-?\d+(?:/\d+)?")
 
 

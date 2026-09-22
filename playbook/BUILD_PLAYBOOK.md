@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-08-17 and 2026-09-22, which is 36 days, across
-72 commits, by one owner directing a series of AI coding sessions. As of this
+73 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 51 Python files, 101 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 63 documents:
 1975 tracked files in total.
@@ -1118,7 +1118,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-72 commits in 36 days, one owner, a series of AI sessions. This
+73 commits in 36 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1210,14 +1210,14 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-73 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+75 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 30 | 41% |
+| Found by reading the code or the output | 32 | 43% |
 | Found by measuring something | 20 | 27% |
 | A test caught it | 11 | 15% |
 | Found by rendering it and looking | 5 | 7% |
@@ -1225,7 +1225,7 @@ well enough to audit later. Which is what this book is.
 | A person hit it | 1 | 1% |
 | A build guard caught it | 1 | 1% |
 
-**This is the most useful table in the book.** 72 of 73 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 74 of 75 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1234,20 +1234,20 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 26 |
+| Wrong data shown or stored | 28 |
 | Silent loss | 19 |
 | Degraded | 15 |
 | Cosmetic | 10 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 19 of 73. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 19 of 75. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 16 |
+| Content generation | 18 |
 | Tests and guards | 16 |
 | Front end | 8 |
 | CSS and layout | 5 |
@@ -1262,7 +1262,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-67 of 73 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+69 of 75 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1302,7 +1302,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (16)
+## Content generation (18)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -1504,6 +1504,30 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** bank_emit.lift_counts(table) derives the intent from the table using the same tuple or list test extend uses, and every generator that had spelled it out by hand now calls it.
 - **What stops it now.** bank_emit.lift_counts is the single reader of the table shape, so check_lift and extend cannot disagree about what an entry says in `src/bank_emit.py`
 - **Lesson.** A guard that takes the intent as an argument is only as good as the argument, and an argument derived by hand from the same data the guard is checking is a second implementation of the thing being checked. It fails in the direction that is hardest to see: too high an intent demands a rank the clauses cannot reach, and the author satisfies it by writing more clauses than the plan called for, which skews the distribution the other way while every check passes. Derive the intent from the data with the code that already reads it.
+
+
+### INC-0074. A corpus field written for one grammatical slot was spliced into another
+
+*2026-09-22, Wrong data shown or stored*
+
+- **What was seen.** 160 of the 833 shipped GMAT v_pc items, 19 percent, offer a choice like "That shorten the time taken to settle a claim is the most urgent of the problems facing Calloway Insurance." It is not English. A student reading it can strike it out without considering the argument, which is a free elimination on a five choice item and makes the item easier than the rating it carries.
+- **Why.** A PLAN scenario stores goal as a bare infinitive phrase, because the stem it was written for reads "X intends to <goal>". Two other templates splice the same field after "has tried to", where a bare infinitive is also right. One splices it into a subject position, "That <goal> is the most urgent of the problems facing X", where English wants a gerund or a noun phrase. The field is correct; the slot it was reused in is not, and nothing connected the two.
+- **How it surfaced.** Reading the output of PlanAssume while counting the PLAN corpus in order to widen it. The category had been short since it was written and the shortfall was the reason to look. (Found by reading the code or the output)
+- **Fix.** Every PLAN scenario gains goal_np, the same goal as a noun phrase, and the subject slot uses it. The bare infinitive stays where a bare infinitive belongs.
+- **What stops it now.** framework.verify rejects a stem or choice where That or Whether is followed directly by a bare infinitive, which is what splicing an infinitive goal into a noun slot produces in `src/gen/framework.py`
+- **Lesson.** A corpus field is written against the one sentence the author had in mind, and the schema that reuses it three templates later has no way to know which shape it is. The type system says str in both places. Two things follow. Store the field in every shape a template needs and name the shapes, rather than storing one shape and trusting the next author to notice. And guard the output, not the corpus: the generated sentence is the only place the mismatch becomes visible, and a cheap pattern over the rendered text catches a class that no check on the inputs can see.
+
+
+### INC-0075. Every correct answer on one GMAT schema was ungrammatical, and the guard written an hour earlier could not see it
+
+*2026-09-22, Wrong data shown or stored*
+
+- **What was seen.** All 277 shipped cr_plan_eval items, a third of the GMAT Plan and Construct category, have a key reading "Whether what share of the traffic on Bridge Street stops there at all is what the measure would change." Every one of the eight scenarios produces one, across all six wh words. The student is asked to choose between four fluent distractors and one sentence that is not English, so the item is answerable without reading the argument and is rated as though it were not.
+- **Why.** The same class as INC-0074 and the same corpus: check is stored as a wh clause because the explanation reads "Establish <check>, and one answer means ...". A second template put it after "Whether" and before "is what the measure would change", where a wh clause cannot go. INC-0074 was the same mistake with the goal field, found in the same reading, and the guard written for it tests for an infinitive after That or Whether. check is not an infinitive, so the guard passed it.
+- **How it surfaced.** Rendering one item of each plan schema to read the output, immediately after fixing INC-0074 in the schema next to it. (Found by reading the code or the output)
+- **Fix.** check is rewritten in all scenarios as a clause that reads after "Whether", the trailing "is what the measure would change" is dropped, and the explanation says "Establish whether". The guard is widened from infinitives to any corpus field spliced after That or Whether that does not read as a clause there, and it now runs over the key as well as the distractors.
+- **What stops it now.** framework.check_clause_splice refuses a rendered sentence whose That or Whether is followed by a corpus field stored for another slot, tested for every plan field rather than for goal alone in `src/gen/framework.py`
+- **Lesson.** A guard written from the instance in front of you covers that instance. INC-0074 was a bare infinitive in a noun slot, so the guard looked for bare infinitives, and the sentence one screen away in the same file was a wh clause in a clause slot and went straight through. The general defect was never the infinitive; it was that a corpus field carries no record of the grammatical shape it was written in, and any template may reuse it. So the guard has to be stated over the class, every field against every slot, not over the token that happened to be wrong first. The other half of this is where it was found: the distractor version was spotted first because it is louder, and the version in the key, which is three times as damaging, was found only because the first one prompted a second look. Reading one rendered item per schema would have caught both on the day they were written, and costs less than either fix.
 
 
 ## Tests and guards (16)
@@ -2343,6 +2367,10 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A distractor was replaced and the explanation went on naming the old one (INC-0072)</small>
 - [ ] A guard that takes the intent as an argument is only as good as the argument, and an argument derived by hand from the same data the guard is checking is a second implementation of the thing being checked. It fails in the direction that is hardest to see: too high an intent demands a rank the clauses cannot reach, and the author satisfies it by writing more clauses than the plan called for, which skews the distribution the other way while every check passes. Derive the intent from the data with the code that already reads it.  
   <small>check_lift was told a one clause entry lifted two distractors (INC-0073)</small>
+- [ ] A corpus field is written against the one sentence the author had in mind, and the schema that reuses it three templates later has no way to know which shape it is. The type system says str in both places. Two things follow. Store the field in every shape a template needs and name the shapes, rather than storing one shape and trusting the next author to notice. And guard the output, not the corpus: the generated sentence is the only place the mismatch becomes visible, and a cheap pattern over the rendered text catches a class that no check on the inputs can see.  
+  <small>A corpus field written for one grammatical slot was spliced into another (INC-0074)</small>
+- [ ] A guard written from the instance in front of you covers that instance. INC-0074 was a bare infinitive in a noun slot, so the guard looked for bare infinitives, and the sentence one screen away in the same file was a wh clause in a clause slot and went straight through. The general defect was never the infinitive; it was that a corpus field carries no record of the grammatical shape it was written in, and any template may reuse it. So the guard has to be stated over the class, every field against every slot, not over the token that happened to be wrong first. The other half of this is where it was found: the distractor version was spotted first because it is louder, and the version in the key, which is three times as damaging, was found only because the first one prompted a second look. Reading one rendered item per schema would have caught both on the day they were written, and costs less than either fix.  
+  <small>Every correct answer on one GMAT schema was ungrammatical, and the guard written an hour earlier could not see it (INC-0075)</small>
 
 
 ## Database
@@ -2587,7 +2615,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 73 real defects reduced to the rules that prevent them,
+the whole project: 75 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -2627,7 +2655,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-73 defects already prevented is genuinely ahead, and every defect it hits
+75 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed
