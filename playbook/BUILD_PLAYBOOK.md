@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-08-17 and 2026-09-22, which is 36 days, across
-84 commits, by one owner directing a series of AI coding sessions. As of this
+85 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 54 Python files, 101 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 63 documents:
 1978 tracked files in total.
@@ -1118,7 +1118,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-84 commits in 36 days, one owner, a series of AI sessions. This
+85 commits in 36 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1210,22 +1210,22 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-92 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+94 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 39 | 42% |
-| Found by measuring something | 27 | 29% |
+| Found by reading the code or the output | 40 | 43% |
+| Found by measuring something | 28 | 30% |
 | A test caught it | 13 | 14% |
-| Found by rendering it and looking | 6 | 7% |
+| Found by rendering it and looking | 6 | 6% |
 | Found by a review bot or an adversarial pass | 5 | 5% |
 | A person hit it | 1 | 1% |
 | A build guard caught it | 1 | 1% |
 
-**This is the most useful table in the book.** 91 of 92 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 93 of 94 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1234,20 +1234,20 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 35 |
+| Wrong data shown or stored | 36 |
 | Silent loss | 22 |
 | Degraded | 20 |
-| Cosmetic | 12 |
+| Cosmetic | 13 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 22 of 92. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 22 of 94. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 30 |
+| Content generation | 32 |
 | Tests and guards | 18 |
 | Front end | 8 |
 | Build system | 7 |
@@ -1262,7 +1262,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-86 of 92 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+88 of 94 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1283,20 +1283,21 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-16 of 92 incidents record that they repeat an earlier lesson, 20 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+17 of 94 incidents record that they repeat an earlier lesson, 22 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
 | INC-0064 The guard against a blind counter was itself blind to three exams | INC-0067, INC-0082, INC-0085, INC-0088 | 4 |
 | INC-0069 A bank a student can play at 88 percent, inside a section the check passed | INC-0079, INC-0085, INC-0086, INC-0088 | 4 |
+| INC-0074 A corpus field written for one grammatical slot was spliced into another | INC-0075, INC-0087, INC-0093 | 3 |
 | INC-0059 The item counter missed a whole bank file because it assumed a quoting style | INC-0064, INC-0067 | 2 |
-| INC-0074 A corpus field written for one grammatical slot was spliced into another | INC-0075, INC-0087 | 2 |
 | INC-0044 The longest option was the correct answer 81 percent of the time | INC-0091 | 1 |
 | INC-0050 A landing-page icon referenced a colour token that did not exist | INC-0018 | 1 |
 | INC-0055 A new browser suite hardcoded this machine's browser directory and crashed in CI | INC-0067 | 1 |
 | INC-0067 The browser path fix covered two suites and three others kept crashing | INC-0070 | 1 |
 | INC-0083 The rules digest promises to be prompt sized and its generator grows without bound | INC-0084 | 1 |
 | INC-0086 A finished generator module that nothing imported, and two of its four schemas produced nothing | INC-0090 | 1 |
+| INC-0087 The same corpus field in two grammatical slots, in a schema written the same day the guard was read | INC-0093 | 1 |
 | INC-0088 A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked | INC-0089 | 1 |
 | INC-0090 Two of a schema's three question forms could not build, and the only sign was an item count | INC-0092 | 1 |
 
@@ -1335,7 +1336,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (30)
+## Content generation (32)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -1705,6 +1706,30 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** Eleven schemas, and the same two questions each time: does this question have one shape, and does it offer four wrong answers of that shape. The exponential growth schema asks for the quantity to the nearest whole number, which is how a real exam asks it. The absolute value schema is built from its two solutions rather than from the coefficients, so both come out whole. The percent question draws a base that makes the answer whole. The perpendicular slope schema takes both parts of its slope bigger than one and coprime, so the given slope and its negative reciprocal are both proper fractions. The distribute schema gains an off by one pair, which cannot change the shape of the answer it is built from and so supplies two same shaped candidates on every draw whichever kind it is. The ACT science table prints its readings to one decimal place, because a measurement column with uniform precision is both how a real table looks and the only way its readings can be offered as choices. The slope schema also lost a wrong answer that was minus the slope under a second name. Nothing was recorded to make any of this pass.
 - **What stops it now.** check_discarded counts AssemblyError, which is the exception make() raises when it cannot assemble what a schema offered, rather than matching the wording of one of the two messages; it draws a fixed number of times per schema per exam so the figure is exact, fails the build above a twentieth, and holds what is still over in DISCARD_DEBT. shape_misses is gone: a counter nothing reads is worse than none in `src/build_banks.py`
 - **Lesson.** A counter that nothing reads is not instrumentation, it is a comment that looks like instrumentation, and it is worse than nothing because it answers the question 'is anyone watching this' with a yes. Every time a guard is written against one symptom, ask what the same failure looks like arriving another way, and count the whole category rather than the instance that prompted it.
+
+
+### INC-0093. Seven variable names were plural and every sentence built around them said was
+
+*2026-09-22, Cosmetic*
+
+- **What was seen.** Eight of the ACT science schemas shipped sentences like 'when the minutes in the dye bath was 30 minutes' and 'the particles remaining is what the students measured'. Seven of the thirty study scenarios name a variable with a plural noun, and every template that puts a variable name in front of a verb assumes a singular one, so roughly a quarter of the science section read as though written by someone who does not speak English. It was on the page, in stems and in explanations, and no check looks at whether a sentence agrees with itself.
+- **Why.** A scenario stores its variables as a name and a unit, and the name is dropped into whatever slot a template needs: the object of a preposition in one, the subject of a verb in another. Most names are singular noun phrases and the templates were written against those. Nobody wrote down that the templates need a singular, so seven scenarios with names like Days of curing and Seeds germinating out of 100 were added over time and each one broke every sentence that used it as a subject.
+- **How it surfaced.** Rendering nine hundred items from every schema in the module and searching the text for a plural name followed by a singular verb, while fixing a different fault in the same file. Reading one item of each schema would not have found it: a schema picks a scenario at random and twenty three of the thirty are innocent. (Found by measuring something)
+- **Fix.** Every variable name is now a singular noun phrase, which cost seven renames and no template changes: Minutes in the dye bath became Time in the dye bath, Days of curing became Curing time, Seeds germinating out of 100 became Number germinating out of 100. Four of them also had their unit in the name, so the table header read 'Days of curing (days)', and that is gone too. Each scenario now declares the grammatical number of both its variables, and the check refuses a plural one, so the requirement the templates have always had is written down where the next scenario is added.
+- **What stops it now.** g_act_sci.check_names() refuses a scenario whose variables are not both declared singular, and renders items from every schema across every scenario looking for a name in front of a verb that disagrees with it; build_banks runs it in `src/gen/g_act_sci.py`
+- **Lesson.** A template is a promise about the grammar of what goes into it, and the promise is invisible: the code says name and the sentence needs a singular noun phrase. Whenever a stored string lands next to a verb, an article or a plural, write the requirement down beside the data rather than in the template, and make adding a new row state that it meets it. Renaming the data to fit one grammar is usually cheaper and always safer than teaching the templates to handle two.
+
+
+### INC-0094. A reading of 100.2 for a quantity the table itself calls out of 100
+
+*2026-09-22, Wrong data shown or stored*
+
+- **What was seen.** One ACT science study measures seeds germinating out of 100, and on a fifth of its draws the table's first row read 100.2. Every question built on that table then asked about a number that cannot exist, and the ones asking for a trend or a comparison were still answerable, so nothing looked broken. The same table also reported a count of seeds to one decimal place.
+- **Why.** A study's readings are a base and a step scaled by a jitter drawn per draw, and the only thing checked about the result is that it is positive and that the column is monotone. A quantity with a natural ceiling has no way to say so: this one tops out at 100 by its own name, and at the largest jitter the base alone cleared it. The decimal is the same gap from the other side, a quantity that can only be a whole number rendered by a formatter that gives every reading one decimal place.
+- **How it surfaced.** Reading one rendered item from each of the renamed scenarios while fixing their grammar, which is the first time anyone had read this scenario's numbers rather than its trend. (Found by reading the code or the output)
+- **Fix.** A scenario may declare a ceiling, and build_study refuses a draw that passes it, the same way it already refuses a non positive reading. The germination study declares 100 and its base comes down so the ceiling is headroom rather than a filter. Its measurement is a germination rate in percent rather than a count of seeds, because a rate is what a reading to one decimal place actually is.
+- **What stops it now.** build_study rejects any reading above a scenario's declared ceiling, on both studies, the same check that already rejects a non positive one in `src/gen/g_act_sci.py`
+- **Lesson.** Generated data gets checked for the properties the questions need, monotone and positive and distinguishable, and not for the properties the world needs. A quantity whose name contains its own bound is stating a constraint that the generator has no way to hear unless someone writes it down as data. When a field's name says out of 100, or percent, or per 100, that is a ceiling and the generator should be told.
 
 
 ## Tests and guards (18)
@@ -2580,12 +2605,14 @@ Read it before starting a piece of work in the matching area, and again before y
 
 - [ ] **Learned 5 times over.** An aggregate over a mixed population reports the population, and if part of that population is flat by construction it will hide the part that is not. The rule that follows is about what the unit of the measurement should be: measure at the grain the defect can exist at, which here is the file, because a file is written by one person in one sitting with one set of habits. The section was the grain the data was convenient at.  
   <small>A bank a student can play at 88 percent, inside a section the check passed (INC-0069)</small>
-- [ ] **Learned 3 times over.** A corpus field is written against the one sentence the author had in mind, and the schema that reuses it three templates later has no way to know which shape it is. The type system says str in both places. Two things follow. Store the field in every shape a template needs and name the shapes, rather than storing one shape and trusting the next author to notice. And guard the output, not the corpus: the generated sentence is the only place the mismatch becomes visible, and a cheap pattern over the rendered text catches a class that no check on the inputs can see.  
+- [ ] **Learned 4 times over.** A corpus field is written against the one sentence the author had in mind, and the schema that reuses it three templates later has no way to know which shape it is. The type system says str in both places. Two things follow. Store the field in every shape a template needs and name the shapes, rather than storing one shape and trusting the next author to notice. And guard the output, not the corpus: the generated sentence is the only place the mismatch becomes visible, and a cheap pattern over the rendered text catches a class that no check on the inputs can see.  
   <small>A corpus field written for one grammatical slot was spliced into another (INC-0074)</small>
 - [ ] **Learned 2 times over.** Test your content against the strategies a lazy adversary would use, not only against whether it is correct. Measure the score of a rule that ignores the question.  
   <small>The longest option was the correct answer 81 percent of the time (INC-0044)</small>
 - [ ] **Learned 2 times over.** A module that nothing imports fails no test, and an exception raised on every draw is indistinguishable from an exception raised on a hard draw. Both are silence, and a build that reports totals hears neither. Count what each schema contributed, not what the category holds, and treat a contribution of zero as a failure rather than as a small number.  
   <small>A finished generator module that nothing imported, and two of its four schemas produced nothing (INC-0086)</small>
+- [ ] **Learned 2 times over.** Reading the record does not prevent the defect; the practice does. This one was written hours after its own lesson was read closely enough to be catalogued as a recurrence, and it was caught by rendering three items rather than by remembering. Budget the render, not the recollection.  
+  <small>The same corpus field in two grammatical slots, in a schema written the same day the guard was read (INC-0087)</small>
 - [ ] **Learned 2 times over.** A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell. When a measurement cannot be trusted at a small sample, widen the tolerance to what the sample supports rather than declining to measure, and notice when a count of what was measured does not move after you add something to measure.  
   <small>A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked (INC-0088)</small>
 - [ ] **Learned 2 times over.** A generator's wrong answers are written as labels and read as labels, and nobody looks at the values two labels produce. Where the question type makes two misconceptions arithmetically identical the list is shorter than it reads, and because a discarded draw is the ordinary way a schema says no, a whole question form can vanish from an exam leaving nothing behind but a number nobody has a reference for. Count what a schema actually produces at each width it has to serve, and compare the widths against each other.  
@@ -2632,12 +2659,14 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Nine published exam facts cite test prep companies, in the one published corpus with no source validator (INC-0082)</small>
 - [ ] Two corpora side by side, one guarded per unit and one guarded only in total, is not two levels of rigour but one measurement and one blind spot. When a check exists for the bank, ask what else is shipped alongside it and counted only in aggregate.  
   <small>One flashcard for a skill, for as long as anyone cared to look (INC-0085)</small>
-- [ ] Reading the record does not prevent the defect; the practice does. This one was written hours after its own lesson was read closely enough to be catalogued as a recurrence, and it was caught by rendering three items rather than by remembering. Budget the render, not the recollection.  
-  <small>The same corpus field in two grammatical slots, in a schema written the same day the guard was read (INC-0087)</small>
 - [ ] A list of misconceptions is a list of labels and a student sees numbers. Where every characteristic error runs the same direction the key sits at a predictable place in the ordered options however carefully the item is shuffled, because the shuffler can only place it among the candidates it is handed. When writing wrong answers, sort them next to the right one and look at which side they fall on.  
   <small>Every wrong answer a schema could think of was bigger than the right one (INC-0091)</small>
 - [ ] A counter that nothing reads is not instrumentation, it is a comment that looks like instrumentation, and it is worse than nothing because it answers the question 'is anyone watching this' with a yes. Every time a guard is written against one symptom, ask what the same failure looks like arriving another way, and count the whole category rather than the instance that prompted it.  
   <small>A schema threw away three draws in four, and the counter that knew was read by nobody (INC-0092)</small>
+- [ ] A template is a promise about the grammar of what goes into it, and the promise is invisible: the code says name and the sentence needs a singular noun phrase. Whenever a stored string lands next to a verb, an article or a plural, write the requirement down beside the data rather than in the template, and make adding a new row state that it meets it. Renaming the data to fit one grammar is usually cheaper and always safer than teaching the templates to handle two.  
+  <small>Seven variable names were plural and every sentence built around them said was (INC-0093)</small>
+- [ ] Generated data gets checked for the properties the questions need, monotone and positive and distinguishable, and not for the properties the world needs. A quantity whose name contains its own bound is stating a constraint that the generator has no way to hear unless someone writes it down as data. When a field's name says out of 100, or percent, or per 100, that is a ceiling and the generator should be told.  
+  <small>A reading of 100.2 for a quantity the table itself calls out of 100 (INC-0094)</small>
 
 
 ## Database
@@ -2886,7 +2915,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 92 real defects reduced to the rules that prevent them,
+the whole project: 94 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -2926,7 +2955,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-92 defects already prevented is genuinely ahead, and every defect it hits
+94 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

@@ -557,6 +557,16 @@ def check_bias(measured, verbose=True):
 
 def main(target=TARGET, verbose=True):
     OUT.mkdir(exist_ok=True)
+    # Before anything is generated, because this one is about the words rather than the
+    # numbers and there is no point measuring a bank whose sentences do not agree with
+    # themselves (INC-0093).
+    wording = g_act_sci.check_names()
+    if wording:
+        print("ERROR: ACT science variable names and the sentences built from them "
+              "(INC-0093)", file=sys.stderr)
+        for line in wording:
+            print("  " + line, file=sys.stderr)
+        sys.exit(1)
     pool = M.by_id(POOL_MODS)
     pool.update({g.id: g for g in POOL_EXTRA})
     report = {}
