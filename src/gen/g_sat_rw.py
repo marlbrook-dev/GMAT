@@ -171,6 +171,21 @@ PRONOUN_SUBJECTS = [
     ("Each of the archives", "its", False),
     ("The partnership", "its", False),
     ("Neither of the two reports", "its", False),
+    # Plural antecedents, whose correct possessive is "their". Without them the schema
+    # only ever asks "which singular", the key is either the shortest possessive on offer
+    # or the longest depending on the antecedent, and one length rank held 54 percent of
+    # its items (INC-0079). Singular against plural is also the contrast the domain is
+    # about, and asking only about singulars never tested it.
+    ("The researchers", "their", True),
+    ("Both of the candidates", "their", True),
+    ("The trustees", "their", True),
+    ("Several of the contributors", "their", True),
+    ("The apprentices", "their", True),
+    ("Two of the editors", "their", True),
+    ("The committees", "their", False),
+    ("Both of the agencies", "their", False),
+    ("The societies", "their", False),
+    ("Several of the archives", "their", False),
 ]
 # Each tail says which antecedent it fits: any, a person, or a body. The schema used to
 # carry one hand written exception, "if human and album in tail", which is the shape of
@@ -214,26 +229,47 @@ class PronounAgreement(Gen):
     fmt = staticmethod(str)
 
     def build(self, rng):
-        subj, right, human = rng.choice(PRONOUN_SUBJECTS)
+        # The mode is drawn first so the three are evenly represented. "its" is the
+        # shortest possessive English offers, so every item that wants it puts the key at
+        # or near the bottom, and letting whichever group was largest decide the mode let
+        # that carry the schema.
+        groups = [[e for e in PRONOUN_SUBJECTS if e[1] == "their"],
+                  [e for e in PRONOUN_SUBJECTS if e[1] == "its"],
+                  [e for e in PRONOUN_SUBJECTS if e[1] == "his or her"]]
+        subj, right, human = rng.choice(rng.choice(groups))
         want = "person" if human else "body"
         pool = [t for t, fits in PRONOUN_TAILS if fits in ("any", want)]
         tail = rng.choice(pool)
-        other = "its" if human else "his or her"
+        plural = right == "their"
+        wrongs = [("they're", "a contraction of \"they are\", which is not a possessive "
+                              "at all."),
+                  ("it's", "a contraction of \"it is\", which is not a possessive at all."),
+                  ("theirs", "a possessive that stands alone and cannot precede a noun."),
+                  ("their own", "a possessive with an emphatic added, where the emphasis "
+                                "is not what the sentence is missing."),
+                  ("it", "a pronoun with no possessive ending at all, which is the other "
+                         "half of the confusion between \"its\" and \"it's\".")]
+        if plural:
+            wrongs = [("its", "a singular possessive, where the subject is plural."),
+                      ("his or her", "a singular possessive, where the subject is plural.")
+                      ] + wrongs
+            expl = ("\"%s\" is plural, so the possessive pronoun must be plural: "
+                    "\"their\"." % subj)
+        else:
+            wrongs = [("their", "matching the pronoun to the plural noun inside the subject "
+                                "phrase rather than to \"%s\", which is singular."
+                                % subj.split()[0]),
+                      ("its" if human else "his or her",
+                       "a pronoun of the wrong kind for this antecedent.")] + wrongs
+            expl = ("\"%s\" is singular, so the possessive pronoun must be singular: "
+                    "\"%s\". A plural noun inside the subject phrase does not make the "
+                    "subject plural." % (subj, right))
         return {
             "stem": "Which choice completes the text so that it conforms to the conventions "
                     "of Standard English?\n\n%s %s" % (subj, tail),
             "answer": right,
-            "distractors": [
-                ("their", "matching the pronoun to the plural noun inside the subject phrase "
-                          "rather than to \"%s\", which is singular." % subj.split()[0]),
-                (other, "a pronoun of the wrong kind for this antecedent."),
-                ("they're", "a contraction of \"they are\", which is not a possessive at all."),
-                ("it's", "a contraction of \"it is\", which is not a possessive at all."),
-                ("theirs", "a possessive that stands alone and cannot precede a noun."),
-            ],
-            "expl": "\"%s\" is singular, so the possessive pronoun must be singular: \"%s\". "
-                    "A plural noun inside the subject phrase does not make the subject plural."
-                    % (subj, right),
+            "distractors": wrongs,
+            "expl": expl,
         }
 
 

@@ -371,12 +371,24 @@ class WhatChanged(SciBase):
         scen = st["scen"]
         what, set1, set2, _ = scen["mod"]
         right = what.lower() + " was " + set2 + " rather than " + set1
-        wrong = [f + " was changed while everything else stayed as it was in Study 1"
-                 for f in scen["fixed"]]
+        # Every wrong answer used to be the one long template, so the key was the shortest
+        # option on 97 percent of this schema's items (INC-0079). Two changes. The
+        # reversal is the error a student actually makes and is the same length as the
+        # key, so it can no longer stand alone at the bottom. And the remaining wrongs
+        # alternate between a short form and a long one, which is what lets balance place
+        # the key rather than having only one side of it to draw from. Three forms and not
+        # two, because with two the shortest of them was still longer than the key.
+        wrong = [what.lower() + " was " + set1 + " rather than " + set2]
+        forms = [" was changed",
+                 " was changed rather than held the same",
+                 " was changed while everything else stayed as it was in Study 1"]
+        for j, f in enumerate(scen["fixed"]):
+            wrong.append(f + forms[j % 3])
         wrong.append("the " + scen["dv"][0].lower() + " was set in advance rather than "
                      "measured in response to the setting")
         expl = ("The description states that Study 2 repeated Study 1 exactly except that "
-                + what.lower() + " was " + set2 + " instead of " + set1 + ". Everything else, "
+                + what.lower() + " was " + set2 + " instead of " + set1 + ", and not the "
+                "other way about. Everything else, "
                 + ", ".join(scen["fixed"]) + ", was deliberately held the same, which is what "
                 "makes the comparison between the two studies meaningful.")
         stem = "Study 2 differed from Study 1 in that, in Study 2:"
@@ -654,7 +666,16 @@ class ClaimAtSetting(SciBase):
                   if st["up"] else "Yes, because the reading falls across the settings tested"),
                  "No, because the other study records " + n1(other[i]) + " at that setting",
                  "Yes, because the two studies were run under otherwise identical conditions",
-                 "No, because a single reading cannot settle a prediction of this kind"]
+                 "No, because a single reading cannot settle a prediction of this kind",
+                 # Two long ones. The key carries a reading and a comparison, and only
+                 # opposite was written at that length, so the pool had nothing above the
+                 # key and balance could not place it: one rank held 60 percent of this
+                 # schema's 3,200 items (INC-0079). Both are the same kind of wrong
+                 # answer, written at the length a real one would be.
+                 "Yes, because the reading at that setting is " + n1(actual)
+                 + ", and the two studies agree at every setting that was tested",
+                 "No, because the other study records " + n1(other[i])
+                 + " at that setting, which is below " + n1(thresh)]
         expl = ("Read the Study " + str(which) + " column at a " + scen["iv"][0].lower()
                 + " of " + n1(scen["levels"][i]) + " " + scen["iv"][1] + ": it records "
                 + n1(actual) + " " + scen["dv"][1] + ". The prediction asks for at least "
