@@ -19,7 +19,7 @@ Everything is still computed. The scenarios are small linear systems whose solut
 are drawn first and whose totals are derived from them, which is why the arithmetic
 always comes out whole.
 """
-from framework import Gen, ItemError
+from framework import Gen, ItemError, upfirst
 
 
 def money(x):
@@ -146,7 +146,7 @@ class FeePlusRate(TwoPart):
                 + money(t2) + ". Subtracting gives " + str(u2 - u1) + "r = "
                 + money(t2 - t1) + ", so r = " + money(rate) + ". Substituting back, f = "
                 + money(t1) + " - " + str(u1) + " x " + money(rate) + " = " + money(fee) + ".")
-        return stem, (ratename.capitalize() + " (dollars)", feename.capitalize() + " (dollars)"), \
+        return stem, (upfirst(ratename) + " (dollars)", upfirst(feename) + " (dollars)"), \
             rate, fee, cands, expl
 
 
@@ -225,7 +225,7 @@ class SpeedAndTime(TwoPart):
         speed = rng.choice(faster)
         slower = speed - back
         hours = dist // speed
-        stem = (what.capitalize() + " travels from " + start + " to " + end + " at a steady "
+        stem = (upfirst(what) + " travels from " + start + " to " + end + " at a steady "
                 + money(speed) + " kilometres per hour, taking " + money(hours)
                 + " hours. It returns along the same route at a steady speed "
                 + money(slower) + " kilometres per hour slower than it went out.")
@@ -269,7 +269,7 @@ class SplitBudget(TwoPart):
         if b == a or b <= 0:
             raise ItemError("the two amounts must differ")
         stem = (org + " divides a budget of $" + money(total) + " among several lines. "
-                + ba.capitalize() + " takes " + money(share) + " percent of the whole "
+                + upfirst(ba) + " takes " + money(share) + " percent of the whole "
                 "budget, and " + bb + " takes " + money(pctb) + " percent of what is left "
                 "after " + ba + " is funded.")
         cands = [
@@ -283,11 +283,11 @@ class SplitBudget(TwoPart):
             (total // 2, "splitting the budget evenly"),
             (abs(a - b), "the gap between the two lines rather than either line"),
         ]
-        expl = (ba.capitalize() + " takes " + money(share) + " percent of $" + money(total)
+        expl = (upfirst(ba) + " takes " + money(share) + " percent of $" + money(total)
                 + " = $" + money(a) + ". That leaves $" + money(total) + " - $" + money(a)
                 + " = $" + money(rest) + ", and " + bb + " takes " + money(pctb)
                 + " percent of that: $" + money(b) + ".")
-        return stem, (ba.capitalize() + " (dollars)", bb.capitalize() + " (dollars)"), \
+        return stem, (upfirst(ba) + " (dollars)", upfirst(bb) + " (dollars)"), \
             a, b, cands, expl
 
 

@@ -20,7 +20,7 @@ Two rules the draws have to respect, or the item is unfair rather than hard:
 """
 import random
 
-from framework import Gen, ItemError
+from framework import Gen, ItemError, upfirst
 
 GAP = 3          # percentage points a percent distractor must clear the key by
 RATIO_GAP = 0.2  # same idea for "how many times" answers
@@ -159,7 +159,7 @@ class ShareOfColumn(GTBase):
         if len(cands) < 4:
             raise ItemError("share draw too tight")
         return self.wrap(scen, data, dict(
-            stem=prep(scen).capitalize() + " " + scen["cols"][ci] + ", " + scen["thing"]
+            stem=upfirst(prep(scen)) + " " + scen["cols"][ci] + ", " + scen["thing"]
                  + " at " + scen["rows"][ri] + " were approximately what percent of "
                  + scen["thing"] + " at all " + word(len(scen["rows"])) + " "
                  + scen["rowlab"].lower() + "s combined?",

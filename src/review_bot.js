@@ -293,23 +293,39 @@ function reviewExam(spec) {
  // The product's real claim is not the score, it is "here is what to work on". So put in
  // a student who is strong everywhere except one section and ask the engine which section
  // is weakest. Getting this wrong sends a student to study the thing they are good at.
+ // It sits SITTINGS students per section, not one. With one the verdict was three
+ // coin flips: the diagnosis is right on 179 of 180 sittings measured across 60 seeds,
+ // so at three sittings the check warned on about three percent of seeds by sampling
+ // alone, and it did exactly that on a change to the GMAT verbal corpora that could not
+ // have affected it (INC-0077). Every other check here already averages over 25
+ // sittings. A check that flips on unrelated work is not strict, it is noisy, and the
+ // cost is the real alarm nobody reads.
+ //
+ // The 90 percent bar is placed against a measurement rather than a feeling. Halving
+ // the planted deficit from 1.6 to 0.8 takes the rate from 99 percent to 88, and 0.4
+ // takes it to 64, so the bar sits between a diagnosis that works and one that has
+ // visibly degraded, with the margin stated instead of implied.
  if (SECTIONS.length > 1) {
+  const SITTINGS = 5;
   let right = 0, tried = 0;
+  const missed = {};
   for (const target of SECTIONS) {
-   const r = sit(api, 0.6, target, rng);
-   const abil = SECTIONS.map(s => ({ s, th: sectionAbility(r.state, s).theta }))
-    .sort((a, b) => a.th - b.th);
-   tried++;
-   if (abil[0].s === target) right++;
+   for (let i = 0; i < SITTINGS; i++) {
+    const r = sit(api, 0.6, target, rng);
+    const abil = SECTIONS.map(s => ({ s, th: sectionAbility(r.state, s).theta }))
+     .sort((a, b) => a.th - b.th);
+    tried++;
+    if (abil[0].s === target) right++;
+    else missed[target] = (missed[target] || 0) + 1;
+   }
   }
-  if (right < tried) {
-   note(EXAM.id, right * 2 < tried ? 'fail' : 'warn',
-    'a planted weakness is found by the diagnosis',
-    right + ' of ' + tried + ' sections correctly identified as weakest');
-  } else {
-   note(EXAM.id, 'ok', 'a planted weakness is found by the diagnosis',
-    tried + ' of ' + tried + ' sections correctly identified');
-  }
+  const rate = right / tried;
+  const detail = right + ' of ' + tried + ' sittings across ' + SECTIONS.length +
+   ' sections' + (right < tried ? ', missed on ' +
+    Object.entries(missed).map(([s, n]) => s + ' ' + n + 'x').join(', ') : '');
+  if (rate >= 0.9) note(EXAM.id, 'ok', 'a planted weakness is found by the diagnosis', detail);
+  else note(EXAM.id, rate < 0.5 ? 'fail' : 'warn',
+   'a planted weakness is found by the diagnosis', detail);
  }
 }
 

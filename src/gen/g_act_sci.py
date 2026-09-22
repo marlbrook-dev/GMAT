@@ -22,7 +22,7 @@ One scenario deliberately has a second study where the changed condition does NO
 result, because "the variable you changed turned out not to matter" is a real finding and
 a student who assumes every manipulation must produce an effect should get that wrong.
 """
-from framework import Gen, ItemError, balance
+from framework import Gen, ItemError, balance, upfirst
 
 
 def n1(x):
@@ -482,7 +482,7 @@ class ClaimCheck(SciBase):
                  + scen["iv"][0].lower()]
         expl = ("Compare the two columns setting by setting: Study 1 reads "
                 + ", ".join(n1(v) for v in st["s1"]) + " and Study 2 reads "
-                + ", ".join(n1(v) for v in st["s2"]) + ". " + because.capitalize()
+                + ", ".join(n1(v) for v in st["s2"]) + ". " + upfirst(because)
                 + ", so the prediction is " + ("supported" if holds else "not supported") + ".")
         stem = ("A student predicts that, at any setting used in these studies, " + claim
                 + ". Is this prediction consistent with the results?")

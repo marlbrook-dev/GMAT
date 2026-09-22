@@ -27,7 +27,7 @@ The length discipline from the verbal rewrite applies: a key that carries a mech
 its evidence while distractors carry one clause is a key spottable by length alone. Here
 every option is a single clause of comparable weight, and test.js measures what came out.
 """
-from framework import Gen, ItemError, balance, check_clause_splice
+from framework import Gen, ItemError, balance, check_clause_splice, upfirst
 
 # Each scenario supplies the nouns. The reasoning is in the schema, not here, so a new
 # scenario multiplies every schema without touching any of them.
@@ -232,32 +232,32 @@ class CauseWeaken(CRBase):
                 + " " + d["rose"] + ". Officials concluded that " + d["short"]
                 + " was responsible for the change.\n\nWhich of the following, if true, "
                 "most seriously weakens the officials' conclusion?")
-        right = d["alt"].capitalize() + "."
+        right = upfirst(d["alt"]) + "."
         wrongs = [
-            ("No other district in the region opened anything comparable in the same period.",
+            ("No other place in the region opened anything comparable in the same period.",
              "rules out a rival explanation elsewhere, which supports the conclusion rather "
              "than weakening it"),
-            (d["other"].capitalize() + ".",
+            (upfirst(d["other"]) + ".",
              "reports something that happened at the same time but that could not affect "
              + d["effect"]),
             ("Officials had expected the change to take longer than it did.",
              "comments on how the result compared with expectations, which bears on nobody's "
              "forecasting rather than on the cause"),
-            (d["effect"].capitalize() + " has been measured the same way for twenty years.",
+            (upfirst(d["effect"]) + " has been measured the same way for twenty years.",
              "defends the measurement, which the argument was not being challenged on"),
             ("Some of the " + d["people"] + " said they welcomed " + d["short"] + ".",
              "reports approval, which is not the same as showing the change was caused by it"),
             ("The change was larger than officials in " + d["place"] + " had predicted.",
              "compares the result with a prediction, which bears on the forecast rather than "
              "on the cause"),
-            ("Two neighbouring districts recorded no comparable change in the same period.",
+            ("Two comparable places recorded no change of the kind in the same period.",
              "reports the absence of the effect where the cause was also absent, which is "
              "evidence for the conclusion rather than against it"),
-            (d["short"].capitalize() + " cost less to build than had been budgeted.",
+            (upfirst(d["short"]) + " cost less than had been budgeted.",
              "addresses cost, which the causal conclusion says nothing about"),
         ]
         expl = ("The conclusion moves from a correlation to a cause, so it is weakened by an "
-                "alternative explanation for the same change. " + d["alt"].capitalize()
+                "alternative explanation for the same change. " + upfirst(d["alt"])
                 + ", which would produce the same movement in " + d["effect"]
                 + " with or without " + d["short"] + ".")
         return self.emit(rng, choices_n, stem, right, wrongs, expl,
@@ -279,26 +279,26 @@ class CauseAssume(CRBase):
         right = ("No other change in the same period was sufficient on its own to move "
                  + d["effect"] + ".")
         wrongs = [
-            (d["short"].capitalize() + " was the least expensive of the measures available "
+            (upfirst(d["short"]) + " was the least expensive of the measures available "
              "to " + d["place"] + " for producing a change of this kind.",
              "argues about cost, which the conclusion about cause does not rest on"),
             ("Every one of the " + d["people"] + " was aware that " + d["short"]
              + " had opened before the change in " + d["effect"] + " was recorded.",
              "demands universal awareness, which the argument never needs"),
-            (d["effect"].capitalize() + " will go on changing in the same direction for as "
+            (upfirst(d["effect"]) + " will go on changing in the same direction for as "
              "long as " + d["short"] + " remains in place.",
              "predicts the future, while the conclusion is about what caused a change "
              "already observed"),
             ("Officials in " + d["place"] + " consulted those affected before deciding to "
              "open " + d["thing"] + ".",
              "concerns the process followed, not whether the cause claimed is the real one"),
-            (d["short"].capitalize() + " will remain in place for at least a decade, so "
+            (upfirst(d["short"]) + " will remain in place for at least a decade, so "
              "that its effects can be measured over the long term.",
              "concerns how long the measure lasts, not whether it caused what has happened"),
             ("No measure comparable to " + d["short"] + " had been tried anywhere in "
              + d["place"] + " before this one was opened.",
              "asserts novelty, which the conclusion about cause does not rest on"),
-            (d["effect"].capitalize() + " had been stable for several years before "
+            (upfirst(d["effect"]) + " had been stable for several years before "
              + d["short"] + " opened.",
              "describes the period before the change, which makes the conclusion more "
              "plausible rather than being something it requires"),
@@ -374,9 +374,9 @@ class PercentFlaw(CRBase):
                 + ". A commentator concluded that " + d["conclude"]
                 + ".\n\nWhich of the following, if true, most seriously weakens the "
                 "commentator's conclusion?")
-        right = d["gap"].capitalize() + " " + d["direction"] + "."
+        right = upfirst(d["gap"]) + " " + d["direction"] + "."
         wrongs = [
-            (d["gap"].capitalize() + " was unchanged over the same period.",
+            (upfirst(d["gap"]) + " was unchanged over the same period.",
              "holds the denominator steady, which is the condition under which the "
              "conclusion would actually follow"),
             ("The figures were collected by the same body throughout the period.",
@@ -413,7 +413,7 @@ class NecessaryFlaw(CRBase):
         stem = ("It has been noted that " + d["group"] + " " + d["common"] + ". It follows "
                 "that " + d["conclude"] + ".\n\nWhich of the following, if true, most "
                 "seriously undermines the conclusion?")
-        right = d["why"].capitalize() + "."
+        right = upfirst(d["why"]) + "."
         wrongs = [
             ("Some of those who achieved the same result elsewhere did so without any "
              "advantage comparable to the one described here.",
@@ -501,9 +501,9 @@ class PlanWeaken(CRBase):
         stem = (d["who"] + " intends to " + d["goal"] + ". To that end it will "
                 + d["action"] + ".\n\nWhich of the following, if true, provides the "
                 "strongest reason to doubt that the plan will succeed?")
-        right = d["fails"].capitalize() + "."
+        right = upfirst(d["fails"]) + "."
         wrongs = [
-            (d["needs"].capitalize() + ".",
+            (upfirst(d["needs"]) + ".",
              "states the very condition the plan needs, so it supports the plan instead of "
              "casting doubt on it"),
             ("A similar measure elsewhere took two years to show any effect.",
@@ -748,4 +748,258 @@ PLAN += [
          fails="the fleet runs almost entirely on town routes where the limit is never reached",
          check="the fleet runs a meaningful share of its mileage above the speed the "
                "device would impose"),
+]
+
+
+# v_ac shipped 1422 items of a 3300 target off eighteen scenarios across four corpora.
+# Same reasoning as the PLAN block above: a scenario multiplies every schema that draws
+# on it, and CAUSE feeds two.
+CAUSE += [
+    dict(place="Harlow Green", thing="a weekend park and ride service",
+         effect="the number of cars parked in the town centre", rose="fell by a fifth",
+         alt="a large employer in the town centre moved to an out of town site that year",
+         alt_short="a town centre employer moved out that year",
+         short="the park and ride", people="shopkeepers in Harlow Green",
+         other="the town centre gained a new pedestrian crossing that autumn"),
+    dict(place="Sedgley College", thing="a drop in mathematics clinic",
+         effect="the pass rate in first year mathematics", rose="rose by twelve points",
+         alt="the college raised its entry requirement for the course in the same year",
+         alt_short="the entry requirement rose in the same year",
+         short="the clinic", people="students at Sedgley College",
+         other="the college repainted the mathematics building that summer"),
+    dict(place="Ravenstone", thing="a set of cycle racks outside every shop",
+         effect="the number of bicycles counted on the high street", rose="rose by half",
+         alt="the bus service through Ravenstone was cut to two journeys a day that spring",
+         alt_short="the bus service was cut that spring",
+         short="the cycle racks", people="traders in Ravenstone",
+         other="the high street was resurfaced the following year"),
+    dict(place="the Ashford Clinic", thing="an online booking system",
+         effect="the number of appointments left unfilled each week", rose="fell by a third",
+         alt="the clinic took on two more doctors in the same month",
+         alt_short="two more doctors joined in the same month",
+         short="the booking system", people="patients at the Ashford Clinic",
+         other="the clinic changed its telephone number that year"),
+    dict(place="Cranbourne Prison", thing="a reading programme",
+         effect="the share of released prisoners reconvicted within two years",
+         rose="fell by a quarter",
+         alt="the prison began releasing prisoners into a new housing scheme in the same period",
+         alt_short="a new housing scheme began in the same period",
+         short="the reading programme", people="staff at Cranbourne Prison",
+         other="the prison replaced its kitchen that winter"),
+    dict(place="Bramfield", thing="a farmers market on Saturday mornings",
+         effect="the takings of the shops on the square", rose="rose by a fifth",
+         alt="a supermarket two streets away closed in the same month",
+         alt_short="a nearby supermarket closed in the same month",
+         short="the market", people="shopkeepers in Bramfield",
+         other="the square was fitted with new lighting that autumn"),
+    dict(place="the Ellerby Works", thing="a training scheme for new machinists",
+         effect="the number of parts rejected at inspection", rose="fell by two fifths",
+         alt="the works replaced its oldest lathe in the same quarter",
+         alt_short="the oldest lathe was replaced in the same quarter",
+         short="the training scheme", people="machinists at the Ellerby Works",
+         other="the works changed its inspection shift pattern that year"),
+    dict(place="Holbeck Library", thing="a homework space for teenagers",
+         effect="the number of teenagers holding a library card", rose="rose by a third",
+         alt="a youth centre two streets away closed in the same term",
+         alt_short="a nearby youth centre closed in the same term",
+         short="the homework space", people="families in Holbeck",
+         other="the library began stocking a new magazine that year"),
+    dict(place="Denby Vale", thing="a free flu clinic at the village hall",
+         effect="the working days lost to illness at the village's largest employer",
+         rose="fell by a sixth",
+         alt="the employer introduced home working in the same winter",
+         alt_short="home working began in the same winter",
+         short="the flu clinic", people="residents of Denby Vale",
+         other="the village hall was re-roofed that spring"),
+    dict(place="Marsden Docks", thing="a night shift at the container gate",
+         effect="the average time a lorry spends waiting at the gate",
+         rose="fell by 25 minutes",
+         alt="a second container terminal opened along the coast and took a share of the traffic",
+         alt_short="a second terminal opened and took some of the traffic",
+         short="the night shift", people="drivers using Marsden Docks",
+         other="the docks repainted their gate signs that year"),
+    dict(place="Alderholt", thing="a set of traffic islands on its residential streets",
+         effect="the number of collisions recorded on those streets", rose="fell by a third",
+         alt="the through route was diverted away from the village in the same year",
+         alt_short="the through route was diverted in the same year",
+         short="the traffic islands", people="residents of Alderholt",
+         other="the village renamed two of its streets that year"),
+    dict(place="Whitstone Hospital", thing="a discharge lounge",
+         effect="the average length of a stay on the medical wards",
+         rose="fell by half a day",
+         alt="a community rehabilitation unit opened nearby in the same period",
+         alt_short="a rehabilitation unit opened nearby in the same period",
+         short="the discharge lounge", people="staff at Whitstone Hospital",
+         other="the hospital replaced its bed linen supplier that year"),
+    dict(place="Netherby", thing="a community orchard on the old allotments",
+         effect="the number of households joining the gardening society",
+         rose="rose by two thirds",
+         alt="the society halved its membership fee in the same year",
+         alt_short="the membership fee was halved in the same year",
+         short="the orchard", people="residents of Netherby",
+         other="the society changed the night of its monthly meeting"),
+    dict(place="Tarnbrook", thing="a second recycling point at the top of the village",
+         effect="the weight of glass collected for recycling", rose="rose by a third",
+         alt="a bottle deposit scheme began across the county in the same month",
+         alt_short="a county deposit scheme began in the same month",
+         short="the recycling point", people="residents of Tarnbrook",
+         other="the village replaced its street nameplates that year"),
+]
+
+SAMPLE += [
+    dict(who="people who replied to a questionnaire printed in the local paper",
+         pop="residents of the town",
+         claim="most residents want the market moved to the square",
+         why="the people who reply to a printed questionnaire are the ones who already "
+             "read the paper closely",
+         topic="the market"),
+    dict(who="listeners who telephoned the programme", pop="the station's listeners",
+         claim="listeners are opposed to the new timetable",
+         why="telephoning a programme takes an effort that only those with strong views make",
+         topic="the timetable"),
+    dict(who="members of the ramblers association", pop="users of the footpath",
+         claim="users would accept a longer route around the field",
+         why="members of a ramblers association walk further by choice than other users "
+             "of a footpath",
+         topic="the length of the route"),
+    dict(who="passengers travelling on the eight o'clock service", pop="the line's passengers",
+         claim="passengers would pay more for a faster journey",
+         why="the eight o'clock service carries people travelling to work, who value "
+             "speed more than other passengers do",
+         topic="journey time"),
+    dict(who="patients who kept their follow up appointment",
+         pop="patients treated at the clinic",
+         claim="patients are satisfied with the treatment",
+         why="the patients who were dissatisfied are the ones least likely to come back",
+         topic="satisfaction"),
+    dict(who="staff who filled in the survey during working hours",
+         pop="the department's staff",
+         claim="staff have time for an additional weekly meeting",
+         why="the staff with least to do are the ones who had time to fill in a survey at work",
+         topic="how much time staff have"),
+    dict(who="households that agreed to have a meter fitted",
+         pop="households in the district",
+         claim="households in the district use less water than the regional average",
+         why="a household that volunteers for a meter usually expects to benefit from one",
+         topic="water use"),
+    dict(who="visitors who stayed to the end of the tour", pop="visitors to the house",
+         claim="visitors find the whole tour interesting",
+         why="the visitors who were losing interest had already left before the end",
+         topic="how interesting the tour is"),
+    dict(who="teachers who attended the optional conference",
+         pop="teachers in the authority",
+         claim="teachers welcome the new curriculum",
+         why="a teacher who gives up a Saturday for a conference on the curriculum is "
+             "already engaged with it",
+         topic="the curriculum"),
+    dict(who="drivers who renewed with the same insurer", pop="the insurer's customers",
+         claim="customers consider the price fair",
+         why="the customers who thought the price unfair had already gone elsewhere",
+         topic="the price"),
+    dict(who="shoppers interviewed at the entrance to the new car park",
+         pop="shoppers in the town",
+         claim="shoppers prefer to drive into town",
+         why="everyone interviewed had just arrived by car",
+         topic="how shoppers travel"),
+]
+
+PERCENT += [
+    dict(subject="the share of library loans that were audiobooks",
+         share="fell from 22 percent to 15 percent",
+         conclude="fewer audiobooks are being borrowed than before",
+         gap="the total number of loans", direction="more than doubled over the same period",
+         unit="loans"),
+    dict(subject="the proportion of the hospital's admissions that were emergencies",
+         share="fell from 40 percent to 30 percent",
+         conclude="the hospital is admitting fewer emergencies",
+         gap="the total number of admissions",
+         direction="rose by three quarters over the same period", unit="admissions"),
+    dict(subject="the share of the company's sales made in its home market",
+         share="fell from 60 percent to 45 percent",
+         conclude="the company is selling less at home",
+         gap="the company's total sales", direction="nearly doubled over the same period",
+         unit="units"),
+    dict(subject="the proportion of journeys in the county made by bus",
+         share="fell from 30 percent to 24 percent",
+         conclude="fewer journeys in the county are being made by bus",
+         gap="the total number of journeys made",
+         direction="rose by half over the same period", unit="journeys"),
+    dict(subject="the share of planning applications that were refused",
+         share="fell from 16 percent to 11 percent",
+         conclude="the council is refusing fewer applications",
+         gap="the number of applications submitted",
+         direction="rose by four fifths over the same period", unit="applications"),
+    dict(subject="the proportion of the museum's visitors who were children",
+         share="fell from 35 percent to 28 percent",
+         conclude="fewer children are visiting the museum",
+         gap="the total number of visitors",
+         direction="rose by two thirds over the same period", unit="children"),
+    dict(subject="the share of the farm's land sown with barley",
+         share="fell from 45 percent to 33 percent",
+         conclude="the farm is growing less barley",
+         gap="the area the farm has under cultivation",
+         direction="doubled over the same period", unit="hectares"),
+    dict(subject="the share of orders that were returned",
+         share="fell from 12 percent to 9 percent",
+         conclude="fewer orders are being returned",
+         gap="the total number of orders",
+         direction="more than tripled over the same period", unit="orders"),
+    dict(subject="the proportion of the town's households without a car",
+         share="fell from 28 percent to 21 percent",
+         conclude="fewer households in the town are without a car",
+         gap="the number of households in the town",
+         direction="rose by two fifths over the same period", unit="households"),
+    dict(subject="the share of the charity's income that came from legacies",
+         share="fell from 34 percent to 25 percent",
+         conclude="the charity is receiving less in legacies",
+         gap="the charity's total income",
+         direction="rose by four fifths over the same period", unit="pounds"),
+]
+
+NECESSARY += [
+    dict(common="used the practice rooms in the basement",
+         group="each of the students who won a place at the conservatoire",
+         conclude="the basement practice rooms are what prepare a student for the audition",
+         why="the basement rooms are the only ones in the building, so every student uses "
+             "them whether they win a place or not"),
+    dict(common="were fitted with the workshop's own bearings",
+         group="all nine of the machines that ran for a decade without failing",
+         conclude="the workshop's bearings are what give a machine its working life",
+         why="the workshop fits its own bearings to every machine it builds, including "
+             "the ones that failed early"),
+    dict(common="had been treated with the nursery's standard rooting compound",
+         group="every cutting that took root",
+         conclude="the rooting compound is what makes a cutting take",
+         why="the nursery treats every cutting with the compound, including the great "
+             "many that fail to take"),
+    dict(common="submitted their application through the online portal",
+         group="each of the twelve candidates offered a place",
+         conclude="applying through the portal is what secures an offer",
+         why="the portal is the only way to apply, so every unsuccessful candidate used "
+             "it as well"),
+    dict(common="had read the department's style guide",
+         group="every paper the journal accepted last year",
+         conclude="reading the style guide is what gets a paper accepted",
+         why="the guide is sent to every author on submission, including the authors of "
+             "the papers that were rejected"),
+    dict(common="trained on the club's indoor pitch over the winter",
+         group="all of the players promoted to the first team",
+         conclude="winter training on the indoor pitch is what earns promotion",
+         why="the whole squad trains on the indoor pitch in winter, including the players "
+             "who were not promoted"),
+    dict(common="were stored in the cold room before firing",
+         group="every one of the pots that survived the kiln",
+         conclude="storing a pot in the cold room is what carries it through the firing",
+         why="the studio stores every pot in the cold room, including those that cracked "
+             "in the kiln"),
+    dict(common="had attended the induction week",
+         group="each of the apprentices who completed the four year programme",
+         conclude="the induction week is what carries an apprentice through to the end",
+         why="induction week is compulsory, so the apprentices who left early had "
+             "attended it too"),
+    dict(common="were grown from seed saved on the farm",
+         group="all of the varieties that yielded well in the dry summer",
+         conclude="seed saved on the farm is what makes a variety drought tolerant",
+         why="the farm grows everything from its own saved seed, including the varieties "
+             "that failed in the dry summer"),
 ]

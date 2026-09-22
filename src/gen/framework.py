@@ -252,6 +252,20 @@ class Gen:
                 raise ItemError("%s missing %s" % (self.id, k))
 
 
+def upfirst(t):
+    """Raise the first character and touch nothing else.
+
+    The standard library's string method of a similar name also lower cases every other
+    character, which is right for a fragment of ordinary prose and destroys any fragment
+    containing a name. The generators used it twenty one times and shipped 180 items
+    reading "The fenwick track is the only one in the county", 70 of them as the key,
+    two lines under a stem that spells it correctly (INC-0076). src/build.py now fails
+    if that method appears anywhere under src/gen, so this is the only way to do it.
+    """
+    t = str(t)
+    return t[:1].upper() + t[1:]
+
+
 WH = ("what", "why", "which", "when", "how", "where", "whether")
 
 
