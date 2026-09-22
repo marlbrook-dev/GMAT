@@ -29,7 +29,7 @@ import g_rc, g_flaw                                  # noqa: E402,F401
 OUT = D / "generated"
 
 # Per category, set to what the schemas can actually produce rather than to a round
-# number. 36 categories across the five generated exams, plus 1,852 hand written items.
+# number. 42 categories across the five generated exams, plus 1,852 hand written items.
 # Both figures were wrong here until they were counted: this said 34 categories and 1,073
 # hand written items "including all 65 LSAT ones, which have no generator", when the LSAT
 # had 372 hand written items and now has a generator too.
@@ -45,12 +45,16 @@ OUT = D / "generated"
 #   sat/rw_sec     2,489   sat_rw_apostrophe, sat_rw_boundary, sat_rw_pronoun, sat_rw_sva
 #   act/act_e_cse  2,507   the same four, remapped
 #
-# The two LSAT categories both reach the target, on the same CR schemas that fall short
-# under the GMAT taxonomy, because the LSAT groups them differently: five schemas feed
-# lsat_lr_evid where the GMAT splits the same five across v_ac and v_pc.
+# The three LSAT Logical Reasoning categories all reach the target, on the same CR
+# schemas that fall short under the GMAT taxonomy, because the LSAT groups them
+# differently: five schemas feed lsat_lr_evid where the GMAT splits the same five across
+# v_ac and v_pc. Its three Reading categories do not, and neither do the two GMAT reading
+# ones, for the reason given against v_st below: the count there is gated on how many
+# passages are written and no generator cleverness changes that.
 #
-# So the generated bank is 29 x 3300 + 9,218 = 104,918, and with the hand written banks
-# the build counts a published total of 106,770.
+# The generated bank is 122,380 items and the build counts a published total of 124,232
+# with the hand written banks. Both figures are printed by the build rather than taken
+# from here; a number in a comment is a number nobody regenerates.
 #
 # sat/rw_eoi and act/act_e_pow were on this list at 971 and 974 until sat_rw_synthesis
 # was written. Both are now at target, and the fix was a second schema rather than a
@@ -118,13 +122,11 @@ EXAM_EXTRA = {"gre": {"gre_tc": [g for g in g_gre_verb.GENS if g.skill == "gre_t
                        # way over two passages is two items, and the same question over
                        # one passage is one. Twelve passages is the corpus today.
                        #
-                       # Not mapped onto the LSAT reading categories, which also have no
-                       # generated items. These passages average 192 words, which sits
-                       # inside the GMAT range; the hand written LSAT passages in this
-                       # repository run 289 to 330. Length is most of what distinguishes
-                       # LSAT reading, so serving a GMAT length passage under that label
-                       # would misdescribe the format. Longer passages written for it
-                       # would map straight across.
+                       # These draw on both corpora. The LSAT reading categories draw
+                       # only on the long one, mapped in mapping.py: the short passages
+                       # average 192 words, which sits inside the GMAT range, while the
+                       # hand written LSAT passages here run 289 to 330, and length is
+                       # most of what distinguishes LSAT reading.
                        "v_st": [g for g in g_rc.GENS if g.skill == "v_st"],
                        "v_inf": [g for g in g_rc.GENS if g.skill == "v_inf"]},
               "act": {"act_e_kol": g_act_kol.GENS,
