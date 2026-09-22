@@ -380,9 +380,23 @@ def sentence_starts(t):
 STEM_NUM = re.compile(r"-?\d+(?:/\d+)?")
 
 
+UNIT_NUM = re.compile(r"^(\$?-?[\d,]+(?:\.\d+)?(?:/\d+)?) [a-z][a-z ]*$")
+
+
 def as_value(t):
-    """Numeric value of a rendered choice, or None if it is not a bare number."""
-    t = str(t).replace(",", "").replace("$", "").rstrip("%")
+    """Numeric value of a rendered choice, or None if it is not a number.
+
+    A trailing unit word is stripped first. "20 percent" is a number as far as a student
+    guessing is concerned, and without this the balancer fell back to the character count
+    for the whole percent change schema, which tracks the digits rather than the value
+    (INC-0079). Two choices with different units and the same number compare equal here,
+    which is harmless: this decides only which side of the key a candidate sits on.
+    """
+    t = str(t).strip()
+    m = UNIT_NUM.match(t)
+    if m:
+        t = m.group(1)
+    t = t.replace(",", "").replace("$", "").rstrip("%")
     try:
         if "/" in t:
             n, d = t.split("/", 1)

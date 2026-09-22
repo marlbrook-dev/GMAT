@@ -160,6 +160,23 @@ FIXED_CHOICE = {"gmat_ds_linear", "gmat_ds_percent", "gmat_ds_rectangle",
 # at 100 percent by picking the third shortest option and is at 41; cr_plan_eval put
 # the key shortest on 98 percent of 1,117 items and is at 19; cr_plan_weaken put it
 # longest on 65 percent of 1,106 and is at 15.
+# Why an entry is expected to stay. The table records what a schema measures; this
+# records the cases where the measurement is a property of the question type rather than
+# a defect to grind down, so the next person does not spend an hour on one I already spent
+# an hour on. A schema not named here has no excuse and should come down.
+SCHEMA_NOTES = {
+    ("act", "act_kol_redundancy"):
+        "the key is the concise option, which is the shortest by the nature of the "
+        "skill, and no shorter option can preserve the meaning. Picking the shortest "
+        "is also what the real exam rewards on this question type, so the tell is the "
+        "thing being taught. Measured for the odd one out as well: 96 percent, which "
+        "is the same fact and not a second one.",
+    ("gmat", "gmat_ds_rectangle"):
+        "small, and its mode is the combined answer, which is the one its parameters "
+        "reach most easily. Worth the same work gmat_ds_linear got if it grows.",
+    ("gmat", "gmat_ds_percent"): "as gmat_ds_rectangle.",
+}
+
 SCHEMA_DEBT = {
     ('act', 'act_kol_redundancy'): (0, 100, 100, 4),
     ('act', 'act_nq_proportion'): (24, 3, 48, 5),
@@ -173,30 +190,23 @@ SCHEMA_DEBT = {
     ('act', 'sat_geo_circle>act_m_geo'): (0, 29, 49, 11),
     ('act', 'sat_geo_similar>act_m_geo'): (31, 4, 55, 12),
     ('act', 'sat_geo_volume>act_m_geo'): (27, 1, 50, 4),
-    ('act', 'sat_psda_pctchange>act_m_ies'): (0, 50, 64, 13),
-    ('act', 'sat_psda_prob>act_m_sp'): (0, 74, 74, 5),
-    ('act', 'sat_psda_units>act_m_ies'): (50, 0, 50, 4),
     ('act', 'sat_rw_apostrophe>act_e_cse'): (14, 17, 47, 1),
     ('act', 'sat_rw_boundary>act_e_cse'): (34, 0, 50, 0),
-    ('gmat', 'gmat_ds_linear'): (2, 13, 42, 42),
-    ('gmat', 'gmat_ds_percent'): (42, 3, 42, 42),
-    ('gmat', 'gmat_ds_rectangle'): (45, 4, 45, 45),
-    ('gmat', 'gt_avg'): (0, 11, 48, 1),
-    ('gmat', 'gt_count'): (0, 7, 41, 40),
-    ('gmat', 'gt_gap'): (0, 18, 49, 3),
-    ('gmat', 'gt_ratio'): (7, 0, 81, 8),
+    ('gmat', 'gmat_ds_percent'): (41, 3, 41, 41),
+    ('gmat', 'gmat_ds_rectangle'): (42, 4, 42, 42),
+    ('gmat', 'gt_avg'): (0, 8, 53, 2),
+    ('gmat', 'gt_count'): (0, 6, 45, 44),
+    ('gmat', 'gt_gap'): (0, 19, 43, 3),
+    ('gmat', 'gt_ratio'): (9, 0, 45, 10),
     ('gmat', 'msr_count'): (0, 3, 45, 42),
-    ('gmat', 'sat_adv_exponential>q_rrp'): (42, 0, 44, 10),
+    ('gmat', 'sat_adv_exponential>q_rrp'): (39, 0, 46, 8),
     ('gmat', 'sat_adv_exprules>q_vof'): (19, 6, 44, 8),
     ('gmat', 'sat_adv_radical>q_vof'): (47, 2, 47, 2),
     ('gmat', 'sat_alg_distribute>q_alg'): (40, 42, 42, 3),
     ('gmat', 'sat_alg_linear1>q_alg'): (1, 7, 45, 9),
-    ('gmat', 'sat_psda_pctchange>q_rrp'): (0, 0, 47, 14),
     ('gmat', 'sat_psda_percent>q_rrp'): (0, 45, 45, 5),
-    ('gmat', 'sat_psda_prob>q_csp'): (0, 73, 73, 6),
-    ('gmat', 'sat_psda_units>q_rrp'): (22, 0, 78, 5),
     ('gre', 'sat_adv_exponential>gre_arith'): (40, 0, 45, 10),
-    ('gre', 'sat_adv_exprules>gre_arith'): (19, 6, 44, 8),
+    ('gre', 'sat_adv_exprules>gre_arith'): (17, 6, 45, 9),
     ('gre', 'sat_adv_polyfactor>gre_alg'): (11, 41, 41, 4),
     ('gre', 'sat_adv_radical>gre_alg'): (52, 2, 52, 3),
     ('gre', 'sat_alg_distribute>gre_alg'): (37, 41, 41, 4),
@@ -206,32 +216,40 @@ SCHEMA_DEBT = {
     ('gre', 'sat_geo_rect>gre_geo'): (21, 0, 38, 4),
     ('gre', 'sat_geo_similar>gre_geo'): (25, 0, 55, 12),
     ('gre', 'sat_geo_volume>gre_geo'): (20, 0, 44, 3),
-    ('gre', 'sat_psda_pctchange>gre_arith'): (0, 0, 50, 14),
     ('gre', 'sat_psda_percent>gre_arith'): (0, 45, 45, 6),
-    ('gre', 'sat_psda_prob>gre_data'): (0, 73, 73, 6),
-    ('gre', 'sat_psda_units>gre_arith'): (22, 0, 78, 5),
     ('sat', 'sat_adv_exponential'): (35, 3, 50, 4),
     ('sat', 'sat_adv_radical'): (52, 3, 52, 2),
     ('sat', 'sat_alg_word'): (6, 0, 53, 3),
     ('sat', 'sat_geo_circle'): (0, 28, 49, 11),
     ('sat', 'sat_geo_similar'): (35, 6, 50, 13),
-    ('sat', 'sat_psda_pctchange'): (0, 50, 61, 13),
-    ('sat', 'sat_psda_percent'): (0, 39, 49, 6),
-    ('sat', 'sat_psda_prob'): (0, 73, 73, 5),
-    ('sat', 'sat_psda_units'): (50, 0, 50, 4),
+    ('sat', 'sat_psda_percent'): (0, 38, 49, 5),
     ('sat', 'sat_rw_boundary'): (34, 0, 50, 0),
 }
 
 
 NUMERIC = re.compile(r"^\$?-?[\d,]+(\.\d+)?(/\d+)?$")
+# A number with a unit word after it, as the percent change schema renders its choices.
+# Ranked by value like any other number: the character count there tracks the digits, not
+# anything a student could use. The unit has to be the same on every choice, so "5 hours"
+# against "5 minutes" is not quietly treated as a tie.
+UNIT_NUM = re.compile(r"^(\$?-?[\d,]+(\.\d+)?(/\d+)?) ([a-z][a-z ]*)$")
+
+
+def _split(c):
+    t = str(c).strip()
+    m = UNIT_NUM.match(t)
+    return (m.group(1), m.group(4)) if m else (t, "")
 
 
 def _numeric(it):
-    return all(NUMERIC.match(str(c).strip()) for c in it["choices"])
+    parts = [_split(c) for c in it["choices"]]
+    if not all(NUMERIC.match(n) for n, _ in parts):
+        return False
+    return len(set(u for _, u in parts)) == 1
 
 
 def _value(c):
-    t = str(c).replace("$", "").replace(",", "").strip()
+    t = _split(c)[0].replace("$", "").replace(",", "").strip()
     if "/" in t:
         a, b = t.split("/", 1)
         return float(a) / float(b)
@@ -322,8 +340,10 @@ def check_bias(measured, verbose=True):
                       (best, limit[2], one, chance)] + checks
         for got, lim, what, ch in checks:
             if got > lim:
-                problems.append("  %s/%-30s %s on %d percent of %d, above %d (chance %d)"
-                                % (exam, gen, what, got, n, lim, ch))
+                why = SCHEMA_NOTES.get((exam, gen))
+                problems.append("  %s/%-30s %s on %d percent of %d, above %d (chance %d)%s"
+                                % (exam, gen, what, got, n, lim, ch,
+                                   "\n      note: " + why if why else ""))
         vcap = int(round(1.8 * max(int(round(100.0 / max(1, ndist))), chance)))
         if rec and top <= vcap and (fixed or (lo <= cap and sh <= cap and best <= cap)):
             stale.append("  %s/%s is inside tolerance now (%d/%d/%d); delete its "

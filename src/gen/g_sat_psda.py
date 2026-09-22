@@ -68,6 +68,15 @@ class PercentChange(Gen):
                 (pctstr(Fr(new * 100, old)), "reporting the new value as a percent of the old rather than the change."),
                 ("%s percent" % num(pct + 10), "an arithmetic slip in the division."),
                 ("%s percent" % num(100 - pct), "subtracting from 100, which answers what fraction remains, not how much it changed."),
+                # Below the answer. Every candidate above it is larger, so the key sat near
+                # the bottom of the pool on half this schema's items. These went in once
+                # and came out again, because with a unit after the number the balancer was
+                # ranking these choices by character count and they moved the key the wrong
+                # way; framework.as_value now reads the unit, so they work as intended.
+                ("%s percent" % num(pct - 5), "an arithmetic slip in the other direction."),
+                (pctstr(Fr(abs(new - old) * 200, old + new)) if old + new else None,
+                 "dividing the change by the average of the two values rather than by the "
+                 "value it started from."),
             ],
             "expl": "Percent change is the change divided by the original value: %s divided by "
             "%d is %s, which is %d percent."
@@ -186,6 +195,18 @@ class Probability(Gen):
                 (Fr(total, a), "inverting the probability."),
                 (Fr(a, total) * 2, "double counting the favourable outcomes."),
                 (Fr(b, a), "inverting the ratio of the two colours."),
+                # Below the answer. Every candidate above it is larger than the answer for
+                # almost every draw, so the key was the smallest value on 73 percent of
+                # this schema's items on all four exams (INC-0079). Both of these are real
+                # misreadings of the question and both come out smaller.
+                (Fr(1, total),
+                 "the probability of drawing one particular marble rather than any red one."),
+                (Fr(a - 1, total - 1),
+                 "the probability of a second red once a red has already been taken out, "
+                 "which is not what a single draw asks."),
+                (Fr(a, total + a),
+                 "counting the red marbles into the total a second time."),
+                (Fr(a - 1, total), "miscounting the red marbles by one."),
             ],
             "expl": "There are %d marbles in all and %d are red, so the probability is %d over "
             "%d, which is %s." % (total, a, a, total, num(p)),
@@ -291,6 +312,12 @@ class UnitConversion(Gen):
                 (Fr(per, n), "inverting the conversion."),
                 (per, "reporting the conversion factor without applying it to %d." % n),
                 (val * 2, "applying the conversion twice."),
+                # Above the answer. Four of the five candidates above come out smaller than
+                # it, so the key sat at one rank on 78 percent of this schema's items
+                # (INC-0079).
+                (val + per, "converting correctly and then adding one more %s worth." % unit_b),
+                (val * n, "multiplying by the number of %ss a second time." % unit_b),
+                (val + val // 2, "adding half as much again after converting."),
             ],
             "expl": "Each %s holds %d %s, so %d %ss hold %d times %d, which is %d %s."
             % (unit_b, per, unit_a, n, unit_b, n, per, val, unit_a),

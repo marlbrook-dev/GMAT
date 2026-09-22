@@ -345,6 +345,19 @@ class RowRatio(GTBase):
             (float(sum(data[ra])) / sum(data[rb]),
              "comparing the two rows over every " + scen["colnoun"] + " instead of in "
              + scen["cols"][ci] + " alone"),
+            # Two that land well away from the answer rather than one either side of it.
+            # Of the five candidates above, two sit just below the answer and one just
+            # above, so the key had a rank before the draw began and one rank held 81
+            # percent of this schema's items (INC-0079).
+            (float(a) / min(row[ci] for row in data if row[ci]),
+             "comparing with the smallest figure in " + scen["cols"][ci]
+             + " rather than with " + scen["rows"][rb]),
+            (float(a - b) / a,
+             "reporting the gap as a share of " + scen["rows"][ra]
+             + " rather than as a multiple of " + scen["rows"][rb]),
+            (float(max(row[ci] for row in data)) / b,
+             "comparing the largest figure in " + scen["cols"][ci] + " with "
+             + scen["rows"][rb] + " rather than starting from " + scen["rows"][ra]),
         ], RATIO_GAP)
         if len(cands) < 4:
             raise ItemError("ratio draw too tight")
