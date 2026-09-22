@@ -1,14 +1,14 @@
 # Rules Digest
 
-99 defects from a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
+100 defects from a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
 
-Generated 2026-09-22 from a ledger spanning 36 days and 90 commits.
+Generated 2026-09-22 from a ledger spanning 36 days and 91 commits.
 
 ## Read this first
 
-The three ways defects were most often found, in order: found by reading the code or the output (41), found by measuring something (30), a test caught it (13). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
+The three ways defects were most often found, in order: found by reading the code or the output (42), found by measuring something (30), a test caught it (13). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
 
-The dominant failure mode is silent loss, 22 of 99: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
+The dominant failure mode is silent loss, 23 of 100: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
 
 ## Learned the hard way, more than once
 
@@ -31,6 +31,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (2 times) A generator's wrong answers are written as labels and read as labels, and nobody looks at the values two labels produce.
 - (2 times) A template is a promise about the grammar of what goes into it, and the promise is invisible: the code says name and the sentence needs a singular noun phrase.
 - (2 times) A fix scoped to where the evidence was is a fix scoped to the sample, not to the defect.
+- (2 times) A check that infers what to expect from the same data it is checking cannot fail on a missing field: absence reads as nothing to look for.
 
 ## Content generation
 
@@ -44,6 +45,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - A generator's wrong answers are written as labels and read as labels, and nobody looks at the values two labels produce.
 - A template is a promise about the grammar of what goes into it, and the promise is invisible: the code says name and the sentence needs a singular noun phrase.
 - A fix scoped to where the evidence was is a fix scoped to the sample, not to the defect.
+- A check that infers what to expect from the same data it is checking cannot fail on a missing field: absence reads as nothing to look for.
 - Any generator that claims reproducibility must be seeded from something stable across processes.
 - Deletion by shadowing is invisible. Any collection whose size is a fact about the product needs its size asserted, not just its contents.
 - A deduplication key must be canonical under every transformation the item legitimately undergoes.
@@ -69,7 +71,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - Generated data gets checked for the properties the questions need, monotone and positive and distinguishable, and not for the properties the world needs.
 - Fixing an instance of a defect is the moment to sweep for the rest of it, and the sweep is worth running even when it is too noisy to become a check.
 - A generated item is checked as data, and this one was correct as data: the logic was valid, the key was right, the distractors were the intended errors.
-- A check that infers what to expect from the same data it is checking cannot fail on a missing field: absence reads as nothing to look for.
+- A check downgraded because a source is unreachable carries an assumption with no expiry date on it, and the assumption is usually narrower than the downgrade.
 
 ## Tests and guards
 

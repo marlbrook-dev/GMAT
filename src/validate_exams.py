@@ -115,15 +115,23 @@ def validate(exams):
             _check_figure(slug, "key_facts[%d]" % i, fact, errors)
         # The sections array carries question counts and minutes, which are
         # published exam facts. sections_src is the one figure that sources the
-        # whole table, because one structure page publishes all of it. Warned
-        # rather than fatal, and only one exam is short: www.mba.com serves an
-        # Imperva challenge stub to this environment rather than the GMAT
-        # structure page, so those counts cannot be verified from here. That is
-        # a blocked source, not a missing one, and deleting the table to satisfy
-        # a check would be the wrong way to go green.
-        if e.get("sections") and not e.get("sections_src"):
-            warnings.append("%s.sections: question counts and minutes carry no source, "
-                            "year or url" % slug)
+        # whole table, because one structure page publishes all of it.
+        #
+        # This was a warning once, because www.mba.com serves this environment an
+        # Imperva challenge stub rather than the GMAT structure page, so the counts
+        # looked unverifiable. That was true of the page and false of the fact: GMAC
+        # publishes the same table on its own site, uncontested, and is the exam maker
+        # rather than a reseller (INC-0100). A check downgraded because a source is
+        # unreachable carries an assumption with no expiry on it, so this one is fatal
+        # again and the way to satisfy it is to find the publisher.
+        if e.get("sections"):
+            ss = e.get("sections_src")
+            short = [k for k in ("text", "src", "year", "url")
+                     if not (isinstance(ss, dict) and ss.get(k))]
+            if short:
+                errors.append("%s.sections: question counts and minutes are published "
+                              "figures; sections_src is missing %s"
+                              % (slug, ", ".join(short)))
     if warnings:
         for w in warnings:
             print("validate_exams WARNING:", w, file=sys.stderr)

@@ -155,6 +155,20 @@ def exam_page(e, tpl, today):
     # The section table is a set of published figures like any other, so it carries
     # its source where a reader can see it. One source per table, because one
     # structure page publishes the whole thing.
+    #
+    # Required, not optional. Rendering the source only when it happens to be there is
+    # what let the GMAT publish its structure table uncited for as long as the page has
+    # existed (INC-0100): the check has to sit on the table, which is the thing being
+    # published, and not on the citation, which is the thing that went missing.
+    if structure:
+        ss = e.get("sections_src")
+        missing = [k for k in ("text", "src", "year", "url")
+                   if not (isinstance(ss, dict) and ss.get(k))]
+        if missing:
+            raise SystemExit(
+                "build_exams: %s publishes a structure table with no source. "
+                "sections_src is missing %s. Every published figure carries source, "
+                "year and URL." % (e.get("slug"), ", ".join(missing)))
     if structure and isinstance(e.get("sections_src"), dict):
         structure += (f'<p class="small">Structure as the test maker publishes it: '
                       f'{esc(e["sections_src"].get("text") or "")}.'

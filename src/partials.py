@@ -195,6 +195,10 @@ _NAV_GROUPS = [
         ("ACT", "/exams/act/", "Live"),
         ("All Exam Guides", "/exams/", None),
     ]),
+    ("Study Guides", [
+        ("GMAT Quant", "/guide/gmat/quant/", "New"),
+        ("All Study Guides", "/guide/", None),
+    ]),
     ("Lists", [
         ("MBA Rankings", "/schools/", "Live"),
         ("College Rankings", "/colleges/", "Live"),

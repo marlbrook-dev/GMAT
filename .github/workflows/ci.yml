@@ -37,7 +37,7 @@ jobs:
         run: npm install --no-audit --no-fund
       - name: Install Chromium for Playwright
         run: npx playwright install --with-deps chromium
-      - name: Browser suites (items, consent, billing, offline, business)
+      - name: Browser suites (items, consent, billing, offline, business, guide)
         run: npm run test:browser
       - name: Render the playbook to PDF
         run: node src/playbook_pdf.js
