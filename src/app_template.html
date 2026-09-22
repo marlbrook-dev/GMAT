@@ -944,6 +944,145 @@ function tierOf(r,n){ if(!n||n<6) return {name:n?'Calibrating':'Not tested',tone
  if(r>=1250) return {name:'Proficient',tone:'tier-prof'}; if(r>=1100) return {name:'Building',tone:'tier-dev'};
  return {name:'Foundation',tone:'tier-found'}; }
 function targetSchools(){ if(EXAM.id!=='gmat-focus') return []; try{ const L=JSON.parse(localStorage.getItem('sfn_school_list_v1')); if(!L||!L.order) return []; return L.order.map(sl=>Object.assign({slug:sl},(L.meta&&L.meta[sl])||{})).filter(x=>x.name); }catch(e){ return []; } }
+// ---------- Fit: your numbers beside each school's published ones ----------
+//
+// The rankings library already says, with a source and a year on every figure, what each
+// school's admitted class looked like. The student can read that. What they could not do
+// is see their own numbers beside it, which is the point of keeping a shortlist at all.
+//
+// THE THINGS THIS DELIBERATELY DOES NOT DO, and none of them are oversights.
+//
+// It computes no probability, no score and no composite. Admissions weigh essays,
+// recommendations, interviews, references and what a class needs that year, and none of
+// those are in any published table. A number here would be invented, and an invented
+// number about somebody's future is the worst kind this site could ship.
+//
+// It never fills in a figure a school does not publish. A dash means not published, and
+// the footnote says so, because a reader who sees numbers in nine rows and a blank in the
+// tenth will otherwise assume the tenth is a zero.
+//
+// It says "average" every time it shows one. An average is not a cutoff: half of every
+// admitted class is below it on any given measure, and a student reading their GPA
+// against an average without that sentence draws exactly the wrong conclusion.
+//
+// GMAT Focus and Classic are never mixed. Each school publishes one or the other and the
+// comparison uses whichever it published, labelled, per CLAUDE.md.
+function fitInputs(){ const ab=(state.settings&&state.settings.about)||{};
+ const num=v=>(v===null||v===undefined||v==='')?null:Number(v);
+ return {gpa:num(ab.gpa),work:num(ab.work_exp_years),budget:num(ab.tuition_budget_usd)}; }
+
+// Where one self-reported number sits against one published average. Deliberately three
+// coarse words and not a percentage: the underlying figure is an average of a class, and
+// dressing a difference from it up as a percentile would be precision this has no claim
+// to. NEAR is within a margin chosen per measure, because a tenth of a GPA point and a
+// tenth of a year of work experience are not comparable distances.
+function fitWhere(mine,theirs,margin){
+ if(mine===null||theirs===null||theirs===undefined) return null;
+ const d=mine-theirs;
+ if(Math.abs(d)<=margin) return {w:'At about the average',t:''};
+ return d>0?{w:'Above the average',t:'success'}:{w:'Below the average',t:'warning'}; }
+
+function fitCite(f){ if(!f) return '';
+ const bits=[]; if(f.src) bits.push(esc(f.src)); if(f.year) bits.push(String(f.year));
+ if(!bits.length) return '';
+ const txt=bits.join(', ');
+ return f.url?' <a class="small" href="'+esc(f.url)+'" target="_blank" rel="noopener">'+txt+'</a>':' <span class="small muted">'+txt+'</span>'; }
+
+function fitRow(label,mine,fig,fmt,margin,note){
+ const has=fig&&fig.v!=null;
+ // Nothing published and nothing entered is nothing to say, so the row is omitted
+ // rather than printed as a pair of dashes. A row of dashes reads as a measurement that
+ // came back empty; an absent row reads as a measure that was not in play. Omitting it
+ // is also what makes the "publishes none of these" fallback below reachable.
+ if(!has&&mine===null) return '';
+ const where=has?fitWhere(mine,Number(fig.v),margin):null;
+ return '<tr><td>'+esc(label)+'</td>'
+  +'<td class="num">'+(mine===null?'<span class="muted">not set</span>':esc(fmt(mine)))+'</td>'
+  +'<td>'+(has?('<span class="num">'+esc(fmt(Number(fig.v)))+'</span>'
+      +(fig.stat?' <span class="small muted">'+esc(String(fig.stat).slice(0,90))+'</span>':'')
+      +fitCite(fig))
+     :'<span class="muted">not published</span>')+'</td>'
+  +'<td>'+(where?badge(where.w,where.t):(mine===null&&has?'<span class="small muted">add yours in About You</span>':'<span class="muted">-</span>'))+'</td></tr>'
+  +(note?'<tr><td colspan="4" class="small muted" style="padding-top:0">'+note+'</td></tr>':''); }
+
+function fitCard(){
+ if(EXAM.id!=='gmat-focus') return '';
+ const tg=targetSchools();
+ if(!tg.length) return '<div class="card stack-4"><div class="card-title">Fit Against Your Target Schools</div>'
+   +'<p class="small" style="margin:0">Build a shortlist on the <a href="/schools/">MBA rankings page</a> and your own numbers appear beside each school\'s published class profile here.</p></div>';
+
+ const me=fitInputs();
+ const est=(typeof scoreEstimate==='function')?scoreEstimate(state):{ready:false};
+ const usd=n=>'$'+Math.round(n).toLocaleString('en-US');
+ const anyInput=me.gpa!==null||me.work!==null||me.budget!==null;
+
+ const blocks=tg.map(function(t){
+  const f=t.fit||{};
+  let rows='';
+
+  // The practice band, against whichever GMAT edition the school publishes. A band
+  // against a single average is a different comparison from the others on this page, so
+  // it gets its own wording rather than being forced into above/below.
+  if(t.gmat&&t.gmat.v!=null){
+   let mineTxt='<span class="muted">not yet estimated</span>', verdict='<span class="muted">-</span>';
+   if(est&&est.ready){
+    mineTxt='<span class="num">'+est.lo+' to '+est.hi+'</span>';
+    const v=Number(t.gmat.v);
+    verdict=badge(est.hi<v?'Below the average':est.lo>v?'Above the average':'Your range spans it',
+                  est.hi<v?'warning':est.lo>v?'success':'');
+   }
+   rows+='<tr><td>GMAT '+esc(t.gmat.ed)+'</td><td class="num">'+mineTxt+'</td>'
+    +'<td><span class="num">'+esc(String(t.gmat.v))+'</span>'
+    +(t.gmat.stat?' <span class="small muted">'+esc(String(t.gmat.stat).slice(0,90))+'</span>':'')+'</td>'
+    +'<td>'+verdict+'</td></tr>'
+    +'<tr><td colspan="4" class="small muted" style="padding-top:0">Your estimated range, not a predicted score. '
+    +'Focus and Classic are different scales and are never converted here; this compares against the edition this school published.</td></tr>';
+  }
+
+  rows+=fitRow('Undergraduate GPA',me.gpa,f.gpa,v=>v.toFixed(2),0.05,'');
+  rows+=fitRow('Work experience',me.work,f.work_exp_years,v=>v.toFixed(1)+' yrs',0.5,'');
+
+  // Affordability is a different kind of question from competitiveness, so it is not
+  // banded above or below. Published tuition is also not the cost of attendance, and
+  // saying so is the difference between a useful figure and a misleading one.
+  if(f.tuition_usd&&f.tuition_usd.v!=null){
+   const yr=Number(f.tuition_usd.v), two=yr*2;
+   const cover=me.budget===null?null:(me.budget/two);
+   rows+='<tr><td>Tuition</td><td class="num">'+(me.budget===null?'<span class="muted">not set</span>':esc(usd(me.budget))+' budget')+'</td>'
+    +'<td><span class="num">'+esc(usd(yr))+'</span> <span class="small muted">a year, so '+esc(usd(two))+' over two</span>'+fitCite(f.tuition_usd)+'</td>'
+    +'<td>'+(cover===null?'<span class="muted">-</span>'
+      :badge(cover>=1?'Covers two years':Math.round(cover*24)+' months of tuition',cover>=1?'success':'warning'))+'</td></tr>'
+    +'<tr><td colspan="4" class="small muted" style="padding-top:0">Published tuition only. It is not the cost of attendance: fees, living costs, insurance and travel are on top, and scholarships come off. Two years is the standard full-time length and a school may differ.</td></tr>';
+  }
+
+  if(f.accept_rate_pct&&f.accept_rate_pct.v!=null){
+   rows+='<tr><td>Acceptance rate</td><td class="num"><span class="muted">n/a</span></td>'
+    +'<td><span class="num">'+esc(String(f.accept_rate_pct.v))+'%</span>'+fitCite(f.accept_rate_pct)+'</td>'
+    +'<td><span class="muted">-</span></td></tr>';
+  }
+
+  return '<div class="card stack-4" style="min-width:0"><div class="card-head" style="margin:0">'
+   +'<span class="card-title">'+esc(t.name)+'</span>'
+   +badge((t.tag||'target').charAt(0).toUpperCase()+(t.tag||'target').slice(1),
+          t.tag==='safety'?'success':t.tag==='reach'?'error':'warning')+'</div>'
+   +'<div style="overflow-x:auto"><table><thead><tr><th>Measure</th><th class="num">You</th><th>This school publishes</th><th>Where you sit</th></tr></thead><tbody>'
+   +(rows||'<tr><td colspan="4" class="empty">This school publishes none of the figures this compares. Nothing is inferred to fill the gap.</td></tr>')
+   +'</tbody></table></div></div>'; }).join('');
+
+ return '<div class="card stack-4"><div class="card-head" style="margin:0"><span class="card-title">Fit Against Your Target Schools</span>'
+   +badge(tg.length+' school'+(tg.length===1?'':'s'),'accent')+'</div>'
+  +'<p class="small" style="margin:0">Your own numbers beside what each school publishes about the class it admitted. '
+  +(anyInput?'':'<b>Fill in your GPA, years of work experience and tuition budget in About You, further down this page, and these rows fill in.</b> ')
+  +'Every published figure carries its source and year; a dash means the school does not publish it, and nothing here is estimated to fill a gap.</p>'
+  +'</div>'
+  +blocks
+  +'<div class="card stack-4"><div class="card-title">How to Read This</div><ul class="small" style="margin:0;padding-left:18px">'
+  +'<li><b>An average is not a cutoff.</b> Half of every admitted class is below the average on any given measure. A figure below it is not a rejection and a figure above it is not an admission.</li>'
+  +'<li><b>There is no probability here and there will not be one.</b> Admissions weigh essays, recommendations, interviews, references and what a class needs that year. None of that is in any published table, so any number we printed would be invented.</li>'
+  +'<li><b>A dash means the school does not publish it.</b> We never fill one in from a peer school, a forum or an estimate.</li>'
+  +'<li><b>Your range is an estimate from your own practice</b>, not a predicted score. It narrows as you answer more because the estimate gets more certain.</li>'
+  +'<li><b>Nothing here is sent anywhere.</b> The comparison is computed in this page from your saved list and your own answers, and no fit figure is stored.</li>'
+  +'</ul></div>'; }
 function gmSecName(sec){ return sec==='ALL'?'All sections':(SEC_SHORT[sec]||'General'); }
 function gmSecColor(sec){ return SEC_COLOR[sec]||'var(--gray-700)'; }
 // Minutes of testing in a full mock, from the exam's own section table.
@@ -2572,14 +2711,29 @@ function shareCard(signed){
 //
 // Supabase returns an error in the result rather than throwing, so both have to be
 // handled: the try/catch alone caught nothing.
-async function aboutSave(field,value){ const ab=state.settings.about||(state.settings.about={}); ab[field]=value||null; persist();
+async function aboutSave(field,value){ const ab=state.settings.about||(state.settings.about={});
+ // Not value||null. Zero years of work experience and an empty string are different
+ // answers, and the old coercion turned the first into "not said". Only an empty string,
+ // undefined and null mean "not said".
+ const v=(value===''||value===undefined)?null:value;
+ ab[field]=v; persist();
  if(!(Cloud.user&&Cloud.client)){ toast('Saved on this device.'); return; }
- const patch={}; patch[field]=value||null;
+ const patch={}; patch[field]=v;
  try{ const {error}=await Cloud.client.from('profiles').update(patch).eq('id',Cloud.user.id);
   if(error){ toast('Saved on this device only: the account would not accept that field.'); return; } }
  catch(e){ toast('Saved on this device only: could not reach your account.'); return; }
  toast('Saved.'); }
-async function pushAbout(){ const ab=state.settings.about; if(!ab||!Cloud.user||!Cloud.client) return; const patch={}; ['age_range','gender','country','role_type','referral_src','education_level','intended_major','score_goal','application_year','budget_band','employer_industry','household_income_band','first_generation','military_status','study_hours_band','birth_month','birth_year'].forEach(k=>{ if(ab[k]) patch[k]=ab[k]; }); if(!Object.keys(patch).length) return;
+// A number, validated in the page against the same bounds the database checks, so a
+// typo is refused here with a reason rather than by a constraint violation the user
+// never sees. An empty box clears the field rather than storing zero: a GPA of 0.00 and
+// "I have not said" are different facts and the fit view has to tell them apart.
+async function numSave(field,input,lo,hi){
+ const raw=String(input.value).trim();
+ if(raw===''){ return aboutSave(field,null); }
+ const n=Number(raw);
+ if(!isFinite(n)||n<lo||n>hi){ toast('That needs to be a number between '+lo+' and '+hi+'.'); input.value=''; return; }
+ return aboutSave(field,field==='gpa'?Math.round(n*100)/100:Math.round(n)); }
+async function pushAbout(){ const ab=state.settings.about; if(!ab||!Cloud.user||!Cloud.client) return; const patch={}; ['age_range','gender','country','role_type','referral_src','education_level','intended_major','score_goal','application_year','budget_band','employer_industry','household_income_band','first_generation','military_status','study_hours_band','birth_month','birth_year','gpa','work_exp_years','tuition_budget_usd'].forEach(k=>{ if(ab[k]!==undefined&&ab[k]!==null&&ab[k]!=='') patch[k]=ab[k]; }); if(!Object.keys(patch).length) return;
  // Reported once rather than silently, for the same reason as aboutSave: this is the
  // path that carries a whole browser's worth of answers up to the account on sign-in,
  // so a refusal here loses the most.
@@ -2639,6 +2793,7 @@ function renderData(){ const el=document.getElementById('v-data'); const s=state
   +(tg.length?'<table><thead><tr><th>School</th><th>Tag</th><th class="num">Published GMAT</th></tr></thead><tbody>'+tg.map(t=>'<tr><td>'+esc(t.name)+'</td><td>'+badge((t.tag||'target').charAt(0).toUpperCase()+(t.tag||'target').slice(1),t.tag==='safety'?'success':t.tag==='reach'?'error':'warning')+'</td><td class="num">'+(t.gmat?t.gmat.v+' <span class="small">'+esc(t.gmat.ed)+(t.gmat.stat?' '+esc(t.gmat.stat):'')+'</span>':'-')+'</td></tr>').join('')+'</tbody></table><p class="small" style="margin:0">Your dashboard references this list. Compare your practice band against each school\'s published numbers on the rankings page.</p>'
   :'<p class="small" style="margin:0">Build a shortlist on the <a href="/schools/">MBA rankings page</a> and it shows up here; your study plan then trains toward it.</p>')
   +'<div class="row"><a class="btn secondary sm" href="/schools/">'+(tg.length?'Edit List on the Rankings Page':'Browse the Rankings')+'</a></div></div>'; })()+
+ fitCard()+
  '<div class="card stack-4"><div class="card-title">Profile</div><div class="row"><label class="small">Name <input type="text" value="'+esc(s.name||'')+'" onchange="state.settings.name=this.value;persist();updateHeader()"></label><label class="small">Test date <input type="date" value="'+esc(s.testDate||'')+'" onchange="state.settings.testDate=this.value;persist()"></label><label class="small">Daily goal <select onchange="state.settings.dailyGoal=+this.value;persist()">'+[10,15,20,30,40].map(d=>'<option '+(s.dailyGoal===d?'selected':'')+'>'+d+'</option>').join('')+'</select></label></div></div>'+
  (function(){ const ab=s.about||(s.about={});
   const sel=(field,label,opts)=>'<label class="small">'+label+' <select onchange="aboutSave(\''+field+'\',this.value)"><option value="">Prefer not to say</option>'+opts.map(o=>'<option value="'+o[0]+'"'+(ab[field]===o[0]?' selected':'')+'>'+o[1]+'</option>').join('')+'</select></label>';
@@ -2658,6 +2813,12 @@ function renderData(){ const el=document.getElementById('v-data'); const s=state
   +sel('first_generation','First in family to attend college',[['yes','Yes'],['no','No']])
   +sel('military_status','Military',[['none','Not applicable'],['active','Active duty'],['veteran','Veteran'],['family','Military family']])
   +sel('study_hours_band','Study hours a week',[['under_3','Under 3'],['3_5','3 to 5'],['5_10','5 to 10'],['over_10','Over 10']])
+  // The three that drive the fit view. Numbers rather than bands, because they are
+  // compared against published averages that are themselves numbers, and bucketing them
+  // first would throw away the only precision the comparison has.
+  +'<label class="small">Undergraduate GPA <input type="number" min="0" max="4.3" step="0.01" value="'+esc(ab.gpa==null?'':ab.gpa)+'" placeholder="e.g. 3.4" style="width:100px" onchange="numSave(\'gpa\',this,0,4.3)"></label>'
+  +'<label class="small">Years of work experience <input type="number" min="0" max="60" step="1" value="'+esc(ab.work_exp_years==null?'':ab.work_exp_years)+'" placeholder="e.g. 5" style="width:100px" onchange="numSave(\'work_exp_years\',this,0,60)"></label>'
+  +'<label class="small">Tuition budget, total <input type="number" min="0" max="1000000" step="1000" value="'+esc(ab.tuition_budget_usd==null?'':ab.tuition_budget_usd)+'" placeholder="e.g. 120000" style="width:130px" onchange="numSave(\'tuition_budget_usd\',this,0,1000000)"></label>'
   +'</div>'+(signed?'':'<p class="small muted" style="margin:0">Saved on this device now; it attaches to your account when you sign in.</p>')+'</div>'; })()+
  shareCard(signed)+
  '<div class="card stack-4"><div class="card-head" style="margin:0"><span class="card-title">Study Program</span>'+badge(pr.exam,'sec-Q')+'</div><table><tbody><tr><td style="width:160px">Exam</td><td>'+esc(pr.exam)+' <span class="small">(GRE, LSAT, SAT and ACT trainers are live too)</span></td></tr><tr><td>Goal</td><td><input type="text" style="width:100%" value="'+esc(pr.goal||'')+'" placeholder="e.g. Score 675+ for M7 programs" onchange="state.settings.program.goal=this.value;persist()"></td></tr><tr><td>Time</td><td><select onchange="state.settings.program.hours=this.value;persist()">'+['1 to 3 hrs / week','3 to 5 hrs / week','5 to 10 hrs / week','10+ hrs / week'].map(h=>'<option '+(pr.hours===h?'selected':'')+'>'+h+'</option>').join('')+'</select></td></tr><tr><td>Tools</td><td class="chips">'+['Quick 10','Timed sprint','Flashcards','Custom drill'].map(tl=>'<span class="chip-t '+(pr.tools[tl]?'on':'')+'" onclick="state.settings.program.tools[\''+tl+'\']=!state.settings.program.tools[\''+tl+'\'];persist();renderData()">'+tl+'</span>').join('')+'</td></tr></tbody></table><div><button class="btn secondary sm" onclick="startOnboarding()">Re-run the setup wizard</button></div></div>'+

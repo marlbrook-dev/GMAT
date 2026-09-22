@@ -736,7 +736,7 @@ they need a different regime.
 
 # The Data Layer
 
-16 tables across 30 migrations, with the database rather
+16 tables across 31 migrations, with the database rather
 than the application as the enforcement point.
 
 ## Row Level Security as the default posture
@@ -1209,21 +1209,21 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-57 recorded defects, over 35 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+58 recorded defects, over 35 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 24 | 42% |
-| Found by measuring something | 14 | 25% |
-| A test caught it | 10 | 18% |
-| Found by rendering it and looking | 4 | 7% |
+| Found by reading the code or the output | 24 | 41% |
+| Found by measuring something | 14 | 24% |
+| A test caught it | 10 | 17% |
+| Found by rendering it and looking | 5 | 9% |
 | Found by a review bot or an adversarial pass | 4 | 7% |
 | A person hit it | 1 | 2% |
 
-**This is the most useful table in the book.** 56 of 57 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 57 of 58 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1235,10 +1235,10 @@ well enough to audit later. Which is what this book is.
 | Wrong data shown or stored | 22 |
 | Silent loss | 14 |
 | Degraded | 12 |
-| Cosmetic | 7 |
+| Cosmetic | 8 |
 | Site down | 2 |
 
-**Silent loss is the dominant failure mode**, at 14 of 57. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 14 of 58. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
@@ -1254,12 +1254,12 @@ well enough to audit later. Which is what this book is.
 | Scoring and selection | 4 |
 | Database | 4 |
 | Search and metadata | 3 |
-| Interface and data display | 2 |
+| Interface and data display | 3 |
 
 
 ## Guard coverage
 
-51 of 57 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+52 of 58 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -2038,7 +2038,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** When one model feeds two pages, generate both from the model in the same pass. Two places that must agree will not, and the reader who notices is the reader you were trying to convince.
 
 
-## Interface and data display (2)
+## Interface and data display (3)
 
 
 ### INC-0034. A line chart interpolated between discrete money events
@@ -2065,6 +2065,19 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **What stops it now.** smoke tests assert the live region announces outcomes in `src/app_template.html`
 - **Cost.** two games unusable with a screen reader
 - **Lesson.** Never encode a state by colour alone. The word also survives greyscale printing, forced-colors mode and a glance from across a room, so it is better for everyone and not only for the people it is required by.
+
+
+### INC-0058. The fit card told readers to fill in fields that were below it
+
+*2026-09-22, Cosmetic, PR #64*
+
+- **What was seen.** With nothing entered, the comparison card said to fill the three inputs in above, and they are further down the same page.
+- **Why.** The copy was written while building the card, before deciding where the inputs would live, and was never re-read against the rendered page.
+- **How it surfaced.** Screenshotting the page and reading it as a user would. (Found by rendering it and looking)
+- **Fix.** Name the section rather than a direction, and assert the wording in the test so a later move of either block fails loudly.
+- **What stops it now.** smoke_fit asserts the card points at the section by name in `src/smoke_fit.js`
+- **Cost.** a sentence sending users the wrong way
+- **Lesson.** Copy that says above, below, left or right is a hard dependency on layout that nothing checks. Name the thing instead, and the sentence survives every rearrangement.
 
 
 # The Checklist
@@ -2160,6 +2173,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A line chart interpolated between discrete money events (INC-0034)</small>
 - [ ] Never encode a state by colour alone. The word also survives greyscale printing, forced-colors mode and a glance from across a room, so it is better for everyone and not only for the people it is required by.  
   <small>Two games signalled right and wrong by colour alone (INC-0052)</small>
+- [ ] Copy that says above, below, left or right is a hard dependency on layout that nothing checks. Name the thing instead, and the sentence survives every rearrangement.  
+  <small>The fit card told readers to fill in fields that were below it (INC-0058)</small>
 
 
 ## Payments
@@ -2342,7 +2357,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 57 real defects reduced to the rules that prevent them,
+the whole project: 58 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -2382,7 +2397,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-57 defects already prevented is genuinely ahead, and every defect it hits
+58 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed
