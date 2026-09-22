@@ -765,10 +765,34 @@ particular idea.
 """
 
 
+def operative_rule(lesson, floor=80):
+    """The rule at the front of a lesson, without the paragraph explaining it.
+
+    Sentences from the start until the text reads as a complete thought. The floor
+    is load bearing rather than cosmetic: smoke_playbook asserts every lesson
+    reaches the digest by looking for its first 60 characters, and 27 of the
+    lessons have a first sentence shorter than that, so cutting at the first full
+    stop would satisfy the size guard by breaking the completeness one (INC-0083).
+    """
+    parts = re.split(r'(?<=[.!?])\s+', str(lesson).strip())
+    out = ''
+    for p in parts:
+        out = (out + ' ' + p).strip()
+        if len(out) >= floor:
+            break
+    return out
+
+
 def rules_digest(rows, h):
     """The ledger compressed to operative rules. One line each, imperative, with the
     specifics of this codebase stripped out, because a rule competing with ten thousand
-    words of context is a rule that gets applied inconsistently."""
+    words of context is a rule that gets applied inconsistently.
+
+    Only the operative rule goes in, not the whole lesson. The digest is the file a new
+    project pastes into its prompt, so it has a fixed word budget that smoke_playbook
+    enforces, and printing every lesson in full grew it linearly with the ledger until
+    it crossed (INC-0083). The reasoning behind each rule is in BUILD_PLAYBOOK.md, which
+    the opening paragraph below already points at."""
     by_area = {}
     for r in rows:
         by_area.setdefault(r['area'], []).append(r)
@@ -808,7 +832,7 @@ def rules_digest(rows, h):
         o.append('## %s' % AREA_LABEL[area])
         o.append('')
         for r in by_area[area]:
-            o.append('- %s' % r['lesson'])
+            o.append('- %s' % operative_rule(r['lesson']))
         o.append('')
     return '\n'.join(o)
 

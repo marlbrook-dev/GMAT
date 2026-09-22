@@ -343,6 +343,29 @@ for _counted in ["llms.txt", "src/blog/EDITORIAL.md"]:
     if _cp.exists():
         check_counts(_counted, _cp.read_text(), _ALLOWED_COUNTS)
 
+# Banned sources in prose. The source policy was enforced on the structured corpora and
+# not on the words, so three posts and the editorial fact sheet went on citing The
+# Princeton Review, Applerouth and Sallie Mae after the same citations were cleaned out
+# of data/exams.json (INC-0082). The fact sheet is the one that mattered: it is the list
+# of approved figures a post is written from, so a wrong entry there reappears in the
+# next post. Matching only inside a "(Name, year)" citation is what lets this run over
+# the very files that legitimately name these sites as the list of what never to cite.
+sys.path.insert(0, str(d))
+from sources import banned_citations as _banned_citations
+_cite_bad = []
+for _doc in sorted((root / "src" / "blog").glob("*.html")) + \
+        [root / "src" / "blog" / "EDITORIAL.md", root / "data" / "DATA.md"]:
+    if not _doc.exists():
+        continue
+    for _name, _inner in _banned_citations(_doc.read_text()):
+        _cite_bad.append("%s cites %s in \"(%s)\"" % (_doc.name, _name, _inner))
+if _cite_bad:
+    for _b in _cite_bad:
+        print("ERROR: banned source in a citation: %s" % _b, file=sys.stderr)
+    print("CLAUDE.md bans coaching-site blogs outright. Replace the figure with the "
+          "test maker's own published one, or drop it.", file=sys.stderr)
+    sys.exit(1)
+
 # Prices drift the same way counts do, and llms.txt is worse than a stale page: it is the
 # file LLMs read to answer "what does this cost", so a stale number there gets repeated by
 # an AI answer engine rather than just sitting on a page nobody visits. It shipped once
@@ -517,6 +540,11 @@ _sp.run([sys.executable, str(d/"build_rankings.py")], check=True)
 # parsed here, after that step, under the same guard as every other inline script.
 check_scripts(root/"apply"/"index.html")
 _sp.run([sys.executable, str(d/"build_colleges.py")], check=True)
+# The source policy validators are only as good as the last time anyone saw one
+# fail. This runs validate_exams against deliberately bad records, both the kind
+# it must refuse and the kind it must not, before it is trusted on the real file
+# a line later (INC-0082).
+_sp.run([sys.executable, str(d/"validate_exams.py")], check=True)
 _sp.run([sys.executable, str(d/"build_exams.py")], check=True)
 
 # I18N.md Stage 0: the content site stays translatable, which means its copy stays

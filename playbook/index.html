@@ -59,7 +59,7 @@ a{color:var(--accent)}
 <p class="eyebrow">Start From Nowhere</p>
 <h1>The Build Playbook</h1>
 <p class="sub">How one person and a set of AI sessions built a multi-exam test-prep platform, every defect hit on the way, and the recipe for doing it again for something else</p>
-<p class="meta">Built 2026-09-22 from commit 9539165 &middot; 77 commits over 36 days &middot; 81 recorded defects &middot; 17 chapters<br>
+<p class="meta">Built 2026-09-22 from commit e103fc8 &middot; 74 commits over 36 days &middot; 83 recorded defects &middot; 17 chapters<br>
 This document is generated. Edit the chapters in docs/playbook/ and the ledger in data/playbook/incidents.jsonl, then run python3 src/build_playbook.py.</p>
 </div>
 <div class="toc"><ol><li><a href="#how-to-use-this-book">How to Use This Book</a></li>
@@ -81,7 +81,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><a href="#the-bootstrap-pack-starting-a-new-project-with-this-loaded">The Bootstrap Pack: Starting a New Project With This Loaded</a></li></ol></div>
 <h1 id="how-to-use-this-book">How to Use This Book</h1>
 <p>This is the record of building one platform, written so it can be used to build a different one.</p>
-<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-08-17 and 2026-09-22, which is 36 days, across 77 commits, by one owner directing a series of AI coding sessions. As of this build it is 51 Python files, 101 JavaScript files, 24 TypeScript edge functions, 35 migrations and 63 documents: 1975 tracked files in total.</p>
+<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-08-17 and 2026-09-22, which is 36 days, across 74 commits, by one owner directing a series of AI coding sessions. As of this build it is 51 Python files, 101 JavaScript files, 24 TypeScript edge functions, 35 migrations and 63 documents: 1975 tracked files in total.</p>
 <p>None of those numbers were typed. They are measured from the repository every time this document is built, which is the first thing worth copying.</p>
 <h2 id="what-is-in-here">What is in here</h2>
 <p>The book has four kinds of chapter, and they age differently.</p>
@@ -614,7 +614,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three defects here were found by taking a screenshot: a chart unreadable in dark mode, a line chart implying values that never existed, and a dashboard that was not on screen. None of them would have been caught by an assertion, because none of them were violations of anything anybody had thought to assert.</p>
 <p><strong>Budget for looking.</strong> It is the cheapest test there is and the only one that catches things you have not imagined.</p>
 <h1 id="running-the-build-as-an-ai-loop">Running the Build as an AI Loop</h1>
-<p>77 commits in 36 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
+<p>74 commits in 36 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
 <h2 id="the-division-of-labour">The division of labour</h2>
 <p><strong>The owner decides</strong>: what to build, what it means, what is acceptable, and every irreversible or outward-facing action. <strong>The session does</strong>: the building, the measuring, the testing, and the reporting of what it found.</p>
 <p>The failure mode at each end is worth naming. An owner who reviews every line becomes the bottleneck and the throughput collapses to the speed of reading. A session that decides product questions on its own produces something coherent that is not what anyone wanted.</p>
@@ -658,44 +658,44 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Long uninterrupted sessions with standing authorisation, punctuated by the owner redirecting priorities, beat short supervised ones by a wide margin. The standing authorisation that made it work was specific: merge your own work once the checks are green, do not check in on each item, and stop immediately when told to.</p>
 <p>The thing that makes that safe is not trust. It is that the checks are real, the destructive actions still require asking, and the record of what happened is written down well enough to audit later. Which is what this book is.</p>
 <h1 id="what-the-ledger-says-about-itself">What the Ledger Says About Itself</h1>
-<p>81 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.</p>
+<p>83 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.</p>
 <h2 id="how-defects-were-actually-found">How defects were actually found</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">How</th><th style="text-align:right">Count</th><th style="text-align:right">Share</th></tr></thead><tbody>
-<tr><td style="text-align:left">Found by reading the code or the output</td><td style="text-align:right">35</td><td style="text-align:right">43%</td></tr>
+<tr><td style="text-align:left">Found by reading the code or the output</td><td style="text-align:right">36</td><td style="text-align:right">43%</td></tr>
 <tr><td style="text-align:left">Found by measuring something</td><td style="text-align:right">22</td><td style="text-align:right">27%</td></tr>
-<tr><td style="text-align:left">A test caught it</td><td style="text-align:right">12</td><td style="text-align:right">15%</td></tr>
+<tr><td style="text-align:left">A test caught it</td><td style="text-align:right">13</td><td style="text-align:right">16%</td></tr>
 <tr><td style="text-align:left">Found by rendering it and looking</td><td style="text-align:right">5</td><td style="text-align:right">6%</td></tr>
 <tr><td style="text-align:left">Found by a review bot or an adversarial pass</td><td style="text-align:right">5</td><td style="text-align:right">6%</td></tr>
 <tr><td style="text-align:left">A person hit it</td><td style="text-align:right">1</td><td style="text-align:right">1%</td></tr>
 <tr><td style="text-align:left">A build guard caught it</td><td style="text-align:right">1</td><td style="text-align:right">1%</td></tr>
 </tbody></table></div>
-<p><strong>This is the most useful table in the book.</strong> 80 of 81 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.</p>
+<p><strong>This is the most useful table in the book.</strong> 82 of 83 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.</p>
 <p><strong>Read that percentage with the bias it carries.</strong> This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.</p>
 <h2 id="by-severity">By severity</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">Severity</th><th style="text-align:right">Count</th></tr></thead><tbody>
-<tr><td style="text-align:left">Wrong data shown or stored</td><td style="text-align:right">32</td></tr>
+<tr><td style="text-align:left">Wrong data shown or stored</td><td style="text-align:right">33</td></tr>
 <tr><td style="text-align:left">Silent loss</td><td style="text-align:right">19</td></tr>
-<tr><td style="text-align:left">Degraded</td><td style="text-align:right">16</td></tr>
+<tr><td style="text-align:left">Degraded</td><td style="text-align:right">17</td></tr>
 <tr><td style="text-align:left">Cosmetic</td><td style="text-align:right">11</td></tr>
 <tr><td style="text-align:left">Site down</td><td style="text-align:right">3</td></tr>
 </tbody></table></div>
-<p><strong>Silent loss is the dominant failure mode</strong>, at 19 of 81. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.</p>
+<p><strong>Silent loss is the dominant failure mode</strong>, at 19 of 83. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.</p>
 <h2 id="by-area">By area</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">Area</th><th style="text-align:right">Count</th></tr></thead><tbody>
-<tr><td style="text-align:left">Content generation</td><td style="text-align:right">22</td></tr>
+<tr><td style="text-align:left">Content generation</td><td style="text-align:right">23</td></tr>
 <tr><td style="text-align:left">Tests and guards</td><td style="text-align:right">17</td></tr>
 <tr><td style="text-align:left">Front end</td><td style="text-align:right">8</td></tr>
+<tr><td style="text-align:left">Build system</td><td style="text-align:right">6</td></tr>
 <tr><td style="text-align:left">CSS and layout</td><td style="text-align:right">5</td></tr>
 <tr><td style="text-align:left">Payments</td><td style="text-align:right">5</td></tr>
 <tr><td style="text-align:left">Infrastructure and deploy</td><td style="text-align:right">5</td></tr>
-<tr><td style="text-align:left">Build system</td><td style="text-align:right">5</td></tr>
 <tr><td style="text-align:left">Scoring and selection</td><td style="text-align:right">4</td></tr>
 <tr><td style="text-align:left">Database</td><td style="text-align:right">4</td></tr>
 <tr><td style="text-align:left">Search and metadata</td><td style="text-align:right">3</td></tr>
 <tr><td style="text-align:left">Interface and data display</td><td style="text-align:right">3</td></tr>
 </tbody></table></div>
 <h2 id="guard-coverage">Guard coverage</h2>
-<p>75 of 81 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.</p>
+<p>77 of 83 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.</p>
 <p>Carried by attention:</p>
 <ul>
 <li><strong>INC-0010</strong> CSS comments do not nest, and one placeholder killed the palette on 1451 pages</li>
@@ -720,13 +720,14 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><code>src/bank_emit.py</code>, 4 incidents (INC-0062, INC-0066, INC-0068, INC-0073)</li>
 <li><code>src/weekly_audit.js</code>, 3 incidents (INC-0050, INC-0048, INC-0018)</li>
 <li><code>src/smoke_redirect.js</code>, 3 incidents (INC-0023, INC-0024, INC-0047)</li>
+<li><code>src/build_playbook.py</code>, 3 incidents (INC-0057, INC-0065, INC-0083)</li>
 <li><code>src/bank_repair.py</code>, 3 incidents (INC-0070, INC-0071, INC-0072)</li>
 <li><code>src/gen/framework.py</code>, 3 incidents (INC-0074, INC-0075, INC-0078)</li>
 </ul>
 <h1 id="the-defect-ledger">The Defect Ledger</h1>
 <p>Every entry here happened. Each one is a record of something that broke, how it was found, what fixed it, and what now stops it coming back. The last field is the one that matters for a different business: the transferable lesson, stated without reference to this codebase.</p>
 <p>They are grouped by the part of the system, and within a group by date. The <code>guard</code> field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.</p>
-<h2 id="content-generation-22">Content generation (22)</h2>
+<h2 id="content-generation-23">Content generation (23)</h2>
 <h3 id="inc-0003-item-banks-were-different-on-every-build-because-python-randomises-hash">INC-0003. Item banks were different on every build because Python randomises hash()</h3>
 <p><em>2026-09-16, Wrong data shown or stored, <code>0d6c357</code> PR #33</em></p>
 <ul>
@@ -955,6 +956,16 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Fix.</strong> build_banks measures the most common single answer value per schema and refuses one over its recorded figure, alongside the three place based figures. make_cases draws how many rows comply rather than leaving it to fall out of the violation draw, and the science studies draw their direction evenly.</li>
 <li><strong>What stops it now.</strong> build_banks records and ratchets the most common single answer value per schema, which is the first check on what the answer is rather than on where it sits in <code>src/build_banks.py</code></li>
 <li><strong>Lesson.</strong> Every guard here measured the answer's place in its set, and a set of guards that all take the same kind of measurement shares a blind spot the size of everything else. The tell they could not see was the simplest one a student would find: the answer is the same answer. When adding the third check of a kind, the question worth asking is not whether it is stricter than the other two but what all three have in common, because that is what is going unmeasured.</li>
+</ul>
+<h3 id="inc-0082-nine-published-exam-facts-cite-test-prep-companies-in-the-one-published-corpus-with-no-source-validator">INC-0082. Nine published exam facts cite test prep companies, in the one published corpus with no source validator</h3>
+<p><em>2026-09-22, Wrong data shown or stored</em></p>
+<ul>
+<li><strong>What was seen.</strong> The five exam guide pages publish nine figures sourced to test prep and content marketing companies: The Princeton Review three times (the digital SAT score release window, and the two LSAT facts that logic games are retired and that the variable section can appear anywhere), Applerouth twice (the enhanced ACT rollout dates and Science becoming optional), plus Menlo Coaching for how the GRE is delivered, Achievable for the GRE fee reduction amount, UWorld College Prep for SAT superscoring, and Sallie Mae for the SAT retake limit. CLAUDE.md bans coaching site blogs outright as sources. Several of these are structural facts a student plans around, carried under a citation the house rules forbid.</li>
+<li><strong>Why.</strong> Two things, and the second is why the first went unseen. The published figure corpora are data/schools, data/colleges and data/exams.json. validate_schools.py and validate_colleges.py enforce the source policy on the first two and run from their builds; data/exams.json has no validator at all and build_exams.py calls none, so nothing has ever read a source on it. Even had one existed, it would have passed all nine: BANNED_SOURCES lists the six sites CLAUDE.md names as examples, and CLAUDE.md bans those six AND the category coaching site blogs. The general clause was dropped in transcription, so the list refuses GMAT Club by name and accepts Kaplan.</li>
+<li><strong>How it surfaced.</strong> Reading ROADMAP.md for open work rather than picking by judgement. It carried a note that sat.score_release cited The Princeton Review and was still open. Asking the obvious next question, which corpus that figure lives in and what validates it, found the file had no validator; walking every url host in it against the test makers' own domains found eight more. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> src/validate_exams.py applies the same contract to data/exams.json that the other two corpora have had: every published figure carries src, year and url, the url host must be the test maker's own domain or an explicitly allowed one, and banned sources are fatal. build_exams.py calls it before it renders. The banned list moves to one shared module so the three validators cannot drift, and gains the coaching site category CLAUDE.md bans alongside the six named sites. Each of the nine figures was then re-verified against the test maker's own page and recited to it, or removed where the maker does not publish it.</li>
+<li><strong>What stops it now.</strong> validate_exams.py fails the build on a figure in data/exams.json missing src, year or url, on a banned source, and on a url whose host is not the test maker's own or explicitly allowed, so a plausible looking citation from a prep company cannot be added silently in <code>src/validate_exams.py</code></li>
+<li><strong>Lesson.</strong> Two lessons, and they compound. A rule copied into code by its examples loses the clause the examples were illustrating: CLAUDE.md bans six named sites and coaching site blogs, and the list kept the six and dropped the category, which is the half that generalises. And a validator gets written for the corpus that had the problem at the time, then quietly defines what is checked: two of three published corpora were enforced and the third had never had a source read, which is not a weaker check but an absent one. When a guard exists, the question is not only whether it is strict enough but which of the things it could be pointed at it is not pointed at.</li>
 </ul>
 <h2 id="tests-and-guards-17">Tests and guards (17)</h2>
 <h3 id="inc-0016-the-performance-test-waited-for-the-load-event-which-waits-for-the-thing-being-optimised">INC-0016. The performance test waited for the load event, which waits for the thing being optimised</h3>
@@ -1231,6 +1242,71 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Cost.</strong> 267 junk rows and a self-sustaining loop</li>
 <li><strong>Lesson.</strong> Anything that reports failures must not be able to report its own. Check whether each call rejects or throws before you wrap it, and make the reporting path unable to re-enter itself.</li>
 </ul>
+<h2 id="build-system-6">Build system (6)</h2>
+<h3 id="inc-0059-the-item-counter-missed-a-whole-bank-file-because-it-assumed-a-quoting-style">INC-0059. The item counter missed a whole bank file because it assumed a quoting style</h3>
+<p><em>2026-09-22, Silent loss, PR #65</em></p>
+<ul>
+<li><strong>What was seen.</strong> A new bank added 35 items and the build reported the exam's total unchanged at 65. The engine tests, which load the bank for real, saw all 100.</li>
+<li><strong>Why.</strong> The count is a regex over the concatenated source looking for an id in single quotes. The new file emits JSON escaped strings, so its ids are double quoted and none of them matched. Nothing compared the regex count to the number of items that actually load.</li>
+<li><strong>How it surfaced.</strong> Noticing that the build summary and the test output disagreed about the same bank. (Found by measuring something)</li>
+<li><strong>Fix.</strong> Accept either quoting style, and assert that every bank file listed for an exam contributes at least one counted item, so a file the pattern cannot see fails the build instead of counting zero.</li>
+<li><strong>What stops it now.</strong> per-file contribution assertion in the bank counter in <code>src/build.py</code></li>
+<li><strong>Cost.</strong> a published item count 35 short, and a guard that would have kept getting quieter</li>
+<li><strong>Lesson.</strong> A regex that counts things assumes a formatting convention, and a file that legitimately breaks the convention counts as zero rather than as an error. Any counter that can return zero for a non-empty input needs a per-source assertion, not just a total.</li>
+</ul>
+<h3 id="inc-0060-nothing-parsed-the-one-file-every-user-downloads">INC-0060. Nothing parsed the one file every user downloads</h3>
+<p><em>2026-09-22, Site down, PR #65</em></p>
+<ul>
+<li><strong>What was seen.</strong> None shipped. A bank file with a syntax error built cleanly and the build exited zero, leaving invalid JavaScript in the bank the trainer loads on every visit.</li>
+<li><strong>Why.</strong> The build parses every inline script in every built page, a guard added after an unescaped quote took the whole trainer down at parse time. The item bank is not an inline script. It ships as a separate file and was never in the list, so the largest generated artefact on the site was the one thing the parser never saw.</li>
+<li><strong>How it surfaced.</strong> Deliberately breaking a bank file to test an unrelated guard, and noticing the build passed. (Found by a review bot or an adversarial pass)</li>
+<li><strong>Fix.</strong> Parse every built bank file and every chunk of it, alongside the pages.</li>
+<li><strong>What stops it now.</strong> the build node-parses each built bank and chunk in <code>src/build.py</code></li>
+<li><strong>Cost.</strong> would have broken every trainer on the next bank edit</li>
+<li><strong>Lesson.</strong> A parse guard covers the file shapes someone thought of. When the same code moves into a new shape, a separate file, a chunk, a worker, the guard does not follow it. List what the guard covers against what the deploy actually ships, and check the difference rather than the intention.</li>
+</ul>
+<h3 id="inc-0063-the-stale-count-guard-checked-two-nouns-and-the-page-used-a-third">INC-0063. The stale count guard checked two nouns and the page used a third</h3>
+<p><em>2026-09-22, Wrong data shown or stored, PR #67</em></p>
+<ul>
+<li><strong>What was seen.</strong> llms.txt told every model that reads it the LSAT bank holds 65 questions. It held 142. The build's count guard passed the file.</li>
+<li><strong>Why.</strong> The guard matches a number followed by original or flashcards. The LSAT line was phrased as 65 questions today, deliberately, because the number was small and the page said so plainly. The phrasing that made the sentence honest is what put it outside the pattern.</li>
+<li><strong>How it surfaced.</strong> Reading the file while fixing a different count the guard did catch, then watching the widened guard flag a correct sourced figure. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Match a second, unambiguous pattern rather than more nouns. Widening the noun list to items and questions did catch the stale figure, and immediately raised a false positive on '64 questions', which is the real GMAT Focus question count from GMAC and not a bank size at all. A checker that cries wolf gets muted, so the guard now matches 'N original', 'N flashcards' and the specific phrase 'item bank is N', which names our bank and cannot match an exam fact.</li>
+<li><strong>What stops it now.</strong> the count guard matches original, flashcards, items and questions in <code>src/build.py</code></li>
+<li><strong>Cost.</strong> a published figure less than half the true one, on the page written for machines</li>
+<li><strong>Lesson.</strong> A guard keyed to wording is a guard on the wording, not the fact, and every synonym is a hole in it. Widening the wording is the obvious repair and it trades missed defects for false alarms, which cost more because they get the guard switched off. Match a phrase that only the thing you care about can produce, rather than every word it might happen to use.</li>
+</ul>
+<h3 id="inc-0064-the-guard-against-a-blind-counter-was-itself-blind-to-three-exams">INC-0064. The guard against a blind counter was itself blind to three exams</h3>
+<p><em>2026-09-22, Silent loss, PR #68</em></p>
+<ul>
+<li><strong>What was seen.</strong> A new GRE reading bank of 26 items was registered, built, and counted as zero. The published GRE total stayed at 19,888. The guard written a day earlier to catch exactly this said nothing.</li>
+<li><strong>Why.</strong> Two failures of the same shape, one inside the other. The GRE id pattern was G[QVE] and the new ids begin GR, so the counter could not see them. And the per-file guard added for INC-0059, which asserts that every listed bank file contributes at least one counted item, looped over only the two exams that happened to be in hand when it was written.</li>
+<li><strong>How it surfaced.</strong> Predicting it from the id pattern before building, then watching the build confirm it by reporting the old total. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Add R to the GRE pattern, and loop the guard over all five exams rather than two.</li>
+<li><strong>What stops it now.</strong> the per-file counter guard covers every exam in APPS in <code>src/build.py</code></li>
+<li><strong>Cost.</strong> 26 items invisible to every published count, caught before merge</li>
+<li><strong>Lesson.</strong> A guard that covers a subset of cases reproduces the original defect in the cases it skips, and it is more dangerous than no guard because the incident it was written for feels closed. When you add a check, enumerate everything of that kind and cover all of it, or state in the code which cases are deliberately excluded and why.</li>
+</ul>
+<h3 id="inc-0080-a-build-step-that-fails-while-the-build-exits-zero-and-a-verification-run-that-was-a-remembered-subset">INC-0080. A build step that fails while the build exits zero, and a verification run that was a remembered subset</h3>
+<p><em>2026-09-22, Degraded</em></p>
+<ul>
+<li><strong>What was seen.</strong> Three commits shipped with a playbook that had not been rebuilt, because the ledger no longer checked out: INC-0077 carried an area of tooling, which is not one of the twelve the builder accepts. The site build printed WARNING and exited zero, so nothing local said no. CI said no, on the commit after the one that broke it.</li>
+<li><strong>Why.</strong> Two things had to be true at once. The playbook build is deliberately non fatal, because playbook/ is excluded from the deploy and a broken chapter should not stop the site shipping, and it says so with a line beginning WARNING. And the run that was supposed to catch it was four smoke suites chosen from memory rather than the eight steps CI actually runs, so smoke_playbook, which does check this, was never run. Either alone is survivable. Together they mean a failure that is reported, in a form nobody was reading, to a process that had already decided what to look at.</li>
+<li><strong>How it surfaced.</strong> The build-and-test job failed on GitHub with five playbook assertions, three commits after the one that introduced the bad row. (A test caught it)</li>
+<li><strong>Fix.</strong> The area is corrected to testing, which is the label the builder has for a check. The non fatal line now begins ERROR rather than WARNING, because it is one: the exit code stays zero so the site still builds, and the word matches what happened so a reader scanning for failures finds it.</li>
+<li><strong>What stops it now.</strong> the playbook build failure is reported as ERROR while still not blocking the site build, so a scan for failures catches it in <code>src/build.py</code></li>
+<li><strong>Lesson.</strong> Two habits, both mine rather than the code's. Verify with the sequence the pipeline runs, read out of its config, not with the subset you remember: a suite chosen from memory drifts to the parts that were failing last week. And when a step is deliberately non fatal, the word it fails with is the whole of its signal, so it has to be the word people grep for. WARNING on a line that means a deliverable did not build is an invitation to miss it, and the cost of saying ERROR while still exiting zero is nothing at all.</li>
+</ul>
+<h3 id="inc-0083-the-rules-digest-promises-to-be-prompt-sized-and-its-generator-grows-without-bound">INC-0083. The rules digest promises to be prompt sized and its generator grows without bound</h3>
+<p><em>2026-09-22, Degraded</em></p>
+<ul>
+<li><strong>What was seen.</strong> smoke_playbook failed with 'the digest stays prompt sized (4046 words)' against a 4000 word limit, on a commit whose only relation to the playbook was adding one incident. The bootstrap pack's RULES_DIGEST.md is the file a new project pastes into its prompt, so crossing the limit is the one failure that makes the deliverable useless for its purpose.</li>
+<li><strong>Why.</strong> rules_digest prints every incident's lesson field in full, so the digest grows linearly with the ledger while the guard holds a fixed bound. At 82 incidents the lessons alone were 3,742 words against a 4,000 word budget. Nothing about the triggering commit was special: the next incident would have tripped it whoever wrote it, which is the signature of a bound asserted on an output nobody bounded.</li>
+<li><strong>How it surfaced.</strong> test (A test caught it)</li>
+<li><strong>Fix.</strong> The digest now prints the operative rule rather than the whole lesson: sentences from the front of the lesson until it reads as a complete thought, at least 80 characters. That is 2,119 words instead of 3,742, and 37 of the 82 lessons are already one sentence and are unchanged. The 80 character floor is not cosmetic: the companion guard asserts every lesson reaches the digest by looking for its first 60 characters, and 27 lessons have a first sentence shorter than that, so truncating at the first full stop would have satisfied one guard by breaking the other. The reasoning behind each rule stays in BUILD_PLAYBOOK.md, which the digest already tells the reader to consult.</li>
+<li><strong>What stops it now.</strong> smoke_playbook already held the bound; what it lacked was a generator that respects one. The word count is now roughly flat per incident rather than proportional to the lesson someone happened to write in <code>src/build_playbook.py</code></li>
+<li><strong>Lesson.</strong> A size limit on a generated file is only a guard if something bounds the generator too; otherwise it is a delayed failure that lands on whoever commits next, and reads as their fault. When two guards constrain the same output, check the fix against both: shortening this file to satisfy the size check would have broken the completeness check that reads its first 60 characters.</li>
+</ul>
 <h2 id="css-and-layout-5">CSS and layout (5)</h2>
 <h3 id="inc-0050-a-landing-page-icon-referenced-a-colour-token-that-did-not-exist">INC-0050. A landing-page icon referenced a colour token that did not exist</h3>
 <p><em>2026-08-19, Cosmetic, <code>5337dfd</code></em></p>
@@ -1398,61 +1474,6 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>What stops it now.</strong> smoke_redirect derives the must-serve set from the built pages in <code>src/smoke_redirect.js</code></li>
 <li><strong>Cost.</strong> two legal pages unstyled, caught before deploy</li>
 <li><strong>Lesson.</strong> A guard that is a hand-kept list of safe paths is written by the same hand that made the mistake. Derive the safe set from the artefact, not from memory.</li>
-</ul>
-<h2 id="build-system-5">Build system (5)</h2>
-<h3 id="inc-0059-the-item-counter-missed-a-whole-bank-file-because-it-assumed-a-quoting-style">INC-0059. The item counter missed a whole bank file because it assumed a quoting style</h3>
-<p><em>2026-09-22, Silent loss, PR #65</em></p>
-<ul>
-<li><strong>What was seen.</strong> A new bank added 35 items and the build reported the exam's total unchanged at 65. The engine tests, which load the bank for real, saw all 100.</li>
-<li><strong>Why.</strong> The count is a regex over the concatenated source looking for an id in single quotes. The new file emits JSON escaped strings, so its ids are double quoted and none of them matched. Nothing compared the regex count to the number of items that actually load.</li>
-<li><strong>How it surfaced.</strong> Noticing that the build summary and the test output disagreed about the same bank. (Found by measuring something)</li>
-<li><strong>Fix.</strong> Accept either quoting style, and assert that every bank file listed for an exam contributes at least one counted item, so a file the pattern cannot see fails the build instead of counting zero.</li>
-<li><strong>What stops it now.</strong> per-file contribution assertion in the bank counter in <code>src/build.py</code></li>
-<li><strong>Cost.</strong> a published item count 35 short, and a guard that would have kept getting quieter</li>
-<li><strong>Lesson.</strong> A regex that counts things assumes a formatting convention, and a file that legitimately breaks the convention counts as zero rather than as an error. Any counter that can return zero for a non-empty input needs a per-source assertion, not just a total.</li>
-</ul>
-<h3 id="inc-0060-nothing-parsed-the-one-file-every-user-downloads">INC-0060. Nothing parsed the one file every user downloads</h3>
-<p><em>2026-09-22, Site down, PR #65</em></p>
-<ul>
-<li><strong>What was seen.</strong> None shipped. A bank file with a syntax error built cleanly and the build exited zero, leaving invalid JavaScript in the bank the trainer loads on every visit.</li>
-<li><strong>Why.</strong> The build parses every inline script in every built page, a guard added after an unescaped quote took the whole trainer down at parse time. The item bank is not an inline script. It ships as a separate file and was never in the list, so the largest generated artefact on the site was the one thing the parser never saw.</li>
-<li><strong>How it surfaced.</strong> Deliberately breaking a bank file to test an unrelated guard, and noticing the build passed. (Found by a review bot or an adversarial pass)</li>
-<li><strong>Fix.</strong> Parse every built bank file and every chunk of it, alongside the pages.</li>
-<li><strong>What stops it now.</strong> the build node-parses each built bank and chunk in <code>src/build.py</code></li>
-<li><strong>Cost.</strong> would have broken every trainer on the next bank edit</li>
-<li><strong>Lesson.</strong> A parse guard covers the file shapes someone thought of. When the same code moves into a new shape, a separate file, a chunk, a worker, the guard does not follow it. List what the guard covers against what the deploy actually ships, and check the difference rather than the intention.</li>
-</ul>
-<h3 id="inc-0063-the-stale-count-guard-checked-two-nouns-and-the-page-used-a-third">INC-0063. The stale count guard checked two nouns and the page used a third</h3>
-<p><em>2026-09-22, Wrong data shown or stored, PR #67</em></p>
-<ul>
-<li><strong>What was seen.</strong> llms.txt told every model that reads it the LSAT bank holds 65 questions. It held 142. The build's count guard passed the file.</li>
-<li><strong>Why.</strong> The guard matches a number followed by original or flashcards. The LSAT line was phrased as 65 questions today, deliberately, because the number was small and the page said so plainly. The phrasing that made the sentence honest is what put it outside the pattern.</li>
-<li><strong>How it surfaced.</strong> Reading the file while fixing a different count the guard did catch, then watching the widened guard flag a correct sourced figure. (Found by reading the code or the output)</li>
-<li><strong>Fix.</strong> Match a second, unambiguous pattern rather than more nouns. Widening the noun list to items and questions did catch the stale figure, and immediately raised a false positive on '64 questions', which is the real GMAT Focus question count from GMAC and not a bank size at all. A checker that cries wolf gets muted, so the guard now matches 'N original', 'N flashcards' and the specific phrase 'item bank is N', which names our bank and cannot match an exam fact.</li>
-<li><strong>What stops it now.</strong> the count guard matches original, flashcards, items and questions in <code>src/build.py</code></li>
-<li><strong>Cost.</strong> a published figure less than half the true one, on the page written for machines</li>
-<li><strong>Lesson.</strong> A guard keyed to wording is a guard on the wording, not the fact, and every synonym is a hole in it. Widening the wording is the obvious repair and it trades missed defects for false alarms, which cost more because they get the guard switched off. Match a phrase that only the thing you care about can produce, rather than every word it might happen to use.</li>
-</ul>
-<h3 id="inc-0064-the-guard-against-a-blind-counter-was-itself-blind-to-three-exams">INC-0064. The guard against a blind counter was itself blind to three exams</h3>
-<p><em>2026-09-22, Silent loss, PR #68</em></p>
-<ul>
-<li><strong>What was seen.</strong> A new GRE reading bank of 26 items was registered, built, and counted as zero. The published GRE total stayed at 19,888. The guard written a day earlier to catch exactly this said nothing.</li>
-<li><strong>Why.</strong> Two failures of the same shape, one inside the other. The GRE id pattern was G[QVE] and the new ids begin GR, so the counter could not see them. And the per-file guard added for INC-0059, which asserts that every listed bank file contributes at least one counted item, looped over only the two exams that happened to be in hand when it was written.</li>
-<li><strong>How it surfaced.</strong> Predicting it from the id pattern before building, then watching the build confirm it by reporting the old total. (Found by reading the code or the output)</li>
-<li><strong>Fix.</strong> Add R to the GRE pattern, and loop the guard over all five exams rather than two.</li>
-<li><strong>What stops it now.</strong> the per-file counter guard covers every exam in APPS in <code>src/build.py</code></li>
-<li><strong>Cost.</strong> 26 items invisible to every published count, caught before merge</li>
-<li><strong>Lesson.</strong> A guard that covers a subset of cases reproduces the original defect in the cases it skips, and it is more dangerous than no guard because the incident it was written for feels closed. When you add a check, enumerate everything of that kind and cover all of it, or state in the code which cases are deliberately excluded and why.</li>
-</ul>
-<h3 id="inc-0080-a-build-step-that-fails-while-the-build-exits-zero-and-a-verification-run-that-was-a-remembered-subset">INC-0080. A build step that fails while the build exits zero, and a verification run that was a remembered subset</h3>
-<p><em>2026-09-22, Degraded</em></p>
-<ul>
-<li><strong>What was seen.</strong> Three commits shipped with a playbook that had not been rebuilt, because the ledger no longer checked out: INC-0077 carried an area of tooling, which is not one of the twelve the builder accepts. The site build printed WARNING and exited zero, so nothing local said no. CI said no, on the commit after the one that broke it.</li>
-<li><strong>Why.</strong> Two things had to be true at once. The playbook build is deliberately non fatal, because playbook/ is excluded from the deploy and a broken chapter should not stop the site shipping, and it says so with a line beginning WARNING. And the run that was supposed to catch it was four smoke suites chosen from memory rather than the eight steps CI actually runs, so smoke_playbook, which does check this, was never run. Either alone is survivable. Together they mean a failure that is reported, in a form nobody was reading, to a process that had already decided what to look at.</li>
-<li><strong>How it surfaced.</strong> The build-and-test job failed on GitHub with five playbook assertions, three commits after the one that introduced the bad row. (A test caught it)</li>
-<li><strong>Fix.</strong> The area is corrected to testing, which is the label the builder has for a check. The non fatal line now begins ERROR rather than WARNING, because it is one: the exit code stays zero so the site still builds, and the word matches what happened so a reader scanning for failures finds it.</li>
-<li><strong>What stops it now.</strong> the playbook build failure is reported as ERROR while still not blocking the site build, so a scan for failures catches it in <code>src/build.py</code></li>
-<li><strong>Lesson.</strong> Two habits, both mine rather than the code's. Verify with the sequence the pipeline runs, read out of its config, not with the subset you remember: a suite chosen from memory drifts to the parts that were failing last week. And when a step is deliberately non fatal, the word it fails with is the whole of its signal, so it has to be the word people grep for. WARNING on a line that means a deliverable did not build is an invitation to miss it, and the cost of saying ERROR while still exiting zero is nothing at all.</li>
 </ul>
 <h2 id="scoring-and-selection-4">Scoring and selection (4)</h2>
 <h3 id="inc-0040-the-easier-module-was-not-easier">INC-0040. The easier module was not easier</h3>
@@ -1636,6 +1657,10 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>[ ] Two habits, both mine rather than the code's. Verify with the sequence the pipeline runs, read out of its config, not with the subset you remember: a suite chosen from memory drifts to the parts that were failing last week. And when a step is deliberately non fatal, the word it fails with is the whole of its signal, so it has to be the word people grep for. WARNING on a line that means a deliverable did not build is an invitation to miss it, and the cost of saying ERROR while still exiting zero is nothing at all.  </li>
 </ul>
 <p>&lt;small&gt;A build step that fails while the build exits zero, and a verification run that was a remembered subset (INC-0080)&lt;/small&gt;</p>
+<ul>
+<li>[ ] A size limit on a generated file is only a guard if something bounds the generator too; otherwise it is a delayed failure that lands on whoever commits next, and reads as their fault. When two guards constrain the same output, check the fix against both: shortening this file to satisfy the size check would have broken the completeness check that reads its first 60 characters.  </li>
+</ul>
+<p>&lt;small&gt;The rules digest promises to be prompt sized and its generator grows without bound (INC-0083)&lt;/small&gt;</p>
 <h2 id="css-and-layout">CSS and layout</h2>
 <ul>
 <li>[ ] The same undefined-property failure will find you repeatedly, at every severity from one icon to an invisible legal control. One audit of computed colour catches the whole class.  </li>
@@ -1746,6 +1771,10 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>[ ] Every guard here measured the answer's place in its set, and a set of guards that all take the same kind of measurement shares a blind spot the size of everything else. The tell they could not see was the simplest one a student would find: the answer is the same answer. When adding the third check of a kind, the question worth asking is not whether it is stricter than the other two but what all three have in common, because that is what is going unmeasured.  </li>
 </ul>
 <p>&lt;small&gt;A student who always answers 1 scores 98 percent on a schema, and no check looked at the answer itself (INC-0081)&lt;/small&gt;</p>
+<ul>
+<li>[ ] Two lessons, and they compound. A rule copied into code by its examples loses the clause the examples were illustrating: CLAUDE.md bans six named sites and coaching site blogs, and the list kept the six and dropped the category, which is the half that generalises. And a validator gets written for the corpus that had the problem at the time, then quietly defines what is checked: two of three published corpora were enforced and the third had never had a source read, which is not a weaker check but an absent one. When a guard exists, the question is not only whether it is strict enough but which of the things it could be pointed at it is not pointed at.  </li>
+</ul>
+<p>&lt;small&gt;Nine published exam facts cite test prep companies, in the one published corpus with no source validator (INC-0082)&lt;/small&gt;</p>
 <h2 id="database">Database</h2>
 <ul>
 <li>[ ] Postgres fires same-timing triggers alphabetically. If two triggers on one table have an order dependency, encode it in the name, and test the outcome rather than the code.  </li>
@@ -2005,7 +2034,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p><code>python3 src/build_playbook.py</code> writes four files into <code>playbook/bootstrap/</code>, all generated from the same ledger as the book, so none of them can drift from it.</p>
 <p><strong><code>CLAUDE.template.md</code></strong> goes in the new repository's root. Claude Code reads it on every turn. It is the constitution: the house rules, the never-invent-a-value rule, the sourcing rules, the communication rule, and a short architecture section you fill in as you build. Four bracketed blanks at the top are the only things you have to change.</p>
 <p><strong><code>KICKOFF.md</code></strong> is the literal first message for a new conversation. It sets the working agreement, the phase order, and what a session should report. Paste it, then describe your business idea underneath it.</p>
-<p><strong><code>RULES_DIGEST.md</code></strong> is every lesson in the defect ledger, compressed to one line each and grouped by area. It is about three pages. This is the highest value-per-token artefact in the whole project: 81 real defects reduced to the rules that prevent them, with the specifics of this codebase stripped out.</p>
+<p><strong><code>RULES_DIGEST.md</code></strong> is every lesson in the defect ledger, compressed to one line each and grouped by area. It is about three pages. This is the highest value-per-token artefact in the whole project: 83 real defects reduced to the rules that prevent them, with the specifics of this codebase stripped out.</p>
 <p><strong><code>incidents.jsonl</code></strong> is the raw ledger, copied so the new project can start appending to it on day one rather than starting an empty one.</p>
 <h2 id="how-to-load-it-by-surface">How to load it, by surface</h2>
 <p><strong>Claude Code, new repository.</strong> Copy <code>CLAUDE.template.md</code> to the repo root as <code>CLAUDE.md</code>, fill in the four blanks, and copy <code>incidents.jsonl</code> to <code>data/playbook/incidents.jsonl</code>. Copy <code>src/build_playbook.py</code> too, so the new project's own ledger becomes its own book from the first defect. Then open a session with <code>KICKOFF.md</code> as the first message.</p>
@@ -2015,7 +2044,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three reasons, and they are worth understanding rather than just following.</p>
 <p><strong>Retrieval beats repetition.</strong> A document in project knowledge is consulted when relevant. The same document in the prompt is re-read on every single turn, at full cost, mostly when it is irrelevant. For anything longer than a few pages, retrieval is strictly better.</p>
 <p><strong>Instructions need to be short enough to be followed.</strong> A rule competing with ten thousand words of context is a rule that gets applied inconsistently. The digest is deliberately brutal: one line per lesson, imperative mood, no examples. The examples are in the book, where they can be looked up when a rule seems wrong.</p>
-<p><strong>The ledger is the part that compounds.</strong> The recipe chapters age. The rules do not, because each one is the residue of a real failure, and the failure modes of software are considerably more stable than its tooling. A new project that starts with 81 defects already prevented is genuinely ahead, and every defect it hits of its own makes the next project further ahead still.</p>
+<p><strong>The ledger is the part that compounds.</strong> The recipe chapters age. The rules do not, because each one is the residue of a real failure, and the failure modes of software are considerably more stable than its tooling. A new project that starts with 83 defects already prevented is genuinely ahead, and every defect it hits of its own makes the next project further ahead still.</p>
 <h2 id="keeping-the-loop-closed">Keeping the loop closed</h2>
 <p>The pack is only worth carrying forward if the new project feeds it back. So the working agreement in <code>KICKOFF.md</code> includes one instruction that does the whole job:</p>
 <p>&gt; When something breaks, append a record to <code>data/playbook/incidents.jsonl</code> before fixing &gt; it, while you still remember what you believed was true five minutes ago.</p>

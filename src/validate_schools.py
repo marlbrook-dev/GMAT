@@ -11,11 +11,12 @@ import sys
 REGIONS = {"Northeast", "Midwest", "South", "West"}
 TYPES = {"Private", "Public"}
 
-# Fatal: these may never appear as a source (CLAUDE.md banned list).
-BANNED_SOURCES = ["gmat club", "gmatclub", "quora", "wikipedia", "gyandhan",
-                  "pagalguy", "reddit", "forum"]
-# Warned: allowed for now, queued for replacement with official pages.
-WEAK_SOURCES = ["clear admit", "stacy blackman", "search snippet", "f1gmat", "leland"]
+# The source policy lives in src/sources.py so the three published corpora
+# (schools, colleges, exams) cannot drift apart on what counts as a bad source.
+# Re-exported here because data/research/merge_results.py imports both names
+# from this module.
+sys.path.insert(0, __file__.rsplit("/", 1)[0])
+from sources import BANNED_SOURCES, WEAK_SOURCES  # noqa: E402,F401
 
 RANGES = {
     "gmat_focus": (205, 805), "gmat_classic": (200, 800),

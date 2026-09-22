@@ -224,6 +224,11 @@ def main():
         print("build_exams: no data/exams.json yet; built /pricing/ only")
         return
     exams = json.loads(data_path.read_text())
+    # Source policy before anything is rendered, the same way build_rankings.py
+    # calls validate_schools. This corpus went without one until INC-0082, and
+    # published nine exam facts sourced to test prep companies as a result.
+    import validate_exams
+    validate_exams.validate(exams)
     today = os.environ.get("BLOG_BUILD_DATE") or datetime.date.today().isoformat()
     tpl = (D / "exam_template.html").read_text()
     itpl = (D / "exams_index_template.html").read_text()

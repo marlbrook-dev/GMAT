@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-08-17 and 2026-09-22, which is 36 days, across
-77 commits, by one owner directing a series of AI coding sessions. As of this
+74 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 51 Python files, 101 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 63 documents:
 1975 tracked files in total.
@@ -1118,7 +1118,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-77 commits in 36 days, one owner, a series of AI sessions. This
+74 commits in 36 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1210,22 +1210,22 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-81 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+83 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 35 | 43% |
+| Found by reading the code or the output | 36 | 43% |
 | Found by measuring something | 22 | 27% |
-| A test caught it | 12 | 15% |
+| A test caught it | 13 | 16% |
 | Found by rendering it and looking | 5 | 6% |
 | Found by a review bot or an adversarial pass | 5 | 6% |
 | A person hit it | 1 | 1% |
 | A build guard caught it | 1 | 1% |
 
-**This is the most useful table in the book.** 80 of 81 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 82 of 83 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1234,26 +1234,26 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 32 |
+| Wrong data shown or stored | 33 |
 | Silent loss | 19 |
-| Degraded | 16 |
+| Degraded | 17 |
 | Cosmetic | 11 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 19 of 81. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 19 of 83. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 22 |
+| Content generation | 23 |
 | Tests and guards | 17 |
 | Front end | 8 |
+| Build system | 6 |
 | CSS and layout | 5 |
 | Payments | 5 |
 | Infrastructure and deploy | 5 |
-| Build system | 5 |
 | Scoring and selection | 4 |
 | Database | 4 |
 | Search and metadata | 3 |
@@ -1262,7 +1262,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-75 of 81 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+77 of 83 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1292,6 +1292,7 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/bank_emit.py`, 4 incidents (INC-0062, INC-0066, INC-0068, INC-0073)
 - `src/weekly_audit.js`, 3 incidents (INC-0050, INC-0048, INC-0018)
 - `src/smoke_redirect.js`, 3 incidents (INC-0023, INC-0024, INC-0047)
+- `src/build_playbook.py`, 3 incidents (INC-0057, INC-0065, INC-0083)
 - `src/bank_repair.py`, 3 incidents (INC-0070, INC-0071, INC-0072)
 - `src/gen/framework.py`, 3 incidents (INC-0074, INC-0075, INC-0078)
 
@@ -1303,7 +1304,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (22)
+## Content generation (23)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -1577,6 +1578,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** build_banks measures the most common single answer value per schema and refuses one over its recorded figure, alongside the three place based figures. make_cases draws how many rows comply rather than leaving it to fall out of the violation draw, and the science studies draw their direction evenly.
 - **What stops it now.** build_banks records and ratchets the most common single answer value per schema, which is the first check on what the answer is rather than on where it sits in `src/build_banks.py`
 - **Lesson.** Every guard here measured the answer's place in its set, and a set of guards that all take the same kind of measurement shares a blind spot the size of everything else. The tell they could not see was the simplest one a student would find: the answer is the same answer. When adding the third check of a kind, the question worth asking is not whether it is stricter than the other two but what all three have in common, because that is what is going unmeasured.
+
+
+### INC-0082. Nine published exam facts cite test prep companies, in the one published corpus with no source validator
+
+*2026-09-22, Wrong data shown or stored*
+
+- **What was seen.** The five exam guide pages publish nine figures sourced to test prep and content marketing companies: The Princeton Review three times (the digital SAT score release window, and the two LSAT facts that logic games are retired and that the variable section can appear anywhere), Applerouth twice (the enhanced ACT rollout dates and Science becoming optional), plus Menlo Coaching for how the GRE is delivered, Achievable for the GRE fee reduction amount, UWorld College Prep for SAT superscoring, and Sallie Mae for the SAT retake limit. CLAUDE.md bans coaching site blogs outright as sources. Several of these are structural facts a student plans around, carried under a citation the house rules forbid.
+- **Why.** Two things, and the second is why the first went unseen. The published figure corpora are data/schools, data/colleges and data/exams.json. validate_schools.py and validate_colleges.py enforce the source policy on the first two and run from their builds; data/exams.json has no validator at all and build_exams.py calls none, so nothing has ever read a source on it. Even had one existed, it would have passed all nine: BANNED_SOURCES lists the six sites CLAUDE.md names as examples, and CLAUDE.md bans those six AND the category coaching site blogs. The general clause was dropped in transcription, so the list refuses GMAT Club by name and accepts Kaplan.
+- **How it surfaced.** Reading ROADMAP.md for open work rather than picking by judgement. It carried a note that sat.score_release cited The Princeton Review and was still open. Asking the obvious next question, which corpus that figure lives in and what validates it, found the file had no validator; walking every url host in it against the test makers' own domains found eight more. (Found by reading the code or the output)
+- **Fix.** src/validate_exams.py applies the same contract to data/exams.json that the other two corpora have had: every published figure carries src, year and url, the url host must be the test maker's own domain or an explicitly allowed one, and banned sources are fatal. build_exams.py calls it before it renders. The banned list moves to one shared module so the three validators cannot drift, and gains the coaching site category CLAUDE.md bans alongside the six named sites. Each of the nine figures was then re-verified against the test maker's own page and recited to it, or removed where the maker does not publish it.
+- **What stops it now.** validate_exams.py fails the build on a figure in data/exams.json missing src, year or url, on a banned source, and on a url whose host is not the test maker's own or explicitly allowed, so a plausible looking citation from a prep company cannot be added silently in `src/validate_exams.py`
+- **Lesson.** Two lessons, and they compound. A rule copied into code by its examples loses the clause the examples were illustrating: CLAUDE.md bans six named sites and coaching site blogs, and the list kept the six and dropped the category, which is the half that generalises. And a validator gets written for the corpus that had the problem at the time, then quietly defines what is checked: two of three published corpora were enforced and the third had never had a source read, which is not a weaker check but an absent one. When a guard exists, the question is not only whether it is strict enough but which of the things it could be pointed at it is not pointed at.
 
 
 ## Tests and guards (17)
@@ -1908,6 +1921,85 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** Anything that reports failures must not be able to report its own. Check whether each call rejects or throws before you wrap it, and make the reporting path unable to re-enter itself.
 
 
+## Build system (6)
+
+
+### INC-0059. The item counter missed a whole bank file because it assumed a quoting style
+
+*2026-09-22, Silent loss, PR #65*
+
+- **What was seen.** A new bank added 35 items and the build reported the exam's total unchanged at 65. The engine tests, which load the bank for real, saw all 100.
+- **Why.** The count is a regex over the concatenated source looking for an id in single quotes. The new file emits JSON escaped strings, so its ids are double quoted and none of them matched. Nothing compared the regex count to the number of items that actually load.
+- **How it surfaced.** Noticing that the build summary and the test output disagreed about the same bank. (Found by measuring something)
+- **Fix.** Accept either quoting style, and assert that every bank file listed for an exam contributes at least one counted item, so a file the pattern cannot see fails the build instead of counting zero.
+- **What stops it now.** per-file contribution assertion in the bank counter in `src/build.py`
+- **Cost.** a published item count 35 short, and a guard that would have kept getting quieter
+- **Lesson.** A regex that counts things assumes a formatting convention, and a file that legitimately breaks the convention counts as zero rather than as an error. Any counter that can return zero for a non-empty input needs a per-source assertion, not just a total.
+
+
+### INC-0060. Nothing parsed the one file every user downloads
+
+*2026-09-22, Site down, PR #65*
+
+- **What was seen.** None shipped. A bank file with a syntax error built cleanly and the build exited zero, leaving invalid JavaScript in the bank the trainer loads on every visit.
+- **Why.** The build parses every inline script in every built page, a guard added after an unescaped quote took the whole trainer down at parse time. The item bank is not an inline script. It ships as a separate file and was never in the list, so the largest generated artefact on the site was the one thing the parser never saw.
+- **How it surfaced.** Deliberately breaking a bank file to test an unrelated guard, and noticing the build passed. (Found by a review bot or an adversarial pass)
+- **Fix.** Parse every built bank file and every chunk of it, alongside the pages.
+- **What stops it now.** the build node-parses each built bank and chunk in `src/build.py`
+- **Cost.** would have broken every trainer on the next bank edit
+- **Lesson.** A parse guard covers the file shapes someone thought of. When the same code moves into a new shape, a separate file, a chunk, a worker, the guard does not follow it. List what the guard covers against what the deploy actually ships, and check the difference rather than the intention.
+
+
+### INC-0063. The stale count guard checked two nouns and the page used a third
+
+*2026-09-22, Wrong data shown or stored, PR #67*
+
+- **What was seen.** llms.txt told every model that reads it the LSAT bank holds 65 questions. It held 142. The build's count guard passed the file.
+- **Why.** The guard matches a number followed by original or flashcards. The LSAT line was phrased as 65 questions today, deliberately, because the number was small and the page said so plainly. The phrasing that made the sentence honest is what put it outside the pattern.
+- **How it surfaced.** Reading the file while fixing a different count the guard did catch, then watching the widened guard flag a correct sourced figure. (Found by reading the code or the output)
+- **Fix.** Match a second, unambiguous pattern rather than more nouns. Widening the noun list to items and questions did catch the stale figure, and immediately raised a false positive on '64 questions', which is the real GMAT Focus question count from GMAC and not a bank size at all. A checker that cries wolf gets muted, so the guard now matches 'N original', 'N flashcards' and the specific phrase 'item bank is N', which names our bank and cannot match an exam fact.
+- **What stops it now.** the count guard matches original, flashcards, items and questions in `src/build.py`
+- **Cost.** a published figure less than half the true one, on the page written for machines
+- **Lesson.** A guard keyed to wording is a guard on the wording, not the fact, and every synonym is a hole in it. Widening the wording is the obvious repair and it trades missed defects for false alarms, which cost more because they get the guard switched off. Match a phrase that only the thing you care about can produce, rather than every word it might happen to use.
+
+
+### INC-0064. The guard against a blind counter was itself blind to three exams
+
+*2026-09-22, Silent loss, PR #68*
+
+- **What was seen.** A new GRE reading bank of 26 items was registered, built, and counted as zero. The published GRE total stayed at 19,888. The guard written a day earlier to catch exactly this said nothing.
+- **Why.** Two failures of the same shape, one inside the other. The GRE id pattern was G[QVE] and the new ids begin GR, so the counter could not see them. And the per-file guard added for INC-0059, which asserts that every listed bank file contributes at least one counted item, looped over only the two exams that happened to be in hand when it was written.
+- **How it surfaced.** Predicting it from the id pattern before building, then watching the build confirm it by reporting the old total. (Found by reading the code or the output)
+- **Fix.** Add R to the GRE pattern, and loop the guard over all five exams rather than two.
+- **What stops it now.** the per-file counter guard covers every exam in APPS in `src/build.py`
+- **Cost.** 26 items invisible to every published count, caught before merge
+- **Lesson.** A guard that covers a subset of cases reproduces the original defect in the cases it skips, and it is more dangerous than no guard because the incident it was written for feels closed. When you add a check, enumerate everything of that kind and cover all of it, or state in the code which cases are deliberately excluded and why.
+
+
+### INC-0080. A build step that fails while the build exits zero, and a verification run that was a remembered subset
+
+*2026-09-22, Degraded*
+
+- **What was seen.** Three commits shipped with a playbook that had not been rebuilt, because the ledger no longer checked out: INC-0077 carried an area of tooling, which is not one of the twelve the builder accepts. The site build printed WARNING and exited zero, so nothing local said no. CI said no, on the commit after the one that broke it.
+- **Why.** Two things had to be true at once. The playbook build is deliberately non fatal, because playbook/ is excluded from the deploy and a broken chapter should not stop the site shipping, and it says so with a line beginning WARNING. And the run that was supposed to catch it was four smoke suites chosen from memory rather than the eight steps CI actually runs, so smoke_playbook, which does check this, was never run. Either alone is survivable. Together they mean a failure that is reported, in a form nobody was reading, to a process that had already decided what to look at.
+- **How it surfaced.** The build-and-test job failed on GitHub with five playbook assertions, three commits after the one that introduced the bad row. (A test caught it)
+- **Fix.** The area is corrected to testing, which is the label the builder has for a check. The non fatal line now begins ERROR rather than WARNING, because it is one: the exit code stays zero so the site still builds, and the word matches what happened so a reader scanning for failures finds it.
+- **What stops it now.** the playbook build failure is reported as ERROR while still not blocking the site build, so a scan for failures catches it in `src/build.py`
+- **Lesson.** Two habits, both mine rather than the code's. Verify with the sequence the pipeline runs, read out of its config, not with the subset you remember: a suite chosen from memory drifts to the parts that were failing last week. And when a step is deliberately non fatal, the word it fails with is the whole of its signal, so it has to be the word people grep for. WARNING on a line that means a deliverable did not build is an invitation to miss it, and the cost of saying ERROR while still exiting zero is nothing at all.
+
+
+### INC-0083. The rules digest promises to be prompt sized and its generator grows without bound
+
+*2026-09-22, Degraded*
+
+- **What was seen.** smoke_playbook failed with 'the digest stays prompt sized (4046 words)' against a 4000 word limit, on a commit whose only relation to the playbook was adding one incident. The bootstrap pack's RULES_DIGEST.md is the file a new project pastes into its prompt, so crossing the limit is the one failure that makes the deliverable useless for its purpose.
+- **Why.** rules_digest prints every incident's lesson field in full, so the digest grows linearly with the ledger while the guard holds a fixed bound. At 82 incidents the lessons alone were 3,742 words against a 4,000 word budget. Nothing about the triggering commit was special: the next incident would have tripped it whoever wrote it, which is the signature of a bound asserted on an output nobody bounded.
+- **How it surfaced.** test (A test caught it)
+- **Fix.** The digest now prints the operative rule rather than the whole lesson: sentences from the front of the lesson until it reads as a complete thought, at least 80 characters. That is 2,119 words instead of 3,742, and 37 of the 82 lessons are already one sentence and are unchanged. The 80 character floor is not cosmetic: the companion guard asserts every lesson reaches the digest by looking for its first 60 characters, and 27 lessons have a first sentence shorter than that, so truncating at the first full stop would have satisfied one guard by breaking the other. The reasoning behind each rule stays in BUILD_PLAYBOOK.md, which the digest already tells the reader to consult.
+- **What stops it now.** smoke_playbook already held the bound; what it lacked was a generator that respects one. The word count is now roughly flat per incident rather than proportional to the lesson someone happened to write in `src/build_playbook.py`
+- **Lesson.** A size limit on a generated file is only a guard if something bounds the generator too; otherwise it is a delayed failure that lands on whoever commits next, and reads as their fault. When two guards constrain the same output, check the fix against both: shortening this file to satisfy the size check would have broken the completeness check that reads its first 60 characters.
+
+
 ## CSS and layout (5)
 
 
@@ -2110,73 +2202,6 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **What stops it now.** smoke_redirect derives the must-serve set from the built pages in `src/smoke_redirect.js`
 - **Cost.** two legal pages unstyled, caught before deploy
 - **Lesson.** A guard that is a hand-kept list of safe paths is written by the same hand that made the mistake. Derive the safe set from the artefact, not from memory.
-
-
-## Build system (5)
-
-
-### INC-0059. The item counter missed a whole bank file because it assumed a quoting style
-
-*2026-09-22, Silent loss, PR #65*
-
-- **What was seen.** A new bank added 35 items and the build reported the exam's total unchanged at 65. The engine tests, which load the bank for real, saw all 100.
-- **Why.** The count is a regex over the concatenated source looking for an id in single quotes. The new file emits JSON escaped strings, so its ids are double quoted and none of them matched. Nothing compared the regex count to the number of items that actually load.
-- **How it surfaced.** Noticing that the build summary and the test output disagreed about the same bank. (Found by measuring something)
-- **Fix.** Accept either quoting style, and assert that every bank file listed for an exam contributes at least one counted item, so a file the pattern cannot see fails the build instead of counting zero.
-- **What stops it now.** per-file contribution assertion in the bank counter in `src/build.py`
-- **Cost.** a published item count 35 short, and a guard that would have kept getting quieter
-- **Lesson.** A regex that counts things assumes a formatting convention, and a file that legitimately breaks the convention counts as zero rather than as an error. Any counter that can return zero for a non-empty input needs a per-source assertion, not just a total.
-
-
-### INC-0060. Nothing parsed the one file every user downloads
-
-*2026-09-22, Site down, PR #65*
-
-- **What was seen.** None shipped. A bank file with a syntax error built cleanly and the build exited zero, leaving invalid JavaScript in the bank the trainer loads on every visit.
-- **Why.** The build parses every inline script in every built page, a guard added after an unescaped quote took the whole trainer down at parse time. The item bank is not an inline script. It ships as a separate file and was never in the list, so the largest generated artefact on the site was the one thing the parser never saw.
-- **How it surfaced.** Deliberately breaking a bank file to test an unrelated guard, and noticing the build passed. (Found by a review bot or an adversarial pass)
-- **Fix.** Parse every built bank file and every chunk of it, alongside the pages.
-- **What stops it now.** the build node-parses each built bank and chunk in `src/build.py`
-- **Cost.** would have broken every trainer on the next bank edit
-- **Lesson.** A parse guard covers the file shapes someone thought of. When the same code moves into a new shape, a separate file, a chunk, a worker, the guard does not follow it. List what the guard covers against what the deploy actually ships, and check the difference rather than the intention.
-
-
-### INC-0063. The stale count guard checked two nouns and the page used a third
-
-*2026-09-22, Wrong data shown or stored, PR #67*
-
-- **What was seen.** llms.txt told every model that reads it the LSAT bank holds 65 questions. It held 142. The build's count guard passed the file.
-- **Why.** The guard matches a number followed by original or flashcards. The LSAT line was phrased as 65 questions today, deliberately, because the number was small and the page said so plainly. The phrasing that made the sentence honest is what put it outside the pattern.
-- **How it surfaced.** Reading the file while fixing a different count the guard did catch, then watching the widened guard flag a correct sourced figure. (Found by reading the code or the output)
-- **Fix.** Match a second, unambiguous pattern rather than more nouns. Widening the noun list to items and questions did catch the stale figure, and immediately raised a false positive on '64 questions', which is the real GMAT Focus question count from GMAC and not a bank size at all. A checker that cries wolf gets muted, so the guard now matches 'N original', 'N flashcards' and the specific phrase 'item bank is N', which names our bank and cannot match an exam fact.
-- **What stops it now.** the count guard matches original, flashcards, items and questions in `src/build.py`
-- **Cost.** a published figure less than half the true one, on the page written for machines
-- **Lesson.** A guard keyed to wording is a guard on the wording, not the fact, and every synonym is a hole in it. Widening the wording is the obvious repair and it trades missed defects for false alarms, which cost more because they get the guard switched off. Match a phrase that only the thing you care about can produce, rather than every word it might happen to use.
-
-
-### INC-0064. The guard against a blind counter was itself blind to three exams
-
-*2026-09-22, Silent loss, PR #68*
-
-- **What was seen.** A new GRE reading bank of 26 items was registered, built, and counted as zero. The published GRE total stayed at 19,888. The guard written a day earlier to catch exactly this said nothing.
-- **Why.** Two failures of the same shape, one inside the other. The GRE id pattern was G[QVE] and the new ids begin GR, so the counter could not see them. And the per-file guard added for INC-0059, which asserts that every listed bank file contributes at least one counted item, looped over only the two exams that happened to be in hand when it was written.
-- **How it surfaced.** Predicting it from the id pattern before building, then watching the build confirm it by reporting the old total. (Found by reading the code or the output)
-- **Fix.** Add R to the GRE pattern, and loop the guard over all five exams rather than two.
-- **What stops it now.** the per-file counter guard covers every exam in APPS in `src/build.py`
-- **Cost.** 26 items invisible to every published count, caught before merge
-- **Lesson.** A guard that covers a subset of cases reproduces the original defect in the cases it skips, and it is more dangerous than no guard because the incident it was written for feels closed. When you add a check, enumerate everything of that kind and cover all of it, or state in the code which cases are deliberately excluded and why.
-
-
-### INC-0080. A build step that fails while the build exits zero, and a verification run that was a remembered subset
-
-*2026-09-22, Degraded*
-
-- **What was seen.** Three commits shipped with a playbook that had not been rebuilt, because the ledger no longer checked out: INC-0077 carried an area of tooling, which is not one of the twelve the builder accepts. The site build printed WARNING and exited zero, so nothing local said no. CI said no, on the commit after the one that broke it.
-- **Why.** Two things had to be true at once. The playbook build is deliberately non fatal, because playbook/ is excluded from the deploy and a broken chapter should not stop the site shipping, and it says so with a line beginning WARNING. And the run that was supposed to catch it was four smoke suites chosen from memory rather than the eight steps CI actually runs, so smoke_playbook, which does check this, was never run. Either alone is survivable. Together they mean a failure that is reported, in a form nobody was reading, to a process that had already decided what to look at.
-- **How it surfaced.** The build-and-test job failed on GitHub with five playbook assertions, three commits after the one that introduced the bad row. (A test caught it)
-- **Fix.** The area is corrected to testing, which is the label the builder has for a check. The non fatal line now begins ERROR rather than WARNING, because it is one: the exit code stays zero so the site still builds, and the word matches what happened so a reader scanning for failures finds it.
-- **What stops it now.** the playbook build failure is reported as ERROR while still not blocking the site build, so a scan for failures catches it in `src/build.py`
-- **Lesson.** Two habits, both mine rather than the code's. Verify with the sequence the pipeline runs, read out of its config, not with the subset you remember: a suite chosen from memory drifts to the parts that were failing last week. And when a step is deliberately non fatal, the word it fails with is the whole of its signal, so it has to be the word people grep for. WARNING on a line that means a deliverable did not build is an invitation to miss it, and the cost of saying ERROR while still exiting zero is nothing at all.
 
 
 ## Scoring and selection (4)
@@ -2392,6 +2417,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The guard against a blind counter was itself blind to three exams (INC-0064)</small>
 - [ ] Two habits, both mine rather than the code's. Verify with the sequence the pipeline runs, read out of its config, not with the subset you remember: a suite chosen from memory drifts to the parts that were failing last week. And when a step is deliberately non fatal, the word it fails with is the whole of its signal, so it has to be the word people grep for. WARNING on a line that means a deliverable did not build is an invitation to miss it, and the cost of saying ERROR while still exiting zero is nothing at all.  
   <small>A build step that fails while the build exits zero, and a verification run that was a remembered subset (INC-0080)</small>
+- [ ] A size limit on a generated file is only a guard if something bounds the generator too; otherwise it is a delayed failure that lands on whoever commits next, and reads as their fault. When two guards constrain the same output, check the fix against both: shortening this file to satisfy the size check would have broken the completeness check that reads its first 60 characters.  
+  <small>The rules digest promises to be prompt sized and its generator grows without bound (INC-0083)</small>
 
 
 ## CSS and layout
@@ -2454,6 +2481,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A generated schema was playable at 100 percent by picking the third shortest option, and no check looked at generated schemas (INC-0079)</small>
 - [ ] Every guard here measured the answer's place in its set, and a set of guards that all take the same kind of measurement shares a blind spot the size of everything else. The tell they could not see was the simplest one a student would find: the answer is the same answer. When adding the third check of a kind, the question worth asking is not whether it is stricter than the other two but what all three have in common, because that is what is going unmeasured.  
   <small>A student who always answers 1 scores 98 percent on a schema, and no check looked at the answer itself (INC-0081)</small>
+- [ ] Two lessons, and they compound. A rule copied into code by its examples loses the clause the examples were illustrating: CLAUDE.md bans six named sites and coaching site blogs, and the list kept the six and dropped the category, which is the half that generalises. And a validator gets written for the corpus that had the problem at the time, then quietly defines what is checked: two of three published corpora were enforced and the third had never had a source read, which is not a weaker check but an absent one. When a guard exists, the question is not only whether it is strict enough but which of the things it could be pointed at it is not pointed at.  
+  <small>Nine published exam facts cite test prep companies, in the one published corpus with no source validator (INC-0082)</small>
 
 
 ## Database
@@ -2700,7 +2729,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 81 real defects reduced to the rules that prevent them,
+the whole project: 83 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -2740,7 +2769,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-81 defects already prevented is genuinely ahead, and every defect it hits
+83 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

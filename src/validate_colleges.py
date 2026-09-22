@@ -9,6 +9,9 @@ field that silently stopped being populated in a new release.
 """
 import sys
 
+sys.path.insert(0, __file__.rsplit("/", 1)[0])
+from sources import banned  # noqa: E402
+
 # field: (low, high, label)
 RANGES = {
     "admit_rate_pct": (0.1, 100.0, "admission rate"),
@@ -54,6 +57,14 @@ def validate(colleges):
             for k in ("src", "year", "url"):
                 if not f.get(k):
                     errs.append("%s: %s has a value but no %s" % (slug, name, k))
+            # This corpus is machine extracted from one federal file, so every
+            # source is the same source and a banned one cannot appear by
+            # accident. It can appear by hand edit, which is the only way a row
+            # here ever changes, so the policy is enforced anyway.
+            hit = banned(f.get("src"))
+            if hit:
+                errs.append("%s: %s cites %r (matched %r), which CLAUDE.md bans"
+                            % (slug, name, f.get("src"), hit))
             if name in NUMERIC:
                 if not isinstance(v, (int, float)):
                     errs.append("%s: %s is %r, not a number" % (slug, name, v))

@@ -39,14 +39,14 @@ Updated September 14, 2026. Owner: Hunter Roberts. Builder: Claude sessions. Thi
 ## Week of Sep 9
 
 - [x] Executive Assessment mode, first slice: EA-format mock (40 questions, three 30-minute sections, honest labeling); score-model deepening still open
-- [ ] User-profile fit inputs: GPA, work experience, budget; fit view against school library
+- [x] User-profile fit inputs: GPA, work experience, budget; fit view against school library (shipped in PR 64; About You collects the three, and the dashboard fit card puts them beside each target school's published figures with the source on every one)
 - [ ] Beta push: founding-user outreach wave via CRM (tutors, clubs, consultants)
 
 ## Week of Sep 16 and beyond
 
 - [x] Undergrad pilot, first half: SAT trainer live at /sat/app/ on a genuinely multi-exam engine, 248 original items across all eight official content domains, two-module mock sections with routing, grid-ins, a 112-card deck and a playbook per domain, site wiring
-- [ ] Undergrad pilot, second half: undergrad rankings vertical (one file per college, same source ladder as data/schools/), SAT bank toward GMAT parity, ACT study modes
-- [ ] GRE build: new item types (text completion, sentence equivalence, quantitative comparison), GRE bank seed, section timing
+- [ ] Undergrad pilot, second half: SAT bank toward GMAT parity, ACT study modes. The undergrad rankings vertical is done: 1,451 files in data/colleges/, every figure on the federal College Scorecard with source, year and url, validated by src/validate_colleges.py
+- [x] GRE build: new item types (text completion, sentence equivalence, quantitative comparison), GRE bank seed, section timing (all three types live; GRE_SECTIONS carries the unequal 12 then 15 module pair and its 18 then 23 and 21 then 26 minute splits)
 - [x] LSAT build: logical reasoning and reading comprehension banks, live at /lsat/app/
 - [x] ACT build: English, Reading and Science banks plus Mathematics remapped from the SAT schemas, live at /act/app/
 - [ ] MCAT build: BLOCKED ON SOURCE ACCESS, not on engineering (see the September 16 note below)
@@ -106,9 +106,19 @@ Also fixed while in here, both pre-existing:
   copy now comes from the registry (`short`, `blurb`, `official`, `crunch`, `crunchLong`,
   `goals`) and the headless check asserts each app names itself.
 
-Still open and not mine to fix silently: `sat.score_release` in `data/exams.json` cites
-The Princeton Review, and `mcat.total_time` and `mcat.cost_usd` cite Kaplan. All three are
-coaching-site sources, which CLAUDE.md bans outright.
+Closed on September 22, 2026, and it was worse than this note recorded. `data/exams.json` had
+no source validator at all, so nothing had ever read a source on it: ten published figures cited
+test prep companies, not one. `sat.score_release` was the least of them and was also factually
+wrong, claiming scores land in about 13 days when College Board's own page says 2 to 4 weeks.
+All ten were re-verified against the test maker's own page and recited to it, or replaced where
+the maker does not publish the claim. `src/validate_exams.py` now enforces the policy: an exam
+fact must come from the maker's own domain, which is an allowlist rather than a list of banned
+sites, because a blocklist only ever refuses the prep companies somebody thought to name. The
+MCAT rows the note also flagged are gone; that exam is not in the file. See INC-0082.
+
+Still open in the same file: the `sections` array carries question counts and minutes for all
+five exams and has no source, year or url on any of it. `validate_exams.py` warns on this rather
+than failing, because the fix is to source those figures, not to delete them.
 
 ## The Build Playbook (owner's ask, September 21, 2026)
 
