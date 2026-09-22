@@ -207,6 +207,9 @@ _NAV_GROUPS = [
         ("LSAT Logical Reasoning", "/guide/lsat/logical-reasoning/", "New"),
         ("LSAT Reading", "/guide/lsat/reading-comprehension/", "New"),
         ("ACT English", "/guide/act/english/", "New"),
+        ("ACT Math", "/guide/act/mathematics/", "New"),
+        ("ACT Reading", "/guide/act/reading/", "New"),
+        ("ACT Science", "/guide/act/science/", "New"),
         ("All Study Guides", "/guide/", None),
     ]),
     ("Lists", [

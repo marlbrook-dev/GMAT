@@ -26,7 +26,8 @@ from guide import gmat_quant, gmat_verbal, gmat_di  # noqa: E402
 from guide import sat_math, sat_rw                   # noqa: E402
 from guide import gre_verbal, gre_quant             # noqa: E402
 from guide import lsat_lr, lsat_rc                  # noqa: E402
-from guide import act_english                       # noqa: E402
+from guide import act_english, act_math             # noqa: E402
+from guide import act_reading, act_science          # noqa: E402
 from guide.model import check_all                   # noqa: E402
 from guide import coverage                          # noqa: E402
 
@@ -168,6 +169,37 @@ SECTIONS = {
                   "of language: ACT's own three reporting categories. The tightest "
                   "per-question budget of any section we cover, which is what shapes "
                   "the strategy."),
+        "mathematics": dict(
+            title="Mathematics", short="Math", topics=act_math.TOPICS,
+            exam_section="Mathematics (41 of 45 scored)",
+            blurb="Number and quantity, algebra, functions, geometry, statistics and "
+                  "probability, and integrating essential skills: ACT's own six "
+                  "reporting categories. The broadest maths of any exam here and the "
+                  "shallowest per topic, with no formula sheet provided."),
+        "reading": dict(
+            title="Reading", short="Reading", topics=act_reading.TOPICS,
+            exam_section="Reading (27 of 36 scored)",
+            facts_title="The Rules and the Method",
+            facts_word="rules",
+            facts_lede="Four passage sets in forty minutes is about nine minutes each "
+                       "including the reading, which is the tightest reading budget of "
+                       "any exam here. What replaces a formula is the test that decides "
+                       "each question type.",
+            blurb="Key ideas and details, craft and structure, and integration of "
+                  "knowledge and ideas. One set per section is Paired Passages, two "
+                  "texts by different authors asked about together."),
+        "science": dict(
+            title="Science", short="Science", topics=act_science.TOPICS,
+            exam_section="Science, optional, not in the Composite (34 of 40 scored)",
+            facts_title="The Rules and the Method",
+            facts_word="rules",
+            facts_lede="This section is not a test of science knowledge. It is data "
+                       "interpretation using scientific material, and what replaces a "
+                       "formula is the routine that gets an answer off a figure.",
+            blurb="Interpretation of data, scientific investigation, and evaluation of "
+                  "arguments and models. Students who try to understand the underlying "
+                  "science lose this section on time; students who treat the figures as "
+                  "a lookup finish it."),
     },
 }
 
@@ -179,10 +211,7 @@ PLANNED = {
     "sat": [],
     "gre": [],
     "lsat": [],
-    "act": [("Mathematics", "Every topic the exam covers, by difficulty."),
-            ("Reading", "How the passages are built and what is asked of them."),
-            ("Science", "Reading data, designing experiments, and conflicting "
-                        "viewpoints.")],
+    "act": [],
 }
 
 
