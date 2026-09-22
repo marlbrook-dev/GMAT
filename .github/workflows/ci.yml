@@ -45,11 +45,17 @@ jobs:
         run: |
           python3 - <<'EOF'
           import pathlib, re, sys
+          # The list used to be five names written out here. CLAUDE.md bans those
+          # and the category "coaching-site blogs", and the category was the half
+          # that got dropped, in this sweep and in the validators (INC-0082). It
+          # now comes from src/sources.py so all four places share one policy.
+          sys.path.insert(0, "src")
+          from sources import BANNED_LINK_DOMAINS
           bad = []
           for f in pathlib.Path("blog").rglob("*.html"):
               t = f.read_text()
               if "—" in t or "–" in t: bad.append(f"{f}: em/en dash")
-              for s in ("gmatclub", "quora.com", "wikipedia.org", "gyandhan", "pagalguy"):
+              for s in BANNED_LINK_DOMAINS:
                   if s in t.lower(): bad.append(f"{f}: banned source {s}")
               for m in re.finditer(r"Focus\s+(\d{3})", t):
                   if int(m.group(1)) % 10 != 5: bad.append(f"{f}: impossible Focus score {m.group(1)}")

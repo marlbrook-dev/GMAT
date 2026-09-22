@@ -143,6 +143,12 @@
     "scale": "200 to 800"
    }
   ],
+  "sections_src": {
+   "text": "Reading and Writing 64 minutes in two 32-minute modules with 54 questions; Math 70 minutes in two 35-minute modules with 44 questions; total 134 minutes and 98 questions",
+   "src": "College Board",
+   "year": 2026,
+   "url": "https://satsuite.collegeboard.org/sat/whats-on-the-test/structure"
+  },
   "total_time": {
    "text": "2 hours 14 minutes of testing (98 questions), with a 10-minute break between the Reading and Writing section and the Math section",
    "src": "College Board",
@@ -169,16 +175,16 @@
    "url": "https://newsroom.collegeboard.org/digital-sat-launches-across-country-completing-transition-digital-and-providing-simpler-testing"
   },
   "retake_policy": {
-   "text": "No official limit on attempts; the College Board allows students to register for every available test date",
-   "src": "Sallie Mae",
+   "text": "Students can take the SAT as many times as they want; College Board recommends taking it at least twice, in the spring of junior year and the fall of senior year",
+   "src": "College Board",
    "year": 2026,
-   "url": "https://www.sallie.com/colleges/planning/test-prep/how-many-times-can-you-take-the-sat"
+   "url": "https://satsuite.collegeboard.org/help-center/how-many-times-can-student-take-sat-and-when-should-they-take-it"
   },
   "score_release": {
-   "text": "Most students receive scores about 13 days (roughly two weeks) after test day, much faster than the three to six weeks the paper SAT required",
-   "src": "The Princeton Review",
+   "text": "Most scores from weekend tests are released 2 to 4 weeks after test day",
+   "src": "College Board",
    "year": 2026,
-   "url": "https://www.princetonreview.com/college-advice/understanding-dsat-scores"
+   "url": "https://satsuite.collegeboard.org/scores/score-release-dates"
   },
   "used_for": {
    "text": "Used by US colleges for admission decisions, merit scholarship eligibility, course placement, and student support",
@@ -206,10 +212,10 @@
     "url": "https://satsuite.collegeboard.org/sat/what-to-bring-do/calculator-policy"
    },
    {
-    "text": "The majority of US colleges and universities, including all Ivy League schools, superscore the SAT, combining best section scores across test dates; each college sets its own policy",
-    "src": "UWorld College Prep",
+    "text": "Many colleges superscore the SAT, combining a student's highest Math section score with their highest Reading and Writing section score even when those come from different test dates; each college sets its own policy",
+    "src": "College Board",
     "year": 2026,
-    "url": "https://collegeprep.uworld.com/blog/which-colleges-superscore-sat/"
+    "url": "https://satsuite.collegeboard.org/help-center/how-many-times-can-student-take-sat-and-when-should-they-take-it"
    },
    {
     "text": "On the March 2024 US launch, more than 200,000 students took the digital SAT at 3,000 test centers",
@@ -256,6 +262,12 @@
     "scale": "130 to 170"
    }
   ],
+  "sections_src": {
+   "text": "Computer-delivered test, about 1 hour 58 minutes in five sections. Analytical Writing one Analyze an Issue task in 30 minutes; Verbal Reasoning two sections of 12 questions in 18 minutes then 15 in 23; Quantitative Reasoning two sections of 12 questions in 21 minutes then 15 in 26",
+   "src": "ETS",
+   "year": 2026,
+   "url": "https://www.ets.org/gre/test-takers/general-test/prepare/test-structure.html"
+  },
   "total_time": {
    "text": "About 1 hour 58 minutes; Analytical Writing always comes first, and the Verbal and Quantitative sections may appear in any order after it",
    "src": "ETS",
@@ -276,10 +288,10 @@
    "url": "https://www.ets.org/gre/test-takers/general-test/scores.html"
   },
   "delivery": {
-   "text": "Computer-delivered at a test center or at home",
-   "src": "Menlo Coaching",
-   "year": 2025,
-   "url": "https://menlocoaching.com/gre/gre-cost/"
+   "text": "A computer-delivered test offered both at test centers and at home; the at home test is taken on the test taker's own computer and is identical in content, format and on-screen experience to the test center version",
+   "src": "ETS",
+   "year": 2026,
+   "url": "https://www.ets.org/gre/score-users/about/general-test/testing-locations.html"
   },
   "retake_policy": {
    "text": "Can be taken once every 21 days, up to 5 times within any continuous rolling 12-month period",
@@ -325,10 +337,10 @@
     "url": "https://www.ets.org/gre/score-users/law-schools/program-list.html"
    },
    {
-    "text": "The GRE Fee Reduction Program lowers the registration fee to $100 and includes two free practice tests for eligible test takers",
-    "src": "Achievable",
-    "year": 2025,
-    "url": "https://achievable.me/exams/gre/resources/how-much-does-it-cost-to-take-the-gre/"
+    "text": "A GRE Fee Reduction voucher lowers the General Test registration fee to $100 and adds free access to POWERPREP PLUS Online Practice Tests 1 and 2 and ScoreItNow! Online Writing Practice, a $110 value",
+    "src": "ETS",
+    "year": 2026,
+    "url": "https://www.ets.org/gre/score-users/reducing-barriers/fee-reductions.html"
    }
   ]
  },
@@ -375,6 +387,12 @@
     "scale": null
    }
   ],
+  "sections_src": {
+   "text": "Four 35-minute multiple-choice sections with a 10-minute intermission between the second and third, about 3 hours for standard test takers. Two scored Logical Reasoning sections and one scored Reading Comprehension section, plus one unscored section of either type that can occur at any point. LSAC publishes no per-section question count, so ours are null rather than estimated",
+   "src": "LSAC",
+   "year": 2026,
+   "url": "https://www.lsac.org/lsat/frequently-asked-questions-about-lsat"
+  },
   "total_time": {
    "text": "Four 35-minute multiple-choice sections, one Reading Comprehension, two Logical Reasoning and one unscored variable section, with a 10-minute intermission between the second and third sections, plus a separately administered and unscored LSAT Argumentative Writing sample",
    "src": "LSAC",
@@ -426,10 +444,10 @@
   },
   "key_facts": [
    {
-    "text": "The Analytical Reasoning section (logic games) was retired in August 2024 and no longer appears on the test in any form",
-    "src": "The Princeton Review",
+    "text": "Starting with the August 2024 LSAT, the multiple-choice portion is two scored Logical Reasoning sections and one scored Reading Comprehension section, so Analytical Reasoning (logic games) no longer appears",
+    "src": "LSAC",
     "year": 2026,
-    "url": "https://www.princetonreview.com/law/lsat-sections"
+    "url": "https://www.lsac.org/lsat/frequently-asked-questions-about-lsat"
    },
    {
     "text": "LSAT scores are reportable for up to five testing years after the testing year in which the score is earned",
@@ -444,10 +462,10 @@
     "url": "https://www.lsac.org/lsat/register-lsat/accommodations/specifications-lsat-and-lsat-argumentative-writing"
    },
    {
-    "text": "The unscored variable section can be either Logical Reasoning or Reading Comprehension and can occur at any point in the test",
-    "src": "The Princeton Review",
+    "text": "The unscored section can be any one of the question types, Reading Comprehension or Logical Reasoning, and can occur at any point in the test",
+    "src": "LSAC",
     "year": 2026,
-    "url": "https://www.princetonreview.com/law/lsat-sections"
+    "url": "https://www.lsac.org/lsat/taking-lsat/test-format"
    }
   ],
   "answer_choices": {
@@ -512,6 +530,12 @@
     "scale": "2 to 12"
    }
   ],
+  "sections_src": {
+   "text": "English 35 minutes and 50 questions; mathematics 50 minutes and 45 questions; reading 40 minutes and 36 questions; optional science 40 minutes and 40 questions; 171 questions and 2 hours 45 minutes of timed multiple choice, with the optional writing essay a further 40 minutes after a 5-minute break",
+   "src": "ACT",
+   "year": 2026,
+   "url": "https://www.act.org/content/act/en/products-and-services/the-act/test-day.html"
+  },
   "total_time": {
    "text": "171 multiple-choice questions across English, mathematics, reading and the optional science section, with 2 hours 45 minutes of timed testing; the optional writing essay adds 40 minutes",
    "src": "ACT",
@@ -563,22 +587,22 @@
   },
   "key_facts": [
    {
-    "text": "The enhanced ACT launched in April 2025 for national online testing, extended to all national Saturday testing (online and paper) in September 2025, and reaches school-day testing in spring 2026",
-    "src": "Applerouth",
-    "year": 2025,
-    "url": "https://www.applerouth.com/enhanced-act"
+    "text": "The enhanced ACT became available for National online testing in April 2025 and on paper for the National Saturday test in September 2025; for State and District Testing it arrives on paper in spring 2026",
+    "src": "ACT",
+    "year": 2026,
+    "url": "https://www.act.org/content/act/en/products-and-services/the-act-educator/the-act-test/enhancements-k12/faqs.html"
    },
    {
-    "text": "Science became optional in 2025 and no longer factors into the Composite; students who take it get a separate Science score and a STEM score averaging Math and Science",
-    "src": "Applerouth",
-    "year": 2025,
-    "url": "https://www.applerouth.com/enhanced-act"
+    "text": "The Composite is the average of the English, math and reading scores, rounded to the nearest whole number; science was phased out of it for National online testing in April 2025 and for all ACT tests in September 2025. Students who take science also receive a STEM score, the average of math and science",
+    "src": "ACT",
+    "year": 2026,
+    "url": "https://www.act.org/content/act/en/products-and-services/the-act/scores/understanding-your-scores.html"
    },
    {
-    "text": "On the enhanced ACT, Math questions have four answer choices instead of five, and the core test is about 50 minutes shorter than the old 175-minute format",
-    "src": "act.org; Applerouth",
-    "year": 2025,
-    "url": "https://www.act.org/content/act/en/products-and-services/the-act/registration.html"
+    "text": "Whether science is administered in ACT State and District Testing is decided at the contract level, so a student testing through their school may still sit it",
+    "src": "ACT",
+    "year": 2026,
+    "url": "https://www.act.org/content/act/en/products-and-services/the-act-educator/the-act-test/enhancements-k12/faqs.html"
    },
    {
     "text": "ACT supports superscoring: the superscore averages your best English, Math, and Reading section scores across test attempts",
