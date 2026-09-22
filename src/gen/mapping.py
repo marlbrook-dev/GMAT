@@ -165,12 +165,13 @@ SECTION_OVERRIDE = {"act_e_cse": "E", "act_e_pow": "E", "act_e_kol": "E"}
 #   lsat_lr_evid   "Determining how additional evidence affects an argument",
 #                  "Strengthening and weakening", "Ruling out an alternative explanation"
 #
-# lsat_lr_flaw is deliberately NOT here. cr_sample asks "most vulnerable to criticism on
-# the grounds that it", which is a flaw stem exactly, but it is the only flaw schema in
-# the pool and every generated flaw item would be an unrepresentative sample. A category
-# whose label promises the common patterns of bad reasoning and delivers one of them
-# teaches the wrong model of it, which is worse than leaving it hand written. A second
-# and third flaw schema is where the next work on this bank pays.
+# lsat_lr_flaw was held back when cr_sample was the only flaw schema in the pool, because
+# every generated flaw item would then have been an unrepresentative sample, and a
+# category whose label promises the common patterns of bad reasoning and delivers one of
+# them teaches the wrong model of it. g_flaw.py adds three more patterns, so the category
+# now draws on four distinct errors: an unrepresentative sample, a requirement read as a
+# guarantee, a property carried between a whole and its parts, and a claim settled by its
+# source. All four are errors LSAC and GMAC both name.
 #
 # The four remaining LR categories, structure, conclusion, principle and explanation,
 # have no counterpart in the pool and stay hand written.
@@ -178,6 +179,7 @@ LSAT_MAP = {
     "lsat_lr_assum": ["cr_cause_assume", "cr_plan_assume"],
     "lsat_lr_evid": ["cr_cause_weaken", "cr_plan_weaken", "cr_plan_eval",
                      "cr_percent", "cr_necessary"],
+    "lsat_lr_flaw": ["cr_sample", "cr_necsuff", "cr_partwhole", "cr_authority"],
 }
 
 # An editorial judgement, recorded so it can be argued with, like the other two. The CR
