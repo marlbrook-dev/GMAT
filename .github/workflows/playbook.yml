@@ -36,6 +36,9 @@ jobs:
         id: drift
         run: |
           python3 src/playbook_harvest.py | tee /tmp/drift.txt
+          # A record citing no commit while main already names one is a fact nobody has
+          # to remember and nobody is reading, so it goes in the same weekly report.
+          python3 src/playbook_harvest.py --citations | tee -a /tmp/drift.txt
           if python3 src/playbook_harvest.py --check > /dev/null; then
             echo "behind=false" >> "$GITHUB_OUTPUT"
           else

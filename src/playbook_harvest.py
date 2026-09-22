@@ -21,6 +21,8 @@ Run:
   python3 src/playbook_harvest.py            report candidates
   python3 src/playbook_harvest.py --check    exit 1 if any are unrecorded
   python3 src/playbook_harvest.py --json     skeleton records to paste and fill in
+  python3 src/playbook_harvest.py --citations report records citing no commit
+  python3 src/playbook_harvest.py --backfill  write those citations in from git
 """
 import io, os, re, sys, json, subprocess, datetime
 
@@ -59,7 +61,163 @@ def ledger_rows():
     return [json.loads(l) for l in io.open(LEDGER, encoding='utf-8') if l.strip()]
 
 
+# --- citation backfill --------------------------------------------------------------
+# The ledger's own design says every record cites the commit that fixed it, so a claim in
+# the playbook can be checked against the repository. Fifty of the first hundred records
+# cited nothing, and the reason is structural rather than careless: CLAUDE.md requires the
+# record to be written BEFORE the fix, so at the moment of writing the commit does not
+# exist yet. Nobody ever goes back.
+#
+# It does not have to be remembered, because the fact is recoverable. Sessions name the
+# incident in the commit message that fixes it, so git already holds the mapping. This
+# reads it out rather than asking anyone to maintain it.
+#
+# Two rules keep it honest, and they are the same rule twice: only write what is read.
+#   Only commits reachable from main count. Branch commits are squashed away on merge and
+#   citing one gives a SHA that will not resolve for anyone else.
+#   Where several main commits name an incident, the EARLIEST is the fix and the rest are
+#   back-references; a defect cannot be referred to before it is recorded. That was
+#   checked against all eight ambiguous cases in this repository rather than assumed: the
+#   later mentions read "was the same", "exactly", "recurring inside".
+INC_RE = re.compile(r'INC-\d{4}')
+
+
+def incident_commits(rev='origin/main'):
+    """incident id -> the earliest commit reachable from rev whose message names it."""
+    out = sh('git', 'log', rev, '--format=%H%x1f%ct%x1f%s%x1f%b%x1e')
+    if not out.strip():
+        out = sh('git', 'log', 'HEAD', '--format=%H%x1f%ct%x1f%s%x1f%b%x1e')
+    found = {}
+    for entry in out.split('\x1e'):
+        if not entry.strip():
+            continue
+        parts = (entry.strip().split('\x1f') + ['', '', ''])[:4]
+        sha, ts, subj, body = parts
+        try:
+            when = int(ts)
+        except ValueError:
+            continue
+        for inc in set(INC_RE.findall(subj + ' ' + body)):
+            prev = found.get(inc)
+            if prev is None or when < prev[0]:
+                found[inc] = (when, sha, subj)
+    return found
+
+
+def main_commit_by_pr(rev='origin/main'):
+    """PR number -> the squash commit on main, read from the (#NN) suffix git writes."""
+    out = sh('git', 'log', rev, '--format=%H%x1f%s%x1e')
+    by_pr = {}
+    for entry in out.split('\x1e'):
+        if not entry.strip():
+            continue
+        parts = (entry.strip().split('\x1f') + [''])[:2]
+        sha, subj = parts
+        m = re.search(r'\(#(\d+)\)\s*$', subj)
+        if m:
+            by_pr.setdefault(int(m.group(1)), sha)
+    return by_pr
+
+
+def unreachable(rev='origin/main'):
+    """Records whose cited commit is not an ancestor of main.
+
+    These resolve in the clone that wrote them and nowhere else. A squash merge replaces
+    the branch commits with one new commit, so a citation written against a branch SHA
+    points at an object that a fresh clone of main has never heard of. The citation looks
+    fine locally and is worthless to the reader it exists for, which is the same shape as
+    a source that only the author can open.
+    """
+    rows = ledger_rows()
+    by_pr = main_commit_by_pr(rev)
+    out = []
+    for r in rows:
+        sha = r.get('commit')
+        if not sha:
+            continue
+        anc = subprocess.run(['git', 'merge-base', '--is-ancestor', sha, rev],
+                             cwd=ROOT, capture_output=True)
+        if anc.returncode == 0:
+            continue
+        out.append((r, by_pr.get(r.get('pr'))))
+    return out
+
+
+def repoint(write=False, rev='origin/main'):
+    """Move citations off squashed-away branch commits onto the merge that landed them."""
+    rows = ledger_rows()
+    index = {r['id']: r for r in rows}
+    moved, stuck = [], []
+    for r, target in unreachable(rev):
+        if not target:
+            stuck.append(r['id'])
+            continue
+        old_sha = r['commit']
+        index[r['id']]['commit'] = target
+        moved.append((r['id'], old_sha[:8], target[:8], r.get('pr')))
+    if write and moved:
+        with io.open(LEDGER, 'w', encoding='utf-8') as fh:
+            for r in rows:
+                fh.write(json.dumps(r, ensure_ascii=False) + '\n')
+    return moved, stuck
+
+
+def backfill(write=False):
+    """Fill in commit and pr on records that cite neither, from the git history.
+
+    Returns (filled, still_missing). Writes nothing unless asked, so it can be run as a
+    report or as a check.
+    """
+    rows = ledger_rows()
+    found = incident_commits()
+    filled, missing = [], []
+    for r in rows:
+        if r.get('commit'):
+            continue
+        hit = found.get(r.get('id'))
+        if not hit:
+            missing.append(r.get('id'))
+            continue
+        _, sha, subj = hit
+        r['commit'] = sha
+        if not r.get('pr'):
+            m = re.search(r'\(#(\d+)\)\s*$', subj)
+            if m:
+                r['pr'] = int(m.group(1))
+        filled.append((r['id'], sha[:8], r.get('pr')))
+    if write and filled:
+        with io.open(LEDGER, 'w', encoding='utf-8') as fh:
+            for r in rows:
+                fh.write(json.dumps(r, ensure_ascii=False) + '\n')
+    return filled, missing
+
+
 def main():
+    # Citation backfill runs first and on its own, because it answers a different question
+    # from the rest of this tool: not "is the ledger missing a record" but "does a record
+    # we already have still fail to point at the commit that fixed it".
+    if '--backfill' in sys.argv or '--citations' in sys.argv:
+        write = '--backfill' in sys.argv
+        filled, missing = backfill(write=write)
+        verb = 'filled' if write else 'would fill'
+        print('%s %d citation(s) from the git history' % (verb, len(filled)))
+        for inc, sha, pr in filled:
+            print('  %s  %s%s' % (inc, sha, ('  PR #%d' % pr) if pr else ''))
+        moved, stuck = repoint(write=write, )
+        if moved:
+            print('%s %d citation(s) off a squashed branch commit onto its merge'
+                  % ('moved' if write else 'would move', len(moved)))
+            for inc, was, now, pr in moved:
+                print('  %s  %s -> %s  PR #%s' % (inc, was, now, pr))
+        if stuck:
+            print('%d citation(s) are unreachable from main and name no PR: %s'
+                  % (len(stuck), ', '.join(stuck)))
+        if missing:
+            print('\n%d record(s) name no commit and no commit names them:' % len(missing))
+            print('  ' + ', '.join(missing))
+            print('  These need a human: either the fix landed without naming the '
+                  'incident, or it has not landed yet.')
+        return 0
     rows = ledger_rows()
     cited = {r['commit'] for r in rows if r.get('commit')}
     cleared = set()
@@ -150,6 +308,19 @@ def main():
     if '--check' in sys.argv:
         return 1
     return 0
+
+
+def stale_citations():
+    """Records that cite no commit while git already names one.
+
+    This is the drift the backfill exists to remove, reported so it cannot silently
+    return. A record with no citation is not necessarily wrong: the fix may not have
+    landed yet, which is the normal state for the record written minutes ago. What is
+    wrong is a record with no citation when the commit that fixed it is sitting in main
+    naming it, because that is a fact nobody has to remember and nobody is reading.
+    """
+    filled, _ = backfill(write=False)
+    return [inc for inc, _sha, _pr in filled]
 
 
 if __name__ == '__main__':

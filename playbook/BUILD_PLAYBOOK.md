@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-08-17 and 2026-09-22, which is 36 days, across
-94 commits, by one owner directing a series of AI coding sessions. As of this
+95 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 71 Python files, 102 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 63 documents:
 2000 tracked files in total.
@@ -1119,7 +1119,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-94 commits in 36 days, one owner, a series of AI sessions. This
+95 commits in 36 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1454,7 +1454,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0062. Correcting a length tell moves it one rank over, every time
 
-*2026-09-22, Degraded, PR #66*
+*2026-09-22, Degraded, `b958ed11194565fcd5d1fb5fe3ccddd699e305e7` PR #66*
 
 - **What was seen.** On two separate hand written banks, extending one distractor per item took the longest-is-key rate to near zero and left 25 of 35 and then 30 of 42 keys sitting second longest, so a reader picking the second longest option scored 71 percent on both.
 - **Why.** Mechanical rather than careless. Extending exactly one distractor past the key moves every key from rank 5 to rank 4 by construction. The recorded ratchet measures only the two extremes, so a corrected bank passes it while carrying a stronger tell one position in.
@@ -1467,7 +1467,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0066. Half the length tell correction did nothing and the build said it had worked
 
-*2026-09-22, Silent loss*
+*2026-09-22, Silent loss, `1fd4e0529fe06171c90528558b16358e25b71c6a` PR #69*
 
 - **What was seen.** The new GMAT reading bank corrected its length tell with a table that carries a named number of distractors past the key on each item, so the keys land at spread ranks rather than all at one. The table named 65 items. On 31 of them the authored clause was shorter than the gap it had to close, so the distractor stayed below the key and the item did not move. The run printed an improved distribution and no error, and the 31 were only found by measuring intent against outcome by hand.
 - **Why.** extend() appends whatever clause the author supplies and checks only that the needle matches exactly one non key choice. Whether the choice ends up longer than the key, which is the entire point of the call, was never checked. The author sizes each clause by eye against a gap reported in a separate run, and an estimate made that way is wrong about half the time.
@@ -1479,7 +1479,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0068. Shuffling the answers twice put 37 percent of the keys at A
 
-*2026-09-22, Silent loss*
+*2026-09-22, Silent loss, `879f9584ae538423484f8990f3eb93b23dd320ae` PR #70*
 
 - **What was seen.** The new LSAT reading generator printed a key position distribution of 33, 15, 14, 17, 11 across 90 items where an even split is 18 each. Position A held 37 percent of the keys, against a chance rate of 20, which is the exact defect permute() exists to prevent (INC-0039) and which the engine test's answer position check would have failed.
 - **Why.** The generator called E.permute(I) twice. An intermediate run had ended with permute and measure so the skill counts could be read, and the final block added its own permute before the extend pass, and the earlier pair was never removed. permute seeds a shuffle with crc32 of the item id, so the second call applies the same permutation again, composing it with itself. A permutation composed with itself is not uniform: it favours its own fixed points and short cycles, and with five choices that piles keys onto the position they started at, which is A because items are authored key first.
@@ -1491,7 +1491,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0069. A bank a student can play at 88 percent, inside a section the check passed
 
-*2026-09-22, Degraded*
+*2026-09-22, Degraded, `879f9584ae538423484f8990f3eb93b23dd320ae` PR #70*
 
 - **What was seen.** bank_sat_rw.js ships 32 items on which the longest answer choice is the key 88 percent of the time, and a student who always picks the longest option scores 84 percent on that file against a chance rate of 25. Eighteen other hand written bank files across all five exams carry the same tell at lower strength, several above 50 percent. The engine test reported the SAT Reading and Writing section at 35 percent and passed it.
 - **Why.** The length bias check groups items by section. A section mixes hand written items with generated ones, and the generated items are flat by construction because the schemas assemble choices mechanically. For SAT Reading and Writing the generated bank supplies 160 of 348 items at 7 percent, which pulls a hand written 88 percent down to a section figure of 35 and under the recorded tolerance of 36. The aggregate was not wrong; it was answering a question nobody needed the answer to. A student does not meet a section, they meet items, and the items arrive from one file at a time.
@@ -1503,7 +1503,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0070. The second tool that appends a clause did not carry the first one's rule about the full stop
 
-*2026-09-22, Cosmetic*
+*2026-09-22, Cosmetic, `879f9584ae538423484f8990f3eb93b23dd320ae` PR #70*
 
 - **What was seen.** Two repaired SAT items read 'the number of purchases. made' and 'sleep debt over the course of a week. that they do not fully repay at the weekend'. The clause had been appended after the sentence's own full stop.
 - **Why.** bank_emit.extend has handled this since it was written: it strips a trailing period, appends the clause and puts the period back. bank_repair.repair was written months later for hand written banks that a generator never produced, and it inserts at the closing quote of the string literal, which is after the period. The rule lived in one implementation rather than in a place both could use, and the second implementation was written from the problem rather than from the first solution.
@@ -1515,7 +1515,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0071. Clauses written from a truncated report were appended to the end of the wrong word
 
-*2026-09-22, Wrong data shown or stored*
+*2026-09-22, Wrong data shown or stored, `879f9584ae538423484f8990f3eb93b23dd320ae` PR #70*
 
 - **What was seen.** Repaired choices read 'in chronological orderorder', 'return to them afterwardsards', 'how it would spend itintends to spend the money' and 'the bags the proposal would affectl would charge for'. Eleven choices across four bank files were garbled in a way that leaves the file valid JavaScript, leaves the item longer, and moves the measured distribution in the intended direction.
 - **Why.** The report that shows which distractors need lengthening truncates each choice to fit a terminal line. Several clauses were written as continuations of the truncated text, on the assumption that the tool inserts at the point the needle ends. It does not: repair() appends at the end of the string literal, which is correct for a clause and wrong for a continuation. Nothing distinguished the two, because a continuation is just a clause whose first character is a letter.
@@ -1527,7 +1527,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0072. A distractor was replaced and the explanation went on naming the old one
 
-*2026-09-22, Wrong data shown or stored*
+*2026-09-22, Wrong data shown or stored, `879f9584ae538423484f8990f3eb93b23dd320ae` PR #70*
 
 - **What was seen.** SR001 offers unremarkable, unaccounted for, unrelated and undisturbed, and its wrong answer note begins 'Unnoticed reverses the point'. Unnoticed is not on the paper. A student reading the explanation after answering is told why an option they were never shown is wrong.
 - **Why.** The length tell on vocabulary in context items cannot be fixed by appending a clause to a single word, so bank_repair.swap replaces the distractor with a longer one of the same register. It replaces the text in the choices array and nowhere else. An item is not just its choices: expl and wrong name particular options, and on this bank they name them by word.
@@ -1539,7 +1539,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0073. check_lift was told a one clause entry lifted two distractors
 
-*2026-09-22, Degraded*
+*2026-09-22, Degraded, `879f9584ae538423484f8990f3eb93b23dd320ae` PR #70*
 
 - **What was seen.** The GRE reading generator failed with three items named: GR104, GR128 and GR133 were said to have lifted 2 distractors and to belong at rank 3, and each sat at rank 4. Each of the three had exactly one clause in the table.
 - **Why.** bank_emit.extend accepts a table entry as either one (needle, clause) pair or a list of them, and it is the only place that knows the difference. Every caller of check_lift then has to re-derive the count, and the obvious expression, len(v), reads a bare two element tuple as two lifts. The rule for reading the table lives in extend; the callers each hold a private copy of it, and one copy was wrong.
@@ -1551,7 +1551,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0074. A corpus field written for one grammatical slot was spliced into another
 
-*2026-09-22, Wrong data shown or stored*
+*2026-09-22, Wrong data shown or stored, `2c72da1fde8a3819ca9bda7eabe9fb75ac0754b7` PR #71*
 
 - **What was seen.** 160 of the 833 shipped GMAT v_pc items, 19 percent, offer a choice like "That shorten the time taken to settle a claim is the most urgent of the problems facing Calloway Insurance." It is not English. A student reading it can strike it out without considering the argument, which is a free elimination on a five choice item and makes the item easier than the rating it carries.
 - **Why.** A PLAN scenario stores goal as a bare infinitive phrase, because the stem it was written for reads "X intends to <goal>". Two other templates splice the same field after "has tried to", where a bare infinitive is also right. One splices it into a subject position, "That <goal> is the most urgent of the problems facing X", where English wants a gerund or a noun phrase. The field is correct; the slot it was reused in is not, and nothing connected the two.
@@ -1563,7 +1563,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0075. Every correct answer on one GMAT schema was ungrammatical, and the guard written an hour earlier could not see it
 
-*2026-09-22, Wrong data shown or stored*
+*2026-09-22, Wrong data shown or stored, `2c72da1fde8a3819ca9bda7eabe9fb75ac0754b7` PR #71*
 
 - **What was seen.** All 277 shipped cr_plan_eval items, a third of the GMAT Plan and Construct category, have a key reading "Whether what share of the traffic on Bridge Street stops there at all is what the measure would change." Every one of the eight scenarios produces one, across all six wh words. The student is asked to choose between four fluent distractors and one sentence that is not English, so the item is answerable without reading the argument and is rated as though it were not.
 - **Why.** The same class as INC-0074 and the same corpus: check is stored as a wh clause because the explanation reads "Establish <check>, and one answer means ...". A second template put it after "Whether" and before "is what the measure would change", where a wh clause cannot go. INC-0074 was the same mistake with the goal field, found in the same reading, and the guard written for it tests for an infinitive after That or Whether. check is not an infinitive, so the guard passed it.
@@ -1575,7 +1575,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0076. str.capitalize() lowercased the rest of the sentence, and took the proper nouns with it
 
-*2026-09-22, Wrong data shown or stored*
+*2026-09-22, Wrong data shown or stored, `2c72da1fde8a3819ca9bda7eabe9fb75ac0754b7` PR #71*
 
 - **What was seen.** 180 shipped generated items render a proper noun in lower case. 70 of them carry it in the correct answer: "The fenwick track is the only one in the county, so every competitive runner trains there whether they win or not" and "The halloran fund supplies the starting grant for nearly all of the laboratory's work". The stem two lines above spells both correctly, so the item contradicts itself on the page and the key is the choice that looks wrong.
 - **Why.** Python's str.capitalize() is not what its name suggests to a reader in a hurry. It uppercases the first character and lower cases every other one. The generators use it twenty one times to render a stored fragment as the start of a sentence, which is right for a fragment of ordinary prose and wrong for any fragment containing a name. Four corpus fields contain one.
@@ -1587,7 +1587,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0078. A coefficient of one was printed as 1x on 2,353 shipped items
 
-*2026-09-22, Wrong data shown or stored*
+*2026-09-22, Wrong data shown or stored, `2c72da1fde8a3819ca9bda7eabe9fb75ac0754b7` PR #71*
 
 - **What was seen.** 2,353 items across eight schemas and every exam that remaps them read "x squared - 1x - 30 = 0", "5(x - 7) = 1x - 6" and "2x + 3y = 10 and 1x + 5y = 12". The arithmetic is right and the key is right. The notation is not how anyone writes algebra, and on a test preparation product it tells the student the question was produced by a machine that does not know the convention.
 - **Why.** Every schema that draws a coefficient formats the term itself, as the number followed by the variable. That is correct for every value except one and minus one, which are written as the bare variable. The rule is a convention of notation rather than of arithmetic, so no computation check could see it, and it was reimplemented at each of the sites that needed it, each time without the exception.
@@ -1599,7 +1599,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0079. A generated schema was playable at 100 percent by picking the third shortest option, and no check looked at generated schemas
 
-*2026-09-22, Wrong data shown or stored*
+*2026-09-22, Wrong data shown or stored, `2c72da1fde8a3819ca9bda7eabe9fb75ac0754b7` PR #71*
 
 - **What was seen.** A student who always picks the third shortest option answers 861 of 861 sat_rw_apostrophe items correctly, and another 887 through the ACT remap, without reading a word. It is the largest single schema in Standard English Conventions on two exams. Measuring the rest found 39 of 92 generated schemas over the 1.8 times chance cap on one of the three figures, among them cr_plan_eval at 98 percent on one rank over 1,117 items, act_kol_redundancy at 100, act_s_changed at 97 percent shortest, and cr_plan_weaken at 65 percent longest.
 - **Why.** INC-0069 added a length bias check per hand written source file, because a section figure hid a file at 88 percent. The same argument applies one level down and was not followed there. Generated items are checked only at the section level, and the section check runs on what the harness loads, which is the hand written banks plus the strided starter slice, so a schema contributes a few dozen items to a figure covering hundreds. The apostrophe schema is worse than an accident of drafting: its four choices are the four forms of one noun, and for a regular noun those forms are ordered by length by construction, so the key sits at the same rank on every item the schema can produce.
@@ -1611,7 +1611,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0081. A student who always answers 1 scores 98 percent on a schema, and no check looked at the answer itself
 
-*2026-09-22, Wrong data shown or stored*
+*2026-09-22, Wrong data shown or stored, `2c72da1fde8a3819ca9bda7eabe9fb75ac0754b7` PR #71*
 
 - **What was seen.** msr_count ships 1,867 items and the correct answer is 1 on 98 percent of them: the case sets it builds almost always contain exactly one compliant row. act_s_trend ships 820 and the answer is the rising option on 76 percent, because the studies it draws trend upward three times in four. gt_count is at 47 percent on 1, and three Data Sufficiency schemas sit at 42 to 45 percent on one of their five fixed statements against a chance rate of 20.
 - **Why.** Three checks look at where the answer sits: the position among the choices, the length rank, and for numeric items the value rank. All three are about the answer's place in the set it was shown in. None looks at the answer itself. A schema whose parameters happen to produce the same answer over and over passes every one of them, because the answer moves around the choices perfectly well; it is only always the same answer.
@@ -1623,7 +1623,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0082. Nine published exam facts cite test prep companies, in the one published corpus with no source validator
 
-*2026-09-22, Wrong data shown or stored*
+*2026-09-22, Wrong data shown or stored, `5d7e45dc41329917f8576f90107e1eb36ebf2c89` PR #73*
 
 - **What was seen.** The five exam guide pages publish nine figures sourced to test prep and content marketing companies: The Princeton Review three times (the digital SAT score release window, and the two LSAT facts that logic games are retired and that the variable section can appear anywhere), Applerouth twice (the enhanced ACT rollout dates and Science becoming optional), plus Menlo Coaching for how the GRE is delivered, Achievable for the GRE fee reduction amount, UWorld College Prep for SAT superscoring, and Sallie Mae for the SAT retake limit. CLAUDE.md bans coaching site blogs outright as sources. Several of these are structural facts a student plans around, carried under a citation the house rules forbid.
 - **Why.** Two things, and the second is why the first went unseen. The published figure corpora are data/schools, data/colleges and data/exams.json. validate_schools.py and validate_colleges.py enforce the source policy on the first two and run from their builds; data/exams.json has no validator at all and build_exams.py calls none, so nothing has ever read a source on it. Even had one existed, it would have passed all nine: BANNED_SOURCES lists the six sites CLAUDE.md names as examples, and CLAUDE.md bans those six AND the category coaching site blogs. The general clause was dropped in transcription, so the list refuses GMAT Club by name and accepts Kaplan.
@@ -1635,7 +1635,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0085. One flashcard for a skill, for as long as anyone cared to look
 
-*2026-09-22, Degraded*
+*2026-09-22, Degraded, `052472e3ac614a5aa268405b0b1f1004b7a1b097` PR #75*
 
 - **What was seen.** Counting cards per skill rather than per exam for the first time: LSAT explicitly stated information had 1 card and inference 1, ACT integration of knowledge had 1, GRE sentence equivalence had 2, and 9 more skills across the three exams had 2. A student drilling one of those skills saw the same card come round immediately. The totals looked reasonable, which is why nobody looked further: 30, 33 and 45 cards against the GMAT 120.
 - **Why.** test.js asserts that every tracked skill has bank items, and for the deck it asserts only that each card names a real section. So the bank has a per-skill floor and the deck has none, and the deck was measured by its total, which is an average over twelve or fifteen skills and hides any one of them being empty.
@@ -1647,7 +1647,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0086. A finished generator module that nothing imported, and two of its four schemas produced nothing
 
-*2026-09-22, Silent loss*
+*2026-09-22, Silent loss, `3a45d4d2a9d679e94e07163a2e11cb012940b6e2` PR #77*
 
 - **What was seen.** src/gen/g_rc.py is 339 lines of working reading comprehension generator with an authored passage corpus, and no file in the repository imports it. Its four schemas were therefore contributing nothing. Two of them could not have contributed anyway: rc_main and rc_caveat raised ItemError on every single draw, because they build their distractors from OTHER passages and need choices_n minus one of them, which is four, and the corpus held four passages in total. The two GMAT skills the module targets, v_st and v_inf, were the only two of the twelve with no generated items at all.
 - **Why.** Two failures that hid each other. The module is not in the import list in build_banks.py, so nothing ever called it and nothing ever reported that it was silent. And the corpus is one short of the minimum its own schemas require, which is a data shortfall that reads as an exception rather than as a count: ItemError is the framework's ordinary way of saying this draw did not work, so a schema that raises it every time looks exactly like a schema that is merely fussy.
@@ -1659,7 +1659,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0087. The same corpus field in two grammatical slots, in a schema written the same day the guard was read
 
-*2026-09-22, Wrong data shown or stored*
+*2026-09-22, Wrong data shown or stored, `51a41537e6f9b8877295392ab15a91d2e98f67ce` PR #78*
 
 - **What was seen.** A new flaw schema, cr_necsuff, renders its correct answer as 'treats a condition that is required for be admitted to the conservatoire as though meeting it were enough'. The goal field holds a bare infinitive because the stem needs one after may: 'Wen may be admitted to the conservatoire' is right. After 'required for' the same string needs a gerund. Caught before the schema was committed, by rendering one item from each of the three new schemas and reading them.
 - **Why.** One field written against the slot the author had in mind and reused in a second slot that takes a different form. That is INC-0074 exactly, and INC-0074's own lesson says what to do instead: store the field in every shape a template needs and name the shapes. I read that record while building the recurrence counting earlier in the same session and then wrote the schema with one shape anyway.
@@ -1671,7 +1671,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0088. A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked
 
-*2026-09-22, Wrong data shown or stored*
+*2026-09-22, Wrong data shown or stored, `144c1b209e20e910682c987f214eb4c9e36a0e86` PR #79*
 
 - **What was seen.** rc_infer ships 40 items to GMAT v_inf and the correct answer is the shortest of the five choices on 68 percent of them, against a chance rate of 20 and a cap of 36. It merged and went live without the bias check ever looking at it. The same schema over the long passage corpus is at 62 percent on 16 items. The cause is structural: the key is a modus tollens conclusion, a single clause, and the distractors are the converse and inverse of a conditional plus sentences lifted from the passage, all of which run longer.
 - **Why.** check_bias opens with 'if n < 50: continue', so a schema contributing fewer than fifty items is not measured at all. The threshold is defensible for the cap it applies, because 36 percent on a handful of items is within sampling noise, but skipping is the wrong response to that: at 40 items a rate of 68 percent is nearly eight standard errors above chance and is not noise by any reading. The check switched off where it should have widened.
@@ -1683,7 +1683,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0090. Two of a schema's three question forms could not build, and the only sign was an item count
 
-*2026-09-22, Silent loss*
+*2026-09-22, Silent loss, `9056b8daa4fe87508a82591b79adb7b8a9fd181f` PR #82*
 
 - **What was seen.** The GRE shipped 48 items of the trigonometry schema where the SAT shipped 96, and the key was the smallest of the five options on half of them. The schema listed five wrong answers and its SAT and ACT copies built without complaint. Checking the other banks the same way found it again in the quadratic roots schema: the sum question never built at five choices, so the GMAT and the GRE carried that schema's product and greater-solution questions and none of its sum questions. Between them, two whole question forms were missing from three exams.
 - **Why.** Two entries in a distractor list can be the same arithmetic without looking alike. Swapping the opposite and adjacent sides and inverting the ratio both turn a tangent into its reciprocal. The sum of the roots IS the negated coefficient of x and their product IS the constant term, so on a sum question 'flip the sign' and 'read the coefficient off the equation' are one wrong answer wearing two labels, and so are 'give the product' and 'read the constant term'. Once the duplicates are dropped the list is shorter than the exam asks for, make() raises, and the draw is discarded. That is unremarkable on its own: ItemError is the ordinary way a schema says not this draw, the next draw is a new set of numbers, and the category still fills from its neighbours. But when the collision is in the SHAPE of the wrong answers rather than in the numbers, every draw of that question form is discarded and the form is absent from that exam.
@@ -1695,7 +1695,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0091. Every wrong answer a schema could think of was bigger than the right one
 
-*2026-09-22, Degraded*
+*2026-09-22, Degraded, `9056b8daa4fe87508a82591b79adb7b8a9fd181f` PR #82*
 
 - **What was seen.** Four generated schemas put the correct answer at the same value rank on 39 to 47 percent of their items against a 36 percent line, and on the five choice exams the key was never the largest of the options and was the smallest on half of them. The rectangle schema, the box volume schema, the trigonometry schema and the polynomial expansion schema, each measured on its own draws rather than on the mix the bank happened to ship.
 - **Why.** The characteristic errors for these questions all run one way. On an area question every slip, adding the sides or subtracting them or computing the perimeter, is smaller than the product. On a volume question every slip but doubling is smaller than three edges multiplied. On a trigonometry question every slip either inverts the ratio or trades a leg for the longer hypotenuse, so all of them are larger. The lists were written by naming misconceptions, which is the right way to write them, and nobody asked which side of the answer the resulting numbers land on. make() aims for a value rank drawn uniformly, but it can only place the key among the candidates it is handed, so with five candidates above it and one below it the key can occupy two ranks out of five and no shuffling changes that.
@@ -1707,7 +1707,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0092. A schema threw away three draws in four, and the counter that knew was read by nobody
 
-*2026-09-22, Silent loss*
+*2026-09-22, Silent loss, `be6b0736906afbb45e883a29de8c8752ed707465` PR #83*
 
 - **What was seen.** The exponential growth schema discarded 69 to 75 percent of everything it built, on all four exams that carry it, and the absolute value schema discarded 48 percent on the two that ask for five choices. Twenty nine schema and exam pairs lose draws this way. None of it appeared anywhere: not in the per category report, not in the bias check, not in the starvation check written the same day, and not in any test. The banks still filled, because a category that comes up short is topped up by the schema's neighbours.
 - **Why.** Two causes, one on top of the other. The item cause is that a distractor which does not LOOK like the answer is never chosen, so make() keeps only candidates whose rendered shape matches the key's, and drops the draw when too few remain. The exponential schema multiplies a starting amount by a fraction raised to a power, so its key renders as a whole number on one draw, two decimal places on the next and a fraction on the one after, while its wrong answers render differently again: the pool of same shaped candidates is empty most of the time and the question type has no stable shape to hold them to. The reporting cause is the one that let it sit: make() counts these rejections into self.shape_misses, and shape_misses is written in exactly one place and read in none. A counter incremented for nobody is not a measurement, and the number it held was the largest single loss in the bank.
@@ -1719,7 +1719,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0093. Seven variable names were plural and every sentence built around them said was
 
-*2026-09-22, Cosmetic*
+*2026-09-22, Cosmetic, `cbd9af348b8a1e7a8e467196d6d2e979096baa00` PR #84*
 
 - **What was seen.** Eight of the ACT science schemas shipped sentences like 'when the minutes in the dye bath was 30 minutes' and 'the particles remaining is what the students measured'. Seven of the thirty study scenarios name a variable with a plural noun, and every template that puts a variable name in front of a verb assumes a singular one, so roughly a quarter of the science section read as though written by someone who does not speak English. It was on the page, in stems and in explanations, and no check looks at whether a sentence agrees with itself.
 - **Why.** A scenario stores its variables as a name and a unit, and the name is dropped into whatever slot a template needs: the object of a preposition in one, the subject of a verb in another. Most names are singular noun phrases and the templates were written against those. Nobody wrote down that the templates need a singular, so seven scenarios with names like Days of curing and Seeds germinating out of 100 were added over time and each one broke every sentence that used it as a subject.
@@ -1731,7 +1731,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0094. A reading of 100.2 for a quantity the table itself calls out of 100
 
-*2026-09-22, Wrong data shown or stored*
+*2026-09-22, Wrong data shown or stored, `cbd9af348b8a1e7a8e467196d6d2e979096baa00` PR #84*
 
 - **What was seen.** One ACT science study measures seeds germinating out of 100, and on a fifth of its draws the table's first row read 100.2. Every question built on that table then asked about a number that cannot exist, and the ones asking for a trend or a comparison were still answerable, so nothing looked broken. The same table also reported a count of seeds to one decimal place.
 - **Why.** A study's readings are a base and a step scaled by a jitter drawn per draw, and the only thing checked about the result is that it is positive and that the column is monotone. A quantity with a natural ceiling has no way to say so: this one tops out at 100 by its own name, and at the largest jitter the base alone cleared it. The decimal is the same gap from the other side, a quantity that can only be a whole number rendered by a formatter that gives every reading one decimal place.
@@ -1743,7 +1743,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0096. Three more stored phrases in front of a verb that did not agree with them
 
-*2026-09-22, Cosmetic*
+*2026-09-22, Cosmetic, `d7ec4a71aaf8ed28e38d45d840ea1846fa83863d` PR #85*
 
 - **What was seen.** Two causal reasoning scenarios shipped 'Officials concluded that the cycle racks was responsible for the change' and the same for the traffic islands, and one necessary condition scenario shipped 'The rule says that two independent reviews is needed'. Three corpus entries across two modules, in schemas that between them carry several thousand items.
 - **Why.** The same shape as the ACT science scenario names fixed hours earlier: a stored noun phrase dropped into a template that writes a singular verb after it. The templates were written against the entries that existed, every one of them singular, and later entries were added by reading their neighbours rather than the sentence they would end up inside.
@@ -1755,7 +1755,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0097. Every reading inference question asked about something the passage never mentions
 
-*2026-09-22, Wrong data shown or stored*
+*2026-09-22, Wrong data shown or stored, `4beeeda2c23720a47ca80348d2122ee2f2e7597b` PR #86*
 
 - **What was seen.** 'Which of the following can be properly inferred from the passage about the Sweetwater jurisdiction?' The passage is about water rights doctrine in nine western jurisdictions and never names Sweetwater, or the Karoo section, or Agnes Thorne, or the falling-tone item. 800 of 800 inference items sampled asked about a subject that appears nowhere in the text they were asked about. The explanation then told the student 'The passage states that the Sweetwater jurisdiction had no mining district of any kind', which the passage does not say either. The question type is the one that tests valid inference, it runs on both the GMAT and the LSAT, and not one of its items could be answered by reading.
 - **Why.** The question is a modus tollens with three parts: a universal the passage establishes, a particular case, and the conclusion that follows. The case is the part the QUESTION supplies, which is why the corpus stores it separately from everything that goes into the prose. The stem template asks what can be inferred about the case and never states it, so the premise the whole item turns on was held in the data, used to compute the key and to write the explanation, and never shown to the person answering. The explanation compounded it by attributing the case to the passage in the same sentence pattern as the universal, which made the item look internally consistent to anyone reading the explanation rather than the passage.
@@ -1767,7 +1767,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0098. The table said 31.0 and the explanation said 31, because the fix covered the table only
 
-*2026-09-22, Cosmetic*
+*2026-09-22, Cosmetic, `c59d046c09369c1a24bfa19301b1268fd255fc56` PR #87*
 
 - **What was seen.** An ACT science table printed a reading of 31.0 and the explanation beside it wrote the same reading as 31, in six of the twelve schemas in the module. A student checking the explanation against the table finds two spellings of one measurement.
 - **Why.** Earlier the same day a formatter was added that prints every reading to one decimal place, because a reading that lands on a whole number rendered as 6 beside a neighbour rendered as 7.2 is visibly a different kind of thing and the choices could not be assembled from them. It was applied to the table, to the one schema whose choices are readings, and to that schema's explanation, which is where the evidence was. Every other schema in the module renders readings in prose, and those were left on the formatter that drops the decimal. The change was scoped to where the failure had been measured rather than to the quantity it was about.
@@ -1779,7 +1779,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0099. Every generated reading comprehension question shipped without its passage
 
-*2026-09-22, Wrong data shown or stored*
+*2026-09-22, Wrong data shown or stored, `9928611571de97064408629c343ac56d8b34251b` PR #88*
 
 - **What was seen.** The owner was served a reading comprehension question on the live site with nothing to read: 'If the first season used fixed speakers, which of the following can be properly inferred from the passage?' and five options, on a page with no passage. 280 items are like this, every generated reading item the GMAT and the LSAT carry, across all eight reading schemas. The worst of them ask what the passage says and offer five options all drawn from passages, so without the text there is nothing to choose between.
 - **Why.** The generator attaches the passage to the item as the field the app reads, and the emitter that writes the bank file names the fields it copies one by one. It copies passageHtml, which the data tables use, and has never copied passage, which the reading items use. So the item was right in memory, right in every test that builds items in process, and lost the moment it was written to the file that ships. The item also lost its passageId, which is what the app's game pools filter on to keep passage based items out of a view that has no passage.
@@ -1791,7 +1791,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0100. A blocked source turned a real check into a permanent warning, and the flagship exam published its structure table uncited for as long as the page existed
 
-*2026-09-22, Silent loss*
+*2026-09-22, Silent loss, `fce7f003a6953e6985c9ad985c9c9cc8ffa9303e` PR #89*
 
 - **What was seen.** The GMAT exam page published the section structure table, 21 questions in 45 minutes for Quantitative Reasoning and so on, with no source line under it. Every other exam on the site, SAT, GRE, LSAT and ACT, carried one. The figures themselves were right, confirmed later against the exam maker, so nothing looked wrong on the page: it simply asserted four numbers on our own authority, which is the thing the sourcing rule exists to forbid.
 - **Why.** The check was already written and already correct: validate_exams knows the sections array is a set of published figures and knows sections_src is what sources it. It was deliberately downgraded to a warning, with a comment saying why, because www.mba.com serves this environment an Imperva challenge stub instead of the GMAT structure page, so the figures could not be verified from here. That reasoning was sound about the page and wrong about the fact. Unreachable was a property of one URL, not of the figure, and it was never retested against a different publisher. GMAC's own corporate site states all three sections with their question counts and times, is not behind the challenge, and is the exam maker rather than a reseller.
@@ -1803,7 +1803,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0101. A new field-by-field copier reproduced the passage loss defect four days after the ledger recorded it
 
-*2026-09-22, Wrong data shown or stored*
+*2026-09-22, Wrong data shown or stored, `fce7f003a6953e6985c9ad985c9c9cc8ffa9303e` PR #89*
 
 - **What was seen.** The diagnostic being built for the study guide selected one real item per scored skill and copied it into the page. It named the fields it copied, and it named passage. Multi-source reasoning and graphs-and-tables items do not use passage: they carry their material in passageHtml. So two of the twelve questions would have reached a student with no source material at all, including one reading 'How many of the five pending requests comply with the booking policy exactly as submitted?' with no policy and no requests on screen.
 - **Why.** Exactly INC-0099's root cause in new code. A copier that enumerates the fields it carries is correct only for the item shapes its author had in mind, and silently drops everything else. The guard written for INC-0099, EMITTED_FIELDS in gen/framework.py, closes that class of bug for the bank emitter and only for the bank emitter, because it is a check on one function rather than on the idea. Four days later the same author wrote a second copier and made the same mistake, which is the strongest possible evidence that the guard was in the wrong place.
@@ -1815,7 +1815,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0102. A table question asked which row rose the most when every row had fallen
 
-*2026-09-22, Wrong data shown or stored*
+*2026-09-22, Wrong data shown or stored, `e32605f9d66884d57cef73a8894a9679d2f94bc8` PR #93*
 
 - **What was seen.** Item ZM4859 shipped live asking 'Which store had the greatest percent increase in units sold from Q2 to Q3?' over a table in which every store fell: Ashford down 22 percent, Belmont 55, Carlisle 40, Dunmore 40, Eastgate 19. The credited answer is Eastgate, which declined least. A student who reads the question correctly concludes that no store increased and that none of the five choices answers it, and is marked wrong for being right.
 - **Why.** gt_leader_pct picks two columns at random, computes each row's percent change between them, takes the maximum, and writes the word increase into the stem unconditionally. Nothing checks the sign of the winner. When every row falls, the maximum is the least negative number and the stem asserts a direction the data does not contain. The correct handling already existed ninety lines above in the same file: gt_change computes rose = b > a and writes increase or decrease accordingly. The pattern was there to copy and was not copied.
@@ -1921,7 +1921,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0033. The dashboard test measured a hidden element and passed
 
-*2026-09-21, Silent loss, `8827e64` PR #62*
+*2026-09-21, Silent loss, `37241958be4dadca750f76742818b18b88e5a5b1` PR #62*
 
 - **What was seen.** Layout and contrast assertions passed on a view that was never displayed.
 - **Why.** The admin view carries a hidden class. A display:none element still answers innerText and getComputedStyle, so every assertion held on a box that had never been laid out.
@@ -1947,7 +1947,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0053. The playbook's own citation guard failed CI on its first run
 
-*2026-09-21, Cosmetic, PR #62*
+*2026-09-21, Cosmetic, `37241958be4dadca750f76742818b18b88e5a5b1` PR #62*
 
 - **What was seen.** CI reported all 37 cited commits as nonexistent, with 'fatal: Not a valid object name' for every one.
 - **Why.** The checkout action shallow-clones by default, so no historical commit is present in the CI working copy. The guard was correct and its environment assumption was not.
@@ -1960,7 +1960,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0054. The first fix asked the wrong question and muted a working check
 
-*2026-09-21, Silent loss, PR #62*
+*2026-09-21, Silent loss, `37241958be4dadca750f76742818b18b88e5a5b1` PR #62*
 
 - **What was seen.** After guarding on 'is this a shallow clone', the citation check stopped running locally, where it had been working perfectly and verifying all 52 citations.
 - **Why.** This clone is shallow and still holds every commit the ledger cites, which is the normal case. Shallowness does not imply missing history, so the guard disabled itself in the one environment where it was useful.
@@ -1973,7 +1973,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0055. A new browser suite hardcoded this machine's browser directory and crashed in CI
 
-*2026-09-21, Cosmetic, PR #62*
+*2026-09-21, Cosmetic, `37241958be4dadca750f76742818b18b88e5a5b1` PR #62*
 
 - **What was seen.** ENOENT scandir /opt/pw-browsers on the first CI run of the dashboard suite, after every other suite had passed.
 - **Why.** The suite read a browser directory that exists in the development sandbox and not on a CI runner, where Playwright installs browsers in its own location. The older suites pass process.env.CHROMIUM_PATH straight through, which is undefined in CI and correctly means 'you decide'.
@@ -1986,7 +1986,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0057. The ledger cited commits that squash merging destroys
 
-*2026-09-21, Silent loss, PR #63*
+*2026-09-21, Silent loss, `724ef0ec90a8344f0a17530450d13c792b71e573` PR #63*
 
 - **What was seen.** CI failed with three assertions at once: six citations unresolvable, the commit count wrong, and the HTML naming the wrong build commit.
 - **Why.** One cause behind all three. Each incident cites the commit that fixed it, and this repository squash merges, so a branch commit ceases to exist the moment its pull request lands. The builder treated an unresolvable citation as fatal, so it refused to rebuild; build.py catches that failure as a warning rather than stopping the deploy, so the stale committed artefacts stayed on disk and the two freshness assertions then failed against them.
@@ -1999,7 +1999,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0061. A repeat metric that gets worse when the bank gets better
 
-*2026-09-22, Cosmetic, PR #65*
+*2026-09-22, Cosmetic, `de67a0eaeab023593685c7e5f5a0ffee944d3599` PR #65*
 
 - **What was seen.** Doubling the LSAT reading bank cut the repeats a student actually sees by 46 percent, from 1875 to 1006, and the bot's avoidable repeats figure went up, from 258 to 309.
 - **Why.** A repeat counts as avoidable when the student has not yet exhausted that section's pool. Enlarging the pool keeps that condition true for longer in every sitting, so the window in which a repeat is classified avoidable widens with the pool. Measured directly, only 5 of 1300 repeats in a single long run were genuinely avoidable, and both pools were exhausted.
@@ -2012,7 +2012,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0065. The analysis chapter called one file eight failing guards
 
-*2026-09-22, Wrong data shown or stored, PR #68*
+*2026-09-22, Wrong data shown or stored, `a91b158cb151cd88b19421a525e406d568f58ee3` PR #68*
 
 - **What was seen.** The generated chapter reported src/build.py as a guard named by eight incidents, under a heading saying a guard named twice is one that did not hold. build.py contains dozens of unrelated guards and most of those eight are different ones.
 - **Why.** The recurrence grouping keys on guard_file, which is the file a guard lives in, not the guard. A file that is the natural home for many checks therefore looks like a single check failing repeatedly, and the chapter states that reading in the heading as though it were established.
@@ -2025,7 +2025,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0067. The browser path fix covered two suites and three others kept crashing
 
-*2026-09-22, Silent loss*
+*2026-09-22, Silent loss, `1fd4e0529fe06171c90528558b16358e25b71c6a` PR #69*
 
 - **What was seen.** smoke_items.js, smoke_consent.js and smoke_billing.js all died at launch with 'Executable doesn't exist at /opt/pw-browsers/chromium_headless_shell-1243/...'. The sandbox holds chromium-1194 and chromium_headless_shell-1194, so Playwright's own resolved path pointed at a build that is not installed. CI passed throughout, because a CI runner installs the browser Playwright expects.
 - **Why.** INC-0055 was the same failure in smoke_business.js, and the fix was src/chromium_path.js, a shared resolver that prefers CHROMIUM_PATH, falls back to the newest /opt/pw-browsers/chromium-*, and otherwise returns undefined so Playwright decides. Two suites were changed to use it, smoke_business and smoke_fit. The three older suites were left reading process.env.CHROMIUM_PATH directly, which with the variable unset passes executablePath: undefined and hands the decision back to Playwright, which is exactly the case the resolver exists to override. A shared module only helps the callers that call it.
@@ -2037,7 +2037,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0077. A review bot check whose verdict was three coin flips warned on an unrelated bank change
 
-*2026-09-22, Cosmetic*
+*2026-09-22, Cosmetic, `2c72da1fde8a3819ca9bda7eabe9fb75ac0754b7` PR #71*
 
 - **What was seen.** Widening two GMAT critical reasoning corpora turned the bot's planted weakness check from ok to warn: 2 of 3 sections correctly identified as weakest. Nothing about the diagnosis had changed. The bot threads one seeded generator through every check in an exam, so more items meant the earlier checks consumed a different number of draws and the planted weakness test started from a different point in the stream.
 - **Why.** The check sat one simulated student per section, three sittings in total, and reported a pass only if all three came out right. Measured over 60 independent seeds the diagnosis is right on 179 of 180 sittings, so at three sittings the check warns on roughly three percent of seeds by sampling alone. Every other check in the bot already averages over 25 sittings; this one did not, and its verdict was therefore a property of the seed as much as of the engine.
@@ -2049,7 +2049,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0089. A ratchet that trips on sampling noise gets re-recorded rather than read
 
-*2026-09-22, Degraded*
+*2026-09-22, Degraded, `9056b8daa4fe87508a82591b79adb7b8a9fd181f` PR #82*
 
 - **What was seen.** Widening one geometry schema from 20 items to 96 made six sibling schemas fail their recorded bias figures, every one of them by between 1 and 4 points: 55 to 57, 45 to 46, 39 to 41, 44 to 45, 36 to 40, 53 to 54. None of those schemas changed. The same thing happened one change earlier, in the other direction, when two entries cleared and two got worse by 2. Each time the response is to re-measure and re-record, which is a ratchet being rewritten rather than read.
 - **Why.** A recorded figure is a property of the schema AND of the mix it was measured in, and the mix is a shared resource: a category stops at TARGET, so growing one schema shrinks its neighbours and changes which items the shared dedup set had already taken when they ran. The check then compares a fresh measurement against a figure recorded under a different mix, with no allowance for the sampling error at that size, so a difference well inside noise reads as a regression.
@@ -2142,7 +2142,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0032. ARR was rounded to whole dollars and lost real money at small scale
 
-*2026-09-21, Wrong data shown or stored, `8827e64` PR #62*
+*2026-09-21, Wrong data shown or stored, `37241958be4dadca750f76742818b18b88e5a5b1` PR #62*
 
 - **What was seen.** $159.84 of ARR printed as $160.
 - **Why.** The currency formatter was called with zero decimal places for the larger tiles, a rule chosen for readability at scale and applied at a scale where cents still matter.
@@ -2171,7 +2171,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0059. The item counter missed a whole bank file because it assumed a quoting style
 
-*2026-09-22, Silent loss, PR #65*
+*2026-09-22, Silent loss, `de67a0eaeab023593685c7e5f5a0ffee944d3599` PR #65*
 
 - **What was seen.** A new bank added 35 items and the build reported the exam's total unchanged at 65. The engine tests, which load the bank for real, saw all 100.
 - **Why.** The count is a regex over the concatenated source looking for an id in single quotes. The new file emits JSON escaped strings, so its ids are double quoted and none of them matched. Nothing compared the regex count to the number of items that actually load.
@@ -2184,7 +2184,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0060. Nothing parsed the one file every user downloads
 
-*2026-09-22, Site down, PR #65*
+*2026-09-22, Site down, `de67a0eaeab023593685c7e5f5a0ffee944d3599` PR #65*
 
 - **What was seen.** None shipped. A bank file with a syntax error built cleanly and the build exited zero, leaving invalid JavaScript in the bank the trainer loads on every visit.
 - **Why.** The build parses every inline script in every built page, a guard added after an unescaped quote took the whole trainer down at parse time. The item bank is not an inline script. It ships as a separate file and was never in the list, so the largest generated artefact on the site was the one thing the parser never saw.
@@ -2197,7 +2197,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0063. The stale count guard checked two nouns and the page used a third
 
-*2026-09-22, Wrong data shown or stored, PR #67*
+*2026-09-22, Wrong data shown or stored, `ecc19483fbe90db9796f445d2811daeef3bb8f3d` PR #67*
 
 - **What was seen.** llms.txt told every model that reads it the LSAT bank holds 65 questions. It held 142. The build's count guard passed the file.
 - **Why.** The guard matches a number followed by original or flashcards. The LSAT line was phrased as 65 questions today, deliberately, because the number was small and the page said so plainly. The phrasing that made the sentence honest is what put it outside the pattern.
@@ -2210,7 +2210,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0064. The guard against a blind counter was itself blind to three exams
 
-*2026-09-22, Silent loss, PR #68*
+*2026-09-22, Silent loss, `a91b158cb151cd88b19421a525e406d568f58ee3` PR #68*
 
 - **What was seen.** A new GRE reading bank of 26 items was registered, built, and counted as zero. The published GRE total stayed at 19,888. The guard written a day earlier to catch exactly this said nothing.
 - **Why.** Two failures of the same shape, one inside the other. The GRE id pattern was G[QVE] and the new ids begin GR, so the counter could not see them. And the per-file guard added for INC-0059, which asserts that every listed bank file contributes at least one counted item, looped over only the two exams that happened to be in hand when it was written.
@@ -2223,7 +2223,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0080. A build step that fails while the build exits zero, and a verification run that was a remembered subset
 
-*2026-09-22, Degraded*
+*2026-09-22, Degraded, `2c72da1fde8a3819ca9bda7eabe9fb75ac0754b7` PR #71*
 
 - **What was seen.** Three commits shipped with a playbook that had not been rebuilt, because the ledger no longer checked out: INC-0077 carried an area of tooling, which is not one of the twelve the builder accepts. The site build printed WARNING and exited zero, so nothing local said no. CI said no, on the commit after the one that broke it.
 - **Why.** Two things had to be true at once. The playbook build is deliberately non fatal, because playbook/ is excluded from the deploy and a broken chapter should not stop the site shipping, and it says so with a line beginning WARNING. And the run that was supposed to catch it was four smoke suites chosen from memory rather than the eight steps CI actually runs, so smoke_playbook, which does check this, was never run. Either alone is survivable. Together they mean a failure that is reported, in a form nobody was reading, to a process that had already decided what to look at.
@@ -2235,7 +2235,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0083. The rules digest promises to be prompt sized and its generator grows without bound
 
-*2026-09-22, Degraded*
+*2026-09-22, Degraded, `5d7e45dc41329917f8576f90107e1eb36ebf2c89` PR #73*
 
 - **What was seen.** smoke_playbook failed with 'the digest stays prompt sized (4046 words)' against a 4000 word limit, on a commit whose only relation to the playbook was adding one incident. The bootstrap pack's RULES_DIGEST.md is the file a new project pastes into its prompt, so crossing the limit is the one failure that makes the deliverable useless for its purpose.
 - **Why.** rules_digest prints every incident's lesson field in full, so the digest grows linearly with the ledger while the guard holds a fixed bound. At 82 incidents the lessons alone were 3,742 words against a 4,000 word budget. Nothing about the triggering commit was special: the next incident would have tripped it whoever wrote it, which is the signature of a bound asserted on an output nobody bounded.
@@ -2247,7 +2247,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0084. The bootstrap digest ships incident ids to a project that has no incidents
 
-*2026-09-22, Cosmetic*
+*2026-09-22, Cosmetic, `eea3d86f9e6851734eb453a94c6902afec4cb3df` PR #74*
 
 - **What was seen.** RULES_DIGEST.md, the file a new project pastes into its prompt, carries three rules that cite this repository's own incident ids: one reads 'which is INC-0059 and INC-0064 in a different costume' and another opens 'INC-0074 was a bare infinitive in a noun slot'. In the book those ids resolve to records a reader can turn to. In the bootstrap pack there is no ledger yet, so they resolve to nothing.
 - **Why.** The digest is generated from the same lesson text as the book, and its docstring says it strips the specifics of this codebase out, because a rule competing with context is a rule applied inconsistently. An incident id is exactly such a specific and nothing stripped it. The generator was written thinking about length, which is measured and guarded, and not about audience, which is not.
@@ -2327,7 +2327,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0095. A safety parameter filled in from memory, which makes it a coin flip rather than a guard
 
-*2026-09-22, Cosmetic*
+*2026-09-22, Cosmetic, `d7ec4a71aaf8ed28e38d45d840ea1846fa83863d` PR #85*
 
 - **What was seen.** A merge call carried the head commit it expected to merge, and the forty character hex in it was typed from a remembered seven character prefix with the rest supplied by whatever looked like a commit hash. GitHub compared it against the real head, found it different, and refused. Nothing was merged and nothing was lost.
 - **Why.** The parameter exists so that a merge cannot land on a head other than the one that was reviewed, and its whole value is that the number in it came from somewhere other than the person making the call. Filling it in from memory keeps the shape of the check and removes the thing being checked. The standing rule says every identifier must be read from a real output first, the rule names an earlier occasion when a hex string was typed straight into a merge call, and it was broken anyway, on the fourth merge of a session where the previous three had read the value with git rev-parse.
@@ -2436,7 +2436,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0035. Two Stripe event types announce one new subscription
 
-*2026-09-21, Wrong data shown or stored, `8827e64` PR #62*
+*2026-09-21, Wrong data shown or stored, `37241958be4dadca750f76742818b18b88e5a5b1` PR #62*
 
 - **What was seen.** None: caught in design. Logging new subscriptions from both checkout.session.completed and customer.subscription.created would have doubled new MRR.
 - **Why.** Stripe announces a new subscription through both events, with different event ids, in no guaranteed order.
@@ -2449,7 +2449,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0036. charge.amount_refunded is cumulative, so partial refunds double-count
 
-*2026-09-21, Wrong data shown or stored, `8827e64` PR #62*
+*2026-09-21, Wrong data shown or stored, `37241958be4dadca750f76742818b18b88e5a5b1` PR #62*
 
 - **What was seen.** None: caught in design. A second partial refund reports the running total, which would have counted the first refund twice.
 - **Why.** Stripe's charge object reports total refunded to date, not the amount of this refund.
@@ -2462,7 +2462,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0037. Cancellation erases the number you need to record the cancellation
 
-*2026-09-21, Wrong data shown or stored, `8827e64` PR #62*
+*2026-09-21, Wrong data shown or stored, `37241958be4dadca750f76742818b18b88e5a5b1` PR #62*
 
 - **What was seen.** None: caught in design. Churned MRR would always have been zero.
 - **Why.** The profile write on cancellation nulls plan_amount_cents and plan_interval. That row was the only place the departing subscriber's price still existed.
@@ -2572,7 +2572,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0056. Twelve profile fields said Saved and never reached the account
 
-*2026-09-21, Silent loss, PR #63*
+*2026-09-21, Silent loss, `724ef0ec90a8344f0a17530450d13c792b71e573` PR #63*
 
 - **What was seen.** A signed-in user fills in education, intended major, score goal, application year, budget, industry, household income, first generation, military status, study hours or their birth date, sees a Saved toast, and none of it is on their account. It survives only in that browser.
 - **Why.** Two layers disagreed and nothing compared them. Row Level Security scopes every write on the profiles table to the caller's own row, and a separate column grant decides which columns any role may write at all. The column grant to authenticated covers 5 of the 17 self-reported fields the Account page offers. The page updates the other 12 anyway, the database refuses, and aboutSave wraps the call in a try/catch with an empty body, so the refusal is discarded and the toast fires regardless.
@@ -2630,7 +2630,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0034. A line chart interpolated between discrete money events
 
-*2026-09-21, Degraded, `8827e64` PR #62*
+*2026-09-21, Degraded, `37241958be4dadca750f76742818b18b88e5a5b1` PR #62*
 
 - **What was seen.** A line drawn between $13.32 on the 18th and $4.99 on the 19th, passing through every value in between.
 - **Why.** Money movement was charted as a time series. A line encodes continuity, and these are discrete events on particular days.
@@ -2656,7 +2656,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0058. The fit card told readers to fill in fields that were below it
 
-*2026-09-22, Cosmetic, PR #64*
+*2026-09-22, Cosmetic, `0dcabb42faceedc6c3838ff1e17151e02b1c0423` PR #64*
 
 - **What was seen.** With nothing entered, the comparison card said to fill the three inputs in above, and they are further down the same page.
 - **Why.** The copy was written while building the card, before deciding where the inputs would live, and was never re-read against the rendered page.
