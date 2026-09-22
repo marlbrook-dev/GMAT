@@ -518,6 +518,24 @@ class PlanWeaken(CRBase):
              "reports someone else's decision, which is not evidence about the effect"),
             ("Staff at " + d["who"] + " were not consulted about the measure.",
              "concerns process, not effect"),
+            # Long ones, for the same reason the evaluate schema needed short ones: the
+            # key is the one specific sentence and every distractor above is a short
+            # generic one, which made the key the longest option on 65 percent of this
+            # schema's items (INC-0079).
+            ("A comparable body in another region carried out a measure of the same kind "
+             "and reported no change in the first two years, though it did not publish "
+             "the figures it relied on.",
+             "reports an outcome elsewhere without saying whether the conditions were the "
+             "same, which does not bear on this case"),
+            ("The measure was recommended by an adviser whose earlier proposals for "
+             + d["who"] + " were adopted and then reversed within a year of being put in "
+             "place.", "attacks the source of the recommendation rather than the "
+             "reasoning behind it"),
+            ("Several of those affected have said that they would have preferred "
+             + d["who"] + " to spend the same money on something else entirely, and have "
+             "written to say so.",
+             "reports a preference about priorities, which does not show the measure "
+             "ineffective"),
         ]
         expl = ("The plan assumes that " + d["needs"] + ". The correct choice denies exactly "
                 "that: if " + d["fails"] + ", then carrying out the action leaves the "
@@ -562,6 +580,18 @@ class PlanEvaluate(CRBase):
             ("Whether any member of " + d["who"] + " opposed the measure at the point when "
              "it was put to a decision.",
              "tests agreement rather than effect"),
+            # Short ones. Every distractor above is a long generic question and the key is
+            # a short specific one, which made the key the shortest option on 98 percent
+            # of this schema's items (INC-0079). These are the same kind of wrong answer,
+            # written at the length a real one would be.
+            ("Whether the measure has been costed.", "asks about cost rather than effect"),
+            ("Whether the measure is popular.", "asks about reception rather than effect"),
+            ("Whether the measure is reversible.",
+             "asks what happens afterwards rather than whether the effect follows"),
+            ("Whether anyone else has tried it.",
+             "asks for precedent, which does not test this case"),
+            ("Whether " + d["who"] + " can afford it.",
+             "tests affordability rather than effect"),
         ]
         expl = ("A question is useful for evaluating a plan when the two possible answers "
                 "point in opposite directions. Establish whether " + d["check"]

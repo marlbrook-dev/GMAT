@@ -237,37 +237,100 @@ class PronounAgreement(Gen):
         }
 
 
-APOS_NOUNS = [("student", "students"), ("scientist", "scientists"), ("architect", "architects"),
-              ("author", "authors"), ("engineer", "engineers"), ("curator", "curators"),
-              ("botanist", "botanists"), ("historian", "historians"),
-              ("translator", "translators"), ("surveyor", "surveyors"),
-              ("composer", "composers"), ("printer", "printers"),
-              ("conservator", "conservators"), ("editor", "editors"),
-              ("geologist", "geologists"), ("archivist", "archivists"),
-              ("cartographer", "cartographers"), ("naturalist", "naturalists"),
-              ("photographer", "photographers"), ("librarian", "librarians"),
-              ("chemist", "chemists"), ("sculptor", "sculptors"),
-              ("weaver", "weavers"), ("binder", "binders"),
-              ("physician", "physicians"), ("inspector", "inspectors"),
-              ("registrar", "registrars"), ("astronomer", "astronomers"),
-              ("apprentice", "apprentices"), ("collector", "collectors"),
-              ("lecturer", "lecturers")]
-APOS_TAILS = ["notes were later published.", "conclusions drew wide attention.",
-              "designs were exhibited that autumn.", "records remain in the archive.",
-              "drafts were bound in a single volume.", "objections were entered into the minutes.",
-              "instruments were sold at auction.", "correspondence filled four boxes.",
-              "letters were catalogued in 1962.", "sketchbooks were left to the college.",
-              "measurements were checked twice.", "reports were bound for the library.",
-              "specimens were relabelled that year.",
-              "photographs were printed from the originals.",
-              "lecture notes survive in two copies.", "accounts were audited in the spring.",
-              "plans were approved without amendment.",
-              "testimony was read into the record.", "proofs were returned uncorrected.",
-              "observations were published posthumously.",
-              "tools were given to the workshop.",
-              "maps were redrawn for the second edition.",
-              "papers were deposited with the county archive.",
-              "findings were disputed at the time."]
+# (singular, plural, kind). kind is person or body, and the tails below say which they
+# fit, for the same reason the pronoun tails do: a tail written for one and drawn for the
+# other reads as a mistake the student has to stop and rule out.
+#
+# The second group are nouns whose plural is not the singular plus one character. With
+# regular nouns only, the five forms this schema can offer are ordered by length by
+# construction, so the key sits at the same rank on every item and 861 shipped items were
+# answerable at 100 percent by picking the third shortest without reading (INC-0079).
+APOS_NOUNS = [
+    ("student", "students", "person"), ("scientist", "scientists", "person"),
+    ("architect", "architects", "person"), ("author", "authors", "person"),
+    ("engineer", "engineers", "person"), ("curator", "curators", "person"),
+    ("botanist", "botanists", "person"), ("historian", "historians", "person"),
+    ("translator", "translators", "person"), ("surveyor", "surveyors", "person"),
+    ("composer", "composers", "person"), ("printer", "printers", "person"),
+    ("conservator", "conservators", "person"), ("editor", "editors", "person"),
+    ("geologist", "geologists", "person"), ("archivist", "archivists", "person"),
+    ("cartographer", "cartographers", "person"), ("naturalist", "naturalists", "person"),
+    ("photographer", "photographers", "person"), ("librarian", "librarians", "person"),
+    ("chemist", "chemists", "person"), ("sculptor", "sculptors", "person"),
+    ("weaver", "weavers", "person"), ("binder", "binders", "person"),
+    ("physician", "physicians", "person"), ("inspector", "inspectors", "person"),
+    ("registrar", "registrars", "person"), ("astronomer", "astronomers", "person"),
+    ("apprentice", "apprentices", "person"), ("collector", "collectors", "person"),
+    ("lecturer", "lecturers", "person"),
+    ("secretary", "secretaries", "person"), ("apothecary", "apothecaries", "person"),
+    ("notary", "notaries", "person"), ("witness", "witnesses", "person"),
+    ("company", "companies", "body"), ("laboratory", "laboratories", "body"),
+    ("factory", "factories", "body"), ("registry", "registries", "body"),
+    ("foundry", "foundries", "body"), ("society", "societies", "body"),
+    ("academy", "academies", "body"), ("agency", "agencies", "body"),
+    ("parish", "parishes", "body"), ("press", "presses", "body"),
+    ("church", "churches", "body"),
+]
+APOS_TAILS = [
+    ("notes were later published.", "any"),
+    ("conclusions drew wide attention.", "any"),
+    ("designs were exhibited that autumn.", "any"),
+    ("records remain in the archive.", "any"),
+    ("drafts were bound in a single volume.", "any"),
+    ("objections were entered into the minutes.", "any"),
+    ("instruments were sold at auction.", "any"),
+    ("correspondence filled four boxes.", "any"),
+    ("letters were catalogued in 1962.", "any"),
+    ("measurements were checked twice.", "any"),
+    ("reports were bound for the library.", "any"),
+    ("specimens were relabelled that year.", "any"),
+    ("photographs were printed from the originals.", "any"),
+    ("accounts were audited in the spring.", "any"),
+    ("plans were approved without amendment.", "any"),
+    ("proofs were returned uncorrected.", "any"),
+    ("tools were given to the workshop.", "any"),
+    ("maps were redrawn for the second edition.", "any"),
+    ("papers were deposited with the county archive.", "any"),
+    ("findings were disputed at the time.", "any"),
+    ("sketchbooks were left to the college.", "person"),
+    ("lecture notes survive in two copies.", "person"),
+    ("observations were published posthumously.", "person"),
+    ("testimony was read into the record.", "person"),
+]
+# A blank that wants the plain plural, not a possessive. Mixing these in is better as an
+# item, because telling a plural from a possessive is the distinction the domain is about
+# and asking only "which possessive" never tests it. It is also the only thing that moves
+# the key off one length rank: the possessive is the second longest of the five forms by
+# construction, so an item that wants it can never put the key near the bottom.
+# The same idea for a singular subject. With all four modes the schema tests the whole
+# plural and possessive contrast rather than only "which possessive", and the key lands
+# at a different length rank in each, which is what takes it off one rank.
+APOS_SING_TAILS = [
+    ("was listed among the founders.", "any"),
+    ("had occupied the same site since 1890.", "any"),
+    ("published the findings the following year.", "any"),
+    ("signed the register on the way in.", "person"),
+    ("worked from a set of drawings supplied by the architect.", "person"),
+    ("met the inspector at the gate.", "person"),
+    ("arrived before the building was open.", "person"),
+    ("shared an office on the top floor.", "person"),
+    ("was founded a decade before the others.", "body"),
+    ("operated from an industrial estate outside the town.", "body"),
+]
+APOS_PLAIN_TAILS = [
+    ("were listed in the order they joined.", "any"),
+    ("disagreed about where the boundary ran.", "any"),
+    ("had occupied the same site since 1890.", "any"),
+    ("published their findings in the same year.", "any"),
+    ("met in the long room every Tuesday.", "person"),
+    ("arrived before the building was open.", "person"),
+    ("worked from the same set of drawings.", "person"),
+    ("signed the register on the way in.", "person"),
+    ("had been trained at the same institution.", "person"),
+    ("shared an office on the top floor.", "person"),
+    ("were founded within a decade of each other.", "body"),
+    ("operate from the same industrial estate.", "body"),
+]
 
 
 class ApostropheUse(Gen):
@@ -279,26 +342,67 @@ class ApostropheUse(Gen):
     fmt = staticmethod(str)
 
     def build(self, rng):
-        sg, pl = rng.choice(APOS_NOUNS)
-        tail = rng.choice(APOS_TAILS)
-        plural = rng.choice([True, False])
-        right = pl + "'" if plural else sg + "'s"
+        # The family is drawn first so the two are evenly represented. Within a family
+        # the gaps between the five forms are fixed, so the key's length rank is fixed
+        # too; drawing the noun straight from one list let whichever family was larger
+        # decide the rank for most of the bank (INC-0079).
+        regular = [n for n in APOS_NOUNS if n[1] == n[0] + "s"]
+        other = [n for n in APOS_NOUNS if n[1] != n[0] + "s"]
+        sg, pl, kind = rng.choice(rng.choice([regular, other]))
+        mode = rng.choice(["sg_poss", "pl_poss", "plain_pl", "plain_sg"])
+        if mode == "plain_sg":
+            tail = rng.choice([t for t, f in APOS_SING_TAILS if f in ("any", kind)])
+            right = sg
+            wrongs = [
+                (pl, "a plural, where the verb calls for a singular subject."),
+                (sg + "'s", "a singular possessive, where nothing in the sentence is owned."),
+                (pl + "'", "a plural possessive, which is wrong in both number and kind."),
+                (pl + "'s", "a plural s followed by a singular possessive, which is not a "
+                            "form in English."),
+                (sg + "'", "a singular with the apostrophe after it, which is not a form "
+                           "of this word at all."),
+            ]
+            expl = ("The verb is singular and nothing in the sentence belongs to the %s, "
+                    "so the subject is the bare singular, \"%s\"." % (sg, right))
+        elif mode == "plain_pl":
+            tail = rng.choice([t for t, f in APOS_PLAIN_TAILS if f in ("any", kind)])
+            right = pl
+            wrongs = [
+                (sg + "'s", "a singular possessive, where the sentence needs a plain plural."),
+                (pl + "'", "a plural possessive, where nothing in the sentence is owned."),
+                (sg, "a bare singular, where the verb calls for a plural subject."),
+                (pl + "'s", "a plural s followed by a singular possessive, which is not a "
+                            "form in English."),
+                (sg + "'", "a singular with the apostrophe after it, which is not a form "
+                           "of this word at all."),
+            ]
+            expl = ("Nothing in the sentence belongs to the %s, so no apostrophe is "
+                    "wanted: the subject is simply the plural, \"%s\"." % (sg, right))
+        else:
+            plural = mode == "pl_poss"
+            tail = rng.choice([t for t, f in APOS_TAILS if f in ("any", kind)])
+            right = pl + "'" if plural else sg + "'s"
+            wrongs = [
+                (pl, "a plural with no apostrophe, which cannot show possession."),
+                (sg + "'s" if plural else pl + "'",
+                 "the possessive of the wrong number, which changes how many owners "
+                 "there are."),
+                (sg, "a bare singular, which shows neither possession nor number."),
+                (pl + "'s", "a plural s followed by a singular possessive, which is not a "
+                            "form in English."),
+                (sg + "'", "a singular with the apostrophe after it, which is the plural "
+                           "possessive form of a different word."),
+            ]
+            expl = ("The sentence needs a possessive, and the possessor is %s, so the form "
+                    "is \"%s\": the apostrophe goes %s the s."
+                    % ("plural" if plural else "singular", right,
+                       "after" if plural else "before"))
         return {
             "stem": "Which choice completes the text so that it conforms to the conventions "
                     "of Standard English?\n\nThe ______ %s" % tail,
             "answer": right,
-            "distractors": [
-                (pl, "a plural with no apostrophe, which cannot show possession."),
-                (sg + "'s" if plural else pl + "'",
-                 "the possessive of the wrong number, which changes how many owners there are."),
-                (sg, "a bare singular, which shows neither possession nor number."),
-                (pl + "'s", "a plural s followed by a singular possessive, which is not a form "
-                            "in English."),
-            ],
-            "expl": "The sentence needs a possessive, and the possessor is %s, so the form is "
-                    "\"%s\": the apostrophe goes %s the s."
-                    % ("plural" if plural else "singular", right,
-                       "after" if plural else "before"),
+            "distractors": wrongs,
+            "expl": expl,
         }
 
 

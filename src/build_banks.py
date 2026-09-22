@@ -9,6 +9,7 @@ build produce a different bank.
 Run directly to see the per category report:  python3 src/build_banks.py
 """
 import pathlib
+import re
 import sys
 import zlib
 
@@ -117,10 +118,210 @@ def plan_for(exam, pool):
     return plan
 
 
+
+# INC-0079. The length bias check in test.js runs per hand written source file, because
+# INC-0069 found a file playable at 88 percent hidden inside a section figure. Generated
+# items were still only measured at the section level, and on the population the test
+# harness loads, which is the hand written banks plus the strided starter slice. A schema
+# contributing a few dozen items to a figure covering hundreds is invisible in it, and
+# sat_rw_apostrophe shipped 861 items that a student answers correctly, all of them, by
+# picking the third shortest option: its four choices are the four forms of one noun, and
+# for a regular noun those forms are ordered by length by construction.
+#
+# So the measurement is per schema, per exam, over every item the schema produced rather
+# than over a sample taken for another purpose. Three figures, because correcting one
+# moves the tell to another: the two extremes, and the share of items whose key sits at
+# the single most common length rank, which is what INC-0062 is about.
+#
+# SCHEMA_DEBT holds MEASURED values for schemas still over the cap, never guesses. Lower
+# an entry as a schema is fixed; the check insists an entry be deleted once the schema is
+# inside tolerance, so the table cannot quietly outlive the problem.
+# Data Sufficiency offers the same five statements on every item, so a length rank there
+# is the answer position wearing a different name, and the answer position already has its
+# own check. Measuring it twice under two names would mean carrying a permanent debt entry
+# for something that is not a length tell at all.
+FIXED_CHOICE = {"gmat_ds_linear", "gmat_ds_percent", "gmat_ds_rectangle",
+                "gmat_ds_average", "gmat_ds_ratio"}
+
+# Each entry is (longest or largest, shortest or smallest, one rank holds), MEASURED
+# on the day the check was written, never a guess. They are what the bank is, not
+# what it should be: a schema is allowed to sit at its recorded number and nowhere
+# worse. Lower an entry when a schema is improved; the check refuses an entry that
+# is no longer needed, so the table cannot outlive the problem it records.
+#
+# The three worst were fixed rather than recorded. sat_rw_apostrophe was answerable
+# at 100 percent by picking the third shortest option and is at 41; cr_plan_eval put
+# the key shortest on 98 percent of 1,117 items and is at 19; cr_plan_weaken put it
+# longest on 65 percent of 1,106 and is at 15.
+SCHEMA_DEBT = {
+    ('act', 'act_kol_redundancy'): (0, 100, 100),
+    ('act', 'act_nq_proportion'): (24, 3, 48),
+    ('act', 'act_nq_scinot'): (0, 73, 47),
+    ('act', 'act_s_attribute'): (5, 15, 50),
+    ('act', 'act_s_changed'): (0, 97, 97),
+    ('act', 'act_s_constant'): (47, 10, 45),
+    ('act', 'act_s_interp'): (46, 0, 39),
+    ('act', 'act_s_support'): (0, 0, 71),
+    ('act', 'act_s_threshold'): (16, 6, 60),
+    ('act', 'act_s_trend'): (0, 0, 59),
+    ('act', 'act_s_why2'): (1, 18, 54),
+    ('act', 'sat_adv_exponential>act_m_fun'): (33, 5, 48),
+    ('act', 'sat_adv_radical>act_m_nq'): (52, 3, 52),
+    ('act', 'sat_alg_word>act_m_alg'): (8, 0, 48),
+    ('act', 'sat_geo_circle>act_m_geo'): (0, 29, 49),
+    ('act', 'sat_geo_similar>act_m_geo'): (31, 4, 55),
+    ('act', 'sat_geo_volume>act_m_geo'): (27, 1, 50),
+    ('act', 'sat_psda_model>act_m_sp'): (0, 0, 95),
+    ('act', 'sat_psda_pctchange>act_m_ies'): (0, 50, 64),
+    ('act', 'sat_psda_prob>act_m_sp'): (0, 74, 74),
+    ('act', 'sat_psda_rate>act_m_ies'): (47, 0, 52),
+    ('act', 'sat_psda_units>act_m_ies'): (50, 0, 50),
+    ('act', 'sat_rw_boundary>act_e_cse'): (34, 0, 50),
+    ('act', 'sat_rw_pronoun>act_e_cse'): (46, 54, 54),
+    ('gmat', 'cr_necessary'): (0, 57, 57),
+    ('gmat', 'cr_percent'): (26, 0, 53),
+    ('gmat', 'gt_avg'): (0, 10, 49),
+    ('gmat', 'gt_gap'): (0, 19, 46),
+    ('gmat', 'gt_ratio'): (86, 0, 86),
+    ('gmat', 'msr_count'): (0, 7, 93),
+    ('gmat', 'msr_fix'): (0, 38, 38),
+    ('gmat', 'sat_adv_exponential>q_rrp'): (42, 0, 44),
+    ('gmat', 'sat_adv_exprules>q_vof'): (19, 6, 44),
+    ('gmat', 'sat_adv_radical>q_vof'): (47, 2, 47),
+    ('gmat', 'sat_alg_distribute>q_alg'): (40, 42, 42),
+    ('gmat', 'sat_alg_linear1>q_alg'): (1, 7, 45),
+    ('gmat', 'sat_psda_pctchange>q_rrp'): (0, 0, 49),
+    ('gmat', 'sat_psda_percent>q_rrp'): (0, 46, 46),
+    ('gmat', 'sat_psda_prob>q_csp'): (0, 73, 73),
+    ('gmat', 'sat_psda_rate>q_rrp'): (47, 0, 52),
+    ('gmat', 'sat_psda_units>q_rrp'): (22, 0, 78),
+    ('gre', 'sat_adv_exponential>gre_arith'): (41, 0, 44),
+    ('gre', 'sat_adv_exprules>gre_arith'): (19, 6, 44),
+    ('gre', 'sat_adv_polyfactor>gre_alg'): (11, 41, 41),
+    ('gre', 'sat_adv_radical>gre_alg'): (52, 2, 52),
+    ('gre', 'sat_alg_distribute>gre_alg'): (37, 41, 41),
+    ('gre', 'sat_alg_linear1>gre_alg'): (1, 8, 47),
+    ('gre', 'sat_geo_angles>gre_geo'): (2, 26, 40),
+    ('gre', 'sat_geo_parallel>gre_geo'): (0, 22, 44),
+    ('gre', 'sat_geo_rect>gre_geo'): (21, 0, 38),
+    ('gre', 'sat_geo_similar>gre_geo'): (25, 0, 55),
+    ('gre', 'sat_geo_volume>gre_geo'): (20, 0, 44),
+    ('gre', 'sat_psda_model>gre_data'): (0, 0, 79),
+    ('gre', 'sat_psda_pctchange>gre_arith'): (0, 0, 50),
+    ('gre', 'sat_psda_percent>gre_arith'): (0, 45, 45),
+    ('gre', 'sat_psda_prob>gre_data'): (0, 73, 73),
+    ('gre', 'sat_psda_rate>gre_arith'): (44, 0, 56),
+    ('gre', 'sat_psda_units>gre_arith'): (22, 0, 78),
+    ('sat', 'sat_adv_exponential'): (35, 3, 50),
+    ('sat', 'sat_adv_radical'): (52, 3, 52),
+    ('sat', 'sat_alg_word'): (6, 0, 53),
+    ('sat', 'sat_geo_circle'): (0, 28, 49),
+    ('sat', 'sat_geo_similar'): (35, 6, 50),
+    ('sat', 'sat_psda_model'): (0, 0, 94),
+    ('sat', 'sat_psda_pctchange'): (0, 50, 61),
+    ('sat', 'sat_psda_percent'): (0, 40, 48),
+    ('sat', 'sat_psda_prob'): (0, 73, 73),
+    ('sat', 'sat_psda_rate'): (31, 0, 69),
+    ('sat', 'sat_psda_units'): (50, 0, 50),
+    ('sat', 'sat_rw_pronoun'): (44, 56, 56),
+    ('sat', 'sat_rw_sva'): (0, 15, 47),
+}
+
+
+NUMERIC = re.compile(r"^\$?-?[\d,]+(\.\d+)?(/\d+)?$")
+
+
+def _numeric(it):
+    return all(NUMERIC.match(str(c).strip()) for c in it["choices"])
+
+
+def _value(c):
+    t = str(c).replace("$", "").replace(",", "").strip()
+    if "/" in t:
+        a, b = t.split("/", 1)
+        return float(a) / float(b)
+    return float(t)
+
+
+def bias(items, choices):
+    """The extremes and the most common rank, ranked by whatever a guesser could use.
+
+    For a worded answer that is the character count. For a numeric one it is the VALUE,
+    which is the decision test.js already made and made for a reason: among numbers of the
+    same shape the character count just tracks the digit count, so measuring length there
+    reports the size of the numbers rather than anything a student could exploit. The
+    framework balances numeric distractors on value for the same reason.
+    """
+    if items and all(_numeric(it) for it in items if isinstance(it["answer"], int)):
+        key = lambda it, i: _value(it["choices"][i])
+    else:
+        key = lambda it, i: len(str(it["choices"][i]))
+    rank = [0] * choices
+    scored = longest = shortest = 0
+    counted = 0
+    for it in items:
+        # Two part analysis answers a pair of row indices, not one choice, so a length
+        # rank over its options means nothing. Skipped rather than coerced.
+        if not isinstance(it["answer"], int):
+            continue
+        counted += 1
+        L = [key(it, i) for i in range(len(it["choices"]))]
+        order = sorted(range(len(L)), key=lambda i: L[i])
+        rank[order.index(it["answer"])] += 1
+        mx, mn = max(L), min(L)
+        if L.count(mx) != 1 or L.count(mn) != 1:
+            continue
+        scored += 1
+        if L[it["answer"]] == mx:
+            longest += 1
+        if L[it["answer"]] == mn:
+            shortest += 1
+    n = max(1, counted)
+    numeric = bool(items) and all(_numeric(it) for it in items
+                                  if isinstance(it["answer"], int))
+    return (int(round(100.0 * longest / max(1, scored))),
+            int(round(100.0 * shortest / max(1, scored))),
+            int(round(100.0 * max(rank) / n)), scored, counted, numeric)
+
+
+def check_bias(measured, verbose=True):
+    """Fail the build on a schema over its recorded bias, or on a stale recording."""
+    problems, stale = [], []
+    for (exam, gen, choices), (lo, sh, best, scored, n, num) in sorted(measured.items()):
+        if n < 50:
+            continue
+        if gen in FIXED_CHOICE:
+            continue
+        chance = int(round(100.0 / choices))
+        cap = int(round(1.8 * chance))
+        rec = SCHEMA_DEBT.get((exam, gen))
+        limit = tuple(max(cap, r) for r in rec) if rec else (cap, cap, cap)
+        big, small, one = (("largest is key", "smallest is key", "one value rank holds")
+                           if num else
+                           ("longest is key", "shortest is key", "one length rank holds"))
+        for got, lim, what in ((lo, limit[0], big), (sh, limit[1], small),
+                               (best, limit[2], one)):
+            if got > lim:
+                problems.append("  %s/%-30s %s on %d percent of %d, above %d (chance %d)"
+                                % (exam, gen, what, got, n, lim, chance))
+        if rec and lo <= cap and sh <= cap and best <= cap:
+            stale.append("  %s/%s is inside tolerance now (%d/%d/%d); delete its "
+                         "SCHEMA_DEBT entry" % (exam, gen, lo, sh, best))
+    if problems or stale:
+        print("ERROR: generated schema answer bias (INC-0079)", file=sys.stderr)
+        for line in problems + stale:
+            print(line, file=sys.stderr)
+        sys.exit(1)
+    if verbose:
+        print("  schema answer bias: %d schemas measured, all inside recorded tolerance"
+              % sum(1 for v in measured.values() if v[4] >= 50))
+
+
 def main(target=TARGET, verbose=True):
     OUT.mkdir(exist_ok=True)
     pool = M.by_id(POOL_MODS)
     report = {}
+    by_gen = {}
     for exam, choices in (("sat", 4), ("gre", 5), ("gmat", 5), ("act", 4)):
         plan = plan_for(exam, pool)
         items = []
@@ -140,6 +341,8 @@ def main(target=TARGET, verbose=True):
             )
             for it in got:
                 seen.add(F.canon(it))
+                if it.get("gen") and isinstance(it.get("choices"), list):
+                    by_gen.setdefault((exam, it["gen"], len(it["choices"])), []).append(it)
             n += len(got)
             items.extend(got)
             by_skill[skill] = list(got)
@@ -207,6 +410,7 @@ def main(target=TARGET, verbose=True):
                      len(js_rest),
                      max((OUT / ("bank_gen_%s_rest%d.js" % (exam, i + 1))).stat().st_size
                          for i in range(len(chunks))) / 1048576.0))
+    check_bias(dict(((e, g, c), bias(v, c)) for (e, g, c), v in by_gen.items()), verbose)
     short = [k for k, v in report.items() if v[0] < target]
     if short:
         print("  categories under target: %s"
