@@ -22,8 +22,8 @@ const EXAM_FILES = [
  // The LSAT carries no generated bank: its items are arguments and passages, with no
  // parameterised schema behind them, so gen is null and the run skips that file.
  {id:'lsat', choices:5,
-  files:['bank_lsat_lr.js','bank_lsat_rc.js','cards_lsat.js','playbook_lsat.js'],
-  concat:'BANK_LSAT_LR,BANK_LSAT_RC', gen:null},
+  files:['bank_lsat_lr.js','bank_lsat_rc.js','bank_lsat_rc2.js','cards_lsat.js','playbook_lsat.js'],
+  concat:'BANK_LSAT_LR,BANK_LSAT_RC,BANK_LSAT_RC2', gen:null},
  {id:'act', choices:4,
   files:['bank_act_english.js','bank_act_reading.js','bank_act_science.js','cards_act.js','playbook_act.js'],
   concat:'BANK_ACT_ENGLISH,BANK_ACT_READING,BANK_ACT_SCIENCE', gen:'act'},
