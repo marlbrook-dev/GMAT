@@ -160,6 +160,23 @@ FIXED_CHOICE = {"gmat_ds_linear", "gmat_ds_percent", "gmat_ds_rectangle",
 # at 100 percent by picking the third shortest option and is at 41; cr_plan_eval put
 # the key shortest on 98 percent of 1,117 items and is at 19; cr_plan_weaken put it
 # longest on 65 percent of 1,106 and is at 15.
+# Why an entry is expected to stay. The table records what a schema measures; this
+# records the cases where the measurement is a property of the question type rather than
+# a defect to grind down, so the next person does not spend an hour on one I already spent
+# an hour on. A schema not named here has no excuse and should come down.
+SCHEMA_NOTES = {
+    ("act", "act_kol_redundancy"):
+        "the key is the concise option, which is the shortest by the nature of the "
+        "skill, and no shorter option can preserve the meaning. Picking the shortest "
+        "is also what the real exam rewards on this question type, so the tell is the "
+        "thing being taught. Measured for the odd one out as well: 96 percent, which "
+        "is the same fact and not a second one.",
+    ("gmat", "gmat_ds_rectangle"):
+        "small, and its mode is the combined answer, which is the one its parameters "
+        "reach most easily. Worth the same work gmat_ds_linear got if it grows.",
+    ("gmat", "gmat_ds_percent"): "as gmat_ds_rectangle.",
+}
+
 SCHEMA_DEBT = {
     ('act', 'act_kol_redundancy'): (0, 100, 100, 4),
     ('act', 'act_nq_proportion'): (24, 3, 48, 5),
@@ -323,8 +340,10 @@ def check_bias(measured, verbose=True):
                       (best, limit[2], one, chance)] + checks
         for got, lim, what, ch in checks:
             if got > lim:
-                problems.append("  %s/%-30s %s on %d percent of %d, above %d (chance %d)"
-                                % (exam, gen, what, got, n, lim, ch))
+                why = SCHEMA_NOTES.get((exam, gen))
+                problems.append("  %s/%-30s %s on %d percent of %d, above %d (chance %d)%s"
+                                % (exam, gen, what, got, n, lim, ch,
+                                   "\n      note: " + why if why else ""))
         vcap = int(round(1.8 * max(int(round(100.0 / max(1, ndist))), chance)))
         if rec and top <= vcap and (fixed or (lo <= cap and sh <= cap and best <= cap)):
             stale.append("  %s/%s is inside tolerance now (%d/%d/%d); delete its "
