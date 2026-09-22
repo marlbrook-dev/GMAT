@@ -59,7 +59,7 @@ a{color:var(--accent)}
 <p class="eyebrow">Start From Nowhere</p>
 <h1>The Build Playbook</h1>
 <p class="sub">How one person and a set of AI sessions built a multi-exam test-prep platform, every defect hit on the way, and the recipe for doing it again for something else</p>
-<p class="meta">Built 2026-09-22 from commit 395a0b8 &middot; 82 commits over 36 days &middot; 88 recorded defects &middot; 17 chapters<br>
+<p class="meta">Built 2026-09-22 from commit 7cebf46 &middot; 83 commits over 36 days &middot; 91 recorded defects &middot; 17 chapters<br>
 This document is generated. Edit the chapters in docs/playbook/ and the ledger in data/playbook/incidents.jsonl, then run python3 src/build_playbook.py.</p>
 </div>
 <div class="toc"><ol><li><a href="#how-to-use-this-book">How to Use This Book</a></li>
@@ -81,7 +81,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><a href="#the-bootstrap-pack-starting-a-new-project-with-this-loaded">The Bootstrap Pack: Starting a New Project With This Loaded</a></li></ol></div>
 <h1 id="how-to-use-this-book">How to Use This Book</h1>
 <p>This is the record of building one platform, written so it can be used to build a different one.</p>
-<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-08-17 and 2026-09-22, which is 36 days, across 82 commits, by one owner directing a series of AI coding sessions. As of this build it is 54 Python files, 101 JavaScript files, 24 TypeScript edge functions, 35 migrations and 63 documents: 1978 tracked files in total.</p>
+<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-08-17 and 2026-09-22, which is 36 days, across 83 commits, by one owner directing a series of AI coding sessions. As of this build it is 54 Python files, 101 JavaScript files, 24 TypeScript edge functions, 35 migrations and 63 documents: 1978 tracked files in total.</p>
 <p>None of those numbers were typed. They are measured from the repository every time this document is built, which is the first thing worth copying.</p>
 <h2 id="what-is-in-here">What is in here</h2>
 <p>The book has four kinds of chapter, and they age differently.</p>
@@ -614,7 +614,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three defects here were found by taking a screenshot: a chart unreadable in dark mode, a line chart implying values that never existed, and a dashboard that was not on screen. None of them would have been caught by an assertion, because none of them were violations of anything anybody had thought to assert.</p>
 <p><strong>Budget for looking.</strong> It is the cheapest test there is and the only one that catches things you have not imagined.</p>
 <h1 id="running-the-build-as-an-ai-loop">Running the Build as an AI Loop</h1>
-<p>82 commits in 36 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
+<p>83 commits in 36 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
 <h2 id="the-division-of-labour">The division of labour</h2>
 <p><strong>The owner decides</strong>: what to build, what it means, what is acceptable, and every irreversible or outward-facing action. <strong>The session does</strong>: the building, the measuring, the testing, and the reporting of what it found.</p>
 <p>The failure mode at each end is worth naming. An owner who reviews every line becomes the bottleneck and the throughput collapses to the speed of reading. A session that decides product questions on its own produces something coherent that is not what anyone wanted.</p>
@@ -658,32 +658,32 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Long uninterrupted sessions with standing authorisation, punctuated by the owner redirecting priorities, beat short supervised ones by a wide margin. The standing authorisation that made it work was specific: merge your own work once the checks are green, do not check in on each item, and stop immediately when told to.</p>
 <p>The thing that makes that safe is not trust. It is that the checks are real, the destructive actions still require asking, and the record of what happened is written down well enough to audit later. Which is what this book is.</p>
 <h1 id="what-the-ledger-says-about-itself">What the Ledger Says About Itself</h1>
-<p>88 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.</p>
+<p>91 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.</p>
 <h2 id="how-defects-were-actually-found">How defects were actually found</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">How</th><th style="text-align:right">Count</th><th style="text-align:right">Share</th></tr></thead><tbody>
-<tr><td style="text-align:left">Found by reading the code or the output</td><td style="text-align:right">38</td><td style="text-align:right">43%</td></tr>
-<tr><td style="text-align:left">Found by measuring something</td><td style="text-align:right">24</td><td style="text-align:right">27%</td></tr>
-<tr><td style="text-align:left">A test caught it</td><td style="text-align:right">13</td><td style="text-align:right">15%</td></tr>
+<tr><td style="text-align:left">Found by reading the code or the output</td><td style="text-align:right">39</td><td style="text-align:right">43%</td></tr>
+<tr><td style="text-align:left">Found by measuring something</td><td style="text-align:right">26</td><td style="text-align:right">29%</td></tr>
+<tr><td style="text-align:left">A test caught it</td><td style="text-align:right">13</td><td style="text-align:right">14%</td></tr>
 <tr><td style="text-align:left">Found by rendering it and looking</td><td style="text-align:right">6</td><td style="text-align:right">7%</td></tr>
-<tr><td style="text-align:left">Found by a review bot or an adversarial pass</td><td style="text-align:right">5</td><td style="text-align:right">6%</td></tr>
+<tr><td style="text-align:left">Found by a review bot or an adversarial pass</td><td style="text-align:right">5</td><td style="text-align:right">5%</td></tr>
 <tr><td style="text-align:left">A person hit it</td><td style="text-align:right">1</td><td style="text-align:right">1%</td></tr>
 <tr><td style="text-align:left">A build guard caught it</td><td style="text-align:right">1</td><td style="text-align:right">1%</td></tr>
 </tbody></table></div>
-<p><strong>This is the most useful table in the book.</strong> 87 of 88 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.</p>
+<p><strong>This is the most useful table in the book.</strong> 90 of 91 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.</p>
 <p><strong>Read that percentage with the bias it carries.</strong> This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.</p>
 <h2 id="by-severity">By severity</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">Severity</th><th style="text-align:right">Count</th></tr></thead><tbody>
 <tr><td style="text-align:left">Wrong data shown or stored</td><td style="text-align:right">35</td></tr>
-<tr><td style="text-align:left">Silent loss</td><td style="text-align:right">20</td></tr>
-<tr><td style="text-align:left">Degraded</td><td style="text-align:right">18</td></tr>
+<tr><td style="text-align:left">Silent loss</td><td style="text-align:right">21</td></tr>
+<tr><td style="text-align:left">Degraded</td><td style="text-align:right">20</td></tr>
 <tr><td style="text-align:left">Cosmetic</td><td style="text-align:right">12</td></tr>
 <tr><td style="text-align:left">Site down</td><td style="text-align:right">3</td></tr>
 </tbody></table></div>
-<p><strong>Silent loss is the dominant failure mode</strong>, at 20 of 88. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.</p>
+<p><strong>Silent loss is the dominant failure mode</strong>, at 21 of 91. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.</p>
 <h2 id="by-area">By area</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">Area</th><th style="text-align:right">Count</th></tr></thead><tbody>
-<tr><td style="text-align:left">Content generation</td><td style="text-align:right">27</td></tr>
-<tr><td style="text-align:left">Tests and guards</td><td style="text-align:right">17</td></tr>
+<tr><td style="text-align:left">Content generation</td><td style="text-align:right">29</td></tr>
+<tr><td style="text-align:left">Tests and guards</td><td style="text-align:right">18</td></tr>
 <tr><td style="text-align:left">Front end</td><td style="text-align:right">8</td></tr>
 <tr><td style="text-align:left">Build system</td><td style="text-align:right">7</td></tr>
 <tr><td style="text-align:left">CSS and layout</td><td style="text-align:right">5</td></tr>
@@ -695,7 +695,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <tr><td style="text-align:left">Interface and data display</td><td style="text-align:right">3</td></tr>
 </tbody></table></div>
 <h2 id="guard-coverage">Guard coverage</h2>
-<p>82 of 88 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.</p>
+<p>85 of 91 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.</p>
 <p>Carried by attention:</p>
 <ul>
 <li><strong>INC-0010</strong> CSS comments do not nest, and one placeholder killed the palette on 1451 pages</li>
@@ -711,18 +711,21 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>weekly_audit checks computed colour on every page (INC-0050, INC-0048)</li>
 </ul>
 <h2 id="lessons-learned-more-than-once">Lessons learned more than once</h2>
-<p>12 of 88 incidents record that they repeat an earlier lesson, 16 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.</p>
+<p>15 of 91 incidents record that they repeat an earlier lesson, 19 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.</p>
 <div class="tw"><table><thead><tr><th style="text-align:left">Lesson first recorded in</th><th style="text-align:left">Repeated by</th><th style="text-align:right">Times</th></tr></thead><tbody>
 <tr><td style="text-align:left">INC-0064 The guard against a blind counter was itself blind to three exams</td><td style="text-align:left">INC-0067, INC-0082, INC-0085, INC-0088</td><td style="text-align:right">4</td></tr>
 <tr><td style="text-align:left">INC-0069 A bank a student can play at 88 percent, inside a section the check passed</td><td style="text-align:left">INC-0079, INC-0085, INC-0086, INC-0088</td><td style="text-align:right">4</td></tr>
 <tr><td style="text-align:left">INC-0059 The item counter missed a whole bank file because it assumed a quoting style</td><td style="text-align:left">INC-0064, INC-0067</td><td style="text-align:right">2</td></tr>
 <tr><td style="text-align:left">INC-0074 A corpus field written for one grammatical slot was spliced into another</td><td style="text-align:left">INC-0075, INC-0087</td><td style="text-align:right">2</td></tr>
+<tr><td style="text-align:left">INC-0044 The longest option was the correct answer 81 percent of the time</td><td style="text-align:left">INC-0091</td><td style="text-align:right">1</td></tr>
 <tr><td style="text-align:left">INC-0050 A landing-page icon referenced a colour token that did not exist</td><td style="text-align:left">INC-0018</td><td style="text-align:right">1</td></tr>
 <tr><td style="text-align:left">INC-0055 A new browser suite hardcoded this machine's browser directory and crashed in CI</td><td style="text-align:left">INC-0067</td><td style="text-align:right">1</td></tr>
 <tr><td style="text-align:left">INC-0067 The browser path fix covered two suites and three others kept crashing</td><td style="text-align:left">INC-0070</td><td style="text-align:right">1</td></tr>
 <tr><td style="text-align:left">INC-0083 The rules digest promises to be prompt sized and its generator grows without bound</td><td style="text-align:left">INC-0084</td><td style="text-align:right">1</td></tr>
+<tr><td style="text-align:left">INC-0086 A finished generator module that nothing imported, and two of its four schemas produced nothing</td><td style="text-align:left">INC-0090</td><td style="text-align:right">1</td></tr>
+<tr><td style="text-align:left">INC-0088 A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked</td><td style="text-align:left">INC-0089</td><td style="text-align:right">1</td></tr>
 </tbody></table></div>
-<p>The largest family runs to 11 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0082, INC-0085, INC-0086, INC-0088. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.</p>
+<p>The largest family runs to 13 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.</p>
 <p>Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.</p>
 <ul>
 <li>INC-0013 names INC-0012</li>
@@ -735,8 +738,8 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <h2 id="where-defects-concentrate">Where defects concentrate</h2>
 <p>Files named by three or more incidents. This is not the same signal as the list above: a file that is the natural home for many checks will appear here without any one of them having failed. It says where the work has been, and where a reader new to the codebase should look first.</p>
 <ul>
+<li><code>src/build_banks.py</code>, 12 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011, INC-0079, INC-0081, INC-0086, INC-0088, INC-0089, INC-0090, INC-0091)</li>
 <li><code>src/build.py</code>, 11 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067, INC-0076, INC-0080)</li>
-<li><code>src/build_banks.py</code>, 9 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011, INC-0079, INC-0081, INC-0086, INC-0088)</li>
 <li><code>src/test.js</code>, 8 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085)</li>
 <li><code>src/review_bot.js</code>, 5 incidents (INC-0022, INC-0026, INC-0051, INC-0061, INC-0077)</li>
 <li><code>src/bank_emit.py</code>, 4 incidents (INC-0062, INC-0066, INC-0068, INC-0073)</li>
@@ -749,7 +752,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <h1 id="the-defect-ledger">The Defect Ledger</h1>
 <p>Every entry here happened. Each one is a record of something that broke, how it was found, what fixed it, and what now stops it coming back. The last field is the one that matters for a different business: the transferable lesson, stated without reference to this codebase.</p>
 <p>They are grouped by the part of the system, and within a group by date. The <code>guard</code> field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.</p>
-<h2 id="content-generation-27">Content generation (27)</h2>
+<h2 id="content-generation-29">Content generation (29)</h2>
 <h3 id="inc-0003-item-banks-were-different-on-every-build-because-python-randomises-hash">INC-0003. Item banks were different on every build because Python randomises hash()</h3>
 <p><em>2026-09-16, Wrong data shown or stored, <code>0d6c357</code> PR #33</em></p>
 <ul>
@@ -1029,7 +1032,27 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>What stops it now.</strong> check_bias measures every schema of ten items or more, with a cap widened by the sampling error at that size, so a small schema is held to a fair standard rather than to none in <code>src/build_banks.py</code></li>
 <li><strong>Lesson.</strong> A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell. When a measurement cannot be trusted at a small sample, widen the tolerance to what the sample supports rather than declining to measure, and notice when a count of what was measured does not move after you add something to measure.</li>
 </ul>
-<h2 id="tests-and-guards-17">Tests and guards (17)</h2>
+<h3 id="inc-0090-two-of-a-schema-s-three-question-forms-could-not-build-and-the-only-sign-was-an-item-count">INC-0090. Two of a schema's three question forms could not build, and the only sign was an item count</h3>
+<p><em>2026-09-22, Silent loss</em></p>
+<ul>
+<li><strong>What was seen.</strong> The GRE shipped 48 items of the trigonometry schema where the SAT shipped 96, and the key was the smallest of the five options on half of them. The schema listed five wrong answers and its SAT and ACT copies built without complaint. Checking the other banks the same way found it again in the quadratic roots schema: the sum question never built at five choices, so the GMAT and the GRE carried that schema's product and greater-solution questions and none of its sum questions. Between them, two whole question forms were missing from three exams.</li>
+<li><strong>Why.</strong> Two entries in a distractor list can be the same arithmetic without looking alike. Swapping the opposite and adjacent sides and inverting the ratio both turn a tangent into its reciprocal. The sum of the roots IS the negated coefficient of x and their product IS the constant term, so on a sum question 'flip the sign' and 'read the coefficient off the equation' are one wrong answer wearing two labels, and so are 'give the product' and 'read the constant term'. Once the duplicates are dropped the list is shorter than the exam asks for, make() raises, and the draw is discarded. That is unremarkable on its own: ItemError is the ordinary way a schema says not this draw, the next draw is a new set of numbers, and the category still fills from its neighbours. But when the collision is in the SHAPE of the wrong answers rather than in the numbers, every draw of that question form is discarded and the form is absent from that exam.</li>
+<li><strong>How it surfaced.</strong> A geometry schema failed the answer bias check for a reason that only made sense if a whole question form were missing, so the schema was built directly at four and five choices and what came back was counted. (Found by measuring something)</li>
+<li><strong>Fix.</strong> The wrong answers are written out per question form instead of as parallel lookups keyed by the form, which is what hid the collision: the list reads as five entries whatever the form is. Each form now carries six or seven distinct wrong answers where five choices need four. The trigonometry schema went from 48 distinct items to 242 and builds all three of its functions at both widths; the quadratic roots schema stopped discarding two draws in five. Widening the polynomial expansion schema the same way cleared a third.</li>
+<li><strong>What stops it now.</strong> check_starved draws a fixed number of times from every schema at every exam's choice count and fails the build on one that loses more than a twentieth of its draws for want of distinct wrong answers, with the sixteen already over it recorded in STARVED_DEBT so the table has to shrink rather than grow in <code>src/build_banks.py</code></li>
+<li><strong>Lesson.</strong> A generator's wrong answers are written as labels and read as labels, and nobody looks at the values two labels produce. Where the question type makes two misconceptions arithmetically identical the list is shorter than it reads, and because a discarded draw is the ordinary way a schema says no, a whole question form can vanish from an exam leaving nothing behind but a number nobody has a reference for. Count what a schema actually produces at each width it has to serve, and compare the widths against each other.</li>
+</ul>
+<h3 id="inc-0091-every-wrong-answer-a-schema-could-think-of-was-bigger-than-the-right-one">INC-0091. Every wrong answer a schema could think of was bigger than the right one</h3>
+<p><em>2026-09-22, Degraded</em></p>
+<ul>
+<li><strong>What was seen.</strong> Four generated schemas put the correct answer at the same value rank on 39 to 47 percent of their items against a 36 percent line, and on the five choice exams the key was never the largest of the options and was the smallest on half of them. The rectangle schema, the box volume schema, the trigonometry schema and the polynomial expansion schema, each measured on its own draws rather than on the mix the bank happened to ship.</li>
+<li><strong>Why.</strong> The characteristic errors for these questions all run one way. On an area question every slip, adding the sides or subtracting them or computing the perimeter, is smaller than the product. On a volume question every slip but doubling is smaller than three edges multiplied. On a trigonometry question every slip either inverts the ratio or trades a leg for the longer hypotenuse, so all of them are larger. The lists were written by naming misconceptions, which is the right way to write them, and nobody asked which side of the answer the resulting numbers land on. make() aims for a value rank drawn uniformly, but it can only place the key among the candidates it is handed, so with five candidates above it and one below it the key can occupy two ranks out of five and no shuffling changes that.</li>
+<li><strong>How it surfaced.</strong> Measured each schema on its own seeded draws once a change elsewhere pushed them over the line, which separates what the schema does from what the bank happened to draw. (Found by measuring something)</li>
+<li><strong>Fix.</strong> Each of the four now offers wrong answers on both sides of the key, taken from real slips rather than invented to fill a side: counting grid lines rather than the squares between them and adding the perimeter to the area sit above an area key, squaring the rectangle on its longer or its shorter side sits below a perimeter key, the sum of the three face areas sits below a volume and cubing the longest edge sits above it, and dividing by the sum of the two legs or by the perimeter is the one common trigonometric slip that lands below the ratio. The worst value rank across the four went from 47 percent to 30, and smallest is key on the trigonometry schema from 49 percent to 11.</li>
+<li><strong>What stops it now.</strong> check_bias already measures which value rank the key holds for every schema at every width; what this change adds is that none of the four is recorded as debt any more, so the check holds all of them to the ordinary cap in <code>src/build_banks.py</code></li>
+<li><strong>Lesson.</strong> A list of misconceptions is a list of labels and a student sees numbers. Where every characteristic error runs the same direction the key sits at a predictable place in the ordered options however carefully the item is shuffled, because the shuffler can only place it among the candidates it is handed. When writing wrong answers, sort them next to the right one and look at which side they fall on.</li>
+</ul>
+<h2 id="tests-and-guards-18">Tests and guards (18)</h2>
 <h3 id="inc-0016-the-performance-test-waited-for-the-load-event-which-waits-for-the-thing-being-optimised">INC-0016. The performance test waited for the load event, which waits for the thing being optimised</h3>
 <p><em>2026-09-19, Silent loss, <code>4b25169</code> PR #45</em></p>
 <ul>
@@ -1214,6 +1237,16 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Fix.</strong> The check sits five students per section and reports the rate, passing at 90 percent or better and failing below half. The threshold is stated against the measured 99 percent so the margin is visible rather than implied.</li>
 <li><strong>What stops it now.</strong> the planted weakness check reports a rate over 15 sittings rather than a verdict over 3 in <code>src/review_bot.js</code></li>
 <li><strong>Lesson.</strong> A check that reports pass or fail from a handful of random draws is a check that will flip on work that has nothing to do with it, and the cost is not the false alarm. It is that the next real alarm arrives in a tool people have learned to shrug at. Before believing or dismissing a warning, run the thing it measures enough times to know its rate: that answers both whether this alarm is real and whether the check is worth keeping in its current form. Here the answer was that the engine was fine and the check was wrong, and both were worth knowing.</li>
+</ul>
+<h3 id="inc-0089-a-ratchet-that-trips-on-sampling-noise-gets-re-recorded-rather-than-read">INC-0089. A ratchet that trips on sampling noise gets re-recorded rather than read</h3>
+<p><em>2026-09-22, Degraded</em></p>
+<ul>
+<li><strong>What was seen.</strong> Widening one geometry schema from 20 items to 96 made six sibling schemas fail their recorded bias figures, every one of them by between 1 and 4 points: 55 to 57, 45 to 46, 39 to 41, 44 to 45, 36 to 40, 53 to 54. None of those schemas changed. The same thing happened one change earlier, in the other direction, when two entries cleared and two got worse by 2. Each time the response is to re-measure and re-record, which is a ratchet being rewritten rather than read.</li>
+<li><strong>Why.</strong> A recorded figure is a property of the schema AND of the mix it was measured in, and the mix is a shared resource: a category stops at TARGET, so growing one schema shrinks its neighbours and changes which items the shared dedup set had already taken when they ran. The check then compares a fresh measurement against a figure recorded under a different mix, with no allowance for the sampling error at that size, so a difference well inside noise reads as a regression.</li>
+<li><strong>How it surfaced.</strong> Doing the same re-recording twice in two changes and noticing that every delta was between 1 and 4 points while the schemas themselves were untouched. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Every ceiling in the check is now either a line someone chose or an error bar, and only the error bar stands on its own. The policy cap and any recorded figure are lines, so a measurement fails against them only when it is over by more than the standard error of a proportion at the size it was measured at, which is about two points on a bank of five hundred and nowhere near the thirty two points the worst real tell showed. The small sample floor already is two and a half standard errors and takes no second allowance. The staleness check mirrors it: an entry is called unnecessary only when the measurement sits clear of the cap by that same margin rather than a point under it. Nothing is re-recorded for drift, so the figures stay the ones a person chose. Where the drift can be removed instead of tolerated it is: the starvation check added alongside this one measures each schema on its own fixed seeded draws rather than on whatever the bank build happened to ask of it, so its figures are exact and need no allowance at all.</li>
+<li><strong>What stops it now.</strong> check_bias compares against recorded figures with the sampling error at the measured size, so mix drift does not fail the build and a real regression still does in <code>src/build_banks.py</code></li>
+<li><strong>Lesson.</strong> A ratchet is only read while it is quiet. One that fires on noise gets re-recorded as a reflex, and the re-recording is indistinguishable from accepting a real regression, so the mechanism that exists to catch regressions becomes the mechanism that launders them. Give a comparison the same error bars as the measurement it is made from, and fix the thing that fires wrongly before the habit of clearing it forms.</li>
 </ul>
 <h2 id="front-end-8">Front end (8)</h2>
 <h3 id="inc-0001-unescaped-quotes-in-onclick-strings-took-the-whole-app-down">INC-0001. Unescaped quotes in onclick strings took the whole app down</h3>
@@ -1768,6 +1801,18 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 </ul>
 <p>&lt;small&gt;A corpus field written for one grammatical slot was spliced into another (INC-0074)&lt;/small&gt;</p>
 <ul>
+<li>[ ] <strong>Learned 2 times over.</strong> Test your content against the strategies a lazy adversary would use, not only against whether it is correct. Measure the score of a rule that ignores the question.  </li>
+</ul>
+<p>&lt;small&gt;The longest option was the correct answer 81 percent of the time (INC-0044)&lt;/small&gt;</p>
+<ul>
+<li>[ ] <strong>Learned 2 times over.</strong> A module that nothing imports fails no test, and an exception raised on every draw is indistinguishable from an exception raised on a hard draw. Both are silence, and a build that reports totals hears neither. Count what each schema contributed, not what the category holds, and treat a contribution of zero as a failure rather than as a small number.  </li>
+</ul>
+<p>&lt;small&gt;A finished generator module that nothing imported, and two of its four schemas produced nothing (INC-0086)&lt;/small&gt;</p>
+<ul>
+<li>[ ] <strong>Learned 2 times over.</strong> A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell. When a measurement cannot be trusted at a small sample, widen the tolerance to what the sample supports rather than declining to measure, and notice when a count of what was measured does not move after you add something to measure.  </li>
+</ul>
+<p>&lt;small&gt;A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked (INC-0088)&lt;/small&gt;</p>
+<ul>
 <li>[ ] Any generator that claims reproducibility must be seeded from something stable across processes. hash() is not, in Python, and the failure shows up as a flaky test rather than as a wrong answer.  </li>
 </ul>
 <p>&lt;small&gt;Item banks were different on every build because Python randomises hash() (INC-0003)&lt;/small&gt;</p>
@@ -1795,10 +1840,6 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>[ ] In any set of multiple-choice content, count where the answers are. A positional tell makes the whole set worthless to a test-wise user, and it is invisible item by item.  </li>
 </ul>
 <p>&lt;small&gt;225 of 302 correct answers sat at position A (INC-0039)&lt;/small&gt;</p>
-<ul>
-<li>[ ] Test your content against the strategies a lazy adversary would use, not only against whether it is correct. Measure the score of a rule that ignores the question.  </li>
-</ul>
-<p>&lt;small&gt;The longest option was the correct answer 81 percent of the time (INC-0044)&lt;/small&gt;</p>
 <ul>
 <li>[ ] A guard on the extreme of a distribution can be satisfied by moving the mass next to the extreme. When you correct for a measured bias, measure the whole distribution afterwards, not the statistic you were correcting.  </li>
 </ul>
@@ -1856,17 +1897,17 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 </ul>
 <p>&lt;small&gt;One flashcard for a skill, for as long as anyone cared to look (INC-0085)&lt;/small&gt;</p>
 <ul>
-<li>[ ] A module that nothing imports fails no test, and an exception raised on every draw is indistinguishable from an exception raised on a hard draw. Both are silence, and a build that reports totals hears neither. Count what each schema contributed, not what the category holds, and treat a contribution of zero as a failure rather than as a small number.  </li>
-</ul>
-<p>&lt;small&gt;A finished generator module that nothing imported, and two of its four schemas produced nothing (INC-0086)&lt;/small&gt;</p>
-<ul>
 <li>[ ] Reading the record does not prevent the defect; the practice does. This one was written hours after its own lesson was read closely enough to be catalogued as a recurrence, and it was caught by rendering three items rather than by remembering. Budget the render, not the recollection.  </li>
 </ul>
 <p>&lt;small&gt;The same corpus field in two grammatical slots, in a schema written the same day the guard was read (INC-0087)&lt;/small&gt;</p>
 <ul>
-<li>[ ] A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell. When a measurement cannot be trusted at a small sample, widen the tolerance to what the sample supports rather than declining to measure, and notice when a count of what was measured does not move after you add something to measure.  </li>
+<li>[ ] A generator's wrong answers are written as labels and read as labels, and nobody looks at the values two labels produce. Where the question type makes two misconceptions arithmetically identical the list is shorter than it reads, and because a discarded draw is the ordinary way a schema says no, a whole question form can vanish from an exam leaving nothing behind but a number nobody has a reference for. Count what a schema actually produces at each width it has to serve, and compare the widths against each other.  </li>
 </ul>
-<p>&lt;small&gt;A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked (INC-0088)&lt;/small&gt;</p>
+<p>&lt;small&gt;Two of a schema's three question forms could not build, and the only sign was an item count (INC-0090)&lt;/small&gt;</p>
+<ul>
+<li>[ ] A list of misconceptions is a list of labels and a student sees numbers. Where every characteristic error runs the same direction the key sits at a predictable place in the ordered options however carefully the item is shuffled, because the shuffler can only place it among the candidates it is handed. When writing wrong answers, sort them next to the right one and look at which side they fall on.  </li>
+</ul>
+<p>&lt;small&gt;Every wrong answer a schema could think of was bigger than the right one (INC-0091)&lt;/small&gt;</p>
 <h2 id="database">Database</h2>
 <ul>
 <li>[ ] Postgres fires same-timing triggers alphabetically. If two triggers on one table have an order dependency, encode it in the name, and test the outcome rather than the code.  </li>
@@ -2071,6 +2112,10 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>[ ] A check that reports pass or fail from a handful of random draws is a check that will flip on work that has nothing to do with it, and the cost is not the false alarm. It is that the next real alarm arrives in a tool people have learned to shrug at. Before believing or dismissing a warning, run the thing it measures enough times to know its rate: that answers both whether this alarm is real and whether the check is worth keeping in its current form. Here the answer was that the engine was fine and the check was wrong, and both were worth knowing.  </li>
 </ul>
 <p>&lt;small&gt;A review bot check whose verdict was three coin flips warned on an unrelated bank change (INC-0077)&lt;/small&gt;</p>
+<ul>
+<li>[ ] A ratchet is only read while it is quiet. One that fires on noise gets re-recorded as a reflex, and the re-recording is indistinguishable from accepting a real regression, so the mechanism that exists to catch regressions becomes the mechanism that launders them. Give a comparison the same error bars as the measurement it is made from, and fix the thing that fires wrongly before the habit of clearing it forms.  </li>
+</ul>
+<p>&lt;small&gt;A ratchet that trips on sampling noise gets re-recorded rather than read (INC-0089)&lt;/small&gt;</p>
 <h1 id="adapting-this-to-a-different-business">Adapting This to a Different Business</h1>
 <p>Most of this book is about a test-preparation platform. This chapter separates what was specific to that from what was structural, so you know what to keep.</p>
 <h2 id="what-was-specific">What was specific</h2>
@@ -2126,7 +2171,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p><code>python3 src/build_playbook.py</code> writes four files into <code>playbook/bootstrap/</code>, all generated from the same ledger as the book, so none of them can drift from it.</p>
 <p><strong><code>CLAUDE.template.md</code></strong> goes in the new repository's root. Claude Code reads it on every turn. It is the constitution: the house rules, the never-invent-a-value rule, the sourcing rules, the communication rule, and a short architecture section you fill in as you build. Four bracketed blanks at the top are the only things you have to change.</p>
 <p><strong><code>KICKOFF.md</code></strong> is the literal first message for a new conversation. It sets the working agreement, the phase order, and what a session should report. Paste it, then describe your business idea underneath it.</p>
-<p><strong><code>RULES_DIGEST.md</code></strong> is every lesson in the defect ledger, compressed to one line each and grouped by area. It is about three pages. This is the highest value-per-token artefact in the whole project: 88 real defects reduced to the rules that prevent them, with the specifics of this codebase stripped out.</p>
+<p><strong><code>RULES_DIGEST.md</code></strong> is every lesson in the defect ledger, compressed to one line each and grouped by area. It is about three pages. This is the highest value-per-token artefact in the whole project: 91 real defects reduced to the rules that prevent them, with the specifics of this codebase stripped out.</p>
 <p><strong><code>incidents.jsonl</code></strong> is the raw ledger, copied so the new project can start appending to it on day one rather than starting an empty one.</p>
 <h2 id="how-to-load-it-by-surface">How to load it, by surface</h2>
 <p><strong>Claude Code, new repository.</strong> Copy <code>CLAUDE.template.md</code> to the repo root as <code>CLAUDE.md</code>, fill in the four blanks, and copy <code>incidents.jsonl</code> to <code>data/playbook/incidents.jsonl</code>. Copy <code>src/build_playbook.py</code> too, so the new project's own ledger becomes its own book from the first defect. Then open a session with <code>KICKOFF.md</code> as the first message.</p>
@@ -2136,7 +2181,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three reasons, and they are worth understanding rather than just following.</p>
 <p><strong>Retrieval beats repetition.</strong> A document in project knowledge is consulted when relevant. The same document in the prompt is re-read on every single turn, at full cost, mostly when it is irrelevant. For anything longer than a few pages, retrieval is strictly better.</p>
 <p><strong>Instructions need to be short enough to be followed.</strong> A rule competing with ten thousand words of context is a rule that gets applied inconsistently. The digest is deliberately brutal: one line per lesson, imperative mood, no examples. The examples are in the book, where they can be looked up when a rule seems wrong.</p>
-<p><strong>The ledger is the part that compounds.</strong> The recipe chapters age. The rules do not, because each one is the residue of a real failure, and the failure modes of software are considerably more stable than its tooling. A new project that starts with 88 defects already prevented is genuinely ahead, and every defect it hits of its own makes the next project further ahead still.</p>
+<p><strong>The ledger is the part that compounds.</strong> The recipe chapters age. The rules do not, because each one is the residue of a real failure, and the failure modes of software are considerably more stable than its tooling. A new project that starts with 91 defects already prevented is genuinely ahead, and every defect it hits of its own makes the next project further ahead still.</p>
 <h2 id="keeping-the-loop-closed">Keeping the loop closed</h2>
 <p>The pack is only worth carrying forward if the new project feeds it back. So the working agreement in <code>KICKOFF.md</code> includes one instruction that does the whole job:</p>
 <p>&gt; When something breaks, append a record to <code>data/playbook/incidents.jsonl</code> before fixing &gt; it, while you still remember what you believed was true five minutes ago.</p>

@@ -193,18 +193,38 @@ class RectangleArea(Gen):
             raise ItemError("square hides the area versus perimeter confusion")
         ask = rng.choice(["area", "perimeter"])
         val = w * h if ask == "area" else 2 * (w + h)
+        # Split by what is asked, because the two questions need wrong answers on
+        # different sides of the key. Every characteristic slip on an area question
+        # lands BELOW the product and every one on a perimeter question lands above it,
+        # so a single shared list left the key at the same value rank on two items in
+        # five. Each list now reaches both ways: the fence post count and the area plus
+        # perimeter sum sit above an area key, and counting one pair of sides once or
+        # not at all sits below a perimeter key.
+        wrong = {
+            "area": [
+                (2 * (w + h), "computing the perimeter: area multiplies the sides, perimeter adds them all."),
+                (w + h, "adding the two sides once instead of multiplying them."),
+                (val + w, "an arithmetic slip adding one side to the product."),
+                (val * 2, "doubling the correct result."),
+                (abs(w - h) if abs(w - h) > 1 else w + h + 1, "subtracting the sides."),
+                ((w + 1) * (h + 1), "counting the grid lines rather than the squares between them."),
+                (val + 2 * (w + h), "adding the perimeter to the area, which are not the same kind of quantity."),
+            ],
+            "perimeter": [
+                (w * h, "computing the area: perimeter adds the sides, area multiplies them."),
+                (w + h, "adding the two sides once instead of going all the way around."),
+                (2 * w + h, "doubling one pair of sides and counting the other pair once."),
+                (val * 2, "doubling the correct result."),
+                (abs(w - h) if abs(w - h) > 1 else w + h + 1, "subtracting the sides."),
+                (4 * max(w, h), "treating the rectangle as a square on its longer side."),
+                (4 * min(w, h), "treating the rectangle as a square on its shorter side."),
+            ],
+        }[ask]
         return {
             "stem": "A rectangle has a width of %d units and a length of %d units. What is its "
             "%s?" % (w, h, ask),
             "answer": val,
-            "distractors": [
-                (2 * (w + h) if ask == "area" else w * h,
-                 "computing the other quantity: area multiplies the sides, perimeter adds them all."),
-                (w + h, "adding the two sides once instead of going all the way around."),
-                (val + w, "an arithmetic slip adding one side too many."),
-                (val * 2, "doubling the correct result."),
-                (abs(w - h) if abs(w - h) > 1 else w * h + 1, "subtracting the sides."),
-            ],
+            "distractors": wrong,
             "expl": "Area is width times length, which is %d. Perimeter is twice the sum of the "
             "sides, which is %d. The question asks for the %s, so the answer is %d."
             % (w * h, 2 * (w + h), ask, val),
@@ -225,12 +245,20 @@ class Volume(Gen):
             "stem": "A rectangular box has edge lengths of %d, %d, and %d units. What is the "
             "volume of the box, in cubic units?" % (a, b, c),
             "answer": val,
+            # Almost every slip on a volume question is a smaller number than the
+            # product of three edges, so the key sat at the same value rank on close to
+            # half the items with only one wrong answer above it. Cubing the longest
+            # edge and doubling every edge both land above, and the sum of the three
+            # face areas lands below, which gives the rank somewhere to move.
             "distractors": [
                 (2 * (a * b + b * c + a * c), "computing the surface area rather than the volume."),
                 (a + b + c, "adding the edge lengths instead of multiplying them."),
                 (a * b, "multiplying only two of the three edges, which gives an area."),
                 (4 * (a + b + c), "computing the total edge length."),
                 (val * 2, "doubling the correct result."),
+                (a * b + b * c + a * c, "adding the three face areas instead of multiplying the edges."),
+                (max(a, b, c) ** 3, "cubing the longest edge as though the box were a cube."),
+                (8 * val, "doubling every edge length, which multiplies the volume by eight."),
             ],
             "expl": "Volume of a rectangular box is the product of its three edge lengths: "
             "%d times %d times %d equals %d cubic units." % (a, b, c, val),
@@ -276,26 +304,68 @@ class TrigRatio(Gen):
     sub = "Right triangles and trigonometry"
     diff = 4
 
-    TRIPLES = [(3, 4, 5), (5, 12, 13), (8, 15, 17), (7, 24, 25), (20, 21, 29)]
+    # Twelve primitive triples rather than five, and either leg may be the opposite one.
+    # Five triples times three functions is fifteen scenarios, which is why this schema
+    # shipped twenty items and why its answer sat at one value rank on half of them: a
+    # rank distribution over fifteen cases is fifteen points, not a distribution. Twelve
+    # triples times two orientations times three functions is seventy two, and the
+    # orientation swap is not padding, since the sine of one acute angle is the cosine of
+    # the other and the two give genuinely different ratios.
+    TRIPLES = [(3, 4, 5), (5, 12, 13), (8, 15, 17), (7, 24, 25), (20, 21, 29),
+               (9, 40, 41), (12, 35, 37), (28, 45, 53), (11, 60, 61), (16, 63, 65),
+               (33, 56, 65), (48, 55, 73)]
 
     def build(self, rng):
         o, a, h = rng.choice(self.TRIPLES)
+        if rng.random() < 0.5:
+            o, a = a, o
         fn = rng.choice(["sine", "cosine", "tangent"])
         val = {"sine": Fr(o, h), "cosine": Fr(a, h), "tangent": Fr(o, a)}[fn]
+        # Written out per function rather than as three parallel lookups, because the
+        # lookups hid two faults. Swapping the legs and inverting the ratio are the same
+        # arithmetic for the tangent, so it offered three distinct wrong answers where
+        # the five choice exams need four, and every tangent item raised rather than
+        # built: a third of the schema was missing from the GRE and nobody could see it
+        # from the table. And every wrong answer here is built by making the ratio LARGER
+        # (inverting) or by trading a leg for the longer hypotenuse, so the key was the
+        # smallest of five options on half the items and the largest on none of them.
+        # Dividing by the sum of the two legs is the one common slip that lands BELOW the
+        # right answer, which is why each function carries it.
+        wrong = {
+            "sine": [
+                (Fr(a, h), "using the adjacent side where the sine wants the opposite one."),
+                (Fr(h, o), "inverting the ratio."),
+                (Fr(o, a), "giving the tangent ratio instead of the sine."),
+                (Fr(a, o), "combining an inversion with the wrong pair of sides."),
+                (Fr(h, a), "inverting the ratio and taking the adjacent side as well."),
+                (Fr(o, o + a), "dividing by the sum of the two legs rather than by the hypotenuse."),
+                (Fr(o, o + a + h), "dividing by the perimeter of the triangle rather than by the hypotenuse."),
+            ],
+            "cosine": [
+                (Fr(o, h), "using the opposite side where the cosine wants the adjacent one."),
+                (Fr(h, a), "inverting the ratio."),
+                (Fr(o, a), "giving the tangent ratio instead of the cosine."),
+                (Fr(a, o), "combining an inversion with the wrong pair of sides."),
+                (Fr(h, o), "inverting the ratio and taking the opposite side as well."),
+                (Fr(a, o + a), "dividing by the sum of the two legs rather than by the hypotenuse."),
+                (Fr(a, o + a + h), "dividing by the perimeter of the triangle rather than by the hypotenuse."),
+            ],
+            "tangent": [
+                (Fr(a, o), "inverting the ratio, which gives the tangent of the other acute angle."),
+                (Fr(o, h), "giving the sine ratio instead of the tangent."),
+                (Fr(a, h), "giving the cosine ratio instead of the tangent."),
+                (Fr(h, o), "inverting the sine ratio."),
+                (Fr(h, a), "inverting the cosine ratio."),
+                (Fr(o, o + a), "dividing by the sum of the two legs rather than by the adjacent one."),
+                (Fr(o, o + a + h), "dividing by the perimeter of the triangle rather than by the adjacent side."),
+            ],
+        }[fn]
         return {
             "stem": "In right triangle ABC, the right angle is at C. The side opposite angle A "
             "has length %d, the side adjacent to angle A has length %d, and the hypotenuse has "
             "length %d. What is the %s of angle A?" % (o, a, h, fn),
             "answer": val,
-            "distractors": [
-                ({"sine": Fr(a, h), "cosine": Fr(o, h), "tangent": Fr(a, o)}[fn],
-                 "swapping the opposite and adjacent sides, which turns each ratio into a different one."),
-                ({"sine": Fr(h, o), "cosine": Fr(h, a), "tangent": Fr(a, o)}[fn],
-                 "inverting the ratio."),
-                (Fr(o, a) if fn != "tangent" else Fr(o, h),
-                 "using the ratio for a different trigonometric function."),
-                (Fr(a, o) if fn != "tangent" else Fr(h, o), "combining an inversion with the wrong pair of sides."),
-            ],
+            "distractors": wrong,
             "expl": "Sine is opposite over hypotenuse, cosine is adjacent over hypotenuse, and "
             "tangent is opposite over adjacent. Here that gives %s of angle A equal to %s."
             % (fn, num(val)),

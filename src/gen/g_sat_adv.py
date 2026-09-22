@@ -26,14 +26,41 @@ class QuadraticRoots(Gen):
             "stem": "In the equation x squared %s %dx %s %d = 0, what is %s?"
             % ("+" if b >= 0 else "-", abs(b), "+" if c >= 0 else "-", abs(c), label),
             "answer": val,
-            "distractors": [
-                (-val, "reading the coefficients straight off the equation without the sign change that factoring introduces."),
-                ({"sum": r1 * r2, "product": r1 + r2, "larger": min(r1, r2)}[ask],
-                 "answering a different question about the same two roots."),
-                (b, "reporting the coefficient of x rather than a fact about the solutions."),
-                (c, "reporting the constant term rather than a fact about the solutions."),
-                (val + 1, "an off by one slip while finding the factor pair."),
-            ],
+            # Per question, because the shared list collided with itself. The sum of the
+            # solutions IS the negated coefficient of x and their product IS the
+            # constant term, so on a sum question "flip the sign" and "report the
+            # coefficient" were one wrong answer wearing two labels, and so were "give
+            # the product" and "report the constant term". Three distinct wrong answers
+            # where five choices need four, on every sum item: the GMAT and the GRE
+            # shipped this schema's product and greater-solution questions and none of
+            # its sum questions, and the only sign was a low item count (INC-0090).
+            "distractors": {
+                "sum": [
+                    (-val, "reading the coefficient of x straight off the equation, without the "
+                     "sign change that factoring introduces."),
+                    (r1 * r2, "giving the product of the solutions rather than their sum."),
+                    (max(r1, r2), "reporting the greater solution rather than the sum of both."),
+                    (min(r1, r2), "reporting the lesser solution rather than the sum of both."),
+                    (val + 1, "an off by one slip while finding the factor pair."),
+                    (abs(r1) + abs(r2), "adding the numbers in the factors and ignoring their signs."),
+                ],
+                "product": [
+                    (-val, "flipping the sign of the constant term, which factoring does not do here."),
+                    (r1 + r2, "giving the sum of the solutions rather than their product."),
+                    (b, "reporting the coefficient of x rather than a fact about the solutions."),
+                    (max(r1, r2), "reporting the greater solution rather than the product."),
+                    (min(r1, r2), "reporting the lesser solution rather than the product."),
+                    (val + 1, "an off by one slip while finding the factor pair."),
+                ],
+                "larger": [
+                    (-val, "flipping the sign of the solution, which is the slip factoring invites."),
+                    (min(r1, r2), "reporting the lesser solution rather than the greater one."),
+                    (b, "reporting the coefficient of x rather than a solution."),
+                    (c, "reporting the constant term rather than a solution."),
+                    (r1 + r2, "giving the sum of the solutions rather than the greater one."),
+                    (val + 1, "an off by one slip while finding the factor pair."),
+                ],
+            }[ask],
             "expl": "The expression factors as (x %s %d)(x %s %d), so the solutions are %d and "
             "%d, and %s is %d."
             % ("-" if r1 >= 0 else "+", abs(r1), "-" if r2 >= 0 else "+", abs(r2),
@@ -124,14 +151,32 @@ class PolynomialValue(Gen):
             "where b and c are constants. What is the value of %s?"
             % (a, "+" if b >= 0 else "-", abs(b), "+" if c >= 0 else "-", abs(c), A, ask),
             "answer": val,
-            "distractors": [
-                (b + c if ask == "b" else b + c,
-                 "adding the two constants and stopping, which skips the cross terms entirely."),
-                (C if ask == "b" else B, "computing the other coefficient."),
-                (-val, "expanding correctly and then dropping a sign."),
-                (b * c if ask == "b" else b * a, "multiplying the wrong pair of terms."),
-                (val + a, "folding the leading coefficient in a second time."),
-            ],
+            # Per coefficient. The shared list asked for "the other coefficient" and for
+            # "the wrong pair multiplied", and on the x coefficient question those are
+            # both b times c, so one wrong answer arrived twice and a five choice exam
+            # threw away one draw in eight. The key was also the smallest of the options
+            # on 41 percent of items, because every slip here either multiplies the
+            # constants or adds the leading coefficient in again and both run large.
+            "distractors": {
+                "b": [
+                    (b + c, "adding the two constants and stopping, which skips the cross terms entirely."),
+                    (C, "computing the constant term rather than the coefficient of x."),
+                    (-val, "expanding correctly and then dropping a sign."),
+                    (a * c, "taking the cross term and forgetting to add the other constant to it."),
+                    (val + a, "folding the leading coefficient in a second time."),
+                    (a + b + c, "adding all three constants together."),
+                    (a * b + c, "multiplying the wrong pair before adding."),
+                ],
+                "c": [
+                    (b + c, "adding the constants instead of multiplying them."),
+                    (B, "computing the coefficient of x rather than the constant term."),
+                    (-val, "expanding correctly and then dropping a sign."),
+                    (a * b, "multiplying the wrong pair of terms."),
+                    (val + a, "folding the leading coefficient in a second time."),
+                    (a * b * c, "multiplying the leading coefficient in as well, which the constant term does not use."),
+                    (c - b, "subtracting the constants instead of multiplying them."),
+                ],
+            }[ask],
             "expl": "Expanding gives %dx squared %s %dx %s %d, so b = %d and c = %d."
             % (A, "+" if B >= 0 else "-", abs(B), "+" if C >= 0 else "-", abs(C), B, C),
         }

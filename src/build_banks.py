@@ -10,6 +10,7 @@ Run directly to see the per category report:  python3 src/build_banks.py
 """
 import math
 import pathlib
+import random
 import re
 import sys
 import zlib
@@ -203,17 +204,6 @@ FIXED_CHOICE = {"gmat_ds_linear", "gmat_ds_percent", "gmat_ds_rectangle",
 # a defect to grind down, so the next person does not spend an hour on one I already spent
 # an hour on. A schema not named here has no excuse and should come down.
 SCHEMA_NOTES = {
-    ("sat", "sat_geo_volume"):
-        "Drift, not a regression, and the measurements are on the record either side. "
-        "It carried no entry because it sat at exactly its cap, 45 on 737 items, which "
-        "passes only because the check is strictly greater than. Widening sat_geo_circle "
-        "to three question forms changed what the shared dedup set had already taken by "
-        "the time this schema ran, and it moved to 48 on 727. sat_geo_similar moved 50 to "
-        "52 the same way, and in the other direction act_s_support, the GRE angles and "
-        "the GRE similar schemas all improved, while the ACT volume and GRE rectangle "
-        "entries cleared entirely. A schema resting on its cap with nothing recorded is "
-        "the fragile case: any neighbour that changes the draw tips it over, and nobody "
-        "learns anything about the schema itself.",
     ("act", "act_kol_concision"):
         "as act_kol_redundancy, and for the same reason: the key is the concise option "
         "and no shorter one preserves the meaning. Both were written in the same module "
@@ -230,11 +220,6 @@ SCHEMA_NOTES = {
         "the two wrong ones are generic, so the key sits at a predictable place in the "
         "ordered options. That wants distractors as specific as the key, which is a "
         "rewrite of the reason clauses rather than an addition to them.",
-    ("sat", "sat_geo_trig"):
-        "REAL, small, and one point over a cap that is itself widened for a twenty item "
-        "sample. Shares its figures with the ACT remap of the same schema, which is the "
-        "same fact counted twice rather than two findings.",
-    ("act", "sat_geo_trig>act_m_geo"): "as sat/sat_geo_trig, the same schema remapped.",
     ("act", "act_kol_redundancy"):
         "the key is the concise option, which is the shortest by the nature of the "
         "skill, and no shorter option can preserve the meaning. Picking the shortest "
@@ -260,7 +245,6 @@ SCHEMA_DEBT = {
     ('act', 'sat_adv_radical>act_m_nq'): (52, 3, 52, 3),
     ('act', 'sat_alg_word>act_m_alg'): (8, 0, 48, 2),
     ('act', 'sat_geo_similar>act_m_geo'): (30, 4, 56, 11),
-    ('act', 'sat_geo_trig>act_m_geo'): (0, 30, 50, 10),
     ('act', 'sat_rw_apostrophe>act_e_cse'): (14, 17, 47, 1),
     ('act', 'sat_rw_boundary>act_e_cse'): (34, 0, 50, 0),
     ('gmat', 'gmat_ds_percent'): (41, 3, 41, 41),
@@ -278,25 +262,72 @@ SCHEMA_DEBT = {
     ('gmat', 'sat_psda_percent>q_rrp'): (0, 45, 45, 5),
     ('gre', 'sat_adv_exponential>gre_arith'): (40, 0, 45, 10),
     ('gre', 'sat_adv_exprules>gre_arith'): (17, 6, 45, 9),
-    ('gre', 'sat_adv_polyfactor>gre_alg'): (11, 41, 41, 4),
     ('gre', 'sat_adv_radical>gre_alg'): (52, 2, 52, 3),
     ('gre', 'sat_alg_distribute>gre_alg'): (37, 41, 41, 4),
     ('gre', 'sat_alg_linear1>gre_alg'): (1, 8, 47, 12),
     ('gre', 'sat_geo_angles>gre_geo'): (3, 26, 39, 3),
     ('gre', 'sat_geo_parallel>gre_geo'): (0, 22, 44, 2),
     ('gre', 'sat_geo_similar>gre_geo'): (28, 0, 53, 12),
-    ('gre', 'sat_geo_volume>gre_geo'): (21, 0, 44, 2),
     ('gre', 'sat_psda_percent>gre_arith'): (0, 45, 45, 6),
     ('sat', 'sat_adv_exponential'): (35, 3, 50, 4),
     ('sat', 'sat_adv_radical'): (52, 3, 52, 2),
     ('sat', 'sat_alg_word'): (6, 0, 53, 3),
     ('sat', 'sat_geo_similar'): (33, 5, 52, 11),
-    ('sat', 'sat_geo_volume'): (25, 2, 48, 2),
-    ('sat', 'sat_geo_trig'): (0, 30, 50, 10),
     ('sat', 'sat_psda_percent'): (0, 38, 49, 5),
     ('sat', 'sat_rw_boundary'): (34, 0, 50, 0),
 }
 
+# A note explains an entry, so it cannot outlive one. The check already deletes an entry
+# the moment the schema no longer needs it, and the paragraph beside it used to stay:
+# three notes about geometry schemas survived the entries they annotated in this change
+# alone, and a note about a debt nobody owes any more is the table outliving the problem
+# by the other door.
+_orphans = sorted(k for k in SCHEMA_NOTES if k not in SCHEMA_DEBT)
+if _orphans:
+    raise SystemExit("SCHEMA_NOTES explains entries that no longer exist; delete the "
+                     "note with the entry: " + ", ".join("%s/%s" % k for k in _orphans))
+
+
+# A schema offers a fixed list of wrong answers, and an exam asks for a fixed number of
+# choices. When two of those wrong answers work out to the same value the shorter list is
+# what the item gets, and if it falls below what the exam needs the whole draw is thrown
+# away. The throwing away is silent: ItemError is how a schema says "not this draw", the
+# next draw is a new set of numbers, and the category still fills from its neighbours.
+#
+# Two different things hide in there. Particular numbers colliding is harmless. A
+# collision in the SHAPE of the wrong answers is not: sat_geo_trig lost every tangent
+# item at five choices because swapping the legs and inverting the ratio are the same
+# arithmetic for a tangent, so the GRE shipped two of the schema's three question forms
+# and nothing said so (INC-0090). A twentieth of a schema's draws is where the second
+# stops looking like the first.
+STARVE_CAP = 5
+
+# MEASURED, like SCHEMA_DEBT, and read the same way: a schema may sit at its recorded
+# number and nowhere worse, and the check insists an entry be deleted once the schema no
+# longer needs it. Unlike SCHEMA_DEBT these figures are exact rather than sampled, since
+# the probe draws a fixed number of times from a fixed seed, so a number that moves means
+# someone changed the schema. Every one of them is a subspace that never reaches a
+# student: the absolute value inequalities whose two bounds are the same distance out,
+# the circles whose radius and diameter make two of the wrong answers agree. They are
+# worth fixing one at a time.
+STARVED_DEBT = {
+    ('act', 'sat_alg_abs>act_m_alg'): 6,
+    ('gmat', 'gt_change'): 14,
+    ('gmat', 'sat_adv_exponential>q_rrp'): 9,
+    ('gmat', 'sat_adv_nonlinsys>q_alg'): 8,
+    ('gmat', 'sat_adv_rational>q_vof'): 6,
+    ('gmat', 'sat_adv_vertex>q_alg'): 10,
+    ('gmat', 'sat_alg_abs>q_alg'): 11,
+    ('gmat', 'sat_alg_parperp>q_alg'): 7,
+    ('gmat', 'sat_alg_system>q_alg'): 12,
+    ('gre', 'sat_adv_exponential>gre_arith'): 8,
+    ('gre', 'sat_adv_nonlinsys>gre_alg'): 12,
+    ('gre', 'sat_adv_rational>gre_alg'): 6,
+    ('gre', 'sat_alg_abs>gre_alg'): 10,
+    ('gre', 'sat_alg_parperp>gre_geo'): 7,
+    ('gre', 'sat_alg_system>gre_alg'): 12,
+    ('gre', 'sat_geo_circle>gre_geo'): 10,
+}
 
 NUMERIC = re.compile(r"^\$?-?[\d,]+(\.\d+)?(/\d+)?$")
 # A number with a unit word after it, as the percent change schema renders its choices.
@@ -376,6 +407,53 @@ def bias(items, choices):
             top, len(vals))
 
 
+def se_points(pct, n):
+    """One standard error of a proportion at this sample size, in percentage points."""
+    p = min(max(pct / 100.0, 0.0), 1.0)
+    return math.sqrt(p * (1 - p) / max(1, n)) * 100
+
+
+# Draws per schema in the starvation probe. Enough to see a question form that never
+# builds (a form is a third or a half of a schema's draws) without doubling the build.
+STARVE_DRAWS = 400
+
+
+def check_starved(exam, choices, gens):
+    """Report schemas that cannot offer this exam enough distinct wrong answers.
+
+    Measured on its OWN seeded draws rather than on the ones the bank build happened to
+    make, because the bank build visits a schema as often as its neighbours leave room
+    for and dedups against a shared set, so the same schema reads 8 percent in one build
+    and 13 in the next with nothing about it changed. That is the drift INC-0089 is
+    about, and here it can be removed rather than tolerated: how often a schema's wrong
+    answers collapse is a property of the schema and the choice count and nothing else.
+    A fixed count of draws from a fixed seed makes the figure exact, so the recorded
+    number moves only when someone changes the schema.
+    """
+    out = []
+    for g in gens:
+        rng = random.Random(20260922 + zlib.crc32(("%s|%s" % (exam, g.id)).encode()) % 99991)
+        starved = 0
+        for _ in range(STARVE_DRAWS):
+            try:
+                g.make(rng, choices)
+            except F.ItemError as e:
+                if "distinct distractors" in str(e):
+                    starved += 1
+            except ArithmeticError:
+                pass
+        pct = int(round(100.0 * starved / STARVE_DRAWS))
+        rec = STARVED_DEBT.get((exam, g.id))
+        lim = max(STARVE_CAP, rec or 0)
+        if pct > lim:
+            out.append("  %s/%-28s throws away %d percent of its draws for want of %d "
+                       "distinct choices, above %d" % (exam, g.id, pct, choices, lim))
+        elif rec is not None and pct <= STARVE_CAP:
+            out.append("  %s/%s serves this exam now (%d percent); delete its "
+                       "STARVED_DEBT entry" % (exam, g.id, pct))
+    return out
+
+
 def check_bias(measured, verbose=True):
     """Fail the build on a schema over its recorded bias, or on a stale recording."""
     problems, stale = [], []
@@ -399,9 +477,13 @@ def check_bias(measured, verbose=True):
         # always says the same one is using the fourth figure, so that one still applies.
         fixed = gen in FIXED_CHOICE
         chance = int(round(100.0 / choices))
-        p_ch = 1.0 / choices
-        noise = 2.5 * math.sqrt(p_ch * (1 - p_ch) / n) * 100
-        cap = max(int(round(1.8 * chance)), int(round(chance + noise)))
+        # Two ceilings, and they mean different things. The policy line is 1.8 times
+        # chance, a number someone chose. The floor is what a schema with no tell at all
+        # can reach on a thin draw, which is an error bar already and is why it takes no
+        # second one below.
+        policy = int(round(1.8 * chance))
+        floor = int(round(chance + 2.5 * se_points(100.0 / choices, n)))
+        cap = max(policy, floor)
         rec = SCHEMA_DEBT.get((exam, gen))
         limit = tuple(max(cap, r) for r in rec[:3]) if rec else (cap, cap, cap)
         big, small, one = (("largest is key", "smallest is key", "one value rank holds")
@@ -415,20 +497,51 @@ def check_bias(measured, verbose=True):
         # is not a strategy worth having unless it beats guessing, so the limit is never
         # stricter than the ordinary cap either.
         vchance = max(int(round(100.0 / max(1, ndist))), chance)
-        vlimit = max(int(round(1.8 * vchance)),
-                     rec[3] if rec and len(rec) > 3 else 0)
-        checks = [(top, vlimit, "one answer value holds", vchance)]
+        vcap = int(round(1.8 * vchance))
+        vlimit = max(vcap, rec[3] if rec and len(rec) > 3 else 0)
+        # (measured, ceiling, the part of the ceiling that is already an error bar, ...)
+        checks = [(top, vlimit, 0, "one answer value holds", vchance)]
         if not fixed:
-            checks = [(lo, limit[0], big, chance), (sh, limit[1], small, chance),
-                      (best, limit[2], one, chance)] + checks
-        for got, lim, what, ch in checks:
-            if got > lim:
+            checks = [(lo, limit[0], floor, big, chance),
+                      (sh, limit[1], floor, small, chance),
+                      (best, limit[2], floor, one, chance)] + checks
+
+        # A measurement is not the thing itself, and every ceiling here except the small
+        # sample floor is a line rather than an error bar, so the comparison has to carry
+        # one. Without it a schema whose true rate sits on its line fails about half the
+        # times it is measured, and what moves it is the neighbours: a category stops at
+        # TARGET, so growing one schema shrinks the others and changes which items the
+        # shared dedup set had already taken by the time they ran. Widening one geometry
+        # schema moved six untouched siblings by 1 to 4 points and failed all six
+        # (INC-0089). Clearing that by re-measuring and re-recording is a ratchet being
+        # rewritten rather than read, and a rewrite for drift is indistinguishable from
+        # one that accepts a regression.
+        #
+        # So a figure fails only when it is over its ceiling by more than the standard
+        # error of a proportion at the size it was measured at: about two points on a
+        # bank of five hundred, which is the size of the drift and nowhere near the size
+        # of a real tell (rc_infer was 32 points over). Against a recorded figure that is
+        # if anything generous to the check, since the record is a measurement too and
+        # carries an error of its own. Nothing is re-recorded for drift, so the ceiling
+        # stays the figure a person chose and cannot walk upward alongside the bank.
+        for got, lim, bar, what, ch in checks:
+            tol = 0.0 if lim <= bar else se_points(lim, n)
+            if got > lim + tol:
                 why = SCHEMA_NOTES.get((exam, gen))
                 problems.append("  %s/%-30s %s on %d percent of %d, above %d (chance %d)%s"
                                 % (exam, gen, what, got, n, lim, ch,
                                    "\n      note: " + why if why else ""))
-        vcap = int(round(1.8 * max(int(round(100.0 / max(1, ndist))), chance)))
-        if rec and top <= vcap and (fixed or (lo <= cap and sh <= cap and best <= cap)):
+
+        # The staleness check mirrors it. An entry is called unnecessary only when the
+        # measurement sits clear of the cap by that same margin rather than a point under
+        # it; otherwise the drift that can no longer fail the build would delete the
+        # record instead, and the figure is lost by the other door.
+        def clear(got, ceiling, bar):
+            return got <= ceiling - (0.0 if ceiling <= bar else se_points(ceiling, n))
+
+        if rec and clear(top, vcap, 0) and (fixed or (clear(lo, cap, floor)
+                                                      and clear(sh, cap, floor)
+                                                      and clear(best, cap, floor))):
             stale.append("  %s/%s is inside tolerance now (%d/%d/%d); delete its "
                          "SCHEMA_DEBT entry" % (exam, gen, lo, sh, best))
     if problems or stale:
@@ -457,6 +570,7 @@ def main(target=TARGET, verbose=True):
     by_gen = {}
     # LSAT gives five choices, confirmed against LSAC sample questions and carried in
     # exam_harness.js, which is the same as the GMAT, so the CR schemas need no reshaping.
+    starving = []
     for exam, choices in (("sat", 4), ("gre", 5), ("gmat", 5), ("act", 4), ("lsat", 5)):
         plan = plan_for(exam, pool)
         items = []
@@ -495,6 +609,20 @@ def main(target=TARGET, verbose=True):
                     "build_banks: %s/%s wires %d schema(s) that produced no items at all: "
                     "%s. Either they cannot draw, or the plan should not name them."
                     % (exam, skill, len(silent), ", ".join(sorted(silent))))
+            # A schema can also produce only PART of itself, which is the same silence
+            # one level down. sat_geo_trig listed five wrong answers, but two of them
+            # were the same arithmetic for the tangent, so once the duplicate was
+            # dropped the tangent form had three where a five choice exam needs four and
+            # every tangent item was thrown away. The GRE shipped the schema's sine and
+            # cosine forms and nothing else, and the only visible trace was an item
+            # count half the SAT's, with no reference to compare it against (INC-0090).
+            #
+            # A few such rejections are particular parameters colliding and are harmless,
+            # since the next draw is a new set of numbers. A twentieth of a schema's
+            # draws is not: at that rate the collision is in the shape of the wrong
+            # answers rather than in the numbers, and something the schema was written
+            # to ask is not being asked.
+            starving.extend(check_starved(exam, choices, gens))
             if verbose:
                 flag = "" if len(got) >= target else "   SHORT"
                 print("  %-5s %-10s %4d items from %2d schemas%s"
@@ -558,6 +686,12 @@ def main(target=TARGET, verbose=True):
                      len(js_rest),
                      max((OUT / ("bank_gen_%s_rest%d.js" % (exam, i + 1))).stat().st_size
                          for i in range(len(chunks))) / 1048576.0))
+    if starving:
+        print("ERROR: schemas that cannot serve an exam's choice count (INC-0090)",
+              file=sys.stderr)
+        for line in starving:
+            print(line, file=sys.stderr)
+        sys.exit(1)
     check_bias(dict(((e, g, c), bias(v, c)) for (e, g, c), v in by_gen.items()), verbose)
     short = [k for k, v in report.items() if v[0] < target]
     if short:
