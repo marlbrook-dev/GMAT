@@ -560,10 +560,10 @@ def main(target=TARGET, verbose=True):
     # Before anything is generated, because this one is about the words rather than the
     # numbers and there is no point measuring a bank whose sentences do not agree with
     # themselves (INC-0093).
-    wording = g_act_sci.check_names()
+    wording = g_act_sci.check_names() + g_act_sci.check_readings()
     if wording:
-        print("ERROR: ACT science variable names and the sentences built from them "
-              "(INC-0093)", file=sys.stderr)
+        print("ERROR: ACT science wording, against its own table (INC-0093, INC-0098)",
+              file=sys.stderr)
         for line in wording:
             print("  " + line, file=sys.stderr)
         sys.exit(1)
