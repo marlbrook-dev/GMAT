@@ -1,7 +1,7 @@
 // What the bank actually costs a visitor, measured rather than assumed.
 //
 // Run with:
-//   CHROMIUM_PATH=/opt/pw-browsers/chromium-*/chrome-linux/chrome node src/smoke_load.js
+//   node src/smoke_load.js   (the browser is resolved by src/chromium_path.js)
 //
 // The raw bank files are large and getting larger, and the instinct is to treat that as
 // the load problem. It is not, and this file exists so that stays a measurement instead
@@ -17,6 +17,7 @@
 // question, so that is what this measures: serve everything gzipped, the way Cloudflare
 // does, and wait until an item is on screen.
 const { chromium } = require('playwright');
+const { chromiumPath } = require('./chromium_path.js');
 const http = require('http'), fs = require('fs'), p0 = require('path'), zlib = require('zlib');
 const ROOT = p0.join(__dirname, '..');
 const T = {'.html':'text/html','.js':'text/javascript','.css':'text/css','.png':'image/png',
@@ -61,7 +62,7 @@ const check = (n, c, d) => {
 (async () => {
   await new Promise(r => srv.listen(0, '127.0.0.1', r));
   const P = srv.address().port;
-  const b = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH });
+  const b = await chromium.launch({ executablePath: chromiumPath() });
 
   for (const [app, label] of [['app', 'GMAT'], ['act/app', 'ACT'], ['sat/app', 'SAT'],
                               ['gre/app', 'GRE'], ['lsat/app', 'LSAT']]) {

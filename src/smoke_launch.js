@@ -1,6 +1,6 @@
 // Pre-launch audit, run against the built site.
 //
-//   CHROMIUM_PATH=/opt/pw-browsers/chromium-*/chrome-linux/chrome node src/smoke_launch.js
+//   node src/smoke_launch.js   (the browser is resolved by src/chromium_path.js)
 //
 // The checks here are the ones that are cheap to automate and expensive to discover
 // after launch: contrast that fails WCAG, links that 404, headings that skip a level,
@@ -14,6 +14,7 @@
 // background, because a rule that reads "color: #6B7280" tells you nothing until you
 // know what is behind it.
 const { chromium } = require('playwright');
+const { chromiumPath } = require('./chromium_path.js');
 const http = require('http'), fs = require('fs'), p0 = require('path'), zlib = require('zlib');
 const ROOT = p0.join(__dirname, '..');
 const T = {'.html':'text/html','.js':'text/javascript','.css':'text/css','.png':'image/png',
@@ -127,7 +128,7 @@ const AUDIT = `(() => {
   await new Promise(r => srv.listen(0, '127.0.0.1', r));
   const P = srv.address().port;
   const base = 'http://127.0.0.1:' + P;
-  const b = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH });
+  const b = await chromium.launch({ executablePath: chromiumPath() });
   const linkTargets = new Map();
 
   for (const path of PAGES) {

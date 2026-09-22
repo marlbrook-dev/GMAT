@@ -1,6 +1,6 @@
 // Offline, proven rather than asserted.
 //
-//   CHROMIUM_PATH=/opt/pw-browsers/chromium-*/chrome-linux/chrome node src/smoke_offline.js
+//   node src/smoke_offline.js   (the browser is resolved by src/chromium_path.js)
 //
 // A service worker that registers is not the same as an app that works offline, and the
 // difference is invisible until a student is on a train. So this installs the worker,
@@ -11,6 +11,7 @@
 // statement a reviewer can check in fifteen seconds with airplane mode, so it had better
 // be true before it is written on a submission.
 const { chromium } = require('playwright');
+const { chromiumPath } = require('./chromium_path.js');
 const http = require('http'), fs = require('fs'), p0 = require('path');
 const ROOT = p0.join(__dirname, '..');
 const T = {'.html':'text/html','.js':'text/javascript','.css':'text/css','.png':'image/png',
@@ -38,7 +39,7 @@ const hasQuestion = () => {
   await new Promise(r => srv.listen(0, '127.0.0.1', r));
   const P = srv.address().port;
   const base = 'http://127.0.0.1:' + P;
-  const b = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH });
+  const b = await chromium.launch({ executablePath: chromiumPath() });
 
   for (const app of ['app', 'sat/app', 'act/app', 'gre/app', 'lsat/app']) {
     // A fresh context per app so nothing is inherited from the previous one. This has to

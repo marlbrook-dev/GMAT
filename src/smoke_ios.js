@@ -1,6 +1,6 @@
 // iOS standalone quality, checked against the built trainers.
 //
-//   CHROMIUM_PATH=/opt/pw-browsers/chromium-*/chrome-linux/chrome node src/smoke_ios.js
+//   node src/smoke_ios.js   (the browser is resolved by src/chromium_path.js)
 //
 // These are the properties that decide whether an installed web app reads as an app or
 // as a Safari bookmark. They are all one character away from regressing and none of them
@@ -15,6 +15,7 @@
 // whether the declarations Safari needs are present and correct, which is the part that
 // actually breaks.
 const { chromium } = require('playwright');
+const { chromiumPath } = require('./chromium_path.js');
 const http = require('http'), fs = require('fs'), p0 = require('path');
 const ROOT = p0.join(__dirname, '..');
 const T = {'.html':'text/html','.js':'text/javascript','.css':'text/css','.png':'image/png',
@@ -38,7 +39,7 @@ const APPS = ['app', 'sat/app', 'act/app', 'gre/app', 'lsat/app'];
   await new Promise(r => srv.listen(0, '127.0.0.1', r));
   const P = srv.address().port;
   const base = 'http://127.0.0.1:' + P;
-  const b = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH });
+  const b = await chromium.launch({ executablePath: chromiumPath() });
 
   // --- the manifest, once ----------------------------------------------------------
   {

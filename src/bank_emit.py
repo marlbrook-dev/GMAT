@@ -41,30 +41,99 @@ def permute(items):
 
 
 def extend(items, table, label='EXTEND'):
-    """Append an author supplied clause to one named distractor per item.
+    """Append author supplied clauses to named distractors.
 
-    The clause is matched by a substring of the choice so it survives permutation. Two
+    A table entry is either one (needle, clause) pair or a list of them, which is the
+    difference between nudging an item and placing it. One pair moves the key from
+    longest to second longest and no further, so a bank corrected a pair at a time ends
+    with its whole pile one position over, which is INC-0062 and is what happened on the
+    first two reading banks. A list says how many distractors to lift past the key, and
+    that number is what decides the key's rank, so the ranks can be spread rather than
+    shifted.
+
+    The clause is matched by a substring of the choice so it survives permutation. Three
     things are refused rather than warned about: a needle that matches no choice or more
-    than one, which means the table has gone stale, and a needle that matches the key,
-    which would make the tell worse rather than better.
+    than one, which means the table has gone stale; a needle that matches the key, which
+    would make the tell worse rather than better; and the same needle twice in one entry,
+    which silently lifts one distractor twice while the author believes two were lifted.
     """
     for it in items:
         ext = table.get(it['id'])
         if not ext:
             continue
-        needle, clause = ext
-        hits = [i for i, c in enumerate(it['choices']) if needle in c]
-        if len(hits) != 1:
-            sys.exit('%s %s: needle %r matched %d choices, not 1'
-                     % (label, it['id'], needle, len(hits)))
-        i = hits[0]
-        if i == it['answer']:
-            sys.exit('%s %s: the clause targets the key, which would worsen the tell'
-                     % (label, it['id']))
-        c = it['choices'][i]
-        dot = c.endswith('.')
-        it['choices'][i] = (c[:-1] if dot else c) + clause + ('.' if dot else '')
+        pairs = ext if isinstance(ext, list) else [ext]
+        seen = set()
+        for needle, clause in pairs:
+            if needle in seen:
+                sys.exit('%s %s: needle %r appears twice in one entry'
+                         % (label, it['id'], needle))
+            seen.add(needle)
+            hits = [i for i, c in enumerate(it['choices']) if needle in c]
+            if len(hits) != 1:
+                sys.exit('%s %s: needle %r matched %d choices, not 1'
+                         % (label, it['id'], needle, len(hits)))
+            i = hits[0]
+            if i == it['answer']:
+                sys.exit('%s %s: the clause targets the key, which would worsen the tell'
+                         % (label, it['id']))
+            c = it['choices'][i]
+            dot = c.endswith('.')
+            it['choices'][i] = (c[:-1] if dot else c) + clause + ('.' if dot else '')
     return items
+
+
+def check_lift(items, intent, label='LIFT'):
+    """Fail the run if a table's clauses did not actually carry the key where intended.
+
+    intent maps an item id to the number of distractors the tables lifted past its key,
+    which fixes the key's rank: lift three of four and the key is second shortest. The
+    clauses are sized by hand against a gap measured in an earlier run, and on the first
+    GMAT reading pass 31 of 65 were too short, so those items never moved while the
+    printed distribution still improved enough to look like the table had worked
+    (INC-0066). A clause that does nothing now names itself.
+    """
+    byid = {it['id']: it for it in items}
+    bad = []
+    for iid, n in sorted(intent.items()):
+        it = byid.get(iid)
+        if it is None:
+            sys.exit('%s: %s is not in the bank' % (label, iid))
+        L = [len(c) for c in it['choices']]
+        k = len(L)
+        want = k - 1 - n
+        got = sorted(range(k), key=lambda i: L[i]).index(it['answer'])
+        if got == want:
+            continue
+        key = L[it['answer']]
+        short = sorted(key - L[i] + 1 for i in range(k)
+                       if i != it['answer'] and L[i] <= key)
+        bad.append('  %s: lifted %d, so the key should sit at rank %d of %d; it sits at '
+                   '%d. Shortfalls: %s'
+                   % (iid, n, want + 1, k, got + 1,
+                      ', '.join('+%d' % v for v in short)))
+    if bad:
+        sys.exit('%s: %d of %d entries did not place the key where the table says.\n%s'
+                 % (label, len(bad), len(intent), '\n'.join(bad)))
+    print('  lift check   %d items placed as intended' % len(intent))
+    return items
+
+
+def rank_report(items):
+    """Per item: the key's length rank and what each distractor would need to pass it.
+
+    Written because authoring a clause blind produces a clause that is too short, the
+    item does not move, and the only symptom is a distribution that did not improve.
+    """
+    out = []
+    for it in items:
+        L = [len(c) for c in it['choices']]
+        k = L[it['answer']]
+        rank = sorted(range(len(L)), key=lambda i: L[i]).index(it['answer'])
+        need = [(k - L[i] + 1, it['choices'][i]) for i in range(len(L))
+                if i != it['answer']]
+        need.sort()
+        out.append({'id': it['id'], 'rank': rank, 'key_len': k, 'need': need})
+    return out
 
 
 def measure(items):

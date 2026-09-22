@@ -2,12 +2,13 @@
 // survives a reload, the shortlist written by /schools/ shows up on /apply/, and CSV
 // export produces a real download.
 const { chromium } = require('playwright');
+const { chromiumPath } = require('./chromium_path.js');
 const path = require('path');
 const ROOT = path.resolve(__dirname, '..');
 const url = p => 'file://' + path.join(ROOT, p);
 
 (async () => {
-  const b = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH });
+  const b = await chromium.launch({ executablePath: chromiumPath() });
   const p = await b.newPage({ viewport: { width: 1280, height: 900 } });
   const errs = [];
   p.on('pageerror', e => errs.push('pageerror: ' + e.message));

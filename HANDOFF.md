@@ -26,7 +26,7 @@ that makes the site worth less than the sum of its pages.
 
 | Trainer | Path | Items |
 |---|---|---|
-| GMAT Focus | `/app/` | 27,770 |
+| GMAT Focus | `/app/` | 27,914 |
 | ACT | `/act/app/` | 36,617 |
 | Digital SAT | `/sat/app/` | 16,996 |
 | GRE | `/gre/app/` | 19,888 |

@@ -14,6 +14,7 @@
 // path. A schema that cannot survive that round trip fails the build rather than the
 // student.
 const { chromium } = require('playwright');
+const { chromiumPath } = require('./chromium_path.js');
 const http = require('http');
 const fs = require('fs');
 const path0 = require('path');
@@ -39,7 +40,7 @@ const noise = t => /ERR_CERT_AUTHORITY_INVALID|fonts\.(googleapis|gstatic)\.com|
 (async () => {
   await new Promise(r => server.listen(0, '127.0.0.1', r));
   PORT = server.address().port;
-  const b = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH });
+  const b = await chromium.launch({ executablePath: chromiumPath() });
   let fail = 0, schemas = 0;
   const check = (name, ok, extra) => {
     if (!ok) { console.log('  FAIL: ' + name + (extra ? ' -> ' + extra : '')); fail++; }

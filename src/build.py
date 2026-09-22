@@ -5,7 +5,7 @@ import partials
 # One app per exam. Each entry names the source files that make up that exam's bank,
 # the concat expression the template uses to build BANK, and the trademark line for its footer.
 GMAT_BANKS = ["bank_quant.js","bank_quant2.js","bank_quant3.js","bank_quant4.js","bank_quant5.js","bank_quant6.js",
-              "bank_verbal.js","bank_verbal2.js","bank_verbal3.js","bank_verbal4.js","bank_verbal5.js","bank_verbal6.js","bank_verbal7.js","bank_verbal8.js",
+              "bank_verbal.js","bank_verbal2.js","bank_verbal3.js","bank_verbal4.js","bank_verbal5.js","bank_verbal6.js","bank_verbal7.js","bank_verbal8.js","bank_verbal9.js",
               "bank_di.js","bank_di2.js","bank_di3.js","bank_di4.js","bank_di5.js","bank_di6.js","bank_di7.js","bank_di8.js","bank_di9.js",
               "cards.js","cards2.js","cards3.js","playbook_gmat.js"]
 SAT_BANKS = ["bank_sat_rw.js","bank_sat_rw2.js","bank_sat_rw3.js","bank_sat_rw4.js","bank_sat_rw5.js","bank_sat_math.js","bank_sat_math2.js","bank_sat_math3.js","bank_sat_math4.js","bank_sat_math5.js","bank_sat_easy.js","cards_sat.js","cards_sat2.js","playbook_sat.js"]
@@ -20,7 +20,7 @@ ACT_BANKS = ["bank_act_english.js","bank_act_reading.js","bank_act_reading2.js",
 APPS = [
     {"exam": "gmat-focus", "out": "app", "gen": "gmat", "files": GMAT_BANKS,
      "concat": ("BANK_QUANT, BANK_QUANT2, BANK_QUANT3, BANK_QUANT4, BANK_QUANT5, BANK_QUANT6, "
-                "BANK_VERBAL, BANK_VERBAL2, BANK_VERBAL3, BANK_VERBAL4, BANK_VERBAL5, BANK_VERBAL6, BANK_VERBAL7, BANK_VERBAL8, "
+                "BANK_VERBAL, BANK_VERBAL2, BANK_VERBAL3, BANK_VERBAL4, BANK_VERBAL5, BANK_VERBAL6, BANK_VERBAL7, BANK_VERBAL8, BANK_VERBAL9, "
                 "BANK_DI, BANK_DI2, BANK_DI3, BANK_DI4, BANK_DI5, BANK_DI6, BANK_DI7, BANK_DI8, BANK_DI9"),
      "footer": ("GMAT is a registered trademark of the Graduate Management Admission Council (GMAC), which does not "
                 "endorse this product. Practice items are original and written for Start From Nowhere. Score bands "
@@ -230,6 +230,30 @@ if _blind:
     print("ERROR: the item counter is blind to a bank file, so the published count is "
           "short by however many items it holds.", file=sys.stderr)
     print("\n".join("  " + b for b in _blind), file=sys.stderr)
+    sys.exit(1)
+
+# Every file that launches Playwright resolves the browser through src/chromium_path.js.
+#
+# Reading process.env.CHROMIUM_PATH directly passes executablePath: undefined when the
+# variable is unset, which hands the decision back to Playwright, which is the case the
+# resolver exists to override. That is INC-0055, and it came back in the three suites the
+# fix did not touch, unnoticed for a week because CI installs the browser Playwright
+# expects and only the sandbox does not (INC-0067). Extracting a helper does not migrate
+# the callers, so the direct read fails the build instead.
+_launchers = sorted(p for p in d.glob("*.js")
+                    if "chromium.launch" in p.read_text(encoding="utf-8"))
+_direct = [p.name for p in _launchers
+           if "process.env.CHROMIUM_PATH" in p.read_text(encoding="utf-8")
+           or "chromiumPath()" not in p.read_text(encoding="utf-8")]
+if _direct:
+    print("ERROR: a Playwright launch does not go through chromiumPath() from "
+          "src/chromium_path.js, so it will resolve a browser that is not installed "
+          "wherever Playwright's own path is wrong.", file=sys.stderr)
+    print("\n".join("  " + n for n in _direct), file=sys.stderr)
+    sys.exit(1)
+if not _launchers:
+    print("ERROR: no file launches Playwright, so the browser suites are not being "
+          "found by the guard that checks how they launch.", file=sys.stderr)
     sys.exit(1)
 
 bank_count = hand_gmat + GEN_COUNT.get("gmat", 0)

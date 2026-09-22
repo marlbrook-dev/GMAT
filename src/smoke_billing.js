@@ -12,6 +12,7 @@
 // 2. The Account card tells the truth about money in every subscription state, and Cancel
 //    Plan is reachable whenever there is something to cancel.
 const { chromium } = require('playwright');
+const { chromiumPath } = require('./chromium_path.js');
 const path = require('path');
 const http = require('http');
 const fs = require('fs');
@@ -43,7 +44,7 @@ const noise = t => /ERR_CERT_AUTHORITY_INVALID|fonts\.(googleapis|gstatic)\.com|
 (async () => {
   await new Promise(r => server.listen(0, '127.0.0.1', r));
   PORT = server.address().port;
-  const b = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH });
+  const b = await chromium.launch({ executablePath: chromiumPath() });
   let fail = 0;
   const check = (name, ok, extra) => { console.log((ok ? '  ok: ' : '  FAIL: ') + name + (extra ? ' -> ' + extra : '')); if (!ok) fail++; };
 
