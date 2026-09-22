@@ -273,19 +273,49 @@ class GreatestPercentGain(LabelGen):
         c1, c2 = sorted(rng.sample(range(len(scen["cols"])), 2))
         scores = [100.0 * (r[c2] - r[c1]) / r[c1] for r in data]
         absol = [r[c2] - r[c1] for r in data]
-        win = max(range(len(scores)), key=lambda i: scores[i])
-        biggest = max(range(len(absol)), key=lambda i: absol[i])
-        stem = ("Which " + scen["rowlab"].lower() + " had the greatest percent increase in "
-                + scen["thing"] + " from " + scen["cols"][c1] + " to " + scen["cols"][c2] + "?")
-        expl = ("Percent increase is the change divided by the starting figure. "
+
+        # The direction is read off the data, never assumed. A table where every row fell
+        # cannot be asked about with the word increase: the maximum is then the least
+        # negative row and the question has no answer among its own choices, which is what
+        # shipped as ZM4859 (INC-0102). gt_change, ninety lines above, already did this.
+        rose = [i for i in range(len(scores)) if scores[i] > 0]
+        fell = [i for i in range(len(scores)) if scores[i] < 0]
+        if rose:
+            # Some row genuinely increased, so greatest increase is well defined even when
+            # other rows fell.
+            direction, word = "increase", "added"
+            win = max(range(len(scores)), key=lambda i: scores[i])
+            biggest = max(range(len(absol)), key=lambda i: absol[i])
+            rank_by = scores
+        elif fell:
+            # Nothing rose. Ask the question the table can answer.
+            direction, word = "decrease", "lost"
+            win = min(range(len(scores)), key=lambda i: scores[i])
+            biggest = min(range(len(absol)), key=lambda i: absol[i])
+            # LabelGen keys on the HIGHEST ranking score, so a fall has to be ranked by
+            # its magnitude; ranked raw, the key would be the row that fell LEAST while
+            # the stem asks which fell most.
+            rank_by = [-v for v in scores]
+        else:
+            raise ItemError("every row is unchanged, so neither direction is measurable")
+
+        stem = ("Which " + scen["rowlab"].lower() + " had the greatest percent " + direction
+                + " in " + scen["thing"] + " from " + scen["cols"][c1] + " to "
+                + scen["cols"][c2] + "?")
+        expl = ("Percent " + direction + " is the change divided by the starting figure. "
                 + "; ".join(scen["rows"][i] + " " + commas(data[i][c1]) + " to "
                             + commas(data[i][c2]) + ", about " + pct(scores[i])
                             for i in range(len(data)))
                 + ". " + scen["rows"][win] + " is the greatest.")
         trap = ("" if biggest == win else
-                scen["rows"][biggest] + " is the trap: it added the most " + scen["thing"]
-                + " in absolute terms, but from a larger base, so its percent increase is smaller.")
-        return scores, stem, expl, trap
+                scen["rows"][biggest] + " is the trap: it " + word + " the most "
+                + scen["thing"] + " in absolute terms, but from a larger base, so its "
+                "percent " + direction + " is smaller.")
+        # The explanation prints the real signed percentages; only the RANKING flips in
+        # the decrease case, and win is computed on the real scores, so this asserts the
+        # two still agree about which row the stem is asking for.
+        assert rank_by[win] == max(rank_by), "%s: stem and key disagree" % self.id
+        return rank_by, stem, expl, trap
 
 
 class GreatestTotal(LabelGen):
@@ -507,3 +537,60 @@ class RowGap(GTBase):
 
 GENS = [ShareOfColumn(), PercentChange(), GreatestPercentGain(), GreatestTotal(),
         RowRatio(), CountAbove(), RowAverage(), RowGap()]
+
+
+def check_directions(draws=600, choices_n=5):
+    """A ranking stem may only name a direction the table actually contains.
+
+    gt_leader_pct asks which row changed most between two columns. It used to write the
+    word increase into every stem regardless of the data, so a table in which every row
+    fell shipped as a question with no answer among its own choices: the key was the row
+    that declined least, and a student who noticed that nothing had increased was marked
+    wrong for being right (INC-0102, item ZM4859).
+
+    The check is on the RELATION between the stem and the table, because that is where
+    the defect lived. Both strings were individually well formed: a grammatical question
+    and an arithmetically correct explanation. So this reads the direction out of the
+    rendered stem and the signed percentages out of the rendered explanation, and refuses
+    any item whose stem claims a direction no row moved in. Reading the rendered item
+    rather than the generator's internals is deliberate: a check that asks the generator
+    what it meant cannot catch the generator meaning the wrong thing.
+    """
+    import random as _random
+    import re as _re
+    bad = []
+    gen = GreatestPercentGain()
+    built = 0
+    for seed in range(draws):
+        try:
+            item = gen.make(_random.Random(seed), choices_n)
+        except ItemError:
+            continue
+        built += 1
+        where = "gt_leader_pct seed %d" % seed
+        stem = item["stem"]
+        pcts = [float(x) for x in _re.findall(r"about (-?[\d.]+)", item["expl"])]
+        if not pcts:
+            bad.append("%s: explanation prints no percentages to check the stem against"
+                       % where)
+            continue
+        if "percent increase" in stem and not any(p > 0 for p in pcts):
+            bad.append("%s: stem asks for the greatest percent increase and no row rose "
+                       "(%s)" % (where, ", ".join("%.0f" % p for p in pcts)))
+        if "percent decrease" in stem and not any(p < 0 for p in pcts):
+            bad.append("%s: stem asks for the greatest percent decrease and no row fell "
+                       "(%s)" % (where, ", ".join("%.0f" % p for p in pcts)))
+        # The key must also be the row the stem points at, which is the half that the
+        # ranking flip could silently get wrong.
+        key = item["choices"][item["answer"]]
+        want = max(pcts) if "percent increase" in stem else min(pcts)
+        named = _re.search(r"([A-Z][A-Za-z' -]+) is the greatest", item["expl"])
+        if named and named.group(1).strip() != key:
+            bad.append("%s: the explanation names %s and the key is %s"
+                       % (where, named.group(1).strip(), key))
+        if abs(want) < 1e-9:
+            bad.append("%s: the winning change is zero, which is neither direction"
+                       % where)
+    if not built:
+        bad.append("check_directions built no items, so it checked nothing")
+    return bad
