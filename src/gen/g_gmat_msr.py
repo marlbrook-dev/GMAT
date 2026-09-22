@@ -75,13 +75,21 @@ def make_cases(rng, pol, n):
     weeks = rng.choice([6, 8, 10, 12])
     special = pol["rooms"][2][0]            # the option the approval rule attaches to
     cases = []
-    # One case must be clean and at least one must fail on the approval rule, or the
-    # "which single change" question has nothing to bite on.
-    plan = [set()] + [set(rng.sample(["cap", "notice", "approve", "weeks"],
-                                     rng.choice([1, 1, 2]))) for _ in range(n - 1)]
+    # At least one case must be clean and at least one must fail on the approval rule, or
+    # the "which single change" question has nothing to bite on. How many are clean is
+    # drawn rather than left at one: with exactly one clean case the answer to "how many
+    # comply" was 1 on 98 percent of the items this file produced, and a student who
+    # always answered 1 scored 98 without reading a source (INC-0081).
+    clean = rng.randint(1, max(1, n - 2))
+    plan = [set() for _ in range(clean)] + [
+        set(rng.sample(["cap", "notice", "approve", "weeks"], rng.choice([1, 1, 2])))
+        for _ in range(n - clean)]
     rng.shuffle(plan)
     if not any("approve" in p for p in plan):
-        plan[rng.randrange(len(plan))] = {"approve"}
+        # Replace a case that already fails something, not any case at random: taking a
+        # clean one puts the compliant count back where it was drawn from (INC-0081).
+        dirty = [i for i, p in enumerate(plan) if p]
+        plan[rng.choice(dirty) if dirty else rng.randrange(len(plan))] = {"approve"}
     for i, broken in enumerate(plan):
         if "approve" in broken:
             room, cap = pol["rooms"][2]
@@ -177,7 +185,26 @@ class CountCompliant(MSRBase):
                      (onlycap, "treating a failure on any rule other than the limit as acceptable"),
                      (ans + 1, "an off by one count"),
                      (max(0, ans - 1), "an off by one count in the other direction"),
-                     (len(cases), "assuming every " + pol["unit"] + " listed is acceptable")]:
+                     # Everything above relaxes a condition, so every candidate is at
+                     # least the answer and the key was the smallest value on 93 percent
+                     # of this schema's items (INC-0079). These two are stricter readings
+                     # rather than looser ones, which is the side the pool had nothing on.
+                     (sum(1 for c in cases if not c["bad"] and c["size"] < c["cap"]),
+                      "reading the limit as one the " + pol["unit"]
+                      + " has to stay under rather than one it may reach"),
+                     (sum(1 for c in cases if len(c["bad"]) == 0) - sum(
+                         1 for c in cases if len(c["bad"]) > 1),
+                      "subtracting the " + pol["unit"]
+                      + "s that fail on more than one condition, which have already been "
+                        "left out"),
+                     (len(cases), "assuming every " + pol["unit"] + " listed is acceptable"),
+                     # Counts two either side and zero. Without them a draw where three
+                     # rows comply cannot field four distinct wrong counts and is dropped,
+                     # which quietly selected the bank back toward an answer of one
+                     # (INC-0081).
+                     (ans + 2, "a miscount of two in the same direction"),
+                     (max(0, ans - 2), "a miscount of two in the other direction"),
+                     (0, "concluding that none of them complies")]:
             if v != ans and 0 <= v <= len(cases):
                 cands.append((float(v), w))
         return dict(

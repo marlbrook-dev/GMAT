@@ -1,14 +1,14 @@
 # Rules Digest
 
-73 defects from a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
+81 defects from a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
 
-Generated 2026-09-22 from a ledger spanning 36 days and 77 commits.
+Generated 2026-09-22 from a ledger spanning 36 days and 82 commits.
 
 ## Read this first
 
-The three ways defects were most often found, in order: found by reading the code or the output (30), found by measuring something (20), a test caught it (11). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
+The three ways defects were most often found, in order: found by reading the code or the output (35), found by measuring something (22), a test caught it (12). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
 
-The dominant failure mode is silent loss, 19 of 73: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
+The dominant failure mode is silent loss, 19 of 81: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
 
 ## Content generation
 
@@ -28,6 +28,12 @@ The dominant failure mode is silent loss, 19 of 73: something quietly did less t
 - A report that truncates its output invites the reader to write text that continues it, and a tool that appends will put that text somewhere else. Either the report should not truncate the field the caller has to write against, or the tool should refuse input shaped like a continuation. The cheap half is the refusal, because it is one condition and it cannot be forgotten, while remembering not to write continuations is a habit that has to hold every time.
 - A record has parts that refer to one another, and a tool that edits one part by text is editing a graph while looking at a string. The cheap guard is not to check every reference but to refuse the edit when the old text occurs anywhere else in the record, because that is the only place a reference to it can be. Refusing on a false positive costs one rewritten table entry; not refusing ships an explanation about an option nobody saw.
 - A guard that takes the intent as an argument is only as good as the argument, and an argument derived by hand from the same data the guard is checking is a second implementation of the thing being checked. It fails in the direction that is hardest to see: too high an intent demands a rank the clauses cannot reach, and the author satisfies it by writing more clauses than the plan called for, which skews the distribution the other way while every check passes. Derive the intent from the data with the code that already reads it.
+- A corpus field is written against the one sentence the author had in mind, and the schema that reuses it three templates later has no way to know which shape it is. The type system says str in both places. Two things follow. Store the field in every shape a template needs and name the shapes, rather than storing one shape and trusting the next author to notice. And guard the output, not the corpus: the generated sentence is the only place the mismatch becomes visible, and a cheap pattern over the rendered text catches a class that no check on the inputs can see.
+- A guard written from the instance in front of you covers that instance. INC-0074 was a bare infinitive in a noun slot, so the guard looked for bare infinitives, and the sentence one screen away in the same file was a wh clause in a clause slot and went straight through. The general defect was never the infinitive; it was that a corpus field carries no record of the grammatical shape it was written in, and any template may reuse it. So the guard has to be stated over the class, every field against every slot, not over the token that happened to be wrong first. The other half of this is where it was found: the distractor version was spotted first because it is louder, and the version in the key, which is three times as damaging, was found only because the first one prompted a second look. Reading one rendered item per schema would have caught both on the day they were written, and costs less than either fix.
+- A standard library function whose name is a plausible description of half of what it does will be used for that half. capitalize() reads as "make this the start of a sentence" and is in fact "make this the start of a sentence and flatten everything else", and the damage is invisible until a value happens to contain a capital. The guard is not a test that the output looks right, because the output looked right for every value that had no name in it. The guard is to ban the function: the correct one is three characters of slicing, the wrong one is never what a generator wants, and a lint catches it in the diff rather than in the bank.
+- Presentation rules travel with the value, and a value formatted at the point of use is formatted by whoever was writing that line. Eight schemas each wrote the same two characters and all eight omitted the same exception, which is not eight mistakes but one missing function. The give away is the shape of the defect: identical output in unrelated files means the knowledge was never in one place. The check that catches it cannot be on the arithmetic, because the arithmetic was always right, so it has to be on the rendered string.
+- A check is scoped to a grain, and the grain is a claim about where a defect can live. INC-0069 moved the grain from the section to the file for hand written banks and stopped there, so the same defect went on living one level down in generated ones, where there are far more items. When a check finds something by being made finer, the question to ask immediately is what else is measured at the old grain. The second half is about which populations a check can see: this one ran on what the test harness loads, which is a sample chosen for a different purpose, and a sample chosen for a different purpose is not a population you can make claims about.
+- Every guard here measured the answer's place in its set, and a set of guards that all take the same kind of measurement shares a blind spot the size of everything else. The tell they could not see was the simplest one a student would find: the answer is the same answer. When adding the third check of a kind, the question worth asking is not whether it is stricter than the other two but what all three have in common, because that is what is going unmeasured.
 
 ## Tests and guards
 
@@ -47,6 +53,7 @@ The dominant failure mode is silent loss, 19 of 73: something quietly did less t
 - A metric that moves against you when the product improves will eventually be used to justify reverting an improvement. When a number goes the wrong way after a change that should only have helped, measure the underlying thing directly before believing either the number or your own explanation of it. Never redefine the metric in the same change that made it look bad.
 - An aggregate is a claim about whatever you grouped by. Group by the file and you have measured the file. State the grouping in the sentence that reports the result, and the overclaim becomes visible while you are writing it.
 - Extracting a shared helper does not migrate the callers. The extraction fixes the file it was extracted from and leaves every sibling on the old path, which is INC-0059 and INC-0064 in a different costume: a correction applied to the instances in hand rather than to the pattern. Three suites had failed visibly and ten were wrong; the seven silent ones were found by the guard, not by reading. When a helper exists because a direct call was wrong, make the direct call fail the build, and let it enumerate the callers rather than enumerating them by hand.
+- A check that reports pass or fail from a handful of random draws is a check that will flip on work that has nothing to do with it, and the cost is not the false alarm. It is that the next real alarm arrives in a tool people have learned to shrug at. Before believing or dismissing a warning, run the thing it measures enough times to know its rate: that answers both whether this alarm is real and whether the check is worth keeping in its current form. Here the answer was that the engine was fine and the check was wrong, and both were worth knowing.
 
 ## Front end
 
@@ -83,6 +90,14 @@ The dominant failure mode is silent loss, 19 of 73: something quietly did less t
 - Know your platform's hard limits and assert them in the build. A deploy-time rejection is a bad place to learn a number your build could have told you.
 - A guard that is a hand-kept list of safe paths is written by the same hand that made the mistake. Derive the safe set from the artefact, not from memory.
 
+## Build system
+
+- A regex that counts things assumes a formatting convention, and a file that legitimately breaks the convention counts as zero rather than as an error. Any counter that can return zero for a non-empty input needs a per-source assertion, not just a total.
+- A parse guard covers the file shapes someone thought of. When the same code moves into a new shape, a separate file, a chunk, a worker, the guard does not follow it. List what the guard covers against what the deploy actually ships, and check the difference rather than the intention.
+- A guard keyed to wording is a guard on the wording, not the fact, and every synonym is a hole in it. Widening the wording is the obvious repair and it trades missed defects for false alarms, which cost more because they get the guard switched off. Match a phrase that only the thing you care about can produce, rather than every word it might happen to use.
+- A guard that covers a subset of cases reproduces the original defect in the cases it skips, and it is more dangerous than no guard because the incident it was written for feels closed. When you add a check, enumerate everything of that kind and cover all of it, or state in the code which cases are deliberately excluded and why.
+- Two habits, both mine rather than the code's. Verify with the sequence the pipeline runs, read out of its config, not with the subset you remember: a suite chosen from memory drifts to the parts that were failing last week. And when a step is deliberately non fatal, the word it fails with is the whole of its signal, so it has to be the word people grep for. WARNING on a line that means a deliverable did not build is an invitation to miss it, and the cost of saying ERROR while still exiting zero is nothing at all.
+
 ## Scoring and selection
 
 - If your system branches on difficulty, measure that the branches actually differ. A label is not a property.
@@ -96,13 +111,6 @@ The dominant failure mode is silent loss, 19 of 73: something quietly did less t
 - UPDATE OF is a statement-shape filter, not a change filter. If you need 'when this value changed', compare OLD and NEW yourself.
 - In Postgres, revoking from every role you can name still leaves PUBLIC. Verify with the advisors or by reading the acl, never by reading your own migration.
 - An empty catch block around a write is a silent-loss defect waiting to be born. If a save can fail, the person must be told; a success toast that fires regardless of the result is worse than no toast, because it actively teaches the user the data is safe. And where two layers of authorisation have to agree, something has to compare them: the one that is wrong will not announce itself.
-
-## Build system
-
-- A regex that counts things assumes a formatting convention, and a file that legitimately breaks the convention counts as zero rather than as an error. Any counter that can return zero for a non-empty input needs a per-source assertion, not just a total.
-- A parse guard covers the file shapes someone thought of. When the same code moves into a new shape, a separate file, a chunk, a worker, the guard does not follow it. List what the guard covers against what the deploy actually ships, and check the difference rather than the intention.
-- A guard keyed to wording is a guard on the wording, not the fact, and every synonym is a hole in it. Widening the wording is the obvious repair and it trades missed defects for false alarms, which cost more because they get the guard switched off. Match a phrase that only the thing you care about can produce, rather than every word it might happen to use.
-- A guard that covers a subset of cases reproduces the original defect in the cases it skips, and it is more dangerous than no guard because the incident it was written for feels closed. When you add a check, enumerate everything of that kind and cover all of it, or state in the code which cases are deliberately excluded and why.
 
 ## Search and metadata
 

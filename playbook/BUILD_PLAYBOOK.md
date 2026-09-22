@@ -7,10 +7,10 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-08-17 and 2026-09-22, which is 36 days, across
-77 commits, by one owner directing a series of AI coding sessions. As of this
-build it is 50 Python files, 100 JavaScript files, 24
+82 commits, by one owner directing a series of AI coding sessions. As of this
+build it is 51 Python files, 101 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 63 documents:
-1973 tracked files in total.
+1975 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -640,7 +640,7 @@ it is the difference between a product people trust and one they catch out.
 
 # Content at Scale, Without Lying About It
 
-This platform ships over a hundred thousand practice items across 53 bank
+This platform ships over a hundred thousand practice items across 54 bank
 files. Almost all are generated. The chapter is about how to do that without producing a
 number that is technically true and substantively false.
 
@@ -1118,7 +1118,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-77 commits in 36 days, one owner, a series of AI sessions. This
+82 commits in 36 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1210,22 +1210,22 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-73 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+81 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 30 | 41% |
-| Found by measuring something | 20 | 27% |
-| A test caught it | 11 | 15% |
-| Found by rendering it and looking | 5 | 7% |
-| Found by a review bot or an adversarial pass | 5 | 7% |
+| Found by reading the code or the output | 35 | 43% |
+| Found by measuring something | 22 | 27% |
+| A test caught it | 12 | 15% |
+| Found by rendering it and looking | 5 | 6% |
+| Found by a review bot or an adversarial pass | 5 | 6% |
 | A person hit it | 1 | 1% |
 | A build guard caught it | 1 | 1% |
 
-**This is the most useful table in the book.** 72 of 73 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 80 of 81 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1234,35 +1234,35 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 26 |
+| Wrong data shown or stored | 32 |
 | Silent loss | 19 |
-| Degraded | 15 |
-| Cosmetic | 10 |
+| Degraded | 16 |
+| Cosmetic | 11 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 19 of 73. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 19 of 81. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 16 |
-| Tests and guards | 16 |
+| Content generation | 22 |
+| Tests and guards | 17 |
 | Front end | 8 |
 | CSS and layout | 5 |
 | Payments | 5 |
 | Infrastructure and deploy | 5 |
+| Build system | 5 |
 | Scoring and selection | 4 |
 | Database | 4 |
-| Build system | 4 |
 | Search and metadata | 3 |
 | Interface and data display | 3 |
 
 
 ## Guard coverage
 
-67 of 73 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+75 of 81 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1285,14 +1285,15 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 Files named by three or more incidents. This is not the same signal as the list above: a file that is the natural home for many checks will appear here without any one of them having failed. It says where the work has been, and where a reader new to the codebase should look first.
 
-- `src/build.py`, 9 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067)
+- `src/build.py`, 11 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067, INC-0076, INC-0080)
+- `src/build_banks.py`, 7 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011, INC-0079, INC-0081)
 - `src/test.js`, 7 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069)
-- `src/build_banks.py`, 5 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011)
-- `src/review_bot.js`, 4 incidents (INC-0022, INC-0026, INC-0051, INC-0061)
+- `src/review_bot.js`, 5 incidents (INC-0022, INC-0026, INC-0051, INC-0061, INC-0077)
 - `src/bank_emit.py`, 4 incidents (INC-0062, INC-0066, INC-0068, INC-0073)
 - `src/weekly_audit.js`, 3 incidents (INC-0050, INC-0048, INC-0018)
 - `src/smoke_redirect.js`, 3 incidents (INC-0023, INC-0024, INC-0047)
 - `src/bank_repair.py`, 3 incidents (INC-0070, INC-0071, INC-0072)
+- `src/gen/framework.py`, 3 incidents (INC-0074, INC-0075, INC-0078)
 
 
 # The Defect Ledger
@@ -1302,7 +1303,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (16)
+## Content generation (22)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -1506,7 +1507,79 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** A guard that takes the intent as an argument is only as good as the argument, and an argument derived by hand from the same data the guard is checking is a second implementation of the thing being checked. It fails in the direction that is hardest to see: too high an intent demands a rank the clauses cannot reach, and the author satisfies it by writing more clauses than the plan called for, which skews the distribution the other way while every check passes. Derive the intent from the data with the code that already reads it.
 
 
-## Tests and guards (16)
+### INC-0074. A corpus field written for one grammatical slot was spliced into another
+
+*2026-09-22, Wrong data shown or stored*
+
+- **What was seen.** 160 of the 833 shipped GMAT v_pc items, 19 percent, offer a choice like "That shorten the time taken to settle a claim is the most urgent of the problems facing Calloway Insurance." It is not English. A student reading it can strike it out without considering the argument, which is a free elimination on a five choice item and makes the item easier than the rating it carries.
+- **Why.** A PLAN scenario stores goal as a bare infinitive phrase, because the stem it was written for reads "X intends to <goal>". Two other templates splice the same field after "has tried to", where a bare infinitive is also right. One splices it into a subject position, "That <goal> is the most urgent of the problems facing X", where English wants a gerund or a noun phrase. The field is correct; the slot it was reused in is not, and nothing connected the two.
+- **How it surfaced.** Reading the output of PlanAssume while counting the PLAN corpus in order to widen it. The category had been short since it was written and the shortfall was the reason to look. (Found by reading the code or the output)
+- **Fix.** Every PLAN scenario gains goal_np, the same goal as a noun phrase, and the subject slot uses it. The bare infinitive stays where a bare infinitive belongs.
+- **What stops it now.** framework.verify rejects a stem or choice where That or Whether is followed directly by a bare infinitive, which is what splicing an infinitive goal into a noun slot produces in `src/gen/framework.py`
+- **Lesson.** A corpus field is written against the one sentence the author had in mind, and the schema that reuses it three templates later has no way to know which shape it is. The type system says str in both places. Two things follow. Store the field in every shape a template needs and name the shapes, rather than storing one shape and trusting the next author to notice. And guard the output, not the corpus: the generated sentence is the only place the mismatch becomes visible, and a cheap pattern over the rendered text catches a class that no check on the inputs can see.
+
+
+### INC-0075. Every correct answer on one GMAT schema was ungrammatical, and the guard written an hour earlier could not see it
+
+*2026-09-22, Wrong data shown or stored*
+
+- **What was seen.** All 277 shipped cr_plan_eval items, a third of the GMAT Plan and Construct category, have a key reading "Whether what share of the traffic on Bridge Street stops there at all is what the measure would change." Every one of the eight scenarios produces one, across all six wh words. The student is asked to choose between four fluent distractors and one sentence that is not English, so the item is answerable without reading the argument and is rated as though it were not.
+- **Why.** The same class as INC-0074 and the same corpus: check is stored as a wh clause because the explanation reads "Establish <check>, and one answer means ...". A second template put it after "Whether" and before "is what the measure would change", where a wh clause cannot go. INC-0074 was the same mistake with the goal field, found in the same reading, and the guard written for it tests for an infinitive after That or Whether. check is not an infinitive, so the guard passed it.
+- **How it surfaced.** Rendering one item of each plan schema to read the output, immediately after fixing INC-0074 in the schema next to it. (Found by reading the code or the output)
+- **Fix.** check is rewritten in all scenarios as a clause that reads after "Whether", the trailing "is what the measure would change" is dropped, and the explanation says "Establish whether". The guard is widened from infinitives to any corpus field spliced after That or Whether that does not read as a clause there, and it now runs over the key as well as the distractors.
+- **What stops it now.** framework.check_clause_splice refuses a rendered sentence whose That or Whether is followed by a corpus field stored for another slot, tested for every plan field rather than for goal alone in `src/gen/framework.py`
+- **Lesson.** A guard written from the instance in front of you covers that instance. INC-0074 was a bare infinitive in a noun slot, so the guard looked for bare infinitives, and the sentence one screen away in the same file was a wh clause in a clause slot and went straight through. The general defect was never the infinitive; it was that a corpus field carries no record of the grammatical shape it was written in, and any template may reuse it. So the guard has to be stated over the class, every field against every slot, not over the token that happened to be wrong first. The other half of this is where it was found: the distractor version was spotted first because it is louder, and the version in the key, which is three times as damaging, was found only because the first one prompted a second look. Reading one rendered item per schema would have caught both on the day they were written, and costs less than either fix.
+
+
+### INC-0076. str.capitalize() lowercased the rest of the sentence, and took the proper nouns with it
+
+*2026-09-22, Wrong data shown or stored*
+
+- **What was seen.** 180 shipped generated items render a proper noun in lower case. 70 of them carry it in the correct answer: "The fenwick track is the only one in the county, so every competitive runner trains there whether they win or not" and "The halloran fund supplies the starting grant for nearly all of the laboratory's work". The stem two lines above spells both correctly, so the item contradicts itself on the page and the key is the choice that looks wrong.
+- **Why.** Python's str.capitalize() is not what its name suggests to a reader in a hurry. It uppercases the first character and lower cases every other one. The generators use it twenty one times to render a stored fragment as the start of a sentence, which is right for a fragment of ordinary prose and wrong for any fragment containing a name. Four corpus fields contain one.
+- **How it surfaced.** Reading one rendered item from each of the five schemas in a category before widening its corpus, which is the practice INC-0075 ended with. (Found by reading the code or the output)
+- **Fix.** framework.upfirst raises the first character and touches nothing else, and every call site uses it. The four affected fields need no change, which is the point: the fragment was always correct and the renderer was destroying it.
+- **What stops it now.** src/build.py fails if str.capitalize() appears anywhere under src/gen, the same way it fails on an em dash in `src/build.py`
+- **Lesson.** A standard library function whose name is a plausible description of half of what it does will be used for that half. capitalize() reads as "make this the start of a sentence" and is in fact "make this the start of a sentence and flatten everything else", and the damage is invisible until a value happens to contain a capital. The guard is not a test that the output looks right, because the output looked right for every value that had no name in it. The guard is to ban the function: the correct one is three characters of slicing, the wrong one is never what a generator wants, and a lint catches it in the diff rather than in the bank.
+
+
+### INC-0078. A coefficient of one was printed as 1x on 2,353 shipped items
+
+*2026-09-22, Wrong data shown or stored*
+
+- **What was seen.** 2,353 items across eight schemas and every exam that remaps them read "x squared - 1x - 30 = 0", "5(x - 7) = 1x - 6" and "2x + 3y = 10 and 1x + 5y = 12". The arithmetic is right and the key is right. The notation is not how anyone writes algebra, and on a test preparation product it tells the student the question was produced by a machine that does not know the convention.
+- **Why.** Every schema that draws a coefficient formats the term itself, as the number followed by the variable. That is correct for every value except one and minus one, which are written as the bare variable. The rule is a convention of notation rather than of arithmetic, so no computation check could see it, and it was reimplemented at each of the sites that needed it, each time without the exception.
+- **How it surfaced.** Reading one rendered item from each of the five schemas in the last category still under target, before widening them. (Found by reading the code or the output)
+- **Fix.** framework.term renders a coefficient and a variable together and is the only place that knows the convention. Every site that built the string itself now calls it.
+- **What stops it now.** framework checks its own rendered stems for a unit coefficient and drops the item, so a new schema that formats a term by hand fails rather than ships in `src/gen/framework.py`
+- **Lesson.** Presentation rules travel with the value, and a value formatted at the point of use is formatted by whoever was writing that line. Eight schemas each wrote the same two characters and all eight omitted the same exception, which is not eight mistakes but one missing function. The give away is the shape of the defect: identical output in unrelated files means the knowledge was never in one place. The check that catches it cannot be on the arithmetic, because the arithmetic was always right, so it has to be on the rendered string.
+
+
+### INC-0079. A generated schema was playable at 100 percent by picking the third shortest option, and no check looked at generated schemas
+
+*2026-09-22, Wrong data shown or stored*
+
+- **What was seen.** A student who always picks the third shortest option answers 861 of 861 sat_rw_apostrophe items correctly, and another 887 through the ACT remap, without reading a word. It is the largest single schema in Standard English Conventions on two exams. Measuring the rest found 39 of 92 generated schemas over the 1.8 times chance cap on one of the three figures, among them cr_plan_eval at 98 percent on one rank over 1,117 items, act_kol_redundancy at 100, act_s_changed at 97 percent shortest, and cr_plan_weaken at 65 percent longest.
+- **Why.** INC-0069 added a length bias check per hand written source file, because a section figure hid a file at 88 percent. The same argument applies one level down and was not followed there. Generated items are checked only at the section level, and the section check runs on what the harness loads, which is the hand written banks plus the strided starter slice, so a schema contributes a few dozen items to a figure covering hundreds. The apostrophe schema is worse than an accident of drafting: its four choices are the four forms of one noun, and for a regular noun those forms are ordered by length by construction, so the key sits at the same rank on every item the schema can produce.
+- **How it surfaced.** Widening five schemas failed the SAT Math ratchet, and measuring every generated schema to see whether that failure was real turned up the rest. (Found by measuring something)
+- **Fix.** build_banks measures every generated schema over the whole bank rather than the starter, against a recorded table that can only come down. The apostrophe schema gains nouns whose plural is not the singular plus one character, so the four forms are no longer length ordered.
+- **What stops it now.** build_banks fails on a generated schema over its recorded length bias, measured across the full bank per schema and per exam in `src/build_banks.py`
+- **Lesson.** A check is scoped to a grain, and the grain is a claim about where a defect can live. INC-0069 moved the grain from the section to the file for hand written banks and stopped there, so the same defect went on living one level down in generated ones, where there are far more items. When a check finds something by being made finer, the question to ask immediately is what else is measured at the old grain. The second half is about which populations a check can see: this one ran on what the test harness loads, which is a sample chosen for a different purpose, and a sample chosen for a different purpose is not a population you can make claims about.
+
+
+### INC-0081. A student who always answers 1 scores 98 percent on a schema, and no check looked at the answer itself
+
+*2026-09-22, Wrong data shown or stored*
+
+- **What was seen.** msr_count ships 1,867 items and the correct answer is 1 on 98 percent of them: the case sets it builds almost always contain exactly one compliant row. act_s_trend ships 820 and the answer is the rising option on 76 percent, because the studies it draws trend upward three times in four. gt_count is at 47 percent on 1, and three Data Sufficiency schemas sit at 42 to 45 percent on one of their five fixed statements against a chance rate of 20.
+- **Why.** Three checks look at where the answer sits: the position among the choices, the length rank, and for numeric items the value rank. All three are about the answer's place in the set it was shown in. None looks at the answer itself. A schema whose parameters happen to produce the same answer over and over passes every one of them, because the answer moves around the choices perfectly well; it is only always the same answer.
+- **How it surfaced.** Dumping a dozen msr_count items to work out why its value rank would not move after two new distractors, and noticing that every key was 1. (Found by reading the code or the output)
+- **Fix.** build_banks measures the most common single answer value per schema and refuses one over its recorded figure, alongside the three place based figures. make_cases draws how many rows comply rather than leaving it to fall out of the violation draw, and the science studies draw their direction evenly.
+- **What stops it now.** build_banks records and ratchets the most common single answer value per schema, which is the first check on what the answer is rather than on where it sits in `src/build_banks.py`
+- **Lesson.** Every guard here measured the answer's place in its set, and a set of guards that all take the same kind of measurement shares a blind spot the size of everything else. The tell they could not see was the simplest one a student would find: the answer is the same answer. When adding the third check of a kind, the question worth asking is not whether it is stricter than the other two but what all three have in common, because that is what is going unmeasured.
+
+
+## Tests and guards (17)
 
 
 ### INC-0016. The performance test waited for the load event, which waits for the thing being optimised
@@ -1714,6 +1787,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** All ten browser suites and playbook_pdf.js now call chromiumPath() from src/chromium_path.js. A check in src/build.py fails the build if any file that launches Playwright does not, and on its first run it named six suites beyond the three the failure had surfaced, plus four more that a grep written from its output then found.
 - **What stops it now.** the build refuses a Playwright launch that reads CHROMIUM_PATH instead of calling chromiumPath() in `src/build.py`
 - **Lesson.** Extracting a shared helper does not migrate the callers. The extraction fixes the file it was extracted from and leaves every sibling on the old path, which is INC-0059 and INC-0064 in a different costume: a correction applied to the instances in hand rather than to the pattern. Three suites had failed visibly and ten were wrong; the seven silent ones were found by the guard, not by reading. When a helper exists because a direct call was wrong, make the direct call fail the build, and let it enumerate the callers rather than enumerating them by hand.
+
+
+### INC-0077. A review bot check whose verdict was three coin flips warned on an unrelated bank change
+
+*2026-09-22, Cosmetic*
+
+- **What was seen.** Widening two GMAT critical reasoning corpora turned the bot's planted weakness check from ok to warn: 2 of 3 sections correctly identified as weakest. Nothing about the diagnosis had changed. The bot threads one seeded generator through every check in an exam, so more items meant the earlier checks consumed a different number of draws and the planted weakness test started from a different point in the stream.
+- **Why.** The check sat one simulated student per section, three sittings in total, and reported a pass only if all three came out right. Measured over 60 independent seeds the diagnosis is right on 179 of 180 sittings, so at three sittings the check warns on roughly three percent of seeds by sampling alone. Every other check in the bot already averages over 25 sittings; this one did not, and its verdict was therefore a property of the seed as much as of the engine.
+- **How it surfaced.** The warning appeared on a change that could not plausibly have caused it, so the check was measured across seeds instead of being believed or dismissed. (Found by measuring something)
+- **Fix.** The check sits five students per section and reports the rate, passing at 90 percent or better and failing below half. The threshold is stated against the measured 99 percent so the margin is visible rather than implied.
+- **What stops it now.** the planted weakness check reports a rate over 15 sittings rather than a verdict over 3 in `src/review_bot.js`
+- **Lesson.** A check that reports pass or fail from a handful of random draws is a check that will flip on work that has nothing to do with it, and the cost is not the false alarm. It is that the next real alarm arrives in a tool people have learned to shrug at. Before believing or dismissing a warning, run the thing it measures enough times to know its rate: that answers both whether this alarm is real and whether the check is worth keeping in its current form. Here the answer was that the engine was fine and the check was wrong, and both were worth knowing.
 
 
 ## Front end (8)
@@ -2027,6 +2112,73 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** A guard that is a hand-kept list of safe paths is written by the same hand that made the mistake. Derive the safe set from the artefact, not from memory.
 
 
+## Build system (5)
+
+
+### INC-0059. The item counter missed a whole bank file because it assumed a quoting style
+
+*2026-09-22, Silent loss, PR #65*
+
+- **What was seen.** A new bank added 35 items and the build reported the exam's total unchanged at 65. The engine tests, which load the bank for real, saw all 100.
+- **Why.** The count is a regex over the concatenated source looking for an id in single quotes. The new file emits JSON escaped strings, so its ids are double quoted and none of them matched. Nothing compared the regex count to the number of items that actually load.
+- **How it surfaced.** Noticing that the build summary and the test output disagreed about the same bank. (Found by measuring something)
+- **Fix.** Accept either quoting style, and assert that every bank file listed for an exam contributes at least one counted item, so a file the pattern cannot see fails the build instead of counting zero.
+- **What stops it now.** per-file contribution assertion in the bank counter in `src/build.py`
+- **Cost.** a published item count 35 short, and a guard that would have kept getting quieter
+- **Lesson.** A regex that counts things assumes a formatting convention, and a file that legitimately breaks the convention counts as zero rather than as an error. Any counter that can return zero for a non-empty input needs a per-source assertion, not just a total.
+
+
+### INC-0060. Nothing parsed the one file every user downloads
+
+*2026-09-22, Site down, PR #65*
+
+- **What was seen.** None shipped. A bank file with a syntax error built cleanly and the build exited zero, leaving invalid JavaScript in the bank the trainer loads on every visit.
+- **Why.** The build parses every inline script in every built page, a guard added after an unescaped quote took the whole trainer down at parse time. The item bank is not an inline script. It ships as a separate file and was never in the list, so the largest generated artefact on the site was the one thing the parser never saw.
+- **How it surfaced.** Deliberately breaking a bank file to test an unrelated guard, and noticing the build passed. (Found by a review bot or an adversarial pass)
+- **Fix.** Parse every built bank file and every chunk of it, alongside the pages.
+- **What stops it now.** the build node-parses each built bank and chunk in `src/build.py`
+- **Cost.** would have broken every trainer on the next bank edit
+- **Lesson.** A parse guard covers the file shapes someone thought of. When the same code moves into a new shape, a separate file, a chunk, a worker, the guard does not follow it. List what the guard covers against what the deploy actually ships, and check the difference rather than the intention.
+
+
+### INC-0063. The stale count guard checked two nouns and the page used a third
+
+*2026-09-22, Wrong data shown or stored, PR #67*
+
+- **What was seen.** llms.txt told every model that reads it the LSAT bank holds 65 questions. It held 142. The build's count guard passed the file.
+- **Why.** The guard matches a number followed by original or flashcards. The LSAT line was phrased as 65 questions today, deliberately, because the number was small and the page said so plainly. The phrasing that made the sentence honest is what put it outside the pattern.
+- **How it surfaced.** Reading the file while fixing a different count the guard did catch, then watching the widened guard flag a correct sourced figure. (Found by reading the code or the output)
+- **Fix.** Match a second, unambiguous pattern rather than more nouns. Widening the noun list to items and questions did catch the stale figure, and immediately raised a false positive on '64 questions', which is the real GMAT Focus question count from GMAC and not a bank size at all. A checker that cries wolf gets muted, so the guard now matches 'N original', 'N flashcards' and the specific phrase 'item bank is N', which names our bank and cannot match an exam fact.
+- **What stops it now.** the count guard matches original, flashcards, items and questions in `src/build.py`
+- **Cost.** a published figure less than half the true one, on the page written for machines
+- **Lesson.** A guard keyed to wording is a guard on the wording, not the fact, and every synonym is a hole in it. Widening the wording is the obvious repair and it trades missed defects for false alarms, which cost more because they get the guard switched off. Match a phrase that only the thing you care about can produce, rather than every word it might happen to use.
+
+
+### INC-0064. The guard against a blind counter was itself blind to three exams
+
+*2026-09-22, Silent loss, PR #68*
+
+- **What was seen.** A new GRE reading bank of 26 items was registered, built, and counted as zero. The published GRE total stayed at 19,888. The guard written a day earlier to catch exactly this said nothing.
+- **Why.** Two failures of the same shape, one inside the other. The GRE id pattern was G[QVE] and the new ids begin GR, so the counter could not see them. And the per-file guard added for INC-0059, which asserts that every listed bank file contributes at least one counted item, looped over only the two exams that happened to be in hand when it was written.
+- **How it surfaced.** Predicting it from the id pattern before building, then watching the build confirm it by reporting the old total. (Found by reading the code or the output)
+- **Fix.** Add R to the GRE pattern, and loop the guard over all five exams rather than two.
+- **What stops it now.** the per-file counter guard covers every exam in APPS in `src/build.py`
+- **Cost.** 26 items invisible to every published count, caught before merge
+- **Lesson.** A guard that covers a subset of cases reproduces the original defect in the cases it skips, and it is more dangerous than no guard because the incident it was written for feels closed. When you add a check, enumerate everything of that kind and cover all of it, or state in the code which cases are deliberately excluded and why.
+
+
+### INC-0080. A build step that fails while the build exits zero, and a verification run that was a remembered subset
+
+*2026-09-22, Degraded*
+
+- **What was seen.** Three commits shipped with a playbook that had not been rebuilt, because the ledger no longer checked out: INC-0077 carried an area of tooling, which is not one of the twelve the builder accepts. The site build printed WARNING and exited zero, so nothing local said no. CI said no, on the commit after the one that broke it.
+- **Why.** Two things had to be true at once. The playbook build is deliberately non fatal, because playbook/ is excluded from the deploy and a broken chapter should not stop the site shipping, and it says so with a line beginning WARNING. And the run that was supposed to catch it was four smoke suites chosen from memory rather than the eight steps CI actually runs, so smoke_playbook, which does check this, was never run. Either alone is survivable. Together they mean a failure that is reported, in a form nobody was reading, to a process that had already decided what to look at.
+- **How it surfaced.** The build-and-test job failed on GitHub with five playbook assertions, three commits after the one that introduced the bad row. (A test caught it)
+- **Fix.** The area is corrected to testing, which is the label the builder has for a check. The non fatal line now begins ERROR rather than WARNING, because it is one: the exit code stays zero so the site still builds, and the word matches what happened so a reader scanning for failures finds it.
+- **What stops it now.** the playbook build failure is reported as ERROR while still not blocking the site build, so a scan for failures catches it in `src/build.py`
+- **Lesson.** Two habits, both mine rather than the code's. Verify with the sequence the pipeline runs, read out of its config, not with the subset you remember: a suite chosen from memory drifts to the parts that were failing last week. And when a step is deliberately non fatal, the word it fails with is the whole of its signal, so it has to be the word people grep for. WARNING on a line that means a deliverable did not build is an invitation to miss it, and the cost of saying ERROR while still exiting zero is nothing at all.
+
+
 ## Scoring and selection (4)
 
 
@@ -2137,61 +2289,6 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** An empty catch block around a write is a silent-loss defect waiting to be born. If a save can fail, the person must be told; a success toast that fires regardless of the result is worse than no toast, because it actively teaches the user the data is safe. And where two layers of authorisation have to agree, something has to compare them: the one that is wrong will not announce itself.
 
 
-## Build system (4)
-
-
-### INC-0059. The item counter missed a whole bank file because it assumed a quoting style
-
-*2026-09-22, Silent loss, PR #65*
-
-- **What was seen.** A new bank added 35 items and the build reported the exam's total unchanged at 65. The engine tests, which load the bank for real, saw all 100.
-- **Why.** The count is a regex over the concatenated source looking for an id in single quotes. The new file emits JSON escaped strings, so its ids are double quoted and none of them matched. Nothing compared the regex count to the number of items that actually load.
-- **How it surfaced.** Noticing that the build summary and the test output disagreed about the same bank. (Found by measuring something)
-- **Fix.** Accept either quoting style, and assert that every bank file listed for an exam contributes at least one counted item, so a file the pattern cannot see fails the build instead of counting zero.
-- **What stops it now.** per-file contribution assertion in the bank counter in `src/build.py`
-- **Cost.** a published item count 35 short, and a guard that would have kept getting quieter
-- **Lesson.** A regex that counts things assumes a formatting convention, and a file that legitimately breaks the convention counts as zero rather than as an error. Any counter that can return zero for a non-empty input needs a per-source assertion, not just a total.
-
-
-### INC-0060. Nothing parsed the one file every user downloads
-
-*2026-09-22, Site down, PR #65*
-
-- **What was seen.** None shipped. A bank file with a syntax error built cleanly and the build exited zero, leaving invalid JavaScript in the bank the trainer loads on every visit.
-- **Why.** The build parses every inline script in every built page, a guard added after an unescaped quote took the whole trainer down at parse time. The item bank is not an inline script. It ships as a separate file and was never in the list, so the largest generated artefact on the site was the one thing the parser never saw.
-- **How it surfaced.** Deliberately breaking a bank file to test an unrelated guard, and noticing the build passed. (Found by a review bot or an adversarial pass)
-- **Fix.** Parse every built bank file and every chunk of it, alongside the pages.
-- **What stops it now.** the build node-parses each built bank and chunk in `src/build.py`
-- **Cost.** would have broken every trainer on the next bank edit
-- **Lesson.** A parse guard covers the file shapes someone thought of. When the same code moves into a new shape, a separate file, a chunk, a worker, the guard does not follow it. List what the guard covers against what the deploy actually ships, and check the difference rather than the intention.
-
-
-### INC-0063. The stale count guard checked two nouns and the page used a third
-
-*2026-09-22, Wrong data shown or stored, PR #67*
-
-- **What was seen.** llms.txt told every model that reads it the LSAT bank holds 65 questions. It held 142. The build's count guard passed the file.
-- **Why.** The guard matches a number followed by original or flashcards. The LSAT line was phrased as 65 questions today, deliberately, because the number was small and the page said so plainly. The phrasing that made the sentence honest is what put it outside the pattern.
-- **How it surfaced.** Reading the file while fixing a different count the guard did catch, then watching the widened guard flag a correct sourced figure. (Found by reading the code or the output)
-- **Fix.** Match a second, unambiguous pattern rather than more nouns. Widening the noun list to items and questions did catch the stale figure, and immediately raised a false positive on '64 questions', which is the real GMAT Focus question count from GMAC and not a bank size at all. A checker that cries wolf gets muted, so the guard now matches 'N original', 'N flashcards' and the specific phrase 'item bank is N', which names our bank and cannot match an exam fact.
-- **What stops it now.** the count guard matches original, flashcards, items and questions in `src/build.py`
-- **Cost.** a published figure less than half the true one, on the page written for machines
-- **Lesson.** A guard keyed to wording is a guard on the wording, not the fact, and every synonym is a hole in it. Widening the wording is the obvious repair and it trades missed defects for false alarms, which cost more because they get the guard switched off. Match a phrase that only the thing you care about can produce, rather than every word it might happen to use.
-
-
-### INC-0064. The guard against a blind counter was itself blind to three exams
-
-*2026-09-22, Silent loss, PR #68*
-
-- **What was seen.** A new GRE reading bank of 26 items was registered, built, and counted as zero. The published GRE total stayed at 19,888. The guard written a day earlier to catch exactly this said nothing.
-- **Why.** Two failures of the same shape, one inside the other. The GRE id pattern was G[QVE] and the new ids begin GR, so the counter could not see them. And the per-file guard added for INC-0059, which asserts that every listed bank file contributes at least one counted item, looped over only the two exams that happened to be in hand when it was written.
-- **How it surfaced.** Predicting it from the id pattern before building, then watching the build confirm it by reporting the old total. (Found by reading the code or the output)
-- **Fix.** Add R to the GRE pattern, and loop the guard over all five exams rather than two.
-- **What stops it now.** the per-file counter guard covers every exam in APPS in `src/build.py`
-- **Cost.** 26 items invisible to every published count, caught before merge
-- **Lesson.** A guard that covers a subset of cases reproduces the original defect in the cases it skips, and it is more dangerous than no guard because the incident it was written for feels closed. When you add a check, enumerate everything of that kind and cover all of it, or state in the code which cases are deliberately excluded and why.
-
-
 ## Search and metadata (3)
 
 
@@ -2293,6 +2390,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The stale count guard checked two nouns and the page used a third (INC-0063)</small>
 - [ ] A guard that covers a subset of cases reproduces the original defect in the cases it skips, and it is more dangerous than no guard because the incident it was written for feels closed. When you add a check, enumerate everything of that kind and cover all of it, or state in the code which cases are deliberately excluded and why.  
   <small>The guard against a blind counter was itself blind to three exams (INC-0064)</small>
+- [ ] Two habits, both mine rather than the code's. Verify with the sequence the pipeline runs, read out of its config, not with the subset you remember: a suite chosen from memory drifts to the parts that were failing last week. And when a step is deliberately non fatal, the word it fails with is the whole of its signal, so it has to be the word people grep for. WARNING on a line that means a deliverable did not build is an invitation to miss it, and the cost of saying ERROR while still exiting zero is nothing at all.  
+  <small>A build step that fails while the build exits zero, and a verification run that was a remembered subset (INC-0080)</small>
 
 
 ## CSS and layout
@@ -2343,6 +2442,18 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A distractor was replaced and the explanation went on naming the old one (INC-0072)</small>
 - [ ] A guard that takes the intent as an argument is only as good as the argument, and an argument derived by hand from the same data the guard is checking is a second implementation of the thing being checked. It fails in the direction that is hardest to see: too high an intent demands a rank the clauses cannot reach, and the author satisfies it by writing more clauses than the plan called for, which skews the distribution the other way while every check passes. Derive the intent from the data with the code that already reads it.  
   <small>check_lift was told a one clause entry lifted two distractors (INC-0073)</small>
+- [ ] A corpus field is written against the one sentence the author had in mind, and the schema that reuses it three templates later has no way to know which shape it is. The type system says str in both places. Two things follow. Store the field in every shape a template needs and name the shapes, rather than storing one shape and trusting the next author to notice. And guard the output, not the corpus: the generated sentence is the only place the mismatch becomes visible, and a cheap pattern over the rendered text catches a class that no check on the inputs can see.  
+  <small>A corpus field written for one grammatical slot was spliced into another (INC-0074)</small>
+- [ ] A guard written from the instance in front of you covers that instance. INC-0074 was a bare infinitive in a noun slot, so the guard looked for bare infinitives, and the sentence one screen away in the same file was a wh clause in a clause slot and went straight through. The general defect was never the infinitive; it was that a corpus field carries no record of the grammatical shape it was written in, and any template may reuse it. So the guard has to be stated over the class, every field against every slot, not over the token that happened to be wrong first. The other half of this is where it was found: the distractor version was spotted first because it is louder, and the version in the key, which is three times as damaging, was found only because the first one prompted a second look. Reading one rendered item per schema would have caught both on the day they were written, and costs less than either fix.  
+  <small>Every correct answer on one GMAT schema was ungrammatical, and the guard written an hour earlier could not see it (INC-0075)</small>
+- [ ] A standard library function whose name is a plausible description of half of what it does will be used for that half. capitalize() reads as "make this the start of a sentence" and is in fact "make this the start of a sentence and flatten everything else", and the damage is invisible until a value happens to contain a capital. The guard is not a test that the output looks right, because the output looked right for every value that had no name in it. The guard is to ban the function: the correct one is three characters of slicing, the wrong one is never what a generator wants, and a lint catches it in the diff rather than in the bank.  
+  <small>str.capitalize() lowercased the rest of the sentence, and took the proper nouns with it (INC-0076)</small>
+- [ ] Presentation rules travel with the value, and a value formatted at the point of use is formatted by whoever was writing that line. Eight schemas each wrote the same two characters and all eight omitted the same exception, which is not eight mistakes but one missing function. The give away is the shape of the defect: identical output in unrelated files means the knowledge was never in one place. The check that catches it cannot be on the arithmetic, because the arithmetic was always right, so it has to be on the rendered string.  
+  <small>A coefficient of one was printed as 1x on 2,353 shipped items (INC-0078)</small>
+- [ ] A check is scoped to a grain, and the grain is a claim about where a defect can live. INC-0069 moved the grain from the section to the file for hand written banks and stopped there, so the same defect went on living one level down in generated ones, where there are far more items. When a check finds something by being made finer, the question to ask immediately is what else is measured at the old grain. The second half is about which populations a check can see: this one ran on what the test harness loads, which is a sample chosen for a different purpose, and a sample chosen for a different purpose is not a population you can make claims about.  
+  <small>A generated schema was playable at 100 percent by picking the third shortest option, and no check looked at generated schemas (INC-0079)</small>
+- [ ] Every guard here measured the answer's place in its set, and a set of guards that all take the same kind of measurement shares a blind spot the size of everything else. The tell they could not see was the simplest one a student would find: the answer is the same answer. When adding the third check of a kind, the question worth asking is not whether it is stricter than the other two but what all three have in common, because that is what is going unmeasured.  
+  <small>A student who always answers 1 scores 98 percent on a schema, and no check looked at the answer itself (INC-0081)</small>
 
 
 ## Database
@@ -2471,6 +2582,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The analysis chapter called one file eight failing guards (INC-0065)</small>
 - [ ] Extracting a shared helper does not migrate the callers. The extraction fixes the file it was extracted from and leaves every sibling on the old path, which is INC-0059 and INC-0064 in a different costume: a correction applied to the instances in hand rather than to the pattern. Three suites had failed visibly and ten were wrong; the seven silent ones were found by the guard, not by reading. When a helper exists because a direct call was wrong, make the direct call fail the build, and let it enumerate the callers rather than enumerating them by hand.  
   <small>The browser path fix covered two suites and three others kept crashing (INC-0067)</small>
+- [ ] A check that reports pass or fail from a handful of random draws is a check that will flip on work that has nothing to do with it, and the cost is not the false alarm. It is that the next real alarm arrives in a tool people have learned to shrug at. Before believing or dismissing a warning, run the thing it measures enough times to know its rate: that answers both whether this alarm is real and whether the check is worth keeping in its current form. Here the answer was that the engine was fine and the check was wrong, and both were worth knowing.  
+  <small>A review bot check whose verdict was three coin flips warned on an unrelated bank change (INC-0077)</small>
 
 
 # Adapting This to a Different Business
@@ -2587,7 +2700,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 73 real defects reduced to the rules that prevent them,
+the whole project: 81 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -2627,7 +2740,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-73 defects already prevented is genuinely ahead, and every defect it hits
+81 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

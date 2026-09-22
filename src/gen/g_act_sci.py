@@ -22,7 +22,7 @@ One scenario deliberately has a second study where the changed condition does NO
 result, because "the variable you changed turned out not to matter" is a real finding and
 a student who assumes every manipulation must produce an effect should get that wrong.
 """
-from framework import Gen, ItemError, balance
+from framework import Gen, ItemError, balance, upfirst
 
 
 def n1(x):
@@ -179,6 +179,85 @@ SCEN = [
          fixed=["the sensor used", "the alignment of the sensor with the lamp",
                 "the level of background light in the room",
                 "the height of the lamp above the bench", "the warm up time before reading"]),
+    # Ten scenarios whose reading falls as the setting rises. The corpus had fifteen
+    # rising against five falling, so the answer to "as the setting increased, the reading"
+    # was the rising option on 76 percent of the items the trend schema produced, and a
+    # student who always picked it scored 76 without reading a table (INC-0081). The
+    # direction is a property of the science, so it is fixed in the science rather than
+    # by flipping a table the scenario does not support.
+    dict(key="shielding", title="count rate through lead shielding",
+         iv=("Thickness of the shielding", "mm"), dv=("Count rate", "counts per minute"),
+         levels=[1, 2, 4, 6, 8], base=90.0, step=-8.0, rising=False,
+         mod=("The source used", "the stronger source", "the weaker source", 0.6),
+         fixed=["the distance from source to detector", "the counting time",
+                "the detector used", "the background count subtracted",
+                "the alignment of the source with the detector"]),
+    dict(key="ramp", title="time for a trolley to run down a ramp",
+         iv=("Angle of the ramp", "degrees"), dv=("Time to reach the bottom", "s"),
+         levels=[5, 10, 15, 20, 25], base=4.6, step=-0.12, rising=False,
+         mod=("Surface of the ramp", "a bare board", "a board with a cloth cover", 1.35),
+         fixed=["the mass of the trolley", "the length of the ramp",
+                "the point on the ramp the trolley started from",
+                "the timing method", "the wheels fitted to the trolley"]),
+    dict(key="wire", title="resistance of a wire of varying diameter",
+         iv=("Diameter of the wire", "tenths of a mm"), dv=("Resistance", "ohms"),
+         levels=[2, 4, 6, 8, 10], base=9.5, step=-0.75, rising=False,
+         mod=("Length of the wire", "1 metre", "2 metres", 1.9),
+         fixed=["the metal the wire is made of", "the temperature of the wire",
+                "the meter used", "the current passed through the wire",
+                "the contacts the wire was held in"]),
+    dict(key="layers", title="light passing through layers of filter paper",
+         iv=("Number of layers", "layers"), dv=("Light reaching the sensor", "lux"),
+         levels=[1, 2, 3, 4, 5], base=520.0, step=-90.0, rising=False,
+         mod=("The lamp used", "a 60 watt lamp", "a 40 watt lamp", 0.7),
+         fixed=["the distance from lamp to sensor", "the make of filter paper",
+                "the sensor used", "the level of background light",
+                "the warm up time before reading"]),
+    dict(key="oxygen", title="oxygen dissolved at depth in a lake",
+         iv=("Depth below the surface", "m"), dv=("Oxygen dissolved", "mg per litre"),
+         levels=[1, 3, 5, 7, 9], base=11.0, step=-0.85, rising=False,
+         mod=("Time of year sampled", "March", "August", 0.72),
+         fixed=["the point on the lake sampled", "the time of day",
+                "the sampling bottle used", "the method of measurement",
+                "the depth gauge used"]),
+    dict(key="signal", title="signal strength away from a transmitter",
+         iv=("Distance from the transmitter", "km"), dv=("Signal strength", "dB"),
+         levels=[2, 4, 6, 8, 10], base=68.0, step=-5.2, rising=False,
+         mod=("Height of the receiving aerial", "2 metres", "8 metres", 1.3),
+         fixed=["the transmitter power", "the frequency used",
+                "the receiver used", "the weather on the day",
+                "the orientation of the aerial"]),
+    dict(key="inhibitor", title="reaction rate with an inhibitor added",
+         iv=("Concentration of the inhibitor", "mM"),
+         dv=("Reaction rate", "micromol per minute"),
+         levels=[1, 2, 3, 4, 5], base=9.0, step=-1.4, rising=False,
+         mod=("Temperature of the mixture", "20 degrees C", "30 degrees C", 1.45),
+         fixed=["the volume of enzyme solution", "the substrate concentration",
+                "the pH of the buffer", "the total reaction time",
+                "the tube the reaction ran in"]),
+    dict(key="battery", title="charge held by batteries of different ages",
+         iv=("Age of the battery", "months"), dv=("Charge held after a day", "percent"),
+         levels=[3, 6, 9, 12, 15], base=97.0, step=-4.6, rising=False,
+         mod=("Storage temperature", "5 degrees C", "25 degrees C", 0.85),
+         fixed=["the make of battery", "the charger used",
+                "the load drawn during the day", "the meter used",
+                "the time allowed on charge"]),
+    dict(key="heater", title="plate temperature away from a heater",
+         iv=("Distance from the heater", "cm"),
+         dv=("Temperature of the plate", "degrees C"),
+         levels=[10, 20, 30, 40, 50], base=62.0, step=-0.95, rising=False,
+         mod=("Power of the heater", "500 watts", "300 watts", 0.72),
+         fixed=["the material of the plate", "the room temperature",
+                "the time allowed before reading", "the thermometer used",
+                "the surface finish of the plate"]),
+    dict(key="marble", title="time for marble chips to dissolve in acid",
+         iv=("Concentration of the acid", "M"),
+         dv=("Time for the chips to dissolve", "s"),
+         levels=[1, 2, 3, 4, 5], base=210.0, step=-33.0, rising=False,
+         mod=("Size of the chips", "large chips", "small chips", 0.6),
+         fixed=["the mass of marble used", "the volume of acid",
+                "the temperature of the acid", "the stirring",
+                "the point at which the reaction was called complete"]),
 ]
 
 
@@ -236,7 +315,8 @@ class SciBase(Gen):
         spec["passageHtml"] = render(st)
         return spec
 
-    def choice_item(self, rng, st, stem, right, wrong, expl, diff, choices_n):
+    def choice_item(self, rng, st, stem, right, wrong, expl, diff, choices_n,
+                    require=()):
         """An item whose options are sentences: build the set directly and verify.
 
         Where a schema offers more wrong answers than the exam has slots, the subset is
@@ -244,12 +324,18 @@ class SciBase(Gen):
         question naturally carries a condition and so runs long, which left the key the
         longest option on more than half of these items until this was measured.
         """
-        pool = [w for w in wrong if w != right]
-        if len(pool) > choices_n - 1:
-            opts = [right] + balance(rng, right, [(w, "") for w in pool], choices_n - 1)
-            opts = [opts[0]] + [w for w, _ in opts[1:]]
+        # A required option is the one the item exists to distinguish the key from, and it
+        # goes in before anything is balanced. On the trend schema that is the opposite
+        # direction, which is the same length as the key, so its presence is also what
+        # stops the key being uniquely the shortest option (INC-0079).
+        req = [w for w in require if w != right]
+        pool = [w for w in wrong if w != right and w not in req]
+        need = choices_n - 1 - len(req)
+        if len(pool) > need:
+            picked = balance(rng, right, [(w, "") for w in pool], need)
+            opts = [right] + req + [w for w, _ in picked]
         else:
-            opts = [right] + pool[:choices_n - 1]
+            opts = [right] + req + pool[:need]
         if len(opts) < choices_n or len(set(opts)) != choices_n:
             raise ItemError("%s could not build %d distinct options" % (self.id, choices_n))
         rng.shuffle(opts)
@@ -346,17 +432,21 @@ class Trend(SciBase):
         st = self.study(rng)
         scen = st["scen"]
         rising = st["up"]
-        right = ("increased only" if rising else "decreased only")
-        wrong = ["decreased only" if rising else "increased only",
-                 "increased, then decreased", "decreased, then increased",
-                 "remained the same"]
+        right = ("increased at every setting" if rising
+                 else "decreased at every setting")
+        mirror = "decreased at every setting" if rising else "increased at every setting"
+        wrong = [mirror, "increased then decreased", "decreased then increased",
+                 "stayed the same throughout", "changed by the same amount each time",
+                 "rose and fell without a clear direction"]
         expl = ("Reading down the Study 1 column, the " + scen["dv"][0].lower()
                 + " goes " + ", ".join(n1(v) for v in st["s1"])
                 + ". Each reading is " + ("higher" if rising else "lower")
-                + " than the one before it, with no reversal.")
+                + " than the one before it, with no reversal and no reading equal to "
+                "the one before it.")
         stem = ("As the " + scen["iv"][0].lower() + " increased in Study 1, the "
                 + scen["dv"][0].lower() + ":")
-        return self.choice_item(rng, st, stem, right, wrong, expl, 1, choices_n)
+        return self.choice_item(rng, st, stem, right, wrong, expl, 1, choices_n,
+                                require=[mirror])
 
 
 # --- Scientific Investigation ------------------------------------------------------
@@ -371,12 +461,24 @@ class WhatChanged(SciBase):
         scen = st["scen"]
         what, set1, set2, _ = scen["mod"]
         right = what.lower() + " was " + set2 + " rather than " + set1
-        wrong = [f + " was changed while everything else stayed as it was in Study 1"
-                 for f in scen["fixed"]]
+        # Every wrong answer used to be the one long template, so the key was the shortest
+        # option on 97 percent of this schema's items (INC-0079). Two changes. The
+        # reversal is the error a student actually makes and is the same length as the
+        # key, so it can no longer stand alone at the bottom. And the remaining wrongs
+        # alternate between a short form and a long one, which is what lets balance place
+        # the key rather than having only one side of it to draw from. Three forms and not
+        # two, because with two the shortest of them was still longer than the key.
+        wrong = [what.lower() + " was " + set1 + " rather than " + set2]
+        forms = [" was changed",
+                 " was changed rather than held the same",
+                 " was changed while everything else stayed as it was in Study 1"]
+        for j, f in enumerate(scen["fixed"]):
+            wrong.append(f + forms[j % 3])
         wrong.append("the " + scen["dv"][0].lower() + " was set in advance rather than "
                      "measured in response to the setting")
         expl = ("The description states that Study 2 repeated Study 1 exactly except that "
-                + what.lower() + " was " + set2 + " instead of " + set1 + ". Everything else, "
+                + what.lower() + " was " + set2 + " instead of " + set1 + ", and not the "
+                "other way about. Everything else, "
                 + ", ".join(scen["fixed"]) + ", was deliberately held the same, which is what "
                 "makes the comparison between the two studies meaningful.")
         stem = "Study 2 differed from Study 1 in that, in Study 2:"
@@ -482,7 +584,7 @@ class ClaimCheck(SciBase):
                  + scen["iv"][0].lower()]
         expl = ("Compare the two columns setting by setting: Study 1 reads "
                 + ", ".join(n1(v) for v in st["s1"]) + " and Study 2 reads "
-                + ", ".join(n1(v) for v in st["s2"]) + ". " + because.capitalize()
+                + ", ".join(n1(v) for v in st["s2"]) + ". " + upfirst(because)
                 + ", so the prediction is " + ("supported" if holds else "not supported") + ".")
         stem = ("A student predicts that, at any setting used in these studies, " + claim
                 + ". Is this prediction consistent with the results?")
@@ -502,20 +604,26 @@ class BestSupported(SciBase):
         iv, dv = scen["iv"][0].lower(), scen["dv"][0].lower()
         right = ("increasing the " + iv + " " + ("raises" if rising else "lowers")
                  + " the " + dv)
-        wrong = ["increasing the " + iv + " " + ("lowers" if rising else "raises")
-                 + " the " + dv,
+        mirror = ("increasing the " + iv + " " + ("lowers" if rising else "raises")
+                  + " the " + dv)
+        wrong = [mirror,
                  "the " + dv + " is unaffected by the " + iv,
                  "the " + dv + " reaches its highest value at the lowest " + iv
                  if rising else
                  "the " + dv + " reaches its lowest value at the lowest " + iv]
         wrong.append("the " + iv + " is determined by the " + dv)
+        wrong.append("increasing the " + iv + " " + ("raises" if rising else "lowers")
+                     + " the " + dv + " in Study 1 but has the opposite effect in Study 2")
+        wrong.append("the " + dv + " depends on the " + iv
+                     + " only above the lowest setting that was tested")
         expl = ("In Study 1 the " + dv + " runs " + ", ".join(n1(v) for v in st["s1"])
                 + " as the " + iv + " runs " + ", ".join(n1(v) for v in scen["levels"])
                 + ", and Study 2 shows the same direction. Only the conclusion that the "
                 + dv + " " + ("rises" if rising else "falls")
                 + " with the " + iv + " is supported by both.")
         stem = "The results of Studies 1 and 2 best support the conclusion that:"
-        return self.choice_item(rng, st, stem, right, wrong, expl, 3, choices_n)
+        return self.choice_item(rng, st, stem, right, wrong, expl, 3, choices_n,
+                                require=[mirror])
 
 
 class WhyTwoStudies(SciBase):
@@ -602,7 +710,11 @@ class AttributeDifference(SciBase):
                  "the readings in Study 2 were taken after those in Study 1 rather than "
                  "before them",
                  "the difference between the two readings is larger than the smallest "
-                 "difference the instrument can detect"]
+                 "difference the instrument can detect",
+                 "the two studies were run in the same week",
+                 "every condition other than " + what.lower() + " was the same in the two "
+                 "studies and the readings were taken by the same person working to the "
+                 "same written procedure"]
         expl = ("At a " + scen["iv"][0].lower() + " of " + n1(scen["levels"][i]) + " "
                 + scen["iv"][1] + ", Study 1 recorded " + n1(a) + " and Study 2 recorded "
                 + n1(b) + ". A difference can be put down to " + what.lower()
@@ -654,7 +766,16 @@ class ClaimAtSetting(SciBase):
                   if st["up"] else "Yes, because the reading falls across the settings tested"),
                  "No, because the other study records " + n1(other[i]) + " at that setting",
                  "Yes, because the two studies were run under otherwise identical conditions",
-                 "No, because a single reading cannot settle a prediction of this kind"]
+                 "No, because a single reading cannot settle a prediction of this kind",
+                 # Two long ones. The key carries a reading and a comparison, and only
+                 # opposite was written at that length, so the pool had nothing above the
+                 # key and balance could not place it: one rank held 60 percent of this
+                 # schema's 3,200 items (INC-0079). Both are the same kind of wrong
+                 # answer, written at the length a real one would be.
+                 "Yes, because the reading at that setting is " + n1(actual)
+                 + ", and the two studies agree at every setting that was tested",
+                 "No, because the other study records " + n1(other[i])
+                 + " at that setting, which is below " + n1(thresh)]
         expl = ("Read the Study " + str(which) + " column at a " + scen["iv"][0].lower()
                 + " of " + n1(scen["levels"][i]) + " " + scen["iv"][1] + ": it records "
                 + n1(actual) + " " + scen["dv"][1] + ". The prediction asks for at least "

@@ -62,6 +62,20 @@ class ScientificNotation(NQBase):
              "adding the coefficients instead of " + ("multiplying" if op == "mul" else "dividing")
              + " them"),
             (fmt(coef, -exp), "reversing the sign of the exponent"),
+            # Shorter than the key. Every candidate above carries either an extra digit in
+            # the coefficient or an extra one in the exponent, so the key was the shortest
+            # option on 73 percent of this schema's items (INC-0079). Rounding the
+            # coefficient away is a real slip and is the only wrong answer here that is
+            # shorter than the right one.
+            (fmt(int(round(coef)), exp),
+             "rounding the coefficient to a whole number, which throws away the precision "
+             "the calculation actually gives"),
+            # And one longer than the key, for the same reason: with candidates on one
+            # side only, the balancer has nowhere to put the key and it piles up at one
+            # rank whichever side that is.
+            (fmt(round(coef * 100, 2), exp - 2),
+             "shifting the decimal point two places while moving the exponent only two, "
+             "which leaves the coefficient far outside the range 1 to 10"),
         ]
         return dict(stem="What is " + shown + ", expressed in scientific notation?",
                     answer=right, fmt=str, distractors=cands, diff=rng.choice([2, 3]),

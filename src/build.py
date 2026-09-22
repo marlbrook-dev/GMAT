@@ -375,6 +375,18 @@ for _doc in ["README.md", "ROADMAP.md", "CLAUDE.md", "HANDOFF.md", "llms.txt", "
 for _src in sorted(d.glob("bank_*.js")) + sorted(d.glob("cards*.js")) + sorted(d.glob("playbook_*.js")) + [d/"engine.js"]:
     no_dashes(_src.name, _src.read_text())
 
+# INC-0076. Python's str.capitalize() uppercases the first character and LOWER CASES
+# every other one, so a stored fragment carrying a name comes out as "The fenwick track".
+# 180 items shipped that way, 70 of them in the key. framework.upfirst raises the first
+# character and nothing else, and it is the only correct one for a generator, so the
+# wrong one is banned rather than reviewed for.
+for _g in sorted((d/"gen").glob("*.py")):
+    if ".capitalize()" in _g.read_text():
+        print(f"ERROR: {_g.name} calls str.capitalize(), which lower cases the rest of "
+              f"the string and flattens any name in it; use framework.upfirst "
+              f"(INC-0076)", file=sys.stderr)
+        sys.exit(1)
+
 import json as _json_mod
 _college_n = len(list((root/"data"/"colleges").glob("*.json")))
 _mba_n = sum(1 for _p in (root/"data"/"schools").glob("*.json")
@@ -550,8 +562,12 @@ try:
     if _pb.returncode == 0:
         print(_pb.stdout.strip())
     else:
-        print("WARNING: the playbook did not build; the site did. Run "
+        # ERROR, not WARNING, and still exit zero. playbook/ is excluded from the
+        # deploy so a broken chapter must not stop the site shipping, but the word a
+        # non fatal step fails with is the whole of its signal, and three commits went
+        # out with a stale playbook because this said WARNING (INC-0080).
+        print("ERROR: the playbook did not build; the site did. Run "
               "python3 src/build_playbook.py to see why.", file=sys.stderr)
         print((_pb.stderr or _pb.stdout).strip(), file=sys.stderr)
 except Exception as _e:
-    print("WARNING: could not run the playbook build: %s" % _e, file=sys.stderr)
+    print("ERROR: could not run the playbook build: %s" % _e, file=sys.stderr)

@@ -105,6 +105,15 @@ class UnitRate(Gen):
                 (Fr(c * b, a) if a else None, "setting up the proportion upside down."),
                 (a * c, "multiplying by the total rather than by the rate per unit."),
                 (rate, "finding the rate and stopping before applying it to %d %s." % (c, per)),
+                # Above the answer. Four of the five candidates above it come out smaller
+                # by construction and only one larger, so the key sat at one value rank on
+                # up to 69 percent of this schema's items (INC-0079). Both of these are
+                # slips a student actually makes.
+                (rate * (b + c), "scaling the whole period, the %d %s described and the %d "
+                                 "asked about together, where the question asks only about "
+                                 "the %d." % (b, per, c, c)),
+                ((a + b) * c, "adding the two quantities in the setup and scaling the sum, "
+                              "rather than dividing to find the rate first."),
             ],
             "expl": "The rate is %d %s divided by %d %s, which is %d %s per %s. Over %d %s that "
             "gives %d %s." % (a, unit, b, per, rate, unit, per[:-1], c, per, val, unit),
@@ -238,6 +247,19 @@ class LinearModelInterpret(Gen):
                  "treating the rate of change as a single predicted value."),
                 ("The predicted value of y decreases by %d for each additional %s." % (m, thing[:-1]),
                  "reading a positive slope as a decrease."),
+                # Every option above was within a character of the key or a clause shorter,
+                # so the key sat at the same length rank on 94 percent of this schema's
+                # items (INC-0079). These are the same kind of wrong answer at lengths the
+                # pool did not have.
+                ("The value of y is always %d." % m,
+                 "treating the coefficient as a fixed value rather than a rate of change."),
+                ("The predicted value of y increases by %d for each additional %s, having "
+                 "begun at zero when the study started." % (m, thing[:-1]),
+                 "reading the rate correctly and then adding a starting value the model "
+                 "does not have: at x = 0 this model predicts %d." % b),
+                ("The number of %s since the study began increases by %d for each "
+                 "additional unit of y." % (thing, m),
+                 "reversing the two variables, which reports the rate the wrong way up."),
             ],
             "expl": "In y = mx + b the coefficient m is the rate of change: each additional %s "
             "adds %d to the predicted value of y. The constant %d is the predicted value at "
