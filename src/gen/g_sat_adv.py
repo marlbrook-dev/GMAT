@@ -1,5 +1,6 @@
 """SAT Advanced Math (m_adv) generators: quadratics, exponentials, polynomials, radicals."""
 from framework import Gen, num, frac, ItemError
+from decimal import Decimal as _Dec
 from fractions import Fraction as Fr
 
 
@@ -87,13 +88,35 @@ class VertexForm(Gen):
             % (num(a), "+" if -h >= 0 else "-", abs(h), "+" if k >= 0 else "-", abs(k),
                "x" if ask == "x" else "y"),
             "answer": val,
-            "distractors": [
-                (-val, "reading the number inside the parentheses at face value instead of flipping its sign, which is exactly backwards."),
-                (k if ask == "x" else h, "reading the wrong coordinate off vertex form."),
-                (a, "reading the leading coefficient as a coordinate."),
-                (val + a, "combining the leading coefficient into the coordinate, which vertex form never requires."),
-                (val * 2, "doubling the coordinate for no reason the form supports."),
-            ],
+            # Per coordinate, and the reason is the sign flip. Negating the answer was
+            # offered on every draw, and a mirror image is below the key whenever the
+            # key is positive and above it whenever the key is negative, so together
+            # with doubling it the key was bracketed and sat in the middle of the order
+            # on nearly two draws in five. The flip is also only a misconception for the
+            # x coordinate, where vertex form really does reverse the sign; for the y
+            # coordinate there is nothing to flip. Evaluating the function at zero is
+            # the slip that belongs there, and it lands a long way from the vertex.
+            "distractors": {
+                "x": [
+                    (-h, "reading the number inside the parentheses at face value instead of "
+                     "flipping its sign, which is exactly backwards."),
+                    (k, "reading the wrong coordinate off vertex form."),
+                    (a, "reading the leading coefficient as a coordinate."),
+                    (h + a, "combining the leading coefficient into the coordinate, which vertex form never requires."),
+                    (h * 2, "doubling the coordinate for no reason the form supports."),
+                    (h + k, "adding the two coordinates of the vertex together."),
+                    (a * h * h + k, "evaluating the function at x equals zero rather than naming the vertex."),
+                ],
+                "y": [
+                    (a * h * h + k, "evaluating the function at x equals zero rather than at the vertex."),
+                    (h, "reading the wrong coordinate off vertex form."),
+                    (-h, "reading the wrong coordinate and flipping its sign as well."),
+                    (a, "reading the leading coefficient as a coordinate."),
+                    (k + a, "combining the leading coefficient into the coordinate, which vertex form never requires."),
+                    (k * 2, "doubling the coordinate for no reason the form supports."),
+                    (h + k, "adding the two coordinates of the vertex together."),
+                ],
+            }[ask],
             "expl": "In vertex form f(x) = a(x - h) squared + k, the vertex is (h, k). Here h = %d "
             "and k = %d, so the %s coordinate is %d." % (h, k, "x" if ask == "x" else "y", val),
         }
@@ -106,28 +129,55 @@ class ExponentialGrowth(Gen):
     sub = "Nonlinear functions"
     diff = 3
 
+    # To the nearest whole number, which is how a real exam asks a compounding
+    # question and the only way this one can offer five choices that look alike.
+    # A starting amount times a fraction raised to a power is a whole number on one
+    # draw, two decimal places on the next and a fraction on the one after, while the
+    # wrong answers land on their own schedule; a distractor shaped differently from
+    # the key is visibly not the answer, so make() drops the draw rather than ship it,
+    # and this schema was dropping between 69 and 75 percent of everything it built on
+    # all four exams that carry it (INC-0092). Rounding every choice the same way gives
+    # the question one shape instead of widening a pool that was never the problem.
+    @staticmethod
+    def _plain(f):
+        """A quantity as a decimal. Every multiplier here is a fraction over a power of
+        ten, so the exact value always terminates and num() would print it as an
+        improper fraction: "which is 1215/2" where a reader expects 607.5."""
+        return str(_Dec(f.numerator) / _Dec(f.denominator))
+
+    @staticmethod
+    def _near(f):
+        """Nearest whole number. Every quantity here is positive, so floor of f plus a
+        half is the whole of it, and it stays exact rather than going through a float."""
+        return (f.numerator * 2 + f.denominator) // (2 * f.denominator)
+
     def build(self, rng):
         p0 = rng.choice([40, 50, 80, 120, 150, 200, 250, 300])
         pct = rng.choice([5, 10, 20, 25, 50])
         n = rng.choice([2, 3, 4])
         grow = rng.choice([True, False])
         mult = Fr(100 + pct, 100) if grow else Fr(100 - pct, 100)
-        val = p0 * mult ** n
+        exact = p0 * mult ** n
+        val = self._near(exact)
         word = "increases" if grow else "decreases"
+        near = self._near
         return {
             "stem": "A quantity begins at %d and %s by %d percent each year. What is the quantity "
-            "after %d years?" % (p0, word, pct, n),
+            "after %d years, to the nearest whole number?" % (p0, word, pct, n),
             "answer": val,
             "distractors": [
-                (p0 + (p0 * Fr(pct, 100) * n if grow else -p0 * Fr(pct, 100) * n),
+                (near(p0 + (p0 * Fr(pct, 100) * n if grow else -p0 * Fr(pct, 100) * n)),
                  "applying the percent change as a flat amount each year rather than compounding it."),
-                (p0 * mult, "applying the change for a single year instead of %d." % n),
-                (p0 * mult ** (n + 1), "applying the change one extra time."),
-                (p0 * Fr(pct, 100) ** n, "using the percent itself as the multiplier instead of one plus or minus the percent."),
+                (near(p0 * mult), "applying the change for a single year instead of %d." % n),
+                (near(p0 * mult ** (n + 1)), "applying the change one extra time."),
+                (near(p0 * mult ** (n - 1)), "applying the change one time too few."),
+                (near(p0 * Fr(pct, 100) ** n),
+                 "using the percent itself as the multiplier instead of one plus or minus the percent."),
+                (p0, "answering with the quantity before any of the change is applied."),
             ],
             "expl": "Each year multiplies the quantity by %s, so after %d years the quantity is "
-            "%d times %s to the power %d, which is %s."
-            % (num(mult), n, p0, num(mult), n, num(val)),
+            "%d times %s to the power %d, which is %s, or %d to the nearest whole number."
+            % (num(mult), n, p0, num(mult), n, self._plain(exact), val),
         }
 
 

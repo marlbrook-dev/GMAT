@@ -26,9 +26,25 @@ from framework import Gen, ItemError, balance, upfirst
 
 
 def n1(x):
-    """One decimal place, or a whole number when it is one."""
+    """One decimal place, or a whole number when it is one.
+
+    For a SETTING, which is the value a student dialled in: 2 mM, not 2.0 mM.
+    """
     v = round(float(x), 1)
     return str(int(v)) if v == int(v) else ("%.1f" % v)
+
+
+def n1f(x):
+    """One decimal place, always.
+
+    For a READING, which is what the instrument returned. A measurement column with
+    uniform precision is how a real data table is printed, and it is also the only way
+    this data can be offered as answer choices: a reading that lands on a whole number
+    rendered as "6" beside a neighbour rendered as "7.2" is visibly a different kind of
+    thing, so make() would not put them in the same item and threw away one draw in five
+    of the schema that reads a value out of the table (INC-0092).
+    """
+    return "%.1f" % round(float(x), 1)
 
 
 # iv: (name, unit, levels)         dv: (name, unit)
@@ -290,7 +306,7 @@ def render(st):
     what, set1, set2, _ = scen["mod"]
     head = ("<tr><th>" + ivn + " (" + ivu + ")</th><th>Study 1: " + dvn + " (" + dvu
             + ")</th><th>Study 2: " + dvn + " (" + dvu + ")</th></tr>")
-    rows = "".join("<tr><td>" + n1(x) + "</td><td>" + n1(a) + "</td><td>" + n1(b)
+    rows = "".join("<tr><td>" + n1(x) + "</td><td>" + n1f(a) + "</td><td>" + n1f(b)
                    + "</td></tr>" for x, a, b in zip(scen["levels"], st["s1"], st["s2"]))
     return ("<p><b>Studies 1 and 2: " + scen["title"] + "</b></p>"
             + "<p>In Study 1, students varied the " + ivn.lower() + " and recorded the "
@@ -356,7 +372,7 @@ class ReadValue(SciBase):
     id = "act_s_read"
     skill = "act_s_iod"
     sub = "Reading a value"
-    fmt = staticmethod(n1)
+    fmt = staticmethod(n1f)
 
     def build(self, rng):
         st = self.study(rng)
@@ -377,7 +393,7 @@ class ReadValue(SciBase):
                    "reading the row asked about"),
                   (float(scen["levels"][i]), "reporting the setting rather than the reading"),
                   (round(vals[-1], 1), "reading the last row whatever the question asked")]
-        if len(set(n1(v) for v, _ in cands if v is not None)) < 3:
+        if len(set(n1f(v) for v, _ in cands if v is not None)) < 3:
             raise ItemError("not enough distinct readings")
         return self.frame(st, dict(
             stem="According to Study " + str(which) + ", when the "
@@ -386,7 +402,7 @@ class ReadValue(SciBase):
                  "which of the following, in " + scen["dv"][1] + "?",
             answer=ans, distractors=cands, diff=1,
             expl="In the Study " + str(which) + " column, the row for "
-                 + n1(scen["levels"][i]) + " " + scen["iv"][1] + " reads " + n1(ans)
+                 + n1(scen["levels"][i]) + " " + scen["iv"][1] + " reads " + n1f(ans)
                  + " " + scen["dv"][1] + "."))
 
 
@@ -395,32 +411,68 @@ class Interpolate(SciBase):
     skill = "act_s_iod"
     sub = "Interpolating between readings"
 
+    # Two of the options here name a bound rather than an interval, and while every
+    # question asked about a setting BETWEEN two of the table's own, neither of them
+    # could ever be the answer. A student who noticed that was choosing from three
+    # options rather than four, and because the two are also the shortest, the key was
+    # the longest option on half the schema. So a share of the questions now ask about a
+    # setting past the end of the table, where naming a bound IS the answer, which is
+    # extrapolation and a thing the exam asks for in its own right.
     def make(self, rng, choices_n):
         st = self.study(rng)
         scen = st["scen"]
-        i = rng.randrange(len(scen["levels"]) - 1)
-        lo, hi = scen["levels"][i], scen["levels"][i + 1]
-        if hi - lo < 2:
-            raise ItemError("no room between the settings")
-        mid = (lo + hi) / 2.0
-        a, b = st["s1"][i], st["s1"][i + 1]
-        loY, hiY = min(a, b), max(a, b)
-        right = "between " + n1(loY) + " and " + n1(hiY)
+        lv, s1 = scen["levels"], st["s1"]
+        rising = s1[-1] > s1[0]
+        below = "less than " + n1f(min(s1))
+        above = "greater than " + n1f(max(s1))
         pairs = []
-        for j in range(len(st["s1"]) - 1):
-            x, y = min(st["s1"][j], st["s1"][j + 1]), max(st["s1"][j], st["s1"][j + 1])
-            pairs.append("between " + n1(x) + " and " + n1(y))
+        for j in range(len(s1) - 1):
+            x, y = min(s1[j], s1[j + 1]), max(s1[j], s1[j + 1])
+            pairs.append("between " + n1f(x) + " and " + n1f(y))
+        where = rng.choice(["between", "between", "under", "over"])
+        if where == "between":
+            i = rng.randrange(len(lv) - 1)
+            lo, hi = lv[i], lv[i + 1]
+            if hi - lo < 2:
+                raise ItemError("no room between the settings")
+            mid = (lo + hi) / 2.0
+            a, b = s1[i], s1[i + 1]
+            right = "between " + n1f(min(a, b)) + " and " + n1f(max(a, b))
+            # "A setting of" rather than the variable's own name, because several of
+            # these names are plural (minutes in the dye bath, days of curing) and a
+            # singular verb after one of them is not English.
+            expl = ("A setting of " + n1(mid) + " " + scen["iv"][1]
+                    + " lies between the settings of " + n1(lo) + " and " + n1(hi)
+                    + ", where Study 1 recorded " + n1f(a) + " and " + n1f(b) + ". A reading "
+                    "taken between two settings falls between the two values recorded at them.")
+            diff = 2
+        else:
+            end = 0 if where == "under" else -1
+            step = (lv[1] - lv[0]) if where == "under" else (lv[-1] - lv[-2])
+            mid = (lv[0] - step / 2.0) if where == "under" else (lv[-1] + step / 2.0)
+            if mid <= 0:
+                raise ItemError("no room past the end of the table")
+            # Past the low end a rising series keeps falling, and a falling one keeps
+            # rising, so which bound is the answer depends on the trend and not on
+            # which end of the table the question is about.
+            goes_down = rising if where == "under" else not rising
+            right = below if goes_down else above
+            expl = ("A setting of " + n1(mid) + " " + scen["iv"][1]
+                    + " lies " + ("below the lowest" if where == "under" else "above the highest")
+                    + " setting Study 1 used, " + n1(lv[end]) + " " + scen["iv"][1]
+                    + ", where it recorded " + n1f(s1[end]) + ". Study 1's readings "
+                    + ("rise" if rising else "fall")
+                    + " as the setting rises, so past the end of the table the reading "
+                    "continues " + ("down" if goes_down else "up")
+                    + " and leaves the range the table records.")
+            diff = 3
         wrong = [p for p in pairs if p != right]
-        wrong += ["less than " + n1(min(st["s1"])), "greater than " + n1(max(st["s1"]))]
-        expl = ("The " + scen["iv"][0].lower() + " of " + n1(mid) + " " + scen["iv"][1]
-                + " lies between the settings of " + n1(lo) + " and " + n1(hi)
-                + ", where Study 1 recorded " + n1(a) + " and " + n1(b) + ". A reading "
-                "taken between two settings falls between the two values recorded at them.")
+        wrong += [b for b in (below, above) if b != right]
         stem = ("Suppose Study 1 had been repeated with the " + scen["iv"][0].lower()
                 + " set to " + n1(mid) + " " + scen["iv"][1] + ". The "
                 + scen["dv"][0].lower() + ", in " + scen["dv"][1]
                 + ", would most likely have been:")
-        return self.choice_item(rng, st, stem, right, wrong, expl, 2, choices_n)
+        return self.choice_item(rng, st, stem, right, wrong, expl, diff, choices_n)
 
 
 class Trend(SciBase):

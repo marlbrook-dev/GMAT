@@ -4,6 +4,8 @@ Every distractor below is a mistake a real student makes: forgetting to divide b
 the coefficient, dropping a sign when a term crosses the equals sign, reading the
 intercept as the slope. That is the whole point of a distractor.
 """
+import math
+
 from framework import Gen, num, money, frac
 from fractions import Fraction as Fr
 
@@ -29,6 +31,14 @@ class LinearOneStep(Gen):
                 (Fr(c + b, a), "adding %d to both sides instead of subtracting it." % abs(b)),
                 (-x, "solving correctly and then dropping the sign."),
                 (Fr(c, a), "dividing before moving the constant across."),
+                # Two of the four above are fractions on most draws while the solution
+                # is always whole, so what was left to choose from was the mirror image
+                # and a number several times the size of the answer, and the key sat at
+                # one value rank on half the items. Subtracting the coefficient instead
+                # of dividing by it lands either side of the answer and is whole.
+                (x - a, "subtracting the coefficient from both sides instead of dividing by it."),
+                (x + a, "adding the coefficient to both sides instead of dividing by it."),
+                (b - c, "subtracting in the wrong order and never dividing."),
             ],
             "expl": "Subtract %d from both sides to get %dx = %d, then divide both sides by %d, "
             "which gives x = %s." % (b, a, c - b, a, num(x))
@@ -58,11 +68,22 @@ class LinearDistribute(Gen):
             "stem": "If %d(x %s %d) = %dx %s %d, what is the value of x?"
             % (a, "+" if b >= 0 else "-", abs(b), c, "+" if d >= 0 else "-", abs(d)),
             "answer": x,
+            # The solution is whole on some draws and a fraction on others, and so is
+            # each wrong answer, independently: the two with the same denominator as the
+            # solution follow it, the one over a plus c does not, and none of them has to
+            # agree. A fifth of these draws could not find four choices that render alike
+            # and was thrown away (INC-0092). The off by one pair fixes it for good,
+            # because adding one to the solution cannot change its shape, so whichever
+            # kind of draw this is there are always two more of its own kind to pick.
             "distractors": [
                 (Fr(d + a * b, a - c), "distributing %d to x but not to the constant inside the parentheses." % a),
                 (Fr(d - a * b, a + c), "adding the x coefficients instead of subtracting to collect them on one side."),
                 (-x, "collecting the variable terms on the left but the constants on the left as well, which flips the sign."),
                 (Fr(d - b, a - c), "forgetting to multiply the constant inside the parentheses by %d at all." % a),
+                (Fr(d + b, a - c), "getting the sign wrong on the constant inside the parentheses."),
+                (x + 1, "an off by one slip in the last division."),
+                (x - 1, "an off by one slip the other way."),
+                (d - a * b, "collecting the x terms correctly and never dividing by the difference of their coefficients."),
             ],
             "expl": "Distribute on the left to get %dx %s %d = %dx %s %d. Collect the x terms on "
             "one side and the constants on the other: %sx = %s, so x = %s."
@@ -90,14 +111,24 @@ class SlopeFromPoints(Gen):
             "stem": "A line in the xy-plane passes through the points (%d, %d) and (%d, %d). "
             "What is the slope of the line?" % (x1, y1, x2, y2),
             "answer": m,
+            # Two of these used to be the same number. Subtracting the coordinates in
+            # opposite orders and subtracting the y values in one order and the x values
+            # in the other both come to minus the slope, on every draw, so the list was
+            # one shorter than it read (INC-0090). The rest is shape: a slope is a whole
+            # number on some draws and a fraction on others, the rise and the run are
+            # always whole, and a choice set has to render alike, so each kind of draw
+            # needs four of its own kind to pick from (INC-0092).
             "distractors": [
                 (frac(x2 - x1, y2 - y1), "inverting the slope formula, putting the run over the rise."),
                 (-m, "subtracting the coordinates in opposite orders, once as point two minus point one and once the other way."),
+                (frac(x2 - x1, y1 - y2), "inverting the formula and reversing the signs as well."),
                 (frac(y2 + y1, x2 + x1), "adding the coordinates instead of subtracting them."),
-                (Fr(y1 - y2, x2 - x1), "subtracting the y values in one order and the x values in the other."),
                 (y2 - y1, "reporting the rise alone and never dividing by the run."),
                 (x2 - x1, "reporting the run alone."),
-                (Fr(y2 - y1, x2 - x1) + 1, "an off by one slip while subtracting coordinates."),
+                (y1 - y2, "reporting the rise alone, and subtracting it the other way round."),
+                ((y2 - y1) * (x2 - x1), "multiplying the rise by the run instead of dividing."),
+                (m + 1, "an off by one slip while subtracting coordinates."),
+                (m - 1, "an off by one slip the other way."),
             ],
             "expl": "Slope is the change in y over the change in x: (%d - %d) divided by "
             "(%d - %d), which is %s over %s, or %s."
@@ -189,8 +220,17 @@ class ParallelPerpendicular(Gen):
     sub = "Linear functions"
     diff = 3
 
+    # Both parts of the slope bigger than one and sharing no factor, so the given slope
+    # and its negative reciprocal are BOTH proper fractions. With p allowed to be 1 a
+    # perpendicular slope came out whole while every wrong answer stayed a fraction, and
+    # with q dividing p the given slope did, and either way the choices could not be made
+    # to render alike and the draw was thrown away: better than a quarter of them on the
+    # exams that ask for five (INC-0092).
+    PQ = [(p, q) for p in (2, 3, 4, 5, 7, 8) for q in (2, 3, 4, 5, 7, 8)
+          if p != q and math.gcd(p, q) == 1]
+
     def build(self, rng):
-        p, q = rng.choice([1, 2, 3, 4, 5, 7]), rng.choice([2, 3, 4, 5, 8])
+        p, q = rng.choice(self.PQ)
         m = Fr(rng.choice([-1, 1]) * p, q)
         b = rng.randint(-9, 9)
         kind = rng.choice(["parallel", "perpendicular"])
@@ -291,24 +331,38 @@ class AbsoluteValue(Gen):
     diff = 3
 
     def build(self, rng):
+        # Built from the two solutions rather than from the coefficients, so every
+        # choice is a whole number. Drawing a, b and k independently left the two
+        # solutions as fractions whenever a did not divide k minus b, while the sum of
+        # them often came out whole, and a lone whole number among fractions is
+        # visibly not one of the wrong answers. make() drops a draw whose choices do
+        # not render alike, so nearly half of this schema's draws were discarded on the
+        # exams that ask for five choices (INC-0092). Choosing the solutions first and
+        # deriving the equation from them costs nothing and asks the same question:
+        # a is still the coefficient, and b and k are still whatever they have to be.
         a = rng.choice([1, 2, 3, 4])
-        b = rng.choice([-9, -6, -4, 3, 5, 7, 11])
-        k = rng.choice([4, 6, 8, 10, 12, 15])
-        hi = Fr(k - b, a)
-        lo = Fr(-k - b, a)
-        s = hi + lo
+        # With a odd the two solutions have to share a parity for b and k to come out
+        # whole; with a even any span works.
+        span = rng.choice([2, 4, 6, 8] if a % 2 else [1, 2, 3, 4, 5, 6, 7, 8])
+        lo = rng.randint(-9, 4)
+        hi = lo + span
+        b = -a * (lo + hi) // 2
+        k = a * span // 2
+        s = lo + hi
+        inside = "%dx" % a if b == 0 else "%dx %s %d" % (a, "+" if b > 0 else "-", abs(b))
         return {
-            "stem": "If |%dx %s %d| = %d, what is the sum of all possible values of x?"
-            % (a, "+" if b >= 0 else "-", abs(b), k),
+            "stem": "If |%s| = %d, what is the sum of all possible values of x?" % (inside, k),
             "answer": s,
             "distractors": [
                 (hi, "solving only the positive case and never setting the inside equal to negative %d." % k),
                 (hi - lo, "subtracting the two solutions when the question asks for their sum."),
-                (Fr(-2 * b, a) * -1, "getting both solutions but combining them with the wrong sign."),
+                (-s, "getting both solutions but combining them with the wrong sign."),
                 (lo, "solving only the negative case."),
+                (hi * lo, "multiplying the two solutions instead of adding them."),
+                (s + a, "folding the coefficient of x into the answer a second time."),
             ],
-            "expl": "The expression inside the bars equals %d or negative %d, giving x = %s and "
-            "x = %s. Their sum is %s." % (k, k, num(hi), num(lo), num(s)),
+            "expl": "The expression inside the bars equals %d or negative %d, giving x = %d and "
+            "x = %d. Their sum is %d." % (k, k, hi, lo, s),
         }
 
 

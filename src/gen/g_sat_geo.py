@@ -21,12 +21,19 @@ class TriangleAngles(Gen):
             "stem": "In a triangle, two of the interior angles measure %d degrees and %d "
             "degrees. What is the measure of the third interior angle?" % (a, b),
             "answer": c,
+            # Every slip here overshoots: using 360, subtracting one angle instead of
+            # two, adding the given angles. That left the third angle as the smallest of
+            # the choices on a quarter of the items and pinned its value rank on 44
+            # percent. Subtracting the two given angles from each other, and slipping the
+            # subtraction the other way, are the two that land below it.
             "distractors": [
                 (360 - a - b, "using 360 degrees for the angle sum of a triangle instead of 180."),
                 (180 - a, "subtracting only one of the two given angles."),
                 (a + b, "adding the two given angles rather than subtracting their sum from 180."),
                 (90 - a if 90 - a > 0 else 90 + a, "assuming the triangle is right and working from 90 degrees."),
                 (c + 10, "an arithmetic slip in the subtraction."),
+                (c - 10 if c > 20 else None, "an arithmetic slip the other way."),
+                (abs(a - b) or None, "subtracting the two given angles from each other rather than from 180."),
             ],
             "expl": "The interior angles of a triangle sum to 180 degrees, so the third angle "
             "is 180 minus %d minus %d, which is %d degrees." % (a, b, c),
@@ -284,12 +291,20 @@ class SimilarTriangles(Gen):
             "side DE. If AB = %d, DE = %d, and BC = %d, what is the length of EF?"
             % (a, a * k, b),
             "answer": val,
+            # Four of the five old wrong answers were SMALLER than the scaled side
+            # whenever the given side was the smaller of the two, which is most draws,
+            # so the key sat second from the top and one value rank held it on two
+            # thirds of the schema. Applying the factor twice and using a factor one too
+            # large are both larger than the right answer and both things students do.
             "distractors": [
                 (b + (a * k - a), "adding the difference between the corresponding sides rather than applying the ratio."),
                 (Fr(b, k), "dividing by the scale factor when the second triangle is the larger one."),
                 (b, "copying the corresponding side without scaling it."),
                 (a * k, "reporting the side that was given rather than the one asked for."),
                 (val + k, "an arithmetic slip applying the scale factor."),
+                (val - k, "an arithmetic slip the other way."),
+                (val * k, "applying the scale factor a second time."),
+                (b * (k + 1), "using a scale factor one larger than the one the sides give."),
             ],
             "expl": "The scale factor from ABC to DEF is %d divided by %d, which is %d. "
             "Multiplying BC by that factor gives EF = %d times %d = %d."

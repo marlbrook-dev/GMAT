@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-08-17 and 2026-09-22, which is 36 days, across
-83 commits, by one owner directing a series of AI coding sessions. As of this
+84 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 54 Python files, 101 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 63 documents:
 1978 tracked files in total.
@@ -1118,7 +1118,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-83 commits in 36 days, one owner, a series of AI sessions. This
+84 commits in 36 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1210,22 +1210,22 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-91 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+92 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 39 | 43% |
-| Found by measuring something | 26 | 29% |
+| Found by reading the code or the output | 39 | 42% |
+| Found by measuring something | 27 | 29% |
 | A test caught it | 13 | 14% |
 | Found by rendering it and looking | 6 | 7% |
 | Found by a review bot or an adversarial pass | 5 | 5% |
 | A person hit it | 1 | 1% |
 | A build guard caught it | 1 | 1% |
 
-**This is the most useful table in the book.** 90 of 91 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 91 of 92 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1235,19 +1235,19 @@ well enough to audit later. Which is what this book is.
 | Severity | Count |
 | --- | ---: |
 | Wrong data shown or stored | 35 |
-| Silent loss | 21 |
+| Silent loss | 22 |
 | Degraded | 20 |
 | Cosmetic | 12 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 21 of 91. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 22 of 92. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 29 |
+| Content generation | 30 |
 | Tests and guards | 18 |
 | Front end | 8 |
 | Build system | 7 |
@@ -1262,7 +1262,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-85 of 91 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+86 of 92 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1283,7 +1283,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-15 of 91 incidents record that they repeat an earlier lesson, 19 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+16 of 92 incidents record that they repeat an earlier lesson, 20 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1298,8 +1298,9 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0083 The rules digest promises to be prompt sized and its generator grows without bound | INC-0084 | 1 |
 | INC-0086 A finished generator module that nothing imported, and two of its four schemas produced nothing | INC-0090 | 1 |
 | INC-0088 A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked | INC-0089 | 1 |
+| INC-0090 Two of a schema's three question forms could not build, and the only sign was an item count | INC-0092 | 1 |
 
-The largest family runs to 13 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
+The largest family runs to 14 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
 
 Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.
 
@@ -1315,7 +1316,7 @@ Incidents that name an earlier one without claiming to repeat it. Each was read 
 
 Files named by three or more incidents. This is not the same signal as the list above: a file that is the natural home for many checks will appear here without any one of them having failed. It says where the work has been, and where a reader new to the codebase should look first.
 
-- `src/build_banks.py`, 12 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011, INC-0079, INC-0081, INC-0086, INC-0088, INC-0089, INC-0090, INC-0091)
+- `src/build_banks.py`, 13 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011, INC-0079, INC-0081, INC-0086, INC-0088, INC-0089, INC-0090, INC-0091, INC-0092)
 - `src/build.py`, 11 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067, INC-0076, INC-0080)
 - `src/test.js`, 8 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085)
 - `src/review_bot.js`, 5 incidents (INC-0022, INC-0026, INC-0051, INC-0061, INC-0077)
@@ -1334,7 +1335,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (29)
+## Content generation (30)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -1692,6 +1693,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** Each of the four now offers wrong answers on both sides of the key, taken from real slips rather than invented to fill a side: counting grid lines rather than the squares between them and adding the perimeter to the area sit above an area key, squaring the rectangle on its longer or its shorter side sits below a perimeter key, the sum of the three face areas sits below a volume and cubing the longest edge sits above it, and dividing by the sum of the two legs or by the perimeter is the one common trigonometric slip that lands below the ratio. The worst value rank across the four went from 47 percent to 30, and smallest is key on the trigonometry schema from 49 percent to 11.
 - **What stops it now.** check_bias already measures which value rank the key holds for every schema at every width; what this change adds is that none of the four is recorded as debt any more, so the check holds all of them to the ordinary cap in `src/build_banks.py`
 - **Lesson.** A list of misconceptions is a list of labels and a student sees numbers. Where every characteristic error runs the same direction the key sits at a predictable place in the ordered options however carefully the item is shuffled, because the shuffler can only place it among the candidates it is handed. When writing wrong answers, sort them next to the right one and look at which side they fall on.
+
+
+### INC-0092. A schema threw away three draws in four, and the counter that knew was read by nobody
+
+*2026-09-22, Silent loss*
+
+- **What was seen.** The exponential growth schema discarded 69 to 75 percent of everything it built, on all four exams that carry it, and the absolute value schema discarded 48 percent on the two that ask for five choices. Twenty nine schema and exam pairs lose draws this way. None of it appeared anywhere: not in the per category report, not in the bias check, not in the starvation check written the same day, and not in any test. The banks still filled, because a category that comes up short is topped up by the schema's neighbours.
+- **Why.** Two causes, one on top of the other. The item cause is that a distractor which does not LOOK like the answer is never chosen, so make() keeps only candidates whose rendered shape matches the key's, and drops the draw when too few remain. The exponential schema multiplies a starting amount by a fraction raised to a power, so its key renders as a whole number on one draw, two decimal places on the next and a fraction on the one after, while its wrong answers render differently again: the pool of same shaped candidates is empty most of the time and the question type has no stable shape to hold them to. The reporting cause is the one that let it sit: make() counts these rejections into self.shape_misses, and shape_misses is written in exactly one place and read in none. A counter incremented for nobody is not a measurement, and the number it held was the largest single loss in the bank.
+- **How it surfaced.** Counting what every schema produces per draw at each exam's choice count, after a smaller version of the same loss was found and guarded the day before. The guard written then matched on one rejection message, and this is the other one. (Found by measuring something)
+- **Fix.** Eleven schemas, and the same two questions each time: does this question have one shape, and does it offer four wrong answers of that shape. The exponential growth schema asks for the quantity to the nearest whole number, which is how a real exam asks it. The absolute value schema is built from its two solutions rather than from the coefficients, so both come out whole. The percent question draws a base that makes the answer whole. The perpendicular slope schema takes both parts of its slope bigger than one and coprime, so the given slope and its negative reciprocal are both proper fractions. The distribute schema gains an off by one pair, which cannot change the shape of the answer it is built from and so supplies two same shaped candidates on every draw whichever kind it is. The ACT science table prints its readings to one decimal place, because a measurement column with uniform precision is both how a real table looks and the only way its readings can be offered as choices. The slope schema also lost a wrong answer that was minus the slope under a second name. Nothing was recorded to make any of this pass.
+- **What stops it now.** check_discarded counts AssemblyError, which is the exception make() raises when it cannot assemble what a schema offered, rather than matching the wording of one of the two messages; it draws a fixed number of times per schema per exam so the figure is exact, fails the build above a twentieth, and holds what is still over in DISCARD_DEBT. shape_misses is gone: a counter nothing reads is worse than none in `src/build_banks.py`
+- **Lesson.** A counter that nothing reads is not instrumentation, it is a comment that looks like instrumentation, and it is worse than nothing because it answers the question 'is anyone watching this' with a yes. Every time a guard is written against one symptom, ask what the same failure looks like arriving another way, and count the whole category rather than the instance that prompted it.
 
 
 ## Tests and guards (18)
@@ -2575,6 +2588,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A finished generator module that nothing imported, and two of its four schemas produced nothing (INC-0086)</small>
 - [ ] **Learned 2 times over.** A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell. When a measurement cannot be trusted at a small sample, widen the tolerance to what the sample supports rather than declining to measure, and notice when a count of what was measured does not move after you add something to measure.  
   <small>A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked (INC-0088)</small>
+- [ ] **Learned 2 times over.** A generator's wrong answers are written as labels and read as labels, and nobody looks at the values two labels produce. Where the question type makes two misconceptions arithmetically identical the list is shorter than it reads, and because a discarded draw is the ordinary way a schema says no, a whole question form can vanish from an exam leaving nothing behind but a number nobody has a reference for. Count what a schema actually produces at each width it has to serve, and compare the widths against each other.  
+  <small>Two of a schema's three question forms could not build, and the only sign was an item count (INC-0090)</small>
 - [ ] Any generator that claims reproducibility must be seeded from something stable across processes. hash() is not, in Python, and the failure shows up as a flaky test rather than as a wrong answer.  
   <small>Item banks were different on every build because Python randomises hash() (INC-0003)</small>
 - [ ] Deletion by shadowing is invisible. Any collection whose size is a fact about the product needs its size asserted, not just its contents.  
@@ -2619,10 +2634,10 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>One flashcard for a skill, for as long as anyone cared to look (INC-0085)</small>
 - [ ] Reading the record does not prevent the defect; the practice does. This one was written hours after its own lesson was read closely enough to be catalogued as a recurrence, and it was caught by rendering three items rather than by remembering. Budget the render, not the recollection.  
   <small>The same corpus field in two grammatical slots, in a schema written the same day the guard was read (INC-0087)</small>
-- [ ] A generator's wrong answers are written as labels and read as labels, and nobody looks at the values two labels produce. Where the question type makes two misconceptions arithmetically identical the list is shorter than it reads, and because a discarded draw is the ordinary way a schema says no, a whole question form can vanish from an exam leaving nothing behind but a number nobody has a reference for. Count what a schema actually produces at each width it has to serve, and compare the widths against each other.  
-  <small>Two of a schema's three question forms could not build, and the only sign was an item count (INC-0090)</small>
 - [ ] A list of misconceptions is a list of labels and a student sees numbers. Where every characteristic error runs the same direction the key sits at a predictable place in the ordered options however carefully the item is shuffled, because the shuffler can only place it among the candidates it is handed. When writing wrong answers, sort them next to the right one and look at which side they fall on.  
   <small>Every wrong answer a schema could think of was bigger than the right one (INC-0091)</small>
+- [ ] A counter that nothing reads is not instrumentation, it is a comment that looks like instrumentation, and it is worse than nothing because it answers the question 'is anyone watching this' with a yes. Every time a guard is written against one symptom, ask what the same failure looks like arriving another way, and count the whole category rather than the instance that prompted it.  
+  <small>A schema threw away three draws in four, and the counter that knew was read by nobody (INC-0092)</small>
 
 
 ## Database
@@ -2871,7 +2886,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 91 real defects reduced to the rules that prevent them,
+the whole project: 92 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -2911,7 +2926,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-91 defects already prevented is genuinely ahead, and every defect it hits
+92 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

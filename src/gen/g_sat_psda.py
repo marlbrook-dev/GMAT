@@ -1,4 +1,6 @@
 """SAT Problem Solving and Data Analysis (m_psda): ratios, rates, percents, statistics, probability."""
+import math
+
 from framework import Gen, num, money, frac, ItemError
 from fractions import Fraction as Fr
 
@@ -12,7 +14,15 @@ class PercentOf(Gen):
 
     def build(self, rng):
         pct = rng.choice([4, 5, 8, 12, 15, 18, 20, 24, 25, 30, 35, 40, 60, 75])
-        base = rng.choice([40, 60, 80, 120, 150, 180, 200, 250, 320, 400, 450, 500])
+        # The base is drawn from the multiples that make the answer whole. Drawn freely
+        # it was whole on about seven draws in ten and a decimal on the rest, while the
+        # wrong answers came out whole, as decimals and as fractions on their own
+        # schedule, and a choice set has to render alike: every draw with a decimal
+        # answer was thrown away, which was better than a quarter of the schema on the
+        # exams that ask for five choices (INC-0092). Nothing about the question changes;
+        # a percentage question with a whole answer is the ordinary kind.
+        step = 100 // math.gcd(pct, 100)
+        base = step * rng.randint(max(2, 40 // step), 500 // step)
         val = Fr(pct, 100) * base
         return {
             "stem": "What is %d percent of %d?" % (pct, base),
@@ -23,6 +33,8 @@ class PercentOf(Gen):
                 (base - val, "finding the part that remains rather than the part asked for."),
                 (Fr(pct, 100) * base * 10, "misplacing the decimal point by one place."),
                 (val + pct, "adding the percent to the answer."),
+                (base + val, "adding the part to the whole rather than reporting the part."),
+                (100 - pct, "answering with what is left of the percentage rather than with the part."),
             ],
             "expl": "%d percent is %s as a fraction, and %s of %d is %s."
             % (pct, num(Fr(pct, 100)), num(Fr(pct, 100)), base, num(val)),
@@ -123,6 +135,12 @@ class UnitRate(Gen):
                                  "the %d." % (b, per, c, c)),
                 ((a + b) * c, "adding the two quantities in the setup and scaling the sum, "
                               "rather than dividing to find the rate first."),
+                # Either side of the answer and one unit of the rate away from it, which
+                # is where a miscount of the periods lands and the only pair of
+                # candidates that sits close enough to move the key's rank rather than
+                # bracket it from a distance.
+                (val + rate, "counting one period too many at the right rate."),
+                (val - rate, "counting one period too few at the right rate."),
             ],
             "expl": "The rate is %d %s divided by %d %s, which is %d %s per %s. Over %d %s that "
             "gives %d %s." % (a, unit, b, per, rate, unit, per[:-1], c, per, val, unit),
