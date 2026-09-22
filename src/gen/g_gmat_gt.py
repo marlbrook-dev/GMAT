@@ -371,10 +371,22 @@ class CountAbove(GTBase):
         lo, hi = min(col), max(col)
         if hi - lo < 200:
             raise ItemError("column too flat for a threshold")
-        thr = rng.randrange(lo + 1, hi, max(10, (hi - lo) // 8))
+        # Draw how many rows should clear the threshold, then choose a threshold that
+        # gives that count. Drawing the threshold across the range instead put the answer
+        # at 1 on 47 percent of this schema's items, because a column's values cluster low
+        # and most thresholds leave only the top row above them (INC-0081).
+        srt = sorted(col, reverse=True)
+        # Only the splits with room for a threshold between them, drawn evenly. Drawing
+        # the count first and then testing whether it fits threw away most of the draws
+        # and threw them away unevenly, which is the same selection by a different route.
+        spots = [i for i in range(1, len(col)) if srt[i - 1] - srt[i] >= 2]
+        if not spots:
+            raise ItemError("no gap in the column wide enough for a threshold")
+        want = rng.choice(spots)
+        thr = rng.randrange(srt[want] + 1, srt[want - 1])
         ans = sum(1 for v in col if v > thr)
-        if ans in (0, len(col)):
-            raise ItemError("threshold excludes everything or nothing")
+        if ans != want:
+            raise ItemError("ties in the column put the count off the one drawn")
         avg = sum(col) / float(len(col))
         cands = [(float(len(col) - ans), "counting the " + scen["rowlab"].lower()
                   + "s that fall below the threshold instead"),

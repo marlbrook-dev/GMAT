@@ -12,6 +12,7 @@ import pathlib
 import re
 import sys
 import zlib
+from collections import Counter
 
 D = pathlib.Path(__file__).parent
 sys.path.insert(0, str(D / "gen"))
@@ -143,74 +144,82 @@ def plan_for(exam, pool):
 FIXED_CHOICE = {"gmat_ds_linear", "gmat_ds_percent", "gmat_ds_rectangle",
                 "gmat_ds_average", "gmat_ds_ratio"}
 
-# Each entry is (longest or largest, shortest or smallest, one rank holds), MEASURED
+# Each entry is (longest or largest, shortest or smallest, one rank holds, one answer
+# value holds), MEASURED
 # on the day the check was written, never a guess. They are what the bank is, not
 # what it should be: a schema is allowed to sit at its recorded number and nowhere
 # worse. Lower an entry when a schema is improved; the check refuses an entry that
 # is no longer needed, so the table cannot outlive the problem it records.
+#
+# The fourth number is the first figure here about what the answer IS rather than where
+# it sits among the choices. Three place based checks share a blind spot the size of
+# everything else, and msr_count answered 1 on 98 percent of its items while passing all
+# three (INC-0081).
 #
 # The three worst were fixed rather than recorded. sat_rw_apostrophe was answerable
 # at 100 percent by picking the third shortest option and is at 41; cr_plan_eval put
 # the key shortest on 98 percent of 1,117 items and is at 19; cr_plan_weaken put it
 # longest on 65 percent of 1,106 and is at 15.
 SCHEMA_DEBT = {
-    ('act', 'act_kol_redundancy'): (0, 100, 100),
-    ('act', 'act_nq_proportion'): (24, 3, 48),
-    ('act', 'act_nq_scinot'): (6, 10, 50),
-    ('act', 'act_s_constant'): (49, 8, 47),
-    ('act', 'act_s_support'): (0, 0, 48),
-    ('act', 'act_s_why2'): (1, 18, 53),
-    ('act', 'sat_adv_exponential>act_m_fun'): (33, 5, 48),
-    ('act', 'sat_adv_radical>act_m_nq'): (52, 3, 52),
-    ('act', 'sat_alg_word>act_m_alg'): (8, 0, 48),
-    ('act', 'sat_geo_circle>act_m_geo'): (0, 29, 49),
-    ('act', 'sat_geo_similar>act_m_geo'): (31, 4, 55),
-    ('act', 'sat_geo_volume>act_m_geo'): (27, 1, 50),
-    ('act', 'sat_psda_pctchange>act_m_ies'): (0, 50, 64),
-    ('act', 'sat_psda_prob>act_m_sp'): (0, 74, 74),
-    ('act', 'sat_psda_units>act_m_ies'): (50, 0, 50),
-    ('act', 'sat_rw_apostrophe>act_e_cse'): (14, 17, 47),
-    ('act', 'sat_rw_boundary>act_e_cse'): (34, 0, 50),
-    ('gmat', 'gt_avg'): (0, 9, 47),
-    ('gmat', 'gt_count'): (0, 8, 44),
-    ('gmat', 'gt_gap'): (0, 19, 47),
-    ('gmat', 'gt_ratio'): (6, 0, 84),
-    ('gmat', 'msr_count'): (0, 7, 93),
-    ('gmat', 'msr_fix'): (0, 38, 38),
-    ('gmat', 'sat_adv_exponential>q_rrp'): (42, 0, 44),
-    ('gmat', 'sat_adv_exprules>q_vof'): (19, 6, 44),
-    ('gmat', 'sat_adv_radical>q_vof'): (47, 2, 47),
-    ('gmat', 'sat_alg_distribute>q_alg'): (40, 42, 42),
-    ('gmat', 'sat_alg_linear1>q_alg'): (1, 7, 45),
-    ('gmat', 'sat_psda_pctchange>q_rrp'): (0, 0, 47),
-    ('gmat', 'sat_psda_percent>q_rrp'): (0, 45, 45),
-    ('gmat', 'sat_psda_prob>q_csp'): (0, 73, 73),
-    ('gmat', 'sat_psda_units>q_rrp'): (22, 0, 78),
-    ('gre', 'sat_adv_exponential>gre_arith'): (40, 0, 45),
-    ('gre', 'sat_adv_exprules>gre_arith'): (19, 6, 44),
-    ('gre', 'sat_adv_polyfactor>gre_alg'): (11, 41, 41),
-    ('gre', 'sat_adv_radical>gre_alg'): (52, 2, 52),
-    ('gre', 'sat_alg_distribute>gre_alg'): (37, 41, 41),
-    ('gre', 'sat_alg_linear1>gre_alg'): (1, 8, 47),
-    ('gre', 'sat_geo_angles>gre_geo'): (2, 26, 40),
-    ('gre', 'sat_geo_parallel>gre_geo'): (0, 22, 44),
-    ('gre', 'sat_geo_rect>gre_geo'): (21, 0, 38),
-    ('gre', 'sat_geo_similar>gre_geo'): (25, 0, 55),
-    ('gre', 'sat_geo_volume>gre_geo'): (20, 0, 44),
-    ('gre', 'sat_psda_pctchange>gre_arith'): (0, 0, 50),
-    ('gre', 'sat_psda_percent>gre_arith'): (0, 45, 45),
-    ('gre', 'sat_psda_prob>gre_data'): (0, 73, 73),
-    ('gre', 'sat_psda_units>gre_arith'): (22, 0, 78),
-    ('sat', 'sat_adv_exponential'): (35, 3, 50),
-    ('sat', 'sat_adv_radical'): (52, 3, 52),
-    ('sat', 'sat_alg_word'): (6, 0, 53),
-    ('sat', 'sat_geo_circle'): (0, 28, 49),
-    ('sat', 'sat_geo_similar'): (35, 6, 50),
-    ('sat', 'sat_psda_pctchange'): (0, 50, 61),
-    ('sat', 'sat_psda_percent'): (0, 39, 49),
-    ('sat', 'sat_psda_prob'): (0, 73, 73),
-    ('sat', 'sat_psda_units'): (50, 0, 50),
-    ('sat', 'sat_rw_boundary'): (34, 0, 50),
+    ('act', 'act_kol_redundancy'): (0, 100, 100, 4),
+    ('act', 'act_nq_proportion'): (24, 3, 48, 5),
+    ('act', 'act_nq_scinot'): (6, 10, 50, 1),
+    ('act', 'act_s_interp'): (46, 0, 39, 1),
+    ('act', 'act_s_support'): (0, 0, 51, 3),
+    ('act', 'act_s_why2'): (1, 19, 52, 4),
+    ('act', 'sat_adv_exponential>act_m_fun'): (33, 5, 48, 5),
+    ('act', 'sat_adv_radical>act_m_nq'): (52, 3, 52, 3),
+    ('act', 'sat_alg_word>act_m_alg'): (8, 0, 48, 2),
+    ('act', 'sat_geo_circle>act_m_geo'): (0, 29, 49, 11),
+    ('act', 'sat_geo_similar>act_m_geo'): (31, 4, 55, 12),
+    ('act', 'sat_geo_volume>act_m_geo'): (27, 1, 50, 4),
+    ('act', 'sat_psda_pctchange>act_m_ies'): (0, 50, 64, 13),
+    ('act', 'sat_psda_prob>act_m_sp'): (0, 74, 74, 5),
+    ('act', 'sat_psda_units>act_m_ies'): (50, 0, 50, 4),
+    ('act', 'sat_rw_apostrophe>act_e_cse'): (14, 17, 47, 1),
+    ('act', 'sat_rw_boundary>act_e_cse'): (34, 0, 50, 0),
+    ('gmat', 'gmat_ds_linear'): (2, 13, 42, 42),
+    ('gmat', 'gmat_ds_percent'): (42, 3, 42, 42),
+    ('gmat', 'gmat_ds_rectangle'): (45, 4, 45, 45),
+    ('gmat', 'gt_avg'): (0, 11, 48, 1),
+    ('gmat', 'gt_count'): (0, 7, 41, 40),
+    ('gmat', 'gt_gap'): (0, 18, 49, 3),
+    ('gmat', 'gt_ratio'): (7, 0, 81, 8),
+    ('gmat', 'msr_count'): (0, 3, 45, 42),
+    ('gmat', 'sat_adv_exponential>q_rrp'): (42, 0, 44, 10),
+    ('gmat', 'sat_adv_exprules>q_vof'): (19, 6, 44, 8),
+    ('gmat', 'sat_adv_radical>q_vof'): (47, 2, 47, 2),
+    ('gmat', 'sat_alg_distribute>q_alg'): (40, 42, 42, 3),
+    ('gmat', 'sat_alg_linear1>q_alg'): (1, 7, 45, 9),
+    ('gmat', 'sat_psda_pctchange>q_rrp'): (0, 0, 47, 14),
+    ('gmat', 'sat_psda_percent>q_rrp'): (0, 45, 45, 5),
+    ('gmat', 'sat_psda_prob>q_csp'): (0, 73, 73, 6),
+    ('gmat', 'sat_psda_units>q_rrp'): (22, 0, 78, 5),
+    ('gre', 'sat_adv_exponential>gre_arith'): (40, 0, 45, 10),
+    ('gre', 'sat_adv_exprules>gre_arith'): (19, 6, 44, 8),
+    ('gre', 'sat_adv_polyfactor>gre_alg'): (11, 41, 41, 4),
+    ('gre', 'sat_adv_radical>gre_alg'): (52, 2, 52, 3),
+    ('gre', 'sat_alg_distribute>gre_alg'): (37, 41, 41, 4),
+    ('gre', 'sat_alg_linear1>gre_alg'): (1, 8, 47, 12),
+    ('gre', 'sat_geo_angles>gre_geo'): (2, 26, 40, 3),
+    ('gre', 'sat_geo_parallel>gre_geo'): (0, 22, 44, 2),
+    ('gre', 'sat_geo_rect>gre_geo'): (21, 0, 38, 4),
+    ('gre', 'sat_geo_similar>gre_geo'): (25, 0, 55, 12),
+    ('gre', 'sat_geo_volume>gre_geo'): (20, 0, 44, 3),
+    ('gre', 'sat_psda_pctchange>gre_arith'): (0, 0, 50, 14),
+    ('gre', 'sat_psda_percent>gre_arith'): (0, 45, 45, 6),
+    ('gre', 'sat_psda_prob>gre_data'): (0, 73, 73, 6),
+    ('gre', 'sat_psda_units>gre_arith'): (22, 0, 78, 5),
+    ('sat', 'sat_adv_exponential'): (35, 3, 50, 4),
+    ('sat', 'sat_adv_radical'): (52, 3, 52, 2),
+    ('sat', 'sat_alg_word'): (6, 0, 53, 3),
+    ('sat', 'sat_geo_circle'): (0, 28, 49, 11),
+    ('sat', 'sat_geo_similar'): (35, 6, 50, 13),
+    ('sat', 'sat_psda_pctchange'): (0, 50, 61, 13),
+    ('sat', 'sat_psda_percent'): (0, 39, 49, 6),
+    ('sat', 'sat_psda_prob'): (0, 73, 73, 5),
+    ('sat', 'sat_psda_units'): (50, 0, 50, 4),
+    ('sat', 'sat_rw_boundary'): (34, 0, 50, 0),
 }
 
 
@@ -265,32 +274,58 @@ def bias(items, choices):
     n = max(1, counted)
     numeric = bool(items) and all(_numeric(it) for it in items
                                   if isinstance(it["answer"], int))
+    # The fourth figure is about the answer itself rather than where it sat. Every other
+    # check here measures the key's place among the choices, and a schema whose parameters
+    # produce the same answer over and over passes all of them while a student who always
+    # says that answer scores 98 percent (INC-0081).
+    vals = Counter(str(it["choices"][it["answer"]]) for it in items
+                   if isinstance(it["answer"], int))
+    top = int(round(100.0 * max(vals.values()) / max(1, counted))) if vals else 0
     return (int(round(100.0 * longest / max(1, scored))),
             int(round(100.0 * shortest / max(1, scored))),
-            int(round(100.0 * max(rank) / n)), scored, counted, numeric)
+            int(round(100.0 * max(rank) / n)), scored, counted, numeric,
+            top, len(vals))
 
 
 def check_bias(measured, verbose=True):
     """Fail the build on a schema over its recorded bias, or on a stale recording."""
     problems, stale = [], []
-    for (exam, gen, choices), (lo, sh, best, scored, n, num) in sorted(measured.items()):
+    for (exam, gen, choices), (lo, sh, best, scored, n, num, top, ndist) in \
+            sorted(measured.items()):
         if n < 50:
             continue
-        if gen in FIXED_CHOICE:
-            continue
+        # A fixed choice schema offers the same five statements on every item, so its
+        # length and value ranks are the answer position wearing another name and the
+        # position has its own check. Which statement is correct is not: a student who
+        # always says the same one is using the fourth figure, so that one still applies.
+        fixed = gen in FIXED_CHOICE
         chance = int(round(100.0 / choices))
         cap = int(round(1.8 * chance))
         rec = SCHEMA_DEBT.get((exam, gen))
-        limit = tuple(max(cap, r) for r in rec) if rec else (cap, cap, cap)
+        limit = tuple(max(cap, r) for r in rec[:3]) if rec else (cap, cap, cap)
         big, small, one = (("largest is key", "smallest is key", "one value rank holds")
                            if num else
                            ("longest is key", "shortest is key", "one length rank holds"))
-        for got, lim, what in ((lo, limit[0], big), (sh, limit[1], small),
-                               (best, limit[2], one)):
+        # The answer value check has its own chance rate, and it is bounded at both ends. A
+        # schema that can only produce two different answers cannot go below fifty, so
+        # holding it to 100 over the number of CHOICES asks for something arithmetic
+        # forbids. And a schema producing hundreds of different answers has a chance rate
+        # near zero, where 1.8 times it is also near zero; always saying the same answer
+        # is not a strategy worth having unless it beats guessing, so the limit is never
+        # stricter than the ordinary cap either.
+        vchance = max(int(round(100.0 / max(1, ndist))), chance)
+        vlimit = max(int(round(1.8 * vchance)),
+                     rec[3] if rec and len(rec) > 3 else 0)
+        checks = [(top, vlimit, "one answer value holds", vchance)]
+        if not fixed:
+            checks = [(lo, limit[0], big, chance), (sh, limit[1], small, chance),
+                      (best, limit[2], one, chance)] + checks
+        for got, lim, what, ch in checks:
             if got > lim:
                 problems.append("  %s/%-30s %s on %d percent of %d, above %d (chance %d)"
-                                % (exam, gen, what, got, n, lim, chance))
-        if rec and lo <= cap and sh <= cap and best <= cap:
+                                % (exam, gen, what, got, n, lim, ch))
+        vcap = int(round(1.8 * max(int(round(100.0 / max(1, ndist))), chance)))
+        if rec and top <= vcap and (fixed or (lo <= cap and sh <= cap and best <= cap)):
             stale.append("  %s/%s is inside tolerance now (%d/%d/%d); delete its "
                          "SCHEMA_DEBT entry" % (exam, gen, lo, sh, best))
     if problems or stale:
