@@ -203,6 +203,17 @@ FIXED_CHOICE = {"gmat_ds_linear", "gmat_ds_percent", "gmat_ds_rectangle",
 # a defect to grind down, so the next person does not spend an hour on one I already spent
 # an hour on. A schema not named here has no excuse and should come down.
 SCHEMA_NOTES = {
+    ("sat", "sat_geo_volume"):
+        "Drift, not a regression, and the measurements are on the record either side. "
+        "It carried no entry because it sat at exactly its cap, 45 on 737 items, which "
+        "passes only because the check is strictly greater than. Widening sat_geo_circle "
+        "to three question forms changed what the shared dedup set had already taken by "
+        "the time this schema ran, and it moved to 48 on 727. sat_geo_similar moved 50 to "
+        "52 the same way, and in the other direction act_s_support, the GRE angles and "
+        "the GRE similar schemas all improved, while the ACT volume and GRE rectangle "
+        "entries cleared entirely. A schema resting on its cap with nothing recorded is "
+        "the fragile case: any neighbour that changes the draw tips it over, and nobody "
+        "learns anything about the schema itself.",
     ("act", "act_kol_concision"):
         "as act_kol_redundancy, and for the same reason: the key is the concise option "
         "and no shorter one preserves the meaning. Both were written in the same module "
@@ -224,12 +235,6 @@ SCHEMA_NOTES = {
         "sample. Shares its figures with the ACT remap of the same schema, which is the "
         "same fact counted twice rather than two findings.",
     ("act", "sat_geo_trig>act_m_geo"): "as sat/sat_geo_trig, the same schema remapped.",
-    ("gre", "sat_geo_circle>gre_geo"):
-        "REAL. One value rank holds on 57 percent of 42 items, which means the answer "
-        "sits in a predictable place in the ordered set of options. Surfaced by "
-        "INC-0088; the schema is shared with the SAT, where it ships enough items to "
-        "have been measured all along and is inside tolerance, so the skew belongs to "
-        "the GRE draw rather than to the schema.",
     ("act", "act_kol_redundancy"):
         "the key is the concise option, which is the shortest by the nature of the "
         "skill, and no shorter option can preserve the meaning. Picking the shortest "
@@ -249,15 +254,13 @@ SCHEMA_DEBT = {
     ('act', 'act_nq_scinot'): (6, 10, 50, 1),
     ('act', 'act_s_claim'): (41, 2, 55, 35),
     ('act', 'act_s_interp'): (46, 0, 39, 1),
-    ('act', 'act_s_support'): (0, 0, 51, 3),
+    ('act', 'act_s_support'): (0, 0, 48, 3),
     ('act', 'act_s_why2'): (1, 19, 52, 4),
     ('act', 'sat_adv_exponential>act_m_fun'): (33, 5, 48, 5),
     ('act', 'sat_adv_radical>act_m_nq'): (52, 3, 52, 3),
     ('act', 'sat_alg_word>act_m_alg'): (8, 0, 48, 2),
-    ('act', 'sat_geo_circle>act_m_geo'): (0, 29, 49, 11),
-    ('act', 'sat_geo_similar>act_m_geo'): (31, 4, 55, 12),
+    ('act', 'sat_geo_similar>act_m_geo'): (30, 4, 56, 11),
     ('act', 'sat_geo_trig>act_m_geo'): (0, 30, 50, 10),
-    ('act', 'sat_geo_volume>act_m_geo'): (27, 1, 50, 4),
     ('act', 'sat_rw_apostrophe>act_e_cse'): (14, 17, 47, 1),
     ('act', 'sat_rw_boundary>act_e_cse'): (34, 0, 50, 0),
     ('gmat', 'gmat_ds_percent'): (41, 3, 41, 41),
@@ -279,18 +282,16 @@ SCHEMA_DEBT = {
     ('gre', 'sat_adv_radical>gre_alg'): (52, 2, 52, 3),
     ('gre', 'sat_alg_distribute>gre_alg'): (37, 41, 41, 4),
     ('gre', 'sat_alg_linear1>gre_alg'): (1, 8, 47, 12),
-    ('gre', 'sat_geo_angles>gre_geo'): (2, 26, 40, 3),
-    ('gre', 'sat_geo_circle>gre_geo'): (0, 0, 57, 12),
+    ('gre', 'sat_geo_angles>gre_geo'): (3, 26, 39, 3),
     ('gre', 'sat_geo_parallel>gre_geo'): (0, 22, 44, 2),
-    ('gre', 'sat_geo_rect>gre_geo'): (21, 0, 38, 4),
-    ('gre', 'sat_geo_similar>gre_geo'): (25, 0, 55, 12),
-    ('gre', 'sat_geo_volume>gre_geo'): (20, 0, 44, 3),
+    ('gre', 'sat_geo_similar>gre_geo'): (28, 0, 53, 12),
+    ('gre', 'sat_geo_volume>gre_geo'): (21, 0, 44, 2),
     ('gre', 'sat_psda_percent>gre_arith'): (0, 45, 45, 6),
     ('sat', 'sat_adv_exponential'): (35, 3, 50, 4),
     ('sat', 'sat_adv_radical'): (52, 3, 52, 2),
     ('sat', 'sat_alg_word'): (6, 0, 53, 3),
-    ('sat', 'sat_geo_circle'): (0, 28, 49, 11),
-    ('sat', 'sat_geo_similar'): (35, 6, 50, 13),
+    ('sat', 'sat_geo_similar'): (33, 5, 52, 11),
+    ('sat', 'sat_geo_volume'): (25, 2, 48, 2),
     ('sat', 'sat_geo_trig'): (0, 30, 50, 10),
     ('sat', 'sat_psda_percent'): (0, 38, 49, 5),
     ('sat', 'sat_rw_boundary'): (34, 0, 50, 0),

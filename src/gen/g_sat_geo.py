@@ -80,6 +80,19 @@ class CircleAreaCircumference(Gen):
     diff = 2
 
     def build(self, rng):
+        # Three question forms, not two, and the third is here for the shape of its
+        # answer as much as for the skill. Asked forward, the key is r squared or 2r,
+        # and two distractors are larger than it by construction while only the radius
+        # is smaller, so the key landed at value rank 2 or 3 on every single draw and
+        # never at rank 1, 4 or 5. Working backwards from the area or circumference to
+        # the radius puts the key at the bottom of the set instead, which is both a real
+        # question form and the missing half of the distribution (INC-0088 recorded the
+        # tell; this is the fix rather than another recorded figure).
+        roll = rng.random()
+        if roll < 0.28:
+            return self._backwards(rng)
+        if roll < 0.50:
+            return self._across(rng)
         r = rng.choice([2, 3, 4, 5, 6, 7, 8, 9, 10, 12])
         ask = rng.choice(["area", "circumference"])
         given_d = rng.choice([True, False])
@@ -102,6 +115,67 @@ class CircleAreaCircumference(Gen):
             "expl": "The radius is %d. Area is pi times the radius squared, which is %d pi, and "
             "circumference is 2 pi times the radius, which is %d pi. The question asks for the "
             "%s, so the answer is %d." % (r, r * r, 2 * r, ask, val),
+        }
+
+    def _across(self, rng):
+        """Given the circumference, find the area.
+
+        The third shape of answer this schema needed. Asked forward the key sits at
+        value rank 2 or 3 and never higher, because the doubling errors are always
+        above it; asked backwards for the radius it sits at rank 1. Here it is the area,
+        which is larger than the radius, the diameter and twice the diameter, so the key
+        lands near the top and the distribution finally covers the range (INC-0088).
+        """
+        r = rng.choice([5, 6, 7, 8, 9, 10, 12])
+        return {
+            "stem": "A circle has a circumference of %d pi units. What is the area of the "
+                    "circle, in pi square units?" % (2 * r),
+            "answer": r * r,
+            "distractors": [
+                (2 * r, "reporting the circumference given rather than the area."),
+                (r, "reporting the radius rather than the area."),
+                (4 * r, "squaring the 2 in 2 pi r instead of squaring the radius."),
+                (2 * r * r, "doubling the area."),
+                (4 * r * r, "squaring the diameter rather than the radius."),
+            ],
+            "expl": "A circumference of %d pi means 2 r equals %d, so the radius is %d. The "
+                    "area is pi times the radius squared, which is %d pi square units."
+                    % (2 * r, 2 * r, r, r * r),
+        }
+
+    def _backwards(self, rng):
+        """Given the area or the circumference, find the radius.
+
+        r starts at 3 rather than 2 because at r equal to 2 the distractors collapse:
+        the diameter and the area are both 4, and twice the area and four times the
+        radius are both 8, which leaves two distinct wrong answers where four are needed.
+        """
+        # 4 is left out: there the area and twice the radius are both 16 and the pool
+        # collapses to three distinct wrong answers where four are needed. 2 is out for
+        # the same reason one step down.
+        r = rng.choice([3, 5, 6, 7, 8, 9, 10, 12])
+        from_area = rng.choice([True, False])
+        given = r * r if from_area else 2 * r
+        what = "an area of %d pi square units" % given if from_area \
+            else "a circumference of %d pi units" % given
+        # Five named misconceptions, not four, because the number given in the question
+        # is itself one of the others in each case: it is the area when the area is
+        # given and the diameter when the circumference is. Four survive either way,
+        # which is what a five choice item needs.
+        return {
+            "stem": "A circle has %s. What is the radius of the circle, in units?" % what,
+            "answer": r,
+            "distractors": [
+                (2 * r, "reporting the diameter rather than the radius."),
+                (4 * r, "doubling the diameter."),
+                (r * r, "computing the area rather than reading off the radius."),
+                (2 * r * r, "doubling the area instead of working back to the radius."),
+                (given, "reporting the number given in the question rather than working "
+                        "back from it."),
+            ],
+            "expl": "Area is pi times the radius squared and circumference is 2 pi times the "
+            "radius, so %s gives a radius of %d. The question asks for the radius itself, "
+            "not the diameter, which is %d." % (what, r, 2 * r),
         }
 
 
