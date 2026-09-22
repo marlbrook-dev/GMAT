@@ -7,10 +7,10 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-08-17 and 2026-09-21, which is 35 days, across
-66 commits, by one owner directing a series of AI coding sessions. As of this
-build it is 39 Python files, 91 JavaScript files, 24
+67 commits, by one owner directing a series of AI coding sessions. As of this
+build it is 40 Python files, 92 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 63 documents:
-1953 tracked files in total.
+1955 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -640,7 +640,7 @@ it is the difference between a product people trust and one they catch out.
 
 # Content at Scale, Without Lying About It
 
-This platform ships over a hundred thousand practice items across 44 bank
+This platform ships over a hundred thousand practice items across 45 bank
 files. Almost all are generated. The chapter is about how to do that without producing a
 number that is technically true and substantively false.
 
@@ -1118,7 +1118,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-66 commits in 35 days, one owner, a series of AI sessions. This
+67 commits in 35 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1210,7 +1210,7 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-61 recorded defects, over 35 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+62 recorded defects, over 35 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
@@ -1218,13 +1218,13 @@ well enough to audit later. Which is what this book is.
 | How | Count | Share |
 | --- | ---: | ---: |
 | Found by reading the code or the output | 24 | 39% |
-| Found by measuring something | 16 | 26% |
+| Found by measuring something | 17 | 27% |
 | A test caught it | 10 | 16% |
 | Found by rendering it and looking | 5 | 8% |
 | Found by a review bot or an adversarial pass | 5 | 8% |
 | A person hit it | 1 | 2% |
 
-**This is the most useful table in the book.** 60 of 61 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 61 of 62 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1235,11 +1235,11 @@ well enough to audit later. Which is what this book is.
 | --- | ---: |
 | Wrong data shown or stored | 22 |
 | Silent loss | 15 |
-| Degraded | 12 |
+| Degraded | 13 |
 | Cosmetic | 9 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 15 of 61. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 15 of 62. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
@@ -1247,8 +1247,8 @@ well enough to audit later. Which is what this book is.
 | Area | Count |
 | --- | ---: |
 | Tests and guards | 14 |
+| Content generation | 9 |
 | Front end | 8 |
-| Content generation | 8 |
 | CSS and layout | 5 |
 | Payments | 5 |
 | Infrastructure and deploy | 5 |
@@ -1261,7 +1261,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-55 of 61 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+56 of 62 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1483,6 +1483,126 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** A metric that moves against you when the product improves will eventually be used to justify reverting an improvement. When a number goes the wrong way after a change that should only have helped, measure the underlying thing directly before believing either the number or your own explanation of it. Never redefine the metric in the same change that made it look bad.
 
 
+## Content generation (9)
+
+
+### INC-0003. Item banks were different on every build because Python randomises hash()
+
+*2026-09-16, Wrong data shown or stored, `0d6c357` PR #33*
+
+- **What was seen.** Two builds of the same commit produced different banks, and the per-section bias figures pinned in the test file drifted run to run.
+- **Why.** build_banks.py seeded each category with abs(hash(exam + skill)). Python randomises string hashing per process by default.
+- **How it surfaced.** A pinned test figure would not stay pinned. (A test caught it)
+- **Fix.** Seed from zlib.crc32, which is stable across processes.
+- **What stops it now.** three consecutive builds must produce identical output in `src/build_banks.py`
+- **Cost.** a flaky ratchet that would have been disabled eventually
+- **Lesson.** Any generator that claims reproducibility must be seeded from something stable across processes. hash() is not, in Python, and the failure shows up as a flaky test rather than as a wrong answer.
+
+
+### INC-0004. A shadowed variable silently deleted 3000 items
+
+*2026-09-16, Silent loss, `aecccd9` PR #37*
+
+- **What was seen.** ACT Maths dropped from 4500 items to 1500 and the build reported success.
+- **Why.** Adding an ACT English mapping declared a second ACT_MAP that shadowed the existing one. Nothing errors when a map is smaller than it used to be.
+- **How it surfaced.** Comparing the reported category counts against the previous build. (Found by measuring something)
+- **Fix.** Merge the maps properly and read the section per skill.
+- **What stops it now.** the build prints per-category counts and the test file pins them in `src/test.js`
+- **Cost.** 3000 items, caught before merge
+- **Lesson.** Deletion by shadowing is invisible. Any collection whose size is a fact about the product needs its size asserted, not just its contents.
+
+
+### INC-0039. 225 of 302 correct answers sat at position A
+
+*2026-09-16, Wrong data shown or stored, `81eecec` PR #30*
+
+- **What was seen.** Three quarters of the correct answers in a new bank were the first option.
+- **Why.** Items were authored with the key written first and the position never randomised.
+- **How it surfaced.** Counting the key positions, a check nobody had run. (Found by measuring something)
+- **Fix.** Randomise the key position per draw.
+- **What stops it now.** the test suite pins the key-position distribution in `src/test.js`
+- **Cost.** a bank that could be beaten without reading it
+- **Lesson.** In any set of multiple-choice content, count where the answers are. A positional tell makes the whole set worthless to a test-wise user, and it is invisible item by item.
+
+
+### INC-0044. The longest option was the correct answer 81 percent of the time
+
+*2026-09-16, Wrong data shown or stored, `425a8bb` PR #35*
+
+- **What was seen.** A student who picked the longest option without reading the question scored 81 percent against a chance level of 20.
+- **Why.** Distractors were shorter than keys because a correct answer is naturally more qualified, and nothing measured the resulting length distribution.
+- **How it surfaced.** Measuring the accuracy of a strategy that ignores the question entirely. (Found by measuring something)
+- **Fix.** About ninety items had distractors rewritten to carry comparable development, each added clause chosen to leave the option wrong for the reason it was already wrong. 81 percent to 38, then to chance in a later pass.
+- **What stops it now.** a ratchet pins the length tell and fails if it rises in `src/test.js`
+- **Cost.** a section that could be beaten without reading it
+- **Lesson.** Test your content against the strategies a lazy adversary would use, not only against whether it is correct. Measure the score of a rule that ignores the question.
+
+
+### INC-0007. The dedup key counted a reshuffled question as a new one
+
+*2026-09-17, Wrong data shown or stored, `fc4114c` PR #39*
+
+- **What was seen.** Bank counts were inflated. The same question with its options rearranged looked distinct.
+- **Why.** canon() hashed the choices in the order they appeared, while the answer's position is randomised per draw.
+- **How it surfaced.** Sorting the choices before hashing, which immediately collapsed the counts. (Found by reading the code or the output)
+- **Fix.** Sort the choices inside canon().
+- **What stops it now.** canon() sorts, and the build reports distinct counts per category in `src/build_banks.py`
+- **Cost.** four ACT categories reported far above their real size
+- **Lesson.** A deduplication key must be canonical under every transformation the item legitimately undergoes. Ask what varies per draw before you hash.
+
+
+### INC-0008. Four passages produced five hundred fake distinct questions
+
+*2026-09-17, Wrong data shown or stored, `61c3ed2` PR #40*
+
+- **What was seen.** A reading generator with four passages reported five hundred distinct stated-idea items.
+- **Why.** The identity of a reading item is the passage plus the question asked, not the choices offered. The same stem with the same key varied only in which distractors came along.
+- **How it surfaced.** Reading the generated output rather than its count. (Found by reading the code or the output)
+- **Fix.** canon() lets a generator declare that its identity is the passage plus the question.
+- **What stops it now.** per-category distinct counts printed at build time in `src/build_banks.py`
+- **Cost.** would have shipped a bank five hundred deep and four questions wide
+- **Lesson.** The same inflation arrives through a different door every time you close one. When you fix a dedup bug, ask what else shares an identity.
+
+
+### INC-0009. Two conditionals hashed identically and half the inference items would have vanished
+
+*2026-09-17, Silent loss, `61c3ed2` PR #40*
+
+- **What was seen.** Half of a passage's inference questions disappeared from the corpus.
+- **Why.** Both conditionals produced the stem 'which of the following can be properly inferred from the passage', so they hashed to the same value and one was dropped as a duplicate.
+- **How it surfaced.** Measuring true yield per passage. (Found by measuring something)
+- **Fix.** Each conditional names the case it asks about.
+- **What stops it now.** yield per passage is measured and recorded, not assumed in `src/build_banks.py`
+- **Cost.** half the inference items in any corpus
+- **Lesson.** Dedup can be wrong in both directions. An over-broad key deletes real content as silently as a narrow one inflates it.
+
+
+### INC-0011. A length guard silently dropped sixteen valid items
+
+*2026-09-17, Silent loss, `61c3ed2` PR #40*
+
+- **What was seen.** Sixteen items never appeared in the bank.
+- **Why.** The guard measured characters, and the items were legitimately longer than the limit in characters while being normal in content.
+- **How it surfaced.** Counting inputs against outputs. (Found by measuring something)
+- **Fix.** Measure what the guard actually cares about.
+- **What stops it now.** input and output counts are compared at every filter stage in `src/build_banks.py`
+- **Cost.** sixteen items
+- **Lesson.** Every filter needs its rejection count reported. A filter that silently drops is indistinguishable from an input that was never there.
+
+
+### INC-0062. Correcting a length tell moves it one rank over, every time
+
+*2026-09-22, Degraded, PR #66*
+
+- **What was seen.** On two separate hand written banks, extending one distractor per item took the longest-is-key rate to near zero and left 25 of 35 and then 30 of 42 keys sitting second longest, so a reader picking the second longest option scored 71 percent on both.
+- **Why.** Mechanical rather than careless. Extending exactly one distractor past the key moves every key from rank 5 to rank 4 by construction. The recorded ratchet measures only the two extremes, so a corrected bank passes it while carrying a stronger tell one position in.
+- **How it surfaced.** Measuring the full length rank rather than only the extremes, after the extreme came back clean. (Found by measuring something)
+- **Fix.** Three passes rather than one, extending a second and third distractor on overlapping subsets, and a shared measure() that prints the whole rank distribution and the best single-rank strategy so the artefact cannot hide behind a passing extreme.
+- **What stops it now.** bank_emit.measure prints the full rank and the best single-rank score in `src/bank_emit.py`
+- **Cost.** two banks that would have passed the ratchet carrying a 71 percent tell
+- **Lesson.** A guard on the extreme of a distribution can be satisfied by moving the mass next to the extreme. When you correct for a measured bias, measure the whole distribution afterwards, not the statistic you were correcting.
+
+
 ## Front end (8)
 
 
@@ -1588,113 +1708,6 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **What stops it now.** Nothing automated. This one is still carried by attention.
 - **Cost.** 267 junk rows and a self-sustaining loop
 - **Lesson.** Anything that reports failures must not be able to report its own. Check whether each call rejects or throws before you wrap it, and make the reporting path unable to re-enter itself.
-
-
-## Content generation (8)
-
-
-### INC-0003. Item banks were different on every build because Python randomises hash()
-
-*2026-09-16, Wrong data shown or stored, `0d6c357` PR #33*
-
-- **What was seen.** Two builds of the same commit produced different banks, and the per-section bias figures pinned in the test file drifted run to run.
-- **Why.** build_banks.py seeded each category with abs(hash(exam + skill)). Python randomises string hashing per process by default.
-- **How it surfaced.** A pinned test figure would not stay pinned. (A test caught it)
-- **Fix.** Seed from zlib.crc32, which is stable across processes.
-- **What stops it now.** three consecutive builds must produce identical output in `src/build_banks.py`
-- **Cost.** a flaky ratchet that would have been disabled eventually
-- **Lesson.** Any generator that claims reproducibility must be seeded from something stable across processes. hash() is not, in Python, and the failure shows up as a flaky test rather than as a wrong answer.
-
-
-### INC-0004. A shadowed variable silently deleted 3000 items
-
-*2026-09-16, Silent loss, `aecccd9` PR #37*
-
-- **What was seen.** ACT Maths dropped from 4500 items to 1500 and the build reported success.
-- **Why.** Adding an ACT English mapping declared a second ACT_MAP that shadowed the existing one. Nothing errors when a map is smaller than it used to be.
-- **How it surfaced.** Comparing the reported category counts against the previous build. (Found by measuring something)
-- **Fix.** Merge the maps properly and read the section per skill.
-- **What stops it now.** the build prints per-category counts and the test file pins them in `src/test.js`
-- **Cost.** 3000 items, caught before merge
-- **Lesson.** Deletion by shadowing is invisible. Any collection whose size is a fact about the product needs its size asserted, not just its contents.
-
-
-### INC-0039. 225 of 302 correct answers sat at position A
-
-*2026-09-16, Wrong data shown or stored, `81eecec` PR #30*
-
-- **What was seen.** Three quarters of the correct answers in a new bank were the first option.
-- **Why.** Items were authored with the key written first and the position never randomised.
-- **How it surfaced.** Counting the key positions, a check nobody had run. (Found by measuring something)
-- **Fix.** Randomise the key position per draw.
-- **What stops it now.** the test suite pins the key-position distribution in `src/test.js`
-- **Cost.** a bank that could be beaten without reading it
-- **Lesson.** In any set of multiple-choice content, count where the answers are. A positional tell makes the whole set worthless to a test-wise user, and it is invisible item by item.
-
-
-### INC-0044. The longest option was the correct answer 81 percent of the time
-
-*2026-09-16, Wrong data shown or stored, `425a8bb` PR #35*
-
-- **What was seen.** A student who picked the longest option without reading the question scored 81 percent against a chance level of 20.
-- **Why.** Distractors were shorter than keys because a correct answer is naturally more qualified, and nothing measured the resulting length distribution.
-- **How it surfaced.** Measuring the accuracy of a strategy that ignores the question entirely. (Found by measuring something)
-- **Fix.** About ninety items had distractors rewritten to carry comparable development, each added clause chosen to leave the option wrong for the reason it was already wrong. 81 percent to 38, then to chance in a later pass.
-- **What stops it now.** a ratchet pins the length tell and fails if it rises in `src/test.js`
-- **Cost.** a section that could be beaten without reading it
-- **Lesson.** Test your content against the strategies a lazy adversary would use, not only against whether it is correct. Measure the score of a rule that ignores the question.
-
-
-### INC-0007. The dedup key counted a reshuffled question as a new one
-
-*2026-09-17, Wrong data shown or stored, `fc4114c` PR #39*
-
-- **What was seen.** Bank counts were inflated. The same question with its options rearranged looked distinct.
-- **Why.** canon() hashed the choices in the order they appeared, while the answer's position is randomised per draw.
-- **How it surfaced.** Sorting the choices before hashing, which immediately collapsed the counts. (Found by reading the code or the output)
-- **Fix.** Sort the choices inside canon().
-- **What stops it now.** canon() sorts, and the build reports distinct counts per category in `src/build_banks.py`
-- **Cost.** four ACT categories reported far above their real size
-- **Lesson.** A deduplication key must be canonical under every transformation the item legitimately undergoes. Ask what varies per draw before you hash.
-
-
-### INC-0008. Four passages produced five hundred fake distinct questions
-
-*2026-09-17, Wrong data shown or stored, `61c3ed2` PR #40*
-
-- **What was seen.** A reading generator with four passages reported five hundred distinct stated-idea items.
-- **Why.** The identity of a reading item is the passage plus the question asked, not the choices offered. The same stem with the same key varied only in which distractors came along.
-- **How it surfaced.** Reading the generated output rather than its count. (Found by reading the code or the output)
-- **Fix.** canon() lets a generator declare that its identity is the passage plus the question.
-- **What stops it now.** per-category distinct counts printed at build time in `src/build_banks.py`
-- **Cost.** would have shipped a bank five hundred deep and four questions wide
-- **Lesson.** The same inflation arrives through a different door every time you close one. When you fix a dedup bug, ask what else shares an identity.
-
-
-### INC-0009. Two conditionals hashed identically and half the inference items would have vanished
-
-*2026-09-17, Silent loss, `61c3ed2` PR #40*
-
-- **What was seen.** Half of a passage's inference questions disappeared from the corpus.
-- **Why.** Both conditionals produced the stem 'which of the following can be properly inferred from the passage', so they hashed to the same value and one was dropped as a duplicate.
-- **How it surfaced.** Measuring true yield per passage. (Found by measuring something)
-- **Fix.** Each conditional names the case it asks about.
-- **What stops it now.** yield per passage is measured and recorded, not assumed in `src/build_banks.py`
-- **Cost.** half the inference items in any corpus
-- **Lesson.** Dedup can be wrong in both directions. An over-broad key deletes real content as silently as a narrow one inflates it.
-
-
-### INC-0011. A length guard silently dropped sixteen valid items
-
-*2026-09-17, Silent loss, `61c3ed2` PR #40*
-
-- **What was seen.** Sixteen items never appeared in the bank.
-- **Why.** The guard measured characters, and the items were legitimately longer than the limit in characters while being normal in content.
-- **How it surfaced.** Counting inputs against outputs. (Found by measuring something)
-- **Fix.** Measure what the guard actually cares about.
-- **What stops it now.** input and output counts are compared at every filter stage in `src/build_banks.py`
-- **Cost.** sixteen items
-- **Lesson.** Every filter needs its rejection count reported. A filter that silently drops is indistinguishable from an input that was never there.
 
 
 ## CSS and layout (5)
@@ -2171,6 +2184,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Two conditionals hashed identically and half the inference items would have vanished (INC-0009)</small>
 - [ ] Every filter needs its rejection count reported. A filter that silently drops is indistinguishable from an input that was never there.  
   <small>A length guard silently dropped sixteen valid items (INC-0011)</small>
+- [ ] A guard on the extreme of a distribution can be satisfied by moving the mass next to the extreme. When you correct for a measured bias, measure the whole distribution afterwards, not the statistic you were correcting.  
+  <small>Correcting a length tell moves it one rank over, every time (INC-0062)</small>
 
 
 ## Database
@@ -2411,7 +2426,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 61 real defects reduced to the rules that prevent them,
+the whole project: 62 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -2451,7 +2466,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-61 defects already prevented is genuinely ahead, and every defect it hits
+62 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed
