@@ -27,8 +27,10 @@ import g_act_sci, g_gre_verb, g_gmat_cr, g_act_nq    # noqa: E402,F401
 OUT = D / "generated"
 
 # Per category, set to what the schemas can actually produce rather than to a round
-# number. 34 categories across the four generated exams, plus 1,073 hand written items
-# (including all 65 LSAT ones, which have no generator).
+# number. 36 categories across the five generated exams, plus 1,852 hand written items.
+# Both figures were wrong here until they were counted: this said 34 categories and 1,073
+# hand written items "including all 65 LSAT ones, which have no generator", when the LSAT
+# had 372 hand written items and now has a generator too.
 #
 # Five categories exhaust their parameter space below this and ship at their own ceiling
 # instead. That is reported, not silent: build_banks prints "categories under target" and
@@ -40,6 +42,10 @@ OUT = D / "generated"
 #   gmat/q_vof     1,967   the five sat_adv_* schemas, remapped
 #   sat/rw_sec     2,489   sat_rw_apostrophe, sat_rw_boundary, sat_rw_pronoun, sat_rw_sva
 #   act/act_e_cse  2,507   the same four, remapped
+#
+# The two LSAT categories both reach the target, on the same CR schemas that fall short
+# under the GMAT taxonomy, because the LSAT groups them differently: five schemas feed
+# lsat_lr_evid where the GMAT splits the same five across v_ac and v_pc.
 #
 # So the generated bank is 29 x 3300 + 9,218 = 104,918, and with the hand written banks
 # the build counts a published total of 106,770.
@@ -69,7 +75,11 @@ TARGET = 3300
 # keeping the blocking download around a tenth of the full bank.
 STARTER_PER_SKILL = 80
 
-POOL_MODS = [g_sat_alg, g_sat_adv, g_sat_psda, g_sat_geo, g_sat_rw]
+# The SAT modules are the shared quantitative and writing pool every exam remaps from.
+# g_gmat_cr joins it because the LSAT map draws on the Critical Reasoning schemas; they
+# still reach the GMAT through EXAM_EXTRA, which is where a schema authored against one
+# exam's own taxonomy belongs.
+POOL_MODS = [g_sat_alg, g_sat_adv, g_sat_psda, g_sat_geo, g_sat_rw, g_gmat_cr]
 
 # SAT categories are authored directly against SAT taxonomy; the other exams remap.
 SAT_PLAN = {
@@ -363,7 +373,9 @@ def main(target=TARGET, verbose=True):
     pool = M.by_id(POOL_MODS)
     report = {}
     by_gen = {}
-    for exam, choices in (("sat", 4), ("gre", 5), ("gmat", 5), ("act", 4)):
+    # LSAT gives five choices, confirmed against LSAC sample questions and carried in
+    # exam_harness.js, which is the same as the GMAT, so the CR schemas need no reshaping.
+    for exam, choices in (("sat", 4), ("gre", 5), ("gmat", 5), ("act", 4), ("lsat", 5)):
         plan = plan_for(exam, pool)
         items = []
         by_skill = {}
