@@ -22,12 +22,13 @@ D = pathlib.Path(__file__).parent
 ROOT = D.parent
 sys.path.insert(0, str(D))
 import partials                                     # noqa: E402
-from guide import gmat_quant, gmat_verbal           # noqa: E402
+from guide import gmat_quant, gmat_verbal, gmat_di  # noqa: E402
 from guide.model import check_all                   # noqa: E402
 from guide import coverage                          # noqa: E402
 
 SITE = "https://startfromnowhere.com"
 OUT = ROOT / "guide"
+EXAMS_JSON = ROOT / "data" / "exams.json"
 
 # Which exam each guide is for, and where its trainer lives.
 EXAMS = {
@@ -58,6 +59,16 @@ SECTIONS = {
                              "formula sheet, which is why people assume it cannot be "
                              "studied, and every question here still has a mechanical "
                              "structure underneath it."),
+        "data-insights": dict(
+            title="Data Insights", short="Data Insights", topics=gmat_di.TOPICS,
+            facts_title="What Each Type Actually Asks",
+            facts_word="rules and forms",
+            facts_lede="Five question types, and each one has a fixed structure "
+                       "underneath it. Almost every trap in this section is an "
+                       "invitation to calculate something the question never needed.",
+            blurb="Data sufficiency, tables, graphics, multi-source reasoning and "
+                  "two-part analysis. The section that did not exist before the Focus "
+                  "Edition, and the only one with a calculator."),
     },
 }
 
@@ -65,10 +76,7 @@ SECTIONS = {
 # them off, because a guide index that silently omits a third of the exam is the exact
 # failure the coverage check exists to prevent, one level up.
 PLANNED = {
-    "gmat": [
-        ("Data Insights", "Table analysis, graphics, multi-source reasoning, two-part "
-                          "analysis and data sufficiency."),
-    ],
+    "gmat": [],
 }
 
 
@@ -91,11 +99,20 @@ out.__known = [...new Set(api.BANK.map(q => q.skill))].sort();
 for (const sk of want) {
   out[sk] = {};
   for (let d = 1; d <= 5; d++) {
-    const c = api.BANK.filter(q => q.skill === sk && q.diff === d
-                                   && Array.isArray(q.choices) && !q.answerType);
+    // Plain multiple choice first. Two-part analysis has no plain form at all, so it
+    // falls back to its own shape rather than showing nothing: a skill whose ladder has
+    // no real item on it looks like a deliberate omission, not a gap.
+    const plain = api.BANK.filter(q => q.skill === sk && q.diff === d
+                                       && Array.isArray(q.choices) && !q.answerType);
+    const tpa = api.BANK.filter(q => q.skill === sk && q.diff === d
+                                     && q.answerType === 'tpa'
+                                     && Array.isArray(q.columns)
+                                     && Array.isArray(q.answer));
+    const c = plain.length ? plain : tpa;
     if (c.length) {
       const q = c[Math.floor(c.length / 2)];
       out[sk][d] = {stem: q.stem, choices: q.choices, answer: q.answer,
+                    columns: q.columns || null, kind: q.answerType || 'mc',
                     expl: q.expl || '', n: c.length};
     }
   }
@@ -108,6 +125,51 @@ process.stdout.write(JSON.stringify(out));
         raise SystemExit("build_guide: could not read the bank through exam_harness.\n"
                          + (p.stderr or "")[-600:])
     return json.loads(p.stdout)
+
+
+def exam_facts(exam, sec_title):
+    """The section's own published figures, with the source that states them.
+
+    This file's header has always said data/exams.json is one of its three sources and
+    until now it was not read at all, which is the same defect as a check that promises
+    more than it performs. The guide states exam facts on its pages, so it states them
+    from the record that carries source, year and URL, and shows that citation.
+    """
+    rows = json.loads(EXAMS_JSON.read_text())
+    rec = next((e for e in rows if e.get("slug") == exam), None)
+    if rec is None:
+        raise SystemExit("build_guide: data/exams.json has no record for %r" % exam)
+    sec = next((s for s in rec.get("sections") or []
+                if s.get("name") == sec_title), None)
+    if sec is None:
+        raise SystemExit(
+            "build_guide: data/exams.json has no %r section for %s. Sections there: %s"
+            % (sec_title, exam, ", ".join(s.get("name", "?")
+                                          for s in rec.get("sections") or [])))
+    src = rec.get("sections_src") or {}
+    for k in ("src", "year", "url"):
+        if not src.get(k):
+            raise SystemExit("build_guide: %s sections_src is missing %s; a published "
+                             "exam figure carries source, year and URL" % (exam, k))
+    bits = []
+    if sec.get("questions") is not None:
+        bits.append(("Questions", str(sec["questions"])))
+    if sec.get("minutes") is not None:
+        bits.append(("Minutes", str(sec["minutes"])))
+    if sec.get("scale"):
+        bits.append(("Scored", sec["scale"]))
+    return bits, src
+
+
+def facts_strip_html(bits, src):
+    tiles = "".join('<div class="ef"><span class="ef-n">%s</span>'
+                    '<span class="ef-l">%s</span></div>' % (esc(v), esc(l))
+                    for l, v in bits)
+    return ('<div class="efs">%s</div>'
+            '<p class="efs-src">Source: %s, %s. '
+            '<a href="%s" rel="nofollow noopener" target="_blank">%s</a></p>'
+            % (tiles, esc(src["src"]), esc(src["year"]), esc(src["url"]),
+               esc(src["url"])))
 
 
 def facts_html(t):
@@ -139,7 +201,26 @@ def ladder_html(t, samples, app):
     for d in (1, 2, 3, 4, 5):
         item = (samples.get(t.skill) or {}).get(str(d)) or (samples.get(t.skill) or {}).get(d)
         shown = ""
-        if item:
+        if item and item.get("kind") == "tpa":
+            # Two columns picking from one shared list, which is the whole point of the
+            # format, so it is shown as two columns rather than flattened to a list.
+            picks = item["answer"]
+            head = "".join("<th>%s</th>" % esc(c) for c in item["columns"])
+            rows_html = "".join(
+                "<tr>%s<td>%s</td></tr>"
+                % ("".join('<td>%s</td>'
+                           % ("&#10003;" if j < len(picks) and picks[j] == i else "")
+                           for j in range(len(item["columns"]))), esc(c))
+                for i, c in enumerate(item["choices"]))
+            shown = ('<details class="lx"><summary>See a real level %d item '
+                     '(%d in the bank)</summary>'
+                     '<p class="lx-stem">%s</p>'
+                     '<div class="lx-tw"><table class="lx-tpa"><thead><tr>%s<th></th>'
+                     '</tr></thead><tbody>%s</tbody></table></div>'
+                     '<p class="lx-key">One selection per column, from the shared list.'
+                     '</p></details>'
+                     % (d, item["n"], esc(item["stem"]), head, rows_html))
+        elif item:
             letters = "ABCDE"
             opts = "".join(
                 '<li%s>%s</li>' % (' class="key"' if i == item["answer"] else "", esc(c))
@@ -227,6 +308,7 @@ def section_index(tpl, exam, sec_key):
             .replace("{{BLURB}}", esc(sec["blurb"]))
             .replace("{{COUNT}}", str(len(sec["topics"])))
             .replace("{{FACTS_WORD}}", esc(sec.get("facts_word", "formulas").title()))
+            .replace("{{EXAM_FACTS}}", facts_strip_html(*exam_facts(exam, sec["title"])))
             .replace("{{FORMULAS}}", str(sum(len(t.facts) for t in sec["topics"])))
             .replace("{{BLOCKS}}", "".join(blocks))
             .replace("{{APP}}", esc(e["app"]))

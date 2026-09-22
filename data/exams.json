@@ -99,10 +99,22 @@
         "url": "https://www.mba.com/exams/gmat-exam/about/exam-structure"
       },
       {
-        "text": "An on-screen calculator is available only in the Data Insights section; no calculator is allowed in Quantitative Reasoning",
+        "text": "An on-screen calculator is available in the Data Insights section",
+        "src": "GMAC",
+        "year": 2026,
+        "url": "https://www.gmac.com/gmat-other-assessments/about-the-gmat-focus-edition/exam-scores"
+      },
+      {
+        "text": "No calculator is allowed in the Quantitative Reasoning section",
         "src": "mba.com (GMAC)",
         "year": 2025,
         "url": "https://www.mba.com/exams/gmat-exam/about/exam-structure"
+      },
+      {
+        "text": "Data Insights consists of 20 multiple-choice questions in 45 minutes, drawn from five question types: data sufficiency, multi-source reasoning, table analysis, graphics interpretation and two-part analysis",
+        "src": "GMAC",
+        "year": 2026,
+        "url": "https://www.gmac.com/gmat-other-assessments/about-the-gmat-focus-edition/exam-scores"
       },
       {
         "text": "The Official Score Report includes free performance insights: percentile rankings plus breakdowns by section, question type, content domain, and time management",
