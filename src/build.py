@@ -12,7 +12,7 @@ SAT_BANKS = ["bank_sat_rw.js","bank_sat_rw2.js","bank_sat_rw3.js","bank_sat_rw4.
 
 GRE_BANKS = ["bank_gre_verbal.js","bank_gre_verbal2.js","bank_gre_rc2.js","bank_gre_quant.js","bank_gre_quant2.js","bank_gre_easy.js","writing_gre.js","cards_gre.js","playbook_gre.js"]
 
-LSAT_BANKS = ["bank_lsat_lr.js","bank_lsat_lr2.js","bank_lsat_rc.js","bank_lsat_rc2.js","cards_lsat.js","playbook_lsat.js"]
+LSAT_BANKS = ["bank_lsat_lr.js","bank_lsat_lr2.js","bank_lsat_lr3.js","bank_lsat_rc.js","bank_lsat_rc2.js","cards_lsat.js","playbook_lsat.js"]
 # ACT Mathematics comes entirely from the generated bank, which is why no hand written math
 # file appears here; the schemas are mapped onto ACT taxonomy in src/gen/mapping.py.
 ACT_BANKS = ["bank_act_english.js","bank_act_reading.js","bank_act_reading2.js","bank_act_science.js","cards_act.js","playbook_act.js"]
@@ -48,7 +48,7 @@ APPS = [
               "with section-adaptive mock sections that route like the real exam."),
      "is_404": False},
     {"exam": "lsat", "out": "lsat/app", "gen": None, "files": LSAT_BANKS,
-     "concat": "BANK_LSAT_LR, BANK_LSAT_LR2, BANK_LSAT_RC, BANK_LSAT_RC2",
+     "concat": "BANK_LSAT_LR, BANK_LSAT_LR2, BANK_LSAT_LR3, BANK_LSAT_RC, BANK_LSAT_RC2",
      "footer": ("LSAT is a registered trademark of the Law School Admission Council (LSAC), which does not "
                 "endorse this product. Practice items are original and written for Start From Nowhere. LSAC "
                 "publishes 35 minutes per section and, for Reading Comprehension, four sets of five to eight "
