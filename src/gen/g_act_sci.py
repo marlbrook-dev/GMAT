@@ -552,25 +552,39 @@ class ClaimCheck(SciBase):
         what, set1, set2, mult = scen["mod"]
         higher = mult > 1.02
         lower = mult < 0.98
+        # Each study supports a claim that holds and the mirror claim that does not, and
+        # the draw takes one of the two. Without the mirror there were three possible
+        # correct answers in the whole schema and two of them opened with Yes, so a
+        # student answering Yes was right on 70 percent of items without reading the
+        # table (INC-0088 surfaced it; the schema was under the size anything was
+        # measured at). The reason clause is the same either way, because what the data
+        # show does not depend on what was predicted about them: only the verdict moves.
         claims = []
         if st["same"]:
+            same_why = ("the two columns record the same values at every setting, so the "
+                        "change made no measurable difference")
             claims.append(("changing " + what.lower() + " from " + set1 + " to " + set2
-                           + " would change the " + scen["dv"][0].lower(), False,
-                           "the two columns record the same values at every setting, so the "
-                           "change made no measurable difference"))
+                           + " would change the " + scen["dv"][0].lower(), False, same_why))
+            claims.append(("changing " + what.lower() + " from " + set1 + " to " + set2
+                           + " would leave the " + scen["dv"][0].lower()
+                           + " unchanged", True, same_why))
         elif higher:
+            up_why = ("every Study 2 reading is higher than the Study 1 reading at the "
+                      "same setting")
             claims.append(("changing " + what.lower() + " to " + set2 + " would raise the "
-                           + scen["dv"][0].lower(), True,
-                           "every Study 2 reading is higher than the Study 1 reading at the "
-                           "same setting"))
-        elif lower:
+                           + scen["dv"][0].lower(), True, up_why))
             claims.append(("changing " + what.lower() + " to " + set2 + " would lower the "
-                           + scen["dv"][0].lower(), True,
-                           "every Study 2 reading is lower than the Study 1 reading at the "
-                           "same setting"))
+                           + scen["dv"][0].lower(), False, up_why))
+        elif lower:
+            dn_why = ("every Study 2 reading is lower than the Study 1 reading at the "
+                      "same setting")
+            claims.append(("changing " + what.lower() + " to " + set2 + " would lower the "
+                           + scen["dv"][0].lower(), True, dn_why))
+            claims.append(("changing " + what.lower() + " to " + set2 + " would raise the "
+                           + scen["dv"][0].lower(), False, dn_why))
         if not claims:
             raise ItemError("no claim available for this draw")
-        claim, holds, because = claims[0]
+        claim, holds, because = rng.choice(claims)
         yes = "Yes, because " + because
         no = "No, because " + because
         right = yes if holds else no
