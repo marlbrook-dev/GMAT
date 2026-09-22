@@ -26,7 +26,25 @@ DASH = re.compile(r"[–—]")
 
 
 class ItemError(Exception):
-    pass
+    """This draw did not work; the runner tries again with new numbers.
+
+    Raised by a schema's build() for a parameter combination that does not make a
+    question: a square where the item is about area versus perimeter, a repeated root
+    where the item asks for a sum. That is a deliberate filter and costs nothing.
+    """
+
+
+class AssemblyError(ItemError):
+    """build() produced a question and make() could not turn it into an item.
+
+    A different animal from the one above, and the reason it has its own name. The
+    schema did its job; what it offered could not be assembled into choices this exam
+    can show, because the wrong answers collapsed into each other or into the key, or
+    because too few of them render the way the key does. That is a schema that cannot
+    serve this exam, not a parameter draw that did not suit, and it is measured
+    separately (INC-0092). It stays an ItemError so every existing caller still treats
+    it as a draw to retry.
+    """
 
 
 SHAPE_INT = re.compile(r"^-?\d{1,3}(,\d{3})*$|^-?\d+$")
@@ -128,8 +146,11 @@ class Gen:
                 continue
             seen.add(s)
             kept.append((s, why))
-        if len(kept) < choices_n - 1:
-            raise ItemError("only %d distinct distractors for %s" % (len(kept), self.id))
+        # There used to be a count of the surviving distractors here, failing the draw
+        # before the stem's own numbers had been offered as candidates and without
+        # regard to whether any of them render like the key. Both of those are settled
+        # forty lines down, by a check that is stricter and better informed, so this one
+        # could only reject draws the real check would have filled.
         want = shape(fmt(right))
         target_len = len(fmt(right))
         # A distractor a schema marks as required is the misconception the item exists to
@@ -163,6 +184,9 @@ class Gen:
         # the answer, and fill from each side accordingly. Over a bank this leaves
         # the answer's position in both the value order and the length order flat.
         need = choices_n - 1 - len(required)
+        if need < 0:
+            raise AssemblyError("%s marks %d distractors required, more than the %d "
+                                "slots this exam has" % (self.id, len(required), choices_n - 1))
         rv = as_value(fmt(right))
         if rv is not None:
             below, above, side = [], [], []
@@ -194,9 +218,13 @@ class Gen:
         # integers is visibly the odd one out, and since the odd one out is almost
         # never the key, a mixed set leaks the answer on sight. Rather than pad with
         # a mismatched shape, drop the draw and let the runner try again.
+        # There was a self.shape_misses counter here, incremented on every one of these
+        # and read by nothing, in this file or any other. A number nobody reads is not
+        # instrumentation, and this one was hiding the largest single loss in the bank:
+        # one schema was discarding three draws in four (INC-0092). The count now comes
+        # from the exception, which build_banks measures per schema per exam.
         if len(good) < need:
-            self.shape_misses = getattr(self, "shape_misses", 0) + 1
-            raise ItemError(
+            raise AssemblyError(
                 "%s could not fill %d same shaped distractors (%s)"
                 % (self.id, need, want))
         kept = required + good[:need]

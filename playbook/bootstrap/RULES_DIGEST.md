@@ -1,14 +1,14 @@
 # Rules Digest
 
-91 defects from a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
+92 defects from a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
 
-Generated 2026-09-22 from a ledger spanning 36 days and 83 commits.
+Generated 2026-09-22 from a ledger spanning 36 days and 84 commits.
 
 ## Read this first
 
-The three ways defects were most often found, in order: found by reading the code or the output (39), found by measuring something (26), a test caught it (13). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
+The three ways defects were most often found, in order: found by reading the code or the output (39), found by measuring something (27), a test caught it (13). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
 
-The dominant failure mode is silent loss, 21 of 91: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
+The dominant failure mode is silent loss, 22 of 92: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
 
 ## Learned the hard way, more than once
 
@@ -25,6 +25,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (2 times) A size limit on a generated file is only a guard if something bounds the generator too; otherwise it is a delayed failure that lands on whoever commits next, and reads as their fault.
 - (2 times) A module that nothing imports fails no test, and an exception raised on every draw is indistinguishable from an exception raised on a hard draw.
 - (2 times) A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell.
+- (2 times) A generator's wrong answers are written as labels and read as labels, and nobody looks at the values two labels produce.
 
 ## Content generation
 
@@ -33,6 +34,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - Test your content against the strategies a lazy adversary would use, not only against whether it is correct.
 - A module that nothing imports fails no test, and an exception raised on every draw is indistinguishable from an exception raised on a hard draw.
 - A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell.
+- A generator's wrong answers are written as labels and read as labels, and nobody looks at the values two labels produce.
 - Any generator that claims reproducibility must be seeded from something stable across processes.
 - Deletion by shadowing is invisible. Any collection whose size is a fact about the product needs its size asserted, not just its contents.
 - A deduplication key must be canonical under every transformation the item legitimately undergoes.
@@ -55,8 +57,8 @@ These cost this build twice or more each. If you read nothing else here, read th
 - Two lessons, and they compound. A rule copied into code by its examples loses the clause the examples were illustrating: CLAUDE.md bans six named sites and coaching site blogs, and the list kept the six and dropped the category, which is the half that generalises.
 - Two corpora side by side, one guarded per unit and one guarded only in total, is not two levels of rigour but one measurement and one blind spot.
 - Reading the record does not prevent the defect; the practice does. This one was written hours after its own lesson was read closely enough to be catalogued as a recurrence, and it was caught by rendering three items rather than by remembering.
-- A generator's wrong answers are written as labels and read as labels, and nobody looks at the values two labels produce.
 - A list of misconceptions is a list of labels and a student sees numbers. Where every characteristic error runs the same direction the key sits at a predictable place in the ordered options however carefully the item is shuffled, because the shuffler can only place it among the candidates it is handed.
+- A counter that nothing reads is not instrumentation, it is a comment that looks like instrumentation, and it is worse than nothing because it answers the question 'is anyone watching this' with a yes.
 
 ## Tests and guards
 

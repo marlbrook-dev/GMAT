@@ -238,13 +238,10 @@ SCHEMA_DEBT = {
     ('act', 'act_nq_proportion'): (24, 3, 48, 5),
     ('act', 'act_nq_scinot'): (6, 10, 50, 1),
     ('act', 'act_s_claim'): (41, 2, 55, 35),
-    ('act', 'act_s_interp'): (46, 0, 39, 1),
     ('act', 'act_s_support'): (0, 0, 48, 3),
     ('act', 'act_s_why2'): (1, 19, 52, 4),
-    ('act', 'sat_adv_exponential>act_m_fun'): (33, 5, 48, 5),
     ('act', 'sat_adv_radical>act_m_nq'): (52, 3, 52, 3),
     ('act', 'sat_alg_word>act_m_alg'): (8, 0, 48, 2),
-    ('act', 'sat_geo_similar>act_m_geo'): (30, 4, 56, 11),
     ('act', 'sat_rw_apostrophe>act_e_cse'): (14, 17, 47, 1),
     ('act', 'sat_rw_boundary>act_e_cse'): (34, 0, 50, 0),
     ('gmat', 'gmat_ds_percent'): (41, 3, 41, 41),
@@ -258,21 +255,15 @@ SCHEMA_DEBT = {
     ('gmat', 'sat_adv_exprules>q_vof'): (19, 6, 44, 8),
     ('gmat', 'sat_adv_radical>q_vof'): (47, 2, 47, 2),
     ('gmat', 'sat_alg_distribute>q_alg'): (40, 42, 42, 3),
-    ('gmat', 'sat_alg_linear1>q_alg'): (1, 7, 45, 9),
     ('gmat', 'sat_psda_percent>q_rrp'): (0, 45, 45, 5),
     ('gre', 'sat_adv_exponential>gre_arith'): (40, 0, 45, 10),
     ('gre', 'sat_adv_exprules>gre_arith'): (17, 6, 45, 9),
     ('gre', 'sat_adv_radical>gre_alg'): (52, 2, 52, 3),
     ('gre', 'sat_alg_distribute>gre_alg'): (37, 41, 41, 4),
-    ('gre', 'sat_alg_linear1>gre_alg'): (1, 8, 47, 12),
-    ('gre', 'sat_geo_angles>gre_geo'): (3, 26, 39, 3),
     ('gre', 'sat_geo_parallel>gre_geo'): (0, 22, 44, 2),
-    ('gre', 'sat_geo_similar>gre_geo'): (28, 0, 53, 12),
     ('gre', 'sat_psda_percent>gre_arith'): (0, 45, 45, 6),
-    ('sat', 'sat_adv_exponential'): (35, 3, 50, 4),
     ('sat', 'sat_adv_radical'): (52, 3, 52, 2),
     ('sat', 'sat_alg_word'): (6, 0, 53, 3),
-    ('sat', 'sat_geo_similar'): (33, 5, 52, 11),
     ('sat', 'sat_psda_percent'): (0, 38, 49, 5),
     ('sat', 'sat_rw_boundary'): (34, 0, 50, 0),
 }
@@ -289,18 +280,23 @@ if _orphans:
 
 
 # A schema offers a fixed list of wrong answers, and an exam asks for a fixed number of
-# choices. When two of those wrong answers work out to the same value the shorter list is
-# what the item gets, and if it falls below what the exam needs the whole draw is thrown
-# away. The throwing away is silent: ItemError is how a schema says "not this draw", the
+# choices that all look alike. When two of those wrong answers work out to the same
+# value, or too few of them render the way the key does, the whole draw is thrown away.
+# The throwing away is silent: a rejected draw is how a schema says "not this one", the
 # next draw is a new set of numbers, and the category still fills from its neighbours.
 #
 # Two different things hide in there. Particular numbers colliding is harmless. A
-# collision in the SHAPE of the wrong answers is not: sat_geo_trig lost every tangent
+# collision in the SHAPE of what a schema offers is not: sat_geo_trig lost every tangent
 # item at five choices because swapping the legs and inverting the ratio are the same
-# arithmetic for a tangent, so the GRE shipped two of the schema's three question forms
-# and nothing said so (INC-0090). A twentieth of a schema's draws is where the second
-# stops looking like the first.
-STARVE_CAP = 5
+# arithmetic for a tangent (INC-0090), and sat_adv_exponential lost three draws in four
+# on every exam because a starting amount times a fraction raised to a power renders as
+# a whole number, a decimal or a fraction depending on the draw (INC-0092). A twentieth
+# of a schema's draws is where the second stops looking like the first.
+#
+# Only AssemblyError counts. A schema raising plain ItemError from its own build() is
+# refusing a parameter combination that does not make a question, which is the schema
+# doing its job.
+DISCARD_CAP = 5
 
 # MEASURED, like SCHEMA_DEBT, and read the same way: a schema may sit at its recorded
 # number and nowhere worse, and the check insists an entry be deleted once the schema no
@@ -308,24 +304,17 @@ STARVE_CAP = 5
 # the probe draws a fixed number of times from a fixed seed, so a number that moves means
 # someone changed the schema. Every one of them is a subspace that never reaches a
 # student: the absolute value inequalities whose two bounds are the same distance out,
-# the circles whose radius and diameter make two of the wrong answers agree. They are
-# worth fixing one at a time.
-STARVED_DEBT = {
-    ('act', 'sat_alg_abs>act_m_alg'): 6,
-    ('gmat', 'gt_change'): 14,
-    ('gmat', 'sat_adv_exponential>q_rrp'): 9,
-    ('gmat', 'sat_adv_nonlinsys>q_alg'): 8,
-    ('gmat', 'sat_adv_rational>q_vof'): 6,
-    ('gmat', 'sat_adv_vertex>q_alg'): 10,
-    ('gmat', 'sat_alg_abs>q_alg'): 11,
-    ('gmat', 'sat_alg_parperp>q_alg'): 7,
-    ('gmat', 'sat_alg_system>q_alg'): 12,
-    ('gre', 'sat_adv_exponential>gre_arith'): 8,
+# the circles whose radius and diameter make two of the wrong answers agree, the slopes
+# that come out as fractions while the wrong answers come out whole. They are worth
+# fixing one at a time.
+DISCARD_DEBT = {
+    ('gmat', 'gt_change'): 12,
+    ('gmat', 'sat_adv_exprules>q_vof'): 6,
+    ('gmat', 'sat_adv_nonlinsys>q_alg'): 9,
+    ('gmat', 'sat_alg_slope>q_alg'): 7,
+    ('gre', 'sat_adv_exprules>gre_arith'): 6,
     ('gre', 'sat_adv_nonlinsys>gre_alg'): 12,
-    ('gre', 'sat_adv_rational>gre_alg'): 6,
-    ('gre', 'sat_alg_abs>gre_alg'): 10,
-    ('gre', 'sat_alg_parperp>gre_geo'): 7,
-    ('gre', 'sat_alg_system>gre_alg'): 12,
+    ('gre', 'sat_alg_slope>gre_geo'): 7,
     ('gre', 'sat_geo_circle>gre_geo'): 10,
 }
 
@@ -413,44 +402,48 @@ def se_points(pct, n):
     return math.sqrt(p * (1 - p) / max(1, n)) * 100
 
 
-# Draws per schema in the starvation probe. Enough to see a question form that never
-# builds (a form is a third or a half of a schema's draws) without doubling the build.
-STARVE_DRAWS = 400
+# Draws per schema in the discard probe. Enough to see a question form that never builds
+# (a form is a third or a half of a schema's draws) without doubling the build.
+DISCARD_DRAWS = 400
 
 
-def check_starved(exam, choices, gens):
-    """Report schemas that cannot offer this exam enough distinct wrong answers.
+def check_discarded(exam, choices, gens):
+    """Report schemas whose questions cannot be assembled into items for this exam.
 
     Measured on its OWN seeded draws rather than on the ones the bank build happened to
     make, because the bank build visits a schema as often as its neighbours leave room
     for and dedups against a shared set, so the same schema reads 8 percent in one build
     and 13 in the next with nothing about it changed. That is the drift INC-0089 is
-    about, and here it can be removed rather than tolerated: how often a schema's wrong
-    answers collapse is a property of the schema and the choice count and nothing else.
-    A fixed count of draws from a fixed seed makes the figure exact, so the recorded
-    number moves only when someone changes the schema.
+    about, and here it can be removed rather than tolerated: how often a schema's
+    questions fail to assemble is a property of the schema and the choice count and
+    nothing else. A fixed count of draws from a fixed seed makes the figure exact, so the
+    recorded number moves only when someone changes the schema.
+
+    It counts AssemblyError and nothing else. An earlier version matched on one of the
+    two messages make() can raise and missed the other, which was the larger of the two
+    by an order of magnitude (INC-0092); counting the exception type rather than its
+    wording is what stops the next one hiding behind a message nobody thought of.
     """
     out = []
     for g in gens:
         rng = random.Random(20260922 + zlib.crc32(("%s|%s" % (exam, g.id)).encode()) % 99991)
-        starved = 0
-        for _ in range(STARVE_DRAWS):
+        lost = 0
+        for _ in range(DISCARD_DRAWS):
             try:
                 g.make(rng, choices)
-            except F.ItemError as e:
-                if "distinct distractors" in str(e):
-                    starved += 1
-            except ArithmeticError:
+            except F.AssemblyError:
+                lost += 1
+            except (F.ItemError, ArithmeticError):
                 pass
-        pct = int(round(100.0 * starved / STARVE_DRAWS))
-        rec = STARVED_DEBT.get((exam, g.id))
-        lim = max(STARVE_CAP, rec or 0)
+        pct = int(round(100.0 * lost / DISCARD_DRAWS))
+        rec = DISCARD_DEBT.get((exam, g.id))
+        lim = max(DISCARD_CAP, rec or 0)
         if pct > lim:
-            out.append("  %s/%-28s throws away %d percent of its draws for want of %d "
-                       "distinct choices, above %d" % (exam, g.id, pct, choices, lim))
-        elif rec is not None and pct <= STARVE_CAP:
+            out.append("  %s/%-28s cannot assemble %d percent of its questions into %d "
+                       "choices, above %d" % (exam, g.id, pct, choices, lim))
+        elif rec is not None and pct <= DISCARD_CAP:
             out.append("  %s/%s serves this exam now (%d percent); delete its "
-                       "STARVED_DEBT entry" % (exam, g.id, pct))
+                       "DISCARD_DEBT entry" % (exam, g.id, pct))
     return out
 
 
@@ -619,10 +612,12 @@ def main(target=TARGET, verbose=True):
             #
             # A few such rejections are particular parameters colliding and are harmless,
             # since the next draw is a new set of numbers. A twentieth of a schema's
-            # draws is not: at that rate the collision is in the shape of the wrong
-            # answers rather than in the numbers, and something the schema was written
-            # to ask is not being asked.
-            starving.extend(check_starved(exam, choices, gens))
+            # draws is not: at that rate the collision is in the shape of what the schema
+            # offers rather than in the numbers, and something it was written to ask is
+            # not being asked. sat_adv_exponential was losing three quarters of its
+            # draws that way, to the other of make()'s two refusals, and the counter
+            # that knew was read by nobody (INC-0092).
+            starving.extend(check_discarded(exam, choices, gens))
             if verbose:
                 flag = "" if len(got) >= target else "   SHORT"
                 print("  %-5s %-10s %4d items from %2d schemas%s"
@@ -687,7 +682,7 @@ def main(target=TARGET, verbose=True):
                      max((OUT / ("bank_gen_%s_rest%d.js" % (exam, i + 1))).stat().st_size
                          for i in range(len(chunks))) / 1048576.0))
     if starving:
-        print("ERROR: schemas that cannot serve an exam's choice count (INC-0090)",
+        print("ERROR: schemas whose questions cannot be assembled for an exam (INC-0090, INC-0092)",
               file=sys.stderr)
         for line in starving:
             print(line, file=sys.stderr)
