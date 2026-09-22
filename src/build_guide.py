@@ -23,6 +23,7 @@ ROOT = D.parent
 sys.path.insert(0, str(D))
 import partials                                     # noqa: E402
 from guide import gmat_quant, gmat_verbal, gmat_di  # noqa: E402
+from guide import sat_math                          # noqa: E402
 from guide.model import check_all                   # noqa: E402
 from guide import coverage                          # noqa: E402
 
@@ -82,6 +83,14 @@ SECTIONS = {
                   "two-part analysis. The section that did not exist before the Focus "
                   "Edition, and the only one with a calculator."),
     },
+    "sat": {
+        "math": dict(title="Math", short="Math", topics=sat_math.TOPICS,
+                     exam_section="Math (two 35-minute modules of 22 questions each)",
+                     blurb="Algebra, advanced math, problem solving and data analysis, "
+                           "and geometry and trigonometry: College Board's own four "
+                           "domains. Desmos is built in and allowed throughout, which "
+                           "changes what solving means."),
+    },
 }
 
 # Sections we have not written yet. The hub lists these as unwritten rather than leaving
@@ -90,8 +99,7 @@ SECTIONS = {
 PLANNED = {
     "gmat": [],
     "sat": [("Reading and Writing", "Every skill the section scores, the way the quant "
-                                    "guide covers the GMAT."),
-            ("Math", "Every equation and function the exam asks about.")],
+                                    "guide covers the GMAT.")],
     "gre": [("Verbal Reasoning", "Reading comprehension, text completion and sentence "
                                  "equivalence."),
             ("Quantitative Reasoning", "Arithmetic, algebra, geometry and data "
@@ -166,6 +174,9 @@ def exam_facts(exam, sec_title):
     rec = next((e for e in rows if e.get("slug") == exam), None)
     if rec is None:
         raise SystemExit("build_guide: data/exams.json has no record for %r" % exam)
+    # Matched on the record's own section name. The GMAT's are bare ("Math" would be
+    # "Quantitative Reasoning"); the SAT's carry parenthetical detail, so its registry
+    # entry names the record explicitly rather than this guessing at a prefix.
     sec = next((s for s in rec.get("sections") or []
                 if s.get("name") == sec_title), None)
     if sec is None:
@@ -439,7 +450,8 @@ def section_index(tpl, exam, sec_key):
             .replace("{{BLURB}}", esc(sec["blurb"]))
             .replace("{{COUNT}}", str(len(sec["topics"])))
             .replace("{{FACTS_WORD}}", esc(sec.get("facts_word", "formulas").title()))
-            .replace("{{EXAM_FACTS}}", facts_strip_html(*exam_facts(exam, sec["title"])))
+            .replace("{{EXAM_FACTS}}", facts_strip_html(
+                *exam_facts(exam, sec.get("exam_section", sec["title"]))))
             .replace("{{FORMULAS}}", str(sum(len(t.facts) for t in sec["topics"])))
             .replace("{{BLOCKS}}", "".join(blocks))
             .replace("{{APP}}", esc(e["app"]))
