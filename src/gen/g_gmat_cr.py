@@ -27,7 +27,8 @@ The length discipline from the verbal rewrite applies: a key that carries a mech
 its evidence while distractors carry one clause is a key spottable by length alone. Here
 every option is a single clause of comparable weight, and test.js measures what came out.
 """
-from framework import Gen, ItemError, balance, check_clause_splice, upfirst
+from framework import (Gen, ItemError, balance, check_clause_splice,
+                       plural_head, upfirst)
 
 # Each scenario supplies the nouns. The reasoning is in the schema, not here, so a new
 # scenario multiplies every schema without touching any of them.
@@ -839,7 +840,7 @@ CAUSE += [
          effect="the number of bicycles counted on the high street", rose="rose by half",
          alt="the bus service through Ravenstone was cut to two journeys a day that spring",
          alt_short="the bus service was cut that spring",
-         short="the cycle racks", people="traders in Ravenstone",
+         short="the cycle parking", people="traders in Ravenstone",
          other="the high street was resurfaced the following year"),
     dict(place="the Ashford Clinic", thing="an online booking system",
          effect="the number of appointments left unfilled each week", rose="fell by a third",
@@ -890,7 +891,7 @@ CAUSE += [
          effect="the number of collisions recorded on those streets", rose="fell by a third",
          alt="the through route was diverted away from the village in the same year",
          alt_short="the through route was diverted in the same year",
-         short="the traffic islands", people="residents of Alderholt",
+         short="the traffic calming", people="residents of Alderholt",
          other="the village renamed two of its streets that year"),
     dict(place="Whitstone Hospital", thing="a discharge lounge",
          effect="the average length of a stay on the medical wards",
@@ -1071,3 +1072,15 @@ NECESSARY += [
          why="the farm grows everything from its own saved seed, including the varieties "
              "that failed in the dry summer"),
 ]
+
+
+# The causal templates write "Officials concluded that {short} was responsible for the
+# change", so this one field is a bare subject in front of a singular verb. Two entries
+# were added with plural names and shipped "the cycle racks was responsible" (INC-0096).
+# Only this field: "people" is plural on purpose and sits after "Every one of the", and
+# "who" is a company name, which takes a singular verb whatever its spelling.
+_plural = [d["short"] for d in CAUSE if plural_head(d["short"])]
+if _plural:
+    raise SystemExit(
+        "g_gmat_cr: a causal scenario's short name goes straight in front of 'was "
+        "responsible', so it has to be singular. Rename: " + ", ".join(_plural))

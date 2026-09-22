@@ -59,7 +59,7 @@ a{color:var(--accent)}
 <p class="eyebrow">Start From Nowhere</p>
 <h1>The Build Playbook</h1>
 <p class="sub">How one person and a set of AI sessions built a multi-exam test-prep platform, every defect hit on the way, and the recipe for doing it again for something else</p>
-<p class="meta">Built 2026-09-22 from commit be6b073 &middot; 85 commits over 36 days &middot; 94 recorded defects &middot; 17 chapters<br>
+<p class="meta">Built 2026-09-22 from commit cbd9af3 &middot; 86 commits over 36 days &middot; 96 recorded defects &middot; 17 chapters<br>
 This document is generated. Edit the chapters in docs/playbook/ and the ledger in data/playbook/incidents.jsonl, then run python3 src/build_playbook.py.</p>
 </div>
 <div class="toc"><ol><li><a href="#how-to-use-this-book">How to Use This Book</a></li>
@@ -81,7 +81,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><a href="#the-bootstrap-pack-starting-a-new-project-with-this-loaded">The Bootstrap Pack: Starting a New Project With This Loaded</a></li></ol></div>
 <h1 id="how-to-use-this-book">How to Use This Book</h1>
 <p>This is the record of building one platform, written so it can be used to build a different one.</p>
-<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-08-17 and 2026-09-22, which is 36 days, across 85 commits, by one owner directing a series of AI coding sessions. As of this build it is 54 Python files, 101 JavaScript files, 24 TypeScript edge functions, 35 migrations and 63 documents: 1978 tracked files in total.</p>
+<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-08-17 and 2026-09-22, which is 36 days, across 86 commits, by one owner directing a series of AI coding sessions. As of this build it is 54 Python files, 101 JavaScript files, 24 TypeScript edge functions, 35 migrations and 63 documents: 1978 tracked files in total.</p>
 <p>None of those numbers were typed. They are measured from the repository every time this document is built, which is the first thing worth copying.</p>
 <h2 id="what-is-in-here">What is in here</h2>
 <p>The book has four kinds of chapter, and they age differently.</p>
@@ -614,7 +614,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three defects here were found by taking a screenshot: a chart unreadable in dark mode, a line chart implying values that never existed, and a dashboard that was not on screen. None of them would have been caught by an assertion, because none of them were violations of anything anybody had thought to assert.</p>
 <p><strong>Budget for looking.</strong> It is the cheapest test there is and the only one that catches things you have not imagined.</p>
 <h1 id="running-the-build-as-an-ai-loop">Running the Build as an AI Loop</h1>
-<p>85 commits in 36 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
+<p>86 commits in 36 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
 <h2 id="the-division-of-labour">The division of labour</h2>
 <p><strong>The owner decides</strong>: what to build, what it means, what is acceptable, and every irreversible or outward-facing action. <strong>The session does</strong>: the building, the measuring, the testing, and the reporting of what it found.</p>
 <p>The failure mode at each end is worth naming. An owner who reviews every line becomes the bottleneck and the throughput collapses to the speed of reading. A session that decides product questions on its own produces something coherent that is not what anyone wanted.</p>
@@ -658,44 +658,44 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Long uninterrupted sessions with standing authorisation, punctuated by the owner redirecting priorities, beat short supervised ones by a wide margin. The standing authorisation that made it work was specific: merge your own work once the checks are green, do not check in on each item, and stop immediately when told to.</p>
 <p>The thing that makes that safe is not trust. It is that the checks are real, the destructive actions still require asking, and the record of what happened is written down well enough to audit later. Which is what this book is.</p>
 <h1 id="what-the-ledger-says-about-itself">What the Ledger Says About Itself</h1>
-<p>94 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.</p>
+<p>96 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.</p>
 <h2 id="how-defects-were-actually-found">How defects were actually found</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">How</th><th style="text-align:right">Count</th><th style="text-align:right">Share</th></tr></thead><tbody>
-<tr><td style="text-align:left">Found by reading the code or the output</td><td style="text-align:right">40</td><td style="text-align:right">43%</td></tr>
-<tr><td style="text-align:left">Found by measuring something</td><td style="text-align:right">28</td><td style="text-align:right">30%</td></tr>
+<tr><td style="text-align:left">Found by reading the code or the output</td><td style="text-align:right">40</td><td style="text-align:right">42%</td></tr>
+<tr><td style="text-align:left">Found by measuring something</td><td style="text-align:right">29</td><td style="text-align:right">30%</td></tr>
 <tr><td style="text-align:left">A test caught it</td><td style="text-align:right">13</td><td style="text-align:right">14%</td></tr>
 <tr><td style="text-align:left">Found by rendering it and looking</td><td style="text-align:right">6</td><td style="text-align:right">6%</td></tr>
 <tr><td style="text-align:left">Found by a review bot or an adversarial pass</td><td style="text-align:right">5</td><td style="text-align:right">5%</td></tr>
+<tr><td style="text-align:left">A build guard caught it</td><td style="text-align:right">2</td><td style="text-align:right">2%</td></tr>
 <tr><td style="text-align:left">A person hit it</td><td style="text-align:right">1</td><td style="text-align:right">1%</td></tr>
-<tr><td style="text-align:left">A build guard caught it</td><td style="text-align:right">1</td><td style="text-align:right">1%</td></tr>
 </tbody></table></div>
-<p><strong>This is the most useful table in the book.</strong> 93 of 94 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.</p>
+<p><strong>This is the most useful table in the book.</strong> 95 of 96 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.</p>
 <p><strong>Read that percentage with the bias it carries.</strong> This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.</p>
 <h2 id="by-severity">By severity</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">Severity</th><th style="text-align:right">Count</th></tr></thead><tbody>
 <tr><td style="text-align:left">Wrong data shown or stored</td><td style="text-align:right">36</td></tr>
 <tr><td style="text-align:left">Silent loss</td><td style="text-align:right">22</td></tr>
 <tr><td style="text-align:left">Degraded</td><td style="text-align:right">20</td></tr>
-<tr><td style="text-align:left">Cosmetic</td><td style="text-align:right">13</td></tr>
+<tr><td style="text-align:left">Cosmetic</td><td style="text-align:right">15</td></tr>
 <tr><td style="text-align:left">Site down</td><td style="text-align:right">3</td></tr>
 </tbody></table></div>
-<p><strong>Silent loss is the dominant failure mode</strong>, at 22 of 94. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.</p>
+<p><strong>Silent loss is the dominant failure mode</strong>, at 22 of 96. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.</p>
 <h2 id="by-area">By area</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">Area</th><th style="text-align:right">Count</th></tr></thead><tbody>
-<tr><td style="text-align:left">Content generation</td><td style="text-align:right">32</td></tr>
+<tr><td style="text-align:left">Content generation</td><td style="text-align:right">33</td></tr>
 <tr><td style="text-align:left">Tests and guards</td><td style="text-align:right">18</td></tr>
 <tr><td style="text-align:left">Front end</td><td style="text-align:right">8</td></tr>
 <tr><td style="text-align:left">Build system</td><td style="text-align:right">7</td></tr>
+<tr><td style="text-align:left">Infrastructure and deploy</td><td style="text-align:right">6</td></tr>
 <tr><td style="text-align:left">CSS and layout</td><td style="text-align:right">5</td></tr>
 <tr><td style="text-align:left">Payments</td><td style="text-align:right">5</td></tr>
-<tr><td style="text-align:left">Infrastructure and deploy</td><td style="text-align:right">5</td></tr>
 <tr><td style="text-align:left">Scoring and selection</td><td style="text-align:right">4</td></tr>
 <tr><td style="text-align:left">Database</td><td style="text-align:right">4</td></tr>
 <tr><td style="text-align:left">Search and metadata</td><td style="text-align:right">3</td></tr>
 <tr><td style="text-align:left">Interface and data display</td><td style="text-align:right">3</td></tr>
 </tbody></table></div>
 <h2 id="guard-coverage">Guard coverage</h2>
-<p>88 of 94 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.</p>
+<p>90 of 96 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.</p>
 <p>Carried by attention:</p>
 <ul>
 <li><strong>INC-0010</strong> CSS comments do not nest, and one placeholder killed the palette on 1451 pages</li>
@@ -711,21 +711,23 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>weekly_audit checks computed colour on every page (INC-0050, INC-0048)</li>
 </ul>
 <h2 id="lessons-learned-more-than-once">Lessons learned more than once</h2>
-<p>17 of 94 incidents record that they repeat an earlier lesson, 22 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.</p>
+<p>19 of 96 incidents record that they repeat an earlier lesson, 26 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.</p>
 <div class="tw"><table><thead><tr><th style="text-align:left">Lesson first recorded in</th><th style="text-align:left">Repeated by</th><th style="text-align:right">Times</th></tr></thead><tbody>
 <tr><td style="text-align:left">INC-0064 The guard against a blind counter was itself blind to three exams</td><td style="text-align:left">INC-0067, INC-0082, INC-0085, INC-0088</td><td style="text-align:right">4</td></tr>
 <tr><td style="text-align:left">INC-0069 A bank a student can play at 88 percent, inside a section the check passed</td><td style="text-align:left">INC-0079, INC-0085, INC-0086, INC-0088</td><td style="text-align:right">4</td></tr>
-<tr><td style="text-align:left">INC-0074 A corpus field written for one grammatical slot was spliced into another</td><td style="text-align:left">INC-0075, INC-0087, INC-0093</td><td style="text-align:right">3</td></tr>
+<tr><td style="text-align:left">INC-0074 A corpus field written for one grammatical slot was spliced into another</td><td style="text-align:left">INC-0075, INC-0087, INC-0093, INC-0096</td><td style="text-align:right">4</td></tr>
 <tr><td style="text-align:left">INC-0059 The item counter missed a whole bank file because it assumed a quoting style</td><td style="text-align:left">INC-0064, INC-0067</td><td style="text-align:right">2</td></tr>
+<tr><td style="text-align:left">INC-0087 The same corpus field in two grammatical slots, in a schema written the same day the guard was read</td><td style="text-align:left">INC-0093, INC-0096</td><td style="text-align:right">2</td></tr>
 <tr><td style="text-align:left">INC-0044 The longest option was the correct answer 81 percent of the time</td><td style="text-align:left">INC-0091</td><td style="text-align:right">1</td></tr>
 <tr><td style="text-align:left">INC-0050 A landing-page icon referenced a colour token that did not exist</td><td style="text-align:left">INC-0018</td><td style="text-align:right">1</td></tr>
 <tr><td style="text-align:left">INC-0055 A new browser suite hardcoded this machine's browser directory and crashed in CI</td><td style="text-align:left">INC-0067</td><td style="text-align:right">1</td></tr>
 <tr><td style="text-align:left">INC-0067 The browser path fix covered two suites and three others kept crashing</td><td style="text-align:left">INC-0070</td><td style="text-align:right">1</td></tr>
+<tr><td style="text-align:left">INC-0080 A build step that fails while the build exits zero, and a verification run that was a remembered subset</td><td style="text-align:left">INC-0095</td><td style="text-align:right">1</td></tr>
 <tr><td style="text-align:left">INC-0083 The rules digest promises to be prompt sized and its generator grows without bound</td><td style="text-align:left">INC-0084</td><td style="text-align:right">1</td></tr>
 <tr><td style="text-align:left">INC-0086 A finished generator module that nothing imported, and two of its four schemas produced nothing</td><td style="text-align:left">INC-0090</td><td style="text-align:right">1</td></tr>
-<tr><td style="text-align:left">INC-0087 The same corpus field in two grammatical slots, in a schema written the same day the guard was read</td><td style="text-align:left">INC-0093</td><td style="text-align:right">1</td></tr>
 <tr><td style="text-align:left">INC-0088 A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked</td><td style="text-align:left">INC-0089</td><td style="text-align:right">1</td></tr>
 <tr><td style="text-align:left">INC-0090 Two of a schema's three question forms could not build, and the only sign was an item count</td><td style="text-align:left">INC-0092</td><td style="text-align:right">1</td></tr>
+<tr><td style="text-align:left">INC-0093 Seven variable names were plural and every sentence built around them said was</td><td style="text-align:left">INC-0096</td><td style="text-align:right">1</td></tr>
 </tbody></table></div>
 <p>The largest family runs to 14 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.</p>
 <p>Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.</p>
@@ -744,8 +746,8 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><code>src/build.py</code>, 11 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067, INC-0076, INC-0080)</li>
 <li><code>src/test.js</code>, 8 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085)</li>
 <li><code>src/review_bot.js</code>, 5 incidents (INC-0022, INC-0026, INC-0051, INC-0061, INC-0077)</li>
+<li><code>src/gen/framework.py</code>, 5 incidents (INC-0074, INC-0075, INC-0078, INC-0087, INC-0096)</li>
 <li><code>src/bank_emit.py</code>, 4 incidents (INC-0062, INC-0066, INC-0068, INC-0073)</li>
-<li><code>src/gen/framework.py</code>, 4 incidents (INC-0074, INC-0075, INC-0078, INC-0087)</li>
 <li><code>src/weekly_audit.js</code>, 3 incidents (INC-0050, INC-0048, INC-0018)</li>
 <li><code>src/smoke_redirect.js</code>, 3 incidents (INC-0023, INC-0024, INC-0047)</li>
 <li><code>src/build_playbook.py</code>, 3 incidents (INC-0057, INC-0065, INC-0083)</li>
@@ -754,7 +756,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <h1 id="the-defect-ledger">The Defect Ledger</h1>
 <p>Every entry here happened. Each one is a record of something that broke, how it was found, what fixed it, and what now stops it coming back. The last field is the one that matters for a different business: the transferable lesson, stated without reference to this codebase.</p>
 <p>They are grouped by the part of the system, and within a group by date. The <code>guard</code> field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.</p>
-<h2 id="content-generation-32">Content generation (32)</h2>
+<h2 id="content-generation-33">Content generation (33)</h2>
 <h3 id="inc-0003-item-banks-were-different-on-every-build-because-python-randomises-hash">INC-0003. Item banks were different on every build because Python randomises hash()</h3>
 <p><em>2026-09-16, Wrong data shown or stored, <code>0d6c357</code> PR #33</em></p>
 <ul>
@@ -1083,6 +1085,16 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Fix.</strong> A scenario may declare a ceiling, and build_study refuses a draw that passes it, the same way it already refuses a non positive reading. The germination study declares 100 and its base comes down so the ceiling is headroom rather than a filter. Its measurement is a germination rate in percent rather than a count of seeds, because a rate is what a reading to one decimal place actually is.</li>
 <li><strong>What stops it now.</strong> build_study rejects any reading above a scenario's declared ceiling, on both studies, the same check that already rejects a non positive one in <code>src/gen/g_act_sci.py</code></li>
 <li><strong>Lesson.</strong> Generated data gets checked for the properties the questions need, monotone and positive and distinguishable, and not for the properties the world needs. A quantity whose name contains its own bound is stating a constraint that the generator has no way to hear unless someone writes it down as data. When a field's name says out of 100, or percent, or per 100, that is a ceiling and the generator should be told.</li>
+</ul>
+<h3 id="inc-0096-three-more-stored-phrases-in-front-of-a-verb-that-did-not-agree-with-them">INC-0096. Three more stored phrases in front of a verb that did not agree with them</h3>
+<p><em>2026-09-22, Cosmetic</em></p>
+<ul>
+<li><strong>What was seen.</strong> Two causal reasoning scenarios shipped 'Officials concluded that the cycle racks was responsible for the change' and the same for the traffic islands, and one necessary condition scenario shipped 'The rule says that two independent reviews is needed'. Three corpus entries across two modules, in schemas that between them carry several thousand items.</li>
+<li><strong>Why.</strong> The same shape as the ACT science scenario names fixed hours earlier: a stored noun phrase dropped into a template that writes a singular verb after it. The templates were written against the entries that existed, every one of them singular, and later entries were added by reading their neighbours rather than the sentence they would end up inside.</li>
+<li><strong>How it surfaced.</strong> Rendering items from every schema in every exam and searching the text for a plural word in front of a singular verb. The search returns 292 candidate phrases and 289 of them are correct English, because the plural word is usually not the subject: 'the sum of the solutions is 12', 'each of its players is', 'Every one of the drivers was'. Reading the sentences is what separated them, and a check that fires on the pattern would be useless. (Found by measuring something)</li>
+<li><strong>Fix.</strong> Three renames. The cycle racks became the cycle parking and the traffic islands the traffic calming, both of which match the installation each scenario already describes. The two independent reviews became a second independent review, which is the same necessary condition and reads correctly in all four slots that field lands in.</li>
+<li><strong>What stops it now.</strong> framework.plural_head names the shape, and each module asserts it of the fields that land in a bare subject slot: the causal scenarios' short name and the necessary condition's requirement. Only those fields, because the same test applied to a field that lands anywhere else is 99 percent false alarms in <code>src/gen/framework.py</code></li>
+<li><strong>Lesson.</strong> Fixing an instance of a defect is the moment to sweep for the rest of it, and the sweep is worth running even when it is too noisy to become a check. A hundred to one false alarm rate is useless in CI and perfectly workable for one person reading the hits once, and it found three defects that no guard would have. What ships from the sweep is the narrow check on the fields that actually failed, not the broad one that found them.</li>
 </ul>
 <h2 id="tests-and-guards-18">Tests and guards (18)</h2>
 <h3 id="inc-0016-the-performance-test-waited-for-the-load-event-which-waits-for-the-thing-being-optimised">INC-0016. The performance test waited for the load event, which waits for the thing being optimised</h3>
@@ -1444,6 +1456,72 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>What stops it now.</strong> smoke_playbook refuses an incident id anywhere in the bootstrap pack, which is the audience boundary stated as an assertion rather than as a docstring in <code>src/smoke_playbook.js</code></li>
 <li><strong>Lesson.</strong> A file generated for a different audience has to be read as that audience, not as the one that generated it. The size of this one was bounded and guarded; who it was for was written in a docstring and checked by nobody.</li>
 </ul>
+<h2 id="infrastructure-and-deploy-6">Infrastructure and deploy (6)</h2>
+<h3 id="inc-0023-www-and-the-apex-were-two-origins-so-consent-and-rankings-split-in-half">INC-0023. www and the apex were two origins, so consent and rankings split in half</h3>
+<p><em>2026-09-21, Wrong data shown or stored, <code>b852727</code> PR #54</em></p>
+<ul>
+<li><strong>What was seen.</strong> Two hostnames served the same site. localStorage is per origin, so a visitor who arrived on both had two consent states and their ranking signal was split.</li>
+<li><strong>Why.</strong> No canonical host redirect. The Cloudflare connector available here has no zone-level tools, so it had to be solved in the Worker.</li>
+<li><strong>How it surfaced.</strong> Reasoning about origin scoping while investigating traffic. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> src/worker.mjs 301s www to the apex, with run_worker_first true so the asset router does not answer first.</li>
+<li><strong>What stops it now.</strong> smoke_redirect asserts the redirect and that run_worker_first stays true in <code>src/smoke_redirect.js</code></li>
+<li><strong>Cost.</strong> split consent state and diluted ranking signal</li>
+<li><strong>Lesson.</strong> Two hostnames are two origins and therefore two of everything the browser scopes by origin. Pick one and redirect on the server, not in a meta tag.</li>
+</ul>
+<h3 id="inc-0024-the-git-directory-was-being-served-on-production">INC-0024. The .git directory was being served on production</h3>
+<p><em>2026-09-21, Wrong data shown or stored, <code>07f0646</code> PR #55</em></p>
+<ul>
+<li><strong>What was seen.</strong> https://startfromnowhere.com/.git/config returned 200.</li>
+<li><strong>Why.</strong> .assetsignore excluded src/, data/ and supabase/ but not **/.git. Cloudflare's asset uploader walks the repository root, which is the assets directory.</li>
+<li><strong>How it surfaced.</strong> An adversarial review of the deploy exclusion list, after the first version of that list had already shipped. (Found by a review bot or an adversarial pass)</li>
+<li><strong>Fix.</strong> Exclude **/.git, and rewrite the guard to derive what must be served from real references rather than a hand-written allowlist.</li>
+<li><strong>What stops it now.</strong> smoke_redirect derives the must-serve set with git check-ignore and asserts the source is excluded in <code>src/smoke_redirect.js</code></li>
+<li><strong>Cost.</strong> the full repository history publicly readable</li>
+<li><strong>Lesson.</strong> An exclusion list is a denylist, and denylists are wrong by omission. Derive the allowed set from what the built pages actually reference.</li>
+</ul>
+<h3 id="inc-0025-a-stale-edge-cache-made-a-fixed-404-look-like-a-live-200">INC-0025. A stale edge cache made a fixed 404 look like a live 200</h3>
+<p><em>2026-09-21, Cosmetic, <code>07f0646</code> PR #55</em></p>
+<ul>
+<li><strong>What was seen.</strong> After the fix deployed, /.git/config still returned 200.</li>
+<li><strong>Why.</strong> Cloudflare had cached the response with max-age=300. The fix was live; the verification was reading the cache.</li>
+<li><strong>How it surfaced.</strong> Re-requesting with a cache-busting query string, which returned 404. (Found by measuring something)</li>
+<li><strong>Fix.</strong> None needed in code.</li>
+<li><strong>What stops it now.</strong> Nothing automated. This one is still carried by attention.</li>
+<li><strong>Cost.</strong> minutes, and nearly a wrong conclusion</li>
+<li><strong>Lesson.</strong> Verify a cache-fronted fix with a cache-busting request, or you are testing the cache. This costs one query parameter and saves an hour of chasing a fix that already worked.</li>
+</ul>
+<h3 id="inc-0027-a-29-88-mib-bank-file-would-have-failed-the-deploy-the-moment-it-merged">INC-0027. A 29.88 MiB bank file would have failed the deploy the moment it merged</h3>
+<p><em>2026-09-21, Site down, <code>58f3a93</code> PR #59</em></p>
+<ul>
+<li><strong>What was seen.</strong> None yet. The build succeeded locally and the deploy would have rejected the file.</li>
+<li><strong>Why.</strong> Cloudflare Workers static assets cap a single file at 25 MiB. Raising the generated banks pushed the ACT rest-bank past it.</li>
+<li><strong>How it surfaced.</strong> Checking the platform limit against the real output size before pushing. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Chunk the rest-bank at 18 MiB per file and glob the chunks in numeric order.</li>
+<li><strong>What stops it now.</strong> the build fails on any asset over 25 MiB in <code>src/build.py</code></li>
+<li><strong>Cost.</strong> would have broken the deploy</li>
+<li><strong>Lesson.</strong> Know your platform's hard limits and assert them in the build. A deploy-time rejection is a bad place to learn a number your build could have told you.</li>
+</ul>
+<h3 id="inc-0047-excluding-the-design-directory-would-have-shipped-the-legal-pages-with-no-styling">INC-0047. Excluding the design directory would have shipped the legal pages with no styling</h3>
+<p><em>2026-09-21, Degraded, <code>07f0646</code> PR #55</em></p>
+<ul>
+<li><strong>What was seen.</strong> None: caught in draft. Terms and Privacy would have rendered with no font, no colour and no background.</li>
+<li><strong>Why.</strong> Those two pages load a stylesheet from the design directory that is nothing but imports of the token files. Excluding the directory from the deploy removed both the stylesheet and the tokens it imports.</li>
+<li><strong>How it surfaced.</strong> An adversarial re-read of the exclusion list against what the built pages actually reference. (Found by a review bot or an adversarial pass)</li>
+<li><strong>Fix.</strong> Re-include the tokens and the stylesheet, and rewrite the guard to read every href and src out of the built pages and follow one level of CSS import, instead of comparing against a list kept by hand.</li>
+<li><strong>What stops it now.</strong> smoke_redirect derives the must-serve set from the built pages in <code>src/smoke_redirect.js</code></li>
+<li><strong>Cost.</strong> two legal pages unstyled, caught before deploy</li>
+<li><strong>Lesson.</strong> A guard that is a hand-kept list of safe paths is written by the same hand that made the mistake. Derive the safe set from the artefact, not from memory.</li>
+</ul>
+<h3 id="inc-0095-a-safety-parameter-filled-in-from-memory-which-makes-it-a-coin-flip-rather-than-a-guard">INC-0095. A safety parameter filled in from memory, which makes it a coin flip rather than a guard</h3>
+<p><em>2026-09-22, Cosmetic</em></p>
+<ul>
+<li><strong>What was seen.</strong> A merge call carried the head commit it expected to merge, and the forty character hex in it was typed from a remembered seven character prefix with the rest supplied by whatever looked like a commit hash. GitHub compared it against the real head, found it different, and refused. Nothing was merged and nothing was lost.</li>
+<li><strong>Why.</strong> The parameter exists so that a merge cannot land on a head other than the one that was reviewed, and its whole value is that the number in it came from somewhere other than the person making the call. Filling it in from memory keeps the shape of the check and removes the thing being checked. The standing rule says every identifier must be read from a real output first, the rule names an earlier occasion when a hex string was typed straight into a merge call, and it was broken anyway, on the fourth merge of a session where the previous three had read the value with git rev-parse.</li>
+<li><strong>How it surfaced.</strong> The API rejected the call. That is the guard working, and it is the only reason this is a note rather than an incident. (A build guard caught it)</li>
+<li><strong>Fix.</strong> Nothing to change in the repository. The value was read with git rev-parse and the merge went through. What is recorded here is the shape of the mistake, because the rule against it already existed and was not enough.</li>
+<li><strong>What stops it now.</strong> the merge API compares the expected head against the real one and refuses a mismatch, which is what caught this; the rule in CLAUDE.md is the part that failed, so the record is the reinforcement in <code>CLAUDE.md</code></li>
+<li><strong>Lesson.</strong> An optional safety parameter is a guard only while its value is read rather than recalled. Fill it from memory and it becomes a coin flip that looks exactly like a guard from the outside, and the flips it wins are the ones where it was not needed. A value that is cheap to read is never worth remembering: reading costs one command, and the failure mode of remembering is an operation that succeeds on the wrong thing.</li>
+</ul>
 <h2 id="css-and-layout-5">CSS and layout (5)</h2>
 <h3 id="inc-0050-a-landing-page-icon-referenced-a-colour-token-that-did-not-exist">INC-0050. A landing-page icon referenced a colour token that did not exist</h3>
 <p><em>2026-08-19, Cosmetic, <code>5337dfd</code></em></p>
@@ -1555,62 +1633,6 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>What stops it now.</strong> priorState() is called before writeProfile in both the deleted and updated branches in <code>supabase/functions/stripe-webhook/index.ts</code></li>
 <li><strong>Cost.</strong> would have reported zero churn forever</li>
 <li><strong>Lesson.</strong> When a write is destructive, capture what you need from the old value first. Ask what question you will want to answer after this row is gone.</li>
-</ul>
-<h2 id="infrastructure-and-deploy-5">Infrastructure and deploy (5)</h2>
-<h3 id="inc-0023-www-and-the-apex-were-two-origins-so-consent-and-rankings-split-in-half">INC-0023. www and the apex were two origins, so consent and rankings split in half</h3>
-<p><em>2026-09-21, Wrong data shown or stored, <code>b852727</code> PR #54</em></p>
-<ul>
-<li><strong>What was seen.</strong> Two hostnames served the same site. localStorage is per origin, so a visitor who arrived on both had two consent states and their ranking signal was split.</li>
-<li><strong>Why.</strong> No canonical host redirect. The Cloudflare connector available here has no zone-level tools, so it had to be solved in the Worker.</li>
-<li><strong>How it surfaced.</strong> Reasoning about origin scoping while investigating traffic. (Found by reading the code or the output)</li>
-<li><strong>Fix.</strong> src/worker.mjs 301s www to the apex, with run_worker_first true so the asset router does not answer first.</li>
-<li><strong>What stops it now.</strong> smoke_redirect asserts the redirect and that run_worker_first stays true in <code>src/smoke_redirect.js</code></li>
-<li><strong>Cost.</strong> split consent state and diluted ranking signal</li>
-<li><strong>Lesson.</strong> Two hostnames are two origins and therefore two of everything the browser scopes by origin. Pick one and redirect on the server, not in a meta tag.</li>
-</ul>
-<h3 id="inc-0024-the-git-directory-was-being-served-on-production">INC-0024. The .git directory was being served on production</h3>
-<p><em>2026-09-21, Wrong data shown or stored, <code>07f0646</code> PR #55</em></p>
-<ul>
-<li><strong>What was seen.</strong> https://startfromnowhere.com/.git/config returned 200.</li>
-<li><strong>Why.</strong> .assetsignore excluded src/, data/ and supabase/ but not **/.git. Cloudflare's asset uploader walks the repository root, which is the assets directory.</li>
-<li><strong>How it surfaced.</strong> An adversarial review of the deploy exclusion list, after the first version of that list had already shipped. (Found by a review bot or an adversarial pass)</li>
-<li><strong>Fix.</strong> Exclude **/.git, and rewrite the guard to derive what must be served from real references rather than a hand-written allowlist.</li>
-<li><strong>What stops it now.</strong> smoke_redirect derives the must-serve set with git check-ignore and asserts the source is excluded in <code>src/smoke_redirect.js</code></li>
-<li><strong>Cost.</strong> the full repository history publicly readable</li>
-<li><strong>Lesson.</strong> An exclusion list is a denylist, and denylists are wrong by omission. Derive the allowed set from what the built pages actually reference.</li>
-</ul>
-<h3 id="inc-0025-a-stale-edge-cache-made-a-fixed-404-look-like-a-live-200">INC-0025. A stale edge cache made a fixed 404 look like a live 200</h3>
-<p><em>2026-09-21, Cosmetic, <code>07f0646</code> PR #55</em></p>
-<ul>
-<li><strong>What was seen.</strong> After the fix deployed, /.git/config still returned 200.</li>
-<li><strong>Why.</strong> Cloudflare had cached the response with max-age=300. The fix was live; the verification was reading the cache.</li>
-<li><strong>How it surfaced.</strong> Re-requesting with a cache-busting query string, which returned 404. (Found by measuring something)</li>
-<li><strong>Fix.</strong> None needed in code.</li>
-<li><strong>What stops it now.</strong> Nothing automated. This one is still carried by attention.</li>
-<li><strong>Cost.</strong> minutes, and nearly a wrong conclusion</li>
-<li><strong>Lesson.</strong> Verify a cache-fronted fix with a cache-busting request, or you are testing the cache. This costs one query parameter and saves an hour of chasing a fix that already worked.</li>
-</ul>
-<h3 id="inc-0027-a-29-88-mib-bank-file-would-have-failed-the-deploy-the-moment-it-merged">INC-0027. A 29.88 MiB bank file would have failed the deploy the moment it merged</h3>
-<p><em>2026-09-21, Site down, <code>58f3a93</code> PR #59</em></p>
-<ul>
-<li><strong>What was seen.</strong> None yet. The build succeeded locally and the deploy would have rejected the file.</li>
-<li><strong>Why.</strong> Cloudflare Workers static assets cap a single file at 25 MiB. Raising the generated banks pushed the ACT rest-bank past it.</li>
-<li><strong>How it surfaced.</strong> Checking the platform limit against the real output size before pushing. (Found by reading the code or the output)</li>
-<li><strong>Fix.</strong> Chunk the rest-bank at 18 MiB per file and glob the chunks in numeric order.</li>
-<li><strong>What stops it now.</strong> the build fails on any asset over 25 MiB in <code>src/build.py</code></li>
-<li><strong>Cost.</strong> would have broken the deploy</li>
-<li><strong>Lesson.</strong> Know your platform's hard limits and assert them in the build. A deploy-time rejection is a bad place to learn a number your build could have told you.</li>
-</ul>
-<h3 id="inc-0047-excluding-the-design-directory-would-have-shipped-the-legal-pages-with-no-styling">INC-0047. Excluding the design directory would have shipped the legal pages with no styling</h3>
-<p><em>2026-09-21, Degraded, <code>07f0646</code> PR #55</em></p>
-<ul>
-<li><strong>What was seen.</strong> None: caught in draft. Terms and Privacy would have rendered with no font, no colour and no background.</li>
-<li><strong>Why.</strong> Those two pages load a stylesheet from the design directory that is nothing but imports of the token files. Excluding the directory from the deploy removed both the stylesheet and the tokens it imports.</li>
-<li><strong>How it surfaced.</strong> An adversarial re-read of the exclusion list against what the built pages actually reference. (Found by a review bot or an adversarial pass)</li>
-<li><strong>Fix.</strong> Re-include the tokens and the stylesheet, and rewrite the guard to read every href and src out of the built pages and follow one level of CSS import, instead of comparing against a list kept by hand.</li>
-<li><strong>What stops it now.</strong> smoke_redirect derives the must-serve set from the built pages in <code>src/smoke_redirect.js</code></li>
-<li><strong>Cost.</strong> two legal pages unstyled, caught before deploy</li>
-<li><strong>Lesson.</strong> A guard that is a hand-kept list of safe paths is written by the same hand that made the mistake. Derive the safe set from the artefact, not from memory.</li>
 </ul>
 <h2 id="scoring-and-selection-4">Scoring and selection (4)</h2>
 <h3 id="inc-0040-the-easier-module-was-not-easier">INC-0040. The easier module was not easier</h3>
@@ -1783,6 +1805,10 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 </ul>
 <p>&lt;small&gt;The item counter missed a whole bank file because it assumed a quoting style (INC-0059)&lt;/small&gt;</p>
 <ul>
+<li>[ ] <strong>Learned 2 times over.</strong> Two habits, both mine rather than the code's. Verify with the sequence the pipeline runs, read out of its config, not with the subset you remember: a suite chosen from memory drifts to the parts that were failing last week. And when a step is deliberately non fatal, the word it fails with is the whole of its signal, so it has to be the word people grep for. WARNING on a line that means a deliverable did not build is an invitation to miss it, and the cost of saying ERROR while still exiting zero is nothing at all.  </li>
+</ul>
+<p>&lt;small&gt;A build step that fails while the build exits zero, and a verification run that was a remembered subset (INC-0080)&lt;/small&gt;</p>
+<ul>
 <li>[ ] <strong>Learned 2 times over.</strong> A size limit on a generated file is only a guard if something bounds the generator too; otherwise it is a delayed failure that lands on whoever commits next, and reads as their fault. When two guards constrain the same output, check the fix against both: shortening this file to satisfy the size check would have broken the completeness check that reads its first 60 characters.  </li>
 </ul>
 <p>&lt;small&gt;The rules digest promises to be prompt sized and its generator grows without bound (INC-0083)&lt;/small&gt;</p>
@@ -1794,10 +1820,6 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>[ ] A guard keyed to wording is a guard on the wording, not the fact, and every synonym is a hole in it. Widening the wording is the obvious repair and it trades missed defects for false alarms, which cost more because they get the guard switched off. Match a phrase that only the thing you care about can produce, rather than every word it might happen to use.  </li>
 </ul>
 <p>&lt;small&gt;The stale count guard checked two nouns and the page used a third (INC-0063)&lt;/small&gt;</p>
-<ul>
-<li>[ ] Two habits, both mine rather than the code's. Verify with the sequence the pipeline runs, read out of its config, not with the subset you remember: a suite chosen from memory drifts to the parts that were failing last week. And when a step is deliberately non fatal, the word it fails with is the whole of its signal, so it has to be the word people grep for. WARNING on a line that means a deliverable did not build is an invitation to miss it, and the cost of saying ERROR while still exiting zero is nothing at all.  </li>
-</ul>
-<p>&lt;small&gt;A build step that fails while the build exits zero, and a verification run that was a remembered subset (INC-0080)&lt;/small&gt;</p>
 <ul>
 <li>[ ] A file generated for a different audience has to be read as that audience, not as the one that generated it. The size of this one was bounded and guarded; who it was for was written in a docstring and checked by nobody.  </li>
 </ul>
@@ -1829,9 +1851,13 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 </ul>
 <p>&lt;small&gt;A bank a student can play at 88 percent, inside a section the check passed (INC-0069)&lt;/small&gt;</p>
 <ul>
-<li>[ ] <strong>Learned 4 times over.</strong> A corpus field is written against the one sentence the author had in mind, and the schema that reuses it three templates later has no way to know which shape it is. The type system says str in both places. Two things follow. Store the field in every shape a template needs and name the shapes, rather than storing one shape and trusting the next author to notice. And guard the output, not the corpus: the generated sentence is the only place the mismatch becomes visible, and a cheap pattern over the rendered text catches a class that no check on the inputs can see.  </li>
+<li>[ ] <strong>Learned 5 times over.</strong> A corpus field is written against the one sentence the author had in mind, and the schema that reuses it three templates later has no way to know which shape it is. The type system says str in both places. Two things follow. Store the field in every shape a template needs and name the shapes, rather than storing one shape and trusting the next author to notice. And guard the output, not the corpus: the generated sentence is the only place the mismatch becomes visible, and a cheap pattern over the rendered text catches a class that no check on the inputs can see.  </li>
 </ul>
 <p>&lt;small&gt;A corpus field written for one grammatical slot was spliced into another (INC-0074)&lt;/small&gt;</p>
+<ul>
+<li>[ ] <strong>Learned 3 times over.</strong> Reading the record does not prevent the defect; the practice does. This one was written hours after its own lesson was read closely enough to be catalogued as a recurrence, and it was caught by rendering three items rather than by remembering. Budget the render, not the recollection.  </li>
+</ul>
+<p>&lt;small&gt;The same corpus field in two grammatical slots, in a schema written the same day the guard was read (INC-0087)&lt;/small&gt;</p>
 <ul>
 <li>[ ] <strong>Learned 2 times over.</strong> Test your content against the strategies a lazy adversary would use, not only against whether it is correct. Measure the score of a rule that ignores the question.  </li>
 </ul>
@@ -1841,10 +1867,6 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 </ul>
 <p>&lt;small&gt;A finished generator module that nothing imported, and two of its four schemas produced nothing (INC-0086)&lt;/small&gt;</p>
 <ul>
-<li>[ ] <strong>Learned 2 times over.</strong> Reading the record does not prevent the defect; the practice does. This one was written hours after its own lesson was read closely enough to be catalogued as a recurrence, and it was caught by rendering three items rather than by remembering. Budget the render, not the recollection.  </li>
-</ul>
-<p>&lt;small&gt;The same corpus field in two grammatical slots, in a schema written the same day the guard was read (INC-0087)&lt;/small&gt;</p>
-<ul>
 <li>[ ] <strong>Learned 2 times over.</strong> A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell. When a measurement cannot be trusted at a small sample, widen the tolerance to what the sample supports rather than declining to measure, and notice when a count of what was measured does not move after you add something to measure.  </li>
 </ul>
 <p>&lt;small&gt;A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked (INC-0088)&lt;/small&gt;</p>
@@ -1852,6 +1874,10 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>[ ] <strong>Learned 2 times over.</strong> A generator's wrong answers are written as labels and read as labels, and nobody looks at the values two labels produce. Where the question type makes two misconceptions arithmetically identical the list is shorter than it reads, and because a discarded draw is the ordinary way a schema says no, a whole question form can vanish from an exam leaving nothing behind but a number nobody has a reference for. Count what a schema actually produces at each width it has to serve, and compare the widths against each other.  </li>
 </ul>
 <p>&lt;small&gt;Two of a schema's three question forms could not build, and the only sign was an item count (INC-0090)&lt;/small&gt;</p>
+<ul>
+<li>[ ] <strong>Learned 2 times over.</strong> A template is a promise about the grammar of what goes into it, and the promise is invisible: the code says name and the sentence needs a singular noun phrase. Whenever a stored string lands next to a verb, an article or a plural, write the requirement down beside the data rather than in the template, and make adding a new row state that it meets it. Renaming the data to fit one grammar is usually cheaper and always safer than teaching the templates to handle two.  </li>
+</ul>
+<p>&lt;small&gt;Seven variable names were plural and every sentence built around them said was (INC-0093)&lt;/small&gt;</p>
 <ul>
 <li>[ ] Any generator that claims reproducibility must be seeded from something stable across processes. hash() is not, in Python, and the failure shows up as a flaky test rather than as a wrong answer.  </li>
 </ul>
@@ -1945,13 +1971,13 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 </ul>
 <p>&lt;small&gt;A schema threw away three draws in four, and the counter that knew was read by nobody (INC-0092)&lt;/small&gt;</p>
 <ul>
-<li>[ ] A template is a promise about the grammar of what goes into it, and the promise is invisible: the code says name and the sentence needs a singular noun phrase. Whenever a stored string lands next to a verb, an article or a plural, write the requirement down beside the data rather than in the template, and make adding a new row state that it meets it. Renaming the data to fit one grammar is usually cheaper and always safer than teaching the templates to handle two.  </li>
-</ul>
-<p>&lt;small&gt;Seven variable names were plural and every sentence built around them said was (INC-0093)&lt;/small&gt;</p>
-<ul>
 <li>[ ] Generated data gets checked for the properties the questions need, monotone and positive and distinguishable, and not for the properties the world needs. A quantity whose name contains its own bound is stating a constraint that the generator has no way to hear unless someone writes it down as data. When a field's name says out of 100, or percent, or per 100, that is a ceiling and the generator should be told.  </li>
 </ul>
 <p>&lt;small&gt;A reading of 100.2 for a quantity the table itself calls out of 100 (INC-0094)&lt;/small&gt;</p>
+<ul>
+<li>[ ] Fixing an instance of a defect is the moment to sweep for the rest of it, and the sweep is worth running even when it is too noisy to become a check. A hundred to one false alarm rate is useless in CI and perfectly workable for one person reading the hits once, and it found three defects that no guard would have. What ships from the sweep is the narrow check on the fields that actually failed, not the broad one that found them.  </li>
+</ul>
+<p>&lt;small&gt;Three more stored phrases in front of a verb that did not agree with them (INC-0096)&lt;/small&gt;</p>
 <h2 id="database">Database</h2>
 <ul>
 <li>[ ] Postgres fires same-timing triggers alphabetically. If two triggers on one table have an order dependency, encode it in the name, and test the outcome rather than the code.  </li>
@@ -2023,6 +2049,10 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>[ ] A guard that is a hand-kept list of safe paths is written by the same hand that made the mistake. Derive the safe set from the artefact, not from memory.  </li>
 </ul>
 <p>&lt;small&gt;Excluding the design directory would have shipped the legal pages with no styling (INC-0047)&lt;/small&gt;</p>
+<ul>
+<li>[ ] An optional safety parameter is a guard only while its value is read rather than recalled. Fill it from memory and it becomes a coin flip that looks exactly like a guard from the outside, and the flips it wins are the ones where it was not needed. A value that is cheap to read is never worth remembering: reading costs one command, and the failure mode of remembering is an operation that succeeds on the wrong thing.  </li>
+</ul>
+<p>&lt;small&gt;A safety parameter filled in from memory, which makes it a coin flip rather than a guard (INC-0095)&lt;/small&gt;</p>
 <h2 id="interface-and-data-display">Interface and data display</h2>
 <ul>
 <li>[ ] Chart form is a claim about the data. A line claims the values in between existed. Ask whether that claim is true before choosing it.  </li>
@@ -2215,7 +2245,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p><code>python3 src/build_playbook.py</code> writes four files into <code>playbook/bootstrap/</code>, all generated from the same ledger as the book, so none of them can drift from it.</p>
 <p><strong><code>CLAUDE.template.md</code></strong> goes in the new repository's root. Claude Code reads it on every turn. It is the constitution: the house rules, the never-invent-a-value rule, the sourcing rules, the communication rule, and a short architecture section you fill in as you build. Four bracketed blanks at the top are the only things you have to change.</p>
 <p><strong><code>KICKOFF.md</code></strong> is the literal first message for a new conversation. It sets the working agreement, the phase order, and what a session should report. Paste it, then describe your business idea underneath it.</p>
-<p><strong><code>RULES_DIGEST.md</code></strong> is every lesson in the defect ledger, compressed to one line each and grouped by area. It is about three pages. This is the highest value-per-token artefact in the whole project: 94 real defects reduced to the rules that prevent them, with the specifics of this codebase stripped out.</p>
+<p><strong><code>RULES_DIGEST.md</code></strong> is every lesson in the defect ledger, compressed to one line each and grouped by area. It is about three pages. This is the highest value-per-token artefact in the whole project: 96 real defects reduced to the rules that prevent them, with the specifics of this codebase stripped out.</p>
 <p><strong><code>incidents.jsonl</code></strong> is the raw ledger, copied so the new project can start appending to it on day one rather than starting an empty one.</p>
 <h2 id="how-to-load-it-by-surface">How to load it, by surface</h2>
 <p><strong>Claude Code, new repository.</strong> Copy <code>CLAUDE.template.md</code> to the repo root as <code>CLAUDE.md</code>, fill in the four blanks, and copy <code>incidents.jsonl</code> to <code>data/playbook/incidents.jsonl</code>. Copy <code>src/build_playbook.py</code> too, so the new project's own ledger becomes its own book from the first defect. Then open a session with <code>KICKOFF.md</code> as the first message.</p>
@@ -2225,7 +2255,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three reasons, and they are worth understanding rather than just following.</p>
 <p><strong>Retrieval beats repetition.</strong> A document in project knowledge is consulted when relevant. The same document in the prompt is re-read on every single turn, at full cost, mostly when it is irrelevant. For anything longer than a few pages, retrieval is strictly better.</p>
 <p><strong>Instructions need to be short enough to be followed.</strong> A rule competing with ten thousand words of context is a rule that gets applied inconsistently. The digest is deliberately brutal: one line per lesson, imperative mood, no examples. The examples are in the book, where they can be looked up when a rule seems wrong.</p>
-<p><strong>The ledger is the part that compounds.</strong> The recipe chapters age. The rules do not, because each one is the residue of a real failure, and the failure modes of software are considerably more stable than its tooling. A new project that starts with 94 defects already prevented is genuinely ahead, and every defect it hits of its own makes the next project further ahead still.</p>
+<p><strong>The ledger is the part that compounds.</strong> The recipe chapters age. The rules do not, because each one is the residue of a real failure, and the failure modes of software are considerably more stable than its tooling. A new project that starts with 96 defects already prevented is genuinely ahead, and every defect it hits of its own makes the next project further ahead still.</p>
 <h2 id="keeping-the-loop-closed">Keeping the loop closed</h2>
 <p>The pack is only worth carrying forward if the new project feeds it back. So the working agreement in <code>KICKOFF.md</code> includes one instruction that does the whole job:</p>
 <p>&gt; When something breaks, append a record to <code>data/playbook/incidents.jsonl</code> before fixing &gt; it, while you still remember what you believed was true five minutes ago.</p>
