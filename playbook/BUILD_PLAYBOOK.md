@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-08-17 and 2026-09-22, which is 36 days, across
-77 commits, by one owner directing a series of AI coding sessions. As of this
+78 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 53 Python files, 101 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 63 documents:
 1977 tracked files in total.
@@ -1118,7 +1118,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-77 commits in 36 days, one owner, a series of AI sessions. This
+78 commits in 36 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1210,14 +1210,14 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-85 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+86 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 37 | 44% |
+| Found by reading the code or the output | 38 | 44% |
 | Found by measuring something | 23 | 27% |
 | A test caught it | 13 | 15% |
 | Found by rendering it and looking | 5 | 6% |
@@ -1225,7 +1225,7 @@ well enough to audit later. Which is what this book is.
 | A person hit it | 1 | 1% |
 | A build guard caught it | 1 | 1% |
 
-**This is the most useful table in the book.** 84 of 85 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 85 of 86 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1235,19 +1235,19 @@ well enough to audit later. Which is what this book is.
 | Severity | Count |
 | --- | ---: |
 | Wrong data shown or stored | 33 |
-| Silent loss | 19 |
+| Silent loss | 20 |
 | Degraded | 18 |
 | Cosmetic | 12 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 19 of 85. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 20 of 86. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 24 |
+| Content generation | 25 |
 | Tests and guards | 17 |
 | Front end | 8 |
 | Build system | 7 |
@@ -1262,7 +1262,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-79 of 85 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+80 of 86 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1283,20 +1283,20 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-9 of 85 incidents record that they repeat an earlier lesson, 12 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+10 of 86 incidents record that they repeat an earlier lesson, 13 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
 | INC-0064 The guard against a blind counter was itself blind to three exams | INC-0067, INC-0082, INC-0085 | 3 |
+| INC-0069 A bank a student can play at 88 percent, inside a section the check passed | INC-0079, INC-0085, INC-0086 | 3 |
 | INC-0059 The item counter missed a whole bank file because it assumed a quoting style | INC-0064, INC-0067 | 2 |
-| INC-0069 A bank a student can play at 88 percent, inside a section the check passed | INC-0079, INC-0085 | 2 |
 | INC-0050 A landing-page icon referenced a colour token that did not exist | INC-0018 | 1 |
 | INC-0055 A new browser suite hardcoded this machine's browser directory and crashed in CI | INC-0067 | 1 |
 | INC-0067 The browser path fix covered two suites and three others kept crashing | INC-0070 | 1 |
 | INC-0074 A corpus field written for one grammatical slot was spliced into another | INC-0075 | 1 |
 | INC-0083 The rules digest promises to be prompt sized and its generator grows without bound | INC-0084 | 1 |
 
-The largest family runs to 9 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0082, INC-0085. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
+The largest family runs to 10 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0082, INC-0085, INC-0086. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
 
 Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.
 
@@ -1312,8 +1312,8 @@ Incidents that name an earlier one without claiming to repeat it. Each was read 
 Files named by three or more incidents. This is not the same signal as the list above: a file that is the natural home for many checks will appear here without any one of them having failed. It says where the work has been, and where a reader new to the codebase should look first.
 
 - `src/build.py`, 11 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067, INC-0076, INC-0080)
+- `src/build_banks.py`, 8 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011, INC-0079, INC-0081, INC-0086)
 - `src/test.js`, 8 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085)
-- `src/build_banks.py`, 7 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011, INC-0079, INC-0081)
 - `src/review_bot.js`, 5 incidents (INC-0022, INC-0026, INC-0051, INC-0061, INC-0077)
 - `src/bank_emit.py`, 4 incidents (INC-0062, INC-0066, INC-0068, INC-0073)
 - `src/weekly_audit.js`, 3 incidents (INC-0050, INC-0048, INC-0018)
@@ -1330,7 +1330,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (24)
+## Content generation (25)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -1628,6 +1628,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** Every skill on every exam brought to at least eight cards: 176 new cards written from each exam's own published skill list, taking the decks from 340 to 531. test.js now asserts the floor per skill, on every exam, so a new skill cannot ship with a token card.
 - **What stops it now.** test.js checks cards per skill against a floor for every exam, the same shape as the existing per-skill check on bank items rather than a check on the deck total in `src/test.js`
 - **Lesson.** Two corpora side by side, one guarded per unit and one guarded only in total, is not two levels of rigour but one measurement and one blind spot. When a check exists for the bank, ask what else is shipped alongside it and counted only in aggregate.
+
+
+### INC-0086. A finished generator module that nothing imported, and two of its four schemas produced nothing
+
+*2026-09-22, Silent loss*
+
+- **What was seen.** src/gen/g_rc.py is 339 lines of working reading comprehension generator with an authored passage corpus, and no file in the repository imports it. Its four schemas were therefore contributing nothing. Two of them could not have contributed anyway: rc_main and rc_caveat raised ItemError on every single draw, because they build their distractors from OTHER passages and need choices_n minus one of them, which is four, and the corpus held four passages in total. The two GMAT skills the module targets, v_st and v_inf, were the only two of the twelve with no generated items at all.
+- **Why.** Two failures that hid each other. The module is not in the import list in build_banks.py, so nothing ever called it and nothing ever reported that it was silent. And the corpus is one short of the minimum its own schemas require, which is a data shortfall that reads as an exception rather than as a count: ItemError is the framework's ordinary way of saying this draw did not work, so a schema that raises it every time looks exactly like a schema that is merely fussy.
+- **How it surfaced.** Looking for the largest remaining gap in the banks and finding that the LSAT had no generator. Listing what generators exist turned up a module for reading comprehension that no import statement mentions, and running its four schemas directly showed two of them returning nothing at all. (Found by reading the code or the output)
+- **Fix.** Eight more passages, taking the corpus from four to twelve, which is past the minimum both schemas need and gives the distractor balance room to work. All four schemas now run with zero errors. The module is imported and wired into the GMAT plan for v_st and v_inf, which had no generated items, and its schemas are mapped onto the LSAT reading categories, which had none either.
+- **What stops it now.** build_banks fails when a schema in a wired plan produces no items at all, so a schema that cannot draw is a build failure rather than a quiet zero in a category total in `src/build_banks.py`
+- **Lesson.** A module that nothing imports fails no test, and an exception raised on every draw is indistinguishable from an exception raised on a hard draw. Both are silence, and a build that reports totals hears neither. Count what each schema contributed, not what the category holds, and treat a contribution of zero as a failure rather than as a small number.
 
 
 ## Tests and guards (17)
@@ -2489,7 +2501,7 @@ Read it before starting a piece of work in the matching area, and again before y
 
 ## Content generation
 
-- [ ] **Learned 3 times over.** An aggregate over a mixed population reports the population, and if part of that population is flat by construction it will hide the part that is not. The rule that follows is about what the unit of the measurement should be: measure at the grain the defect can exist at, which here is the file, because a file is written by one person in one sitting with one set of habits. The section was the grain the data was convenient at.  
+- [ ] **Learned 4 times over.** An aggregate over a mixed population reports the population, and if part of that population is flat by construction it will hide the part that is not. The rule that follows is about what the unit of the measurement should be: measure at the grain the defect can exist at, which here is the file, because a file is written by one person in one sitting with one set of habits. The section was the grain the data was convenient at.  
   <small>A bank a student can play at 88 percent, inside a section the check passed (INC-0069)</small>
 - [ ] **Learned 2 times over.** A corpus field is written against the one sentence the author had in mind, and the schema that reuses it three templates later has no way to know which shape it is. The type system says str in both places. Two things follow. Store the field in every shape a template needs and name the shapes, rather than storing one shape and trusting the next author to notice. And guard the output, not the corpus: the generated sentence is the only place the mismatch becomes visible, and a cheap pattern over the rendered text catches a class that no check on the inputs can see.  
   <small>A corpus field written for one grammatical slot was spliced into another (INC-0074)</small>
@@ -2537,6 +2549,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Nine published exam facts cite test prep companies, in the one published corpus with no source validator (INC-0082)</small>
 - [ ] Two corpora side by side, one guarded per unit and one guarded only in total, is not two levels of rigour but one measurement and one blind spot. When a check exists for the bank, ask what else is shipped alongside it and counted only in aggregate.  
   <small>One flashcard for a skill, for as long as anyone cared to look (INC-0085)</small>
+- [ ] A module that nothing imports fails no test, and an exception raised on every draw is indistinguishable from an exception raised on a hard draw. Both are silence, and a build that reports totals hears neither. Count what each schema contributed, not what the category holds, and treat a contribution of zero as a failure rather than as a small number.  
+  <small>A finished generator module that nothing imported, and two of its four schemas produced nothing (INC-0086)</small>
 
 
 ## Database
@@ -2783,7 +2797,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 85 real defects reduced to the rules that prevent them,
+the whole project: 86 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -2823,7 +2837,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-85 defects already prevented is genuinely ahead, and every defect it hits
+86 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed
