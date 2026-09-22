@@ -335,6 +335,11 @@ class RowRatio(GTBase):
         cands = spaced(ans, [
             (float(b) / a, "inverting the comparison"),
             (float(a - b) / b, "computing how many times LARGER rather than how many times as many"),
+            # Larger than the key. Every candidate below is smaller than it by
+            # construction, the draw forces the ratio above 1.2, and the key was the
+            # largest value on 86 percent of this schema's items (INC-0079).
+            (float(a + b) / b, "adding the two rows and comparing the total with the "
+                               "smaller of them"),
             (float(a) / sum(row[ci] for row in data) * len(scen["rows"]),
              "comparing with the column average instead of with " + scen["rows"][rb]),
             (float(sum(data[ra])) / sum(data[rb]),

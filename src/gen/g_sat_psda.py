@@ -105,6 +105,15 @@ class UnitRate(Gen):
                 (Fr(c * b, a) if a else None, "setting up the proportion upside down."),
                 (a * c, "multiplying by the total rather than by the rate per unit."),
                 (rate, "finding the rate and stopping before applying it to %d %s." % (c, per)),
+                # Above the answer. Four of the five candidates above it come out smaller
+                # by construction and only one larger, so the key sat at one value rank on
+                # up to 69 percent of this schema's items (INC-0079). Both of these are
+                # slips a student actually makes.
+                (rate * (b + c), "scaling the whole period, the %d %s described and the %d "
+                                 "asked about together, where the question asks only about "
+                                 "the %d." % (b, per, c, c)),
+                ((a + b) * c, "adding the two quantities in the setup and scaling the sum, "
+                              "rather than dividing to find the rate first."),
             ],
             "expl": "The rate is %d %s divided by %d %s, which is %d %s per %s. Over %d %s that "
             "gives %d %s." % (a, unit, b, per, rate, unit, per[:-1], c, per, val, unit),
