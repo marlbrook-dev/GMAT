@@ -8,7 +8,7 @@ const BANK_SAT_RW = [
  stem:'Which choice completes the text with the most logical and precise word or phrase?',
  choices:['unremarkable','unaccounted for','unrelated','undisturbed'],answer:3,
  expl:'The sentence contrasts nets that tear the animals apart with cameras that photograph them in place. The blank needs a word meaning the animals are left unharmed, which is undisturbed.',
- wrong:'Unnoticed reverses the point: the cameras exist precisely so the animals are observed. A contrast blank takes the opposite of the problem named just before it.'},
+ wrong:'Unremarkable reverses the point: the cameras exist precisely so the animals are recorded. A contrast blank takes the opposite of the problem named just before it.'},
 {id:'SR002',section:'RW',type:'RW',sub:'Words in Context',skill:'rw_cs',diff:3,
  passage:'Rather than working up a portrait from preliminary sketches, the painter John Singer Sargent often began directly on the canvas, revising the pose and the background as he went. Critics who prize deliberate planning have judged the approach ______, yet the finished portraits carry a spontaneity that more cautious studio methods rarely produce.',
  stem:'Which choice completes the text with the most logical and precise word or phrase?',

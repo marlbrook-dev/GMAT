@@ -80,6 +80,19 @@ def swap(path, table):
             if len(hits) != 1:
                 sys.exit('%s: %r matched %d times in the item, not 1'
                          % (iid, old_text, len(hits)))
+            # An item is not just its choices. expl and wrong name particular options,
+            # and on a vocabulary bank they name them by word, so replacing the choice
+            # and nothing else leaves a note explaining an option nobody was shown
+            # (INC-0072). The bare word, without the quotes the caller wraps it in, is
+            # what such a note would contain.
+            bare = old_text.strip('\'"')
+            elsewhere = [m.start() for m in re.finditer(re.escape(bare), seg)
+                         if m.start() != hits[0] + old_text.index(bare)]
+            if elsewhere:
+                sys.exit('%s: %r also appears elsewhere in the item, which is where an '
+                         'explanation naming it would be. Rewrite that text in the same '
+                         'change or the note will describe an option that is not offered.'
+                         % (iid, bare))
             plan.append((a + hits[0], len(old_text), new_text))
     for pos, ln, new_text in sorted(plan, reverse=True):
         src = src[:pos] + new_text + src[pos + ln:]
