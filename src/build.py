@@ -12,7 +12,7 @@ SAT_BANKS = ["bank_sat_rw.js","bank_sat_rw2.js","bank_sat_rw3.js","bank_sat_rw4.
 
 GRE_BANKS = ["bank_gre_verbal.js","bank_gre_verbal2.js","bank_gre_quant.js","bank_gre_quant2.js","bank_gre_easy.js","writing_gre.js","cards_gre.js","playbook_gre.js"]
 
-LSAT_BANKS = ["bank_lsat_lr.js","bank_lsat_rc.js","cards_lsat.js","playbook_lsat.js"]
+LSAT_BANKS = ["bank_lsat_lr.js","bank_lsat_rc.js","bank_lsat_rc2.js","cards_lsat.js","playbook_lsat.js"]
 # ACT Mathematics comes entirely from the generated bank, which is why no hand written math
 # file appears here; the schemas are mapped onto ACT taxonomy in src/gen/mapping.py.
 ACT_BANKS = ["bank_act_english.js","bank_act_reading.js","bank_act_science.js","cards_act.js","playbook_act.js"]
@@ -48,7 +48,7 @@ APPS = [
               "with section-adaptive mock sections that route like the real exam."),
      "is_404": False},
     {"exam": "lsat", "out": "lsat/app", "gen": None, "files": LSAT_BANKS,
-     "concat": "BANK_LSAT_LR, BANK_LSAT_RC",
+     "concat": "BANK_LSAT_LR, BANK_LSAT_RC, BANK_LSAT_RC2",
      "footer": ("LSAT is a registered trademark of the Law School Admission Council (LSAC), which does not "
                 "endorse this product. Practice items are original and written for Start From Nowhere. LSAC "
                 "publishes 35 minutes per section and, for Reading Comprehension, four sets of five to eight "
@@ -196,11 +196,37 @@ gre_banks_src = built["gre"][2]
 hand_gre = len(_re.findall(r"\{\s*id: ?'G[QVE]\d", gre_banks_src))
 gre_card_count = len(_re.findall(r"\{\s*id: ?'g\d", gre_banks_src))
 lsat_banks_src = built["lsat"][2]
-hand_lsat = len(_re.findall(r"\{\s*id: ?'L[LC]\d", lsat_banks_src))
+hand_lsat = len(_re.findall(r"\{\s*id: ?['\"]L[LC]\d", lsat_banks_src))
 lsat_card_count = len(_re.findall(r"\{\s*id: ?'l\d", lsat_banks_src))
 act_banks_src = built["act"][2]
 hand_act = len(_re.findall(r"\{\s*id: ?'A[ERS]\d", act_banks_src))
 act_card_count = len(_re.findall(r"\{\s*id: ?'a\d", act_banks_src))
+# Every bank file listed for an exam must contribute at least one counted item.
+#
+# The counts above are regexes over concatenated source, and a regex that counts things
+# assumes a formatting convention. bank_lsat_rc2.js emits JSON escaped strings, so its
+# ids were double quoted, none of them matched, and a file holding 35 items counted as
+# zero while the build printed a total that looked plausible (INC-0059). A total cannot
+# detect that; only a per-source check can.
+_ID_PAT = {"gmat": r"\{\s*id: ?['\"](?:Q|V|D)\w*\d",
+           "sat": r"\{\s*id: ?['\"]S[RM]\d",
+           "gre": r"\{\s*id: ?['\"]G[VQ]\d",
+           "lsat": r"\{\s*id: ?['\"]L[LC]\d",
+           "act": r"\{\s*id: ?['\"]A[ERS]\d"}
+_blind = []
+for _ex, _files in (("lsat", LSAT_BANKS),):
+    for _f in _files:
+        if not _f.startswith("bank_"):
+            continue
+        _src = (d / _f).read_text(encoding="utf-8")
+        if not _re.search(_ID_PAT[_ex], _src):
+            _blind.append("%s: %s holds items the counter cannot see" % (_ex, _f))
+if _blind:
+    print("ERROR: the item counter is blind to a bank file, so the published count is "
+          "short by however many items it holds.", file=sys.stderr)
+    print("\n".join("  " + b for b in _blind), file=sys.stderr)
+    sys.exit(1)
+
 bank_count = hand_gmat + GEN_COUNT.get("gmat", 0)
 sat_bank_count = hand_sat + GEN_COUNT.get("sat", 0)
 gre_bank_count = hand_gre + GEN_COUNT.get("gre", 0)
@@ -374,6 +400,26 @@ for p in _app_pages + [root/"index.html", root/"community"/"index.html",
                        root/"funding"/"index.html", root/"terms.html", root/"privacy.html",
                        root/"do-not-sell"/"index.html"]:
     check_scripts(p)
+
+# The bank is not an inline script, so check_scripts never saw it, and the largest
+# artefact the site ships was the one file nothing parsed. A syntax error in it takes the
+# trainer down exactly as INC-0001 did, and would have built cleanly (INC-0060). Every
+# built bank and every chunk is parsed here, next to the pages.
+_banks = []
+for _a in APPS:
+    _banks += sorted((root / _a["out"]).glob("bank*.js"))
+if not _banks:
+    print("ERROR: no built bank files found to parse; the check below would pass vacuously.",
+          file=sys.stderr)
+    sys.exit(1)
+for _b in _banks:
+    _r = subprocess.run(["node", "--check", str(_b)], capture_output=True, text=True)
+    if _r.returncode != 0:
+        print("ERROR: %s does not parse, and it is the file every visitor downloads."
+              % _b.relative_to(root), file=sys.stderr)
+        print(_r.stderr.strip()[:800], file=sys.stderr)
+        sys.exit(1)
+print("  parsed %d built bank file(s)" % len(_banks))
 # The shell and the bank are now separate downloads, so report both, and report the
 # whole bank rather than only the hand written part of it.
 _TOTAL = {"gmat-focus": bank_count, "sat": sat_bank_count, "gre": gre_bank_count,

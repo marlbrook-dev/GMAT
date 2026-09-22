@@ -248,7 +248,14 @@ function reviewExam(spec) {
  const totalServed = runs.reduce((t, r) => t + r.served.length, 0);
  if (avoid) {
   note(EXAM.id, 'fail', 'no item repeats while fresh ones are available',
-   avoid + ' avoidable repeats of ' + rep + ' total, in ' + totalServed + ' items served');
+   avoid + ' avoidable repeats of ' + rep + ' total, in ' + totalServed + ' items served' +
+   // The avoidable count widens with the pool: a repeat counts as avoidable until the
+   // student has exhausted that section, so a bigger bank keeps the condition true for
+   // longer and the figure can rise while the student sees fewer repeats. Doubling the
+   // LSAT reading bank cut repeats from 1875 to 1006 and pushed avoidable from 258 to
+   // 309 (INC-0061). The rate below is the number a student actually experiences, and it
+   // is printed next to the diagnostic one so neither can be read alone.
+   ' (' + Math.round(rep / totalServed * 100) + ' percent of served items were repeats)');
  } else {
   note(EXAM.id, 'ok', 'no item repeats while fresh ones are available',
    rep ? (rep + ' repeats, all forced by bank size, in ' + totalServed + ' served')

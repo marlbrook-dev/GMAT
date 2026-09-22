@@ -7,10 +7,10 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-08-17 and 2026-09-21, which is 35 days, across
-65 commits, by one owner directing a series of AI coding sessions. As of this
-build it is 39 Python files, 90 JavaScript files, 24
-TypeScript edge functions, 34 migrations and 63 documents:
-1951 tracked files in total.
+66 commits, by one owner directing a series of AI coding sessions. As of this
+build it is 39 Python files, 91 JavaScript files, 24
+TypeScript edge functions, 35 migrations and 63 documents:
+1953 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -386,6 +386,7 @@ The build is the first rung. Above it, in the order they run:
 - `src/smoke_business.js`
 - `src/smoke_charts.js`
 - `src/smoke_consent.js`
+- `src/smoke_fit.js`
 - `src/smoke_funnel.js`
 - `src/smoke_ios.js`
 - `src/smoke_items.js`
@@ -401,7 +402,7 @@ The build is the first rung. Above it, in the order they run:
 - `src/test.js`
 - `src/weekly_audit.js`
 
-20 test files in total. The layering is deliberate:
+21 test files in total. The layering is deliberate:
 
 1. **The build** catches structural problems in the artefact.
 2. **Engine tests** run the domain logic headlessly, once per exam.
@@ -1024,7 +1025,7 @@ remembers it was a placeholder.
 
 # Tests and Guards
 
-20 test files, and the interesting thing about them is not what they assert.
+21 test files, and the interesting thing about them is not what they assert.
 It is that the analysis chapter can count how defects were **actually** found, and the
 answer reshapes where you put effort.
 
@@ -1117,7 +1118,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-65 commits in 35 days, one owner, a series of AI sessions. This
+66 commits in 35 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1209,21 +1210,21 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-58 recorded defects, over 35 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+61 recorded defects, over 35 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 24 | 41% |
-| Found by measuring something | 14 | 24% |
-| A test caught it | 10 | 17% |
-| Found by rendering it and looking | 5 | 9% |
-| Found by a review bot or an adversarial pass | 4 | 7% |
+| Found by reading the code or the output | 24 | 39% |
+| Found by measuring something | 16 | 26% |
+| A test caught it | 10 | 16% |
+| Found by rendering it and looking | 5 | 8% |
+| Found by a review bot or an adversarial pass | 5 | 8% |
 | A person hit it | 1 | 2% |
 
-**This is the most useful table in the book.** 57 of 58 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 60 of 61 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1233,19 +1234,19 @@ well enough to audit later. Which is what this book is.
 | Severity | Count |
 | --- | ---: |
 | Wrong data shown or stored | 22 |
-| Silent loss | 14 |
+| Silent loss | 15 |
 | Degraded | 12 |
-| Cosmetic | 8 |
-| Site down | 2 |
+| Cosmetic | 9 |
+| Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 14 of 58. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 15 of 61. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Tests and guards | 13 |
+| Tests and guards | 14 |
 | Front end | 8 |
 | Content generation | 8 |
 | CSS and layout | 5 |
@@ -1255,11 +1256,12 @@ well enough to audit later. Which is what this book is.
 | Database | 4 |
 | Search and metadata | 3 |
 | Interface and data display | 3 |
+| Build system | 2 |
 
 
 ## Guard coverage
 
-52 of 58 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+55 of 61 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1275,11 +1277,11 @@ Carried by attention:
 
 A guard named by two incidents is a guard that did not hold the first time. These are the places to spend effort.
 
+- `src/build.py` appears in INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060
 - `src/test.js` appears in INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044
 - `src/build_banks.py` appears in INC-0003, INC-0007, INC-0008, INC-0009, INC-0011
-- `src/build.py` appears in INC-0001, INC-0002, INC-0017, INC-0027
+- `src/review_bot.js` appears in INC-0022, INC-0026, INC-0051, INC-0061
 - `src/weekly_audit.js` appears in INC-0050, INC-0048, INC-0018
-- `src/review_bot.js` appears in INC-0022, INC-0026, INC-0051
 - `src/smoke_redirect.js` appears in INC-0023, INC-0024, INC-0047
 - `src/build_rankings.py` appears in INC-0014, INC-0049
 - `src/smoke_load.js` appears in INC-0015, INC-0016
@@ -1296,7 +1298,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Tests and guards (13)
+## Tests and guards (14)
 
 
 ### INC-0016. The performance test waited for the load event, which waits for the thing being optimised
@@ -1466,6 +1468,19 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **What stops it now.** the builder and smoke_playbook both distinguish a squashed commit from a wrong one in `src/build_playbook.py`
 - **Cost.** one red CI run, and a document that silently stopped rebuilding
 - **Lesson.** A commit hash is not a durable citation in a repository that squashes. Pull requests, issues and tags survive history rewriting; branch commits do not. Cite the thing that outlives the merge, and make any check of the other one advisory.
+
+
+### INC-0061. A repeat metric that gets worse when the bank gets better
+
+*2026-09-22, Cosmetic, PR #65*
+
+- **What was seen.** Doubling the LSAT reading bank cut the repeats a student actually sees by 46 percent, from 1875 to 1006, and the bot's avoidable repeats figure went up, from 258 to 309.
+- **Why.** A repeat counts as avoidable when the student has not yet exhausted that section's pool. Enlarging the pool keeps that condition true for longer in every sitting, so the window in which a repeat is classified avoidable widens with the pool. Measured directly, only 5 of 1300 repeats in a single long run were genuinely avoidable, and both pools were exhausted.
+- **How it surfaced.** The number moved the wrong way after a change that should only have helped, so the metric was read rather than trusted. (Found by measuring something)
+- **Fix.** Report the repeat rate per item served alongside the avoidable count, so the student-facing number is visible next to the diagnostic one. The avoidable definition is left alone rather than quietly redefined to make a number look better.
+- **What stops it now.** the bot prints repeats per item served next to the avoidable count in `src/review_bot.js`
+- **Cost.** nearly a false regression, and a standing hazard for whoever reads it next
+- **Lesson.** A metric that moves against you when the product improves will eventually be used to justify reverting an improvement. When a number goes the wrong way after a change that should only have helped, measure the underlying thing directly before believing either the number or your own explanation of it. Never redefine the metric in the same change that made it look bad.
 
 
 ## Front end (8)
@@ -2080,11 +2095,48 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** Copy that says above, below, left or right is a hard dependency on layout that nothing checks. Name the thing instead, and the sentence survives every rearrangement.
 
 
+## Build system (2)
+
+
+### INC-0059. The item counter missed a whole bank file because it assumed a quoting style
+
+*2026-09-22, Silent loss, PR #65*
+
+- **What was seen.** A new bank added 35 items and the build reported the exam's total unchanged at 65. The engine tests, which load the bank for real, saw all 100.
+- **Why.** The count is a regex over the concatenated source looking for an id in single quotes. The new file emits JSON escaped strings, so its ids are double quoted and none of them matched. Nothing compared the regex count to the number of items that actually load.
+- **How it surfaced.** Noticing that the build summary and the test output disagreed about the same bank. (Found by measuring something)
+- **Fix.** Accept either quoting style, and assert that every bank file listed for an exam contributes at least one counted item, so a file the pattern cannot see fails the build instead of counting zero.
+- **What stops it now.** per-file contribution assertion in the bank counter in `src/build.py`
+- **Cost.** a published item count 35 short, and a guard that would have kept getting quieter
+- **Lesson.** A regex that counts things assumes a formatting convention, and a file that legitimately breaks the convention counts as zero rather than as an error. Any counter that can return zero for a non-empty input needs a per-source assertion, not just a total.
+
+
+### INC-0060. Nothing parsed the one file every user downloads
+
+*2026-09-22, Site down, PR #65*
+
+- **What was seen.** None shipped. A bank file with a syntax error built cleanly and the build exited zero, leaving invalid JavaScript in the bank the trainer loads on every visit.
+- **Why.** The build parses every inline script in every built page, a guard added after an unescaped quote took the whole trainer down at parse time. The item bank is not an inline script. It ships as a separate file and was never in the list, so the largest generated artefact on the site was the one thing the parser never saw.
+- **How it surfaced.** Deliberately breaking a bank file to test an unrelated guard, and noticing the build passed. (Found by a review bot or an adversarial pass)
+- **Fix.** Parse every built bank file and every chunk of it, alongside the pages.
+- **What stops it now.** the build node-parses each built bank and chunk in `src/build.py`
+- **Cost.** would have broken every trainer on the next bank edit
+- **Lesson.** A parse guard covers the file shapes someone thought of. When the same code moves into a new shape, a separate file, a chunk, a worker, the guard does not follow it. List what the guard covers against what the deploy actually ships, and check the difference rather than the intention.
+
+
 # The Checklist
 
 Generated from the defect ledger. Every line exists because something went wrong once. Nothing is here for completeness.
 
 Read it before starting a piece of work in the matching area, and again before you push.
+
+
+## Build system
+
+- [ ] A regex that counts things assumes a formatting convention, and a file that legitimately breaks the convention counts as zero rather than as an error. Any counter that can return zero for a non-empty input needs a per-source assertion, not just a total.  
+  <small>The item counter missed a whole bank file because it assumed a quoting style (INC-0059)</small>
+- [ ] A parse guard covers the file shapes someone thought of. When the same code moves into a new shape, a separate file, a chunk, a worker, the guard does not follow it. List what the guard covers against what the deploy actually ships, and check the difference rather than the intention.  
+  <small>Nothing parsed the one file every user downloads (INC-0060)</small>
 
 
 ## CSS and layout
@@ -2241,6 +2293,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A new browser suite hardcoded this machine's browser directory and crashed in CI (INC-0055)</small>
 - [ ] A commit hash is not a durable citation in a repository that squashes. Pull requests, issues and tags survive history rewriting; branch commits do not. Cite the thing that outlives the merge, and make any check of the other one advisory.  
   <small>The ledger cited commits that squash merging destroys (INC-0057)</small>
+- [ ] A metric that moves against you when the product improves will eventually be used to justify reverting an improvement. When a number goes the wrong way after a change that should only have helped, measure the underlying thing directly before believing either the number or your own explanation of it. Never redefine the metric in the same change that made it look bad.  
+  <small>A repeat metric that gets worse when the bank gets better (INC-0061)</small>
 
 
 # Adapting This to a Different Business
@@ -2357,7 +2411,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 58 real defects reduced to the rules that prevent them,
+the whole project: 61 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -2397,7 +2451,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-58 defects already prevented is genuinely ahead, and every defect it hits
+61 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed
