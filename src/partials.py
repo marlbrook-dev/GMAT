@@ -196,7 +196,10 @@ _NAV_GROUPS = [
         ("All Exam Guides", "/exams/", None),
     ]),
     ("Study Guides", [
-        ("GMAT Quant", "/guide/gmat/quant/", "New"),
+        ("GMAT Diagnostic", "/guide/gmat/diagnostic/", "New"),
+        ("GMAT Quant", "/guide/gmat/quant/", None),
+        ("GMAT Verbal", "/guide/gmat/verbal/", None),
+        ("GMAT Data Insights", "/guide/gmat/data-insights/", None),
         ("All Study Guides", "/guide/", None),
     ]),
     ("Lists", [

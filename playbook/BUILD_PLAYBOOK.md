@@ -7,10 +7,10 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-08-17 and 2026-09-22, which is 36 days, across
-93 commits, by one owner directing a series of AI coding sessions. As of this
-build it is 60 Python files, 102 JavaScript files, 24
+94 commits, by one owner directing a series of AI coding sessions. As of this
+build it is 61 Python files, 102 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 63 documents:
-1988 tracked files in total.
+1989 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -1119,7 +1119,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-93 commits in 36 days, one owner, a series of AI sessions. This
+94 commits in 36 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1211,14 +1211,14 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-100 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+101 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 42 | 42% |
+| Found by reading the code or the output | 43 | 43% |
 | Found by measuring something | 30 | 30% |
 | A test caught it | 13 | 13% |
 | Found by rendering it and looking | 6 | 6% |
@@ -1226,7 +1226,7 @@ well enough to audit later. Which is what this book is.
 | A person hit it | 2 | 2% |
 | A build guard caught it | 2 | 2% |
 
-**This is the most useful table in the book.** 98 of 100 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 99 of 101 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1235,20 +1235,20 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 38 |
+| Wrong data shown or stored | 39 |
 | Silent loss | 23 |
 | Degraded | 20 |
 | Cosmetic | 16 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 23 of 100. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 23 of 101. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 37 |
+| Content generation | 38 |
 | Tests and guards | 18 |
 | Front end | 8 |
 | Build system | 7 |
@@ -1263,7 +1263,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-94 of 100 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+95 of 101 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1284,17 +1284,19 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-22 of 100 incidents record that they repeat an earlier lesson, 32 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+23 of 101 incidents record that they repeat an earlier lesson, 36 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
 | INC-0064 The guard against a blind counter was itself blind to three exams | INC-0067, INC-0082, INC-0085, INC-0088 | 4 |
 | INC-0069 A bank a student can play at 88 percent, inside a section the check passed | INC-0079, INC-0085, INC-0086, INC-0088 | 4 |
 | INC-0074 A corpus field written for one grammatical slot was spliced into another | INC-0075, INC-0087, INC-0093, INC-0096 | 4 |
-| INC-0088 A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked | INC-0089, INC-0098, INC-0099 | 3 |
+| INC-0088 A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked | INC-0089, INC-0098, INC-0099, INC-0101 | 4 |
+| INC-0092 A schema threw away three draws in four, and the counter that knew was read by nobody | INC-0098, INC-0099, INC-0101 | 3 |
 | INC-0059 The item counter missed a whole bank file because it assumed a quoting style | INC-0064, INC-0067 | 2 |
 | INC-0087 The same corpus field in two grammatical slots, in a schema written the same day the guard was read | INC-0093, INC-0096 | 2 |
-| INC-0092 A schema threw away three draws in four, and the counter that knew was read by nobody | INC-0098, INC-0099 | 2 |
+| INC-0098 The table said 31.0 and the explanation said 31, because the fix covered the table only | INC-0099, INC-0101 | 2 |
+| INC-0099 Every generated reading comprehension question shipped without its passage | INC-0100, INC-0101 | 2 |
 | INC-0044 The longest option was the correct answer 81 percent of the time | INC-0091 | 1 |
 | INC-0050 A landing-page icon referenced a colour token that did not exist | INC-0018 | 1 |
 | INC-0055 A new browser suite hardcoded this machine's browser directory and crashed in CI | INC-0067 | 1 |
@@ -1304,10 +1306,8 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0086 A finished generator module that nothing imported, and two of its four schemas produced nothing | INC-0090 | 1 |
 | INC-0090 Two of a schema's three question forms could not build, and the only sign was an item count | INC-0092 | 1 |
 | INC-0093 Seven variable names were plural and every sentence built around them said was | INC-0096 | 1 |
-| INC-0098 The table said 31.0 and the explanation said 31, because the fix covered the table only | INC-0099 | 1 |
-| INC-0099 Every generated reading comprehension question shipped without its passage | INC-0100 | 1 |
 
-The largest family runs to 17 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0098, INC-0099, INC-0100. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
+The largest family runs to 18 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0098, INC-0099, INC-0100, INC-0101. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
 
 Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.
 
@@ -1343,7 +1343,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (37)
+## Content generation (38)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -1797,6 +1797,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** GMAT gains a sections_src block citing GMAC's exam overview page, read this session, which states 2 hours 15 minutes, 3 sections, 64 questions and no writing assessment, with Quantitative 45 minutes and 21 questions, Verbal 45 minutes and 23 questions, and Data Insights 45 minutes and 20 questions. The score scale cites GMAC's scores page and drops the phrase 10-point increments, which that page does not state and which always ending in 5 across 205 to 805 already says. Total time keeps its original citation, because the GMAC page confirms 2 hours 15 minutes but says nothing about the optional break, and a source may only be cited for what it states.
 - **What stops it now.** The warning becomes an error in validate_exams, and build_exams refuses to render a structure table for any exam whose sections_src is missing a text, src, year or url. The check sits on the table, which is the thing being published, not on the citation, which is the thing that goes missing. Verified by removing sections_src and watching the build exit 1. in `src/build_exams.py`
 - **Lesson.** A check downgraded because a source is unreachable carries an assumption with no expiry date on it, and the assumption is usually narrower than the downgrade. Blocked was true of one URL; it was applied to the fact. Before accepting that a figure cannot be sourced, try the organisation that publishes it and not just the page you first landed on. And a warning nobody can act on is not a lesser guard, it is a comment: if the condition is genuinely acceptable, record why and clear it, and if it is not, make it fail.
+
+
+### INC-0101. A new field-by-field copier reproduced the passage loss defect four days after the ledger recorded it
+
+*2026-09-22, Wrong data shown or stored*
+
+- **What was seen.** The diagnostic being built for the study guide selected one real item per scored skill and copied it into the page. It named the fields it copied, and it named passage. Multi-source reasoning and graphs-and-tables items do not use passage: they carry their material in passageHtml. So two of the twelve questions would have reached a student with no source material at all, including one reading 'How many of the five pending requests comply with the booking policy exactly as submitted?' with no policy and no requests on screen.
+- **Why.** Exactly INC-0099's root cause in new code. A copier that enumerates the fields it carries is correct only for the item shapes its author had in mind, and silently drops everything else. The guard written for INC-0099, EMITTED_FIELDS in gen/framework.py, closes that class of bug for the bank emitter and only for the bank emitter, because it is a check on one function rather than on the idea. Four days later the same author wrote a second copier and made the same mistake, which is the strongest possible evidence that the guard was in the wrong place.
+- **How it surfaced.** Caught in the build, before shipping, by reading the generated data rather than the generating code: a listing of the twelve selected items printed a passage column, and the two DI reading types showed false. Nothing automatic would have caught it, because smoke_items covers the trainer's render path and the diagnostic is a different page. (Found by reading the code or the output)
+- **Fix.** The diagnostic carries passageHtml as well as passage and renders whichever is present, matching what the app does with the same items.
+- **What stops it now.** build_guide refuses to emit a diagnostic item whose type is one that asks about source material unless that item is carrying some, with the expectation derived from the item's type and not from whether a field happens to be populated. Verified by removing passageHtml from the copier and watching the build refuse.
+- **Lesson.** When a defect is about a KIND of code rather than a line of code, a guard bolted to the site of the failure does not generalise, and writing one feels like closing the case. Ask instead what the next instance of this code will look like and where it will live: here the answer was anywhere an item is copied out of the bank, and the durable check is that an item asking about source material has to be carrying it, wherever it is being rendered.
 
 
 ## Tests and guards (18)
@@ -2686,12 +2698,16 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A bank a student can play at 88 percent, inside a section the check passed (INC-0069)</small>
 - [ ] **Learned 5 times over.** A corpus field is written against the one sentence the author had in mind, and the schema that reuses it three templates later has no way to know which shape it is. The type system says str in both places. Two things follow. Store the field in every shape a template needs and name the shapes, rather than storing one shape and trusting the next author to notice. And guard the output, not the corpus: the generated sentence is the only place the mismatch becomes visible, and a cheap pattern over the rendered text catches a class that no check on the inputs can see.  
   <small>A corpus field written for one grammatical slot was spliced into another (INC-0074)</small>
-- [ ] **Learned 4 times over.** A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell. When a measurement cannot be trusted at a small sample, widen the tolerance to what the sample supports rather than declining to measure, and notice when a count of what was measured does not move after you add something to measure.  
+- [ ] **Learned 5 times over.** A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell. When a measurement cannot be trusted at a small sample, widen the tolerance to what the sample supports rather than declining to measure, and notice when a count of what was measured does not move after you add something to measure.  
   <small>A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked (INC-0088)</small>
+- [ ] **Learned 4 times over.** A counter that nothing reads is not instrumentation, it is a comment that looks like instrumentation, and it is worse than nothing because it answers the question 'is anyone watching this' with a yes. Every time a guard is written against one symptom, ask what the same failure looks like arriving another way, and count the whole category rather than the instance that prompted it.  
+  <small>A schema threw away three draws in four, and the counter that knew was read by nobody (INC-0092)</small>
 - [ ] **Learned 3 times over.** Reading the record does not prevent the defect; the practice does. This one was written hours after its own lesson was read closely enough to be catalogued as a recurrence, and it was caught by rendering three items rather than by remembering. Budget the render, not the recollection.  
   <small>The same corpus field in two grammatical slots, in a schema written the same day the guard was read (INC-0087)</small>
-- [ ] **Learned 3 times over.** A counter that nothing reads is not instrumentation, it is a comment that looks like instrumentation, and it is worse than nothing because it answers the question 'is anyone watching this' with a yes. Every time a guard is written against one symptom, ask what the same failure looks like arriving another way, and count the whole category rather than the instance that prompted it.  
-  <small>A schema threw away three draws in four, and the counter that knew was read by nobody (INC-0092)</small>
+- [ ] **Learned 3 times over.** A fix scoped to where the evidence was is a fix scoped to the sample, not to the defect. When the change is to how a QUANTITY is written, the unit of work is the quantity and every place it is written, not the place where the failure happened to be visible. Finding the other call sites costs one search; the fix that covers a subset leaves a difference the reader can see and the measurement cannot.  
+  <small>The table said 31.0 and the explanation said 31, because the fix covered the table only (INC-0098)</small>
+- [ ] **Learned 3 times over.** A check that infers what to expect from the same data it is checking cannot fail on a missing field: absence reads as nothing to look for. Derive the expectation from something the data cannot erase, the item's TYPE, and then look for what that type requires. A field that is set in memory, used by every in-process test and copied by hand into the shipped format has no test at all between the two, so the copying should be checked as a whole rather than field by field. And a check that runs one random draw is not a check of a random process: this one was correct for months and simply never asked often enough to see the answer.  
+  <small>Every generated reading comprehension question shipped without its passage (INC-0099)</small>
 - [ ] **Learned 2 times over.** Test your content against the strategies a lazy adversary would use, not only against whether it is correct. Measure the score of a rule that ignores the question.  
   <small>The longest option was the correct answer 81 percent of the time (INC-0044)</small>
 - [ ] **Learned 2 times over.** A module that nothing imports fails no test, and an exception raised on every draw is indistinguishable from an exception raised on a hard draw. Both are silence, and a build that reports totals hears neither. Count what each schema contributed, not what the category holds, and treat a contribution of zero as a failure rather than as a small number.  
@@ -2700,10 +2716,6 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Two of a schema's three question forms could not build, and the only sign was an item count (INC-0090)</small>
 - [ ] **Learned 2 times over.** A template is a promise about the grammar of what goes into it, and the promise is invisible: the code says name and the sentence needs a singular noun phrase. Whenever a stored string lands next to a verb, an article or a plural, write the requirement down beside the data rather than in the template, and make adding a new row state that it meets it. Renaming the data to fit one grammar is usually cheaper and always safer than teaching the templates to handle two.  
   <small>Seven variable names were plural and every sentence built around them said was (INC-0093)</small>
-- [ ] **Learned 2 times over.** A fix scoped to where the evidence was is a fix scoped to the sample, not to the defect. When the change is to how a QUANTITY is written, the unit of work is the quantity and every place it is written, not the place where the failure happened to be visible. Finding the other call sites costs one search; the fix that covers a subset leaves a difference the reader can see and the measurement cannot.  
-  <small>The table said 31.0 and the explanation said 31, because the fix covered the table only (INC-0098)</small>
-- [ ] **Learned 2 times over.** A check that infers what to expect from the same data it is checking cannot fail on a missing field: absence reads as nothing to look for. Derive the expectation from something the data cannot erase, the item's TYPE, and then look for what that type requires. A field that is set in memory, used by every in-process test and copied by hand into the shipped format has no test at all between the two, so the copying should be checked as a whole rather than field by field. And a check that runs one random draw is not a check of a random process: this one was correct for months and simply never asked often enough to see the answer.  
-  <small>Every generated reading comprehension question shipped without its passage (INC-0099)</small>
 - [ ] Any generator that claims reproducibility must be seeded from something stable across processes. hash() is not, in Python, and the failure shows up as a flaky test rather than as a wrong answer.  
   <small>Item banks were different on every build because Python randomises hash() (INC-0003)</small>
 - [ ] Deletion by shadowing is invisible. Any collection whose size is a fact about the product needs its size asserted, not just its contents.  
@@ -2756,6 +2768,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Every reading inference question asked about something the passage never mentions (INC-0097)</small>
 - [ ] A check downgraded because a source is unreachable carries an assumption with no expiry date on it, and the assumption is usually narrower than the downgrade. Blocked was true of one URL; it was applied to the fact. Before accepting that a figure cannot be sourced, try the organisation that publishes it and not just the page you first landed on. And a warning nobody can act on is not a lesser guard, it is a comment: if the condition is genuinely acceptable, record why and clear it, and if it is not, make it fail.  
   <small>A blocked source turned a real check into a permanent warning, and the flagship exam published its structure table uncited for as long as the page existed (INC-0100)</small>
+- [ ] When a defect is about a KIND of code rather than a line of code, a guard bolted to the site of the failure does not generalise, and writing one feels like closing the case. Ask instead what the next instance of this code will look like and where it will live: here the answer was anywhere an item is copied out of the bank, and the durable check is that an item asking about source material has to be carrying it, wherever it is being rendered.  
+  <small>A new field-by-field copier reproduced the passage loss defect four days after the ledger recorded it (INC-0101)</small>
 
 
 ## Database
@@ -3006,7 +3020,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 100 real defects reduced to the rules that prevent them,
+the whole project: 101 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -3046,7 +3060,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-100 defects already prevented is genuinely ahead, and every defect it hits
+101 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

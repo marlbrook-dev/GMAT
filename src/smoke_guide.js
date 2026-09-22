@@ -42,6 +42,10 @@ function targets() {
     for (const sec of fs.readdirSync(ed)) {
       const sd = path.join(ed, sec);
       if (!fs.statSync(sd).isDirectory()) continue;
+      if (sec === 'diagnostic') {
+        out.push(['/guide/' + exam + '/diagnostic/', 'diagnostic']);
+        continue;
+      }
       out.push(['/guide/' + exam + '/' + sec + '/', 'section']);
       for (const slug of fs.readdirSync(sd)) {
         if (fs.statSync(path.join(sd, slug)).isDirectory()) {
@@ -71,6 +75,11 @@ function targets() {
     for (const [url, kind] of list) {
       errs.length = 0;
       await p.goto(base + url, { waitUntil: 'domcontentloaded' });
+      // The consent dialog is modal and covers the page, so dismiss it before any
+      // click. smoke_consent.js is what tests the dialog itself; here it is in the way.
+      if (await p.isVisible('#sfn-consent').catch(() => false)) {
+        await p.click('#sfn-consent .no');
+      }
       const m = await p.evaluate(() => {
         const de = document.documentElement;
         const over = [...document.querySelectorAll('body *')]
@@ -91,7 +100,56 @@ function targets() {
       check(at + ' has a heading', m.h1.length > 0);
       check(at + ' has the site footer', m.footer);
       check(at + ' threw no script error', errs.length === 0, errs[0]);
-      if (kind === 'topic') {
+      if (kind === 'diagnostic') {
+        // Drive it end to end. A quiz that renders and cannot be finished is a page
+        // that looks fine in a screenshot and is broken for every student who opens it.
+        const n = await p.evaluate(() =>
+          JSON.parse(document.getElementById('diag-data').textContent).items.length);
+        check(at + ' ships a question for every scored skill', n >= 12, 'items=' + n);
+        const reads = await p.evaluate(() => {
+          const d = JSON.parse(document.getElementById('diag-data').textContent);
+          const R = ['RC', 'R', 'MSR', 'GT', 'GI', 'TA'];
+          return d.items.filter(i => R.includes(i.type)
+                                     && !(i.passage || i.passageHtml)).map(i => i.id);
+        });
+        check(at + ' shows the source for every item that reads from one',
+              reads.length === 0, reads.join(','));
+        await p.click('#start');
+        for (let i = 0; i < n; i++) {
+          const kindNow = await p.evaluate(() => {
+            const t = document.querySelector('table.tpa');
+            return t ? 'tpa' : 'mc';
+          });
+          if (kindNow === 'tpa') {
+            const cols = await p.evaluate(() =>
+              document.querySelectorAll('table.tpa thead th').length - 1);
+            for (let c = 0; c < cols; c++) {
+              await p.click('input[name="tpa' + c + '"]');
+            }
+          } else {
+            await p.click('.opts button');
+          }
+          const enabled = await p.evaluate(() => !document.getElementById('next').disabled);
+          check(at + ' enables Next after answering q' + (i + 1), enabled);
+          await p.click('#next');
+        }
+        const done = await p.evaluate(() => ({
+          shown: !document.getElementById('results').hidden,
+          lede: (document.getElementById('res-lede').textContent || '').trim(),
+          secs: document.querySelectorAll('.res-sec').length,
+          skills: document.querySelectorAll('.sk').length,
+          read: document.querySelectorAll('#res-read li').length,
+        }));
+        check(at + ' reaches the results', done.shown);
+        check(at + ' reports every section', done.secs === 3, 'secs=' + done.secs);
+        check(at + ' reports every skill', done.skills === n, 'skills=' + done.skills);
+        check(at + ' gives a reading order', done.read > 0, 'read=' + done.read);
+        check(at + ' states a count, not a score',
+              /answered \d+ of \d+/.test(done.lede), done.lede.slice(0, 80));
+        check(at + ' never claims a score or a prediction',
+              !/(predicted|your score is|estimated score)/i.test(
+                await p.content()));
+      } else if (kind === 'topic') {
         check(at + ' has formula cards', m.fx > 0, 'fx=' + m.fx);
         check(at + ' has worked examples', m.worked > 0, 'worked=' + m.worked);
         check(at + ' has all five rungs', m.rungs === 5, 'rungs=' + m.rungs);

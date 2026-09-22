@@ -237,6 +237,102 @@ def ladder_html(t, samples, app):
     return "".join(rows)
 
 
+def diagnostic_items(harness_id):
+    """One real item per scored skill, at the middle difficulty.
+
+    Middle difficulty because the job is to separate, and an item everyone gets right
+    or everyone gets wrong separates nobody. Deterministic, so the diagnostic is the
+    same on every build rather than reshuffling under a student who came back to it.
+
+    Every skill the engine scores appears exactly once. A diagnostic that quietly
+    skipped a skill would tell a student they had covered the exam when they had not,
+    which is the failure this whole guide is built to avoid.
+    """
+    js = r"""
+const h = require('./exam_harness.js');
+const api = h.load(h.byId[process.argv[1]]);
+const meta = api.SECTION_META || {};
+const skills = api.SKILLS || [];
+const out = [];
+for (const sk of skills) {
+  const pool = api.BANK.filter(q => q.skill === sk.id && Array.isArray(q.choices)
+                                    && (!q.answerType || q.answerType === 'tpa'));
+  if (!pool.length) continue;
+  const mid = pool.filter(q => q.diff === 3);
+  const c = mid.length ? mid : pool;
+  const q = c[Math.floor(c.length / 2)];
+  // Both passage fields. RC and CR prose lives in passage; the DI reading types put
+  // their tables and their multi-tab material in passageHtml. Naming only one of them
+  // is how the trainer once shipped 280 questions with nothing to read (INC-0099).
+  out.push({id: q.id, section: q.section, type: q.type,
+            sectionName: (meta[q.section] || {}).name || q.section,
+            skill: sk.id, skillName: sk.label,
+            kind: q.answerType === 'tpa' ? 'tpa' : 'mc',
+            passage: q.passage || null, passageHtml: q.passageHtml || null,
+            stem: q.stem,
+            columns: q.columns || null, choices: q.choices, answer: q.answer});
+}
+process.stdout.write(JSON.stringify({items: out,
+  sections: Object.fromEntries(Object.entries(meta).map(([k, v]) => [k, v.name])),
+  skills: skills.map(s => s.id), floor: (api.EXAM.scale || {}).minAttempts || null}));
+"""
+    r = subprocess.run(["node", "-e", js, harness_id], cwd=str(D),
+                       capture_output=True, text=True)
+    if r.returncode != 0:
+        raise SystemExit("build_guide: could not build the diagnostic.\n"
+                         + (r.stderr or "")[-600:])
+    return json.loads(r.stdout)
+
+
+def diagnostic_page(tpl, exam):
+    """The diagnostic, with its items and its reading map baked in at build time."""
+    e = EXAMS[exam]
+    d = diagnostic_items(e["harness"])
+    items = d["items"]
+    missing = [s for s in d["skills"] if not any(i["skill"] == s for i in items)]
+    if missing:
+        raise SystemExit("build_guide: the %s diagnostic covers no item for skill(s) %s, "
+                         "so it would report on a smaller exam than the real one: %s"
+                         % (exam, len(missing), ", ".join(missing)))
+    # An item whose TYPE asks about source material has to be carrying some. Derived
+    # from the type, never from whether a field happens to be populated, because a check
+    # that reads the same field it is checking cannot fail on that field being absent.
+    READS = {"RC", "R", "MSR", "GT", "GI", "TA"}
+    mute = [i for i in items if i.get("type") in READS
+            and not (i.get("passage") or i.get("passageHtml"))]
+    if mute:
+        raise SystemExit(
+            "build_guide: the %s diagnostic would ask about material it does not show. "
+            "These items are types that read from a source and carry none: %s"
+            % (exam, ", ".join("%s (%s, type %s)" % (i["id"], i["skillName"], i["type"])
+                               for i in mute)))
+    if not d.get("floor"):
+        raise SystemExit("build_guide: %s exposes no scale.minAttempts, so the "
+                         "diagnostic cannot state the evidence floor it is below"
+                         % e["harness"])
+
+    # skill -> the guide pages that teach it, which is what a wrong answer points at.
+    by_skill = {}
+    for sec_key, sec in SECTIONS.get(exam, {}).items():
+        for t in sec["topics"]:
+            by_skill.setdefault(t.skill, []).append(
+                {"title": t.title, "url": "/guide/%s/%s/%s/" % (exam, sec_key, t.slug)})
+
+    data = json.dumps({"items": items, "sections": d["sections"], "topics": by_skill},
+                      ensure_ascii=False)
+    if "</script" in data:
+        raise SystemExit("build_guide: diagnostic data would close its own script tag")
+    mins = max(5, round(len(items) * 1.5))
+    return (tpl
+            .replace("{{EXAM_SHORT}}", esc(e["short"]))
+            .replace("{{EXAM}}", esc(exam))
+            .replace("{{N}}", str(len(items)))
+            .replace("{{MINS}}", str(mins))
+            .replace("{{FLOOR}}", str(d["floor"]))
+            .replace("{{APP}}", esc(e["app"]))
+            .replace("{{DATA}}", data))
+
+
 def topic_page(tpl, exam, sec_key, t, samples, prev_t, next_t):
     sec = SECTIONS[exam][sec_key]
     e = EXAMS[exam]
@@ -326,6 +422,7 @@ def main():
     topic_tpl = (D / "guide_topic_template.html").read_text()
     index_tpl = (D / "guide_section_template.html").read_text()
     hub_tpl = (D / "guide_hub_template.html").read_text()
+    diag_tpl = (D / "guide_diagnostic_template.html").read_text()
     written = 0
     for exam, e in EXAMS.items():
         secs = SECTIONS.get(exam, {})
@@ -365,6 +462,12 @@ def main():
                 guard(page, "%s/%s/%s" % (exam, sec_key, t.slug))
                 (out / "index.html").write_text(page)
                 written += 1
+        diag = OUT / exam / "diagnostic"
+        diag.mkdir(parents=True, exist_ok=True)
+        page = partials.apply_chrome(diagnostic_page(diag_tpl, exam))
+        guard(page, "%s diagnostic" % exam)
+        (diag / "index.html").write_text(page)
+        written += 1
     OUT.mkdir(parents=True, exist_ok=True)
     page = partials.apply_chrome(hub_page(hub_tpl))
     guard(page, "guide hub")

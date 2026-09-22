@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#122B4E"><link rel="apple-touch-icon" href="/icons/icon-180.png">
+<title>{{EXAM_SHORT}} Diagnostic: Find Out Where to Start</title>
+<meta name="description" content="{{N}} questions, one from every skill the {{EXAM_SHORT}} scores, drawn from our real practice bank. Tells you which parts of the exam to read first. Not a score and not a prediction.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%23122B4E'/%3E%3Cpath d='M13 33 22 22l6 5 8.5-10' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M29.5 16.5H37V24' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="canonical" href="https://startfromnowhere.com/guide/{{EXAM}}/diagnostic/">
+<style>
+{{CHROME_CSS}}
+:root{--navy-900:#0C1F3A;--navy-800:#122B4E;--navy-600:#2C4E80;--navy-100:#DCE5F1;--navy-50:#F2F6FB;--gray-700:#374151;--gray-500:#4B5563;--gray-400:#6B7280;--gray-300:#D1D5DB;--gray-200:#E5E7EB;--gray-100:#F3F4F6;--gray-50:#F9FAFB;--green-600:#15803D;--green-50:#F0FDF4;--red-600:#B91C1C;--red-50:#FEF2F2;--amber-600:#B45309;
+--serif:'Source Serif 4',Georgia,serif;--display:var(--sans);--body:'IBM Plex Sans',system-ui,sans-serif;--mono:'IBM Plex Mono',ui-monospace,monospace}
+*{box-sizing:border-box}body{margin:0;font-family:var(--body);color:var(--gray-700);background:#fff;font-size:var(--t-300);line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--serif);color:var(--navy-900);letter-spacing:var(--tr-700);line-height:var(--lh-tight);margin:0}
+a{color:var(--navy-800)}
+.wrap{max-width:var(--page);margin:0 auto;padding:0 var(--gutter)}
+.crumb{font-size:var(--t-200);color:var(--gray-500);padding:var(--s4) 0 0}
+.crumb a{color:var(--gray-500)}
+.head{padding:var(--s3) 0 var(--s6)}
+.head .eyebrow{font-size:var(--t-100);letter-spacing:var(--tr-caps);text-transform:uppercase;color:var(--navy-600);font-weight:700}
+.head h1{font-size:var(--t-800);margin:var(--s2) 0 var(--s3)}
+.head p{max-width:var(--measure);color:var(--gray-500);margin:0 0 var(--s3)}
+.btn{font-family:var(--display);font-weight:700;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-size:var(--t-300);padding:var(--s3) var(--s5);background:var(--navy-800);color:#fff;text-decoration:none;border:none;cursor:pointer}
+.btn:hover{background:var(--navy-900)}
+.btn:disabled{background:var(--gray-300);cursor:default}
+.btn.sec{background:#fff;color:var(--navy-800);border:1px solid var(--gray-300)}
+.note{background:var(--navy-50);border-radius:12px;padding:var(--s5);margin:var(--s5) 0;max-width:var(--measure)}
+.note h3{font-size:var(--t-400);margin-bottom:var(--s2)}
+.note p{margin:0;font-size:var(--t-250);color:var(--gray-500)}
+/* the question card */
+.q{border:1px solid var(--gray-200);border-radius:14px;padding:var(--s6);margin:var(--s5) 0}
+.q-top{display:flex;justify-content:space-between;gap:var(--s3);flex-wrap:wrap;align-items:baseline;margin-bottom:var(--s4)}
+.q-n{font-family:var(--mono);font-size:var(--t-200);color:var(--navy-600)}
+.q-sk{font-size:var(--t-100);letter-spacing:var(--tr-caps);text-transform:uppercase;color:var(--gray-500);font-weight:700}
+.bar{height:4px;background:var(--gray-200);border-radius:2px;overflow:hidden;margin-bottom:var(--s5)}
+.bar i{display:block;height:100%;background:var(--navy-600);transition:width .2s}
+.q-passage table{border-collapse:collapse;font-size:var(--t-200);white-space:normal}
+.q-passage th,.q-passage td{border:1px solid var(--gray-200);padding:var(--s1) var(--s2);text-align:left}
+.q-passage th{font-weight:600;color:var(--navy-900)}
+.q-passage{white-space:pre-line;overflow-x:auto;background:var(--gray-50);border-radius:10px;padding:var(--s4);margin-bottom:var(--s4);font-size:var(--t-250);max-height:340px;overflow-y:auto}
+.q-stem{white-space:pre-line;margin:0 0 var(--s4);color:var(--navy-900)}
+.opts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--s2)}
+.opts button{width:100%;text-align:left;display:flex;gap:var(--s3);align-items:flex-start;border:1px solid var(--gray-300);background:#fff;border-radius:10px;padding:var(--s3) var(--s4);font:inherit;color:inherit;cursor:pointer;min-width:0}
+.opts button:hover{border-color:var(--navy-600);background:var(--navy-50)}
+.opts button[aria-pressed="true"]{border-color:var(--navy-800);background:var(--navy-50);box-shadow:inset 0 0 0 1px var(--navy-800)}
+.opts .lt{font-family:var(--mono);color:var(--navy-600);flex:none}
+.opts .tx{min-width:0;overflow-wrap:break-word}
+/* two-part picker */
+.tw{overflow-x:auto}
+table.tpa{border-collapse:collapse;font-size:var(--t-250)}
+table.tpa th,table.tpa td{border:1px solid var(--gray-200);padding:var(--s2) var(--s3);text-align:left}
+table.tpa th{font-family:var(--display);font-weight:600;font-size:var(--t-200);color:var(--navy-900);white-space:nowrap}
+table.tpa td.pick{text-align:center}
+table.tpa input{width:18px;height:18px;cursor:pointer}
+.q-nav{display:flex;gap:var(--s3);flex-wrap:wrap;margin-top:var(--s5)}
+/* results */
+.res-sec{border:1px solid var(--gray-200);border-radius:12px;padding:var(--s5);margin-bottom:var(--s4)}
+.res-sec h3{font-size:var(--t-450);margin-bottom:var(--s2)}
+.res-sec .score{font-family:var(--mono);font-size:var(--t-600);color:var(--navy-900);line-height:1}
+.sk{display:grid;grid-template-columns:1fr auto;gap:var(--s3);padding:var(--s3) 0;border-top:1px solid var(--gray-200);align-items:start}
+.sk:first-of-type{border-top:none}
+.sk-n{min-width:0}
+.sk-n b{color:var(--navy-900);font-weight:600}
+.sk-n p{margin:var(--s1) 0 0;font-size:var(--t-200);color:var(--gray-500)}
+.sk-n a{font-size:var(--t-200)}
+.tag{font-size:var(--t-100);letter-spacing:var(--tr-caps);text-transform:uppercase;font-weight:700;border-radius:999px;padding:2px 10px;white-space:nowrap;flex:none}
+.tag.ok{background:var(--green-50);color:var(--green-600)}
+.tag.no{background:var(--red-50);color:var(--red-600)}
+.read{margin:var(--s5) 0}
+.read ol{padding-left:var(--s5)}
+.read li{margin-bottom:var(--s2)}
+@media(max-width:600px){.head h1{font-size:var(--t-700)}.q{padding:var(--s4)}.sk{grid-template-columns:1fr}}
+</style></head>
+<body>
+{{SITE_HEADER}}
+<main class="wrap">
+<p class="crumb"><a href="/guide/">Guides</a> / {{EXAM_SHORT}} Diagnostic</p>
+
+<div id="intro">
+  <div class="head">
+    <p class="eyebrow">{{EXAM_SHORT}} Study Guide</p>
+    <h1>Find Out Where to Start</h1>
+    <p>{{N}} questions, one from every skill the {{EXAM_SHORT}} scores, pulled from the same practice bank the trainer uses. About {{MINS}} minutes. At the end you get a reading order: which parts of the exam to work on first, linked straight to the guide pages for them.</p>
+    <button class="btn" id="start" type="button">Start the diagnostic</button>
+  </div>
+  <div class="note">
+    <h3>What This Is Not</h3>
+    <p>It is not a score and it does not predict one. {{N}} questions is nowhere near enough evidence for that: our own trainer will not show you an estimated range until you have answered {{FLOOR}}, and even then it reports a range and never a single number. This is a pointer at what to read first, which is a much smaller claim and the one {{N}} questions can actually support.</p>
+  </div>
+</div>
+
+<div id="quiz" hidden>
+  <div class="bar"><i id="prog" style="width:0%"></i></div>
+  <div class="q">
+    <div class="q-top"><span class="q-n" id="qn"></span><span class="q-sk" id="qsk"></span></div>
+    <div class="q-passage" id="qpassage" hidden></div>
+    <p class="q-stem" id="qstem"></p>
+    <div id="qbody"></div>
+    <div class="q-nav">
+      <button class="btn" id="next" type="button" disabled>Next</button>
+      <button class="btn sec" id="skip" type="button">Skip this one</button>
+    </div>
+  </div>
+</div>
+
+<div id="results" hidden>
+  <div class="head">
+    <p class="eyebrow">{{EXAM_SHORT}} Diagnostic</p>
+    <h1>Where to Start</h1>
+    <p id="res-lede"></p>
+  </div>
+  <div id="res-secs"></div>
+  <div class="read">
+    <h2>Your Reading Order</h2>
+    <p>Hardest first. Each of these is a guide page with the formulas, worked examples and what the question looks like at every level.</p>
+    <ol id="res-read"></ol>
+  </div>
+  <div class="note">
+    <h3>One Question per Skill Is a Pointer, Not a Verdict</h3>
+    <p>A single question can go either way on a good day. Treat a miss as a reason to read the page, not as proof you cannot do it, and treat a hit as a reason to move on rather than as evidence you have the skill. For an actual measurement, the trainer adapts to you and reports a range once it has enough evidence.</p>
+  </div>
+  <div class="q-nav">
+    <a class="btn" href="{{APP}}">Open the trainer</a>
+    <button class="btn sec" id="again" type="button">Take it again</button>
+  </div>
+</div>
+</main>
+{{SITE_FOOTER}}
+<script id="diag-data" type="application/json">{{DATA}}</script>
+<script>
+(function () {
+  'use strict';
+  var DATA = JSON.parse(document.getElementById('diag-data').textContent);
+  var items = DATA.items, topics = DATA.topics, secNames = DATA.sections;
+  var at = 0, picks = [];
+  var el = function (id) { return document.getElementById(id); };
+  var LETTERS = 'ABCDEFGH';
+
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c];
+    });
+  }
+
+  function render() {
+    var q = items[at];
+    el('qn').textContent = 'Question ' + (at + 1) + ' of ' + items.length;
+    el('qsk').textContent = q.sectionName + ' / ' + q.skillName;
+    el('prog').style.width = Math.round((at / items.length) * 100) + '%';
+    var p = el('qpassage');
+    p.textContent = '';
+    if (q.passageHtml) { p.innerHTML = q.passageHtml; p.hidden = false; }
+    else if (q.passage) { p.textContent = q.passage; p.hidden = false; }
+    else { p.hidden = true; }
+    el('qstem').textContent = q.stem;
+    var body = el('qbody');
+    body.textContent = '';
+    if (q.kind === 'tpa') { body.appendChild(buildTpa(q)); }
+    else { body.appendChild(buildMc(q)); }
+    el('next').disabled = true;
+    el('next').textContent = (at + 1 === items.length) ? 'See where to start' : 'Next';
+  }
+
+  function buildMc(q) {
+    var ul = document.createElement('ul');
+    ul.className = 'opts';
+    q.choices.forEach(function (c, i) {
+      var li = document.createElement('li');
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('aria-pressed', 'false');
+      b.innerHTML = '<span class="lt">' + LETTERS[i] + '</span><span class="tx">' + esc(c) + '</span>';
+      b.addEventListener('click', function () {
+        Array.prototype.forEach.call(ul.querySelectorAll('button'), function (x) {
+          x.setAttribute('aria-pressed', 'false');
+        });
+        b.setAttribute('aria-pressed', 'true');
+        picks[at] = i;
+        el('next').disabled = false;
+      });
+      li.appendChild(b);
+      ul.appendChild(li);
+    });
+    return ul;
+  }
+
+  function buildTpa(q) {
+    var wrap = document.createElement('div');
+    wrap.className = 'tw';
+    var t = document.createElement('table');
+    t.className = 'tpa';
+    var head = '<tr>';
+    q.columns.forEach(function (c) { head += '<th>' + esc(c) + '</th>'; });
+    head += '<th></th></tr>';
+    var rows = '';
+    q.choices.forEach(function (c, i) {
+      rows += '<tr>';
+      q.columns.forEach(function (_, j) {
+        rows += '<td class="pick"><input type="radio" name="tpa' + j + '" value="' + i + '"></td>';
+      });
+      rows += '<td>' + esc(c) + '</td></tr>';
+    });
+    t.innerHTML = '<thead>' + head + '</thead><tbody>' + rows + '</tbody>';
+    t.addEventListener('change', function () {
+      var got = [];
+      q.columns.forEach(function (_, j) {
+        var hit = t.querySelector('input[name="tpa' + j + '"]:checked');
+        got.push(hit ? Number(hit.value) : null);
+      });
+      picks[at] = got;
+      el('next').disabled = got.some(function (v) { return v === null; });
+    });
+    wrap.appendChild(t);
+    return wrap;
+  }
+
+  function correct(q, pick) {
+    if (pick === undefined || pick === null) { return false; }
+    if (q.kind === 'tpa') {
+      if (!Array.isArray(pick) || !Array.isArray(q.answer)) { return false; }
+      return q.answer.length === pick.length && q.answer.every(function (v, i) {
+        return v === pick[i];
+      });
+    }
+    return pick === q.answer;
+  }
+
+  function finish() {
+    el('quiz').hidden = true;
+    var bySec = {}, right = 0, weak = [];
+    items.forEach(function (q, i) {
+      var ok = correct(q, picks[i]);
+      if (ok) { right += 1; } else { weak.push(q); }
+      if (!bySec[q.section]) { bySec[q.section] = { n: 0, ok: 0, skills: [] }; }
+      bySec[q.section].n += 1;
+      if (ok) { bySec[q.section].ok += 1; }
+      bySec[q.section].skills.push({ q: q, ok: ok });
+    });
+
+    el('res-lede').textContent = 'You answered ' + right + ' of ' + items.length
+      + ' correctly. Below is every skill the exam scores, which of them this '
+      + 'diagnostic caught you on, and what to read first.';
+
+    var host = el('res-secs');
+    host.textContent = '';
+    Object.keys(bySec).forEach(function (code) {
+      var s = bySec[code];
+      var box = document.createElement('div');
+      box.className = 'res-sec';
+      var inner = '<h3>' + esc(secNames[code] || code) + '</h3>'
+        + '<div class="score">' + s.ok + ' / ' + s.n + '</div>';
+      s.skills.forEach(function (r) {
+        var links = (topics[r.q.skill] || []).map(function (t) {
+          return '<a href="' + esc(t.url) + '">' + esc(t.title) + '</a>';
+        }).join(', ');
+        inner += '<div class="sk"><div class="sk-n"><b>' + esc(r.q.skillName) + '</b>'
+          + (links ? '<p>Read: ' + links + '</p>' : '')
+          + '</div><span class="tag ' + (r.ok ? 'ok' : 'no') + '">'
+          + (r.ok ? 'Got it' : 'Missed') + '</span></div>';
+      });
+      box.innerHTML = inner;
+      host.appendChild(box);
+    });
+
+    var read = el('res-read');
+    read.textContent = '';
+    var list = weak.length ? weak : items;
+    if (!weak.length) {
+      var p = document.createElement('li');
+      p.innerHTML = '<b>You did not miss any of them.</b> That means this diagnostic is '
+        + 'too coarse to tell you where to go next, which is a good problem. Open the '
+        + 'trainer: it adapts upward until it finds your edge.';
+      read.appendChild(p);
+    } else {
+      list.forEach(function (q) {
+        (topics[q.skill] || []).forEach(function (t) {
+          var li = document.createElement('li');
+          li.innerHTML = '<a href="' + esc(t.url) + '">' + esc(t.title) + '</a> '
+            + '<span style="color:var(--gray-500)">(' + esc(q.skillName) + ')</span>';
+          read.appendChild(li);
+        });
+      });
+    }
+    el('results').hidden = false;
+    window.scrollTo(0, 0);
+  }
+
+  el('start').addEventListener('click', function () {
+    el('intro').hidden = true;
+    el('quiz').hidden = false;
+    at = 0;
+    picks = [];
+    render();
+  });
+  el('next').addEventListener('click', function () {
+    at += 1;
+    if (at >= items.length) { finish(); } else { render(); }
+  });
+  el('skip').addEventListener('click', function () {
+    picks[at] = null;
+    at += 1;
+    if (at >= items.length) { finish(); } else { render(); }
+  });
+  el('again').addEventListener('click', function () {
+    el('results').hidden = true;
+    el('intro').hidden = false;
+    window.scrollTo(0, 0);
+  });
+}());
+</script>
+</body></html>
