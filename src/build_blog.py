@@ -405,6 +405,10 @@ def build_post(p, posts):
     extra += '<meta property="article:published_time" content="%s">\n' % p["date"]
     return page(p["title"] + " | Start From Nowhere", p["description"], f"{SITE}/blog/{p['slug']}/", body, extra)
 
+import sys as _sys
+import re as _re
+
+
 def build_sitemap(posts):
     urls = [(SITE + "/", None), (SITE + "/blog/", None), (SITE + "/schools/", None), (SITE + "/exams/", None), (SITE + "/pricing/", None), (SITE + "/community/", None), (SITE + "/international/", None), (SITE + "/apply/", None), (SITE + "/scoring/", None), (SITE + "/funding/", None), (SITE + "/colleges/", None), (SITE + "/colleges/methodology/", None), (SITE + "/terms.html", None), (SITE + "/privacy.html", None), (SITE + "/do-not-sell/", None)]
     exams_data = ROOT / "data" / "exams.json"
@@ -423,10 +427,51 @@ def build_sitemap(posts):
         import json as _json3
         for cp in sorted(colleges_dir.glob("*.json")):
             urls.append((f"{SITE}/colleges/{_json3.loads(cp.read_text())['slug']}/", None))
+    # The study guide is walked rather than listed. Every section above is either named by
+    # hand or expanded from a data file, which is why the guide shipped with 139 pages and
+    # no sitemap entry for any of them (INC-0103): nothing about building a section causes
+    # it to appear here. Reading the built tree means a section added later is carried
+    # without a code change, and cannot fall out of step with itself.
+    guide_dir = ROOT / "guide"
+    if guide_dir.is_dir():
+        for page in sorted(guide_dir.rglob("index.html")):
+            rel = page.parent.relative_to(ROOT).as_posix()
+            urls.append((f"{SITE}/{rel}/", None))
     urls += [(f"{SITE}/blog/{p['slug']}/", p.get("updated", p["date"])) for p in sorted(posts, key=lambda p: p["date"], reverse=True)]
     items = "".join(
         f"<url><loc>{u}</loc>{f'<lastmod>{d}</lastmod>' if d else ''}</url>\n" for u, d in urls)
     return f"""<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{items}</urlset>\n"""
+
+# Directories whose built pages are content a search engine should be able to reach. The
+# trainer apps are deliberately absent: they are an application, not a document, and a
+# search result pointing into one is a worse answer than the guide page about it.
+SITEMAP_SECTIONS = ["blog", "schools", "colleges", "exams", "guide"]
+
+
+def sitemap_gaps(sitemap):
+    """Built pages the sitemap does not list.
+
+    The sitemap used to be a hand written list of sections, so a new section was invisible
+    to it until somebody remembered a line, and the study guide shipped with 139 pages and
+    no entry for any of them (INC-0103). Nothing failed, because nothing compared what was
+    BUILT against what was LISTED, and an absent page and a deliberately excluded one look
+    identical from inside the writer.
+
+    So this compares them. It reads the sitemap that was just written and walks the built
+    tree, which is the only pair of facts that cannot both be wrong in the same direction.
+    """
+    listed = set(_re.findall(r"<loc>([^<]+)</loc>", sitemap))
+    gaps = []
+    for section in SITEMAP_SECTIONS:
+        base = ROOT / section
+        if not base.is_dir():
+            continue
+        for page in sorted(base.rglob("index.html")):
+            rel = page.parent.relative_to(ROOT).as_posix()
+            if f"{SITE}/{rel}/" not in listed:
+                gaps.append(f"/{rel}/")
+    return gaps
+
 
 def main():
     posts = load_posts()
@@ -441,7 +486,17 @@ def main():
         d.mkdir(exist_ok=True)
         p = dict(p, body=delink_held(p["body"], live_slugs))
         (d / "index.html").write_text(build_post(p, live))
-    (ROOT / "sitemap.xml").write_text(build_sitemap(live))
+    sitemap = build_sitemap(live)
+    (ROOT / "sitemap.xml").write_text(sitemap)
+    missing = sitemap_gaps(sitemap)
+    if missing:
+        print("build_blog: %d built page(s) are not in the sitemap, so nothing can find "
+              "them:" % len(missing), file=_sys.stderr)
+        for m in missing[:12]:
+            print("  " + m, file=_sys.stderr)
+        if len(missing) > 12:
+            print("  ...and %d more" % (len(missing) - 12), file=_sys.stderr)
+        raise SystemExit(1)
     print(f"built blog/ with {len(live)} posts + index + sitemap.xml")
 
 if __name__ == "__main__":

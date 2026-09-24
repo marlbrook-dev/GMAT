@@ -1,14 +1,14 @@
 # Rules Digest
 
-102 defects from a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
+103 defects from a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
 
-Generated 2026-09-22 from a ledger spanning 36 days and 95 commits.
+Generated 2026-09-24 from a ledger spanning 36 days and 96 commits.
 
 ## Read this first
 
-The three ways defects were most often found, in order: found by reading the code or the output (44), found by measuring something (30), a test caught it (13). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
+The three ways defects were most often found, in order: found by reading the code or the output (44), found by measuring something (31), a test caught it (13). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
 
-The dominant failure mode is silent loss, 23 of 102: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
+The dominant failure mode is silent loss, 24 of 103: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
 
 ## Learned the hard way, more than once
 
@@ -19,10 +19,11 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (5 times) A corpus field is written against the one sentence the author had in mind, and the schema that reuses it three templates later has no way to know which shape it is.
 - (5 times) A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell.
 - (4 times) A counter that nothing reads is not instrumentation, it is a comment that looks like instrumentation, and it is worse than nothing because it answers the question 'is anyone watching this' with a yes.
+- (4 times) A check that infers what to expect from the same data it is checking cannot fail on a missing field: absence reads as nothing to look for.
 - (3 times) A regex that counts things assumes a formatting convention, and a file that legitimately breaks the convention counts as zero rather than as an error.
 - (3 times) Reading the record does not prevent the defect; the practice does. This one was written hours after its own lesson was read closely enough to be catalogued as a recurrence, and it was caught by rendering three items rather than by remembering.
 - (3 times) A fix scoped to where the evidence was is a fix scoped to the sample, not to the defect.
-- (3 times) A check that infers what to expect from the same data it is checking cannot fail on a missing field: absence reads as nothing to look for.
+- (3 times) When a defect is about a KIND of code rather than a line of code, a guard bolted to the site of the failure does not generalise, and writing one feels like closing the case.
 - (2 times) Test your content against the strategies a lazy adversary would use, not only against whether it is correct.
 - (2 times) The same undefined-property failure will find you repeatedly, at every severity from one icon to an invisible legal control.
 - (2 times) A path that exists on the machine you wrote the test on is not a path. Resolve environment-specific locations through one helper that falls back to the tool's own default, and return undefined rather than an empty string, because undefined means 'you decide' and an empty string means 'launch nothing'.
@@ -33,7 +34,6 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (2 times) A generator's wrong answers are written as labels and read as labels, and nobody looks at the values two labels produce.
 - (2 times) A template is a promise about the grammar of what goes into it, and the promise is invisible: the code says name and the sentence needs a singular noun phrase.
 - (2 times) A generated item is checked as data, and this one was correct as data: the logic was valid, the key was right, the distractors were the intended errors.
-- (2 times) When a defect is about a KIND of code rather than a line of code, a guard bolted to the site of the failure does not generalise, and writing one feels like closing the case.
 
 ## Content generation
 
@@ -41,15 +41,15 @@ These cost this build twice or more each. If you read nothing else here, read th
 - A corpus field is written against the one sentence the author had in mind, and the schema that reuses it three templates later has no way to know which shape it is.
 - A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell.
 - A counter that nothing reads is not instrumentation, it is a comment that looks like instrumentation, and it is worse than nothing because it answers the question 'is anyone watching this' with a yes.
+- A check that infers what to expect from the same data it is checking cannot fail on a missing field: absence reads as nothing to look for.
 - Reading the record does not prevent the defect; the practice does. This one was written hours after its own lesson was read closely enough to be catalogued as a recurrence, and it was caught by rendering three items rather than by remembering.
 - A fix scoped to where the evidence was is a fix scoped to the sample, not to the defect.
-- A check that infers what to expect from the same data it is checking cannot fail on a missing field: absence reads as nothing to look for.
+- When a defect is about a KIND of code rather than a line of code, a guard bolted to the site of the failure does not generalise, and writing one feels like closing the case.
 - Test your content against the strategies a lazy adversary would use, not only against whether it is correct.
 - A module that nothing imports fails no test, and an exception raised on every draw is indistinguishable from an exception raised on a hard draw.
 - A generator's wrong answers are written as labels and read as labels, and nobody looks at the values two labels produce.
 - A template is a promise about the grammar of what goes into it, and the promise is invisible: the code says name and the sentence needs a singular noun phrase.
 - A generated item is checked as data, and this one was correct as data: the logic was valid, the key was right, the distractors were the intended errors.
-- When a defect is about a KIND of code rather than a line of code, a guard bolted to the site of the failure does not generalise, and writing one feels like closing the case.
 - Any generator that claims reproducibility must be seeded from something stable across processes.
 - Deletion by shadowing is invisible. Any collection whose size is a fact about the product needs its size asserted, not just its contents.
 - A deduplication key must be canonical under every transformation the item legitimately undergoes.
@@ -144,6 +144,13 @@ These cost this build twice or more each. If you read nothing else here, read th
 - Row Level Security is row-level. Which columns a role may write is a separate grant, and anything money depends on belongs to the service role alone.
 - Enumerate every value a third-party status field can take before you branch on one of them.
 
+## Search and metadata
+
+- A refactor that moves data has to be followed to every reader, and a loop over nothing is the quietest failure in programming.
+- Any number in user-facing copy that describes the size of something must be computed from that thing at build time.
+- When one model feeds two pages, generate both from the model in the same pass. Two places that must agree will not, and the reader who notices is the reader you were trying to convince.
+- An enumeration that has to be kept in step by memory will fall out of step, and the failure is silent because nothing downstream can tell the difference between a section that was excluded on purpose and one that was forgotten.
+
 ## Scoring and selection
 
 - Check that your instrumentation fired at all before you trust anything built on it.
@@ -157,12 +164,6 @@ These cost this build twice or more each. If you read nothing else here, read th
 - UPDATE OF is a statement-shape filter, not a change filter. If you need 'when this value changed', compare OLD and NEW yourself.
 - In Postgres, revoking from every role you can name still leaves PUBLIC. Verify with the advisors or by reading the acl, never by reading your own migration.
 - An empty catch block around a write is a silent-loss defect waiting to be born. If a save can fail, the person must be told; a success toast that fires regardless of the result is worse than no toast, because it actively teaches the user the data is safe.
-
-## Search and metadata
-
-- A refactor that moves data has to be followed to every reader, and a loop over nothing is the quietest failure in programming.
-- Any number in user-facing copy that describes the size of something must be computed from that thing at build time.
-- When one model feeds two pages, generate both from the model in the same pass. Two places that must agree will not, and the reader who notices is the reader you were trying to convince.
 
 ## Interface and data display
 

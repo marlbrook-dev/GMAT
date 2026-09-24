@@ -59,7 +59,7 @@ a{color:var(--accent)}
 <p class="eyebrow">Start From Nowhere</p>
 <h1>The Build Playbook</h1>
 <p class="sub">How one person and a set of AI sessions built a multi-exam test-prep platform, every defect hit on the way, and the recipe for doing it again for something else</p>
-<p class="meta">Built 2026-09-22 from commit e32605f &middot; 95 commits over 36 days &middot; 102 recorded defects &middot; 17 chapters<br>
+<p class="meta">Built 2026-09-24 from commit 6cef1d1 &middot; 96 commits over 36 days &middot; 103 recorded defects &middot; 17 chapters<br>
 This document is generated. Edit the chapters in docs/playbook/ and the ledger in data/playbook/incidents.jsonl, then run python3 src/build_playbook.py.</p>
 </div>
 <div class="toc"><ol><li><a href="#how-to-use-this-book">How to Use This Book</a></li>
@@ -81,7 +81,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><a href="#the-bootstrap-pack-starting-a-new-project-with-this-loaded">The Bootstrap Pack: Starting a New Project With This Loaded</a></li></ol></div>
 <h1 id="how-to-use-this-book">How to Use This Book</h1>
 <p>This is the record of building one platform, written so it can be used to build a different one.</p>
-<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-08-17 and 2026-09-22, which is 36 days, across 95 commits, by one owner directing a series of AI coding sessions. As of this build it is 71 Python files, 102 JavaScript files, 24 TypeScript edge functions, 35 migrations and 63 documents: 2000 tracked files in total.</p>
+<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-08-17 and 2026-09-22, which is 36 days, across 96 commits, by one owner directing a series of AI coding sessions. As of this build it is 71 Python files, 102 JavaScript files, 24 TypeScript edge functions, 35 migrations and 63 documents: 2000 tracked files in total.</p>
 <p>None of those numbers were typed. They are measured from the repository every time this document is built, which is the first thing worth copying.</p>
 <h2 id="what-is-in-here">What is in here</h2>
 <p>The book has four kinds of chapter, and they age differently.</p>
@@ -615,7 +615,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three defects here were found by taking a screenshot: a chart unreadable in dark mode, a line chart implying values that never existed, and a dashboard that was not on screen. None of them would have been caught by an assertion, because none of them were violations of anything anybody had thought to assert.</p>
 <p><strong>Budget for looking.</strong> It is the cheapest test there is and the only one that catches things you have not imagined.</p>
 <h1 id="running-the-build-as-an-ai-loop">Running the Build as an AI Loop</h1>
-<p>95 commits in 36 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
+<p>96 commits in 36 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
 <h2 id="the-division-of-labour">The division of labour</h2>
 <p><strong>The owner decides</strong>: what to build, what it means, what is acceptable, and every irreversible or outward-facing action. <strong>The session does</strong>: the building, the measuring, the testing, and the reporting of what it found.</p>
 <p>The failure mode at each end is worth naming. An owner who reviews every line becomes the bottleneck and the throughput collapses to the speed of reading. A session that decides product questions on its own produces something coherent that is not what anyone wanted.</p>
@@ -659,28 +659,28 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Long uninterrupted sessions with standing authorisation, punctuated by the owner redirecting priorities, beat short supervised ones by a wide margin. The standing authorisation that made it work was specific: merge your own work once the checks are green, do not check in on each item, and stop immediately when told to.</p>
 <p>The thing that makes that safe is not trust. It is that the checks are real, the destructive actions still require asking, and the record of what happened is written down well enough to audit later. Which is what this book is.</p>
 <h1 id="what-the-ledger-says-about-itself">What the Ledger Says About Itself</h1>
-<p>102 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.</p>
+<p>103 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.</p>
 <h2 id="how-defects-were-actually-found">How defects were actually found</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">How</th><th style="text-align:right">Count</th><th style="text-align:right">Share</th></tr></thead><tbody>
 <tr><td style="text-align:left">Found by reading the code or the output</td><td style="text-align:right">44</td><td style="text-align:right">43%</td></tr>
-<tr><td style="text-align:left">Found by measuring something</td><td style="text-align:right">30</td><td style="text-align:right">29%</td></tr>
+<tr><td style="text-align:left">Found by measuring something</td><td style="text-align:right">31</td><td style="text-align:right">30%</td></tr>
 <tr><td style="text-align:left">A test caught it</td><td style="text-align:right">13</td><td style="text-align:right">13%</td></tr>
 <tr><td style="text-align:left">Found by rendering it and looking</td><td style="text-align:right">6</td><td style="text-align:right">6%</td></tr>
 <tr><td style="text-align:left">Found by a review bot or an adversarial pass</td><td style="text-align:right">5</td><td style="text-align:right">5%</td></tr>
 <tr><td style="text-align:left">A person hit it</td><td style="text-align:right">2</td><td style="text-align:right">2%</td></tr>
 <tr><td style="text-align:left">A build guard caught it</td><td style="text-align:right">2</td><td style="text-align:right">2%</td></tr>
 </tbody></table></div>
-<p><strong>This is the most useful table in the book.</strong> 100 of 102 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.</p>
+<p><strong>This is the most useful table in the book.</strong> 101 of 103 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.</p>
 <p><strong>Read that percentage with the bias it carries.</strong> This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.</p>
 <h2 id="by-severity">By severity</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">Severity</th><th style="text-align:right">Count</th></tr></thead><tbody>
 <tr><td style="text-align:left">Wrong data shown or stored</td><td style="text-align:right">40</td></tr>
-<tr><td style="text-align:left">Silent loss</td><td style="text-align:right">23</td></tr>
+<tr><td style="text-align:left">Silent loss</td><td style="text-align:right">24</td></tr>
 <tr><td style="text-align:left">Degraded</td><td style="text-align:right">20</td></tr>
 <tr><td style="text-align:left">Cosmetic</td><td style="text-align:right">16</td></tr>
 <tr><td style="text-align:left">Site down</td><td style="text-align:right">3</td></tr>
 </tbody></table></div>
-<p><strong>Silent loss is the dominant failure mode</strong>, at 23 of 102. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.</p>
+<p><strong>Silent loss is the dominant failure mode</strong>, at 24 of 103. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.</p>
 <h2 id="by-area">By area</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">Area</th><th style="text-align:right">Count</th></tr></thead><tbody>
 <tr><td style="text-align:left">Content generation</td><td style="text-align:right">39</td></tr>
@@ -690,13 +690,13 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <tr><td style="text-align:left">Infrastructure and deploy</td><td style="text-align:right">6</td></tr>
 <tr><td style="text-align:left">CSS and layout</td><td style="text-align:right">5</td></tr>
 <tr><td style="text-align:left">Payments</td><td style="text-align:right">5</td></tr>
+<tr><td style="text-align:left">Search and metadata</td><td style="text-align:right">4</td></tr>
 <tr><td style="text-align:left">Scoring and selection</td><td style="text-align:right">4</td></tr>
 <tr><td style="text-align:left">Database</td><td style="text-align:right">4</td></tr>
-<tr><td style="text-align:left">Search and metadata</td><td style="text-align:right">3</td></tr>
 <tr><td style="text-align:left">Interface and data display</td><td style="text-align:right">3</td></tr>
 </tbody></table></div>
 <h2 id="guard-coverage">Guard coverage</h2>
-<p>96 of 102 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.</p>
+<p>97 of 103 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.</p>
 <p>Carried by attention:</p>
 <ul>
 <li><strong>INC-0010</strong> CSS comments do not nest, and one placeholder killed the palette on 1451 pages</li>
@@ -712,17 +712,18 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>weekly_audit checks computed colour on every page (INC-0050, INC-0048)</li>
 </ul>
 <h2 id="lessons-learned-more-than-once">Lessons learned more than once</h2>
-<p>24 of 102 incidents record that they repeat an earlier lesson, 38 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.</p>
+<p>25 of 103 incidents record that they repeat an earlier lesson, 40 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.</p>
 <div class="tw"><table><thead><tr><th style="text-align:left">Lesson first recorded in</th><th style="text-align:left">Repeated by</th><th style="text-align:right">Times</th></tr></thead><tbody>
 <tr><td style="text-align:left">INC-0064 The guard against a blind counter was itself blind to three exams</td><td style="text-align:left">INC-0067, INC-0082, INC-0085, INC-0088</td><td style="text-align:right">4</td></tr>
 <tr><td style="text-align:left">INC-0069 A bank a student can play at 88 percent, inside a section the check passed</td><td style="text-align:left">INC-0079, INC-0085, INC-0086, INC-0088</td><td style="text-align:right">4</td></tr>
 <tr><td style="text-align:left">INC-0074 A corpus field written for one grammatical slot was spliced into another</td><td style="text-align:left">INC-0075, INC-0087, INC-0093, INC-0096</td><td style="text-align:right">4</td></tr>
 <tr><td style="text-align:left">INC-0088 A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked</td><td style="text-align:left">INC-0089, INC-0098, INC-0099, INC-0101</td><td style="text-align:right">4</td></tr>
 <tr><td style="text-align:left">INC-0092 A schema threw away three draws in four, and the counter that knew was read by nobody</td><td style="text-align:left">INC-0098, INC-0099, INC-0101</td><td style="text-align:right">3</td></tr>
+<tr><td style="text-align:left">INC-0099 Every generated reading comprehension question shipped without its passage</td><td style="text-align:left">INC-0100, INC-0101, INC-0103</td><td style="text-align:right">3</td></tr>
 <tr><td style="text-align:left">INC-0059 The item counter missed a whole bank file because it assumed a quoting style</td><td style="text-align:left">INC-0064, INC-0067</td><td style="text-align:right">2</td></tr>
 <tr><td style="text-align:left">INC-0087 The same corpus field in two grammatical slots, in a schema written the same day the guard was read</td><td style="text-align:left">INC-0093, INC-0096</td><td style="text-align:right">2</td></tr>
 <tr><td style="text-align:left">INC-0098 The table said 31.0 and the explanation said 31, because the fix covered the table only</td><td style="text-align:left">INC-0099, INC-0101</td><td style="text-align:right">2</td></tr>
-<tr><td style="text-align:left">INC-0099 Every generated reading comprehension question shipped without its passage</td><td style="text-align:left">INC-0100, INC-0101</td><td style="text-align:right">2</td></tr>
+<tr><td style="text-align:left">INC-0101 A new field-by-field copier reproduced the passage loss defect four days after the ledger recorded it</td><td style="text-align:left">INC-0102, INC-0103</td><td style="text-align:right">2</td></tr>
 <tr><td style="text-align:left">INC-0044 The longest option was the correct answer 81 percent of the time</td><td style="text-align:left">INC-0091</td><td style="text-align:right">1</td></tr>
 <tr><td style="text-align:left">INC-0050 A landing-page icon referenced a colour token that did not exist</td><td style="text-align:left">INC-0018</td><td style="text-align:right">1</td></tr>
 <tr><td style="text-align:left">INC-0055 A new browser suite hardcoded this machine's browser directory and crashed in CI</td><td style="text-align:left">INC-0067</td><td style="text-align:right">1</td></tr>
@@ -733,9 +734,8 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <tr><td style="text-align:left">INC-0090 Two of a schema's three question forms could not build, and the only sign was an item count</td><td style="text-align:left">INC-0092</td><td style="text-align:right">1</td></tr>
 <tr><td style="text-align:left">INC-0093 Seven variable names were plural and every sentence built around them said was</td><td style="text-align:left">INC-0096</td><td style="text-align:right">1</td></tr>
 <tr><td style="text-align:left">INC-0097 Every reading inference question asked about something the passage never mentions</td><td style="text-align:left">INC-0102</td><td style="text-align:right">1</td></tr>
-<tr><td style="text-align:left">INC-0101 A new field-by-field copier reproduced the passage loss defect four days after the ledger recorded it</td><td style="text-align:left">INC-0102</td><td style="text-align:right">1</td></tr>
 </tbody></table></div>
-<p>The largest family runs to 20 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.</p>
+<p>The largest family runs to 21 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.</p>
 <p>Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.</p>
 <ul>
 <li>INC-0013 names INC-0012</li>
@@ -1701,6 +1701,50 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Cost.</strong> would have reported zero churn forever</li>
 <li><strong>Lesson.</strong> When a write is destructive, capture what you need from the old value first. Ask what question you will want to answer after this row is gone.</li>
 </ul>
+<h2 id="search-and-metadata-4">Search and metadata (4)</h2>
+<h3 id="inc-0002-school-urls-vanished-from-the-sitemap-when-the-data-file-was-split">INC-0002. School URLs vanished from the sitemap when the data file was split</h3>
+<p><em>2026-08-24, Silent loss, <code>df14c7c</code> PR #23</em></p>
+<ul>
+<li><strong>What was seen.</strong> Per-school pages were live and correct, and absent from sitemap.xml.</li>
+<li><strong>Why.</strong> The sitemap generator read schools.json. When the library was split into one file per school, nothing read the new directory, and a loop over an empty list emits nothing rather than failing.</li>
+<li><strong>How it surfaced.</strong> Noticed while reviewing the built sitemap. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Generate sitemap entries from the same directory scan the pages are built from.</li>
+<li><strong>What stops it now.</strong> the build asserts the sitemap URL count matches the page count in <code>src/build.py</code></li>
+<li><strong>Cost.</strong> unknown period of missing indexation</li>
+<li><strong>Lesson.</strong> A refactor that moves data has to be followed to every reader, and a loop over nothing is the quietest failure in programming. Derive counts from one source and assert they agree.</li>
+</ul>
+<h3 id="inc-0014-a-hardcoded-count-in-the-meta-description-went-stale-and-google-showed-it">INC-0014. A hardcoded count in the meta description went stale, and Google showed it</h3>
+<p><em>2026-09-19, Wrong data shown or stored, <code>36b1e92</code> PR #43</em></p>
+<ul>
+<li><strong>What was seen.</strong> The meta description claimed 1,451 colleges after the number changed. og:description and twitter:description both derive from that tag, so all three were wrong.</li>
+<li><strong>Why.</strong> A figure typed into a template instead of computed at build time, which is the exact failure build-time counting exists to prevent.</li>
+<li><strong>How it surfaced.</strong> Reading the built page. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Derive the number from the same count the pages are built from.</li>
+<li><strong>What stops it now.</strong> no hardcoded corpus counts in templates in <code>src/build_rankings.py</code></li>
+<li><strong>Cost.</strong> a wrong figure in the search result snippet</li>
+<li><strong>Lesson.</strong> Any number in user-facing copy that describes the size of something must be computed from that thing at build time. The moment it is typed, it has a half-life.</li>
+</ul>
+<h3 id="inc-0049-two-pages-told-the-same-story-with-different-numbers-after-a-reweighting">INC-0049. Two pages told the same story with different numbers after a reweighting</h3>
+<p><em>2026-09-19, Wrong data shown or stored, <code>a34a798</code> PR #47</em></p>
+<ul>
+<li><strong>What was seen.</strong> The rankings index still showed figures from before a scoring change while the methodology page showed the new ones.</li>
+<li><strong>Why.</strong> Two artefacts derived from one model, and only one was regenerated.</li>
+<li><strong>How it surfaced.</strong> Reading both pages after the change. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Derive both from the same computed values at build time.</li>
+<li><strong>What stops it now.</strong> both figures are printed by the build from one source in <code>src/build_rankings.py</code></li>
+<li><strong>Cost.</strong> a visible contradiction between two pages</li>
+<li><strong>Lesson.</strong> When one model feeds two pages, generate both from the model in the same pass. Two places that must agree will not, and the reader who notices is the reader you were trying to convince.</li>
+</ul>
+<h3 id="inc-0103-a-139-page-section-shipped-with-no-route-into-it-from-the-sitemap">INC-0103. A 139 page section shipped with no route into it from the sitemap</h3>
+<p><em>2026-09-24, Silent loss</em></p>
+<ul>
+<li><strong>What was seen.</strong> The study guide went live on 2026-09-22 with 139 pages across five exams and thirteen sections. The sitemap carries 1,592 URLs and not one of them is a guide page. Every other content section is there: 1,453 colleges, 92 schools, 31 blog posts, 6 exams. The pages resolve and are linked from the site header, so nothing looks wrong, and a search engine's cheapest and most reliable route into the largest new body of content on the site does not exist.</li>
+<li><strong>Why.</strong> build_sitemap opens with a hand written list of section URLs and then expands the data driven ones from data/exams.json, data/schools and data/colleges. A new section is therefore invisible to it until somebody remembers to add a line. Nothing about building 139 pages causes them to appear, and nothing about their absence causes a failure, so the omission is silent in both directions.</li>
+<li><strong>How it surfaced.</strong> Found during a search performance audit, three days after the guide shipped, by reading the live sitemap rather than the code that writes it. No check looks at the sitemap at all: the build validates the pages it writes and never asks whether anything can find them. (Found by measuring something)</li>
+<li><strong>Fix.</strong> The sitemap walks the built output for guide pages rather than naming them, so the section cannot fall out of step with itself, and a section added later is carried without a code change.</li>
+<li><strong>What stops it now.</strong> build_blog compares every built index.html under the site's content directories against the sitemap it just wrote, and fails when a page that was built is not listed. The check is on the BUILT OUTPUT rather than on a list of sections, because a list of sections is the thing that was wrong.</li>
+<li><strong>Lesson.</strong> An enumeration that has to be kept in step by memory will fall out of step, and the failure is silent because nothing downstream can tell the difference between a section that was excluded on purpose and one that was forgotten. Derive the list from what was actually produced, and when that is not practical, make something compare the two. Publishing work nobody can find is not a smaller version of publishing it.</li>
+</ul>
 <h2 id="scoring-and-selection-4">Scoring and selection (4)</h2>
 <h3 id="inc-0040-the-easier-module-was-not-easier">INC-0040. The easier module was not easier</h3>
 <p><em>2026-09-16, Wrong data shown or stored, <code>81eecec</code> PR #30</em></p>
@@ -1790,40 +1834,6 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>What stops it now.</strong> a SQL smoke test asserts authenticated holds UPDATE on every field the Account page writes, and none of the server-owned ones in <code>src/sql/smoke_profile_grants.sql</code></li>
 <li><strong>Cost.</strong> every signed-in user's demographics, for as long as the fields have existed</li>
 <li><strong>Lesson.</strong> An empty catch block around a write is a silent-loss defect waiting to be born. If a save can fail, the person must be told; a success toast that fires regardless of the result is worse than no toast, because it actively teaches the user the data is safe. And where two layers of authorisation have to agree, something has to compare them: the one that is wrong will not announce itself.</li>
-</ul>
-<h2 id="search-and-metadata-3">Search and metadata (3)</h2>
-<h3 id="inc-0002-school-urls-vanished-from-the-sitemap-when-the-data-file-was-split">INC-0002. School URLs vanished from the sitemap when the data file was split</h3>
-<p><em>2026-08-24, Silent loss, <code>df14c7c</code> PR #23</em></p>
-<ul>
-<li><strong>What was seen.</strong> Per-school pages were live and correct, and absent from sitemap.xml.</li>
-<li><strong>Why.</strong> The sitemap generator read schools.json. When the library was split into one file per school, nothing read the new directory, and a loop over an empty list emits nothing rather than failing.</li>
-<li><strong>How it surfaced.</strong> Noticed while reviewing the built sitemap. (Found by reading the code or the output)</li>
-<li><strong>Fix.</strong> Generate sitemap entries from the same directory scan the pages are built from.</li>
-<li><strong>What stops it now.</strong> the build asserts the sitemap URL count matches the page count in <code>src/build.py</code></li>
-<li><strong>Cost.</strong> unknown period of missing indexation</li>
-<li><strong>Lesson.</strong> A refactor that moves data has to be followed to every reader, and a loop over nothing is the quietest failure in programming. Derive counts from one source and assert they agree.</li>
-</ul>
-<h3 id="inc-0014-a-hardcoded-count-in-the-meta-description-went-stale-and-google-showed-it">INC-0014. A hardcoded count in the meta description went stale, and Google showed it</h3>
-<p><em>2026-09-19, Wrong data shown or stored, <code>36b1e92</code> PR #43</em></p>
-<ul>
-<li><strong>What was seen.</strong> The meta description claimed 1,451 colleges after the number changed. og:description and twitter:description both derive from that tag, so all three were wrong.</li>
-<li><strong>Why.</strong> A figure typed into a template instead of computed at build time, which is the exact failure build-time counting exists to prevent.</li>
-<li><strong>How it surfaced.</strong> Reading the built page. (Found by reading the code or the output)</li>
-<li><strong>Fix.</strong> Derive the number from the same count the pages are built from.</li>
-<li><strong>What stops it now.</strong> no hardcoded corpus counts in templates in <code>src/build_rankings.py</code></li>
-<li><strong>Cost.</strong> a wrong figure in the search result snippet</li>
-<li><strong>Lesson.</strong> Any number in user-facing copy that describes the size of something must be computed from that thing at build time. The moment it is typed, it has a half-life.</li>
-</ul>
-<h3 id="inc-0049-two-pages-told-the-same-story-with-different-numbers-after-a-reweighting">INC-0049. Two pages told the same story with different numbers after a reweighting</h3>
-<p><em>2026-09-19, Wrong data shown or stored, <code>a34a798</code> PR #47</em></p>
-<ul>
-<li><strong>What was seen.</strong> The rankings index still showed figures from before a scoring change while the methodology page showed the new ones.</li>
-<li><strong>Why.</strong> Two artefacts derived from one model, and only one was regenerated.</li>
-<li><strong>How it surfaced.</strong> Reading both pages after the change. (Found by reading the code or the output)</li>
-<li><strong>Fix.</strong> Derive both from the same computed values at build time.</li>
-<li><strong>What stops it now.</strong> both figures are printed by the build from one source in <code>src/build_rankings.py</code></li>
-<li><strong>Cost.</strong> a visible contradiction between two pages</li>
-<li><strong>Lesson.</strong> When one model feeds two pages, generate both from the model in the same pass. Two places that must agree will not, and the reader who notices is the reader you were trying to convince.</li>
 </ul>
 <h2 id="interface-and-data-display-3">Interface and data display (3)</h2>
 <h3 id="inc-0034-a-line-chart-interpolated-between-discrete-money-events">INC-0034. A line chart interpolated between discrete money events</h3>
@@ -1930,6 +1940,10 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 </ul>
 <p>&lt;small&gt;A schema threw away three draws in four, and the counter that knew was read by nobody (INC-0092)&lt;/small&gt;</p>
 <ul>
+<li>[ ] <strong>Learned 4 times over.</strong> A check that infers what to expect from the same data it is checking cannot fail on a missing field: absence reads as nothing to look for. Derive the expectation from something the data cannot erase, the item's TYPE, and then look for what that type requires. A field that is set in memory, used by every in-process test and copied by hand into the shipped format has no test at all between the two, so the copying should be checked as a whole rather than field by field. And a check that runs one random draw is not a check of a random process: this one was correct for months and simply never asked often enough to see the answer.  </li>
+</ul>
+<p>&lt;small&gt;Every generated reading comprehension question shipped without its passage (INC-0099)&lt;/small&gt;</p>
+<ul>
 <li>[ ] <strong>Learned 3 times over.</strong> Reading the record does not prevent the defect; the practice does. This one was written hours after its own lesson was read closely enough to be catalogued as a recurrence, and it was caught by rendering three items rather than by remembering. Budget the render, not the recollection.  </li>
 </ul>
 <p>&lt;small&gt;The same corpus field in two grammatical slots, in a schema written the same day the guard was read (INC-0087)&lt;/small&gt;</p>
@@ -1938,9 +1952,9 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 </ul>
 <p>&lt;small&gt;The table said 31.0 and the explanation said 31, because the fix covered the table only (INC-0098)&lt;/small&gt;</p>
 <ul>
-<li>[ ] <strong>Learned 3 times over.</strong> A check that infers what to expect from the same data it is checking cannot fail on a missing field: absence reads as nothing to look for. Derive the expectation from something the data cannot erase, the item's TYPE, and then look for what that type requires. A field that is set in memory, used by every in-process test and copied by hand into the shipped format has no test at all between the two, so the copying should be checked as a whole rather than field by field. And a check that runs one random draw is not a check of a random process: this one was correct for months and simply never asked often enough to see the answer.  </li>
+<li>[ ] <strong>Learned 3 times over.</strong> When a defect is about a KIND of code rather than a line of code, a guard bolted to the site of the failure does not generalise, and writing one feels like closing the case. Ask instead what the next instance of this code will look like and where it will live: here the answer was anywhere an item is copied out of the bank, and the durable check is that an item asking about source material has to be carrying it, wherever it is being rendered.  </li>
 </ul>
-<p>&lt;small&gt;Every generated reading comprehension question shipped without its passage (INC-0099)&lt;/small&gt;</p>
+<p>&lt;small&gt;A new field-by-field copier reproduced the passage loss defect four days after the ledger recorded it (INC-0101)&lt;/small&gt;</p>
 <ul>
 <li>[ ] <strong>Learned 2 times over.</strong> Test your content against the strategies a lazy adversary would use, not only against whether it is correct. Measure the score of a rule that ignores the question.  </li>
 </ul>
@@ -1961,10 +1975,6 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>[ ] <strong>Learned 2 times over.</strong> A generated item is checked as data, and this one was correct as data: the logic was valid, the key was right, the distractors were the intended errors. What was missing was a fact about the RELATION between two strings, that a name in the question also occurs in the passage, and no property of either string alone can see it. When a question and its source are assembled from separate fields, write down what has to be true of them together, because every check that looks at one field at a time will pass.  </li>
 </ul>
 <p>&lt;small&gt;Every reading inference question asked about something the passage never mentions (INC-0097)&lt;/small&gt;</p>
-<ul>
-<li>[ ] <strong>Learned 2 times over.</strong> When a defect is about a KIND of code rather than a line of code, a guard bolted to the site of the failure does not generalise, and writing one feels like closing the case. Ask instead what the next instance of this code will look like and where it will live: here the answer was anywhere an item is copied out of the bank, and the durable check is that an item asking about source material has to be carrying it, wherever it is being rendered.  </li>
-</ul>
-<p>&lt;small&gt;A new field-by-field copier reproduced the passage loss defect four days after the ledger recorded it (INC-0101)&lt;/small&gt;</p>
 <ul>
 <li>[ ] Any generator that claims reproducibility must be seeded from something stable across processes. hash() is not, in Python, and the failure shows up as a flaky test rather than as a wrong answer.  </li>
 </ul>
@@ -2208,6 +2218,10 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>[ ] When one model feeds two pages, generate both from the model in the same pass. Two places that must agree will not, and the reader who notices is the reader you were trying to convince.  </li>
 </ul>
 <p>&lt;small&gt;Two pages told the same story with different numbers after a reweighting (INC-0049)&lt;/small&gt;</p>
+<ul>
+<li>[ ] An enumeration that has to be kept in step by memory will fall out of step, and the failure is silent because nothing downstream can tell the difference between a section that was excluded on purpose and one that was forgotten. Derive the list from what was actually produced, and when that is not practical, make something compare the two. Publishing work nobody can find is not a smaller version of publishing it.  </li>
+</ul>
+<p>&lt;small&gt;A 139 page section shipped with no route into it from the sitemap (INC-0103)&lt;/small&gt;</p>
 <h2 id="tests-and-guards">Tests and guards</h2>
 <ul>
 <li>[ ] <strong>Learned 2 times over.</strong> A path that exists on the machine you wrote the test on is not a path. Resolve environment-specific locations through one helper that falls back to the tool's own default, and return undefined rather than an empty string, because undefined means 'you decide' and an empty string means 'launch nothing'.  </li>
@@ -2336,7 +2350,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p><code>python3 src/build_playbook.py</code> writes four files into <code>playbook/bootstrap/</code>, all generated from the same ledger as the book, so none of them can drift from it.</p>
 <p><strong><code>CLAUDE.template.md</code></strong> goes in the new repository's root. Claude Code reads it on every turn. It is the constitution: the house rules, the never-invent-a-value rule, the sourcing rules, the communication rule, and a short architecture section you fill in as you build. Four bracketed blanks at the top are the only things you have to change.</p>
 <p><strong><code>KICKOFF.md</code></strong> is the literal first message for a new conversation. It sets the working agreement, the phase order, and what a session should report. Paste it, then describe your business idea underneath it.</p>
-<p><strong><code>RULES_DIGEST.md</code></strong> is every lesson in the defect ledger, compressed to one line each and grouped by area. It is about three pages. This is the highest value-per-token artefact in the whole project: 102 real defects reduced to the rules that prevent them, with the specifics of this codebase stripped out.</p>
+<p><strong><code>RULES_DIGEST.md</code></strong> is every lesson in the defect ledger, compressed to one line each and grouped by area. It is about three pages. This is the highest value-per-token artefact in the whole project: 103 real defects reduced to the rules that prevent them, with the specifics of this codebase stripped out.</p>
 <p><strong><code>incidents.jsonl</code></strong> is the raw ledger, copied so the new project can start appending to it on day one rather than starting an empty one.</p>
 <h2 id="how-to-load-it-by-surface">How to load it, by surface</h2>
 <p><strong>Claude Code, new repository.</strong> Copy <code>CLAUDE.template.md</code> to the repo root as <code>CLAUDE.md</code>, fill in the four blanks, and copy <code>incidents.jsonl</code> to <code>data/playbook/incidents.jsonl</code>. Copy <code>src/build_playbook.py</code> too, so the new project's own ledger becomes its own book from the first defect. Then open a session with <code>KICKOFF.md</code> as the first message.</p>
@@ -2346,7 +2360,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three reasons, and they are worth understanding rather than just following.</p>
 <p><strong>Retrieval beats repetition.</strong> A document in project knowledge is consulted when relevant. The same document in the prompt is re-read on every single turn, at full cost, mostly when it is irrelevant. For anything longer than a few pages, retrieval is strictly better.</p>
 <p><strong>Instructions need to be short enough to be followed.</strong> A rule competing with ten thousand words of context is a rule that gets applied inconsistently. The digest is deliberately brutal: one line per lesson, imperative mood, no examples. The examples are in the book, where they can be looked up when a rule seems wrong.</p>
-<p><strong>The ledger is the part that compounds.</strong> The recipe chapters age. The rules do not, because each one is the residue of a real failure, and the failure modes of software are considerably more stable than its tooling. A new project that starts with 102 defects already prevented is genuinely ahead, and every defect it hits of its own makes the next project further ahead still.</p>
+<p><strong>The ledger is the part that compounds.</strong> The recipe chapters age. The rules do not, because each one is the residue of a real failure, and the failure modes of software are considerably more stable than its tooling. A new project that starts with 103 defects already prevented is genuinely ahead, and every defect it hits of its own makes the next project further ahead still.</p>
 <h2 id="keeping-the-loop-closed">Keeping the loop closed</h2>
 <p>The pack is only worth carrying forward if the new project feeds it back. So the working agreement in <code>KICKOFF.md</code> includes one instruction that does the whole job:</p>
 <p>&gt; When something breaks, append a record to <code>data/playbook/incidents.jsonl</code> before fixing &gt; it, while you still remember what you believed was true five minutes ago.</p>

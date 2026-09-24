@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-08-17 and 2026-09-22, which is 36 days, across
-95 commits, by one owner directing a series of AI coding sessions. As of this
+96 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 71 Python files, 102 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 63 documents:
 2000 tracked files in total.
@@ -1119,7 +1119,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-95 commits in 36 days, one owner, a series of AI sessions. This
+96 commits in 36 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1211,7 +1211,7 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-102 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+103 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
@@ -1219,14 +1219,14 @@ well enough to audit later. Which is what this book is.
 | How | Count | Share |
 | --- | ---: | ---: |
 | Found by reading the code or the output | 44 | 43% |
-| Found by measuring something | 30 | 29% |
+| Found by measuring something | 31 | 30% |
 | A test caught it | 13 | 13% |
 | Found by rendering it and looking | 6 | 6% |
 | Found by a review bot or an adversarial pass | 5 | 5% |
 | A person hit it | 2 | 2% |
 | A build guard caught it | 2 | 2% |
 
-**This is the most useful table in the book.** 100 of 102 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 101 of 103 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1236,12 +1236,12 @@ well enough to audit later. Which is what this book is.
 | Severity | Count |
 | --- | ---: |
 | Wrong data shown or stored | 40 |
-| Silent loss | 23 |
+| Silent loss | 24 |
 | Degraded | 20 |
 | Cosmetic | 16 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 23 of 102. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 24 of 103. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
@@ -1255,15 +1255,15 @@ well enough to audit later. Which is what this book is.
 | Infrastructure and deploy | 6 |
 | CSS and layout | 5 |
 | Payments | 5 |
+| Search and metadata | 4 |
 | Scoring and selection | 4 |
 | Database | 4 |
-| Search and metadata | 3 |
 | Interface and data display | 3 |
 
 
 ## Guard coverage
 
-96 of 102 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+97 of 103 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1284,7 +1284,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-24 of 102 incidents record that they repeat an earlier lesson, 38 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+25 of 103 incidents record that they repeat an earlier lesson, 40 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1293,10 +1293,11 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0074 A corpus field written for one grammatical slot was spliced into another | INC-0075, INC-0087, INC-0093, INC-0096 | 4 |
 | INC-0088 A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked | INC-0089, INC-0098, INC-0099, INC-0101 | 4 |
 | INC-0092 A schema threw away three draws in four, and the counter that knew was read by nobody | INC-0098, INC-0099, INC-0101 | 3 |
+| INC-0099 Every generated reading comprehension question shipped without its passage | INC-0100, INC-0101, INC-0103 | 3 |
 | INC-0059 The item counter missed a whole bank file because it assumed a quoting style | INC-0064, INC-0067 | 2 |
 | INC-0087 The same corpus field in two grammatical slots, in a schema written the same day the guard was read | INC-0093, INC-0096 | 2 |
 | INC-0098 The table said 31.0 and the explanation said 31, because the fix covered the table only | INC-0099, INC-0101 | 2 |
-| INC-0099 Every generated reading comprehension question shipped without its passage | INC-0100, INC-0101 | 2 |
+| INC-0101 A new field-by-field copier reproduced the passage loss defect four days after the ledger recorded it | INC-0102, INC-0103 | 2 |
 | INC-0044 The longest option was the correct answer 81 percent of the time | INC-0091 | 1 |
 | INC-0050 A landing-page icon referenced a colour token that did not exist | INC-0018 | 1 |
 | INC-0055 A new browser suite hardcoded this machine's browser directory and crashed in CI | INC-0067 | 1 |
@@ -1307,9 +1308,8 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0090 Two of a schema's three question forms could not build, and the only sign was an item count | INC-0092 | 1 |
 | INC-0093 Seven variable names were plural and every sentence built around them said was | INC-0096 | 1 |
 | INC-0097 Every reading inference question asked about something the passage never mentions | INC-0102 | 1 |
-| INC-0101 A new field-by-field copier reproduced the passage loss defect four days after the ledger recorded it | INC-0102 | 1 |
 
-The largest family runs to 20 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
+The largest family runs to 21 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
 
 Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.
 
@@ -2473,6 +2473,60 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** When a write is destructive, capture what you need from the old value first. Ask what question you will want to answer after this row is gone.
 
 
+## Search and metadata (4)
+
+
+### INC-0002. School URLs vanished from the sitemap when the data file was split
+
+*2026-08-24, Silent loss, `df14c7c` PR #23*
+
+- **What was seen.** Per-school pages were live and correct, and absent from sitemap.xml.
+- **Why.** The sitemap generator read schools.json. When the library was split into one file per school, nothing read the new directory, and a loop over an empty list emits nothing rather than failing.
+- **How it surfaced.** Noticed while reviewing the built sitemap. (Found by reading the code or the output)
+- **Fix.** Generate sitemap entries from the same directory scan the pages are built from.
+- **What stops it now.** the build asserts the sitemap URL count matches the page count in `src/build.py`
+- **Cost.** unknown period of missing indexation
+- **Lesson.** A refactor that moves data has to be followed to every reader, and a loop over nothing is the quietest failure in programming. Derive counts from one source and assert they agree.
+
+
+### INC-0014. A hardcoded count in the meta description went stale, and Google showed it
+
+*2026-09-19, Wrong data shown or stored, `36b1e92` PR #43*
+
+- **What was seen.** The meta description claimed 1,451 colleges after the number changed. og:description and twitter:description both derive from that tag, so all three were wrong.
+- **Why.** A figure typed into a template instead of computed at build time, which is the exact failure build-time counting exists to prevent.
+- **How it surfaced.** Reading the built page. (Found by reading the code or the output)
+- **Fix.** Derive the number from the same count the pages are built from.
+- **What stops it now.** no hardcoded corpus counts in templates in `src/build_rankings.py`
+- **Cost.** a wrong figure in the search result snippet
+- **Lesson.** Any number in user-facing copy that describes the size of something must be computed from that thing at build time. The moment it is typed, it has a half-life.
+
+
+### INC-0049. Two pages told the same story with different numbers after a reweighting
+
+*2026-09-19, Wrong data shown or stored, `a34a798` PR #47*
+
+- **What was seen.** The rankings index still showed figures from before a scoring change while the methodology page showed the new ones.
+- **Why.** Two artefacts derived from one model, and only one was regenerated.
+- **How it surfaced.** Reading both pages after the change. (Found by reading the code or the output)
+- **Fix.** Derive both from the same computed values at build time.
+- **What stops it now.** both figures are printed by the build from one source in `src/build_rankings.py`
+- **Cost.** a visible contradiction between two pages
+- **Lesson.** When one model feeds two pages, generate both from the model in the same pass. Two places that must agree will not, and the reader who notices is the reader you were trying to convince.
+
+
+### INC-0103. A 139 page section shipped with no route into it from the sitemap
+
+*2026-09-24, Silent loss*
+
+- **What was seen.** The study guide went live on 2026-09-22 with 139 pages across five exams and thirteen sections. The sitemap carries 1,592 URLs and not one of them is a guide page. Every other content section is there: 1,453 colleges, 92 schools, 31 blog posts, 6 exams. The pages resolve and are linked from the site header, so nothing looks wrong, and a search engine's cheapest and most reliable route into the largest new body of content on the site does not exist.
+- **Why.** build_sitemap opens with a hand written list of section URLs and then expands the data driven ones from data/exams.json, data/schools and data/colleges. A new section is therefore invisible to it until somebody remembers to add a line. Nothing about building 139 pages causes them to appear, and nothing about their absence causes a failure, so the omission is silent in both directions.
+- **How it surfaced.** Found during a search performance audit, three days after the guide shipped, by reading the live sitemap rather than the code that writes it. No check looks at the sitemap at all: the build validates the pages it writes and never asks whether anything can find them. (Found by measuring something)
+- **Fix.** The sitemap walks the built output for guide pages rather than naming them, so the section cannot fall out of step with itself, and a section added later is carried without a code change.
+- **What stops it now.** build_blog compares every built index.html under the site's content directories against the sitemap it just wrote, and fails when a page that was built is not listed. The check is on the BUILT OUTPUT rather than on a list of sections, because a list of sections is the thing that was wrong.
+- **Lesson.** An enumeration that has to be kept in step by memory will fall out of step, and the failure is silent because nothing downstream can tell the difference between a section that was excluded on purpose and one that was forgotten. Derive the list from what was actually produced, and when that is not practical, make something compare the two. Publishing work nobody can find is not a smaller version of publishing it.
+
+
 ## Scoring and selection (4)
 
 
@@ -2583,48 +2637,6 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** An empty catch block around a write is a silent-loss defect waiting to be born. If a save can fail, the person must be told; a success toast that fires regardless of the result is worse than no toast, because it actively teaches the user the data is safe. And where two layers of authorisation have to agree, something has to compare them: the one that is wrong will not announce itself.
 
 
-## Search and metadata (3)
-
-
-### INC-0002. School URLs vanished from the sitemap when the data file was split
-
-*2026-08-24, Silent loss, `df14c7c` PR #23*
-
-- **What was seen.** Per-school pages were live and correct, and absent from sitemap.xml.
-- **Why.** The sitemap generator read schools.json. When the library was split into one file per school, nothing read the new directory, and a loop over an empty list emits nothing rather than failing.
-- **How it surfaced.** Noticed while reviewing the built sitemap. (Found by reading the code or the output)
-- **Fix.** Generate sitemap entries from the same directory scan the pages are built from.
-- **What stops it now.** the build asserts the sitemap URL count matches the page count in `src/build.py`
-- **Cost.** unknown period of missing indexation
-- **Lesson.** A refactor that moves data has to be followed to every reader, and a loop over nothing is the quietest failure in programming. Derive counts from one source and assert they agree.
-
-
-### INC-0014. A hardcoded count in the meta description went stale, and Google showed it
-
-*2026-09-19, Wrong data shown or stored, `36b1e92` PR #43*
-
-- **What was seen.** The meta description claimed 1,451 colleges after the number changed. og:description and twitter:description both derive from that tag, so all three were wrong.
-- **Why.** A figure typed into a template instead of computed at build time, which is the exact failure build-time counting exists to prevent.
-- **How it surfaced.** Reading the built page. (Found by reading the code or the output)
-- **Fix.** Derive the number from the same count the pages are built from.
-- **What stops it now.** no hardcoded corpus counts in templates in `src/build_rankings.py`
-- **Cost.** a wrong figure in the search result snippet
-- **Lesson.** Any number in user-facing copy that describes the size of something must be computed from that thing at build time. The moment it is typed, it has a half-life.
-
-
-### INC-0049. Two pages told the same story with different numbers after a reweighting
-
-*2026-09-19, Wrong data shown or stored, `a34a798` PR #47*
-
-- **What was seen.** The rankings index still showed figures from before a scoring change while the methodology page showed the new ones.
-- **Why.** Two artefacts derived from one model, and only one was regenerated.
-- **How it surfaced.** Reading both pages after the change. (Found by reading the code or the output)
-- **Fix.** Derive both from the same computed values at build time.
-- **What stops it now.** both figures are printed by the build from one source in `src/build_rankings.py`
-- **Cost.** a visible contradiction between two pages
-- **Lesson.** When one model feeds two pages, generate both from the model in the same pass. Two places that must agree will not, and the reader who notices is the reader you were trying to convince.
-
-
 ## Interface and data display (3)
 
 
@@ -2716,12 +2728,14 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked (INC-0088)</small>
 - [ ] **Learned 4 times over.** A counter that nothing reads is not instrumentation, it is a comment that looks like instrumentation, and it is worse than nothing because it answers the question 'is anyone watching this' with a yes. Every time a guard is written against one symptom, ask what the same failure looks like arriving another way, and count the whole category rather than the instance that prompted it.  
   <small>A schema threw away three draws in four, and the counter that knew was read by nobody (INC-0092)</small>
+- [ ] **Learned 4 times over.** A check that infers what to expect from the same data it is checking cannot fail on a missing field: absence reads as nothing to look for. Derive the expectation from something the data cannot erase, the item's TYPE, and then look for what that type requires. A field that is set in memory, used by every in-process test and copied by hand into the shipped format has no test at all between the two, so the copying should be checked as a whole rather than field by field. And a check that runs one random draw is not a check of a random process: this one was correct for months and simply never asked often enough to see the answer.  
+  <small>Every generated reading comprehension question shipped without its passage (INC-0099)</small>
 - [ ] **Learned 3 times over.** Reading the record does not prevent the defect; the practice does. This one was written hours after its own lesson was read closely enough to be catalogued as a recurrence, and it was caught by rendering three items rather than by remembering. Budget the render, not the recollection.  
   <small>The same corpus field in two grammatical slots, in a schema written the same day the guard was read (INC-0087)</small>
 - [ ] **Learned 3 times over.** A fix scoped to where the evidence was is a fix scoped to the sample, not to the defect. When the change is to how a QUANTITY is written, the unit of work is the quantity and every place it is written, not the place where the failure happened to be visible. Finding the other call sites costs one search; the fix that covers a subset leaves a difference the reader can see and the measurement cannot.  
   <small>The table said 31.0 and the explanation said 31, because the fix covered the table only (INC-0098)</small>
-- [ ] **Learned 3 times over.** A check that infers what to expect from the same data it is checking cannot fail on a missing field: absence reads as nothing to look for. Derive the expectation from something the data cannot erase, the item's TYPE, and then look for what that type requires. A field that is set in memory, used by every in-process test and copied by hand into the shipped format has no test at all between the two, so the copying should be checked as a whole rather than field by field. And a check that runs one random draw is not a check of a random process: this one was correct for months and simply never asked often enough to see the answer.  
-  <small>Every generated reading comprehension question shipped without its passage (INC-0099)</small>
+- [ ] **Learned 3 times over.** When a defect is about a KIND of code rather than a line of code, a guard bolted to the site of the failure does not generalise, and writing one feels like closing the case. Ask instead what the next instance of this code will look like and where it will live: here the answer was anywhere an item is copied out of the bank, and the durable check is that an item asking about source material has to be carrying it, wherever it is being rendered.  
+  <small>A new field-by-field copier reproduced the passage loss defect four days after the ledger recorded it (INC-0101)</small>
 - [ ] **Learned 2 times over.** Test your content against the strategies a lazy adversary would use, not only against whether it is correct. Measure the score of a rule that ignores the question.  
   <small>The longest option was the correct answer 81 percent of the time (INC-0044)</small>
 - [ ] **Learned 2 times over.** A module that nothing imports fails no test, and an exception raised on every draw is indistinguishable from an exception raised on a hard draw. Both are silence, and a build that reports totals hears neither. Count what each schema contributed, not what the category holds, and treat a contribution of zero as a failure rather than as a small number.  
@@ -2732,8 +2746,6 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Seven variable names were plural and every sentence built around them said was (INC-0093)</small>
 - [ ] **Learned 2 times over.** A generated item is checked as data, and this one was correct as data: the logic was valid, the key was right, the distractors were the intended errors. What was missing was a fact about the RELATION between two strings, that a name in the question also occurs in the passage, and no property of either string alone can see it. When a question and its source are assembled from separate fields, write down what has to be true of them together, because every check that looks at one field at a time will pass.  
   <small>Every reading inference question asked about something the passage never mentions (INC-0097)</small>
-- [ ] **Learned 2 times over.** When a defect is about a KIND of code rather than a line of code, a guard bolted to the site of the failure does not generalise, and writing one feels like closing the case. Ask instead what the next instance of this code will look like and where it will live: here the answer was anywhere an item is copied out of the bank, and the durable check is that an item asking about source material has to be carrying it, wherever it is being rendered.  
-  <small>A new field-by-field copier reproduced the passage loss defect four days after the ledger recorded it (INC-0101)</small>
 - [ ] Any generator that claims reproducibility must be seeded from something stable across processes. hash() is not, in Python, and the failure shows up as a flaky test rather than as a wrong answer.  
   <small>Item banks were different on every build because Python randomises hash() (INC-0003)</small>
 - [ ] Deletion by shadowing is invisible. Any collection whose size is a fact about the product needs its size asserted, not just its contents.  
@@ -2880,6 +2892,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A hardcoded count in the meta description went stale, and Google showed it (INC-0014)</small>
 - [ ] When one model feeds two pages, generate both from the model in the same pass. Two places that must agree will not, and the reader who notices is the reader you were trying to convince.  
   <small>Two pages told the same story with different numbers after a reweighting (INC-0049)</small>
+- [ ] An enumeration that has to be kept in step by memory will fall out of step, and the failure is silent because nothing downstream can tell the difference between a section that was excluded on purpose and one that was forgotten. Derive the list from what was actually produced, and when that is not practical, make something compare the two. Publishing work nobody can find is not a smaller version of publishing it.  
+  <small>A 139 page section shipped with no route into it from the sitemap (INC-0103)</small>
 
 
 ## Tests and guards
@@ -3036,7 +3050,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 102 real defects reduced to the rules that prevent them,
+the whole project: 103 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -3076,7 +3090,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-102 defects already prevented is genuinely ahead, and every defect it hits
+103 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed
