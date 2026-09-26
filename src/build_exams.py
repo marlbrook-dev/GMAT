@@ -15,6 +15,8 @@ SITE = "https://startfromnowhere.com"
 LIVE = {"gmat", "sat", "gre", "lsat", "act"}  # exams with a live trainer today
 APP_PATH = {"gmat": "/app/", "sat": "/sat/app/", "gre": "/gre/app/",
             "lsat": "/lsat/app/", "act": "/act/app/"}  # where each live trainer lives
+# Score calculators, built by build_calculators.py from the maker's published rules.
+CALCULATORS = {"act": ("/exams/act/score-calculator/", "ACT Score Calculator")}
 
 # Plan feature matrix for /pricing/. Values: True = included, False = not
 # included, string = shown verbatim. Order defines the page.
@@ -106,6 +108,8 @@ def exam_page(e, tpl, today):
            f'<a class="btn" href="mailto:editors@startfromnowhere.com?subject={esc(e["short"])}%20waitlist">Join the {esc(e["short"])} Waitlist</a>')
     reg = (e.get("maker") or {}).get("register_url")
     reg_btn = f'<a class="btn sec" href="{esc(reg)}" rel="noopener" target="_blank">Register at {esc((e.get("maker") or {}).get("name") or "the official site")}</a>' if reg else ""
+    calc = CALCULATORS.get(e["slug"])
+    calc_btn = f'<a class="btn sec" href="{calc[0]}">{esc(calc[1])}</a>' if calc else ""
     def brief(s, cap=46):
         if not s:
             return s
@@ -222,7 +226,7 @@ def exam_page(e, tpl, today):
                .replace("{{AUDIENCE}}", esc(e.get("audience") or ""))
                .replace("{{STATUS}}", "Trainer Live" if live else "Trainer in Development")
                .replace("{{STATUS_CLASS}}", " live" if live else "")
-               .replace("{{CTA}}", cta).replace("{{REG_BTN}}", reg_btn)
+               .replace("{{CTA}}", cta).replace("{{REG_BTN}}", reg_btn + calc_btn)
                .replace("{{TILES}}", tiles_html)
                .replace("{{STRUCTURE}}", structure)
                .replace("{{LOGISTICS}}", logistics)

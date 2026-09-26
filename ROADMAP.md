@@ -245,6 +245,13 @@ verified rather than that the school does not publish one (INC-0118).
       still growing by a rule per incident. The generator now keeps every rule learned more
       than once, then the rest by severity while they fit, and says how many it left out;
       the checklist in the book still carries every lesson.
+- [x] **ACT score calculator** at `/exams/act/score-calculator/` (GROWTH.md, next #2): the
+      Composite and superscore worked by ACT's published rule, with the national rank for
+      the Composite and ACT's full 2026-2027 national ranks table. The table is parsed from
+      ACT's own PDF by a script into `data/act_national_ranks.json` (the live PDF matched the
+      copy read for the good ACT score post byte for byte), checked at build time and cell
+      by cell in the browser by `src/smoke_calculator.js`. The ACT guide and both ACT posts
+      link to it, and the sitemap now lists pages under an exam's guide.
 - **Decided against** mapping the two paragraph passages onto GRE reading as they are. ETS
   says most GRE passages are one paragraph long (ETS, GRE General Test Verbal Reasoning,
   https://www.ets.org/gre/test-takers/general-test/prepare/content/verbal-reasoning.html, read
