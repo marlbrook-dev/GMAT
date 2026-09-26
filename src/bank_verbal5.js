@@ -20,7 +20,7 @@ const BANK_VERBAL5 = [
     id: 'V242', section: 'V', type: 'CR', skill: 'v_ac', diff: 3,
     stem: 'Meridian Bottling currently makes its beverage bottles from a petroleum-based resin. A newly available plant-based resin costs 8 percent less per kilogram than the petroleum-based resin. Meridian therefore projects that switching to the plant-based resin will lower its total spending on bottle material.\n\nThe projection relies on which of the following assumptions?',
     choices: [
-      'The plant-based resin is less harmful to the environment than the petroleum-based resin over the whole of a bottle life, from its manufacture through to its disposal.',
+      'The plant-based resin is less harmful to the environment than the petroleum-based resin over the whole of a bottle\'s life, from its manufacture through to its disposal.',
       'Producing a bottle of acceptable quality from the plant-based resin does not require enough additional resin by weight to offset the lower price per kilogram.',
       'The price of the petroleum-based resin will rise over the next several years by enough to close the gap between the two of them, according to the resin suppliers.',
       'Meridian\'s competitors have not yet begun using the plant-based resin in their own bottles, and none of them has announced any plan to do so within the next two production years.',
@@ -122,7 +122,7 @@ const BANK_VERBAL5 = [
       'The checklist requires surgical teams to document minor complications that, before the requirement, went almost entirely unrecorded.',
       'The controlled trials of the checklist were conducted at hospitals considerably larger than Halbrook.',
       'Since adopting the checklist, Halbrook has performed a growing share of routine operations that carry the lowest risk of complications.',
-      'Most complications recorded at Halbrook arise during patients\' recovery rather than during surgery itself recovery on the ward rather than during the surgery itself.'
+      'Most complications recorded at Halbrook arise during patients\' recovery on the ward, in the days after an operation, rather than during the surgery itself.'
     ],
     answer: 1,
     expl: 'A recorded rate can climb because documentation improves even while actual outcomes hold steady or improve. If the checklist forces teams to log minor complications that previously went unrecorded, the 20 percent rise reflects a change in measurement rather than a decline in surgical safety, dissolving the apparent conflict with the trial evidence.',
