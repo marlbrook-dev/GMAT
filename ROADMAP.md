@@ -224,6 +224,15 @@ verified rather than that the school does not publish one (INC-0118).
       and the build fails if a category under its target is missing any of them. The GRE
       gets back the guilds question it had lost (20388 items). No other questions changed;
       some reading and structure items were drawn with different wrong answers.
+- [x] **Generated items keep their ids from build to build** (INC-0127): an id was the
+      item's position in the build, so any bank change renumbered what came after it. The
+      fix above alone would have pointed 6826 live ids at different questions. The trainer
+      keys spaced reviews and item telemetry on those ids, so a review due for a missed
+      question could serve another one. An id is now the exam's prefix and twelve hex digits
+      of the item's content key, and the build fails if one does not match its item or two
+      items share one. Old numbered ids stored in a browser named different questions in
+      different builds and cannot be mapped back, so the trainer drops review and seen
+      entries of that form once, on load.
 - **Decided against** mapping the two paragraph passages onto GRE reading as they are. ETS
   says most GRE passages are one paragraph long (ETS, GRE General Test Verbal Reasoning,
   https://www.ets.org/gre/test-takers/general-test/prepare/content/verbal-reasoning.html, read

@@ -522,6 +522,28 @@ def check_listed(gens, got, target):
     return out
 
 
+def check_ids(exam, items):
+    """Every generated id is its item's canon key under the exam's prefix, and no two items
+    share one.
+
+    The trainer keys a student's spaced review and the item telemetry on these ids, so an
+    id has to keep naming the same question from build to build. Positional ids did not,
+    and a bank change pointed stored reviews at different questions (INC-0127). An id that
+    does not match its item's content is one that will not survive the next build either.
+    """
+    out, owner = [], {}
+    for it in items:
+        want = F.item_id(PREFIX[exam], F.canon(it))
+        if it["id"] != want:
+            out.append("  %s (%s) does not match its content, which gives %s"
+                       % (it["id"], it.get("gen") or "", want))
+        if it["id"] in owner:
+            out.append("  %s is shared by %s and %s; lengthen framework.ID_HEX"
+                       % (it["id"], owner[it["id"]], it.get("gen") or ""))
+        owner.setdefault(it["id"], it.get("gen") or "")
+    return out
+
+
 def check_discarded(exam, choices, gens):
     """Report schemas whose questions cannot be assembled into items for this exam.
 
@@ -771,7 +793,6 @@ def main(target=TARGET, verbose=True):
         items = []
         by_skill = {}
         seen = set()
-        n = 1
         for skill in sorted(plan):
             gens = plan[skill]
             got, dropped, errs, made = F.run(
@@ -781,13 +802,12 @@ def main(target=TARGET, verbose=True):
                 # time, the "seeded and reproducible" promise was not true, and the bias
                 # ratchet in test.js drifted a few points between runs for no reason.
                 seed=20260916 + (zlib.crc32((exam + skill).encode()) % 99991),
-                start=n, existing=seen,
+                existing=seen,
             )
             for it in got:
                 seen.add(F.canon(it))
                 if it.get("gen") and isinstance(it.get("choices"), list):
                     by_gen.setdefault((exam, it["gen"], len(it["choices"])), []).append(it)
-            n += len(got)
             items.extend(got)
             by_skill[skill] = list(got)
             report[(exam, skill)] = (len(got), dropped, errs)
@@ -831,6 +851,10 @@ def main(target=TARGET, verbose=True):
                       % (exam, skill, len(got), len(gens), flag))
                 if len(got) < target and errs:
                     print("        %s" % errs[-1])
+        ids = check_ids(exam, items)
+        if ids:
+            raise SystemExit("build_banks: %s has generated ids that are not their items' "
+                             "content keys (INC-0127)\n%s" % (exam, "\n".join(ids[:12])))
         # Split into a starter slice and the remainder.
         #
         # The whole bank is a blocking script, so time to first question used to be time

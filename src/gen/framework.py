@@ -698,7 +698,26 @@ class ListsQuestions:
         return len(set(self.questions()))
 
 
-def run(gens, target, choices_n, prefix, seed=20260916, start=1, existing=None):
+# How many hex digits of an item's canon key go into its id: 48 bits, so two of an exam's
+# forty thousand items share an id about three builds in a million, and the build fails if
+# they do rather than letting one shadow the other.
+ID_HEX = 12
+
+
+def item_id(prefix, key):
+    """A generated item's id, from what the item is rather than where it landed.
+
+    Ids were once the running count of the build, continuing across an exam's categories,
+    so any change to a bank renumbered what came after it. The trainer keys a student's
+    spaced review and the item telemetry on the id, and after such a deploy a review due
+    for a missed question served whichever question had taken its number (INC-0127). The
+    canon key is what the runner already dedups on, so the same question keeps its id from
+    build to build and a changed question gets a new one.
+    """
+    return prefix + key[:ID_HEX]
+
+
+def run(gens, target, choices_n, prefix, seed=20260916, existing=None):
     """Fill to a target count, cycling generators rather than quota-ing each one.
 
     A schema with a small parameter space runs dry long before a schema with a
@@ -713,7 +732,6 @@ def run(gens, target, choices_n, prefix, seed=20260916, start=1, existing=None):
     errors = []
     made = {g.id: 0 for g in gens}
     exhausted = set()
-    n = start
     # A schema is retired after this many consecutive duplicates: its space is spent.
     STALE = 400
     stale = {g.id: 0 for g in gens}
@@ -757,8 +775,7 @@ def run(gens, target, choices_n, prefix, seed=20260916, start=1, existing=None):
                 continue
             stale[g.id] = 0
             seen.add(key)
-            it["id"] = "%s%04d" % (prefix, n)
-            n += 1
+            it["id"] = item_id(prefix, key)
             out.append(it)
             made[g.id] += 1
             # A schema may stop short of the category's target on purpose (item_cap),

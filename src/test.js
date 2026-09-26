@@ -261,6 +261,15 @@ function runExam(exam){
  // every tracked skill has items, and every playbook skill is real
  const covered=new Set(BANK.map(q=>q.skill));
  check('every skill has items',SKILLS.filter(s=>!covered.has(s.id)).map(s=>s.id));
+ // Stored reviews keyed on an old numbered id are dropped on load (INC-0127), so that form
+ // must never be the id of an item that ships, and dropping has to leave everything else.
+ { const st={review:{},seen:{}}; BANK.forEach(q=>{ st.review[q.id]={due:0}; st.seen[q.id]=1; });
+   st.review.ZM0042={due:0}; st.seen.ZG12345=2;
+   const gone=api.forgetNumberedIds(st);
+   check('dropping numbered ids keeps every live item',
+     BANK.filter(q=>!st.review[q.id]||!st.seen[q.id]).map(q=>q.id));
+   check('dropping numbered ids removes the old form',
+     gone===2&&!st.review.ZM0042&&!st.seen.ZG12345?[]:['removed '+gone+' of 2']); }
  check('playbook skills exist',PLAYBOOK.filter(pb=>pb.sec!=='G'&&!SKILLS.find(s=>s.id===pb.skill)).map(pb=>pb.skill));
  check('card sections valid',CARDS.filter(c=>c.sec!=='G'&&!SECTION_META[c.sec]).map(c=>c.id));
  // The bank has had a per-skill floor since the start and the deck was checked only for

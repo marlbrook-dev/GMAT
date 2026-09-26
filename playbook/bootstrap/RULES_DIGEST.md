@@ -1,14 +1,14 @@
 # Rules Digest
 
-126 defects from a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
+127 defects from a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
 
-Generated 2026-09-26 from a ledger spanning 7 days and 68 commits.
+Generated 2026-09-26 from a ledger spanning 7 days and 69 commits.
 
 ## Read this first
 
-The three ways defects were most often found, in order: found by reading the code or the output (60), found by measuring something (35), a test caught it (15). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
+The three ways defects were most often found, in order: found by reading the code or the output (60), found by measuring something (36), a test caught it (15). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
 
-The dominant failure mode is silent loss, 26 of 126: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
+The dominant failure mode is silent loss, 26 of 127: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
 
 ## Learned the hard way, more than once
 
@@ -33,6 +33,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (3 times, search and metadata) An enumeration that has to be kept in step by memory will fall out of step, and the failure is silent because nothing downstream can tell the difference between a section that was excluded on purpose and one that was forgotten.
 - (3 times, content generation) Any consumer that describes a value in words must read the field that records what kind of value it is, never the field's name.
 - (3 times, content generation) An edit that appends text has to read what it is appending to. A correction step that checks only its own goal (here, that the choice got longer) will happily achieve it by making the choice worse, and every check downstream measures the goal, so nothing notices.
+- (2 times, infrastructure and deploy) Two hostnames are two origins and therefore two of everything the browser scopes by origin.
 - (2 times, content generation) Test your content against the strategies a lazy adversary would use, not only against whether it is correct.
 - (2 times, css and layout) The same undefined-property failure will find you repeatedly, at every severity from one icon to an invisible legal control.
 - (2 times, content generation) A record has parts that refer to one another, and a tool that edits one part by text is editing a graph while looking at a string.
@@ -136,10 +137,10 @@ These cost this build twice or more each. If you read nothing else here, read th
 - When you add a filter, find every path that adds items after the filter runs. A gate on the entry point is not a gate on the set.
 - Anything a page promises is the same for everyone has to be assigned, stored and served, not recomputed from whatever happens to be loaded, because the recomputation will eventually run against different inputs.
 - Measure an adaptive policy per student, not in aggregate: a pooled statistic averages the starved students with the well-served ones and reports a system that works.
+- An identifier that anything outside the build stores must be derived from what it identifies, not from where it happened to land.
 
 ## Infrastructure and deploy
 
-- Two hostnames are two origins and therefore two of everything the browser scopes by origin.
 - An exclusion list is a denylist, and denylists are wrong by omission. Derive the allowed set from what the built pages actually reference.
 - Verify a cache-fronted fix with a cache-busting request, or you are testing the cache.
 - Know your platform's hard limits and assert them in the build. A deploy-time rejection is a bad place to learn a number your build could have told you.
