@@ -165,6 +165,15 @@ verified rather than that the school does not publish one (INC-0118).
       science add-on as $4 while its own FAQ, ACT's fee page and `data/exams.json` say $5. The
       table is corrected, and the blog build now fails on any dollar amount in a post that
       appears nowhere in the sourced data, so a price has to be sourced before it is printed.
+- [x] **Five more long reading passages** (borrowed vocabulary, pressed glass, a dye root
+      trade, coastal storm records, hillside terraces), invented like the rest: 50 more GRE
+      reading items, 50 more LSAT ones and 49 more GMAT ones, one GMAT stated idea question
+      left undrawn by the runner's 400 draw cutoff.
+- [x] **Two ACT posts for the blog drip**, after it ran out on October 12: how the Composite
+      is calculated (October 14) and the 2026 format and fees (October 16), every figure read
+      from act.org the same day or already sourced in `data/exams.json`. The EDITORIAL fact
+      sheet gains an ACT block, and `data/exams.json` gains the rounding rule and ACT's
+      superscore details with their page.
 - **Decided against** mapping the two paragraph passages onto GRE reading as they are. ETS
   says most GRE passages are one paragraph long (ETS, GRE General Test Verbal Reasoning,
   https://www.ets.org/gre/test-takers/general-test/prepare/content/verbal-reasoning.html, read

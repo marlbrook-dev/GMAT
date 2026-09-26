@@ -511,7 +511,7 @@
       "year": 2026
     },
     "score_scale": {
-      "text": "Each section is scored 1 to 36. The Composite is the average of English, mathematics and reading only, rounded to the nearest whole number; ACT removed science from the Composite for national online testing in April 2025 and for all testing modes in September 2025. The optional writing test is scored 2 to 12 and does not affect the Composite.",
+      "text": "Each section is scored 1 to 36. The Composite is the average of English, mathematics and reading only, rounded to the nearest whole number, fractions less than one-half down and one-half or more up; ACT removed science from the Composite for national online testing in April 2025 and for all testing modes in September 2025. The optional writing test is scored 2 to 12 and does not affect the Composite.",
       "src": "ACT",
       "year": 2026,
       "url": "https://www.act.org/content/act/en/products-and-services/the-act/scores/understanding-your-scores.html"
@@ -627,6 +627,12 @@
         "src": "act.org",
         "year": 2026,
         "url": "https://www.act.org/content/act/en/products-and-services/the-act/scores.html"
+      },
+      {
+        "text": "The superscore is calculated automatically once a student has tested more than once since September 2016, rounded the same way as the Composite; the optional science and writing tests are not part of it, and ACT advises checking each school's own score policy",
+        "src": "act.org",
+        "year": 2026,
+        "url": "https://www.act.org/content/act/en/students-and-parents/high-school-success/testing-advice-for-the-act/superscore-faqs.html"
       }
     ],
     "answer_choices": {
