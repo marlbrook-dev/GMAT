@@ -8,33 +8,33 @@
  "type": "Public",
  "ranks": {},
  "profile": {
-  "class_year": "Fall 2025 entering class",
+  "class_year": "Fall 2026 entering class",
   "class_size": {
-   "v": 57,
-   "stat": "students, Fall 2025",
+   "v": 51,
+   "stat": "students, Fall 2026",
    "src": "Jenkins MBA full-time class profile",
-   "year": 2025,
+   "year": 2026,
    "url": "https://mba.ncsu.edu/full-time-mba/full-time-class-profile/"
   },
   "work_exp_years": {
-   "v": 2.7,
-   "stat": "average, Fall 2025",
+   "v": 2.32,
+   "stat": "average, Fall 2026",
    "src": "Jenkins MBA full-time class profile",
-   "year": 2025,
+   "year": 2026,
    "url": "https://mba.ncsu.edu/full-time-mba/full-time-class-profile/"
   },
   "women_pct": {
-   "v": 47,
-   "stat": "percent female, Fall 2025",
+   "v": 39,
+   "stat": "percent female, Fall 2026",
    "src": "Jenkins MBA full-time class profile",
-   "year": 2025,
+   "year": 2026,
    "url": "https://mba.ncsu.edu/full-time-mba/full-time-class-profile/"
   },
   "intl_pct": {
-   "v": 15,
-   "stat": "percent international, Fall 2025",
+   "v": 10,
+   "stat": "percent international, Fall 2026",
    "src": "Jenkins MBA full-time class profile",
-   "year": 2025,
+   "year": 2026,
    "url": "https://mba.ncsu.edu/full-time-mba/full-time-class-profile/"
   },
   "salary_median_usd": {

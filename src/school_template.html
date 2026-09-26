@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#122B4E"><link rel="apple-touch-icon" href="/icons/icon-180.png">
-<title>{{NAME}} MBA: {{TITLE_BITS}}</title>
+<title>{{SEO_NAME}} MBA: {{TITLE_BITS}}</title>
 <meta name="description" content="{{NAME}} full-time MBA: {{DESC_BITS}} Every figure carries its source and year. Compare cost, selectivity and outcomes against 90 other programs.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -82,7 +82,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:var(--s4);flex-wrap:
 {{PROFILE_ROWS}}
 </tbody></table>
 {{SOURCE_FOOTNOTE}}
-<p class="note" style="margin-top:8px">Figures are recorded exactly as published by the source named on each row, most recently checked {{UPDATED}}. A dash on the rankings table means the school does not publish the figure or we could not verify it; we never estimate or convert between GMAT editions. Confirm current numbers with the school before applying.</p></div>
+<p class="note" style="margin-top:8px">Figures are recorded exactly as published by the source named on each row, most recently checked {{UPDATED}}. A dash on the rankings table means we have not verified the figure from the school or a tracked publisher; we never estimate or convert between GMAT editions. Confirm current numbers with the school before applying.</p></div>
 
 {{FEDERAL_SECTION}}
 {{ONWARD}}
@@ -93,12 +93,12 @@ footer .wrap{display:flex;justify-content:space-between;gap:var(--s4);flex-wrap:
 {{SITE_FOOTER}}
 
 <script>
-var SLUG={{SLUG_JSON}}, NAME={{NAME_JSON}}, GMAT={{GMAT_JSON}};
+var SLUG={{SLUG_JSON}}, NAME={{NAME_JSON}}, GMAT={{GMAT_JSON}}, FIT={{FIT_JSON}};
 var LKEY='sfn_school_list_v1';
 function lst(){ try{ return JSON.parse(localStorage.getItem(LKEY))||{order:[],meta:{}}; }catch(e){ return {order:[],meta:{}}; } }
 function refresh(){ var on=lst().order.indexOf(SLUG)>=0; var b=document.getElementById('addBtn'); b.textContent=on?'Saved to My List':'+ Add to My List'; }
 function toggleList(){ var L=lst(); var i=L.order.indexOf(SLUG);
- if(i>=0){ L.order.splice(i,1); delete L.meta[SLUG]; } else { L.order.push(SLUG); L.meta[SLUG]={tag:'target',note:'',name:NAME,gmat:GMAT}; }
+ if(i>=0){ L.order.splice(i,1); delete L.meta[SLUG]; } else { L.order.push(SLUG); L.meta[SLUG]={tag:'target',note:'',name:NAME,gmat:GMAT,fit:FIT}; }
  localStorage.setItem(LKEY,JSON.stringify(L)); refresh(); }
 refresh();
 </script>

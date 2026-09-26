@@ -112,6 +112,7 @@
   },
   "salary_median_usd": {
    "v": 116500,
+   "stat": "median base salary, from the 2020 employment report",
    "src": "Smeal MBA Employment Report 2020 (official PDF); median base, predates the 2023 switch to the one-year early-career MBA",
    "year": 2020,
    "url": "https://www.smeal.psu.edu/pgp/2020-smeal-mba-employment-report-pdf.pdf"

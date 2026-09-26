@@ -1,5 +1,6 @@
 """SAT Advanced Math (m_adv) generators: quadratics, exponentials, polynomials, radicals."""
 from framework import Gen, num, frac, ItemError
+from decimal import Decimal as _Dec
 from fractions import Fraction as Fr
 
 
@@ -11,8 +12,10 @@ class QuadraticRoots(Gen):
     diff = 3
 
     def build(self, rng):
-        r1 = rng.choice([-9, -7, -6, -5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 6, 8])
-        r2 = rng.choice([-8, -6, -5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 7, 9])
+        r1 = rng.choice([-12, -11, -10, -9, -8, -7, -6, -5, -4, -3, -2, -1,
+                         1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+        r2 = rng.choice([-10, -9, -8, -7, -6, -5, -4, -3, -2, -1,
+                         1, 2, 3, 4, 5, 6, 7, 9, 11, 12])
         if r1 == r2:
             raise ItemError("repeated root makes the sum question trivial")
         b, c = -(r1 + r2), r1 * r2
@@ -24,14 +27,41 @@ class QuadraticRoots(Gen):
             "stem": "In the equation x squared %s %dx %s %d = 0, what is %s?"
             % ("+" if b >= 0 else "-", abs(b), "+" if c >= 0 else "-", abs(c), label),
             "answer": val,
-            "distractors": [
-                (-val, "reading the coefficients straight off the equation without the sign change that factoring introduces."),
-                ({"sum": r1 * r2, "product": r1 + r2, "larger": min(r1, r2)}[ask],
-                 "answering a different question about the same two roots."),
-                (b, "reporting the coefficient of x rather than a fact about the solutions."),
-                (c, "reporting the constant term rather than a fact about the solutions."),
-                (val + 1, "an off by one slip while finding the factor pair."),
-            ],
+            # Per question, because the shared list collided with itself. The sum of the
+            # solutions IS the negated coefficient of x and their product IS the
+            # constant term, so on a sum question "flip the sign" and "report the
+            # coefficient" were one wrong answer wearing two labels, and so were "give
+            # the product" and "report the constant term". Three distinct wrong answers
+            # where five choices need four, on every sum item: the GMAT and the GRE
+            # shipped this schema's product and greater-solution questions and none of
+            # its sum questions, and the only sign was a low item count (INC-0090).
+            "distractors": {
+                "sum": [
+                    (-val, "reading the coefficient of x straight off the equation, without the "
+                     "sign change that factoring introduces."),
+                    (r1 * r2, "giving the product of the solutions rather than their sum."),
+                    (max(r1, r2), "reporting the greater solution rather than the sum of both."),
+                    (min(r1, r2), "reporting the lesser solution rather than the sum of both."),
+                    (val + 1, "an off by one slip while finding the factor pair."),
+                    (abs(r1) + abs(r2), "adding the numbers in the factors and ignoring their signs."),
+                ],
+                "product": [
+                    (-val, "flipping the sign of the constant term, which factoring does not do here."),
+                    (r1 + r2, "giving the sum of the solutions rather than their product."),
+                    (b, "reporting the coefficient of x rather than a fact about the solutions."),
+                    (max(r1, r2), "reporting the greater solution rather than the product."),
+                    (min(r1, r2), "reporting the lesser solution rather than the product."),
+                    (val + 1, "an off by one slip while finding the factor pair."),
+                ],
+                "larger": [
+                    (-val, "flipping the sign of the solution, which is the slip factoring invites."),
+                    (min(r1, r2), "reporting the lesser solution rather than the greater one."),
+                    (b, "reporting the coefficient of x rather than a solution."),
+                    (c, "reporting the constant term rather than a solution."),
+                    (r1 + r2, "giving the sum of the solutions rather than the greater one."),
+                    (val + 1, "an off by one slip while finding the factor pair."),
+                ],
+            }[ask],
             "expl": "The expression factors as (x %s %d)(x %s %d), so the solutions are %d and "
             "%d, and %s is %d."
             % ("-" if r1 >= 0 else "+", abs(r1), "-" if r2 >= 0 else "+", abs(r2),
@@ -58,13 +88,35 @@ class VertexForm(Gen):
             % (num(a), "+" if -h >= 0 else "-", abs(h), "+" if k >= 0 else "-", abs(k),
                "x" if ask == "x" else "y"),
             "answer": val,
-            "distractors": [
-                (-val, "reading the number inside the parentheses at face value instead of flipping its sign, which is exactly backwards."),
-                (k if ask == "x" else h, "reading the wrong coordinate off vertex form."),
-                (a, "reading the leading coefficient as a coordinate."),
-                (val + a, "combining the leading coefficient into the coordinate, which vertex form never requires."),
-                (val * 2, "doubling the coordinate for no reason the form supports."),
-            ],
+            # Per coordinate, and the reason is the sign flip. Negating the answer was
+            # offered on every draw, and a mirror image is below the key whenever the
+            # key is positive and above it whenever the key is negative, so together
+            # with doubling it the key was bracketed and sat in the middle of the order
+            # on nearly two draws in five. The flip is also only a misconception for the
+            # x coordinate, where vertex form really does reverse the sign; for the y
+            # coordinate there is nothing to flip. Evaluating the function at zero is
+            # the slip that belongs there, and it lands a long way from the vertex.
+            "distractors": {
+                "x": [
+                    (-h, "reading the number inside the parentheses at face value instead of "
+                     "flipping its sign, which is exactly backwards."),
+                    (k, "reading the wrong coordinate off vertex form."),
+                    (a, "reading the leading coefficient as a coordinate."),
+                    (h + a, "combining the leading coefficient into the coordinate, which vertex form never requires."),
+                    (h * 2, "doubling the coordinate for no reason the form supports."),
+                    (h + k, "adding the two coordinates of the vertex together."),
+                    (a * h * h + k, "evaluating the function at x equals zero rather than naming the vertex."),
+                ],
+                "y": [
+                    (a * h * h + k, "evaluating the function at x equals zero rather than at the vertex."),
+                    (h, "reading the wrong coordinate off vertex form."),
+                    (-h, "reading the wrong coordinate and flipping its sign as well."),
+                    (a, "reading the leading coefficient as a coordinate."),
+                    (k + a, "combining the leading coefficient into the coordinate, which vertex form never requires."),
+                    (k * 2, "doubling the coordinate for no reason the form supports."),
+                    (h + k, "adding the two coordinates of the vertex together."),
+                ],
+            }[ask],
             "expl": "In vertex form f(x) = a(x - h) squared + k, the vertex is (h, k). Here h = %d "
             "and k = %d, so the %s coordinate is %d." % (h, k, "x" if ask == "x" else "y", val),
         }
@@ -77,28 +129,55 @@ class ExponentialGrowth(Gen):
     sub = "Nonlinear functions"
     diff = 3
 
+    # To the nearest whole number, which is how a real exam asks a compounding
+    # question and the only way this one can offer five choices that look alike.
+    # A starting amount times a fraction raised to a power is a whole number on one
+    # draw, two decimal places on the next and a fraction on the one after, while the
+    # wrong answers land on their own schedule; a distractor shaped differently from
+    # the key is visibly not the answer, so make() drops the draw rather than ship it,
+    # and this schema was dropping between 69 and 75 percent of everything it built on
+    # all four exams that carry it (INC-0092). Rounding every choice the same way gives
+    # the question one shape instead of widening a pool that was never the problem.
+    @staticmethod
+    def _plain(f):
+        """A quantity as a decimal. Every multiplier here is a fraction over a power of
+        ten, so the exact value always terminates and num() would print it as an
+        improper fraction: "which is 1215/2" where a reader expects 607.5."""
+        return str(_Dec(f.numerator) / _Dec(f.denominator))
+
+    @staticmethod
+    def _near(f):
+        """Nearest whole number. Every quantity here is positive, so floor of f plus a
+        half is the whole of it, and it stays exact rather than going through a float."""
+        return (f.numerator * 2 + f.denominator) // (2 * f.denominator)
+
     def build(self, rng):
         p0 = rng.choice([40, 50, 80, 120, 150, 200, 250, 300])
         pct = rng.choice([5, 10, 20, 25, 50])
         n = rng.choice([2, 3, 4])
         grow = rng.choice([True, False])
         mult = Fr(100 + pct, 100) if grow else Fr(100 - pct, 100)
-        val = p0 * mult ** n
+        exact = p0 * mult ** n
+        val = self._near(exact)
         word = "increases" if grow else "decreases"
+        near = self._near
         return {
             "stem": "A quantity begins at %d and %s by %d percent each year. What is the quantity "
-            "after %d years?" % (p0, word, pct, n),
+            "after %d years, to the nearest whole number?" % (p0, word, pct, n),
             "answer": val,
             "distractors": [
-                (p0 + (p0 * Fr(pct, 100) * n if grow else -p0 * Fr(pct, 100) * n),
+                (near(p0 + (p0 * Fr(pct, 100) * n if grow else -p0 * Fr(pct, 100) * n)),
                  "applying the percent change as a flat amount each year rather than compounding it."),
-                (p0 * mult, "applying the change for a single year instead of %d." % n),
-                (p0 * mult ** (n + 1), "applying the change one extra time."),
-                (p0 * Fr(pct, 100) ** n, "using the percent itself as the multiplier instead of one plus or minus the percent."),
+                (near(p0 * mult), "applying the change for a single year instead of %d." % n),
+                (near(p0 * mult ** (n + 1)), "applying the change one extra time."),
+                (near(p0 * mult ** (n - 1)), "applying the change one time too few."),
+                (near(p0 * Fr(pct, 100) ** n),
+                 "using the percent itself as the multiplier instead of one plus or minus the percent."),
+                (p0, "answering with the quantity before any of the change is applied."),
             ],
             "expl": "Each year multiplies the quantity by %s, so after %d years the quantity is "
-            "%d times %s to the power %d, which is %s."
-            % (num(mult), n, p0, num(mult), n, num(val)),
+            "%d times %s to the power %d, which is %s, or %d to the nearest whole number."
+            % (num(mult), n, p0, num(mult), n, self._plain(exact), val),
         }
 
 
@@ -110,9 +189,9 @@ class PolynomialValue(Gen):
     diff = 3
 
     def build(self, rng):
-        a = rng.choice([1, 2, 3])
-        b = rng.choice([-7, -5, -3, 2, 4, 6])
-        c = rng.choice([-6, -4, 3, 5, 8])
+        a = rng.choice([1, 2, 3, 4, 5])
+        b = rng.choice([-9, -8, -7, -6, -5, -3, -2, 2, 3, 4, 6, 7])
+        c = rng.choice([-9, -7, -6, -4, -2, 3, 4, 5, 8, 9])
         # (ax + b)(x + c) expanded
         A, B, C = a, a * c + b, b * c
         ask = rng.choice(["b", "c"])
@@ -122,14 +201,32 @@ class PolynomialValue(Gen):
             "where b and c are constants. What is the value of %s?"
             % (a, "+" if b >= 0 else "-", abs(b), "+" if c >= 0 else "-", abs(c), A, ask),
             "answer": val,
-            "distractors": [
-                (b + c if ask == "b" else b + c,
-                 "adding the two constants and stopping, which skips the cross terms entirely."),
-                (C if ask == "b" else B, "computing the other coefficient."),
-                (-val, "expanding correctly and then dropping a sign."),
-                (b * c if ask == "b" else b * a, "multiplying the wrong pair of terms."),
-                (val + a, "folding the leading coefficient in a second time."),
-            ],
+            # Per coefficient. The shared list asked for "the other coefficient" and for
+            # "the wrong pair multiplied", and on the x coefficient question those are
+            # both b times c, so one wrong answer arrived twice and a five choice exam
+            # threw away one draw in eight. The key was also the smallest of the options
+            # on 41 percent of items, because every slip here either multiplies the
+            # constants or adds the leading coefficient in again and both run large.
+            "distractors": {
+                "b": [
+                    (b + c, "adding the two constants and stopping, which skips the cross terms entirely."),
+                    (C, "computing the constant term rather than the coefficient of x."),
+                    (-val, "expanding correctly and then dropping a sign."),
+                    (a * c, "taking the cross term and forgetting to add the other constant to it."),
+                    (val + a, "folding the leading coefficient in a second time."),
+                    (a + b + c, "adding all three constants together."),
+                    (a * b + c, "multiplying the wrong pair before adding."),
+                ],
+                "c": [
+                    (b + c, "adding the constants instead of multiplying them."),
+                    (B, "computing the coefficient of x rather than the constant term."),
+                    (-val, "expanding correctly and then dropping a sign."),
+                    (a * b, "multiplying the wrong pair of terms."),
+                    (val + a, "folding the leading coefficient in a second time."),
+                    (a * b * c, "multiplying the leading coefficient in as well, which the constant term does not use."),
+                    (c - b, "subtracting the constants instead of multiplying them."),
+                ],
+            }[ask],
             "expl": "Expanding gives %dx squared %s %dx %s %d, so b = %d and c = %d."
             % (A, "+" if B >= 0 else "-", abs(B), "+" if C >= 0 else "-", abs(C), B, C),
         }
@@ -143,8 +240,9 @@ class RadicalEquation(Gen):
     diff = 4
 
     def build(self, rng):
-        k = rng.choice([2, 3, 4, 5, 6, 7, 8])
-        b = rng.choice([-8, -5, -3, 2, 4, 7, 11])
+        k = rng.choice([2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
+        b = rng.choice([-13, -11, -9, -8, -7, -6, -5, -3, -2,
+                        2, 3, 4, 5, 6, 7, 9, 11, 13])
         # sqrt(x + b) = k  ->  x = k^2 - b
         x = k * k - b
         return {
@@ -171,11 +269,11 @@ class RationalExpression(Gen):
     diff = 4
 
     def build(self, rng):
-        r = rng.choice([-6, -5, -4, -3, -2, 2, 3, 4, 5, 7])
-        s = rng.choice([-7, -4, -3, 3, 5, 6, 8])
+        r = rng.choice([-9, -8, -7, -6, -5, -4, -3, -2, 2, 3, 4, 5, 6, 7, 8, 9])
+        s = rng.choice([-9, -8, -7, -6, -5, -4, -3, -2, 3, 4, 5, 6, 8, 9])
         if r == s:
             raise ItemError("cancelling factor must differ")
-        k = rng.choice([2, 3, 4, 5, 6, 8])
+        k = rng.choice([2, 3, 4, 5, 6, 7, 8, 9, 10])
         val = k - s
         return {
             "stem": "For x not equal to %d, the expression (x squared %s %dx %s %d) divided by "
@@ -247,21 +345,23 @@ class ExponentRules(Gen):
     diff = 2
 
     def build(self, rng):
-        a = rng.choice([2, 3, 4, 5, 6])
-        m = rng.choice([2, 3, 4, 5])
-        n = rng.choice([2, 3, 4])
+        m = rng.choice([2, 3, 4, 5, 6, 7, 8, 9])
+        n = rng.choice([2, 3, 4, 5, 6, 7])
         op = rng.choice(["mul", "div", "pow"])
         if op == "mul":
             stem = "The expression x to the %d times x to the %d is equivalent to x to the k. What is k?" % (m, n)
             val, wrong1, why1 = m + n, m * n, "multiplying the exponents, which is the rule for a power raised to a power, not for a product."
+            wrong2, why2 = abs(m - n), "subtracting the exponents, which is the rule for a quotient, not for a product."
         elif op == "div":
             if m <= n:
                 m, n = n + rng.choice([1, 2, 3]), n
             stem = "The expression x to the %d divided by x to the %d is equivalent to x to the k. What is k?" % (m, n)
             val, wrong1, why1 = m - n, Fr(m, n), "dividing the exponents rather than subtracting them."
+            wrong2, why2 = m + n, "adding the exponents, which is the rule for a product, not for a quotient."
         else:
             stem = "The expression (x to the %d) raised to the power %d is equivalent to x to the k. What is k?" % (m, n)
             val, wrong1, why1 = m * n, m + n, "adding the exponents, which is the rule for multiplying like bases, not for a power of a power."
+            wrong2, why2 = abs(m - n), "subtracting the exponents, which is the rule for a quotient, not for a power of a power."
         return {
             "stem": stem,
             "answer": val,
@@ -270,7 +370,7 @@ class ExponentRules(Gen):
                 (m, "keeping only the first exponent."),
                 (n, "keeping only the second exponent."),
                 (val + 1, "an off by one slip applying the rule."),
-                (a, "reporting an unrelated number from the problem."),
+                (wrong2, why2),
             ],
             "expl": "Like bases combine by adding exponents when multiplied, subtracting when "
             "divided, and multiplying when a power is raised to a power. Here k = %s." % num(val),

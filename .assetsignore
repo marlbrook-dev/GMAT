@@ -1,0 +1,68 @@
+# Files in this repository that must never be served as part of the site.
+#
+# assets.directory in wrangler.jsonc is the repository root, so without this list
+# Cloudflare uploads and serves the source. Before this file existed, all of these
+# returned 200 on the live site: /src/bank_quant.js and every other item bank,
+# /src/engine.js, /src/build.py, /CLAUDE.md, /data/DATA.md and /wrangler.jsonc.
+#
+# Anything the built pages reference must stay OUT of this list. design/ is referenced
+# (/design/assets, /design/missing.png), and icons/, og/, robots.txt, llms.txt and
+# manifest.json are all served deliberately. src/smoke_redirect.js asserts both
+# directions so this cannot drift.
+#
+# Excluding src/ does not affect the worker: main is bundled into the Worker script
+# rather than uploaded as an asset, which is the documented pattern.
+
+# Source of the site. The built output lives at the repository root and is what ships.
+src/
+data/
+supabase/
+
+# The design system is tooling, not part of the site: 114 files including a 98 KB bundle,
+# the component sources and their prompt files. Three things in it ARE part of the site and
+# must survive: assets/ holds the logo, and terms.html and privacy.html load styles.css,
+# which is nothing but six @imports of tokens/. Excluding those two shipped the legal pages
+# with no font, no colour and no background. The guard in src/smoke_redirect.js now derives
+# what must be served from the built pages themselves rather than from a list kept by hand,
+# because the hand kept list is what got this wrong.
+design/*
+!design/assets/
+!design/tokens/
+!design/styles.css
+
+# Repository and tooling files. .git matters most: Workers static assets, unlike Pages,
+# does NOT exclude it automatically, so the build clone's .git was being served. /.git/config
+# gave out the origin remote and /.git/index gave out the full inventory of every path this
+# file is meant to hide, which defeated the point of the rest of the list.
+**/.git
+.git/
+**/node_modules
+**/.DS_Store
+.github/
+.gitignore
+.assetsignore
+wrangler.jsonc
+
+# Internal documentation. CLAUDE.md in particular carries the Supabase project ref, the
+# Stripe account id and both admin email addresses.
+CLAUDE.md
+README.md
+ROADMAP.md
+HANDOFF.md
+DEVSECOPS.md
+GROWTH.md
+INTEGRATIONS.md
+I18N.md
+DATA_COLLECTION.md
+CONNECTORS.md
+docs/
+
+# Session tooling for Claude Code: a start hook and its settings. Not part of the site.
+.claude/
+
+# The Build Playbook. Generated into playbook/ as Markdown, HTML, PDF and Word, and it is
+# internal: it names the infrastructure, quotes the rules file, and its defect ledger is a
+# list of this platform's historical weaknesses with the commits that fixed them. Useful
+# to the owner, a gift to anyone else. The bootstrap pack under it carries the same
+# content in a more concentrated form.
+playbook/

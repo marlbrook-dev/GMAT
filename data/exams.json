@@ -1,603 +1,645 @@
 [
- {
-  "slug": "gmat",
-  "name": "GMAT Focus Edition",
-  "short": "GMAT",
-  "audience": "MBA and business master's applicants",
-  "maker": {
-   "name": "GMAC",
-   "register_url": "https://www.mba.com/exams/gmat-exam",
-   "src": "mba.com (GMAC)",
-   "year": 2025
+  {
+    "slug": "gmat",
+    "name": "GMAT Focus Edition",
+    "short": "GMAT",
+    "audience": "MBA and business master's applicants",
+    "maker": {
+      "name": "GMAC",
+      "register_url": "https://www.mba.com/exams/gmat-exam",
+      "src": "mba.com (GMAC)",
+      "year": 2025
+    },
+    "score_scale": {
+      "text": "Total score 205 to 805, always ending in 5; each section scored 60 to 90, with the three sections equally weighted towards the total",
+      "src": "GMAC",
+      "year": 2026,
+      "url": "https://www.gmac.com/gmat-other-assessments/about-the-gmat-focus-edition/exam-scores"
+    },
+    "sections": [
+      {
+        "name": "Quantitative Reasoning",
+        "questions": 21,
+        "minutes": 45,
+        "scale": "60 to 90"
+      },
+      {
+        "name": "Verbal Reasoning",
+        "questions": 23,
+        "minutes": 45,
+        "scale": "60 to 90"
+      },
+      {
+        "name": "Data Insights",
+        "questions": 20,
+        "minutes": 45,
+        "scale": "60 to 90"
+      }
+    ],
+    "sections_src": {
+      "text": "Quantitative Reasoning 45 minutes with 21 questions; Verbal Reasoning 45 minutes with 23 questions; Data Insights 45 minutes with 20 questions; total 2 hours 15 minutes, 3 sections and 64 questions, with no writing assessment",
+      "src": "GMAC",
+      "year": 2026,
+      "url": "https://www.gmac.com/gmat-other-assessments/about-the-gmat-focus-edition/exam-overview"
+    },
+    "total_time": {
+      "text": "2 hours 15 minutes plus one optional 10-minute break",
+      "src": "mba.com (GMAC)",
+      "year": 2025,
+      "url": "https://www.mba.com/exams/gmat-exam/about/exam-structure"
+    },
+    "cost_usd": {
+      "v": null,
+      "note": "US pricing differs by delivery: $275 at a test center, $300 online delivered; the online fee covers remote proctoring; includes 5 free score reports if programs are selected within 48 hours of score release",
+      "src": "mba.com (GMAC)",
+      "year": 2025,
+      "url": "https://www.mba.com/exams/gmat-exam/register"
+    },
+    "validity_years": {
+      "v": 5,
+      "src": "mba.com support (GMAC)",
+      "year": 2025,
+      "url": "https://support.mba.com/hc/en-us/articles/10118337626139-GMAT-Retake-Policies-and-Attempt-Limits"
+    },
+    "delivery": {
+      "text": "At test centers or online, with appointments available year round (no fixed testing windows)",
+      "src": "mba.com (GMAC)",
+      "year": 2025,
+      "url": "https://www.mba.com/exams/gmat-exam/register"
+    },
+    "retake_policy": {
+      "text": "Up to 5 attempts in any rolling 12-month period, with at least 16 days between attempts; online and test-center attempts both count toward the limit, while canceled or missed appointments do not",
+      "src": "mba.com support (GMAC)",
+      "year": 2025,
+      "url": "https://support.mba.com/hc/en-us/articles/10118337626139-GMAT-Retake-Policies-and-Attempt-Limits"
+    },
+    "score_release": {
+      "text": "Official Score Report is typically available in your mba.com account within 3 to 5 days (up to 20 days in some cases), with an email notification when it is ready",
+      "src": "mba.com support (GMAC)",
+      "year": 2025,
+      "url": "https://support.mba.com/hc/en-us/articles/14445842113435-GMAT-When-Will-My-Score-Be-Available"
+    },
+    "used_for": {
+      "text": "The most widely used admissions test designed specifically for graduate business education, including MBA and business master's programs",
+      "src": "mba.com (GMAC)",
+      "year": 2025,
+      "url": "https://www.mba.com/exams/gmat-exam"
+    },
+    "acceptance": {
+      "text": "Accepted by more than 7,700 programs at approximately 2,400 graduate business schools worldwide",
+      "src": "mba.com (GMAC)",
+      "year": 2025,
+      "url": "https://www.mba.com/exams/gmat-exam"
+    },
+    "key_facts": [
+      {
+        "text": "Test takers choose the order in which they take the three sections, and can bookmark questions and change up to 3 answers per section",
+        "src": "mba.com (GMAC)",
+        "year": 2025,
+        "url": "https://www.mba.com/exams/gmat-exam/about/exam-structure"
+      },
+      {
+        "text": "An on-screen calculator is available in the Data Insights section",
+        "src": "GMAC",
+        "year": 2026,
+        "url": "https://www.gmac.com/gmat-other-assessments/about-the-gmat-focus-edition/exam-scores"
+      },
+      {
+        "text": "No calculator is allowed in the Quantitative Reasoning section",
+        "src": "mba.com (GMAC)",
+        "year": 2025,
+        "url": "https://www.mba.com/exams/gmat-exam/about/exam-structure"
+      },
+      {
+        "text": "Data Insights consists of 20 multiple-choice questions in 45 minutes, drawn from five question types: data sufficiency, multi-source reasoning, table analysis, graphics interpretation and two-part analysis",
+        "src": "GMAC",
+        "year": 2026,
+        "url": "https://www.gmac.com/gmat-other-assessments/about-the-gmat-focus-edition/exam-scores"
+      },
+      {
+        "text": "The Official Score Report includes free performance insights: percentile rankings plus breakdowns by section, question type, content domain, and time management",
+        "src": "mba.com (GMAC)",
+        "year": 2025,
+        "url": "https://www.mba.com/exams/gmat-exam/scores/official-score-reports"
+      },
+      {
+        "text": "Up to 5 free score reports can be sent if programs are selected within 48 hours of the Official Score becoming available",
+        "src": "mba.com (GMAC)",
+        "year": 2025,
+        "url": "https://www.mba.com/exams/gmat-exam/scores/official-score-reports"
+      }
+    ]
   },
-  "score_scale": {
-   "text": "Total score 205 to 805 in 10-point increments, always ending in 5; each section scored 60 to 90",
-   "src": "mba.com (GMAC)",
-   "year": 2025,
-   "url": "https://www.mba.com/exams/gmat-exam/scores"
+  {
+    "slug": "sat",
+    "name": "SAT",
+    "short": "SAT",
+    "audience": "College (undergraduate) applicants",
+    "maker": {
+      "name": "College Board",
+      "register_url": "https://satsuite.collegeboard.org/sat/registration",
+      "src": "College Board",
+      "year": 2025
+    },
+    "score_scale": {
+      "text": "Total score 400 to 1600; the Reading and Writing section and the Math section are each scored 200 to 800",
+      "src": "College Board",
+      "year": 2025,
+      "url": "https://satsuite.collegeboard.org/sat/whats-on-the-test/structure"
+    },
+    "sections": [
+      {
+        "name": "Reading and Writing (two 32-minute modules of 27 questions each)",
+        "questions": 54,
+        "minutes": 64,
+        "scale": "200 to 800"
+      },
+      {
+        "name": "Math (two 35-minute modules of 22 questions each)",
+        "questions": 44,
+        "minutes": 70,
+        "scale": "200 to 800"
+      }
+    ],
+    "sections_src": {
+      "text": "Reading and Writing 64 minutes in two 32-minute modules with 54 questions; Math 70 minutes in two 35-minute modules with 44 questions; total 134 minutes and 98 questions",
+      "src": "College Board",
+      "year": 2026,
+      "url": "https://satsuite.collegeboard.org/sat/whats-on-the-test/structure"
+    },
+    "total_time": {
+      "text": "2 hours 14 minutes of testing (98 questions), with a 10-minute break between the Reading and Writing section and the Math section",
+      "src": "College Board",
+      "year": 2025,
+      "url": "https://satsuite.collegeboard.org/sat/whats-on-the-test/structure"
+    },
+    "cost_usd": {
+      "v": 68,
+      "note": "US registration fee for the 2025-26 testing year; testing internationally adds a regional fee (College Board publishes a separate international fee schedule)",
+      "src": "College Board",
+      "year": 2025,
+      "url": "https://satsuite.collegeboard.org/sat/registration/fees-refunds/test-fees"
+    },
+    "validity_years": {
+      "v": null,
+      "src": "",
+      "year": null,
+      "url": ""
+    },
+    "delivery": {
+      "text": "Fully digital in the US since March 2024, taken on the College Board's Bluebook app at test centers on national weekend dates or through school-day testing windows",
+      "src": "College Board Newsroom",
+      "year": 2024,
+      "url": "https://newsroom.collegeboard.org/digital-sat-launches-across-country-completing-transition-digital-and-providing-simpler-testing"
+    },
+    "retake_policy": {
+      "text": "Students can take the SAT as many times as they want; College Board recommends taking it at least twice, in the spring of junior year and the fall of senior year",
+      "src": "College Board",
+      "year": 2026,
+      "url": "https://satsuite.collegeboard.org/help-center/how-many-times-can-student-take-sat-and-when-should-they-take-it"
+    },
+    "score_release": {
+      "text": "Most scores from weekend tests are released 2 to 4 weeks after test day",
+      "src": "College Board",
+      "year": 2026,
+      "url": "https://satsuite.collegeboard.org/scores/score-release-dates"
+    },
+    "used_for": {
+      "text": "Used by US colleges for admission decisions, merit scholarship eligibility, course placement, and student support",
+      "src": "College Board (BigFuture)",
+      "year": 2026,
+      "url": "https://bigfuture.collegeboard.org/plan-for-college/find-your-fit/what-colleges-require-SAT"
+    },
+    "acceptance": {
+      "text": "Per College Board's BigFuture, 63 US colleges (21 private, 42 public) currently or soon will require SAT or ACT scores, and many other colleges are test optional or test preferred, using scores in admission if submitted and for scholarships and placement",
+      "src": "College Board (BigFuture)",
+      "year": 2026,
+      "url": "https://bigfuture.collegeboard.org/plan-for-college/find-your-fit/what-colleges-require-SAT"
+    },
+    "key_facts": [
+      {
+        "text": "The test is section-adaptive: each section has two equal-length modules, and performance on the first module determines whether the second module is harder or easier",
+        "src": "College Board",
+        "year": 2025,
+        "url": "https://satsuite.collegeboard.org/sat/whats-on-the-test/structure"
+      },
+      {
+        "text": "The Desmos graphing calculator is built into the Bluebook app and allowed on the entire Math section, alongside tools like annotation, answer elimination, and question flagging",
+        "src": "College Board",
+        "year": 2025,
+        "url": "https://satsuite.collegeboard.org/sat/what-to-bring-do/calculator-policy"
+      },
+      {
+        "text": "Many colleges superscore the SAT, combining a student's highest Math section score with their highest Reading and Writing section score even when those come from different test dates; each college sets its own policy",
+        "src": "College Board",
+        "year": 2026,
+        "url": "https://satsuite.collegeboard.org/help-center/how-many-times-can-student-take-sat-and-when-should-they-take-it"
+      },
+      {
+        "text": "On the March 2024 US launch, more than 200,000 students took the digital SAT at 3,000 test centers",
+        "src": "College Board Newsroom",
+        "year": 2024,
+        "url": "https://newsroom.collegeboard.org/digital-sat-launches-across-country-completing-transition-digital-and-providing-simpler-testing"
+      }
+    ]
   },
-  "sections": [
-   {
-    "name": "Quantitative Reasoning",
-    "questions": 21,
-    "minutes": 45,
-    "scale": "60 to 90"
-   },
-   {
-    "name": "Verbal Reasoning",
-    "questions": 23,
-    "minutes": 45,
-    "scale": "60 to 90"
-   },
-   {
-    "name": "Data Insights",
-    "questions": 20,
-    "minutes": 45,
-    "scale": "60 to 90"
-   }
-  ],
-  "total_time": {
-   "text": "2 hours 15 minutes plus one optional 10-minute break",
-   "src": "mba.com (GMAC)",
-   "year": 2025,
-   "url": "https://www.mba.com/exams/gmat-exam/about/exam-structure"
+  {
+    "slug": "gre",
+    "name": "GRE General Test",
+    "short": "GRE",
+    "audience": "Graduate school, business school, and law school applicants",
+    "maker": {
+      "name": "ETS",
+      "register_url": "https://www.ets.org/gre/test-takers/general-test/schedule.html",
+      "src": "ets.org",
+      "year": 2025
+    },
+    "score_scale": {
+      "text": "Verbal Reasoning and Quantitative Reasoning each scored 130 to 170, for a combined 260 to 340; Analytical Writing scored separately",
+      "src": "ETS",
+      "year": 2025,
+      "url": "https://www.ets.org/gre/score-users/about/general-test/scoring.html"
+    },
+    "sections": [
+      {
+        "name": "Analytical Writing (one Analyze an Issue essay task, always first)",
+        "questions": 1,
+        "minutes": 30,
+        "scale": null
+      },
+      {
+        "name": "Verbal Reasoning (two sections)",
+        "questions": 27,
+        "minutes": 41,
+        "scale": "130 to 170"
+      },
+      {
+        "name": "Quantitative Reasoning (two sections, 12 + 15 questions)",
+        "questions": 27,
+        "minutes": 47,
+        "scale": "130 to 170"
+      }
+    ],
+    "sections_src": {
+      "text": "Computer-delivered test, about 1 hour 58 minutes in five sections. Analytical Writing one Analyze an Issue task in 30 minutes; Verbal Reasoning two sections of 12 questions in 18 minutes then 15 in 23; Quantitative Reasoning two sections of 12 questions in 21 minutes then 15 in 26",
+      "src": "ETS",
+      "year": 2026,
+      "url": "https://www.ets.org/gre/test-takers/general-test/prepare/test-structure.html"
+    },
+    "total_time": {
+      "text": "About 1 hour 58 minutes; Analytical Writing always comes first, and the Verbal and Quantitative sections may appear in any order after it",
+      "src": "ETS",
+      "year": 2025,
+      "url": "https://www.ets.org/gre/test-takers/general-test/prepare/test-structure.html"
+    },
+    "cost_usd": {
+      "v": 220,
+      "note": "Worldwide fee everywhere except China, where it is $231.30; the same fee applies whether you test at a test center or at home; the ETS Fee Reduction Program cuts the fee to $100 for eligible test takers",
+      "src": "ETS",
+      "year": 2025,
+      "url": "https://www.ets.org/gre/test-takers/general-test/register/fees.html"
+    },
+    "validity_years": {
+      "v": 5,
+      "src": "ETS",
+      "year": 2025,
+      "url": "https://www.ets.org/gre/test-takers/general-test/scores.html"
+    },
+    "delivery": {
+      "text": "A computer-delivered test offered both at test centers and at home; the at home test is taken on the test taker's own computer and is identical in content, format and on-screen experience to the test center version",
+      "src": "ETS",
+      "year": 2026,
+      "url": "https://www.ets.org/gre/score-users/about/general-test/testing-locations.html"
+    },
+    "retake_policy": {
+      "text": "Can be taken once every 21 days, up to 5 times within any continuous rolling 12-month period",
+      "src": "ETS",
+      "year": 2025,
+      "url": "https://www.ets.org/gre/test-takers/general-test/schedule.html"
+    },
+    "score_release": {
+      "text": "Official scores are available in your ETS account 8 to 10 days after the test date",
+      "src": "ETS",
+      "year": 2025,
+      "url": "https://www.ets.org/gre/test-takers/general-test/scores/get-scores.html"
+    },
+    "used_for": {
+      "text": "ETS positions it as the only graduate admissions test usable across a range of master's, MBA, specialized business master's, JD, and doctoral programs",
+      "src": "ETS",
+      "year": 2025,
+      "url": "https://www.ets.org/gre.html"
+    },
+    "acceptance": {
+      "text": "Accepted by more than 20,000 graduate, business, and law programs worldwide, including 1,300+ MBA programs and 100+ ABA-approved law schools' JD programs",
+      "src": "ETS",
+      "year": 2025,
+      "url": "https://www.ets.org/gre.html"
+    },
+    "key_facts": [
+      {
+        "text": "Shortened format (about 1 hour 58 minutes) with five sections total; the design lets you skip questions within a section, go back, and change answers",
+        "src": "ETS",
+        "year": 2025,
+        "url": "https://www.ets.org/gre/test-takers/general-test/prepare/test-structure.html"
+      },
+      {
+        "text": "Verbal and Quantitative are section-level adaptive: the second section's difficulty is set by your performance on the first",
+        "src": "ETS",
+        "year": 2025,
+        "url": "https://www.ets.org/gre/test-takers/general-test/prepare/test-structure.html"
+      },
+      {
+        "text": "More than 100 ABA-approved law schools accept GRE scores for JD programs, and ETS publishes official lists of accepting law and business schools",
+        "src": "ETS",
+        "year": 2025,
+        "url": "https://www.ets.org/gre/score-users/law-schools/program-list.html"
+      },
+      {
+        "text": "A GRE Fee Reduction voucher lowers the General Test registration fee to $100 and adds free access to POWERPREP PLUS Online Practice Tests 1 and 2 and ScoreItNow! Online Writing Practice, a $110 value",
+        "src": "ETS",
+        "year": 2026,
+        "url": "https://www.ets.org/gre/score-users/reducing-barriers/fee-reductions.html"
+      }
+    ]
   },
-  "cost_usd": {
-   "v": null,
-   "note": "US pricing differs by delivery: $275 at a test center, $300 online delivered; the online fee covers remote proctoring; includes 5 free score reports if programs are selected within 48 hours of score release",
-   "src": "mba.com (GMAC)",
-   "year": 2025,
-   "url": "https://www.mba.com/exams/gmat-exam/register"
+  {
+    "slug": "lsat",
+    "name": "LSAT",
+    "short": "LSAT",
+    "audience": "Law school (JD) applicants",
+    "maker": {
+      "name": "LSAC (Law School Admission Council)",
+      "register_url": "https://www.lsac.org/lsat/register-lsat",
+      "src": "lsac.org",
+      "year": 2025
+    },
+    "score_scale": {
+      "text": "120 to 180. The raw score is the number of questions answered correctly, every question is weighted the same, and nothing is deducted for a wrong answer. LSAC publishes no section subscores, so a single number is the whole score report.",
+      "src": "LSAC",
+      "year": 2026,
+      "url": "https://www.lsac.org/lsat/lsat-scoring"
+    },
+    "sections": [
+      {
+        "name": "Logical Reasoning (scored)",
+        "questions": null,
+        "minutes": 35,
+        "scale": null
+      },
+      {
+        "name": "Logical Reasoning (scored)",
+        "questions": null,
+        "minutes": 35,
+        "scale": null
+      },
+      {
+        "name": "Reading Comprehension (scored): four sets of five to eight questions",
+        "questions": null,
+        "minutes": 35,
+        "scale": null
+      },
+      {
+        "name": "Unscored variable section (Logical Reasoning or Reading Comprehension, can appear anywhere)",
+        "questions": null,
+        "minutes": 35,
+        "scale": null
+      }
+    ],
+    "sections_src": {
+      "text": "Four 35-minute multiple-choice sections with a 10-minute intermission between the second and third, about 3 hours for standard test takers. Two scored Logical Reasoning sections and one scored Reading Comprehension section, plus one unscored section of either type that can occur at any point. LSAC publishes no per-section question count, so ours are null rather than estimated",
+      "src": "LSAC",
+      "year": 2026,
+      "url": "https://www.lsac.org/lsat/frequently-asked-questions-about-lsat"
+    },
+    "total_time": {
+      "text": "Four 35-minute multiple-choice sections, one Reading Comprehension, two Logical Reasoning and one unscored variable section, with a 10-minute intermission between the second and third sections, plus a separately administered and unscored LSAT Argumentative Writing sample",
+      "src": "LSAC",
+      "year": 2026,
+      "url": "https://www.lsac.org/lsat/register-lsat/accommodations/specifications-lsat-and-lsat-argumentative-writing"
+    },
+    "cost_usd": {
+      "v": 253,
+      "note": "LSAT registration fee for the testing year beginning August 2026 (includes LSAT Argumentative Writing); the fee was $248 in the 2025-2026 testing year; the price is the same for remote and test-center testing",
+      "src": "LSAC",
+      "year": 2026,
+      "url": "https://www.lsac.org/lsat/register-lsat/lsat-cas-fees"
+    },
+    "validity_years": {
+      "v": 5,
+      "src": "LSAC",
+      "year": 2025,
+      "url": "https://www.lsac.org/lsat/lsat-scoring"
+    },
+    "delivery": {
+      "text": "Most test takers choose between an online, live remote-proctored test and in-person testing at a Prometric digital testing center",
+      "src": "LSAC",
+      "year": 2025,
+      "url": "https://www.lsac.org/lsat/frequently-asked-questions-about-lsat"
+    },
+    "retake_policy": {
+      "text": "Up to 5 times within the current reportable score period (about the past five testing years) and 7 times in a lifetime; test takers who score a perfect 180 within the current reportable period may not retake",
+      "src": "LSAC",
+      "year": 2025,
+      "url": "https://www.lsac.org/about/lsac-policies/limits-on-repeating-lsat"
+    },
+    "score_release": {
+      "text": "Scores are released on published dates roughly three weeks after each administration; processing can take up to three weeks from the date LSAT Argumentative Writing is completed",
+      "src": "LSAC",
+      "year": 2026,
+      "url": "https://www.lsac.org/LSATdates"
+    },
+    "used_for": {
+      "text": "The admission test for JD programs at law schools; LSAC describes it as the only test accepted by all ABA-approved law schools",
+      "src": "LSAC",
+      "year": 2025,
+      "url": "https://www.lsac.org/lsat/about"
+    },
+    "acceptance": {
+      "text": "Accepted by all ABA-approved law schools",
+      "src": "LSAC",
+      "year": 2025,
+      "url": "https://www.lsac.org/lsat/about"
+    },
+    "key_facts": [
+      {
+        "text": "Starting with the August 2024 LSAT, the multiple-choice portion is two scored Logical Reasoning sections and one scored Reading Comprehension section, so Analytical Reasoning (logic games) no longer appears",
+        "src": "LSAC",
+        "year": 2026,
+        "url": "https://www.lsac.org/lsat/frequently-asked-questions-about-lsat"
+      },
+      {
+        "text": "LSAT scores are reportable for up to five testing years after the testing year in which the score is earned",
+        "src": "LSAC",
+        "year": 2025,
+        "url": "https://www.lsac.org/lsat/lsat-scoring"
+      },
+      {
+        "text": "LSAT Argumentative Writing is unscored and completed separately from the multiple-choice test; law schools receive a copy with your score report",
+        "src": "LSAC",
+        "year": 2025,
+        "url": "https://www.lsac.org/lsat/register-lsat/accommodations/specifications-lsat-and-lsat-argumentative-writing"
+      },
+      {
+        "text": "The unscored section can be any one of the question types, Reading Comprehension or Logical Reasoning, and can occur at any point in the test",
+        "src": "LSAC",
+        "year": 2026,
+        "url": "https://www.lsac.org/lsat/taking-lsat/test-format"
+      }
+    ],
+    "answer_choices": {
+      "text": "Five answer choices per question",
+      "src": "LSAC",
+      "year": 2026,
+      "url": "https://www.lsac.org/lsat/taking-lsat/test-format/logical-reasoning/logical-reasoning-sample-questions"
+    },
+    "section_shape": {
+      "text": "LSAC does not publish a question count for either section. For Reading Comprehension it publishes the shape: four sets, each a selection followed by five to eight questions, with three or four single passages and one or no comparative reading pair, which puts a section between 20 and 32 questions. No equivalent figure is published for Logical Reasoning.",
+      "src": "LSAC",
+      "year": 2026,
+      "url": "https://www.lsac.org/lsat/prepare/types-lsat-questions/reading-comprehension"
+    }
   },
-  "validity_years": {
-   "v": 5,
-   "src": "mba.com support (GMAC)",
-   "year": 2025,
-   "url": "https://support.mba.com/hc/en-us/articles/10118337626139-GMAT-Retake-Policies-and-Attempt-Limits"
-  },
-  "delivery": {
-   "text": "At test centers or online, with appointments available year round (no fixed testing windows)",
-   "src": "mba.com (GMAC)",
-   "year": 2025,
-   "url": "https://www.mba.com/exams/gmat-exam/register"
-  },
-  "retake_policy": {
-   "text": "Up to 5 attempts in any rolling 12-month period, with at least 16 days between attempts; online and test-center attempts both count toward the limit, while canceled or missed appointments do not",
-   "src": "mba.com support (GMAC)",
-   "year": 2025,
-   "url": "https://support.mba.com/hc/en-us/articles/10118337626139-GMAT-Retake-Policies-and-Attempt-Limits"
-  },
-  "score_release": {
-   "text": "Official Score Report is typically available in your mba.com account within 3 to 5 days (up to 20 days in some cases), with an email notification when it is ready",
-   "src": "mba.com support (GMAC)",
-   "year": 2025,
-   "url": "https://support.mba.com/hc/en-us/articles/14445842113435-GMAT-When-Will-My-Score-Be-Available"
-  },
-  "used_for": {
-   "text": "The most widely used admissions test designed specifically for graduate business education, including MBA and business master's programs",
-   "src": "mba.com (GMAC)",
-   "year": 2025,
-   "url": "https://www.mba.com/exams/gmat-exam"
-  },
-  "acceptance": {
-   "text": "Accepted by more than 7,700 programs at approximately 2,400 graduate business schools worldwide",
-   "src": "mba.com (GMAC)",
-   "year": 2025,
-   "url": "https://www.mba.com/exams/gmat-exam"
-  },
-  "key_facts": [
-   {
-    "text": "Test takers choose the order in which they take the three sections, and can bookmark questions and change up to 3 answers per section",
-    "src": "mba.com (GMAC)",
-    "year": 2025,
-    "url": "https://www.mba.com/exams/gmat-exam/about/exam-structure"
-   },
-   {
-    "text": "An on-screen calculator is available only in the Data Insights section; no calculator is allowed in Quantitative Reasoning",
-    "src": "mba.com (GMAC)",
-    "year": 2025,
-    "url": "https://www.mba.com/exams/gmat-exam/about/exam-structure"
-   },
-   {
-    "text": "The Official Score Report includes free performance insights: percentile rankings plus breakdowns by section, question type, content domain, and time management",
-    "src": "mba.com (GMAC)",
-    "year": 2025,
-    "url": "https://www.mba.com/exams/gmat-exam/scores/official-score-reports"
-   },
-   {
-    "text": "Up to 5 free score reports can be sent if programs are selected within 48 hours of the Official Score becoming available",
-    "src": "mba.com (GMAC)",
-    "year": 2025,
-    "url": "https://www.mba.com/exams/gmat-exam/scores/official-score-reports"
-   }
-  ]
- },
- {
-  "slug": "sat",
-  "name": "SAT",
-  "short": "SAT",
-  "audience": "College (undergraduate) applicants",
-  "maker": {
-   "name": "College Board",
-   "register_url": "https://satsuite.collegeboard.org/sat/registration",
-   "src": "College Board",
-   "year": 2025
-  },
-  "score_scale": {
-   "text": "Total score 400 to 1600; the Reading and Writing section and the Math section are each scored 200 to 800",
-   "src": "College Board",
-   "year": 2025,
-   "url": "https://satsuite.collegeboard.org/sat/whats-on-the-test/structure"
-  },
-  "sections": [
-   {
-    "name": "Reading and Writing (two 32-minute modules of 27 questions each)",
-    "questions": 54,
-    "minutes": 64,
-    "scale": "200 to 800"
-   },
-   {
-    "name": "Math (two 35-minute modules of 22 questions each)",
-    "questions": 44,
-    "minutes": 70,
-    "scale": "200 to 800"
-   }
-  ],
-  "total_time": {
-   "text": "2 hours 14 minutes of testing (98 questions), with a 10-minute break between the Reading and Writing section and the Math section",
-   "src": "College Board",
-   "year": 2025,
-   "url": "https://satsuite.collegeboard.org/sat/whats-on-the-test/structure"
-  },
-  "cost_usd": {
-   "v": 68,
-   "note": "US registration fee for the 2025-26 testing year; testing internationally adds a regional fee (College Board publishes a separate international fee schedule)",
-   "src": "College Board",
-   "year": 2025,
-   "url": "https://satsuite.collegeboard.org/sat/registration/fees-refunds/test-fees"
-  },
-  "validity_years": {
-   "v": null,
-   "src": "",
-   "year": null,
-   "url": ""
-  },
-  "delivery": {
-   "text": "Fully digital in the US since March 2024, taken on the College Board's Bluebook app at test centers on national weekend dates or through school-day testing windows",
-   "src": "College Board Newsroom",
-   "year": 2024,
-   "url": "https://newsroom.collegeboard.org/digital-sat-launches-across-country-completing-transition-digital-and-providing-simpler-testing"
-  },
-  "retake_policy": {
-   "text": "No official limit on attempts; the College Board allows students to register for every available test date",
-   "src": "Sallie Mae",
-   "year": 2026,
-   "url": "https://www.sallie.com/colleges/planning/test-prep/how-many-times-can-you-take-the-sat"
-  },
-  "score_release": {
-   "text": "Most students receive scores about 13 days (roughly two weeks) after test day, much faster than the three to six weeks the paper SAT required",
-   "src": "The Princeton Review",
-   "year": 2026,
-   "url": "https://www.princetonreview.com/college-advice/understanding-dsat-scores"
-  },
-  "used_for": {
-   "text": "Used by US colleges for admission decisions, merit scholarship eligibility, course placement, and student support",
-   "src": "College Board (BigFuture)",
-   "year": 2026,
-   "url": "https://bigfuture.collegeboard.org/plan-for-college/find-your-fit/what-colleges-require-SAT"
-  },
-  "acceptance": {
-   "text": "Per College Board's BigFuture, 63 US colleges (21 private, 42 public) currently or soon will require SAT or ACT scores, and many other colleges are test optional or test preferred, using scores in admission if submitted and for scholarships and placement",
-   "src": "College Board (BigFuture)",
-   "year": 2026,
-   "url": "https://bigfuture.collegeboard.org/plan-for-college/find-your-fit/what-colleges-require-SAT"
-  },
-  "key_facts": [
-   {
-    "text": "The test is section-adaptive: each section has two equal-length modules, and performance on the first module determines whether the second module is harder or easier",
-    "src": "College Board",
-    "year": 2025,
-    "url": "https://satsuite.collegeboard.org/sat/whats-on-the-test/structure"
-   },
-   {
-    "text": "The Desmos graphing calculator is built into the Bluebook app and allowed on the entire Math section, alongside tools like annotation, answer elimination, and question flagging",
-    "src": "College Board",
-    "year": 2025,
-    "url": "https://satsuite.collegeboard.org/sat/what-to-bring-do/calculator-policy"
-   },
-   {
-    "text": "The majority of US colleges and universities, including all Ivy League schools, superscore the SAT, combining best section scores across test dates; each college sets its own policy",
-    "src": "UWorld College Prep",
-    "year": 2026,
-    "url": "https://collegeprep.uworld.com/blog/which-colleges-superscore-sat/"
-   },
-   {
-    "text": "On the March 2024 US launch, more than 200,000 students took the digital SAT at 3,000 test centers",
-    "src": "College Board Newsroom",
-    "year": 2024,
-    "url": "https://newsroom.collegeboard.org/digital-sat-launches-across-country-completing-transition-digital-and-providing-simpler-testing"
-   }
-  ]
- },
- {
-  "slug": "gre",
-  "name": "GRE General Test",
-  "short": "GRE",
-  "audience": "Graduate school, business school, and law school applicants",
-  "maker": {
-   "name": "ETS",
-   "register_url": "https://www.ets.org/gre/test-takers/general-test/schedule.html",
-   "src": "ets.org",
-   "year": 2025
-  },
-  "score_scale": {
-   "text": "Verbal Reasoning and Quantitative Reasoning each scored 130 to 170, for a combined 260 to 340; Analytical Writing scored separately",
-   "src": "ETS",
-   "year": 2025,
-   "url": "https://www.ets.org/gre/score-users/about/general-test/scoring.html"
-  },
-  "sections": [
-   {
-    "name": "Analytical Writing (one Analyze an Issue essay task, always first)",
-    "questions": 1,
-    "minutes": 30,
-    "scale": null
-   },
-   {
-    "name": "Verbal Reasoning (two sections)",
-    "questions": 27,
-    "minutes": 41,
-    "scale": "130 to 170"
-   },
-   {
-    "name": "Quantitative Reasoning (two sections, 12 + 15 questions)",
-    "questions": 27,
-    "minutes": 47,
-    "scale": "130 to 170"
-   }
-  ],
-  "total_time": {
-   "text": "About 1 hour 58 minutes; Analytical Writing always comes first, and the Verbal and Quantitative sections may appear in any order after it",
-   "src": "ETS",
-   "year": 2025,
-   "url": "https://www.ets.org/gre/test-takers/general-test/prepare/test-structure.html"
-  },
-  "cost_usd": {
-   "v": 220,
-   "note": "Worldwide fee everywhere except China, where it is $231.30; the same fee applies whether you test at a test center or at home; the ETS Fee Reduction Program cuts the fee to $100 for eligible test takers",
-   "src": "ETS",
-   "year": 2025,
-   "url": "https://www.ets.org/gre/test-takers/general-test/register/fees.html"
-  },
-  "validity_years": {
-   "v": 5,
-   "src": "ETS",
-   "year": 2025,
-   "url": "https://www.ets.org/gre/test-takers/general-test/scores.html"
-  },
-  "delivery": {
-   "text": "Computer-delivered at a test center or at home",
-   "src": "Menlo Coaching",
-   "year": 2025,
-   "url": "https://menlocoaching.com/gre/gre-cost/"
-  },
-  "retake_policy": {
-   "text": "Can be taken once every 21 days, up to 5 times within any continuous rolling 12-month period",
-   "src": "ETS",
-   "year": 2025,
-   "url": "https://www.ets.org/gre/test-takers/general-test/schedule.html"
-  },
-  "score_release": {
-   "text": "Official scores are available in your ETS account 8 to 10 days after the test date",
-   "src": "ETS",
-   "year": 2025,
-   "url": "https://www.ets.org/gre/test-takers/general-test/scores/get-scores.html"
-  },
-  "used_for": {
-   "text": "ETS positions it as the only graduate admissions test usable across a range of master's, MBA, specialized business master's, JD, and doctoral programs",
-   "src": "ETS",
-   "year": 2025,
-   "url": "https://www.ets.org/gre.html"
-  },
-  "acceptance": {
-   "text": "Accepted by more than 20,000 graduate, business, and law programs worldwide, including 1,300+ MBA programs and 100+ ABA-approved law schools' JD programs",
-   "src": "ETS",
-   "year": 2025,
-   "url": "https://www.ets.org/gre.html"
-  },
-  "key_facts": [
-   {
-    "text": "Shortened format (about 1 hour 58 minutes) with five sections total; the design lets you skip questions within a section, go back, and change answers",
-    "src": "ETS",
-    "year": 2025,
-    "url": "https://www.ets.org/gre/test-takers/general-test/prepare/test-structure.html"
-   },
-   {
-    "text": "Verbal and Quantitative are section-level adaptive: the second section's difficulty is set by your performance on the first",
-    "src": "ETS",
-    "year": 2025,
-    "url": "https://www.ets.org/gre/test-takers/general-test/prepare/test-structure.html"
-   },
-   {
-    "text": "More than 100 ABA-approved law schools accept GRE scores for JD programs, and ETS publishes official lists of accepting law and business schools",
-    "src": "ETS",
-    "year": 2025,
-    "url": "https://www.ets.org/gre/score-users/law-schools/program-list.html"
-   },
-   {
-    "text": "The GRE Fee Reduction Program lowers the registration fee to $100 and includes two free practice tests for eligible test takers",
-    "src": "Achievable",
-    "year": 2025,
-    "url": "https://achievable.me/exams/gre/resources/how-much-does-it-cost-to-take-the-gre/"
-   }
-  ]
- },
- {
-  "slug": "lsat",
-  "name": "LSAT",
-  "short": "LSAT",
-  "audience": "Law school (JD) applicants",
-  "maker": {
-   "name": "LSAC (Law School Admission Council)",
-   "register_url": "https://www.lsac.org/lsat/register-lsat",
-   "src": "lsac.org",
-   "year": 2025
-  },
-  "score_scale": {
-   "text": "120 to 180. The raw score is the number of questions answered correctly, every question is weighted the same, and nothing is deducted for a wrong answer. LSAC publishes no section subscores, so a single number is the whole score report.",
-   "src": "LSAC",
-   "year": 2026,
-   "url": "https://www.lsac.org/lsat/lsat-scoring"
-  },
-  "sections": [
-   {
-    "name": "Logical Reasoning (scored)",
-    "questions": null,
-    "minutes": 35,
-    "scale": null
-   },
-   {
-    "name": "Logical Reasoning (scored)",
-    "questions": null,
-    "minutes": 35,
-    "scale": null
-   },
-   {
-    "name": "Reading Comprehension (scored): four sets of five to eight questions",
-    "questions": null,
-    "minutes": 35,
-    "scale": null
-   },
-   {
-    "name": "Unscored variable section (Logical Reasoning or Reading Comprehension, can appear anywhere)",
-    "questions": null,
-    "minutes": 35,
-    "scale": null
-   }
-  ],
-  "total_time": {
-   "text": "Four 35-minute multiple-choice sections, one Reading Comprehension, two Logical Reasoning and one unscored variable section, with a 10-minute intermission between the second and third sections, plus a separately administered and unscored LSAT Argumentative Writing sample",
-   "src": "LSAC",
-   "year": 2026,
-   "url": "https://www.lsac.org/lsat/register-lsat/accommodations/specifications-lsat-and-lsat-argumentative-writing"
-  },
-  "cost_usd": {
-   "v": 253,
-   "note": "LSAT registration fee for the testing year beginning August 2026 (includes LSAT Argumentative Writing); the fee was $248 in the 2025-2026 testing year; the price is the same for remote and test-center testing",
-   "src": "LSAC",
-   "year": 2026,
-   "url": "https://www.lsac.org/lsat/register-lsat/lsat-cas-fees"
-  },
-  "validity_years": {
-   "v": 5,
-   "src": "LSAC",
-   "year": 2025,
-   "url": "https://www.lsac.org/lsat/lsat-scoring"
-  },
-  "delivery": {
-   "text": "Most test takers choose between an online, live remote-proctored test and in-person testing at a Prometric digital testing center",
-   "src": "LSAC",
-   "year": 2025,
-   "url": "https://www.lsac.org/lsat/frequently-asked-questions-about-lsat"
-  },
-  "retake_policy": {
-   "text": "Up to 5 times within the current reportable score period (about the past five testing years) and 7 times in a lifetime; test takers who score a perfect 180 within the current reportable period may not retake",
-   "src": "LSAC",
-   "year": 2025,
-   "url": "https://www.lsac.org/about/lsac-policies/limits-on-repeating-lsat"
-  },
-  "score_release": {
-   "text": "Scores are released on published dates roughly three weeks after each administration; processing can take up to three weeks from the date LSAT Argumentative Writing is completed",
-   "src": "LSAC",
-   "year": 2026,
-   "url": "https://www.lsac.org/LSATdates"
-  },
-  "used_for": {
-   "text": "The admission test for JD programs at law schools; LSAC describes it as the only test accepted by all ABA-approved law schools",
-   "src": "LSAC",
-   "year": 2025,
-   "url": "https://www.lsac.org/lsat/about"
-  },
-  "acceptance": {
-   "text": "Accepted by all ABA-approved law schools",
-   "src": "LSAC",
-   "year": 2025,
-   "url": "https://www.lsac.org/lsat/about"
-  },
-  "key_facts": [
-   {
-    "text": "The Analytical Reasoning section (logic games) was retired in August 2024 and no longer appears on the test in any form",
-    "src": "The Princeton Review",
-    "year": 2026,
-    "url": "https://www.princetonreview.com/law/lsat-sections"
-   },
-   {
-    "text": "LSAT scores are reportable for up to five testing years after the testing year in which the score is earned",
-    "src": "LSAC",
-    "year": 2025,
-    "url": "https://www.lsac.org/lsat/lsat-scoring"
-   },
-   {
-    "text": "LSAT Argumentative Writing is unscored and completed separately from the multiple-choice test; law schools receive a copy with your score report",
-    "src": "LSAC",
-    "year": 2025,
-    "url": "https://www.lsac.org/lsat/register-lsat/accommodations/specifications-lsat-and-lsat-argumentative-writing"
-   },
-   {
-    "text": "The unscored variable section can be either Logical Reasoning or Reading Comprehension and can occur at any point in the test",
-    "src": "The Princeton Review",
-    "year": 2026,
-    "url": "https://www.princetonreview.com/law/lsat-sections"
-   }
-  ],
-  "answer_choices": {
-   "text": "Five answer choices per question",
-   "src": "LSAC",
-   "year": 2026,
-   "url": "https://www.lsac.org/lsat/taking-lsat/test-format/logical-reasoning/logical-reasoning-sample-questions"
-  },
-  "section_shape": {
-   "text": "LSAC does not publish a question count for either section. For Reading Comprehension it publishes the shape: four sets, each a selection followed by five to eight questions, with three or four single passages and one or no comparative reading pair, which puts a section between 20 and 32 questions. No equivalent figure is published for Logical Reasoning.",
-   "src": "LSAC",
-   "year": 2026,
-   "url": "https://www.lsac.org/lsat/prepare/types-lsat-questions/reading-comprehension"
+  {
+    "slug": "act",
+    "name": "ACT",
+    "short": "ACT",
+    "audience": "College (undergraduate) applicants",
+    "maker": {
+      "name": "ACT (ACT Education Corp.)",
+      "register_url": "https://www.act.org/content/act/en/products-and-services/the-act/registration.html",
+      "src": "act.org",
+      "year": 2026
+    },
+    "score_scale": {
+      "text": "Each section is scored 1 to 36. The Composite is the average of English, mathematics and reading only, rounded to the nearest whole number; ACT removed science from the Composite for national online testing in April 2025 and for all testing modes in September 2025. The optional writing test is scored 2 to 12 and does not affect the Composite.",
+      "src": "ACT",
+      "year": 2026,
+      "url": "https://www.act.org/content/act/en/products-and-services/the-act/scores/understanding-your-scores.html"
+    },
+    "sections": [
+      {
+        "name": "English (40 of 50 scored)",
+        "questions": 50,
+        "minutes": 35,
+        "scale": "1 to 36"
+      },
+      {
+        "name": "Mathematics (41 of 45 scored)",
+        "questions": 45,
+        "minutes": 50,
+        "scale": "1 to 36"
+      },
+      {
+        "name": "Reading (27 of 36 scored)",
+        "questions": 36,
+        "minutes": 40,
+        "scale": "1 to 36"
+      },
+      {
+        "name": "Science, optional, not in the Composite (34 of 40 scored)",
+        "questions": 40,
+        "minutes": 40,
+        "scale": "1 to 36"
+      },
+      {
+        "name": "Writing essay, optional, not in the Composite",
+        "questions": 1,
+        "minutes": 40,
+        "scale": "2 to 12"
+      }
+    ],
+    "sections_src": {
+      "text": "English 35 minutes and 50 questions; mathematics 50 minutes and 45 questions; reading 40 minutes and 36 questions; optional science 40 minutes and 40 questions; 171 questions and 2 hours 45 minutes of timed multiple choice, with the optional writing essay a further 40 minutes after a 5-minute break",
+      "src": "ACT",
+      "year": 2026,
+      "url": "https://www.act.org/content/act/en/products-and-services/the-act/test-day.html"
+    },
+    "total_time": {
+      "text": "171 multiple-choice questions across English, mathematics, reading and the optional science section, with 2 hours 45 minutes of timed testing; the optional writing essay adds 40 minutes",
+      "src": "ACT",
+      "year": 2026,
+      "url": "https://www.act.org/content/act/en/products-and-services/the-act/test-day.html"
+    },
+    "cost_usd": {
+      "v": 70,
+      "note": "The ACT Test (English, mathematics and reading) is $70.00. The science add-on is $5.00 and the writing add-on is $25.00, or $100.00 for all three. Late registration adds $42.00 and standby testing $75.00. Additional score reports are $20.00 each.",
+      "src": "ACT",
+      "year": 2026,
+      "url": "https://www.act.org/content/act/en/products-and-services/the-act/registration/fees.html"
+    },
+    "validity_years": {
+      "v": null,
+      "src": "",
+      "year": null,
+      "url": ""
+    },
+    "delivery": {
+      "text": "On paper, online at a test center, or on your own device (BYOD); test takers can switch between options up to the late registration deadline; national Saturday testing is offered 7 times per year",
+      "src": "act.org",
+      "year": 2026,
+      "url": "https://www.act.org/content/act/en/products-and-services/the-act/registration.html"
+    },
+    "retake_policy": {
+      "text": "Can be taken up to 12 times in total; ACT suggests most students retest only two to three times",
+      "src": "act.org",
+      "year": 2026,
+      "url": "https://www.act.org/content/act/en/students-and-parents/high-school-success/testing-advice-for-the-act/reasons-to-retest.html"
+    },
+    "score_release": {
+      "text": "Multiple-choice scores are reported in two to eight weeks; if the writing test was taken, scores are reported in five to eight weeks",
+      "src": "ACT",
+      "year": 2026,
+      "url": "https://www.act.org/content/act/en/products-and-services/the-act/test-day/online-testing.html"
+    },
+    "used_for": {
+      "text": "Used for US college admissions and scholarship qualification; ACT says the test unlocks access to more than 10,000 score-based scholarships",
+      "src": "act.org",
+      "year": 2026,
+      "url": "https://www.act.org/content/act/en/products-and-services/the-act.html"
+    },
+    "acceptance": {
+      "text": "ACT states the test is accepted by 100% of US colleges, and all four-year US universities accept and value it",
+      "src": "act.org",
+      "year": 2026,
+      "url": "https://www.act.org/content/act/en/products-and-services/the-act.html"
+    },
+    "key_facts": [
+      {
+        "text": "The enhanced ACT became available for National online testing in April 2025 and on paper for the National Saturday test in September 2025; for State and District Testing it arrives on paper in spring 2026",
+        "src": "ACT",
+        "year": 2026,
+        "url": "https://www.act.org/content/act/en/products-and-services/the-act-educator/the-act-test/enhancements-k12/faqs.html"
+      },
+      {
+        "text": "The Composite is the average of the English, math and reading scores, rounded to the nearest whole number; science was phased out of it for National online testing in April 2025 and for all ACT tests in September 2025. Students who take science also receive a STEM score, the average of math and science",
+        "src": "ACT",
+        "year": 2026,
+        "url": "https://www.act.org/content/act/en/products-and-services/the-act/scores/understanding-your-scores.html"
+      },
+      {
+        "text": "Whether science is administered in ACT State and District Testing is decided at the contract level, so a student testing through their school may still sit it",
+        "src": "ACT",
+        "year": 2026,
+        "url": "https://www.act.org/content/act/en/products-and-services/the-act-educator/the-act-test/enhancements-k12/faqs.html"
+      },
+      {
+        "text": "ACT supports superscoring: the superscore averages your best English, Math, and Reading section scores across test attempts",
+        "src": "act.org",
+        "year": 2026,
+        "url": "https://www.act.org/content/act/en/products-and-services/the-act/scores.html"
+      }
+    ],
+    "answer_choices": {
+      "text": "Four answer choices in every section, including mathematics, which carried five on the ACT before the enhanced test",
+      "src": "ACT",
+      "year": 2026,
+      "url": "https://www.act.org/content/dam/act/unsecured/documents/Preparing-for-the-ACT.pdf"
+    },
+    "content_categories": {
+      "text": "English reports Production of Writing (38 to 43 percent), Knowledge of Language (18 to 23 percent) and Conventions of Standard English (38 to 43 percent). Mathematics reports Preparing for Higher Math (80 percent, split into Number and Quantity, Algebra, Functions, Geometry, and Statistics and Probability), Integrating Essential Skills (20 percent), and Modeling, which is scored across the other categories. Reading reports Key Ideas and Details (44 to 52 percent), Craft and Structure (26 to 33 percent) and Integration of Knowledge and Ideas (19 to 26 percent). Science reports Interpretation of Data (38 to 50 percent), Scientific Investigation (18 to 32 percent) and Evaluation of Scientific Arguments and Models with Evidence (24 to 38 percent).",
+      "src": "ACT",
+      "year": 2026,
+      "url": "https://www.act.org/content/dam/act/unsecured/documents/Preparing-for-the-ACT.pdf"
+    }
   }
- },
- {
-  "slug": "act",
-  "name": "ACT",
-  "short": "ACT",
-  "audience": "College (undergraduate) applicants",
-  "maker": {
-   "name": "ACT (ACT Education Corp.)",
-   "register_url": "https://www.act.org/content/act/en/products-and-services/the-act/registration.html",
-   "src": "act.org",
-   "year": 2026
-  },
-  "score_scale": {
-   "text": "Each section is scored 1 to 36. The Composite is the average of English, mathematics and reading only, rounded to the nearest whole number; ACT removed science from the Composite for national online testing in April 2025 and for all testing modes in September 2025. The optional writing test is scored 2 to 12 and does not affect the Composite.",
-   "src": "ACT",
-   "year": 2026,
-   "url": "https://www.act.org/content/act/en/products-and-services/the-act/scores/understanding-your-scores.html"
-  },
-  "sections": [
-   {
-    "name": "English (40 of 50 scored)",
-    "questions": 50,
-    "minutes": 35,
-    "scale": "1 to 36"
-   },
-   {
-    "name": "Mathematics (41 of 45 scored)",
-    "questions": 45,
-    "minutes": 50,
-    "scale": "1 to 36"
-   },
-   {
-    "name": "Reading (27 of 36 scored)",
-    "questions": 36,
-    "minutes": 40,
-    "scale": "1 to 36"
-   },
-   {
-    "name": "Science, optional, not in the Composite (34 of 40 scored)",
-    "questions": 40,
-    "minutes": 40,
-    "scale": "1 to 36"
-   },
-   {
-    "name": "Writing essay, optional, not in the Composite",
-    "questions": 1,
-    "minutes": 40,
-    "scale": "2 to 12"
-   }
-  ],
-  "total_time": {
-   "text": "171 multiple-choice questions across English, mathematics, reading and the optional science section, with 2 hours 45 minutes of timed testing; the optional writing essay adds 40 minutes",
-   "src": "ACT",
-   "year": 2026,
-   "url": "https://www.act.org/content/act/en/products-and-services/the-act/test-day.html"
-  },
-  "cost_usd": {
-   "v": 70,
-   "note": "The ACT Test (English, mathematics and reading) is $70.00. The science add-on is $5.00 and the writing add-on is $25.00, or $100.00 for all three. Late registration adds $42.00 and standby testing $75.00. Additional score reports are $20.00 each.",
-   "src": "ACT",
-   "year": 2026,
-   "url": "https://www.act.org/content/act/en/products-and-services/the-act/registration/fees.html"
-  },
-  "validity_years": {
-   "v": null,
-   "src": "",
-   "year": null,
-   "url": ""
-  },
-  "delivery": {
-   "text": "On paper, online at a test center, or on your own device (BYOD); test takers can switch between options up to the late registration deadline; national Saturday testing is offered 7 times per year",
-   "src": "act.org",
-   "year": 2026,
-   "url": "https://www.act.org/content/act/en/products-and-services/the-act/registration.html"
-  },
-  "retake_policy": {
-   "text": "Can be taken up to 12 times in total; ACT suggests most students retest only two to three times",
-   "src": "act.org",
-   "year": 2026,
-   "url": "https://www.act.org/content/act/en/students-and-parents/high-school-success/testing-advice-for-the-act/reasons-to-retest.html"
-  },
-  "score_release": {
-   "text": "Multiple-choice scores are reported in two to eight weeks; if the writing test was taken, scores are reported in five to eight weeks",
-   "src": "ACT",
-   "year": 2026,
-   "url": "https://www.act.org/content/act/en/products-and-services/the-act/test-day/online-testing.html"
-  },
-  "used_for": {
-   "text": "Used for US college admissions and scholarship qualification; ACT says the test unlocks access to more than 10,000 score-based scholarships",
-   "src": "act.org",
-   "year": 2026,
-   "url": "https://www.act.org/content/act/en/products-and-services/the-act.html"
-  },
-  "acceptance": {
-   "text": "ACT states the test is accepted by 100% of US colleges, and all four-year US universities accept and value it",
-   "src": "act.org",
-   "year": 2026,
-   "url": "https://www.act.org/content/act/en/products-and-services/the-act.html"
-  },
-  "key_facts": [
-   {
-    "text": "The enhanced ACT launched in April 2025 for national online testing, extended to all national Saturday testing (online and paper) in September 2025, and reaches school-day testing in spring 2026",
-    "src": "Applerouth",
-    "year": 2025,
-    "url": "https://www.applerouth.com/enhanced-act"
-   },
-   {
-    "text": "Science became optional in 2025 and no longer factors into the Composite; students who take it get a separate Science score and a STEM score averaging Math and Science",
-    "src": "Applerouth",
-    "year": 2025,
-    "url": "https://www.applerouth.com/enhanced-act"
-   },
-   {
-    "text": "On the enhanced ACT, Math questions have four answer choices instead of five, and the core test is about 50 minutes shorter than the old 175-minute format",
-    "src": "act.org; Applerouth",
-    "year": 2025,
-    "url": "https://www.act.org/content/act/en/products-and-services/the-act/registration.html"
-   },
-   {
-    "text": "ACT supports superscoring: the superscore averages your best English, Math, and Reading section scores across test attempts",
-    "src": "act.org",
-    "year": 2026,
-    "url": "https://www.act.org/content/act/en/products-and-services/the-act/scores.html"
-   }
-  ],
-  "answer_choices": {
-   "text": "Four answer choices in every section, including mathematics, which carried five on the ACT before the enhanced test",
-   "src": "ACT",
-   "year": 2026,
-   "url": "https://www.act.org/content/dam/act/unsecured/documents/Preparing-for-the-ACT.pdf"
-  },
-  "content_categories": {
-   "text": "English reports Production of Writing (38 to 43 percent), Knowledge of Language (18 to 23 percent) and Conventions of Standard English (38 to 43 percent). Mathematics reports Preparing for Higher Math (80 percent, split into Number and Quantity, Algebra, Functions, Geometry, and Statistics and Probability), Integrating Essential Skills (20 percent), and Modeling, which is scored across the other categories. Reading reports Key Ideas and Details (44 to 52 percent), Craft and Structure (26 to 33 percent) and Integration of Knowledge and Ideas (19 to 26 percent). Science reports Interpretation of Data (38 to 50 percent), Scientific Investigation (18 to 32 percent) and Evaluation of Scientific Arguments and Models with Evidence (24 to 38 percent).",
-   "src": "ACT",
-   "year": 2026,
-   "url": "https://www.act.org/content/dam/act/unsecured/documents/Preparing-for-the-ACT.pdf"
-  }
- }
 ]

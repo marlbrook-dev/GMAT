@@ -26,7 +26,53 @@ DASH = re.compile(r"[–—]")
 
 
 class ItemError(Exception):
-    pass
+    """This draw did not work; the runner tries again with new numbers.
+
+    Raised by a schema's build() for a parameter combination that does not make a
+    question: a square where the item is about area versus perimeter, a repeated root
+    where the item asks for a sum. That is a deliberate filter and costs nothing.
+    """
+
+
+class AssemblyError(ItemError):
+    """build() produced a question and make() could not turn it into an item.
+
+    A different animal from the one above, and the reason it has its own name. The
+    schema did its job; what it offered could not be assembled into choices this exam
+    can show, because the wrong answers collapsed into each other or into the key, or
+    because too few of them render the way the key does. That is a schema that cannot
+    serve this exam, not a parameter draw that did not suit, and it is measured
+    separately (INC-0092). It stays an ItemError so every existing caller still treats
+    it as a draw to retry.
+    """
+
+
+# Words that end in s and are singular anyway, so a singular verb after one of them is
+# correct. Not a dictionary: the ones that have actually turned up in these corpora.
+SINGULAR_S = set("""gas mass class glass loss plus bus lens axis basis analysis crisis
+series species campus census focus status surplus virus process access address business
+witness progress success stress press illness fitness dress chaos bias news physics
+mathematics statistics logistics""".split())
+
+
+def plural_head(phrase):
+    """Does this short noun phrase end in a plural noun?
+
+    For a stored phrase that a template drops in front of a singular verb: "the cycle
+    racks was responsible", "two independent reviews is needed". It reads the LAST word,
+    which is the head of a short noun phrase like these, and it does not try to parse
+    English. Applied to a field that lands anywhere other than a bare subject slot it is
+    almost all false alarms, because a plural noun is usually not the subject: the sum of
+    the solutions IS twelve, each of its players IS known, every one of the drivers WAS
+    aware. So it is asserted of named fields, at the module that owns them, and never
+    swept across item text (INC-0096).
+    """
+    words = re.sub(r"[^a-z ]", " ", str(phrase).lower()).split()
+    if not words:
+        return False
+    w = words[-1]
+    return (w.endswith("s") and not w.endswith(("ss", "us", "is"))
+            and w not in SINGULAR_S)
 
 
 SHAPE_INT = re.compile(r"^-?\d{1,3}(,\d{3})*$|^-?\d+$")
@@ -112,6 +158,9 @@ class Gen:
     # -- emission ---------------------------------------------------------
     def make(self, rng, choices_n):
         spec = self.build(rng)
+        # Before the distractors are chosen, because stem_numbers reads the stem and a
+        # "1" that only existed as a unit coefficient is not a number the student saw.
+        spec["stem"] = tidy_math(spec["stem"])
         fmt = spec.get("fmt") or self.fmt
         right = spec["answer"]
         pairs = list(spec["distractors"])
@@ -125,10 +174,21 @@ class Gen:
                 continue
             seen.add(s)
             kept.append((s, why))
-        if len(kept) < choices_n - 1:
-            raise ItemError("only %d distinct distractors for %s" % (len(kept), self.id))
+        # There used to be a count of the surviving distractors here, failing the draw
+        # before the stem's own numbers had been offered as candidates and without
+        # regard to whether any of them render like the key. Both of those are settled
+        # forty lines down, by a check that is stricter and better informed, so this one
+        # could only reject draws the real check would have filled.
         want = shape(fmt(right))
         target_len = len(fmt(right))
+        # A distractor a schema marks as required is the misconception the item exists to
+        # test, and it goes in before anything is balanced. On the linear inequality
+        # schema that is the same bound with the sign not flipped: without it the item
+        # asks about a rule it never offers the student a chance to break, and because it
+        # is the same string length as the key its absence is also what let the key be
+        # uniquely the longest option on 43 percent of that schema's scored items.
+        required = [p for p in kept if p[0] in set(map(fmt, spec.get("require") or []))]
+        kept = [p for p in kept if p not in required]
         good = [p for p in kept if shape(p[0]) == want]
         rest = [p for p in kept if shape(p[0]) != want]
         # Characteristic errors skew long: an unsimplified sum or an undivided
@@ -151,7 +211,10 @@ class Gen:
         # rank drawn uniformly instead: pick how many distractors should fall below
         # the answer, and fill from each side accordingly. Over a bank this leaves
         # the answer's position in both the value order and the length order flat.
-        need = choices_n - 1
+        need = choices_n - 1 - len(required)
+        if need < 0:
+            raise AssemblyError("%s marks %d distractors required, more than the %d "
+                                "slots this exam has" % (self.id, len(required), choices_n - 1))
         rv = as_value(fmt(right))
         if rv is not None:
             below, above, side = [], [], []
@@ -183,12 +246,16 @@ class Gen:
         # integers is visibly the odd one out, and since the odd one out is almost
         # never the key, a mixed set leaks the answer on sight. Rather than pad with
         # a mismatched shape, drop the draw and let the runner try again.
-        if len(good) < choices_n - 1:
-            self.shape_misses = getattr(self, "shape_misses", 0) + 1
-            raise ItemError(
+        # There was a self.shape_misses counter here, incremented on every one of these
+        # and read by nothing, in this file or any other. A number nobody reads is not
+        # instrumentation, and this one was hiding the largest single loss in the bank:
+        # one schema was discarding three draws in four (INC-0092). The count now comes
+        # from the exception, which build_banks measures per schema per exam.
+        if len(good) < need:
+            raise AssemblyError(
                 "%s could not fill %d same shaped distractors (%s)"
-                % (self.id, choices_n - 1, want))
-        kept = good[: choices_n - 1]
+                % (self.id, need, want))
+        kept = required + good[:need]
         # The correct answer lands in a random position; a generator that always
         # put it first would hand every student a free strategy.
         slot = rng.randrange(choices_n)
@@ -214,8 +281,8 @@ class Gen:
             "stem": spec["stem"],
             "choices": texts,
             "answer": slot,
-            "expl": spec["expl"],
-            "wrong": spec.get("wrong") or self._wrong_line(why_at, first_at),
+            "expl": tidy_math(spec["expl"]),
+            "wrong": tidy_math(spec.get("wrong") or self._wrong_line(why_at, first_at)),
             "gen": self.id,
         }
         # Data Insights items are read off a table or a set of sources rather than
@@ -247,17 +314,145 @@ class Gen:
         blob = json.dumps(item)
         if DASH.search(blob):
             raise ItemError("%s contains an em or en dash" % self.id)
+        # A coefficient of one or zero left in, or a sign pair a person would not write.
+        # tidy_math fixes what it is given; this is what proves it was given everything,
+        # including a choice or a rendered source the pass does not reach (INC-0078).
+        for k in ("stem", "expl", "wrong"):
+            m = _MATH_BAD.search(str(item.get(k) or ""))
+            if m:
+                raise ItemError("%s %s has unwritten notation %r" % (self.id, k, m.group(0)))
+        for ch in item["choices"]:
+            m = _MATH_BAD.search(str(ch))
+            if m:
+                raise ItemError("%s choice has unwritten notation %r" % (self.id, m.group(0)))
         for k in ("stem", "expl"):
             if not item[k] or not str(item[k]).strip():
                 raise ItemError("%s missing %s" % (self.id, k))
 
 
+# Notation the schemas got wrong in eight places by each formatting a term where it stood
+# (INC-0078). Every rule here is a convention of writing rather than of arithmetic, so no
+# check on the computed answer could see any of them, and the give away was identical
+# output in unrelated files: that is one missing function, not eight mistakes.
+_MATH_FIXES = (
+    # "8i + -4i" is a machine adding a negative, not a person writing algebra.
+    (re.compile(r"\+ -"), "- "),
+    # A coefficient of zero deletes its whole term: "y = 0x + 4" is "y = 4".
+    (re.compile(r"(?<=[a-z0-9)]) [+] 0[xyi]\b"), ""),
+    (re.compile(r"(?<=[a-z0-9)]) - 0[xyi]\b"), ""),
+    (re.compile(r"(?<![0-9.])0[xyi] \+ "), ""),
+    (re.compile(r"(?<![0-9.])0[xyi] - "), "-"),
+    # A coefficient of one is not written.
+    (re.compile(r"(?<![0-9.])1(?=[xyi]\b)"), ""),
+    # A subtracted negative takes brackets: "2 - -1" is "2 - (-1)".
+    (re.compile(r"- -(\d)"), r"- (-\1)"),
+)
+# What must not survive the pass, checked on the way out so a schema that formats a term
+# by hand in future fails here instead of shipping.
+_MATH_BAD = re.compile(r"(?<![0-9.])[01][xyi]\b|\+ -\d|(?<!\()-\s-\d")
+
+
+def tidy_math(t):
+    """Render algebraic notation the way a person writes it."""
+    t = str(t)
+    for pat, rep in _MATH_FIXES:
+        t = pat.sub(rep, t)
+    return t
+
+
+def upfirst(t):
+    """Raise the first character and touch nothing else.
+
+    The standard library's string method of a similar name also lower cases every other
+    character, which is right for a fragment of ordinary prose and destroys any fragment
+    containing a name. The generators used it twenty one times and shipped 180 items
+    reading "The fenwick track is the only one in the county", 70 of them as the key,
+    two lines under a stem that spells it correctly (INC-0076). src/build.py now fails
+    if that method appears anywhere under src/gen, so this is the only way to do it.
+    """
+    t = str(t)
+    return t[:1].upper() + t[1:]
+
+
+WH = ("what", "why", "which", "when", "how", "where", "whether")
+
+
+def check_clause_splice(label, texts, not_clauses):
+    """Refuse a rendered sentence whose That or Whether is followed by a non clause.
+
+    A corpus field is written against the one sentence its author had in mind and carries
+    no record of the grammatical shape it is in. Both slots take a str, so nothing
+    upstream can see a mismatch. It happened twice in one file. A goal, stored as a bare
+    infinitive for "X intends to <goal>", went into a subject slot and shipped 160 items
+    saying "That shorten the time taken to settle a claim is the most urgent ..."
+    (INC-0074). A check, stored as a wh clause for "Establish <check>, and ...", went
+    after Whether and shipped 277, every key of its schema, saying "Whether what share of
+    the traffic stops there at all is what the measure would change" (INC-0075).
+
+    The guard written for the first could only see infinitives and let the second
+    through, one screen away in the same file. So this one is stated over the class
+    rather than over the token that was wrong first, and it tests two things:
+
+      provenance   nothing in not_clauses, the fields the corpus stores in a shape that
+                   is not a clause, may follow a sentence initial That or Whether.
+      shape        no sentence initial That or Whether may be followed by a wh word,
+                   which no grammatical English sentence does.
+
+    The second is what makes it general: it needs no list, and it fires on a field the
+    author of this function never saw.
+    """
+    for t in texts:
+        for opener in sentence_starts(str(t)):
+            for word in ("That ", "Whether "):
+                if not opener.startswith(word):
+                    continue
+                rest = opener[len(word):]
+                if rest.split(" ")[0].lower().strip(",") in WH:
+                    raise ItemError("%s opens a sentence with %r plus a wh word: %r"
+                                    % (label, word.strip(), opener[:90]))
+                for bad in not_clauses:
+                    if bad and rest.startswith(bad):
+                        raise ItemError(
+                            "%s splices a non clause corpus field after %r: %r"
+                            % (label, word.strip(), (word + bad)[:90]))
+
+
+def sentence_starts(t):
+    """Every position in t where a sentence begins, as the text from there on."""
+    out = []
+    if t[:1].strip():
+        out.append(t[:200])
+    i = None
+    for j, ch in enumerate(t):
+        if ch in ".?!\n":
+            i = None
+        elif i is None and ch not in " \n":
+            i = j
+            if j:
+                out.append(t[j:j + 200])
+    return out
+
+
 STEM_NUM = re.compile(r"-?\d+(?:/\d+)?")
 
 
+UNIT_NUM = re.compile(r"^(\$?-?[\d,]+(?:\.\d+)?(?:/\d+)?) [a-z][a-z ]*$")
+
+
 def as_value(t):
-    """Numeric value of a rendered choice, or None if it is not a bare number."""
-    t = str(t).replace(",", "").replace("$", "").rstrip("%")
+    """Numeric value of a rendered choice, or None if it is not a number.
+
+    A trailing unit word is stripped first. "20 percent" is a number as far as a student
+    guessing is concerned, and without this the balancer fell back to the character count
+    for the whole percent change schema, which tracks the digits rather than the value
+    (INC-0079). Two choices with different units and the same number compare equal here,
+    which is harmless: this decides only which side of the key a candidate sits on.
+    """
+    t = str(t).strip()
+    m = UNIT_NUM.match(t)
+    if m:
+        t = m.group(1)
+    t = t.replace(",", "").replace("$", "").rstrip("%")
     try:
         if "/" in t:
             n, d = t.split("/", 1)
@@ -293,7 +488,7 @@ def stem_numbers(stem, want_shape, exclude, limit=6):
     return out
 
 
-def balance(rng, right, pool, need):
+def balance(rng, right, pool, need, own=(), k=0):
     """Choose `need` wrong answers so the key's LENGTH RANK is drawn uniformly.
 
     For a worded answer the only thing a guesser can measure without reading is length, so
@@ -305,9 +500,19 @@ def balance(rng, right, pool, need):
     the variety that having more wrong answer types than slots was there to provide. So it
     draws random subsets, keeps the first whose key rank matches a target drawn uniformly,
     and falls back to the closest it saw. Both properties survive.
+
+    `own` are wrong answers about the same thing as the key, and at least `k` of them are
+    offered on every draw (INC-0117). Which ones is chosen with the rank in mind, because
+    forcing particular options pins it: two near misses that are both longer than the key
+    make it impossible for the key to be the longest, and the ranks that remain fill up.
+    Any `own` not chosen stays available to the rest of the draw. With no `own` the draw
+    is exactly what it always was, so every other schema produces what it produced.
     """
-    if len(pool) < need:
-        raise ItemError("balance needs %d wrong answers, pool has %d" % (need, len(pool)))
+    own = list(own)
+    if k > len(own) or len(pool) + len(own) < need:
+        raise ItemError("balance needs %d wrong answers, pool has %d" % (need, len(pool) + len(own)))
+    if k:
+        return _balance_own(rng, right, pool, need, own, k)
     target = rng.randint(0, need)
     keylen = len(str(right))
     best, best_gap = None, None
@@ -320,6 +525,43 @@ def balance(rng, right, pool, need):
         if best_gap is None or gap < best_gap:
             best, best_gap = pick, gap
     return best
+
+
+def _balance_own(rng, right, pool, need, own, k):
+    """balance() when some wrong answers must come from `own` (INC-0117).
+
+    Built rather than sampled. Sampling forty random subsets and keeping one whose key
+    rank hits the target works when every subset is possible; with k options forced from
+    a short list, the extreme ranks need a particular combination that forty draws rarely
+    find, the fallback lands on the middle, and the middle rank fills up. So the target
+    is drawn from the ranks that can actually be built, and the draw is then assembled to
+    hit it: the own options first, then the shorter and longer wrong answers the target
+    calls for.
+    """
+    keylen = len(str(right))
+    short = lambda w: len(str(w[0])) < keylen
+
+    def build(t):
+        for _ in range(12):
+            first = rng.sample(own, k)
+            ns = sum(1 for o in first if short(o))
+            if ns > t or k - ns > need - t:
+                continue
+            rest = [w for w in own if w not in first] + list(pool)
+            s_ = [w for w in rest if short(w)]
+            l_ = [w for w in rest if not short(w)]
+            if len(s_) < t - ns or len(l_) < need - t - (k - ns):
+                continue
+            return first + rng.sample(s_, t - ns) + rng.sample(l_, need - t - (k - ns))
+        return None
+
+    targets = list(range(need + 1))
+    rng.shuffle(targets)
+    for t in targets:
+        pick = build(t)
+        if pick is not None:
+            return pick
+    raise ItemError("balance could not assemble %d wrong answers with %d of its own" % (need, k))
 
 
 def canon(item):
@@ -424,9 +666,53 @@ def jstr(s):
     return "'" + "".join(JS_ESC.get(ch, ch) for ch in str(s)) + "'"
 
 
+# Every field to_js writes, and every field it deliberately does not. A field a
+# generator sets that is in neither list fails the build, because the alternative is
+# what happened to passage: set on the item, read by the app, named nowhere here, and so
+# correct in memory and absent from the file that ships (INC-0099). Adding a line to
+# to_js means adding its name here; forgetting to is a loud failure rather than a quiet
+# one, which is the direction this should fail in.
+EMITTED_FIELDS = {
+    "id", "section", "type", "sub", "skill", "diff", "gen", "answerType",
+    "passageHtml", "passage", "passageId", "columns", "domain", "qskill",
+    "stem", "choices", "answer", "expl", "wrong", "statements",
+}
+# Build time only: the two canon flags tell the dedup key what to ignore while the bank
+# is being assembled, and nothing in the app reads them.
+BUILD_ONLY_FIELDS = {"canon_ignores_source", "canon_ignores_choices"}
+
+
 def to_js(items, const, header):
-    """Emit a bank file in the same shape as the hand written banks."""
-    lines = [header.rstrip(), "const %s = [" % const]
+    """Emit a bank file in the same shape as the hand written banks.
+
+    Every field the app reads has to be named here, and one that is not named is lost
+    between a correct item in memory and the file that ships. passage was not named for
+    as long as generated reading items have existed, so 280 of them reached the site
+    with nothing to read (INC-0099). A passage is written once as a constant and
+    referenced by name, which is what the hand written banks do, because the alternative
+    is a 300 word passage repeated on every question asked about it.
+    """
+    unknown = set()
+    for it in items:
+        unknown |= {k for k, v in it.items()
+                    if v is not None and v != "" and v != [] and v != {}}
+    unknown -= EMITTED_FIELDS | BUILD_ONLY_FIELDS
+    if unknown:
+        raise SystemExit(
+            "framework.to_js: %s sets field(s) this emitter does not write and has not "
+            "been told to skip: %s. A field the app reads has to be written here; one "
+            "that only matters during the build goes in BUILD_ONLY_FIELDS."
+            % (const, ", ".join(sorted(unknown))))
+    lines = [header.rstrip()]
+    pvar = {}
+    for it in items:
+        text = it.get("passage")
+        if text and text not in pvar:
+            pvar[text] = "%s_P%d" % (const, len(pvar))
+            lines.append("const %s = %s;" % (pvar[text], jstr(text)))
+    if pvar:
+        lines.append("")
+    lines.append("const %s = [" % const)
     for it in items:
         parts = [
             "id:%s" % jstr(it["id"]),
@@ -441,6 +727,13 @@ def to_js(items, const, header):
             parts.append("answerType:%s" % jstr(it["answerType"]))
         if it.get("passageHtml"):
             parts.append("passageHtml:%s" % jstr(it["passageHtml"]))
+        if it.get("passage"):
+            parts.append("passage:%s" % pvar[it["passage"]])
+        # The app's game pools filter on passageId to keep passage based items out of
+        # views that show no passage, so an item that loses it does not just lose its
+        # text, it turns up where there was never anywhere to put it.
+        if it.get("passageId"):
+            parts.append("passageId:%s" % jstr(it["passageId"]))
         if it.get("columns"):
             parts.append("columns:[%s]" % ",".join(jstr(c) for c in it["columns"]))
         # Data Insights items carry the underlying quant skill and whether the item is

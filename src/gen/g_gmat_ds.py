@@ -7,6 +7,8 @@ The statement TEXT and the statement PREDICATE are built from the same parameter
 in the same place, because the way these items go wrong is the prose drifting away
 from the logic it is supposed to describe.
 """
+from collections import Counter
+
 from framework import FixedGen, sufficiency, ItemError, num
 
 DS_CHOICES = [
@@ -32,6 +34,41 @@ class DSBase(FixedGen):
     section = "DI"
     type = "DS"
     sub = "Data Sufficiency"
+
+    def __init__(self):
+        # Which of the five answers this schema has actually produced, and how often.
+        self._seen = Counter()
+
+    def make(self, rng, choices_n):
+        """Thin whichever answer is running ahead, rather than asking for one.
+
+        Which statement is sufficient falls out of the parameters, and for these schemas
+        it fell out unevenly: gmat_ds_linear answered "Statement (1) ALONE" on 42 percent
+        of 1,109 items against a chance rate of 20, so a student who always said that
+        scored 42 without reading either statement (INC-0081).
+
+        The first attempt at this asked for the answer that was furthest behind, and made
+        two of the five schemas worse. Asking for a rare answer means nearly every draw is
+        rejected, so the items that survive come from the draws that were not aimed at all
+        and the natural skew comes through undiluted, having spent the budget on nothing.
+
+        So nothing is asked for. An item is made, and if its answer is already running
+        ahead of an even share it is dropped with a probability equal to how far ahead it
+        is. That cannot starve a schema, because it never waits for an answer the schema
+        may be unable to produce, and the cost in dropped draws is only ever as large as
+        the skew it is removing.
+        """
+        it = super().make(rng, choices_n)
+        a = it["answer"]
+        total = sum(self._seen.values())
+        if total >= 40:
+            share = self._seen[a] / float(total)
+            even = 1.0 / max(1, len(self._seen))
+            if share > even and rng.random() < min(0.9, (share - even) / share):
+                raise ItemError("%s is thinning %s, which is at %d percent"
+                                % (self.id, LETTER[a], round(100 * share)))
+        self._seen[a] += 1
+        return it
 
     def assemble(self, question_text, t1, t2, domain, q, s1, s2, expl_bits, diff, qskill):
         ans = sufficiency(domain, q, s1, s2)
@@ -59,16 +96,33 @@ class DSLinearValue(DSBase):
         b = rng.choice([-9, -5, -3, 2, 4, 7])
         dom = [{"x": x} for x in range(-30, 31)]
         q = lambda c: c["x"]
-        kind1 = rng.choice(["exact", "range", "abs"])
-        kind2 = rng.choice(["exact", "range", "abs", "multiple"])
-        k = rng.choice([-6, -4, -2, 3, 5, 8])
+        # The pair is drawn, not the two halves independently. Drawn independently the
+        # combinations that make each statement insufficient alone but sufficient together
+        # almost never came up: 18 of this schema's 1,178 items answered "BOTH TOGETHER"
+        # while 486 answered "Statement (1) ALONE" (INC-0081). These eight pairs reach all
+        # five answers, and which one an item gets is still settled by enumerating the
+        # domain rather than by the pair that was drawn.
+        kind1, kind2 = rng.choice([
+            ("exact", "range"), ("exact", "abs"), ("exact", "multiple"),
+            ("range", "exact"), ("abs", "exact"), ("multiple", "exact"),
+            ("exact", "exact"),
+            ("abs", "range"), ("range", "abs"), ("abs", "multiple"),
+            ("range", "multiple"), ("range", "range"), ("abs", "abs"),
+        ])
+        # Six values of k and three range offsets give eighteen distinct range plus
+        # absolute value pairs, and that combination is the only one of the thirteen that
+        # reaches "BOTH TOGETHER". Eighteen distinct items is what the bank held of it,
+        # because the rest deduplicated away: drawing the pair more often cannot help when
+        # the pair has nowhere to go (INC-0081).
+        k = rng.choice([-11, -9, -8, -7, -6, -5, -4, -3, -2,
+                        2, 3, 4, 5, 6, 7, 8, 9, 11])
 
         def mk(kind):
             if kind == "exact":
                 return ("%dx %s %d = %d" % (a, "+" if b >= 0 else "-", abs(b), a * k + b),
                         lambda c: a * c["x"] + b == a * k + b)
             if kind == "range":
-                lo = k - rng.choice([2, 3, 4])
+                lo = k - rng.choice([1, 2, 3, 4, 5, 6, 7])
                 return ("x is greater than %d" % lo, lambda c, lo=lo: c["x"] > lo)
             if kind == "abs":
                 return ("the absolute value of x is %d" % abs(k),

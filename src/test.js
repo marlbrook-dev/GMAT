@@ -110,6 +110,24 @@ function runExam(exam){
   // as "100/3 percent" against a key of "25 percent", which was a genuine difference in
   // form, and it now renders as "33.3 percent" like every other option.
   const DEBT={};
+  // Per file recorded debt, filled in below from the measurement so the ratchet starts
+  // where the bank actually is. Lower each number as a file is rewritten and delete the
+  // entry when the file is inside normal tolerance, which the check below insists on.
+  //
+  // Empty, and it stayed empty. The table existed for one commit and held the eight files
+  // that were still out of tolerance when the per file check was written; all eight were
+  // rewritten in the same change, so every entry came off. Any file that fails now fails
+  // against the ordinary tolerance, which is what a new bank should be held to.
+  //
+  // If an entry is ever added, it is a MEASURED value and not a guess, and the check
+  // below insists that it be removed once the file is inside tolerance rather than
+  // leaving that to whoever notices.
+  //
+  // The 'rank' number is the one that matters most. A file can sit at an ordinary
+  // longest is key figure and still be playable, because extending ONE distractor per
+  // item moves the pile from longest to second longest and leaves it exactly as
+  // findable. That is INC-0062, and it is why the rank column exists at all.
+  const FILE_DEBT={};
   const bySec={};
   wordy.forEach(q=>{ (bySec[q.section]=bySec[q.section]||[]).push(q); });
   Object.keys(bySec).sort().forEach(sec=>{
@@ -141,6 +159,62 @@ function runExam(exam){
    check('length bias within tolerance ['+sec+']', bad);
   });
 
+  // The same statistic per SOURCE FILE, which is the grain the defect exists at.
+  //
+  // A section mixes hand written items with generated ones, and the generated ones are
+  // flat by construction because the schemas assemble the choices mechanically. For SAT
+  // Reading and Writing the generated bank supplied 160 of 348 items at 7 percent, which
+  // pulled a hand written file sitting at 88 percent down to a section figure of 35 and
+  // under the recorded tolerance of 36 (INC-0069). A student does not meet a section.
+  // They meet items, and the items arrive from one file at a time, each written by one
+  // person in one sitting with one set of habits.
+  //
+  // Numeric answer banks are excluded. Character length is the wrong measure for a
+  // number, and the numeric rank check below is the right one; counting "7" as the
+  // shortest option among "12", "18" and "24" measures the arithmetic, not the wording.
+  const fileOf={};
+  exam.files.filter(f=>f.startsWith('bank_')).forEach(f=>{
+   const src=require('fs').readFileSync(require('path').join(__dirname,f),'utf8');
+   for(const m of src.matchAll(/\{\s*id: ?['"]([A-Za-z0-9_]+)['"]/g)) fileOf[m[1]]=f;
+  });
+  const byFile={};
+  wordy.forEach(q=>{ const f=fileOf[q.id]; if(f) (byFile[f]=byFile[f]||[]).push(q); });
+  const fileBad=[];
+  Object.keys(byFile).sort().forEach(f=>{
+   const list=byFile[f];
+   // Twenty is where one item stops moving the figure by five points or more.
+   if(list.length<20) return;
+   const numericish=list.filter(q=>q.choices.every(c=>/^[-+$]?[\d.,/\s%]+$/.test(String(c)))).length;
+   if(numericish>list.length/2) return;
+   let longest=0, shortest=0, scored=0;
+   const rank=new Array(exam.choices).fill(0);
+   list.forEach(q=>{ const len=q.choices.map(c=>String(c).length);
+    const ord=len.map((v,i)=>i).sort((a,b)=>len[a]-len[b]);
+    rank[ord.indexOf(q.answer)]++;
+    const max=Math.max(...len), min=Math.min(...len);
+    if(len.filter(l=>l===max).length>1 || len.filter(l=>l===min).length>1) return;
+    scored++;
+    if(len[q.answer]===max) longest++; if(len[q.answer]===min) shortest++; });
+   if(!scored) return;
+   const pctLong=Math.round(longest/scored*100), pctShort=Math.round(shortest/scored*100);
+   const bestRank=Math.round(Math.max(...rank)/list.length*100);
+   const evenPct=Math.round(100/exam.choices);
+   const rec=FILE_DEBT[f];
+   const capLong=rec?rec.long:Math.round(evenPct*1.8);
+   const capShort=rec?rec.short:Math.round(evenPct*1.8);
+   const capRank=rec?rec.rank:Math.round(evenPct*1.8);
+   console.log('  wording <'+f+'>: '+list.length+' items, longest is key on '+pctLong+
+    ' percent, shortest on '+pctShort+' percent, best single rank '+bestRank+
+    ' percent (even would be '+evenPct+')');
+   if(pctLong>capLong) fileBad.push(f+': longest is key on '+pctLong+' percent, above the recorded '+capLong);
+   if(pctShort>capShort) fileBad.push(f+': shortest is key on '+pctShort+' percent, above the recorded '+capShort);
+   if(bestRank>capRank) fileBad.push(f+': one length rank holds '+bestRank+' percent of the keys, above the recorded '+capRank);
+   if(rec && pctLong<=Math.round(evenPct*1.8) && pctShort<=Math.round(evenPct*1.8)
+      && bestRank<=Math.round(evenPct*1.8))
+    fileBad.push(f+' is now inside normal tolerance; remove its FILE_DEBT entry in test.js');
+  });
+  check('length bias within tolerance, per source file', fileBad);
+
   if(nums.length>=40){
    // Where does the key fall once the choices are put in numeric order? Flat is the
    // goal; a spike at either end is a strategy that needs no arithmetic.
@@ -169,6 +243,15 @@ function runExam(exam){
  check('every skill has items',SKILLS.filter(s=>!covered.has(s.id)).map(s=>s.id));
  check('playbook skills exist',PLAYBOOK.filter(pb=>pb.sec!=='G'&&!SKILLS.find(s=>s.id===pb.skill)).map(pb=>pb.skill));
  check('card sections valid',CARDS.filter(c=>c.sec!=='G'&&!SECTION_META[c.sec]).map(c=>c.id));
+ // The bank has had a per-skill floor since the start and the deck was checked only for
+ // valid section codes, so the deck was measured by its total. A total over twelve skills
+ // hides one of them holding a single card, which is what it was hiding: LSAT stated
+ // information and inference had one card each, and the exam total of 33 looked fine
+ // (INC-0085). Same shape of check as the bank one directly above.
+ const CARD_FLOOR=8;
+ const cardBySkill={}; CARDS.forEach(c=>{ if(c.skill) cardBySkill[c.skill]=(cardBySkill[c.skill]||0)+1; });
+ check('every skill has at least '+CARD_FLOOR+' cards',
+   SKILLS.filter(s=>(cardBySkill[s.id]||0)<CARD_FLOOR).map(s=>s.id+' has '+(cardBySkill[s.id]||0)));
 
  // ---- grading, in both directions ----
  const g=[];
@@ -246,16 +329,24 @@ function runExam(exam){
   check('grid-in equivalence',sbad);
  } else {
   const mbad=[];
+  // Twenty draws per section, not one. The picker is random, and a single draw passed
+  // while one section in three was leaving two skills untested: the check was right and
+  // simply had not been asked often enough to see it.
   SECTIONS.forEach(sec=>{
-   const mq=api.pickMockSection(BANK,st,sec); const want=SECTION_META[sec].questions;
-   if(mq.length!==want) mbad.push(sec+' len '+mq.length+'!='+want);
-   if(new Set(mq.map(q=>q.id)).size!==mq.length) mbad.push(sec+' dup items');
-   if(mq.some(q=>q.section!==sec)) mbad.push(sec+' wrong section item');
-   const cov=new Set(mq.map(q=>q.skill));
-   SKILLS.filter(s=>s.section===sec).forEach(s=>{ if(!cov.has(s.id)) mbad.push(sec+' missing skill '+s.id); });
-   const seen={}; mq.forEach((q,i)=>{ if(q.passageId){ if(seen[q.passageId]!==undefined&&seen[q.passageId]!==i-1) mbad.push(sec+' split group '+q.passageId); seen[q.passageId]=i; } });
+   const want=SECTION_META[sec].questions;
+   for(let d=0;d<20;d++){
+    const mq=api.pickMockSection(BANK,st,sec);
+    if(mq.length!==want) mbad.push(sec+' len '+mq.length+'!='+want);
+    if(new Set(mq.map(q=>q.id)).size!==mq.length) mbad.push(sec+' dup items');
+    if(mq.some(q=>q.section!==sec)) mbad.push(sec+' wrong section item');
+    const cov=new Set(mq.map(q=>q.skill));
+    SKILLS.filter(s=>s.section===sec).forEach(s=>{ if(!cov.has(s.id)) mbad.push(sec+' missing skill '+s.id); });
+    const seen={}; mq.forEach((q,i)=>{ if(q.passageId){ if(seen[q.passageId]!==undefined&&seen[q.passageId]!==i-1) mbad.push(sec+' split group '+q.passageId); seen[q.passageId]=i; } });
+    // A reading question with nothing to read is not a question (INC-0099).
+    mq.forEach(q=>{ if((q.type==='RC'||q.type==='R')&&!q.passage&&!q.passageHtml) mbad.push(sec+' '+q.id+' reading item with no passage'); });
+   }
   });
-  check('mock sections',mbad);
+  check('mock sections',[...new Set(mbad)]);
  }
 
  // ---- ability model: score band behaviour ----

@@ -9,19 +9,59 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # The playbook's defect ledger cites the commit that fixed each incident, and
+          # smoke_playbook verifies every one of them resolves. checkout defaults to a
+          # shallow clone, where every historical SHA is simply absent, so the guard
+          # reported 37 phantom bad citations on its first CI run.
+          fetch-depth: 0
       - name: Build site (app + blog with content validation)
         run: python3 src/build.py && python3 src/build_blog.py
       - name: Bank validation and engine simulation
         run: cd src && node test.js
+      - name: Hostname redirect and deploy surface
+        run: node src/smoke_redirect.js
+      - name: Chart geometry and dark theme tokens
+        run: node src/smoke_charts.js
+      # The playbook is generated from the chapters, the defect ledger and a harvest of
+      # this repository. build.py rebuilds it but does not fail on it, because a stale
+      # chapter should not stop a deploy. This is where it is allowed to be blocking: a
+      # document that promises every figure is measured has to have that checked.
+      - name: The Build Playbook and its bootstrap pack
+        run: node src/smoke_playbook.js
+      # The browser suites were running nowhere: they need playwright, node_modules is
+      # gitignored, and nobody had ever installed it in CI. Four suites that the project
+      # relies on, including the offline one that is the App Review 4.2 evidence, were
+      # silently not running. They pass; they just had to be invoked.
+      - name: Install browser test tooling
+        run: npm install --no-audit --no-fund
+      - name: Install Chromium for Playwright
+        run: npx playwright install --with-deps chromium
+      - name: Browser suites (items, consent, billing, offline, business, guide, daily, games)
+        run: npm run test:browser
+      - name: Render the playbook to PDF
+        run: node src/playbook_pdf.js
       - name: House rules sweep on generated pages
         run: |
           python3 - <<'EOF'
           import pathlib, re, sys
+          # The list used to be five names written out here. CLAUDE.md bans those
+          # and the category "coaching-site blogs", and the category was the half
+          # that got dropped, in this sweep and in the validators (INC-0082). It
+          # now comes from src/sources.py so all four places share one policy.
+          sys.path.insert(0, "src")
+          from sources import BANNED_LINK_DOMAINS
           bad = []
-          for f in pathlib.Path("blog").rglob("*.html"):
+          # The study guide is generated prose too, and a lot of it. build_guide has its
+          # own dash guard; the banned-source half of this policy was reaching blog/
+          # only, so the guide was outside the one check that enforces it.
+          pages = (list(pathlib.Path("blog").rglob("*.html"))
+                   + list(pathlib.Path("guide").rglob("*.html"))
+                   + list(pathlib.Path("daily").rglob("*.html")))
+          for f in pages:
               t = f.read_text()
               if "—" in t or "–" in t: bad.append(f"{f}: em/en dash")
-              for s in ("gmatclub", "quora.com", "wikipedia.org", "gyandhan", "pagalguy"):
+              for s in BANNED_LINK_DOMAINS:
                   if s in t.lower(): bad.append(f"{f}: banned source {s}")
               for m in re.finditer(r"Focus\s+(\d{3})", t):
                   if int(m.group(1)) % 10 != 5: bad.append(f"{f}: impossible Focus score {m.group(1)}")

@@ -1,6 +1,6 @@
 # Start From Nowhere: build roadmap
 
-Updated September 14, 2026. Owner: Hunter Roberts. Builder: Claude sessions. This file is the working schedule; each week's block ships as one or more merged PRs. Dates are targets, not promises; anything user-facing ships only after the browser test suite passes.
+Updated September 26, 2026. Owner: Hunter Roberts. Builder: Claude sessions. This file is the working schedule; each week's block ships as one or more merged PRs. Dates are targets, not promises; anything user-facing ships only after the browser test suite passes.
 
 ## Comparative advantage (the why-us, revisited each cycle)
 
@@ -39,14 +39,14 @@ Updated September 14, 2026. Owner: Hunter Roberts. Builder: Claude sessions. Thi
 ## Week of Sep 9
 
 - [x] Executive Assessment mode, first slice: EA-format mock (40 questions, three 30-minute sections, honest labeling); score-model deepening still open
-- [ ] User-profile fit inputs: GPA, work experience, budget; fit view against school library
+- [x] User-profile fit inputs: GPA, work experience, budget; fit view against school library (shipped in PR 64; About You collects the three, and the dashboard fit card puts them beside each target school's published figures with the source on every one)
 - [ ] Beta push: founding-user outreach wave via CRM (tutors, clubs, consultants)
 
 ## Week of Sep 16 and beyond
 
 - [x] Undergrad pilot, first half: SAT trainer live at /sat/app/ on a genuinely multi-exam engine, 248 original items across all eight official content domains, two-module mock sections with routing, grid-ins, a 112-card deck and a playbook per domain, site wiring
-- [ ] Undergrad pilot, second half: undergrad rankings vertical (one file per college, same source ladder as data/schools/), SAT bank toward GMAT parity, ACT study modes
-- [ ] GRE build: new item types (text completion, sentence equivalence, quantitative comparison), GRE bank seed, section timing
+- [ ] Undergrad pilot, second half: SAT bank toward GMAT parity, ACT study modes. The undergrad rankings vertical is done: 1,451 files in data/colleges/, every figure on the federal College Scorecard with source, year and url, validated by src/validate_colleges.py
+- [x] GRE build: new item types (text completion, sentence equivalence, quantitative comparison), GRE bank seed, section timing (all three types live; GRE_SECTIONS carries the unequal 12 then 15 module pair and its 18 then 23 and 21 then 26 minute splits)
 - [x] LSAT build: logical reasoning and reading comprehension banks, live at /lsat/app/
 - [x] ACT build: English, Reading and Science banks plus Mathematics remapped from the SAT schemas, live at /act/app/
 - [ ] MCAT build: BLOCKED ON SOURCE ACCESS, not on engineering (see the September 16 note below)
@@ -56,7 +56,73 @@ Updated September 14, 2026. Owner: Hunter Roberts. Builder: Claude sessions. Thi
 - [ ] Decide what grandfathering means for early users, then flip FREE_LIMITS_LIVE
 - [ ] Stripe Customer Portal so students can cancel without emailing
 - [ ] SFN Assist (AI coaching) when the Anthropic API key is added
+- [x] Business intelligence: billing event ledger (Stripe and Apple), admin_business RPC, Business tab on the chart library
+- [x] The Build Playbook: a living, exportable guidebook that captures how this platform was built, every defect and misfire hit along the way, and the reusable infrastructure recipe for standing the same stack up again for a different business (scope below)
 
+
+## Session log, September 26, 2026: search data, daily questions, reading questions
+
+The ask: another pass at the games, the questions and the school rankings, more work on
+the algorithm, what the sites with real repeat traffic do, and growth and revenue across the
+site. The owner supplied a Search Console export for August 18 to September 24 (23,937
+impressions, 12 clicks, school pages at an average position of 34). The raw export is the
+owner's analytics and is never committed; `src/gsc_report.py` turns any export into the same
+analysis. Everything shipped in PR 96, four commits:
+
+- [x] **School and college pages** say what the data says (INC-0104 to INC-0110): broken
+      intro sentences on half the school pages, salaries labelled as medians that were
+      averages, 29 official figures footnoted as secondary, withdrawn exam guides still
+      ranking into a 404 and now redirected, and a page suite that had been failing on its
+      first click. GROWTH.md records the findings.
+- [x] **Daily Questions** at `/daily/`: one hand-written question per exam per day, the same
+      for everyone, with a dated archive and an RSS feed per exam, a spoiler-free share and a
+      streak that counts days answered, with freezes (INC-0111). The research behind it is in
+      GROWTH.md, with its sources and the ones that could not be read.
+- [x] **Algorithm**: a coverage floor so weakest-first selection cannot starve a skill
+      (INC-0112), explained on `/scoring/` and checked per sitting by the review bots.
+- [x] **Games**: Survival, accuracy only, no clock; `src/smoke_games.js` plays every game in
+      every trainer, which nothing did before. The 3G first-question time is back inside its
+      budget (INC-0113).
+- [x] **Reading questions** (INC-0114 to INC-0117): inference keys depended on a rule the
+      passage never printed, and three schemas could be answered by matching names or topic
+      words on 79 to 95 percent of draws. Both are fixed and guarded at build time. Seven new
+      passages take GMAT v_inf from 60 to 81 items, v_st from 140 to 189, LSAT stated from 48
+      to 72, main idea from 8 to 12 and inference from 24 to 36.
+- [x] **Rankings**: Duke, Boston College and NC State moved to the class that entered in fall
+      2026 and Maryland's blank tuition filled, all from the schools' own pages.
+
+**What could not be read this session, and nothing was substituted for it.** US News
+(the connection is reset), Poets and Quants (a Cloudflare bot check returns 403), Wayback
+Machine snapshots (the availability lookup answers, the snapshot itself is reset), and MIT
+Sloan's Class of 2028 profile (its numbers are drawn by JavaScript, and the headless browser
+rejects the egress proxy's certificate; verification was not switched off). Acceptance rate
+is the largest search intent on the school pages; the library holds a verified rate for 16
+of 91 programs, 8 from the schools' own sites and 8 from publishers, so the other 75 need a
+publisher table this environment cannot reach. The pages now say a rate has not been
+verified rather than that the school does not publish one (INC-0118).
+
+**Owner decisions waiting:**
+
+- [ ] Game scoring: CLAUDE.md says accuracy-only, while Boss Round and The Ladder add a
+      time bonus and the landing page says scores come from accuracy and speed. Survival is
+      accuracy only. Pick one rule and the games and the copy follow it.
+- [ ] Acceptance rates: export the US News or Poets and Quants table, or keep the dash.
+- [ ] A provider for the daily reminder email, if one is wanted.
+- [ ] Bing Webmaster Tools and IndexNow, which only the domain owner can set up.
+
+### Next session queue
+
+- [ ] More reading passages: every reading category is still far under target, and each
+      passage adds ten GMAT items, plus ten LSAT items at LSAT length
+- [ ] Read the hand-written reading items against the same two checks (the rule is printed;
+      no choice is answerable by matching words); they were not part of this pass
+- [ ] Refresh the remaining class profiles as schools post their fall 2026 classes; MIT Sloan
+      first, once its page can be read
+- [ ] `gmat_ds_linear` and `gmat_ds_inequality` return different items when run twice in
+      one process; the build is unaffected because it runs each once, but it is worth knowing
+      why before anything relies on calling them repeatedly
+- [ ] `src/smoke_load.js` stays out of CI because timing on shared runners is noisy, so run
+      it by hand after any change to how the banks are split or loaded (INC-0113)
 
 ## Session log, September 16, 2026: LSAT and ACT live, MCAT and EA blocked
 
@@ -104,9 +170,101 @@ Also fixed while in here, both pre-existing:
   copy now comes from the registry (`short`, `blurb`, `official`, `crunch`, `crunchLong`,
   `goals`) and the headless check asserts each app names itself.
 
-Still open and not mine to fix silently: `sat.score_release` in `data/exams.json` cites
-The Princeton Review, and `mcat.total_time` and `mcat.cost_usd` cite Kaplan. All three are
-coaching-site sources, which CLAUDE.md bans outright.
+Closed on September 22, 2026, and it was worse than this note recorded. `data/exams.json` had
+no source validator at all, so nothing had ever read a source on it: ten published figures cited
+test prep companies, not one. `sat.score_release` was the least of them and was also factually
+wrong, claiming scores land in about 13 days when College Board's own page says 2 to 4 weeks.
+All ten were re-verified against the test maker's own page and recited to it, or replaced where
+the maker does not publish the claim. `src/validate_exams.py` now enforces the policy: an exam
+fact must come from the maker's own domain, which is an allowlist rather than a list of banned
+sites, because a blocklist only ever refuses the prep companies somebody thought to name. The
+MCAT rows the note also flagged are gone; that exam is not in the file. See INC-0082.
+
+The `sections` arrays were sourced in the same pass. Four of the five now carry a
+`sections_src` verified against the maker's own structure page and rendered under the table:
+College Board and ETS and ACT all publish a table that matches ours figure for figure, and LSAC
+publishes four 35-minute sections with no per-section question count, which is why ours are null.
+
+**GMAT is the exception and it is a blocked source, not a missing one.** `www.mba.com` answers
+this environment with a 2 character Imperva challenge stub rather than the exam structure page,
+so the 21 / 23 / 20 question counts and their 45 minute sections could not be re-verified.
+`validate_exams.py` warns on exactly that one exam. The table is not deleted and no substitute
+source is used: CLAUDE.md bans going around a blocked official page, and this needs the owner to
+open `https://www.mba.com/exams/gmat-exam/about/exam-structure` and paste the structure table, the
+same five minute unblock the MCAT and EA note above asks for.
+
+## The Build Playbook (owner's ask, September 21, 2026)
+
+The ask, in the owner's words: document every single bug, error, misfire and step
+involved in building this platform, so the process can be recreated for a different
+business idea, with the infrastructure for the website, the app, UI and UX, the business
+intelligence system, the algorithm work, the loops, and every other part of the system.
+It should cover the open-source options available and the best way to get the right
+infrastructure in place. It must be a physical deliverable, a PDF or a Word file, and it
+must keep evolving as the build does.
+
+**What makes this hard, and the design that answers it.** A handwritten guide rots. It is
+accurate the week it is written and quietly wrong a month later, which is worse than
+having none, because a wrong playbook is followed. So the playbook is not a document that
+someone maintains. It is a document that is BUILT, the same way the site is built, from
+sources that are already kept true for other reasons:
+
+- **Chapters** are prose, in `docs/playbook/`, one file per part of the system. This is
+  the part a person writes: the judgement, the reasoning, the tradeoffs, the why.
+- **The defect ledger** is structured data, in `data/playbook/incidents.jsonl`, one record
+  per bug, error or misfire: what broke, how it was found, what the root cause was, what
+  the fix was, what now stops it recurring, and what it cost. Every entry cites the commit
+  or the PR it was fixed in, so a claim in the playbook can be checked against the
+  repository.
+- **The evidence** is harvested at build time, never typed: the guard list comes from the
+  real test files, the stack inventory from the real config, the schema from the real
+  migrations, the module sizes from the real files on disk. A figure in the playbook that
+  nobody can regenerate is a figure that will be wrong eventually.
+- **The renderer** is `src/build_playbook.py`, which assembles all three into one document
+  and produces HTML, PDF and DOCX. It runs in the same build as everything else and fails
+  the same way, so the playbook cannot silently fall behind the thing it describes.
+
+**Adaptive, concretely.** Every incident record carries the rule or guard it produced.
+That turns the ledger into the input for the next build rather than a museum: the checklist
+chapter is generated FROM the ledger, so a new defect automatically becomes a line on the
+checklist the next time the document is built. Recurrence is measurable, because an
+incident that happens twice is two records pointing at the same guard, and the renderer
+counts them.
+
+Deliverables, in order:
+
+- [x] `docs/playbook/` chapter set and `data/playbook/incidents.jsonl` seeded from this
+      repository's real history: 17 chapters, 37 incidents reconstructed from the git log,
+      the PR record, the session logs in this file, and the standing rules in CLAUDE.md,
+      which are themselves a defect ledger written as instructions
+- [x] `src/build_playbook.py`: harvest, assemble, render to Markdown, HTML, PDF and Word,
+      with a guard that fails when a chapter cites a file or a commit that does not exist,
+      when a harvested figure stops resolving, or when the document breaks the house style
+      rule it documents
+- [x] The infrastructure recipe chapter: the whole stack priced and justified, the
+      open-source alternative for each paid piece, and what it actually takes to stand the
+      same thing up from an empty repository
+- [x] Wire it into `python3 src/build.py` and CI so the deliverable is regenerated on every
+      merge rather than on request. `src/smoke_playbook.js` is where it is blocking; the
+      site build warns rather than failing, because a stale chapter should not stop a deploy
+- [x] The bootstrap pack: `CLAUDE.template.md`, `KICKOFF.md` and a prompt-sized
+      `RULES_DIGEST.md` generated from the same ledger, so a new Claude project starts with
+      every defect this build hit already prevented. Layered rather than pasted: the rules
+      go in the prompt, the book goes in project knowledge
+- [ ] Backfill the ledger further: the August sessions are represented by their commit
+      messages only, and the incidents recorded from them are thinner than the ones written
+      the day they happened
+- [x] A per-incident recurrence count, so the analysis chapter can say which lessons were
+      learned twice rather than only which guards are named twice. Each record can name the
+      earlier incident whose lesson it repeats, with the quote that justifies it, and the
+      count flows into three places: an analysis section, the checklist (repeated rules lead
+      their area and say how many times they cost), and the rules digest, which now opens
+      with them. It is an explicit claim rather than a computed similarity on purpose:
+      trigram overlap across the 84 lessons finds zero pairs, because they are written in
+      genuinely different words, and tuning a score down until it reports something would be
+      manufacturing a signal. Nine links across seven incidents so far, and the largest
+      family runs to six: a correction applied to the instances in hand rather than to the
+      pattern, which is this ledger's most expensive habit
 
 ## Standing cadence
 

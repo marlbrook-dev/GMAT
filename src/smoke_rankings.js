@@ -1,5 +1,6 @@
 // Drive the rankings page the way a reader would and check what comes back.
 const { chromium } = require('playwright');
+const { chromiumPath } = require('./chromium_path.js');
 const http = require('http'), fs = require('fs'), p0 = require('path');
 const ROOT = '/home/user/GMAT';
 const T = {'.html':'text/html','.js':'text/javascript','.css':'text/css','.png':'image/png','.svg':'image/svg+xml','.json':'application/json'};
@@ -17,7 +18,7 @@ function check(name, cond, detail) {
 }
 (async () => {
   await new Promise(r => srv.listen(0, '127.0.0.1', r)); const P = srv.address().port;
-  const b = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH });
+  const b = await chromium.launch({ executablePath: chromiumPath() });
   const pg = await b.newPage({ viewport: { width: 1440, height: 1000 } });
   const errs = [];
   pg.on('console', m => { if (m.type() === 'error' && !/CERT|fonts\.g/.test(m.text())) errs.push(m.text()); });

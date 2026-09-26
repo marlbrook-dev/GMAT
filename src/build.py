@@ -5,22 +5,22 @@ import partials
 # One app per exam. Each entry names the source files that make up that exam's bank,
 # the concat expression the template uses to build BANK, and the trademark line for its footer.
 GMAT_BANKS = ["bank_quant.js","bank_quant2.js","bank_quant3.js","bank_quant4.js","bank_quant5.js","bank_quant6.js",
-              "bank_verbal.js","bank_verbal2.js","bank_verbal3.js","bank_verbal4.js","bank_verbal5.js","bank_verbal6.js","bank_verbal7.js","bank_verbal8.js",
+              "bank_verbal.js","bank_verbal2.js","bank_verbal3.js","bank_verbal4.js","bank_verbal5.js","bank_verbal6.js","bank_verbal7.js","bank_verbal8.js","bank_verbal9.js",
               "bank_di.js","bank_di2.js","bank_di3.js","bank_di4.js","bank_di5.js","bank_di6.js","bank_di7.js","bank_di8.js","bank_di9.js",
               "cards.js","cards2.js","cards3.js","playbook_gmat.js"]
-SAT_BANKS = ["bank_sat_rw.js","bank_sat_rw2.js","bank_sat_rw3.js","bank_sat_rw4.js","bank_sat_rw5.js","bank_sat_math.js","bank_sat_math2.js","bank_sat_math3.js","bank_sat_math4.js","bank_sat_math5.js","bank_sat_easy.js","cards_sat.js","cards_sat2.js","playbook_sat.js"]
+SAT_BANKS = ["bank_sat_rw.js","bank_sat_rw2.js","bank_sat_rw3.js","bank_sat_rw4.js","bank_sat_rw5.js","bank_sat_rw6.js","bank_sat_math.js","bank_sat_math2.js","bank_sat_math3.js","bank_sat_math4.js","bank_sat_math5.js","bank_sat_easy.js","cards_sat.js","cards_sat2.js","playbook_sat.js"]
 
-GRE_BANKS = ["bank_gre_verbal.js","bank_gre_verbal2.js","bank_gre_quant.js","bank_gre_quant2.js","bank_gre_easy.js","writing_gre.js","cards_gre.js","playbook_gre.js"]
+GRE_BANKS = ["bank_gre_verbal.js","bank_gre_verbal2.js","bank_gre_rc2.js","bank_gre_rc3.js","bank_gre_quant.js","bank_gre_quant2.js","bank_gre_easy.js","writing_gre.js","cards_gre.js","playbook_gre.js"]
 
-LSAT_BANKS = ["bank_lsat_lr.js","bank_lsat_rc.js","cards_lsat.js","playbook_lsat.js"]
+LSAT_BANKS = ["bank_lsat_lr.js","bank_lsat_lr2.js","bank_lsat_lr3.js","bank_lsat_rc.js","bank_lsat_rc2.js","bank_lsat_rc3.js","cards_lsat.js","playbook_lsat.js"]
 # ACT Mathematics comes entirely from the generated bank, which is why no hand written math
 # file appears here; the schemas are mapped onto ACT taxonomy in src/gen/mapping.py.
-ACT_BANKS = ["bank_act_english.js","bank_act_reading.js","bank_act_science.js","cards_act.js","playbook_act.js"]
+ACT_BANKS = ["bank_act_english.js","bank_act_reading.js","bank_act_reading2.js","bank_act_reading3.js","bank_act_science.js","cards_act.js","playbook_act.js"]
 
 APPS = [
     {"exam": "gmat-focus", "out": "app", "gen": "gmat", "files": GMAT_BANKS,
      "concat": ("BANK_QUANT, BANK_QUANT2, BANK_QUANT3, BANK_QUANT4, BANK_QUANT5, BANK_QUANT6, "
-                "BANK_VERBAL, BANK_VERBAL2, BANK_VERBAL3, BANK_VERBAL4, BANK_VERBAL5, BANK_VERBAL6, BANK_VERBAL7, BANK_VERBAL8, "
+                "BANK_VERBAL, BANK_VERBAL2, BANK_VERBAL3, BANK_VERBAL4, BANK_VERBAL5, BANK_VERBAL6, BANK_VERBAL7, BANK_VERBAL8, BANK_VERBAL9, "
                 "BANK_DI, BANK_DI2, BANK_DI3, BANK_DI4, BANK_DI5, BANK_DI6, BANK_DI7, BANK_DI8, BANK_DI9"),
      "footer": ("GMAT is a registered trademark of the Graduate Management Admission Council (GMAC), which does not "
                 "endorse this product. Practice items are original and written for Start From Nowhere. Score bands "
@@ -29,7 +29,7 @@ APPS = [
      "desc": "Start From Nowhere: adaptive GMAT Focus Edition practice that studies you back.",
      "is_404": True},
     {"exam": "sat", "out": "sat/app", "gen": "sat", "files": SAT_BANKS,
-     "concat": "BANK_SAT_RW, BANK_SAT_RW2, BANK_SAT_RW3, BANK_SAT_RW4, BANK_SAT_RW5, BANK_SAT_MATH, BANK_SAT_MATH2, BANK_SAT_MATH3, BANK_SAT_MATH4, BANK_SAT_MATH5, BANK_SAT_EASY",
+     "concat": "BANK_SAT_RW, BANK_SAT_RW2, BANK_SAT_RW3, BANK_SAT_RW4, BANK_SAT_RW5, BANK_SAT_RW6, BANK_SAT_MATH, BANK_SAT_MATH2, BANK_SAT_MATH3, BANK_SAT_MATH4, BANK_SAT_MATH5, BANK_SAT_EASY",
      "footer": ("SAT is a trademark registered by the College Board, which does not endorse this product. Practice "
                 "items are original and written for Start From Nowhere. Content domains follow College Board's "
                 "published framework; nothing here reports an official 400 to 1600 score."),
@@ -38,7 +38,7 @@ APPS = [
               "domains, with two-module mock sections that route like the real exam."),
      "is_404": False},
     {"exam": "gre", "out": "gre/app", "gen": "gre", "files": GRE_BANKS,
-     "concat": "BANK_GRE_VERBAL, BANK_GRE_VERBAL2, BANK_GRE_QUANT, BANK_GRE_QUANT2, BANK_GRE_EASY",
+     "concat": "BANK_GRE_VERBAL, BANK_GRE_VERBAL2, BANK_GRE_RC2, BANK_GRE_RC3, BANK_GRE_QUANT, BANK_GRE_QUANT2, BANK_GRE_EASY",
      "footer": ("GRE is a registered trademark of ETS, which does not endorse this product. Practice items are "
                 "original and written for Start From Nowhere. The trainer covers Verbal Reasoning and Quantitative "
                 "Reasoning; Analytical Writing is a scored essay and is not simulated here. Score ranges shown are "
@@ -47,8 +47,8 @@ APPS = [
      "desc": ("Start From Nowhere: adaptive GRE practice across Verbal Reasoning and Quantitative Reasoning, "
               "with section-adaptive mock sections that route like the real exam."),
      "is_404": False},
-    {"exam": "lsat", "out": "lsat/app", "gen": None, "files": LSAT_BANKS,
-     "concat": "BANK_LSAT_LR, BANK_LSAT_RC",
+    {"exam": "lsat", "out": "lsat/app", "gen": "lsat", "files": LSAT_BANKS,
+     "concat": "BANK_LSAT_LR, BANK_LSAT_LR2, BANK_LSAT_LR3, BANK_LSAT_RC, BANK_LSAT_RC2, BANK_LSAT_RC3",
      "footer": ("LSAT is a registered trademark of the Law School Admission Council (LSAC), which does not "
                 "endorse this product. Practice items are original and written for Start From Nowhere. LSAC "
                 "publishes 35 minutes per section and, for Reading Comprehension, four sets of five to eight "
@@ -60,7 +60,7 @@ APPS = [
               "built on the skills LSAC publishes for each section."),
      "is_404": False},
     {"exam": "act", "out": "act/app", "gen": "act", "files": ACT_BANKS,
-     "concat": "BANK_ACT_ENGLISH, BANK_ACT_READING, BANK_ACT_SCIENCE",
+     "concat": "BANK_ACT_ENGLISH, BANK_ACT_READING, BANK_ACT_READING2, BANK_ACT_READING3, BANK_ACT_SCIENCE",
      "footer": ("ACT is a registered trademark of ACT Education Corp., which does not endorse this product. "
                 "Practice items are original and written for Start From Nowhere. Section lengths and reporting "
                 "categories follow ACT published materials for the enhanced test, including four answer choices "
@@ -73,6 +73,14 @@ APPS = [
 ]
 
 engine = (d/"engine.js").read_text(); tpl = (d/"app_template.html").read_text()
+# The daily question. Each trainer carries the scheduled item ids around the build date and
+# the one shared definition of a streak, so the in-app Question of the Day and /daily/ are
+# the same question and the same streak (see src/build_daily.py).
+import build_daily as _bd
+import json as _daily_json
+def daily_js(exam_id):
+    return ("const DAILY=" + _daily_json.dumps(_bd.app_window(exam_id)) + ";\n" + _bd.streak_js())
+charts = (d/"charts.js").read_text()
 built = {}
 # The generated banks are built first; the schemas in src/gen/ are their source of truth.
 import build_banks
@@ -87,8 +95,13 @@ for app in APPS:
     banks = "\n".join((d/f).read_text() for f in app["files"])
     gen_file = GEN_DIR / ("bank_gen_%s.js" % app["gen"]) if app["gen"] else None
     gen_src = gen_file.read_text() if (gen_file and gen_file.exists()) else ""
-    rest_file = GEN_DIR / ("bank_gen_%s_rest.js" % app["gen"]) if app["gen"] else None
-    rest_src = rest_file.read_text() if (rest_file and rest_file.exists()) else ""
+    # The deferred remainder arrives in chunks because Cloudflare rejects a static asset
+    # over 25 MiB and the ACT remainder is about 30. Sorted numerically, not
+    # lexically, so rest10 lands after rest9 rather than after rest1.
+    rest_files = (sorted(GEN_DIR.glob("bank_gen_%s_rest*.js" % app["gen"]),
+                         key=lambda q: int("".join(c for c in q.stem.split("_rest")[-1] if c.isdigit()) or 0))
+                  if app["gen"] else [])
+    rest_parts = [q.read_text() for q in rest_files]
     concat = app["concat"] + (", BANK_GEN_" + app["gen"].upper() if gen_src else "")
     # The bank ships as its own file next to index.html. The path is absolute because the
     # GMAT app doubles as 404.html and is served from arbitrary URLs.
@@ -99,7 +112,6 @@ for app in APPS:
     # Before this split, time to first question was time to download the entire bank:
     # 20 seconds for GMAT and 23 for ACT on regular 3G, measured in src/smoke_load.js.
     bank_path = "/" + app["out"] + "/bank.js"
-    rest_path = "/" + app["out"] + "/bank_rest.js"
     bank_js = ("// GENERATED FILE. Built by src/build.py; edit the banks in src/ instead.\n"
                + banks + "\n" + gen_src + "\n"
                + "const BANK = [].concat(%s);\n" % concat)
@@ -109,12 +121,37 @@ for app in APPS:
     # const forbids reassignment, not mutation, so the remainder pushes into the same
     # array the app already holds a reference to. The hook lets the app reindex; the
     # guard means a missing hook degrades to a bigger pool rather than an exception.
-    rest_js = ("// GENERATED FILE. Deferred half of the item bank; see src/build.py.\n"
-               + rest_src + "\n"
-               + ("BANK.push.apply(BANK, BANK_GEN_%s_REST);\n" % app["gen"].upper()
-                  if rest_src else "")
-               + "if (typeof window.__bankGrew === 'function') window.__bankGrew();\n")
-    (bank_out / "bank_rest.js").write_text(rest_js)
+    # Clear a previous build's single-file remainder. The deploy uploads whatever is in
+    # the output directory, so a stale 30 MiB bank_rest.js left over from before the
+    # chunking would be shipped alongside the chunks and would fail the 25 MiB asset
+    # limit, which is the exact failure the chunking exists to avoid.
+    _legacy_rest = bank_out / "bank_rest.js"
+    if _legacy_rest.exists(): _legacy_rest.unlink()
+    rest_paths = []
+    for _i, _part in enumerate(rest_parts, start=1):
+        rest_js = ("// GENERATED FILE. Deferred item bank, chunk %d of %d; see src/build.py.\n"
+                   % (_i, len(rest_parts))
+                   + _part + "\n"
+                   + "BANK.push.apply(BANK, BANK_GEN_%s_REST%d);\n" % (app["gen"].upper(), _i)
+                   + "if (typeof window.__bankGrew === 'function') window.__bankGrew();\n")
+        (bank_out / ("bank_rest%d.js" % _i)).write_text(rest_js)
+        rest_paths.append("/" + app["out"] + "/bank_rest%d.js" % _i)
+    # Every chunk reindexes on arrival, so the pool grows as each lands rather than only
+    # once the last one does, and a chunk that fails to load costs its own items and no
+    # more.
+    # The chunks are injected after the page's load event rather than written as async
+    # tags. An async tag is found by the preload scanner and fetched at once, alongside the
+    # blocking bank.js, so on a slow connection the one file a first question needs shared
+    # its bandwidth with 30 MB it does not: the GMAT trainer, the only one with two chunks,
+    # took 21.7s to first question on the 3G profile against 11.0s when the split shipped
+    # (INC-0113). After load, and once the page is idle so the parse of 30 MB does not land
+    # on top of the first question's render, nothing a student is waiting for competes.
+    import json as _rest_json
+    rest_tags = ("<script>(function(){var R=%s;function go(){R.forEach(function(u){var s=document.createElement('script');"
+                 "s.src=u;s.async=true;document.body.appendChild(s);});}"
+                 "function later(){if(window.requestIdleCallback)requestIdleCallback(go,{timeout:2000});else setTimeout(go,300);}"
+                 "if(document.readyState==='complete')later();else window.addEventListener('load',later);})();</script>"
+                 % _rest_json.dumps(rest_paths)) if rest_paths else ""
 
     # A service worker per trainer. Scoped per app rather than one at the root: the five
     # ship different banks, and a shared cache would have them evicting each other's
@@ -122,8 +159,8 @@ for app in APPS:
     # also the substance behind the App Review 4.2 claim that this is not a repackaged
     # website.
     _scope = "/" + app["out"] + "/"
-    _precache = [_scope, _scope + "bank.js", _scope + "bank_rest.js",
-                 "/manifest.json", "/icons/icon-192.png", "/icons/icon-512.png"]
+    _precache = ([_scope, _scope + "bank.js"] + rest_paths
+                 + ["/manifest.json", "/icons/icon-192.png", "/icons/icon-512.png"])
     import json as _sw_json
     _sw = ((d / "sw_template.js").read_text()
            .replace("{{SW_VERSION}}", partials.build_id())
@@ -138,10 +175,12 @@ for app in APPS:
         (root / "social.js").write_text(_social.read_text(), encoding="utf-8")
     out = (tpl.replace("{{EXAM_ID}}", app["exam"])
               .replace("{{BANK_SRC}}", bank_path)
-              .replace("{{BANK_REST_SRC}}", rest_path)
+              .replace("{{BANK_REST_TAGS}}", rest_tags)
               .replace("{{SW_SRC}}", _scope + "sw.js")
               .replace("{{SW_SCOPE}}", _scope)
               .replace("{{ENGINE}}", engine)
+              .replace("{{CHARTS}}", charts)
+              .replace("{{DAILY}}", daily_js(app["exam"]))
               .replace("{{FOOTER_NOTE}}", app["footer"])
               .replace("{{APP_TITLE}}", app["title"])
               .replace("{{APP_DESC}}", app["desc"])
@@ -174,14 +213,69 @@ card_count = len(_re.findall(r"\{\s*id: ?'c\d", gmat_banks_src))
 hand_sat = len(_re.findall(r"\{\s*id: ?'S[RM]\d", sat_banks_src))
 sat_card_count = len(_re.findall(r"\{\s*id: ?'s\d", sat_banks_src))
 gre_banks_src = built["gre"][2]
-hand_gre = len(_re.findall(r"\{\s*id: ?'G[QVE]\d", gre_banks_src))
+hand_gre = len(_re.findall(r"\{\s*id: ?['\"]G[QVER]\d", gre_banks_src))
 gre_card_count = len(_re.findall(r"\{\s*id: ?'g\d", gre_banks_src))
 lsat_banks_src = built["lsat"][2]
-hand_lsat = len(_re.findall(r"\{\s*id: ?'L[LC]\d", lsat_banks_src))
+hand_lsat = len(_re.findall(r"\{\s*id: ?['\"]L[LC]\d", lsat_banks_src))
 lsat_card_count = len(_re.findall(r"\{\s*id: ?'l\d", lsat_banks_src))
 act_banks_src = built["act"][2]
 hand_act = len(_re.findall(r"\{\s*id: ?'A[ERS]\d", act_banks_src))
 act_card_count = len(_re.findall(r"\{\s*id: ?'a\d", act_banks_src))
+# Every bank file listed for an exam must contribute at least one counted item.
+#
+# The counts above are regexes over concatenated source, and a regex that counts things
+# assumes a formatting convention. bank_lsat_rc2.js emits JSON escaped strings, so its
+# ids were double quoted, none of them matched, and a file holding 35 items counted as
+# zero while the build printed a total that looked plausible (INC-0059). A total cannot
+# detect that; only a per-source check can.
+_ID_PAT = {"gmat": r"\{\s*id: ?['\"](?:Q|V|D)\w*\d",
+           "sat": r"\{\s*id: ?['\"]S[RM]\d",
+           "gre": r"\{\s*id: ?['\"]G[VQER]\d",
+           "lsat": r"\{\s*id: ?['\"]L[LC]\d",
+           "act": r"\{\s*id: ?['\"]A[ERS]\d"}
+_blind = []
+# All five exams, not the two that happened to be in hand when the guard was written.
+# A guard covering a subset is the same gap one level up, and it showed: the GRE id
+# pattern was G[QVE] and a reading bank using GR ids counted zero, silently, exactly as
+# INC-0059 did for the LSAT.
+for _ex, _files in (("gmat", GMAT_BANKS), ("sat", SAT_BANKS), ("gre", GRE_BANKS),
+                    ("lsat", LSAT_BANKS), ("act", ACT_BANKS)):
+    for _f in _files:
+        if not _f.startswith("bank_"):
+            continue
+        _src = (d / _f).read_text(encoding="utf-8")
+        if not _re.search(_ID_PAT[_ex], _src):
+            _blind.append("%s: %s holds items the counter cannot see" % (_ex, _f))
+if _blind:
+    print("ERROR: the item counter is blind to a bank file, so the published count is "
+          "short by however many items it holds.", file=sys.stderr)
+    print("\n".join("  " + b for b in _blind), file=sys.stderr)
+    sys.exit(1)
+
+# Every file that launches Playwright resolves the browser through src/chromium_path.js.
+#
+# Reading process.env.CHROMIUM_PATH directly passes executablePath: undefined when the
+# variable is unset, which hands the decision back to Playwright, which is the case the
+# resolver exists to override. That is INC-0055, and it came back in the three suites the
+# fix did not touch, unnoticed for a week because CI installs the browser Playwright
+# expects and only the sandbox does not (INC-0067). Extracting a helper does not migrate
+# the callers, so the direct read fails the build instead.
+_launchers = sorted(p for p in d.glob("*.js")
+                    if "chromium.launch" in p.read_text(encoding="utf-8"))
+_direct = [p.name for p in _launchers
+           if "process.env.CHROMIUM_PATH" in p.read_text(encoding="utf-8")
+           or "chromiumPath()" not in p.read_text(encoding="utf-8")]
+if _direct:
+    print("ERROR: a Playwright launch does not go through chromiumPath() from "
+          "src/chromium_path.js, so it will resolve a browser that is not installed "
+          "wherever Playwright's own path is wrong.", file=sys.stderr)
+    print("\n".join("  " + n for n in _direct), file=sys.stderr)
+    sys.exit(1)
+if not _launchers:
+    print("ERROR: no file launches Playwright, so the browser suites are not being "
+          "found by the guard that checks how they launch.", file=sys.stderr)
+    sys.exit(1)
+
 bank_count = hand_gmat + GEN_COUNT.get("gmat", 0)
 sat_bank_count = hand_sat + GEN_COUNT.get("sat", 0)
 gre_bank_count = hand_gre + GEN_COUNT.get("gre", 0)
@@ -236,7 +330,20 @@ total_skills = _skill_probe.stdout.strip()
 # own scope is worse than one that fails.
 def check_counts(name, text, allowed):
     import re as _cre
-    for n, unit in _cre.findall(r"\b(\d{2,6})\s+(original|flashcards)\b", text):
+    # Two patterns, and the second one matters. The first was original|flashcards alone,
+    # and the LSAT line in llms.txt was phrased "65 questions today" precisely because the
+    # number was small and the page said so plainly. That honest phrasing put it outside
+    # the pattern and the figure sat at less than half the true count.
+    #
+    # The obvious repair, adding items and questions to the noun list, immediately flagged
+    # "64 questions" in the editorial fact sheet, which is the real GMAT Focus question
+    # count from GMAC and not a bank size at all. A guard that cries wolf gets switched
+    # off, so widening the wording was the wrong trade (INC-0063). The second pattern
+    # matches a phrase only our own bank size can produce.
+    hits = (_cre.findall(r"\b(\d{2,6})\s+(original|flashcards)\b", text)
+            + [(n, "in the item bank") for n in
+               _cre.findall(r"item bank is (\d{2,6})\b", text)])
+    for n, unit in hits:
         if int(n) not in allowed:
             print(f"ERROR: {name} says '{n} {unit}' but the current counts are "
                   f"{sorted(allowed)}; update it or the bank", file=sys.stderr)
@@ -255,6 +362,29 @@ for _counted in ["llms.txt", "src/blog/EDITORIAL.md"]:
     _cp = root / _counted
     if _cp.exists():
         check_counts(_counted, _cp.read_text(), _ALLOWED_COUNTS)
+
+# Banned sources in prose. The source policy was enforced on the structured corpora and
+# not on the words, so three posts and the editorial fact sheet went on citing The
+# Princeton Review, Applerouth and Sallie Mae after the same citations were cleaned out
+# of data/exams.json (INC-0082). The fact sheet is the one that mattered: it is the list
+# of approved figures a post is written from, so a wrong entry there reappears in the
+# next post. Matching only inside a "(Name, year)" citation is what lets this run over
+# the very files that legitimately name these sites as the list of what never to cite.
+sys.path.insert(0, str(d))
+from sources import banned_citations as _banned_citations
+_cite_bad = []
+for _doc in sorted((root / "src" / "blog").glob("*.html")) + \
+        [root / "src" / "blog" / "EDITORIAL.md", root / "data" / "DATA.md"]:
+    if not _doc.exists():
+        continue
+    for _name, _inner in _banned_citations(_doc.read_text()):
+        _cite_bad.append("%s cites %s in \"(%s)\"" % (_doc.name, _name, _inner))
+if _cite_bad:
+    for _b in _cite_bad:
+        print("ERROR: banned source in a citation: %s" % _b, file=sys.stderr)
+    print("CLAUDE.md bans coaching-site blogs outright. Replace the figure with the "
+          "test maker's own published one, or drop it.", file=sys.stderr)
+    sys.exit(1)
 
 # Prices drift the same way counts do, and llms.txt is worse than a stale page: it is the
 # file LLMs read to answer "what does this cost", so a stale number there gets repeated by
@@ -287,6 +417,18 @@ for _doc in ["README.md", "ROADMAP.md", "CLAUDE.md", "HANDOFF.md", "llms.txt", "
         no_dashes(_doc, _p.read_text())
 for _src in sorted(d.glob("bank_*.js")) + sorted(d.glob("cards*.js")) + sorted(d.glob("playbook_*.js")) + [d/"engine.js"]:
     no_dashes(_src.name, _src.read_text())
+
+# INC-0076. Python's str.capitalize() uppercases the first character and LOWER CASES
+# every other one, so a stored fragment carrying a name comes out as "The fenwick track".
+# 180 items shipped that way, 70 of them in the key. framework.upfirst raises the first
+# character and nothing else, and it is the only correct one for a generator, so the
+# wrong one is banned rather than reviewed for.
+for _g in sorted((d/"gen").glob("*.py")):
+    if ".capitalize()" in _g.read_text():
+        print(f"ERROR: {_g.name} calls str.capitalize(), which lower cases the rest of "
+              f"the string and flattens any name in it; use framework.upfirst "
+              f"(INC-0076)", file=sys.stderr)
+        sys.exit(1)
 
 import json as _json_mod
 _college_n = len(list((root/"data"/"colleges").glob("*.json")))
@@ -355,6 +497,26 @@ for p in _app_pages + [root/"index.html", root/"community"/"index.html",
                        root/"funding"/"index.html", root/"terms.html", root/"privacy.html",
                        root/"do-not-sell"/"index.html"]:
     check_scripts(p)
+
+# The bank is not an inline script, so check_scripts never saw it, and the largest
+# artefact the site ships was the one file nothing parsed. A syntax error in it takes the
+# trainer down exactly as INC-0001 did, and would have built cleanly (INC-0060). Every
+# built bank and every chunk is parsed here, next to the pages.
+_banks = []
+for _a in APPS:
+    _banks += sorted((root / _a["out"]).glob("bank*.js"))
+if not _banks:
+    print("ERROR: no built bank files found to parse; the check below would pass vacuously.",
+          file=sys.stderr)
+    sys.exit(1)
+for _b in _banks:
+    _r = subprocess.run(["node", "--check", str(_b)], capture_output=True, text=True)
+    if _r.returncode != 0:
+        print("ERROR: %s does not parse, and it is the file every visitor downloads."
+              % _b.relative_to(root), file=sys.stderr)
+        print(_r.stderr.strip()[:800], file=sys.stderr)
+        sys.exit(1)
+print("  parsed %d built bank file(s)" % len(_banks))
 # The shell and the bank are now separate downloads, so report both, and report the
 # whole bank rather than only the hand written part of it.
 _TOTAL = {"gmat-focus": bank_count, "sat": sat_bank_count, "gre": gre_bank_count,
@@ -365,6 +527,30 @@ _summary = ", ".join(
         round((root / a["out"] / "bank.js").stat().st_size / 1024),
         _TOTAL[a["exam"]])
     for a in APPS)
+# Cloudflare refuses any single static asset over 25 MiB, and the deploy fails outright
+# rather than degrading, so this is a build gate and not a warning. It caught the ACT
+# deferred bank at 29.9 MiB when TARGET went to 3300, which is why that bank now ships in
+# chunks. Checked across everything the deploy uploads, not just the banks, because the
+# next file to cross the line will not necessarily be one.
+_ASSET_LIMIT = 25 * 1024 * 1024
+_too_big = []
+for _p in root.rglob("*"):
+    if not _p.is_file():
+        continue
+    _rel = _p.relative_to(root).as_posix()
+    if _rel.startswith((".git/", "src/", "data/", "supabase/", "node_modules/", "design/")):
+        continue
+    _sz = _p.stat().st_size
+    if _sz > _ASSET_LIMIT:
+        _too_big.append((_rel, _sz))
+if _too_big:
+    for _rel, _sz in sorted(_too_big, key=lambda t: -t[1]):
+        print("ERROR: %s is %.1f MiB, over the 25 MiB Cloudflare static asset limit"
+              % (_rel, _sz / 1048576.0), file=sys.stderr)
+    print("ERROR: the deploy would be rejected; split the file or lower TARGET in "
+          "src/build_banks.py", file=sys.stderr)
+    sys.exit(1)
+
 print("built " + _summary + "; landing, community/, terms, privacy built; inline scripts parse")
 
 import subprocess as _sp
@@ -374,7 +560,18 @@ _sp.run([sys.executable, str(d/"build_rankings.py")], check=True)
 # parsed here, after that step, under the same guard as every other inline script.
 check_scripts(root/"apply"/"index.html")
 _sp.run([sys.executable, str(d/"build_colleges.py")], check=True)
+# The source policy validators are only as good as the last time anyone saw one
+# fail. This runs validate_exams against deliberately bad records, both the kind
+# it must refuse and the kind it must not, before it is trusted on the real file
+# a line later (INC-0082).
+_sp.run([sys.executable, str(d/"validate_exams.py")], check=True)
 _sp.run([sys.executable, str(d/"build_exams.py")], check=True)
+_sp.run([sys.executable, str(d/"build_guide.py")], check=True)
+_sp.run([sys.executable, str(d/"build_daily.py")], check=True)
+# The live daily pages carry the answering and streak code inline; parse it like every
+# other inline script, on each exam's live page and the hub.
+for _dp in [root/"daily"/"index.html"] + sorted((root/"daily").glob("*/index.html")):
+    check_scripts(_dp)
 
 # I18N.md Stage 0: the content site stays translatable, which means its copy stays
 # in markup where browser and search translation can reach it. Text that moves into
@@ -400,3 +597,31 @@ if _over:
           file=sys.stderr)
     sys.exit(1)
 
+
+# ---------------------------------------------------------------------------
+# The Build Playbook, rebuilt with the site.
+#
+# It is generated from the chapters, the defect ledger and a harvest of this repository,
+# so it goes stale the moment either moves. Running it here rather than on request is the
+# whole point: a document that has to be remembered is a document that falls behind the
+# thing it describes.
+#
+# It is deliberately NOT fatal. The playbook is a deliverable about the build, not part of
+# the site, and a chapter citing a file that was just renamed should not stop a deploy. It
+# prints loudly instead, and src/smoke_playbook.js fails the test suite, which is the
+# right place for it to be blocking.
+try:
+    _pb = subprocess.run([sys.executable, str(d / "build_playbook.py")],
+                         capture_output=True, text=True, timeout=300)
+    if _pb.returncode == 0:
+        print(_pb.stdout.strip())
+    else:
+        # ERROR, not WARNING, and still exit zero. playbook/ is excluded from the
+        # deploy so a broken chapter must not stop the site shipping, but the word a
+        # non fatal step fails with is the whole of its signal, and three commits went
+        # out with a stale playbook because this said WARNING (INC-0080).
+        print("ERROR: the playbook did not build; the site did. Run "
+              "python3 src/build_playbook.py to see why.", file=sys.stderr)
+        print((_pb.stderr or _pb.stdout).strip(), file=sys.stderr)
+except Exception as _e:
+    print("ERROR: could not run the playbook build: %s" % _e, file=sys.stderr)

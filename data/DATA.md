@@ -19,6 +19,11 @@ school means adding a file. Never edit generated output.
  "website": "https://...",          official program site
  "discontinued": true,              optional; excluded from rankings when true
  "notes": "...",                    optional, plain text; cite discontinuation sources here
+ "official_hosts": [                optional; hosts outside the school's domain where the
+   {"prefix": "https://...",         school itself publishes (its storage bucket, an alias
+    "evidence": "...",               domain). Needs evidence and a checked date; a figure
+    "checked": "2026-09-26"}         under a prefix is labeled the school's own, not
+ ],                                  secondary. Never a publisher (validator refuses one).
  "ranks": {
    "usnews": {"rank": 1, "edition": "2026", "url": "https://..."},
    "ft": ..., "bloomberg": ..., "qs": ..., "pq": ...
@@ -56,6 +61,11 @@ school means adding a file. Never edit generated output.
    employment rate.
 3. A tracked publisher's data table (US News, FT, Bloomberg, QS, Poets and
    Quants) when the school itself does not publish the figure.
+
+A figure counts as the school's own when its URL shares the registrable domain of the
+program website (bursar.rice.edu is Rice; a university news office is the university) or
+sits under one of the school's `official_hosts`. Anything else is marked secondary on the
+page with an asterisk and a footnote.
 4. Nothing else.
 
 ## Ranking Methodology

@@ -175,5 +175,12 @@
   },
   "earn_n": 602,
   "low_coverage": false
- }
+ },
+ "official_hosts": [
+  {
+   "prefix": "https://uscmarshallweb.s3-us-west-2.amazonaws.com/assets/uploads/",
+   "evidence": "marshall.usc.edu serves its own page images and share images from this storage bucket, so documents in it are published by USC Marshall",
+   "checked": "2026-09-26"
+  }
+ ]
 }

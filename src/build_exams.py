@@ -152,6 +152,27 @@ def exam_page(e, tpl, today):
     structure = f'<div class="section"><h2>Structure</h2><div class="tw"><table><thead><tr><th>Section</th><th class="num">Questions</th><th class="num">Time</th><th class="num">Scored</th></tr></thead><tbody>{sec_rows}</tbody></table></div>' if sec_rows else ""
     if structure and tt:
         structure += f'<p class="small">Total: {esc(tt)}.{src_note(e.get("total_time"))}</p>'
+    # The section table is a set of published figures like any other, so it carries
+    # its source where a reader can see it. One source per table, because one
+    # structure page publishes the whole thing.
+    #
+    # Required, not optional. Rendering the source only when it happens to be there is
+    # what let the GMAT publish its structure table uncited for as long as the page has
+    # existed (INC-0100): the check has to sit on the table, which is the thing being
+    # published, and not on the citation, which is the thing that went missing.
+    if structure:
+        ss = e.get("sections_src")
+        missing = [k for k in ("text", "src", "year", "url")
+                   if not (isinstance(ss, dict) and ss.get(k))]
+        if missing:
+            raise SystemExit(
+                "build_exams: %s publishes a structure table with no source. "
+                "sections_src is missing %s. Every published figure carries source, "
+                "year and URL." % (e.get("slug"), ", ".join(missing)))
+    if structure and isinstance(e.get("sections_src"), dict):
+        structure += (f'<p class="small">Structure as the test maker publishes it: '
+                      f'{esc(e["sections_src"].get("text") or "")}.'
+                      f'{src_note(e.get("sections_src"))}</p>')
     structure += "</div>" if structure else ""
 
     rows = []
@@ -224,6 +245,11 @@ def main():
         print("build_exams: no data/exams.json yet; built /pricing/ only")
         return
     exams = json.loads(data_path.read_text())
+    # Source policy before anything is rendered, the same way build_rankings.py
+    # calls validate_schools. This corpus went without one until INC-0082, and
+    # published nine exam facts sourced to test prep companies as a result.
+    import validate_exams
+    validate_exams.validate(exams)
     today = os.environ.get("BLOG_BUILD_DATE") or datetime.date.today().isoformat()
     tpl = (D / "exam_template.html").read_text()
     itpl = (D / "exams_index_template.html").read_text()

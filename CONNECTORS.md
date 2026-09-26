@@ -1,5 +1,26 @@
 # Connector setup for Start From Nowhere
 
+## Update, 2026-09-26
+
+Checked in the session of 2026-09-26, each from a real tool response:
+
+- **Cloudflare is attached and working.** The Workers list returns the `gmat` worker. The
+  www to apex redirect that section 1 below asks for is done, in the repository rather than
+  as a dashboard rule: `src/worker.mjs` answers www.startfromnowhere.com with a 301 to the
+  apex, and `src/smoke_redirect.js` tests it.
+- **Google Search Console through Supermetrics still reads NOT_AUTHENTICATED** for source
+  `GW`. Section 2 below still applies: the owner connects `GW` in Supermetrics with the
+  Google account that owns the property. Until then, Search Console questions need an
+  export, which `src/gsc_report.py` reads.
+- **The weekly audit Routine now carries connectors**: Cloudflare, Supabase, Supermetrics,
+  Adobe, Figma, Stripe and Claude Docs. Its next run is 2026-09-28. The prompt's list of
+  known open items dates from 2026-09-21; the www redirect in it is done, and the LSAT bank
+  is no longer 65 items.
+
+Everything below is the snapshot of 2026-09-21, kept as it was written.
+
+---
+
 Verified on 2026-09-21 by calling each connector's own identity or list endpoint. Anything
 marked "verified" below was confirmed from a real tool response, not assumed.
 

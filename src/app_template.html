@@ -7,6 +7,20 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Start From Nowhere">
+<script>
+/* Resolve the theme BEFORE the first paint. Deferring this to the main script means a
+   white flash on every load for anyone using dark, which is the single most common way
+   a dark mode is got wrong. Kept deliberately tiny and dependency free for that reason.
+   Three states, not two: 'light', 'dark', or absent, which means follow the system. */
+(function(){
+  try{
+    var pref=localStorage.getItem('sfn_theme_v1');
+    var dark = pref==='dark' || (!pref && window.matchMedia && matchMedia('(prefers-color-scheme:dark)').matches);
+    if(dark) document.documentElement.setAttribute('data-theme','dark');
+    else if(pref==='light') document.documentElement.setAttribute('data-theme','light');
+  }catch(e){/* private mode: fall through to light, which is the served default */}
+})();
+</script>
 <link rel="apple-touch-icon" href="/icons/icon-180.png">
 <title>{{APP_TITLE}}</title>
 <meta name="description" content="{{APP_DESC}}">
@@ -38,6 +52,33 @@
 --radius-sm:6px;--radius-md:8px;--radius-lg:10px;--radius-pill:999px;
 --shadow-sm:0 1px 2px rgba(8,21,39,.06);--shadow-md:0 2px 8px rgba(8,21,39,.08);--shadow-lg:0 8px 24px rgba(8,21,39,.12);
 --ease-out:cubic-bezier(.16,1,.3,1);--duration-fast:120ms;--duration-base:200ms;--z-sticky:20;--z-modal:100;--z-toast:110;}
+/* Dark theme.
+   Only the SEMANTIC layer is redefined. The ramps above stay as they are and no component
+   rule changes, which is the whole reason the tokens were split this way: a theme that
+   needs every component touched is a theme that rots on the next component.
+   It is SELECTED rather than inverted. Lifting the navy far enough to read on a dark
+   ground turns it into a different blue, so the brand colour here is a lighter step that
+   holds the same hue, and the surfaces are a cool near black rather than pure #000, which
+   vibrates against light text. --surface-card is #111827 on purpose: that is the exact
+   surface the chart palette in src/charts.js was validated against. */
+:root[data-theme="dark"]{
+--surface-page:#0B1220;--surface-card:#111827;--surface-sunken:#0E1626;--surface-inverse:#E8ECF3;
+--text-heading:#F3F5F9;--text-body:#C7D0DD;--text-muted:#93A0B3;--text-inverse:#0B1220;--text-link:#7FB3E6;
+--border-default:#2A3446;--border-strong:#3A465C;--focus-ring:0 0 0 3px rgba(127,179,230,.35);
+--brand-primary:#3E6FA8;--brand-primary-hover:#4E80BA;--brand-primary-soft:#16233A;--brand-primary-soft-border:#26374F;
+--brand-accent:#D9B45F;--brand-accent-strong:#C7A252;--brand-accent-soft:#241E10;
+--status-success:#4ADE80;--status-success-bg:#0F2A1A;--status-error:#F87171;--status-error-bg:#2A1315;
+--status-warning:#FBBF24;--status-warning-bg:#2A2010;--status-info:#7FB3E6;--status-info-bg:#122236;
+--section-quant:#7FB3E6;--section-quant-bg:#122236;--section-quant-border:#1E3552;
+--section-verbal:#B49BF0;--section-verbal-bg:#1D1832;--section-verbal-border:#2E2650;
+--section-data:#5FD9C0;--section-data-bg:#0E2724;--section-data-border:#17423C;
+--accent-warm:#E0B65C;
+--shadow-sm:0 1px 2px rgba(0,0,0,.5);--shadow-md:0 2px 8px rgba(0,0,0,.55);--shadow-lg:0 8px 24px rgba(0,0,0,.6);
+/* The navy panels are already dark, so in dark mode they need to separate from the page
+   by a border rather than by being darker than everything around them. */
+--navy-900:#16233A;--navy-950:#111B2E;
+color-scheme:dark;}
+:root{--accent-warm:#b7791f;color-scheme:light}
 *{box-sizing:border-box}
 /* iOS standalone. Once apple-mobile-web-app-status-bar-style is black-translucent the
    app draws under the clock and the home indicator, so the safe area padding here is
@@ -190,7 +231,7 @@ table{border-collapse:collapse;width:100%;font-size:14px}th,td{padding:9px 10px;
 .two{display:grid;grid-template-columns:1.4fr 1fr;gap:var(--space-4);align-items:start}@media(max-width:860px){.two{grid-template-columns:1fr}}
 .plan-row{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--surface-sunken);border-radius:var(--radius-md)}.plan-row .t{flex:1;font-size:14px;font-weight:500;color:var(--text-heading)}.plan-row .m{font-family:var(--font-mono);font-size:12px;color:var(--text-muted)}
 .chips{display:flex;flex-wrap:wrap;gap:6px}.chip-t{border:1px solid var(--border-default);border-radius:var(--radius-pill);padding:4px 10px;font-size:12.5px;cursor:pointer;background:var(--surface-card);color:var(--text-heading);font-weight:500;transition:background var(--duration-fast) var(--ease-out),border-color var(--duration-fast) var(--ease-out)}.chip-t:hover{background:var(--gray-50)}.chip-t.on{background:var(--brand-primary);color:#fff;border-color:var(--brand-primary)}
-select,input[type=date],input[type=text],select,textarea{padding:7px 9px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);font-size:16px;background:#fff;font-family:var(--font-body);color:var(--text-heading)}select:focus-visible,input:focus-visible{outline:none;box-shadow:var(--focus-ring)}
+select,input[type=date],input[type=text],select,textarea{padding:7px 9px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);font-size:16px;background:var(--surface-card);color:var(--text-body);font-family:var(--font-body);color:var(--text-heading)}select:focus-visible,input:focus-visible{outline:none;box-shadow:var(--focus-ring)}
 textarea{width:100%;min-height:80px;font-family:var(--font-mono);font-size:12px;border:1px solid var(--border-default);border-radius:var(--radius-sm);padding:8px}
 .small{font-size:13px;color:var(--text-muted)}.muted{color:var(--text-muted)}
 .spark{display:inline-block;width:70px;height:18px;vertical-align:middle}
@@ -255,6 +296,7 @@ body.focus header.app,body.focus footer.app{display:none}
 .lives{display:inline-flex;gap:5px}.lives svg{transition:opacity .3s ease,transform .3s ease}.lives svg.lost{opacity:.18;transform:scale(.8)}
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:9999}
 .mtile .qm{display:none;position:absolute;inset:0;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:800;font-size:26px;color:var(--navy-400)}
+.sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
 .mtile.fdown{background:var(--navy-50)}.mtile.fdown .face{visibility:hidden}.mtile.fdown .qm{display:flex}
 .mtile.fdown.front{border-top:1.5px solid var(--border-default)}
 .ghub{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-4)}@media(max-width:1000px){.ghub{grid-template-columns:repeat(2,1fr)}}@media(max-width:640px){.ghub{grid-template-columns:1fr}}
@@ -269,7 +311,7 @@ body.focus header.app,body.focus footer.app{display:none}
 #modal{position:fixed;inset:0;z-index:90;display:flex;align-items:center;justify-content:center;padding:20px}
 #modal[hidden]{display:none}
 .modal-back{position:absolute;inset:0;background:rgba(8,21,39,.5)}
-.modal-card{position:relative;background:var(--surface,#fff);border-radius:14px;max-width:620px;width:100%;max-height:82vh;overflow:auto;padding:20px 22px;box-shadow:0 18px 50px rgba(8,21,39,.28)}
+.modal-card{position:relative;background:var(--surface-card);border-radius:14px;max-width:620px;width:100%;max-height:82vh;overflow:auto;padding:20px 22px;box-shadow:0 18px 50px rgba(8,21,39,.28)}
 .modal-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:12px}
 .modal-head h2{font-size:19px;margin:0}
 .mtier{font-family:var(--font-display,inherit);font-size:9.5px;font-weight:700;letter-spacing:var(--tr-caps);text-transform:uppercase;padding:2px 6px;border-radius:5px;margin-left:6px;vertical-align:middle;white-space:nowrap}
@@ -296,6 +338,10 @@ body.focus header.app,body.focus footer.app{display:none}
 </main>
 <footer class="app">{{FOOTER_NOTE}}</footer>
 <div id="toast" role="status" aria-live="polite"></div>
+<!-- Game outcomes are announced here. It sits outside v-games on purpose: that container is
+     replaced wholesale seven times, and a live region inside it would be torn out and
+     re-announced on every render. -->
+<div id="gmLive" class="sr-only" role="status" aria-live="polite"></div>
 <div id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="modal-title">
   <div class="modal-back" onclick="closeModal()"></div>
   <div class="modal-card">
@@ -323,11 +369,13 @@ if ('serviceWorker' in navigator) {
 <!-- The rest of the bank, async so it never blocks a question appearing. It pushes into
      BANK and calls __bankGrew, which the inline script below defines. Script execution is
      single threaded, so this cannot run before that script has finished. -->
-<script src="{{BANK_REST_SRC}}" async></script>
+{{BANK_REST_TAGS}}
 <script>
 const SUPABASE_URL="https://ftsqwbzhkzuudogkvoqa.supabase.co", SUPABASE_KEY="sb_publishable_GToT4fK6RiwCZpPFE3bGiw_ThXq9qel", APP_VERSION="0.3.0";
 const EXAM_ID="{{EXAM_ID}}";
 {{ENGINE}}
+{{CHARTS}}
+{{DAILY}}
 // If the bank file failed to load, say so instead of throwing a blank page at the student.
 if(typeof BANK==='undefined'||!Array.isArray(BANK)||!BANK.length){
  document.body.innerHTML='<div style="max-width:560px;margin:80px auto;padding:0 20px;font:16px/1.6 system-ui">'
@@ -470,7 +518,7 @@ function accChartHtml(){ const wk=weeklyAccuracy(8); const pts=wk.map((w,i)=>({i
  let g=''; [0,25,50,75,100].forEach(v=>{ g+='<line x1="'+PL+'" y1="'+ys(v).toFixed(1)+'" x2="'+(W-8)+'" y2="'+ys(v).toFixed(1)+'" stroke="var(--navy-50)" stroke-dasharray="3 3"/><text x="'+(PL-6)+'" y="'+(ys(v)+3).toFixed(1)+'" text-anchor="end" font-size="9" fill="var(--gray-400)" font-family="IBM Plex Mono">'+v+'</text>'; });
  const dots=pts.map(p=>'<circle cx="'+xs(p.i).toFixed(1)+'" cy="'+ys(p.w.acc).toFixed(1)+'" r="3" fill="var(--navy-800)"><title>Week of '+wk[p.i].label+': '+p.w.acc+'% on '+p.w.n+' questions</title></circle>').join('');
  const labels=wk.map((w,i)=>'<text x="'+xs(i).toFixed(1)+'" y="'+(H-4)+'" text-anchor="middle" font-size="9" fill="var(--gray-400)" font-family="IBM Plex Mono">'+w.label+'</text>').join('');
- return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;display:block" role="img" aria-label="Weekly accuracy trend">'+g+'<path d="'+area+'" fill="rgba(18,43,78,.08)"/><path d="'+line+'" fill="none" stroke="var(--navy-800)" stroke-width="2"/>'+dots+labels+'</svg>'; }
+ return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;display:block" role="img" aria-label="Weekly accuracy trend">'+g+'<path d="'+area+'" fill="var(--brand-primary)" fill-opacity=".10"/><path d="'+line+'" fill="none" stroke="var(--navy-800)" stroke-width="2"/>'+dots+labels+'</svg>'; }
 function recentDaysHtml(){ const by={}; state.attempts.forEach(a=>{ const k=new Date(a.ts).toDateString(); (by[k]=by[k]||[]).push(a); });
  const days=Object.keys(by).sort((a,b)=>new Date(b)-new Date(a)).slice(0,3);
  if(!days.length) return '<p class="small muted" style="margin:0">No sessions yet. Your last three study days will show here.</p>';
@@ -855,8 +903,12 @@ function submitAnswer(){ if(session.answered) return; const q=session.qs[session
  if(!q.answerType&&session.choice===null){toast('Choose an answer first.');return;}
  chosen=currentAnswer(q); correct=gradeChosen(q,chosen);
  clearInterval(qTimer); session.answered=true; const secs=(Date.now()-session.qStart)/1000; session.pending={q,chosen,correct,secs,firstMs:session.firstMs,changes:session.changes};
- if(session.mode==='qotd'){ const s=qotdState(); const yest=new Date(Date.now()-86400000).toDateString();
-  s.streak=correct?((s.date===yest?s.streak:0)+1):0; s.date=new Date().toDateString(); s.correct=correct; persist(); track('game_completed',{game:'qotd',correct,streak:s.streak}); }
+ if(session.mode==='qotd'){ const p=window._qotdPick||qotdPick(); const slug=qotdSlug();
+  // Recorded where /daily/ reads it, so a day answered here counts there. The state copy
+  // keeps the result in the synced profile; the streak is always recomputed from SFNDaily.
+  if(slug&&p.today) SFNDaily.record(slug,p.date,correct,secs,typeof chosen==='number'?chosen:undefined);
+  const cur=slug?SFNDaily.stats(slug).current:0; const s=qotdState();
+  s.date=new Date().toDateString(); s.correct=correct; s.streak=cur; persist(); track('game_completed',{game:'qotd',correct,streak:cur}); }
  if(q.answerType==='se'){ const key=q.answer||[], mine=chosen||[];
   document.querySelectorAll('.opt').forEach((l,j)=>{ l.disabled=true; l.classList.remove('selected');
    if(key.indexOf(j)>-1) l.classList.add('correct'); else if(mine.indexOf(j)>-1) l.classList.add('incorrect'); }); }
@@ -897,6 +949,145 @@ function tierOf(r,n){ if(!n||n<6) return {name:n?'Calibrating':'Not tested',tone
  if(r>=1250) return {name:'Proficient',tone:'tier-prof'}; if(r>=1100) return {name:'Building',tone:'tier-dev'};
  return {name:'Foundation',tone:'tier-found'}; }
 function targetSchools(){ if(EXAM.id!=='gmat-focus') return []; try{ const L=JSON.parse(localStorage.getItem('sfn_school_list_v1')); if(!L||!L.order) return []; return L.order.map(sl=>Object.assign({slug:sl},(L.meta&&L.meta[sl])||{})).filter(x=>x.name); }catch(e){ return []; } }
+// ---------- Fit: your numbers beside each school's published ones ----------
+//
+// The rankings library already says, with a source and a year on every figure, what each
+// school's admitted class looked like. The student can read that. What they could not do
+// is see their own numbers beside it, which is the point of keeping a shortlist at all.
+//
+// THE THINGS THIS DELIBERATELY DOES NOT DO, and none of them are oversights.
+//
+// It computes no probability, no score and no composite. Admissions weigh essays,
+// recommendations, interviews, references and what a class needs that year, and none of
+// those are in any published table. A number here would be invented, and an invented
+// number about somebody's future is the worst kind this site could ship.
+//
+// It never fills in a figure we have not verified. A dash means not verified (INC-0118), and
+// the footnote says so, because a reader who sees numbers in nine rows and a blank in the
+// tenth will otherwise assume the tenth is a zero.
+//
+// It says "average" every time it shows one. An average is not a cutoff: half of every
+// admitted class is below it on any given measure, and a student reading their GPA
+// against an average without that sentence draws exactly the wrong conclusion.
+//
+// GMAT Focus and Classic are never mixed. Each school publishes one or the other and the
+// comparison uses whichever it published, labelled, per CLAUDE.md.
+function fitInputs(){ const ab=(state.settings&&state.settings.about)||{};
+ const num=v=>(v===null||v===undefined||v==='')?null:Number(v);
+ return {gpa:num(ab.gpa),work:num(ab.work_exp_years),budget:num(ab.tuition_budget_usd)}; }
+
+// Where one self-reported number sits against one published average. Deliberately three
+// coarse words and not a percentage: the underlying figure is an average of a class, and
+// dressing a difference from it up as a percentile would be precision this has no claim
+// to. NEAR is within a margin chosen per measure, because a tenth of a GPA point and a
+// tenth of a year of work experience are not comparable distances.
+function fitWhere(mine,theirs,margin){
+ if(mine===null||theirs===null||theirs===undefined) return null;
+ const d=mine-theirs;
+ if(Math.abs(d)<=margin) return {w:'At about the average',t:''};
+ return d>0?{w:'Above the average',t:'success'}:{w:'Below the average',t:'warning'}; }
+
+function fitCite(f){ if(!f) return '';
+ const bits=[]; if(f.src) bits.push(esc(f.src)); if(f.year) bits.push(String(f.year));
+ if(!bits.length) return '';
+ const txt=bits.join(', ');
+ return f.url?' <a class="small" href="'+esc(f.url)+'" target="_blank" rel="noopener">'+txt+'</a>':' <span class="small muted">'+txt+'</span>'; }
+
+function fitRow(label,mine,fig,fmt,margin,note){
+ const has=fig&&fig.v!=null;
+ // Nothing published and nothing entered is nothing to say, so the row is omitted
+ // rather than printed as a pair of dashes. A row of dashes reads as a measurement that
+ // came back empty; an absent row reads as a measure that was not in play. Omitting it
+ // is also what makes the "publishes none of these" fallback below reachable.
+ if(!has&&mine===null) return '';
+ const where=has?fitWhere(mine,Number(fig.v),margin):null;
+ return '<tr><td>'+esc(label)+'</td>'
+  +'<td class="num">'+(mine===null?'<span class="muted">not set</span>':esc(fmt(mine)))+'</td>'
+  +'<td>'+(has?('<span class="num">'+esc(fmt(Number(fig.v)))+'</span>'
+      +(fig.stat?' <span class="small muted">'+esc(String(fig.stat).slice(0,90))+'</span>':'')
+      +fitCite(fig))
+     :'<span class="muted">not verified</span>')+'</td>'
+  +'<td>'+(where?badge(where.w,where.t):(mine===null&&has?'<span class="small muted">add yours in About You</span>':'<span class="muted">-</span>'))+'</td></tr>'
+  +(note?'<tr><td colspan="4" class="small muted" style="padding-top:0">'+note+'</td></tr>':''); }
+
+function fitCard(){
+ if(EXAM.id!=='gmat-focus') return '';
+ const tg=targetSchools();
+ if(!tg.length) return '<div class="card stack-4"><div class="card-title">Fit Against Your Target Schools</div>'
+   +'<p class="small" style="margin:0">Build a shortlist on the <a href="/schools/">MBA rankings page</a> and your own numbers appear beside each school\'s published class profile here.</p></div>';
+
+ const me=fitInputs();
+ const est=(typeof scoreEstimate==='function')?scoreEstimate(state):{ready:false};
+ const usd=n=>'$'+Math.round(n).toLocaleString('en-US');
+ const anyInput=me.gpa!==null||me.work!==null||me.budget!==null;
+
+ const blocks=tg.map(function(t){
+  const f=t.fit||{};
+  let rows='';
+
+  // The practice band, against whichever GMAT edition the school publishes. A band
+  // against a single average is a different comparison from the others on this page, so
+  // it gets its own wording rather than being forced into above/below.
+  if(t.gmat&&t.gmat.v!=null){
+   let mineTxt='<span class="muted">not yet estimated</span>', verdict='<span class="muted">-</span>';
+   if(est&&est.ready){
+    mineTxt='<span class="num">'+est.lo+' to '+est.hi+'</span>';
+    const v=Number(t.gmat.v);
+    verdict=badge(est.hi<v?'Below the average':est.lo>v?'Above the average':'Your range spans it',
+                  est.hi<v?'warning':est.lo>v?'success':'');
+   }
+   rows+='<tr><td>GMAT '+esc(t.gmat.ed)+'</td><td class="num">'+mineTxt+'</td>'
+    +'<td><span class="num">'+esc(String(t.gmat.v))+'</span>'
+    +(t.gmat.stat?' <span class="small muted">'+esc(String(t.gmat.stat).slice(0,90))+'</span>':'')+'</td>'
+    +'<td>'+verdict+'</td></tr>'
+    +'<tr><td colspan="4" class="small muted" style="padding-top:0">Your estimated range, not a predicted score. '
+    +'Focus and Classic are different scales and are never converted here; this compares against the edition this school published.</td></tr>';
+  }
+
+  rows+=fitRow('Undergraduate GPA',me.gpa,f.gpa,v=>v.toFixed(2),0.05,'');
+  rows+=fitRow('Work experience',me.work,f.work_exp_years,v=>v.toFixed(1)+' yrs',0.5,'');
+
+  // Affordability is a different kind of question from competitiveness, so it is not
+  // banded above or below. Published tuition is also not the cost of attendance, and
+  // saying so is the difference between a useful figure and a misleading one.
+  if(f.tuition_usd&&f.tuition_usd.v!=null){
+   const yr=Number(f.tuition_usd.v), two=yr*2;
+   const cover=me.budget===null?null:(me.budget/two);
+   rows+='<tr><td>Tuition</td><td class="num">'+(me.budget===null?'<span class="muted">not set</span>':esc(usd(me.budget))+' budget')+'</td>'
+    +'<td><span class="num">'+esc(usd(yr))+'</span> <span class="small muted">a year, so '+esc(usd(two))+' over two</span>'+fitCite(f.tuition_usd)+'</td>'
+    +'<td>'+(cover===null?'<span class="muted">-</span>'
+      :badge(cover>=1?'Covers two years':Math.round(cover*24)+' months of tuition',cover>=1?'success':'warning'))+'</td></tr>'
+    +'<tr><td colspan="4" class="small muted" style="padding-top:0">Published tuition only. It is not the cost of attendance: fees, living costs, insurance and travel are on top, and scholarships come off. Two years is the standard full-time length and a school may differ.</td></tr>';
+  }
+
+  if(f.accept_rate_pct&&f.accept_rate_pct.v!=null){
+   rows+='<tr><td>Acceptance rate</td><td class="num"><span class="muted">n/a</span></td>'
+    +'<td><span class="num">'+esc(String(f.accept_rate_pct.v))+'%</span>'+fitCite(f.accept_rate_pct)+'</td>'
+    +'<td><span class="muted">-</span></td></tr>';
+  }
+
+  return '<div class="card stack-4" style="min-width:0"><div class="card-head" style="margin:0">'
+   +'<span class="card-title">'+esc(t.name)+'</span>'
+   +badge((t.tag||'target').charAt(0).toUpperCase()+(t.tag||'target').slice(1),
+          t.tag==='safety'?'success':t.tag==='reach'?'error':'warning')+'</div>'
+   +'<div style="overflow-x:auto"><table><thead><tr><th>Measure</th><th class="num">You</th><th>This school publishes</th><th>Where you sit</th></tr></thead><tbody>'
+   +(rows||'<tr><td colspan="4" class="empty">This school publishes none of the figures this compares. Nothing is inferred to fill the gap.</td></tr>')
+   +'</tbody></table></div></div>'; }).join('');
+
+ return '<div class="card stack-4"><div class="card-head" style="margin:0"><span class="card-title">Fit Against Your Target Schools</span>'
+   +badge(tg.length+' school'+(tg.length===1?'':'s'),'accent')+'</div>'
+  +'<p class="small" style="margin:0">Your own numbers beside what each school publishes about the class it admitted. '
+  +(anyInput?'':'<b>Fill in your GPA, years of work experience and tuition budget in About You, further down this page, and these rows fill in.</b> ')
+  +'Every published figure carries its source and year; a dash means we have not verified the figure from the school or a tracked publisher, and nothing here is estimated to fill a gap.</p>'
+  +'</div>'
+  +blocks
+  +'<div class="card stack-4"><div class="card-title">How to Read This</div><ul class="small" style="margin:0;padding-left:18px">'
+  +'<li><b>An average is not a cutoff.</b> Half of every admitted class is below the average on any given measure. A figure below it is not a rejection and a figure above it is not an admission.</li>'
+  +'<li><b>There is no probability here and there will not be one.</b> Admissions weigh essays, recommendations, interviews, references and what a class needs that year. None of that is in any published table, so any number we printed would be invented.</li>'
+  +'<li><b>A dash means the figure has not been verified.</b> We never fill one in from a peer school, a forum or an estimate.</li>'
+  +'<li><b>Your range is an estimate from your own practice</b>, not a predicted score. It narrows as you answer more because the estimate gets more certain.</li>'
+  +'<li><b>Nothing here is sent anywhere.</b> The comparison is computed in this page from your saved list and your own answers, and no fit figure is stored.</li>'
+  +'</ul></div>'; }
 function gmSecName(sec){ return sec==='ALL'?'All sections':(SEC_SHORT[sec]||'General'); }
 function gmSecColor(sec){ return SEC_COLOR[sec]||'var(--gray-700)'; }
 // Minutes of testing in a full mock, from the exam's own section table.
@@ -921,7 +1112,8 @@ function gmIcon(name){ const p={
  blitz:'<path d="M13 2 4.5 13.5H11L9.5 22 18 10.5h-6.5z"/>',
  crunch:'<path d="M6.5 4.5v5M4 7h5M15 5l4 4M19 5l-4 4M4 15.5h5M4 18.5h5M15 17h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="17" cy="14.6" r="1"/><circle cx="17" cy="19.4" r="1"/>',
  boss:'<path d="M4 16.5 3 7l5 3.5L12 4l4 6.5L21 7l-1 9.5z"/><rect x="4.5" y="18" width="15" height="2.2" rx="1.1"/>',
- ladder:'<path d="M8 3v18M16 3v18M8 7.5h8M8 12h8M8 16.5h8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>'}[name];
+ ladder:'<path d="M8 3v18M16 3v18M8 7.5h8M8 12h8M8 16.5h8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+ survival:'<path d="M12 20.5C7.4 16.4 3.8 13.3 3.8 9.4 3.8 6.8 5.8 4.8 8.3 4.8c1.5 0 2.9.7 3.7 1.9.8-1.2 2.2-1.9 3.7-1.9 2.5 0 4.5 2 4.5 4.6 0 3.9-3.6 7-8.2 11.1Z"/>'}[name];
  return '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">'+p+'</svg>'; }
 function gmCard(icon,fg,bg,title,tag,tagTone,desc,stats,controls){
  return '<div class="card gcard"><span class="gicon big" style="background:'+bg+';color:'+fg+'">'+gmIcon(icon)+'</span>'
@@ -996,7 +1188,7 @@ function renderGames(){ gmReset(); const el=document.getElementById('v-games'); 
  const bestOf=(o,f)=>{ let v=null; Object.keys(o||{}).forEach(k=>{ const x=f(o[k]); if(x!=null&&(v===null||x>v)) v=x; }); return v; };
  const fastest=(o)=>{ let v=null; Object.keys(o||{}).forEach(k=>{ const x=o[k]&&o[k].best; if(x!=null&&(v===null||x<v)) v=x; }); return v; };
  const playsOf=o=>Object.keys(o||{}).reduce((s,x)=>s+((o[x]&&o[x].plays)||0),0);
- const plays=playsOf(g.match)+playsOf(g.memory)+playsOf(g.blitz)+((g.boss&&g.boss.plays)||0)+((g.crunch&&g.crunch.plays)||0)+((g.ladder&&g.ladder.plays)||0);
+ const plays=playsOf(g.match)+playsOf(g.memory)+playsOf(g.blitz)+((g.boss&&g.boss.plays)||0)+((g.crunch&&g.crunch.plays)||0)+((g.ladder&&g.ladder.plays)||0)+((g.survival&&g.survival.plays)||0);
  const fm=fastest(g.match), bb=bestOf(g.blitz,x=>x&&x.best), bo=g.boss&&g.boss.best;
  const st=(o,fmt)=>{ const b=o&&o.best; return b==null?'Not played yet':('Best '+fmt(b)+' · '+o.plays+' play'+(o.plays===1?'':'s')); };
  const stSec=(o,fmt,better)=>{ const b=better(o); const n=playsOf(o); return b==null?'Not played yet':('Best '+fmt(b)+' · '+n+' play'+(n===1?'':'s')); };
@@ -1010,7 +1202,8 @@ function renderGames(){ gmReset(); const el=document.getElementById('v-games'); 
  cards['crunch']=gmCard('crunch','var(--section-data)','var(--section-data-bg)','Number Crunch','Estimation','warning',EXAM.crunchLong,st(g.crunch,x=>x+' pts'),'<button class="btn sm" onclick="gmStartCrunch()">Start</button>');
  cards['boss']=gmCard('boss','var(--status-error)','var(--status-error-bg,#fdf0ef)','Boss Round','Real Questions','error','Five questions at your live ratings on the real pace clock, three lives. Counts toward your stats.',st(g.boss,x=>x+' pts'),'<button class="btn sm" onclick="gmStartBoss()">Take On the Boss</button>');
  cards['ladder']=gmCard('ladder','var(--gold-600)','var(--gold-50)','The Ladder','8 rungs','accent','Difficulty climbs when you are right and slips when you are wrong. Real bank questions, real pace clock; finish high to score high.',st(g.ladder,x=>x+' pts'),'<button class="btn sm" onclick="gmStartLadder()">Climb</button>');
- const order=(plan.order||['match','memory','blitz','crunch','boss','ladder']);
+ cards['survival']=gmCard('survival','var(--status-success)','var(--status-success-bg,#effaf2)','Survival','No clock','success','No timer and no points for speed. It gets harder as you go, three misses end it, and your score is how many you got right.',st(g.survival,x=>x+' correct'),'<button class="btn sm" onclick="gmStartSurvival()">Start</button>');
+ const order=(plan.order||['match','memory','blitz','crunch','boss','ladder','survival']);
  const hub=order.map(function(k){ const c=cards[k]; if(!c) return '';
    // The reason this game suits this exam sits on the card, above its stats.
    return why[k] ? c.replace('<div class="gstats">','<p class="gwhy">'+why[k]+'</p><div class="gstats">') : c;
@@ -1020,7 +1213,7 @@ function renderGames(){ gmReset(); const el=document.getElementById('v-games'); 
  +renderEvolution()
  +'<div class="tiles">'+tile('Games played',plays,'','')+tile('Fastest match',fm?fmtSecs(fm):'-','best time','')+tile('Best blitz',bb!=null?bb:'-','points','')+tile('Best boss round',bo!=null?bo:'-','points','')+'</div>'
  +'<div class="ghub">'+hub
- +'<div class="card gcard" style="border-style:dashed;background:var(--surface-sunken)"><span class="gicon big" style="background:var(--gray-100);color:var(--gray-700)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span><div class="card-head" style="margin:0"><span class="card-title">More in Development</span></div><p class="small" style="margin:0">New games ship when they train something the current five do not. Request one from the Account tab.</p><div class="gstats"></div></div>'
+ +'<div class="card gcard" style="border-style:dashed;background:var(--surface-sunken)"><span class="gicon big" style="background:var(--gray-100);color:var(--gray-700)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span><div class="card-head" style="margin:0"><span class="card-title">More in Development</span></div><p class="small" style="margin:0">New games ship when they train something the current ones do not. Request one from the Account tab.</p><div class="gstats"></div></div>'
  +'</div></div>'; }
 // Match
 function gmStartMatch(sec){ gmReset(); const cards=gmPickCards(sec,6); if(cards.length<4){ toast('Not enough cards in this section yet.'); return; }
@@ -1029,6 +1222,11 @@ function gmStartMatch(sec){ gmReset(); const cards=gmPickCards(sec,6); if(cards.
  track('game_started',{game:'match',sec}); show('games'); setFocus(true); gmMatchRender();
  gm.timer=setInterval(()=>{ const e=document.getElementById('gmClock'); if(!e){ gmReset(); return; } e.textContent=fmtSecs((Date.now()-gm.t0)/1000); },500); }
 function gmTile(k){ return document.getElementById('mt'+k); }
+// Say what just happened, for anyone not reading the colour. Blitz and Number Crunch
+// signalled right and wrong ONLY by adding a CSS class, then advanced the question after
+// 260 to 1050 milliseconds, so a screen reader user got no feedback at all and the board
+// changed under them. Colour alone also fails a colour blind player who can see fine.
+function gmSay(m){ const e=document.getElementById('gmLive'); if(e) e.textContent=m; }
 function gmMatchRender(){ const el=document.getElementById('v-games');
  el.innerHTML='<div class="stack">'
  +'<div class="row" style="justify-content:space-between;align-items:flex-end"><div><h1 style="font-size:var(--text-xl)">Match · '+gmSecName(gm.sec)+'</h1><p class="muted" style="margin:6px 0 0">Pair each prompt with its method.</p></div>'
@@ -1041,8 +1239,9 @@ function gmPick(i){ if(!gm.on||gm.kind!=='match'||gm.lock) return; const t=gm.ti
  const j=gm.selIdx; const u=gm.tiles[j]; gm.selIdx=null; gm.moves++; const mv=document.getElementById('gmMoves'); if(mv) mv.textContent=gm.moves+' moves';
  if(t.p===u.p&&t.kind!==u.kind){ t.done=true; u.done=true; gm.found++; [i,j].forEach(k=>{ const e=gmTile(k); e.classList.remove('sel'); e.classList.add('done'); });
   const f=document.getElementById('gmFound'); if(f) f.textContent=gm.found+' / '+(gm.tiles.length/2);
+  gmSay('Pair found, '+t.txt+'. '+gm.found+' of '+(gm.tiles.length/2)+'.');
   if(gm.found===gm.tiles.length/2) gmMatchDone(); }
- else { gm.lock=true; gmTile(i).classList.add('miss'); gmTile(j).classList.add('miss');
+ else { gm.lock=true; gmSay('Not a pair.'); gmTile(i).classList.add('miss'); gmTile(j).classList.add('miss');
   setTimeout(()=>{ [i,j].forEach(k=>{ const e=gmTile(k); if(e){ e.classList.remove('miss'); e.classList.remove('sel'); } }); gm.lock=false; },450); } }
 function gmMatchDone(){ clearInterval(gm.timer); gm.timer=null; gm.on=false; setFocus(false); const secs=Math.round((Date.now()-gm.t0)/1000);
  const g=gmState(); if(!g.match) g.match={}; const rec=g.match[gm.sec]||(g.match[gm.sec]={best:null,plays:0}); rec.plays++;
@@ -1074,10 +1273,13 @@ function gmBlitzAnswer(i){ if(!gm.on||gm.kind!=='blitz'||gm.lock) return; gm.loc
  if(o.ok){ gm.streak++; gm.maxStreak=Math.max(gm.maxStreak,gm.streak); gm.hits++; const mult=Math.min(5,gm.streak); gm.score+=10*mult;
   if(btn) btn.classList.add('hit'); const s=document.getElementById('bzScore'); if(s){ s.textContent=gm.score; gmPop('bzScore'); }
   const st=document.getElementById('bzStreak'); if(st) st.textContent=gm.streak>=2?gm.streak+' streak · x'+mult:'';
+  gmSay('Correct. '+gm.score+' points'+(gm.streak>=2?', '+gm.streak+' in a row':'')+'.');
   gm.qi++; setTimeout(()=>{ if(gm.on&&gm.kind==='blitz') gmBlitzQ(); },260); }
  else { gm.streak=0; gm.missed.push(gm.card); rateCard(state,gm.card.id,false);
   if(btn) btn.classList.add('bad'); gm.opts.forEach((x,k)=>{ if(x.ok){ const e=document.getElementById('bz'+k); if(e) e.classList.add('reveal'); } });
   const st=document.getElementById('bzStreak'); if(st) st.textContent='';
+  const right=gm.opts.filter(x=>x.ok)[0];
+  gmSay('Not right. The answer was '+(right?right.txt:'shown')+'.');
   gm.qi++; setTimeout(()=>{ if(gm.on&&gm.kind==='blitz') gmBlitzQ(); },950); } }
 function gmBlitzDone(){ clearInterval(gm.timer); gm.timer=null; gm.on=false; setFocus(false);
  const g=gmState(); if(!g.blitz) g.blitz={}; const rec=g.blitz[gm.sec]||(g.blitz[gm.sec]={best:null,plays:0}); rec.plays++;
@@ -1172,6 +1374,44 @@ function gmLadderEnd(){ gmReset(); const n=gm.results.length, c=gm.results.filte
  +'<div class="card" style="text-align:left;overflow-x:auto"><table><thead><tr><th>#</th><th>Type</th><th class="num">Level</th><th>Result</th><th class="num">Time</th><th class="num">Points</th></tr></thead><tbody>'+rows+'</tbody></table></div>'
  +'<p class="small muted" style="margin:0">Every answer here updates your skill ratings, review queue, and stats, same as a practice round.</p>'
  +'<div class="row" style="justify-content:center"><button class="btn" onclick="gmStartLadder()">Climb Again</button><button class="btn secondary" onclick="renderGames()">All Games</button><button class="btn ghost" onclick="show(\'review\')">Review Misses</button></div></div>'; }
+// Survival: no clock and accuracy only. It gets harder after every second correct answer in
+// a row and ends at the third miss; the score is how many were answered correctly, compared
+// only with your own best. The other real-question games reward pace too, which is the
+// right drill for a section clock; this one exists for the opposite skill, getting it right
+// when nothing is hurrying you. Lichess keeps its puzzle modes on personal bests for the
+// reason this site does: "Where there is a leaderboard, there is cheating." (lichess.org/page/storm)
+function gmStartSurvival(){ gmReset(); if(!planGate('question')) return;
+ gm.used={}; if(!gmLadderPool().length){ toast('Not enough questions available.'); return; }
+ gm.on=true; gm.kind='survival'; gm.level=2; gm.peak=2; gm.score=0; gm.lives=3; gm.run=0; gm.sid='g'+Date.now(); gm.results=[];
+ track('game_started',{game:'survival'}); show('games'); setFocus(true); gmSurvivalQ(); }
+function gmSurvivalQ(){ const q=gmLadderPick(); if(!q){ gmSurvivalEnd(); return; } gm.q=q; gm.used[q.id]=1; gm.qStart=Date.now(); gm.lock=false;
+ document.getElementById('v-games').innerHTML='<div class="narrow stack">'
+ +'<div class="row" style="justify-content:space-between;align-items:center"><div class="row" style="gap:10px"><span class="badge accent">Survival</span><span class="small muted">No clock · level '+gm.level+' of 5</span></div><div class="row" style="gap:14px">'+gmHearts()+'<span class="bigscore" id="svScore" style="font-size:var(--text-xl)" aria-label="Correct so far">'+gm.score+'</span><button class="btn ghost sm" onclick="gmQuit()">Quit</button></div></div>'
+ +'<div><div class="small muted" style="margin-bottom:6px">'+typeLabel(q)+' · '+SEC_SHORT[q.section]+' · difficulty '+q.diff+'</div>'+(q.passageHtml?'<div class="card" style="margin-bottom:12px;overflow-x:auto">'+q.passageHtml+'</div>':'')+'<div style="font-size:15.5px;line-height:1.65;color:var(--text-heading);white-space:pre-line">'+esc(q.stem)+'</div></div>'
+ +'<div class="opts">'+q.choices.map((c,i)=>'<button class="opt" id="opt'+i+'" onclick="gmSurvivalAnswer('+i+')"><span class="chip">'+String.fromCharCode(65+i)+'</span><span class="txt">'+esc(c)+'</span></button>').join('')+'</div>'
+ +'</div>'; }
+function gmSurvivalAnswer(i){ if(!gm.on||gm.kind!=='survival'||gm.lock) return; gm.lock=true;
+ const q=gm.q; const secs=(Date.now()-gm.qStart)/1000; const correct=gradeChosen(q,i);
+ recordAttempt(state,q,i,correct,secs,null,false,gm.sid); Cloud.logAttempt(state.attempts[state.attempts.length-1]); logItemEvent(q,i,correct,secs,'game_survival',{first_ms:secs*1000,changes:0});
+ gm.results.push({q,correct,secs:Math.round(secs),level:gm.level});
+ if(correct){ gm.score++; gm.run++; if(gm.run%2===0) gm.level=Math.min(5,gm.level+1); gm.peak=Math.max(gm.peak,gm.level); } else { gm.lives--; gm.run=0; }
+ document.querySelectorAll('.opt').forEach((b,k)=>{ b.disabled=true; if(k===q.answer) b.classList.add('correct'); else if(k===i) b.classList.add('incorrect'); });
+ const s=document.getElementById('svScore'); if(s&&correct){ s.textContent=gm.score; gmPop('svScore'); }
+ gmSay(correct?'Correct. '+gm.score+' so far.':'Missed. The answer is '+String.fromCharCode(65+q.answer)+'. '+gm.lives+' '+(gm.lives===1?'life':'lives')+' left.');
+ setTimeout(()=>{ if(!gm.on||gm.kind!=='survival') return; if(gm.lives<=0) gmSurvivalEnd(); else gmSurvivalQ(); },correct?900:1600); }
+function gmSurvivalEnd(){ gmReset(); const n=gm.results.length, c=gm.score, avg=n?Math.round(gm.results.reduce((a,b)=>a+b.secs,0)/n):0;
+ state.sessions.push({id:gm.sid,mode:'survival',ts:Date.now(),n,c,avg});
+ if(Cloud.user) Cloud.client.from('sessions').upsert({id:gm.sid,user_id:Cloud.user.id,mode:'survival',n,c,avg_secs:avg}).then(()=>{});
+ const g=gmState(); if(!g.survival) g.survival={best:null,plays:0,peak:1};
+ g.survival.plays++; g.survival.peak=Math.max(g.survival.peak||1,gm.peak);
+ const isBest=g.survival.best===null||c>g.survival.best; if(isBest) g.survival.best=c; persist(); updateHeader();
+ track('game_completed',{game:'survival',score:c,total:n,peak:gm.peak}); if(isBest&&c>=10) gmConfetti();
+ const rows=gm.results.map((r,i)=>'<tr><td class="mono">'+(i+1)+'</td><td>'+typeLabel(r.q)+'</td><td class="num">'+r.level+'</td><td>'+(r.correct?badge('Correct','success'):badge('Missed','error'))+'</td><td class="num">'+fmtSecs(r.secs)+'</td></tr>').join('');
+ document.getElementById('v-games').innerHTML='<div class="narrow stack" style="text-align:center"><h1 style="font-size:var(--text-2xl)">'+(isBest&&c>0?'New Personal Best':'Survival Over')+'</h1>'
+ +'<div class="bigscore" style="font-size:56px">'+c+'</div><p class="muted" style="margin:0">answered correctly · reached level '+gm.peak+' · best '+g.survival.best+'</p>'
+ +(n?'<div class="card" style="text-align:left;overflow-x:auto"><table><thead><tr><th>#</th><th>Type</th><th class="num">Level</th><th>Result</th><th class="num">Time</th></tr></thead><tbody>'+rows+'</tbody></table></div>':'')
+ +'<p class="small muted" style="margin:0">Time is shown for your own reading and is not part of the score. Every answer here updates your skill ratings, review queue, and stats, same as a practice round.</p>'
+ +'<div class="row" style="justify-content:center"><button class="btn" onclick="gmStartSurvival()">Play Again</button><button class="btn secondary" onclick="renderGames()">All Games</button><button class="btn ghost" onclick="show(\'review\')">Review Misses</button></div></div>'; }
 // Memory: the Match board, face down
 function gmStartMemory(sec){ gmReset(); const cards=gmPickCards(sec,6); if(cards.length<4){ toast('Not enough cards in this section yet.'); return; }
  const tiles=[]; cards.forEach((c,pi)=>{ tiles.push({p:pi,kind:'f',txt:c.front,sec:c.sec}); tiles.push({p:pi,kind:'b',txt:firstSent(c.back),sec:c.sec}); });
@@ -1185,15 +1425,21 @@ function gmMemRender(){ const el=document.getElementById('v-games');
  +'<div class="mgrid">'+gm.tiles.map((t,i)=>'<button class="mtile fdown'+(t.kind==='f'?' front':'')+'" id="mt'+i+'" style="--tilec:'+gmSecColor(t.sec)+'" onclick="gmMemPick('+i+')" aria-label="Tile '+(i+1)+'"><span class="face">'+esc(t.txt)+'</span><span class="qm" aria-hidden="true">?</span></button>').join('')+'</div>'
  +'</div>'; }
 function gmMemPick(i){ if(!gm.on||gm.kind!=='memory'||gm.lock) return; const t=gm.tiles[i]; if(t.done||gm.up.indexOf(i)>=0) return;
- gmTile(i).classList.remove('fdown'); gm.up.push(i); if(gm.up.length<2) return;
+ // A revealed tile has to change its accessible NAME, not only its appearance. The label
+ // is a static 'Tile N' so the face is not leaked while face down, which is right, but it
+ // left a screen reader user flipping tiles and learning nothing.
+ gmTile(i).classList.remove('fdown'); gmTile(i).setAttribute('aria-label',t.txt);
+ gmSay(t.txt); gm.up.push(i); if(gm.up.length<2) return;
  gm.moves++; const mv=document.getElementById('gmMoves'); if(mv) mv.textContent=gm.moves+' flips';
  const a=gm.up[0], b=gm.up[1];
  if(gm.tiles[a].p===gm.tiles[b].p&&gm.tiles[a].kind!==gm.tiles[b].kind){ gm.tiles[a].done=true; gm.tiles[b].done=true; gm.found++;
   [a,b].forEach(k=>gmTile(k).classList.add('done')); gm.up=[];
+  gmSay('Pair found. '+gm.found+' of '+(gm.tiles.length/2)+'.');
   const f=document.getElementById('gmFound'); if(f) f.textContent=gm.found+' / '+(gm.tiles.length/2);
   if(gm.found===gm.tiles.length/2) gmMemDone(); }
  else { gm.lock=true; [a,b].forEach(k=>gmTile(k).classList.add('miss'));
-  setTimeout(()=>{ [a,b].forEach(k=>{ const e=gmTile(k); if(e){ e.classList.add('fdown'); e.classList.remove('miss'); } }); gm.up=[]; gm.lock=false; },800); } }
+  gmSay('Not a pair.');
+  setTimeout(()=>{ [a,b].forEach(k=>{ const e=gmTile(k); if(e){ e.classList.add('fdown'); e.classList.remove('miss'); e.setAttribute('aria-label','Tile '+(k+1)); } }); gm.up=[]; gm.lock=false; },800); } }
 function gmMemDone(){ clearInterval(gm.timer); gm.timer=null; gm.on=false; setFocus(false); const secs=Math.round((Date.now()-gm.t0)/1000);
  const g=gmState(); if(!g.memory) g.memory={}; const rec=g.memory[gm.sec]||(g.memory[gm.sec]={best:null,plays:0}); rec.plays++;
  const isBest=rec.best===null||secs<rec.best; if(isBest) rec.best=secs; persist();
@@ -1239,8 +1485,10 @@ function gmCrunchAnswer(i){ if(!gm.on||gm.kind!=='crunch'||gm.lock) return; gm.l
  if(ok){ gm.streak++; gm.maxStreak=Math.max(gm.maxStreak,gm.streak); gm.hits++; gm.score+=10*Math.min(5,gm.streak);
   const s=document.getElementById('ncScore'); if(s){ s.textContent=gm.score; gmPop('ncScore'); }
   const st=document.getElementById('ncStreak'); if(st) st.textContent=gm.streak>=2?gm.streak+' streak · x'+Math.min(5,gm.streak):'';
+  gmSay('Correct. '+gm.score+' points. '+(fb?fb.textContent:''));
   setTimeout(()=>{ if(gm.on&&gm.kind==='crunch') gmCrunchQ(); },420); }
  else { gm.streak=0; const st=document.getElementById('ncStreak'); if(st) st.textContent='';
+  gmSay('Not right. '+(fb?fb.textContent:''));
   setTimeout(()=>{ if(gm.on&&gm.kind==='crunch') gmCrunchQ(); },1050); } }
 function gmCrunchDone(){ clearInterval(gm.timer); gm.timer=null; gm.on=false; setFocus(false);
  const g=gmState(); if(!g.crunch) g.crunch={best:null,plays:0}; g.crunch.plays++;
@@ -1251,19 +1499,33 @@ function gmCrunchDone(){ clearInterval(gm.timer); gm.timer=null; gm.on=false; se
  +'<div class="bigscore" style="font-size:56px">'+gm.score+'</div><p class="muted" style="margin:0">points · best '+g.crunch.best+'</p>'
  +'<div class="tiles" style="grid-template-columns:repeat(3,1fr)">'+tile('Answered',gm.tries,acc+'% right','')+tile('Longest streak',gm.maxStreak,'x'+Math.min(5,Math.max(1,gm.maxStreak))+' top multiplier','')+tile('Plays',g.crunch.plays,'all time','')+'</div>'
  +'<div class="row" style="justify-content:center"><button class="btn" onclick="gmStartCrunch()">Play Again</button><button class="btn secondary" onclick="renderGames()">All Games</button></div></div>'; }
-// Question of the day: one deterministic daily pick, its own streak, always free
-function qotdPick(){ const d=new Date(); const key=d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate();
- let h=key%2147483647; h=(h*48271)%2147483647; h=(h*48271)%2147483647;
- const pool=BANK.filter(q=>!q.answerType&&!q.passageId&&q.type!=='MSR'&&(!q.passageHtml||q.type==='GT')&&Array.isArray(q.choices)&&typeof q.answer==='number');
- return pool[h%pool.length]; }
+// Question of the day. The same scheduled item as /daily/<exam>/ for the student's own
+// calendar date, read from DAILY, which the build injects from data/daily/schedule.json.
+// It used to be pool[hash(date) % pool.length] over the live BANK, which grows as the
+// deferred chunks land, so the question depended on when the page was opened (INC-0111).
+// The streak is SFNDaily's, shared with the public page: days answered, right or wrong.
+function qotdSlug(){ return (typeof DAILY!=='undefined'&&DAILY.slug)||''; }
+// Scheduled items are hand written, and every hand-written item ships in the blocking
+// bank.js, so the lookup never waits on a deferred chunk. With no scheduled day on or
+// before today (the schedule has not started, or no deploy has run for days) there is no
+// question rather than an improvised one: the card says when the next one arrives.
+function qotdPick(){ const t=SFNDaily.today(); const days=(typeof DAILY!=='undefined'&&DAILY.days)||{};
+ const date=days[t]?t:Object.keys(days).filter(d=>d<=t).sort().pop();
+ const q=date&&BANK.find(x=>x.id===days[date]);
+ if(q) return {q,date,scheduled:true,today:date===t};
+ const upcoming=Object.keys(days).filter(d=>d>t).sort()[0]||null;
+ return {q:null,date:upcoming,scheduled:false,today:false}; }
 function qotdState(){ if(!state.qotd) state.qotd={date:null,correct:null,streak:0}; return state.qotd; }
-function startQotd(){ const s=qotdState(); if(s.date===new Date().toDateString()){ toast('Today\'s question is done. A new one arrives tomorrow.'); return; }
- gmReset(); track('game_started',{game:'qotd'}); beginSession([qotdPick()],'qotd'); }
-function qotdCardHtml(){ const s=qotdState(); const done=s.date===new Date().toDateString();
+function qotdRecord(p){ const slug=qotdSlug(); return slug&&p&&p.today?SFNDaily.days(slug)[p.date]:null; }
+function startQotd(){ const p=qotdPick(); if(!p.q){ toast(p.date?'The first daily question arrives on '+p.date+'.':'No daily question is scheduled for today.'); return; }
+ if(qotdRecord(p)){ toast('Today\'s question is done. A new one arrives at midnight.'); return; }
+ window._qotdPick=p; gmReset(); track('game_started',{game:'qotd'}); beginSession([p.q],'qotd'); }
+function qotdCardHtml(){ const p=qotdPick(); const slug=qotdSlug(); const st=slug?SFNDaily.stats(slug):null; const rec=qotdRecord(p); const done=!!rec;
+ const s={streak:st?st.current:0,correct:rec?!!rec.c:null};
  return '<div class="card qotd-dark"><div class="row" style="justify-content:space-between;margin-bottom:2px"><span class="eyebrow" style="color:#8AAEC4;margin:0">Question of the Day</span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8AAEC4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>'
- +'<p class="small" style="color:#5A7FA0;margin:0 0 10px">'+(s.streak>1?s.streak+' day QotD streak':'One a day, free forever')+'</p>'
- +'<p style="font-size:14px;line-height:1.55;color:#C8DAEA;margin:0 0 14px">'+(done?(s.correct?'Solved. Come back tomorrow to keep the streak alive.':'Missed today\'s. The streak resets, tomorrow is a fresh one.'):'One question, picked for everyone today. Free every day, no cap.')+'</p>'
- +(done?'<div>'+(s.correct?badge('Correct','success'):badge('Missed','error'))+'</div>':'<button class="qotd-btn" onclick="startQotd()">Answer Today\'s Question</button>')+'</div>'; }
+ +'<p class="small" style="color:#5A7FA0;margin:0 0 10px">'+(s.streak>1?s.streak+' day streak'+(st.freezes?', '+st.freezes+' freeze'+(st.freezes>1?'s':'')+' banked':''):'One a day, free forever')+'</p>'
+ +'<p style="font-size:14px;line-height:1.55;color:#C8DAEA;margin:0 0 14px">'+(done?(s.correct?'Solved. A new question arrives at midnight.':'Missed, and the day still counts toward your streak. A new question arrives at midnight.'):(!p.q?(p.date?'The first daily question arrives on '+p.date+'.':'No daily question is scheduled for today.'):p.today?'The same question for everyone today. Free every day, no cap.':'The most recent daily question. Today\'s arrives with the next update, and this one does not count toward the streak.'))+'</p>'
+ +(done?'<div class="row" style="gap:10px;align-items:center">'+(s.correct?badge('Correct','success'):badge('Missed','error'))+(slug&&p.scheduled?'<a href="/daily/'+slug+'/" style="color:#8AAEC4;font-size:12.5px">Share your result</a>':'')+'</div>':(p.q?'<button class="qotd-btn" onclick="startQotd()">'+(p.today?'Answer Today\'s Question':'Answer the Latest Question')+'</button>':''))+'</div>'; }
 function renderCards(){ const el=document.getElementById('v-cards'); const due=dueCards(state,CARDS,fc.sec); const total=CARDS.filter(c=>fc.sec==='ALL'||c.sec===fc.sec).length; const known=CARDS.filter(c=>(fc.sec==='ALL'||c.sec===fc.sec)&&state.cards&&state.cards[c.id]&&state.cards[c.id].box>=3).length;
  let html='<div class="narrow stack"><div><h1 style="font-size:var(--text-xl)">Flashcards</h1><p class="muted" style="margin:6px 0 0">Formulas and methods. Mark each card Know it or Still learning; cards you know come back less often, cards you miss come back today.</p></div>';
  html+='<div class="row"><div class="chips">'+[['ALL','All']].concat(SECTIONS.map(s=>[s,SEC_SHORT[s]])).concat([['G','Pacing']]).map(x=>'<span class="chip-t '+(fc.sec===x[0]?'on':'')+'" onclick="fc.sec=\''+x[0]+'\';fc.queue=[];renderCards()">'+x[1]+'</span>').join('')+'</div><span class="grow"></span><span class="small mono">'+due.length+' due · '+known+'/'+total+' known</span></div>';
@@ -1379,6 +1641,223 @@ async function renderAdminRevenue(el,preview){ el.innerHTML='<div class="stack">
  +'</ul></div>'
  +'</div>';
  window._revD=d; }
+// ---------- Business: the one page that answers "how is this doing" ----------
+//
+// The Revenue tab reads profiles, which holds what every account pays RIGHT NOW. That is
+// a snapshot, and a snapshot cannot say how much revenue arrived this month, how much of
+// it left, what share of trials convert, or what came back out as refunds. profiles is
+// overwritten on every webhook, so the moment somebody cancels the evidence they ever
+// paid is gone.
+//
+// This page reads billing_events instead, the append-only ledger the payment functions
+// write to, through admin_business(). It pairs that with traffic and the funnel from
+// site_events, because revenue without the top of the funnel tells you what happened and
+// not why.
+//
+// The honesty constraint that shapes everything below: the ledger began the day it was
+// deployed and is never backfilled with estimates. admin_business returns log.first_at,
+// and the page says so on its face rather than implying the numbers cover all time. A
+// figure that silently covers less than its label claims is the hardest kind of wrong to
+// catch, which is exactly the failure this whole page exists to stop.
+const ADMIN_BIZ_SAMPLE={generated_at:'sample',days:90,
+ log:{events:0,first_at:null,last_at:null,covers_window:false},
+ snapshot:{mrr_cents:0,trial_mrr_cents:0,paying:0,trialing:0,past_due:0,cancelling:0,accounts_total:0,ever_subscribed:0},
+ movement:[],cash:[],
+ window:{new_mrr_cents:0,expansion_mrr_cents:0,contraction_mrr_cents:0,churned_mrr_cents:0,
+  charged_cents:0,refunded_cents:0,refunds:0,failed_payments:0,trials_started:0,
+  trials_converted:0,subscriptions_started:0,cancellations:0,renewals:0},
+ trial_cohorts:[],recent_churn:[],recent_refunds:[],by_source:{}};
+let bizDays=90;
+// Cents in, dollars out, with the precision the size of the number deserves: cents shown
+// below a thousand dollars, dropped above it. A fixed rule is wrong at one end or the
+// other. Rounding $159.84 of ARR to $160 hides real money when the business is small,
+// which is exactly when the owner is reading these tiles most closely; carrying cents on
+// $1,284,113 is noise.
+const usd=function(c,dp){ const v=(Number(c)||0)/100;
+ const d=(dp===undefined)?(Math.abs(v)>=1000?0:2):dp;
+ return '$'+v.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d}); };
+// Daily resolution over three months is mostly zeros and unreadable at phone width, so
+// anything past six weeks is summed into calendar weeks. The totals do not change; only
+// the resolution does, and the table view under every chart still has the raw days.
+function bizGroup(rows,keys){ rows=rows||[];
+ if(rows.length<=45) return rows.map(function(r){ return Object.assign({},r); });
+ const out=[],byW={};
+ rows.forEach(function(r){ const d=new Date(String(r.d)+'T00:00:00Z');
+  if(isNaN(d.getTime())) return;
+  d.setUTCDate(d.getUTCDate()-((d.getUTCDay()+6)%7));
+  const k=d.toISOString().slice(0,10); let b=byW[k];
+  if(!b){ b=byW[k]={d:k}; keys.forEach(function(x){ b[x]=0; }); out.push(b); }
+  keys.forEach(function(x){ b[x]+=Number(r[x])||0; }); });
+ return out; }
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function bizLabel(iso){ const p=String(iso).slice(0,10).split('-');
+ return p.length===3?MON[(+p[1]||1)-1]+' '+(+p[2]):String(iso); }
+function bizDate(iso){ if(!iso) return 'never';
+ const p=String(iso).slice(0,10).split('-');
+ return p.length===3?MON[(+p[1]||1)-1]+' '+(+p[2])+', '+p[0]:String(iso); }
+function bizChart(id,fn,spec){ const n=document.getElementById(id);
+ if(!n||!window.SFNCharts||typeof SFNCharts[fn]!=='function') return;
+ try{ SFNCharts[fn](n,spec); }catch(e){ n.innerHTML='<p class="small muted" style="margin:0">Chart unavailable: '+esc(String((e&&e.message)||e))+'</p>'; } }
+function bizTiles(from,n){ let h='';
+ for(let i=from;i<from+n;i++) h+='<div class="card" style="min-width:0" id="bizTile'+i+'"></div>';
+ return '<div class="tiles">'+h+'</div>'; }
+function bizRows(rows,cols,empty){ if(!rows||!rows.length) return '<p class="small muted" style="margin:0">'+empty+'</p>';
+ return '<div style="overflow-x:auto"><table><thead><tr>'+cols.map(function(c){ return '<th'+(c.num?' class="num"':'')+'>'+esc(c.h)+'</th>'; }).join('')
+  +'</tr></thead><tbody>'+rows.map(function(r){ return '<tr>'+cols.map(function(c){
+    return '<td'+(c.num?' class="num"':'')+'>'+c.f(r)+'</td>'; }).join('')+'</tr>'; }).join('')+'</tbody></table></div>'; }
+
+async function renderAdminBusiness(el,preview){
+ el.innerHTML='<div class="stack"><div class="empty">Loading the business view...</div></div>';
+ let d=ADMIN_BIZ_SAMPLE, tr=ADMIN_TRAFFIC_SAMPLE;
+ if(!preview){
+  try{ const r=await Cloud.client.rpc('admin_business',{p_days:bizDays}); if(r.error) throw r.error; d=r.data; }
+  catch(e){ el.innerHTML='<div class="narrow stack"><div class="card p8"><div class="card-title">Business</div>'
+   +'<p class="muted" style="margin-top:8px">Could not load the business view: '+esc(String((e&&e.message)||e))+'</p></div></div>'; return; }
+  // Traffic is a separate read on purpose: a failure there must not blank the revenue
+  // half of the page, which is the half somebody opened this for.
+  try{ const t=await Cloud.client.rpc('admin_traffic',{p_days:Math.min(bizDays,90)}); if(!t.error) tr=t.data; }catch(e2){}
+  try{ const f=await Cloud.client.rpc('admin_funnel',{days:Math.min(bizDays,90)}); if(!f.error&&tr) tr.funnel=f.data; }catch(e3){}
+ }
+ window._biz=d; window._bizTraffic=tr;
+ const snap=d.snapshot||{}, w=d.window||{}, log=d.log||{};
+ const net=(w.new_mrr_cents||0)+(w.expansion_mrr_cents||0)-(w.contraction_mrr_cents||0)-(w.churned_mrr_cents||0);
+ const cohorts=d.trial_cohorts||[];
+ const cohConv=cohorts.reduce(function(a,c){ return a+(c.converted||0); },0);
+ const cohDecided=cohorts.reduce(function(a,c){ return a+(c.converted||0)+(c.lapsed||0); },0);
+ const mv=bizGroup(d.movement,['new_cents','expansion_cents','contraction_cents','churned_cents']);
+ const cs=bizGroup(d.cash,['charged_cents','refunded_cents']);
+ const byDay=(tr&&tr.by_day)||[];
+ const winBtn=function(n,lbl){ return '<button class="btn sm'+(bizDays===n?'':' secondary')+'" onclick="bizDays='+n+';renderAdmin()">'+lbl+'</button>'; };
+
+ el.innerHTML='<div class="stack">'
+ +'<div class="row" style="align-items:flex-end;justify-content:space-between"><div style="min-width:0">'
+   +'<h1 style="font-size:var(--text-2xl);font-weight:700">Business</h1>'
+   +'<p class="muted" style="margin:6px 0 0">Money and demand on one page. The recurring half comes from the billing ledger, which records what each subscription did rather than what it is; the demand half comes from the first-party beacon. Cash and recurring value are kept apart throughout: an annual plan is one charge and twelve months of revenue, and adding those together is wrong in both directions.</p>'
+ +'</div>'+adminTabsHtml()+'</div>'
+ +(preview?'<div class="card p5" style="background:var(--status-warning-bg);border-color:var(--amber-100)"><span class="small">Sample data preview, all zeros. Sign in as an admin for the real ledger.</span></div>':'')
+
+ // The provenance line. Everything below is "since the ledger began", and saying so on
+ // the face of the page is cheaper than explaining a wrong number later.
+ +'<div class="card p5"><div class="row" style="justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center">'
+   +'<span class="small muted" style="min-width:0">'
+     +(log.events?('Ledger holds <strong>'+Number(log.events).toLocaleString('en-US')+'</strong> events, first on <strong>'+esc(bizDate(log.first_at))+'</strong>. '
+        +(log.covers_window?'That covers this whole window.':'That is <strong>less than the window below</strong>, so movement and cash figures start from the ledger, not from the first day shown.'))
+       :'The ledger is empty. It began the day it was deployed and is never backfilled with estimates, so movement, trials and refunds stay blank until the first billing event lands. The snapshot tiles read from profiles and are true now.')
+   +'</span><span class="row" style="gap:6px;flex:none">'+winBtn(30,'30d')+winBtn(90,'90d')+winBtn(365,'365d')+'</span></div></div>'
+
+ +bizTiles(0,4)
+ +bizTiles(4,4)
+
+ +'<div class="card"><div class="card-head"><span class="card-title">Recurring Revenue Movement</span>'
+   +'<button class="btn sm secondary" onclick="csvDownload(\'mrr-movement\',(window._biz&&window._biz.movement)||[])">CSV</button></div>'
+   +'<div id="bizMove" style="min-width:0"></div>'
+   +'<p class="small muted" style="margin:10px 0 0">New is a subscription starting or a trial converting. Churn is what a cancelling subscriber was paying, captured at the moment of cancellation because that is the last instant the figure exists. A trial that lapses churns nothing, because it was never revenue; it shows up in the cohort table instead.</p></div>'
+
+ +'<div class="card"><div class="card-head"><span class="card-title">Cash Collected and Refunded</span>'
+   +'<button class="btn sm secondary" onclick="csvDownload(\'cash\',(window._biz&&window._biz.cash)||[])">CSV</button></div>'
+   +'<div id="bizCash" style="min-width:0"></div>'
+   +'<p class="small muted" style="margin:10px 0 0">Gross, not net, and refunds shown beside charges rather than subtracted from them. Netting hides the month where a fifth of revenue came back. Excludes tax, which Stripe adds at checkout and remits separately.</p></div>'
+
+ +'<div class="grid2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">'
+  +'<div class="card" style="min-width:0"><div class="card-head"><span class="card-title">Trial Cohorts</span>'
+    +'<button class="btn sm secondary" onclick="csvDownload(\'trial-cohorts\',(window._biz&&window._biz.trial_cohorts)||[])">CSV</button></div>'
+    +'<div id="bizCoh" style="min-width:0"></div>'
+    +'<p class="small muted" style="margin:10px 0 0">Grouped by the week the trial <em>started</em>, which is the only grouping that gives an honest rate: counting conversions in the week they convert flatters a growing month and punishes a shrinking one. A cohort still inside its trial is pending, not a zero.</p></div>'
+  +'<div class="card" style="min-width:0"><div class="card-head"><span class="card-title">Demand</span>'
+    +'<button class="btn sm secondary" onclick="csvDownload(\'sessions\',(window._bizTraffic&&window._bizTraffic.by_day)||[])">CSV</button></div>'
+    +'<div id="bizTraf" style="min-width:0"></div>'
+    +'<p class="small muted" style="margin:10px 0 0">First-party beacon, consented sessions only. Ad blockers hide some visitors, so treat this as a floor rather than a count.</p></div>'
+ +'</div>'
+
+ +funnelCardBiz((tr&&tr.funnel)||[],(tr&&tr.sessions)||0)
+
+ +'<div class="grid2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">'
+  +'<div class="card stack-4" style="min-width:0"><div class="card-title">Who Left, and What It Cost</div>'
+    +bizRows(d.recent_churn||[],[
+      {h:'When',f:function(r){ return esc(bizDate(r.at)); }},
+      {h:'Plan',f:function(r){ return esc(String((r.plan||'unknown')+' '+(r.interval||''))); }},
+      {h:'MRR lost',num:1,f:function(r){ return usd(r.mrr_cents); }}],
+      'No cancellations in this window.')+'</div>'
+  +'<div class="card stack-4" style="min-width:0"><div class="card-title">Refunds</div>'
+    +bizRows(d.recent_refunds||[],[
+      {h:'When',f:function(r){ return esc(bizDate(r.at)); }},
+      {h:'Plan',f:function(r){ return esc(String(r.plan||'unknown')); }},
+      {h:'Amount',num:1,f:function(r){ return usd(r.cents); }}],
+      'No refunds in this window. Policy is 72 hours from the charge, plus our own billing errors, which are always refunded.')+'</div>'
+ +'</div>'
+
+ +'<div class="card stack-4"><div class="card-title">What This Page Can and Cannot Tell You</div><ul class="small" style="margin:0;padding-left:18px">'
+  +'<li><strong>Trial money is never in MRR.</strong> A trial contributes zero until it converts. '+(snap.trialing||0)+' trialing '+((snap.trialing===1)?'account is':'accounts are')+' worth '+usd(snap.trial_mrr_cents)+' a month if every one of them converts, which is a pipeline figure, not revenue.</li>'
+  +'<li><strong>Churn rate is not shown, on purpose.</strong> A percentage needs a denominator held at the start of the window, and the ledger cannot supply one for any period beginning before '+esc(bizDate(log.first_at))+'. The counts and the lost MRR are real; the ratio would be a guess dressed as a metric. It appears here once the ledger is older than the window.</li>'
+  +'<li><strong>Stripe is the ledger of record.</strong> This is an operating view built from webhook events. Disputes, tax and payout timing live in Stripe and are not modelled here.</li>'
+  +'<li><strong>Apple cash is gross of Apple\'s commission.</strong> Apple keeps 15 or 30 percent depending on the programme and its notifications do not say which, so what is recorded is what the customer paid. Apple sandbox transactions are never recorded at all: fictional dollars in a revenue chart are worse than a gap.</li>'
+  +'<li><strong>Revenue and demand are not joined.</strong> Item telemetry is deliberately unlinkable and the beacon is per session, so nothing here attributes a subscription to a visit. That is a design choice, not a gap to close.</li>'
+ +'</ul></div>'
+ +'</div>';
+
+ // Charts render after the markup exists, because they take a live node rather than a
+ // string. Every one degrades to a message if the library is missing rather than leaving
+ // an empty box that reads as "zero".
+ const tiles=[
+  {label:'MRR',value:usd(snap.mrr_cents),note:'active subscriptions, annual prices divided by twelve'},
+  {label:'ARR',value:usd((snap.mrr_cents||0)*12),note:'MRR times twelve, not a forecast'},
+  {label:'Paying',value:String(snap.paying||0),note:String(snap.cancelling||0)+' cancelling, '+String(snap.past_due||0)+' past due'},
+  {label:'In Trial',value:String(snap.trialing||0),note:usd(snap.trial_mrr_cents)+' a month if all convert'},
+  {label:'Net New MRR',value:usd(net),note:'last '+(d.days||bizDays)+' days, new plus expansion less churn'},
+  {label:'Churned MRR',value:usd(w.churned_mrr_cents),note:String(w.cancellations||0)+' cancellation'+((w.cancellations===1)?'':'s')+' in window'},
+  {label:'Cash Collected',value:usd(w.charged_cents),note:String(w.renewals||0)+' renewal'+((w.renewals===1)?'':'s')+', excludes tax'},
+  {label:'Trial Conversion',value:cohDecided?String(Math.round(cohConv*1000/cohDecided)/10)+'%':'n/a',
+   note:cohDecided?(cohConv+' of '+cohDecided+' decided cohorts'):'no trial has finished yet'}
+ ];
+ tiles.forEach(function(t,i){ bizChart('bizTile'+i,'statTile',t); });
+
+ // Bars, not a line, and the reason is not taste. Money movement is a set of discrete
+ // events on particular days: $13.32 arrived on the 18th and $4.99 left on the 19th. A
+ // line drawn between those two points reads as a continuous quantity passing through
+ // every value in between, and it never did. Bars say "this much, on this day" and stay
+ // silent about the gaps, which is the truth. The same argument applies to cash.
+ bizChart('bizMove','comparison',{
+  title:'', height:230,
+  categories:mv.map(function(r){ return bizLabel(r.d); }),
+  series:[{name:'New and expansion',values:mv.map(function(r){ return ((r.new_cents||0)+(r.expansion_cents||0))/100; })},
+          {name:'Churn and contraction',values:mv.map(function(r){ return ((r.churned_cents||0)+(r.contraction_cents||0))/100; })}]});
+
+ bizChart('bizCash','comparison',{
+  title:'', height:230,
+  categories:cs.map(function(r){ return bizLabel(r.d); }),
+  series:[{name:'Charged',values:cs.map(function(r){ return (r.charged_cents||0)/100; })},
+          {name:'Refunded',values:cs.map(function(r){ return (r.refunded_cents||0)/100; })}]});
+
+ if(cohorts.length){ bizChart('bizCoh','comparison',{
+   title:'', height:230, stacked:true,
+   categories:cohorts.map(function(c){ return bizLabel(c.w); }),
+   series:[{name:'Converted',values:cohorts.map(function(c){ return c.converted||0; })},
+           {name:'Lapsed',values:cohorts.map(function(c){ return c.lapsed||0; })},
+           {name:'Still trialing',values:cohorts.map(function(c){ return c.pending||0; })}]}); }
+ else { const n=document.getElementById('bizCoh');
+   if(n) n.innerHTML='<p class="small muted" style="margin:0">No trial has started since the ledger began, so there is nothing to group yet.</p>'; }
+
+ if(byDay.length){ bizChart('bizTraf','timeSeries',{
+   title:'', height:230, zero:true,
+   labels:byDay.map(function(r){ return bizLabel(r.d); }),
+   series:[{name:'Pageviews',values:byDay.map(function(r){ return Number(r.n)||0; })},
+           {name:'Sessions',values:byDay.map(function(r){ return Number(r.u)||0; })}]}); }
+ else { const n2=document.getElementById('bizTraf');
+   if(n2) n2.innerHTML='<p class="small muted" style="margin:0">No beacon data in this window.</p>'; }
+
+ const fn=(tr&&tr.funnel)||[];
+ if(fn.length) bizChart('bizFunnel','funnel',{ title:'',
+  steps:fn.map(function(r){ return {label:String(r.label||r.step),value:Number(r.sessions)||0}; }) });
+}
+// The traffic tab's funnel card reads window._traffic for its CSV button. This page keeps
+// its own copy under a different key, so it gets its own card rather than sharing one and
+// having the export quietly pull the other page's numbers.
+function funnelCardBiz(rows,total){ if(!rows||!rows.length) return '';
+ return '<div class="card"><div class="card-head"><span class="card-title">Conversion Funnel</span>'
+  +'<button class="btn sm secondary" onclick="csvDownload(\'funnel\',(window._bizTraffic&&window._bizTraffic.funnel)||[])">CSV</button></div>'
+  +'<p class="muted small" style="margin:0 0 12px">'+(total?('Out of <strong>'+Number(total).toLocaleString('en-US')+'</strong> sessions that accepted analytics. '):'')
+  +'Steps are recorded once per session. Item telemetry stays unlinkable and is not part of this.</p>'
+  +'<div id="bizFunnel" style="min-width:0"></div></div>'; }
 // ---------- sentinel: error triage (reads admin_errors, writes admin_triage_error) ----------
 // Stage two and three of the loop. Stage one is the beacon in partials.sentinel_js().
 //
@@ -1533,10 +2012,11 @@ function metricDetail(id){ const m=METRICS[id]; if(!m) return; const t=METRIC_TI
   +'<tr><td>As of</td><td class="small">'+esc(asOf)+'</td></tr>'
   +'</tbody></table></div>'); }
 let adminTab='bi';
-function adminTabsHtml(){ const T=[['bi','Overview'],['learn','Learning'],['items','Items'],['social','Social'],['catalog','Metric Catalog'],['rev','Revenue'],['err','Errors'],['users','Users'],['traffic','Traffic'],['mod','Moderation'],['crm','Partners CRM'],['posture','Posture']];
+function adminTabsHtml(){ const T=[['bi','Overview'],['business','Business'],['learn','Learning'],['items','Items'],['social','Social'],['catalog','Metric Catalog'],['rev','Revenue'],['err','Errors'],['users','Users'],['traffic','Traffic'],['mod','Moderation'],['crm','Partners CRM'],['posture','Posture']];
  return '<div class="row" style="gap:6px;flex-wrap:wrap">'+T.map(t=>'<button class="btn sm'+(adminTab===t[0]?'':' secondary')+'" onclick="adminTab=\''+t[0]+'\';renderAdmin()">'+t[1]+'</button>').join('')+'</div>'; }
 async function renderAdmin(){ const el=document.getElementById('v-admin'); const preview=location.hash==='#admin-preview';
  if(!preview&&(!Cloud.user||!Cloud.isAdmin)){ el.innerHTML='<div class="narrow stack"><div class="card p8" style="text-align:center"><div class="card-title">Admin</div><p class="muted" style="margin-top:8px">Business intelligence is available to admin accounts. Sign in on the Account tab with an admin email.</p></div></div>'; return; }
+ if(adminTab==='business'){ return renderAdminBusiness(el,preview); }
  if(adminTab==='rev'){ return renderAdminRevenue(el,preview); }
  if(adminTab==='err'){ return renderAdminErrors(el,preview); }
  if(adminTab==='crm'){ return renderAdminCRM(el,preview); }
@@ -2282,8 +2762,43 @@ function shareCard(signed){
   +'off stops future sharing; it cannot recall a copy already delivered.</p></div>';
 }
 
-async function aboutSave(field,value){ const ab=state.settings.about||(state.settings.about={}); ab[field]=value||null; persist(); if(Cloud.user&&Cloud.client){ const patch={}; patch[field]=value||null; try{ await Cloud.client.from('profiles').update(patch).eq('id',Cloud.user.id); }catch(e){} } toast('Saved.'); }
-async function pushAbout(){ const ab=state.settings.about; if(!ab||!Cloud.user||!Cloud.client) return; const patch={}; ['age_range','gender','country','role_type','referral_src','education_level','intended_major','score_goal','application_year','budget_band','employer_industry','household_income_band','first_generation','military_status','study_hours_band','birth_month','birth_year'].forEach(k=>{ if(ab[k]) patch[k]=ab[k]; }); if(Object.keys(patch).length){ try{ await Cloud.client.from('profiles').update(patch).eq('id',Cloud.user.id); }catch(e){} } }
+// The empty catch that used to be here cost twelve fields. The database refused the
+// write, the refusal was discarded, and the toast said "Saved." regardless, so the data
+// lived in this browser and nowhere else for the life of the feature (INC-0056). A
+// success message that fires whatever happened is worse than none, because it actively
+// teaches the person their data is safe.
+//
+// Supabase returns an error in the result rather than throwing, so both have to be
+// handled: the try/catch alone caught nothing.
+async function aboutSave(field,value){ const ab=state.settings.about||(state.settings.about={});
+ // Not value||null. Zero years of work experience and an empty string are different
+ // answers, and the old coercion turned the first into "not said". Only an empty string,
+ // undefined and null mean "not said".
+ const v=(value===''||value===undefined)?null:value;
+ ab[field]=v; persist();
+ if(!(Cloud.user&&Cloud.client)){ toast('Saved on this device.'); return; }
+ const patch={}; patch[field]=v;
+ try{ const {error}=await Cloud.client.from('profiles').update(patch).eq('id',Cloud.user.id);
+  if(error){ toast('Saved on this device only: the account would not accept that field.'); return; } }
+ catch(e){ toast('Saved on this device only: could not reach your account.'); return; }
+ toast('Saved.'); }
+// A number, validated in the page against the same bounds the database checks, so a
+// typo is refused here with a reason rather than by a constraint violation the user
+// never sees. An empty box clears the field rather than storing zero: a GPA of 0.00 and
+// "I have not said" are different facts and the fit view has to tell them apart.
+async function numSave(field,input,lo,hi){
+ const raw=String(input.value).trim();
+ if(raw===''){ return aboutSave(field,null); }
+ const n=Number(raw);
+ if(!isFinite(n)||n<lo||n>hi){ toast('That needs to be a number between '+lo+' and '+hi+'.'); input.value=''; return; }
+ return aboutSave(field,field==='gpa'?Math.round(n*100)/100:Math.round(n)); }
+async function pushAbout(){ const ab=state.settings.about; if(!ab||!Cloud.user||!Cloud.client) return; const patch={}; ['age_range','gender','country','role_type','referral_src','education_level','intended_major','score_goal','application_year','budget_band','employer_industry','household_income_band','first_generation','military_status','study_hours_band','birth_month','birth_year','gpa','work_exp_years','tuition_budget_usd'].forEach(k=>{ if(ab[k]!==undefined&&ab[k]!==null&&ab[k]!=='') patch[k]=ab[k]; }); if(!Object.keys(patch).length) return;
+ // Reported once rather than silently, for the same reason as aboutSave: this is the
+ // path that carries a whole browser's worth of answers up to the account on sign-in,
+ // so a refusal here loses the most.
+ try{ const {error}=await Cloud.client.from('profiles').update(patch).eq('id',Cloud.user.id);
+  if(error) console.warn('profile sync refused', error.message); }
+ catch(e){ console.warn('profile sync failed', String((e&&e.message)||e)); } }
 function renderData(){ const el=document.getElementById('v-data'); const s=state.settings; const pr=s.program;
  const signed=Cloud.status==='signed-in'; const local=Cloud.status==='local-only';
  if(signed) pushAbout();
@@ -2322,12 +2837,22 @@ function renderData(){ const el=document.getElementById('v-data'); const s=state
   if(!PAYMENTS_LIVE) return '<button class="btn secondary sm" style="margin-top:10px" disabled>Coming soon</button>';
   return '<div class="row" style="gap:6px;margin-top:10px"><button class="btn sm" onclick="startCheckout(\''+t.id+'_monthly\')">Monthly</button><button class="btn sm secondary" onclick="startCheckout(\''+t.id+'_annual\')">Annual</button></div>'
    +(TRIAL_DAYS>0?'<div class="small" style="margin-top:6px">'+TRIAL_DAYS+'-day free trial, cancel anytime</div>':''); };
- el.innerHTML='<div class="narrow stack"><div><h1 style="font-size:var(--text-xl)">Account</h1><p class="muted" style="margin:6px 0 0">Profile, study program, plan, and your data.</p></div>'+
+ var _tp=themePref();
+ var _themeCard='<div class="card"><div class="card-title">Appearance</div>'
+  +'<p class="small muted" style="margin:2px 0 10px">System follows your device, including when it changes at sunset.</p>'
+  +'<div class="row" style="gap:6px;flex-wrap:wrap">'
+  +['system','light','dark'].map(function(k){
+     return '<button class="btn sm '+(_tp===k?'':'secondary')+'" aria-pressed="'+(_tp===k?'true':'false')
+       +'" onclick="themeSet(\''+k+'\')">'+k.charAt(0).toUpperCase()+k.slice(1)+'</button>';
+   }).join('')
+  +'</div></div>';
+ el.innerHTML='<div class="narrow stack"><div><h1 style="font-size:var(--text-xl)">Account</h1><p class="muted" style="margin:6px 0 0">Profile, study program, plan, and your data.</p></div>'+_themeCard+
  '<div class="card stack-4"><div class="card-title">Sign In and Sync</div>'+auth+'</div>'+
  (function(){ const tg=targetSchools(); return '<div class="card stack-4"><div class="card-head" style="margin:0"><span class="card-title">Target Schools</span>'+(tg.length?badge(tg.length+' saved','accent'):'')+'</div>'
   +(tg.length?'<table><thead><tr><th>School</th><th>Tag</th><th class="num">Published GMAT</th></tr></thead><tbody>'+tg.map(t=>'<tr><td>'+esc(t.name)+'</td><td>'+badge((t.tag||'target').charAt(0).toUpperCase()+(t.tag||'target').slice(1),t.tag==='safety'?'success':t.tag==='reach'?'error':'warning')+'</td><td class="num">'+(t.gmat?t.gmat.v+' <span class="small">'+esc(t.gmat.ed)+(t.gmat.stat?' '+esc(t.gmat.stat):'')+'</span>':'-')+'</td></tr>').join('')+'</tbody></table><p class="small" style="margin:0">Your dashboard references this list. Compare your practice band against each school\'s published numbers on the rankings page.</p>'
   :'<p class="small" style="margin:0">Build a shortlist on the <a href="/schools/">MBA rankings page</a> and it shows up here; your study plan then trains toward it.</p>')
   +'<div class="row"><a class="btn secondary sm" href="/schools/">'+(tg.length?'Edit List on the Rankings Page':'Browse the Rankings')+'</a></div></div>'; })()+
+ fitCard()+
  '<div class="card stack-4"><div class="card-title">Profile</div><div class="row"><label class="small">Name <input type="text" value="'+esc(s.name||'')+'" onchange="state.settings.name=this.value;persist();updateHeader()"></label><label class="small">Test date <input type="date" value="'+esc(s.testDate||'')+'" onchange="state.settings.testDate=this.value;persist()"></label><label class="small">Daily goal <select onchange="state.settings.dailyGoal=+this.value;persist()">'+[10,15,20,30,40].map(d=>'<option '+(s.dailyGoal===d?'selected':'')+'>'+d+'</option>').join('')+'</select></label></div></div>'+
  (function(){ const ab=s.about||(s.about={});
   const sel=(field,label,opts)=>'<label class="small">'+label+' <select onchange="aboutSave(\''+field+'\',this.value)"><option value="">Prefer not to say</option>'+opts.map(o=>'<option value="'+o[0]+'"'+(ab[field]===o[0]?' selected':'')+'>'+o[1]+'</option>').join('')+'</select></label>';
@@ -2347,6 +2872,12 @@ function renderData(){ const el=document.getElementById('v-data'); const s=state
   +sel('first_generation','First in family to attend college',[['yes','Yes'],['no','No']])
   +sel('military_status','Military',[['none','Not applicable'],['active','Active duty'],['veteran','Veteran'],['family','Military family']])
   +sel('study_hours_band','Study hours a week',[['under_3','Under 3'],['3_5','3 to 5'],['5_10','5 to 10'],['over_10','Over 10']])
+  // The three that drive the fit view. Numbers rather than bands, because they are
+  // compared against published averages that are themselves numbers, and bucketing them
+  // first would throw away the only precision the comparison has.
+  +'<label class="small">Undergraduate GPA <input type="number" min="0" max="4.3" step="0.01" value="'+esc(ab.gpa==null?'':ab.gpa)+'" placeholder="e.g. 3.4" style="width:100px" onchange="numSave(\'gpa\',this,0,4.3)"></label>'
+  +'<label class="small">Years of work experience <input type="number" min="0" max="60" step="1" value="'+esc(ab.work_exp_years==null?'':ab.work_exp_years)+'" placeholder="e.g. 5" style="width:100px" onchange="numSave(\'work_exp_years\',this,0,60)"></label>'
+  +'<label class="small">Tuition budget, total <input type="number" min="0" max="1000000" step="1000" value="'+esc(ab.tuition_budget_usd==null?'':ab.tuition_budget_usd)+'" placeholder="e.g. 120000" style="width:130px" onchange="numSave(\'tuition_budget_usd\',this,0,1000000)"></label>'
   +'</div>'+(signed?'':'<p class="small muted" style="margin:0">Saved on this device now; it attaches to your account when you sign in.</p>')+'</div>'; })()+
  shareCard(signed)+
  '<div class="card stack-4"><div class="card-head" style="margin:0"><span class="card-title">Study Program</span>'+badge(pr.exam,'sec-Q')+'</div><table><tbody><tr><td style="width:160px">Exam</td><td>'+esc(pr.exam)+' <span class="small">(GRE, LSAT, SAT and ACT trainers are live too)</span></td></tr><tr><td>Goal</td><td><input type="text" style="width:100%" value="'+esc(pr.goal||'')+'" placeholder="e.g. Score 675+ for M7 programs" onchange="state.settings.program.goal=this.value;persist()"></td></tr><tr><td>Time</td><td><select onchange="state.settings.program.hours=this.value;persist()">'+['1 to 3 hrs / week','3 to 5 hrs / week','5 to 10 hrs / week','10+ hrs / week'].map(h=>'<option '+(pr.hours===h?'selected':'')+'>'+h+'</option>').join('')+'</select></td></tr><tr><td>Tools</td><td class="chips">'+['Quick 10','Timed sprint','Flashcards','Custom drill'].map(tl=>'<span class="chip-t '+(pr.tools[tl]?'on':'')+'" onclick="state.settings.program.tools[\''+tl+'\']=!state.settings.program.tools[\''+tl+'\'];persist();renderData()">'+tl+'</span>').join('')+'</td></tr></tbody></table><div><button class="btn secondary sm" onclick="startOnboarding()">Re-run the setup wizard</button></div></div>'+
@@ -2523,6 +3054,30 @@ function userPlan(){
 }
 // Who owns the subscription, which decides how it is cancelled. Apple gives no API to
 // cancel on a user's behalf and requires apps to send people to Settings.
+// Theme. Stored choice wins; with no stored choice the system decides and keeps
+// deciding, so someone whose phone flips at sunset gets the flip without touching this.
+var THEME_KEY='sfn_theme_v1';
+function themePref(){ try{ return localStorage.getItem(THEME_KEY)||'system'; }catch(e){ return 'system'; } }
+function themeApply(pref){
+ var root=document.documentElement;
+ if(pref==='system'){ root.removeAttribute('data-theme');
+  try{ if(window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches) root.setAttribute('data-theme','dark'); }catch(e){}
+ } else root.setAttribute('data-theme',pref);
+ var m=document.querySelector('meta[name="theme-color"]');
+ if(m) m.setAttribute('content', root.getAttribute('data-theme')==='dark' ? '#0B1220' : '#122B4E');
+}
+function themeSet(pref){
+ try{ if(pref==='system') localStorage.removeItem(THEME_KEY); else localStorage.setItem(THEME_KEY,pref); }catch(e){}
+ themeApply(pref);
+ if(typeof renderData==='function'&&!document.getElementById('v-data').classList.contains('hidden')) renderData();
+}
+try{
+ if(window.matchMedia){
+  var mq=matchMedia('(prefers-color-scheme:dark)');
+  var onSys=function(){ if(themePref()==='system') themeApply('system'); };
+  if(mq.addEventListener) mq.addEventListener('change',onSys); else if(mq.addListener) mq.addListener(onSys);
+ }
+}catch(e){}
 function planManagedBy(){ return (Cloud.entitlement&&Cloud.entitlement.managed_by)||'stripe'; }
 async function entitlementLoad(){
  if(!Cloud.user||!Cloud.client){ Cloud.entitlement=null; return; }

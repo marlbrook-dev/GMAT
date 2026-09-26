@@ -202,7 +202,7 @@ const EXAMS = {
    appPath:'/app/',
    // Which games this exam rewards most, and why. Read off this entry's own structure
    // (adaptive mode, choices, sections), not from any remembered claim about the test.
-   gameplan:{order:['boss','crunch','ladder','blitz','match','memory'],why:{boss:'Question adaptive: every answer changes the next one, so the skill is committing under pressure and moving on.',crunch:'Five choices and no calculator. Number sense decides whether you finish the section.',ladder:'Difficulty climbs with you, which is the shape of a question adaptive section.'}},blurb:'Focus Edition, live',
+   gameplan:{order:['boss','crunch','ladder','survival','blitz','match','memory'],why:{boss:'Question adaptive: every answer changes the next one, so the skill is committing under pressure and moving on.',crunch:'Five choices and no calculator. Number sense decides whether you finish the section.',ladder:'Difficulty climbs with you, which is the shape of a question adaptive section.'}},blurb:'Focus Edition, live',
    official:{label:'an official practice exam at mba.com',url:'https://www.mba.com/exams/gmat-exam/prepare'},
    crunch:'Which is bigger? No-calculator number sense, timed.',
    crunchLong:'Which is bigger? Sixty seconds of no-calculator number sense, the Quant survival skill.',
@@ -215,7 +215,7 @@ const EXAMS = {
    appPath:'/sat/app/',
    // Which games this exam rewards most, and why. Read off this entry's own structure
    // (adaptive mode, choices, sections), not from any remembered claim about the test.
-   gameplan:{order:['ladder','blitz','boss','match','memory','crunch'],why:{ladder:'Module adaptive: the second module is chosen by how the first one went, so the first half matters most.',blitz:'Four choices and a short clock. Recognition speed is the constraint, not arithmetic.',boss:'Real questions on the real pace clock, which is what the second module feels like.'}},blurb:'digital format, live',
+   gameplan:{order:['ladder','blitz','boss','survival','match','memory','crunch'],why:{ladder:'Module adaptive: the second module is chosen by how the first one went, so the first half matters most.',blitz:'Four choices and a short clock. Recognition speed is the constraint, not arithmetic.',boss:'Real questions on the real pace clock, which is what the second module feels like.'}},blurb:'digital format, live',
    official:{label:'an official Bluebook practice test from College Board',url:'https://bluebook.collegeboard.org/'},
    crunch:'Which is bigger? Estimate faster than you could type it.',
    crunchLong:'Which is bigger? Sixty seconds of estimation. Bluebook gives you Desmos, but typing costs seconds you do not have.',
@@ -232,7 +232,7 @@ const EXAMS = {
    appPath:'/gre/app/',
    // Which games this exam rewards most, and why. Read off this entry's own structure
    // (adaptive mode, choices, sections), not from any remembered claim about the test.
-   gameplan:{order:['match','memory','blitz','ladder','boss','crunch'],why:{match:'Verbal turns on precise word meaning. Pairing a term with its sense is the drill for it.',memory:'The same pairs without the prompt in view, which is the harder and more useful version.',blitz:'Module adaptive, so the first module sets the ceiling. Speed early is worth more here.'}},blurb:'Verbal and Quant, live',
+   gameplan:{order:['match','memory','blitz','survival','ladder','boss','crunch'],why:{match:'Verbal turns on precise word meaning. Pairing a term with its sense is the drill for it.',memory:'The same pairs without the prompt in view, which is the harder and more useful version.',blitz:'Module adaptive, so the first module sets the ceiling. Speed early is worth more here.'}},blurb:'Verbal and Quant, live',
    official:{label:'an official POWERPREP practice test from ETS',url:'https://www.ets.org/gre/test-takers/general-test/prepare.html'},
    crunch:'Which is bigger? No-calculator number sense, timed.',
    crunchLong:'Which is bigger? Sixty seconds of no-calculator number sense, the Quant survival skill.',
@@ -250,7 +250,7 @@ const EXAMS = {
    appPath:'/lsat/app/',
    // Which games this exam rewards most, and why. Read off this entry's own structure
    // (adaptive mode, choices, sections), not from any remembered claim about the test.
-   gameplan:{order:['match','boss','memory','ladder','blitz','crunch'],why:{match:'Every question is an argument. Pairing a claim with the role it plays is the whole skill.',boss:'Five real arguments on the pace clock, which is the only way to practise not rereading.',memory:'Holding structure in your head is what reading comprehension asks for.'}},blurb:'Logical Reasoning and RC, live',
+   gameplan:{order:['match','boss','memory','survival','ladder','blitz','crunch'],why:{match:'Every question is an argument. Pairing a claim with the role it plays is the whole skill.',boss:'Five real arguments on the pace clock, which is the only way to practise not rereading.',memory:'Holding structure in your head is what reading comprehension asks for.'}},blurb:'Logical Reasoning and RC, live',
    official:{label:'an official LSAT PrepTest on LSAC LawHub',url:'https://www.lsac.org/lsat/prepare/official-lsat-practice-tests'},
    crunch:'Which is bigger? Sixty seconds of number sense to keep timing instincts sharp.',
    crunchLong:'Which is bigger? Sixty seconds of number sense. The LSAT has no math section, but pace under a clock is the same muscle.',
@@ -265,7 +265,7 @@ const EXAMS = {
    appPath:'/act/app/',
    // Which games this exam rewards most, and why. Read off this entry's own structure
    // (adaptive mode, choices, sections), not from any remembered claim about the test.
-   gameplan:{order:['blitz','ladder','boss','crunch','match','memory'],why:{blitz:'The tightest clock of the five exams. Recognition has to be automatic.',ladder:'Difficulty climbing while the clock runs is the closest thing to the real pressure.',boss:'Four choices, real pace. Pace is the section, more than content is.'}},blurb:'enhanced format, live',
+   gameplan:{order:['blitz','ladder','boss','survival','crunch','match','memory'],why:{blitz:'The tightest clock of the five exams. Recognition has to be automatic.',ladder:'Difficulty climbing while the clock runs is the closest thing to the real pressure.',boss:'Four choices, real pace. Pace is the section, more than content is.'}},blurb:'enhanced format, live',
    official:{label:'an official ACT practice test at act.org',url:'https://www.act.org/content/act/en/products-and-services/the-act/test-preparation/free-act-test-prep.html'},
    crunch:'Which is bigger? Estimate faster than you could reach for the calculator.',
    crunchLong:'Which is bigger? Sixty seconds of estimation. The ACT gives you 60 seconds a question on Math, so reaching for the calculator has a price.',
@@ -339,6 +339,16 @@ function itemInfo(theta, d, c){
 // all wrong run from returning an infinite ability, not to pull the estimate anywhere.
 // At 20 items the evidence outweighs it about seven to one.
 const PRIOR_SD = 1.5;
+// How hard selection chases the measured ability. 1.0 aims squarely at the estimate, which
+// separates ability tiers best but feeds the estimate its own output: items chosen from the
+// current estimate make later answers non-independent, the standard errors go optimistic,
+// and measured SAT band coverage fell from 88 to 72 percent against an unbiased difficulty
+// 3. 0.6 was picked by measuring, not by taste. It keeps most of the separation while the
+// first band a student is ever shown comes out better than it was before any of this.
+const ADAPT_DAMP = 0.6;
+// Coverage floor for pickQuestions: no skill falls below this share of an even split of the
+// student's attempts, and the floor takes at most this share of any round.
+const COVERAGE_SHARE = 0.5, COVERAGE_CAP = 0.3;
 
 // Ability for one section, fitted directly to the answers given in it.
 //
@@ -513,11 +523,41 @@ function pickQuestions(bank,state,opts){
  const now=Date.now(); const chosen=[]; const used=new Set();
  const lastSeenIdx={}; state.attempts.forEach((a,i)=>{lastSeenIdx[a.qid]=i;});
  const recency=q=>lastSeenIdx[q.id]===undefined?1e9:(state.attempts.length-lastSeenIdx[q.id]);
+ // What difficulty to aim at while a SKILL is still under-sampled.
+ //
+ // This used to be the constant 1100, difficulty 3, until a skill had six attempts of its
+ // own. A real sitting spreads 140 questions over twenty-odd skills, so most skills never
+ // reach six and the target stayed at 1100 for nearly the whole session. That is why the
+ // bots measured no separation between ability tiers: everyone was served difficulty 3
+ // regardless of how they were doing.
+ //
+ // The section ability fitted by sectionAbility needs no per-skill warm up. It uses every
+ // answer in the section at the difficulty it was answered, so it has a usable signal long
+ // before any single skill does. Anchoring at DIFF_ELO[3] rather than at thetaToElo(0)
+ // keeps the blank state behaviour exactly as it was: a student with no attempts has
+ // theta 0 and is still calibrated at difficulty 3. From there the target moves with
+ // measured ability instead of waiting for a per-skill count that never arrives.
+ const _secTheta={};
+ function sectionTargetElo(sec){
+  if(_secTheta[sec]===undefined){
+   const sa=sectionAbility(state,sec);
+   _secTheta[sec]=(sa&&isFinite(sa.theta))?sa.theta:0;
+  }
+  return DIFF_ELO[3]+ADAPT_DAMP*_secTheta[sec]*ELO_PER_LOGIT;
+ }
  function addWithGroup(q){ if(used.has(q.id)) return;
    let group=[q];
    if(q.passageId) group=pool.filter(x=>x.passageId===q.passageId);
    else if(q.passageHtml&&['MSR','GI','TA'].includes(q.type)) group=pool.filter(x=>x.passageHtml===q.passageHtml&&x.type===q.type);
    group=group.filter(x=>!used.has(x.id)).sort((a,b)=>a.id<b.id?-1:1);
+   // Do not drag already seen siblings back in just because a fresh anchor happens to
+   // share their passage. This was the residual after freshness became a gate in
+   // selection: the gate picked an unserved anchor, then the group pull re-served every
+   // question the student had already answered on that passage. Re-reading a passage to
+   // answer only its new questions is good practice; re-answering the same four is not.
+   // The anchor itself always survives, so a group can never come back empty.
+   const freshGroup=group.filter(x=>lastSeenIdx[x.id]===undefined||x.id===q.id);
+   if(freshGroup.length) group=freshGroup;
    group.forEach(x=>{ if(chosen.length<count||x.id===q.id){ used.add(x.id); chosen.push(x); } }); }
  if(opts.mode==='custom'){
    const sorted=pool.slice().sort((a,b)=>recency(b)-recency(a)||Math.random()-0.5);
@@ -532,19 +572,49 @@ function pickQuestions(bank,state,opts){
  if(untested.length>ranked.length/2){ // diagnostic mode: round-robin across under-sampled skills at difficulty 3
    let idx=0, guard=0; const order=untested.slice().sort(()=>Math.random()-0.5);
    while(chosen.length<count&&guard<300){ guard++; const sk=order[idx%order.length]; idx++;
-     const cands=pool.filter(q=>!used.has(q.id)&&q.skill===sk).sort((a,b)=>Math.abs(a.diff-3)-Math.abs(b.diff-3)||recency(b)-recency(a)||Math.random()-0.5);
+     let cands=pool.filter(q=>!used.has(q.id)&&q.skill===sk);
+     // Never served beats seen, as a gate rather than a tiebreak. Sorting by difficulty
+     // distance first meant a seen item sitting exactly at difficulty 3 was picked over a
+     // fresh one at difficulty 2, while the fresh one was right there in the same skill.
+     const unseenD=cands.filter(q=>lastSeenIdx[q.id]===undefined); if(unseenD.length) cands=unseenD;
+     // Aim at the section target too, not a hardcoded difficulty 3. This is the early
+     // part of a session, which is exactly where separating tiers matters most.
+     cands=cands.sort((a,b)=>Math.abs(DIFF_ELO[a.diff]-sectionTargetElo(a.section))-Math.abs(DIFF_ELO[b.diff]-sectionTargetElo(b.section))||recency(b)-recency(a)||Math.random()-0.5);
      if(cands.length) addWithGroup(cands[0]); }
    if(chosen.length>=count) return chosen.slice(0,count); }
  const weak=ranked.slice(0,3).map(s=>s.id); const mid=ranked.slice(3).map(s=>s.id);
- const nWeak=Math.round((count-chosen.length)*0.7);
  function bestFor(skillSet,n){ let added=0; let guard=0;
    while(added<n&&guard<200){ guard++;
-     const cands=pool.filter(q=>!used.has(q.id)&&(skillSet.includes(q.skill)));
+     let cands=pool.filter(q=>!used.has(q.id)&&(skillSet.includes(q.skill)));
      if(!cands.length) break;
-     const scored=cands.map(q=>{ const sk=state.skills[q.skill]; const target=sk.n<6?1100:sk.r-150; // calibrate at difficulty 3 first, then ~70% expected success
+     // Freshness is a gate, not a nudge. The `fresh` penalty below decays to zero after 40
+     // attempts, which made an item served 41 questions ago score identically to one the
+     // student has never seen, so difficulty matching would re-serve it while unserved
+     // items remained in the same section. That is the whole of the avoidable repeat
+     // defect the review bots measure. Only fall through to seen items once the unseen
+     // stock for these skills is genuinely exhausted.
+     const unseen=cands.filter(q=>lastSeenIdx[q.id]===undefined);
+     if(unseen.length) cands=unseen;
+     const scored=cands.map(q=>{ const sk=state.skills[q.skill]; const target=sk.n<6?sectionTargetElo(q.section):sk.r-150; // section ability until the skill itself has evidence, then ~70% expected success
         const d=Math.abs(DIFF_ELO[q.diff]-target); const rec=recency(q); const fresh=rec>=1e9?0:Math.max(0,40-rec)*10; return {q,score:d+fresh+Math.random()*60}; }).sort((a,b)=>a.score-b.score);
      const before=chosen.length; addWithGroup(scored[0].q); added+=chosen.length-before; }
    return added; }
+ // Coverage floor. Weakest-first sends most of every round to the three lowest rated
+ // skills, and for a struggling student those stay lowest while the unpractised ones sit
+ // at the starting rating and read as strongest, so the rest were starved: in simulated
+ // 140 question sittings at about 35 percent accuracy, some ACT skills got no question at
+ // all and a third stayed under the five answers that end "calibrating" (INC-0112). A
+ // skill whose attempts fall below COVERAGE_SHARE of an even split takes a slot before
+ // targeting fills the round, most starved first, capped at COVERAGE_CAP of the round so
+ // targeting still owns most of it. The review bot checks this per sitting.
+ const primary={}; state.attempts.forEach(a=>{ primary[a.skill]=(primary[a.skill]||0)+1; });
+ const inScope=skillIds.reduce((t,id)=>t+(primary[id]||0),0);
+ const floorN=COVERAGE_SHARE*(inScope+count)/skillIds.length;
+ const behind=skillIds.filter(id=>(primary[id]||0)<floorN)
+  .sort((a,b)=>(primary[a]||0)-(primary[b]||0)||Math.random()-0.5);
+ const nCover=Math.min(behind.length,Math.ceil((count-chosen.length)*COVERAGE_CAP));
+ for(let i=0;i<nCover&&chosen.length<count;i++) bestFor([behind[i]],1);
+ const nWeak=Math.round((count-chosen.length)*0.7);
  bestFor(weak,nWeak); bestFor(mid.length?mid:weak,count-chosen.length);
  if(chosen.length<count) bestFor(skillIds,count-chosen.length);
  return chosen.slice(0,count);
@@ -593,7 +663,7 @@ function pickMockSection(bank,state,section,countOverride){
   if(q.passageId) g=pool.filter(x=>x.passageId===q.passageId);
   else if(q.passageHtml&&['MSR','GI','TA'].includes(q.type)) g=pool.filter(x=>x.passageHtml===q.passageHtml&&x.type===q.type);
   return g.filter(x=>!used.has(x.id)).sort((a,b)=>a.id<b.id?-1:1); }
- let idx=0, guard=0;
+ let idx=0, guard=0; const covered=new Set();
  while(chosen.length<count&&guard<400){ guard++;
   const sk=skillIds[idx%skillIds.length]; idx++;
   const cands=pool.filter(q=>!used.has(q.id)&&q.skill===sk);
@@ -601,7 +671,21 @@ function pickMockSection(bank,state,section,countOverride){
   const skR=state.skills[sk]?state.skills[sk].r:START_R;
   const spread=[0,120,-120][idx%3]; const target=Math.max(DIFF_ELO[1],Math.min(DIFF_ELO[5],skR+spread));
   const best=cands.map(q=>{ const d=Math.abs(DIFF_ELO[q.diff]-target); const rec=recency(q); const fresh=rec>=1e9?0:Math.max(0,40-rec)*10; return {q,score:d+fresh+Math.random()*80}; }).sort((a,b)=>a.score-b.score)[0].q;
-  groupOf(best).forEach(x=>{ if(chosen.length<count){ used.add(x.id); chosen.push(x); } }); }
+  // Keep a slot for every skill still waiting for one. A passage group is taken whole,
+  // and a reading section is 26 questions: three groups of ten fill it, so whichever
+  // skills those three passages happen to ask about are the only ones the student is
+  // tested on. The hand written passages carry seven or eight questions spanning most
+  // of the skills, which is why this never showed until generated passages arrived with
+  // ten questions across three. Truncating a group is not a problem for the student:
+  // a section has never had to use every question a passage offers, and the part taken
+  // is still contiguous.
+  const unseen=skillIds.filter(s=>s!==sk&&!covered.has(s)&&pool.some(q=>!used.has(q.id)&&q.skill===s)).length;
+  const room=Math.max(1,count-chosen.length-unseen);
+  // When only part of a group fits, take the part that asks something new. Slicing it in
+  // id order reserves the slot and then fills it with whatever happened to be first,
+  // which can be the very question whose skill is already covered twice over.
+  const grp=groupOf(best).sort((a,b)=>(covered.has(a.skill)?1:0)-(covered.has(b.skill)?1:0)||(a.id<b.id?-1:1));
+  grp.slice(0,room).forEach(x=>{ if(chosen.length<count){ used.add(x.id); chosen.push(x); covered.add(x.skill); } }); }
  if(chosen.length<count){ const rest=pool.filter(q=>!used.has(q.id)).sort((a,b)=>recency(b)-recency(a)||Math.random()-0.5);
   for(const q of rest){ if(chosen.length>=count) break; used.add(q.id); chosen.push(q); } }
  return chosen.slice(0,count);

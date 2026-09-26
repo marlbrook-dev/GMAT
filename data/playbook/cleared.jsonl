@@ -1,0 +1,2 @@
+{"commit":"6a654d9","date":"2026-09-21","why":"The commit that introduced the playbook itself. It uses the vocabulary of defects heavily because it is about defects, which is exactly the false positive the harvester is designed to surface rather than hide. No defect was fixed in it."}
+{"commit":"8f49de3","date":"2026-09-16","why":"Recorded already as INC-0044, which cites the later commit that fixed the length tell rather than the one that first measured it. The measurement and the fix were separate changes and the ledger carries the fix."}

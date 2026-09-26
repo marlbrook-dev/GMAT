@@ -59,6 +59,8 @@ console.log('');
 gate('build', 'python3 src/build.py');
 gate('blog', 'python3 src/build_blog.py', { optional: true });
 gate('engine tests', 'node test.js', { cwd: path.join(ROOT, 'src') });
+gate('hostname redirect', 'node src/smoke_redirect.js');
+gate('charts and dark theme', 'node src/smoke_charts.js');
 gate('review bots', 'node src/review_bot.js');
 if (!QUICK) {
  gate('item rendering', 'node src/smoke_items.js');

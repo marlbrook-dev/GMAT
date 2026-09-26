@@ -31,6 +31,18 @@ const TIER: Record<string, "plus" | "pro"> = {
   "com.startfromnowhere.pro.yearly": "pro",
 };
 
+// The billing period, from the same product ids. Apple's transaction does not carry the
+// renewal period as a field, and deriving it from expiresDate minus purchaseDate breaks
+// on the first proration or free extension Apple grants. The product id is the one place
+// the period is stated rather than inferred, so it is the one place this reads it, and an
+// id missing from this map logs no MRR rather than a plausible-looking wrong figure.
+const INTERVAL: Record<string, "month" | "year"> = {
+  "com.startfromnowhere.plus.monthly": "month",
+  "com.startfromnowhere.plus.yearly": "year",
+  "com.startfromnowhere.pro.monthly": "month",
+  "com.startfromnowhere.pro.yearly": "year",
+};
+
 // Apple's root CA. The x5c chain in every JWS header must chain to this; without pinning
 // it, any well formed self signed JWS would be accepted and anyone could grant themselves
 // Pro by POSTing to this endpoint.
@@ -92,6 +104,52 @@ async function readSubscription(originalTransactionId: string, sandbox: boolean)
 const STATUS: Record<number, string> = {
   1: "active", 2: "expired", 3: "billing_retry", 4: "grace", 5: "revoked",
 };
+
+// ---------------------------------------------------------------------------
+// The billing ledger, Apple side. Same table and same vocabulary as the Stripe webhook
+// writes, which is the point: the Business page charts one stream, not two.
+//
+// Three things are specific to Apple and are handled here rather than in the chart.
+//
+// SANDBOX IS NOT MONEY. Apple's reviewers and our own testing run through Sandbox with
+// real-looking prices. A sandbox transaction in the ledger is a fictional dollar in a
+// revenue chart, so nothing from Sandbox is ever written.
+//
+// PRICE IS IN MILLIUNITS. StoreKit reports 4990 for $4.99, not 499. Reading it as cents
+// overstates revenue by a factor of ten, which is the kind of error that looks like
+// success.
+//
+// CASH IS GROSS OF APPLE'S CUT. Apple keeps 15 or 30 percent depending on the programme,
+// and the notification does not say which. What is logged is what the customer paid,
+// because that is the only figure Apple actually tells us. The page says so.
+// ---------------------------------------------------------------------------
+const mrrOf = (cents: number, interval: string | null) =>
+  interval === "year" ? Math.round(cents / 12) : interval === "month" ? cents : 0;
+
+// Apple's notification vocabulary, mapped to ours. Anything unmapped is recorded as
+// "other" rather than dropped: an event we did not anticipate is still evidence, and a
+// gap in the ledger is harder to notice than a row nobody charts.
+function appleKind(type: string, subtype: string, status: string, wasTrial: boolean): string {
+  if (type === "SUBSCRIBED") return subtype === "RESUBSCRIBE" ? "subscription_started"
+    : (status === "trialing" ? "trial_started" : "subscription_started");
+  if (type === "DID_RENEW") return wasTrial ? "trial_converted" : "renewed";
+  if (type === "DID_CHANGE_RENEWAL_STATUS") {
+    return subtype === "AUTO_RENEW_DISABLED" ? "cancel_scheduled"
+      : subtype === "AUTO_RENEW_ENABLED" ? "cancel_reverted" : "other";
+  }
+  if (type === "DID_FAIL_TO_RENEW") return "payment_failed";
+  if (type === "EXPIRED" || type === "GRACE_PERIOD_EXPIRED" || type === "REVOKE") return "canceled";
+  if (type === "REFUND") return "refunded";
+  return "other";
+}
+
+async function appleLedger(row: Record<string, unknown>) {
+  const { error } = await db.from("billing_events")
+    .upsert([{ source: "apple", ...row }], { onConflict: "source,event_id,kind", ignoreDuplicates: true });
+  // Never let a ledger failure cost somebody their access. The subscription row is the
+  // load-bearing write and has already happened by the time this runs.
+  if (error) console.error("apple ledger write failed", row.event_id, error.message);
+}
 
 Deno.serve(async (req) => {
   if (req.method !== "POST") return new Response("method not allowed", { status: 405 });
@@ -169,6 +227,43 @@ Deno.serve(async (req) => {
       raw: { notificationType, subtype: payload.subtype ?? null, status: last.status },
       updated_at: new Date().toISOString(),
     }, { onConflict: "original_transaction_id" });
+
+    if (!sandbox) {
+      const interval = INTERVAL[productId] ?? null;
+      // milliunits to cents. 4990 is $4.99.
+      const priceCents = typeof freshTx.price === "number" ? Math.round(freshTx.price / 10) : 0;
+      const mrr = mrrOf(priceCents, interval);
+      const wasTrial = existing?.status === "trialing";
+      const kind = appleKind(notificationType, String(payload.subtype ?? ""), status, wasTrial);
+      // Only the kinds that move recurring value carry a delta; the rest carry zero, so
+      // the MRR bridge sums correctly whatever arrives.
+      const delta = kind === "subscription_started" || kind === "trial_converted" ? mrr
+        : kind === "canceled" ? -(existing?.status === "active" ? mrr : 0)
+        : 0;
+      // Cash only on the events where money actually moved.
+      const cash = kind === "renewed" || kind === "subscription_started" ? priceCents
+        : kind === "refunded" ? -priceCents : 0;
+      await appleLedger({
+        // Apple has no event id, so the transaction plus the signed date is the natural
+        // one: a retry of the same notification repeats both and is ignored, while a
+        // genuinely later notification about the same subscription carries a later date.
+        event_id: originalTransactionId + ":" + String(signedDateMs || 0),
+        event_type: notificationType + (payload.subtype ? "." + String(payload.subtype) : ""),
+        kind,
+        user_id: (await db.from("apple_subscriptions").select("user_id")
+          .eq("original_transaction_id", originalTransactionId).maybeSingle()).data?.user_id ?? null,
+        subscription_id: originalTransactionId,
+        plan: tier,
+        plan_interval: interval,
+        amount_cents: cash,
+        currency: freshTx.currency ? String(freshTx.currency).toLowerCase() : null,
+        mrr_cents: mrr,
+        mrr_delta_cents: delta,
+        status,
+        occurred_at: signedDateMs ? new Date(signedDateMs).toISOString() : new Date().toISOString(),
+        meta: { product_id: productId, gross_of_apple_commission: cash !== 0 },
+      });
+    }
 
     return new Response("ok", { status: 200 });
   } catch (e) {

@@ -188,12 +188,30 @@ nav.sfn-nav{display:flex;align-items:center}
 
 _NAV_GROUPS = [
     ("Exam Prep", [
+        ("Daily Questions", "/daily/", "New"),
         ("GMAT Focus Edition", "/exams/gmat/", "Live"),
         ("SAT", "/exams/sat/", "Live"),
         ("GRE General Test", "/exams/gre/", "Live"),
         ("LSAT", "/exams/lsat/", "Live"),
         ("ACT", "/exams/act/", "Live"),
         ("All Exam Guides", "/exams/", None),
+    ]),
+    ("Study Guides", [
+        ("GMAT Diagnostic", "/guide/gmat/diagnostic/", "New"),
+        ("GMAT Quant", "/guide/gmat/quant/", None),
+        ("GMAT Verbal", "/guide/gmat/verbal/", None),
+        ("GMAT Data Insights", "/guide/gmat/data-insights/", None),
+        ("SAT Math", "/guide/sat/math/", "New"),
+        ("SAT Reading and Writing", "/guide/sat/reading-writing/", "New"),
+        ("GRE Verbal", "/guide/gre/verbal/", "New"),
+        ("GRE Quant", "/guide/gre/quant/", "New"),
+        ("LSAT Logical Reasoning", "/guide/lsat/logical-reasoning/", "New"),
+        ("LSAT Reading", "/guide/lsat/reading-comprehension/", "New"),
+        ("ACT English", "/guide/act/english/", "New"),
+        ("ACT Math", "/guide/act/mathematics/", "New"),
+        ("ACT Reading", "/guide/act/reading/", "New"),
+        ("ACT Science", "/guide/act/science/", "New"),
+        ("All Study Guides", "/guide/", None),
     ]),
     ("Lists", [
         ("MBA Rankings", "/schools/", "Live"),
@@ -335,6 +353,11 @@ SENTINEL_URL = ("https://ftsqwbzhkzuudogkvoqa.supabase.co/rest/v1/client_errors"
 
 
 SITE_EVENTS_URL = ("https://ftsqwbzhkzuudogkvoqa.supabase.co/rest/v1/site_events"
+                   "?apikey=sb_publishable_GToT4fK6RiwCZpPFE3bGiw_ThXq9qel")
+# The trainers' unlinkable item telemetry (supabase/migrations/..._item_events_unlinkable_
+# telemetry.sql): no user, session, device or IP column exists, so privacy.html section 1
+# covers it without a consent gate. The public daily question pages post here too.
+ITEM_EVENTS_URL = ("https://ftsqwbzhkzuudogkvoqa.supabase.co/rest/v1/item_events"
                    "?apikey=sb_publishable_GToT4fK6RiwCZpPFE3bGiw_ThXq9qel")
 
 
@@ -666,6 +689,7 @@ OG_IMAGES = [
     ("/apply/", "/og/apply.png"),
     ("/international/", "/og/apply.png"),
     ("/funding/", "/og/funding.png"),
+    ("/daily/", "/og/trainer.png"),
 ]
 
 _TITLE_RE = re.compile(r"<title>(.*?)</title>", re.S | re.I)

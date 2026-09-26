@@ -1,4 +1,6 @@
 """SAT Problem Solving and Data Analysis (m_psda): ratios, rates, percents, statistics, probability."""
+import math
+
 from framework import Gen, num, money, frac, ItemError
 from fractions import Fraction as Fr
 
@@ -12,7 +14,15 @@ class PercentOf(Gen):
 
     def build(self, rng):
         pct = rng.choice([4, 5, 8, 12, 15, 18, 20, 24, 25, 30, 35, 40, 60, 75])
-        base = rng.choice([40, 60, 80, 120, 150, 180, 200, 250, 320, 400, 450, 500])
+        # The base is drawn from the multiples that make the answer whole. Drawn freely
+        # it was whole on about seven draws in ten and a decimal on the rest, while the
+        # wrong answers came out whole, as decimals and as fractions on their own
+        # schedule, and a choice set has to render alike: every draw with a decimal
+        # answer was thrown away, which was better than a quarter of the schema on the
+        # exams that ask for five choices (INC-0092). Nothing about the question changes;
+        # a percentage question with a whole answer is the ordinary kind.
+        step = 100 // math.gcd(pct, 100)
+        base = step * rng.randint(max(2, 40 // step), 500 // step)
         val = Fr(pct, 100) * base
         return {
             "stem": "What is %d percent of %d?" % (pct, base),
@@ -23,6 +33,8 @@ class PercentOf(Gen):
                 (base - val, "finding the part that remains rather than the part asked for."),
                 (Fr(pct, 100) * base * 10, "misplacing the decimal point by one place."),
                 (val + pct, "adding the percent to the answer."),
+                (base + val, "adding the part to the whole rather than reporting the part."),
+                (100 - pct, "answering with what is left of the percentage rather than with the part."),
             ],
             "expl": "%d percent is %s as a fraction, and %s of %d is %s."
             % (pct, num(Fr(pct, 100)), num(Fr(pct, 100)), base, num(val)),
@@ -68,6 +80,15 @@ class PercentChange(Gen):
                 (pctstr(Fr(new * 100, old)), "reporting the new value as a percent of the old rather than the change."),
                 ("%s percent" % num(pct + 10), "an arithmetic slip in the division."),
                 ("%s percent" % num(100 - pct), "subtracting from 100, which answers what fraction remains, not how much it changed."),
+                # Below the answer. Every candidate above it is larger, so the key sat near
+                # the bottom of the pool on half this schema's items. These went in once
+                # and came out again, because with a unit after the number the balancer was
+                # ranking these choices by character count and they moved the key the wrong
+                # way; framework.as_value now reads the unit, so they work as intended.
+                ("%s percent" % num(pct - 5), "an arithmetic slip in the other direction."),
+                (pctstr(Fr(abs(new - old) * 200, old + new)) if old + new else None,
+                 "dividing the change by the average of the two values rather than by the "
+                 "value it started from."),
             ],
             "expl": "Percent change is the change divided by the original value: %s divided by "
             "%d is %s, which is %d percent."
@@ -105,6 +126,21 @@ class UnitRate(Gen):
                 (Fr(c * b, a) if a else None, "setting up the proportion upside down."),
                 (a * c, "multiplying by the total rather than by the rate per unit."),
                 (rate, "finding the rate and stopping before applying it to %d %s." % (c, per)),
+                # Above the answer. Four of the five candidates above it come out smaller
+                # by construction and only one larger, so the key sat at one value rank on
+                # up to 69 percent of this schema's items (INC-0079). Both of these are
+                # slips a student actually makes.
+                (rate * (b + c), "scaling the whole period, the %d %s described and the %d "
+                                 "asked about together, where the question asks only about "
+                                 "the %d." % (b, per, c, c)),
+                ((a + b) * c, "adding the two quantities in the setup and scaling the sum, "
+                              "rather than dividing to find the rate first."),
+                # Either side of the answer and one unit of the rate away from it, which
+                # is where a miscount of the periods lands and the only pair of
+                # candidates that sits close enough to move the key's rank rather than
+                # bracket it from a distance.
+                (val + rate, "counting one period too many at the right rate."),
+                (val - rate, "counting one period too few at the right rate."),
             ],
             "expl": "The rate is %d %s divided by %d %s, which is %d %s per %s. Over %d %s that "
             "gives %d %s." % (a, unit, b, per, rate, unit, per[:-1], c, per, val, unit),
@@ -177,6 +213,18 @@ class Probability(Gen):
                 (Fr(total, a), "inverting the probability."),
                 (Fr(a, total) * 2, "double counting the favourable outcomes."),
                 (Fr(b, a), "inverting the ratio of the two colours."),
+                # Below the answer. Every candidate above it is larger than the answer for
+                # almost every draw, so the key was the smallest value on 73 percent of
+                # this schema's items on all four exams (INC-0079). Both of these are real
+                # misreadings of the question and both come out smaller.
+                (Fr(1, total),
+                 "the probability of drawing one particular marble rather than any red one."),
+                (Fr(a - 1, total - 1),
+                 "the probability of a second red once a red has already been taken out, "
+                 "which is not what a single draw asks."),
+                (Fr(a, total + a),
+                 "counting the red marbles into the total a second time."),
+                (Fr(a - 1, total), "miscounting the red marbles by one."),
             ],
             "expl": "There are %d marbles in all and %d are red, so the probability is %d over "
             "%d, which is %s." % (total, a, a, total, num(p)),
@@ -238,6 +286,19 @@ class LinearModelInterpret(Gen):
                  "treating the rate of change as a single predicted value."),
                 ("The predicted value of y decreases by %d for each additional %s." % (m, thing[:-1]),
                  "reading a positive slope as a decrease."),
+                # Every option above was within a character of the key or a clause shorter,
+                # so the key sat at the same length rank on 94 percent of this schema's
+                # items (INC-0079). These are the same kind of wrong answer at lengths the
+                # pool did not have.
+                ("The value of y is always %d." % m,
+                 "treating the coefficient as a fixed value rather than a rate of change."),
+                ("The predicted value of y increases by %d for each additional %s, having "
+                 "begun at zero when the study started." % (m, thing[:-1]),
+                 "reading the rate correctly and then adding a starting value the model "
+                 "does not have: at x = 0 this model predicts %d." % b),
+                ("The number of %s since the study began increases by %d for each "
+                 "additional unit of y." % (thing, m),
+                 "reversing the two variables, which reports the rate the wrong way up."),
             ],
             "expl": "In y = mx + b the coefficient m is the rate of change: each additional %s "
             "adds %d to the predicted value of y. The constant %d is the predicted value at "
@@ -269,6 +330,12 @@ class UnitConversion(Gen):
                 (Fr(per, n), "inverting the conversion."),
                 (per, "reporting the conversion factor without applying it to %d." % n),
                 (val * 2, "applying the conversion twice."),
+                # Above the answer. Four of the five candidates above come out smaller than
+                # it, so the key sat at one rank on 78 percent of this schema's items
+                # (INC-0079).
+                (val + per, "converting correctly and then adding one more %s worth." % unit_b),
+                (val * n, "multiplying by the number of %ss a second time." % unit_b),
+                (val + val // 2, "adding half as much again after converting."),
             ],
             "expl": "Each %s holds %d %s, so %d %ss hold %d times %d, which is %d %s."
             % (unit_b, per, unit_a, n, unit_b, n, per, val, unit_a),

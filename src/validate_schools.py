@@ -6,16 +6,18 @@ Policy source: CLAUDE.md. Every published figure needs src, year, and url;
 unverifiable values are null, never guesses; GMAT editions are never mixed
 or converted.
 """
+import re
 import sys
 
 REGIONS = {"Northeast", "Midwest", "South", "West"}
 TYPES = {"Private", "Public"}
 
-# Fatal: these may never appear as a source (CLAUDE.md banned list).
-BANNED_SOURCES = ["gmat club", "gmatclub", "quora", "wikipedia", "gyandhan",
-                  "pagalguy", "reddit", "forum"]
-# Warned: allowed for now, queued for replacement with official pages.
-WEAK_SOURCES = ["clear admit", "stacy blackman", "search snippet", "f1gmat", "leland"]
+# The source policy lives in src/sources.py so the three published corpora
+# (schools, colleges, exams) cannot drift apart on what counts as a bad source.
+# Re-exported here because data/research/merge_results.py imports both names
+# from this module.
+sys.path.insert(0, __file__.rsplit("/", 1)[0])
+from sources import BANNED_SOURCES, WEAK_SOURCES  # noqa: E402,F401
 
 RANGES = {
     "gmat_focus": (205, 805), "gmat_classic": (200, 800),
@@ -79,6 +81,16 @@ def validate(schools):
             for sval in [fv.get("src"), fv.get("stat"), fv.get("url")]:
                 if isinstance(sval, str) and ("—" in sval or "–" in sval):
                     errors.append(f"{slug}.{f}: em/en dash in metadata")
+        # official_hosts: places outside the school's own domain where the school itself
+        # publishes (its storage bucket, an alias domain). Each needs the evidence that it is
+        # the school's and the date that was checked, because this field changes a figure's
+        # label from secondary to official and must not be a way to launder a publisher.
+        for oh in (s.get("official_hosts") or []):
+            if not (isinstance(oh, dict) and str(oh.get("prefix", "")).startswith("https://")
+                    and oh.get("evidence") and re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(oh.get("checked", "")))):
+                errors.append(f"{slug}.official_hosts: each entry needs an https prefix, evidence and a checked date")
+            elif any(b in str(oh.get("prefix", "")).lower() for b in ("poetsandquants", "usnews", "gmac.com", "bloomberg", "ft.com", "topuniversities", "businessbecause")):
+                errors.append(f"{slug}.official_hosts: {oh.get('prefix')} is a publisher, not the school")
         # Scholarship block. Same provenance rules as every other figure, plus a checked
         # date, because award terms change every admissions cycle and a 2024 number quoted
         # in 2026 is misinformation even when it was true when written.

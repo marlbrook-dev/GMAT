@@ -248,7 +248,14 @@ function reviewExam(spec) {
  const totalServed = runs.reduce((t, r) => t + r.served.length, 0);
  if (avoid) {
   note(EXAM.id, 'fail', 'no item repeats while fresh ones are available',
-   avoid + ' avoidable repeats of ' + rep + ' total, in ' + totalServed + ' items served');
+   avoid + ' avoidable repeats of ' + rep + ' total, in ' + totalServed + ' items served' +
+   // The avoidable count widens with the pool: a repeat counts as avoidable until the
+   // student has exhausted that section, so a bigger bank keeps the condition true for
+   // longer and the figure can rise while the student sees fewer repeats. Doubling the
+   // LSAT reading bank cut repeats from 1875 to 1006 and pushed avoidable from 258 to
+   // 309 (INC-0061). The rate below is the number a student actually experiences, and it
+   // is printed next to the diagnostic one so neither can be read alone.
+   ' (' + Math.round(rep / totalServed * 100) + ' percent of served items were repeats)');
  } else {
   note(EXAM.id, 'ok', 'no item repeats while fresh ones are available',
    rep ? (rep + ' repeats, all forced by bank size, in ' + totalServed + ' served')
@@ -270,6 +277,32 @@ function reviewExam(spec) {
    starved.length + ' never served: ' + starved.slice(0, 6).map(s => s.id).join(', '));
  }
 
+ // Reach across sittings hides the per-student failure: a skill every sitting touches once
+ // or twice counts as reached while each student gets nothing usable on it. Weakest-first
+ // selection starved skills this way for struggling students, down to zero questions on
+ // some ACT skills in a 140 question sitting, until the coverage floor in pickQuestions.
+ // So check each sitting on its own: every skill the bank can serve should get a share.
+ {
+  const bankSkills = SKILLS.filter(s => BANK.some(q => q.skill === s.id)).map(s => s.id);
+  let worst = Infinity, worstTier = '', sumMin = 0;
+  for (const r of runs) {
+   const per = {};
+   r.served.forEach(q => { per[q.skill] = (per[q.skill] || 0) + 1; });
+   const mn = Math.min(...bankSkills.map(id => per[id] || 0));
+   sumMin += mn;
+   if (mn < worst) { worst = mn; worstTier = r.tier ? r.tier.name : ''; }
+  }
+  const detail = 'least practised skill per sitting: ' + (sumMin / runs.length).toFixed(1) +
+   ' on average, ' + worst + ' at worst' + (worstTier ? ' (' + worstTier + ')' : '') +
+   ', over ' + (ROUNDS * ROUND) + ' questions and ' + bankSkills.length + ' skills';
+  // The bar scales with the sitting: 30 percent of an even split, which is 3 questions on
+  // the fifteen-skill ACT over 140 and 1 over the 60 a --quick run plays. Zero always fails.
+  const bar = Math.max(1, Math.round(0.3 * ROUNDS * ROUND / bankSkills.length));
+  if (worst >= bar) note(EXAM.id, 'ok', 'every skill gets a share of each student\'s practice', detail);
+  else note(EXAM.id, worst === 0 ? 'fail' : 'warn', 'every skill gets a share of each student\'s practice',
+   detail + '; bar ' + bar);
+ }
+
  // Thin skills are the content gap this bot exists to surface. The count is what makes
  // it actionable: a skill with 3 items repeats inside a single session.
  const perSkill = {};
@@ -286,23 +319,39 @@ function reviewExam(spec) {
  // The product's real claim is not the score, it is "here is what to work on". So put in
  // a student who is strong everywhere except one section and ask the engine which section
  // is weakest. Getting this wrong sends a student to study the thing they are good at.
+ // It sits SITTINGS students per section, not one. With one the verdict was three
+ // coin flips: the diagnosis is right on 179 of 180 sittings measured across 60 seeds,
+ // so at three sittings the check warned on about three percent of seeds by sampling
+ // alone, and it did exactly that on a change to the GMAT verbal corpora that could not
+ // have affected it (INC-0077). Every other check here already averages over 25
+ // sittings. A check that flips on unrelated work is not strict, it is noisy, and the
+ // cost is the real alarm nobody reads.
+ //
+ // The 90 percent bar is placed against a measurement rather than a feeling. Halving
+ // the planted deficit from 1.6 to 0.8 takes the rate from 99 percent to 88, and 0.4
+ // takes it to 64, so the bar sits between a diagnosis that works and one that has
+ // visibly degraded, with the margin stated instead of implied.
  if (SECTIONS.length > 1) {
+  const SITTINGS = 5;
   let right = 0, tried = 0;
+  const missed = {};
   for (const target of SECTIONS) {
-   const r = sit(api, 0.6, target, rng);
-   const abil = SECTIONS.map(s => ({ s, th: sectionAbility(r.state, s).theta }))
-    .sort((a, b) => a.th - b.th);
-   tried++;
-   if (abil[0].s === target) right++;
+   for (let i = 0; i < SITTINGS; i++) {
+    const r = sit(api, 0.6, target, rng);
+    const abil = SECTIONS.map(s => ({ s, th: sectionAbility(r.state, s).theta }))
+     .sort((a, b) => a.th - b.th);
+    tried++;
+    if (abil[0].s === target) right++;
+    else missed[target] = (missed[target] || 0) + 1;
+   }
   }
-  if (right < tried) {
-   note(EXAM.id, right * 2 < tried ? 'fail' : 'warn',
-    'a planted weakness is found by the diagnosis',
-    right + ' of ' + tried + ' sections correctly identified as weakest');
-  } else {
-   note(EXAM.id, 'ok', 'a planted weakness is found by the diagnosis',
-    tried + ' of ' + tried + ' sections correctly identified');
-  }
+  const rate = right / tried;
+  const detail = right + ' of ' + tried + ' sittings across ' + SECTIONS.length +
+   ' sections' + (right < tried ? ', missed on ' +
+    Object.entries(missed).map(([s, n]) => s + ' ' + n + 'x').join(', ') : '');
+  if (rate >= 0.9) note(EXAM.id, 'ok', 'a planted weakness is found by the diagnosis', detail);
+  else note(EXAM.id, rate < 0.5 ? 'fail' : 'warn',
+   'a planted weakness is found by the diagnosis', detail);
  }
 }
 
