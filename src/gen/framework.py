@@ -654,9 +654,48 @@ def canon(item):
     # this, four passages produced five hundred "distinct" stated idea items, which is the
     # same inflation the sorted choice key was added to stop.
     if item.get("canon_ignores_choices"):
-        body = item["gen"] + "|" + re.sub(r"\s+", " ", item["stem"]).strip()
-        body += "|" + str(item.get("passageId") or "")
+        body = item["gen"] + "|" + question_key(item["stem"], item.get("passageId"))
     return hashlib.sha1(body.encode("utf-8")).hexdigest()
+
+
+def question_key(stem, passage_id):
+    """A reading question's identity within its schema: the stem and the passage.
+
+    canon() keys a reading item on this, and a schema that lists its questions lists
+    them in this form, so the runner can tell when a schema has made every question it
+    has and the build can check that each one shipped (INC-0126).
+    """
+    return re.sub(r"\s+", " ", stem).strip() + "|" + str(passage_id or "")
+
+
+class ListsQuestions:
+    """A schema that can list every question it asks: a fixed set per passage or argument.
+
+    Such a schema knows its space exactly, so the runner retires it once it has made that
+    many questions rather than after a run of repeats, and the build checks that every
+    listed question shipped (INC-0126). asks() is the list make() draws from, so the list
+    and the draws cannot come apart.
+    """
+
+    def units(self):
+        """(unit, passage id) for each passage or argument the questions are asked of."""
+        raise NotImplementedError(self.id)
+
+    def asks(self, unit):
+        """Every question asked of one unit, as (stem, what make() needs to build it), in
+        the order make() draws from."""
+        raise NotImplementedError(self.id)
+
+    def questions(self):
+        """Each question's identity, keyed as canon() dedups it: the stem and the passage,
+        never the choices offered."""
+        for unit, pid in self.units():
+            for stem, _ in self.asks(unit):
+                yield question_key(stem, pid)
+
+    @property
+    def space(self):
+        return len(set(self.questions()))
 
 
 def run(gens, target, choices_n, prefix, seed=20260916, start=1, existing=None):
@@ -678,6 +717,15 @@ def run(gens, target, choices_n, prefix, seed=20260916, start=1, existing=None):
     # A schema is retired after this many consecutive duplicates: its space is spent.
     STALE = 400
     stale = {g.id: 0 for g in gens}
+    # Unless it can say how many questions it has. 400 is a guess for a schema of unknown
+    # size, and for a reading schema of a few hundred questions it is a bad one: near the
+    # end only one question is left to find, a draw finds it one time in the size of the
+    # space, and 400 misses in a row came up often enough to drop a question on three of
+    # four builds (INC-0126). A schema that states its space is retired once it has made
+    # that many, and given twenty draws per question before the rest are given up on, so
+    # a question that can still be drawn is lost about two times in a billion.
+    space = {g.id: getattr(g, "space", None) for g in gens}
+    patience = {g.id: max(STALE, 20 * space[g.id]) if space[g.id] else STALE for g in gens}
     guard = 0
     while len(out) < target and len(exhausted) < len(gens):
         guard += 1
@@ -704,7 +752,7 @@ def run(gens, target, choices_n, prefix, seed=20260916, start=1, existing=None):
             if key in seen:
                 dropped["dup"] += 1
                 stale[g.id] += 1
-                if stale[g.id] >= STALE:
+                if stale[g.id] >= patience[g.id]:
                     exhausted.add(g.id)
                 continue
             stale[g.id] = 0
@@ -719,6 +767,8 @@ def run(gens, target, choices_n, prefix, seed=20260916, start=1, existing=None):
             # reports itself under target, as any short category does.
             item_cap = getattr(g, "item_cap", None)
             if item_cap and made[g.id] >= item_cap:
+                exhausted.add(g.id)
+            if space[g.id] and made[g.id] >= space[g.id]:
                 exhausted.add(g.id)
     if len(out) < target:
         errors.append("filled %d of %d; widen the exhausted schemas: %s"

@@ -216,6 +216,14 @@ verified rather than that the school does not publish one (INC-0118).
       GRE ones (one left undrawn this time by the same 400 draw cutoff). Proofreading moved
       three trailing "whether or not" clauses to the front of their findings, where the
       "is unreliable" wrong answer had run straight into them.
+- [x] **Every reading question, every build** (INC-0126): the runner retired a schema after
+      400 repeats in a row, and that left one reading question undrawn on three of the four
+      passage builds above. Each reading schema now lists the questions it can ask, from the
+      same list its draws come from, and so do the two LSAT argument structure schemas, which
+      are built the same way. The runner retires such a schema once it has made them all,
+      and the build fails if a category under its target is missing any of them. The GRE
+      gets back the guilds question it had lost (20388 items). No other questions changed;
+      some reading and structure items were drawn with different wrong answers.
 - **Decided against** mapping the two paragraph passages onto GRE reading as they are. ETS
   says most GRE passages are one paragraph long (ETS, GRE General Test Verbal Reasoning,
   https://www.ets.org/gre/test-takers/general-test/prepare/content/verbal-reasoning.html, read

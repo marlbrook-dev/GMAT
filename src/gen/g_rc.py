@@ -37,7 +37,7 @@ derived by the same rule every time.
 """
 import re
 
-from framework import Gen, ItemError, balance, buildable_ranks
+from framework import Gen, ItemError, ListsQuestions, balance, buildable_ranks
 
 # --- the corpus --------------------------------------------------------------------
 # Each entry is one passage. Fields are written sentences, not templates:
@@ -1459,7 +1459,7 @@ def lower1(s):
     return s[0].lower() + s[1:] if s else s
 
 
-class RCBase(Gen):
+class RCBase(ListsQuestions, Gen):
     section = "V"
     type = "RC"
     domain = "nonmath"
@@ -1529,6 +1529,11 @@ class RCBase(Gen):
                 [(p["key"], self.buildable(p, need)) for p in self.corpus], need)
         return cache[need]
 
+    # Each schema lists the questions it asks of a passage in asks(), which make() draws
+    # from, so the runner knows when it has made them all (framework.ListsQuestions).
+    def units(self):
+        return [(p, self.pid + p["key"]) for p in self.corpus]
+
     def emit(self, rng, choices_n, p, stem, right, pool, expl, diff, skill, sub,
              near=(), k=0, target=None):
         """`near` are wrong answers about the same thing as the key, and at least `k` of
@@ -1581,16 +1586,19 @@ class StatedIdea(RCBase):
                                 "established that"),
     ]
 
+    def asks(self, p):
+        return [(stem(p), field) for field, stem in self.ASKS]
+
     def make(self, rng, choices_n):
         p = rng.choice(self.corpus)
-        field, stem = rng.choice(self.ASKS)
+        stem, field = rng.choice(self.asks(p))
         s = sentences(p)
         right = lower1(s[field])
         pool = [lower1(v) for k, v in s.items() if k != field]
         expl = ("The passage says exactly this, and the question asks only what it says. "
                 "Each of the other choices is also drawn from the passage, so each is true; "
                 "none of them is what the stem asked about.")
-        return self.emit(rng, choices_n, p, stem(p), right, pool, expl,
+        return self.emit(rng, choices_n, p, stem, right, pool, expl,
                          rng.choice([1, 2, 2, 3]), "v_st", self.sub)
 
 
@@ -1635,15 +1643,19 @@ class MainIdea(RCBase):
                 + [q["about"] for q in others])
         return right, pool, findings
 
+    def asks(self, p):
+        return [("The passage is primarily concerned with", None)]
+
     def make(self, rng, choices_n):
         p = rng.choice(self.corpus)
+        (stem, _), = self.asks(p)
         right, pool, findings = self.options(p)
         expl = ("The passage opens with the received view, shows what it cannot account "
                 "for, presents two findings, and states what they support. That is the "
                 "shape of the whole passage, and the correct choice describes it. The other "
                 "choices describe one part of the passage as if it were the whole, claim "
                 "more than the passage argues, reverse it, or describe a different passage.")
-        return self.emit(rng, choices_n, p, "The passage is primarily concerned with",
+        return self.emit(rng, choices_n, p, stem,
                          right, pool, expl, rng.choice([2, 3, 3]), "v_st", self.sub,
                          near=findings, k=self.k, target=self.target_for(p, choices_n - 1))
 
@@ -1666,9 +1678,14 @@ class Inference(RCBase):
              "establishes. The others run the rule backwards, stretch the passage's "
              "conclusion, or concern a different case.")
 
+    def asks(self, p):
+        # The stem STATES the case; the long comment above the return in make() says why.
+        return [("If %s, which of the following can be properly inferred from the passage?"
+                 % cond[1], cond) for cond in (p["cond1"], p["cond2"])]
+
     def make(self, rng, choices_n):
         p = rng.choice(self.corpus)
-        cond = rng.choice([p["cond1"], p["cond2"]])
+        stem, cond = rng.choice(self.asks(p))
         univ, case, concl, subject, scope, near = cond
         other = p["cond2"] if cond is p["cond1"] else p["cond1"]
         right = concl[0].upper() + concl[1:] + "."
@@ -1724,8 +1741,7 @@ class Inference(RCBase):
         # lowercasing the first letter turned them into "hedingham's rolls" and
         # "thornbury changed stewards". Transforming a stored field to fit a slot is the
         # fault this file has already been fixed for twice; the field goes in as stored.
-        stem = ("If %s, which of the following can be properly inferred from the passage?"
-                % case)
+        # asks() builds the stem, so questions() lists exactly what this prints.
         return self.emit(rng, choices_n, p, stem, right, pool, expl,
                          rng.choice([3, 4, 4, 5]), "v_inf", self.sub, near=own, k=1)
 
@@ -1768,15 +1784,18 @@ class CaveatImplication(RCBase):
                 + [q["implies"] for q in others])
         return right, pool, own
 
+    def asks(self, p):
+        return [("The author's closing observation most strongly suggests that", None)]
+
     def make(self, rng, choices_n):
         p = rng.choice(self.corpus)
+        (stem, _), = self.asks(p)
         right, pool, own = self.options(p)
         expl = ("The closing sentence names a limit on what the evidence shows rather than a "
                 "doubt about the evidence itself, and the correct choice states that limit "
                 "in this passage's own terms. The wrong choices treat the limit as a verdict "
                 "against the findings, treat what was never tested as settled one way or "
                 "the other, or state a limit that belongs to a different passage.")
-        stem = "The author's closing observation most strongly suggests that"
         return self.emit(rng, choices_n, p, stem, right, pool, expl,
                          rng.choice([2, 3, 3, 4]), "v_inf", self.sub, near=own, k=self.k,
                          target=self.target_for(p, choices_n - 1))

@@ -26,6 +26,7 @@ class Remap(Gen):
         self.bump = bump
         self.type = inner.type
         self.fmt = inner.fmt
+        _pass_questions(self, inner)
 
     def build(self, rng):
         spec = dict(self.inner.build(rng))
@@ -63,6 +64,7 @@ class RemapItem(Gen):
         self.type = getattr(inner, "type", "MC")
         self.fmt = getattr(inner, "fmt", None)
         self.domain = getattr(inner, "domain", None)
+        _pass_questions(self, inner)
 
     def make(self, rng, choices_n):
         it = dict(self.inner.make(rng, choices_n))
@@ -73,6 +75,15 @@ class RemapItem(Gen):
             it["sub"] = self.sub
         it["diff"] = max(1, min(5, it.get("diff", self.inner.diff) + self.bump))
         return it
+
+
+def _pass_questions(outer, inner):
+    """A schema that lists its questions lists the same ones under another exam's taxonomy,
+    since a wrapper changes where an item is filed and never what it asks. Without this
+    the runner would treat a wrapped reading schema as one of unknown size (INC-0126)."""
+    if hasattr(inner, "questions"):
+        outer.questions = inner.questions
+        outer.space = inner.space
 
 
 def wrap(inner, skill, section, bump):
