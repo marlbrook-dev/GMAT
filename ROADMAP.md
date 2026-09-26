@@ -1,6 +1,6 @@
 # Start From Nowhere: build roadmap
 
-Updated September 14, 2026. Owner: Hunter Roberts. Builder: Claude sessions. This file is the working schedule; each week's block ships as one or more merged PRs. Dates are targets, not promises; anything user-facing ships only after the browser test suite passes.
+Updated September 26, 2026. Owner: Hunter Roberts. Builder: Claude sessions. This file is the working schedule; each week's block ships as one or more merged PRs. Dates are targets, not promises; anything user-facing ships only after the browser test suite passes.
 
 ## Comparative advantage (the why-us, revisited each cycle)
 
@@ -59,6 +59,68 @@ Updated September 14, 2026. Owner: Hunter Roberts. Builder: Claude sessions. Thi
 - [x] Business intelligence: billing event ledger (Stripe and Apple), admin_business RPC, Business tab on the chart library
 - [x] The Build Playbook: a living, exportable guidebook that captures how this platform was built, every defect and misfire hit along the way, and the reusable infrastructure recipe for standing the same stack up again for a different business (scope below)
 
+
+## Session log, September 26, 2026: search data, daily questions, reading questions
+
+The ask: another pass at the games, the questions and the school rankings, more work on
+the algorithm, what the sites with real repeat traffic do, and growth and revenue across the
+site. The owner supplied a Search Console export for August 18 to September 24 (23,937
+impressions, 12 clicks, school pages at an average position of 34). The raw export is the
+owner's analytics and is never committed; `src/gsc_report.py` turns any export into the same
+analysis. Everything shipped in PR 96, four commits:
+
+- [x] **School and college pages** say what the data says (INC-0104 to INC-0110): broken
+      intro sentences on half the school pages, salaries labelled as medians that were
+      averages, 29 official figures footnoted as secondary, withdrawn exam guides still
+      ranking into a 404 and now redirected, and a page suite that had been failing on its
+      first click. GROWTH.md records the findings.
+- [x] **Daily Questions** at `/daily/`: one hand-written question per exam per day, the same
+      for everyone, with a dated archive and an RSS feed per exam, a spoiler-free share and a
+      streak that counts days answered, with freezes (INC-0111). The research behind it is in
+      GROWTH.md, with its sources and the ones that could not be read.
+- [x] **Algorithm**: a coverage floor so weakest-first selection cannot starve a skill
+      (INC-0112), explained on `/scoring/` and checked per sitting by the review bots.
+- [x] **Games**: Survival, accuracy only, no clock; `src/smoke_games.js` plays every game in
+      every trainer, which nothing did before. The 3G first-question time is back inside its
+      budget (INC-0113).
+- [x] **Reading questions** (INC-0114 to INC-0117): inference keys depended on a rule the
+      passage never printed, and three schemas could be answered by matching names or topic
+      words on 79 to 95 percent of draws. Both are fixed and guarded at build time. Seven new
+      passages take GMAT v_inf from 60 to 81 items, v_st from 140 to 189, LSAT stated from 48
+      to 72, main idea from 8 to 12 and inference from 24 to 36.
+- [x] **Rankings**: Duke, Boston College and NC State moved to the class that entered in fall
+      2026 and Maryland's blank tuition filled, all from the schools' own pages.
+
+**What could not be read this session, and nothing was substituted for it.** US News
+(the connection is reset), Poets and Quants (a Cloudflare bot check returns 403), Wayback
+Machine snapshots (the availability lookup answers, the snapshot itself is reset), and MIT
+Sloan's Class of 2028 profile (its numbers are drawn by JavaScript, and the headless browser
+rejects the egress proxy's certificate; verification was not switched off). Acceptance rate
+is the largest search intent on the school pages and only 16 programs publish one
+themselves, so the rest need a publisher table this environment cannot reach.
+
+**Owner decisions waiting:**
+
+- [ ] Game scoring: CLAUDE.md says accuracy-only, while Boss Round and The Ladder add a
+      time bonus and the landing page says scores come from accuracy and speed. Survival is
+      accuracy only. Pick one rule and the games and the copy follow it.
+- [ ] Acceptance rates: export the US News or Poets and Quants table, or keep the dash.
+- [ ] A provider for the daily reminder email, if one is wanted.
+- [ ] Bing Webmaster Tools and IndexNow, which only the domain owner can set up.
+
+### Next session queue
+
+- [ ] More reading passages: every reading category is still far under target, and each
+      passage adds ten GMAT items, plus ten LSAT items at LSAT length
+- [ ] Read the hand-written reading items against the same two checks (the rule is printed;
+      no choice is answerable by matching words); they were not part of this pass
+- [ ] Refresh the remaining class profiles as schools post their fall 2026 classes; MIT Sloan
+      first, once its page can be read
+- [ ] `gmat_ds_linear` and `gmat_ds_inequality` return different items when run twice in
+      one process; the build is unaffected because it runs each once, but it is worth knowing
+      why before anything relies on calling them repeatedly
+- [ ] `src/smoke_load.js` stays out of CI because timing on shared runners is noisy, so run
+      it by hand after any change to how the banks are split or loaded (INC-0113)
 
 ## Session log, September 16, 2026: LSAT and ACT live, MCAT and EA blocked
 
