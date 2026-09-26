@@ -101,8 +101,30 @@ for (const f of ['CLAUDE.template.md', 'KICKOFF.md', 'RULES_DIGEST.md', 'inciden
   ok(fs.existsSync(path.join(B, f)), 'bootstrap/' + f);
 }
 const digest = read(path.join(B, 'RULES_DIGEST.md'));
-const missingRule = rows.filter(r => !digest.includes(r.lesson.slice(0, 60)));
-ok(missingRule.length === 0, 'every lesson reaches the rules digest');
+// The digest cannot hold every rule and stay prompt sized as the ledger grows, so its
+// generator keeps a budget and chooses (INC-0129). What it must not do is choose silently
+// or out of order. Every rule learned more than once is kept; the rest are a prefix of
+// the priority order (severity, then oldest first), so none left out outranks one kept;
+// and the number it says it left out is the number actually missing. The checklist check
+// above is what guarantees every lesson is somewhere.
+const inDigest = r => digest.includes(r.lesson.slice(0, 60));
+const roots = new Set(rows.flatMap(r => r.recurs || []));
+const SEV = { 'site-down': 1, 'silent-loss': 2, 'data-wrong': 3, 'degraded': 4, 'cosmetic': 5 };
+const lostRoots = rows.filter(r => roots.has(r.id) && !inDigest(r));
+ok(lostRoots.length === 0, 'every rule learned more than once reaches the rules digest' +
+  (lostRoots.length ? ': ' + lostRoots.map(r => r.id).join(', ') : ''));
+const order = rows.filter(r => !roots.has(r.id))
+  .sort((a, b) => (SEV[a.severity] - SEV[b.severity]) || (a.id < b.id ? -1 : 1));
+const firstOut = order.findIndex(r => !inDigest(r));
+const outOfOrder = firstOut < 0 ? [] : order.slice(firstOut).filter(inDigest);
+ok(!order.some(r => !(r.severity in SEV)) && outOfOrder.length === 0,
+  'the digest keeps its rules in priority order, leaving none out ahead of one it keeps' +
+  (outOfOrder.length ? ': ' + outOfOrder.map(r => r.id).join(', ') : ''));
+const missingRule = rows.filter(r => !inDigest(r));
+const stated = (digest.match(/(\d+) more rules, each learned once/) || [])[1];
+ok(missingRule.length === (stated === undefined ? 0 : +stated),
+  'the digest says how many rules it left out (' + missingRule.length + ' missing, ' +
+  (stated === undefined ? 'none stated' : stated + ' stated') + ')');
 // The digest only works if it is short enough to sit in a prompt. If it grows past a few
 // thousand words it has become a second book and stops being followed.
 const words = digest.split(/\s+/).filter(Boolean).length;
