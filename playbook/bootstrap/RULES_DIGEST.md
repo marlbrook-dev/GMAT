@@ -1,14 +1,14 @@
 # Rules Digest
 
-118 defects from a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
+120 defects from a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
 
-Generated 2026-09-26 from a ledger spanning 7 days and 55 commits.
+Generated 2026-09-26 from a ledger spanning 7 days and 52 commits.
 
 ## Read this first
 
-The three ways defects were most often found, in order: found by reading the code or the output (55), found by measuring something (33), a test caught it (15). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
+The three ways defects were most often found, in order: found by reading the code or the output (57), found by measuring something (33), a test caught it (15). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
 
-The dominant failure mode is silent loss, 25 of 118: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
+The dominant failure mode is silent loss, 25 of 120: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
 
 ## Learned the hard way, more than once
 
@@ -30,6 +30,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (3 times, search and metadata) An enumeration that has to be kept in step by memory will fall out of step, and the failure is silent because nothing downstream can tell the difference between a section that was excluded on purpose and one that was forgotten.
 - (2 times, content generation) Test your content against the strategies a lazy adversary would use, not only against whether it is correct.
 - (2 times, css and layout) The same undefined-property failure will find you repeatedly, at every severity from one icon to an invisible legal control.
+- (2 times, content generation) A record has parts that refer to one another, and a tool that edits one part by text is editing a graph while looking at a string.
 - (2 times, build system) Two habits, both mine rather than the code's. Verify with the sequence the pipeline runs, read out of its config, not with the subset you remember: a suite chosen from memory drifts to the parts that were failing last week.
 - (2 times, build system) A size limit on a generated file is only a guard if something bounds the generator too; otherwise it is a delayed failure that lands on whoever commits next, and reads as their fault.
 - (2 times, content generation) A module that nothing imports fails no test, and an exception raised on every draw is indistinguishable from an exception raised on a hard draw.
@@ -38,6 +39,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (2 times, search and metadata) When a fix names a class of input, such as 'the stat field is free text', find every place that input is used before closing it.
 - (2 times, content generation) Any consumer that describes a value in words must read the field that records what kind of value it is, never the field's name.
 - (2 times, tests and guards) Run every browser suite when a site-wide element such as a modal ships, because a test nobody runs is a claim about the past.
+- (2 times, content generation) An edit that appends text has to read what it is appending to. A correction step that checks only its own goal (here, that the choice got longer) will happily achieve it by making the choice worse, and every check downstream measures the goal, so nothing notices.
 
 ## Content generation
 
@@ -53,7 +55,6 @@ These cost this build twice or more each. If you read nothing else here, read th
 - A seeded shuffle is deterministic, which makes calling it twice look harmless: the same input gives the same output.
 - Writing a second tool for the same job in a different context reproduces every detail the first one learned the hard way, unless the detail is written down somewhere the second author will look.
 - A report that truncates its output invites the reader to write text that continues it, and a tool that appends will put that text somewhere else.
-- A record has parts that refer to one another, and a tool that edits one part by text is editing a graph while looking at a string.
 - A guard that takes the intent as an argument is only as good as the argument, and an argument derived by hand from the same data the guard is checking is a second implementation of the thing being checked.
 - A guard written from the instance in front of you covers that instance. An earlier defect was a bare infinitive in a noun slot, so the guard looked for bare infinitives, and the sentence one screen away in the same file was a wh clause in a clause slot and went straight through.
 - A standard library function whose name is a plausible description of half of what it does will be used for that half.
@@ -74,6 +75,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - Practice material is still published writing. A passage that is only there to be read carefully is still read by people who know the subject, and a question built on it can ask them to endorse the error.
 - A test measures what someone can get right without the skill, and there is more than one way to do that.
 - An empty field records that a search came up empty, not that the thing does not exist.
+- When two pieces of code each supply part of a sentence, decide which one owns each word.
 
 ## Tests and guards
 

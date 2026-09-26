@@ -280,7 +280,9 @@ class LinearWordProblem(Gen):
         total = b + r * n
         f = (lambda v: num(v)) if gallons else (lambda v: money(v))
         return {
-            "stem": (setup.format(b=f(b), r=f(r) + (" gallons per minute" if gallons else ""))
+            # The pool template carries its own unit. Appending it here as well printed
+            # "5 gallons per minute gallons per minute" in every pool item (INC-0120).
+            "stem": (setup.format(b=f(b), r=f(r))
                      + " What is the %s for %s?" % (ask, whenf.format(n=n))),
             "answer": total,
             "distractors": [

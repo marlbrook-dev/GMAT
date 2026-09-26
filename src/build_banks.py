@@ -407,6 +407,41 @@ def se_points(pct, n):
 DISCARD_DRAWS = 400
 
 
+# A phrase said twice where two pieces of text meet. The pool word problem printed "5
+# gallons per minute gallons per minute" in 287 items because its template and the code
+# filling it both wrote the unit, and nothing read a generated stem as a sentence
+# (INC-0120). A run of single letters, a coin toss sequence such as "H T H T H", is the
+# one legitimate repeat and is allowed. Passages are not scanned: prose there can repeat
+# itself on purpose ("piece by piece by gangs of longshoremen").
+DOUBLED = re.compile(r"\b((?:[A-Za-z']+ )+[A-Za-z']+) \1\b")
+SAID_ONCE = ("stem", "prompt", "choices", "statements", "expl", "wrong")
+
+
+def said_twice(text):
+    """The first run of two or more words repeated back to back in `text`, or None."""
+    for m in DOUBLED.finditer(text):
+        if any(len(w) > 1 for w in m.group(1).split()):
+            return m.group(0)
+    return None
+
+
+def check_said_once(items):
+    """One line per item whose text says a phrase twice back to back (INC-0120)."""
+    out = []
+    for it in items:
+        for field in SAID_ONCE:
+            val = it.get(field)
+            for text in (val if isinstance(val, list) else [val]):
+                hit = said_twice(text) if isinstance(text, str) else None
+                if hit:
+                    out.append("%s (%s) %s: %r" % (it["id"], it.get("gen") or "", field, hit))
+                    break
+            else:
+                continue
+            break
+    return out
+
+
 def check_discarded(exam, choices, gens):
     """Report schemas whose questions cannot be assembled into items for this exam.
 
@@ -682,6 +717,11 @@ def main(target=TARGET, verbose=True):
             raise SystemExit(
                 "build_banks: %s has %d reading item(s) with nothing to read: %s"
                 % (exam, len(mute), ", ".join(mute[:6])))
+        twice = check_said_once(items)
+        if twice:
+            raise SystemExit(
+                "build_banks: %s has %d item(s) that say a phrase twice back to back "
+                "(INC-0120): %s" % (exam, len(twice), "; ".join(twice[:6])))
 
         const = "BANK_GEN_" + exam.upper()
         js = F.to_js(starter, const, HEADER)

@@ -189,7 +189,7 @@ const BANK_SAT_RW6 = [
  wrong:"The description and the point about bronze are the materials of the argument rather than its purpose, and no general claim about ancient engineering is made."},
 {id:'SR234',section:'RW',type:'RW',sub:"Text Structure and Purpose",skill:'rw_cs',diff:3,
  stem:"Which choice best states the main purpose of the text?",
- choices:["To argue that changing names was common among artists of the period and of the generation before it","To reinterpret a biographical habit as a deliberate professional practice","To establish that the Fuji series was produced late in the artist's life working life, after he had changed his name many times","To trace the development of an artist through the names he adopted over the course of his career"],answer:1,
+ choices:["To argue that changing names was common among artists of the period and of the generation before it","To reinterpret a biographical habit as a deliberate professional practice","To establish that the Fuji series was produced late in the artist's working life, after he had changed his name many times","To trace the development of an artist through the names he adopted over the course of his career"],answer:1,
  expl:"The text names the habit, reports the usual reading, and replaces it with a reading of the habit as method.",
  wrong:"The development, the dating and the prevalence of the practice are either background or not claimed at all."},
 {id:'SR235',section:'RW',type:'RW',sub:"Text Structure and Purpose",skill:'rw_cs',diff:4,
@@ -244,7 +244,7 @@ const BANK_SAT_RW6 = [
  wrong:"Construction methods are not described, no claim about relative extent is made, and no recommendation is offered."},
 {id:'SR245',section:'RW',type:'RW',sub:"Text Structure and Purpose",skill:'rw_cs',diff:3,
  stem:"Which choice best states the main purpose of the text?",
- choices:["To argue that the plagiarism accusation was the decisive factor in Larsen's silence long silence after her second novel","To resist a single-cause explanation of a biographical fact and say why one is sought","To establish the sequence of events in the later life of a novelist who stopped publishing","To compare Larsen's career with those of her contemporaries own career with the careers of the novelists who were her contemporaries"],answer:1,
+ choices:["To argue that the plagiarism accusation was the decisive factor in Larsen's long silence after her second novel","To resist a single-cause explanation of a biographical fact and say why one is sought","To establish the sequence of events in the later life of a novelist who stopped publishing","To compare Larsen's own career with the careers of the novelists who were her contemporaries"],answer:1,
  expl:"The text lists the candidate causes, says none disposes of the others, and closes on why a single cause is attractive to tell.",
  wrong:"The sequence is material, a single cause is what the text argues against, and no comparison is drawn."},
 // ---------- Cross-Text Connections ----------
@@ -295,7 +295,7 @@ const BANK_SAT_RW6 = [
  wrong:"Fame, documents and commerce all figure in the surrounding discussion and are not what the closing sentence separates."},
 {id:'SR255',section:'RW',type:'RW',sub:"Cross-Text Connections",skill:'rw_cs',diff:3,
  stem:"Which choice best describes how Text 2 relates to the explanation given in Text 1?",
- choices:["It denies that willows recovered along the streams during the decade in question at all during the decade","It identifies a second change that could produce the same outcome and notes that the order is unknown","It argues that beaver colonies were the cause of the decline in elk browsing along the stream banks of the park","It reports a measurement programme that settled the question Text 1 raises about the willows and the elk"],answer:1,
+ choices:["It denies that willows recovered along the streams at all during the decade in which the wolves were reintroduced","It identifies a second change that could produce the same outcome and notes that the order is unknown","It argues that beaver colonies were the cause of the decline in elk browsing along the stream banks of the park","It reports a measurement programme that settled the question Text 1 raises about the willows and the elk"],answer:1,
  expl:"Text 2 supplies a mechanism, high water table, that would also return the willows, and says the sequence was not recorded.",
  wrong:"Text 2 accepts the recovery, makes no claim about elk, and says measurement began late."},
 // ---------- Text Structure and Purpose ----------
