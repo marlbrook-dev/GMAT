@@ -59,7 +59,7 @@ a{color:var(--accent)}
 <p class="eyebrow">Start From Nowhere</p>
 <h1>The Build Playbook</h1>
 <p class="sub">How one person and a set of AI sessions built a multi-exam test-prep platform, every defect hit on the way, and the recipe for doing it again for something else</p>
-<p class="meta">Built 2026-09-26 from commit ac77b4b &middot; 51 commits over 7 days &middot; 113 recorded defects &middot; 17 chapters<br>
+<p class="meta">Built 2026-09-26 from commit d13f069 &middot; 53 commits over 7 days &middot; 117 recorded defects &middot; 17 chapters<br>
 This document is generated. Edit the chapters in docs/playbook/ and the ledger in data/playbook/incidents.jsonl, then run python3 src/build_playbook.py.</p>
 </div>
 <div class="toc"><ol><li><a href="#how-to-use-this-book">How to Use This Book</a></li>
@@ -81,7 +81,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><a href="#the-bootstrap-pack-starting-a-new-project-with-this-loaded">The Bootstrap Pack: Starting a New Project With This Loaded</a></li></ol></div>
 <h1 id="how-to-use-this-book">How to Use This Book</h1>
 <p>This is the record of building one platform, written so it can be used to build a different one.</p>
-<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-09-19 and 2026-09-26, which is 7 days, across 51 commits, by one owner directing a series of AI coding sessions. As of this build it is 72 Python files, 102 JavaScript files, 24 TypeScript edge functions, 35 migrations and 63 documents: 2001 tracked files in total.</p>
+<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-09-19 and 2026-09-26, which is 7 days, across 53 commits, by one owner directing a series of AI coding sessions. As of this build it is 73 Python files, 106 JavaScript files, 24 TypeScript edge functions, 35 migrations and 63 documents: 2008 tracked files in total.</p>
 <p>None of those numbers were typed. They are measured from the repository every time this document is built, which is the first thing worth copying.</p>
 <h2 id="what-is-in-here">What is in here</h2>
 <p>The book has four kinds of chapter, and they age differently.</p>
@@ -254,8 +254,10 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><code>src/smoke_business.js</code></li>
 <li><code>src/smoke_charts.js</code></li>
 <li><code>src/smoke_consent.js</code></li>
+<li><code>src/smoke_daily.js</code></li>
 <li><code>src/smoke_fit.js</code></li>
 <li><code>src/smoke_funnel.js</code></li>
+<li><code>src/smoke_games.js</code></li>
 <li><code>src/smoke_guide.js</code></li>
 <li><code>src/smoke_ios.js</code></li>
 <li><code>src/smoke_items.js</code></li>
@@ -271,7 +273,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><code>src/test.js</code></li>
 <li><code>src/weekly_audit.js</code></li>
 </ul>
-<p>22 test files in total. The layering is deliberate:</p>
+<p>24 test files in total. The layering is deliberate:</p>
 <ol>
 <li><strong>The build</strong> catches structural problems in the artefact.</li>
 <li><strong>Engine tests</strong> run the domain logic headlessly, once per exam.</li>
@@ -588,7 +590,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <h2 id="never-fabricate">Never fabricate</h2>
 <p>No invented user counts, testimonials, efficacy claims or seeded activity. On a forum, house-authored posts say they are house-authored. This is not only an ethics rule; a fabricated number in a dashboard eventually gets used for a decision, and by then nobody remembers it was a placeholder.</p>
 <h1 id="tests-and-guards">Tests and Guards</h1>
-<p>22 test files, and the interesting thing about them is not what they assert. It is that the analysis chapter can count how defects were <strong>actually</strong> found, and the answer reshapes where you put effort.</p>
+<p>24 test files, and the interesting thing about them is not what they assert. It is that the analysis chapter can count how defects were <strong>actually</strong> found, and the answer reshapes where you put effort.</p>
 <h2 id="the-ladder">The ladder</h2>
 <p><strong>Rung 1: the build.</strong> Structural guards on the artefact. Parse every generated script. Assert every collection size. Fail on platform limits. Compare inputs to outputs at every filter. Cheapest rung, catches the most.</p>
 <p><strong>Rung 2: domain logic, headless.</strong> The engine, run without a browser, once per variant. Fast enough to run on every change.</p>
@@ -615,7 +617,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three defects here were found by taking a screenshot: a chart unreadable in dark mode, a line chart implying values that never existed, and a dashboard that was not on screen. None of them would have been caught by an assertion, because none of them were violations of anything anybody had thought to assert.</p>
 <p><strong>Budget for looking.</strong> It is the cheapest test there is and the only one that catches things you have not imagined.</p>
 <h1 id="running-the-build-as-an-ai-loop">Running the Build as an AI Loop</h1>
-<p>51 commits in 7 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
+<p>53 commits in 7 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
 <h2 id="the-division-of-labour">The division of labour</h2>
 <p><strong>The owner decides</strong>: what to build, what it means, what is acceptable, and every irreversible or outward-facing action. <strong>The session does</strong>: the building, the measuring, the testing, and the reporting of what it found.</p>
 <p>The failure mode at each end is worth naming. An owner who reviews every line becomes the bottleneck and the throughput collapses to the speed of reading. A session that decides product questions on its own produces something coherent that is not what anyone wanted.</p>
@@ -659,31 +661,31 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Long uninterrupted sessions with standing authorisation, punctuated by the owner redirecting priorities, beat short supervised ones by a wide margin. The standing authorisation that made it work was specific: merge your own work once the checks are green, do not check in on each item, and stop immediately when told to.</p>
 <p>The thing that makes that safe is not trust. It is that the checks are real, the destructive actions still require asking, and the record of what happened is written down well enough to audit later. Which is what this book is.</p>
 <h1 id="what-the-ledger-says-about-itself">What the Ledger Says About Itself</h1>
-<p>113 recorded defects, over 7 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.</p>
+<p>117 recorded defects, over 7 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.</p>
 <h2 id="how-defects-were-actually-found">How defects were actually found</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">How</th><th style="text-align:right">Count</th><th style="text-align:right">Share</th></tr></thead><tbody>
-<tr><td style="text-align:left">Found by reading the code or the output</td><td style="text-align:right">50</td><td style="text-align:right">44%</td></tr>
-<tr><td style="text-align:left">Found by measuring something</td><td style="text-align:right">33</td><td style="text-align:right">29%</td></tr>
+<tr><td style="text-align:left">Found by reading the code or the output</td><td style="text-align:right">54</td><td style="text-align:right">46%</td></tr>
+<tr><td style="text-align:left">Found by measuring something</td><td style="text-align:right">33</td><td style="text-align:right">28%</td></tr>
 <tr><td style="text-align:left">A test caught it</td><td style="text-align:right">15</td><td style="text-align:right">13%</td></tr>
 <tr><td style="text-align:left">Found by rendering it and looking</td><td style="text-align:right">6</td><td style="text-align:right">5%</td></tr>
 <tr><td style="text-align:left">Found by a review bot or an adversarial pass</td><td style="text-align:right">5</td><td style="text-align:right">4%</td></tr>
 <tr><td style="text-align:left">A person hit it</td><td style="text-align:right">2</td><td style="text-align:right">2%</td></tr>
 <tr><td style="text-align:left">A build guard caught it</td><td style="text-align:right">2</td><td style="text-align:right">2%</td></tr>
 </tbody></table></div>
-<p><strong>This is the most useful table in the book.</strong> 111 of 113 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.</p>
+<p><strong>This is the most useful table in the book.</strong> 115 of 117 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.</p>
 <p><strong>Read that percentage with the bias it carries.</strong> This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.</p>
 <h2 id="by-severity">By severity</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">Severity</th><th style="text-align:right">Count</th></tr></thead><tbody>
-<tr><td style="text-align:left">Wrong data shown or stored</td><td style="text-align:right">43</td></tr>
+<tr><td style="text-align:left">Wrong data shown or stored</td><td style="text-align:right">46</td></tr>
 <tr><td style="text-align:left">Silent loss</td><td style="text-align:right">25</td></tr>
 <tr><td style="text-align:left">Degraded</td><td style="text-align:right">25</td></tr>
-<tr><td style="text-align:left">Cosmetic</td><td style="text-align:right">17</td></tr>
+<tr><td style="text-align:left">Cosmetic</td><td style="text-align:right">18</td></tr>
 <tr><td style="text-align:left">Site down</td><td style="text-align:right">3</td></tr>
 </tbody></table></div>
-<p><strong>Silent loss is the dominant failure mode</strong>, at 25 of 113. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.</p>
+<p><strong>Silent loss is the dominant failure mode</strong>, at 25 of 117. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.</p>
 <h2 id="by-area">By area</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">Area</th><th style="text-align:right">Count</th></tr></thead><tbody>
-<tr><td style="text-align:left">Content generation</td><td style="text-align:right">42</td></tr>
+<tr><td style="text-align:left">Content generation</td><td style="text-align:right">46</td></tr>
 <tr><td style="text-align:left">Tests and guards</td><td style="text-align:right">19</td></tr>
 <tr><td style="text-align:left">Front end</td><td style="text-align:right">9</td></tr>
 <tr><td style="text-align:left">Search and metadata</td><td style="text-align:right">7</td></tr>
@@ -696,7 +698,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <tr><td style="text-align:left">Interface and data display</td><td style="text-align:right">3</td></tr>
 </tbody></table></div>
 <h2 id="guard-coverage">Guard coverage</h2>
-<p>107 of 113 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.</p>
+<p>111 of 117 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.</p>
 <p>Carried by attention:</p>
 <ul>
 <li><strong>INC-0010</strong> CSS comments do not nest, and one placeholder killed the palette on 1451 pages</li>
@@ -712,18 +714,19 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>weekly_audit checks computed colour on every page (INC-0050, INC-0048)</li>
 </ul>
 <h2 id="lessons-learned-more-than-once">Lessons learned more than once</h2>
-<p>32 of 113 incidents record that they repeat an earlier lesson, 47 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.</p>
+<p>34 of 117 incidents record that they repeat an earlier lesson, 49 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.</p>
 <div class="tw"><table><thead><tr><th style="text-align:left">Lesson first recorded in</th><th style="text-align:left">Repeated by</th><th style="text-align:right">Times</th></tr></thead><tbody>
+<tr><td style="text-align:left">INC-0088 A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked</td><td style="text-align:left">INC-0089, INC-0098, INC-0099, INC-0101, INC-0117</td><td style="text-align:right">5</td></tr>
 <tr><td style="text-align:left">INC-0064 The guard against a blind counter was itself blind to three exams</td><td style="text-align:left">INC-0067, INC-0082, INC-0085, INC-0088</td><td style="text-align:right">4</td></tr>
 <tr><td style="text-align:left">INC-0069 A bank a student can play at 88 percent, inside a section the check passed</td><td style="text-align:left">INC-0079, INC-0085, INC-0086, INC-0088</td><td style="text-align:right">4</td></tr>
 <tr><td style="text-align:left">INC-0074 A corpus field written for one grammatical slot was spliced into another</td><td style="text-align:left">INC-0075, INC-0087, INC-0093, INC-0096</td><td style="text-align:right">4</td></tr>
-<tr><td style="text-align:left">INC-0088 A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked</td><td style="text-align:left">INC-0089, INC-0098, INC-0099, INC-0101</td><td style="text-align:right">4</td></tr>
 <tr><td style="text-align:left">INC-0092 A schema threw away three draws in four, and the counter that knew was read by nobody</td><td style="text-align:left">INC-0098, INC-0099, INC-0101</td><td style="text-align:right">3</td></tr>
 <tr><td style="text-align:left">INC-0099 Every generated reading comprehension question shipped without its passage</td><td style="text-align:left">INC-0100, INC-0101, INC-0103</td><td style="text-align:right">3</td></tr>
 <tr><td style="text-align:left">INC-0055 A new browser suite hardcoded this machine's browser directory and crashed in CI</td><td style="text-align:left">INC-0067, INC-0110</td><td style="text-align:right">2</td></tr>
 <tr><td style="text-align:left">INC-0059 The item counter missed a whole bank file because it assumed a quoting style</td><td style="text-align:left">INC-0064, INC-0067</td><td style="text-align:right">2</td></tr>
 <tr><td style="text-align:left">INC-0067 The browser path fix covered two suites and three others kept crashing</td><td style="text-align:left">INC-0070, INC-0104</td><td style="text-align:right">2</td></tr>
 <tr><td style="text-align:left">INC-0087 The same corpus field in two grammatical slots, in a schema written the same day the guard was read</td><td style="text-align:left">INC-0093, INC-0096</td><td style="text-align:right">2</td></tr>
+<tr><td style="text-align:left">INC-0097 Every reading inference question asked about something the passage never mentions</td><td style="text-align:left">INC-0102, INC-0114</td><td style="text-align:right">2</td></tr>
 <tr><td style="text-align:left">INC-0098 The table said 31.0 and the explanation said 31, because the fix covered the table only</td><td style="text-align:left">INC-0099, INC-0101</td><td style="text-align:right">2</td></tr>
 <tr><td style="text-align:left">INC-0101 A new field-by-field copier reproduced the passage loss defect four days after the ledger recorded it</td><td style="text-align:left">INC-0102, INC-0103</td><td style="text-align:right">2</td></tr>
 <tr><td style="text-align:left">INC-0103 A 139 page section shipped with no route into it from the sitemap</td><td style="text-align:left">INC-0108, INC-0109</td><td style="text-align:right">2</td></tr>
@@ -734,12 +737,11 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <tr><td style="text-align:left">INC-0086 A finished generator module that nothing imported, and two of its four schemas produced nothing</td><td style="text-align:left">INC-0090</td><td style="text-align:right">1</td></tr>
 <tr><td style="text-align:left">INC-0090 Two of a schema's three question forms could not build, and the only sign was an item count</td><td style="text-align:left">INC-0092</td><td style="text-align:right">1</td></tr>
 <tr><td style="text-align:left">INC-0093 Seven variable names were plural and every sentence built around them said was</td><td style="text-align:left">INC-0096</td><td style="text-align:right">1</td></tr>
-<tr><td style="text-align:left">INC-0097 Every reading inference question asked about something the passage never mentions</td><td style="text-align:left">INC-0102</td><td style="text-align:right">1</td></tr>
 <tr><td style="text-align:left">INC-0104 Half the school pages opened with a data note pasted into a sentence, and the structured data repeated it</td><td style="text-align:left">INC-0105</td><td style="text-align:right">1</td></tr>
 <tr><td style="text-align:left">INC-0105 Twelve average salaries were published as medians, and the social queue credited schools with figures they never published</td><td style="text-align:left">INC-0106</td><td style="text-align:right">1</td></tr>
 <tr><td style="text-align:left">INC-0110 A browser suite outside CI had failed on its first click since the consent dialog shipped</td><td style="text-align:left">INC-0113</td><td style="text-align:right">1</td></tr>
 </tbody></table></div>
-<p>The largest family runs to 28 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.</p>
+<p>The largest family runs to 30 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.</p>
 <p>Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.</p>
 <ul>
 <li>INC-0013 names INC-0012</li>
@@ -748,6 +750,9 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>INC-0080 names INC-0077</li>
 <li>INC-0084 names INC-0059, INC-0064, INC-0074</li>
 <li>INC-0087 names INC-0075</li>
+<li>INC-0115 names INC-0114</li>
+<li>INC-0116 names INC-0114</li>
+<li>INC-0117 names INC-0114</li>
 </ul>
 <h2 id="where-defects-concentrate">Where defects concentrate</h2>
 <p>Files named by three or more incidents. This is not the same signal as the list above: a file that is the natural home for many checks will appear here without any one of them having failed. It says where the work has been, and where a reader new to the codebase should look first.</p>
@@ -758,6 +763,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><code>src/review_bot.js</code>, 5 incidents (INC-0022, INC-0026, INC-0051, INC-0061, INC-0077)</li>
 <li><code>src/gen/framework.py</code>, 5 incidents (INC-0074, INC-0075, INC-0078, INC-0087, INC-0096)</li>
 <li><code>src/bank_emit.py</code>, 4 incidents (INC-0062, INC-0066, INC-0068, INC-0073)</li>
+<li><code>src/gen/g_rc.py</code>, 4 incidents (INC-0097, INC-0114, INC-0115, INC-0117)</li>
 <li><code>src/weekly_audit.js</code>, 3 incidents (INC-0050, INC-0048, INC-0018)</li>
 <li><code>src/smoke_redirect.js</code>, 3 incidents (INC-0023, INC-0024, INC-0047)</li>
 <li><code>src/build_playbook.py</code>, 3 incidents (INC-0057, INC-0065, INC-0083)</li>
@@ -767,7 +773,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <h1 id="the-defect-ledger">The Defect Ledger</h1>
 <p>Every entry here happened. Each one is a record of something that broke, how it was found, what fixed it, and what now stops it coming back. The last field is the one that matters for a different business: the transferable lesson, stated without reference to this codebase.</p>
 <p>They are grouped by the part of the system, and within a group by date. The <code>guard</code> field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.</p>
-<h2 id="content-generation-42">Content generation (42)</h2>
+<h2 id="content-generation-46">Content generation (46)</h2>
 <h3 id="inc-0003-item-banks-were-different-on-every-build-because-python-randomises-hash">INC-0003. Item banks were different on every build because Python randomises hash()</h3>
 <p><em>2026-09-16, Wrong data shown or stored, <code>0d6c357</code> PR #33</em></p>
 <ul>
@@ -1196,6 +1202,46 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Fix.</strong> Every figure on the page that the build can measure is now filled from the measurement: top 25 agreement and recognition and the admission rate correlation from validate_ranking.report, and the public, premium and private tuition counts from the college data. Historical figures that describe the old weighting stay as prose and say they are historical.</li>
 <li><strong>What stops it now.</strong> build_colleges fails if the methodology template loses any of the placeholders the measured figures fill ({AGR25}, {REC25}, {CORR}, {PUB100}, {PREMIUM_LINE}), which is how a typed literal would return, and fails if the ranking checks did not run, rather than rendering the page without them.</li>
 <li><strong>Lesson.</strong> When a page publishes a number the build computes, the page should read it from the build. A figure typed in beside a placeholder is the one that will be wrong next month, and it will be wrong on the page whose whole purpose is to say how carefully the numbers are checked.</li>
+</ul>
+<h3 id="inc-0114-reading-inference-questions-credited-a-key-that-depended-on-a-rule-the-passage-never-stated">INC-0114. Reading inference questions credited a key that depended on a rule the passage never stated</h3>
+<p><em>2026-09-26, Wrong data shown or stored</em></p>
+<ul>
+<li><strong>What was seen.</strong> An rc_infer item asked 'If the Kivalliq site recorded a snowpack of twenty-two centimetres, which of the following can be properly inferred from the passage?' and credited 'The Kivalliq site did not show the winter reversal.' The passage says the reversal appeared wherever the snowpack exceeded forty centimetres, which is the opposite direction: deep snow is enough for the reversal, not required for it, so a site with shallow snow may or may not show it. The rule that makes the key follow, that every site in the survey that showed the reversal had deep snow, is held in the corpus and never appears in the text. None of the forty universals the inference schema runs on appears in its passage. Read one by one against the prose, twenty of the forty credited a conclusion that the passage and the stem's premise do not establish together: the first conditional of tundra, guilds, reefs, roads, saltmarsh, cicadas, almshouse, riparian and phonotactic, the second of tenements, basalt and lichen, and both of scriptoria, pidgin, birdsong and assize. The failures are of four kinds: the passage states the converse of the rule (tundra, guilds, riparian); it states nothing like the rule (scriptoria, basalt, almshouse, phonotactic and others); the case is never placed inside the study the rule covers, so a rule about the eleven Canadian sites is applied to a site that may not be one of them (roads, saltmarsh, and the scoped ones above); or the step needs outside knowledge, that English is the lexifier of Krio or the year the lichen hypothesis was published. The explanation on all forty opened 'The passage establishes that' and then quoted the universal, which the passage does not contain. Birdsong's first key did not follow even with its rule stated. The schema runs on both the GMAT (v_inf) and the LSAT (lsat_rc_inf).</li>
+<li><strong>Why.</strong> The module docstring says 'Each passage carries two conditionals', and the passage data does carry them, as fields beside the prose. text(p), which builds what the reader sees, assembles the old view, the two findings, the revision and the caveat, and never the conditionals. The generator then computes the key from the stored universal and the explanation quotes it, so every string the item is built from agrees with every other and the item looks valid to anything that reads the data. What the reader gets is the prose, and for half of the conditionals the prose was written to say something close to the rule rather than the rule. INC-0097 fixed the same shape one field over: the case was used to compute the key and never printed, and that fix printed the case. The universal had exactly the same property and was not looked at, because the fix answered the question 'is the case shown' rather than 'which premises is the reader shown'.</li>
+<li><strong>How it surfaced.</strong> Found on 2026-09-26 while planning more passages to grow the thin reading categories. Checking what a new conditional would have to satisfy meant reading the existing forty against their rendered passages, and the first one checked, tundra, credited a conclusion the prose does not support. check_premises passed throughout, because it checks that the stem states a case and that the case is new to the passage, and says nothing about the rule. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> text(p) now states both universals in the second paragraph, before the revision, so the rule the key turns on is in the text the reader has and the explanation's 'The passage establishes that' is true. Every conditional whose conclusion is about what a case did rather than which group it belongs to now places the case inside the study its rule covers ('the Kivalliq site, one of the eleven in the Canadian survey, ...'). Reefs said shaded colonies produced 'almost none' of the proteins, which contradicts a rule that only colonies in strong light produced any, and now says none. Birdsong's first conditional, cicadas' first and the cases that needed outside knowledge were rewritten so the step is in the text. Conclusions that deny membership were reworded to say so in one form ('is not among', 'is not in').</li>
+<li><strong>What stops it now.</strong> g_rc.check_premises now also fails when a universal does not appear verbatim in the rendered passage, and each conditional declares a scope: the phrase that limits whom its rule covers. When the conclusion is an outcome, the scope must appear in both the universal and the case, so the case is inside the rule; when the conclusion denies membership instead, it must say so in a recognised form, which needs no scope because it holds whether or not the case was ever in the study. The build fails on any of these, before a bank is written. in <code>src/gen/g_rc.py</code></li>
+<li><strong>Lesson.</strong> When a key is derived from premises held as data, each premise has to be found in what the reader sees, and a check should prove that by searching the rendered text rather than the data. Fixing the one missing premise that was noticed is not the same as asking which premises the reader is shown: list them all, and look for each one in the output.</li>
+</ul>
+<h3 id="inc-0115-a-field-written-to-open-a-sentence-was-printed-mid-sentence-in-a-reading-stem">INC-0115. A field written to open a sentence was printed mid-sentence in a reading stem</h3>
+<p><em>2026-09-26, Cosmetic</em></p>
+<ul>
+<li><strong>What was seen.</strong> Every rc_stated item that asks about a passage's second finding opened 'According to the passage, A later survey of eleven sites across northern Canada found that', with a capital A after the comma. The built banks carried 20 of them for the GMAT (13 in bank.js, 7 in the deferred chunks) and 8 for the LSAT, one per passage. The same field joined to its neighbour with a fixed 'of' also produced 'A second team of carbon isotope records from three continents found that', a team made of records, and 'Later laboratory work of colonies' and 'A playback experiment of the same population' in the passages themselves.</li>
+<li><strong>Why.</strong> ev2who is used in two slots. text(p) puts it at the start of a sentence, so it was written capitalised, and the stated-idea stem puts it after 'According to the passage,' where it needs lower case. The field was written for the first slot and never read in the second. The 'of' join is the same fault in a different form: the template supplies a preposition that suits most of the stored phrases and was never checked against all of them.</li>
+<li><strong>How it surfaced.</strong> Found on 2026-09-26 while rewriting the passages for INC-0114, by searching the built banks for the stems that quote ev2who. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> ev2who is stored in the form the middle of a sentence wants ('a later survey') and the passage capitalises it where it opens a sentence. Capitalising is the safe direction: it cannot damage a proper noun, while lowercasing one is the fault this file was already fixed for twice. The three phrases that read wrongly before 'of' were rewritten ('a second team's study', 'a later laboratory study', 'a playback study').</li>
+<li><strong>What stops it now.</strong> g_rc.check_corpus fails when ev2who opens with a capitalised article or other common word, which is the stored form that breaks the mid-sentence slot. in <code>src/gen/g_rc.py</code></li>
+<li><strong>Lesson.</strong> A stored phrase that goes into more than one slot has to be written for the hardest of them, and the transform has to run in the direction that cannot damage anything: capitalising a sentence opener is always safe, lowercasing one breaks proper nouns. When a field is reused, read the output of every slot it lands in, not the one it was written for.</li>
+</ul>
+<h3 id="inc-0116-a-passage-described-zircon-dating-with-the-vocabulary-of-argon-dating">INC-0116. A passage described zircon dating with the vocabulary of argon dating</h3>
+<p><em>2026-09-26, Wrong data shown or stored</em></p>
+<ul>
+<li><strong>What was seen.</strong> The basalt passage said the extinction dates 'come from zircon crystals, which close to argon loss and so record the eruption rather than later heating'. Zircon is dated by uranium and lead, and the property that makes it useful is that it keeps its lead when heated later; closure to argon loss is the language of argon dating, which uses other minerals. The sentence was also the key of a stated-idea item, so a student was asked to select it as what the passage says.</li>
+<li><strong>Why.</strong> The passage was written from memory and the two dating methods were conflated in one clause. Nothing checks the science in a passage, because a reading question is answered from the text and every check on the item passes whether the text is true or not.</li>
+<li><strong>How it surfaced.</strong> Found on 2026-09-26 while reading every passage in full for INC-0114. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> The clause now reads 'which retain their lead when later heated and so record the eruption rather than any later event'.</li>
+<li><strong>What stops it now.</strong> None that a machine can run. Passage science is checked by reading, and this record is the reminder that a passage is published content held to the same standard as a sourced figure even though no question depends on it being true.</li>
+<li><strong>Lesson.</strong> Practice material is still published writing. A passage that is only there to be read carefully is still read by people who know the subject, and a question built on it can ask them to endorse the error.</li>
+</ul>
+<h3 id="inc-0117-three-reading-schemas-could-be-answered-by-matching-names-because-every-distractor-came-from-a-different-passage">INC-0117. Three reading schemas could be answered by matching names, because every distractor came from a different passage</h3>
+<p><em>2026-09-26, Wrong data shown or stored</em></p>
+<ul>
+<li><strong>What was seen.</strong> An inference item stated 'If Providence adopted the building codes and filtration in the same year' and offered five conclusions, of which only the key mentioned Providence; the others were about the Arezzo panel, infant 14, the Wendle map and the Blakeney marsh. Choosing the option that shares the most names with the premise picked the key on 549 of 600 distinct seeded draws of rc_infer (91 percent) and 572 of 600 of rc_infer_long (95 percent). Main idea and caveat items had the same property with topic words instead of names: choosing the option whose words appear most in the passage picked the key on 92 percent of rc_main and rc_caveat draws and on 79 and 84 percent of their LSAT variants. Every one of these items also closed with 'Watch for: Every other choice states something the passage also says. They are true', which is the stated-idea note and is false of all three schemas, whose wrong choices the passage does not say.</li>
+<li><strong>Why.</strong> INC-0088 found the inference key was the shortest option on 68 percent of items and fixed it by adding other passages' conclusions to the distractor pool, because they are the right length. They are also about a different subject, so the fix traded a length tell for a subject tell. Main idea and caveat were built the same way from the start: their only wrong answers were other passages' summaries, which are safely wrong because they describe a different subject, and safely wrong is the same as eliminable without reading. test.js measures length rank and nothing else, so the ratchet reported these schemas as clean. The 'Watch for' note was written once in the shared emit() for the schema it describes and inherited by the three it does not.</li>
+<li><strong>How it surfaced.</strong> Found on 2026-09-26 while checking the INC-0114 fix by rendering an inference item and reading its choices, then measured across seeded draws of all six schemas. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Wrong answers now come from the same passage, and at least one is always offered. Each conditional carries two authored near misses about its own subject, each claiming something neither premise establishes and at least one worded in the negative like every key; a negative one is always offered and the other joins the pool. Main idea always offers one of the two findings, quoted or summarised, as if it were the whole passage, with the closing limit, an overreach about every account of the topic and the reverse of the argument in the pool. Caveat always offers one of four misreadings that quote the passage: the first finding declared unreliable, the evidence from either study declared unreliable, or the revision declared shown everywhere. Other passages' summaries stay in the pool but can no longer fill every slot. Forcing an option pins the key's length rank, since a quoted finding is nearly always longer than the key, so balance() now builds a draw that includes a same-subject option for a target rank drawn from the ranks that can be built; with no same-subject options it samples exactly as before, so every other schema's bank is unchanged. The 'Watch for' note is written per schema.</li>
+<li><strong>What stops it now.</strong> g_rc.check_tells draws every schema except stated idea across the corpus and fails the build when either shortcut finds the key, and only the key, on more than 40 percent of distinct draws: the choice repeating the most names from the premise, or the only negative choice naming the case, for inference; the choice whose words appear most in the passage, for main idea and caveat. Forty percent is twice a blind guess among five and far below the 79 to 95 percent recorded here. After the fix the measured rates were 0 to 8 percent. g_rc.check_premises also requires each near miss to name the case and at least one to be worded in the negative, because every key is. in <code>src/gen/g_rc.py</code></li>
+<li><strong>Lesson.</strong> A test measures what someone can get right without the skill, and there is more than one way to do that. Removing one tell does not make an item sound; it moves the question to the next shortcut. Distractors drawn from unrelated material are always wrong and therefore always free, so a wrong answer has to be wrong about the same thing the right one is about.</li>
 </ul>
 <h2 id="tests-and-guards-19">Tests and guards (19)</h2>
 <h3 id="inc-0016-the-performance-test-waited-for-the-load-event-which-waits-for-the-thing-being-optimised">INC-0016. The performance test waited for the load event, which waits for the thing being optimised</h3>
@@ -2028,6 +2074,10 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>&lt;small&gt;Error recovery in the CSS parser swallowed the palette silently (INC-0048)&lt;/small&gt;</p>
 <h2 id="content-generation">Content generation</h2>
 <ul>
+<li>[ ] <strong>Learned 6 times over.</strong> A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell. When a measurement cannot be trusted at a small sample, widen the tolerance to what the sample supports rather than declining to measure, and notice when a count of what was measured does not move after you add something to measure.  </li>
+</ul>
+<p>&lt;small&gt;A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked (INC-0088)&lt;/small&gt;</p>
+<ul>
 <li>[ ] <strong>Learned 5 times over.</strong> An aggregate over a mixed population reports the population, and if part of that population is flat by construction it will hide the part that is not. The rule that follows is about what the unit of the measurement should be: measure at the grain the defect can exist at, which here is the file, because a file is written by one person in one sitting with one set of habits. The section was the grain the data was convenient at.  </li>
 </ul>
 <p>&lt;small&gt;A bank a student can play at 88 percent, inside a section the check passed (INC-0069)&lt;/small&gt;</p>
@@ -2035,10 +2085,6 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>[ ] <strong>Learned 5 times over.</strong> A corpus field is written against the one sentence the author had in mind, and the schema that reuses it three templates later has no way to know which shape it is. The type system says str in both places. Two things follow. Store the field in every shape a template needs and name the shapes, rather than storing one shape and trusting the next author to notice. And guard the output, not the corpus: the generated sentence is the only place the mismatch becomes visible, and a cheap pattern over the rendered text catches a class that no check on the inputs can see.  </li>
 </ul>
 <p>&lt;small&gt;A corpus field written for one grammatical slot was spliced into another (INC-0074)&lt;/small&gt;</p>
-<ul>
-<li>[ ] <strong>Learned 5 times over.</strong> A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell. When a measurement cannot be trusted at a small sample, widen the tolerance to what the sample supports rather than declining to measure, and notice when a count of what was measured does not move after you add something to measure.  </li>
-</ul>
-<p>&lt;small&gt;A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked (INC-0088)&lt;/small&gt;</p>
 <ul>
 <li>[ ] <strong>Learned 4 times over.</strong> A counter that nothing reads is not instrumentation, it is a comment that looks like instrumentation, and it is worse than nothing because it answers the question 'is anyone watching this' with a yes. Every time a guard is written against one symptom, ask what the same failure looks like arriving another way, and count the whole category rather than the instance that prompted it.  </li>
 </ul>
@@ -2051,6 +2097,10 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>[ ] <strong>Learned 3 times over.</strong> Reading the record does not prevent the defect; the practice does. This one was written hours after its own lesson was read closely enough to be catalogued as a recurrence, and it was caught by rendering three items rather than by remembering. Budget the render, not the recollection.  </li>
 </ul>
 <p>&lt;small&gt;The same corpus field in two grammatical slots, in a schema written the same day the guard was read (INC-0087)&lt;/small&gt;</p>
+<ul>
+<li>[ ] <strong>Learned 3 times over.</strong> A generated item is checked as data, and this one was correct as data: the logic was valid, the key was right, the distractors were the intended errors. What was missing was a fact about the RELATION between two strings, that a name in the question also occurs in the passage, and no property of either string alone can see it. When a question and its source are assembled from separate fields, write down what has to be true of them together, because every check that looks at one field at a time will pass.  </li>
+</ul>
+<p>&lt;small&gt;Every reading inference question asked about something the passage never mentions (INC-0097)&lt;/small&gt;</p>
 <ul>
 <li>[ ] <strong>Learned 3 times over.</strong> A fix scoped to where the evidence was is a fix scoped to the sample, not to the defect. When the change is to how a QUANTITY is written, the unit of work is the quantity and every place it is written, not the place where the failure happened to be visible. Finding the other call sites costs one search; the fix that covers a subset leaves a difference the reader can see and the measurement cannot.  </li>
 </ul>
@@ -2075,10 +2125,6 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>[ ] <strong>Learned 2 times over.</strong> A template is a promise about the grammar of what goes into it, and the promise is invisible: the code says name and the sentence needs a singular noun phrase. Whenever a stored string lands next to a verb, an article or a plural, write the requirement down beside the data rather than in the template, and make adding a new row state that it meets it. Renaming the data to fit one grammar is usually cheaper and always safer than teaching the templates to handle two.  </li>
 </ul>
 <p>&lt;small&gt;Seven variable names were plural and every sentence built around them said was (INC-0093)&lt;/small&gt;</p>
-<ul>
-<li>[ ] <strong>Learned 2 times over.</strong> A generated item is checked as data, and this one was correct as data: the logic was valid, the key was right, the distractors were the intended errors. What was missing was a fact about the RELATION between two strings, that a name in the question also occurs in the passage, and no property of either string alone can see it. When a question and its source are assembled from separate fields, write down what has to be true of them together, because every check that looks at one field at a time will pass.  </li>
-</ul>
-<p>&lt;small&gt;Every reading inference question asked about something the passage never mentions (INC-0097)&lt;/small&gt;</p>
 <ul>
 <li>[ ] <strong>Learned 2 times over.</strong> Any consumer that describes a value in words must read the field that records what kind of value it is, never the field's name. A field name is a hope about the data, not a description of it, and a schema that allows two kinds of value will be described everywhere as the kind it was named after.  </li>
 </ul>
@@ -2195,6 +2241,22 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>[ ] When a page publishes a number the build computes, the page should read it from the build. A figure typed in beside a placeholder is the one that will be wrong next month, and it will be wrong on the page whose whole purpose is to say how carefully the numbers are checked.  </li>
 </ul>
 <p>&lt;small&gt;The college methodology page quoted its own checks from the day they were written, and the build had moved on (INC-0108)&lt;/small&gt;</p>
+<ul>
+<li>[ ] When a key is derived from premises held as data, each premise has to be found in what the reader sees, and a check should prove that by searching the rendered text rather than the data. Fixing the one missing premise that was noticed is not the same as asking which premises the reader is shown: list them all, and look for each one in the output.  </li>
+</ul>
+<p>&lt;small&gt;Reading inference questions credited a key that depended on a rule the passage never stated (INC-0114)&lt;/small&gt;</p>
+<ul>
+<li>[ ] A stored phrase that goes into more than one slot has to be written for the hardest of them, and the transform has to run in the direction that cannot damage anything: capitalising a sentence opener is always safe, lowercasing one breaks proper nouns. When a field is reused, read the output of every slot it lands in, not the one it was written for.  </li>
+</ul>
+<p>&lt;small&gt;A field written to open a sentence was printed mid-sentence in a reading stem (INC-0115)&lt;/small&gt;</p>
+<ul>
+<li>[ ] Practice material is still published writing. A passage that is only there to be read carefully is still read by people who know the subject, and a question built on it can ask them to endorse the error.  </li>
+</ul>
+<p>&lt;small&gt;A passage described zircon dating with the vocabulary of argon dating (INC-0116)&lt;/small&gt;</p>
+<ul>
+<li>[ ] A test measures what someone can get right without the skill, and there is more than one way to do that. Removing one tell does not make an item sound; it moves the question to the next shortcut. Distractors drawn from unrelated material are always wrong and therefore always free, so a wrong answer has to be wrong about the same thing the right one is about.  </li>
+</ul>
+<p>&lt;small&gt;Three reading schemas could be answered by matching names, because every distractor came from a different passage (INC-0117)&lt;/small&gt;</p>
 <h2 id="database">Database</h2>
 <ul>
 <li>[ ] Postgres fires same-timing triggers alphabetically. If two triggers on one table have an order dependency, encode it in the name, and test the outcome rather than the code.  </li>
@@ -2494,7 +2556,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p><code>python3 src/build_playbook.py</code> writes four files into <code>playbook/bootstrap/</code>, all generated from the same ledger as the book, so none of them can drift from it.</p>
 <p><strong><code>CLAUDE.template.md</code></strong> goes in the new repository's root. Claude Code reads it on every turn. It is the constitution: the house rules, the never-invent-a-value rule, the sourcing rules, the communication rule, and a short architecture section you fill in as you build. Four bracketed blanks at the top are the only things you have to change.</p>
 <p><strong><code>KICKOFF.md</code></strong> is the literal first message for a new conversation. It sets the working agreement, the phase order, and what a session should report. Paste it, then describe your business idea underneath it.</p>
-<p><strong><code>RULES_DIGEST.md</code></strong> is every lesson in the defect ledger, compressed to one line each and grouped by area. It is about three pages. This is the highest value-per-token artefact in the whole project: 113 real defects reduced to the rules that prevent them, with the specifics of this codebase stripped out.</p>
+<p><strong><code>RULES_DIGEST.md</code></strong> is every lesson in the defect ledger, compressed to one line each and grouped by area. It is about three pages. This is the highest value-per-token artefact in the whole project: 117 real defects reduced to the rules that prevent them, with the specifics of this codebase stripped out.</p>
 <p><strong><code>incidents.jsonl</code></strong> is the raw ledger, copied so the new project can start appending to it on day one rather than starting an empty one.</p>
 <h2 id="how-to-load-it-by-surface">How to load it, by surface</h2>
 <p><strong>Claude Code, new repository.</strong> Copy <code>CLAUDE.template.md</code> to the repo root as <code>CLAUDE.md</code>, fill in the four blanks, and copy <code>incidents.jsonl</code> to <code>data/playbook/incidents.jsonl</code>. Copy <code>src/build_playbook.py</code> too, so the new project's own ledger becomes its own book from the first defect. Then open a session with <code>KICKOFF.md</code> as the first message.</p>
@@ -2504,7 +2566,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three reasons, and they are worth understanding rather than just following.</p>
 <p><strong>Retrieval beats repetition.</strong> A document in project knowledge is consulted when relevant. The same document in the prompt is re-read on every single turn, at full cost, mostly when it is irrelevant. For anything longer than a few pages, retrieval is strictly better.</p>
 <p><strong>Instructions need to be short enough to be followed.</strong> A rule competing with ten thousand words of context is a rule that gets applied inconsistently. The digest is deliberately brutal: one line per lesson, imperative mood, no examples. The examples are in the book, where they can be looked up when a rule seems wrong.</p>
-<p><strong>The ledger is the part that compounds.</strong> The recipe chapters age. The rules do not, because each one is the residue of a real failure, and the failure modes of software are considerably more stable than its tooling. A new project that starts with 113 defects already prevented is genuinely ahead, and every defect it hits of its own makes the next project further ahead still.</p>
+<p><strong>The ledger is the part that compounds.</strong> The recipe chapters age. The rules do not, because each one is the residue of a real failure, and the failure modes of software are considerably more stable than its tooling. A new project that starts with 117 defects already prevented is genuinely ahead, and every defect it hits of its own makes the next project further ahead still.</p>
 <h2 id="keeping-the-loop-closed">Keeping the loop closed</h2>
 <p>The pack is only worth carrying forward if the new project feeds it back. So the working agreement in <code>KICKOFF.md</code> includes one instruction that does the whole job:</p>
 <p>&gt; When something breaks, append a record to <code>data/playbook/incidents.jsonl</code> before fixing &gt; it, while you still remember what you believed was true five minutes ago.</p>

@@ -488,7 +488,7 @@ def stem_numbers(stem, want_shape, exclude, limit=6):
     return out
 
 
-def balance(rng, right, pool, need):
+def balance(rng, right, pool, need, own=(), k=0):
     """Choose `need` wrong answers so the key's LENGTH RANK is drawn uniformly.
 
     For a worded answer the only thing a guesser can measure without reading is length, so
@@ -500,9 +500,19 @@ def balance(rng, right, pool, need):
     the variety that having more wrong answer types than slots was there to provide. So it
     draws random subsets, keeps the first whose key rank matches a target drawn uniformly,
     and falls back to the closest it saw. Both properties survive.
+
+    `own` are wrong answers about the same thing as the key, and at least `k` of them are
+    offered on every draw (INC-0117). Which ones is chosen with the rank in mind, because
+    forcing particular options pins it: two near misses that are both longer than the key
+    make it impossible for the key to be the longest, and the ranks that remain fill up.
+    Any `own` not chosen stays available to the rest of the draw. With no `own` the draw
+    is exactly what it always was, so every other schema produces what it produced.
     """
-    if len(pool) < need:
-        raise ItemError("balance needs %d wrong answers, pool has %d" % (need, len(pool)))
+    own = list(own)
+    if k > len(own) or len(pool) + len(own) < need:
+        raise ItemError("balance needs %d wrong answers, pool has %d" % (need, len(pool) + len(own)))
+    if k:
+        return _balance_own(rng, right, pool, need, own, k)
     target = rng.randint(0, need)
     keylen = len(str(right))
     best, best_gap = None, None
@@ -515,6 +525,43 @@ def balance(rng, right, pool, need):
         if best_gap is None or gap < best_gap:
             best, best_gap = pick, gap
     return best
+
+
+def _balance_own(rng, right, pool, need, own, k):
+    """balance() when some wrong answers must come from `own` (INC-0117).
+
+    Built rather than sampled. Sampling forty random subsets and keeping one whose key
+    rank hits the target works when every subset is possible; with k options forced from
+    a short list, the extreme ranks need a particular combination that forty draws rarely
+    find, the fallback lands on the middle, and the middle rank fills up. So the target
+    is drawn from the ranks that can actually be built, and the draw is then assembled to
+    hit it: the own options first, then the shorter and longer wrong answers the target
+    calls for.
+    """
+    keylen = len(str(right))
+    short = lambda w: len(str(w[0])) < keylen
+
+    def build(t):
+        for _ in range(12):
+            first = rng.sample(own, k)
+            ns = sum(1 for o in first if short(o))
+            if ns > t or k - ns > need - t:
+                continue
+            rest = [w for w in own if w not in first] + list(pool)
+            s_ = [w for w in rest if short(w)]
+            l_ = [w for w in rest if not short(w)]
+            if len(s_) < t - ns or len(l_) < need - t - (k - ns):
+                continue
+            return first + rng.sample(s_, t - ns) + rng.sample(l_, need - t - (k - ns))
+        return None
+
+    targets = list(range(need + 1))
+    rng.shuffle(targets)
+    for t in targets:
+        pick = build(t)
+        if pick is not None:
+            return pick
+    raise ItemError("balance could not assemble %d wrong answers with %d of its own" % (need, k))
 
 
 def canon(item):

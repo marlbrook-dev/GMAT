@@ -7,10 +7,10 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-26, which is 7 days, across
-51 commits, by one owner directing a series of AI coding sessions. As of this
-build it is 72 Python files, 102 JavaScript files, 24
+53 commits, by one owner directing a series of AI coding sessions. As of this
+build it is 73 Python files, 106 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 63 documents:
-2001 tracked files in total.
+2008 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -386,8 +386,10 @@ The build is the first rung. Above it, in the order they run:
 - `src/smoke_business.js`
 - `src/smoke_charts.js`
 - `src/smoke_consent.js`
+- `src/smoke_daily.js`
 - `src/smoke_fit.js`
 - `src/smoke_funnel.js`
+- `src/smoke_games.js`
 - `src/smoke_guide.js`
 - `src/smoke_ios.js`
 - `src/smoke_items.js`
@@ -403,7 +405,7 @@ The build is the first rung. Above it, in the order they run:
 - `src/test.js`
 - `src/weekly_audit.js`
 
-22 test files in total. The layering is deliberate:
+24 test files in total. The layering is deliberate:
 
 1. **The build** catches structural problems in the artefact.
 2. **Engine tests** run the domain logic headlessly, once per exam.
@@ -1026,7 +1028,7 @@ remembers it was a placeholder.
 
 # Tests and Guards
 
-22 test files, and the interesting thing about them is not what they assert.
+24 test files, and the interesting thing about them is not what they assert.
 It is that the analysis chapter can count how defects were **actually** found, and the
 answer reshapes where you put effort.
 
@@ -1119,7 +1121,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-51 commits in 7 days, one owner, a series of AI sessions. This
+53 commits in 7 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1211,22 +1213,22 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-113 recorded defects, over 7 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+117 recorded defects, over 7 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 50 | 44% |
-| Found by measuring something | 33 | 29% |
+| Found by reading the code or the output | 54 | 46% |
+| Found by measuring something | 33 | 28% |
 | A test caught it | 15 | 13% |
 | Found by rendering it and looking | 6 | 5% |
 | Found by a review bot or an adversarial pass | 5 | 4% |
 | A person hit it | 2 | 2% |
 | A build guard caught it | 2 | 2% |
 
-**This is the most useful table in the book.** 111 of 113 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 115 of 117 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1235,20 +1237,20 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 43 |
+| Wrong data shown or stored | 46 |
 | Silent loss | 25 |
 | Degraded | 25 |
-| Cosmetic | 17 |
+| Cosmetic | 18 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 25 of 113. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 25 of 117. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 42 |
+| Content generation | 46 |
 | Tests and guards | 19 |
 | Front end | 9 |
 | Search and metadata | 7 |
@@ -1263,7 +1265,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-107 of 113 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+111 of 117 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1284,20 +1286,21 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-32 of 113 incidents record that they repeat an earlier lesson, 47 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+34 of 117 incidents record that they repeat an earlier lesson, 49 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
+| INC-0088 A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked | INC-0089, INC-0098, INC-0099, INC-0101, INC-0117 | 5 |
 | INC-0064 The guard against a blind counter was itself blind to three exams | INC-0067, INC-0082, INC-0085, INC-0088 | 4 |
 | INC-0069 A bank a student can play at 88 percent, inside a section the check passed | INC-0079, INC-0085, INC-0086, INC-0088 | 4 |
 | INC-0074 A corpus field written for one grammatical slot was spliced into another | INC-0075, INC-0087, INC-0093, INC-0096 | 4 |
-| INC-0088 A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked | INC-0089, INC-0098, INC-0099, INC-0101 | 4 |
 | INC-0092 A schema threw away three draws in four, and the counter that knew was read by nobody | INC-0098, INC-0099, INC-0101 | 3 |
 | INC-0099 Every generated reading comprehension question shipped without its passage | INC-0100, INC-0101, INC-0103 | 3 |
 | INC-0055 A new browser suite hardcoded this machine's browser directory and crashed in CI | INC-0067, INC-0110 | 2 |
 | INC-0059 The item counter missed a whole bank file because it assumed a quoting style | INC-0064, INC-0067 | 2 |
 | INC-0067 The browser path fix covered two suites and three others kept crashing | INC-0070, INC-0104 | 2 |
 | INC-0087 The same corpus field in two grammatical slots, in a schema written the same day the guard was read | INC-0093, INC-0096 | 2 |
+| INC-0097 Every reading inference question asked about something the passage never mentions | INC-0102, INC-0114 | 2 |
 | INC-0098 The table said 31.0 and the explanation said 31, because the fix covered the table only | INC-0099, INC-0101 | 2 |
 | INC-0101 A new field-by-field copier reproduced the passage loss defect four days after the ledger recorded it | INC-0102, INC-0103 | 2 |
 | INC-0103 A 139 page section shipped with no route into it from the sitemap | INC-0108, INC-0109 | 2 |
@@ -1308,12 +1311,11 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0086 A finished generator module that nothing imported, and two of its four schemas produced nothing | INC-0090 | 1 |
 | INC-0090 Two of a schema's three question forms could not build, and the only sign was an item count | INC-0092 | 1 |
 | INC-0093 Seven variable names were plural and every sentence built around them said was | INC-0096 | 1 |
-| INC-0097 Every reading inference question asked about something the passage never mentions | INC-0102 | 1 |
 | INC-0104 Half the school pages opened with a data note pasted into a sentence, and the structured data repeated it | INC-0105 | 1 |
 | INC-0105 Twelve average salaries were published as medians, and the social queue credited schools with figures they never published | INC-0106 | 1 |
 | INC-0110 A browser suite outside CI had failed on its first click since the consent dialog shipped | INC-0113 | 1 |
 
-The largest family runs to 28 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
+The largest family runs to 30 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
 
 Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.
 
@@ -1323,6 +1325,9 @@ Incidents that name an earlier one without claiming to repeat it. Each was read 
 - INC-0080 names INC-0077
 - INC-0084 names INC-0059, INC-0064, INC-0074
 - INC-0087 names INC-0075
+- INC-0115 names INC-0114
+- INC-0116 names INC-0114
+- INC-0117 names INC-0114
 
 
 ## Where defects concentrate
@@ -1335,6 +1340,7 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/review_bot.js`, 5 incidents (INC-0022, INC-0026, INC-0051, INC-0061, INC-0077)
 - `src/gen/framework.py`, 5 incidents (INC-0074, INC-0075, INC-0078, INC-0087, INC-0096)
 - `src/bank_emit.py`, 4 incidents (INC-0062, INC-0066, INC-0068, INC-0073)
+- `src/gen/g_rc.py`, 4 incidents (INC-0097, INC-0114, INC-0115, INC-0117)
 - `src/weekly_audit.js`, 3 incidents (INC-0050, INC-0048, INC-0018)
 - `src/smoke_redirect.js`, 3 incidents (INC-0023, INC-0024, INC-0047)
 - `src/build_playbook.py`, 3 incidents (INC-0057, INC-0065, INC-0083)
@@ -1349,7 +1355,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (42)
+## Content generation (46)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -1863,6 +1869,54 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** Every figure on the page that the build can measure is now filled from the measurement: top 25 agreement and recognition and the admission rate correlation from validate_ranking.report, and the public, premium and private tuition counts from the college data. Historical figures that describe the old weighting stay as prose and say they are historical.
 - **What stops it now.** build_colleges fails if the methodology template loses any of the placeholders the measured figures fill ({AGR25}, {REC25}, {CORR}, {PUB100}, {PREMIUM_LINE}), which is how a typed literal would return, and fails if the ranking checks did not run, rather than rendering the page without them.
 - **Lesson.** When a page publishes a number the build computes, the page should read it from the build. A figure typed in beside a placeholder is the one that will be wrong next month, and it will be wrong on the page whose whole purpose is to say how carefully the numbers are checked.
+
+
+### INC-0114. Reading inference questions credited a key that depended on a rule the passage never stated
+
+*2026-09-26, Wrong data shown or stored*
+
+- **What was seen.** An rc_infer item asked 'If the Kivalliq site recorded a snowpack of twenty-two centimetres, which of the following can be properly inferred from the passage?' and credited 'The Kivalliq site did not show the winter reversal.' The passage says the reversal appeared wherever the snowpack exceeded forty centimetres, which is the opposite direction: deep snow is enough for the reversal, not required for it, so a site with shallow snow may or may not show it. The rule that makes the key follow, that every site in the survey that showed the reversal had deep snow, is held in the corpus and never appears in the text. None of the forty universals the inference schema runs on appears in its passage. Read one by one against the prose, twenty of the forty credited a conclusion that the passage and the stem's premise do not establish together: the first conditional of tundra, guilds, reefs, roads, saltmarsh, cicadas, almshouse, riparian and phonotactic, the second of tenements, basalt and lichen, and both of scriptoria, pidgin, birdsong and assize. The failures are of four kinds: the passage states the converse of the rule (tundra, guilds, riparian); it states nothing like the rule (scriptoria, basalt, almshouse, phonotactic and others); the case is never placed inside the study the rule covers, so a rule about the eleven Canadian sites is applied to a site that may not be one of them (roads, saltmarsh, and the scoped ones above); or the step needs outside knowledge, that English is the lexifier of Krio or the year the lichen hypothesis was published. The explanation on all forty opened 'The passage establishes that' and then quoted the universal, which the passage does not contain. Birdsong's first key did not follow even with its rule stated. The schema runs on both the GMAT (v_inf) and the LSAT (lsat_rc_inf).
+- **Why.** The module docstring says 'Each passage carries two conditionals', and the passage data does carry them, as fields beside the prose. text(p), which builds what the reader sees, assembles the old view, the two findings, the revision and the caveat, and never the conditionals. The generator then computes the key from the stored universal and the explanation quotes it, so every string the item is built from agrees with every other and the item looks valid to anything that reads the data. What the reader gets is the prose, and for half of the conditionals the prose was written to say something close to the rule rather than the rule. INC-0097 fixed the same shape one field over: the case was used to compute the key and never printed, and that fix printed the case. The universal had exactly the same property and was not looked at, because the fix answered the question 'is the case shown' rather than 'which premises is the reader shown'.
+- **How it surfaced.** Found on 2026-09-26 while planning more passages to grow the thin reading categories. Checking what a new conditional would have to satisfy meant reading the existing forty against their rendered passages, and the first one checked, tundra, credited a conclusion the prose does not support. check_premises passed throughout, because it checks that the stem states a case and that the case is new to the passage, and says nothing about the rule. (Found by reading the code or the output)
+- **Fix.** text(p) now states both universals in the second paragraph, before the revision, so the rule the key turns on is in the text the reader has and the explanation's 'The passage establishes that' is true. Every conditional whose conclusion is about what a case did rather than which group it belongs to now places the case inside the study its rule covers ('the Kivalliq site, one of the eleven in the Canadian survey, ...'). Reefs said shaded colonies produced 'almost none' of the proteins, which contradicts a rule that only colonies in strong light produced any, and now says none. Birdsong's first conditional, cicadas' first and the cases that needed outside knowledge were rewritten so the step is in the text. Conclusions that deny membership were reworded to say so in one form ('is not among', 'is not in').
+- **What stops it now.** g_rc.check_premises now also fails when a universal does not appear verbatim in the rendered passage, and each conditional declares a scope: the phrase that limits whom its rule covers. When the conclusion is an outcome, the scope must appear in both the universal and the case, so the case is inside the rule; when the conclusion denies membership instead, it must say so in a recognised form, which needs no scope because it holds whether or not the case was ever in the study. The build fails on any of these, before a bank is written. in `src/gen/g_rc.py`
+- **Lesson.** When a key is derived from premises held as data, each premise has to be found in what the reader sees, and a check should prove that by searching the rendered text rather than the data. Fixing the one missing premise that was noticed is not the same as asking which premises the reader is shown: list them all, and look for each one in the output.
+
+
+### INC-0115. A field written to open a sentence was printed mid-sentence in a reading stem
+
+*2026-09-26, Cosmetic*
+
+- **What was seen.** Every rc_stated item that asks about a passage's second finding opened 'According to the passage, A later survey of eleven sites across northern Canada found that', with a capital A after the comma. The built banks carried 20 of them for the GMAT (13 in bank.js, 7 in the deferred chunks) and 8 for the LSAT, one per passage. The same field joined to its neighbour with a fixed 'of' also produced 'A second team of carbon isotope records from three continents found that', a team made of records, and 'Later laboratory work of colonies' and 'A playback experiment of the same population' in the passages themselves.
+- **Why.** ev2who is used in two slots. text(p) puts it at the start of a sentence, so it was written capitalised, and the stated-idea stem puts it after 'According to the passage,' where it needs lower case. The field was written for the first slot and never read in the second. The 'of' join is the same fault in a different form: the template supplies a preposition that suits most of the stored phrases and was never checked against all of them.
+- **How it surfaced.** Found on 2026-09-26 while rewriting the passages for INC-0114, by searching the built banks for the stems that quote ev2who. (Found by reading the code or the output)
+- **Fix.** ev2who is stored in the form the middle of a sentence wants ('a later survey') and the passage capitalises it where it opens a sentence. Capitalising is the safe direction: it cannot damage a proper noun, while lowercasing one is the fault this file was already fixed for twice. The three phrases that read wrongly before 'of' were rewritten ('a second team's study', 'a later laboratory study', 'a playback study').
+- **What stops it now.** g_rc.check_corpus fails when ev2who opens with a capitalised article or other common word, which is the stored form that breaks the mid-sentence slot. in `src/gen/g_rc.py`
+- **Lesson.** A stored phrase that goes into more than one slot has to be written for the hardest of them, and the transform has to run in the direction that cannot damage anything: capitalising a sentence opener is always safe, lowercasing one breaks proper nouns. When a field is reused, read the output of every slot it lands in, not the one it was written for.
+
+
+### INC-0116. A passage described zircon dating with the vocabulary of argon dating
+
+*2026-09-26, Wrong data shown or stored*
+
+- **What was seen.** The basalt passage said the extinction dates 'come from zircon crystals, which close to argon loss and so record the eruption rather than later heating'. Zircon is dated by uranium and lead, and the property that makes it useful is that it keeps its lead when heated later; closure to argon loss is the language of argon dating, which uses other minerals. The sentence was also the key of a stated-idea item, so a student was asked to select it as what the passage says.
+- **Why.** The passage was written from memory and the two dating methods were conflated in one clause. Nothing checks the science in a passage, because a reading question is answered from the text and every check on the item passes whether the text is true or not.
+- **How it surfaced.** Found on 2026-09-26 while reading every passage in full for INC-0114. (Found by reading the code or the output)
+- **Fix.** The clause now reads 'which retain their lead when later heated and so record the eruption rather than any later event'.
+- **What stops it now.** None that a machine can run. Passage science is checked by reading, and this record is the reminder that a passage is published content held to the same standard as a sourced figure even though no question depends on it being true.
+- **Lesson.** Practice material is still published writing. A passage that is only there to be read carefully is still read by people who know the subject, and a question built on it can ask them to endorse the error.
+
+
+### INC-0117. Three reading schemas could be answered by matching names, because every distractor came from a different passage
+
+*2026-09-26, Wrong data shown or stored*
+
+- **What was seen.** An inference item stated 'If Providence adopted the building codes and filtration in the same year' and offered five conclusions, of which only the key mentioned Providence; the others were about the Arezzo panel, infant 14, the Wendle map and the Blakeney marsh. Choosing the option that shares the most names with the premise picked the key on 549 of 600 distinct seeded draws of rc_infer (91 percent) and 572 of 600 of rc_infer_long (95 percent). Main idea and caveat items had the same property with topic words instead of names: choosing the option whose words appear most in the passage picked the key on 92 percent of rc_main and rc_caveat draws and on 79 and 84 percent of their LSAT variants. Every one of these items also closed with 'Watch for: Every other choice states something the passage also says. They are true', which is the stated-idea note and is false of all three schemas, whose wrong choices the passage does not say.
+- **Why.** INC-0088 found the inference key was the shortest option on 68 percent of items and fixed it by adding other passages' conclusions to the distractor pool, because they are the right length. They are also about a different subject, so the fix traded a length tell for a subject tell. Main idea and caveat were built the same way from the start: their only wrong answers were other passages' summaries, which are safely wrong because they describe a different subject, and safely wrong is the same as eliminable without reading. test.js measures length rank and nothing else, so the ratchet reported these schemas as clean. The 'Watch for' note was written once in the shared emit() for the schema it describes and inherited by the three it does not.
+- **How it surfaced.** Found on 2026-09-26 while checking the INC-0114 fix by rendering an inference item and reading its choices, then measured across seeded draws of all six schemas. (Found by reading the code or the output)
+- **Fix.** Wrong answers now come from the same passage, and at least one is always offered. Each conditional carries two authored near misses about its own subject, each claiming something neither premise establishes and at least one worded in the negative like every key; a negative one is always offered and the other joins the pool. Main idea always offers one of the two findings, quoted or summarised, as if it were the whole passage, with the closing limit, an overreach about every account of the topic and the reverse of the argument in the pool. Caveat always offers one of four misreadings that quote the passage: the first finding declared unreliable, the evidence from either study declared unreliable, or the revision declared shown everywhere. Other passages' summaries stay in the pool but can no longer fill every slot. Forcing an option pins the key's length rank, since a quoted finding is nearly always longer than the key, so balance() now builds a draw that includes a same-subject option for a target rank drawn from the ranks that can be built; with no same-subject options it samples exactly as before, so every other schema's bank is unchanged. The 'Watch for' note is written per schema.
+- **What stops it now.** g_rc.check_tells draws every schema except stated idea across the corpus and fails the build when either shortcut finds the key, and only the key, on more than 40 percent of distinct draws: the choice repeating the most names from the premise, or the only negative choice naming the case, for inference; the choice whose words appear most in the passage, for main idea and caveat. Forty percent is twice a blind guess among five and far below the 79 to 95 percent recorded here. After the fix the measured rates were 0 to 8 percent. g_rc.check_premises also requires each near miss to name the case and at least one to be worded in the negative, because every key is. in `src/gen/g_rc.py`
+- **Lesson.** A test measures what someone can get right without the skill, and there is more than one way to do that. Removing one tell does not make an item sound; it moves the question to the next shortcut. Distractors drawn from unrelated material are always wrong and therefore always free, so a wrong answer has to be wrong about the same thing the right one is about.
 
 
 ## Tests and guards (19)
@@ -2844,18 +2898,20 @@ Read it before starting a piece of work in the matching area, and again before y
 
 ## Content generation
 
+- [ ] **Learned 6 times over.** A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell. When a measurement cannot be trusted at a small sample, widen the tolerance to what the sample supports rather than declining to measure, and notice when a count of what was measured does not move after you add something to measure.  
+  <small>A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked (INC-0088)</small>
 - [ ] **Learned 5 times over.** An aggregate over a mixed population reports the population, and if part of that population is flat by construction it will hide the part that is not. The rule that follows is about what the unit of the measurement should be: measure at the grain the defect can exist at, which here is the file, because a file is written by one person in one sitting with one set of habits. The section was the grain the data was convenient at.  
   <small>A bank a student can play at 88 percent, inside a section the check passed (INC-0069)</small>
 - [ ] **Learned 5 times over.** A corpus field is written against the one sentence the author had in mind, and the schema that reuses it three templates later has no way to know which shape it is. The type system says str in both places. Two things follow. Store the field in every shape a template needs and name the shapes, rather than storing one shape and trusting the next author to notice. And guard the output, not the corpus: the generated sentence is the only place the mismatch becomes visible, and a cheap pattern over the rendered text catches a class that no check on the inputs can see.  
   <small>A corpus field written for one grammatical slot was spliced into another (INC-0074)</small>
-- [ ] **Learned 5 times over.** A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell. When a measurement cannot be trusted at a small sample, widen the tolerance to what the sample supports rather than declining to measure, and notice when a count of what was measured does not move after you add something to measure.  
-  <small>A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked (INC-0088)</small>
 - [ ] **Learned 4 times over.** A counter that nothing reads is not instrumentation, it is a comment that looks like instrumentation, and it is worse than nothing because it answers the question 'is anyone watching this' with a yes. Every time a guard is written against one symptom, ask what the same failure looks like arriving another way, and count the whole category rather than the instance that prompted it.  
   <small>A schema threw away three draws in four, and the counter that knew was read by nobody (INC-0092)</small>
 - [ ] **Learned 4 times over.** A check that infers what to expect from the same data it is checking cannot fail on a missing field: absence reads as nothing to look for. Derive the expectation from something the data cannot erase, the item's TYPE, and then look for what that type requires. A field that is set in memory, used by every in-process test and copied by hand into the shipped format has no test at all between the two, so the copying should be checked as a whole rather than field by field. And a check that runs one random draw is not a check of a random process: this one was correct for months and simply never asked often enough to see the answer.  
   <small>Every generated reading comprehension question shipped without its passage (INC-0099)</small>
 - [ ] **Learned 3 times over.** Reading the record does not prevent the defect; the practice does. This one was written hours after its own lesson was read closely enough to be catalogued as a recurrence, and it was caught by rendering three items rather than by remembering. Budget the render, not the recollection.  
   <small>The same corpus field in two grammatical slots, in a schema written the same day the guard was read (INC-0087)</small>
+- [ ] **Learned 3 times over.** A generated item is checked as data, and this one was correct as data: the logic was valid, the key was right, the distractors were the intended errors. What was missing was a fact about the RELATION between two strings, that a name in the question also occurs in the passage, and no property of either string alone can see it. When a question and its source are assembled from separate fields, write down what has to be true of them together, because every check that looks at one field at a time will pass.  
+  <small>Every reading inference question asked about something the passage never mentions (INC-0097)</small>
 - [ ] **Learned 3 times over.** A fix scoped to where the evidence was is a fix scoped to the sample, not to the defect. When the change is to how a QUANTITY is written, the unit of work is the quantity and every place it is written, not the place where the failure happened to be visible. Finding the other call sites costs one search; the fix that covers a subset leaves a difference the reader can see and the measurement cannot.  
   <small>The table said 31.0 and the explanation said 31, because the fix covered the table only (INC-0098)</small>
 - [ ] **Learned 3 times over.** When a defect is about a KIND of code rather than a line of code, a guard bolted to the site of the failure does not generalise, and writing one feels like closing the case. Ask instead what the next instance of this code will look like and where it will live: here the answer was anywhere an item is copied out of the bank, and the durable check is that an item asking about source material has to be carrying it, wherever it is being rendered.  
@@ -2868,8 +2924,6 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Two of a schema's three question forms could not build, and the only sign was an item count (INC-0090)</small>
 - [ ] **Learned 2 times over.** A template is a promise about the grammar of what goes into it, and the promise is invisible: the code says name and the sentence needs a singular noun phrase. Whenever a stored string lands next to a verb, an article or a plural, write the requirement down beside the data rather than in the template, and make adding a new row state that it meets it. Renaming the data to fit one grammar is usually cheaper and always safer than teaching the templates to handle two.  
   <small>Seven variable names were plural and every sentence built around them said was (INC-0093)</small>
-- [ ] **Learned 2 times over.** A generated item is checked as data, and this one was correct as data: the logic was valid, the key was right, the distractors were the intended errors. What was missing was a fact about the RELATION between two strings, that a name in the question also occurs in the passage, and no property of either string alone can see it. When a question and its source are assembled from separate fields, write down what has to be true of them together, because every check that looks at one field at a time will pass.  
-  <small>Every reading inference question asked about something the passage never mentions (INC-0097)</small>
 - [ ] **Learned 2 times over.** Any consumer that describes a value in words must read the field that records what kind of value it is, never the field's name. A field name is a hope about the data, not a description of it, and a schema that allows two kinds of value will be described everywhere as the kind it was named after.  
   <small>Twelve average salaries were published as medians, and the social queue credited schools with figures they never published (INC-0105)</small>
 - [ ] Any generator that claims reproducibility must be seeded from something stable across processes. hash() is not, in Python, and the failure shows up as a flaky test rather than as a wrong answer.  
@@ -2928,6 +2982,14 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Official figures from a school's own university were footnoted as secondary and 'indicative rather than official' (INC-0106)</small>
 - [ ] When a page publishes a number the build computes, the page should read it from the build. A figure typed in beside a placeholder is the one that will be wrong next month, and it will be wrong on the page whose whole purpose is to say how carefully the numbers are checked.  
   <small>The college methodology page quoted its own checks from the day they were written, and the build had moved on (INC-0108)</small>
+- [ ] When a key is derived from premises held as data, each premise has to be found in what the reader sees, and a check should prove that by searching the rendered text rather than the data. Fixing the one missing premise that was noticed is not the same as asking which premises the reader is shown: list them all, and look for each one in the output.  
+  <small>Reading inference questions credited a key that depended on a rule the passage never stated (INC-0114)</small>
+- [ ] A stored phrase that goes into more than one slot has to be written for the hardest of them, and the transform has to run in the direction that cannot damage anything: capitalising a sentence opener is always safe, lowercasing one breaks proper nouns. When a field is reused, read the output of every slot it lands in, not the one it was written for.  
+  <small>A field written to open a sentence was printed mid-sentence in a reading stem (INC-0115)</small>
+- [ ] Practice material is still published writing. A passage that is only there to be read carefully is still read by people who know the subject, and a question built on it can ask them to endorse the error.  
+  <small>A passage described zircon dating with the vocabulary of argon dating (INC-0116)</small>
+- [ ] A test measures what someone can get right without the skill, and there is more than one way to do that. Removing one tell does not make an item sound; it moves the question to the next shortcut. Distractors drawn from unrelated material are always wrong and therefore always free, so a wrong answer has to be wrong about the same thing the right one is about.  
+  <small>Three reading schemas could be answered by matching names, because every distractor came from a different passage (INC-0117)</small>
 
 
 ## Database
@@ -3194,7 +3256,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 113 real defects reduced to the rules that prevent them,
+the whole project: 117 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -3234,7 +3296,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-113 defects already prevented is genuinely ahead, and every defect it hits
+117 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

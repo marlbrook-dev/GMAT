@@ -1,29 +1,30 @@
 # Rules Digest
 
-113 defects from a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
+117 defects from a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
 
-Generated 2026-09-26 from a ledger spanning 7 days and 51 commits.
+Generated 2026-09-26 from a ledger spanning 7 days and 53 commits.
 
 ## Read this first
 
-The three ways defects were most often found, in order: found by reading the code or the output (50), found by measuring something (33), a test caught it (15). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
+The three ways defects were most often found, in order: found by reading the code or the output (54), found by measuring something (33), a test caught it (15). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
 
-The dominant failure mode is silent loss, 25 of 113: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
+The dominant failure mode is silent loss, 25 of 117: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
 
 ## Learned the hard way, more than once
 
 These cost this build twice or more each. If you read nothing else here, read these.
 
+- (6 times, content generation) A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell.
 - (5 times, build system) A guard that covers a subset of cases reproduces the original defect in the cases it skips, and it is more dangerous than no guard because the incident it was written for feels closed.
 - (5 times, content generation) An aggregate over a mixed population reports the population, and if part of that population is flat by construction it will hide the part that is not.
 - (5 times, content generation) A corpus field is written against the one sentence the author had in mind, and the schema that reuses it three templates later has no way to know which shape it is.
-- (5 times, content generation) A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell.
 - (4 times, content generation) A counter that nothing reads is not instrumentation, it is a comment that looks like instrumentation, and it is worse than nothing because it answers the question 'is anyone watching this' with a yes.
 - (4 times, content generation) A check that infers what to expect from the same data it is checking cannot fail on a missing field: absence reads as nothing to look for.
 - (3 times, tests and guards) A path that exists on the machine you wrote the test on is not a path. Resolve environment-specific locations through one helper that falls back to the tool's own default, and return undefined rather than an empty string, because undefined means 'you decide' and an empty string means 'launch nothing'.
 - (3 times, build system) A regex that counts things assumes a formatting convention, and a file that legitimately breaks the convention counts as zero rather than as an error.
 - (3 times, tests and guards) Extracting a shared helper does not migrate the callers. The extraction fixes the file it was extracted from and leaves every sibling on the old path, which is two earlier defects in a different costume: a correction applied to the instances in hand rather than to the pattern.
 - (3 times, content generation) Reading the record does not prevent the defect; the practice does. This one was written hours after its own lesson was read closely enough to be catalogued as a recurrence, and it was caught by rendering three items rather than by remembering.
+- (3 times, content generation) A generated item is checked as data, and this one was correct as data: the logic was valid, the key was right, the distractors were the intended errors.
 - (3 times, content generation) A fix scoped to where the evidence was is a fix scoped to the sample, not to the defect.
 - (3 times, content generation) When a defect is about a KIND of code rather than a line of code, a guard bolted to the site of the failure does not generalise, and writing one feels like closing the case.
 - (3 times, search and metadata) An enumeration that has to be kept in step by memory will fall out of step, and the failure is silent because nothing downstream can tell the difference between a section that was excluded on purpose and one that was forgotten.
@@ -34,7 +35,6 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (2 times, content generation) A module that nothing imports fails no test, and an exception raised on every draw is indistinguishable from an exception raised on a hard draw.
 - (2 times, content generation) A generator's wrong answers are written as labels and read as labels, and nobody looks at the values two labels produce.
 - (2 times, content generation) A template is a promise about the grammar of what goes into it, and the promise is invisible: the code says name and the sentence needs a singular noun phrase.
-- (2 times, content generation) A generated item is checked as data, and this one was correct as data: the logic was valid, the key was right, the distractors were the intended errors.
 - (2 times, search and metadata) When a fix names a class of input, such as 'the stat field is free text', find every place that input is used before closing it.
 - (2 times, content generation) Any consumer that describes a value in words must read the field that records what kind of value it is, never the field's name.
 - (2 times, tests and guards) Run every browser suite when a site-wide element such as a modal ships, because a test nobody runs is a claim about the past.
@@ -69,6 +69,10 @@ These cost this build twice or more each. If you read nothing else here, read th
 - When the same file already solves a problem correctly, the second implementation is the one to distrust: the reference was available and was not used, so whatever made it easy to skip will make it easy to skip again.
 - A provenance label is a factual claim and deserves the same checking as the number it annotates.
 - When a page publishes a number the build computes, the page should read it from the build.
+- When a key is derived from premises held as data, each premise has to be found in what the reader sees, and a check should prove that by searching the rendered text rather than the data.
+- A stored phrase that goes into more than one slot has to be written for the hardest of them, and the transform has to run in the direction that cannot damage anything: capitalising a sentence opener is always safe, lowercasing one breaks proper nouns.
+- Practice material is still published writing. A passage that is only there to be read carefully is still read by people who know the subject, and a question built on it can ask them to endorse the error.
+- A test measures what someone can get right without the skill, and there is more than one way to do that.
 
 ## Tests and guards
 
