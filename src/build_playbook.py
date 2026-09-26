@@ -832,9 +832,9 @@ them. Not documentation: the handful of things that would cost a session an hour
 KICKOFF = """# Kickoff
 
 You are building a new product with me. Before anything else, read RULES_DIGEST.md in
-this project: it is {N} real defects from a previous build of a comparable platform,
-compressed to one rule each. Those rules are the accumulated cost of {DAYS} days of
-building, and following them is cheaper than rediscovering them.
+this project: it is the most costly of {N} real defects from a previous build of a
+comparable platform, compressed to one rule each. Those rules are the accumulated cost of
+{DAYS} days of building, and following them is cheaper than rediscovering them.
 
 ## The working agreement
 
@@ -930,6 +930,16 @@ def deidentify(text):
     return _INC_RUN.sub(one, str(text))
 
 
+# The digest's own word budget, under smoke_playbook's 4000 word limit with room for its
+# closing note. Held here, where the rules are chosen: the earlier fix bounded each rule and
+# left the digest growing by a rule per incident, so it crossed the limit again (INC-0129).
+DIGEST_BUDGET = 3700
+# Which single-incident rules a full digest keeps first. Silent loss ranks above a wrong
+# figure because the digest itself calls it the dominant failure mode.
+DIGEST_SEVERITY = {'site-down': 1, 'silent-loss': 2, 'data-wrong': 3, 'degraded': 4,
+                   'cosmetic': 5}
+
+
 def rules_digest(rows, h):
     """The ledger compressed to operative rules. One line each, imperative, with the
     specifics of this codebase stripped out, because a rule competing with ten thousand
@@ -939,17 +949,23 @@ def rules_digest(rows, h):
     project pastes into its prompt, so it has a fixed word budget that smoke_playbook
     enforces, and printing every lesson in full grew it linearly with the ledger until
     it crossed (INC-0083). The reasoning behind each rule is in BUILD_PLAYBOOK.md, which
-    the opening paragraph below already points at."""
+    the opening paragraph below already points at.
+
+    That bounded each rule and not the digest, which still printed one per incident and
+    crossed the limit again at 128 (INC-0129). So the budget is held here: every rule the
+    build learned more than once, then the rest in order of severity, oldest first within
+    each level, while they fit. The digest says how many it left out, and the checklist in
+    BUILD_PLAYBOOK.md carries every one."""
     by_area = {}
     for r in rows:
         by_area.setdefault(r['area'], []).append(r)
 
     o = ['# Rules Digest',
          '',
-         '%d defects from a previous build, each reduced to the rule that prevents it. '
-         'Every line is the residue of something that actually broke and cost real time. '
-         'The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems '
-         'wrong rather than guessing at it.' % len(rows),
+         'Rules from %d defects in a previous build, each reduced to the rule that '
+         'prevents it. Every line is the residue of something that actually broke and cost '
+         'real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a '
+         'rule seems wrong rather than guessing at it.' % len(rows),
          '',
          'Generated %s from a ledger spanning %s days and %s commits.'
          % (h['BUILT_ON'], h['ELAPSED_DAYS'], h['COMMITS']),
@@ -999,14 +1015,34 @@ def rules_digest(rows, h):
     # A rule printed above is not printed again under its area. Both copies used to ship,
     # which spent 761 of the digest's words on duplicates by the time 23 rules had repeated,
     # and a prompt that says the same thing twice is a longer prompt, not a firmer one.
+    #
+    # The rest are taken in priority order while they fit, and the first that does not fit
+    # ends the list, so what is kept is always a prefix of that order (INC-0129).
+    words = lambda lines: len('\n'.join(lines).split())
+    note = ('%d more rules, each learned once from a less costly defect, did not fit a '
+            'prompt sized digest. The checklist in BUILD_PLAYBOOK.md has every rule.')
+    used = (words(o) + len(note.split())
+            + sum(len(('## %s' % AREA_LABEL[a]).split()) for a in by_area))
+    kept = set()
+    for r in sorted((r for r in rows if r['id'] not in repeats),
+                    key=lambda x: (DIGEST_SEVERITY[x['severity']], x['id'])):
+        cost = len(('- ' + deidentify(operative_rule(r['lesson']))).split())
+        if used + cost > DIGEST_BUDGET:
+            break
+        used += cost
+        kept.add(r['id'])
     for area in sorted(by_area, key=lambda a: -len(by_area[a])):
-        rest = [r for r in by_area[area] if r['id'] not in repeats]
+        rest = [r for r in by_area[area] if r['id'] in kept]
         if not rest:
             continue
         o.append('## %s' % AREA_LABEL[area])
         o.append('')
         for r in sorted(rest, key=lambda x: x['id']):
             o.append('- %s' % deidentify(operative_rule(r['lesson'])))
+        o.append('')
+    left = sum(1 for r in rows if r['id'] not in repeats and r['id'] not in kept)
+    if left:
+        o.append(note % left)
         o.append('')
     return '\n'.join(o)
 

@@ -233,6 +233,18 @@ verified rather than that the school does not publish one (INC-0118).
       items share one. Old numbered ids stored in a browser named different questions in
       different builds and cannot be mapped back, so the trainer drops review and seen
       entries of that form once, on load.
+- [x] **Each exam guide's trainer button opens that exam's trainer** (INC-0128): the Train
+      for It Here button at the foot of the SAT, GRE, LSAT and ACT guides opened the GMAT
+      trainer, because it was the literal `/app/` while the header button read the map of
+      trainers. The study guide hub, which covers all five exams, had one button to the GMAT
+      trainer too; it now has one per exam. The build fails if an exam page links to any
+      trainer but its own, or if the hub misses one.
+- [x] **The playbook's rules digest holds its own word budget** (INC-0129): adding the
+      128th incident took the bootstrap digest to 4012 words against its 4000 word limit,
+      the same failure INC-0083 fixed at 82 by shortening each rule, which left the digest
+      still growing by a rule per incident. The generator now keeps every rule learned more
+      than once, then the rest by severity while they fit, and says how many it left out;
+      the checklist in the book still carries every lesson.
 - **Decided against** mapping the two paragraph passages onto GRE reading as they are. ETS
   says most GRE passages are one paragraph long (ETS, GRE General Test Verbal Reasoning,
   https://www.ets.org/gre/test-takers/general-test/prepare/content/verbal-reasoning.html, read
@@ -260,6 +272,13 @@ verified rather than that the school does not publish one (INC-0118).
       page confirms the library's figures)
 - [ ] `src/smoke_load.js` stays out of CI because timing on shared runners is noisy, so run
       it by hand after any change to how the banks are split or loaded (INC-0113)
+- [ ] A GRE score calculator beside the ACT one: the total is Verbal plus Quantitative
+      (ETS), and ETS's Table 1B (gre-guide-table-1a.pdf, July 2022 to June 2025) gives the
+      percent scoring lower for every scaled score. Confirm against the rendered PDF which
+      scores its blank cells belong to before parsing, since the text layer does not say
+- [ ] An SAT one needs College Board's own percentile table. The Understanding Scores PDF
+      for SAT School Day (fall 2026) defines the All Tester Percentile but prints no table,
+      so find the document that does before building anything
 
 ## Session log, September 16, 2026: LSAT and ACT live, MCAT and EA blocked
 

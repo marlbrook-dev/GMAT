@@ -1,14 +1,14 @@
 # Rules Digest
 
-127 defects from a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
+Rules from 129 defects in a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
 
-Generated 2026-09-26 from a ledger spanning 7 days and 69 commits.
+Generated 2026-09-26 from a ledger spanning 7 days and 70 commits.
 
 ## Read this first
 
-The three ways defects were most often found, in order: found by reading the code or the output (60), found by measuring something (36), a test caught it (15). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
+The three ways defects were most often found, in order: found by reading the code or the output (61), found by measuring something (36), a test caught it (16). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
 
-The dominant failure mode is silent loss, 26 of 127: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
+The dominant failure mode is silent loss, 26 of 129: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
 
 ## Learned the hard way, more than once
 
@@ -24,6 +24,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (3 times, build system) A regex that counts things assumes a formatting convention, and a file that legitimately breaks the convention counts as zero rather than as an error.
 - (3 times, tests and guards) Extracting a shared helper does not migrate the callers. The extraction fixes the file it was extracted from and leaves every sibling on the old path, which is two earlier defects in a different costume: a correction applied to the instances in hand rather than to the pattern.
 - (3 times, content generation) Two lessons, and they compound. A rule copied into code by its examples loses the clause the examples were illustrating: CLAUDE.md bans six named sites and coaching site blogs, and the list kept the six and dropped the category, which is the half that generalises.
+- (3 times, build system) A size limit on a generated file is only a guard if something bounds the generator too; otherwise it is a delayed failure that lands on whoever commits next, and reads as their fault.
 - (3 times, content generation) A module that nothing imports fails no test, and an exception raised on every draw is indistinguishable from an exception raised on a hard draw.
 - (3 times, content generation) Reading the record does not prevent the defect; the practice does. This one was written hours after its own lesson was read closely enough to be catalogued as a recurrence, and it was caught by rendering three items rather than by remembering.
 - (3 times, content generation) A generator's wrong answers are written as labels and read as labels, and nobody looks at the values two labels produce.
@@ -33,13 +34,13 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (3 times, search and metadata) An enumeration that has to be kept in step by memory will fall out of step, and the failure is silent because nothing downstream can tell the difference between a section that was excluded on purpose and one that was forgotten.
 - (3 times, content generation) Any consumer that describes a value in words must read the field that records what kind of value it is, never the field's name.
 - (3 times, content generation) An edit that appends text has to read what it is appending to. A correction step that checks only its own goal (here, that the choice got longer) will happily achieve it by making the choice worse, and every check downstream measures the goal, so nothing notices.
+- (2 times, search and metadata) Any number in user-facing copy that describes the size of something must be computed from that thing at build time.
 - (2 times, infrastructure and deploy) Two hostnames are two origins and therefore two of everything the browser scopes by origin.
 - (2 times, content generation) Test your content against the strategies a lazy adversary would use, not only against whether it is correct.
 - (2 times, css and layout) The same undefined-property failure will find you repeatedly, at every severity from one icon to an invisible legal control.
 - (2 times, content generation) A record has parts that refer to one another, and a tool that edits one part by text is editing a graph while looking at a string.
 - (2 times, build system) Two habits, both mine rather than the code's. Verify with the sequence the pipeline runs, read out of its config, not with the subset you remember: a suite chosen from memory drifts to the parts that were failing last week.
 - (2 times, content generation) Every guard here measured the answer's place in its set, and a set of guards that all take the same kind of measurement shares a blind spot the size of everything else.
-- (2 times, build system) A size limit on a generated file is only a guard if something bounds the generator too; otherwise it is a delayed failure that lands on whoever commits next, and reads as their fault.
 - (2 times, tests and guards) A ratchet is only read while it is quiet. One that fires on noise gets re-recorded as a reflex, and the re-recording is indistinguishable from accepting a real regression, so the mechanism that exists to catch regressions becomes the mechanism that launders them.
 - (2 times, content generation) A template is a promise about the grammar of what goes into it, and the promise is invisible: the code says name and the sentence needs a singular noun phrase.
 - (2 times, search and metadata) When a fix names a class of input, such as 'the stat field is free text', find every place that input is used before closing it.
@@ -59,7 +60,6 @@ These cost this build twice or more each. If you read nothing else here, read th
 - A guard on the extreme of a distribution can be satisfied by moving the mass next to the extreme.
 - A correction table is a set of claims about outcomes, and an entry that quietly fails still counts as applied.
 - A seeded shuffle is deterministic, which makes calling it twice look harmless: the same input gives the same output.
-- Writing a second tool for the same job in a different context reproduces every detail the first one learned the hard way, unless the detail is written down somewhere the second author will look.
 - A report that truncates its output invites the reader to write text that continues it, and a tool that appends will put that text somewhere else.
 - A guard that takes the intent as an argument is only as good as the argument, and an argument derived by hand from the same data the guard is checking is a second implementation of the thing being checked.
 - A guard written from the instance in front of you covers that instance. An earlier defect was a bare infinitive in a noun slot, so the guard looked for bare infinitives, and the sentence one screen away in the same file was a wh clause in a clause slot and went straight through.
@@ -69,16 +69,13 @@ These cost this build twice or more each. If you read nothing else here, read th
 - Two corpora side by side, one guarded per unit and one guarded only in total, is not two levels of rigour but one measurement and one blind spot.
 - A list of misconceptions is a list of labels and a student sees numbers. Where every characteristic error runs the same direction the key sits at a predictable place in the ordered options however carefully the item is shuffled, because the shuffler can only place it among the candidates it is handed.
 - Generated data gets checked for the properties the questions need, monotone and positive and distinguishable, and not for the properties the world needs.
-- Fixing an instance of a defect is the moment to sweep for the rest of it, and the sweep is worth running even when it is too noisy to become a check.
 - A check downgraded because a source is unreachable carries an assumption with no expiry date on it, and the assumption is usually narrower than the downgrade.
 - When the same file already solves a problem correctly, the second implementation is the one to distrust: the reference was available and was not used, so whatever made it easy to skip will make it easy to skip again.
 - A provenance label is a factual claim and deserves the same checking as the number it annotates.
 - When a page publishes a number the build computes, the page should read it from the build.
 - When a key is derived from premises held as data, each premise has to be found in what the reader sees, and a check should prove that by searching the rendered text rather than the data.
-- A stored phrase that goes into more than one slot has to be written for the hardest of them, and the transform has to run in the direction that cannot damage anything: capitalising a sentence opener is always safe, lowercasing one breaks proper nouns.
 - Practice material is still published writing. A passage that is only there to be read carefully is still read by people who know the subject, and a question built on it can ask them to endorse the error.
 - An empty field records that a search came up empty, not that the thing does not exist.
-- When two pieces of code each supply part of a sentence, decide which one owns each word.
 - An edit tool that throws away its input leaves the diff as the only record of what it changed.
 - A check that passes on a random draw has told you about that draw. When a schema ships a handful of items, a property the whole bank needs, such as keys spread over every length rank, has to be assigned rather than sampled.
 - A presence check on a source field proves the field is filled, not that it is true.
@@ -89,17 +86,12 @@ These cost this build twice or more each. If you read nothing else here, read th
 - A regex with a length bound is a guard with an expiry date. Assert the number of things checked, not only that the checks passed.
 - Check your checker. A tool that cries wolf gets muted, and then it is worse than nothing.
 - A negative assertion passes when the system is broken in the right way. Always pair it with the positive case, or it is testing nothing.
-- A stochastic measurement on one seed is an anecdote. If your system has randomness, a single-run before-and-after cannot distinguish a change from the weather.
-- Classify by what a thing is, not by what it is called. Naming conventions are a hint, never a type.
 - A test that is not wired into CI is a test that does not exist. Prove a suite runs in the place it is supposed to run, not on your machine.
 - Before you measure a layout, assert the thing is rendered. Hidden elements answer most DOM questions, and they answer them wrongly.
 - An error feed with no filter is a feed nobody reads. Signal has to be defended, and the cheapest defence is a human label that mutes permanently, so the queue gets quieter as it learns.
-- A guard that reads the repository needs the repository. CI checkouts are shallow by default, and anything that walks history, blames a line or resolves an old hash will fail in a way that looks like the data is wrong rather than the clone.
 - When you add a condition that skips a check, make sure it describes the failure and not something merely correlated with it.
 - A commit hash is not a durable citation in a repository that squashes. Pull requests, issues and tags survive history rewriting; branch commits do not.
-- A metric that moves against you when the product improves will eventually be used to justify reverting an improvement.
 - An aggregate is a claim about whatever you grouped by. Group by the file and you have measured the file.
-- A check that reports pass or fail from a handful of random draws is a check that will flip on work that has nothing to do with it, and the cost is not the false alarm.
 
 ## Front end
 
@@ -112,21 +104,20 @@ These cost this build twice or more each. If you read nothing else here, read th
 - A conditional that treats not-A as the original case is a bug the day a third case exists.
 - Anything that reports failures must not be able to report its own. Check whether each call rejects or throws before you wrap it, and make the reporting path unable to re-enter itself.
 - Async on a script tag decides when it runs, not when it downloads, so an async tag still competes for bandwidth with everything the page is waiting for.
+- When a site grows from one of something to several, grep for the literals the single case left behind.
 
 ## Build system
 
 - A parse guard covers the file shapes someone thought of. When the same code moves into a new shape, a separate file, a chunk, a worker, the guard does not follow it.
 - A guard keyed to wording is a guard on the wording, not the fact, and every synonym is a hole in it.
-- A file generated for a different audience has to be read as that audience, not as the one that generated it.
 - State that describes a run has to live and die with the run. Keyed to the object that makes the draws, it cannot outlive them; kept on a long lived instance, it quietly couples every run to every earlier one, and the output depends on call history that no one reading a single run can see.
 - A heuristic stopping rule is right only when nothing better is known. Where the size of what is being collected is known exactly, stop at that size and check that it was reached.
+- When a generated file has a size limit and a completeness rule, decide which one wins before the file grows, because it will.
 
 ## Search and metadata
 
 - A refactor that moves data has to be followed to every reader, and a loop over nothing is the quietest failure in programming.
-- Any number in user-facing copy that describes the size of something must be computed from that thing at build time.
 - When one model feeds two pages, generate both from the model in the same pass. Two places that must agree will not, and the reader who notices is the reader you were trying to convince.
-- Test every noun in a title against the page's own data, because a title is a promise to someone who has not seen the page yet.
 - A URL that search engines know is not the site's to delete quietly; it belongs partly to everyone still linking to it.
 
 ## Scoring and selection
@@ -145,7 +136,6 @@ These cost this build twice or more each. If you read nothing else here, read th
 - Verify a cache-fronted fix with a cache-busting request, or you are testing the cache.
 - Know your platform's hard limits and assert them in the build. A deploy-time rejection is a bad place to learn a number your build could have told you.
 - A guard that is a hand-kept list of safe paths is written by the same hand that made the mistake.
-- An optional safety parameter is a guard only while its value is read rather than recalled.
 
 ## CSS and layout
 
@@ -173,4 +163,5 @@ These cost this build twice or more each. If you read nothing else here, read th
 
 - Chart form is a claim about the data. A line claims the values in between existed.
 - Never encode a state by colour alone. The word also survives greyscale printing, forced-colors mode and a glance from across a room, so it is better for everyone and not only for the people it is required by.
-- Copy that says above, below, left or right is a hard dependency on layout that nothing checks.
+
+13 more rules, each learned once from a less costly defect, did not fit a prompt sized digest. The checklist in BUILD_PLAYBOOK.md has every rule.

@@ -44,6 +44,7 @@ section.ex>.lede{color:var(--gray-500);max-width:var(--measure);margin:0 0 var(-
 .cta p{max-width:var(--measure);margin:0 auto var(--s4)}
 .btn{font-family:var(--display);font-weight:700;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-size:var(--t-300);padding:var(--s3) var(--s5);background:var(--navy-800);color:#fff;text-decoration:none}
 .btn:hover{background:var(--navy-900)}
+.trainers{display:flex;flex-wrap:wrap;justify-content:center;gap:var(--s2)}
 @media(max-width:600px){.head h1{font-size:var(--t-700)}}
 </style></head>
 <body>
@@ -74,7 +75,7 @@ section.ex>.lede{color:var(--gray-500);max-width:var(--measure);margin:0 0 var(-
 <div class="cta">
   <h2>Reading Is Not Practising</h2>
   <p>A topic list tells you what exists. The trainer tells you which of it you can already do, and adapts to the level you are actually at. Free to start, no account needed.</p>
-  <a class="btn" href="/app/">Open the trainer</a>
+  <div class="trainers">{{TRAINERS}}</div>
 </div>
 </main>
 {{SITE_FOOTER}}

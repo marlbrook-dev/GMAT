@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-26, which is 7 days, across
-69 commits, by one owner directing a series of AI coding sessions. As of this
+70 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 78 Python files, 106 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 64 documents:
 2022 tracked files in total.
@@ -1121,7 +1121,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-69 commits in 7 days, one owner, a series of AI sessions. This
+70 commits in 7 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1213,22 +1213,22 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-127 recorded defects, over 7 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+129 recorded defects, over 7 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 60 | 47% |
+| Found by reading the code or the output | 61 | 47% |
 | Found by measuring something | 36 | 28% |
-| A test caught it | 15 | 12% |
+| A test caught it | 16 | 12% |
 | Found by rendering it and looking | 6 | 5% |
 | Found by a review bot or an adversarial pass | 5 | 4% |
 | A build guard caught it | 3 | 2% |
 | A person hit it | 2 | 2% |
 
-**This is the most useful table in the book.** 125 of 127 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 127 of 129 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1238,12 +1238,12 @@ well enough to audit later. Which is what this book is.
 | Severity | Count |
 | --- | ---: |
 | Wrong data shown or stored | 52 |
-| Degraded | 27 |
+| Degraded | 29 |
 | Silent loss | 26 |
 | Cosmetic | 19 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 127. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 129. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
@@ -1252,8 +1252,8 @@ well enough to audit later. Which is what this book is.
 | --- | ---: |
 | Content generation | 53 |
 | Tests and guards | 19 |
-| Front end | 9 |
-| Build system | 9 |
+| Front end | 10 |
+| Build system | 10 |
 | Search and metadata | 7 |
 | Scoring and selection | 7 |
 | Infrastructure and deploy | 6 |
@@ -1265,7 +1265,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-121 of 127 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+123 of 129 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1286,7 +1286,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-43 of 127 incidents record that they repeat an earlier lesson, 63 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+45 of 129 incidents record that they repeat an earlier lesson, 65 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1300,6 +1300,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0059 The item counter missed a whole bank file because it assumed a quoting style | INC-0064, INC-0067 | 2 |
 | INC-0067 The browser path fix covered two suites and three others kept crashing | INC-0070, INC-0104 | 2 |
 | INC-0082 Nine published exam facts cite test prep companies, in the one published corpus with no source validator | INC-0124, INC-0125 | 2 |
+| INC-0083 The rules digest promises to be prompt sized and its generator grows without bound | INC-0084, INC-0129 | 2 |
 | INC-0086 A finished generator module that nothing imported, and two of its four schemas produced nothing | INC-0090, INC-0126 | 2 |
 | INC-0087 The same corpus field in two grammatical slots, in a schema written the same day the guard was read | INC-0093, INC-0096 | 2 |
 | INC-0090 Two of a schema's three question forms could not build, and the only sign was an item count | INC-0092, INC-0126 | 2 |
@@ -1309,13 +1310,13 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0103 A 139 page section shipped with no route into it from the sitemap | INC-0108, INC-0109 | 2 |
 | INC-0105 Twelve average salaries were published as medians, and the social queue credited schools with figures they never published | INC-0106, INC-0124 | 2 |
 | INC-0119 Length corrections appended clauses that repeated what the answer choices already said | INC-0120, INC-0121 | 2 |
+| INC-0014 A hardcoded count in the meta description went stale, and Google showed it | INC-0128 | 1 |
 | INC-0023 www and the apex were two origins, so consent and rankings split in half | INC-0127 | 1 |
 | INC-0044 The longest option was the correct answer 81 percent of the time | INC-0091 | 1 |
 | INC-0050 A landing-page icon referenced a colour token that did not exist | INC-0018 | 1 |
 | INC-0072 A distractor was replaced and the explanation went on naming the old one | INC-0119 | 1 |
 | INC-0080 A build step that fails while the build exits zero, and a verification run that was a remembered subset | INC-0095 | 1 |
 | INC-0081 A student who always answers 1 scores 98 percent on a schema, and no check looked at the answer itself | INC-0123 | 1 |
-| INC-0083 The rules digest promises to be prompt sized and its generator grows without bound | INC-0084 | 1 |
 | INC-0089 A ratchet that trips on sampling noise gets re-recorded rather than read | INC-0123 | 1 |
 | INC-0093 Seven variable names were plural and every sentence built around them said was | INC-0096 | 1 |
 | INC-0104 Half the school pages opened with a data note pasted into a sentence, and the structured data repeated it | INC-0105 | 1 |
@@ -1339,6 +1340,7 @@ Incidents that name an earlier one without claiming to repeat it. Each was read 
 - INC-0119 names INC-0120
 - INC-0122 names INC-0079
 - INC-0127 names INC-0126
+- INC-0129 names INC-0128
 
 
 ## Where defects concentrate
@@ -1356,6 +1358,7 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/weekly_audit.js`, 3 incidents (INC-0050, INC-0048, INC-0018)
 - `src/build_rankings.py`, 3 incidents (INC-0014, INC-0049, INC-0118)
 - `src/smoke_redirect.js`, 3 incidents (INC-0023, INC-0024, INC-0047)
+- `src/smoke_playbook.js`, 3 incidents (INC-0054, INC-0084, INC-0129)
 - `src/build_playbook.py`, 3 incidents (INC-0057, INC-0065, INC-0083)
 - `src/gen/g_act_sci.py`, 3 incidents (INC-0093, INC-0094, INC-0098)
 
@@ -2261,7 +2264,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** Run every browser suite when a site-wide element such as a modal ships, because a test nobody runs is a claim about the past. Every suite that loads a page with empty storage meets the new element before anything it was written to check.
 
 
-## Front end (9)
+## Front end (10)
 
 
 ### INC-0001. Unescaped quotes in onclick strings took the whole app down
@@ -2380,7 +2383,19 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** Async on a script tag decides when it runs, not when it downloads, so an async tag still competes for bandwidth with everything the page is waiting for. Load what the first screen does not need after the first screen exists, and re-measure the slow path whenever a file is split, because splitting changes the number of downloads competing at once.
 
 
-## Build system (9)
+### INC-0128. The trainer button on four exam guides and on the study guide hub opened the GMAT trainer
+
+*2026-09-26, Degraded*
+
+- **What was seen.** The Train for It Here block at the foot of the SAT, GRE, LSAT and ACT guides (/exams/<exam>/) ended in an Open the trainer button that linked to /app/, the GMAT Focus trainer. A student reading the ACT guide who took it landed in GMAT practice. The study guide hub at /guide/, which covers all five exams, had the same button to the same place. Each exam page's other trainer button, Start Training Free in its header, went to the right trainer, which is how the wrong one went unnoticed.
+- **Why.** exam_page() builds the header button from APP_PATH, the map of each exam's trainer. The block further down the same function wrote the literal /app/, as it has since build_exams.py was added on September 19 (#45), and the guide hub template added on September 22 (#89) copied the literal. A path written out by hand is right only for the exam it was written for, and nothing compared where a page's trainer links went with the exam the page is about.
+- **How it surfaced.** Found on September 26, 2026 while reading exam_page() to link the new ACT score calculator from the ACT guide. The built pages confirmed it on all four. (Found by reading the code or the output)
+- **Fix.** The block takes its link from APP_PATH, as the header button does, and names the exam: Open the ACT Trainer. The hub, which is about every exam, links to each live exam's trainer by name instead of to one of them.
+- **What stops it now.** build_exams.py fails if any link into a trainer on an exam page goes anywhere but that exam's own trainer, or if a page for an exam without a live trainer links to one. build_guide.py fails unless the hub links to every live exam's trainer. in `src/build_exams.py`
+- **Lesson.** When a site grows from one of something to several, grep for the literals the single case left behind. A link that was right when there was one trainer is wrong four times over when there are five, and it still looks right to anyone checking the page it was written for.
+
+
+## Build system (10)
 
 
 ### INC-0059. The item counter missed a whole bank file because it assumed a quoting style
@@ -2493,6 +2508,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** Each reading schema now lists its questions through asks(), per passage, and so do the two LSAT argument structure schemas, per argument, which had the same shape and the same exposure (framework.ListsQuestions). make() draws from the same list, so the list and the draws cannot differ. The schema states its space as the number of questions listed, and the mapping wrappers pass both through. The runner retires a schema that states a space once it has made that many. It gives up on the rest only after twenty draws per question in a row, where before it gave up after 400. The chance of giving up on a question that can still be drawn is then about two in a billion. Schemas that do not state a space are retired exactly as before, so no other bank changes.
 - **What stops it now.** For every schema that lists its questions, build_banks.py compares the questions shipped with the list. The build fails, naming the schema and a question, when a category under its target is missing one of them, or when any category ships a question the list does not have. in `src/build_banks.py`
 - **Lesson.** A heuristic stopping rule is right only when nothing better is known. Where the size of what is being collected is known exactly, stop at that size and check that it was reached. Do not stop when the collection merely seems to have gone quiet, because the odds of a quiet spell grow with the collection while the threshold stays fixed.
+
+
+### INC-0129. The rules digest crossed its word budget again, because the earlier fix bounded each rule and not the digest
+
+*2026-09-26, Degraded*
+
+- **What was seen.** smoke_playbook failed with 'the digest stays prompt sized (4012 words)' against its 4000 word limit, on the commit that added the 128th incident, whose only relation to the playbook was that one record. The bootstrap RULES_DIGEST.md is the file a new project pastes into its prompt, so it crossing the limit makes the deliverable too long for its purpose.
+- **Why.** INC-0083 fixed the same failure at 82 incidents by printing each lesson's operative rule instead of the whole lesson. That bounded the size of each rule, at about 30 words, and not the size of the digest, which still printed one rule per incident, so it kept growing by about 30 words a record and crossed again at 128. Printing every rule and staying under a fixed budget cannot both hold as the ledger grows. The companion check that every lesson reaches the digest made the budget the one to give way, and nothing in the generator decided which rules a prompt sized digest should keep.
+- **How it surfaced.** smoke_playbook, run locally before pushing the INC-0128 fix. (A test caught it)
+- **Fix.** The generator now holds the budget itself. It always keeps every rule the build learned more than once, then adds the rest in order of severity, oldest first within each level, while they fit. It says how many rules it left out and that the checklist in BUILD_PLAYBOOK.md carries every one, since the checklist was already checked to include every lesson. The kickoff no longer claims the digest holds one rule for every defect.
+- **What stops it now.** smoke_playbook still holds the 4000 word limit. In place of every lesson reaching the digest, it checks three things: every rule learned more than once is there; the rules present are a prefix of the priority order, so none left out outranks one kept; and the count the digest states as left out equals the number of lessons missing from it. in `src/smoke_playbook.js`
+- **Lesson.** When a generated file has a size limit and a completeness rule, decide which one wins before the file grows, because it will. Bound the whole output in the generator, and let the file say what it left out and where the rest is, so omission is a stated choice rather than a silent one.
 
 
 ## Search and metadata (7)
@@ -3002,10 +3029,10 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The guard against a blind counter was itself blind to three exams (INC-0064)</small>
 - [ ] **Learned 3 times over.** A regex that counts things assumes a formatting convention, and a file that legitimately breaks the convention counts as zero rather than as an error. Any counter that can return zero for a non-empty input needs a per-source assertion, not just a total.  
   <small>The item counter missed a whole bank file because it assumed a quoting style (INC-0059)</small>
+- [ ] **Learned 3 times over.** A size limit on a generated file is only a guard if something bounds the generator too; otherwise it is a delayed failure that lands on whoever commits next, and reads as their fault. When two guards constrain the same output, check the fix against both: shortening this file to satisfy the size check would have broken the completeness check that reads its first 60 characters.  
+  <small>The rules digest promises to be prompt sized and its generator grows without bound (INC-0083)</small>
 - [ ] **Learned 2 times over.** Two habits, both mine rather than the code's. Verify with the sequence the pipeline runs, read out of its config, not with the subset you remember: a suite chosen from memory drifts to the parts that were failing last week. And when a step is deliberately non fatal, the word it fails with is the whole of its signal, so it has to be the word people grep for. WARNING on a line that means a deliverable did not build is an invitation to miss it, and the cost of saying ERROR while still exiting zero is nothing at all.  
   <small>A build step that fails while the build exits zero, and a verification run that was a remembered subset (INC-0080)</small>
-- [ ] **Learned 2 times over.** A size limit on a generated file is only a guard if something bounds the generator too; otherwise it is a delayed failure that lands on whoever commits next, and reads as their fault. When two guards constrain the same output, check the fix against both: shortening this file to satisfy the size check would have broken the completeness check that reads its first 60 characters.  
-  <small>The rules digest promises to be prompt sized and its generator grows without bound (INC-0083)</small>
 - [ ] A parse guard covers the file shapes someone thought of. When the same code moves into a new shape, a separate file, a chunk, a worker, the guard does not follow it. List what the guard covers against what the deploy actually ships, and check the difference rather than the intention.  
   <small>Nothing parsed the one file every user downloads (INC-0060)</small>
 - [ ] A guard keyed to wording is a guard on the wording, not the fact, and every synonym is a hole in it. Widening the wording is the obvious repair and it trades missed defects for false alarms, which cost more because they get the guard switched off. Match a phrase that only the thing you care about can produce, rather than every word it might happen to use.  
@@ -3016,6 +3043,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The Data Sufficiency answer counter outlived the run it belonged to, so a second run from the same seed made different items (INC-0123)</small>
 - [ ] A heuristic stopping rule is right only when nothing better is known. Where the size of what is being collected is known exactly, stop at that size and check that it was reached. Do not stop when the collection merely seems to have gone quiet, because the odds of a quiet spell grow with the collection while the threshold stays fixed.  
   <small>The runner's 400 draw cutoff dropped the last question of a small reading schema on three of four builds (INC-0126)</small>
+- [ ] When a generated file has a size limit and a completeness rule, decide which one wins before the file grows, because it will. Bound the whole output in the generator, and let the file say what it left out and where the rest is, so omission is a stated choice rather than a silent one.  
+  <small>The rules digest crossed its word budget again, because the earlier fix bounded each rule and not the digest (INC-0129)</small>
 
 
 ## CSS and layout
@@ -3174,6 +3203,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The error reporter reported its own failures, in a loop (INC-0045)</small>
 - [ ] Async on a script tag decides when it runs, not when it downloads, so an async tag still competes for bandwidth with everything the page is waiting for. Load what the first screen does not need after the first screen exists, and re-measure the slow path whenever a file is split, because splitting changes the number of downloads competing at once.  
   <small>The GMAT trainer's first question on a slow connection took twice as long as when the bank split shipped (INC-0113)</small>
+- [ ] When a site grows from one of something to several, grep for the literals the single case left behind. A link that was right when there was one trainer is wrong four times over when there are five, and it still looks right to anyone checking the page it was written for.  
+  <small>The trainer button on four exam guides and on the study guide hub opened the GMAT trainer (INC-0128)</small>
 
 
 ## Infrastructure and deploy
@@ -3238,12 +3269,12 @@ Read it before starting a piece of work in the matching area, and again before y
 
 - [ ] **Learned 3 times over.** An enumeration that has to be kept in step by memory will fall out of step, and the failure is silent because nothing downstream can tell the difference between a section that was excluded on purpose and one that was forgotten. Derive the list from what was actually produced, and when that is not practical, make something compare the two. Publishing work nobody can find is not a smaller version of publishing it.  
   <small>A 139 page section shipped with no route into it from the sitemap (INC-0103)</small>
+- [ ] **Learned 2 times over.** Any number in user-facing copy that describes the size of something must be computed from that thing at build time. The moment it is typed, it has a half-life.  
+  <small>A hardcoded count in the meta description went stale, and Google showed it (INC-0014)</small>
 - [ ] **Learned 2 times over.** When a fix names a class of input, such as 'the stat field is free text', find every place that input is used before closing it. A correct rule written inside one caller protects that caller, and the existence of the rule makes the unprotected siblings look protected.  
   <small>Half the school pages opened with a data note pasted into a sentence, and the structured data repeated it (INC-0104)</small>
 - [ ] A refactor that moves data has to be followed to every reader, and a loop over nothing is the quietest failure in programming. Derive counts from one source and assert they agree.  
   <small>School URLs vanished from the sitemap when the data file was split (INC-0002)</small>
-- [ ] Any number in user-facing copy that describes the size of something must be computed from that thing at build time. The moment it is typed, it has a half-life.  
-  <small>A hardcoded count in the meta description went stale, and Google showed it (INC-0014)</small>
 - [ ] When one model feeds two pages, generate both from the model in the same pass. Two places that must agree will not, and the reader who notices is the reader you were trying to convince.  
   <small>Two pages told the same story with different numbers after a reweighting (INC-0049)</small>
 - [ ] Test every noun in a title against the page's own data, because a title is a promise to someone who has not seen the page yet. Grouping two fields under one flag because they usually travel together is how a promise gets made on the pages where they do not.  
@@ -3408,7 +3439,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 127 real defects reduced to the rules that prevent them,
+the whole project: 129 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -3448,7 +3479,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-127 defects already prevented is genuinely ahead, and every defect it hits
+129 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

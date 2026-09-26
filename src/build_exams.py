@@ -5,7 +5,7 @@ null facts are simply omitted rather than guessed. Fees and policies
 change, so each page carries a verify-with-the-maker note and the
 official registration link.
 """
-import json, pathlib, datetime, os, html, sys
+import json, pathlib, datetime, os, html, re, sys
 
 D = pathlib.Path(__file__).parent
 ROOT = D.parent
@@ -207,7 +207,9 @@ def exam_page(e, tpl, today):
         lis = "".join(f'<li>{esc(f["text"])}{src_note(f)}</li>' for f in kf)
         facts = f'<div class="section"><h2>Worth Knowing</h2><ul class="kf">{lis}</ul></div>'
 
-    prep = ('<div class="cta"><h2>Train for It Here</h2><p>The Start From Nowhere trainer is live for this exam: adaptive practice, mock sections, games, and flashcards, free to start with no account.</p><a class="btn" href="/app/">Open the trainer</a></div>' if live else
+    # From APP_PATH, like the header button. This one was the literal /app/, so on four of
+    # the five live guides it opened the GMAT trainer (INC-0128).
+    prep = (f'<div class="cta"><h2>Train for It Here</h2><p>The Start From Nowhere trainer is live for this exam: adaptive practice, mock sections, games, and flashcards, free to start with no account.</p><a class="btn" href="{APP_PATH[e["slug"]]}">Open the {esc(e["short"])} Trainer</a></div>' if live else
             f'<div class="cta"><h2>Prep Is on the Way</h2><p>Our adaptive trainer for the {esc(e["short"])} is in development: the same engine, games, and mock sections already live for the GMAT. Join the waitlist and you will be first in.</p>{cta}</div>')
 
     ld = json.dumps({"@context": "https://schema.org", "@type": "Article",
@@ -229,6 +231,24 @@ def exam_page(e, tpl, today):
                .replace("{{PREP}}", prep)
                .replace("{{UPDATED}}", today)
                .replace("{{LD}}", ld))
+
+TRAINER_LINK = re.compile(r'href="(/(?:[a-z]+/)?app/)')
+
+
+def check_trainer_links(slug, page):
+    """Every link into a trainer on an exam's page goes to that exam's own trainer.
+
+    The header button read APP_PATH and the one at the foot of the page was the literal
+    /app/, so the SAT, GRE, LSAT and ACT guides each had one button into the GMAT trainer
+    (INC-0128). A guide for an exam with no live trainer links to none.
+    """
+    want = APP_PATH.get(slug) if slug in LIVE else None
+    wrong = sorted({h for h in TRAINER_LINK.findall(page) if h != want})
+    if wrong:
+        print("build_exams: /exams/%s/ links to the trainer at %s, not %s (INC-0128)"
+              % (slug, ", ".join(wrong), want or "none"), file=sys.stderr)
+        sys.exit(1)
+
 
 def main():
     data_path = ROOT / "data" / "exams.json"
@@ -263,7 +283,9 @@ def main():
         cards.append(f'<a class="card exam" href="/exams/{esc(e["slug"])}/"><div class="row"><span class="en">{esc(e["name"])}</span><span class="tag{" live" if live else " wait"}">{"Trainer Live" if live else "Guide"}</span></div><p>{esc(sub)}</p></a>')
         ed = dest / e["slug"]
         ed.mkdir(exist_ok=True)
-        pages.append((ed / "index.html", exam_page(e, tpl, today)))
+        page = exam_page(e, tpl, today)
+        check_trainer_links(e["slug"], page)
+        pages.append((ed / "index.html", page))
     # Structured data for the exam index. These pages already draw organic search for
     # exams we do not yet have a trainer for, so declaring them as a structured list of
     # named, sourced exam guides is cheap and directly aimed at answer engines.

@@ -633,6 +633,11 @@ def main():
     OUT.mkdir(parents=True, exist_ok=True)
     page = partials.apply_chrome(hub_page(hub_tpl, diag_counts))
     guard(page, "guide hub")
+    # The hub covers every exam, so it has to reach every exam's trainer (INC-0128).
+    unreached = [e["app"] for e in EXAMS.values() if 'href="%s"' % e["app"] not in page]
+    if unreached:
+        raise SystemExit("build_guide: the guide hub does not link to the trainer at %s "
+                         "(INC-0128)" % ", ".join(unreached))
     (OUT / "index.html").write_text(page)
     written += 1
     print("built guide/: %d pages, %d sections, %d topics, %d formulas, %d worked"
@@ -687,7 +692,12 @@ def hub_page(tpl, diag_counts):
                                     "we train.",
                      "publisher": {"@type": "Organization",
                                    "name": "Start From Nowhere"}})
+    # One trainer link per exam. This page is about every exam, and its one button used
+    # to open the GMAT trainer whichever exam the reader had come for (INC-0128).
+    trainers = "".join('<a class="btn" href="%s">%s Trainer</a>' % (esc(e["app"]), esc(e["short"]))
+                       for e in EXAMS.values())
     return (tpl
+            .replace("{{TRAINERS}}", trainers)
             .replace("{{SECTIONS}}", str(sum(len(v) for v in SECTIONS.values())))
             .replace("{{TOPICS}}", str(all_topics_count()))
             .replace("{{FORMULAS}}", str(all_formula_count()))
