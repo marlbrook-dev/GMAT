@@ -180,6 +180,17 @@ verified rather than that the school does not publish one (INC-0118).
       Scorecard's data page, the enrichment script writes that URL, and the school
       validator checks the federal block and refuses a Scorecard figure whose URL is not
       on collegescorecard.ed.gov.
+- [x] **LSAT principle questions, generated** (`src/gen/g_lsat_prin.py`): Principles,
+      Rules and Analogy had 29 hand written items. The schema states a principle about a
+      group (every member who P, or P and Q, should A; no member who P should A) and asks
+      which of five judgments it establishes. A checker treats what should happen as
+      required, forbidden or neither and tries every case the principle leaves open, so
+      exactly one judgment is established, and it tells should not from need not, which
+      the forbidding form would otherwise offer as a second key. The key had no negation
+      in it and was the shortest or second shortest choice three times in four, so its
+      length position is drawn first and the wrong answers and unrelated facts chosen to
+      land it. Capped at 150, because the category is also identifying principles and
+      analogy, which stay hand written.
 - **Decided against** mapping the two paragraph passages onto GRE reading as they are. ETS
   says most GRE passages are one paragraph long (ETS, GRE General Test Verbal Reasoning,
   https://www.ets.org/gre/test-takers/general-test/prepare/content/verbal-reasoning.html, read

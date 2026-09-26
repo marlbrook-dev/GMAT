@@ -26,7 +26,7 @@ import g_sat_rw, g_gmat_ds, g_act_kol                # noqa: E402,F401
 import g_gmat_gt, g_gmat_tpa, g_gmat_msr             # noqa: E402,F401
 import g_act_sci, g_gre_verb, g_gmat_cr, g_act_nq    # noqa: E402,F401
 import g_rc, g_flaw                                  # noqa: E402,F401
-import g_lsat_concl, g_lsat_struct, g_lsat_parallel  # noqa: E402
+import g_lsat_concl, g_lsat_struct, g_lsat_parallel, g_lsat_prin  # noqa: E402
 import g_gre_rc                                      # noqa: E402
 
 OUT = D / "generated"
@@ -160,7 +160,12 @@ EXAM_EXTRA = {"gre": {"gre_tc": [g for g in g_gre_verb.GENS if g.skill == "gre_t
                        # Parallel reasoning, with every argument's form proved valid or
                        # flawed (g_lsat_parallel.py). Capped, because the category is
                        # also explanations, which nothing here generates.
-                       "lsat_lr_expl": g_lsat_parallel.GENS}}
+                       "lsat_lr_expl": g_lsat_parallel.GENS,
+                       # Applying a principle, with the one judgment it establishes found
+                       # by a checker that tells should not from need not (g_lsat_prin.py).
+                       # Capped, because the category is also identifying principles and
+                       # analogy, which stay hand written.
+                       "lsat_lr_prin": g_lsat_prin.GENS}}
 
 PREFIX = {"sat": "ZS", "gre": "ZG", "gmat": "ZM", "act": "ZA", "lsat": "ZL"}
 
@@ -702,6 +707,15 @@ def main(target=TARGET, verbose=True):
     if forms:
         print("ERROR: parallel reasoning forms whose valid label is wrong", file=sys.stderr)
         for line in forms:
+            print("  " + line, file=sys.stderr)
+        sys.exit(1)
+    # A principle question's key is the one judgment the principle establishes, so the
+    # checker's verdict on every labelled key and wrong answer is confirmed first.
+    prin = g_lsat_prin.check_principles()
+    if prin:
+        print("ERROR: principle questions whose labelled answers the checker disputes",
+              file=sys.stderr)
+        for line in prin:
             print("  " + line, file=sys.stderr)
         sys.exit(1)
     # Each part of an argument is quoted alone in a question, so each has to stand alone.
