@@ -761,6 +761,14 @@ function pickSatModule(bank,state,section,moduleIdx,routing,countOverride){
  return out;
 }
 
+// Generated item ids used to be positions in the build, so a bank change gave each number to
+// a different question and a stored review of one served another (INC-0127). Ids are now
+// the item's content key. An id of the old numbered form cannot be mapped back, because the
+// question behind it changed from build to build, so reviews and seen counts keyed on one
+// are dropped when a stored state is adopted. No hand written id starts with Z.
+const NUMBERED_ID=/^Z[SGMAL]\d{4,6}$/;
+function forgetNumberedIds(s){ let n=0; ['review','seen'].forEach(k=>{ const o=s&&s[k]; if(o) Object.keys(o).forEach(id=>{ if(NUMBERED_ID.test(id)){ delete o[id]; n++; } }); }); return n; }
+
 // Flashcards: Leitner boxes. know -> box+1 (due in 1,2,4,8,16 days); still learning -> box 0 (due in 10 minutes)
 const BOX_DAYS=[0,1,2,4,8,16];
 function cardState(state,id){ if(!state.cards) state.cards={}; return state.cards[id]||(state.cards[id]={box:0,due:0,seen:0,known:0}); }

@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-26, which is 7 days, across
-68 commits, by one owner directing a series of AI coding sessions. As of this
+69 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 78 Python files, 106 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 64 documents:
 2022 tracked files in total.
@@ -1121,7 +1121,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-68 commits in 7 days, one owner, a series of AI sessions. This
+69 commits in 7 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1213,22 +1213,22 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-126 recorded defects, over 7 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+127 recorded defects, over 7 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 60 | 48% |
-| Found by measuring something | 35 | 28% |
+| Found by reading the code or the output | 60 | 47% |
+| Found by measuring something | 36 | 28% |
 | A test caught it | 15 | 12% |
 | Found by rendering it and looking | 6 | 5% |
 | Found by a review bot or an adversarial pass | 5 | 4% |
 | A build guard caught it | 3 | 2% |
 | A person hit it | 2 | 2% |
 
-**This is the most useful table in the book.** 124 of 126 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 125 of 127 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1237,13 +1237,13 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 51 |
+| Wrong data shown or stored | 52 |
 | Degraded | 27 |
 | Silent loss | 26 |
 | Cosmetic | 19 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 126. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 127. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
@@ -1255,7 +1255,7 @@ well enough to audit later. Which is what this book is.
 | Front end | 9 |
 | Build system | 9 |
 | Search and metadata | 7 |
-| Scoring and selection | 6 |
+| Scoring and selection | 7 |
 | Infrastructure and deploy | 6 |
 | CSS and layout | 5 |
 | Payments | 5 |
@@ -1265,7 +1265,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-120 of 126 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+121 of 127 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1286,7 +1286,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-42 of 126 incidents record that they repeat an earlier lesson, 62 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+43 of 127 incidents record that they repeat an earlier lesson, 63 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1309,6 +1309,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0103 A 139 page section shipped with no route into it from the sitemap | INC-0108, INC-0109 | 2 |
 | INC-0105 Twelve average salaries were published as medians, and the social queue credited schools with figures they never published | INC-0106, INC-0124 | 2 |
 | INC-0119 Length corrections appended clauses that repeated what the answer choices already said | INC-0120, INC-0121 | 2 |
+| INC-0023 www and the apex were two origins, so consent and rankings split in half | INC-0127 | 1 |
 | INC-0044 The longest option was the correct answer 81 percent of the time | INC-0091 | 1 |
 | INC-0050 A landing-page icon referenced a colour token that did not exist | INC-0018 | 1 |
 | INC-0072 A distractor was replaced and the explanation went on naming the old one | INC-0119 | 1 |
@@ -1337,13 +1338,14 @@ Incidents that name an earlier one without claiming to repeat it. Each was read 
 - INC-0117 names INC-0114
 - INC-0119 names INC-0120
 - INC-0122 names INC-0079
+- INC-0127 names INC-0126
 
 
 ## Where defects concentrate
 
 Files named by three or more incidents. This is not the same signal as the list above: a file that is the natural home for many checks will appear here without any one of them having failed. It says where the work has been, and where a reader new to the codebase should look first.
 
-- `src/build_banks.py`, 16 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011, INC-0079, INC-0081, INC-0086, INC-0088, INC-0089, INC-0090, INC-0091, INC-0092, INC-0120, INC-0123, INC-0126)
+- `src/build_banks.py`, 17 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011, INC-0079, INC-0081, INC-0086, INC-0088, INC-0089, INC-0090, INC-0091, INC-0092, INC-0120, INC-0123, INC-0126, INC-0127)
 - `src/build.py`, 11 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067, INC-0076, INC-0080)
 - `src/test.js`, 8 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085)
 - `src/review_bot.js`, 5 incidents (INC-0022, INC-0026, INC-0051, INC-0061, INC-0077)
@@ -2583,7 +2585,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** A URL that search engines know is not the site's to delete quietly; it belongs partly to everyone still linking to it. Removing the content is one decision and deciding what that address now says is another, and skipping the second one sends real visitors to whatever the 404 happens to be.
 
 
-## Scoring and selection (6)
+## Scoring and selection (7)
 
 
 ### INC-0040. The easier module was not easier
@@ -2660,6 +2662,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** A coverage floor: a skill whose share of the student's attempts falls below half an even split takes a slot before weakness targeting fills the round, most starved first, capped at 30 percent of the round. The least-practised skill rose to 4.8 on ACT, 5.8 on GMAT and 6 on LSAT for struggling students, with no skill under three anywhere. Across three full-length seeds per exam: on GMAT, planted-weakness diagnosis stayed at 15 of 15 and the share of reported bands containing the true score went from 85 to 91 percent; on ACT, diagnosis went from 59 to 57 of 60 sittings, both above the 90 percent bar, and bands containing the true score from 65 to 77 percent. Coverage bought band accuracy and cost diagnosis two sittings in sixty. /scoring/ now explains how the next question is chosen, including the floor.
 - **What stops it now.** review_bot.js checks each sitting on its own: it fails if any simulated student gets no question on a skill the bank can serve and warns below three, reporting the least-practised skill per sitting. It failed on the engine as it was (0 at worst on ACT and GMAT) and passes on the fixed one.
 - **Lesson.** Measure an adaptive policy per student, not in aggregate: a pooled statistic averages the starved students with the well-served ones and reports a system that works. A targeting rule also needs a floor it can never trade away, because the students it concentrates hardest on are the ones whose picture of themselves it leaves emptiest.
+
+
+### INC-0127. Generated item ids were positions, so a bank change pointed stored reviews at different questions
+
+*2026-09-26, Wrong data shown or stored*
+
+- **What was seen.** A generated item's id was its position in the build: framework.run numbered items in the order it made them, continuing across an exam's categories. The trainer keys a student's spaced review (state.review), the seen counts and the item telemetry (item_events.qid) on that id. Any change to a bank renumbers what follows it. After such a deploy, a review due for a missed question served whatever question now held that number, and the telemetry pooled answers to different questions under one qid. The runner fix just before this one (INC-0126) would alone have repointed 6826 live ids, although it removed no question. 6627 of them were GRE ids, and 6534 of those were sentence equivalence and text completion ids that each came to name the question next to the one they had named, because GRE reading, which is numbered ahead of them, gained a question.
+- **Why.** The id was used as a name but assigned as an index. A position is stable only while nothing before it changes, and the banks change on nearly every build: a new passage, an edited schema or a different draw order shifts everything numbered after it. Nothing that stored an id could tell that the question behind it had changed.
+- **How it surfaced.** Found while measuring what the INC-0126 fix changed. Comparing the new banks with the live ones id by id showed 6826 ids naming a different question, although no question had been removed. (Found by measuring something)
+- **Fix.** A generated item's id is now derived from what the item is: the exam's prefix and the first twelve hex digits of its canon key, the hash the runner already dedups on. For a reading item that key covers the schema, the stem and the passage; for the rest, the schema, the stem and the choices. The same question keeps its id across rebuilds whatever else changes, and a changed question gets a new one. Numbered ids already stored in a browser cannot be mapped back, because each one named different questions in different builds, so the trainer drops review and seen entries of the old form once, on load, rather than keep them.
+- **What stops it now.** build_banks.py recomputes every generated id from its item and fails if one differs from its canon key or two items in an exam share an id. A twelve digit prefix makes a chance collision about three in a million per exam per build. in `src/build_banks.py`
+- **Lesson.** An identifier that anything outside the build stores must be derived from what it identifies, not from where it happened to land. A position is a fine name only for something nobody keeps.
 
 
 ## Infrastructure and deploy (6)
@@ -3164,7 +3178,7 @@ Read it before starting a piece of work in the matching area, and again before y
 
 ## Infrastructure and deploy
 
-- [ ] Two hostnames are two origins and therefore two of everything the browser scopes by origin. Pick one and redirect on the server, not in a meta tag.  
+- [ ] **Learned 2 times over.** Two hostnames are two origins and therefore two of everything the browser scopes by origin. Pick one and redirect on the server, not in a meta tag.  
   <small>www and the apex were two origins, so consent and rankings split in half (INC-0023)</small>
 - [ ] An exclusion list is a denylist, and denylists are wrong by omission. Derive the allowed set from what the built pages actually reference.  
   <small>The .git directory was being served on production (INC-0024)</small>
@@ -3216,6 +3230,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The question of the day promised to be the same for everyone and was not, and its streak punished a wrong answer (INC-0111)</small>
 - [ ] Measure an adaptive policy per student, not in aggregate: a pooled statistic averages the starved students with the well-served ones and reports a system that works. A targeting rule also needs a floor it can never trade away, because the students it concentrates hardest on are the ones whose picture of themselves it leaves emptiest.  
   <small>Weakest-first selection starved skills for struggling students, down to none at all (INC-0112)</small>
+- [ ] An identifier that anything outside the build stores must be derived from what it identifies, not from where it happened to land. A position is a fine name only for something nobody keeps.  
+  <small>Generated item ids were positions, so a bank change pointed stored reviews at different questions (INC-0127)</small>
 
 
 ## Search and metadata
@@ -3392,7 +3408,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 126 real defects reduced to the rules that prevent them,
+the whole project: 127 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -3432,7 +3448,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-126 defects already prevented is genuinely ahead, and every defect it hits
+127 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed
