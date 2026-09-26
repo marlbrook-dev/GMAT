@@ -4,7 +4,8 @@
 // What only a browser can show: that the live page picks the question for the visitor's
 // own date, that answering records the day and draws the explanation, that a second visit
 // cannot re-answer, that the share text never carries the question or the answer, that the
-// hub and the trainer read the same streak, and that none of it pushes a phone sideways.
+// hub and the trainer read the same streak, that flashcards due in a trainer are shown and
+// open it, and that none of it pushes a phone sideways.
 const { chromium } = require('playwright');
 const { chromiumPath } = require('./chromium_path.js');
 const http = require('http');
@@ -165,6 +166,50 @@ const ok = (cond, msg) => { console.log('  ' + (cond ? 'ok  ' : 'FAIL') + ' ' + 
     const st = await page.textContent('#ex-' + slug + ' .st');
     ok(/Solved today/.test(st), 'the /daily/ hub shows the ' + slug + ' day answered in the trainer (' + st.trim() + ')');
     ok(errs.length === 0, app + ' raised no page errors' + (errs.length ? ': ' + errs.slice(0, 2).join(' | ') : ''));
+    await ctx.close();
+  }
+
+  // Flashcards due in a trainer show on that exam's daily page and on the hub, counted from
+  // the trainer's own saved state; a visitor who has studied nothing sees nothing; and the
+  // link opens the trainer on its flashcards.
+  console.log('\n=== reviews waiting ===');
+  {
+    const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    await ctx.addInitScript(() => {
+      try { localStorage.setItem('sfn_consent_v1', JSON.stringify({ analytics: false, ts: '', v: 1 })); } catch (e) {}
+    });
+    await ctx.route('**/rest/v1/**', r => r.fulfill({ status: 201, contentType: 'application/json', body: '[]' }));
+    await ctx.route('**/auth/v1/**', r => r.fulfill({ status: 200, contentType: 'application/json', body: '{}' }));
+    const page = await ctx.newPage();
+    const errs = [];
+    page.on('pageerror', e => errs.push(e.message));
+    await page.goto(base + '/daily/gmat/');
+    ok(await page.$eval('#due', e => e.hidden), 'with nothing studied, the GMAT daily page shows no reviews');
+    await page.goto(base + '/app/index.html', { waitUntil: 'load' });
+    await page.waitForFunction(() => typeof BANK !== 'undefined' && BANK.length > 0, null, { timeout: 30000 });
+    await page.evaluate(() => { if (document.getElementById('onb')) finishOnboarding(true); });
+    // Three cards studied, two of them due again; the rest of the deck never seen.
+    await page.evaluate(() => {
+      const ids = CARDS.slice(0, 3).map(c => c.id), now = Date.now();
+      state.cards = {};
+      state.cards[ids[0]] = { box: 1, due: now - 60000, seen: 1, known: 0 };
+      state.cards[ids[1]] = { box: 2, due: now - 1000, seen: 2, known: 1 };
+      state.cards[ids[2]] = { box: 3, due: now + 86400000, seen: 3, known: 2 };
+      persist();
+    });
+    await page.goto(base + '/daily/gmat/');
+    const txt = (await page.textContent('#dueText')).trim();
+    ok(!(await page.$eval('#due', e => e.hidden)) && txt === '2 flashcards you have studied are due for review in your GMAT trainer.',
+       'the GMAT daily page counts the two studied cards that are due (' + txt + ')');
+    await page.goto(base + '/daily/');
+    ok(/2 flashcards due for review/.test(await page.textContent('#ex-gmat')), 'the hub shows them on the GMAT card');
+    ok(!/flashcards? due/.test(await page.textContent('#ex-sat')), 'and nothing on the SAT card, where nothing has been studied');
+    await page.goto(base + '/daily/gmat/');
+    await Promise.all([page.waitForNavigation(), page.click('#dueGo')]);
+    await page.waitForFunction(() => typeof BANK !== 'undefined' && BANK.length > 0, null, { timeout: 30000 });
+    ok(await page.evaluate(() => location.hash === '#cards' && !document.getElementById('v-cards').classList.contains('hidden')),
+       'the link opens the trainer on its flashcards');
+    ok(errs.length === 0, 'no page errors' + (errs.length ? ': ' + errs.slice(0, 2).join(' | ') : ''));
     await ctx.close();
   }
 
