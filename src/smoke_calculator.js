@@ -16,6 +16,8 @@ const ROOT = path.resolve(__dirname, '..');
 const URL_PATH = '/exams/act/score-calculator/';
 const DATA = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'act_national_ranks.json'), 'utf8'));
 const RANK = DATA.ranks.composite.at_or_below;
+const GRE_PATH = '/exams/gre/score-calculator/';
+const GRE = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'gre_percentiles.json'), 'utf8'));
 
 const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css',
                 '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png' };
@@ -33,9 +35,11 @@ const server = http.createServer((req, res) => {
 const composite = (a, b, c) => Math.round((a + b + c) / 3);
 
 (async () => {
-  if (!fs.existsSync(path.join(ROOT, URL_PATH, 'index.html'))) {
-    console.log('  FAIL: ' + URL_PATH + ' was not built; run python3 src/build.py first');
-    process.exit(1);
+  for (const u of [URL_PATH, GRE_PATH]) {
+    if (!fs.existsSync(path.join(ROOT, u, 'index.html'))) {
+      console.log('  FAIL: ' + u + ' was not built; run python3 src/build.py first');
+      process.exit(1);
+    }
   }
   await new Promise(r => server.listen(0, r));
   const base = 'http://127.0.0.1:' + server.address().port;
@@ -128,6 +132,57 @@ const composite = (a, b, c) => Math.round((a + b + c) / 3);
     check(at + ' has an FAQ block search engines can read', meta.faq >= 3, String(meta.faq));
     check(at + ' cites only act.org', meta.cites.length > 0 && meta.cites.every(h => h.startsWith('https://www.act.org/')),
           meta.cites.filter(h => !h.startsWith('https://www.act.org/')).join(', '));
+    check(at + ' threw no script error', errs.length === 0, errs[0]);
+    await ctx.close();
+  }
+
+  // The GRE page: ETS's percentile ranks, read off the data file it was built from.
+  const want = (label, v, table) => table[String(v)] == null
+    ? label + ' ' + v + ': ETS reports no percentile'
+    : label + ' ' + v + ': ' + table[String(v)] + ' percent of test takers scored lower';
+  for (const width of [390, 1280]) {
+    const ctx = await b.newContext({ viewport: { width, height: 900 } });
+    const p = await ctx.newPage();
+    const errs = [];
+    p.on('pageerror', e => errs.push(String(e)));
+    await p.goto(base + GRE_PATH, { waitUntil: 'domcontentloaded' });
+    if (await p.isVisible('#sfn-consent').catch(() => false)) await p.click('#sfn-consent .no');
+    const at = width + 'px GRE';
+    const wrong = [];
+    for (const [v, q, w] of [[160, 160, '4.0'], [170, 170, '6.0'], [130, 132, '0.5'], [151, 158, '3.5']]) {
+      await p.fill('#gV', String(v)); await p.fill('#gQ', String(q)); await p.selectOption('#gW', w);
+      const text = await p.evaluate(() => document.getElementById('greOut').textContent);
+      for (const line of [want('Verbal', v, GRE.verbal), want('Quant', q, GRE.quant), want('Writing', w, GRE.writing)]) {
+        if (!text.includes(line)) wrong.push(line);
+      }
+      if (!text.includes('Verbal plus Quant is ' + (v + q))) wrong.push('sum ' + (v + q));
+    }
+    check(at + ' percentiles match ETS\'s table, blanks included', !wrong.length, wrong.join('; '));
+    for (const bad of ['129', '171', '150.5']) {
+      await p.fill('#gV', bad); await p.fill('#gQ', '150');
+      const cls = await p.evaluate(() => document.getElementById('greOut').className);
+      check(at + ' refuses a Verbal score of ' + bad, cls.includes('err'));
+    }
+    const tables = await p.evaluate(() => ({
+      vq: [...document.querySelectorAll('#vqTable tbody tr')].map(tr => [...tr.cells].map(td => td.textContent)),
+      aw: [...document.querySelectorAll('#awTable tbody tr')].map(tr => [...tr.cells].map(td => td.textContent)) }));
+    const cellOk = (txt, v) => v == null ? txt === 'not reported' : +txt === v;
+    const vqBad = tables.vq.filter(r => !cellOk(r[1], GRE.verbal[r[0]]) || !cellOk(r[2], GRE.quant[r[0]]));
+    const awBad = tables.aw.filter(r => !cellOk(r[1], GRE.writing[r[0]]));
+    check(at + ' tables match ETS\'s percentile ranks', tables.vq.length === 41 && tables.aw.length === 13
+          && !vqBad.length && !awBad.length, vqBad.concat(awBad).map(r => r.join(' ')).join('; '));
+    const meta = await p.evaluate(() => {
+      const de = document.documentElement;
+      let faq = 0;
+      document.querySelectorAll('script[type="application/ld+json"]').forEach(s => {
+        try { const j = JSON.parse(s.textContent); if (j['@type'] === 'FAQPage') faq = j.mainEntity.length; } catch (e) { faq = -1; } });
+      return { scrollW: de.scrollWidth, clientW: de.clientWidth, faq,
+               cites: [...document.querySelectorAll('.src a')].map(a => a.href) };
+    });
+    check(at + ' does not scroll sideways', meta.scrollW <= meta.clientW + 1, meta.scrollW + ' > ' + meta.clientW);
+    check(at + ' has an FAQ block search engines can read', meta.faq >= 3, String(meta.faq));
+    check(at + ' cites only ets.org', meta.cites.length > 0 && meta.cites.every(h => h.startsWith('https://www.ets.org/')),
+          meta.cites.filter(h => !h.startsWith('https://www.ets.org/')).join(', '));
     check(at + ' threw no script error', errs.length === 0, errs[0]);
     await ctx.close();
   }
