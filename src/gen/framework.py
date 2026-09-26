@@ -488,7 +488,7 @@ def stem_numbers(stem, want_shape, exclude, limit=6):
     return out
 
 
-def balance(rng, right, pool, need, own=(), k=0):
+def balance(rng, right, pool, need, own=(), k=0, target=None):
     """Choose `need` wrong answers so the key's LENGTH RANK is drawn uniformly.
 
     For a worded answer the only thing a guesser can measure without reading is length, so
@@ -507,13 +507,20 @@ def balance(rng, right, pool, need, own=(), k=0):
     make it impossible for the key to be the longest, and the ranks that remain fill up.
     Any `own` not chosen stays available to the rest of the draw. With no `own` the draw
     is exactly what it always was, so every other schema produces what it produced.
+
+    `target` fixes the rank instead of drawing it. A schema that makes one item per
+    passage ships few items, and a uniform draw over few items can still pile up on one
+    rank: 12 of the 27 GRE main idea keys sat at the middle rank on the first build of
+    that schema, although 3,000 draws spread evenly. Passing the ranks in rotation makes
+    the bank that ships even, not only the process that made it. Without it, nothing
+    changes for any existing schema.
     """
     own = list(own)
     if k > len(own) or len(pool) + len(own) < need:
         raise ItemError("balance needs %d wrong answers, pool has %d" % (need, len(pool) + len(own)))
     if k:
-        return _balance_own(rng, right, pool, need, own, k)
-    target = rng.randint(0, need)
+        return _balance_own(rng, right, pool, need, own, k, target)
+    target = rng.randint(0, need) if target is None else target
     keylen = len(str(right))
     best, best_gap = None, None
     for _ in range(40):
@@ -527,7 +534,7 @@ def balance(rng, right, pool, need, own=(), k=0):
     return best
 
 
-def _balance_own(rng, right, pool, need, own, k):
+def _balance_own(rng, right, pool, need, own, k, target=None):
     """balance() when some wrong answers must come from `own` (INC-0117).
 
     Built rather than sampled. Sampling forty random subsets and keeping one whose key
@@ -557,6 +564,9 @@ def _balance_own(rng, right, pool, need, own, k):
 
     targets = list(range(need + 1))
     rng.shuffle(targets)
+    if target is not None:
+        targets.remove(target)
+        targets.insert(0, target)
     for t in targets:
         pick = build(t)
         if pick is not None:

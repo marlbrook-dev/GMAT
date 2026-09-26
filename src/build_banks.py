@@ -27,6 +27,7 @@ import g_gmat_gt, g_gmat_tpa, g_gmat_msr             # noqa: E402,F401
 import g_act_sci, g_gre_verb, g_gmat_cr, g_act_nq    # noqa: E402,F401
 import g_rc, g_flaw                                  # noqa: E402,F401
 import g_lsat_concl, g_lsat_struct                   # noqa: E402
+import g_gre_rc                                      # noqa: E402
 
 OUT = D / "generated"
 
@@ -105,7 +106,11 @@ SAT_PLAN = {
 # Categories authored directly against an exam's own taxonomy rather than remapped.
 # Data Sufficiency has no SAT counterpart, so it lives here.
 EXAM_EXTRA = {"gre": {"gre_tc": [g for g in g_gre_verb.GENS if g.skill == "gre_tc"],
-                      "gre_se": [g for g in g_gre_verb.GENS if g.skill == "gre_se"]},
+                      "gre_se": [g for g in g_gre_verb.GENS if g.skill == "gre_se"],
+                      # The reading corpus shown as one paragraph, the form ETS says most
+                      # GRE passages take; the two paragraph form stays with the GMAT and
+                      # the LSAT (g_gre_rc.py says why, with the source).
+                      "gre_rc": g_gre_rc.GENS},
               "gmat": {"di_ds": g_gmat_ds.GENS,
                        # Analysis / Critique, including the flaw schemas. g_flaw adds
                        # three named patterns beside cr_sample, which was the only one
@@ -620,7 +625,7 @@ def main(target=TARGET, verbose=True):
         for line in premises:
             print("  " + line, file=sys.stderr)
         sys.exit(1)
-    tells = g_rc.check_tells()
+    tells = g_rc.check_tells() + g_rc.check_tells(gens=g_gre_rc.GENS)
     if tells:
         print("ERROR: reading schemas answerable by matching words (INC-0117)",
               file=sys.stderr)
@@ -636,6 +641,14 @@ def main(target=TARGET, verbose=True):
         print("ERROR: the must be true checker's size bound misses a counterexample",
               file=sys.stderr)
         for line in bound[:12]:
+            print("  " + line, file=sys.stderr)
+        sys.exit(1)
+    # The GRE function questions name a sentence by position, so every passage has to
+    # render as the six sentences, in the order, that the answers assume.
+    six = g_gre_rc.check_corpus()
+    if six:
+        print("ERROR: one paragraph GRE passages that are not six sentences", file=sys.stderr)
+        for line in six:
             print("  " + line, file=sys.stderr)
         sys.exit(1)
     # Each part of an argument is quoted alone in a question, so each has to stand alone.
