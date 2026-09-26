@@ -36,8 +36,9 @@ class DSBase(FixedGen):
     sub = "Data Sufficiency"
 
     def __init__(self):
-        # Which of the five answers this schema has actually produced, and how often.
-        self._seen = Counter()
+        # Which of the five answers this schema has produced in the current sequence of
+        # draws, and how often, beside the rng that sequence is drawn from (see make()).
+        self._rng, self._seen = None, Counter()
 
     def make(self, rng, choices_n):
         """Thin whichever answer is running ahead, rather than asking for one.
@@ -57,7 +58,15 @@ class DSBase(FixedGen):
         is. That cannot starve a schema, because it never waits for an answer the schema
         may be unable to produce, and the cost in dropped draws is only ever as large as
         the skew it is removing.
+
+        The count belongs to the sequence of draws it measures, and a sequence of draws is
+        its rng. Kept on the instance alone it outlived the run that made it: a second run
+        from the same seed thinned against the first run's answers and made different
+        items from its first draw on (INC-0123). A new rng starts a new count, so no
+        caller has to remember to reset one.
         """
+        if rng is not self._rng:
+            self._rng, self._seen = rng, Counter()
         it = super().make(rng, choices_n)
         a = it["answer"]
         total = sum(self._seen.values())
