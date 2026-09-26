@@ -450,6 +450,13 @@ def build_sitemap(posts):
     if exams_data.exists():
         import json as _json2
         urls += [(f"{SITE}/exams/{e['slug']}/", None) for e in _json2.loads(exams_data.read_text())]
+    # Pages below an exam's guide, such as a score calculator, walked from the built tree
+    # like the study guide below, so a new one is listed without a code change.
+    exams_dir = ROOT / "exams"
+    if exams_dir.is_dir():
+        for page in sorted(exams_dir.glob("*/*/index.html")):
+            rel = page.parent.relative_to(ROOT).as_posix()
+            urls.append((f"{SITE}/{rel}/", None))
     schools_dir = ROOT / "data" / "schools"
     if schools_dir.is_dir():
         import json as _json

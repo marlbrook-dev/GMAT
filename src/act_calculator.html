@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#122B4E"><link rel="apple-touch-icon" href="/icons/icon-180.png">
+<title>ACT Score Calculator: Composite and Superscore</title>
+<meta name="description" content="Work out an ACT Composite or superscore from your section scores with ACT's own averaging and rounding rule, and see the national rank for the result.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%23122B4E'/%3E%3Cpath d='M13 33 22 22l6 5 8.5-10' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M29.5 16.5H37V24' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="canonical" href="https://startfromnowhere.com/exams/act/score-calculator/">
+<script type="application/ld+json">{{FAQ_LD}}</script>
+<style>
+:root{--navy-900:#0C1F3A;--navy-800:#122B4E;--navy-600:#2C4E80;--navy-100:#DCE5F1;--navy-50:#F2F6FB;--gold-600:#A8842F;--gold-50:#FAF5E8;--gray-700:#374151;--gray-500:#4B5563;--gray-300:#D1D5DB;--gray-200:#E5E7EB;--gray-100:#F3F4F6;--gray-50:#F9FAFB;--red-600:#B91C1C;--red-50:#FEF2F2;
+--serif:'Source Serif 4',Georgia,serif;--display:var(--sans);--body:'IBM Plex Sans',system-ui,sans-serif;--mono:'IBM Plex Mono',ui-monospace,monospace}
+*{box-sizing:border-box}body{margin:0;font-family:var(--body);color:var(--gray-700);background:#fff;font-size:var(--t-400);line-height:var(--lh-body);-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--serif);color:var(--navy-900);line-height:var(--lh-800);margin:0}
+a{color:var(--navy-800)}
+{{CHROME_CSS}}
+main.calc{max-width:var(--container-narrow);margin:0 auto;padding:var(--s7) var(--gutter) var(--s8)}
+main.calc>*{min-width:0}
+.crumbs{font-size:var(--t-200);color:var(--gray-500);margin:0 0 var(--s3)}
+.crumbs a{color:var(--gray-500)}
+h1{font-size:var(--t-900);letter-spacing:var(--tr-900);line-height:var(--lh-900)}
+.lede{font-size:var(--t-500);color:var(--gray-500);max-width:var(--measure-lead);margin:var(--s4) 0 0}
+h2{font-size:var(--t-800);letter-spacing:var(--tr-800);margin:var(--s7) 0 var(--s3)}
+h3{font-size:var(--t-600);letter-spacing:var(--tr-600);margin:var(--s5) 0 var(--s2)}
+p,ul{max-width:var(--measure)}
+.src{font-size:var(--t-100);color:var(--gray-500);margin:var(--s2) 0 0;max-width:var(--measure)}
+.src a{color:var(--gray-500)}
+.panel{border:1px solid var(--gray-200);border-radius:var(--r-lg);padding:var(--s5);margin-top:var(--s4);background:#fff;box-shadow:var(--sh-1)}
+.fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s3)}
+.fields label{display:block;min-width:0;font-size:var(--t-200);font-weight:600;color:var(--navy-900)}
+.fields input,.grid input{display:block;width:100%;margin-top:var(--s1);font:inherit;font-family:var(--mono);font-size:var(--t-500);padding:var(--s2) var(--s3);border:1px solid var(--gray-300);border-radius:var(--r-md);color:var(--navy-900);background:#fff}
+.fields input:focus,.grid input:focus{outline:2px solid var(--navy-600);outline-offset:1px;border-color:var(--navy-600)}
+.result{margin-top:var(--s4);padding:var(--s4);border-radius:var(--r-md);background:var(--navy-50);border:1px solid var(--navy-100)}
+.result .big{font-family:var(--mono);font-size:var(--t-900);line-height:var(--lh-900);color:var(--navy-800)}
+.result .lbl{font-size:var(--t-100);font-weight:600;letter-spacing:var(--tr-caps);text-transform:uppercase;color:var(--gray-500)}
+.result p{margin:var(--s2) 0 0}
+.result.err{background:var(--red-50);border-color:var(--red-600);color:var(--red-600)}
+.work{font-family:var(--mono);font-size:var(--t-300);color:var(--navy-900)}
+.grid{width:100%;border-collapse:collapse}
+.grid th{font-size:var(--t-100);font-weight:600;letter-spacing:var(--tr-caps);text-transform:uppercase;color:var(--gray-500);text-align:left;padding:0 var(--s2) var(--s1)}
+.grid td{padding:var(--s1) var(--s2);vertical-align:middle}
+.grid td:first-child{font-size:var(--t-200);font-weight:600;color:var(--navy-900);white-space:nowrap}
+.grid input{margin-top:0;font-size:var(--t-400);padding:var(--s2)}
+.grid td.best input{border-color:var(--navy-600);background:var(--navy-50)}
+.actions{display:flex;flex-wrap:wrap;gap:var(--s2);margin-top:var(--s3)}
+.btn{font:inherit;font-weight:600;font-size:var(--t-300);padding:var(--s2) var(--s4);border-radius:var(--r-md);border:1px solid var(--navy-800);background:var(--navy-800);color:#fff;cursor:pointer;text-decoration:none;display:inline-block}
+.btn.alt{background:#fff;color:var(--navy-800);border-color:var(--gray-300)}
+.btn:disabled{opacity:.5;cursor:default}
+.tablewrap{overflow-x:auto;border:1px solid var(--gray-200);border-radius:var(--r-lg);margin-top:var(--s3)}
+table.dt{width:100%;border-collapse:collapse;font-size:var(--t-300)}
+table.dt th{font-size:var(--t-100);font-weight:600;letter-spacing:var(--tr-caps);text-transform:uppercase;color:var(--gray-500);text-align:right;padding:var(--s2) var(--s3);border-bottom:1px solid var(--gray-200);background:var(--gray-50)}
+table.dt th:first-child,table.dt td:first-child{text-align:left}
+table.dt td{padding:var(--s1) var(--s3);border-bottom:1px solid var(--gray-100);text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+table.dt tr:last-child td{border-bottom:none}
+table.dt tr.foot td{background:var(--gray-50);font-family:var(--body);font-weight:600}
+.faq h3{font-size:var(--t-500)}
+.next{display:flex;flex-wrap:wrap;gap:var(--s2);margin-top:var(--s4)}
+@media(max-width:560px){.fields{grid-template-columns:1fr}.panel{padding:var(--s4)}}
+</style></head><body>
+{{SITE_HEADER}}
+<main class="calc">
+<p class="crumbs"><a href="/exams/">Exams</a> / <a href="/exams/act/">ACT</a> / Score Calculator</p>
+<h1>ACT Score Calculator</h1>
+<p class="lede">Enter your section scores to get your Composite the way ACT calculates it, and add more test dates to see your superscore.</p>
+<p class="src">Every rule and rank on this page is ACT's own, read {{READ}}.</p>
+
+<h2 id="composite">Composite Score</h2>
+<div class="panel">
+<form id="compForm" class="fields" autocomplete="off" onsubmit="return false">
+<label>English<input id="cE" type="number" min="1" max="36" step="1" inputmode="numeric" placeholder="1 to 36"></label>
+<label>Math<input id="cM" type="number" min="1" max="36" step="1" inputmode="numeric" placeholder="1 to 36"></label>
+<label>Reading<input id="cR" type="number" min="1" max="36" step="1" inputmode="numeric" placeholder="1 to 36"></label>
+</form>
+<div id="compOut" class="result" aria-live="polite"><p>Enter a whole number from 1 to 36 for each section.</p></div>
+</div>
+<p class="src">The Composite is the average of English, math and reading, rounded to the nearest whole number; science and the optional writing test are not part of it. Source: {{RULE_CITE}}. National rank: {{RANK_CITE}}.</p>
+
+<h2 id="superscore">Superscore</h2>
+<p>A superscore averages your best English, math and reading scores across every test date, rounded the same way as the Composite. A test date counts once all three of its scores are entered.</p>
+<div class="panel">
+<div class="tablewrap" style="border:none;margin-top:0"><table class="grid" id="superGrid"><thead><tr><th>Test date</th><th>English</th><th>Math</th><th>Reading</th></tr></thead><tbody></tbody></table></div>
+<div class="actions"><button type="button" class="btn alt" id="addRow">Add a Test Date</button><button type="button" class="btn alt" id="dropRow">Remove the Last One</button></div>
+<div id="superOut" class="result" aria-live="polite"><p>Enter at least two complete test dates.</p></div>
+</div>
+<p class="src">Superscoring rules: {{SUPER_CITE}}.</p>
+
+<h2 id="how">How the Composite Is Calculated</h2>
+<p>Each section is scored from 1 to 36. ACT adds your English, math and reading scores, divides by three and rounds to the nearest whole number, with fractions below one-half rounded down and fractions of one-half or more rounded up.</p>
+<p>Three whole numbers always average to a whole number or to one-third or two-thirds past one, so in practice the rule is simpler than it reads: an average ending in .33 rounds down and one ending in .67 rounds up. English 24, math 25 and reading 25 add to 74, and 74 divided by 3 is 24.67, a Composite of 25. English 24, math 24 and reading 25 add to 73, which is 24.33, a Composite of 24.</p>
+<p>{{SCIENCE_NOTE}}</p>
+<p class="src">Source: {{RULE_CITE}}; {{SECTIONS_CITE}}.</p>
+
+<h2 id="ranks">ACT National Ranks, {{REPORTING_YEAR}}</h2>
+<p>The percent of {{COHORT}} who scored at or below each score, for tests taken {{WINDOW}}. ACT prints this as the US Rank on score reports.</p>
+<div class="tablewrap"><table class="dt"><thead><tr><th>Score</th><th>Composite</th><th>English</th><th>Math</th><th>Reading</th><th>Science</th></tr></thead><tbody>
+{{RANK_ROWS}}
+</tbody></table></div>
+<p class="src">Source: {{RANK_CITE}}.</p>
+
+<h2 id="faq">Questions</h2>
+<div class="faq">
+{{FAQ_HTML}}
+</div>
+
+<h2 id="practise">Practise for the Score You Want</h2>
+<p>The ACT trainer adapts to you across English, math, reading and science, and reports an estimated range once you have answered enough questions. It is practice, not a prediction of your ACT score.</p>
+<div class="next"><a class="btn" href="/act/app/">Practise ACT Questions</a><a class="btn alt" href="/exams/act/">ACT Guide</a><a class="btn alt" href="/guide/act/">ACT Study Guide</a></div>
+</main>
+{{SITE_FOOTER}}
+<script>
+(function(){
+var RANK={{RANKS_JSON}};
+function val(el){ var s=String(el.value).trim(); if(!/^\d{1,2}$/.test(s)) return null; var n=+s; return n>=1&&n<=36?n:null; }
+function comp(sum){ return Math.floor((2*sum+3)/6); }
+function avgText(sum){ return (sum/3).toFixed(2); }
+function rankText(c){ var r=RANK.at_or_below[String(c)]; return r==null?'':'<p>'+r+' percent of '+RANK.cohort+' scored a Composite at or below '+c+' (ACT national ranks, '+RANK.year+').</p>'; }
+var cE=document.getElementById('cE'), cM=document.getElementById('cM'), cR=document.getElementById('cR'), out=document.getElementById('compOut');
+function drawComp(){
+ var v=[val(cE),val(cM),val(cR)], raw=[cE.value,cM.value,cR.value];
+ if(v.some(function(x){return x===null;})){
+  var typed=raw.some(function(s){ return String(s).trim()!==''; }) && raw.some(function(s,i){ return String(s).trim()!=='' && v[i]===null; });
+  out.className='result'+(typed?' err':''); out.innerHTML='<p>Enter a whole number from 1 to 36 for each section.</p>'; return; }
+ var sum=v[0]+v[1]+v[2], c=comp(sum);
+ out.className='result';
+ out.innerHTML='<div class="lbl">Composite</div><div class="big" id="compVal">'+c+'</div>'+
+  '<p class="work">('+v[0]+' + '+v[1]+' + '+v[2]+') / 3 = '+sum+' / 3 = '+avgText(sum)+'</p>'+rankText(c);
+}
+[cE,cM,cR].forEach(function(el){ el.addEventListener('input',drawComp); });
+
+var body=document.querySelector('#superGrid tbody'), sOut=document.getElementById('superOut');
+var addBtn=document.getElementById('addRow'), dropBtn=document.getElementById('dropRow');
+var MAXROWS=6, MINROWS=2;
+function addRow(){
+ var n=body.rows.length+1, tr=document.createElement('tr');
+ tr.innerHTML='<td>Test '+n+'</td>'+['English','Math','Reading'].map(function(s){ return '<td><input type="number" min="1" max="36" step="1" inputmode="numeric" aria-label="Test '+n+' '+s+'"></td>'; }).join('');
+ body.appendChild(tr);
+ tr.querySelectorAll('input').forEach(function(el){ el.addEventListener('input',drawSuper); });
+ addBtn.disabled=body.rows.length>=MAXROWS; dropBtn.disabled=body.rows.length<=MINROWS;
+}
+function drawSuper(){
+ var rows=[].slice.call(body.rows), done=[], bad=false;
+ rows.forEach(function(tr,i){
+  var ins=[].slice.call(tr.querySelectorAll('input')), v=ins.map(val);
+  ins.forEach(function(el){ el.parentNode.classList.remove('best'); });
+  if(v.every(function(x){return x!==null;})) done.push({i:i,v:v,ins:ins});
+  else if(ins.some(function(el,k){ return String(el.value).trim()!=='' && v[k]===null; })) bad=true;
+ });
+ if(bad){ sOut.className='result err'; sOut.innerHTML='<p>Each score is a whole number from 1 to 36.</p>'; return; }
+ if(done.length<2){ sOut.className='result'; sOut.innerHTML='<p>Enter at least two complete test dates.</p>'; return; }
+ var names=['English','math','reading'], best=[0,1,2].map(function(k){
+  var top=done[0]; done.forEach(function(d){ if(d.v[k]>top.v[k]) top=d; });
+  top.ins[k].parentNode.classList.add('best'); return {s:top.v[k],t:top.i+1}; });
+ var sum=best[0].s+best[1].s+best[2].s, c=comp(sum);
+ var single=Math.max.apply(null,done.map(function(d){ return comp(d.v[0]+d.v[1]+d.v[2]); }));
+ sOut.className='result';
+ sOut.innerHTML='<div class="lbl">Superscore</div><div class="big" id="superVal">'+c+'</div>'+
+  '<p class="work">('+best[0].s+' + '+best[1].s+' + '+best[2].s+') / 3 = '+sum+' / 3 = '+avgText(sum)+'</p>'+
+  '<p>Best '+best.map(function(b,k){ return names[k]+' '+b.s+' (test '+b.t+')'; }).join(', ')+'. Your highest single test Composite is '+single+'.</p>'+
+  '<p>ACT\'s national ranks describe single test Composites, so none is shown for a superscore.</p>';
+}
+addBtn.addEventListener('click',function(){ addRow(); drawSuper(); });
+dropBtn.addEventListener('click',function(){ if(body.rows.length>MINROWS){ body.deleteRow(-1); addBtn.disabled=false; dropBtn.disabled=body.rows.length<=MINROWS; drawSuper(); } });
+addRow(); addRow();
+})();
+</script>
+</body></html>

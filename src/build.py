@@ -566,6 +566,11 @@ _sp.run([sys.executable, str(d/"build_colleges.py")], check=True)
 # a line later (INC-0082).
 _sp.run([sys.executable, str(d/"validate_exams.py")], check=True)
 _sp.run([sys.executable, str(d/"build_exams.py")], check=True)
+# Score calculators live under /exams/<exam>/ and carry their arithmetic inline, so each is
+# parsed like every other inline script.
+_sp.run([sys.executable, str(d/"build_calculators.py")], check=True)
+for _cp in sorted((root/"exams").glob("*/*/index.html")):
+    check_scripts(_cp)
 _sp.run([sys.executable, str(d/"build_guide.py")], check=True)
 _sp.run([sys.executable, str(d/"build_daily.py")], check=True)
 # The live daily pages carry the answering and streak code inline; parse it like every
