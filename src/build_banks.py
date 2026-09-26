@@ -461,6 +461,35 @@ def check_said_once(items):
     return out
 
 
+# Each exam and how many choices its questions offer. LSAT gives five, confirmed against
+# LSAC sample questions and carried in exam_harness.js, which is the same as the GMAT, so
+# the CR schemas need no reshaping.
+EXAM_CHOICES = (("sat", 4), ("gre", 5), ("gmat", 5), ("act", 4), ("lsat", 5))
+
+
+def check_repeatable(pool, draws=60, seed=20260926):
+    """Every schema the build plans makes the same items when run twice from one seed.
+
+    A bank is only reproducible if each schema's output is a function of its seed. The
+    Data Sufficiency schemas count the answers they have produced so as to thin the one
+    running ahead, and the count lived on the schema, so a second run in the same
+    process thinned against the first and made different items (INC-0123). Sixty draws
+    a run, because that thinning starts after forty answers; the whole check is a few
+    seconds.
+    """
+    out = []
+    for exam, choices in EXAM_CHOICES:
+        plan = plan_for(exam, pool)
+        for skill in sorted(plan):
+            for g in plan[skill]:
+                runs = [[F.canon(it) for it in F.run([g], draws, choices, "T", seed=seed)[0]]
+                        for _ in range(2)]
+                if runs[0] != runs[1]:
+                    out.append("  %s/%s: a second run from the same seed made different "
+                               "items" % (exam, g.id))
+    return out
+
+
 def check_discarded(exam, choices, gens):
     """Report schemas whose questions cannot be assembled into items for this exam.
 
@@ -686,10 +715,17 @@ def main(target=TARGET, verbose=True):
     pool.update({g.id: g for g in POOL_EXTRA})
     report = {}
     by_gen = {}
-    # LSAT gives five choices, confirmed against LSAC sample questions and carried in
-    # exam_harness.js, which is the same as the GMAT, so the CR schemas need no reshaping.
     starving = []
-    for exam, choices in (("sat", 4), ("gre", 5), ("gmat", 5), ("act", 4), ("lsat", 5)):
+    # Before the banks, because a schema that carries state from one run into the next
+    # makes a bank that depends on whatever called it first (INC-0123).
+    repeat = check_repeatable(pool)
+    if repeat:
+        print("ERROR: schemas that make different items when run again from the same seed "
+              "(INC-0123)", file=sys.stderr)
+        for line in repeat:
+            print(line, file=sys.stderr)
+        sys.exit(1)
+    for exam, choices in EXAM_CHOICES:
         plan = plan_for(exam, pool)
         items = []
         by_skill = {}

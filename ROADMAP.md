@@ -149,6 +149,12 @@ verified rather than that the school does not publish one (INC-0118).
       to the GRE alone. Each passage's rank is now assigned from the ranks it can build,
       for the GMAT, LSAT and GRE variants alike, and a build check names any passage whose
       key is too long or too short to be placed.
+- [x] **Why the Data Sufficiency schemas made different items on a second run** (INC-0123):
+      all five, not the two the queue named, kept their count of answers produced on the
+      schema for the life of the process, so a second run thinned against the first. The
+      count is now tied to the rng of the run it measures, the banks are byte for byte what
+      they were, and the build runs every planned schema twice from one seed and fails on
+      any whose runs differ.
 - **Decided against** mapping the two paragraph passages onto GRE reading as they are. ETS
   says most GRE passages are one paragraph long (ETS, GRE General Test Verbal Reasoning,
   https://www.ets.org/gre/test-takers/general-test/prepare/content/verbal-reasoning.html, read
@@ -174,9 +180,6 @@ verified rather than that the school does not publish one (INC-0118).
       Yale, Tuck and Haas were read against the library and match it (Booth's page carries a
       stale Class of 2026 block beside the 2027 one, which a text summary conflates; the raw
       page confirms the library's figures)
-- [ ] `gmat_ds_linear` and `gmat_ds_inequality` return different items when run twice in
-      one process; the build is unaffected because it runs each once, but it is worth knowing
-      why before anything relies on calling them repeatedly
 - [ ] `src/smoke_load.js` stays out of CI because timing on shared runners is noisy, so run
       it by hand after any change to how the banks are split or loaded (INC-0113)
 

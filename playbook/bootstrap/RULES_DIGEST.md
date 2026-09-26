@@ -1,14 +1,14 @@
 # Rules Digest
 
-122 defects from a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
+123 defects from a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
 
-Generated 2026-09-26 from a ledger spanning 7 days and 58 commits.
+Generated 2026-09-26 from a ledger spanning 7 days and 59 commits.
 
 ## Read this first
 
-The three ways defects were most often found, in order: found by reading the code or the output (58), found by measuring something (33), a test caught it (15). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
+The three ways defects were most often found, in order: found by reading the code or the output (58), found by measuring something (34), a test caught it (15). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
 
-The dominant failure mode is silent loss, 25 of 122: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
+The dominant failure mode is silent loss, 25 of 123: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
 
 ## Learned the hard way, more than once
 
@@ -33,8 +33,10 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (2 times, css and layout) The same undefined-property failure will find you repeatedly, at every severity from one icon to an invisible legal control.
 - (2 times, content generation) A record has parts that refer to one another, and a tool that edits one part by text is editing a graph while looking at a string.
 - (2 times, build system) Two habits, both mine rather than the code's. Verify with the sequence the pipeline runs, read out of its config, not with the subset you remember: a suite chosen from memory drifts to the parts that were failing last week.
+- (2 times, content generation) Every guard here measured the answer's place in its set, and a set of guards that all take the same kind of measurement shares a blind spot the size of everything else.
 - (2 times, build system) A size limit on a generated file is only a guard if something bounds the generator too; otherwise it is a delayed failure that lands on whoever commits next, and reads as their fault.
 - (2 times, content generation) A module that nothing imports fails no test, and an exception raised on every draw is indistinguishable from an exception raised on a hard draw.
+- (2 times, tests and guards) A ratchet is only read while it is quiet. One that fires on noise gets re-recorded as a reflex, and the re-recording is indistinguishable from accepting a real regression, so the mechanism that exists to catch regressions becomes the mechanism that launders them.
 - (2 times, content generation) A generator's wrong answers are written as labels and read as labels, and nobody looks at the values two labels produce.
 - (2 times, content generation) A template is a promise about the grammar of what goes into it, and the promise is invisible: the code says name and the sentence needs a singular noun phrase.
 - (2 times, search and metadata) When a fix names a class of input, such as 'the stat field is free text', find every place that input is used before closing it.
@@ -61,7 +63,6 @@ These cost this build twice or more each. If you read nothing else here, read th
 - A standard library function whose name is a plausible description of half of what it does will be used for that half.
 - Presentation rules travel with the value, and a value formatted at the point of use is formatted by whoever was writing that line.
 - A check is scoped to a grain, and the grain is a claim about where a defect can live.
-- Every guard here measured the answer's place in its set, and a set of guards that all take the same kind of measurement shares a blind spot the size of everything else.
 - Two lessons, and they compound. A rule copied into code by its examples loses the clause the examples were illustrating: CLAUDE.md bans six named sites and coaching site blogs, and the list kept the six and dropped the category, which is the half that generalises.
 - Two corpora side by side, one guarded per unit and one guarded only in total, is not two levels of rigour but one measurement and one blind spot.
 - A list of misconceptions is a list of labels and a student sees numbers. Where every characteristic error runs the same direction the key sits at a predictable place in the ordered options however carefully the item is shuffled, because the shuffler can only place it among the candidates it is handed.
@@ -96,7 +97,6 @@ These cost this build twice or more each. If you read nothing else here, read th
 - A metric that moves against you when the product improves will eventually be used to justify reverting an improvement.
 - An aggregate is a claim about whatever you grouped by. Group by the file and you have measured the file.
 - A check that reports pass or fail from a handful of random draws is a check that will flip on work that has nothing to do with it, and the cost is not the false alarm.
-- A ratchet is only read while it is quiet. One that fires on noise gets re-recorded as a reflex, and the re-recording is indistinguishable from accepting a real regression, so the mechanism that exists to catch regressions becomes the mechanism that launders them.
 
 ## Front end
 
@@ -110,6 +110,13 @@ These cost this build twice or more each. If you read nothing else here, read th
 - Anything that reports failures must not be able to report its own. Check whether each call rejects or throws before you wrap it, and make the reporting path unable to re-enter itself.
 - Async on a script tag decides when it runs, not when it downloads, so an async tag still competes for bandwidth with everything the page is waiting for.
 
+## Build system
+
+- A parse guard covers the file shapes someone thought of. When the same code moves into a new shape, a separate file, a chunk, a worker, the guard does not follow it.
+- A guard keyed to wording is a guard on the wording, not the fact, and every synonym is a hole in it.
+- A file generated for a different audience has to be read as that audience, not as the one that generated it.
+- State that describes a run has to live and die with the run. Keyed to the object that makes the draws, it cannot outlive them; kept on a long lived instance, it quietly couples every run to every earlier one, and the output depends on call history that no one reading a single run can see.
+
 ## Search and metadata
 
 - A refactor that moves data has to be followed to every reader, and a loop over nothing is the quietest failure in programming.
@@ -117,12 +124,6 @@ These cost this build twice or more each. If you read nothing else here, read th
 - When one model feeds two pages, generate both from the model in the same pass. Two places that must agree will not, and the reader who notices is the reader you were trying to convince.
 - Test every noun in a title against the page's own data, because a title is a promise to someone who has not seen the page yet.
 - A URL that search engines know is not the site's to delete quietly; it belongs partly to everyone still linking to it.
-
-## Build system
-
-- A parse guard covers the file shapes someone thought of. When the same code moves into a new shape, a separate file, a chunk, a worker, the guard does not follow it.
-- A guard keyed to wording is a guard on the wording, not the fact, and every synonym is a hole in it.
-- A file generated for a different audience has to be read as that audience, not as the one that generated it.
 
 ## Scoring and selection
 
