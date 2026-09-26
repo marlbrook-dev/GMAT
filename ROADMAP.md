@@ -131,17 +131,26 @@ verified rather than that the school does not publish one (INC-0118).
   September 26, 2026); ours are two paragraphs of 202 to 442 words, and thousands of them would turn
   the GRE reading mix upside down. GRE reading needs a one-paragraph corpus first.
 
+- [x] **LSAT Argument Parts and Structure** gets a generator, `src/gen/g_lsat_struct.py`: 30
+      arguments written with their parts labelled (a rejected view, the main conclusion, an
+      intermediate conclusion and two premises), rendered so the connecting words fix each
+      part's role, asked about as 150 role questions and 30 main conclusion questions where
+      the category had 30 hand-written items.
+
 ### Next session queue
 
-- [ ] LSAT Argument Parts and Structure (30 hand-written items): a generator for the role a
-      claim plays and for the main conclusion, over authored argument frames
 - [ ] A one-paragraph passage corpus for GRE reading, so the reading schemas can serve it
 - [ ] More reading passages: every reading category is still far under target, and each
       passage adds ten GMAT items, plus ten LSAT items at LSAT length
 - [ ] Read the hand-written reading items against the same two checks (the rule is printed;
       no choice is answerable by matching words); they were not part of this pass
 - [ ] Refresh the remaining class profiles as schools post their fall 2026 classes; MIT Sloan
-      first, once its page can be read
+      first, once its page can be read. Checked September 26: the class profile pages of HBS,
+      Stanford, Wharton, Booth, Kellogg, Yale, Tuck, Haas and Darden all still show the Class
+      of 2027, so there is no newer class to publish yet; recheck in October. HBS, Booth,
+      Yale, Tuck and Haas were read against the library and match it (Booth's page carries a
+      stale Class of 2026 block beside the 2027 one, which a text summary conflates; the raw
+      page confirms the library's figures)
 - [ ] `gmat_ds_linear` and `gmat_ds_inequality` return different items when run twice in
       one process; the build is unaffected because it runs each once, but it is worth knowing
       why before anything relies on calling them repeatedly
