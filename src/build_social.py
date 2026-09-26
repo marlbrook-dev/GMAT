@@ -297,7 +297,7 @@ def posts_fact(rng):
                    "changes.\n\n%s/pricing/" % SITE)),
         dict(key="fact:sources", kind="Product", audience="All",
              text=("%d business schools and %d colleges, and every published figure carries "
-                   "its source, its year and a link.\n\nWhere a school does not publish a "
+                   "its source, its year and a link.\n\nWhere we have not verified a "
                    "number, we show a dash. We do not fill it with an estimate.\n\n%s/schools/"
                    % (n_sch, n_col, SITE))),
         dict(key="fact:focus", kind="Exam facts", audience="GMAT students",

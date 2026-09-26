@@ -1,14 +1,14 @@
 # Rules Digest
 
-117 defects from a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
+118 defects from a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
 
-Generated 2026-09-26 from a ledger spanning 7 days and 53 commits.
+Generated 2026-09-26 from a ledger spanning 7 days and 55 commits.
 
 ## Read this first
 
-The three ways defects were most often found, in order: found by reading the code or the output (54), found by measuring something (33), a test caught it (15). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
+The three ways defects were most often found, in order: found by reading the code or the output (55), found by measuring something (33), a test caught it (15). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
 
-The dominant failure mode is silent loss, 25 of 117: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
+The dominant failure mode is silent loss, 25 of 118: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
 
 ## Learned the hard way, more than once
 
@@ -73,6 +73,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - A stored phrase that goes into more than one slot has to be written for the hardest of them, and the transform has to run in the direction that cannot damage anything: capitalising a sentence opener is always safe, lowercasing one breaks proper nouns.
 - Practice material is still published writing. A passage that is only there to be read carefully is still read by people who know the subject, and a question built on it can ask them to endorse the error.
 - A test measures what someone can get right without the skill, and there is more than one way to do that.
+- An empty field records that a search came up empty, not that the thing does not exist.
 
 ## Tests and guards
 

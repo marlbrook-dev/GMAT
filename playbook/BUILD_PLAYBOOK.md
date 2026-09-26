@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-26, which is 7 days, across
-53 commits, by one owner directing a series of AI coding sessions. As of this
+55 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 73 Python files, 106 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 63 documents:
 2008 tracked files in total.
@@ -1121,7 +1121,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-53 commits in 7 days, one owner, a series of AI sessions. This
+55 commits in 7 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1213,14 +1213,14 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-117 recorded defects, over 7 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+118 recorded defects, over 7 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 54 | 46% |
+| Found by reading the code or the output | 55 | 47% |
 | Found by measuring something | 33 | 28% |
 | A test caught it | 15 | 13% |
 | Found by rendering it and looking | 6 | 5% |
@@ -1228,7 +1228,7 @@ well enough to audit later. Which is what this book is.
 | A person hit it | 2 | 2% |
 | A build guard caught it | 2 | 2% |
 
-**This is the most useful table in the book.** 115 of 117 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 116 of 118 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1237,20 +1237,20 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 46 |
+| Wrong data shown or stored | 47 |
 | Silent loss | 25 |
 | Degraded | 25 |
 | Cosmetic | 18 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 25 of 117. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 25 of 118. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 46 |
+| Content generation | 47 |
 | Tests and guards | 19 |
 | Front end | 9 |
 | Search and metadata | 7 |
@@ -1265,7 +1265,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-111 of 117 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+112 of 118 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1286,7 +1286,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-34 of 117 incidents record that they repeat an earlier lesson, 49 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+34 of 118 incidents record that they repeat an earlier lesson, 49 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1342,6 +1342,7 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/bank_emit.py`, 4 incidents (INC-0062, INC-0066, INC-0068, INC-0073)
 - `src/gen/g_rc.py`, 4 incidents (INC-0097, INC-0114, INC-0115, INC-0117)
 - `src/weekly_audit.js`, 3 incidents (INC-0050, INC-0048, INC-0018)
+- `src/build_rankings.py`, 3 incidents (INC-0014, INC-0049, INC-0118)
 - `src/smoke_redirect.js`, 3 incidents (INC-0023, INC-0024, INC-0047)
 - `src/build_playbook.py`, 3 incidents (INC-0057, INC-0065, INC-0083)
 - `src/bank_repair.py`, 3 incidents (INC-0070, INC-0071, INC-0072)
@@ -1355,7 +1356,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (46)
+## Content generation (47)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -1917,6 +1918,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** Wrong answers now come from the same passage, and at least one is always offered. Each conditional carries two authored near misses about its own subject, each claiming something neither premise establishes and at least one worded in the negative like every key; a negative one is always offered and the other joins the pool. Main idea always offers one of the two findings, quoted or summarised, as if it were the whole passage, with the closing limit, an overreach about every account of the topic and the reverse of the argument in the pool. Caveat always offers one of four misreadings that quote the passage: the first finding declared unreliable, the evidence from either study declared unreliable, or the revision declared shown everywhere. Other passages' summaries stay in the pool but can no longer fill every slot. Forcing an option pins the key's length rank, since a quoted finding is nearly always longer than the key, so balance() now builds a draw that includes a same-subject option for a target rank drawn from the ranks that can be built; with no same-subject options it samples exactly as before, so every other schema's bank is unchanged. The 'Watch for' note is written per schema.
 - **What stops it now.** g_rc.check_tells draws every schema except stated idea across the corpus and fails the build when either shortcut finds the key, and only the key, on more than 40 percent of distinct draws: the choice repeating the most names from the premise, or the only negative choice naming the case, for inference; the choice whose words appear most in the passage, for main idea and caveat. Forty percent is twice a blind guess among five and far below the 79 to 95 percent recorded here. After the fix the measured rates were 0 to 8 percent. g_rc.check_premises also requires each near miss to name the case and at least one to be worded in the negative, because every key is. in `src/gen/g_rc.py`
 - **Lesson.** A test measures what someone can get right without the skill, and there is more than one way to do that. Removing one tell does not make an item sound; it moves the question to the next shortcut. Distractors drawn from unrelated material are always wrong and therefore always free, so a wrong answer has to be wrong about the same thing the right one is about.
+
+
+### INC-0118. School pages said a program does not publish an acceptance rate when we had only not found one
+
+*2026-09-26, Wrong data shown or stored*
+
+- **What was seen.** Every school page without an acceptance rate, 75 of the 91 active programs, printed 'not published' in the class profile table and answered 'What is the acceptance rate at X?' with 'X does not publish an acceptance rate, and neither do most full-time MBA programs', in the page and in its FAQPage structured data. Of the 16 programs that do carry a rate, 8 come from the school's own site and 8 from a publisher, which is the point: a program without one on its own site can still report one that a publisher prints, and this session could not reach US News or Poets and Quants at all. Acceptance rate is the largest search intent on the school pages, 2,204 impressions in the owner's export. The same sentence ran through the /schools/ index (its Dataset description, the international column note, an FAQ answer and the methodology), the trainer's fit view ('not published' beside a school's missing figure, and twice in its help text) and a queued social post, and the index hard-coded 'Twenty' and 'sixty' as program counts in one of those sentences.
+- **Why.** The copy states the conclusion of a search as a fact about the school. 'We did not find a rate from a source we trust and could read' became 'the school does not publish one', and the generalisation about most programs was never sourced. The branch that writes it runs for every program whose field is empty, so it asserts a negative about each of them without anything recording that anyone looked.
+- **How it surfaced.** Found on 2026-09-26 while writing up why acceptance rates could not be filled: counting where the 16 existing rates come from showed half are publisher figures, so the absence of a rate on a school's own site does not mean the rate is unpublished. (Found by reading the code or the output)
+- **Fix.** Every one of those places now says what is true: the figure has not been verified from the school or a tracked publisher, so none is shown, and none is estimated. School pages: the table reads 'not verified', the answer drops the unsourced claim about most programs, the footnote under secondary figures reads 'We have not found these figures on this school's own site', the empty-profile row and the template's dash note likewise. The /schools/ index, the trainer's fit view and the social post were reworded the same way, and the index's two program counts are filled from the data at build time. GROWTH.md and ROADMAP.md said 16 programs publish a rate; they now say the library holds one for 16, 8 from the schools and 8 from publishers. smoke_fit asserts the new label.
+- **What stops it now.** build_rankings fails the build when any copy it writes for a school page (the lead, intro, description, FAQ answers, footnote and the rows it writes without data) says a figure is not published or that a school does not publish, release or report one, and it checks both page templates for the same once per build, with comments stripped first. Stat notes quoted from a named source ('median not published' in a specific employment report) are provenance about the document read and are not checked. The trainer's fit view is not guarded; smoke_fit asserts its label. in `src/build_rankings.py`
+- **Lesson.** An empty field records that a search came up empty, not that the thing does not exist. Write the absence as what was done ('not verified from the sources we could read'), never as a fact about the world, because the world is the part nobody checked.
 
 
 ## Tests and guards (19)
@@ -2990,6 +3003,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A passage described zircon dating with the vocabulary of argon dating (INC-0116)</small>
 - [ ] A test measures what someone can get right without the skill, and there is more than one way to do that. Removing one tell does not make an item sound; it moves the question to the next shortcut. Distractors drawn from unrelated material are always wrong and therefore always free, so a wrong answer has to be wrong about the same thing the right one is about.  
   <small>Three reading schemas could be answered by matching names, because every distractor came from a different passage (INC-0117)</small>
+- [ ] An empty field records that a search came up empty, not that the thing does not exist. Write the absence as what was done ('not verified from the sources we could read'), never as a fact about the world, because the world is the part nobody checked.  
+  <small>School pages said a program does not publish an acceptance rate when we had only not found one (INC-0118)</small>
 
 
 ## Database
@@ -3256,7 +3271,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 117 real defects reduced to the rules that prevent them,
+the whole project: 118 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -3296,7 +3311,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-117 defects already prevented is genuinely ahead, and every defect it hits
+118 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

@@ -96,8 +96,10 @@ analysis. Everything shipped in PR 96, four commits:
 Machine snapshots (the availability lookup answers, the snapshot itself is reset), and MIT
 Sloan's Class of 2028 profile (its numbers are drawn by JavaScript, and the headless browser
 rejects the egress proxy's certificate; verification was not switched off). Acceptance rate
-is the largest search intent on the school pages and only 16 programs publish one
-themselves, so the rest need a publisher table this environment cannot reach.
+is the largest search intent on the school pages; the library holds a verified rate for 16
+of 91 programs, 8 from the schools' own sites and 8 from publishers, so the other 75 need a
+publisher table this environment cannot reach. The pages now say a rate has not been
+verified rather than that the school does not publish one (INC-0118).
 
 **Owner decisions waiting:**
 

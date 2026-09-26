@@ -74,8 +74,10 @@ Three conclusions, each acted on in the pull request that added this section:
    intent), so the school pages now answer class profile questions in sentences as well as
    tables: GMAT, GRE, GPA, work experience, class size, each with the statistic the school
    actually published (average or median) and the class it describes.
-2. **Acceptance rate is the biggest intent and the one we can least answer**, because only
-   16 of 91 MBA programs publish one. The pages say so plainly rather than estimating. For
+2. **Acceptance rate is the biggest intent and the one we can least answer**: the library
+   holds a verified rate for only 16 of 91 programs, 8 from the schools' own sites and 8 from
+   publishers. The pages show a dash rather than an estimate, and say the rate has not been
+   verified rather than that the school does not publish one (INC-0118). For
    colleges, where the federal Scorecard does carry it, acceptance rate queries are 375 of
    the 763 impressions on queries naming a college, at an average position of 21, so it now
    leads every college snippet.

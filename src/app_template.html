@@ -962,7 +962,7 @@ function targetSchools(){ if(EXAM.id!=='gmat-focus') return []; try{ const L=JSO
 // those are in any published table. A number here would be invented, and an invented
 // number about somebody's future is the worst kind this site could ship.
 //
-// It never fills in a figure a school does not publish. A dash means not published, and
+// It never fills in a figure we have not verified. A dash means not verified (INC-0118), and
 // the footnote says so, because a reader who sees numbers in nine rows and a blank in the
 // tenth will otherwise assume the tenth is a zero.
 //
@@ -1006,7 +1006,7 @@ function fitRow(label,mine,fig,fmt,margin,note){
   +'<td>'+(has?('<span class="num">'+esc(fmt(Number(fig.v)))+'</span>'
       +(fig.stat?' <span class="small muted">'+esc(String(fig.stat).slice(0,90))+'</span>':'')
       +fitCite(fig))
-     :'<span class="muted">not published</span>')+'</td>'
+     :'<span class="muted">not verified</span>')+'</td>'
   +'<td>'+(where?badge(where.w,where.t):(mine===null&&has?'<span class="small muted">add yours in About You</span>':'<span class="muted">-</span>'))+'</td></tr>'
   +(note?'<tr><td colspan="4" class="small muted" style="padding-top:0">'+note+'</td></tr>':''); }
 
@@ -1078,13 +1078,13 @@ function fitCard(){
    +badge(tg.length+' school'+(tg.length===1?'':'s'),'accent')+'</div>'
   +'<p class="small" style="margin:0">Your own numbers beside what each school publishes about the class it admitted. '
   +(anyInput?'':'<b>Fill in your GPA, years of work experience and tuition budget in About You, further down this page, and these rows fill in.</b> ')
-  +'Every published figure carries its source and year; a dash means the school does not publish it, and nothing here is estimated to fill a gap.</p>'
+  +'Every published figure carries its source and year; a dash means we have not verified the figure from the school or a tracked publisher, and nothing here is estimated to fill a gap.</p>'
   +'</div>'
   +blocks
   +'<div class="card stack-4"><div class="card-title">How to Read This</div><ul class="small" style="margin:0;padding-left:18px">'
   +'<li><b>An average is not a cutoff.</b> Half of every admitted class is below the average on any given measure. A figure below it is not a rejection and a figure above it is not an admission.</li>'
   +'<li><b>There is no probability here and there will not be one.</b> Admissions weigh essays, recommendations, interviews, references and what a class needs that year. None of that is in any published table, so any number we printed would be invented.</li>'
-  +'<li><b>A dash means the school does not publish it.</b> We never fill one in from a peer school, a forum or an estimate.</li>'
+  +'<li><b>A dash means the figure has not been verified.</b> We never fill one in from a peer school, a forum or an estimate.</li>'
   +'<li><b>Your range is an estimate from your own practice</b>, not a predicted score. It narrows as you answer more because the estimate gets more certain.</li>'
   +'<li><b>Nothing here is sent anywhere.</b> The comparison is computed in this page from your saved list and your own answers, and no fit figure is stored.</li>'
   +'</ul></div>'; }

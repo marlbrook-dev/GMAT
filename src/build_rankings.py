@@ -59,6 +59,9 @@ def stat_article(f):
     return {"average": "an average", "median": "a median"}.get(stat_kind(f), "a reported")
 
 
+UNPUBLISHED = re.compile(r"does not (?:publish|release|report)|not published|never publish", re.I)
+
+
 def prose_problems(s, texts):
     """INC-0104's guard: a stat note is provenance and never prose.
 
@@ -69,6 +72,12 @@ def prose_problems(s, texts):
     the ones that are scored. Reads what was rendered, not how it was assembled.
     """
     probs = []
+    # INC-0118: an empty field means a search came up empty, never that the school does not
+    # publish the figure. Checked here for the sentences and again on the whole page.
+    for t in texts:
+        m = UNPUBLISHED.search(t)
+        if m:
+            probs.append("claims a figure is unpublished: %r in %r" % (m.group(0), t[:90]))
     # A note is provenance when it carries detail a sentence never would: a figure, a
     # range, a clause. "average GMAT Focus" is also what a correct sentence says, so a
     # plain phrase is not evidence of pasting; "middle 80 pct 645-735" is.
@@ -698,7 +707,7 @@ def school_page(s, tpl, today, ranked=()):
             rank_rows.append(f'<tr><td>{SOURCE_LABEL[k]}</td><td>{esc(r.get("edition") or "")}</td><td class="num">#{r["rank"]}</td><td class="src">{link}</td></tr>')
     if not rank_rows:
         rank_rows.append('<tr><td colspan="4">Not currently ranked by the five publishers we track. Its SFN rank comes from published outcome and selectivity data instead.</td></tr>')
-    prof_rows = []
+    prof_rows, own_rows = [], []
     secondary = []
     labels = []
     for key, label, suf, money in PROFILE_FIELDS:
@@ -708,16 +717,17 @@ def school_page(s, tpl, today, ranked=()):
             labels.append(label)
         if f.get("v") is None:
             # Acceptance rate is the single most searched attribute in our tracked
-            # queries and most full-time MBA programs deliberately never publish it.
-            # Dropping the row left the page silent on the question people most often
-            # arrived asking. Saying plainly that the school does not release it is
-            # both true and an answer.
+            # queries. Dropping the row left the page silent on the question people most
+            # often arrived asking, so the row stays and says what is true: no rate has
+            # been verified. It used to say the school does not publish one, which is a
+            # claim about the school that nobody had checked (INC-0118).
             if key == "accept_rate_pct":
-                prof_rows.append(
-                    '<tr><td>%s</td><td class="num"><span class="note">not published</span>'
-                    '</td><td class="src">Most full-time MBA programs do not release an '
-                    'acceptance rate. We show a figure only where the school or a tracked '
-                    'publisher states one.</td></tr>' % label)
+                own_rows.append(
+                    '<tr><td>%s</td><td class="num"><span class="note">not verified</span>'
+                    '</td><td class="src">No acceptance rate for this program has been '
+                    'verified from the school or a tracked publisher, so none is shown. We '
+                    'never estimate one.</td></tr>' % label)
+                prof_rows.append(own_rows[-1])
             continue
         stat = f' <span class="src">{esc(f["stat"])}</span>' if f.get("stat") else ""
         mark = ""
@@ -726,13 +736,14 @@ def school_page(s, tpl, today, ranked=()):
             secondary.append((label, f))
         prof_rows.append(f'<tr><td>{label}</td><td class="num">{fmt(f["v"], suf, money)}{mark}{stat}</td><td>{src_cell(f)}</td></tr>')
     if not prof_rows:
-        prof_rows.append('<tr><td colspan="3">This school does not publish a detailed class profile, or we have not yet verified one.</td></tr>')
+        own_rows.append('<tr><td colspan="3">We have not yet verified a detailed class profile for this school.</td></tr>')
+        prof_rows.append(own_rows[-1])
     if secondary:
         items = "; ".join("%s (%s)" % (esc(lbl), esc(f.get("src") or "secondary source"))
                           for lbl, f in secondary)
         many = len(secondary) > 1
-        footnote = ('<p class="note" style="margin-top:10px"><strong>*</strong> This school '
-                    'does not publish %s on its own site, so %s from a secondary source: '
+        footnote = ('<p class="note" style="margin-top:10px"><strong>*</strong> We have not '
+                    'found %s on this school\'s own site, so %s from a secondary source: '
                     '%s. We look for the school\'s own page first and replace a secondary '
                     'figure as soon as the school publishes its own, so treat %s as '
                     'indicative rather than official.</p>'
@@ -845,11 +856,9 @@ def school_page(s, tpl, today, ranked=()):
     ar = p.get("accept_rate_pct") or {}
     if ar.get("v") is None:
         qa.append((f'What is the acceptance rate at {s["name"]}?',
-                   f'{s["name"]} does not publish an acceptance rate, and neither do most '
-                   f'full-time MBA programs; class profiles typically report class size, '
-                   f'test scores and GPA but not selectivity. We show a rate only where the '
-                   f'school or a tracked publisher states one, rather than estimating it '
-                   f'from application counts.'))
+                   f'No acceptance rate for {s["name"]} has been verified from the school '
+                   f'or from a tracked publisher, so we do not show one. We never estimate '
+                   f'a rate from application counts.'))
     if ar.get("v") is not None:
         qa.append((f'What is the acceptance rate at {s["name"]}?',
                    f'Its reported acceptance rate is {ar["v"]}%' + (f' ({ar.get("src")}, {ar.get("year")}).' if ar.get("src") else ".")))
@@ -864,7 +873,11 @@ def school_page(s, tpl, today, ranked=()):
         faq_section = '<div class="section"><h2>Quick Answers</h2>' + "".join(
             f'<p style="margin:0 0 12px"><b>{esc(q)}</b><br>{esc(a)}</p>' for q, a in qa) + "</div>"
     lead = lead_paragraph(s, p, g, gc, acc, tui, sal, cs)
-    probs = prose_problems(s, [intro, lead, desc] + labels + [q + " " + a for q, a in qa])
+    # The footnote and the rows the builder writes itself are copy too (INC-0118). A stat
+    # note quoted from a source ("median not published" in a named report) is provenance
+    # about the document read, and stays out of this list.
+    probs = prose_problems(s, [intro, lead, desc, footnote] + own_rows + labels
+                           + [q + " " + a for q, a in qa])
     if probs:
         print("build_rankings: %s: %s" % (s["slug"], "; ".join(probs)), file=sys.stderr)
         sys.exit(1)
@@ -970,6 +983,17 @@ def main():
     today = os.environ.get("BLOG_BUILD_DATE") or datetime.date.today().isoformat()
     tpl = (D / "rankings_template.html").read_text()
     stpl = (D / "school_template.html").read_text()
+    # Both templates' own copy, checked once: each said a dash means the school does not
+    # publish the figure, which nothing in the data can show (INC-0118). Comments are
+    # stripped first, since they describe the code rather than the page.
+    for name, body in (("rankings_template.html", tpl), ("school_template.html", stpl)):
+        shown = re.sub(r"<[^>]+>", " ", re.sub(r"<!--.*?-->|^[ \t]*//[^\n]*", " ", body,
+                                                flags=re.S | re.M))
+        m = UNPUBLISHED.search(shown)
+        if m:
+            print("build_rankings: %s says a figure is unpublished (%r); the data can only "
+                  "record that one was not found (INC-0118)" % (name, m.group(0)), file=sys.stderr)
+            sys.exit(1)
 
     rows = []
     for s in ranked + unranked:
@@ -1028,6 +1052,12 @@ def main():
            .replace("{{DATA}}", json.dumps(schools, separators=(",", ":")))
            .replace("{{WEIGHTS_ROWS}}", weights_rows)
            .replace("{{N}}", str(len(schools)))
+           # Counted from the data, never typed: the sentence these fill once carried the
+           # numbers in words, correct on the day and fixed forever after (INC-0108).
+           .replace("{{INTL_40}}", str(sum(1 for x in schools if not x.get("discontinued")
+                                          and (field(x, "intl_pct") or 0) >= 40)))
+           .replace("{{INTL_N}}", str(sum(1 for x in schools if not x.get("discontinued")
+                                         and field(x, "intl_pct") is not None)))
            .replace("{{UPDATED}}", today)
            .replace("{{LD_ITEMS}}", ld_items))
     dest = ROOT / "schools"

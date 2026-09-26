@@ -5,7 +5,7 @@
 // each be a quiet lie, rather than that the card rendered.
 //
 //   A published average is shown as an average, with its source and year.
-//   A figure the school does not publish renders as "not published", never as a zero.
+//   A figure nobody has verified renders as "not verified", never as a zero (INC-0118).
 //   Nothing on the page is a probability, a score or a composite.
 //   Focus and Classic are never converted into one another.
 const { chromium } = require('playwright');
@@ -115,8 +115,8 @@ const SAVED = {
     // "5.0 yrs", so the first version of this failed on a page rendering correctly.
     ok(!/\$0(\D|$)|(^|\s)0\.00(\s|$)|(^|\s)0 yrs/m.test(beta.slice(0, 400)),
       'a school that publishes nothing shows no zeros');
-    ok(/not published/.test(beta.slice(0, 600)),
-      'and says not published against the measures the reader did enter');
+    ok(/not verified/.test(beta.slice(0, 600)),
+      'and says not verified against the measures the reader did enter');
 
     // The honesty rules, asserted as text because they are the product.
     ok(/An average is not a cutoff/.test(text), 'says an average is not a cutoff');
