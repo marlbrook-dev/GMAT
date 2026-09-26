@@ -36,25 +36,25 @@
  },
  "specialties": [],
  "profile": {
-  "class_year": "Class of 2027",
+  "class_year": "Class of 2028",
   "class_size": {
    "v": 77,
-   "src": "BC Carroll Full-Time MBA page class profile",
+   "src": "BC Carroll Full-Time MBA page class profile (Class of 2027, as published in 2025; the page has since replaced that profile with one that omits this figure)",
    "year": 2025,
    "url": "https://www.bc.edu/bc-web/schools/carroll-school/graduate/mba/full-time-mba.html"
   },
   "gmat_focus": {
-   "v": 605,
-   "stat": "average, labeled GMAT (Focus Edition)",
-   "src": "BC Carroll Full-Time MBA page class profile",
-   "year": 2025,
+   "v": 584,
+   "stat": "average, labeled GMAT current format Focus Edition",
+   "src": "BC Carroll Full-Time MBA page class profile (Class of 2028, accurate as of September 17, 2026)",
+   "year": 2026,
    "url": "https://www.bc.edu/bc-web/schools/carroll-school/graduate/mba/full-time-mba.html"
   },
   "gmat_classic": {
-   "v": 690,
-   "stat": "average, labeled GMAT (10th Edition)",
-   "src": "BC Carroll Full-Time MBA page class profile",
-   "year": 2025,
+   "v": 650,
+   "stat": "average, labeled GMAT previous format 10th Edition",
+   "src": "BC Carroll Full-Time MBA page class profile (Class of 2028, accurate as of September 17, 2026)",
+   "year": 2026,
    "url": "https://www.bc.edu/bc-web/schools/carroll-school/graduate/mba/full-time-mba.html"
   },
   "gre_quant": {
@@ -62,45 +62,49 @@
    "stat": "",
    "src": "",
    "year": null,
-   "url": ""
+   "url": "",
+   "note": "BC publishes only a combined average GRE score for the Class of 2028 (314), not section scores"
   },
   "gre_verbal": {
    "v": null,
    "stat": "",
    "src": "",
    "year": null,
-   "url": ""
+   "url": "",
+   "note": "BC publishes only a combined average GRE score for the Class of 2028 (314), not section scores"
   },
   "gpa": {
-   "v": 3.1,
+   "v": 3.28,
    "stat": "average undergraduate GPA",
-   "src": "BC Carroll Full-Time MBA page class profile",
-   "year": 2025,
+   "src": "BC Carroll Full-Time MBA page class profile (Class of 2028, accurate as of September 17, 2026)",
+   "year": 2026,
    "url": "https://www.bc.edu/bc-web/schools/carroll-school/graduate/mba/full-time-mba.html"
   },
   "accept_rate_pct": {
    "v": 54,
-   "src": "BC Carroll Full-Time MBA page class profile",
+   "src": "BC Carroll Full-Time MBA page class profile (Class of 2027, as published in 2025; the page has since replaced that profile with one that omits this figure)",
    "year": 2025,
    "url": "https://www.bc.edu/bc-web/schools/carroll-school/graduate/mba/full-time-mba.html"
   },
   "work_exp_years": {
-   "v": 5.7,
-   "stat": "average years, middle 80% 1 to 6.5",
-   "src": "BC Carroll Full-Time MBA page class profile",
-   "year": 2025,
+   "v": 3.7,
+   "stat": "average years, middle 80% 0 to 5.9",
+   "src": "BC Carroll Full-Time MBA page class profile (Class of 2028, accurate as of September 17, 2026)",
+   "year": 2026,
    "url": "https://www.bc.edu/bc-web/schools/carroll-school/graduate/mba/full-time-mba.html"
   },
   "women_pct": {
-   "v": 25,
-   "src": "BC Carroll Full-Time MBA page class profile",
-   "year": 2025,
+   "v": 30,
+   "stat": "percent women",
+   "src": "BC Carroll Full-Time MBA page class profile (Class of 2028, accurate as of September 17, 2026)",
+   "year": 2026,
    "url": "https://www.bc.edu/bc-web/schools/carroll-school/graduate/mba/full-time-mba.html"
   },
   "intl_pct": {
-   "v": 21,
-   "src": "BC Carroll Full-Time MBA page class profile",
-   "year": 2025,
+   "v": 18,
+   "stat": "percent international",
+   "src": "BC Carroll Full-Time MBA page class profile (Class of 2028, accurate as of September 17, 2026)",
+   "year": 2026,
    "url": "https://www.bc.edu/bc-web/schools/carroll-school/graduate/mba/full-time-mba.html"
   },
   "tuition_usd": {

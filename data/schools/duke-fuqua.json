@@ -34,12 +34,12 @@
   }
  },
  "profile": {
-  "class_year": "Class of 2027",
+  "class_year": "Class of 2028",
   "class_size": {
-   "v": 426,
+   "v": 359,
    "stat": "class size",
-   "src": "Fuqua Daytime MBA class profile page",
-   "year": 2025,
+   "src": "Fuqua Daytime MBA class profile page (Class of 2028 highlights)",
+   "year": 2026,
    "url": "https://www.fuqua.duke.edu/programs/daytime-mba/class-profile"
   },
   "gmat_focus": {
@@ -79,29 +79,29 @@
   },
   "accept_rate_pct": {
    "v": 22,
-   "src": "GMAC/BusinessBecause (reported as around 22%)",
+   "src": "GMAC/BusinessBecause (Duke MBA Class of 2027 profile; reported as around 22%)",
    "year": 2025,
    "url": "https://www.gmac.com/resources/learners/business-programs/explore-programs/duke-mba-class-profile"
   },
   "work_exp_years": {
-   "v": 5.8,
-   "stat": "average years, middle 80 percent 3.17-8.75",
-   "src": "Fuqua Daytime MBA class profile page",
-   "year": 2025,
+   "v": 6.0,
+   "stat": "average years",
+   "src": "Fuqua Daytime MBA class profile page (Class of 2028 highlights)",
+   "year": 2026,
    "url": "https://www.fuqua.duke.edu/programs/daytime-mba/class-profile"
   },
   "women_pct": {
-   "v": 47,
+   "v": 44,
    "stat": "percent women",
-   "src": "Fuqua Daytime MBA class profile page",
-   "year": 2025,
+   "src": "Fuqua Daytime MBA class profile page (Class of 2028 highlights)",
+   "year": 2026,
    "url": "https://www.fuqua.duke.edu/programs/daytime-mba/class-profile"
   },
   "intl_pct": {
-   "v": 35,
+   "v": 38,
    "stat": "international citizens, primary citizenship outside the US",
-   "src": "Fuqua Daytime MBA class profile page",
-   "year": 2025,
+   "src": "Fuqua Daytime MBA class profile page (Class of 2028 highlights)",
+   "year": 2026,
    "url": "https://www.fuqua.duke.edu/programs/daytime-mba/class-profile"
   },
   "tuition_usd": {
