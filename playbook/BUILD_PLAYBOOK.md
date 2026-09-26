@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-26, which is 7 days, across
-52 commits, by one owner directing a series of AI coding sessions. As of this
+53 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 73 Python files, 106 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 64 documents:
 2011 tracked files in total.
@@ -1121,7 +1121,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-52 commits in 7 days, one owner, a series of AI sessions. This
+53 commits in 7 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1213,22 +1213,22 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-120 recorded defects, over 7 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+121 recorded defects, over 7 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 57 | 48% |
-| Found by measuring something | 33 | 28% |
+| Found by reading the code or the output | 58 | 48% |
+| Found by measuring something | 33 | 27% |
 | A test caught it | 15 | 12% |
 | Found by rendering it and looking | 6 | 5% |
 | Found by a review bot or an adversarial pass | 5 | 4% |
 | A person hit it | 2 | 2% |
 | A build guard caught it | 2 | 2% |
 
-**This is the most useful table in the book.** 118 of 120 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 119 of 121 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1237,20 +1237,20 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 48 |
+| Wrong data shown or stored | 49 |
 | Silent loss | 25 |
 | Degraded | 25 |
 | Cosmetic | 19 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 25 of 120. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 25 of 121. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 49 |
+| Content generation | 50 |
 | Tests and guards | 19 |
 | Front end | 9 |
 | Search and metadata | 7 |
@@ -1265,7 +1265,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-114 of 120 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+115 of 121 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1286,7 +1286,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-36 of 120 incidents record that they repeat an earlier lesson, 51 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+37 of 121 incidents record that they repeat an earlier lesson, 52 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1304,6 +1304,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0098 The table said 31.0 and the explanation said 31, because the fix covered the table only | INC-0099, INC-0101 | 2 |
 | INC-0101 A new field-by-field copier reproduced the passage loss defect four days after the ledger recorded it | INC-0102, INC-0103 | 2 |
 | INC-0103 A 139 page section shipped with no route into it from the sitemap | INC-0108, INC-0109 | 2 |
+| INC-0119 Length corrections appended clauses that repeated what the answer choices already said | INC-0120, INC-0121 | 2 |
 | INC-0044 The longest option was the correct answer 81 percent of the time | INC-0091 | 1 |
 | INC-0050 A landing-page icon referenced a colour token that did not exist | INC-0018 | 1 |
 | INC-0072 A distractor was replaced and the explanation went on naming the old one | INC-0119 | 1 |
@@ -1315,7 +1316,6 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0104 Half the school pages opened with a data note pasted into a sentence, and the structured data repeated it | INC-0105 | 1 |
 | INC-0105 Twelve average salaries were published as medians, and the social queue credited schools with figures they never published | INC-0106 | 1 |
 | INC-0110 A browser suite outside CI had failed on its first click since the consent dialog shipped | INC-0113 | 1 |
-| INC-0119 Length corrections appended clauses that repeated what the answer choices already said | INC-0120 | 1 |
 
 The largest family runs to 30 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
 
@@ -1343,12 +1343,12 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/review_bot.js`, 5 incidents (INC-0022, INC-0026, INC-0051, INC-0061, INC-0077)
 - `src/bank_emit.py`, 5 incidents (INC-0062, INC-0066, INC-0068, INC-0073, INC-0119)
 - `src/gen/framework.py`, 5 incidents (INC-0074, INC-0075, INC-0078, INC-0087, INC-0096)
+- `src/bank_repair.py`, 4 incidents (INC-0070, INC-0071, INC-0072, INC-0121)
 - `src/gen/g_rc.py`, 4 incidents (INC-0097, INC-0114, INC-0115, INC-0117)
 - `src/weekly_audit.js`, 3 incidents (INC-0050, INC-0048, INC-0018)
 - `src/build_rankings.py`, 3 incidents (INC-0014, INC-0049, INC-0118)
 - `src/smoke_redirect.js`, 3 incidents (INC-0023, INC-0024, INC-0047)
 - `src/build_playbook.py`, 3 incidents (INC-0057, INC-0065, INC-0083)
-- `src/bank_repair.py`, 3 incidents (INC-0070, INC-0071, INC-0072)
 - `src/gen/g_act_sci.py`, 3 incidents (INC-0093, INC-0094, INC-0098)
 
 
@@ -1359,7 +1359,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (49)
+## Content generation (50)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -1957,6 +1957,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** The template writes the unit and build() no longer appends it, so the stem says it once. The rate goes through the same number formatter as before.
 - **What stops it now.** build_banks fails the build when any generated item's stem or choice contains a run of two or more words said twice back to back, naming the items; a run made only of single letters, such as a coin toss sequence, is allowed. test.js runs the same check over every hand written stem and choice. in `src/build_banks.py`
 - **Lesson.** When two pieces of code each supply part of a sentence, decide which one owns each word. A template and the code that fills it both writing the unit is invisible in either one read alone; only reading the output as a sentence shows it.
+
+
+### INC-0121. The banks lengthened in place carried the same garbled seams, and nothing recorded what had been appended
+
+*2026-09-26, Wrong data shown or stored*
+
+- **What was seen.** Thirteen older hand written banks (ACT reading and science, LSAT reading, SAT reading and writing, GMAT verbal) had 293 distractors lengthened in place by bank_repair.py in one commit. Reading every one of those seams found 12 more garbled distractors in 6 of the files: 'at every hour measured hour that was measured', 'adopted numerical inflation targets during the 1990s during that decade', 'the manufacturer's pumps machines in more or less every respect', 'recommends correcting them held in European collections'. Two appended clauses had lost an apostrophe ('a single year of that company operation', 'the whole of a bottle life'), and one key, written that way from the start, read 'keeping the movement structural role'.
+- **Why.** The same defect as INC-0119, in the files INC-0119's sweep could not reach. The banks emitted by a script keep their clause tables, so each append could be checked against the text it followed. bank_repair.py edits a bank in place, and the tables it was run with were one-off and never committed, so once the edit landed nothing recorded which text was original and which was appended. A text scan finds a phrase said twice back to back, but a clause written to follow a needle that stopped short does not repeat anything word for word, and without the table there was no seam to check. The apostrophes were dropped because a clause inserted into a single quoted literal cannot carry a bare one.
+- **How it surfaced.** Found on 2026-09-26 while closing INC-0119: the commit that applied bank_repair.py was diffed item by item against its parent, which recovers every appended clause and where it met the choice, and each of the 293 seams was read. The seam rules flagged 4 (one of them ordinary parallel wording); reading found the rest. (Found by reading the code or the output)
+- **Fix.** Each of the 12 now says it once, and the three missing apostrophes are restored. Where a repair would have moved a distractor to the other side of its key's length, the sentence was completed with content rather than cut, so every item keeps the length rank test.js records for its file.
+- **What stops it now.** bank_repair.py now refuses a needle that stops short of the end of its choice and a clause that restates the words it follows (INC-0119), so an in-place edit can no longer produce this. What was appended before that guard existed is recoverable only from git, which is how this audit was done; the back to back scan in build_banks.py and test.js still covers the word for word case in every bank. in `src/bank_repair.py`
+- **Lesson.** An edit tool that throws away its input leaves the diff as the only record of what it changed. Audit such edits from the commit that made them, and keep the table that drove a bulk edit in the repository, because the table is what lets the next check see the seam.
 
 
 ## Tests and guards (19)
@@ -2956,6 +2968,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The table said 31.0 and the explanation said 31, because the fix covered the table only (INC-0098)</small>
 - [ ] **Learned 3 times over.** When a defect is about a KIND of code rather than a line of code, a guard bolted to the site of the failure does not generalise, and writing one feels like closing the case. Ask instead what the next instance of this code will look like and where it will live: here the answer was anywhere an item is copied out of the bank, and the durable check is that an item asking about source material has to be carrying it, wherever it is being rendered.  
   <small>A new field-by-field copier reproduced the passage loss defect four days after the ledger recorded it (INC-0101)</small>
+- [ ] **Learned 3 times over.** An edit that appends text has to read what it is appending to. A correction step that checks only its own goal (here, that the choice got longer) will happily achieve it by making the choice worse, and every check downstream measures the goal, so nothing notices. Check the seam: the words either side of where new text meets old text.  
+  <small>Length corrections appended clauses that repeated what the answer choices already said (INC-0119)</small>
 - [ ] **Learned 2 times over.** Test your content against the strategies a lazy adversary would use, not only against whether it is correct. Measure the score of a rule that ignores the question.  
   <small>The longest option was the correct answer 81 percent of the time (INC-0044)</small>
 - [ ] **Learned 2 times over.** A record has parts that refer to one another, and a tool that edits one part by text is editing a graph while looking at a string. The cheap guard is not to check every reference but to refuse the edit when the old text occurs anywhere else in the record, because that is the only place a reference to it can be. Refusing on a false positive costs one rewritten table entry; not refusing ships an explanation about an option nobody saw.  
@@ -2968,8 +2982,6 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Seven variable names were plural and every sentence built around them said was (INC-0093)</small>
 - [ ] **Learned 2 times over.** Any consumer that describes a value in words must read the field that records what kind of value it is, never the field's name. A field name is a hope about the data, not a description of it, and a schema that allows two kinds of value will be described everywhere as the kind it was named after.  
   <small>Twelve average salaries were published as medians, and the social queue credited schools with figures they never published (INC-0105)</small>
-- [ ] **Learned 2 times over.** An edit that appends text has to read what it is appending to. A correction step that checks only its own goal (here, that the choice got longer) will happily achieve it by making the choice worse, and every check downstream measures the goal, so nothing notices. Check the seam: the words either side of where new text meets old text.  
-  <small>Length corrections appended clauses that repeated what the answer choices already said (INC-0119)</small>
 - [ ] Any generator that claims reproducibility must be seeded from something stable across processes. hash() is not, in Python, and the failure shows up as a flaky test rather than as a wrong answer.  
   <small>Item banks were different on every build because Python randomises hash() (INC-0003)</small>
 - [ ] Deletion by shadowing is invisible. Any collection whose size is a fact about the product needs its size asserted, not just its contents.  
@@ -3036,6 +3048,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>School pages said a program does not publish an acceptance rate when we had only not found one (INC-0118)</small>
 - [ ] When two pieces of code each supply part of a sentence, decide which one owns each word. A template and the code that fills it both writing the unit is invisible in either one read alone; only reading the output as a sentence shows it.  
   <small>A generated word problem printed its rate unit twice (INC-0120)</small>
+- [ ] An edit tool that throws away its input leaves the diff as the only record of what it changed. Audit such edits from the commit that made them, and keep the table that drove a bulk edit in the repository, because the table is what lets the next check see the seam.  
+  <small>The banks lengthened in place carried the same garbled seams, and nothing recorded what had been appended (INC-0121)</small>
 
 
 ## Database
@@ -3302,7 +3316,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 120 real defects reduced to the rules that prevent them,
+the whole project: 121 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -3342,7 +3356,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-120 defects already prevented is genuinely ahead, and every defect it hits
+121 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed
