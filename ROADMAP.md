@@ -139,6 +139,16 @@ verified rather than that the school does not publish one (INC-0118).
       more GRE ones. The runner retires a schema after 400 duplicate draws in a row, which
       occasionally leaves the last unseen question of a small schema undrawn; that is why
       three passages gave the GRE 29 rather than 30.
+- [x] **Two new long reading passages** (island depopulation and the ferry timetable,
+      bridge pier failures and river scour), invented like the rest: 20 more GMAT reading
+      items, 20 more LSAT ones and 21 more GRE ones, the GRE question the runner had left
+      undrawn coming back with them. Adding them failed the build's length check on the
+      LSAT caveat questions, 7 of 14 keys at the middle rank (INC-0122): a question asked
+      once of each passage had its key's length rank drawn at random, so it passed or
+      failed on the draw, and the GRE rotation added earlier the same day had been scoped
+      to the GRE alone. Each passage's rank is now assigned from the ranks it can build,
+      for the GMAT, LSAT and GRE variants alike, and a build check names any passage whose
+      key is too long or too short to be placed.
 - **Decided against** mapping the two paragraph passages onto GRE reading as they are. ETS
   says most GRE passages are one paragraph long (ETS, GRE General Test Verbal Reasoning,
   https://www.ets.org/gre/test-takers/general-test/prepare/content/verbal-reasoning.html, read
@@ -154,7 +164,7 @@ verified rather than that the school does not publish one (INC-0118).
 ### Next session queue
 
 - [ ] More reading passages: every reading category is still far under target, and each
-      passage adds ten GMAT items, plus ten LSAT items at LSAT length
+      passage adds ten GMAT items and ten GRE items, plus ten LSAT items at LSAT length
 - [ ] Read the hand-written reading items against the same two checks (the rule is printed;
       no choice is answerable by matching words); they were not part of this pass
 - [ ] Refresh the remaining class profiles as schools post their fall 2026 classes; MIT Sloan

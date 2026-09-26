@@ -636,6 +636,18 @@ def main(target=TARGET, verbose=True):
         for line in tells:
             print("  " + line, file=sys.stderr)
         sys.exit(1)
+    # A reading question asked once of each passage ships one item per passage, so its
+    # keys' length ranks are assigned rather than drawn, and a passage whose key is longer
+    # or shorter than every option it can be offered with can only take the extreme rank.
+    # Enough of those and no assignment is even, which is found here with the passages to
+    # rewrite named, rather than by the bias check some builds later (INC-0122).
+    spread = g_rc.check_spread() + g_rc.check_spread(gens=g_gre_rc.INNER)
+    if spread:
+        print("ERROR: reading keys that cannot be spread over the length ranks (INC-0122)",
+              file=sys.stderr)
+        for line in spread:
+            print("  " + line, file=sys.stderr)
+        sys.exit(1)
     # The must be true checker certifies a wrong answer as wrong by finding a group of
     # people in which it fails, trying groups up to a size bound. Too small a bound could
     # miss the only such group and pass a second correct answer, so the bound is checked

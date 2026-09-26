@@ -1213,7 +1213,7 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-121 recorded defects, over 7 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+122 recorded defects, over 7 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
@@ -1225,10 +1225,10 @@ well enough to audit later. Which is what this book is.
 | A test caught it | 15 | 12% |
 | Found by rendering it and looking | 6 | 5% |
 | Found by a review bot or an adversarial pass | 5 | 4% |
+| A build guard caught it | 3 | 2% |
 | A person hit it | 2 | 2% |
-| A build guard caught it | 2 | 2% |
 
-**This is the most useful table in the book.** 119 of 121 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 120 of 122 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1238,19 +1238,19 @@ well enough to audit later. Which is what this book is.
 | Severity | Count |
 | --- | ---: |
 | Wrong data shown or stored | 49 |
+| Degraded | 26 |
 | Silent loss | 25 |
-| Degraded | 25 |
 | Cosmetic | 19 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 25 of 121. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 25 of 122. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 50 |
+| Content generation | 51 |
 | Tests and guards | 19 |
 | Front end | 9 |
 | Search and metadata | 7 |
@@ -1265,7 +1265,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-115 of 121 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+116 of 122 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1286,11 +1286,11 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-37 of 121 incidents record that they repeat an earlier lesson, 52 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+38 of 122 incidents record that they repeat an earlier lesson, 54 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
-| INC-0088 A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked | INC-0089, INC-0098, INC-0099, INC-0101, INC-0117 | 5 |
+| INC-0088 A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked | INC-0089, INC-0098, INC-0099, INC-0101, INC-0117, INC-0122 | 6 |
 | INC-0064 The guard against a blind counter was itself blind to three exams | INC-0067, INC-0082, INC-0085, INC-0088 | 4 |
 | INC-0069 A bank a student can play at 88 percent, inside a section the check passed | INC-0079, INC-0085, INC-0086, INC-0088 | 4 |
 | INC-0074 A corpus field written for one grammatical slot was spliced into another | INC-0075, INC-0087, INC-0093, INC-0096 | 4 |
@@ -1316,8 +1316,9 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0104 Half the school pages opened with a data note pasted into a sentence, and the structured data repeated it | INC-0105 | 1 |
 | INC-0105 Twelve average salaries were published as medians, and the social queue credited schools with figures they never published | INC-0106 | 1 |
 | INC-0110 A browser suite outside CI had failed on its first click since the consent dialog shipped | INC-0113 | 1 |
+| INC-0117 Three reading schemas could be answered by matching names, because every distractor came from a different passage | INC-0122 | 1 |
 
-The largest family runs to 30 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
+The largest family runs to 31 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
 
 Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.
 
@@ -1331,6 +1332,7 @@ Incidents that name an earlier one without claiming to repeat it. Each was read 
 - INC-0116 names INC-0114
 - INC-0117 names INC-0114
 - INC-0119 names INC-0120
+- INC-0122 names INC-0079
 
 
 ## Where defects concentrate
@@ -1343,8 +1345,8 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/review_bot.js`, 5 incidents (INC-0022, INC-0026, INC-0051, INC-0061, INC-0077)
 - `src/bank_emit.py`, 5 incidents (INC-0062, INC-0066, INC-0068, INC-0073, INC-0119)
 - `src/gen/framework.py`, 5 incidents (INC-0074, INC-0075, INC-0078, INC-0087, INC-0096)
+- `src/gen/g_rc.py`, 5 incidents (INC-0097, INC-0114, INC-0115, INC-0117, INC-0122)
 - `src/bank_repair.py`, 4 incidents (INC-0070, INC-0071, INC-0072, INC-0121)
-- `src/gen/g_rc.py`, 4 incidents (INC-0097, INC-0114, INC-0115, INC-0117)
 - `src/weekly_audit.js`, 3 incidents (INC-0050, INC-0048, INC-0018)
 - `src/build_rankings.py`, 3 incidents (INC-0014, INC-0049, INC-0118)
 - `src/smoke_redirect.js`, 3 incidents (INC-0023, INC-0024, INC-0047)
@@ -1359,7 +1361,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (50)
+## Content generation (51)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -1969,6 +1971,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** Each of the 12 now says it once, and the three missing apostrophes are restored. Where a repair would have moved a distractor to the other side of its key's length, the sentence was completed with content rather than cut, so every item keeps the length rank test.js records for its file.
 - **What stops it now.** bank_repair.py now refuses a needle that stops short of the end of its choice and a clause that restates the words it follows (INC-0119), so an in-place edit can no longer produce this. What was appended before that guard existed is recoverable only from git, which is how this audit was done; the back to back scan in build_banks.py and test.js still covers the word for word case in every bank. in `src/bank_repair.py`
 - **Lesson.** An edit tool that throws away its input leaves the diff as the only record of what it changed. Audit such edits from the commit that made them, and keep the table that drove a bulk edit in the repository, because the table is what lets the next check see the seam.
+
+
+### INC-0122. Reading questions asked once of each passage passed the length check on the luck of the draw, and two new passages re-rolled it
+
+*2026-09-26, Degraded*
+
+- **What was seen.** Adding two long reading passages (ferries, bridgepiers) failed the build: lsat/rc_caveat_long put 7 of its 14 keys at the middle length rank, 50 percent against a cap of 47 at that size. In the same build lsat/rc_main_long never had its key as the shortest choice (0, 1, 4, 4 and 5 keys at the five ranks, shortest to longest). Neither schema had changed; the two passages moved every draw that came after them. The GRE variants, given a rotation in PR 101 for this very reason, were not even either: 4, 10, 5, 7 and 6 of 32 caveat keys.
+- **Why.** MainIdea and CaveatImplication ask one fixed question of each passage, so each ships one item per passage: 14 on the LSAT corpus, 32 on the GMAT and GRE one. The key's length rank was drawn at random for each item. Even with every rank open, 14 uniform draws put 7 on one rank about 6 percent of the time, and every rank was not open: a key longer or shorter than the options its passage offers cannot be built at some ranks (the juries caveat key only as the shortest choice, riparian's never as either of the two shortest, the new bridgepiers main idea key only as the longest, because it was longer than every option in its pool), so the draws piled into the ranks that were left. The rotation added for GRE in PR 101 was scoped to GRE because the GMAT and LSAT variants were passing at the time, and passing was the draw rather than the design. Rotation on its own also misses: where a passage cannot build its turn, _balance_own falls back to a random rank, and even a buildable turn is missed when twelve random picks of the forced option never find the one that works.
+- **How it surfaced.** The build's schema answer bias check (INC-0079, INC-0088), on the first build with the two passages. The per rank counts come from rerunning the bank build with the bias function wrapped to print them, and the ranks each passage can build from counting its options directly. (A build guard caught it)
+- **Fix.** Every schema that asks one question of each passage now assigns each passage its key's length rank before anything is drawn. The ranks a passage can build are computed from its own options with the same test _balance_own applies, and passages are placed most constrained first, each on the least used rank it can build, so the keys that ship are spread as evenly as the corpus allows rather than as evenly as the draw fell. When a rank is assigned, _balance_own tries every forced option before giving up on it instead of twelve random picks. This replaces the GRE rotation and covers the GMAT and LSAT variants too. The two new passages' main idea keys and the ferries caveat key were shortened to sit among the other passages' keys. The six schemas now plan 7, 7, 6, 6 and 6 keys per rank over 32 passages and 3, 3, 3, 3 and 2 over 14, every item lands on its planned rank, and the bias check, which orders two choices of equal length by position, measures them within a key or two of that.
+- **What stops it now.** g_rc.check_spread() runs at the start of the bank build and fails when a schema asked once per passage cannot be spread to within one passage of even, naming the passages whose keys are too long or too short to be placed, so a passage that would pile the ranks up is caught when it is written, with the reason, rather than by the aggregate check some builds later. check_bias stays as the measurement of what actually shipped. in `src/gen/g_rc.py`
+- **Lesson.** A check that passes on a random draw has told you about that draw. When a schema ships a handful of items, a property the whole bank needs, such as keys spread over every length rank, has to be assigned rather than sampled. And a fix proven on one variant of a shared class belongs on the class: the variants left alone were passing on luck, and the next unrelated change spends it.
 
 
 ## Tests and guards (19)
@@ -2950,7 +2964,7 @@ Read it before starting a piece of work in the matching area, and again before y
 
 ## Content generation
 
-- [ ] **Learned 6 times over.** A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell. When a measurement cannot be trusted at a small sample, widen the tolerance to what the sample supports rather than declining to measure, and notice when a count of what was measured does not move after you add something to measure.  
+- [ ] **Learned 7 times over.** A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell. When a measurement cannot be trusted at a small sample, widen the tolerance to what the sample supports rather than declining to measure, and notice when a count of what was measured does not move after you add something to measure.  
   <small>A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked (INC-0088)</small>
 - [ ] **Learned 5 times over.** An aggregate over a mixed population reports the population, and if part of that population is flat by construction it will hide the part that is not. The rule that follows is about what the unit of the measurement should be: measure at the grain the defect can exist at, which here is the file, because a file is written by one person in one sitting with one set of habits. The section was the grain the data was convenient at.  
   <small>A bank a student can play at 88 percent, inside a section the check passed (INC-0069)</small>
@@ -2982,6 +2996,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Seven variable names were plural and every sentence built around them said was (INC-0093)</small>
 - [ ] **Learned 2 times over.** Any consumer that describes a value in words must read the field that records what kind of value it is, never the field's name. A field name is a hope about the data, not a description of it, and a schema that allows two kinds of value will be described everywhere as the kind it was named after.  
   <small>Twelve average salaries were published as medians, and the social queue credited schools with figures they never published (INC-0105)</small>
+- [ ] **Learned 2 times over.** A test measures what someone can get right without the skill, and there is more than one way to do that. Removing one tell does not make an item sound; it moves the question to the next shortcut. Distractors drawn from unrelated material are always wrong and therefore always free, so a wrong answer has to be wrong about the same thing the right one is about.  
+  <small>Three reading schemas could be answered by matching names, because every distractor came from a different passage (INC-0117)</small>
 - [ ] Any generator that claims reproducibility must be seeded from something stable across processes. hash() is not, in Python, and the failure shows up as a flaky test rather than as a wrong answer.  
   <small>Item banks were different on every build because Python randomises hash() (INC-0003)</small>
 - [ ] Deletion by shadowing is invisible. Any collection whose size is a fact about the product needs its size asserted, not just its contents.  
@@ -3042,14 +3058,14 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A field written to open a sentence was printed mid-sentence in a reading stem (INC-0115)</small>
 - [ ] Practice material is still published writing. A passage that is only there to be read carefully is still read by people who know the subject, and a question built on it can ask them to endorse the error.  
   <small>A passage described zircon dating with the vocabulary of argon dating (INC-0116)</small>
-- [ ] A test measures what someone can get right without the skill, and there is more than one way to do that. Removing one tell does not make an item sound; it moves the question to the next shortcut. Distractors drawn from unrelated material are always wrong and therefore always free, so a wrong answer has to be wrong about the same thing the right one is about.  
-  <small>Three reading schemas could be answered by matching names, because every distractor came from a different passage (INC-0117)</small>
 - [ ] An empty field records that a search came up empty, not that the thing does not exist. Write the absence as what was done ('not verified from the sources we could read'), never as a fact about the world, because the world is the part nobody checked.  
   <small>School pages said a program does not publish an acceptance rate when we had only not found one (INC-0118)</small>
 - [ ] When two pieces of code each supply part of a sentence, decide which one owns each word. A template and the code that fills it both writing the unit is invisible in either one read alone; only reading the output as a sentence shows it.  
   <small>A generated word problem printed its rate unit twice (INC-0120)</small>
 - [ ] An edit tool that throws away its input leaves the diff as the only record of what it changed. Audit such edits from the commit that made them, and keep the table that drove a bulk edit in the repository, because the table is what lets the next check see the seam.  
   <small>The banks lengthened in place carried the same garbled seams, and nothing recorded what had been appended (INC-0121)</small>
+- [ ] A check that passes on a random draw has told you about that draw. When a schema ships a handful of items, a property the whole bank needs, such as keys spread over every length rank, has to be assigned rather than sampled. And a fix proven on one variant of a shared class belongs on the class: the variants left alone were passing on luck, and the next unrelated change spends it.  
+  <small>Reading questions asked once of each passage passed the length check on the luck of the draw, and two new passages re-rolled it (INC-0122)</small>
 
 
 ## Database
@@ -3316,7 +3332,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 121 real defects reduced to the rules that prevent them,
+the whole project: 122 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -3356,7 +3372,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-121 defects already prevented is genuinely ahead, and every defect it hits
+122 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed
