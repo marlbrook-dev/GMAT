@@ -118,7 +118,10 @@ def lead_paragraph(c, n_ranked):
         out.append("It enrolls %s undergraduates." % format(int(ug), ",d"))
     adm = g("admit_rate_pct")
     if adm is not None:
-        out.append("The admission rate is %s percent." % plain(adm))
+        # People search "acceptance rate"; the Scorecard calls it the admission rate. The
+        # sentence carries both so it answers the query in the searcher's words.
+        out.append("The acceptance rate, which the Scorecard reports as the admission rate, "
+                   "is %s percent." % plain(adm))
     ti, to = g("tuition_in_state_usd"), g("tuition_out_state_usd")
     if ti and to and to > ti:
         out.append("Tuition and fees are %s a year for in-state students and %s for "
@@ -154,8 +157,11 @@ def title_bits(c):
         have.append("Acceptance Rate")
     if fv(c, "net_price_usd") or fv(c, "tuition_in_state_usd"):
         have.append("Cost")
-    if fv(c, "sat_avg") or fv(c, "act_mid"):
+    # Name the test the page reports; an ACT-only page promised SAT scores (INC-0107).
+    if any(fv(c, k) for k in ("sat_avg", "sat_math_mid", "sat_reading_mid")):
         have.append("SAT Scores")
+    elif fv(c, "act_mid"):
+        have.append("ACT Scores")
     if fv(c, "grad_rate_6yr_pct") is not None:
         have.append("Graduation Rate")
     if len(have) >= 3:
@@ -285,6 +291,10 @@ def college_page(c, tpl, css_href, n_ranked, n_total, by_cat=None):
         rank_line = '<p>Listed with full data, not ranked.</p>'
 
     bits = []
+    # Acceptance rate first: it is half of all college search impressions (Search Console
+    # export of 2026-09-26), and a snippet that omits the number asked for is scrolled past.
+    if fv(c, "admit_rate_pct") is not None:
+        bits.append("acceptance rate %s" % pct(fv(c, "admit_rate_pct")))
     if fv(c, "net_price_usd"):
         bits.append("average net price %s" % money(fv(c, "net_price_usd")))
     if fv(c, "grad_rate_6yr_pct"):
@@ -308,8 +318,13 @@ def college_page(c, tpl, css_href, n_ranked, n_total, by_cat=None):
     site_line = ('<p class="note">Official site: <a href="%s" rel="nofollow noopener" '
                  'target="_blank">%s</a></p>' % (esc(c["website"]), esc(c["website"]))
                  ) if c.get("website") else ""
+    tb = title_bits(c)
+    # INC-0107: a title may name a test only when the page reports a figure for it.
+    has_sat = any(fv(c, k) for k in ("sat_avg", "sat_math_mid", "sat_reading_mid"))
+    if ("SAT Scores" in tb and not has_sat) or ("ACT Scores" in tb and not fv(c, "act_mid")):
+        raise SystemExit("build_colleges: %s: title promises %r without the data" % (c["slug"], tb))
     out_html = (tpl.replace("{{CSS_HREF}}", css_href)
-                .replace("{{TITLE_BITS}}", esc(title_bits(c)))
+                .replace("{{TITLE_BITS}}", esc(tb))
                 .replace("{{LEAD}}", esc(lead_paragraph(c, n_ranked)))
                 .replace("{{NAME}}", esc(c["name"]))
                 .replace("{{SLUG}}", esc(c["slug"]))
@@ -589,7 +604,27 @@ TABLE_HEAD = ('<div class="tablewrap"><table class="rk ctable">'
               '</tr></thead>')
 
 
-def methodology_page(css_href, n_ranked, n_total, updated, cat_counts, agreement):
+def premium_line(colleges):
+    """The out-of-state facts, counted from the data on this build (INC-0108)."""
+    pub = [(fv(c, "tuition_in_state_usd"), fv(c, "tuition_out_state_usd")) for c in colleges if c.get("type") == "Public"]
+    pub = [(a, b) for a, b in pub if a and b]
+    prem = [b - a for a, b in pub if b > a]
+    prv = [(fv(c, "tuition_in_state_usd"), fv(c, "tuition_out_state_usd")) for c in colleges if c.get("type") != "Public"]
+    prv = [(a, b) for a, b in prv if a and b]
+    prv_prem = sum(1 for a, b in prv if b > a)
+    line = ("%s public colleges in this library charge a non-resident premium; the largest is %s dollars. "
+            % (format(len(prem), ",d"), format(int(max(prem)), ",d"))) if prem else \
+           "No public college in this library reports a non-resident premium. "
+    if prv_prem == 0:
+        line += ("No private college charges one, which was checked rather than assumed: all %s "
+                 "report identical in-state and out-of-state tuition." % format(len(prv), ",d"))
+    else:
+        line += ("%s of the %s private colleges reporting both figures charge one too."
+                 % (format(prv_prem, ",d"), format(len(prv), ",d")))
+    return line
+
+
+def methodology_page(css_href, n_ranked, n_total, updated, cat_counts, agreement, checks=None, colleges=(), ranked=()):
     body = """
 <div class="wrap ppage">
 <p class="crumb"><a href="/colleges/">College Rankings</a> / Methodology</p>
@@ -629,9 +664,9 @@ def methodology_page(css_href, n_ranked, n_total, updated, cat_counts, agreement
 
 <div class="panel"><h2>How We Check This Against Other Rankings</h2>
 <p>Weights that produce a plausible looking table are easy to write and hard to trust. So the list is checked on every build against four published rankings that disagree with each other: <a href="https://www.timeshighereducation.com/world-university-rankings/2026/world-ranking" rel="nofollow noopener" target="_blank">Times Higher Education</a> on research and reputation, and <a href="https://washingtonmonthly.com/2025-college-guide/national/" rel="nofollow noopener" target="_blank">Washington Monthly</a> on social mobility across its national, liberal arts and master's categories.</p>
-<p>Under the old weighting, 44 percent of our top 25 appeared in anybody's published top 25. Under this one it is 80 percent, and 96 percent of our top 25 appears somewhere in a published ranking, against 84 percent before.</p>
+<p>Under the old weighting, 44 percent of our top 25 appeared in anybody's published top 25. Under this one it is {AGR25} percent, and {REC25} percent of our top 25 appears somewhere in a published ranking, against 84 percent before. Both current figures are measured on every build, and these were measured on the build that made this page.</p>
 <p>No published rank is an input to our score, which is computed from the College Scorecard alone. The comparison exists to catch the failure it caught: a ranking that shares almost nothing with every other ranking is not being independent, it is being wrong, and the only way to tell those apart is to measure.</p>
-<p>The obvious hazard in checking your weights against other people's lists is rebuilding a selectivity ranking by accident, because ranking by how hard a school is to enter is the cheapest way to agree with everybody. The correlation between this score and admission rate is -0.41, moderate rather than mechanical, and 25 of the top 100 are public institutions. Both numbers are printed on every build; if either moves sharply, the change that moved it is wrong.</p></div>
+<p>The obvious hazard in checking your weights against other people's lists is rebuilding a selectivity ranking by accident, because ranking by how hard a school is to enter is the cheapest way to agree with everybody. The correlation between this score and admission rate is {CORR}, and {PUB100} of the top 100 are public institutions. Both numbers are printed on every build; if either moves sharply, the change that moved it is wrong.</p></div>
 
 <div class="panel"><h2>What It Refuses to Measure</h2>
 <p>Admission rate, test score ranges, sticker price, endowment and reputation surveys are not scored. Admission rates and score ranges are reported on every school page because an applicant needs them to plan.</p>
@@ -639,7 +674,7 @@ def methodology_page(css_href, n_ranked, n_total, updated, cat_counts, agreement
 
 <div class="panel"><h2>What to Watch Out For</h2>
 <p><strong>Net price for a public university is the in-state figure.</strong> It is the only one the College Scorecard publishes, so it understates what a non-resident pays. It no longer affects the score, because price is not scored at all, but it is on every page and worth reading with that in mind.</p>
-<p>The out-of-state side is reported as its own published figures rather than buried. Every table row and every college page carries in-state tuition, out-of-state tuition, and the difference between them. 507 public colleges in this library charge a non-resident premium; the largest is 43,210 dollars. No private college charges one, which was checked rather than assumed: all 872 report identical in-state and out-of-state tuition.</p>
+<p>The out-of-state side is reported as its own published figures rather than buried. Every table row and every college page carries in-state tuition, out-of-state tuition, and the difference between them. {PREMIUM_LINE}</p>
 <p><strong>There is deliberately no second, out-of-state score.</strong> When cost was still scored, the obvious way to build one was to swap net price for published out-of-state tuition, and it produced a table that looked plausible and was wrong: Caltech fell sixteen points and Princeton nearly fourteen, when neither charges a non-resident a different price. What moved was the measure, from post-aid net price to sticker tuition, not the residency. Now that price is out of the score entirely the question does not arise, and the premium stays what it always should have been: a published fact on every page.</p>
 <p><strong>Earnings cover everyone who enrolled</strong>, not only graduates, and are not adjusted for what students study or where they come from. A school heavy in engineering will out-earn a school heavy in social work without being better at teaching.</p>
 <p><strong>The score is relative.</strong> Each component is a percentile inside this library of four-year nonprofit and public institutions, so a score of 80 means better than 80 percent of them on the weighted mix, not 80 out of 100 in the abstract.</p>
@@ -653,6 +688,20 @@ def methodology_page(css_href, n_ranked, n_total, updated, cat_counts, agreement
 <p class="crumb"><a href="/colleges/">Back to the rankings</a> · <a href="/schools/">MBA rankings</a> · <a href="/sat/app/">Practice for the SAT</a></p>
 </div>
 """.replace("{UPDATED}", updated).replace("{NRANK}", format(n_ranked, ",d")).replace("{NTOTAL}", format(n_total, ",d"))
+    # Figures the build measures are read from the measurement, never typed (INC-0108).
+    # A placeholder that goes missing is how a literal creeps back, so its absence fails.
+    missing = [k for k in ("{AGR25}", "{REC25}", "{CORR}", "{PUB100}", "{PREMIUM_LINE}") if k not in body]
+    if missing:
+        raise SystemExit("build_colleges: methodology template lost %s; measured figures must stay templated" % ", ".join(missing))
+    checks = checks or {}
+    rec, agr = checks.get("recognised") or [None], checks.get("agreement") or [None]
+    corr = checks.get("admit_corr")
+    if rec[0] is None or agr[0] is None or corr is None:
+        raise SystemExit("build_colleges: methodology page needs the ranking checks, and they did not run")
+    body = (body.replace("{AGR25}", str(agr[0])).replace("{REC25}", str(rec[0]))
+                .replace("{CORR}", ("%+.2f" % corr).replace("+", ""))
+                .replace("{PUB100}", str(sum(1 for c in list(ranked)[:100] if c.get("type") == "Public")))
+                .replace("{PREMIUM_LINE}", premium_line(colleges)))
     for tok, key in (("N_NATIONAL", "national"), ("N_LIBARTS", "liberal-arts"),
                      ("N_MASTERS", "masters"), ("N_BACC", "baccalaureate")):
         body = body.replace("{{%s}}" % tok, format(cat_counts.get(key, 0), ",d"))
@@ -755,7 +804,7 @@ def main():
     meth = OUTDIR / "methodology"
     meth.mkdir(exist_ok=True)
     (meth / "index.html").write_text(
-        methodology_page(css_href, n_ranked, n_total, updated, cat_counts, agreement),
+        methodology_page(css_href, n_ranked, n_total, updated, cat_counts, agreement, checks, colleges, ranked),
         encoding="utf-8")
 
     ctpl = (D / "college_template.html").read_text(encoding="utf-8")

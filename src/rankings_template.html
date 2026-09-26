@@ -28,7 +28,7 @@
  {"@type":"PropertyValue","name":"Class size"},
  {"@type":"PropertyValue","name":"International share of class"},
  {"@type":"PropertyValue","name":"Tuition per year"},
- {"@type":"PropertyValue","name":"Median salary"},
+ {"@type":"PropertyValue","name":"Starting salary","description":"The median where the school publishes one, otherwise the average it publishes, labeled as such on each school page; two schools publish salary plus bonus and are labeled total compensation"},
  {"@type":"PropertyValue","name":"Employment rate"},
  {"@type":"PropertyValue","name":"Scholarship review policy","description":"Whether every admitted student is considered automatically or a separate scholarship application is required, quoted from the school's own financial aid page"}]}</script>
 <style>
@@ -238,7 +238,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:var(--s4);flex-wrap:
 <div>
 <p>Each publisher's most recent full-time MBA ranking is converted to points (rank 1 = 100 points, rank 2 = 99, and so on), then combined as a weighted average using the weights shown. When a source does not rank a school, the remaining weights are renormalized so no school is penalized for a publisher's coverage gaps; a school needs ranks from at least three of the five publishers to receive a composite rank at all. Ties share a rank.</p>
 <p>Why these weights: US News carries the most applicant mindshare in the United States and audits school-reported placement and selectivity data. The Financial Times brings a global, alumni-outcomes view built on a survey taken three years after graduation. Bloomberg surveys students and recruiters directly but its year-to-year volatility is well documented, so it earns a smaller share. QS adds international employer perception. Poets and Quants is itself a consensus of other lists, useful signal but partly double-counted, so it also stays at the smaller share. We publish the weights so you can disagree with them: every per-source rank is shown in the table, and the CSV export includes all of them.</p>
-<p>The Score column is the SFN Score (0 to 100), which ranks every school including those the big lists skip: publisher consensus 50%, published outcomes (median salary and 3-month employment) 20%, GMAT selectivity 20%, acceptance rate 10%, with weights renormalized over whatever components a school actually publishes. Outcome points map median base salary from $70k to $190k and 3-month employment from 60% to 95%, bands set to the observed range of official school reports and restated here whenever they change. A school needs the publisher component or at least two data components to be scored. Schools ranked without publisher coverage carry a "data-based score" basis you can filter on: their position reflects published outcomes and selectivity only, weighted exactly as stated, which is the same logic the major publishers use, applied transparently.</p>
+<p>The Score column is the SFN Score (0 to 100), which ranks every school including those the big lists skip: publisher consensus 50%, published outcomes (starting salary and 3-month employment) 20%, GMAT selectivity 20%, acceptance rate 10%, with weights renormalized over whatever components a school actually publishes. Outcome points map starting salary from $70k to $190k and 3-month employment from 60% to 95%, bands set to the observed range of official school reports and restated here whenever they change. Salary is the median wherever a school publishes one; where a school publishes only an average, or salary plus bonus, that is the figure used, and its page says which. A school needs the publisher component or at least two data components to be scored. Schools ranked without publisher coverage carry a "data-based score" basis you can filter on: their position reflects published outcomes and selectivity only, weighted exactly as stated, which is the same logic the major publishers use, applied transparently.</p>
 <p>Class profile figures (GMAT, GPA, class size, acceptance rate, tuition) come from each school's own published class profile or admissions pages wherever available, labeled with source and year on each school's profile page. We never estimate, convert between GMAT editions, or fill gaps with guesses; a dash means the school does not publish the figure. Rankings referenced belong to their respective publishers and are cited as published facts with attribution.</p>
 </div>
 </div>
@@ -274,6 +274,10 @@ function gmatOf(s){ var f=(s.profile||{}).gmat_focus||{}; if(f.v!=null) return {
 // A field the school does not publish is simply absent. It is never defaulted, averaged
 // from peers, or inferred; the fit view renders a dash and says the school does not
 // publish it.
+// The field is named salary_median_usd, but twelve schools publish only an average and two
+// publish salary plus bonus. The build derives the true label from each figure's own note
+// (INC-0105); this only reads it.
+function salLabel(f){ return (f&&f.label)||'Starting salary'; }
 function fitOf(s){ var p=s.profile||{}, out={};
  ['gpa','work_exp_years','tuition_usd','accept_rate_pct','class_size','salary_median_usd'].forEach(function(k){
   var f=p[k]; if(f&&f.v!=null) out[k]={v:f.v,stat:f.stat||'',src:f.src||'',year:f.year||null,url:f.url||''}; });
@@ -370,7 +374,7 @@ function toggleDetail(slug){ var ex=document.getElementById('det-'+slug);
  +dfield('GPA',p.gpa)+dfield('Acceptance rate',p.accept_rate_pct,'%')
  +dfield('Class size',p.class_size)+dfield('Work experience',p.work_exp_years,' yrs')
  +dfield('Women',p.women_pct,'%')+dfield('International',p.intl_pct,'%')
- +dfield('Tuition per year',p.tuition_usd,'',true)+dfield('Median salary',p.salary_median_usd,'',true)
+ +dfield('Tuition per year',p.tuition_usd,'',true)+dfield(salLabel(p.salary_median_usd),p.salary_median_usd,'',true)
  +dfield('Employed at 3 months',p.employment_rate_pct,'%')
  +ranksTxt+'</div></td>';
  var row=document.querySelector('tr.srow[data-slug="'+slug+'"]'); row.classList.add('open'); row.parentNode.insertBefore(tr,row.nextSibling); }
@@ -417,7 +421,7 @@ function listRows(){ var L=lst(); return L.order.map(function(slug){ var s=BY[sl
   usnews:rankOf(s,'usnews'), ft:rankOf(s,'ft'), bloomberg:rankOf(s,'bloomberg'), qs:rankOf(s,'qs'), pq:rankOf(s,'pq'),
   gmat:g?g.v:null, gmat_edition:g?g.ed:null, gmat_stat:g?g.stat:null, gpa:fieldV(s,'gpa'),
   accept_rate_pct:fieldV(s,'accept_rate_pct'), class_size:fieldV(s,'class_size'), work_exp_years:fieldV(s,'work_exp_years'),
-  women_pct:fieldV(s,'women_pct'), intl_pct:fieldV(s,'intl_pct'), tuition_usd:fieldV(s,'tuition_usd'), salary_median_usd:fieldV(s,'salary_median_usd'),
+  women_pct:fieldV(s,'women_pct'), intl_pct:fieldV(s,'intl_pct'), tuition_usd:fieldV(s,'tuition_usd'), salary_usd:fieldV(s,'salary_median_usd'), salary_measure:salLabel((s.profile||{}).salary_median_usd),
   my_tag:m.tag||'target', my_note:m.note||'', data_as_of:'{{UPDATED}}', source:'startfromnowhere.com/schools/' };
  }).filter(Boolean); }
 function csvExport(){ var rows=listRows(); if(!rows.length){ alert('Your list is empty.'); return; }
@@ -440,7 +444,7 @@ function printReport(){ var L=lst(); if(!L.order.length){ alert('Your list is em
   var add=function(l,f,suf,money){ if(f&&f.v!=null){ var v=money?'$'+Number(f.v).toLocaleString():f.v+(suf||''); h+='<tr><td>'+l+'</td><td>'+v+(f.stat?' ('+f.stat+')':'')+'</td><td>'+(f.src||'')+(f.year?', '+f.year:'')+'</td></tr>'; } };
   add('GMAT Focus',p.gmat_focus); add('GMAT Classic',p.gmat_classic); add('GRE Quant',p.gre_quant); add('GRE Verbal',p.gre_verbal);
   add('GPA',p.gpa); add('Acceptance rate',p.accept_rate_pct,'%'); add('Class size',p.class_size); add('Work experience',p.work_exp_years,' yrs');
-  add('Women',p.women_pct,'%'); add('International',p.intl_pct,'%'); add('Tuition per year',p.tuition_usd,'',true); add('Median salary',p.salary_median_usd,'',true);
+  add('Women',p.women_pct,'%'); add('International',p.intl_pct,'%'); add('Tuition per year',p.tuition_usd,'',true); add(salLabel(p.salary_median_usd),p.salary_median_usd,'',true);
   Object.keys(s.ranks||{}).forEach(function(k){ var r=s.ranks[k]; if(r&&r.rank!=null){ var lbl={usnews:'US News',ft:'Financial Times',bloomberg:'Bloomberg',qs:'QS',pq:'Poets and Quants'}[k]; h+='<tr><td>'+lbl+' rank</td><td>#'+r.rank+'</td><td>'+(r.edition||'')+'</td></tr>'; } });
   if(m.note) h+='<tr><td>My note</td><td colspan="2">'+m.note+'</td></tr>';
   h+='</tbody></table></div>'; });

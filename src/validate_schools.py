@@ -6,6 +6,7 @@ Policy source: CLAUDE.md. Every published figure needs src, year, and url;
 unverifiable values are null, never guesses; GMAT editions are never mixed
 or converted.
 """
+import re
 import sys
 
 REGIONS = {"Northeast", "Midwest", "South", "West"}
@@ -80,6 +81,16 @@ def validate(schools):
             for sval in [fv.get("src"), fv.get("stat"), fv.get("url")]:
                 if isinstance(sval, str) and ("—" in sval or "–" in sval):
                     errors.append(f"{slug}.{f}: em/en dash in metadata")
+        # official_hosts: places outside the school's own domain where the school itself
+        # publishes (its storage bucket, an alias domain). Each needs the evidence that it is
+        # the school's and the date that was checked, because this field changes a figure's
+        # label from secondary to official and must not be a way to launder a publisher.
+        for oh in (s.get("official_hosts") or []):
+            if not (isinstance(oh, dict) and str(oh.get("prefix", "")).startswith("https://")
+                    and oh.get("evidence") and re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(oh.get("checked", "")))):
+                errors.append(f"{slug}.official_hosts: each entry needs an https prefix, evidence and a checked date")
+            elif any(b in str(oh.get("prefix", "")).lower() for b in ("poetsandquants", "usnews", "gmac.com", "bloomberg", "ft.com", "topuniversities", "businessbecause")):
+                errors.append(f"{slug}.official_hosts: {oh.get('prefix')} is a publisher, not the school")
         # Scholarship block. Same provenance rules as every other figure, plus a checked
         # date, because award terms change every admissions cycle and a 2024 number quoted
         # in 2026 is misinformation even when it was true when written.

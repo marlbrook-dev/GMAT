@@ -10,7 +10,8 @@ Two-layer ranking, both documented verbatim on the page:
    skip, from whatever verified data exists:
       publishers 50% + outcomes 20% + GMAT selectivity 20% + acceptance 10%
    with weights renormalized over available components. Outcomes = the mean
-   of salary points (70k to 190k maps 0 to 100) and 3-month employment
+   of salary points (70k to 190k maps 0 to 100; the median where a school
+   publishes one, otherwise its published average, per INC-0105) and 3-month employment
    points (60% to 95% maps 0 to 100); both bands recalibrated August 2026
    to the observed range of official school reports. GMAT maps Focus 555 to 695 or
    Classic 605 to 745 onto 0 to 100 (whichever edition the school
@@ -33,6 +34,189 @@ RANKINGS_LEGAL = ("Rankings cited from US News, Financial Times, Bloomberg, QS, 
 WEIGHTS = {"usnews": 0.30, "ft": 0.25, "bloomberg": 0.15, "qs": 0.15, "pq": 0.15}
 SOURCE_LABEL = {"usnews": "US News", "ft": "Financial Times", "bloomberg": "Bloomberg", "qs": "QS", "pq": "Poets and Quants"}
 COMP_WEIGHTS = {"publishers": 0.50, "outcomes": 0.20, "gmat": 0.20, "accept": 0.10}
+
+
+def stat_kind(f):
+    """'average', 'median' or None: how a figure's stat note says it was computed.
+
+    The stat field is free text written for the provenance column: "average GMAT Focus
+    score, middle 80 pct 645-735", "avg, Class of 2026, range 560-760 (edition not
+    labeled)", "typical student profile". Anything outside that column (a sentence, a
+    meta description, a table label) may take only the one word this returns and never
+    the note itself. Four consumers used the note directly and each broke differently,
+    which is INC-0104, so they all come through here now.
+    """
+    head = re.split(r"[;,(]", str((f or {}).get("stat") or "").lower(), 1)[0]
+    if re.search(r"\bmedian\b", head):
+        return "median"
+    if re.search(r"\b(average|averaging|avg|mean)\b", head):
+        return "average"
+    return None
+
+
+def stat_article(f):
+    """The statistic as a sentence takes it: 'an average', 'a median' or 'a reported'."""
+    return {"average": "an average", "median": "a median"}.get(stat_kind(f), "a reported")
+
+
+def prose_problems(s, texts):
+    """INC-0104's guard: a stat note is provenance and never prose.
+
+    Checks the sentences a school page writes about itself (intro, lead, meta
+    description, every FAQ question and answer) for the three ways that went wrong: a
+    multi-word stat note pasted into a sentence, the article that came with it ('a
+    average'), and a rank claimed out of every school in the library rather than out of
+    the ones that are scored. Reads what was rendered, not how it was assembled.
+    """
+    probs = []
+    # A note is provenance when it carries detail a sentence never would: a figure, a
+    # range, a clause. "average GMAT Focus" is also what a correct sentence says, so a
+    # plain phrase is not evidence of pasting; "middle 80 pct 645-735" is.
+    notes = [str(f.get("stat")) for f in (s.get("profile") or {}).values()
+             if isinstance(f, dict) and f.get("v") is not None
+             and len(str(f.get("stat") or "").split()) >= 3
+             and re.search(r"[0-9,;(]", str(f.get("stat")))]
+    total = s.get("_ranked_total")
+    for t in texts:
+        for n in notes:
+            if n in t:
+                probs.append("stat note %r inside %r" % (n, t[:90]))
+        m = re.search(r"\ba (average|avg)\b", t)
+        if m:
+            probs.append("%r in %r" % (m.group(0), t[:90]))
+        # A stored class label pasted into a sentence (INC-0104).
+        m = re.search(r"profile profile|\) profile|The (?:None|latest) |no class year stated", t)
+        if m:
+            probs.append("class label pasted into prose: %r in %r" % (m.group(0), t[:90]))
+        # A figure whose source names its class must not be reported under another class.
+        for key in ("gmat_focus", "gmat_classic", "class_size", "accept_rate_pct"):
+            f = (s.get("profile") or {}).get(key) or {}
+            m = re.search(r"Class of (\d{4})", "%s %s" % (f.get("stat") or "", f.get("src") or ""), re.I)
+            if f.get("v") is None or not m:
+                continue
+            vals = {fmt_num(f["v"]), format(int(f["v"]), ",d") if isinstance(f["v"], (int, float)) else ""}
+            for sent in re.split(r"(?<=\.) ", t):
+                if any(v and re.search(r"(?<![\d,.])%s(?![\d,])" % re.escape(v), sent) for v in vals):
+                    for yr in re.findall(r"Class of (\d{4})", sent):
+                        if yr != m.group(1):
+                            probs.append("%s %s is Class of %s but the sentence says Class of %s"
+                                         % (key, f["v"], m.group(1), yr))
+        # INC-0105: the salary adjective comes from the note, never from the field name.
+        w = salary_word((s.get("profile") or {}).get("salary_median_usd"))
+        for said in re.findall(r"\b(median|average)(?= (?:starting |base )?salary| total compensation)", t, re.I):
+            if said.lower() != w:
+                probs.append("salary called %s but its note says %s" % (said.lower(), w or "neither"))
+        for m in re.finditer(r"(?:#|number )\d+ of (?:the )?(\d+)", t):
+            if total and int(m.group(1)) != total:
+                probs.append("rank out of %s, but %s programs are scored" % (m.group(1), total))
+    return probs
+
+
+def salary_word(f):
+    """'median', 'average' or '' for a salary figure, read from its note.
+
+    The field is named salary_median_usd, but the source ladder allows an average where a
+    school publishes no median, and twelve do. The name is a hope; the note says which
+    (INC-0105).
+    """
+    return stat_kind(f) or ""
+
+
+def salary_noun(f):
+    """'total compensation' when the figure's own note says it includes bonus, else
+    'starting salary'. Two schools publish salary plus bonus rather than base pay, and
+    calling that a salary overstates what a graduate is paid in salary."""
+    head = re.split(r"[;,(]", str((f or {}).get("stat") or "").lower(), 1)[0]
+    return "total compensation" if re.search(r"bonus|total compensation", head) else "starting salary"
+
+
+def class_subject(label):
+    """Read a stored class label into a form a sentence can carry.
+
+    class_year is free text and arrives as 'Class of 2027', '2027', 'Fall 2025 entering
+    class (Class of 2027)', '2019-20', 'MBA15 cohort, 2025' and 'Typical class profile (no
+    class year stated)'. Pasting those into 'The ... profile reports' produced 'The 2025
+    Profile profile reports' (INC-0104). Returns (kind, value):
+      ('classof', '2027')    graduating class, the schema's documented form; a bare year
+                             is that form's shorthand, as data/DATA.md shows it
+      ('entered', '2025')    the class that entered that year
+      ('academic', '2019-20') a profile dated by academic year, kept because its age matters
+      ('none', '')           nothing a sentence can state honestly
+    """
+    t = str(label or "").strip()
+    if t in ("", "None"):
+        return ("none", "")
+    m = re.search(r"Class of (\d{4})", t, re.I)
+    if m:
+        return ("classof", m.group(1))
+    if re.fullmatch(r"\d{4}", t):
+        return ("classof", t)
+    m = re.search(r"graduat\w*\D{0,12}(\d{4})", t, re.I)
+    if m:
+        return ("classof", m.group(1))
+    m = re.search(r"(\d{4}(?:-\d{2,4})?)", t)
+    if m and re.search(r"enter|incoming|cohort", t, re.I):
+        return ("entered", m.group(1))
+    if re.fullmatch(r"\d{4}-\d{2,4}", t):
+        return ("academic", t)
+    return ("none", "")
+
+
+def class_label(p):
+    """'Class of 2027' where the page's class can be named that way, else ''."""
+    kind, v = class_subject(p.get("class_year"))
+    return "Class of %s" % v if kind == "classof" else ""
+
+
+def fig_subject(f, p):
+    """The class a figure describes: its own 'Class of YYYY' where its note or source
+    names one, else the page's. Four programs mix a figure from one class with a
+    profile labelled for another (Notre Dame's GMAT is Class of 2026 coverage on a
+    Class of 2027 page), and a sentence must not merge them under one label."""
+    m = re.search(r"Class of (\d{4})", "%s %s" % ((f or {}).get("stat") or "", (f or {}).get("src") or ""), re.I)
+    return ("classof", m.group(1)) if m else class_subject(p.get("class_year"))
+
+
+def as_class(subj):
+    kind, v = subj
+    return {"classof": "The Class of %s" % v, "entered": "The class that entered in %s" % v,
+            "academic": "The class profiled in %s" % v}.get(kind, "The most recently reported class")
+
+
+def as_profile(subj):
+    kind, v = subj
+    return {"classof": "The Class of %s profile" % v,
+            "entered": "The profile of the class that entered in %s" % v,
+            "academic": "The %s profile" % v}.get(kind, "The most recent published profile")
+
+
+def grouped(p, items):
+    """Group (figure, phrase) pairs by the class each figure describes, in first-seen order."""
+    groups = []
+    for f, phrase in items:
+        subj = fig_subject(f, p)
+        for g in groups:
+            if g[0] == subj:
+                g[1].append(phrase)
+                break
+        else:
+            groups.append([subj, [phrase]])
+    return groups
+
+
+def class_sentences(p, items):
+    """'The Class of 2027 has A and B.' when every item belongs to one class; otherwise one
+    sentence per class, each naming its own."""
+    # A class that has already graduated "had" its figures. Judged against the build
+    # date, since commencement is in May: the Class of 2026 is past tense from June 2026.
+    today = datetime.date.fromisoformat(os.environ.get("BLOG_BUILD_DATE") or datetime.date.today().isoformat())
+    out = []
+    for subj, phrases in grouped(p, items):
+        y = int(subj[1]) if subj[0] == "classof" else None
+        verb = "had" if y and (y < today.year or (y == today.year and today.month >= 6)) else "has"
+        out.append("%s %s %s." % (as_class(subj), verb, " and ".join(phrases)))
+    return out
+
 
 def lead_paragraph(s, p, g, gc, acc, tui, sal, cs):
     """The sentences an answer engine can actually quote.
@@ -60,28 +244,44 @@ def lead_paragraph(s, p, g, gc, acc, tui, sal, cs):
                       if (p.get("tuition_usd") or {}).get("src") else ""))
     cls = []
     if cs:
-        cls.append("%s students" % format(int(cs), ",d"))
+        cls.append((p.get("class_size"), "%s students" % format(int(cs), ",d")))
     gv = g.get("v") or gc.get("v")
     if gv:
-        # The stat field is free text and sometimes carries a whole provenance note
-        # ("avg, Class of 2026, range 560-760, edition not labeled"). Dropping that
-        # into a sentence produced prose no one would quote, so only a recognised
-        # one word statistic is used and anything else becomes "a reported".
-        raw = (g.get("stat") or gc.get("stat") or "").strip().lower()
-        word = {"average": "an average", "avg": "an average", "mean": "an average",
-                "median": "a median"}.get(raw.split(",")[0].strip(), "a reported")
-        cls.append("%s GMAT%s of %s" % (word, " Focus" if g.get("v") else "", gv))
-    if cls:
-        # class_year is stored variously as "2027" and "Class of 2027".
-        cy = str(p.get("class_year") or "").strip()
-        if re.fullmatch(r"\d{4}", cy):
-            cy = "Class of %s" % cy
-        out.append("The %s has %s." % (cy or "most recent class",
-                                       " and ".join(cls) if len(cls) == 2 else cls[0]))
+        # The stat note is provenance, not prose; stat_article takes the one word a
+        # sentence can carry (INC-0104).
+        gf = g if g.get("v") else gc
+        cls.append((gf, "%s GMAT%s of %s" % (stat_article(gf), " Focus" if g.get("v") else "", gv)))
+    out.extend(class_sentences(p, cls))
+    # The other questions people search a program by ("average GRE", "GPA", "work
+    # experience"), each as a sentence with its own statistic word, because a table cell
+    # answers a reader but not a search engine quoting a passage.
+    gq, gvb = p.get("gre_quant") or {}, p.get("gre_verbal") or {}
+    if gq.get("v") and gvb.get("v"):
+        k1, k2 = stat_kind(gq), stat_kind(gvb)
+        if k1 == k2 and k1:
+            out.append("Its %s GRE scores are %s Quantitative and %s Verbal."
+                       % (k1, fmt_num(gq["v"]), fmt_num(gvb["v"])))
+        else:
+            out.append("Reported GRE scores are %s Quantitative and %s Verbal."
+                       % (fmt_num(gq["v"]), fmt_num(gvb["v"])))
+    gpa = p.get("gpa") or {}
+    if gpa.get("v"):
+        k = stat_kind(gpa)
+        out.append(("The %s undergraduate GPA is %s." % (k, fmt_num(gpa["v"]))) if k
+                   else "The reported undergraduate GPA is %s." % fmt_num(gpa["v"]))
+    we = p.get("work_exp_years") or {}
+    if we.get("v"):
+        k = stat_kind(we)
+        out.append("Students arrive with %s %s years of work experience."
+                   % ("an average of" if k == "average" else "a median of" if k == "median"
+                      else "a reported", fmt_num(we["v"])))
     if acc is not None:
         out.append("The reported acceptance rate is %s percent." % fmt_num(acc))
     if sal:
-        out.append("Median starting salary is $%s." % format(int(sal), ",d"))
+        sf = p.get("salary_median_usd")
+        w, noun = salary_word(sf), salary_noun(sf)
+        out.append(("%s %s is $%s." % (w.capitalize(), noun, format(int(sal), ",d"))) if w
+                   else "The most recent published %s is $%s." % (noun, format(int(sal), ",d")))
     if s.get("_score") is not None:
         out.append("Start From Nowhere ranks it number %d of the %d programs it scores, "
                    "on a composite that blends published rankings with outcomes and "
@@ -167,6 +367,22 @@ def host_of(url):
     return h[4:] if h.startswith("www.") else h
 
 
+# Two-label public suffixes a school website could sit under. Everything in the library
+# today is a US .edu or .com, where the registrable domain is the last two labels; these
+# keep the rule right when a non-US program arrives.
+_TWO_LABEL_SUFFIXES = {"ac.uk", "co.uk", "edu.au", "com.au", "ac.in", "edu.in", "edu.sg",
+                       "com.sg", "edu.hk", "com.hk", "ac.jp", "co.jp", "edu.cn", "com.cn",
+                       "ac.kr", "ac.il", "ac.nz", "edu.mx", "com.br", "edu.br"}
+
+
+def reg_domain(host):
+    """The registrable domain: rice.edu for bursar.rice.edu, sbs.ox.ac.uk -> ox.ac.uk."""
+    parts = [x for x in (host or "").lower().split(".") if x]
+    if len(parts) >= 3 and ".".join(parts[-2:]) in _TWO_LABEL_SUFFIXES:
+        return ".".join(parts[-3:])
+    return ".".join(parts[-2:])
+
+
 def is_secondary(school, f):
     """Did this figure come from the school itself, or from somebody else?
 
@@ -180,11 +396,38 @@ def is_secondary(school, f):
     """
     if not f or f.get("v") is None or not f.get("url"):
         return False
+    url = str(f.get("url") or "")
+    # A school can also publish from a host that is not its domain at all: its own storage
+    # bucket, or an alias domain. data/DATA.md documents official_hosts, and the validator
+    # requires evidence and a checked date for every entry.
+    if any(url.startswith(oh.get("prefix") or "\x00") for oh in (school.get("official_hosts") or [])):
+        return False
     own = host_of(school.get("website"))
-    src = host_of(f.get("url"))
+    src = host_of(url)
     if not own or not src:
         return False
-    return not (src == own or src.endswith("." + own) or own.endswith("." + src))
+    # The same registrable domain is the same institution: a university publishes from
+    # its bursar, registrar, news office and business school hosts, and all of those are
+    # the school speaking. Comparing whole hosts called 29 official figures secondary
+    # (INC-0106). A publisher never shares the school's registrable domain.
+    return reg_domain(src) != reg_domain(own)
+
+
+def _selfcheck_secondary():
+    """INC-0106's guard, run on every build before any page is rendered."""
+    rice = {"website": "https://business.rice.edu/"}
+    for url, want in (("https://bursar.rice.edu/tuition", False),
+                      ("https://business.rice.edu/mba/class", False),
+                      ("https://poetsandquants.com/2026/x", True),
+                      ("https://www.usnews.com/x", True),
+                      ("https://www.gmac.com/x", True)):
+        got = is_secondary(rice, {"v": 1, "url": url})
+        if got != want:
+            raise SystemExit("build_rankings: is_secondary(%s) is %s, expected %s" % (url, got, want))
+    oxf = {"website": "https://www.sbs.ox.ac.uk/"}
+    if is_secondary(oxf, {"v": 1, "url": "https://www.ox.ac.uk/fees"}) or \
+            not is_secondary(oxf, {"v": 1, "url": "https://www.cam.ac.uk/x"}):
+        raise SystemExit("build_rankings: reg_domain mishandles a two-label suffix")
 
 
 def src_cell(f):
@@ -204,7 +447,7 @@ PROFILE_FIELDS = [
     ("gpa", "Undergrad GPA", "", False), ("accept_rate_pct", "Acceptance rate", "%", False),
     ("class_size", "Class size", "", False), ("work_exp_years", "Work experience", " yrs", False),
     ("women_pct", "Women", "%", False), ("intl_pct", "International", "%", False),
-    ("tuition_usd", "Tuition per year", "", True), ("salary_median_usd", "Median base salary", "", True),
+    ("tuition_usd", "Tuition per year", "", True), ("salary_median_usd", "Starting salary", "", True),
     ("employment_rate_pct", "Employed at 3 months", "%", False),
 ]
 
@@ -457,8 +700,12 @@ def school_page(s, tpl, today, ranked=()):
         rank_rows.append('<tr><td colspan="4">Not currently ranked by the five publishers we track. Its SFN rank comes from published outcome and selectivity data instead.</td></tr>')
     prof_rows = []
     secondary = []
+    labels = []
     for key, label, suf, money in PROFILE_FIELDS:
         f = p.get(key) or {}
+        if key == "salary_median_usd":
+            label = " ".join(x for x in (salary_word(f), salary_noun(f)) if x).capitalize()
+            labels.append(label)
         if f.get("v") is None:
             # Acceptance rate is the single most searched attribute in our tracked
             # queries and most full-time MBA programs deliberately never publish it.
@@ -516,16 +763,17 @@ def school_page(s, tpl, today, ranked=()):
     if acc is not None:
         bits.append("acceptance rate %s%%" % fmt_num(acc))
     if g.get("v"):
-        bits.append(("average GMAT Focus %s" % g["v"]) if (g.get("stat") or "") != "median"
-                    else "median GMAT Focus %s" % g["v"])
+        bits.append(" ".join(x for x in (stat_kind(g), "GMAT Focus", str(g["v"])) if x))
     elif gc.get("v"):
-        bits.append("GMAT %s" % gc["v"])
+        bits.append(" ".join(x for x in (stat_kind(gc), "GMAT", str(gc["v"])) if x))
     tui = (p.get("tuition_usd") or {}).get("v")
     if tui:
         bits.append("tuition $%s a year" % format(int(tui), ",d"))
     sal = (p.get("salary_median_usd") or {}).get("v")
     if sal:
-        bits.append("median starting salary $%s" % format(int(sal), ",d"))
+        sf = p.get("salary_median_usd")
+        bits.append(" ".join(x for x in (salary_word(sf), salary_noun(sf),
+                                         "$" + format(int(sal), ",d")) if x))
     cs = (p.get("class_size") or {}).get("v")
     if cs:
         bits.append("class of %s" % format(int(cs), ",d"))
@@ -563,33 +811,37 @@ def school_page(s, tpl, today, ranked=()):
     # unique intro from verified data only
     ip = []
     if s.get("_rank"):
-        ip.append(f'{s["name"]} ranks #{s["_rank"]} of {s.get("_total", "")} full-time MBA programs on the SFN composite')
+        # The scored total, not every school in the library: 21 programs are listed
+        # unscored and carry no rank, so "#5 of 91" overstated the field (INC-0104).
+        ip.append(f'{s["name"]} ranks #{s["_rank"]} of {s.get("_ranked_total") or s.get("_total", "")} scored full-time MBA programs on the SFN composite')
         usn = (s.get("ranks", {}).get("usnews") or {}).get("rank")
         if usn:
             ip.append(f'and #{usn} with US News')
     intro = (", ".join(ip) + ". ") if ip else ""
     gm = p.get("gmat_focus") or {}
     gcl = p.get("gmat_classic") or {}
-    facts_bits = []
+    facts = []
     if gm.get("v"):
-        facts_bits.append(f'a {gm.get("stat") or "reported"} GMAT Focus of {gm["v"]}')
+        facts.append((gm, f'{stat_article(gm)} GMAT Focus of {gm["v"]}'))
     elif gcl.get("v"):
-        facts_bits.append(f'a {gcl.get("stat") or "reported"} GMAT of {gcl["v"]} (Classic edition)')
+        facts.append((gcl, f'{stat_article(gcl)} GMAT of {gcl["v"]} (Classic edition)'))
     if (p.get("class_size") or {}).get("v"):
-        facts_bits.append(f'a class of {p["class_size"]["v"]}')
+        facts.append((p["class_size"], f'a class of {p["class_size"]["v"]}'))
     if (p.get("accept_rate_pct") or {}).get("v") is not None:
-        facts_bits.append(f'a {p["accept_rate_pct"]["v"]}% acceptance rate')
-    if facts_bits:
-        intro += f'The {p.get("class_year") or "latest"} profile reports ' + ", ".join(facts_bits) + ". "
+        facts.append((p["accept_rate_pct"], f'a {p["accept_rate_pct"]["v"]}% acceptance rate'))
+    # Each figure under the class it describes, so a Class of 2026 figure is never
+    # reported as part of a Class of 2027 profile (INC-0104).
+    for subj, phrases in grouped(p, facts):
+        intro += as_profile(subj) + " reports " + ", ".join(phrases) + ". "
     intro += "Every figure below links to its source."
     # FAQ generated only from verified fields
     qa = []
     if gm.get("v"):
         qa.append((f'What GMAT score do you need for {s["name"]}?',
-                   f'There is no cutoff. The {p.get("class_year") or "latest"} profile lists a {gm.get("stat") or "reported"} GMAT Focus of {gm["v"]}' + (f' ({gm.get("src")}, {gm.get("year")}).' if gm.get("src") else ".") + " Published figures are context, not cutoffs."))
+                   f'There is no cutoff. {as_profile(fig_subject(gm, p))} lists {stat_article(gm)} GMAT Focus of {gm["v"]}' + (f' ({gm.get("src")}, {gm.get("year")}).' if gm.get("src") else ".") + " Published figures are context, not cutoffs."))
     elif gcl.get("v"):
         qa.append((f'What GMAT score do you need for {s["name"]}?',
-                   f'The {p.get("class_year") or "latest"} profile lists a {gcl.get("stat") or "reported"} GMAT of {gcl["v"]} on the Classic 200 to 800 scale' + (f' ({gcl.get("src")}, {gcl.get("year")}).' if gcl.get("src") else ".")))
+                   f'{as_profile(fig_subject(gcl, p))} lists {stat_article(gcl)} GMAT of {gcl["v"]} on the Classic 200 to 800 scale' + (f' ({gcl.get("src")}, {gcl.get("year")}).' if gcl.get("src") else ".")))
     ar = p.get("accept_rate_pct") or {}
     if ar.get("v") is None:
         qa.append((f'What is the acceptance rate at {s["name"]}?',
@@ -611,10 +863,15 @@ def school_page(s, tpl, today, ranked=()):
             "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in qa]}) + "</script>"
         faq_section = '<div class="section"><h2>Quick Answers</h2>' + "".join(
             f'<p style="margin:0 0 12px"><b>{esc(q)}</b><br>{esc(a)}</p>' for q, a in qa) + "</div>"
+    lead = lead_paragraph(s, p, g, gc, acc, tui, sal, cs)
+    probs = prose_problems(s, [intro, lead, desc] + labels + [q + " " + a for q, a in qa])
+    if probs:
+        print("build_rankings: %s: %s" % (s["slug"], "; ".join(probs)), file=sys.stderr)
+        sys.exit(1)
     out = (tpl.replace("{{NAME}}", esc(s["name"]))
               .replace("{{TITLE_BITS}}", esc(title_bits))
               .replace("{{SEO_NAME}}", esc(seo_name(s)))
-              .replace("{{LEAD}}", esc(lead_paragraph(s, p, g, gc, acc, tui, sal, cs)))
+              .replace("{{LEAD}}", esc(lead))
               .replace("{{DESC_BITS}}", esc(desc))
               .replace("{{SLUG}}", esc(s["slug"]))
               .replace("{{FEDERAL_SECTION}}", federal_section(s))
@@ -688,6 +945,7 @@ def main():
         return
     import validate_schools
     validate_schools.validate(schools)
+    _selfcheck_secondary()
     dropped = [s["slug"] for s in schools if s.get("discontinued")]
     if dropped:
         print("build_rankings: excluding discontinued programs:", ", ".join(dropped))
@@ -716,12 +974,15 @@ def main():
     rows = []
     for s in ranked + unranked:
         p = s.get("profile", {})
+        # The label names the edition and the statistic, never a slice of the note:
+        # stat[:3] rendered "Focus lis" and "Classic 202" (INC-0104).
+        short = {"average": "avg", "median": "median"}
         gmat = p.get("gmat_focus") or {}
-        gmat_v, gmat_note = gmat.get("v"), (gmat.get("stat") or "")[:3]
+        gmat_v, gmat_note = gmat.get("v"), short.get(stat_kind(gmat), "")
         gmat_ed = "Focus"
         if gmat_v is None:
             gc = p.get("gmat_classic") or {}
-            gmat_v, gmat_note, gmat_ed = gc.get("v"), (gc.get("stat") or "")[:3], "Classic"
+            gmat_v, gmat_note, gmat_ed = gc.get("v"), short.get(stat_kind(gc), ""), "Classic"
         ranks_cells = "".join(
             f'<td class="num colx">{fmt((s.get("ranks", {}).get(k) or {}).get("rank"))}</td>'
             for k in WEIGHTS)
@@ -736,7 +997,7 @@ def main():
             f'<td class="num rank">{s.get("_rank", "-")}</td>'
             f'<td><div class="sname">{esc(s["name"])}</div><div class="sloc">{esc(s.get("city", ""))}, {esc(s.get("state", ""))} · {esc(s.get("type", ""))}</div></td>'
             f'<td class="num">{fmt(s.get("_score"))}</td>'
-            f'<td class="num">{fmt(gmat_v)}{("<span class=note>" + esc(gmat_ed) + " " + esc(gmat_note) + "</span>") if gmat_v is not None else ""}</td>'
+            f'<td class="num">{fmt(gmat_v)}{("<span class=note>" + esc(" ".join(x for x in (gmat_ed, gmat_note) if x)) + "</span>") if gmat_v is not None else ""}</td>'
             + ranks_cells +
             f'<td class="num colx">{fmt(field(s, "gpa"))}</td>'
             f'<td class="num{acc_cls}">{fmt(acc, "%")}</td>'
@@ -749,6 +1010,14 @@ def main():
             "</tr>")
     weights_rows = "".join(
         f"<tr><td>{SOURCE_LABEL[k]}</td><td class=\"num\">{int(w * 100)}%</td></tr>" for k, w in WEIGHTS.items())
+
+    # The page script labels salary from this rather than from the field name, so the
+    # detail view, the printed report and the CSV say what each school's figure is
+    # (INC-0105). Derived here once, from the same helpers the school pages use.
+    for s in schools:
+        sf = (s.get("profile") or {}).get("salary_median_usd")
+        if isinstance(sf, dict) and sf.get("v") is not None:
+            sf["label"] = " ".join(x for x in (salary_word(sf), salary_noun(sf)) if x).capitalize()
 
     ld_items = "".join(
         f'{{"@type":"ListItem","position":{s["_rank"]},"name":{json.dumps(s["name"])},"url":"{SITE}/schools/{s["slug"]}/"}},'
@@ -788,6 +1057,14 @@ def main():
             print(f"build_rankings: em/en dash in {path}", file=sys.stderr)
             sys.exit(1)
         path.write_text(content)
+    sec_hosts = {}
+    for s in schools:
+        for f in (s.get("profile") or {}).values():
+            if isinstance(f, dict) and is_secondary(s, f):
+                h = reg_domain(host_of(f.get("url")))
+                sec_hosts[h] = sec_hosts.get(h, 0) + 1
+    print("build_rankings: figures marked secondary, by publisher: " +
+          ", ".join("%s %d" % kv for kv in sorted(sec_hosts.items(), key=lambda kv: -kv[1])))
     print(f"built schools/ index + {len(schools)} school pages ({len(ranked)} ranked, {len(unranked)} unscored); apply/ checklist with {len(idx)} schools")
 
 if __name__ == "__main__":

@@ -67,6 +67,18 @@ function withSecurityHeaders(response) {
 const CANONICAL_HOST = "startfromnowhere.com";
 const REDIRECT_FROM = "www." + CANONICAL_HOST;
 
+// Pages that existed, were indexed, and were withdrawn. The MCAT and Executive Assessment
+// guides came down on 2026-09-18 because their official sources could not be reached to
+// re-verify them, but Search Console still showed 302 impressions for the two URLs in the
+// following five weeks, the Executive Assessment one at an average position of 9.6. A
+// searcher who clicked got the 404 page, which is the whole GMAT trainer. The exams hub
+// says which exams are covered and links the rest, which is an honest answer to anyone
+// who arrives looking for one we have withdrawn. Remove an entry when its page returns.
+const RETIRED = {
+  "/exams/mcat/": "/exams/",
+  "/exams/executive-assessment/": "/exams/",
+};
+
 // Pure, so src/smoke_redirect.js can assert the whole table with no network and no
 // runtime. Returns the absolute URL to redirect to, or null to serve normally.
 //
@@ -81,7 +93,13 @@ export function canonicalTarget(requestUrl) {
   } catch (err) {
     return null;
   }
-  if (url.hostname.toLowerCase() !== REDIRECT_FROM) return null;
+  const host = url.hostname.toLowerCase();
+  if (host !== REDIRECT_FROM && host !== CANONICAL_HOST) return null;
+  const path = url.pathname.endsWith("/") ? url.pathname : url.pathname + "/";
+  if (Object.prototype.hasOwnProperty.call(RETIRED, path)) {
+    return "https://" + CANONICAL_HOST + RETIRED[path] + url.search;
+  }
+  if (host !== REDIRECT_FROM) return null;
   url.protocol = "https:";
   url.hostname = CANONICAL_HOST;
   url.port = "";

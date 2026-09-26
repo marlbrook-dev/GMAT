@@ -33,8 +33,17 @@ const CASES = [
   // Hostnames are case insensitive.
   ['https://WWW.STARTFROMNOWHERE.COM/app/', 'https://startfromnowhere.com/app/'],
 
+  // Withdrawn pages that search engines still send people to: one hop, on either host,
+  // with or without the trailing slash, query string kept.
+  ['https://startfromnowhere.com/exams/mcat/', 'https://startfromnowhere.com/exams/'],
+  ['https://startfromnowhere.com/exams/mcat', 'https://startfromnowhere.com/exams/'],
+  ['https://www.startfromnowhere.com/exams/executive-assessment/?utm_source=g',
+   'https://startfromnowhere.com/exams/?utm_source=g'],
+
   // Everything below must be served, never redirected.
   ['https://startfromnowhere.com/', null],
+  ['https://startfromnowhere.com/exams/', null],
+  ['https://startfromnowhere.com/exams/mcat-prep/', null],
   ['https://startfromnowhere.com/app/bank.js', null],
   ['https://startfromnowhere.com/exams/gmat/?utm_source=x', null],
   ['https://gmat.workers.dev/', null],
