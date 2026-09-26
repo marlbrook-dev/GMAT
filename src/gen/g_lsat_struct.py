@@ -28,7 +28,7 @@ the same question, and counting it twice would inflate the category.
 """
 import zlib
 
-from framework import ItemError, upfirst
+from framework import ItemError, ListsQuestions, upfirst
 from g_gmat_cr import CRBase
 
 PARTS = ("opp", "concl", "p1", "ic", "p2")
@@ -478,7 +478,15 @@ def why_wrong_role(a, role):
     return "describes " + what
 
 
-class ClaimRole(CRBase):
+class ByArgument(ListsQuestions):
+    """A fixed list of questions asked of each argument, so the runner knows when it has
+    made them all (INC-0126)."""
+
+    def units(self):
+        return [(i, None) for i in range(len(ARGS))]
+
+
+class ClaimRole(ByArgument, CRBase):
     """The role a named claim plays in an argument whose parts are fixed by its author."""
     id = "lsat_struct_role"
     skill = "lsat_lr_struct"
@@ -487,19 +495,25 @@ class ClaimRole(CRBase):
     sub = "Role of a claim"
     diff = 3
 
+    def asks(self, i):
+        a = ARGS[i]
+        out = []
+        for part in PARTS:
+            claim = a[part]
+            w = zlib.crc32(("%d|%s" % (i, part)).encode()) % 2
+            # A claim with a comma of its own reads badly with more sentence after it, so
+            # it goes at the end of the question.
+            if "," in claim:
+                w = 1
+            q = (STEM_ROLE[0] % (claim, a["speaker"]) if w == 0
+                 else STEM_ROLE[1] % (a["speaker"], claim))
+            out.append((render(i, a) + "\n\n" + q, part))
+        return out
+
     def make(self, rng, choices_n):
         i = rng.randrange(len(ARGS))
         a = ARGS[i]
-        part = rng.choice(PARTS)
-        claim = a[part]
-        w = zlib.crc32(("%d|%s" % (i, part)).encode()) % 2
-        # A claim with a comma of its own reads badly with more sentence after it, so it
-        # goes at the end of the question.
-        if "," in claim:
-            w = 1
-        q = (STEM_ROLE[0] % (claim, a["speaker"]) if w == 0
-             else STEM_ROLE[1] % (a["speaker"], claim))
-        stem = render(i, a) + "\n\n" + q
+        stem, part = rng.choice(self.asks(i))
         right = ROLE[part][zlib.crc32(("%d|%s|key" % (i, part)).encode()) % 2]
         # One description per other role, so no two wrong answers name the same role, and
         # at most two of the roles nothing here plays: those are eliminated at a glance, and
@@ -518,7 +532,7 @@ class ClaimRole(CRBase):
         return item
 
 
-class MainConclusion(CRBase):
+class MainConclusion(ByArgument, CRBase):
     """Which choice states the main conclusion, among paraphrases of every other part."""
     id = "lsat_struct_main"
     skill = "lsat_lr_struct"
@@ -527,10 +541,13 @@ class MainConclusion(CRBase):
     sub = "Main conclusion"
     diff = 3
 
+    def asks(self, i):
+        return [(render(i, ARGS[i]) + "\n\n" + STEM_MAIN % ARGS[i]["speaker"], None)]
+
     def make(self, rng, choices_n):
         i = rng.randrange(len(ARGS))
         a = ARGS[i]
-        stem = render(i, a) + "\n\n" + STEM_MAIN % a["speaker"]
+        (stem, _), = self.asks(i)
         right = a["concl_para"]
         wrongs = [
             (a["ic_para"], "is the intermediate conclusion, which the argument draws in order "

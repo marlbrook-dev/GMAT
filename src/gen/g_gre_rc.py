@@ -78,14 +78,14 @@ class GreStated(GreRender, StatedIdea):
 
     def make(self, rng, choices_n):
         p = rng.choice(self.corpus)
-        field, stem = rng.choice(self.ASKS)
+        stem, field = rng.choice(self.asks(p))
         s = gre_sentences(p)
         right = lower1(s[field])
         pool = [lower1(v) for k, v in s.items() if k != field]
         expl = ("The passage says exactly this, and the question asks only what it says. "
                 "Each of the other choices is also a sentence of the passage, so each is "
                 "true; none of them is what the stem asked about.")
-        return self.emit(rng, choices_n, p, stem(p), right, pool, expl,
+        return self.emit(rng, choices_n, p, stem, right, pool, expl,
                          rng.choice([1, 2, 2, 3]), "gre_rc", self.sub)
 
 
@@ -149,13 +149,15 @@ class FunctionOfSentence(GreRender, RCBase):
     wrong = ("The wrong choices describe what a different sentence of the passage does, or "
              "a job that no sentence in it does.")
 
+    def asks(self, p):
+        return [("In the context of the passage as a whole, the %s sentence serves "
+                 "primarily to" % ORDINAL[i], i) for i in ASKED]
+
     def make(self, rng, choices_n):
         p = rng.choice(self.corpus)
-        i = rng.choice(ASKED)
+        stem, i = rng.choice(self.asks(p))
         right = rng.choice(JOB[i])
         pool = [rng.choice(JOB[j]) for j in range(len(JOB)) if j != i] + rng.sample(NO_JOB, 2)
-        stem = ("In the context of the passage as a whole, the %s sentence serves primarily to"
-                % ORDINAL[i])
         expl = ("Read in order, the passage sets out an account, points to a weakness in it, "
                 "reports two findings, says what they suggest together and closes on a "
                 "limit. " + WHY[i])

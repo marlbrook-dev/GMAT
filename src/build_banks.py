@@ -495,6 +495,33 @@ def check_repeatable(pool, draws=60, seed=20260926):
     return out
 
 
+def check_listed(gens, got, target):
+    """Schemas that list their questions and did not ship exactly those questions.
+
+    A reading schema knows every question it can ask, so the runner retires it once it has
+    made them all. Before it did, a rule of 400 repeats in a row dropped a question on
+    three of four builds and the only trace was a count one short (INC-0126). A question
+    missing from a category that is under its target is a question the build could have
+    shipped and did not. One shipped that the list does not have means make() and asks()
+    have come apart, and then neither the runner's count nor this check can be trusted.
+    """
+    out = []
+    for g in gens:
+        if not hasattr(g, "questions"):
+            continue
+        listed = set(g.questions())
+        shipped = {F.question_key(it["stem"], it.get("passageId"))
+                   for it in got if it.get("gen") == g.id}
+        missing, extra = sorted(listed - shipped), sorted(shipped - listed)
+        if missing and len(got) < target:
+            out.append("  %s shipped %d of the %d questions it lists; missing, for one: %s"
+                       % (g.id, len(listed) - len(missing), len(listed), missing[0]))
+        if extra:
+            out.append("  %s shipped %d question(s) it does not list, for one: %s"
+                       % (g.id, len(extra), extra[0]))
+    return out
+
+
 def check_discarded(exam, choices, gens):
     """Report schemas whose questions cannot be assembled into items for this exam.
 
@@ -777,6 +804,11 @@ def main(target=TARGET, verbose=True):
                     "build_banks: %s/%s wires %d schema(s) that produced no items at all: "
                     "%s. Either they cannot draw, or the plan should not name them."
                     % (exam, skill, len(silent), ", ".join(sorted(silent))))
+            # One question short is the same silence at its smallest (INC-0126).
+            listed = check_listed(gens, got, target)
+            if listed:
+                raise SystemExit("build_banks: %s/%s did not ship the questions its schemas "
+                                 "list (INC-0126)\n%s" % (exam, skill, "\n".join(listed)))
             # A schema can also produce only PART of itself, which is the same silence
             # one level down. sat_geo_trig listed five wrong answers, but two of them
             # were the same arithmetic for the tangent, so once the duplicate was

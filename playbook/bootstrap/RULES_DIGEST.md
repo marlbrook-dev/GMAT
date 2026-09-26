@@ -1,14 +1,14 @@
 # Rules Digest
 
-125 defects from a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
+126 defects from a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
 
-Generated 2026-09-26 from a ledger spanning 7 days and 67 commits.
+Generated 2026-09-26 from a ledger spanning 7 days and 68 commits.
 
 ## Read this first
 
-The three ways defects were most often found, in order: found by reading the code or the output (60), found by measuring something (34), a test caught it (15). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
+The three ways defects were most often found, in order: found by reading the code or the output (60), found by measuring something (35), a test caught it (15). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
 
-The dominant failure mode is silent loss, 25 of 125: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
+The dominant failure mode is silent loss, 26 of 126: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
 
 ## Learned the hard way, more than once
 
@@ -24,7 +24,9 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (3 times, build system) A regex that counts things assumes a formatting convention, and a file that legitimately breaks the convention counts as zero rather than as an error.
 - (3 times, tests and guards) Extracting a shared helper does not migrate the callers. The extraction fixes the file it was extracted from and leaves every sibling on the old path, which is two earlier defects in a different costume: a correction applied to the instances in hand rather than to the pattern.
 - (3 times, content generation) Two lessons, and they compound. A rule copied into code by its examples loses the clause the examples were illustrating: CLAUDE.md bans six named sites and coaching site blogs, and the list kept the six and dropped the category, which is the half that generalises.
+- (3 times, content generation) A module that nothing imports fails no test, and an exception raised on every draw is indistinguishable from an exception raised on a hard draw.
 - (3 times, content generation) Reading the record does not prevent the defect; the practice does. This one was written hours after its own lesson was read closely enough to be catalogued as a recurrence, and it was caught by rendering three items rather than by remembering.
+- (3 times, content generation) A generator's wrong answers are written as labels and read as labels, and nobody looks at the values two labels produce.
 - (3 times, content generation) A generated item is checked as data, and this one was correct as data: the logic was valid, the key was right, the distractors were the intended errors.
 - (3 times, content generation) A fix scoped to where the evidence was is a fix scoped to the sample, not to the defect.
 - (3 times, content generation) When a defect is about a KIND of code rather than a line of code, a guard bolted to the site of the failure does not generalise, and writing one feels like closing the case.
@@ -37,9 +39,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (2 times, build system) Two habits, both mine rather than the code's. Verify with the sequence the pipeline runs, read out of its config, not with the subset you remember: a suite chosen from memory drifts to the parts that were failing last week.
 - (2 times, content generation) Every guard here measured the answer's place in its set, and a set of guards that all take the same kind of measurement shares a blind spot the size of everything else.
 - (2 times, build system) A size limit on a generated file is only a guard if something bounds the generator too; otherwise it is a delayed failure that lands on whoever commits next, and reads as their fault.
-- (2 times, content generation) A module that nothing imports fails no test, and an exception raised on every draw is indistinguishable from an exception raised on a hard draw.
 - (2 times, tests and guards) A ratchet is only read while it is quiet. One that fires on noise gets re-recorded as a reflex, and the re-recording is indistinguishable from accepting a real regression, so the mechanism that exists to catch regressions becomes the mechanism that launders them.
-- (2 times, content generation) A generator's wrong answers are written as labels and read as labels, and nobody looks at the values two labels produce.
 - (2 times, content generation) A template is a promise about the grammar of what goes into it, and the promise is invisible: the code says name and the sentence needs a singular noun phrase.
 - (2 times, search and metadata) When a fix names a class of input, such as 'the stat field is free text', find every place that input is used before closing it.
 - (2 times, tests and guards) Run every browser suite when a site-wide element such as a modal ships, because a test nobody runs is a claim about the past.
@@ -118,6 +118,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - A guard keyed to wording is a guard on the wording, not the fact, and every synonym is a hole in it.
 - A file generated for a different audience has to be read as that audience, not as the one that generated it.
 - State that describes a run has to live and die with the run. Keyed to the object that makes the draws, it cannot outlive them; kept on a long lived instance, it quietly couples every run to every earlier one, and the output depends on call history that no one reading a single run can see.
+- A heuristic stopping rule is right only when nothing better is known. Where the size of what is being collected is known exactly, stop at that size and check that it was reached.
 
 ## Search and metadata
 
