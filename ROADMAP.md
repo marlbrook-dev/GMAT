@@ -263,6 +263,13 @@ verified rather than that the school does not publish one (INC-0118).
       playbook workflow and opens an issue when a figure stops matching. Tracing the GRE
       text also found the `/exams/` hub's structured data printing a Python dict as every
       exam's description; the build now fails on any page that prints one.
+- [x] **GRE score calculator** at `/exams/gre/score-calculator/`: where a Verbal,
+      Quantitative or Analytical Writing score stands in ETS's percentile ranks (the percent
+      scoring lower, July 2022 to June 2025), with the full tables, from ETS's interpretive
+      data PDF parsed into `data/gre_percentiles.json`. The text layer drops ETS's blank
+      cells, so the columns were aligned against the rendered table and the build rejects a
+      blank above a reported score. Verbal plus Quant is shown only as arithmetic, with no
+      percentile, because ETS reports and ranks the three scores separately.
 - **Decided against** mapping the two paragraph passages onto GRE reading as they are. ETS
   says most GRE passages are one paragraph long (ETS, GRE General Test Verbal Reasoning,
   https://www.ets.org/gre/test-takers/general-test/prepare/content/verbal-reasoning.html, read
@@ -290,18 +297,16 @@ verified rather than that the school does not publish one (INC-0118).
       page confirms the library's figures)
 - [ ] `src/smoke_load.js` stays out of CI because timing on shared runners is noisy, so run
       it by hand after any change to how the banks are split or loaded (INC-0113)
-- [ ] A GRE score calculator beside the ACT one: the total is Verbal plus Quantitative
-      (ETS), and ETS's Table 1B (gre-guide-table-1a.pdf, July 2022 to June 2025) gives the
-      percent scoring lower for every scaled score. Confirm against the rendered PDF which
-      scores its blank cells belong to before parsing, since the text layer does not say
 - [ ] Six GMAT facts cite pages this sandbox cannot read: four on www.mba.com serve a bot
       challenge and two on support.mba.com answer 403. check_sources reports them as
       unreadable, not wrong. The weekly job may read them from GitHub's runners; if it
       cannot either, find the same figures on gmac.com and move the citations (INC-0100
       did this for the section table)
-- [ ] An SAT one needs College Board's own percentile table. The Understanding Scores PDF
-      for SAT School Day (fall 2026) defines the All Tester Percentile but prints no table,
-      so find the document that does before building anything
+- [ ] An SAT one needs College Board's own percentile table. The fall 2026 Understanding
+      Scores PDFs, for SAT Weekend (satsuite.collegeboard.org/media/pdf/sat-understanding-scores.pdf)
+      and SAT School Day, state that the total is the sum of the two section scores and
+      define the All Tester Percentile, but print no table, so find the document that does
+      before building anything; a calculator that only adds two numbers is not worth a page
 
 ## Session log, September 16, 2026: LSAT and ACT live, MCAT and EA blocked
 

@@ -149,6 +149,11 @@ pages on ChatGPT search (403).
   parsed from ACT's own PDF by a script, cited on the page, and checked cell by cell by a
   browser test. It shows no rank for a superscore, because ACT's ranks describe single
   test Composites.
+- **A GRE score calculator at /exams/gre/score-calculator/**: where a Verbal, Quantitative
+  or Analytical Writing score stands in ETS's own percentile ranks, with the full tables,
+  parsed from ETS's interpretive data PDF the same way. ETS reports three scores and ranks
+  each separately, so the page adds Verbal and Quant only as arithmetic and gives the sum
+  no percentile.
 
 ### Next, in the order the evidence ranks them
 
@@ -156,9 +161,9 @@ pages on ChatGPT search (403).
    question to an inbox or account (kaplanquizzes.com; act.org free test prep). This needs an
    owner decision on a sending provider, a consented list, a one-click unsubscribe, and a
    privacy.html update before anything is collected.
-2. **Score calculators built only from published rules**: the ACT one is built (above). A
-   GRE one can follow from ETS's own table; an SAT one waits on finding College Board's
-   percentile table. Never a percentile or a conversion table we cannot source.
+2. **Score calculators built only from published rules**: the ACT and GRE ones are built
+   (above). An SAT one waits on finding College Board's percentile table. Never a
+   percentile or a conversion table we cannot source.
 3. **Per-school MBA deadline pages**, which Clear Admit runs as a hub. Blocked on data: only
    one school file carries a deadline, and each must come from the school's own page.
 4. **An ICS export of the application checklist**, so the dated tasks on /apply/ land in a
