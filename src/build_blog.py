@@ -45,6 +45,35 @@ MONTHS = "January February March April May June July August September October No
 
 def fail(msg): sys.exit(f"build_blog: {msg}")
 
+USD = re.compile(r"\$\s?([\d,]+(?:\.\d+)?)")
+
+def usd(s):
+    """A dollar amount as it is compared: no thousands separators, no zero cents."""
+    s = s.replace(",", "")
+    return s[:-3] if s.endswith(".00") else s
+
+def sourced_usd():
+    """Every dollar amount the site holds with a source: the exam records, the verified fact
+    sheet, and the school files. A post may print a price only if it is one of these. The
+    ACT science add-on went out as $4 in a table and $5 in the same post's FAQ, and every
+    other check passed it, because none of them compared a post with its sources (INC-0124)."""
+    exams = (ROOT / "data" / "exams.json").read_text(encoding="utf-8")
+    texts = [exams, (POSTS_DIR / "EDITORIAL.md").read_text(encoding="utf-8")]
+    out = set()
+    for d in json.loads(exams):
+        v = (d.get("cost_usd") or {}).get("v")
+        if v is not None:
+            out.add(usd(str(v)))
+    for f in sorted((ROOT / "data" / "schools").glob("*.json")):
+        t = f.read_text(encoding="utf-8")
+        texts.append(t)
+        for k, v in json.loads(t).get("profile", {}).items():
+            if k.endswith("_usd") and isinstance(v, dict) and v.get("v") is not None:
+                out.add(usd(str(v["v"])))
+    for t in texts:
+        out.update(usd(m) for m in USD.findall(t))
+    return out
+
 def fmt_date(iso):
     y, m, d = iso.split("-")
     return f"{MONTHS[int(m)-1]} {int(d)}, {y}"
@@ -74,6 +103,7 @@ def split_live(posts):
 
 def validate(posts):
     slugs = {p["slug"] for p in posts}
+    known = sourced_usd()
     for p in posts:
         n = p["file"]
         for k in ("slug", "title", "description", "category", "date", "author", "read_min", "hero", "faq"):
@@ -95,6 +125,11 @@ def validate(posts):
             fail(f"{n}: em or en dash found; house style forbids them")
         for b in BANNED_SOURCES:
             if b in everything.lower(): fail(f"{n}: references banned source '{b}'")
+        loose = sorted({usd(m) for m in USD.findall(everything)} - known, key=float)
+        if loose:
+            fail(f"{n}: states {', '.join('$' + x for x in loose)}, which appears nowhere in the "
+                 f"sourced data (data/exams.json, the EDITORIAL fact sheet, data/schools); source "
+                 f"the figure there before a post prints it (INC-0124)")
         if re.search(r"<h1[\s>]", p["body"]): fail(f"{n}: body must not contain h1")
         if p["category"] != "Company News":
             sib = re.findall(r'href="/blog/([a-z0-9-]+)/"', p["body"])

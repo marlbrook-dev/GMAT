@@ -161,6 +161,10 @@ verified rather than that the school does not publish one (INC-0118).
       browser and sent nowhere, with a link that opens the trainer on its flashcards
       (`/app/#cards`). The trainer and the daily pages take the trainer's storage key from
       one function in `src/daily_streak.js`, so they cannot come to read different places.
+- [x] **A wrong fee in a live post** (INC-0124): the SAT vs ACT post's table gave the ACT
+      science add-on as $4 while its own FAQ, ACT's fee page and `data/exams.json` say $5. The
+      table is corrected, and the blog build now fails on any dollar amount in a post that
+      appears nowhere in the sourced data, so a price has to be sourced before it is printed.
 - **Decided against** mapping the two paragraph passages onto GRE reading as they are. ETS
   says most GRE passages are one paragraph long (ETS, GRE General Test Verbal Reasoning,
   https://www.ets.org/gre/test-takers/general-test/prepare/content/verbal-reasoning.html, read
