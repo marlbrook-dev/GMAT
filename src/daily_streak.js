@@ -86,6 +86,28 @@ var SFNDaily = (function () {
       (streak > 1 ? ', ' + streak + ' day streak' : '') + '\n' +
       'https://startfromnowhere.com/daily/' + slug + '/';
   }
+  // Where each trainer keeps its progress in this browser. The trainer builds its storage
+  // key from these, and the daily pages read reviews from the same place, so the two cannot
+  // come to name different keys. GMAT progress may still sit under the key it had before
+  // there were other exams.
+  function trainerKey(examId) { return 'meridian_prep_' + examId + '_v1'; }
+  function legacyKey(examId) { return examId === 'gmat-focus' ? 'gmat_trainer_v1' : null; }
+  // Flashcards this visitor has studied in an exam's trainer that are due again, read from
+  // the trainer's own saved state. Cards never studied are left out: the trainer offers
+  // those as new, and counting them would tell a first time visitor that a whole deck is
+  // overdue. Read only, like everything here; nothing is sent anywhere.
+  function cardsDue(examId, now) {
+    try {
+      var raw = localStorage.getItem(trainerKey(examId)) ||
+                (legacyKey(examId) ? localStorage.getItem(legacyKey(examId)) : null);
+      var s = raw ? JSON.parse(raw) : null;
+      if (!s || !s.cards || (s.exam && s.exam !== examId)) return 0;
+      var t = now || Date.now(), n = 0;
+      for (var id in s.cards) { if (s.cards[id] && s.cards[id].due <= t) n++; }
+      return n;
+    } catch (e) { return 0; }
+  }
   return { KEY: KEY, load: load, today: today, next: next, days: days, record: record,
-           stats: stats, clock: clock, shareText: shareText };
+           stats: stats, clock: clock, shareText: shareText,
+           trainerKey: trainerKey, legacyKey: legacyKey, cardsDue: cardsDue };
 })();

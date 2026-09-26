@@ -205,6 +205,13 @@ LIVE_JS = r"""<script>
    +'<p class="small">'+(st.doneToday?'Done for today. The next question arrives at midnight, your time.':'Answer today to keep it going.')+' Best streak '+st.best+' days; '+st.correct+' of '+st.answered+' answered correctly.</p>';
  }
  streak();
+ // Flashcards waiting in this exam's trainer, from its own saved state in this browser.
+ // A second reason to come back that is about memory rather than novelty (GROWTH.md).
+ var due=S.cardsDue(D.examId);
+ if(due>0){
+  document.getElementById('dueText').textContent=due+(due===1?' flashcard you have studied is':' flashcards you have studied are')+' due for review in your '+D.short+' trainer.';
+  document.getElementById('due').hidden=false;
+ }
 })();
 </script>"""
 
@@ -215,10 +222,18 @@ HUB_JS = r"""<script>
  D.exams.forEach(function(e){
   var pick=null; e.days.forEach(function(x){ if(x.date===today) pick=x; });
   if(!pick){ var le=e.days.filter(function(x){return x.date<=today;}); pick=le.length?le[le.length-1]:null; }
-  var card=document.getElementById('ex-'+e.slug); if(!card||!pick) return;
+  var card=document.getElementById('ex-'+e.slug); if(!card) return;
+  var s=card.querySelector('.st');
+  // Flashcards waiting in this exam's trainer, from its own saved state in this browser.
+  // Shown whether or not a question is scheduled for today, since it does not depend on one.
+  var n=S.cardsDue(e.examId);
+  if(n>0){ var p=document.createElement('p'), a=document.createElement('a');
+   p.className='small due'; a.href=e.appPath+'#cards'; a.textContent=n+' flashcard'+(n===1?'':'s')+' due for review';
+   p.appendChild(a); s.parentNode.insertBefore(p,s.nextSibling); }
+  if(!pick) return;
   card.querySelector('.meta').textContent=pick.meta;
   card.querySelector('.prev').textContent=pick.preview;
-  var st=S.stats(e.slug,today), s=card.querySelector('.st');
+  var st=S.stats(e.slug,today);
   s.textContent=st.doneToday?(st.todayCorrect?'Solved today':'Answered today')+(st.current>1?', '+st.current+' day streak':''):(st.current>0?st.current+' day streak, answer today to keep it':'Not answered yet today');
  });
 })();
@@ -322,11 +337,13 @@ def main():
                 '<noscript><details class="ans"><summary>Show the Answer and Explanation</summary>%s</details></noscript></div>'
                 '<aside class="side"><div class="card"><p class="eyebrow">Your Streak</p><div id="streak"><p class="small">Answer to start one.</p></div>'
                 '<p class="small">A streak counts days you answered. Every seven days in a row earns a freeze, up to two, and a freeze covers a missed day automatically. It lives only in this browser.</p></div>'
+                '<div class="card" id="due" hidden><p class="eyebrow">Your Trainer</p><p id="dueText"></p>'
+                '<a class="btn sec" id="dueGo" href="%s#cards">Review Flashcards</a></div>'
                 '<div class="card"><p class="eyebrow">Past Questions</p><ul class="days">%s</ul>'
                 '<p class="small"><a href="%sfeed.xml">RSS feed</a></p></div></aside></div>'
                 '<script type="application/json" id="daily-data">%s</script>'
                 % (esc(name), esc("Today, " + long_date(fallback["date"])), esc(name), esc(name),
-                   question_block(fallback["item"], ex), answer_block(fallback["item"]),
+                   question_block(fallback["item"], ex), answer_block(fallback["item"]), esc(ex["appPath"]),
                    recent or "<li>The first question is today's.</li>", base,
                    json.dumps(payload).replace("</", "<\\/")))
         title = "%s Question of the Day: Free, With Explanations" % name
@@ -350,7 +367,7 @@ def main():
                   "".join(items)))
         write("%s/feed.xml" % slug, rss)
         # --- hub card data ---
-        hub_exams.append({"slug": slug, "name": name, "short": short, "days": [
+        hub_exams.append({"slug": slug, "examId": eid, "appPath": ex["appPath"], "name": name, "short": short, "days": [
             {"date": w["date"], "meta": "%s · %s" % (ex["sections"].get(w["item"]["section"], ""), ex["skills"].get(w["item"]["skill"], "")),
              "preview": " ".join(w["item"]["stem"].split())[:220]} for w in win]})
 

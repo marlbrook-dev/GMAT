@@ -137,6 +137,12 @@ pages on ChatGPT search (403).
   the trainer already sends (item, option, right or wrong, seconds; no account, session,
   device or address). Answers per day on /daily/ are the number to watch:
   `select date(ts), count(*) from item_events where mode = 'daily' group by 1 order by 1`.
+- **Reviews waiting, on the daily pages.** The trainer's study plan already listed the
+  flashcards due; the daily pages, which are where a returning visitor lands, did not. Each
+  exam's daily page and the hub now read that exam's trainer progress in this browser and
+  say how many flashcards the visitor has studied and is due to see again, with a link that
+  opens the trainer on its flashcards. Cards never studied are not counted, so a first
+  visit does not announce a whole deck as overdue, and nothing is sent anywhere.
 
 ### Next, in the order the evidence ranks them
 
@@ -144,14 +150,12 @@ pages on ChatGPT search (403).
    question to an inbox or account (kaplanquizzes.com; act.org free test prep). This needs an
    owner decision on a sending provider, a consented list, a one-click unsubscribe, and a
    privacy.html update before anything is collected.
-2. **Due-today flashcards on the dashboard and the daily page**, using the decks already
-   shipped, so there is a second reason to return that is about memory, not novelty.
-3. **Score calculators built only from published rules**: the ACT Composite (the average of
+2. **Score calculators built only from published rules**: the ACT Composite (the average of
    English, Mathematics and Reading, which ACT publishes) and superscores. Never a percentile
    or a conversion table we cannot source.
-4. **Per-school MBA deadline pages**, which Clear Admit runs as a hub. Blocked on data: only
+3. **Per-school MBA deadline pages**, which Clear Admit runs as a hub. Blocked on data: only
    one school file carries a deadline, and each must come from the school's own page.
-5. **An ICS export of the application checklist**, so the dated tasks on /apply/ land in a
+4. **An ICS export of the application checklist**, so the dated tasks on /apply/ land in a
    calendar that reminds the applicant instead of us.
 
 Left out on purpose: weekly leagues and percentile ranks (they rank people against each

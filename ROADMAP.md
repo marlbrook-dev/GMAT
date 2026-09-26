@@ -155,6 +155,12 @@ verified rather than that the school does not publish one (INC-0118).
       count is now tied to the rng of the run it measures, the banks are byte for byte what
       they were, and the build runs every planned schema twice from one seed and fails on
       any whose runs differ.
+- [x] **Reviews waiting, on the daily pages** (GROWTH.md, what brings people back): each
+      exam's daily page and the hub say how many flashcards the visitor has studied and is
+      due to see again in that exam's trainer, read from the trainer's own progress in this
+      browser and sent nowhere, with a link that opens the trainer on its flashcards
+      (`/app/#cards`). The trainer and the daily pages take the trainer's storage key from
+      one function in `src/daily_streak.js`, so they cannot come to read different places.
 - **Decided against** mapping the two paragraph passages onto GRE reading as they are. ETS
   says most GRE passages are one paragraph long (ETS, GRE General Test Verbal Reasoning,
   https://www.ets.org/gre/test-takers/general-test/prepare/content/verbal-reasoning.html, read

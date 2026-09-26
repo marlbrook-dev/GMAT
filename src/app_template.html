@@ -401,10 +401,10 @@ const SEC_COLOR={}, SEC_BG={}, SEC_SHORT={};
 SECTIONS.forEach(s=>{ const k=SEC_PALETTE[s]||'quant';
  SEC_COLOR[s]='var(--section-'+k+')'; SEC_BG[s]='var(--section-'+k+'-bg)'; SEC_SHORT[s]=SECTION_META[s].short||SECTION_META[s].name; });
 // ---------- storage adapter (swap for Supabase later) ----------
-const STORE_KEY='meridian_prep_'+CURRENT_EXAM+'_v1';
+const STORE_KEY=SFNDaily.trainerKey(CURRENT_EXAM);
 // Both trainers share an origin, so a stored state has to prove which exam it belongs to before
 // this app adopts it. The legacy key predates the registry and holds GMAT progress only.
-const LEGACY_KEY = CURRENT_EXAM==='gmat-focus' ? 'gmat_trainer_v1' : null;
+const LEGACY_KEY = SFNDaily.legacyKey(CURRENT_EXAM);
 const Store={ load(){ try{ const raw=localStorage.getItem(STORE_KEY)||(LEGACY_KEY?localStorage.getItem(LEGACY_KEY):null);
    if(!raw) return null; const s=JSON.parse(raw);
    if(s&&s.exam&&s.exam!==CURRENT_EXAM) return null;
@@ -3167,7 +3167,7 @@ function finishOnboarding(skipped){ if(!skipped){ state.settings.program={exam:o
 // the click that asked for it: a pageview on /app/ is recorded before any of
 // this runs. Consent gated, once per session.
 milestone('app_open');
-updateHeader(); renderDash(); Cloud.init(); if(location.hash==='#account'){ show('data'); } if(!state.settings.onboarded&&state.attempts.length===0) startOnboarding();
+updateHeader(); renderDash(); Cloud.init(); if(location.hash==='#account'){ show('data'); } else if(location.hash==='#cards'){ show('cards'); } if(!state.settings.onboarded&&state.attempts.length===0) startOnboarding();
 </script>
 {{SENTINEL}}
 
