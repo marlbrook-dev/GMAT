@@ -199,6 +199,17 @@ verified rather than that the school does not publish one (INC-0118).
       are mirrored in `data/exams.json` and the EDITORIAL fact sheet. The two define a
       percentile differently (ACT counts scores at or below, ETS scores below), and the GRE
       post says so.
+- [x] **A "good SAT score" post** (October 22) from College Board's dated figures rather
+      than its undated percentile tables: the 2025 SAT Suite Annual Report for the class of
+      2025, 2,004,965 students at their most recent score, mean 1029. The distribution page
+      was cut from the PDF and read as an image to confirm the counts, which sum to the
+      class total in every column; the post's shares are arithmetic on those counts. Reading
+      PDFs here needs `pip install pdfminer.six cffi pypdf` in the container.
+- [x] **A "good LSAT score" post** (October 24) from LSAC's percentile table for the
+      2023-2024 through 2025-2026 testing years, which LSAC publishes as HTML, so all 61
+      rows were parsed and every figure in the post checked against them. Two details the
+      search summary offered (the July to June testing year and a summer update) are not on
+      LSAC's page and were left out.
 - **Decided against** mapping the two paragraph passages onto GRE reading as they are. ETS
   says most GRE passages are one paragraph long (ETS, GRE General Test Verbal Reasoning,
   https://www.ets.org/gre/test-takers/general-test/prepare/content/verbal-reasoning.html, read
@@ -226,14 +237,6 @@ verified rather than that the school does not publish one (INC-0118).
       page confirms the library's figures)
 - [ ] `src/smoke_load.js` stays out of CI because timing on shared runners is noisy, so run
       it by hand after any change to how the banks are split or loaded (INC-0113)
-- [ ] A "good SAT score" post to go with the ACT and GRE ones. College Board's research
-      page (research.collegeboard.org/reports/sat-suite/understanding-scores/sat) prints
-      nationally representative and user group percentile tables but never says which years
-      they cover, and the fall 2026 score report guide calls its figure an All Tester
-      Percentile, so neither was published with a year it could not show. The dated source
-      is the 2025 SAT Suite Annual Report for the class of 2025 on reports.collegeboard.org;
-      its tables extract with pdfminer.six after `pip install pdfminer.six cffi` in this
-      container, but need a careful read before any figure is used.
 
 ## Session log, September 16, 2026: LSAT and ACT live, MCAT and EA blocked
 

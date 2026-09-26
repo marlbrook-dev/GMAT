@@ -240,6 +240,12 @@
         "src": "College Board Newsroom",
         "year": 2024,
         "url": "https://newsroom.collegeboard.org/digital-sat-launches-across-country-completing-transition-digital-and-providing-simpler-testing"
+      },
+      {
+        "text": "The class of 2025, counted once at each student's most recent score, was 2,004,965 SAT takers with a mean total of 1029 (standard deviation 235), 521 in Reading and Writing (121) and 508 in Math (126); 149,767 scored 1400 to 1600 and 357,574 scored 1200 to 1390",
+        "src": "College Board",
+        "year": 2025,
+        "url": "https://reports.collegeboard.org/media/pdf/2025-total-group-sat-suite-of-assessments-annual-report.pdf"
       }
     ]
   },
@@ -490,6 +496,12 @@
         "src": "LSAC",
         "year": 2026,
         "url": "https://www.lsac.org/lsat/taking-lsat/test-format"
+      },
+      {
+        "text": "Percentile ranks, the percentage of test scores lower than a given score, over the 2023-2024, 2024-2025 and 2025-2026 testing years: 150 is 36.56, 155 is 54.03, 160 is 71.06, 165 is 85.17, 170 is 94.48, 175 is 98.72 and 180 is 99.85",
+        "src": "LSAC",
+        "year": 2026,
+        "url": "https://www.lsac.org/data-research/data/lsat-percentiles"
       }
     ],
     "answer_choices": {
