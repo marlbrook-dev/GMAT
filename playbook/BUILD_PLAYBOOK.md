@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-26, which is 7 days, across
-60 commits, by one owner directing a series of AI coding sessions. As of this
+61 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 77 Python files, 106 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 64 documents:
 2015 tracked files in total.
@@ -1121,7 +1121,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-60 commits in 7 days, one owner, a series of AI sessions. This
+61 commits in 7 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1213,22 +1213,22 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-123 recorded defects, over 7 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+124 recorded defects, over 7 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 58 | 47% |
-| Found by measuring something | 34 | 28% |
+| Found by reading the code or the output | 59 | 48% |
+| Found by measuring something | 34 | 27% |
 | A test caught it | 15 | 12% |
 | Found by rendering it and looking | 6 | 5% |
 | Found by a review bot or an adversarial pass | 5 | 4% |
 | A build guard caught it | 3 | 2% |
 | A person hit it | 2 | 2% |
 
-**This is the most useful table in the book.** 121 of 123 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 122 of 124 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1237,20 +1237,20 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 49 |
+| Wrong data shown or stored | 50 |
 | Degraded | 27 |
 | Silent loss | 25 |
 | Cosmetic | 19 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 25 of 123. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 25 of 124. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 51 |
+| Content generation | 52 |
 | Tests and guards | 19 |
 | Front end | 9 |
 | Build system | 8 |
@@ -1265,7 +1265,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-117 of 123 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+118 of 124 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1286,7 +1286,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-39 of 123 incidents record that they repeat an earlier lesson, 56 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+40 of 124 incidents record that they repeat an earlier lesson, 58 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1304,23 +1304,24 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0098 The table said 31.0 and the explanation said 31, because the fix covered the table only | INC-0099, INC-0101 | 2 |
 | INC-0101 A new field-by-field copier reproduced the passage loss defect four days after the ledger recorded it | INC-0102, INC-0103 | 2 |
 | INC-0103 A 139 page section shipped with no route into it from the sitemap | INC-0108, INC-0109 | 2 |
+| INC-0105 Twelve average salaries were published as medians, and the social queue credited schools with figures they never published | INC-0106, INC-0124 | 2 |
 | INC-0119 Length corrections appended clauses that repeated what the answer choices already said | INC-0120, INC-0121 | 2 |
 | INC-0044 The longest option was the correct answer 81 percent of the time | INC-0091 | 1 |
 | INC-0050 A landing-page icon referenced a colour token that did not exist | INC-0018 | 1 |
 | INC-0072 A distractor was replaced and the explanation went on naming the old one | INC-0119 | 1 |
 | INC-0080 A build step that fails while the build exits zero, and a verification run that was a remembered subset | INC-0095 | 1 |
 | INC-0081 A student who always answers 1 scores 98 percent on a schema, and no check looked at the answer itself | INC-0123 | 1 |
+| INC-0082 Nine published exam facts cite test prep companies, in the one published corpus with no source validator | INC-0124 | 1 |
 | INC-0083 The rules digest promises to be prompt sized and its generator grows without bound | INC-0084 | 1 |
 | INC-0086 A finished generator module that nothing imported, and two of its four schemas produced nothing | INC-0090 | 1 |
 | INC-0089 A ratchet that trips on sampling noise gets re-recorded rather than read | INC-0123 | 1 |
 | INC-0090 Two of a schema's three question forms could not build, and the only sign was an item count | INC-0092 | 1 |
 | INC-0093 Seven variable names were plural and every sentence built around them said was | INC-0096 | 1 |
 | INC-0104 Half the school pages opened with a data note pasted into a sentence, and the structured data repeated it | INC-0105 | 1 |
-| INC-0105 Twelve average salaries were published as medians, and the social queue credited schools with figures they never published | INC-0106 | 1 |
 | INC-0110 A browser suite outside CI had failed on its first click since the consent dialog shipped | INC-0113 | 1 |
 | INC-0117 Three reading schemas could be answered by matching names, because every distractor came from a different passage | INC-0122 | 1 |
 
-The largest family runs to 33 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
+The largest family runs to 34 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
 
 Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.
 
@@ -1363,7 +1364,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (51)
+## Content generation (52)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -1985,6 +1986,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** Every schema that asks one question of each passage now assigns each passage its key's length rank before anything is drawn. The ranks a passage can build are computed from its own options with the same test _balance_own applies, and passages are placed most constrained first, each on the least used rank it can build, so the keys that ship are spread as evenly as the corpus allows rather than as evenly as the draw fell. When a rank is assigned, _balance_own tries every forced option before giving up on it instead of twelve random picks. This replaces the GRE rotation and covers the GMAT and LSAT variants too. The two new passages' main idea keys and the ferries caveat key were shortened to sit among the other passages' keys. The six schemas now plan 7, 7, 6, 6 and 6 keys per rank over 32 passages and 3, 3, 3, 3 and 2 over 14, every item lands on its planned rank, and the bias check, which orders two choices of equal length by position, measures them within a key or two of that.
 - **What stops it now.** g_rc.check_spread() runs at the start of the bank build and fails when a schema asked once per passage cannot be spread to within one passage of even, naming the passages whose keys are too long or too short to be placed, so a passage that would pile the ranks up is caught when it is written, with the reason, rather than by the aggregate check some builds later. check_bias stays as the measurement of what actually shipped. in `src/gen/g_rc.py`
 - **Lesson.** A check that passes on a random draw has told you about that draw. When a schema ships a handful of items, a property the whole bank needs, such as keys spread over every length rank, has to be assigned rather than sampled. And a fix proven on one variant of a shared class belongs on the class: the variants left alone were passing on luck, and the next unrelated change spends it.
+
+
+### INC-0124. A blog post put the ACT science add-on at $4 in its table and $5 in its own FAQ, and nothing compared a post's prices with the sourced ones
+
+*2026-09-26, Wrong data shown or stored*
+
+- **What was seen.** The comparison table in /blog/sat-vs-act-2026/, published September 26, 2026, gave the enhanced ACT's optional science section as '40 questions, 40 min, $4'. ACT's fee page says 'Science Add-On $5' (read September 26, 2026), data/exams.json records $5.00 against that page, and the same post's fee row and FAQ both say $5, so the page contradicted itself a few lines apart.
+- **Why.** The fee was typed into the table rather than taken from the sourced record. build_blog.py checks a post's structure (title and description length, FAQ count, sibling links, dashes, banned sources) and never compares a figure in a post with the figure the site already holds for it, so two statements of one fee, one right and one wrong, passed every check.
+- **How it surfaced.** Found on September 26, 2026 while reading the existing posts to plan the next blog batch, and confirmed against ACT's fee page the same day. A scan of every dollar amount in the 39 posts against the sourced data found no other. (Found by reading the code or the output)
+- **Fix.** The table says $5, matching ACT's fee page, data/exams.json and the post's own fee row and FAQ.
+- **What stops it now.** build_blog.py fails the build when a post states a dollar amount that appears nowhere in the sourced data: data/exams.json (every fee note and cost figure), the verified fact sheet in src/blog/EDITORIAL.md, and the school files in data/schools. A new price therefore has to be sourced in one of those before a post can print it. On the current posts it flags this figure and nothing else. in `src/build_blog.py`
+- **Lesson.** A figure written twice on one page will eventually be written two ways. Where the site already holds a sourced value, a page that states it should be checked against that value, because a reader who meets $4 and $5 for the same fee trusts neither.
 
 
 ## Tests and guards (19)
@@ -2998,6 +3011,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The table said 31.0 and the explanation said 31, because the fix covered the table only (INC-0098)</small>
 - [ ] **Learned 3 times over.** When a defect is about a KIND of code rather than a line of code, a guard bolted to the site of the failure does not generalise, and writing one feels like closing the case. Ask instead what the next instance of this code will look like and where it will live: here the answer was anywhere an item is copied out of the bank, and the durable check is that an item asking about source material has to be carrying it, wherever it is being rendered.  
   <small>A new field-by-field copier reproduced the passage loss defect four days after the ledger recorded it (INC-0101)</small>
+- [ ] **Learned 3 times over.** Any consumer that describes a value in words must read the field that records what kind of value it is, never the field's name. A field name is a hope about the data, not a description of it, and a schema that allows two kinds of value will be described everywhere as the kind it was named after.  
+  <small>Twelve average salaries were published as medians, and the social queue credited schools with figures they never published (INC-0105)</small>
 - [ ] **Learned 3 times over.** An edit that appends text has to read what it is appending to. A correction step that checks only its own goal (here, that the choice got longer) will happily achieve it by making the choice worse, and every check downstream measures the goal, so nothing notices. Check the seam: the words either side of where new text meets old text.  
   <small>Length corrections appended clauses that repeated what the answer choices already said (INC-0119)</small>
 - [ ] **Learned 2 times over.** Test your content against the strategies a lazy adversary would use, not only against whether it is correct. Measure the score of a rule that ignores the question.  
@@ -3006,14 +3021,14 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A distractor was replaced and the explanation went on naming the old one (INC-0072)</small>
 - [ ] **Learned 2 times over.** Every guard here measured the answer's place in its set, and a set of guards that all take the same kind of measurement shares a blind spot the size of everything else. The tell they could not see was the simplest one a student would find: the answer is the same answer. When adding the third check of a kind, the question worth asking is not whether it is stricter than the other two but what all three have in common, because that is what is going unmeasured.  
   <small>A student who always answers 1 scores 98 percent on a schema, and no check looked at the answer itself (INC-0081)</small>
+- [ ] **Learned 2 times over.** Two lessons, and they compound. A rule copied into code by its examples loses the clause the examples were illustrating: CLAUDE.md bans six named sites and coaching site blogs, and the list kept the six and dropped the category, which is the half that generalises. And a validator gets written for the corpus that had the problem at the time, then quietly defines what is checked: two of three published corpora were enforced and the third had never had a source read, which is not a weaker check but an absent one. When a guard exists, the question is not only whether it is strict enough but which of the things it could be pointed at it is not pointed at.  
+  <small>Nine published exam facts cite test prep companies, in the one published corpus with no source validator (INC-0082)</small>
 - [ ] **Learned 2 times over.** A module that nothing imports fails no test, and an exception raised on every draw is indistinguishable from an exception raised on a hard draw. Both are silence, and a build that reports totals hears neither. Count what each schema contributed, not what the category holds, and treat a contribution of zero as a failure rather than as a small number.  
   <small>A finished generator module that nothing imported, and two of its four schemas produced nothing (INC-0086)</small>
 - [ ] **Learned 2 times over.** A generator's wrong answers are written as labels and read as labels, and nobody looks at the values two labels produce. Where the question type makes two misconceptions arithmetically identical the list is shorter than it reads, and because a discarded draw is the ordinary way a schema says no, a whole question form can vanish from an exam leaving nothing behind but a number nobody has a reference for. Count what a schema actually produces at each width it has to serve, and compare the widths against each other.  
   <small>Two of a schema's three question forms could not build, and the only sign was an item count (INC-0090)</small>
 - [ ] **Learned 2 times over.** A template is a promise about the grammar of what goes into it, and the promise is invisible: the code says name and the sentence needs a singular noun phrase. Whenever a stored string lands next to a verb, an article or a plural, write the requirement down beside the data rather than in the template, and make adding a new row state that it meets it. Renaming the data to fit one grammar is usually cheaper and always safer than teaching the templates to handle two.  
   <small>Seven variable names were plural and every sentence built around them said was (INC-0093)</small>
-- [ ] **Learned 2 times over.** Any consumer that describes a value in words must read the field that records what kind of value it is, never the field's name. A field name is a hope about the data, not a description of it, and a schema that allows two kinds of value will be described everywhere as the kind it was named after.  
-  <small>Twelve average salaries were published as medians, and the social queue credited schools with figures they never published (INC-0105)</small>
 - [ ] **Learned 2 times over.** A test measures what someone can get right without the skill, and there is more than one way to do that. Removing one tell does not make an item sound; it moves the question to the next shortcut. Distractors drawn from unrelated material are always wrong and therefore always free, so a wrong answer has to be wrong about the same thing the right one is about.  
   <small>Three reading schemas could be answered by matching names, because every distractor came from a different passage (INC-0117)</small>
 - [ ] Any generator that claims reproducibility must be seeded from something stable across processes. hash() is not, in Python, and the failure shows up as a flaky test rather than as a wrong answer.  
@@ -3050,8 +3065,6 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A coefficient of one was printed as 1x on 2,353 shipped items (INC-0078)</small>
 - [ ] A check is scoped to a grain, and the grain is a claim about where a defect can live. INC-0069 moved the grain from the section to the file for hand written banks and stopped there, so the same defect went on living one level down in generated ones, where there are far more items. When a check finds something by being made finer, the question to ask immediately is what else is measured at the old grain. The second half is about which populations a check can see: this one ran on what the test harness loads, which is a sample chosen for a different purpose, and a sample chosen for a different purpose is not a population you can make claims about.  
   <small>A generated schema was playable at 100 percent by picking the third shortest option, and no check looked at generated schemas (INC-0079)</small>
-- [ ] Two lessons, and they compound. A rule copied into code by its examples loses the clause the examples were illustrating: CLAUDE.md bans six named sites and coaching site blogs, and the list kept the six and dropped the category, which is the half that generalises. And a validator gets written for the corpus that had the problem at the time, then quietly defines what is checked: two of three published corpora were enforced and the third had never had a source read, which is not a weaker check but an absent one. When a guard exists, the question is not only whether it is strict enough but which of the things it could be pointed at it is not pointed at.  
-  <small>Nine published exam facts cite test prep companies, in the one published corpus with no source validator (INC-0082)</small>
 - [ ] Two corpora side by side, one guarded per unit and one guarded only in total, is not two levels of rigour but one measurement and one blind spot. When a check exists for the bank, ask what else is shipped alongside it and counted only in aggregate.  
   <small>One flashcard for a skill, for as long as anyone cared to look (INC-0085)</small>
 - [ ] A list of misconceptions is a list of labels and a student sees numbers. Where every characteristic error runs the same direction the key sits at a predictable place in the ordered options however carefully the item is shuffled, because the shuffler can only place it among the candidates it is handed. When writing wrong answers, sort them next to the right one and look at which side they fall on.  
@@ -3082,6 +3095,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The banks lengthened in place carried the same garbled seams, and nothing recorded what had been appended (INC-0121)</small>
 - [ ] A check that passes on a random draw has told you about that draw. When a schema ships a handful of items, a property the whole bank needs, such as keys spread over every length rank, has to be assigned rather than sampled. And a fix proven on one variant of a shared class belongs on the class: the variants left alone were passing on luck, and the next unrelated change spends it.  
   <small>Reading questions asked once of each passage passed the length check on the luck of the draw, and two new passages re-rolled it (INC-0122)</small>
+- [ ] A figure written twice on one page will eventually be written two ways. Where the site already holds a sourced value, a page that states it should be checked against that value, because a reader who meets $4 and $5 for the same fee trusts neither.  
+  <small>A blog post put the ACT science add-on at $4 in its table and $5 in its own FAQ, and nothing compared a post's prices with the sourced ones (INC-0124)</small>
 
 
 ## Database
@@ -3348,7 +3363,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 123 real defects reduced to the rules that prevent them,
+the whole project: 124 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -3388,7 +3403,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-123 defects already prevented is genuinely ahead, and every defect it hits
+124 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

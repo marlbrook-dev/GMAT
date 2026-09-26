@@ -1,14 +1,14 @@
 # Rules Digest
 
-123 defects from a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
+124 defects from a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
 
-Generated 2026-09-26 from a ledger spanning 7 days and 60 commits.
+Generated 2026-09-26 from a ledger spanning 7 days and 61 commits.
 
 ## Read this first
 
-The three ways defects were most often found, in order: found by reading the code or the output (58), found by measuring something (34), a test caught it (15). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
+The three ways defects were most often found, in order: found by reading the code or the output (59), found by measuring something (34), a test caught it (15). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
 
-The dominant failure mode is silent loss, 25 of 123: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
+The dominant failure mode is silent loss, 25 of 124: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
 
 ## Learned the hard way, more than once
 
@@ -28,19 +28,20 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (3 times, content generation) A fix scoped to where the evidence was is a fix scoped to the sample, not to the defect.
 - (3 times, content generation) When a defect is about a KIND of code rather than a line of code, a guard bolted to the site of the failure does not generalise, and writing one feels like closing the case.
 - (3 times, search and metadata) An enumeration that has to be kept in step by memory will fall out of step, and the failure is silent because nothing downstream can tell the difference between a section that was excluded on purpose and one that was forgotten.
+- (3 times, content generation) Any consumer that describes a value in words must read the field that records what kind of value it is, never the field's name.
 - (3 times, content generation) An edit that appends text has to read what it is appending to. A correction step that checks only its own goal (here, that the choice got longer) will happily achieve it by making the choice worse, and every check downstream measures the goal, so nothing notices.
 - (2 times, content generation) Test your content against the strategies a lazy adversary would use, not only against whether it is correct.
 - (2 times, css and layout) The same undefined-property failure will find you repeatedly, at every severity from one icon to an invisible legal control.
 - (2 times, content generation) A record has parts that refer to one another, and a tool that edits one part by text is editing a graph while looking at a string.
 - (2 times, build system) Two habits, both mine rather than the code's. Verify with the sequence the pipeline runs, read out of its config, not with the subset you remember: a suite chosen from memory drifts to the parts that were failing last week.
 - (2 times, content generation) Every guard here measured the answer's place in its set, and a set of guards that all take the same kind of measurement shares a blind spot the size of everything else.
+- (2 times, content generation) Two lessons, and they compound. A rule copied into code by its examples loses the clause the examples were illustrating: CLAUDE.md bans six named sites and coaching site blogs, and the list kept the six and dropped the category, which is the half that generalises.
 - (2 times, build system) A size limit on a generated file is only a guard if something bounds the generator too; otherwise it is a delayed failure that lands on whoever commits next, and reads as their fault.
 - (2 times, content generation) A module that nothing imports fails no test, and an exception raised on every draw is indistinguishable from an exception raised on a hard draw.
 - (2 times, tests and guards) A ratchet is only read while it is quiet. One that fires on noise gets re-recorded as a reflex, and the re-recording is indistinguishable from accepting a real regression, so the mechanism that exists to catch regressions becomes the mechanism that launders them.
 - (2 times, content generation) A generator's wrong answers are written as labels and read as labels, and nobody looks at the values two labels produce.
 - (2 times, content generation) A template is a promise about the grammar of what goes into it, and the promise is invisible: the code says name and the sentence needs a singular noun phrase.
 - (2 times, search and metadata) When a fix names a class of input, such as 'the stat field is free text', find every place that input is used before closing it.
-- (2 times, content generation) Any consumer that describes a value in words must read the field that records what kind of value it is, never the field's name.
 - (2 times, tests and guards) Run every browser suite when a site-wide element such as a modal ships, because a test nobody runs is a claim about the past.
 - (2 times, content generation) A test measures what someone can get right without the skill, and there is more than one way to do that.
 
@@ -63,7 +64,6 @@ These cost this build twice or more each. If you read nothing else here, read th
 - A standard library function whose name is a plausible description of half of what it does will be used for that half.
 - Presentation rules travel with the value, and a value formatted at the point of use is formatted by whoever was writing that line.
 - A check is scoped to a grain, and the grain is a claim about where a defect can live.
-- Two lessons, and they compound. A rule copied into code by its examples loses the clause the examples were illustrating: CLAUDE.md bans six named sites and coaching site blogs, and the list kept the six and dropped the category, which is the half that generalises.
 - Two corpora side by side, one guarded per unit and one guarded only in total, is not two levels of rigour but one measurement and one blind spot.
 - A list of misconceptions is a list of labels and a student sees numbers. Where every characteristic error runs the same direction the key sits at a predictable place in the ordered options however carefully the item is shuffled, because the shuffler can only place it among the candidates it is handed.
 - Generated data gets checked for the properties the questions need, monotone and positive and distinguishable, and not for the properties the world needs.
@@ -79,6 +79,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - When two pieces of code each supply part of a sentence, decide which one owns each word.
 - An edit tool that throws away its input leaves the diff as the only record of what it changed.
 - A check that passes on a random draw has told you about that draw. When a schema ships a handful of items, a property the whole bank needs, such as keys spread over every length rank, has to be assigned rather than sampled.
+- A figure written twice on one page will eventually be written two ways. Where the site already holds a sourced value, a page that states it should be checked against that value, because a reader who meets $4 and $5 for the same fee trusts neither.
 
 ## Tests and guards
 
