@@ -42,6 +42,9 @@ SCHOOLS = D.parent / "data" / "schools"
 
 SRC = "US Department of Education, College Scorecard field of study file"
 RELEASE = "2026 release, Most Recent Cohorts field of study file"
+# Where the file is published. Every figure cites this page, never the school's own site,
+# which does not hold the number (INC-0125).
+SOURCE_URL = "https://collegescorecard.ed.gov/data/"
 YEAR = 2026
 MISSING = {"", "NA", "NULL", "PS", "PrivacySuppressed"}
 CIP_MBA = "5202"
@@ -127,7 +130,7 @@ def main(path):
                 s.pop("federal", None)
         else:
             def f(v):
-                return ({"v": v, "src": SRC, "year": YEAR, "url": s.get("website") or "",
+                return ({"v": v, "src": SRC, "year": YEAR, "url": SOURCE_URL,
                          "release": RELEASE, "instnm": row["INSTNM"]}
                         if v is not None else {"v": None})
             earn_n = money(row, "EARN_COUNT_WNE_1YR")
