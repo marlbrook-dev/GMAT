@@ -19,8 +19,8 @@ const EXAM_FILES = [
  {id:'gre', choices:5, choicesByType:{QC:4},
   files:['bank_gre_verbal.js','bank_gre_verbal2.js','bank_gre_rc2.js','bank_gre_rc3.js','bank_gre_quant.js','bank_gre_quant2.js','bank_gre_easy.js','writing_gre.js','cards_gre.js','playbook_gre.js'],
   concat:'BANK_GRE_VERBAL,BANK_GRE_VERBAL2,BANK_GRE_RC2,BANK_GRE_RC3,BANK_GRE_QUANT,BANK_GRE_QUANT2,BANK_GRE_EASY', gen:'gre'},
- // The LSAT carries no generated bank: its items are arguments and passages, with no
- // parameterised schema behind them, so gen is null and the run skips that file.
+ // The LSAT's generated bank is the critical reasoning and reading schemas mapped onto its
+ // categories (mapping.py) plus its own must be true schema (g_lsat_concl.py).
  {id:'lsat', choices:5,
   files:['bank_lsat_lr.js','bank_lsat_lr2.js','bank_lsat_lr3.js','bank_lsat_rc.js','bank_lsat_rc2.js','bank_lsat_rc3.js','cards_lsat.js','playbook_lsat.js'],
   concat:'BANK_LSAT_LR,BANK_LSAT_LR2,BANK_LSAT_LR3,BANK_LSAT_RC,BANK_LSAT_RC2,BANK_LSAT_RC3', gen:'lsat'},

@@ -110,8 +110,32 @@ verified rather than that the school does not publish one (INC-0118).
 - [ ] A provider for the daily reminder email, if one is wanted.
 - [ ] Bing Webmaster Tools and IndexNow, which only the domain owner can set up.
 
+### Later the same day: answer choices, and LSAT conclusions
+
+- [x] **PR 97**: 165 hand-written distractors were garbled where a length-correction clause
+      met the choice it extended (INC-0119), and 287 generated SAT and ACT word problems
+      printed their unit twice (INC-0120). `bank_emit.extend` and `bank_repair.py` now refuse
+      a needle that stops short of the end of its choice, and the build fails on any phrase
+      said twice back to back.
+- [x] **PR 98**: the same defect in the banks `bank_repair.py` lengthened in place, found by
+      diffing the commit that applied it: 12 garbled distractors and 3 lost apostrophes
+      (INC-0121).
+- [x] **LSAT Drawing Well-Supported Conclusions** gets a generator, `src/gen/g_lsat_concl.py`:
+      3,300 must be true items from statements using every, no, some and most, where the
+      category had 31 hand-written items. Every key is proved by a checker that tries every
+      group of up to three people of each of the eight kinds, and every wrong answer comes
+      with a group in which it fails; the bound is checked against four on every build.
+- **Decided against** mapping the generated reading passages onto GRE reading. ETS says most
+  GRE passages are one paragraph long (ETS, GRE General Test Verbal Reasoning,
+  https://www.ets.org/gre/test-takers/general-test/prepare/content/verbal-reasoning.html, read
+  September 26, 2026); ours are two paragraphs of 202 to 442 words, and thousands of them would turn
+  the GRE reading mix upside down. GRE reading needs a one-paragraph corpus first.
+
 ### Next session queue
 
+- [ ] LSAT Argument Parts and Structure (30 hand-written items): a generator for the role a
+      claim plays and for the main conclusion, over authored argument frames
+- [ ] A one-paragraph passage corpus for GRE reading, so the reading schemas can serve it
 - [ ] More reading passages: every reading category is still far under target, and each
       passage adds ten GMAT items, plus ten LSAT items at LSAT length
 - [ ] Read the hand-written reading items against the same two checks (the rule is printed;
