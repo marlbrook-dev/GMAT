@@ -20,7 +20,10 @@ the tell worse and the only symptom would be a number that moved the wrong way.
 Verification is not optional and is not done here: run node src/test.js, which measures
 every hand written file against its recorded value.
 """
-import io, re, sys
+import io, os, re, sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import bank_emit  # noqa: E402
 
 
 def _item_span(src, iid):
@@ -139,6 +142,14 @@ def repair(path, table, answers=None):
                 sys.exit('%s: needle %r is inside the key, which would worsen the tell'
                          % (iid, needle))
             end = _literal_end(seg, hits[0] + len(needle) - 1)
+            # The clause goes in at the end of the literal, so the needle has to reach it.
+            # One that stops short lets a clause written to follow the needle land after
+            # the words it was written to replace (INC-0119).
+            stop = end - 1 if end > 0 and seg[end - 1] == '.' else end
+            if hits[0] + len(needle) != stop:
+                sys.exit('%s: needle %r stops short of the end of its choice; extend it to '
+                         'the end, since the clause is appended there (INC-0119)'
+                         % (iid, needle))
             # Refuse a clause that repeats the words it is about to follow. A needle
             # taken from a truncated report can sit well before the end of the choice,
             # and a clause written as though the needle were the end then says the same
@@ -151,6 +162,13 @@ def repair(path, table, answers=None):
                 sys.exit('%s: clause %r repeats text already at the end of the choice; '
                          'it is appended at the end, not at the needle'
                          % (iid, clause))
+            # And the check bank_emit.extend uses, which also catches a two word overlap
+            # and an ending restated in other words: "has been observed" plus " been
+            # observed, whatever the relatedness" passed both checks here (INC-0119).
+            rep = bank_emit.restates(tail.rstrip(' .'), clause)
+            if rep:
+                sys.exit('%s: clause %r repeats %r, which the choice already ends with '
+                         '(INC-0119)' % (iid, clause, rep))
             # The three word check misses a single repeated word, which is what a needle
             # ending one word short produces: "measure of the company's performance" plus
             # " performance, ahead of cost per call". Compare the first word of the clause

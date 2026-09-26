@@ -7,6 +7,25 @@ const harness=require('./exam_harness.js');
 const {GMAT,SAT,GRE,LSAT,ACT}={GMAT:harness.byId['gmat-focus'],SAT:harness.byId['sat'],
  GRE:harness.byId['gre'],LSAT:harness.byId['lsat'],ACT:harness.byId['act']};
 
+// A phrase said twice back to back where two pieces of text meet: a clause appended to a
+// choice that already ended with it (INC-0119), a unit written by a template and again by
+// the code filling it (INC-0120). The same rule as said_twice in build_banks.py, which
+// covers the deferred generated chunks this file does not load. A comma between the two is
+// ordinary prose ("Before the pilot, the pilot department") and passes, and so does a run
+// of single letters such as a coin toss sequence. Passages are not read: prose there can
+// repeat itself on purpose ("piece by piece by gangs of longshoremen").
+const DOUBLED=/\b((?:[A-Za-z']+ )+[A-Za-z']+) \1\b/g;
+function saidTwice(q){
+ for(const k of ['stem','prompt','choices','statements','expl','wrong']){
+  for(const t of [].concat(q[k]||[])){
+   if(typeof t!=='string') continue;
+   DOUBLED.lastIndex=0; let m;
+   while((m=DOUBLED.exec(t))){ if(m[1].split(' ').some(w=>w.length>1)) return k+' "'+m[0]+'"'; }
+  }
+ }
+ return null;
+}
+
 let failures=0;
 function fail(msg){ failures++; console.log('  FAIL: '+msg); }
 function check(label,list){ if(list.length){ fail(label+' '+JSON.stringify(list.slice(0,8))+(list.length>8?' (+'+(list.length-8)+' more)':'')); } else { console.log('  ok: '+label); } }
@@ -41,6 +60,7 @@ function runExam(exam){
   if(!q.answerType&&q.choices.length!==(exam.choicesByType&&exam.choicesByType[q.type]||exam.choices))
    bad.push('nchoices '+q.id+' '+q.choices.length);
   if(/[—–]/.test(JSON.stringify(q))) bad.push('dash '+q.id);
+  const twice=saidTwice(q); if(twice) bad.push('said twice '+q.id+' '+twice);
  });
  const secCount={}; BANK.forEach(q=>secCount[q.section]=(secCount[q.section]||0)+1);
  console.log('  bank '+BANK.length+' '+JSON.stringify(secCount)+' cards '+CARDS.length+' playbook '+PLAYBOOK.length);

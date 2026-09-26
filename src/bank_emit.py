@@ -24,7 +24,7 @@ way, in one place so a new bank cannot ship without them.
                single quoted, because the build counts items by pattern and a file that
                quotes them differently counts as zero (INC-0059).
 """
-import io, json, sys, zlib, random
+import io, json, re, sys, zlib, random
 from collections import Counter
 
 
@@ -67,6 +67,40 @@ def lift_counts(table):
     return dict((iid, len(_pairs(ext))) for iid, ext in table.items())
 
 
+def restates(base, clause):
+    """What `clause` repeats of `base` at the seam where it is appended, or None (INC-0119).
+
+    A clause appended to a choice is meant to continue it. Two shapes mean it does not:
+
+      it opens with the word or words the choice ends on ('usage' + ' usage that were',
+      'than well made ones' + ' than well made ones do');
+      it shares a three word run with the choice's last six words, which is where a
+      clause restating the ending in other words overlaps it ('the same facilities that
+      handle the old packaging' + ' that handle the packaging it replaces').
+
+    A shared run earlier in the choice is ordinary parallel wording and passes. The third
+    shape, a clause written to follow a needle that stops short of the end of the choice,
+    is not detected here but made impossible: extend refuses such a needle.
+    """
+    words = lambda t: re.findall(r"[a-z0-9']+", t.lower())
+    b, k = words(base), words(clause)
+    for n in range(min(len(b), len(k)), 0, -1):
+        if b[-n:] == k[:n]:
+            return " ".join(k[:n])
+    tail = b[-6:]
+    grams = {tuple(tail[j:j + 3]) for j in range(len(tail) - 2)}
+    for j in range(len(k) - 2):
+        if tuple(k[j:j + 3]) in grams:
+            return " ".join(k[j:j + 3])
+    return None
+
+
+def doubled_runs(text):
+    """Any run of two or more words that appears twice back to back (INC-0119)."""
+    m = re.search(r"\b((?:[A-Za-z0-9']+[ ,]+)+[A-Za-z0-9']+)[ ,]+\1\b", text)
+    return m.group(0) if m else None
+
+
 def extend(items, table, label='EXTEND'):
     """Append author supplied clauses to named distractors.
 
@@ -78,11 +112,13 @@ def extend(items, table, label='EXTEND'):
     that number is what decides the key's rank, so the ranks can be spread rather than
     shifted.
 
-    The clause is matched by a substring of the choice so it survives permutation. Three
+    The clause is matched by a substring of the choice so it survives permutation. Five
     things are refused rather than warned about: a needle that matches no choice or more
     than one, which means the table has gone stale; a needle that matches the key, which
-    would make the tell worse rather than better; and the same needle twice in one entry,
-    which silently lifts one distractor twice while the author believes two were lifted.
+    would make the tell worse rather than better; the same needle twice in one entry,
+    which silently lifts one distractor twice while the author believes two were lifted;
+    a needle that is not the end of its choice, since the clause is appended there and not
+    at the needle; and a clause that repeats the words it follows (restates above).
     """
     for it in items:
         ext = table.get(it['id'])
@@ -105,7 +141,21 @@ def extend(items, table, label='EXTEND'):
                          % (label, it['id']))
             c = it['choices'][i]
             dot = c.endswith('.')
-            it['choices'][i] = (c[:-1] if dot else c) + clause + ('.' if dot else '')
+            base = c[:-1] if dot else c
+            # The clause lands at the end of the choice, so the needle has to be the end
+            # of the choice. A needle that stopped short let clauses written to follow it
+            # land after the words they were written to replace: "a court with power to
+            # compel its members" + " of its own" (INC-0119).
+            if not base.endswith(needle):
+                sys.exit('%s %s: needle %r stops short of the end of the choice %r. The '
+                         'clause is appended at the end, so extend the needle to the end '
+                         'and check the clause still reads on from it (INC-0119)'
+                         % (label, it['id'], needle, c))
+            rep = restates(base, clause)
+            if rep:
+                sys.exit('%s %s: the clause %r repeats %r, which the choice already ends '
+                         'with; take it off one side (INC-0119)' % (label, it['id'], clause, rep))
+            it['choices'][i] = base + clause + ('.' if dot else '')
     return items
 
 

@@ -31,7 +31,7 @@ const BANK_GRE_RC2 = [
 // ---------- GRPA ----------
 {id:'GR001',section:'V',type:'RC',sub:"Main idea",passageId:'GRPA',passage:GR_PA,skill:'gre_rc',diff:3,
  stem:"The primary purpose of the passage is to",
- choices:["argue that the printing press had little effect on the cost of books once it was widely adopted","question the direction of a causal claim about a technology and its social effect","describe the economic conditions under which early presses were financed and established","establish that literacy rates were higher before printing than is usually supposed than is usually supposed","compare scribal workshops with the presses that replaced them"],answer:1,
+ choices:["argue that the printing press had little effect on the cost of books once it was widely adopted","question the direction of a causal claim about a technology and its social effect","describe the economic conditions under which early presses were financed and established","establish that literacy rates were higher before printing than is usually supposed","compare scribal workshops with the presses that replaced them"],answer:1,
  expl:"It names the conventional account, says the causation may run the other way, and gives the reason: presses went where readers already were.",
  wrong:"No rate is claimed, the financing is a premise rather than the subject, the cost fell on the passage's own account, and the workshops appear only as evidence."},
 {id:'GR002',section:'V',type:'RC',sub:"Inference",passageId:'GRPA',passage:GR_PA,skill:'gre_rc',diff:4,
@@ -47,7 +47,7 @@ const BANK_GRE_RC2 = [
 // ---------- GRPB ----------
 {id:'GR004',section:'V',type:'RC',sub:"Main idea",passageId:'GRPB',passage:GR_PB,skill:'gre_rc',diff:3,
  stem:"The passage is primarily concerned with",
- choices:["defending the practice of drawing conclusions from single archaeological sites in general","explaining why an objection, though accurate, does not tell against the claim it targets","proposing a revised chronology for the period in question","criticising reviewers for failing to read the manuscript carefully enough","establishing that the practice described was more widespread than reviewers allowed than the reviewers were willing to allow"],answer:1,
+ choices:["defending the practice of drawing conclusions from single archaeological sites in general","explaining why an objection, though accurate, does not tell against the claim it targets","proposing a revised chronology for the period in question","criticising reviewers for failing to read the manuscript carefully enough","establishing that the practice described was more widespread than the reviewers were willing to allow"],answer:1,
  expl:"The objection is called fair as far as it goes and then shown to mistake what the claim is: existence, not prevalence.",
  wrong:"No general defence of single sites is offered, prevalence is expressly not claimed, the reviewers are not accused of carelessness, and no chronology is proposed."},
 {id:'GR005',section:'V',type:'RC',sub:"Inference",passageId:'GRPB',passage:GR_PB,skill:'gre_rc',diff:4,
@@ -73,7 +73,7 @@ const BANK_GRE_RC2 = [
  wrong:"Fecundity, dispersal, identification and survival are all relevant to control in general but none is the condition the passage isolates."},
 {id:'GR009',section:'V',type:'RC',sub:"Strengthen and weaken",passageId:'GRPC',passage:GR_PC,skill:'gre_rc',diff:4,
  stem:"Which of the following, if true, most strengthens the passage's account of why the technique failed in other species?",
- choices:["In a species whose females mate twice, doubling the release rate produced no greater suppression than the original rate.","The irradiation dose used in later programmes was lower than that used against screwworms than that used against screwworms.","Wild males in later programmes were more numerous than had been estimated.","Sterile males released in later programmes survived for fewer days after release.","Later programmes were conducted over smaller geographic areas than the screwworm campaign."],answer:0,
+ choices:["In a species whose females mate twice, doubling the release rate produced no greater suppression than the original rate.","The irradiation dose used in later programmes was lower than that used against screwworms.","Wild males in later programmes were more numerous than had been estimated.","Sterile males released in later programmes survived for fewer days after release.","Later programmes were conducted over smaller geographic areas than the screwworm campaign."],answer:0,
  expl:"The account says the limit is biological rather than numerical. A doubled release rate achieving nothing is exactly that prediction confirmed.",
  wrong:"Dose, area, wild numbers and survival are all versions of the numerical explanation the passage is arguing against."},
 // ---------- GRPD ----------
@@ -163,7 +163,7 @@ const BANK_GRE_RC2 = [
  wrong:"The conclusion is about reform. It bears on filtering rather than improving, it is evidence rather than an explanation of the reforms, and the passage has no position it weakens."},
 {id:'GR026',section:'V',type:'RC',sub:"Strengthen and weaken",passageId:'GRPH',passage:GR_PH,skill:'gre_rc',diff:5,
  stem:"Which of the following, if true, would most strengthen the case for the decoupling the passage describes?",
- choices:["Papers rejected by one journal and published unchanged by another are cited at the same rate as papers accepted first time.","The number of papers submitted for review has risen faster than the number of reviewers.","Journals that publish more papers receive more submissions the following year the following year.","Most authors report that reviewer comments improved their manuscripts.","Reviewers spend more time on papers they expect to recommend for acceptance."],answer:0,
+ choices:["Papers rejected by one journal and published unchanged by another are cited at the same rate as papers accepted first time.","The number of papers submitted for review has risen faster than the number of reviewers.","Journals that publish more papers receive more submissions the following year.","Most authors report that reviewer comments improved their manuscripts.","Reviewers spend more time on papers they expect to recommend for acceptance."],answer:0,
  expl:"Decoupling assumes the accept and reject decision carries little information. Equal citation rates for papers that failed it are that assumption confirmed.",
  wrong:"Reviewer effort, author satisfaction, submission volume and reviewer supply bear on the practice without testing whether the decision is informative."},
 ];
