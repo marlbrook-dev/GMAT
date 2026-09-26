@@ -125,11 +125,16 @@ verified rather than that the school does not publish one (INC-0118).
       category had 31 hand-written items. Every key is proved by a checker that tries every
       group of up to three people of each of the eight kinds, and every wrong answer comes
       with a group in which it fails; the bound is checked against four on every build.
-- **Decided against** mapping the generated reading passages onto GRE reading. ETS says most
-  GRE passages are one paragraph long (ETS, GRE General Test Verbal Reasoning,
+- [x] **GRE reading** gets generated items, `src/gen/g_gre_rc.py`: the same 27 passages shown
+      as one paragraph of six sentences, with stated idea, main idea, caveat and a new
+      function of a sentence question, 270 items where the category had 94 hand-written
+      ones. The function questions ask about the four sentences that have to be read to be
+      told apart, since every passage shares one shape.
+- **Decided against** mapping the two paragraph passages onto GRE reading as they are. ETS
+  says most GRE passages are one paragraph long (ETS, GRE General Test Verbal Reasoning,
   https://www.ets.org/gre/test-takers/general-test/prepare/content/verbal-reasoning.html, read
   September 26, 2026); ours are two paragraphs of 202 to 442 words, and thousands of them would turn
-  the GRE reading mix upside down. GRE reading needs a one-paragraph corpus first.
+  the GRE reading mix upside down. That is why the GRE items above show them as one paragraph.
 
 - [x] **LSAT Argument Parts and Structure** gets a generator, `src/gen/g_lsat_struct.py`: 30
       arguments written with their parts labelled (a rejected view, the main conclusion, an
@@ -139,7 +144,6 @@ verified rather than that the school does not publish one (INC-0118).
 
 ### Next session queue
 
-- [ ] A one-paragraph passage corpus for GRE reading, so the reading schemas can serve it
 - [ ] More reading passages: every reading category is still far under target, and each
       passage adds ten GMAT items, plus ten LSAT items at LSAT length
 - [ ] Read the hand-written reading items against the same two checks (the rule is printed;

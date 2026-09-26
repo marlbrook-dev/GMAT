@@ -1005,6 +1005,11 @@ class RCBase(Gen):
     type = "RC"
     domain = "nonmath"
     corpus = None
+    # How a passage is shown and what its passage id is. The GRE variants in g_gre_rc.py
+    # show the same passages as one paragraph, which is a different passage to a reader
+    # and so carries a different id.
+    render = staticmethod(lambda p: text(p))
+    pid = "GP_"
     # What the wrong choices are, which the app prints under "Watch for". Each schema
     # says its own: this note was once written for stated idea in the shared emit() and
     # inherited by three schemas whose wrong choices it described falsely (INC-0117).
@@ -1024,8 +1029,12 @@ class RCBase(Gen):
         if suffix:
             self.id = self.id + suffix
 
+    def target_for(self, p, need):
+        """The key's length rank to aim for, or None to draw it (see framework.balance)."""
+        return None
+
     def emit(self, rng, choices_n, p, stem, right, pool, expl, diff, skill, sub,
-             near=(), k=0):
+             near=(), k=0, target=None):
         """`near` are wrong answers about the same thing as the key, and at least `k` of
         them are offered. Without them every wrong answer could come from another passage,
         and a wrong answer about a different subject is eliminated without reading
@@ -1036,13 +1045,14 @@ class RCBase(Gen):
         if len(cands) + len(near) < choices_n - 1:
             raise ItemError("%s has only %d distractors" % (self.id, len(cands) + len(near)))
         opts = [right] + [w for w, _ in balance(rng, right, cands, choices_n - 1,
-                                                own=[(w, "") for w in near], k=k)]
+                                                own=[(w, "") for w in near], k=k,
+                                                target=target)]
         if len(set(opts)) != choices_n:
             raise ItemError("%s drew a repeated option" % self.id)
         rng.shuffle(opts)
         item = {
             "id": None, "section": "V", "type": "RC", "sub": sub, "skill": skill,
-            "diff": diff, "passage": text(p), "passageId": "GP_" + p["key"],
+            "diff": diff, "passage": self.render(p), "passageId": self.pid + p["key"],
             "stem": stem, "choices": opts, "answer": opts.index(right),
             "expl": expl, "gen": self.id, "domain": "nonmath",
             # Identity is the passage plus the question asked of it, never which other
@@ -1132,7 +1142,7 @@ class MainIdea(RCBase):
                 "more than the passage argues, reverse it, or describe a different passage.")
         return self.emit(rng, choices_n, p, "The passage is primarily concerned with",
                          right, pool, expl, rng.choice([2, 3, 3]), "v_st", self.sub,
-                         near=findings, k=1)
+                         near=findings, k=1, target=self.target_for(p, choices_n - 1))
 
 
 class Inference(RCBase):
@@ -1256,7 +1266,8 @@ class CaveatImplication(RCBase):
                 "the other, or state a limit that belongs to a different passage.")
         stem = "The author's closing observation most strongly suggests that"
         return self.emit(rng, choices_n, p, stem, right, pool, expl,
-                         rng.choice([2, 3, 3, 4]), "v_inf", self.sub, near=own, k=1)
+                         rng.choice([2, 3, 3, 4]), "v_inf", self.sub, near=own, k=1,
+                         target=self.target_for(p, choices_n - 1))
 
 
 # The GMAT draws on both corpora, because a real section mixes passage lengths. The LSAT
@@ -1384,7 +1395,7 @@ def check_premises(draws=300, choices_n=5):
     return bad
 
 
-def check_tells(draws=400, choices_n=5, ceiling=0.4):
+def check_tells(draws=400, choices_n=5, ceiling=0.4, gens=None):
     """No reading schema may be answerable by matching words instead of reading.
 
     Two shortcuts are measured, the ones INC-0117 found working on nine draws in ten.
@@ -1420,7 +1431,7 @@ def check_tells(draws=400, choices_n=5, ceiling=0.4):
         return best > 0 and scores.count(best) == 1 and scores[answer] == best
 
     bad = []
-    for g in GENS + GENS_LONG:
+    for g in (gens if gens is not None else GENS + GENS_LONG):
         if g.id.startswith("rc_stated"):
             continue
         rng = _random.Random(20260926)
