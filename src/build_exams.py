@@ -304,7 +304,9 @@ def main():
         "itemListElement": [
             {"@type": "ListItem", "position": i + 1,
              "item": {"@type": "Course", "name": e["name"],
-                      "description": f'{e.get("audience", "")}. Scored {e.get("score_scale", "")}.'.strip(". "),
+                      # The record's text, not the record: interpolating the dict put a
+                      # printed Python dict in every exam's description (INC-0131).
+                      "description": f'{e.get("audience", "")}. Score scale: {txt(e.get("score_scale")) or ""}.'.strip(". "),
                       "url": f'{SITE}/exams/{e["slug"]}/',
                       "provider": {"@type": "Organization", "name": e.get("maker", "")}}}
             for i, e in enumerate(exams)],

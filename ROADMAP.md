@@ -252,6 +252,17 @@ verified rather than that the school does not publish one (INC-0118).
       copy read for the good ACT score post byte for byte), checked at build time and cell
       by cell in the browser by `src/smoke_calculator.js`. The ACT guide and both ACT posts
       link to it, and the sitemap now lists pages under an exam's guide.
+- [x] **Every exam fact checked against the page it cites** (INC-0130, INC-0131, INC-0132):
+      the GRE guide credited ETS with a combined 260 to 340 score its cited page never
+      mentions, so `src/check_sources.py` now reads every page and PDF `data/exams.json`
+      cites and reports each number the source does not print. Its first run found the GRE
+      fee still at $220 when ETS's has been $249 since August 1, 2026, fee notes carrying
+      clauses their pages do not say, two ACT claims cited to the wrong page and two that
+      are on no ACT page, and a GRE law school count that said ABA-approved where ETS does
+      not; each was corrected against its page, posts included. It runs weekly in the
+      playbook workflow and opens an issue when a figure stops matching. Tracing the GRE
+      text also found the `/exams/` hub's structured data printing a Python dict as every
+      exam's description; the build now fails on any page that prints one.
 - **Decided against** mapping the two paragraph passages onto GRE reading as they are. ETS
   says most GRE passages are one paragraph long (ETS, GRE General Test Verbal Reasoning,
   https://www.ets.org/gre/test-takers/general-test/prepare/content/verbal-reasoning.html, read
@@ -283,6 +294,11 @@ verified rather than that the school does not publish one (INC-0118).
       (ETS), and ETS's Table 1B (gre-guide-table-1a.pdf, July 2022 to June 2025) gives the
       percent scoring lower for every scaled score. Confirm against the rendered PDF which
       scores its blank cells belong to before parsing, since the text layer does not say
+- [ ] Six GMAT facts cite pages this sandbox cannot read: four on www.mba.com serve a bot
+      challenge and two on support.mba.com answer 403. check_sources reports them as
+      unreadable, not wrong. The weekly job may read them from GitHub's runners; if it
+      cannot either, find the same figures on gmac.com and move the citations (INC-0100
+      did this for the section table)
 - [ ] An SAT one needs College Board's own percentile table. The Understanding Scores PDF
       for SAT School Day (fall 2026) defines the All Tester Percentile but prints no table,
       so find the document that does before building anything

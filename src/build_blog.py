@@ -540,6 +540,14 @@ def main():
         d.mkdir(exist_ok=True)
         p = dict(p, body=delink_held(p["body"], live_slugs))
         (d / "index.html").write_text(build_post(p, live))
+    # The same check build.py runs on every other section (INC-0131).
+    from page_checks import python_reprs
+    reprs = python_reprs(ROOT, ["blog"])
+    if reprs:
+        for pg, frag in reprs[:10]:
+            print("build_blog: %s prints a Python data structure: ...%s..." % (pg, frag),
+                  file=sys.stderr)
+        sys.exit(1)
     sitemap = build_sitemap(live)
     (ROOT / "sitemap.xml").write_text(sitemap)
     missing = sitemap_gaps(sitemap)

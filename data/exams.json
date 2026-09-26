@@ -142,10 +142,10 @@
       "year": 2025
     },
     "score_scale": {
-      "text": "Total score 400 to 1600; the Reading and Writing section and the Math section are each scored 200 to 800",
+      "text": "Total score 400 to 1600; section scores 200 to 800",
       "src": "College Board",
-      "year": 2025,
-      "url": "https://satsuite.collegeboard.org/sat/whats-on-the-test/structure"
+      "year": 2026,
+      "url": "https://satsuite.collegeboard.org/scores/what-scores-mean"
     },
     "sections": [
       {
@@ -175,9 +175,9 @@
     },
     "cost_usd": {
       "v": 68,
-      "note": "US registration fee for the 2025-26 testing year; testing internationally adds a regional fee (College Board publishes a separate international fee schedule)",
+      "note": "The SAT registration fee, with additional fees listed through December 2026; students testing in another country are sent to a separate international fee schedule",
       "src": "College Board",
-      "year": 2025,
+      "year": 2026,
       "url": "https://satsuite.collegeboard.org/sat/registration/fees-refunds/test-fees"
     },
     "validity_years": {
@@ -212,6 +212,7 @@
     },
     "acceptance": {
       "text": "Per College Board's BigFuture, 63 US colleges (21 private, 42 public) currently or soon will require SAT or ACT scores, and many other colleges are test optional or test preferred, using scores in admission if submitted and for scholarships and placement",
+      "derived": {"63": "21 + 42, the private and public colleges the page lists"},
       "src": "College Board (BigFuture)",
       "year": 2026,
       "url": "https://bigfuture.collegeboard.org/plan-for-college/find-your-fit/what-colleges-require-SAT"
@@ -261,9 +262,9 @@
       "year": 2025
     },
     "score_scale": {
-      "text": "Verbal Reasoning and Quantitative Reasoning each scored 130 to 170, for a combined 260 to 340; Analytical Writing scored separately",
+      "text": "Verbal Reasoning 130 to 170 and Quantitative Reasoning 130 to 170, each in 1-point increments, and Analytical Writing 0 to 6 in half-point increments; three scores are reported",
       "src": "ETS",
-      "year": 2025,
+      "year": 2026,
       "url": "https://www.ets.org/gre/score-users/about/general-test/scoring.html"
     },
     "sections": [
@@ -299,10 +300,10 @@
       "url": "https://www.ets.org/gre/test-takers/general-test/prepare/test-structure.html"
     },
     "cost_usd": {
-      "v": 220,
-      "note": "Worldwide fee everywhere except China, where it is $231.30; the same fee applies whether you test at a test center or at home; the ETS Fee Reduction Program cuts the fee to $100 for eligible test takers",
+      "v": 249,
+      "note": "Fees effective August 1, 2026: $231.30 in China and $249 in all other areas of the world, with test takers in India referred to the ETS India website; a GRE Fee Reduction voucher lowers the General Test fee to $100 for those who receive one",
       "src": "ETS",
-      "year": 2025,
+      "year": 2026,
       "url": "https://www.ets.org/gre/test-takers/general-test/register/fees.html"
     },
     "validity_years": {
@@ -355,9 +356,10 @@
         "url": "https://www.ets.org/gre/test-takers/general-test/prepare/test-structure.html"
       },
       {
-        "text": "More than 100 ABA-approved law schools accept GRE scores for JD programs, and ETS publishes official lists of accepting law and business schools",
+        "text": "ETS lists the law schools that accept GRE General Test scores for admission to their JD programs: 128 in the United States and 1 in China, counted on September 26, 2026",
+        "derived": {"128": "count: the United States schools in ETS's list, counted 2026-09-26", "1": "count: the schools listed under China", "26": "count: the date the list was counted", "2026": "count: the year the list was counted"},
         "src": "ETS",
-        "year": 2025,
+        "year": 2026,
         "url": "https://www.ets.org/gre/score-users/law-schools/program-list.html"
       },
       {
@@ -431,7 +433,7 @@
     },
     "cost_usd": {
       "v": 253,
-      "note": "LSAT registration fee for the testing year beginning August 2026 (includes LSAT Argumentative Writing); the fee was $248 in the 2025-2026 testing year; the price is the same for remote and test-center testing",
+      "note": "LSAT registration fee for the August 2026 to June 2027 testing year, including LSAT Argumentative Writing; the cost is the same for first-time and repeat test takers",
       "src": "LSAC",
       "year": 2026,
       "url": "https://www.lsac.org/lsat/register-lsat/lsat-cas-fees"
@@ -512,6 +514,7 @@
     },
     "section_shape": {
       "text": "LSAC does not publish a question count for either section. For Reading Comprehension it publishes the shape: four sets, each a selection followed by five to eight questions, with three or four single passages and one or no comparative reading pair, which puts a section between 20 and 32 questions. No equivalent figure is published for Logical Reasoning.",
+        "derived": {"20": "4 sets x 5 questions", "32": "4 sets x 8 questions"},
       "src": "LSAC",
       "year": 2026,
       "url": "https://www.lsac.org/lsat/prepare/types-lsat-questions/reading-comprehension"
@@ -592,7 +595,7 @@
       "url": ""
     },
     "delivery": {
-      "text": "On paper, online at a test center, or on your own device (BYOD); test takers can switch between options up to the late registration deadline; national Saturday testing is offered 7 times per year",
+      "text": "On paper, online, or online on your own computer or a school-managed computer brought to a test site (Bring Your Own Device, BYOD)",
       "src": "act.org",
       "year": 2026,
       "url": "https://www.act.org/content/act/en/products-and-services/the-act/registration.html"
@@ -610,16 +613,16 @@
       "url": "https://www.act.org/content/act/en/products-and-services/the-act/test-day/online-testing.html"
     },
     "used_for": {
-      "text": "Used for US college admissions and scholarship qualification; ACT says the test unlocks access to more than 10,000 score-based scholarships",
+      "text": "Used for US college admissions and scholarships; ACT says the test unlocks access to 10,000+ score-based scholarships",
       "src": "act.org",
       "year": 2026,
-      "url": "https://www.act.org/content/act/en/products-and-services/the-act.html"
+      "url": "https://www.act.org/content/act/en/products-and-services/the-act/registration.html"
     },
     "acceptance": {
-      "text": "ACT states the test is accepted by 100% of US colleges, and all four-year US universities accept and value it",
+      "text": "ACT states the test is accepted by 100% of US colleges",
       "src": "act.org",
       "year": 2026,
-      "url": "https://www.act.org/content/act/en/products-and-services/the-act.html"
+      "url": "https://www.act.org/content/act/en/products-and-services/the-act/registration.html"
     },
     "key_facts": [
       {
@@ -657,6 +660,12 @@
         "src": "act.org",
         "year": 2026,
         "url": "https://www.act.org/content/act/en/products-and-services/the-act/scores/national-ranks.html"
+      },
+      {
+        "text": "The ACT is offered 7 times per year at test centers across the United States",
+        "src": "act.org",
+        "year": 2026,
+        "url": "https://www.act.org/content/act/en/products-and-services/the-act/registration/test-dates.html"
       }
     ],
     "answer_choices": {
