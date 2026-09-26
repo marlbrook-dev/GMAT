@@ -603,6 +603,22 @@ if _over:
     sys.exit(1)
 
 
+# No page may print a Python data structure. The /exams/ hub described every exam in its
+# structured data as "Scored {'text': ..., 'src': ...}" because an f-string was handed a
+# record where its text was meant (INC-0131). The blog is checked by build_blog.py, which
+# builds it after this.
+from page_checks import python_reprs
+_reprs = python_reprs(root, ["index.html", "404.html", "terms.html", "privacy.html",
+                             "app", "sat", "gre", "act", "lsat", "exams", "schools",
+                             "colleges", "guide", "daily", "apply", "scoring", "funding",
+                             "international", "community", "pricing", "do-not-sell"])
+if _reprs:
+    for _pg, _frag in _reprs[:10]:
+        print("ERROR: %s prints a Python data structure: ...%s..." % (_pg, _frag),
+              file=sys.stderr)
+    sys.exit(1)
+
+
 # ---------------------------------------------------------------------------
 # The Build Playbook, rebuilt with the site.
 #

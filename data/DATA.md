@@ -81,6 +81,17 @@ changes with them in the same commit.
 covers anything the trainers encode about an exam's structure: a section
 length, a domain label, or a question range is either sourced or absent.
 
+A citation proves a source is named, not that it says the figure (INC-0130), and a
+publisher changes its fees on its own schedule (INC-0132). `python3 src/check_sources.py`
+reads every page and PDF the file cites and reports each number in a fact, or in its
+`note`, that the source does not print. It runs weekly in `.github/workflows/playbook.yml`
+and opens an issue when something no longer matches. A fact whose number is arithmetic on
+its source says so with a `derived` entry giving the working, such as
+`"derived": {"63": "21 + 42, the private and public colleges the page lists"}`, and the
+check then looks for the inputs instead; a number counted off the page begins its entry
+with `count:`. Pages that build their text with JavaScript need `--render`, which reads
+them in Chromium.
+
 ## SAT, as encoded in `src/engine.js`
 
 | What | Where it comes from |

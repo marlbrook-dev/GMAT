@@ -62,6 +62,11 @@ gate('engine tests', 'node test.js', { cwd: path.join(ROOT, 'src') });
 gate('hostname redirect', 'node src/smoke_redirect.js');
 gate('charts and dark theme', 'node src/smoke_charts.js');
 gate('review bots', 'node src/review_bot.js');
+// Every page data/exams.json cites, read again: a fee or date the publisher changed shows
+// up here as a number the page no longer prints (INC-0130, INC-0132). Soft, because it
+// needs the network and a site can refuse a robot on any given day.
+gate('exam facts against their sources', 'python3 src/check_sources.py' + (QUICK ? '' : ' --render'),
+ { optional: true });
 if (!QUICK) {
  gate('item rendering', 'node src/smoke_items.js');
  gate('consent and telemetry', 'node src/smoke_consent.js');
