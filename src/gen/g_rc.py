@@ -37,7 +37,7 @@ derived by the same rule every time.
 """
 import re
 
-from framework import Gen, ItemError, balance
+from framework import Gen, ItemError, balance, buildable_ranks
 
 # --- the corpus --------------------------------------------------------------------
 # Each entry is one passage. Fields are written sentences, not templates:
@@ -994,6 +994,68 @@ P_LONG = [
           "the Marston household abandoned dialect forms before its neighbours")),
   about="separating two changes that arrived together in order to show which of them altered how people speak",
   implies="the role of contact has been established for one kind of contact and may work differently for others"),
+ dict( key="ferries",
+  topic="island depopulation",
+  old="Planners in the northern archipelago long treated the loss of population from its smaller islands as a consequence of the collapse of inshore fishing, which had employed most of the islands' working men until the 1970s and whose decline coincided with the first large departures.",
+  old_why="The census showed that the islands most dependent on fishing lost their people fastest, and the people who left most often named the end of fishing work as their reason for going when they were asked.",
+  problem="The account could not explain why two islands with almost identical fishing histories, Vell and Oster, diverged so sharply, Vell keeping most of its people while Oster lost two thirds of them in a single generation.",
+  ev1who="Brandvik",
+  ev1where="the ferry timetables and school registers of twenty islands over forty years",
+  ev1what="islands whose ferries allowed a return to the mainland within a single school day kept their families with children, while islands whose ferries were cut to alternate days lost them within a decade of the cut",
+  ev1detail="the timetables were set by the ferry company to spread its fleet across the whole archipelago rather than in response to any island's population, so the cause cannot run from the departures to the timetable",
+  ev2who="a later study",
+  ev2where="the household registers of Oster and Vell",
+  ev2what="the families that left Oster did so in the two years after its ferry was cut to alternate days, whatever their connection to fishing, while fishing families on Vell, whose daily ferry was never cut, mostly stayed",
+  ev2detail="the registers record every move with a date and an occupation, so each departure can be matched to the timetable month by month",
+  revision="the population of the smaller islands followed the ferry timetable more closely than the fortunes of fishing, and the end of fishing drove people away mainly where the daily ferry had already gone",
+  caveat="All twenty islands lie within two hours of the mainland by sea, and the pattern has not been examined on the outer islands, where no timetable allows a return within the day.",
+  cond1=("every island in Brandvik's study had a school of its own",
+         "the island of Holm has never had a school of its own",
+         "the island of Holm is not in Brandvik's study",
+         "the island of Holm",
+         "",
+         ("the island of Holm never had a daily ferry service",
+          "the island of Holm lost no families with children after its ferry was cut")),
+  cond2=("every family in the later study that left Oster after the cut had children of school age",
+         "the Lund family, one of those in the later study, had no children of school age",
+         "the Lund family did not leave Oster after the cut",
+         "the Lund family",
+         "the later study",
+         ("the Lund family never depended on fishing work",
+          "the Lund family did not use the ferry at all")),
+  about="arguing that a loss of population credited to the collapse of an industry followed the loss of daily transport instead",
+  implies="the ferry explanation may not hold for islands too far out for a return within the day"),
+ dict( key="bridgepiers",
+  topic="bridge pier failures",
+  old="Engineers responsible for the county's stone bridges long attributed the collapse of their piers to the weight of modern traffic, which by the 1960s had grown to many times the loads the bridges were built to carry, and they strengthened decks and restricted heavy vehicles accordingly.",
+  old_why="The bridges that failed stood mostly on the busiest roads, and the failures clustered in the decades when the number of lorries on those roads grew fastest.",
+  problem="Strengthening the decks did not stop the failures, and several bridges on lightly used lanes lost piers in the same years while carrying almost no heavy traffic at all.",
+  ev1who="Ostrowski",
+  ev1where="the surveys of the river bed taken beneath thirty bridges since the 1920s",
+  ev1what="every pier that failed, whatever the traffic above it, stood on a bed that had been lowered by at least a metre since the river upstream was straightened",
+  ev1detail="the rivers were straightened for drainage in the 1930s, well before the traffic grew, so the lowering of the beds cannot be mistaken for an effect of traffic",
+  ev2who="a later study",
+  ev2where="sixty piers that the county's inspectors either fitted with concrete aprons or left unprotected",
+  ev2what="not one pier fitted with an apron failed in the following forty years, while unprotected piers carrying the same traffic went on failing",
+  ev2detail="the aprons were fitted in the order the inspectors reached the piers on their route rather than by the condition of each pier, so the protected piers were not simply the sound ones",
+  revision="the piers failed because the straightened rivers scoured the beds beneath them rather than because of the growth in traffic",
+  caveat="All thirty bridges cross rivers that were straightened, and no one has examined whether heavy traffic weakens piers that stand on stable beds.",
+  cond1=("every bridge in Ostrowski's study had its river bed measured before 1930",
+         "the bed beneath the Mell bridge was first measured in 1971",
+         "the Mell bridge is not in Ostrowski's study",
+         "the Mell bridge",
+         "",
+         ("the Mell bridge has never lost a pier",
+          "the Mell bridge stands on a bed that was never lowered")),
+  cond2=("every pier in the later study that was fitted with an apron was reached by the inspectors before 1975",
+         "the east pier of the Ardle bridge, one of those in the later study, was first reached by the inspectors in 1981",
+         "the east pier of the Ardle bridge was not fitted with an apron",
+         "the east pier of the Ardle bridge",
+         "the later study",
+         ("the east pier of the Ardle bridge did not stand on a lowered bed",
+          "the east pier of the Ardle bridge carried no heavy traffic after 1981")),
+  about="attributing the failure of bridge piers to the straightening of the rivers beneath them rather than to the growth in traffic",
+  implies="traffic may still play a part in the failure of piers whose river beds have not been lowered"),
 ]
 
 
@@ -1115,9 +1177,46 @@ class RCBase(Gen):
         if suffix:
             self.id = self.id + suffix
 
+    # A schema that asks one fixed question of each passage ships one item per passage, so
+    # how its keys spread over the length ranks is decided by a handful of draws: 7 of the
+    # 14 LSAT caveat keys once landed on the middle rank (INC-0122). Those schemas set
+    # this and say their options through options(), and each passage's rank is assigned
+    # rather than drawn. k is how many of the passage's own wrong answers are forced.
+    once_per_passage = False
+    k = 0
+
     def target_for(self, p, need):
         """The key's length rank to aim for, or None to draw it (see framework.balance)."""
-        return None
+        if not self.once_per_passage:
+            return None
+        return self.assigned(need)[p["key"]]
+
+    def options(self, p):
+        """(key, pool, own wrong answers) for one passage; a schema asked once per passage
+        says its options here so its ranks can be assigned before anything is drawn."""
+        raise NotImplementedError(self.id)
+
+    def slate(self, right, pool, near):
+        """The wrong answers emit() hands to balance(), as (text, note) pairs: the pool and
+        the passage's own, neither repeating the key. The rank assignment reads the same
+        lists, so it plans with exactly what the draw will have."""
+        near = [w for w in near if w != right]
+        return ([(w, "") for w in pool if w != right and w not in near],
+                [(w, "") for w in near])
+
+    def buildable(self, p, need):
+        """The length ranks this passage's key can be given (framework.buildable_ranks)."""
+        right, pool, near = self.options(p)
+        cands, own = self.slate(right, pool, near)
+        return buildable_ranks(right, cands, need, own, self.k)
+
+    def assigned(self, need):
+        """{passage key: rank} for this schema's corpus, worked out once."""
+        cache = self.__dict__.setdefault("_assigned", {})
+        if need not in cache:
+            cache[need] = assign_ranks(
+                [(p["key"], self.buildable(p, need)) for p in self.corpus], need)
+        return cache[need]
 
     def emit(self, rng, choices_n, p, stem, right, pool, expl, diff, skill, sub,
              near=(), k=0, target=None):
@@ -1126,13 +1225,11 @@ class RCBase(Gen):
         and a wrong answer about a different subject is eliminated without reading
         (INC-0117). Which of them is offered is left to the length balance, because
         forcing particular ones pins where the key can rank by length."""
-        near = [w for w in near if w != right]
-        cands = [(w, "") for w in pool if w != right and w not in near]
-        if len(cands) + len(near) < choices_n - 1:
-            raise ItemError("%s has only %d distractors" % (self.id, len(cands) + len(near)))
+        cands, own = self.slate(right, pool, near)
+        if len(cands) + len(own) < choices_n - 1:
+            raise ItemError("%s has only %d distractors" % (self.id, len(cands) + len(own)))
         opts = [right] + [w for w, _ in balance(rng, right, cands, choices_n - 1,
-                                                own=[(w, "") for w in near], k=k,
-                                                target=target)]
+                                                own=own, k=k, target=target)]
         if len(set(opts)) != choices_n:
             raise ItemError("%s drew a repeated option" % self.id)
         rng.shuffle(opts)
@@ -1194,6 +1291,8 @@ class MainIdea(RCBase):
     broader than anything it argues, and the reverse of what it argues. Two of them are
     always this passage's own, so the key is not the only choice about its subject. Other
     passages' summaries stay in the pool for variety and can fill the remaining slots.
+
+    One question per passage, so the key's length rank is assigned (INC-0122).
     """
     id = "rc_main"
     skill = "v_st"
@@ -1204,8 +1303,10 @@ class MainIdea(RCBase):
              "passage argues, the reverse of what it argues, or a description of a "
              "different passage.")
 
-    def make(self, rng, choices_n):
-        p = rng.choice(self.corpus)
+    once_per_passage = True
+    k = 1
+
+    def options(self, p):
         others = [q for q in self.corpus if q["key"] != p["key"]]
         right = p["about"]
         # At least one finding is always offered, because a finding is the part most
@@ -1221,6 +1322,11 @@ class MainIdea(RCBase):
                  "defending the account the passage opens with against the evidence "
                  "raised against it"]
                 + [q["about"] for q in others])
+        return right, pool, findings
+
+    def make(self, rng, choices_n):
+        p = rng.choice(self.corpus)
+        right, pool, findings = self.options(p)
         expl = ("The passage opens with the received view, shows what it cannot account "
                 "for, presents two findings, and states what they support. That is the "
                 "shape of the whole passage, and the correct choice describes it. The other "
@@ -1228,7 +1334,7 @@ class MainIdea(RCBase):
                 "more than the passage argues, reverse it, or describe a different passage.")
         return self.emit(rng, choices_n, p, "The passage is primarily concerned with",
                          right, pool, expl, rng.choice([2, 3, 3]), "v_st", self.sub,
-                         near=findings, k=1, target=self.target_for(p, choices_n - 1))
+                         near=findings, k=self.k, target=self.target_for(p, choices_n - 1))
 
 
 class Inference(RCBase):
@@ -1321,6 +1427,8 @@ class CaveatImplication(RCBase):
     studies did not look, or that the revision has been shown everywhere. Each is the
     mistake of turning a stated limit into a verdict. Other passages' implications can
     fill the remaining slots.
+
+    One question per passage, so the key's length rank is assigned (INC-0122).
     """
     id = "rc_caveat"
     skill = "v_inf"
@@ -1330,8 +1438,10 @@ class CaveatImplication(RCBase):
              "evidence, as settling what was never tested, or as a limit that belongs to a "
              "different passage.")
 
-    def make(self, rng, choices_n):
-        p = rng.choice(self.corpus)
+    once_per_passage = True
+    k = 1
+
+    def options(self, p):
         others = [q for q in self.corpus if q["key"] != p["key"]]
         right = p["implies"]
         # At least one of the two misreadings that quote the passage is always offered,
@@ -1345,6 +1455,11 @@ class CaveatImplication(RCBase):
         pool = (["the account of %s that the passage opens with still holds wherever the "
                  "studies did not look" % p["topic"]]
                 + [q["implies"] for q in others])
+        return right, pool, own
+
+    def make(self, rng, choices_n):
+        p = rng.choice(self.corpus)
+        right, pool, own = self.options(p)
         expl = ("The closing sentence names a limit on what the evidence shows rather than a "
                 "doubt about the evidence itself, and the correct choice states that limit "
                 "in this passage's own terms. The wrong choices treat the limit as a verdict "
@@ -1352,7 +1467,7 @@ class CaveatImplication(RCBase):
                 "the other, or state a limit that belongs to a different passage.")
         stem = "The author's closing observation most strongly suggests that"
         return self.emit(rng, choices_n, p, stem, right, pool, expl,
-                         rng.choice([2, 3, 3, 4]), "v_inf", self.sub, near=own, k=1,
+                         rng.choice([2, 3, 3, 4]), "v_inf", self.sub, near=own, k=self.k,
                          target=self.target_for(p, choices_n - 1))
 
 
@@ -1364,6 +1479,53 @@ GENS = [StatedIdea(P + P_LONG), MainIdea(P + P_LONG),
         Inference(P + P_LONG), CaveatImplication(P + P_LONG)]
 GENS_LONG = [StatedIdea(P_LONG, "_long"), MainIdea(P_LONG, "_long"),
              Inference(P_LONG, "_long"), CaveatImplication(P_LONG, "_long")]
+
+
+def assign_ranks(can, need):
+    """Each passage's key length rank, as evenly spread as the ranks each can build allow.
+
+    `can` is (passage key, buildable ranks) in corpus order. The most constrained passages
+    are placed first, each on the least used rank it can build, and a tie goes to the next
+    rank in rotation, so a corpus in which every passage can build every rank comes out as
+    a plain rotation. Returns {passage key: rank}.
+    """
+    ranks = need + 1
+    load = [0] * ranks
+    out = {}
+    order = sorted(range(len(can)), key=lambda i: len(can[i][1]))
+    for n, i in enumerate(order):
+        key, ok = can[i]
+        if not ok:
+            raise ItemError("passage %s can build no length rank at all" % key)
+        t = min(ok, key=lambda r: (load[r], (r - n) % ranks))
+        out[key] = t
+        load[t] += 1
+    return out
+
+
+def check_spread(gens=None, choices_n=5):
+    """Every schema asked once per passage can spread its keys evenly over the ranks.
+
+    Each passage's key is given a length rank it can build (INC-0122). A key longer or
+    shorter than every option it can be offered with can only be the longest or the
+    shortest, and enough of those pile that rank up whatever the assignment does. So this
+    fails when the ranks cannot be filled to within one passage of each other, and names
+    the passages with the fewest ranks open, which are the ones whose keys to rewrite.
+    """
+    need = choices_n - 1
+    bad = []
+    for g in (gens if gens is not None else GENS + GENS_LONG):
+        if not g.once_per_passage:
+            continue
+        got = list(g.assigned(need).values())
+        load = [got.count(t) for t in range(need + 1)]
+        if max(load) - min(load) > 1:
+            tight = sorted((len(g.buildable(p, need)), p["key"], g.buildable(p, need))
+                           for p in g.corpus)[:4]
+            bad.append("%s: keys per length rank, shortest to longest, %s; the passages "
+                       "with the fewest ranks open are %s" % (
+                           g.id, load, ", ".join("%s (%s)" % (k, r) for _, k, r in tight)))
+    return bad
 
 
 def check_premises(draws=300, choices_n=5):

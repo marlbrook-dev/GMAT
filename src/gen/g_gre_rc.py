@@ -62,14 +62,6 @@ class GreRender:
     pid = "GRP_"
 
 
-class OnePerPassage:
-    """For a question asked once of each passage: the key's length rank goes in rotation
-    by passage, so the few items that ship are spread over the ranks (framework.balance)."""
-
-    def target_for(self, p, need):
-        return [q["key"] for q in self.corpus].index(p["key"]) % (need + 1)
-
-
 class GreStated(GreRender, StatedIdea):
     """What the paragraph says. Its other sentences are the wrong answers, true and beside
     the point, which is the trap a stated idea question sets."""
@@ -97,11 +89,11 @@ class GreStated(GreRender, StatedIdea):
                          rng.choice([1, 2, 2, 3]), "gre_rc", self.sub)
 
 
-class GreMainIdea(GreRender, OnePerPassage, MainIdea):
+class GreMainIdea(GreRender, MainIdea):
     sub = "Main idea"
 
 
-class GreCaveat(GreRender, OnePerPassage, CaveatImplication):
+class GreCaveat(GreRender, CaveatImplication):
     sub = "Inference"
 
 

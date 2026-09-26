@@ -17,6 +17,7 @@ many were dropped. Silence about a dropped item would be the same bug as an
 invented key.
 """
 import hashlib
+import itertools
 import json
 import random
 import re
@@ -511,9 +512,10 @@ def balance(rng, right, pool, need, own=(), k=0, target=None):
     `target` fixes the rank instead of drawing it. A schema that makes one item per
     passage ships few items, and a uniform draw over few items can still pile up on one
     rank: 12 of the 27 GRE main idea keys sat at the middle rank on the first build of
-    that schema, although 3,000 draws spread evenly. Passing the ranks in rotation makes
-    the bank that ships even, not only the process that made it. Without it, nothing
-    changes for any existing schema.
+    that schema, although 3,000 draws spread evenly, and 7 of 14 LSAT caveat keys did the
+    same after two passages were added (INC-0122). Such a schema assigns each passage a
+    rank it can build (see buildable_ranks), so the bank that ships is even, not only the
+    process that made it. Without a target, nothing changes for any other schema.
     """
     own = list(own)
     if k > len(own) or len(pool) + len(own) < need:
@@ -534,6 +536,42 @@ def balance(rng, right, pool, need, own=(), k=0, target=None):
     return best
 
 
+def _fits(first, own, pool, need, k, t, short):
+    """Whether forcing the own options `first` leaves enough shorter and longer wrong
+    answers to put the key at rank t. Returns (shorter, longer, forced shorter) or None.
+    One test, used by _balance_own to build a draw and by buildable_ranks to say which
+    ranks a draw can reach, so the two cannot disagree."""
+    ns = sum(1 for o in first if short(o))
+    if ns > t or k - ns > need - t:
+        return None
+    rest = [w for w in own if w not in first] + list(pool)
+    s_ = [w for w in rest if short(w)]
+    l_ = [w for w in rest if not short(w)]
+    if len(s_) < t - ns or len(l_) < need - t - (k - ns):
+        return None
+    return s_, l_, ns
+
+
+def buildable_ranks(right, pool, need, own=(), k=0):
+    """The key length ranks balance() can reach from these options, as a list.
+
+    A key longer than every option it can be offered with can only be the longest, and
+    one shorter than all of them only the shortest. A schema that assigns ranks has to
+    choose among these, and a passage with few of them is the one that piles the ranks up
+    (INC-0122). Options are (text, note) pairs, as balance() takes them."""
+    keylen = len(str(right))
+    short = lambda w: len(str(w[0])) < keylen
+    out = []
+    for t in range(need + 1):
+        if k:
+            if any(_fits(first, own, pool, need, k, t, short) is not None
+                   for first in itertools.combinations(own, k)):
+                out.append(t)
+        elif _fits((), (), list(own) + list(pool), need, 0, t, short) is not None:
+            out.append(t)
+    return out
+
+
 def _balance_own(rng, right, pool, need, own, k, target=None):
     """balance() when some wrong answers must come from `own` (INC-0117).
 
@@ -548,18 +586,30 @@ def _balance_own(rng, right, pool, need, own, k, target=None):
     keylen = len(str(right))
     short = lambda w: len(str(w[0])) < keylen
 
+    def assemble(first, t):
+        fit = _fits(first, own, pool, need, k, t, short)
+        if fit is None:
+            return None
+        s_, l_, ns = fit
+        return list(first) + rng.sample(s_, t - ns) + rng.sample(l_, need - t - (k - ns))
+
     def build(t):
+        # An assigned rank is one buildable_ranks found a way to build, so every choice of
+        # the forced options is tried before giving up on it. Twelve random picks could
+        # miss the one that works and fall back to a random rank, which undoes the
+        # assignment (INC-0122). A drawn rank keeps the draw it always had.
+        if target is not None:
+            firsts = list(itertools.combinations(own, k))
+            rng.shuffle(firsts)
+            for first in firsts:
+                pick = assemble(first, t)
+                if pick is not None:
+                    return pick
+            return None
         for _ in range(12):
-            first = rng.sample(own, k)
-            ns = sum(1 for o in first if short(o))
-            if ns > t or k - ns > need - t:
-                continue
-            rest = [w for w in own if w not in first] + list(pool)
-            s_ = [w for w in rest if short(w)]
-            l_ = [w for w in rest if not short(w)]
-            if len(s_) < t - ns or len(l_) < need - t - (k - ns):
-                continue
-            return first + rng.sample(s_, t - ns) + rng.sample(l_, need - t - (k - ns))
+            pick = assemble(rng.sample(own, k), t)
+            if pick is not None:
+                return pick
         return None
 
     targets = list(range(need + 1))
