@@ -663,6 +663,13 @@ def run(gens, target, choices_n, prefix, seed=20260916, start=1, existing=None):
             n += 1
             out.append(it)
             made[g.id] += 1
+            # A schema may stop short of the category's target on purpose (item_cap),
+            # when its question is one of several the category covers and filling the
+            # target from it alone would misrepresent the category. The category then
+            # reports itself under target, as any short category does.
+            item_cap = getattr(g, "item_cap", None)
+            if item_cap and made[g.id] >= item_cap:
+                exhausted.add(g.id)
     if len(out) < target:
         errors.append("filled %d of %d; widen the exhausted schemas: %s"
                       % (len(out), target, ", ".join(sorted(exhausted)) or "none"))
