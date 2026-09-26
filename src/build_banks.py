@@ -26,6 +26,7 @@ import g_sat_rw, g_gmat_ds, g_act_kol                # noqa: E402,F401
 import g_gmat_gt, g_gmat_tpa, g_gmat_msr             # noqa: E402,F401
 import g_act_sci, g_gre_verb, g_gmat_cr, g_act_nq    # noqa: E402,F401
 import g_rc, g_flaw                                  # noqa: E402,F401
+import g_lsat_concl                                  # noqa: E402
 
 OUT = D / "generated"
 
@@ -141,7 +142,12 @@ EXAM_EXTRA = {"gre": {"gre_tc": [g for g in g_gre_verb.GENS if g.skill == "gre_t
                       # of a study supports all three, which is why they share a module.
                       "act_s_iod": [g for g in g_act_sci.GENS if g.skill == "act_s_iod"],
                       "act_s_si": [g for g in g_act_sci.GENS if g.skill == "act_s_si"],
-                      "act_s_esa": [g for g in g_act_sci.GENS if g.skill == "act_s_esa"]}}
+                      "act_s_esa": [g for g in g_act_sci.GENS if g.skill == "act_s_esa"]},
+              # Must be true from statements quantified by every, no, some and most. The
+              # one kind of Logical Reasoning question whose answer the checker in
+              # g_lsat_concl.py proves rather than an author asserts; the category had 31
+              # hand written items and nothing in the critical reasoning pool asks it.
+              "lsat": {"lsat_lr_concl": g_lsat_concl.GENS}}
 
 PREFIX = {"sat": "ZS", "gre": "ZG", "gmat": "ZM", "act": "ZA", "lsat": "ZL"}
 
@@ -615,6 +621,17 @@ def main(target=TARGET, verbose=True):
         print("ERROR: reading schemas answerable by matching words (INC-0117)",
               file=sys.stderr)
         for line in tells:
+            print("  " + line, file=sys.stderr)
+        sys.exit(1)
+    # The must be true checker certifies a wrong answer as wrong by finding a group of
+    # people in which it fails, trying groups up to a size bound. Too small a bound could
+    # miss the only such group and pass a second correct answer, so the bound is checked
+    # against a larger one on every build.
+    bound = g_lsat_concl.check_logic()
+    if bound:
+        print("ERROR: the must be true checker's size bound misses a counterexample",
+              file=sys.stderr)
+        for line in bound[:12]:
             print("  " + line, file=sys.stderr)
         sys.exit(1)
     pool = M.by_id(POOL_MODS)
