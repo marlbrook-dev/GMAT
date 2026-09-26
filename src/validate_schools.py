@@ -32,6 +32,14 @@ RANGES = {
 RANK_KEYS = {"usnews", "ft", "bloomberg", "qs", "pq"}
 
 
+def _figures(s):
+    """Every sourced figure in a school file, with where it sits: (path, figure)."""
+    for block in ("profile", "federal"):
+        for f, fv in ((s.get(block) or {}).items()):
+            if isinstance(fv, dict) and fv.get("v") is not None:
+                yield "%s.%s" % (block, f), fv
+
+
 def validate(schools):
     errors, warnings = [], []
     seen = set()
@@ -85,6 +93,20 @@ def validate(schools):
         # publishes (its storage bucket, an alias domain). Each needs the evidence that it is
         # the school's and the date that was checked, because this field changes a figure's
         # label from secondary to official and must not be a way to launder a publisher.
+        # The federal block is sourced like any other figure, and a figure that names the
+        # College Scorecard has to point at it. Every one of them once cited the program's
+        # own site, which passed a check that only asked whether a url was there (INC-0125).
+        for f, fv in ((s.get("federal") or {}).items()):
+            if not isinstance(fv, dict) or fv.get("v") is None:
+                continue
+            for req in ("src", "year", "url"):
+                if not fv.get(req):
+                    errors.append(f"{slug}.federal.{f}: published value without {req}")
+        for where, fv in _figures(s):
+            if "college scorecard" in str(fv.get("src", "")).lower() and \
+                    not str(fv.get("url", "")).startswith("https://collegescorecard.ed.gov/"):
+                errors.append(f"{slug}.{where}: cites the College Scorecard but its url "
+                              f"{fv.get('url')!r} is not on collegescorecard.ed.gov")
         for oh in (s.get("official_hosts") or []):
             if not (isinstance(oh, dict) and str(oh.get("prefix", "")).startswith("https://")
                     and oh.get("evidence") and re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(oh.get("checked", "")))):

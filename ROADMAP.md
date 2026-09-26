@@ -174,6 +174,12 @@ verified rather than that the school does not publish one (INC-0118).
       from act.org the same day or already sourced in `data/exams.json`. The EDITORIAL fact
       sheet gains an ACT block, and `data/exams.json` gains the rounding rule and ACT's
       superscore details with their page.
+- [x] **Scorecard figures pointed at their own school** (INC-0125): every one of the 337
+      College Scorecard earnings and debt figures in the MBA library cited the program's
+      website as its URL, a page that does not hold the number. They now cite the
+      Scorecard's data page, the enrichment script writes that URL, and the school
+      validator checks the federal block and refuses a Scorecard figure whose URL is not
+      on collegescorecard.ed.gov.
 - **Decided against** mapping the two paragraph passages onto GRE reading as they are. ETS
   says most GRE passages are one paragraph long (ETS, GRE General Test Verbal Reasoning,
   https://www.ets.org/gre/test-takers/general-test/prepare/content/verbal-reasoning.html, read
