@@ -130,6 +130,10 @@ verified rather than that the school does not publish one (INC-0118).
       function of a sentence question, 270 items where the category had 94 hand-written
       ones. The function questions ask about the four sentences that have to be read to be
       told apart, since every passage shares one shape.
+- [x] **LSAT parallel reasoning**, `src/gen/g_lsat_parallel.py`: 150 items where Explanations
+      and Parallel Reasoning had 29 hand-written ones. Eight argument forms, each proved valid
+      or flawed by trying it against every small group; capped, because the category is also
+      explanation questions, which stay hand written.
 - **Decided against** mapping the two paragraph passages onto GRE reading as they are. ETS
   says most GRE passages are one paragraph long (ETS, GRE General Test Verbal Reasoning,
   https://www.ets.org/gre/test-takers/general-test/prepare/content/verbal-reasoning.html, read
