@@ -73,6 +73,13 @@ APPS = [
 ]
 
 engine = (d/"engine.js").read_text(); tpl = (d/"app_template.html").read_text()
+# The daily question. Each trainer carries the scheduled item ids around the build date and
+# the one shared definition of a streak, so the in-app Question of the Day and /daily/ are
+# the same question and the same streak (see src/build_daily.py).
+import build_daily as _bd
+import json as _daily_json
+def daily_js(exam_id):
+    return ("const DAILY=" + _daily_json.dumps(_bd.app_window(exam_id)) + ";\n" + _bd.streak_js())
 charts = (d/"charts.js").read_text()
 built = {}
 # The generated banks are built first; the schemas in src/gen/ are their source of truth.
@@ -132,7 +139,19 @@ for app in APPS:
     # Every chunk reindexes on arrival, so the pool grows as each lands rather than only
     # once the last one does, and a chunk that fails to load costs its own items and no
     # more.
-    rest_tags = "\n".join('<script src="%s" async></script>' % q for q in rest_paths)
+    # The chunks are injected after the page's load event rather than written as async
+    # tags. An async tag is found by the preload scanner and fetched at once, alongside the
+    # blocking bank.js, so on a slow connection the one file a first question needs shared
+    # its bandwidth with 30 MB it does not: the GMAT trainer, the only one with two chunks,
+    # took 21.7s to first question on the 3G profile against 11.0s when the split shipped
+    # (INC-0113). After load, and once the page is idle so the parse of 30 MB does not land
+    # on top of the first question's render, nothing a student is waiting for competes.
+    import json as _rest_json
+    rest_tags = ("<script>(function(){var R=%s;function go(){R.forEach(function(u){var s=document.createElement('script');"
+                 "s.src=u;s.async=true;document.body.appendChild(s);});}"
+                 "function later(){if(window.requestIdleCallback)requestIdleCallback(go,{timeout:2000});else setTimeout(go,300);}"
+                 "if(document.readyState==='complete')later();else window.addEventListener('load',later);})();</script>"
+                 % _rest_json.dumps(rest_paths)) if rest_paths else ""
 
     # A service worker per trainer. Scoped per app rather than one at the root: the five
     # ship different banks, and a shared cache would have them evicting each other's
@@ -161,6 +180,7 @@ for app in APPS:
               .replace("{{SW_SCOPE}}", _scope)
               .replace("{{ENGINE}}", engine)
               .replace("{{CHARTS}}", charts)
+              .replace("{{DAILY}}", daily_js(app["exam"]))
               .replace("{{FOOTER_NOTE}}", app["footer"])
               .replace("{{APP_TITLE}}", app["title"])
               .replace("{{APP_DESC}}", app["desc"])
@@ -547,6 +567,11 @@ _sp.run([sys.executable, str(d/"build_colleges.py")], check=True)
 _sp.run([sys.executable, str(d/"validate_exams.py")], check=True)
 _sp.run([sys.executable, str(d/"build_exams.py")], check=True)
 _sp.run([sys.executable, str(d/"build_guide.py")], check=True)
+_sp.run([sys.executable, str(d/"build_daily.py")], check=True)
+# The live daily pages carry the answering and streak code inline; parse it like every
+# other inline script, on each exam's live page and the hub.
+for _dp in [root/"daily"/"index.html"] + sorted((root/"daily").glob("*/index.html")):
+    check_scripts(_dp)
 
 # I18N.md Stage 0: the content site stays translatable, which means its copy stays
 # in markup where browser and search translation can reach it. Text that moves into

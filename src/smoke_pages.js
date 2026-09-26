@@ -10,6 +10,12 @@ const url = p => 'file://' + path.join(ROOT, p);
 (async () => {
   const b = await chromium.launch({ executablePath: chromiumPath() });
   const p = await b.newPage({ viewport: { width: 1280, height: 900 } });
+  // A consent choice already made, the way a returning visitor arrives. Without it the
+  // consent dialog, which is modal, sits over the checklist and intercepts every click, so
+  // this suite had been timing out on its first checkbox since the dialog shipped.
+  await p.addInitScript(() => {
+    try { localStorage.setItem('sfn_consent_v1', JSON.stringify({ analytics: false, ts: '', v: 1 })); } catch (e) {}
+  });
   const errs = [];
   p.on('pageerror', e => errs.push('pageerror: ' + e.message));
   // Google Fonts cannot be fetched through this sandbox's proxy CA, so the cert failure

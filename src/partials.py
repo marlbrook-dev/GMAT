@@ -188,6 +188,7 @@ nav.sfn-nav{display:flex;align-items:center}
 
 _NAV_GROUPS = [
     ("Exam Prep", [
+        ("Daily Questions", "/daily/", "New"),
         ("GMAT Focus Edition", "/exams/gmat/", "Live"),
         ("SAT", "/exams/sat/", "Live"),
         ("GRE General Test", "/exams/gre/", "Live"),
@@ -352,6 +353,11 @@ SENTINEL_URL = ("https://ftsqwbzhkzuudogkvoqa.supabase.co/rest/v1/client_errors"
 
 
 SITE_EVENTS_URL = ("https://ftsqwbzhkzuudogkvoqa.supabase.co/rest/v1/site_events"
+                   "?apikey=sb_publishable_GToT4fK6RiwCZpPFE3bGiw_ThXq9qel")
+# The trainers' unlinkable item telemetry (supabase/migrations/..._item_events_unlinkable_
+# telemetry.sql): no user, session, device or IP column exists, so privacy.html section 1
+# covers it without a consent gate. The public daily question pages post here too.
+ITEM_EVENTS_URL = ("https://ftsqwbzhkzuudogkvoqa.supabase.co/rest/v1/item_events"
                    "?apikey=sb_publishable_GToT4fK6RiwCZpPFE3bGiw_ThXq9qel")
 
 
@@ -683,6 +689,7 @@ OG_IMAGES = [
     ("/apply/", "/og/apply.png"),
     ("/international/", "/og/apply.png"),
     ("/funding/", "/og/funding.png"),
+    ("/daily/", "/og/trainer.png"),
 ]
 
 _TITLE_RE = re.compile(r"<title>(.*?)</title>", re.S | re.I)

@@ -104,11 +104,11 @@
    "url": "https://poetsandquants.com/school-profile/maryland-smith/"
   },
   "tuition_usd": {
-   "v": null,
-   "note": "per year; official page lists per-credit only: 2157 USD per credit non-resident, 1759.50 in-state, Fall 2025; program redesigned to 48 credits",
-   "src": "Smith Networth Fall 2025 Tuition (official)",
-   "year": 2025,
-   "url": "https://networth.rhsmith.umd.edu/smith/financial-information/fall-2025-tuition"
+   "v": 42228,
+   "stat": "per year at the average 24 credits, Fall 2026 rate of 1,759.50 per credit hour, the same for residents and non-residents; fees of 2,226 a year are additional",
+   "src": "Smith full-time MBA admissions page",
+   "year": 2026,
+   "url": "https://www.rhsmith.umd.edu/programs/full-time-mba/admissions"
   },
   "salary_median_usd": {
    "v": 125000,

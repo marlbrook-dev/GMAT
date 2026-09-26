@@ -437,6 +437,18 @@ def build_sitemap(posts):
         for page in sorted(guide_dir.rglob("index.html")):
             rel = page.parent.relative_to(ROOT).as_posix()
             urls.append((f"{SITE}/{rel}/", None))
+    # The daily question archive, walked for the same reason. A dated page never changes
+    # after its day, so its date is an honest lastmod; the hub and each exam's live page
+    # change every day and carry the build date.
+    daily_dir = ROOT / "daily"
+    if daily_dir.is_dir():
+        import datetime, os
+        for page in sorted(daily_dir.rglob("index.html")):
+            rel = page.parent.relative_to(ROOT).as_posix()
+            last = rel.rsplit("/", 1)[-1]
+            stamp = last if _re.fullmatch(r"\d{4}-\d{2}-\d{2}", last) else \
+                (os.environ.get("BLOG_BUILD_DATE") or datetime.date.today().isoformat())
+            urls.append((f"{SITE}/{rel}/", stamp))
     urls += [(f"{SITE}/blog/{p['slug']}/", p.get("updated", p["date"])) for p in sorted(posts, key=lambda p: p["date"], reverse=True)]
     items = "".join(
         f"<url><loc>{u}</loc>{f'<lastmod>{d}</lastmod>' if d else ''}</url>\n" for u, d in urls)
@@ -445,7 +457,7 @@ def build_sitemap(posts):
 # Directories whose built pages are content a search engine should be able to reach. The
 # trainer apps are deliberately absent: they are an application, not a document, and a
 # search result pointing into one is a worse answer than the guide page about it.
-SITEMAP_SECTIONS = ["blog", "schools", "colleges", "exams", "guide"]
+SITEMAP_SECTIONS = ["blog", "schools", "colleges", "exams", "guide", "daily"]
 
 
 def sitemap_gaps(sitemap):

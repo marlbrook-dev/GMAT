@@ -20,6 +20,10 @@ import json
 import pathlib
 import random
 import re
+import sys
+
+sys.path.insert(0, str(pathlib.Path(__file__).parent))
+import build_rankings as br
 
 ROOT = pathlib.Path(__file__).parent.parent
 OUT = ROOT / "src" / "generated"
@@ -92,6 +96,44 @@ def field(school, name):
     return f
 
 
+def said_by(school, f):
+    """None when the school published the figure itself, else the source's short name.
+
+    A post may say "from the school" only when that is true. Secondary figures are
+    allowed by the source ladder and are named for what they are (INC-0105)."""
+    if not br.is_secondary(school, f):
+        return None
+    return clean(re.split(r"[(,]", f.get("src") or "", 1)[0]) or "a secondary source"
+
+
+def hedge(f):
+    """The qualifier the figure's own source attaches to it, if any."""
+    t = ("%s %s" % (f.get("src") or "", f.get("stat") or "")).lower()
+    if "estimat" in t:
+        return "an estimated "
+    if re.search(r"\b(around|about|approximately|roughly)\b", t):
+        return "about "
+    return ""
+
+
+SCHOOL_CLAIM = re.compile(r"school's own|published by the school|reported by the school|"
+                          r"from the school|publish directly", re.I)
+
+
+def checked(school, f, text):
+    """Refuse a post that credits the school with a figure hosted elsewhere, or that
+    calls a figure a median or an average its own note contradicts."""
+    if said_by(school, f) and SCHOOL_CLAIM.search(text):
+        raise SystemExit("build_social: %s: post credits the school with a figure from %s"
+                         % (school.get("slug"), f.get("src")))
+    kind = br.stat_kind(f)
+    for said in re.findall(r"\b(median|average)\b", text, re.I):
+        if kind and said.lower() != kind:
+            raise SystemExit("build_social: %s: post says %s, the figure's note says %s"
+                             % (school.get("slug"), said.lower(), kind))
+    return text
+
+
 # --- post kinds --------------------------------------------------------------------
 def posts_blog(rng):
     out = []
@@ -119,22 +161,25 @@ def posts_international(rng, sch):
     for s_, f in rows[:16]:
         pct = "{:g}%".format(float(f["v"]))
         name, yr, slug = clean(s_["name"]), f["year"], s_["slug"]
+        by = said_by(s_, f)
         # Longest first, then shorter fallbacks. A school with a long name would otherwise
         # produce no post at all, which silently drops exactly the big international
         # programs this is meant to reach.
         for t in (
             ("Applying to an MBA from outside the US? %s of the class at %s is "
-             "international, as of %s.\n\nClass composition is published by the school. We "
+             "international, as of %s.\n\nThis figure is %s. We "
              "show the year, because a 2019 profile is not evidence about this cycle."
-             "\n\n%s/schools/%s/" % (pct, name, yr, SITE, slug)),
+             "\n\n%s/schools/%s/" % (pct, name, yr,
+                                    "published by the school" if by is None else "as reported by " + by,
+                                    SITE, slug)),
             ("Applying from outside the US? %s of the class at %s is international (%s).\n\n"
-             "Class composition is one of the few facts schools publish directly, and we "
-             "show which year it is from.\n\n%s/schools/%s/" % (pct, name, yr, SITE, slug)),
-            ("%s of the MBA class at %s is international, as of %s.\n\nSourced from the "
-             "school, with the year attached.\n\n%s/schools/%s/"
+             "We show where the figure comes from and which year it is from.\n\n%s/schools/%s/"
              % (pct, name, yr, SITE, slug)),
+            ("%s of the MBA class at %s is international, as of %s.\n\nSourced from %s, "
+             "with the year attached.\n\n%s/schools/%s/"
+             % (pct, name, yr, "the school" if by is None else by, SITE, slug)),
         ):
-            if ok(t):
+            if ok(checked(s_, f, t)):
                 out.append(dict(key="intl:" + slug, kind="International",
                                 audience="International applicants", text=t))
                 break
@@ -157,18 +202,25 @@ def posts_school(rng, sch):
         sal = field(s_, "salary_median_usd")
         name = clean(s_["name"])
         if acc:
-            t = ("%s accepted %s%% of applicants. Most sites quoting an MBA acceptance rate "
-                 "will not tell you which year it is.\n\nThis one is %s, from the school's "
-                 "own class profile, linked.\n\n%s/schools/%s/"
-                 % (name, "{:g}".format(float(acc["v"])), acc["year"], SITE, s_["slug"]))
+            by = said_by(s_, acc)
+            t = checked(s_, acc, (
+                "%s accepted %s%s%% of applicants. Most sites quoting an MBA acceptance rate "
+                "will not tell you which year it is.\n\nThis one is %s, %s, linked.\n\n%s/schools/%s/"
+                % (name, hedge(acc), "{:g}".format(float(acc["v"])), acc["year"],
+                   "published by the school" if by is None else "as reported by " + by,
+                   SITE, s_["slug"])))
             if ok(t):
                 out.append(dict(key="school:acc:" + s_["slug"], kind="MBA data",
                                 audience="MBA applicants", text=t))
         if sal:
-            t = ("MBA graduates of %s report a median starting salary of %s.\n\nSalary "
-                 "figures circulate for years with no date attached. This one is %s, "
-                 "reported by the school, with the link on the page.\n\n%s/schools/%s/"
-                 % (name, money(sal["v"]), sal["year"], SITE, s_["slug"]))
+            by = said_by(s_, sal)
+            what = " ".join(x for x in (br.salary_word(sal), br.salary_noun(sal)) if x)
+            t = checked(s_, sal, (
+                "The %s for MBA graduates of %s is %s.\n\nSalary figures circulate for years "
+                "with no date attached. This one is %s, %s, with the link on the page.\n\n%s/schools/%s/"
+                % (what, name, money(sal["v"]), sal["year"],
+                   "reported by the school" if by is None else "as reported by " + by,
+                   SITE, s_["slug"])))
             if ok(t):
                 out.append(dict(key="school:sal:" + s_["slug"], kind="MBA data",
                                 audience="MBA applicants", text=t))
@@ -245,7 +297,7 @@ def posts_fact(rng):
                    "changes.\n\n%s/pricing/" % SITE)),
         dict(key="fact:sources", kind="Product", audience="All",
              text=("%d business schools and %d colleges, and every published figure carries "
-                   "its source, its year and a link.\n\nWhere a school does not publish a "
+                   "its source, its year and a link.\n\nWhere we have not verified a "
                    "number, we show a dash. We do not fill it with an estimate.\n\n%s/schools/"
                    % (n_sch, n_col, SITE))),
         dict(key="fact:focus", kind="Exam facts", audience="GMAT students",

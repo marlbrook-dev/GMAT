@@ -6,7 +6,7 @@
     "test": "cd src && node test.js",
     "test:charts": "node src/smoke_charts.js",
     "test:redirect": "node src/smoke_redirect.js",
-    "test:browser": "node src/smoke_items.js && node src/smoke_consent.js && node src/smoke_billing.js && node src/smoke_offline.js && node src/smoke_business.js && node src/smoke_guide.js",
+    "test:browser": "node src/smoke_items.js && node src/smoke_consent.js && node src/smoke_billing.js && node src/smoke_offline.js && node src/smoke_business.js && node src/smoke_guide.js && node src/smoke_daily.js && node src/smoke_games.js",
     "audit": "node src/weekly_audit.js",
     "playbook": "python3 src/build_playbook.py && node src/playbook_pdf.js && node src/smoke_playbook.js",
     "test:playbook": "node src/smoke_playbook.js"

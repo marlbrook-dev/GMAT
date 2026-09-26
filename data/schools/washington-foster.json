@@ -166,5 +166,12 @@
   },
   "earn_n": 434,
   "low_coverage": false
- }
+ },
+ "official_hosts": [
+  {
+   "prefix": "https://www.foster.washington.edu/",
+   "evidence": "www.foster.washington.edu redirects to foster.uw.edu, the program's own site; washington.edu and uw.edu are both the University of Washington",
+   "checked": "2026-09-26"
+  }
+ ]
 }

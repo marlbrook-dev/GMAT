@@ -991,14 +991,21 @@ def rules_digest(rows, h):
         for rid, k in sorted(repeats.items(), key=lambda kv: (-kv[1], kv[0])):
             for r in rows:
                 if r['id'] == rid:
-                    o.append('- (%d times) %s' % (k + 1, deidentify(operative_rule(r['lesson']))))
+                    o.append('- (%d times, %s) %s' % (k + 1, AREA_LABEL[r['area']].lower(),
+                                                      deidentify(operative_rule(r['lesson']))))
                     break
         o.append('')
 
+    # A rule printed above is not printed again under its area. Both copies used to ship,
+    # which spent 761 of the digest's words on duplicates by the time 23 rules had repeated,
+    # and a prompt that says the same thing twice is a longer prompt, not a firmer one.
     for area in sorted(by_area, key=lambda a: -len(by_area[a])):
+        rest = [r for r in by_area[area] if r['id'] not in repeats]
+        if not rest:
+            continue
         o.append('## %s' % AREA_LABEL[area])
         o.append('')
-        for r in sorted(by_area[area], key=lambda x: (-repeats.get(x['id'], 0), x['id'])):
+        for r in sorted(rest, key=lambda x: x['id']):
             o.append('- %s' % deidentify(operative_rule(r['lesson'])))
         o.append('')
     return '\n'.join(o)

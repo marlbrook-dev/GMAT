@@ -575,6 +575,13 @@ def main(target=TARGET, verbose=True):
         for line in premises:
             print("  " + line, file=sys.stderr)
         sys.exit(1)
+    tells = g_rc.check_tells()
+    if tells:
+        print("ERROR: reading schemas answerable by matching words (INC-0117)",
+              file=sys.stderr)
+        for line in tells:
+            print("  " + line, file=sys.stderr)
+        sys.exit(1)
     pool = M.by_id(POOL_MODS)
     pool.update({g.id: g for g in POOL_EXTRA})
     report = {}

@@ -32,6 +32,131 @@ AI assistants (ChatGPT, Claude, Perplexity, Google AI Overviews) increasingly an
 - Off-site (the real lever): brand mentions in credible surfaces the models cite: contributed pieces or quotes in approved outlets, tutor and consultant partner pages, university club resource lists. Track each pursuit in the Partners CRM.
 - Measure quarterly by hand until tooling matures: ask the major assistants the top 10 queries from seo-content.md pillars and log whether we appear, what they cite, and what they get wrong.
 
+## Search: What Google Is Already Showing Us
+
+Written September 26, 2026 from the owner's Search Console export for August 18 to
+September 24, 2026. Rerun it on any later export with `python3 src/gsc_report.py <file>`;
+the raw export is the owner's and is never committed, because this repository is public.
+
+| Measure | Value |
+|---|---|
+| Impressions | 23,937 |
+| Clicks | 12 |
+| Click through rate | 0.05 percent |
+| Daily impressions, September 1 to 7 | 431 to 781 |
+| Daily impressions, September 21 to 24 | 1,412 to 1,699 |
+
+The site is indexed and shown, almost entirely on pages three to six. Clicks are near zero
+because position is, not because snippets are bad: Advanced Web Ranking's July 2026 study
+of US desktop results puts position 20 at 0.27 percent and position 3 at 3.89 percent
+(advancedwebranking.com/seo/organic-ctr, retrieved September 26, 2026).
+
+**Where the impressions go.** `/schools/` pages take 13,907 (58 percent) at an average
+position of 34; `/colleges/` 5,377 at 42; the blog 2,615 at 54; exam guides 1,959 at 54.
+
+**What people were asking**, by impressions:
+
+| Intent | Impressions | Average position |
+|---|---|---|
+| School or college name alone | 3,370 | 47 |
+| Acceptance rate | 2,204 | 49 |
+| Cost or tuition | 1,181 | 48 |
+| Ranking | 744 | 34 |
+| Class profile | 720 | 20 |
+| Study plan | 428 | 48 |
+| Exam format or length | 398 | 55 |
+| Average GMAT or GRE | 386 | 36 |
+| GMAT vs GRE | 130 | 76 |
+
+Three conclusions, each acted on in the pull request that added this section:
+
+1. **Class profile is where we already compete** (average position 20, the best of any
+   intent), so the school pages now answer class profile questions in sentences as well as
+   tables: GMAT, GRE, GPA, work experience, class size, each with the statistic the school
+   actually published (average or median) and the class it describes.
+2. **Acceptance rate is the biggest intent and the one we can least answer**: the library
+   holds a verified rate for only 16 of 91 programs, 8 from the schools' own sites and 8 from
+   publishers. The pages show a dash rather than an estimate, and say the rate has not been
+   verified rather than that the school does not publish one (INC-0118). For
+   colleges, where the federal Scorecard does carry it, acceptance rate queries are 375 of
+   the 763 impressions on queries naming a college, at an average position of 21, so it now
+   leads every college snippet.
+3. **Two withdrawn pages were still ranking** (the Executive Assessment guide at position
+   9.6) into a 404 that is the whole GMAT trainer. They now redirect to the exams hub, and
+   the report tool flags any URL with impressions that the build no longer produces.
+
+What moves position from 34 to page one is not on the page. Google's own starter guide says
+it finds pages "primarily" through links from other sites and that changes can take
+"several months" (developers.google.com/search/docs/fundamentals/seo-starter-guide). The
+outbound channels at the top of this file are the ranking work; the page work only makes
+sure that when a searcher does arrive, the answer they came for is the first thing they read.
+
+## What Brings People Back: Research and What We Built From It
+
+Written September 26, 2026. Search brings a visitor once; the products that grow on repeat
+visits give them a reason to return tomorrow. This is what the best of them do, read from
+their own pages the same day, and what it means here. Where a source could not be read it
+is named, not substituted.
+
+### What the evidence says
+
+| Mechanic | Who runs it | Evidence |
+|---|---|---|
+| One shared puzzle a day, the same for everyone | NYT Wordle; Chess.com daily puzzle; College Board's own SAT question of the day | satsuite.collegeboard.org/help-center/how-does-question-day-work; support.chess.com/en/articles/8708990-how-does-the-daily-puzzle-work |
+| A result you can share without spoiling it | Wordle's grid, adopted from a player's invention; Chess.com's share card | techcrunch.com/2022/01/12/josh-wardle-interview-wordle |
+| Streaks that protect the habit, with freezes | Duolingo: letting learners hold two freezes lifted daily actives 0.38 percent; learners who reach a 7 day streak are 3.6 times likelier to finish a course | blog.duolingo.com/how-duolingo-streak-builds-habit |
+| A streak that survives a wrong answer | Chess.com keeps the daily streak at zero hearts; Brilliant counts activity, not accuracy | support.chess.com (above); brilliant.org/help/features/what-is-a-streak |
+| Broken streaks lower engagement, repairable ones less so | Silverman and Barasch, Journal of Consumer Research | academic.oup.com/jcr/article-abstract/49/6/1095/6623414 |
+| Better reminder wording alone moves retention | Duolingo's bandit-chosen reminders: 0.5 percent more daily actives, 2.0 percent better new-user day 7 retention | research.duolingo.com/papers/yancey.kdd20.pdf |
+| Personal bests, no leaderboard | Lichess Puzzle Storm keeps bests by day; its FAQ: "Where there is a leaderboard, there is cheating." | lichess.org/page/storm |
+| Due-review queue as the daily session | Anki's spaced intervals mean some cards come due every day | docs.ankiweb.net/background.html |
+
+Page families that earn search traffic for comparable sites, all loaded on the same day:
+per-college admissions pages (PrepScholar, CollegeVine), per-school deadline pages under a
+hub (Clear Admit), score and superscore calculators (ACT's own superscore FAQ hosts one),
+dated daily question pages (Chess.com), and study plans by duration (Magoosh).
+
+**Could not be read**, and nothing here relies on them: nytimes.com and nytco.com, Duolingo's
+help center (renders empty), LeetCode, Quizlet and Khan Academy support pages (403), GMAT
+Club (403), kaptest.com (403), Niche (403), US News (503), Shiksha (403), and OpenAI's help
+pages on ChatGPT search (403).
+
+### What was built from it
+
+- **Daily Questions at /daily/**: one hand-written question per exam per day, fixed in advance
+  in data/daily/schedule.json so it is the same for everyone and never changes afterwards.
+  The trainer's Question of the Day now serves the same question. Every past day stays online
+  as a dated page with its answer and explanation, and each exam has an RSS feed.
+- **A streak that counts showing up.** The old one reset to zero on a wrong answer, which
+  punished exactly the people who came back. It now counts days answered, keeps accuracy as a
+  separate best run, and earns a freeze every seven days (two at most, never sold). It lives
+  only in the visitor's browser and is shared between the public pages and the trainer.
+- **A spoiler-free share**: exam, date, solved or missed, time and streak; never the question
+  and never the answer, which a test checks.
+- **Measured without identifying anyone**: each answer on /daily/ posts the same unlinkable row
+  the trainer already sends (item, option, right or wrong, seconds; no account, session,
+  device or address). Answers per day on /daily/ are the number to watch:
+  `select date(ts), count(*) from item_events where mode = 'daily' group by 1 order by 1`.
+
+### Next, in the order the evidence ranks them
+
+1. **An opt-in reminder email carrying the question.** Kaplan and ACT both deliver a daily
+   question to an inbox or account (kaplanquizzes.com; act.org free test prep). This needs an
+   owner decision on a sending provider, a consented list, a one-click unsubscribe, and a
+   privacy.html update before anything is collected.
+2. **Due-today flashcards on the dashboard and the daily page**, using the decks already
+   shipped, so there is a second reason to return that is about memory, not novelty.
+3. **Score calculators built only from published rules**: the ACT Composite (the average of
+   English, Mathematics and Reading, which ACT publishes) and superscores. Never a percentile
+   or a conversion table we cannot source.
+4. **Per-school MBA deadline pages**, which Clear Admit runs as a hub. Blocked on data: only
+   one school file carries a deadline, and each must come from the school's own page.
+5. **An ICS export of the application checklist**, so the dated tasks on /apply/ land in a
+   calendar that reminds the applicant instead of us.
+
+Left out on purpose: weekly leagues and percentile ranks (they rank people against each
+other), prize drawings (luck), and self-reported decision feeds (unsourced figures on the page).
+
 ## Revenue: What the Numbers Actually Support
 
 Written September 15, 2026, against real analytics rather than ambition. Every

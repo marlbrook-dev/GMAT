@@ -6,11 +6,11 @@ different one.
 The platform is Start From Nowhere, a test-preparation site with five adaptive exam
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
-2026-08-17 and 2026-09-22, which is 36 days, across
-96 commits, by one owner directing a series of AI coding sessions. As of this
-build it is 71 Python files, 102 JavaScript files, 24
+2026-09-19 and 2026-09-26, which is 7 days, across
+55 commits, by one owner directing a series of AI coding sessions. As of this
+build it is 73 Python files, 106 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 63 documents:
-2000 tracked files in total.
+2008 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -386,8 +386,10 @@ The build is the first rung. Above it, in the order they run:
 - `src/smoke_business.js`
 - `src/smoke_charts.js`
 - `src/smoke_consent.js`
+- `src/smoke_daily.js`
 - `src/smoke_fit.js`
 - `src/smoke_funnel.js`
+- `src/smoke_games.js`
 - `src/smoke_guide.js`
 - `src/smoke_ios.js`
 - `src/smoke_items.js`
@@ -403,7 +405,7 @@ The build is the first rung. Above it, in the order they run:
 - `src/test.js`
 - `src/weekly_audit.js`
 
-22 test files in total. The layering is deliberate:
+24 test files in total. The layering is deliberate:
 
 1. **The build** catches structural problems in the artefact.
 2. **Engine tests** run the domain logic headlessly, once per exam.
@@ -1026,7 +1028,7 @@ remembers it was a placeholder.
 
 # Tests and Guards
 
-22 test files, and the interesting thing about them is not what they assert.
+24 test files, and the interesting thing about them is not what they assert.
 It is that the analysis chapter can count how defects were **actually** found, and the
 answer reshapes where you put effort.
 
@@ -1119,7 +1121,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-96 commits in 36 days, one owner, a series of AI sessions. This
+55 commits in 7 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1172,7 +1174,7 @@ Not a list of files changed. The useful report is:
 5. Numbers, with the command that produced them.
 
 The commit messages in this repository are written that way, which is why a defect ledger
-could be reconstructed from them 36 days later. **Write the commit message
+could be reconstructed from them 7 days later. **Write the commit message
 as though someone will need to mine it. Someone will.**
 
 ## Failure modes observed in this project
@@ -1211,22 +1213,22 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-103 recorded defects, over 36 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+118 recorded defects, over 7 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 44 | 43% |
-| Found by measuring something | 31 | 30% |
-| A test caught it | 13 | 13% |
-| Found by rendering it and looking | 6 | 6% |
-| Found by a review bot or an adversarial pass | 5 | 5% |
+| Found by reading the code or the output | 55 | 47% |
+| Found by measuring something | 33 | 28% |
+| A test caught it | 15 | 13% |
+| Found by rendering it and looking | 6 | 5% |
+| Found by a review bot or an adversarial pass | 5 | 4% |
 | A person hit it | 2 | 2% |
 | A build guard caught it | 2 | 2% |
 
-**This is the most useful table in the book.** 101 of 103 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 116 of 118 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1235,35 +1237,35 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 40 |
-| Silent loss | 24 |
-| Degraded | 20 |
-| Cosmetic | 16 |
+| Wrong data shown or stored | 47 |
+| Silent loss | 25 |
+| Degraded | 25 |
+| Cosmetic | 18 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 24 of 103. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 25 of 118. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 39 |
-| Tests and guards | 18 |
-| Front end | 8 |
+| Content generation | 47 |
+| Tests and guards | 19 |
+| Front end | 9 |
+| Search and metadata | 7 |
 | Build system | 7 |
+| Scoring and selection | 6 |
 | Infrastructure and deploy | 6 |
 | CSS and layout | 5 |
 | Payments | 5 |
-| Search and metadata | 4 |
-| Scoring and selection | 4 |
 | Database | 4 |
 | Interface and data display | 3 |
 
 
 ## Guard coverage
 
-97 of 103 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+112 of 118 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1284,32 +1286,36 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-25 of 103 incidents record that they repeat an earlier lesson, 40 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+34 of 118 incidents record that they repeat an earlier lesson, 49 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
+| INC-0088 A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked | INC-0089, INC-0098, INC-0099, INC-0101, INC-0117 | 5 |
 | INC-0064 The guard against a blind counter was itself blind to three exams | INC-0067, INC-0082, INC-0085, INC-0088 | 4 |
 | INC-0069 A bank a student can play at 88 percent, inside a section the check passed | INC-0079, INC-0085, INC-0086, INC-0088 | 4 |
 | INC-0074 A corpus field written for one grammatical slot was spliced into another | INC-0075, INC-0087, INC-0093, INC-0096 | 4 |
-| INC-0088 A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked | INC-0089, INC-0098, INC-0099, INC-0101 | 4 |
 | INC-0092 A schema threw away three draws in four, and the counter that knew was read by nobody | INC-0098, INC-0099, INC-0101 | 3 |
 | INC-0099 Every generated reading comprehension question shipped without its passage | INC-0100, INC-0101, INC-0103 | 3 |
+| INC-0055 A new browser suite hardcoded this machine's browser directory and crashed in CI | INC-0067, INC-0110 | 2 |
 | INC-0059 The item counter missed a whole bank file because it assumed a quoting style | INC-0064, INC-0067 | 2 |
+| INC-0067 The browser path fix covered two suites and three others kept crashing | INC-0070, INC-0104 | 2 |
 | INC-0087 The same corpus field in two grammatical slots, in a schema written the same day the guard was read | INC-0093, INC-0096 | 2 |
+| INC-0097 Every reading inference question asked about something the passage never mentions | INC-0102, INC-0114 | 2 |
 | INC-0098 The table said 31.0 and the explanation said 31, because the fix covered the table only | INC-0099, INC-0101 | 2 |
 | INC-0101 A new field-by-field copier reproduced the passage loss defect four days after the ledger recorded it | INC-0102, INC-0103 | 2 |
+| INC-0103 A 139 page section shipped with no route into it from the sitemap | INC-0108, INC-0109 | 2 |
 | INC-0044 The longest option was the correct answer 81 percent of the time | INC-0091 | 1 |
 | INC-0050 A landing-page icon referenced a colour token that did not exist | INC-0018 | 1 |
-| INC-0055 A new browser suite hardcoded this machine's browser directory and crashed in CI | INC-0067 | 1 |
-| INC-0067 The browser path fix covered two suites and three others kept crashing | INC-0070 | 1 |
 | INC-0080 A build step that fails while the build exits zero, and a verification run that was a remembered subset | INC-0095 | 1 |
 | INC-0083 The rules digest promises to be prompt sized and its generator grows without bound | INC-0084 | 1 |
 | INC-0086 A finished generator module that nothing imported, and two of its four schemas produced nothing | INC-0090 | 1 |
 | INC-0090 Two of a schema's three question forms could not build, and the only sign was an item count | INC-0092 | 1 |
 | INC-0093 Seven variable names were plural and every sentence built around them said was | INC-0096 | 1 |
-| INC-0097 Every reading inference question asked about something the passage never mentions | INC-0102 | 1 |
+| INC-0104 Half the school pages opened with a data note pasted into a sentence, and the structured data repeated it | INC-0105 | 1 |
+| INC-0105 Twelve average salaries were published as medians, and the social queue credited schools with figures they never published | INC-0106 | 1 |
+| INC-0110 A browser suite outside CI had failed on its first click since the consent dialog shipped | INC-0113 | 1 |
 
-The largest family runs to 21 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
+The largest family runs to 30 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
 
 Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.
 
@@ -1319,6 +1325,9 @@ Incidents that name an earlier one without claiming to repeat it. Each was read 
 - INC-0080 names INC-0077
 - INC-0084 names INC-0059, INC-0064, INC-0074
 - INC-0087 names INC-0075
+- INC-0115 names INC-0114
+- INC-0116 names INC-0114
+- INC-0117 names INC-0114
 
 
 ## Where defects concentrate
@@ -1331,7 +1340,9 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/review_bot.js`, 5 incidents (INC-0022, INC-0026, INC-0051, INC-0061, INC-0077)
 - `src/gen/framework.py`, 5 incidents (INC-0074, INC-0075, INC-0078, INC-0087, INC-0096)
 - `src/bank_emit.py`, 4 incidents (INC-0062, INC-0066, INC-0068, INC-0073)
+- `src/gen/g_rc.py`, 4 incidents (INC-0097, INC-0114, INC-0115, INC-0117)
 - `src/weekly_audit.js`, 3 incidents (INC-0050, INC-0048, INC-0018)
+- `src/build_rankings.py`, 3 incidents (INC-0014, INC-0049, INC-0118)
 - `src/smoke_redirect.js`, 3 incidents (INC-0023, INC-0024, INC-0047)
 - `src/build_playbook.py`, 3 incidents (INC-0057, INC-0065, INC-0083)
 - `src/bank_repair.py`, 3 incidents (INC-0070, INC-0071, INC-0072)
@@ -1345,7 +1356,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (39)
+## Content generation (47)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -1825,7 +1836,103 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** When the same file already solves a problem correctly, the second implementation is the one to distrust: the reference was available and was not used, so whatever made it easy to skip will make it easy to skip again. And a generator that writes a word describing the data, rather than computing it from the data, has an assumption in it that nothing will ever check unless the check is written against the relation rather than the field.
 
 
-## Tests and guards (18)
+### INC-0105. Twelve average salaries were published as medians, and the social queue credited schools with figures they never published
+
+*2026-09-26, Wrong data shown or stored*
+
+- **What was seen.** 12 of the 53 MBA programs with a salary figure publish only an average; several of their stat notes say so in as many words ('average salary, Class of 2023; median not published'). Every one was labelled a median: 'Median starting salary is $X' in the page lead, 'median starting salary $X' in the meta description, a 'Median base salary' table row sitting beside a note saying no median exists, 'Median salary' in the rankings detail view and the printed report. The social post queue in Admin went further in two ways: every salary post said graduates 'report a median starting salary' that was 'reported by the school', although 8 salary figures come from a secondary source, and every acceptance rate post said the figure was 'from the school's own class profile', although 9 of the 16 come from Poets&Quants (six), US News, GMAC or a university news office. The international share posts said 'Class composition is published by the school' and 'Sourced from the school' for all of them, although 7 of the 60 international shares come from a secondary source. And two acceptance rates whose own sources call them 'estimated' and 'around 22%' were posted as flat facts.
+- **Why.** The field is named salary_median_usd, and every consumer took the name as the definition. The source ladder allows an average when a school publishes no median and the data entry recorded which one it was in the stat note, but nothing that renders the figure reads the note. The social templates were written as fixed sentences about the typical case, a school reporting its own median, and never looked at the figure's own source.
+- **How it surfaced.** Found on 2026-09-26 while fixing INC-0104: routing every sentence through stat_kind meant asking what each figure's note says, and the salary notes answered 'average' twelve times. The social claims were found by grepping for every consumer of the same field. (Found by reading the code or the output)
+- **Fix.** Every label derives the statistic from the figure's own note through stat_kind: a median is called a median, an average is called an average, and a note that says neither gets no adjective. The social queue names the figure's actual source instead of asserting the school's, and uses the same derived statistic. The public methodology says that the outcomes component uses the median where a school publishes one and the average where it publishes only that.
+- **What stops it now.** build_rankings refuses to render a school page whose prose or table calls a figure a median when its stat note resolves to an average, or the reverse, and build_social refuses to emit a post whose text claims the school as the source of a figure hosted elsewhere. Each failure names the school and the field.
+- **Lesson.** Any consumer that describes a value in words must read the field that records what kind of value it is, never the field's name. A field name is a hope about the data, not a description of it, and a schema that allows two kinds of value will be described everywhere as the kind it was named after.
+
+
+### INC-0106. Official figures from a school's own university were footnoted as secondary and 'indicative rather than official'
+
+*2026-09-26, Wrong data shown or stored*
+
+- **What was seen.** 29 figures across 10 MBA school pages carried the secondary-source asterisk and the footnote 'This school does not publish this figure on its own site, so it comes from a secondary source ... treat it as indicative rather than official', although every one comes from the school's own university: Cornell Johnson's class profile and employment figures (9 of them) from business.cornell.edu, Miami Herbert's class profile (8) from the university news office, tuition from the bursar, registrar or student accounts pages of Rice, Pitt, UC Irvine, UC San Diego, Kentucky, Georgia and Howard, Howard's salary and employment figures from the university's own news site, and Wharton's tuition, salary and employment figures from Wharton subdomains including its own career report. The same test drove the social queue, which would have said 'as reported by Wharton 2025 MBA Career Report' as if that were a third party.
+- **Why.** is_secondary decides 'the school published this' by comparing the figure's host with the host of the program's website field, allowing only an exact match or one being a subdomain of the other. Universities publish from sibling hosts (bursar.rice.edu beside business.rice.edu, business.cornell.edu beside johnson.cornell.edu), which are neither, so the test read 'a different host' as 'a different publisher'.
+- **How it surfaced.** Found on 2026-09-26 while fixing INC-0105: the corrected social post for Wharton credited 'Wharton 2025 MBA Career Report' as an outside source, and listing every figure the test called secondary showed 29 on the schools' own registrable domains. (Found by reading the code or the output)
+- **Fix.** The test compares registrable domains (the university's domain, e.g. rice.edu, with a short list of two-label public suffixes handled), so a school's own offices count as the school and Poets&Quants, US News, GMAC, Bloomberg and BusinessBecause still count as secondary. Three official documents live on hosts no domain rule can recognise, USC Marshall's own storage bucket, the University of Washington's alias domain and Rice's career office uploads on a vendor CDN, so a school file may now list official_hosts, each with the evidence that it is the school's and the date that was checked; all three were verified on 2026-09-26 (Marshall's pages load their own images from the bucket, the alias redirects to foster.uw.edu, and Rice's career highlights page links its employment report from that upload directory). Checking Rice also found its program URL in the data file returning 404, used as the Official Program Site button and four citations; it moved to /rice-mba/full-time-mba, read from Rice's own homepage.
+- **What stops it now.** build_rankings runs a self-check on every build before rendering: a school's sibling office (bursar.rice.edu beside business.rice.edu) must count as the school and a publisher (poetsandquants.com, usnews.com, gmac.com) must not, and the build prints how many figures it marks secondary and on which hosts, so a host that should not be there is visible in the log.
+- **Lesson.** A provenance label is a factual claim and deserves the same checking as the number it annotates. A proxy that is right for the common case (one host per school) will be confidently wrong for every institution that publishes from more than one office, and the error flatters no one: it tells readers that official data is unofficial.
+
+
+### INC-0108. The college methodology page quoted its own checks from the day they were written, and the build had moved on
+
+*2026-09-26, Wrong data shown or stored*
+
+- **What was seen.** /colleges/methodology/ told readers that 80 percent of our top 25 appears in a published top 25, that 96 percent appears somewhere in a published ranking, and that the score correlates with admission rate at -0.41. The build that generated the page printed 76 percent, 100 percent and -0.38 on the same run. The page also states how many public colleges charge a non-resident premium, the largest premium, and how many private colleges report identical in-state and out-of-state tuition, all as literals.
+- **Why.** The figures were typed into the page template as prose when the reweighting shipped, beside placeholders for the counts that were templated. validate_ranking.report computes all of them on every build and returns them to build_colleges, which used only the per-category agreement. Nothing compared the prose to the numbers the same build had just printed.
+- **How it surfaced.** Found on 2026-09-26 by reading the build log beside the methodology page's source while working on college snippets: the log line 'score against admission rate: -0.38' sat directly under a template sentence saying -0.41. (Found by reading the code or the output)
+- **Fix.** Every figure on the page that the build can measure is now filled from the measurement: top 25 agreement and recognition and the admission rate correlation from validate_ranking.report, and the public, premium and private tuition counts from the college data. Historical figures that describe the old weighting stay as prose and say they are historical.
+- **What stops it now.** build_colleges fails if the methodology template loses any of the placeholders the measured figures fill ({AGR25}, {REC25}, {CORR}, {PUB100}, {PREMIUM_LINE}), which is how a typed literal would return, and fails if the ranking checks did not run, rather than rendering the page without them.
+- **Lesson.** When a page publishes a number the build computes, the page should read it from the build. A figure typed in beside a placeholder is the one that will be wrong next month, and it will be wrong on the page whose whole purpose is to say how carefully the numbers are checked.
+
+
+### INC-0114. Reading inference questions credited a key that depended on a rule the passage never stated
+
+*2026-09-26, Wrong data shown or stored*
+
+- **What was seen.** An rc_infer item asked 'If the Kivalliq site recorded a snowpack of twenty-two centimetres, which of the following can be properly inferred from the passage?' and credited 'The Kivalliq site did not show the winter reversal.' The passage says the reversal appeared wherever the snowpack exceeded forty centimetres, which is the opposite direction: deep snow is enough for the reversal, not required for it, so a site with shallow snow may or may not show it. The rule that makes the key follow, that every site in the survey that showed the reversal had deep snow, is held in the corpus and never appears in the text. None of the forty universals the inference schema runs on appears in its passage. Read one by one against the prose, twenty of the forty credited a conclusion that the passage and the stem's premise do not establish together: the first conditional of tundra, guilds, reefs, roads, saltmarsh, cicadas, almshouse, riparian and phonotactic, the second of tenements, basalt and lichen, and both of scriptoria, pidgin, birdsong and assize. The failures are of four kinds: the passage states the converse of the rule (tundra, guilds, riparian); it states nothing like the rule (scriptoria, basalt, almshouse, phonotactic and others); the case is never placed inside the study the rule covers, so a rule about the eleven Canadian sites is applied to a site that may not be one of them (roads, saltmarsh, and the scoped ones above); or the step needs outside knowledge, that English is the lexifier of Krio or the year the lichen hypothesis was published. The explanation on all forty opened 'The passage establishes that' and then quoted the universal, which the passage does not contain. Birdsong's first key did not follow even with its rule stated. The schema runs on both the GMAT (v_inf) and the LSAT (lsat_rc_inf).
+- **Why.** The module docstring says 'Each passage carries two conditionals', and the passage data does carry them, as fields beside the prose. text(p), which builds what the reader sees, assembles the old view, the two findings, the revision and the caveat, and never the conditionals. The generator then computes the key from the stored universal and the explanation quotes it, so every string the item is built from agrees with every other and the item looks valid to anything that reads the data. What the reader gets is the prose, and for half of the conditionals the prose was written to say something close to the rule rather than the rule. INC-0097 fixed the same shape one field over: the case was used to compute the key and never printed, and that fix printed the case. The universal had exactly the same property and was not looked at, because the fix answered the question 'is the case shown' rather than 'which premises is the reader shown'.
+- **How it surfaced.** Found on 2026-09-26 while planning more passages to grow the thin reading categories. Checking what a new conditional would have to satisfy meant reading the existing forty against their rendered passages, and the first one checked, tundra, credited a conclusion the prose does not support. check_premises passed throughout, because it checks that the stem states a case and that the case is new to the passage, and says nothing about the rule. (Found by reading the code or the output)
+- **Fix.** text(p) now states both universals in the second paragraph, before the revision, so the rule the key turns on is in the text the reader has and the explanation's 'The passage establishes that' is true. Every conditional whose conclusion is about what a case did rather than which group it belongs to now places the case inside the study its rule covers ('the Kivalliq site, one of the eleven in the Canadian survey, ...'). Reefs said shaded colonies produced 'almost none' of the proteins, which contradicts a rule that only colonies in strong light produced any, and now says none. Birdsong's first conditional, cicadas' first and the cases that needed outside knowledge were rewritten so the step is in the text. Conclusions that deny membership were reworded to say so in one form ('is not among', 'is not in').
+- **What stops it now.** g_rc.check_premises now also fails when a universal does not appear verbatim in the rendered passage, and each conditional declares a scope: the phrase that limits whom its rule covers. When the conclusion is an outcome, the scope must appear in both the universal and the case, so the case is inside the rule; when the conclusion denies membership instead, it must say so in a recognised form, which needs no scope because it holds whether or not the case was ever in the study. The build fails on any of these, before a bank is written. in `src/gen/g_rc.py`
+- **Lesson.** When a key is derived from premises held as data, each premise has to be found in what the reader sees, and a check should prove that by searching the rendered text rather than the data. Fixing the one missing premise that was noticed is not the same as asking which premises the reader is shown: list them all, and look for each one in the output.
+
+
+### INC-0115. A field written to open a sentence was printed mid-sentence in a reading stem
+
+*2026-09-26, Cosmetic*
+
+- **What was seen.** Every rc_stated item that asks about a passage's second finding opened 'According to the passage, A later survey of eleven sites across northern Canada found that', with a capital A after the comma. The built banks carried 20 of them for the GMAT (13 in bank.js, 7 in the deferred chunks) and 8 for the LSAT, one per passage. The same field joined to its neighbour with a fixed 'of' also produced 'A second team of carbon isotope records from three continents found that', a team made of records, and 'Later laboratory work of colonies' and 'A playback experiment of the same population' in the passages themselves.
+- **Why.** ev2who is used in two slots. text(p) puts it at the start of a sentence, so it was written capitalised, and the stated-idea stem puts it after 'According to the passage,' where it needs lower case. The field was written for the first slot and never read in the second. The 'of' join is the same fault in a different form: the template supplies a preposition that suits most of the stored phrases and was never checked against all of them.
+- **How it surfaced.** Found on 2026-09-26 while rewriting the passages for INC-0114, by searching the built banks for the stems that quote ev2who. (Found by reading the code or the output)
+- **Fix.** ev2who is stored in the form the middle of a sentence wants ('a later survey') and the passage capitalises it where it opens a sentence. Capitalising is the safe direction: it cannot damage a proper noun, while lowercasing one is the fault this file was already fixed for twice. The three phrases that read wrongly before 'of' were rewritten ('a second team's study', 'a later laboratory study', 'a playback study').
+- **What stops it now.** g_rc.check_corpus fails when ev2who opens with a capitalised article or other common word, which is the stored form that breaks the mid-sentence slot. in `src/gen/g_rc.py`
+- **Lesson.** A stored phrase that goes into more than one slot has to be written for the hardest of them, and the transform has to run in the direction that cannot damage anything: capitalising a sentence opener is always safe, lowercasing one breaks proper nouns. When a field is reused, read the output of every slot it lands in, not the one it was written for.
+
+
+### INC-0116. A passage described zircon dating with the vocabulary of argon dating
+
+*2026-09-26, Wrong data shown or stored*
+
+- **What was seen.** The basalt passage said the extinction dates 'come from zircon crystals, which close to argon loss and so record the eruption rather than later heating'. Zircon is dated by uranium and lead, and the property that makes it useful is that it keeps its lead when heated later; closure to argon loss is the language of argon dating, which uses other minerals. The sentence was also the key of a stated-idea item, so a student was asked to select it as what the passage says.
+- **Why.** The passage was written from memory and the two dating methods were conflated in one clause. Nothing checks the science in a passage, because a reading question is answered from the text and every check on the item passes whether the text is true or not.
+- **How it surfaced.** Found on 2026-09-26 while reading every passage in full for INC-0114. (Found by reading the code or the output)
+- **Fix.** The clause now reads 'which retain their lead when later heated and so record the eruption rather than any later event'.
+- **What stops it now.** None that a machine can run. Passage science is checked by reading, and this record is the reminder that a passage is published content held to the same standard as a sourced figure even though no question depends on it being true.
+- **Lesson.** Practice material is still published writing. A passage that is only there to be read carefully is still read by people who know the subject, and a question built on it can ask them to endorse the error.
+
+
+### INC-0117. Three reading schemas could be answered by matching names, because every distractor came from a different passage
+
+*2026-09-26, Wrong data shown or stored*
+
+- **What was seen.** An inference item stated 'If Providence adopted the building codes and filtration in the same year' and offered five conclusions, of which only the key mentioned Providence; the others were about the Arezzo panel, infant 14, the Wendle map and the Blakeney marsh. Choosing the option that shares the most names with the premise picked the key on 549 of 600 distinct seeded draws of rc_infer (91 percent) and 572 of 600 of rc_infer_long (95 percent). Main idea and caveat items had the same property with topic words instead of names: choosing the option whose words appear most in the passage picked the key on 92 percent of rc_main and rc_caveat draws and on 79 and 84 percent of their LSAT variants. Every one of these items also closed with 'Watch for: Every other choice states something the passage also says. They are true', which is the stated-idea note and is false of all three schemas, whose wrong choices the passage does not say.
+- **Why.** INC-0088 found the inference key was the shortest option on 68 percent of items and fixed it by adding other passages' conclusions to the distractor pool, because they are the right length. They are also about a different subject, so the fix traded a length tell for a subject tell. Main idea and caveat were built the same way from the start: their only wrong answers were other passages' summaries, which are safely wrong because they describe a different subject, and safely wrong is the same as eliminable without reading. test.js measures length rank and nothing else, so the ratchet reported these schemas as clean. The 'Watch for' note was written once in the shared emit() for the schema it describes and inherited by the three it does not.
+- **How it surfaced.** Found on 2026-09-26 while checking the INC-0114 fix by rendering an inference item and reading its choices, then measured across seeded draws of all six schemas. (Found by reading the code or the output)
+- **Fix.** Wrong answers now come from the same passage, and at least one is always offered. Each conditional carries two authored near misses about its own subject, each claiming something neither premise establishes and at least one worded in the negative like every key; a negative one is always offered and the other joins the pool. Main idea always offers one of the two findings, quoted or summarised, as if it were the whole passage, with the closing limit, an overreach about every account of the topic and the reverse of the argument in the pool. Caveat always offers one of four misreadings that quote the passage: the first finding declared unreliable, the evidence from either study declared unreliable, or the revision declared shown everywhere. Other passages' summaries stay in the pool but can no longer fill every slot. Forcing an option pins the key's length rank, since a quoted finding is nearly always longer than the key, so balance() now builds a draw that includes a same-subject option for a target rank drawn from the ranks that can be built; with no same-subject options it samples exactly as before, so every other schema's bank is unchanged. The 'Watch for' note is written per schema.
+- **What stops it now.** g_rc.check_tells draws every schema except stated idea across the corpus and fails the build when either shortcut finds the key, and only the key, on more than 40 percent of distinct draws: the choice repeating the most names from the premise, or the only negative choice naming the case, for inference; the choice whose words appear most in the passage, for main idea and caveat. Forty percent is twice a blind guess among five and far below the 79 to 95 percent recorded here. After the fix the measured rates were 0 to 8 percent. g_rc.check_premises also requires each near miss to name the case and at least one to be worded in the negative, because every key is. in `src/gen/g_rc.py`
+- **Lesson.** A test measures what someone can get right without the skill, and there is more than one way to do that. Removing one tell does not make an item sound; it moves the question to the next shortcut. Distractors drawn from unrelated material are always wrong and therefore always free, so a wrong answer has to be wrong about the same thing the right one is about.
+
+
+### INC-0118. School pages said a program does not publish an acceptance rate when we had only not found one
+
+*2026-09-26, Wrong data shown or stored*
+
+- **What was seen.** Every school page without an acceptance rate, 75 of the 91 active programs, printed 'not published' in the class profile table and answered 'What is the acceptance rate at X?' with 'X does not publish an acceptance rate, and neither do most full-time MBA programs', in the page and in its FAQPage structured data. Of the 16 programs that do carry a rate, 8 come from the school's own site and 8 from a publisher, which is the point: a program without one on its own site can still report one that a publisher prints, and this session could not reach US News or Poets and Quants at all. Acceptance rate is the largest search intent on the school pages, 2,204 impressions in the owner's export. The same sentence ran through the /schools/ index (its Dataset description, the international column note, an FAQ answer and the methodology), the trainer's fit view ('not published' beside a school's missing figure, and twice in its help text) and a queued social post, and the index hard-coded 'Twenty' and 'sixty' as program counts in one of those sentences.
+- **Why.** The copy states the conclusion of a search as a fact about the school. 'We did not find a rate from a source we trust and could read' became 'the school does not publish one', and the generalisation about most programs was never sourced. The branch that writes it runs for every program whose field is empty, so it asserts a negative about each of them without anything recording that anyone looked.
+- **How it surfaced.** Found on 2026-09-26 while writing up why acceptance rates could not be filled: counting where the 16 existing rates come from showed half are publisher figures, so the absence of a rate on a school's own site does not mean the rate is unpublished. (Found by reading the code or the output)
+- **Fix.** Every one of those places now says what is true: the figure has not been verified from the school or a tracked publisher, so none is shown, and none is estimated. School pages: the table reads 'not verified', the answer drops the unsourced claim about most programs, the footnote under secondary figures reads 'We have not found these figures on this school's own site', the empty-profile row and the template's dash note likewise. The /schools/ index, the trainer's fit view and the social post were reworded the same way, and the index's two program counts are filled from the data at build time. GROWTH.md and ROADMAP.md said 16 programs publish a rate; they now say the library holds one for 16, 8 from the schools and 8 from publishers. smoke_fit asserts the new label.
+- **What stops it now.** build_rankings fails the build when any copy it writes for a school page (the lead, intro, description, FAQ answers, footnote and the rows it writes without data) says a figure is not published or that a school does not publish, release or report one, and it checks both page templates for the same once per build, with comments stripped first. Stat notes quoted from a named source ('median not published' in a specific employment report) are provenance about the document read and are not checked. The trainer's fit view is not guarded; smoke_fit asserts its label. in `src/build_rankings.py`
+- **Lesson.** An empty field records that a search came up empty, not that the thing does not exist. Write the absence as what was done ('not verified from the sources we could read'), never as a fact about the world, because the world is the part nobody checked.
+
+
+## Tests and guards (19)
 
 
 ### INC-0016. The performance test waited for the load event, which waits for the thing being optimised
@@ -2059,7 +2166,19 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** A ratchet is only read while it is quiet. One that fires on noise gets re-recorded as a reflex, and the re-recording is indistinguishable from accepting a real regression, so the mechanism that exists to catch regressions becomes the mechanism that launders them. Give a comparison the same error bars as the measurement it is made from, and fix the thing that fires wrongly before the habit of clearing it forms.
 
 
-## Front end (8)
+### INC-0110. A browser suite outside CI had failed on its first click since the consent dialog shipped
+
+*2026-09-26, Degraded*
+
+- **What was seen.** node src/smoke_pages.js, the suite for /international/ and /apply/, timed out on 2026-09-26 trying to tick the international checkbox: the consent dialog, which is modal, sat over the page and intercepted the click. Everything the suite exists to check after that point (checklist persistence, the shortlist carried from /schools/, CSV export, overflow at phone width) had not been checked since the dialog arrived.
+- **Why.** The suite was written before the consent dialog and loads pages with empty storage, which is exactly the state in which the dialog appears. Other suites pre-set a consent choice; this one was never updated. It is not in ci.yml, so nothing ran it on a schedule and its failure was invisible.
+- **How it surfaced.** Found on 2026-09-26 by running the browser suites that touch the pages changed in this session, before committing. (A test caught it)
+- **Fix.** The suite sets a consent choice before any page loads, the way a returning visitor arrives, and passes again end to end.
+- **What stops it now.** The pattern is now in the suite itself with the reason written beside it. The larger gap stays open and is named here: suites outside ci.yml only run when someone remembers them.
+- **Lesson.** Run every browser suite when a site-wide element such as a modal ships, because a test nobody runs is a claim about the past. Every suite that loads a page with empty storage meets the new element before anything it was written to check.
+
+
+## Front end (9)
 
 
 ### INC-0001. Unescaped quotes in onclick strings took the whole app down
@@ -2166,6 +2285,108 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** Anything that reports failures must not be able to report its own. Check whether each call rejects or throws before you wrap it, and make the reporting path unable to re-enter itself.
 
 
+### INC-0113. The GMAT trainer's first question on a slow connection took twice as long as when the bank split shipped
+
+*2026-09-26, Degraded*
+
+- **What was seen.** src/smoke_load.js measured 21.7 seconds to the first GMAT question on its 3G profile (400 kbit/s, 400 ms latency) against a 15 second budget, and main failed identically. The two-stage bank load had put the same measurement at 11.0 seconds when it shipped. ACT was 13.8, LSAT 11.0, SAT 9.4 and GRE 7.0 on the same run.
+- **Why.** The deferred bank chunks were written into the page as async script tags immediately after the blocking bank.js. Async only means the tag does not block parsing; the preload scanner still finds it and starts the download at once, so on a slow connection the one file a first question needs shared its bandwidth with 30 MB it does not. The GMAT remainder was later split into two chunks to stay under Cloudflare's 25 MiB asset limit, which made three concurrent downloads instead of two and is why GMAT degraded most. The suite that measures it is not in ci.yml, so nothing ran it after the chunking.
+- **How it surfaced.** Found on 2026-09-26 by running every browser suite by hand before committing, including the ones CI does not run. It failed on this branch and on main, the second measured from a separate worktree built from origin/main. (A test caught it)
+- **Fix.** The chunk tags are no longer in the markup. A small inline loader adds them after the page's load event, when the browser is idle, so nothing a student is waiting for competes with them. On the same profile the first question now appears in 10.1 seconds for GMAT, 7.5 for ACT, 7.4 for LSAT, 6.5 for SAT and 5.2 for GRE. Unthrottled, GMAT moved from about 0.5 to about 1.0 seconds in the suite, because the suite starts a round at the instant the page loads, which is when the idle parse of the chunks begins; a person who clicks a second later does not meet it.
+- **What stops it now.** src/smoke_load.js passes within its 15 second budget for all five trainers again. The gap that let this sit is named: smoke_load is not in ci.yml. Adding it would put a timing measurement on shared CI runners, where it may be noisy, so it stays a manual pre-push suite, and this record is the reminder to run it after any change to how the bank is split or loaded.
+- **Lesson.** Async on a script tag decides when it runs, not when it downloads, so an async tag still competes for bandwidth with everything the page is waiting for. Load what the first screen does not need after the first screen exists, and re-measure the slow path whenever a file is split, because splitting changes the number of downloads competing at once.
+
+
+## Search and metadata (7)
+
+
+### INC-0002. School URLs vanished from the sitemap when the data file was split
+
+*2026-08-24, Silent loss, `df14c7c` PR #23*
+
+- **What was seen.** Per-school pages were live and correct, and absent from sitemap.xml.
+- **Why.** The sitemap generator read schools.json. When the library was split into one file per school, nothing read the new directory, and a loop over an empty list emits nothing rather than failing.
+- **How it surfaced.** Noticed while reviewing the built sitemap. (Found by reading the code or the output)
+- **Fix.** Generate sitemap entries from the same directory scan the pages are built from.
+- **What stops it now.** the build asserts the sitemap URL count matches the page count in `src/build.py`
+- **Cost.** unknown period of missing indexation
+- **Lesson.** A refactor that moves data has to be followed to every reader, and a loop over nothing is the quietest failure in programming. Derive counts from one source and assert they agree.
+
+
+### INC-0014. A hardcoded count in the meta description went stale, and Google showed it
+
+*2026-09-19, Wrong data shown or stored, `36b1e92` PR #43*
+
+- **What was seen.** The meta description claimed 1,451 colleges after the number changed. og:description and twitter:description both derive from that tag, so all three were wrong.
+- **Why.** A figure typed into a template instead of computed at build time, which is the exact failure build-time counting exists to prevent.
+- **How it surfaced.** Reading the built page. (Found by reading the code or the output)
+- **Fix.** Derive the number from the same count the pages are built from.
+- **What stops it now.** no hardcoded corpus counts in templates in `src/build_rankings.py`
+- **Cost.** a wrong figure in the search result snippet
+- **Lesson.** Any number in user-facing copy that describes the size of something must be computed from that thing at build time. The moment it is typed, it has a half-life.
+
+
+### INC-0049. Two pages told the same story with different numbers after a reweighting
+
+*2026-09-19, Wrong data shown or stored, `a34a798` PR #47*
+
+- **What was seen.** The rankings index still showed figures from before a scoring change while the methodology page showed the new ones.
+- **Why.** Two artefacts derived from one model, and only one was regenerated.
+- **How it surfaced.** Reading both pages after the change. (Found by reading the code or the output)
+- **Fix.** Derive both from the same computed values at build time.
+- **What stops it now.** both figures are printed by the build from one source in `src/build_rankings.py`
+- **Cost.** a visible contradiction between two pages
+- **Lesson.** When one model feeds two pages, generate both from the model in the same pass. Two places that must agree will not, and the reader who notices is the reader you were trying to convince.
+
+
+### INC-0103. A 139 page section shipped with no route into it from the sitemap
+
+*2026-09-24, Silent loss, `52026960246aaac40d2d261dbf0bbb5f48a1d3f1` PR #95*
+
+- **What was seen.** The study guide went live on 2026-09-22 with 139 pages across five exams and thirteen sections. The sitemap carries 1,592 URLs and not one of them is a guide page. Every other content section is there: 1,453 colleges, 92 schools, 31 blog posts, 6 exams. The pages resolve and are linked from the site header, so nothing looks wrong, and a search engine's cheapest and most reliable route into the largest new body of content on the site does not exist.
+- **Why.** build_sitemap opens with a hand written list of section URLs and then expands the data driven ones from data/exams.json, data/schools and data/colleges. A new section is therefore invisible to it until somebody remembers to add a line. Nothing about building 139 pages causes them to appear, and nothing about their absence causes a failure, so the omission is silent in both directions.
+- **How it surfaced.** Found during a search performance audit, three days after the guide shipped, by reading the live sitemap rather than the code that writes it. No check looks at the sitemap at all: the build validates the pages it writes and never asks whether anything can find them. (Found by measuring something)
+- **Fix.** The sitemap walks the built output for guide pages rather than naming them, so the section cannot fall out of step with itself, and a section added later is carried without a code change.
+- **What stops it now.** build_blog compares every built index.html under the site's content directories against the sitemap it just wrote, and fails when a page that was built is not listed. The check is on the BUILT OUTPUT rather than on a list of sections, because a list of sections is the thing that was wrong.
+- **Lesson.** An enumeration that has to be kept in step by memory will fall out of step, and the failure is silent because nothing downstream can tell the difference between a section that was excluded on purpose and one that was forgotten. Derive the list from what was actually produced, and when that is not practical, make something compare the two. Publishing work nobody can find is not a smaller version of publishing it.
+
+
+### INC-0104. Half the school pages opened with a data note pasted into a sentence, and the structured data repeated it
+
+*2026-09-26, Degraded*
+
+- **What was seen.** On 47 of 91 MBA school pages the opening paragraph, the first prose on the page, read like Kellogg's: 'The Class of 2027 profile reports a average GMAT Focus score, middle 80 pct 645-735 GMAT Focus of 687, a class of 534.' Notre Dame's read 'reports a avg, Class of 2026, range 560-760 (edition not labeled; range consistent with Classic) GMAT of 680 (Classic edition)'. The same text answered 'What GMAT score do you need' in the Quick Answers block and in the FAQPage JSON-LD that search and answer engines read. Separately, 70 pages said a school 'ranks #5 of 91' in the first sentence and 'number 5 of the 70 programs it scores' in the next paragraph, because 21 of the 91 programs are listed unscored. The rankings table itself cut the same note to its first three characters beside every GMAT figure, so all 50 rows that carry one showed a slice rather than a statistic: 'Focus ave' on 22 of them, and 'Focus lis', 'Classic typ' and 'Classic 202' on one each. The class label had the same problem: 22 intros pasted the stored class_year verbatim, producing 'The 2025 Profile profile reports', 'The Typical class profile (no class year stated) profile reports' and 'The Full-time MBA Graduates, 2025 (outcomes) profile reports'. And four pages reported a figure from one class inside a sentence about another: Notre Dame's GMAT comes from Poets&Quants coverage of the Class of 2026 and was stated as the Class of 2027's.
+- **Why.** The stat field on a profile figure is free text written for the table's provenance column ('average GMAT Focus score, middle 80 pct 645-735'), not a word for a sentence. Three sentences on the page interpolated it. lead_paragraph was fixed for exactly this in PR 45 (commit 4b25169, whose comment reads 'only a recognised one word statistic is used and anything else becomes a reported'), and the fix was written inside that one function. The intro and the FAQ are built seventy lines further down in the function that calls lead_paragraph, and kept interpolating the raw field. The denominator is the same shape: lead_paragraph was taught the scored total and the intro was not. The rankings table is a fourth consumer: it sliced stat[:3] on the assumption that every note begins with the statistic's name. class_year is free text too, stored in more than twenty shapes, and the intro treated it as a noun phrase that always fits 'The ... profile'. Each figure also carries its own class in its note or source, which a single page-level label cannot represent.
+- **How it surfaced.** Found on 2026-09-26 by reading the built text of the school pages with the most Search Console impressions, while checking what they say against the queries they are shown for. No check read the prose on a school page: validate_schools reads the data files and the build validates structure, not sentences. (Found by reading the code or the output)
+- **Fix.** One helper, stat_kind, reads a note and returns average, median or nothing, and every consumer outside the provenance column calls it: the intro, the lead, each FAQ answer, the meta description and the rankings table. The note itself stays in the provenance column where it belongs. Every rank claim on the page uses the scored total. The class label is parsed into one of four forms a sentence can carry (the Class of YYYY, the class that entered in YYYY, an academic year, or 'the most recent published profile'), and each figure is reported under its own class where its source names one, with past tense for a class that has graduated.
+- **What stops it now.** build_rankings checks every school page before writing it: no multi-word stat note of that school may appear in the intro, the lead or an FAQ answer, no sentence may read 'a average' or 'a avg', and every 'of N' rank claim must use the scored total. A failure names the school and the sentence. The same check fails on a pasted label ('profile profile', ') profile', 'no class year stated') and on any sentence that states a figure whose source names its class under a different 'Class of' year.
+- **Lesson.** When a fix names a class of input, such as 'the stat field is free text', find every place that input is used before closing it. A correct rule written inside one caller protects that caller, and the existence of the rule makes the unprotected siblings look protected.
+
+
+### INC-0107. Seven college titles promised SAT scores the page does not have
+
+*2026-09-26, Cosmetic*
+
+- **What was seen.** Seven of the 1,451 college pages report an ACT midpoint and no SAT figure of any kind, and their title still read '...: Acceptance Rate, Cost, and SAT Scores'. A student searching for that college's SAT scores who clicked found none.
+- **Why.** title_bits added 'SAT Scores' when either sat_avg or act_mid was present, treating the two tests as one field. The function's own docstring says it promises only what the page holds, and for these seven it did not.
+- **How it surfaced.** Found on 2026-09-26 while reading the college title logic against the Search Console export, by counting pages whose data has act_mid and no sat field. (Found by reading the code or the output)
+- **Fix.** The title names the test the page actually reports: SAT Scores when any SAT figure exists, ACT Scores when only the ACT does.
+- **What stops it now.** build_colleges fails when a page's title names SAT or ACT scores and the page's data has no figure for that test.
+- **Lesson.** Test every noun in a title against the page's own data, because a title is a promise to someone who has not seen the page yet. Grouping two fields under one flag because they usually travel together is how a promise gets made on the pages where they do not.
+
+
+### INC-0109. Two withdrawn exam guides kept their search traffic and sent it to a 404 that is the whole GMAT trainer
+
+*2026-09-26, Silent loss*
+
+- **What was seen.** The MCAT and Executive Assessment guides were withdrawn on 2026-09-18 because their official sources could not be re-verified. Search Console for the five weeks to 2026-09-24 still showed 220 impressions for /exams/mcat/ and 82 for /exams/executive-assessment/, the second at an average position of 9.6, with queries like 'executive assessment test cost'. Both URLs answered 404, and the 404 page is the GMAT trainer, so a searcher looking for the Executive Assessment landed in a GMAT app with no word about what had happened. llms.txt, the file written for answer engines, still listed both guides among the exam guides the site publishes.
+- **Why.** Withdrawing a page was treated as deleting a file. Nothing in the build or the deploy knows which URLs used to exist, so nothing asked what a visitor arriving at one should see, and the generic 404 handling that suits a mistyped URL was applied to a URL search engines were still ranking.
+- **How it surfaced.** Found on 2026-09-26 in the owner's Search Console export: both URLs appear in the top pages list with impressions after their removal date, and fetching them from this environment returned 404. (Found by measuring something)
+- **Fix.** src/worker.mjs keeps a RETIRED table of withdrawn paths and answers each with a 301 to the exams hub, on either hostname, with or without the trailing slash, keeping the query string. The hub says which exams are covered. An entry is removed when its page returns. llms.txt now lists the five exams actually covered and says the other two were withdrawn and why.
+- **What stops it now.** src/smoke_redirect.js asserts the retired paths redirect in one hop and that /exams/ itself and lookalike paths are served normally. The recorded practice is the larger guard: withdrawing a page means adding it to RETIRED in the same change.
+- **Lesson.** A URL that search engines know is not the site's to delete quietly; it belongs partly to everyone still linking to it. Removing the content is one decision and deciding what that address now says is another, and skipping the second one sends real visitors to whatever the 404 happens to be.
+
+
 ## Build system (7)
 
 
@@ -2255,6 +2476,85 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** The digest de-identifies incident references as it renders: a run of ids becomes 'two earlier defects' and a single one 'an earlier defect', capitalised when it opens a sentence. The book keeps the ids, because there they are links.
 - **What stops it now.** smoke_playbook refuses an incident id anywhere in the bootstrap pack, which is the audience boundary stated as an assertion rather than as a docstring in `src/smoke_playbook.js`
 - **Lesson.** A file generated for a different audience has to be read as that audience, not as the one that generated it. The size of this one was bounded and guarded; who it was for was written in a docstring and checked by nobody.
+
+
+## Scoring and selection (6)
+
+
+### INC-0040. The easier module was not easier
+
+*2026-09-16, Wrong data shown or stored, `81eecec` PR #30*
+
+- **What was seen.** An adaptive test routed weaker students to a second module that was supposed to be easier, and was not.
+- **Why.** The two modules were assembled without comparing their difficulty distributions.
+- **How it surfaced.** Measuring the mean difficulty of each module. (Found by measuring something)
+- **Fix.** Assemble the modules against a difficulty target and assert it.
+- **What stops it now.** module difficulty is asserted at build time in `src/test.js`
+- **Cost.** adaptive routing that did nothing
+- **Lesson.** If your system branches on difficulty, measure that the branches actually differ. A label is not a property.
+
+
+### INC-0005. The adaptive engine was learning from nobody
+
+*2026-09-17, Silent loss, `fc4114c` PR #39*
+
+- **What was seen.** The attempts table held zero rows in production while the app was plainly being used.
+- **Why.** Cloud.logAttempt returns early without a signed-in user, and the product deliberately requires no account. So the one path that recorded answers was the one path most users never took.
+- **How it surfaced.** Querying the production table and finding it empty. (Found by measuring something)
+- **Fix.** item_events: an unlinkable telemetry table with no user, session, device or address column, which is exactly why it needs no consent gate.
+- **What stops it now.** smoke_consent asserts the telemetry body carries no identifying field in `src/smoke_consent.js`
+- **Cost.** weeks of telemetry never recorded
+- **Lesson.** Check that your instrumentation fired at all before you trust anything built on it. An empty table looks identical to a quiet week.
+
+
+### INC-0006. Sentence equivalence items were unanswerable however well you answered
+
+*2026-09-17, Wrong data shown or stored, `fc4114c` PR #39*
+
+- **What was seen.** Every GRE sentence equivalence item graded as wrong.
+- **Why.** The items carry a two-element key and the engine graded by requiring an array of two, but answerInputs had no branch for that type, so they rendered as single pick and returned a scalar.
+- **How it surfaced.** Rendering and grading one item of every schema. (A test caught it)
+- **Fix.** Add the missing input branch.
+- **What stops it now.** smoke_items renders and grades one item from all 182 generator schemas at phone width in `src/smoke_items.js`
+- **Cost.** eleven items unusable since they shipped
+- **Lesson.** A type system spread across a renderer and a grader will drift. The cheapest guard is one that exercises every variant end to end, once.
+
+
+### INC-0051. Fixing repeats directly left a side door through passage groups
+
+*2026-09-21, Degraded, `65bd09d` PR #58*
+
+- **What was seen.** After a freshness gate cut avoidable repeats from 276 to 9 on one exam, one exam still served 117 and another 941 across 25 sittings.
+- **Why.** The gate picked an unserved anchor item, and then the group expansion pulled in every question sharing that passage, including the ones already answered. The gate was applied to the anchor and not to what the anchor dragged with it.
+- **How it surfaced.** A review bot counting avoidable repeats across 25 sittings per exam. (Found by a review bot or an adversarial pass)
+- **Fix.** The group keeps the anchor and any unseen sibling and drops the rest, so a group can never come back empty.
+- **What stops it now.** the review bot counts avoidable repeats and the number is pinned in `src/review_bot.js`
+- **Cost.** repeats persisting on two exams after the fix was believed complete
+- **Lesson.** When you add a filter, find every path that adds items after the filter runs. A gate on the entry point is not a gate on the set.
+
+
+### INC-0111. The question of the day promised to be the same for everyone and was not, and its streak punished a wrong answer
+
+*2026-09-26, Degraded*
+
+- **What was seen.** The trainer's Question of the Day card said 'One question, picked for everyone today'. The pick was pool[hash(date) % pool.length] over the live BANK, which grows when the deferred bank chunks arrive, so a student who opened it before the chunks loaded and one who opened it after were served different questions, and any deploy that changed the bank changed the day's question under students who had already answered it. Every hand-written ACT item belongs to a passage group, and the pool excluded passage items, so the ACT question of the day was always a generated item. Separately, the streak reset to zero on a wrong answer, so the card asking people to build a daily habit counted accuracy and punished exactly the students who showed up and missed.
+- **Why.** The pick was computed from whatever array was in memory at the moment of the click, and nothing about the design had a notion of a question being assigned to a date independently of the bank. The streak rule was written as a correctness streak and labelled as a habit.
+- **How it surfaced.** Found on 2026-09-26 while designing public daily pages from the recurring-traffic research, which reported the reset-on-wrong rule as working against the evidence on streaks, and by reading how the pick would behave once a published archive needed the same question for a date to stay put. (Found by reading the code or the output)
+- **Fix.** Questions are assigned to dates in data/daily/schedule.json, written once by src/daily.js from hand-written items only and only ever appended to. The trainer, the public /daily/ pages and their archive read the same schedule. The streak lives in src/daily_streak.js, shared by both: it counts days answered, right or wrong, keeps the accuracy run as a separate personal best, and earns a freeze every seven days, at most two, spent automatically on a missed day. Passage items are served with their passage, so ACT has hand-written daily questions.
+- **What stops it now.** The build runs src/daily.js check and fails if a scheduled id is missing from its hand-written bank, can no longer stand alone, or repeats, and warns when fewer than 30 days remain scheduled. src/smoke_daily.js plays the live page on a fixed date and asserts it serves the scheduled question, that a wrong answer still counts as a day, that the share text carries no question or answer, and that a second visit cannot re-answer.
+- **Lesson.** Anything a page promises is the same for everyone has to be assigned, stored and served, not recomputed from whatever happens to be loaded, because the recomputation will eventually run against different inputs. And name a metric for what it counts: a streak that resets on a wrong answer is an accuracy score, and calling it a habit discourages the people it was meant to keep.
+
+
+### INC-0112. Weakest-first selection starved skills for struggling students, down to none at all
+
+*2026-09-26, Degraded*
+
+- **What was seen.** In a 140 question sitting simulated with the engine's own response model, a student at about 35 percent accuracy on the fifteen-skill ACT got 0.6 questions on average on their least-practised skill, several skills got none, and 5.2 of the 15 stayed under the five attempts after which the dashboard stops saying 'calibrating'. GMAT and LSAT struggling students showed the same pattern at one question at worst. The dashboard could therefore say nothing about a third of the ACT skills for exactly the students who most needed to know. The roadmap had recorded a milder version (Two-Part Analysis at 2 attempts in 120) as a tuning question for the owner.
+- **Why.** pickQuestions gives 70 percent of every round to the three lowest-rated skills. A struggling student's practised skills fall below the starting rating while unpractised ones stay at it, so the unpractised skills rank as the student's strongest and are never chosen; the remaining 30 percent goes to whichever other skill has an item closest to the target difficulty, not round-robin. The diagnostic pass exits once half the skills have three attempts, which leaves the other half to that competition. The review bot measured reach across all sittings combined, so a skill each student touched once or not at all still counted as reached.
+- **How it surfaced.** Found on 2026-09-26 by simulating per-student coverage at six ability levels on all five exams, prompted by the owner's request to keep developing the algorithm and the open roadmap question. (Found by measuring something)
+- **Fix.** A coverage floor: a skill whose share of the student's attempts falls below half an even split takes a slot before weakness targeting fills the round, most starved first, capped at 30 percent of the round. The least-practised skill rose to 4.8 on ACT, 5.8 on GMAT and 6 on LSAT for struggling students, with no skill under three anywhere. Across three full-length seeds per exam: on GMAT, planted-weakness diagnosis stayed at 15 of 15 and the share of reported bands containing the true score went from 85 to 91 percent; on ACT, diagnosis went from 59 to 57 of 60 sittings, both above the 90 percent bar, and bands containing the true score from 65 to 77 percent. Coverage bought band accuracy and cost diagnosis two sittings in sixty. /scoring/ now explains how the next question is chosen, including the floor.
+- **What stops it now.** review_bot.js checks each sitting on its own: it fails if any simulated student gets no question on a skill the bank can serve and warns below three, reporting the least-practised skill per sitting. It failed on the engine as it was (0 at worst on ACT and GMAT) and passes on the fixed one.
+- **Lesson.** Measure an adaptive policy per student, not in aggregate: a pooled statistic averages the starved students with the well-served ones and reports a system that works. A targeting rule also needs a floor it can never trade away, because the students it concentrates hardest on are the ones whose picture of themselves it leaves emptiest.
 
 
 ## Infrastructure and deploy (6)
@@ -2473,115 +2773,6 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** When a write is destructive, capture what you need from the old value first. Ask what question you will want to answer after this row is gone.
 
 
-## Search and metadata (4)
-
-
-### INC-0002. School URLs vanished from the sitemap when the data file was split
-
-*2026-08-24, Silent loss, `df14c7c` PR #23*
-
-- **What was seen.** Per-school pages were live and correct, and absent from sitemap.xml.
-- **Why.** The sitemap generator read schools.json. When the library was split into one file per school, nothing read the new directory, and a loop over an empty list emits nothing rather than failing.
-- **How it surfaced.** Noticed while reviewing the built sitemap. (Found by reading the code or the output)
-- **Fix.** Generate sitemap entries from the same directory scan the pages are built from.
-- **What stops it now.** the build asserts the sitemap URL count matches the page count in `src/build.py`
-- **Cost.** unknown period of missing indexation
-- **Lesson.** A refactor that moves data has to be followed to every reader, and a loop over nothing is the quietest failure in programming. Derive counts from one source and assert they agree.
-
-
-### INC-0014. A hardcoded count in the meta description went stale, and Google showed it
-
-*2026-09-19, Wrong data shown or stored, `36b1e92` PR #43*
-
-- **What was seen.** The meta description claimed 1,451 colleges after the number changed. og:description and twitter:description both derive from that tag, so all three were wrong.
-- **Why.** A figure typed into a template instead of computed at build time, which is the exact failure build-time counting exists to prevent.
-- **How it surfaced.** Reading the built page. (Found by reading the code or the output)
-- **Fix.** Derive the number from the same count the pages are built from.
-- **What stops it now.** no hardcoded corpus counts in templates in `src/build_rankings.py`
-- **Cost.** a wrong figure in the search result snippet
-- **Lesson.** Any number in user-facing copy that describes the size of something must be computed from that thing at build time. The moment it is typed, it has a half-life.
-
-
-### INC-0049. Two pages told the same story with different numbers after a reweighting
-
-*2026-09-19, Wrong data shown or stored, `a34a798` PR #47*
-
-- **What was seen.** The rankings index still showed figures from before a scoring change while the methodology page showed the new ones.
-- **Why.** Two artefacts derived from one model, and only one was regenerated.
-- **How it surfaced.** Reading both pages after the change. (Found by reading the code or the output)
-- **Fix.** Derive both from the same computed values at build time.
-- **What stops it now.** both figures are printed by the build from one source in `src/build_rankings.py`
-- **Cost.** a visible contradiction between two pages
-- **Lesson.** When one model feeds two pages, generate both from the model in the same pass. Two places that must agree will not, and the reader who notices is the reader you were trying to convince.
-
-
-### INC-0103. A 139 page section shipped with no route into it from the sitemap
-
-*2026-09-24, Silent loss*
-
-- **What was seen.** The study guide went live on 2026-09-22 with 139 pages across five exams and thirteen sections. The sitemap carries 1,592 URLs and not one of them is a guide page. Every other content section is there: 1,453 colleges, 92 schools, 31 blog posts, 6 exams. The pages resolve and are linked from the site header, so nothing looks wrong, and a search engine's cheapest and most reliable route into the largest new body of content on the site does not exist.
-- **Why.** build_sitemap opens with a hand written list of section URLs and then expands the data driven ones from data/exams.json, data/schools and data/colleges. A new section is therefore invisible to it until somebody remembers to add a line. Nothing about building 139 pages causes them to appear, and nothing about their absence causes a failure, so the omission is silent in both directions.
-- **How it surfaced.** Found during a search performance audit, three days after the guide shipped, by reading the live sitemap rather than the code that writes it. No check looks at the sitemap at all: the build validates the pages it writes and never asks whether anything can find them. (Found by measuring something)
-- **Fix.** The sitemap walks the built output for guide pages rather than naming them, so the section cannot fall out of step with itself, and a section added later is carried without a code change.
-- **What stops it now.** build_blog compares every built index.html under the site's content directories against the sitemap it just wrote, and fails when a page that was built is not listed. The check is on the BUILT OUTPUT rather than on a list of sections, because a list of sections is the thing that was wrong.
-- **Lesson.** An enumeration that has to be kept in step by memory will fall out of step, and the failure is silent because nothing downstream can tell the difference between a section that was excluded on purpose and one that was forgotten. Derive the list from what was actually produced, and when that is not practical, make something compare the two. Publishing work nobody can find is not a smaller version of publishing it.
-
-
-## Scoring and selection (4)
-
-
-### INC-0040. The easier module was not easier
-
-*2026-09-16, Wrong data shown or stored, `81eecec` PR #30*
-
-- **What was seen.** An adaptive test routed weaker students to a second module that was supposed to be easier, and was not.
-- **Why.** The two modules were assembled without comparing their difficulty distributions.
-- **How it surfaced.** Measuring the mean difficulty of each module. (Found by measuring something)
-- **Fix.** Assemble the modules against a difficulty target and assert it.
-- **What stops it now.** module difficulty is asserted at build time in `src/test.js`
-- **Cost.** adaptive routing that did nothing
-- **Lesson.** If your system branches on difficulty, measure that the branches actually differ. A label is not a property.
-
-
-### INC-0005. The adaptive engine was learning from nobody
-
-*2026-09-17, Silent loss, `fc4114c` PR #39*
-
-- **What was seen.** The attempts table held zero rows in production while the app was plainly being used.
-- **Why.** Cloud.logAttempt returns early without a signed-in user, and the product deliberately requires no account. So the one path that recorded answers was the one path most users never took.
-- **How it surfaced.** Querying the production table and finding it empty. (Found by measuring something)
-- **Fix.** item_events: an unlinkable telemetry table with no user, session, device or address column, which is exactly why it needs no consent gate.
-- **What stops it now.** smoke_consent asserts the telemetry body carries no identifying field in `src/smoke_consent.js`
-- **Cost.** weeks of telemetry never recorded
-- **Lesson.** Check that your instrumentation fired at all before you trust anything built on it. An empty table looks identical to a quiet week.
-
-
-### INC-0006. Sentence equivalence items were unanswerable however well you answered
-
-*2026-09-17, Wrong data shown or stored, `fc4114c` PR #39*
-
-- **What was seen.** Every GRE sentence equivalence item graded as wrong.
-- **Why.** The items carry a two-element key and the engine graded by requiring an array of two, but answerInputs had no branch for that type, so they rendered as single pick and returned a scalar.
-- **How it surfaced.** Rendering and grading one item of every schema. (A test caught it)
-- **Fix.** Add the missing input branch.
-- **What stops it now.** smoke_items renders and grades one item from all 182 generator schemas at phone width in `src/smoke_items.js`
-- **Cost.** eleven items unusable since they shipped
-- **Lesson.** A type system spread across a renderer and a grader will drift. The cheapest guard is one that exercises every variant end to end, once.
-
-
-### INC-0051. Fixing repeats directly left a side door through passage groups
-
-*2026-09-21, Degraded, `65bd09d` PR #58*
-
-- **What was seen.** After a freshness gate cut avoidable repeats from 276 to 9 on one exam, one exam still served 117 and another 941 across 25 sittings.
-- **Why.** The gate picked an unserved anchor item, and then the group expansion pulled in every question sharing that passage, including the ones already answered. The gate was applied to the anchor and not to what the anchor dragged with it.
-- **How it surfaced.** A review bot counting avoidable repeats across 25 sittings per exam. (Found by a review bot or an adversarial pass)
-- **Fix.** The group keeps the anchor and any unseen sibling and drops the rest, so a group can never come back empty.
-- **What stops it now.** the review bot counts avoidable repeats and the number is pinned in `src/review_bot.js`
-- **Cost.** repeats persisting on two exams after the fix was believed complete
-- **Lesson.** When you add a filter, find every path that adds items after the filter runs. A gate on the entry point is not a gate on the set.
-
-
 ## Database (4)
 
 
@@ -2720,18 +2911,20 @@ Read it before starting a piece of work in the matching area, and again before y
 
 ## Content generation
 
+- [ ] **Learned 6 times over.** A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell. When a measurement cannot be trusted at a small sample, widen the tolerance to what the sample supports rather than declining to measure, and notice when a count of what was measured does not move after you add something to measure.  
+  <small>A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked (INC-0088)</small>
 - [ ] **Learned 5 times over.** An aggregate over a mixed population reports the population, and if part of that population is flat by construction it will hide the part that is not. The rule that follows is about what the unit of the measurement should be: measure at the grain the defect can exist at, which here is the file, because a file is written by one person in one sitting with one set of habits. The section was the grain the data was convenient at.  
   <small>A bank a student can play at 88 percent, inside a section the check passed (INC-0069)</small>
 - [ ] **Learned 5 times over.** A corpus field is written against the one sentence the author had in mind, and the schema that reuses it three templates later has no way to know which shape it is. The type system says str in both places. Two things follow. Store the field in every shape a template needs and name the shapes, rather than storing one shape and trusting the next author to notice. And guard the output, not the corpus: the generated sentence is the only place the mismatch becomes visible, and a cheap pattern over the rendered text catches a class that no check on the inputs can see.  
   <small>A corpus field written for one grammatical slot was spliced into another (INC-0074)</small>
-- [ ] **Learned 5 times over.** A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell. When a measurement cannot be trusted at a small sample, widen the tolerance to what the sample supports rather than declining to measure, and notice when a count of what was measured does not move after you add something to measure.  
-  <small>A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked (INC-0088)</small>
 - [ ] **Learned 4 times over.** A counter that nothing reads is not instrumentation, it is a comment that looks like instrumentation, and it is worse than nothing because it answers the question 'is anyone watching this' with a yes. Every time a guard is written against one symptom, ask what the same failure looks like arriving another way, and count the whole category rather than the instance that prompted it.  
   <small>A schema threw away three draws in four, and the counter that knew was read by nobody (INC-0092)</small>
 - [ ] **Learned 4 times over.** A check that infers what to expect from the same data it is checking cannot fail on a missing field: absence reads as nothing to look for. Derive the expectation from something the data cannot erase, the item's TYPE, and then look for what that type requires. A field that is set in memory, used by every in-process test and copied by hand into the shipped format has no test at all between the two, so the copying should be checked as a whole rather than field by field. And a check that runs one random draw is not a check of a random process: this one was correct for months and simply never asked often enough to see the answer.  
   <small>Every generated reading comprehension question shipped without its passage (INC-0099)</small>
 - [ ] **Learned 3 times over.** Reading the record does not prevent the defect; the practice does. This one was written hours after its own lesson was read closely enough to be catalogued as a recurrence, and it was caught by rendering three items rather than by remembering. Budget the render, not the recollection.  
   <small>The same corpus field in two grammatical slots, in a schema written the same day the guard was read (INC-0087)</small>
+- [ ] **Learned 3 times over.** A generated item is checked as data, and this one was correct as data: the logic was valid, the key was right, the distractors were the intended errors. What was missing was a fact about the RELATION between two strings, that a name in the question also occurs in the passage, and no property of either string alone can see it. When a question and its source are assembled from separate fields, write down what has to be true of them together, because every check that looks at one field at a time will pass.  
+  <small>Every reading inference question asked about something the passage never mentions (INC-0097)</small>
 - [ ] **Learned 3 times over.** A fix scoped to where the evidence was is a fix scoped to the sample, not to the defect. When the change is to how a QUANTITY is written, the unit of work is the quantity and every place it is written, not the place where the failure happened to be visible. Finding the other call sites costs one search; the fix that covers a subset leaves a difference the reader can see and the measurement cannot.  
   <small>The table said 31.0 and the explanation said 31, because the fix covered the table only (INC-0098)</small>
 - [ ] **Learned 3 times over.** When a defect is about a KIND of code rather than a line of code, a guard bolted to the site of the failure does not generalise, and writing one feels like closing the case. Ask instead what the next instance of this code will look like and where it will live: here the answer was anywhere an item is copied out of the bank, and the durable check is that an item asking about source material has to be carrying it, wherever it is being rendered.  
@@ -2744,8 +2937,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Two of a schema's three question forms could not build, and the only sign was an item count (INC-0090)</small>
 - [ ] **Learned 2 times over.** A template is a promise about the grammar of what goes into it, and the promise is invisible: the code says name and the sentence needs a singular noun phrase. Whenever a stored string lands next to a verb, an article or a plural, write the requirement down beside the data rather than in the template, and make adding a new row state that it meets it. Renaming the data to fit one grammar is usually cheaper and always safer than teaching the templates to handle two.  
   <small>Seven variable names were plural and every sentence built around them said was (INC-0093)</small>
-- [ ] **Learned 2 times over.** A generated item is checked as data, and this one was correct as data: the logic was valid, the key was right, the distractors were the intended errors. What was missing was a fact about the RELATION between two strings, that a name in the question also occurs in the passage, and no property of either string alone can see it. When a question and its source are assembled from separate fields, write down what has to be true of them together, because every check that looks at one field at a time will pass.  
-  <small>Every reading inference question asked about something the passage never mentions (INC-0097)</small>
+- [ ] **Learned 2 times over.** Any consumer that describes a value in words must read the field that records what kind of value it is, never the field's name. A field name is a hope about the data, not a description of it, and a schema that allows two kinds of value will be described everywhere as the kind it was named after.  
+  <small>Twelve average salaries were published as medians, and the social queue credited schools with figures they never published (INC-0105)</small>
 - [ ] Any generator that claims reproducibility must be seeded from something stable across processes. hash() is not, in Python, and the failure shows up as a flaky test rather than as a wrong answer.  
   <small>Item banks were different on every build because Python randomises hash() (INC-0003)</small>
 - [ ] Deletion by shadowing is invisible. Any collection whose size is a fact about the product needs its size asserted, not just its contents.  
@@ -2798,6 +2991,20 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A blocked source turned a real check into a permanent warning, and the flagship exam published its structure table uncited for as long as the page existed (INC-0100)</small>
 - [ ] When the same file already solves a problem correctly, the second implementation is the one to distrust: the reference was available and was not used, so whatever made it easy to skip will make it easy to skip again. And a generator that writes a word describing the data, rather than computing it from the data, has an assumption in it that nothing will ever check unless the check is written against the relation rather than the field.  
   <small>A table question asked which row rose the most when every row had fallen (INC-0102)</small>
+- [ ] A provenance label is a factual claim and deserves the same checking as the number it annotates. A proxy that is right for the common case (one host per school) will be confidently wrong for every institution that publishes from more than one office, and the error flatters no one: it tells readers that official data is unofficial.  
+  <small>Official figures from a school's own university were footnoted as secondary and 'indicative rather than official' (INC-0106)</small>
+- [ ] When a page publishes a number the build computes, the page should read it from the build. A figure typed in beside a placeholder is the one that will be wrong next month, and it will be wrong on the page whose whole purpose is to say how carefully the numbers are checked.  
+  <small>The college methodology page quoted its own checks from the day they were written, and the build had moved on (INC-0108)</small>
+- [ ] When a key is derived from premises held as data, each premise has to be found in what the reader sees, and a check should prove that by searching the rendered text rather than the data. Fixing the one missing premise that was noticed is not the same as asking which premises the reader is shown: list them all, and look for each one in the output.  
+  <small>Reading inference questions credited a key that depended on a rule the passage never stated (INC-0114)</small>
+- [ ] A stored phrase that goes into more than one slot has to be written for the hardest of them, and the transform has to run in the direction that cannot damage anything: capitalising a sentence opener is always safe, lowercasing one breaks proper nouns. When a field is reused, read the output of every slot it lands in, not the one it was written for.  
+  <small>A field written to open a sentence was printed mid-sentence in a reading stem (INC-0115)</small>
+- [ ] Practice material is still published writing. A passage that is only there to be read carefully is still read by people who know the subject, and a question built on it can ask them to endorse the error.  
+  <small>A passage described zircon dating with the vocabulary of argon dating (INC-0116)</small>
+- [ ] A test measures what someone can get right without the skill, and there is more than one way to do that. Removing one tell does not make an item sound; it moves the question to the next shortcut. Distractors drawn from unrelated material are always wrong and therefore always free, so a wrong answer has to be wrong about the same thing the right one is about.  
+  <small>Three reading schemas could be answered by matching names, because every distractor came from a different passage (INC-0117)</small>
+- [ ] An empty field records that a search came up empty, not that the thing does not exist. Write the absence as what was done ('not verified from the sources we could read'), never as a fact about the world, because the world is the part nobody checked.  
+  <small>School pages said a program does not publish an acceptance rate when we had only not found one (INC-0118)</small>
 
 
 ## Database
@@ -2830,6 +3037,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The GRE app told GRE students to calibrate at the wrong test maker's site (INC-0043)</small>
 - [ ] Anything that reports failures must not be able to report its own. Check whether each call rejects or throws before you wrap it, and make the reporting path unable to re-enter itself.  
   <small>The error reporter reported its own failures, in a loop (INC-0045)</small>
+- [ ] Async on a script tag decides when it runs, not when it downloads, so an async tag still competes for bandwidth with everything the page is waiting for. Load what the first screen does not need after the first screen exists, and re-measure the slow path whenever a file is split, because splitting changes the number of downloads competing at once.  
+  <small>The GMAT trainer's first question on a slow connection took twice as long as when the bank split shipped (INC-0113)</small>
 
 
 ## Infrastructure and deploy
@@ -2882,26 +3091,38 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The easier module was not easier (INC-0040)</small>
 - [ ] When you add a filter, find every path that adds items after the filter runs. A gate on the entry point is not a gate on the set.  
   <small>Fixing repeats directly left a side door through passage groups (INC-0051)</small>
+- [ ] Anything a page promises is the same for everyone has to be assigned, stored and served, not recomputed from whatever happens to be loaded, because the recomputation will eventually run against different inputs. And name a metric for what it counts: a streak that resets on a wrong answer is an accuracy score, and calling it a habit discourages the people it was meant to keep.  
+  <small>The question of the day promised to be the same for everyone and was not, and its streak punished a wrong answer (INC-0111)</small>
+- [ ] Measure an adaptive policy per student, not in aggregate: a pooled statistic averages the starved students with the well-served ones and reports a system that works. A targeting rule also needs a floor it can never trade away, because the students it concentrates hardest on are the ones whose picture of themselves it leaves emptiest.  
+  <small>Weakest-first selection starved skills for struggling students, down to none at all (INC-0112)</small>
 
 
 ## Search and metadata
 
+- [ ] **Learned 3 times over.** An enumeration that has to be kept in step by memory will fall out of step, and the failure is silent because nothing downstream can tell the difference between a section that was excluded on purpose and one that was forgotten. Derive the list from what was actually produced, and when that is not practical, make something compare the two. Publishing work nobody can find is not a smaller version of publishing it.  
+  <small>A 139 page section shipped with no route into it from the sitemap (INC-0103)</small>
+- [ ] **Learned 2 times over.** When a fix names a class of input, such as 'the stat field is free text', find every place that input is used before closing it. A correct rule written inside one caller protects that caller, and the existence of the rule makes the unprotected siblings look protected.  
+  <small>Half the school pages opened with a data note pasted into a sentence, and the structured data repeated it (INC-0104)</small>
 - [ ] A refactor that moves data has to be followed to every reader, and a loop over nothing is the quietest failure in programming. Derive counts from one source and assert they agree.  
   <small>School URLs vanished from the sitemap when the data file was split (INC-0002)</small>
 - [ ] Any number in user-facing copy that describes the size of something must be computed from that thing at build time. The moment it is typed, it has a half-life.  
   <small>A hardcoded count in the meta description went stale, and Google showed it (INC-0014)</small>
 - [ ] When one model feeds two pages, generate both from the model in the same pass. Two places that must agree will not, and the reader who notices is the reader you were trying to convince.  
   <small>Two pages told the same story with different numbers after a reweighting (INC-0049)</small>
-- [ ] An enumeration that has to be kept in step by memory will fall out of step, and the failure is silent because nothing downstream can tell the difference between a section that was excluded on purpose and one that was forgotten. Derive the list from what was actually produced, and when that is not practical, make something compare the two. Publishing work nobody can find is not a smaller version of publishing it.  
-  <small>A 139 page section shipped with no route into it from the sitemap (INC-0103)</small>
+- [ ] Test every noun in a title against the page's own data, because a title is a promise to someone who has not seen the page yet. Grouping two fields under one flag because they usually travel together is how a promise gets made on the pages where they do not.  
+  <small>Seven college titles promised SAT scores the page does not have (INC-0107)</small>
+- [ ] A URL that search engines know is not the site's to delete quietly; it belongs partly to everyone still linking to it. Removing the content is one decision and deciding what that address now says is another, and skipping the second one sends real visitors to whatever the 404 happens to be.  
+  <small>Two withdrawn exam guides kept their search traffic and sent it to a 404 that is the whole GMAT trainer (INC-0109)</small>
 
 
 ## Tests and guards
 
-- [ ] **Learned 2 times over.** A path that exists on the machine you wrote the test on is not a path. Resolve environment-specific locations through one helper that falls back to the tool's own default, and return undefined rather than an empty string, because undefined means 'you decide' and an empty string means 'launch nothing'.  
+- [ ] **Learned 3 times over.** A path that exists on the machine you wrote the test on is not a path. Resolve environment-specific locations through one helper that falls back to the tool's own default, and return undefined rather than an empty string, because undefined means 'you decide' and an empty string means 'launch nothing'.  
   <small>A new browser suite hardcoded this machine's browser directory and crashed in CI (INC-0055)</small>
-- [ ] **Learned 2 times over.** Extracting a shared helper does not migrate the callers. The extraction fixes the file it was extracted from and leaves every sibling on the old path, which is INC-0059 and INC-0064 in a different costume: a correction applied to the instances in hand rather than to the pattern. Three suites had failed visibly and ten were wrong; the seven silent ones were found by the guard, not by reading. When a helper exists because a direct call was wrong, make the direct call fail the build, and let it enumerate the callers rather than enumerating them by hand.  
+- [ ] **Learned 3 times over.** Extracting a shared helper does not migrate the callers. The extraction fixes the file it was extracted from and leaves every sibling on the old path, which is INC-0059 and INC-0064 in a different costume: a correction applied to the instances in hand rather than to the pattern. Three suites had failed visibly and ten were wrong; the seven silent ones were found by the guard, not by reading. When a helper exists because a direct call was wrong, make the direct call fail the build, and let it enumerate the callers rather than enumerating them by hand.  
   <small>The browser path fix covered two suites and three others kept crashing (INC-0067)</small>
+- [ ] **Learned 2 times over.** Run every browser suite when a site-wide element such as a modal ships, because a test nobody runs is a claim about the past. Every suite that loads a page with empty storage meets the new element before anything it was written to check.  
+  <small>A browser suite outside CI had failed on its first click since the consent dialog shipped (INC-0110)</small>
 - [ ] Measure the moment the user can act, not a browser lifecycle event. A test that measures the wrong instant is worse than no test, because it produces a number people trust.  
   <small>The performance test waited for the load event, which waits for the thing being optimised (INC-0016)</small>
 - [ ] A regex with a length bound is a guard with an expiry date. Assert the number of things checked, not only that the checks passed.  
@@ -3050,7 +3271,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 103 real defects reduced to the rules that prevent them,
+the whole project: 118 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -3090,7 +3311,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-103 defects already prevented is genuinely ahead, and every defect it hits
+118 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

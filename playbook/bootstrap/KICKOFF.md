@@ -1,8 +1,8 @@
 # Kickoff
 
 You are building a new product with me. Before anything else, read RULES_DIGEST.md in
-this project: it is 103 real defects from a previous build of a comparable platform,
-compressed to one rule each. Those rules are the accumulated cost of 36 days of
+this project: it is 118 real defects from a previous build of a comparable platform,
+compressed to one rule each. Those rules are the accumulated cost of 7 days of
 building, and following them is cheaper than rediscovering them.
 
 ## The working agreement
