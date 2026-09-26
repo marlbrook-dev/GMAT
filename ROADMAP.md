@@ -210,6 +210,12 @@ verified rather than that the school does not publish one (INC-0118).
       rows were parsed and every figure in the post checked against them. Two details the
       search summary offered (the July to June testing year and a summer update) are not on
       LSAC's page and were left out.
+- [x] **Five more long reading passages** (hilltop beacons, a silk trade, early printing,
+      water mills, river mussels), invented like the rest: 50 more LSAT reading items, 51
+      more GMAT ones (the question the runner left undrawn last time came back) and 49 more
+      GRE ones (one left undrawn this time by the same 400 draw cutoff). Proofreading moved
+      three trailing "whether or not" clauses to the front of their findings, where the
+      "is unreliable" wrong answer had run straight into them.
 - **Decided against** mapping the two paragraph passages onto GRE reading as they are. ETS
   says most GRE passages are one paragraph long (ETS, GRE General Test Verbal Reasoning,
   https://www.ets.org/gre/test-takers/general-test/prepare/content/verbal-reasoning.html, read
