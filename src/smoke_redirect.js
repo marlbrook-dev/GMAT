@@ -183,6 +183,17 @@ const CASES = [
     for (const mustGo of ['src/engine.js', 'data/DATA.md', 'CLAUDE.md', '.git/config']) {
       if (!ignoredBy(mustGo, true)) fail('.assetsignore does NOT exclude ' + mustGo);
     }
+    // Every document at the root is internal, whoever adds it and whenever, so the list is
+    // read from the directory rather than kept by hand. A kept list is what nearly let
+    // CONNECTORS.md, with both owner email addresses in it, ship as a public page: it was
+    // added in its own pull request and nothing told anyone to add it here too.
+    const internal = fs.readdirSync(ROOT).filter(f => f.endsWith('.md'))
+      .concat(['.claude/settings.json', '.claude/hooks/session-start.sh']);
+    for (const doc of internal) {
+      if (fs.existsSync(path.join(ROOT, doc)) && !ignoredBy(doc, true)) {
+        fail('.assetsignore does NOT exclude ' + doc + ', so it would be served as a public page');
+      }
+    }
     if (!failures) ok('source, data, docs and .git are all excluded from the deploy');
   }
 

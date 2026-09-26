@@ -54,7 +54,11 @@ GROWTH.md
 INTEGRATIONS.md
 I18N.md
 DATA_COLLECTION.md
+CONNECTORS.md
 docs/
+
+# Session tooling for Claude Code: a start hook and its settings. Not part of the site.
+.claude/
 
 # The Build Playbook. Generated into playbook/ as Markdown, HTML, PDF and Word, and it is
 # internal: it names the infrastructure, quotes the rules file, and its defect ledger is a
