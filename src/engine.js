@@ -202,7 +202,7 @@ const EXAMS = {
    appPath:'/app/',
    // Which games this exam rewards most, and why. Read off this entry's own structure
    // (adaptive mode, choices, sections), not from any remembered claim about the test.
-   gameplan:{order:['boss','crunch','ladder','blitz','match','memory'],why:{boss:'Question adaptive: every answer changes the next one, so the skill is committing under pressure and moving on.',crunch:'Five choices and no calculator. Number sense decides whether you finish the section.',ladder:'Difficulty climbs with you, which is the shape of a question adaptive section.'}},blurb:'Focus Edition, live',
+   gameplan:{order:['boss','crunch','ladder','survival','blitz','match','memory'],why:{boss:'Question adaptive: every answer changes the next one, so the skill is committing under pressure and moving on.',crunch:'Five choices and no calculator. Number sense decides whether you finish the section.',ladder:'Difficulty climbs with you, which is the shape of a question adaptive section.'}},blurb:'Focus Edition, live',
    official:{label:'an official practice exam at mba.com',url:'https://www.mba.com/exams/gmat-exam/prepare'},
    crunch:'Which is bigger? No-calculator number sense, timed.',
    crunchLong:'Which is bigger? Sixty seconds of no-calculator number sense, the Quant survival skill.',
@@ -215,7 +215,7 @@ const EXAMS = {
    appPath:'/sat/app/',
    // Which games this exam rewards most, and why. Read off this entry's own structure
    // (adaptive mode, choices, sections), not from any remembered claim about the test.
-   gameplan:{order:['ladder','blitz','boss','match','memory','crunch'],why:{ladder:'Module adaptive: the second module is chosen by how the first one went, so the first half matters most.',blitz:'Four choices and a short clock. Recognition speed is the constraint, not arithmetic.',boss:'Real questions on the real pace clock, which is what the second module feels like.'}},blurb:'digital format, live',
+   gameplan:{order:['ladder','blitz','boss','survival','match','memory','crunch'],why:{ladder:'Module adaptive: the second module is chosen by how the first one went, so the first half matters most.',blitz:'Four choices and a short clock. Recognition speed is the constraint, not arithmetic.',boss:'Real questions on the real pace clock, which is what the second module feels like.'}},blurb:'digital format, live',
    official:{label:'an official Bluebook practice test from College Board',url:'https://bluebook.collegeboard.org/'},
    crunch:'Which is bigger? Estimate faster than you could type it.',
    crunchLong:'Which is bigger? Sixty seconds of estimation. Bluebook gives you Desmos, but typing costs seconds you do not have.',
@@ -232,7 +232,7 @@ const EXAMS = {
    appPath:'/gre/app/',
    // Which games this exam rewards most, and why. Read off this entry's own structure
    // (adaptive mode, choices, sections), not from any remembered claim about the test.
-   gameplan:{order:['match','memory','blitz','ladder','boss','crunch'],why:{match:'Verbal turns on precise word meaning. Pairing a term with its sense is the drill for it.',memory:'The same pairs without the prompt in view, which is the harder and more useful version.',blitz:'Module adaptive, so the first module sets the ceiling. Speed early is worth more here.'}},blurb:'Verbal and Quant, live',
+   gameplan:{order:['match','memory','blitz','survival','ladder','boss','crunch'],why:{match:'Verbal turns on precise word meaning. Pairing a term with its sense is the drill for it.',memory:'The same pairs without the prompt in view, which is the harder and more useful version.',blitz:'Module adaptive, so the first module sets the ceiling. Speed early is worth more here.'}},blurb:'Verbal and Quant, live',
    official:{label:'an official POWERPREP practice test from ETS',url:'https://www.ets.org/gre/test-takers/general-test/prepare.html'},
    crunch:'Which is bigger? No-calculator number sense, timed.',
    crunchLong:'Which is bigger? Sixty seconds of no-calculator number sense, the Quant survival skill.',
@@ -250,7 +250,7 @@ const EXAMS = {
    appPath:'/lsat/app/',
    // Which games this exam rewards most, and why. Read off this entry's own structure
    // (adaptive mode, choices, sections), not from any remembered claim about the test.
-   gameplan:{order:['match','boss','memory','ladder','blitz','crunch'],why:{match:'Every question is an argument. Pairing a claim with the role it plays is the whole skill.',boss:'Five real arguments on the pace clock, which is the only way to practise not rereading.',memory:'Holding structure in your head is what reading comprehension asks for.'}},blurb:'Logical Reasoning and RC, live',
+   gameplan:{order:['match','boss','memory','survival','ladder','blitz','crunch'],why:{match:'Every question is an argument. Pairing a claim with the role it plays is the whole skill.',boss:'Five real arguments on the pace clock, which is the only way to practise not rereading.',memory:'Holding structure in your head is what reading comprehension asks for.'}},blurb:'Logical Reasoning and RC, live',
    official:{label:'an official LSAT PrepTest on LSAC LawHub',url:'https://www.lsac.org/lsat/prepare/official-lsat-practice-tests'},
    crunch:'Which is bigger? Sixty seconds of number sense to keep timing instincts sharp.',
    crunchLong:'Which is bigger? Sixty seconds of number sense. The LSAT has no math section, but pace under a clock is the same muscle.',
@@ -265,7 +265,7 @@ const EXAMS = {
    appPath:'/act/app/',
    // Which games this exam rewards most, and why. Read off this entry's own structure
    // (adaptive mode, choices, sections), not from any remembered claim about the test.
-   gameplan:{order:['blitz','ladder','boss','crunch','match','memory'],why:{blitz:'The tightest clock of the five exams. Recognition has to be automatic.',ladder:'Difficulty climbing while the clock runs is the closest thing to the real pressure.',boss:'Four choices, real pace. Pace is the section, more than content is.'}},blurb:'enhanced format, live',
+   gameplan:{order:['blitz','ladder','boss','survival','crunch','match','memory'],why:{blitz:'The tightest clock of the five exams. Recognition has to be automatic.',ladder:'Difficulty climbing while the clock runs is the closest thing to the real pressure.',boss:'Four choices, real pace. Pace is the section, more than content is.'}},blurb:'enhanced format, live',
    official:{label:'an official ACT practice test at act.org',url:'https://www.act.org/content/act/en/products-and-services/the-act/test-preparation/free-act-test-prep.html'},
    crunch:'Which is bigger? Estimate faster than you could reach for the calculator.',
    crunchLong:'Which is bigger? Sixty seconds of estimation. The ACT gives you 60 seconds a question on Math, so reaching for the calculator has a price.',
@@ -346,6 +346,9 @@ const PRIOR_SD = 1.5;
 // 3. 0.6 was picked by measuring, not by taste. It keeps most of the separation while the
 // first band a student is ever shown comes out better than it was before any of this.
 const ADAPT_DAMP = 0.6;
+// Coverage floor for pickQuestions: no skill falls below this share of an even split of the
+// student's attempts, and the floor takes at most this share of any round.
+const COVERAGE_SHARE = 0.5, COVERAGE_CAP = 0.3;
 
 // Ability for one section, fitted directly to the answers given in it.
 //
@@ -580,7 +583,6 @@ function pickQuestions(bank,state,opts){
      if(cands.length) addWithGroup(cands[0]); }
    if(chosen.length>=count) return chosen.slice(0,count); }
  const weak=ranked.slice(0,3).map(s=>s.id); const mid=ranked.slice(3).map(s=>s.id);
- const nWeak=Math.round((count-chosen.length)*0.7);
  function bestFor(skillSet,n){ let added=0; let guard=0;
    while(added<n&&guard<200){ guard++;
      let cands=pool.filter(q=>!used.has(q.id)&&(skillSet.includes(q.skill)));
@@ -597,6 +599,22 @@ function pickQuestions(bank,state,opts){
         const d=Math.abs(DIFF_ELO[q.diff]-target); const rec=recency(q); const fresh=rec>=1e9?0:Math.max(0,40-rec)*10; return {q,score:d+fresh+Math.random()*60}; }).sort((a,b)=>a.score-b.score);
      const before=chosen.length; addWithGroup(scored[0].q); added+=chosen.length-before; }
    return added; }
+ // Coverage floor. Weakest-first sends most of every round to the three lowest rated
+ // skills, and for a struggling student those stay lowest while the unpractised ones sit
+ // at the starting rating and read as strongest, so the rest were starved: in simulated
+ // 140 question sittings at about 35 percent accuracy, some ACT skills got no question at
+ // all and a third stayed under the five answers that end "calibrating" (INC-0112). A
+ // skill whose attempts fall below COVERAGE_SHARE of an even split takes a slot before
+ // targeting fills the round, most starved first, capped at COVERAGE_CAP of the round so
+ // targeting still owns most of it. The review bot checks this per sitting.
+ const primary={}; state.attempts.forEach(a=>{ primary[a.skill]=(primary[a.skill]||0)+1; });
+ const inScope=skillIds.reduce((t,id)=>t+(primary[id]||0),0);
+ const floorN=COVERAGE_SHARE*(inScope+count)/skillIds.length;
+ const behind=skillIds.filter(id=>(primary[id]||0)<floorN)
+  .sort((a,b)=>(primary[a]||0)-(primary[b]||0)||Math.random()-0.5);
+ const nCover=Math.min(behind.length,Math.ceil((count-chosen.length)*COVERAGE_CAP));
+ for(let i=0;i<nCover&&chosen.length<count;i++) bestFor([behind[i]],1);
+ const nWeak=Math.round((count-chosen.length)*0.7);
  bestFor(weak,nWeak); bestFor(mid.length?mid:weak,count-chosen.length);
  if(chosen.length<count) bestFor(skillIds,count-chosen.length);
  return chosen.slice(0,count);

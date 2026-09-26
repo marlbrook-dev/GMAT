@@ -1,14 +1,14 @@
 # Rules Digest
 
-110 defects from a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
+113 defects from a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
 
-Generated 2026-09-26 from a ledger spanning 5 days and 50 commits.
+Generated 2026-09-26 from a ledger spanning 7 days and 51 commits.
 
 ## Read this first
 
-The three ways defects were most often found, in order: found by reading the code or the output (49), found by measuring something (32), a test caught it (14). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
+The three ways defects were most often found, in order: found by reading the code or the output (50), found by measuring something (33), a test caught it (15). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
 
-The dominant failure mode is silent loss, 25 of 110: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
+The dominant failure mode is silent loss, 25 of 113: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
 
 ## Learned the hard way, more than once
 
@@ -37,6 +37,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (2 times, content generation) A generated item is checked as data, and this one was correct as data: the logic was valid, the key was right, the distractors were the intended errors.
 - (2 times, search and metadata) When a fix names a class of input, such as 'the stat field is free text', find every place that input is used before closing it.
 - (2 times, content generation) Any consumer that describes a value in words must read the field that records what kind of value it is, never the field's name.
+- (2 times, tests and guards) Run every browser suite when a site-wide element such as a modal ships, because a test nobody runs is a claim about the past.
 
 ## Content generation
 
@@ -87,7 +88,6 @@ These cost this build twice or more each. If you read nothing else here, read th
 - An aggregate is a claim about whatever you grouped by. Group by the file and you have measured the file.
 - A check that reports pass or fail from a handful of random draws is a check that will flip on work that has nothing to do with it, and the cost is not the false alarm.
 - A ratchet is only read while it is quiet. One that fires on noise gets re-recorded as a reflex, and the re-recording is indistinguishable from accepting a real regression, so the mechanism that exists to catch regressions becomes the mechanism that launders them.
-- Run every browser suite when a site-wide element such as a modal ships, because a test nobody runs is a claim about the past.
 
 ## Front end
 
@@ -99,6 +99,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - The moment a single-tenant store becomes multi-tenant, every key in it is a collision waiting to happen.
 - A conditional that treats not-A as the original case is a bug the day a third case exists.
 - Anything that reports failures must not be able to report its own. Check whether each call rejects or throws before you wrap it, and make the reporting path unable to re-enter itself.
+- Async on a script tag decides when it runs, not when it downloads, so an async tag still competes for bandwidth with everything the page is waiting for.
 
 ## Search and metadata
 
@@ -113,6 +114,15 @@ These cost this build twice or more each. If you read nothing else here, read th
 - A parse guard covers the file shapes someone thought of. When the same code moves into a new shape, a separate file, a chunk, a worker, the guard does not follow it.
 - A guard keyed to wording is a guard on the wording, not the fact, and every synonym is a hole in it.
 - A file generated for a different audience has to be read as that audience, not as the one that generated it.
+
+## Scoring and selection
+
+- Check that your instrumentation fired at all before you trust anything built on it.
+- A type system spread across a renderer and a grader will drift. The cheapest guard is one that exercises every variant end to end, once.
+- If your system branches on difficulty, measure that the branches actually differ.
+- When you add a filter, find every path that adds items after the filter runs. A gate on the entry point is not a gate on the set.
+- Anything a page promises is the same for everyone has to be assigned, stored and served, not recomputed from whatever happens to be loaded, because the recomputation will eventually run against different inputs.
+- Measure an adaptive policy per student, not in aggregate: a pooled statistic averages the starved students with the well-served ones and reports a system that works.
 
 ## Infrastructure and deploy
 
@@ -137,13 +147,6 @@ These cost this build twice or more each. If you read nothing else here, read th
 - When a write is destructive, capture what you need from the old value first. Ask what question you will want to answer after this row is gone.
 - Row Level Security is row-level. Which columns a role may write is a separate grant, and anything money depends on belongs to the service role alone.
 - Enumerate every value a third-party status field can take before you branch on one of them.
-
-## Scoring and selection
-
-- Check that your instrumentation fired at all before you trust anything built on it.
-- A type system spread across a renderer and a grader will drift. The cheapest guard is one that exercises every variant end to end, once.
-- If your system branches on difficulty, measure that the branches actually differ.
-- When you add a filter, find every path that adds items after the filter runs. A gate on the entry point is not a gate on the set.
 
 ## Database
 

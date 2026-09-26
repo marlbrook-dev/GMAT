@@ -277,6 +277,32 @@ function reviewExam(spec) {
    starved.length + ' never served: ' + starved.slice(0, 6).map(s => s.id).join(', '));
  }
 
+ // Reach across sittings hides the per-student failure: a skill every sitting touches once
+ // or twice counts as reached while each student gets nothing usable on it. Weakest-first
+ // selection starved skills this way for struggling students, down to zero questions on
+ // some ACT skills in a 140 question sitting, until the coverage floor in pickQuestions.
+ // So check each sitting on its own: every skill the bank can serve should get a share.
+ {
+  const bankSkills = SKILLS.filter(s => BANK.some(q => q.skill === s.id)).map(s => s.id);
+  let worst = Infinity, worstTier = '', sumMin = 0;
+  for (const r of runs) {
+   const per = {};
+   r.served.forEach(q => { per[q.skill] = (per[q.skill] || 0) + 1; });
+   const mn = Math.min(...bankSkills.map(id => per[id] || 0));
+   sumMin += mn;
+   if (mn < worst) { worst = mn; worstTier = r.tier ? r.tier.name : ''; }
+  }
+  const detail = 'least practised skill per sitting: ' + (sumMin / runs.length).toFixed(1) +
+   ' on average, ' + worst + ' at worst' + (worstTier ? ' (' + worstTier + ')' : '') +
+   ', over ' + (ROUNDS * ROUND) + ' questions and ' + bankSkills.length + ' skills';
+  // The bar scales with the sitting: 30 percent of an even split, which is 3 questions on
+  // the fifteen-skill ACT over 140 and 1 over the 60 a --quick run plays. Zero always fails.
+  const bar = Math.max(1, Math.round(0.3 * ROUNDS * ROUND / bankSkills.length));
+  if (worst >= bar) note(EXAM.id, 'ok', 'every skill gets a share of each student\'s practice', detail);
+  else note(EXAM.id, worst === 0 ? 'fail' : 'warn', 'every skill gets a share of each student\'s practice',
+   detail + '; bar ' + bar);
+ }
+
  // Thin skills are the content gap this bot exists to surface. The count is what makes
  // it actionable: a skill with 3 items repeats inside a single session.
  const perSkill = {};

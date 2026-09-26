@@ -6,11 +6,11 @@ different one.
 The platform is Start From Nowhere, a test-preparation site with five adaptive exam
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
-2026-09-19 and 2026-09-24, which is 5 days, across
-50 commits, by one owner directing a series of AI coding sessions. As of this
-build it is 71 Python files, 102 JavaScript files, 24
+2026-09-19 and 2026-09-26, which is 7 days, across
+51 commits, by one owner directing a series of AI coding sessions. As of this
+build it is 72 Python files, 102 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 63 documents:
-2000 tracked files in total.
+2001 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -1119,7 +1119,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-50 commits in 5 days, one owner, a series of AI sessions. This
+51 commits in 7 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1172,7 +1172,7 @@ Not a list of files changed. The useful report is:
 5. Numbers, with the command that produced them.
 
 The commit messages in this repository are written that way, which is why a defect ledger
-could be reconstructed from them 5 days later. **Write the commit message
+could be reconstructed from them 7 days later. **Write the commit message
 as though someone will need to mine it. Someone will.**
 
 ## Failure modes observed in this project
@@ -1211,22 +1211,22 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-110 recorded defects, over 5 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+113 recorded defects, over 7 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 49 | 45% |
-| Found by measuring something | 32 | 29% |
-| A test caught it | 14 | 13% |
+| Found by reading the code or the output | 50 | 44% |
+| Found by measuring something | 33 | 29% |
+| A test caught it | 15 | 13% |
 | Found by rendering it and looking | 6 | 5% |
-| Found by a review bot or an adversarial pass | 5 | 5% |
+| Found by a review bot or an adversarial pass | 5 | 4% |
 | A person hit it | 2 | 2% |
 | A build guard caught it | 2 | 2% |
 
-**This is the most useful table in the book.** 108 of 110 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 111 of 113 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1237,11 +1237,11 @@ well enough to audit later. Which is what this book is.
 | --- | ---: |
 | Wrong data shown or stored | 43 |
 | Silent loss | 25 |
-| Degraded | 22 |
+| Degraded | 25 |
 | Cosmetic | 17 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 25 of 110. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 25 of 113. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
@@ -1250,20 +1250,20 @@ well enough to audit later. Which is what this book is.
 | --- | ---: |
 | Content generation | 42 |
 | Tests and guards | 19 |
-| Front end | 8 |
+| Front end | 9 |
 | Search and metadata | 7 |
 | Build system | 7 |
+| Scoring and selection | 6 |
 | Infrastructure and deploy | 6 |
 | CSS and layout | 5 |
 | Payments | 5 |
-| Scoring and selection | 4 |
 | Database | 4 |
 | Interface and data display | 3 |
 
 
 ## Guard coverage
 
-104 of 110 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+107 of 113 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1284,7 +1284,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-31 of 110 incidents record that they repeat an earlier lesson, 46 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+32 of 113 incidents record that they repeat an earlier lesson, 47 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1311,8 +1311,9 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0097 Every reading inference question asked about something the passage never mentions | INC-0102 | 1 |
 | INC-0104 Half the school pages opened with a data note pasted into a sentence, and the structured data repeated it | INC-0105 | 1 |
 | INC-0105 Twelve average salaries were published as medians, and the social queue credited schools with figures they never published | INC-0106 | 1 |
+| INC-0110 A browser suite outside CI had failed on its first click since the consent dialog shipped | INC-0113 | 1 |
 
-The largest family runs to 27 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
+The largest family runs to 28 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
 
 Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.
 
@@ -2110,7 +2111,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** Run every browser suite when a site-wide element such as a modal ships, because a test nobody runs is a claim about the past. Every suite that loads a page with empty storage meets the new element before anything it was written to check.
 
 
-## Front end (8)
+## Front end (9)
 
 
 ### INC-0001. Unescaped quotes in onclick strings took the whole app down
@@ -2217,6 +2218,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** Anything that reports failures must not be able to report its own. Check whether each call rejects or throws before you wrap it, and make the reporting path unable to re-enter itself.
 
 
+### INC-0113. The GMAT trainer's first question on a slow connection took twice as long as when the bank split shipped
+
+*2026-09-26, Degraded*
+
+- **What was seen.** src/smoke_load.js measured 21.7 seconds to the first GMAT question on its 3G profile (400 kbit/s, 400 ms latency) against a 15 second budget, and main failed identically. The two-stage bank load had put the same measurement at 11.0 seconds when it shipped. ACT was 13.8, LSAT 11.0, SAT 9.4 and GRE 7.0 on the same run.
+- **Why.** The deferred bank chunks were written into the page as async script tags immediately after the blocking bank.js. Async only means the tag does not block parsing; the preload scanner still finds it and starts the download at once, so on a slow connection the one file a first question needs shared its bandwidth with 30 MB it does not. The GMAT remainder was later split into two chunks to stay under Cloudflare's 25 MiB asset limit, which made three concurrent downloads instead of two and is why GMAT degraded most. The suite that measures it is not in ci.yml, so nothing ran it after the chunking.
+- **How it surfaced.** Found on 2026-09-26 by running every browser suite by hand before committing, including the ones CI does not run. It failed on this branch and on main, the second measured from a separate worktree built from origin/main. (A test caught it)
+- **Fix.** The chunk tags are no longer in the markup. A small inline loader adds them after the page's load event, when the browser is idle, so nothing a student is waiting for competes with them. On the same profile the first question now appears in 10.1 seconds for GMAT, 7.5 for ACT, 7.4 for LSAT, 6.5 for SAT and 5.2 for GRE. Unthrottled, GMAT moved from about 0.5 to about 1.0 seconds in the suite, because the suite starts a round at the instant the page loads, which is when the idle parse of the chunks begins; a person who clicks a second later does not meet it.
+- **What stops it now.** src/smoke_load.js passes within its 15 second budget for all five trainers again. The gap that let this sit is named: smoke_load is not in ci.yml. Adding it would put a timing measurement on shared CI runners, where it may be noisy, so it stays a manual pre-push suite, and this record is the reminder to run it after any change to how the bank is split or loaded.
+- **Lesson.** Async on a script tag decides when it runs, not when it downloads, so an async tag still competes for bandwidth with everything the page is waiting for. Load what the first screen does not need after the first screen exists, and re-measure the slow path whenever a file is split, because splitting changes the number of downloads competing at once.
+
+
 ## Search and metadata (7)
 
 
@@ -2299,10 +2312,10 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 *2026-09-26, Silent loss*
 
-- **What was seen.** The MCAT and Executive Assessment guides were withdrawn on 2026-09-18 because their official sources could not be re-verified. Search Console for the five weeks to 2026-09-24 still showed 220 impressions for /exams/mcat/ and 82 for /exams/executive-assessment/, the second at an average position of 9.6, with queries like 'executive assessment test cost'. Both URLs answered 404, and the 404 page is the GMAT trainer, so a searcher looking for the Executive Assessment landed in a GMAT app with no word about what had happened.
+- **What was seen.** The MCAT and Executive Assessment guides were withdrawn on 2026-09-18 because their official sources could not be re-verified. Search Console for the five weeks to 2026-09-24 still showed 220 impressions for /exams/mcat/ and 82 for /exams/executive-assessment/, the second at an average position of 9.6, with queries like 'executive assessment test cost'. Both URLs answered 404, and the 404 page is the GMAT trainer, so a searcher looking for the Executive Assessment landed in a GMAT app with no word about what had happened. llms.txt, the file written for answer engines, still listed both guides among the exam guides the site publishes.
 - **Why.** Withdrawing a page was treated as deleting a file. Nothing in the build or the deploy knows which URLs used to exist, so nothing asked what a visitor arriving at one should see, and the generic 404 handling that suits a mistyped URL was applied to a URL search engines were still ranking.
 - **How it surfaced.** Found on 2026-09-26 in the owner's Search Console export: both URLs appear in the top pages list with impressions after their removal date, and fetching them from this environment returned 404. (Found by measuring something)
-- **Fix.** src/worker.mjs keeps a RETIRED table of withdrawn paths and answers each with a 301 to the exams hub, on either hostname, with or without the trailing slash, keeping the query string. The hub says which exams are covered. An entry is removed when its page returns.
+- **Fix.** src/worker.mjs keeps a RETIRED table of withdrawn paths and answers each with a 301 to the exams hub, on either hostname, with or without the trailing slash, keeping the query string. The hub says which exams are covered. An entry is removed when its page returns. llms.txt now lists the five exams actually covered and says the other two were withdrawn and why.
 - **What stops it now.** src/smoke_redirect.js asserts the retired paths redirect in one hop and that /exams/ itself and lookalike paths are served normally. The recorded practice is the larger guard: withdrawing a page means adding it to RETIRED in the same change.
 - **Lesson.** A URL that search engines know is not the site's to delete quietly; it belongs partly to everyone still linking to it. Removing the content is one decision and deciding what that address now says is another, and skipping the second one sends real visitors to whatever the 404 happens to be.
 
@@ -2396,6 +2409,85 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** The digest de-identifies incident references as it renders: a run of ids becomes 'two earlier defects' and a single one 'an earlier defect', capitalised when it opens a sentence. The book keeps the ids, because there they are links.
 - **What stops it now.** smoke_playbook refuses an incident id anywhere in the bootstrap pack, which is the audience boundary stated as an assertion rather than as a docstring in `src/smoke_playbook.js`
 - **Lesson.** A file generated for a different audience has to be read as that audience, not as the one that generated it. The size of this one was bounded and guarded; who it was for was written in a docstring and checked by nobody.
+
+
+## Scoring and selection (6)
+
+
+### INC-0040. The easier module was not easier
+
+*2026-09-16, Wrong data shown or stored, `81eecec` PR #30*
+
+- **What was seen.** An adaptive test routed weaker students to a second module that was supposed to be easier, and was not.
+- **Why.** The two modules were assembled without comparing their difficulty distributions.
+- **How it surfaced.** Measuring the mean difficulty of each module. (Found by measuring something)
+- **Fix.** Assemble the modules against a difficulty target and assert it.
+- **What stops it now.** module difficulty is asserted at build time in `src/test.js`
+- **Cost.** adaptive routing that did nothing
+- **Lesson.** If your system branches on difficulty, measure that the branches actually differ. A label is not a property.
+
+
+### INC-0005. The adaptive engine was learning from nobody
+
+*2026-09-17, Silent loss, `fc4114c` PR #39*
+
+- **What was seen.** The attempts table held zero rows in production while the app was plainly being used.
+- **Why.** Cloud.logAttempt returns early without a signed-in user, and the product deliberately requires no account. So the one path that recorded answers was the one path most users never took.
+- **How it surfaced.** Querying the production table and finding it empty. (Found by measuring something)
+- **Fix.** item_events: an unlinkable telemetry table with no user, session, device or address column, which is exactly why it needs no consent gate.
+- **What stops it now.** smoke_consent asserts the telemetry body carries no identifying field in `src/smoke_consent.js`
+- **Cost.** weeks of telemetry never recorded
+- **Lesson.** Check that your instrumentation fired at all before you trust anything built on it. An empty table looks identical to a quiet week.
+
+
+### INC-0006. Sentence equivalence items were unanswerable however well you answered
+
+*2026-09-17, Wrong data shown or stored, `fc4114c` PR #39*
+
+- **What was seen.** Every GRE sentence equivalence item graded as wrong.
+- **Why.** The items carry a two-element key and the engine graded by requiring an array of two, but answerInputs had no branch for that type, so they rendered as single pick and returned a scalar.
+- **How it surfaced.** Rendering and grading one item of every schema. (A test caught it)
+- **Fix.** Add the missing input branch.
+- **What stops it now.** smoke_items renders and grades one item from all 182 generator schemas at phone width in `src/smoke_items.js`
+- **Cost.** eleven items unusable since they shipped
+- **Lesson.** A type system spread across a renderer and a grader will drift. The cheapest guard is one that exercises every variant end to end, once.
+
+
+### INC-0051. Fixing repeats directly left a side door through passage groups
+
+*2026-09-21, Degraded, `65bd09d` PR #58*
+
+- **What was seen.** After a freshness gate cut avoidable repeats from 276 to 9 on one exam, one exam still served 117 and another 941 across 25 sittings.
+- **Why.** The gate picked an unserved anchor item, and then the group expansion pulled in every question sharing that passage, including the ones already answered. The gate was applied to the anchor and not to what the anchor dragged with it.
+- **How it surfaced.** A review bot counting avoidable repeats across 25 sittings per exam. (Found by a review bot or an adversarial pass)
+- **Fix.** The group keeps the anchor and any unseen sibling and drops the rest, so a group can never come back empty.
+- **What stops it now.** the review bot counts avoidable repeats and the number is pinned in `src/review_bot.js`
+- **Cost.** repeats persisting on two exams after the fix was believed complete
+- **Lesson.** When you add a filter, find every path that adds items after the filter runs. A gate on the entry point is not a gate on the set.
+
+
+### INC-0111. The question of the day promised to be the same for everyone and was not, and its streak punished a wrong answer
+
+*2026-09-26, Degraded*
+
+- **What was seen.** The trainer's Question of the Day card said 'One question, picked for everyone today'. The pick was pool[hash(date) % pool.length] over the live BANK, which grows when the deferred bank chunks arrive, so a student who opened it before the chunks loaded and one who opened it after were served different questions, and any deploy that changed the bank changed the day's question under students who had already answered it. Every hand-written ACT item belongs to a passage group, and the pool excluded passage items, so the ACT question of the day was always a generated item. Separately, the streak reset to zero on a wrong answer, so the card asking people to build a daily habit counted accuracy and punished exactly the students who showed up and missed.
+- **Why.** The pick was computed from whatever array was in memory at the moment of the click, and nothing about the design had a notion of a question being assigned to a date independently of the bank. The streak rule was written as a correctness streak and labelled as a habit.
+- **How it surfaced.** Found on 2026-09-26 while designing public daily pages from the recurring-traffic research, which reported the reset-on-wrong rule as working against the evidence on streaks, and by reading how the pick would behave once a published archive needed the same question for a date to stay put. (Found by reading the code or the output)
+- **Fix.** Questions are assigned to dates in data/daily/schedule.json, written once by src/daily.js from hand-written items only and only ever appended to. The trainer, the public /daily/ pages and their archive read the same schedule. The streak lives in src/daily_streak.js, shared by both: it counts days answered, right or wrong, keeps the accuracy run as a separate personal best, and earns a freeze every seven days, at most two, spent automatically on a missed day. Passage items are served with their passage, so ACT has hand-written daily questions.
+- **What stops it now.** The build runs src/daily.js check and fails if a scheduled id is missing from its hand-written bank, can no longer stand alone, or repeats, and warns when fewer than 30 days remain scheduled. src/smoke_daily.js plays the live page on a fixed date and asserts it serves the scheduled question, that a wrong answer still counts as a day, that the share text carries no question or answer, and that a second visit cannot re-answer.
+- **Lesson.** Anything a page promises is the same for everyone has to be assigned, stored and served, not recomputed from whatever happens to be loaded, because the recomputation will eventually run against different inputs. And name a metric for what it counts: a streak that resets on a wrong answer is an accuracy score, and calling it a habit discourages the people it was meant to keep.
+
+
+### INC-0112. Weakest-first selection starved skills for struggling students, down to none at all
+
+*2026-09-26, Degraded*
+
+- **What was seen.** In a 140 question sitting simulated with the engine's own response model, a student at about 35 percent accuracy on the fifteen-skill ACT got 0.6 questions on average on their least-practised skill, several skills got none, and 5.2 of the 15 stayed under the five attempts after which the dashboard stops saying 'calibrating'. GMAT and LSAT struggling students showed the same pattern at one question at worst. The dashboard could therefore say nothing about a third of the ACT skills for exactly the students who most needed to know. The roadmap had recorded a milder version (Two-Part Analysis at 2 attempts in 120) as a tuning question for the owner.
+- **Why.** pickQuestions gives 70 percent of every round to the three lowest-rated skills. A struggling student's practised skills fall below the starting rating while unpractised ones stay at it, so the unpractised skills rank as the student's strongest and are never chosen; the remaining 30 percent goes to whichever other skill has an item closest to the target difficulty, not round-robin. The diagnostic pass exits once half the skills have three attempts, which leaves the other half to that competition. The review bot measured reach across all sittings combined, so a skill each student touched once or not at all still counted as reached.
+- **How it surfaced.** Found on 2026-09-26 by simulating per-student coverage at six ability levels on all five exams, prompted by the owner's request to keep developing the algorithm and the open roadmap question. (Found by measuring something)
+- **Fix.** A coverage floor: a skill whose share of the student's attempts falls below half an even split takes a slot before weakness targeting fills the round, most starved first, capped at 30 percent of the round. The least-practised skill rose to 4.8 on ACT, 5.8 on GMAT and 6 on LSAT for struggling students, with no skill under three anywhere. Across three full-length seeds per exam: on GMAT, planted-weakness diagnosis stayed at 15 of 15 and the share of reported bands containing the true score went from 85 to 91 percent; on ACT, diagnosis went from 59 to 57 of 60 sittings, both above the 90 percent bar, and bands containing the true score from 65 to 77 percent. Coverage bought band accuracy and cost diagnosis two sittings in sixty. /scoring/ now explains how the next question is chosen, including the floor.
+- **What stops it now.** review_bot.js checks each sitting on its own: it fails if any simulated student gets no question on a skill the bank can serve and warns below three, reporting the least-practised skill per sitting. It failed on the engine as it was (0 at worst on ACT and GMAT) and passes on the fixed one.
+- **Lesson.** Measure an adaptive policy per student, not in aggregate: a pooled statistic averages the starved students with the well-served ones and reports a system that works. A targeting rule also needs a floor it can never trade away, because the students it concentrates hardest on are the ones whose picture of themselves it leaves emptiest.
 
 
 ## Infrastructure and deploy (6)
@@ -2612,61 +2704,6 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **What stops it now.** priorState() is called before writeProfile in both the deleted and updated branches in `supabase/functions/stripe-webhook/index.ts`
 - **Cost.** would have reported zero churn forever
 - **Lesson.** When a write is destructive, capture what you need from the old value first. Ask what question you will want to answer after this row is gone.
-
-
-## Scoring and selection (4)
-
-
-### INC-0040. The easier module was not easier
-
-*2026-09-16, Wrong data shown or stored, `81eecec` PR #30*
-
-- **What was seen.** An adaptive test routed weaker students to a second module that was supposed to be easier, and was not.
-- **Why.** The two modules were assembled without comparing their difficulty distributions.
-- **How it surfaced.** Measuring the mean difficulty of each module. (Found by measuring something)
-- **Fix.** Assemble the modules against a difficulty target and assert it.
-- **What stops it now.** module difficulty is asserted at build time in `src/test.js`
-- **Cost.** adaptive routing that did nothing
-- **Lesson.** If your system branches on difficulty, measure that the branches actually differ. A label is not a property.
-
-
-### INC-0005. The adaptive engine was learning from nobody
-
-*2026-09-17, Silent loss, `fc4114c` PR #39*
-
-- **What was seen.** The attempts table held zero rows in production while the app was plainly being used.
-- **Why.** Cloud.logAttempt returns early without a signed-in user, and the product deliberately requires no account. So the one path that recorded answers was the one path most users never took.
-- **How it surfaced.** Querying the production table and finding it empty. (Found by measuring something)
-- **Fix.** item_events: an unlinkable telemetry table with no user, session, device or address column, which is exactly why it needs no consent gate.
-- **What stops it now.** smoke_consent asserts the telemetry body carries no identifying field in `src/smoke_consent.js`
-- **Cost.** weeks of telemetry never recorded
-- **Lesson.** Check that your instrumentation fired at all before you trust anything built on it. An empty table looks identical to a quiet week.
-
-
-### INC-0006. Sentence equivalence items were unanswerable however well you answered
-
-*2026-09-17, Wrong data shown or stored, `fc4114c` PR #39*
-
-- **What was seen.** Every GRE sentence equivalence item graded as wrong.
-- **Why.** The items carry a two-element key and the engine graded by requiring an array of two, but answerInputs had no branch for that type, so they rendered as single pick and returned a scalar.
-- **How it surfaced.** Rendering and grading one item of every schema. (A test caught it)
-- **Fix.** Add the missing input branch.
-- **What stops it now.** smoke_items renders and grades one item from all 182 generator schemas at phone width in `src/smoke_items.js`
-- **Cost.** eleven items unusable since they shipped
-- **Lesson.** A type system spread across a renderer and a grader will drift. The cheapest guard is one that exercises every variant end to end, once.
-
-
-### INC-0051. Fixing repeats directly left a side door through passage groups
-
-*2026-09-21, Degraded, `65bd09d` PR #58*
-
-- **What was seen.** After a freshness gate cut avoidable repeats from 276 to 9 on one exam, one exam still served 117 and another 941 across 25 sittings.
-- **Why.** The gate picked an unserved anchor item, and then the group expansion pulled in every question sharing that passage, including the ones already answered. The gate was applied to the anchor and not to what the anchor dragged with it.
-- **How it surfaced.** A review bot counting avoidable repeats across 25 sittings per exam. (Found by a review bot or an adversarial pass)
-- **Fix.** The group keeps the anchor and any unseen sibling and drops the rest, so a group can never come back empty.
-- **What stops it now.** the review bot counts avoidable repeats and the number is pinned in `src/review_bot.js`
-- **Cost.** repeats persisting on two exams after the fix was believed complete
-- **Lesson.** When you add a filter, find every path that adds items after the filter runs. A gate on the entry point is not a gate on the set.
 
 
 ## Database (4)
@@ -2923,6 +2960,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The GRE app told GRE students to calibrate at the wrong test maker's site (INC-0043)</small>
 - [ ] Anything that reports failures must not be able to report its own. Check whether each call rejects or throws before you wrap it, and make the reporting path unable to re-enter itself.  
   <small>The error reporter reported its own failures, in a loop (INC-0045)</small>
+- [ ] Async on a script tag decides when it runs, not when it downloads, so an async tag still competes for bandwidth with everything the page is waiting for. Load what the first screen does not need after the first screen exists, and re-measure the slow path whenever a file is split, because splitting changes the number of downloads competing at once.  
+  <small>The GMAT trainer's first question on a slow connection took twice as long as when the bank split shipped (INC-0113)</small>
 
 
 ## Infrastructure and deploy
@@ -2975,6 +3014,10 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The easier module was not easier (INC-0040)</small>
 - [ ] When you add a filter, find every path that adds items after the filter runs. A gate on the entry point is not a gate on the set.  
   <small>Fixing repeats directly left a side door through passage groups (INC-0051)</small>
+- [ ] Anything a page promises is the same for everyone has to be assigned, stored and served, not recomputed from whatever happens to be loaded, because the recomputation will eventually run against different inputs. And name a metric for what it counts: a streak that resets on a wrong answer is an accuracy score, and calling it a habit discourages the people it was meant to keep.  
+  <small>The question of the day promised to be the same for everyone and was not, and its streak punished a wrong answer (INC-0111)</small>
+- [ ] Measure an adaptive policy per student, not in aggregate: a pooled statistic averages the starved students with the well-served ones and reports a system that works. A targeting rule also needs a floor it can never trade away, because the students it concentrates hardest on are the ones whose picture of themselves it leaves emptiest.  
+  <small>Weakest-first selection starved skills for struggling students, down to none at all (INC-0112)</small>
 
 
 ## Search and metadata
@@ -3001,6 +3044,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A new browser suite hardcoded this machine's browser directory and crashed in CI (INC-0055)</small>
 - [ ] **Learned 3 times over.** Extracting a shared helper does not migrate the callers. The extraction fixes the file it was extracted from and leaves every sibling on the old path, which is INC-0059 and INC-0064 in a different costume: a correction applied to the instances in hand rather than to the pattern. Three suites had failed visibly and ten were wrong; the seven silent ones were found by the guard, not by reading. When a helper exists because a direct call was wrong, make the direct call fail the build, and let it enumerate the callers rather than enumerating them by hand.  
   <small>The browser path fix covered two suites and three others kept crashing (INC-0067)</small>
+- [ ] **Learned 2 times over.** Run every browser suite when a site-wide element such as a modal ships, because a test nobody runs is a claim about the past. Every suite that loads a page with empty storage meets the new element before anything it was written to check.  
+  <small>A browser suite outside CI had failed on its first click since the consent dialog shipped (INC-0110)</small>
 - [ ] Measure the moment the user can act, not a browser lifecycle event. A test that measures the wrong instant is worse than no test, because it produces a number people trust.  
   <small>The performance test waited for the load event, which waits for the thing being optimised (INC-0016)</small>
 - [ ] A regex with a length bound is a guard with an expiry date. Assert the number of things checked, not only that the checks passed.  
@@ -3033,8 +3078,6 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A review bot check whose verdict was three coin flips warned on an unrelated bank change (INC-0077)</small>
 - [ ] A ratchet is only read while it is quiet. One that fires on noise gets re-recorded as a reflex, and the re-recording is indistinguishable from accepting a real regression, so the mechanism that exists to catch regressions becomes the mechanism that launders them. Give a comparison the same error bars as the measurement it is made from, and fix the thing that fires wrongly before the habit of clearing it forms.  
   <small>A ratchet that trips on sampling noise gets re-recorded rather than read (INC-0089)</small>
-- [ ] Run every browser suite when a site-wide element such as a modal ships, because a test nobody runs is a claim about the past. Every suite that loads a page with empty storage meets the new element before anything it was written to check.  
-  <small>A browser suite outside CI had failed on its first click since the consent dialog shipped (INC-0110)</small>
 
 
 # Adapting This to a Different Business
@@ -3151,7 +3194,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 110 real defects reduced to the rules that prevent them,
+the whole project: 113 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -3191,7 +3234,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-110 defects already prevented is genuinely ahead, and every defect it hits
+113 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

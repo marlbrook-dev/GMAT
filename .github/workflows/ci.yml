@@ -37,7 +37,7 @@ jobs:
         run: npm install --no-audit --no-fund
       - name: Install Chromium for Playwright
         run: npx playwright install --with-deps chromium
-      - name: Browser suites (items, consent, billing, offline, business, guide)
+      - name: Browser suites (items, consent, billing, offline, business, guide, daily, games)
         run: npm run test:browser
       - name: Render the playbook to PDF
         run: node src/playbook_pdf.js
@@ -56,7 +56,8 @@ jobs:
           # own dash guard; the banned-source half of this policy was reaching blog/
           # only, so the guide was outside the one check that enforces it.
           pages = (list(pathlib.Path("blog").rglob("*.html"))
-                   + list(pathlib.Path("guide").rglob("*.html")))
+                   + list(pathlib.Path("guide").rglob("*.html"))
+                   + list(pathlib.Path("daily").rglob("*.html")))
           for f in pages:
               t = f.read_text()
               if "—" in t or "–" in t: bad.append(f"{f}: em/en dash")

@@ -89,6 +89,72 @@ it finds pages "primarily" through links from other sites and that changes can t
 outbound channels at the top of this file are the ranking work; the page work only makes
 sure that when a searcher does arrive, the answer they came for is the first thing they read.
 
+## What Brings People Back: Research and What We Built From It
+
+Written September 26, 2026. Search brings a visitor once; the products that grow on repeat
+visits give them a reason to return tomorrow. This is what the best of them do, read from
+their own pages the same day, and what it means here. Where a source could not be read it
+is named, not substituted.
+
+### What the evidence says
+
+| Mechanic | Who runs it | Evidence |
+|---|---|---|
+| One shared puzzle a day, the same for everyone | NYT Wordle; Chess.com daily puzzle; College Board's own SAT question of the day | satsuite.collegeboard.org/help-center/how-does-question-day-work; support.chess.com/en/articles/8708990-how-does-the-daily-puzzle-work |
+| A result you can share without spoiling it | Wordle's grid, adopted from a player's invention; Chess.com's share card | techcrunch.com/2022/01/12/josh-wardle-interview-wordle |
+| Streaks that protect the habit, with freezes | Duolingo: letting learners hold two freezes lifted daily actives 0.38 percent; learners who reach a 7 day streak are 3.6 times likelier to finish a course | blog.duolingo.com/how-duolingo-streak-builds-habit |
+| A streak that survives a wrong answer | Chess.com keeps the daily streak at zero hearts; Brilliant counts activity, not accuracy | support.chess.com (above); brilliant.org/help/features/what-is-a-streak |
+| Broken streaks lower engagement, repairable ones less so | Silverman and Barasch, Journal of Consumer Research | academic.oup.com/jcr/article-abstract/49/6/1095/6623414 |
+| Better reminder wording alone moves retention | Duolingo's bandit-chosen reminders: 0.5 percent more daily actives, 2.0 percent better new-user day 7 retention | research.duolingo.com/papers/yancey.kdd20.pdf |
+| Personal bests, no leaderboard | Lichess Puzzle Storm keeps bests by day; its FAQ: "Where there is a leaderboard, there is cheating." | lichess.org/page/storm |
+| Due-review queue as the daily session | Anki's spaced intervals mean some cards come due every day | docs.ankiweb.net/background.html |
+
+Page families that earn search traffic for comparable sites, all loaded on the same day:
+per-college admissions pages (PrepScholar, CollegeVine), per-school deadline pages under a
+hub (Clear Admit), score and superscore calculators (ACT's own superscore FAQ hosts one),
+dated daily question pages (Chess.com), and study plans by duration (Magoosh).
+
+**Could not be read**, and nothing here relies on them: nytimes.com and nytco.com, Duolingo's
+help center (renders empty), LeetCode, Quizlet and Khan Academy support pages (403), GMAT
+Club (403), kaptest.com (403), Niche (403), US News (503), Shiksha (403), and OpenAI's help
+pages on ChatGPT search (403).
+
+### What was built from it
+
+- **Daily Questions at /daily/**: one hand-written question per exam per day, fixed in advance
+  in data/daily/schedule.json so it is the same for everyone and never changes afterwards.
+  The trainer's Question of the Day now serves the same question. Every past day stays online
+  as a dated page with its answer and explanation, and each exam has an RSS feed.
+- **A streak that counts showing up.** The old one reset to zero on a wrong answer, which
+  punished exactly the people who came back. It now counts days answered, keeps accuracy as a
+  separate best run, and earns a freeze every seven days (two at most, never sold). It lives
+  only in the visitor's browser and is shared between the public pages and the trainer.
+- **A spoiler-free share**: exam, date, solved or missed, time and streak; never the question
+  and never the answer, which a test checks.
+- **Measured without identifying anyone**: each answer on /daily/ posts the same unlinkable row
+  the trainer already sends (item, option, right or wrong, seconds; no account, session,
+  device or address). Answers per day on /daily/ are the number to watch:
+  `select date(ts), count(*) from item_events where mode = 'daily' group by 1 order by 1`.
+
+### Next, in the order the evidence ranks them
+
+1. **An opt-in reminder email carrying the question.** Kaplan and ACT both deliver a daily
+   question to an inbox or account (kaplanquizzes.com; act.org free test prep). This needs an
+   owner decision on a sending provider, a consented list, a one-click unsubscribe, and a
+   privacy.html update before anything is collected.
+2. **Due-today flashcards on the dashboard and the daily page**, using the decks already
+   shipped, so there is a second reason to return that is about memory, not novelty.
+3. **Score calculators built only from published rules**: the ACT Composite (the average of
+   English, Mathematics and Reading, which ACT publishes) and superscores. Never a percentile
+   or a conversion table we cannot source.
+4. **Per-school MBA deadline pages**, which Clear Admit runs as a hub. Blocked on data: only
+   one school file carries a deadline, and each must come from the school's own page.
+5. **An ICS export of the application checklist**, so the dated tasks on /apply/ land in a
+   calendar that reminds the applicant instead of us.
+
+Left out on purpose: weekly leagues and percentile ranks (they rank people against each
+other), prize drawings (luck), and self-reported decision feeds (unsourced figures on the page).
+
 ## Revenue: What the Numbers Actually Support
 
 Written September 15, 2026, against real analytics rather than ambition. Every
