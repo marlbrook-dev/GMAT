@@ -359,6 +359,12 @@
         "src": "ETS",
         "year": 2026,
         "url": "https://www.ets.org/gre/score-users/reducing-barriers/fee-reductions.html"
+      },
+      {
+        "text": "Percentile ranks, the percentage of test takers who scored lower, from everyone who tested between July 1, 2022, and June 30, 2025: 160 is the 82nd percentile in Verbal Reasoning and the 50th in Quantitative Reasoning, 165 the 95th and 67th, 170 the 99th and 89th; the means are 151.39 in Verbal (standard deviation 8.43, 788,021 test takers), 157.62 in Quantitative (9.90, 790,864) and 3.46 in Analytical Writing",
+        "src": "ETS",
+        "year": 2026,
+        "url": "https://www.ets.org/content/dam/ets-org/pdfs/gre/gre-guide-table-1a.pdf"
       }
     ]
   },
@@ -633,6 +639,12 @@
         "src": "act.org",
         "year": 2026,
         "url": "https://www.act.org/content/act/en/students-and-parents/high-school-success/testing-advice-for-the-act/superscore-faqs.html"
+      },
+      {
+        "text": "National ranks for tests taken from September 2026 through August 2027, based on ACT-tested high school graduates of 2024, 2025 and 2026, give the percent of test takers at or below each score: a Composite of 20 is the 63rd percentile, 24 the 80th, 28 the 91st and 30 the 94th, and the mean Composite is 19.1 with a standard deviation of 6.1",
+        "src": "act.org",
+        "year": 2026,
+        "url": "https://www.act.org/content/act/en/products-and-services/the-act/scores/national-ranks.html"
       }
     ],
     "answer_choices": {
