@@ -96,6 +96,15 @@ aside College Scorecard figures, which come from a dataset rather than a page, l
 figure's `note` out because there it is our commentary, and reports a page that shows none
 of its figures as unread rather than wrong.
 
+A page can be quoted exactly and still be out of date: LSAC's LSAT FAQ went on describing
+"the 2025-2026 testing year" after LSAC moved almost every test taker into test centers
+(INC-0136). So for the exam guides the check also reports every fact cited to a page that
+says it covers a testing, academic or school year that has ended. Read the fact against a
+current page; if it still holds, record that on the fact, for example
+`"period_checked": {"periods": ["2025-2026"], "on": "2026-09-27", "why": "the specifications
+page, current for 2026-2027, still gives the same sections"}`, and the report stays quiet
+until the page names another ended year.
+
 The SAT and PSAT/NMSQT calculators' percentiles in `data/sat_percentiles.json` and
 `data/psat_percentiles.json` are College Board's, parsed from its research pages by
 `python3 src/sat_percentiles.py --write`, which also quotes each page's definitions word for
@@ -103,7 +112,11 @@ word, the fall 2026 Understanding Scores guides' rule that a total is the sum of
 section scores, the NMSC Selection Index rule from College Board's What Do My Scores Mean?
 page, and the PSAT/NMSQT guide's grade-level benchmarks, read off its table. Nothing in
 either file is typed. The weekly job runs `--check`, which re-reads both pages and reports
-any cell, row or definition that changed.
+any cell, row or definition that changed. The LSAT percentile calculator's table in
+`data/lsat_percentiles.json` is LSAC's, parsed the same way by `python3 src/lsat_percentiles.py
+--write` from LSAC's Data Library, with LSAC's own sentences on the scale, the score report
+and score bands quoted; its `--check` runs weekly too, since LSAC updates percentiles every
+year by the end of July.
 
 ## SAT, as encoded in `src/engine.js`
 

@@ -423,7 +423,8 @@
       "text": "Four 35-minute multiple-choice sections with a 10-minute intermission between the second and third, about 3 hours for standard test takers. Two scored Logical Reasoning sections and one scored Reading Comprehension section, plus one unscored section of either type that can occur at any point. LSAC publishes no per-section question count, so ours are null rather than estimated",
       "src": "LSAC",
       "year": 2026,
-      "url": "https://www.lsac.org/lsat/frequently-asked-questions-about-lsat"
+      "url": "https://www.lsac.org/lsat/frequently-asked-questions-about-lsat",
+      "period_checked": {"periods": ["2025-2026"], "on": "2026-09-27", "why": "LSAC's specifications page, which covers the 2026-2027 administrations, still gives four 35-minute sections, one Reading Comprehension, two Logical Reasoning and one unscored variable section, with the 10-minute intermission between the second and third"}
     },
     "total_time": {
       "text": "Four 35-minute multiple-choice sections, one Reading Comprehension, two Logical Reasoning and one unscored variable section, with a 10-minute intermission between the second and third sections, plus a separately administered and unscored LSAT Argumentative Writing sample",
@@ -445,10 +446,10 @@
       "url": "https://www.lsac.org/lsat/lsat-scoring"
     },
     "delivery": {
-      "text": "Most test takers choose between an online, live remote-proctored test and in-person testing at a Prometric digital testing center",
+      "text": "Starting with the August 2026 LSAT, the multiple-choice portion of the LSAT is moving toward in-center testing for almost all test takers, with limited exceptions",
       "src": "LSAC",
-      "year": 2025,
-      "url": "https://www.lsac.org/lsat/frequently-asked-questions-about-lsat"
+      "year": 2026,
+      "url": "https://www.lsac.org/lsat/about/lsat-remote-testing-distance-exceptions"
     },
     "retake_policy": {
       "text": "Up to 5 times within the current reportable score period (about the past five testing years) and 7 times in a lifetime; test takers who score a perfect 180 within the current reportable period may not retake",
@@ -479,7 +480,8 @@
         "text": "Starting with the August 2024 LSAT, the multiple-choice portion is two scored Logical Reasoning sections and one scored Reading Comprehension section, so Analytical Reasoning (logic games) no longer appears",
         "src": "LSAC",
         "year": 2026,
-        "url": "https://www.lsac.org/lsat/frequently-asked-questions-about-lsat"
+        "url": "https://www.lsac.org/lsat/frequently-asked-questions-about-lsat",
+        "period_checked": {"periods": ["2025-2026"], "on": "2026-09-27", "why": "LSAC's specifications page, which covers the 2026-2027 administrations, still gives two scored Logical Reasoning sections and one scored Reading Comprehension section"}
       },
       {
         "text": "LSAT scores are reportable for up to five testing years after the testing year in which the score is earned",
@@ -626,10 +628,11 @@
     },
     "key_facts": [
       {
-        "text": "The enhanced ACT became available for National online testing in April 2025 and on paper for the National Saturday test in September 2025; for State and District Testing it arrives on paper in spring 2026",
+        "text": "The enhanced ACT became available for National online testing in April 2025 and on paper for the National Saturday test in September 2025; for State and District Testing, ACT gives spring 2026 as the start, online and on paper",
         "src": "ACT",
         "year": 2026,
-        "url": "https://www.act.org/content/act/en/products-and-services/the-act-educator/the-act-test/enhancements-k12/faqs.html"
+        "url": "https://www.act.org/content/act/en/products-and-services/the-act-educator/the-act-test/enhancements-k12/faqs.html",
+        "period_checked": {"periods": ["2025-2026"], "on": "2026-09-27", "why": "the page's 2025-2026 mention is a footnote on PreACT; its dates for the enhanced ACT are unchanged"}
       },
       {
         "text": "The Composite is the average of the English, math and reading scores, rounded to the nearest whole number; science was phased out of it for National online testing in April 2025 and for all ACT tests in September 2025. Students who take science also receive a STEM score, the average of math and science",
@@ -641,7 +644,8 @@
         "text": "Whether science is administered in ACT State and District Testing is decided at the contract level, so a student testing through their school may still sit it",
         "src": "ACT",
         "year": 2026,
-        "url": "https://www.act.org/content/act/en/products-and-services/the-act-educator/the-act-test/enhancements-k12/faqs.html"
+        "url": "https://www.act.org/content/act/en/products-and-services/the-act-educator/the-act-test/enhancements-k12/faqs.html",
+        "period_checked": {"periods": ["2025-2026"], "on": "2026-09-27", "why": "the page's 2025-2026 mention is a footnote on PreACT; its answer on State and District Testing is unchanged"}
       },
       {
         "text": "ACT supports superscoring: the superscore averages your best English, Math, and Reading section scores across test attempts",

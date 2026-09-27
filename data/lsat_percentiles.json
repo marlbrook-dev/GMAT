@@ -1,0 +1,349 @@
+{
+ "what": "LSAC's LSAT percentile table: for every score from 120 to 180, the percentage of test scores lower than it in the three testing years the table covers.",
+ "src": "LSAC",
+ "year": 2026,
+ "url": "https://www.lsac.org/data-research/data/lsat-percentiles",
+ "title": "LSAT Percentiles",
+ "read": "2026-09-27",
+ "window": [
+  "2023-2024",
+  "2024-2025",
+  "2025-2026"
+ ],
+ "definition": "The percentile rank for any given test score, reported in the second through fourth columns of the table, is the percentage of test scores that are lower than the given scaled score.",
+ "ranks": {
+  "180": {
+   "hundredths": "99.85",
+   "tenths": "99.8",
+   "whole": "99"
+  },
+  "179": {
+   "hundredths": "99.74",
+   "tenths": "99.7",
+   "whole": "99"
+  },
+  "178": {
+   "hundredths": "99.57",
+   "tenths": "99.6",
+   "whole": "99"
+  },
+  "177": {
+   "hundredths": "99.34",
+   "tenths": "99.3",
+   "whole": "99"
+  },
+  "176": {
+   "hundredths": "99.08",
+   "tenths": "99.1",
+   "whole": "99"
+  },
+  "175": {
+   "hundredths": "98.72",
+   "tenths": "98.7",
+   "whole": "99"
+  },
+  "174": {
+   "hundredths": "98.24",
+   "tenths": "98.2",
+   "whole": "98"
+  },
+  "173": {
+   "hundredths": "97.59",
+   "tenths": "97.6",
+   "whole": "98"
+  },
+  "172": {
+   "hundredths": "96.72",
+   "tenths": "96.7",
+   "whole": "97"
+  },
+  "171": {
+   "hundredths": "95.77",
+   "tenths": "95.8",
+   "whole": "96"
+  },
+  "170": {
+   "hundredths": "94.48",
+   "tenths": "94.5",
+   "whole": "94"
+  },
+  "169": {
+   "hundredths": "93.03",
+   "tenths": "93.0",
+   "whole": "93"
+  },
+  "168": {
+   "hundredths": "91.36",
+   "tenths": "91.4",
+   "whole": "91"
+  },
+  "167": {
+   "hundredths": "89.53",
+   "tenths": "89.5",
+   "whole": "90"
+  },
+  "166": {
+   "hundredths": "87.49",
+   "tenths": "87.5",
+   "whole": "87"
+  },
+  "165": {
+   "hundredths": "85.17",
+   "tenths": "85.2",
+   "whole": "85"
+  },
+  "164": {
+   "hundredths": "82.75",
+   "tenths": "82.8",
+   "whole": "83"
+  },
+  "163": {
+   "hundredths": "80.05",
+   "tenths": "80.1",
+   "whole": "80"
+  },
+  "162": {
+   "hundredths": "77.20",
+   "tenths": "77.2",
+   "whole": "77"
+  },
+  "161": {
+   "hundredths": "74.22",
+   "tenths": "74.2",
+   "whole": "74"
+  },
+  "160": {
+   "hundredths": "71.06",
+   "tenths": "71.1",
+   "whole": "71"
+  },
+  "159": {
+   "hundredths": "67.93",
+   "tenths": "67.9",
+   "whole": "68"
+  },
+  "158": {
+   "hundredths": "64.48",
+   "tenths": "64.5",
+   "whole": "64"
+  },
+  "157": {
+   "hundredths": "61.04",
+   "tenths": "61.0",
+   "whole": "61"
+  },
+  "156": {
+   "hundredths": "57.62",
+   "tenths": "57.6",
+   "whole": "58"
+  },
+  "155": {
+   "hundredths": "54.03",
+   "tenths": "54.0",
+   "whole": "54"
+  },
+  "154": {
+   "hundredths": "50.43",
+   "tenths": "50.4",
+   "whole": "50"
+  },
+  "153": {
+   "hundredths": "46.93",
+   "tenths": "46.9",
+   "whole": "47"
+  },
+  "152": {
+   "hundredths": "43.37",
+   "tenths": "43.4",
+   "whole": "43"
+  },
+  "151": {
+   "hundredths": "39.81",
+   "tenths": "39.8",
+   "whole": "40"
+  },
+  "150": {
+   "hundredths": "36.56",
+   "tenths": "36.6",
+   "whole": "37"
+  },
+  "149": {
+   "hundredths": "33.24",
+   "tenths": "33.2",
+   "whole": "33"
+  },
+  "148": {
+   "hundredths": "30.07",
+   "tenths": "30.1",
+   "whole": "30"
+  },
+  "147": {
+   "hundredths": "27.06",
+   "tenths": "27.1",
+   "whole": "27"
+  },
+  "146": {
+   "hundredths": "24.20",
+   "tenths": "24.2",
+   "whole": "24"
+  },
+  "145": {
+   "hundredths": "21.48",
+   "tenths": "21.5",
+   "whole": "21"
+  },
+  "144": {
+   "hundredths": "19.04",
+   "tenths": "19.0",
+   "whole": "19"
+  },
+  "143": {
+   "hundredths": "16.73",
+   "tenths": "16.7",
+   "whole": "17"
+  },
+  "142": {
+   "hundredths": "14.61",
+   "tenths": "14.6",
+   "whole": "15"
+  },
+  "141": {
+   "hundredths": "12.66",
+   "tenths": "12.7",
+   "whole": "13"
+  },
+  "140": {
+   "hundredths": "11.00",
+   "tenths": "11.0",
+   "whole": "11"
+  },
+  "139": {
+   "hundredths": "9.44",
+   "tenths": "9.4",
+   "whole": "9"
+  },
+  "138": {
+   "hundredths": "8.05",
+   "tenths": "8.1",
+   "whole": "8"
+  },
+  "137": {
+   "hundredths": "6.89",
+   "tenths": "6.9",
+   "whole": "7"
+  },
+  "136": {
+   "hundredths": "5.86",
+   "tenths": "5.9",
+   "whole": "6"
+  },
+  "135": {
+   "hundredths": "4.96",
+   "tenths": "5.0",
+   "whole": "5"
+  },
+  "134": {
+   "hundredths": "4.22",
+   "tenths": "4.2",
+   "whole": "4"
+  },
+  "133": {
+   "hundredths": "3.57",
+   "tenths": "3.6",
+   "whole": "4"
+  },
+  "132": {
+   "hundredths": "3.02",
+   "tenths": "3.0",
+   "whole": "3"
+  },
+  "131": {
+   "hundredths": "2.54",
+   "tenths": "2.5",
+   "whole": "3"
+  },
+  "130": {
+   "hundredths": "2.17",
+   "tenths": "2.2",
+   "whole": "2"
+  },
+  "129": {
+   "hundredths": "1.85",
+   "tenths": "1.8",
+   "whole": "2"
+  },
+  "128": {
+   "hundredths": "1.58",
+   "tenths": "1.6",
+   "whole": "2"
+  },
+  "127": {
+   "hundredths": "1.37",
+   "tenths": "1.4",
+   "whole": "1"
+  },
+  "126": {
+   "hundredths": "1.20",
+   "tenths": "1.2",
+   "whole": "1"
+  },
+  "125": {
+   "hundredths": "1.04",
+   "tenths": "1.0",
+   "whole": "1"
+  },
+  "124": {
+   "hundredths": "0.93",
+   "tenths": "0.9",
+   "whole": "1"
+  },
+  "123": {
+   "hundredths": "0.83",
+   "tenths": "0.8",
+   "whole": "1"
+  },
+  "122": {
+   "hundredths": "0.76",
+   "tenths": "0.8",
+   "whole": "1"
+  },
+  "121": {
+   "hundredths": "0.66",
+   "tenths": "0.7",
+   "whole": "1"
+  },
+  "120": {
+   "hundredths": "0.00",
+   "tenths": "0.0",
+   "whole": "0"
+  }
+ },
+ "scale": {
+  "text": "The LSAT scale ranges from 120 to 180, with 120 being the lowest possible score and 180 being the highest possible score.",
+  "src": "LSAC",
+  "year": 2026,
+  "url": "https://www.lsac.org/lsat/lsat-scoring",
+  "title": "LSAT Scoring"
+ },
+ "report": {
+  "text": "Your percentile rank, which reflects the percentage of test takers whose scores were lower than yours during the previous three testing years. Note that percentiles for all reported scores will be updated every year by the end of July.",
+  "src": "LSAC",
+  "year": 2026,
+  "url": "https://www.lsac.org/lsat/lsat-scoring",
+  "title": "LSAT Scoring"
+ },
+ "years": {
+  "text": "LSAT testing years run from July 1 through June 30.",
+  "src": "LSAC",
+  "year": 2026,
+  "url": "https://www.lsac.org/lsat/lsat-scoring",
+  "title": "LSAT Scoring"
+ },
+ "band": {
+  "text": "The score band indicates a range of scores, including scores slightly higher and slightly lower than the score received, because a test taker's actual proficiency in the skills tested on the LSAT may be slightly higher or slightly lower than that reflected by the score received on an officially administered LSAT.",
+  "src": "LSAC",
+  "year": 2026,
+  "url": "https://www.lsac.org/lsat/lsat-scoring/lsat-score-bands",
+  "title": "LSAT Score Bands"
+ }
+}

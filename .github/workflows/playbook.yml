@@ -123,8 +123,13 @@ jobs:
           echo "== SAT and PSAT/NMSQT percentile tables (data/sat_percentiles.json, data/psat_percentiles.json)" >> /tmp/sources.txt
           python3 src/sat_percentiles.py --check >> /tmp/sources.txt 2>&1
           sat=$?
+          # LSAC's LSAT percentile table, which LSAC updates every year by the end of July.
+          echo "" >> /tmp/sources.txt
+          echo "== LSAT percentile table (data/lsat_percentiles.json)" >> /tmp/sources.txt
+          python3 src/lsat_percentiles.py --check >> /tmp/sources.txt 2>&1
+          lsat=$?
           cat /tmp/sources.txt
-          if [ "$exams" = "1" ] || [ "$schools" = "1" ] || [ "$sat" = "1" ]; then echo "stale=true" >> "$GITHUB_OUTPUT"; else echo "stale=false" >> "$GITHUB_OUTPUT"; fi
+          if [ "$exams" = "1" ] || [ "$schools" = "1" ] || [ "$sat" = "1" ] || [ "$lsat" = "1" ]; then echo "stale=true" >> "$GITHUB_OUTPUT"; else echo "stale=false" >> "$GITHUB_OUTPUT"; fi
       - name: Open an issue when a fact no longer matches its source
         if: steps.sources.outputs.stale == 'true'
         uses: actions/github-script@v7
@@ -140,13 +145,16 @@ jobs:
             const existing = open.data.find(i => i.title === title);
             const text = [
               'The weekly check read every page that `data/exams.json` and the school library cite, and',
-              'College Board\'s SAT and PSAT/NMSQT percentile pages, and found numbers that those pages no longer print.',
+              'the SAT, PSAT/NMSQT and LSAT percentile pages, and found numbers that those pages no longer print,',
+              'or facts resting on a page that describes a year which has ended.',
               '',
               'Read each page. If the figure changed, correct the fact and every post that',
               'repeats it. If the fact is arithmetic on the page, add a `derived` entry',
               'with the working. If it is a paraphrase the check cannot see, reword the fact',
-              'to the page. Run `python3 src/check_sources.py` to confirm. If the SAT or PSAT tables changed,',
-              'run `python3 src/sat_percentiles.py --write`, read the diff, and rebuild.',
+              'to the page. If a fact rests on a page about an ended year, read it against a current page and',
+              'correct it, or record in its `period_checked` why it still holds. Run `python3 src/check_sources.py`',
+              'to confirm. If a percentile table changed, run `python3 src/sat_percentiles.py --write` or',
+              '`python3 src/lsat_percentiles.py --write`, read the diff, and rebuild.',
               '',
               '```',
               body.trim(),

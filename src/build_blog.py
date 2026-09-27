@@ -101,6 +101,26 @@ def split_live(posts):
     if not live: fail("no publishable posts found in src/blog/")
     return live
 
+# A post is written ahead and published by date, so it carries the product as it stood on
+# the day it was written. lsat-format-scoring-guide was queued saying the LSAT trainer was
+# in development, eleven days after it went live (INC-0137).
+NOT_LIVE = re.compile(r"in development|coming soon|wait ?list|not (?:yet )?live", re.I)
+
+
+def stale_trainer_claims(p):
+    """Sentences in a post, body or FAQ, that call a trainer unfinished when it is live."""
+    from build_exams import LIVE
+    short = {e["slug"]: e["short"] for e in json.loads((ROOT / "data" / "exams.json").read_text())}
+    text = html.unescape(re.sub(r"<[^>]+>", " ", p["body"] + " " + " ".join(
+        str(q.get("q", "")) + " " + str(q.get("a", "")) for q in p["faq"])))
+    out = []
+    for sentence in re.split(r"(?<=[.!?])\s+", re.sub(r"\s+", " ", text)):
+        if NOT_LIVE.search(sentence) and any(
+                re.search(r"\b%s\b" % re.escape(short[x]), sentence) for x in LIVE if x in short):
+            out.append(sentence.strip())
+    return out
+
+
 def validate(posts):
     slugs = {p["slug"] for p in posts}
     known = sourced_usd()
@@ -131,6 +151,10 @@ def validate(posts):
                  f"sourced data (data/exams.json, the EDITORIAL fact sheet, data/schools); source "
                  f"the figure there before a post prints it (INC-0124)")
         if re.search(r"<h1[\s>]", p["body"]): fail(f"{n}: body must not contain h1")
+        stale = stale_trainer_claims(p)
+        if stale:
+            fail(f"{n}: calls a live trainer unfinished: {stale[0][:200]!r}; say it is live and "
+                 f"link it (INC-0137)")
         if p["category"] != "Company News":
             sib = re.findall(r'href="/blog/([a-z0-9-]+)/"', p["body"])
             missing = [s for s in sib if s not in slugs]

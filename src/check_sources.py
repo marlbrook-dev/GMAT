@@ -27,6 +27,7 @@ figure, and only reading the source tells which.
 
 It needs the network, so it runs in the weekly audit rather than in the build.
 """
+import datetime
 import hashlib
 import html
 import io
@@ -204,6 +205,24 @@ def check(fact, source_nums):
     return missing
 
 
+# A page that describes itself as covering a year: "For the 2025-2026 testing year, the LSAT
+# fee is $253." LSAC left that page up after the year ended, and a fact cited to it stayed
+# wrong in words the number check could not see (INC-0136).
+PERIOD = re.compile(r"\b[Ff]or the (\d{4})[-\u2013](\d{4}|\d{2}) (?:testing|academic|school|application|"
+                    r"admissions|award|reporting) year\b")
+
+
+def ended_periods(text, today):
+    """The periods a page says it covers that ended before `today`, as 'YYYY-YYYY'. A
+    testing or school year ends by June 30 of its second year."""
+    out = set()
+    for a, b in PERIOD.findall(text):
+        end = int(b) if len(b) == 4 else int(a[:2] + b)
+        if datetime.date(end, 6, 30) < today:
+            out.add("%s-%d" % (a, end))
+    return sorted(out)
+
+
 def main(argv):
     cache = None
     if "--cache" in argv:
@@ -217,7 +236,8 @@ def main(argv):
     todo = facts(records)
     dataset = [t for t in todo if "scorecard" in str(t[2].get("src", "")).lower()]
     todo = [t for t in todo if t not in dataset]
-    sources, unread = {}, {}
+    sources, unread, periods = {}, {}, {}
+    today = datetime.date.fromisoformat(os.environ.get("BLOG_BUILD_DATE") or datetime.date.today().isoformat())
     for url in sorted({f["url"] for _, _, f in todo}):
         try:
             text = fetch(url, cache)
@@ -236,6 +256,7 @@ def main(argv):
                 raise RuntimeError("only %d characters of text, a bot challenge or a page "
                                    "built by JavaScript" % len(text))
             sources[url] = numbers(text, words=True)
+            periods[url] = ended_periods(text, today)
         except Exception as e:
             unread[url] = "%s: %s" % (type(e).__name__, e)
     # A page that prints none of the figures cited to it, when two or more are, has not
@@ -265,16 +286,31 @@ def main(argv):
             print("    %s" % str(f.get("text") or f.get("v"))[:220])
             for n, why in miss:
                 print("    %s: %s" % (n, why))
+    # The exam guides only: a school's fee page naming last year is the tuition queue's
+    # business, and a reason to read the page rather than a fact about the exam.
+    stale = 0
+    if "--schools" not in argv:
+        for slug, where, f in todo:
+            ended = periods.get(f["url"]) or []
+            seen = set((f.get("period_checked") or {}).get("periods") or [])
+            if ended and not set(ended) <= seen:
+                stale += 1
+                print("%s.%s  %s" % (slug, where, f["url"]))
+                print("    %s" % str(f.get("text") or f.get("v"))[:220])
+                print("    the page says it covers the %s %s, which has ended: read the fact against a "
+                      "current page, and if it still holds record that in its period_checked"
+                      % (", ".join(ended), "year" if len(ended) == 1 else "years"))
     for url in sorted(blank):
         print("shows none of its %d figures, probably built by JavaScript: %s"
               % (len(by_url[url]), url))
     for url, why in sorted(unread.items()):
         print("could not read %s (%s)" % (url, why))
     print("\n%d facts checked against %d sources; %d with a number their source does not "
-          "print; %d sources unreadable, %d showing none of their figures%s"
-          % (len(todo), len(sources), bad, len(unread), len(blank),
+          "print; %d resting on a page about a period that has ended; %d sources unreadable, "
+          "%d showing none of their figures%s"
+          % (len(todo), len(sources), bad, stale, len(unread), len(blank),
           "; %d dataset figures set aside" % len(dataset) if dataset else ""))
-    return 1 if bad else (2 if unread else 0)
+    return 1 if bad or stale else (2 if unread else 0)
 
 
 if __name__ == "__main__":
