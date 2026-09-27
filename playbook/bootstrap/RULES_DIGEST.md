@@ -1,14 +1,14 @@
 # Rules Digest
 
-Rules from 161 defects in a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
+Rules from 162 defects in a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
 
-Generated 2026-09-27 from a ledger spanning 8 days and 113 commits.
+Generated 2026-09-27 from a ledger spanning 8 days and 114 commits.
 
 ## Read this first
 
 The three ways defects were most often found, in order: found by reading the code or the output (85), found by measuring something (39), a test caught it (19). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
 
-The dominant failure mode is silent loss, 26 of 161: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
+The dominant failure mode is silent loss, 26 of 162: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
 
 ## Learned the hard way, more than once
 
@@ -40,6 +40,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (3 times, content generation) An edit that appends text has to read what it is appending to. A correction step that checks only its own goal (here, that the choice got longer) will happily achieve it by making the choice worse, and every check downstream measures the goal, so nothing notices.
 - (3 times, content generation) A figure written twice on one page will eventually be written two ways. Where the site already holds a sourced value, a page that states it should be checked against that value, because a reader who meets $4 and $5 for the same fee trusts neither.
 - (3 times, content generation) A presence check on a source field proves the field is filled, not that it is true.
+- (3 times, content generation) Anything written ahead of its publication date is a promise about the future made from the past.
 - (3 times, tests and guards) Loading a page is not the same as reading it. A chart can be a separate document inside the page that draws only when scrolled into view, and a page with trackers may never fall quiet, so a reader built for checking has to scroll like a person, collect every frame, and use waits that give up rather than hang.
 - (3 times, content generation) Finding a number on a page is not finding the fact. A check has to look for it beside the words that say what it counts, and notice when those words are about something else: another program, another class.
 - (3 times, content generation) A search result's snippet is not the page it links to. A figure taken from one has to be read again on the page before it is published, and a record that admits the snippet in a note while citing the page looks fully sourced, which is why nobody rereads it.
@@ -57,7 +58,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (2 times, content generation) A figure with a source and a year can still go stale, because the source moves and the record does not.
 - (2 times, content generation) When a parser must pull one value out of free text, anchor it to the words that give the value its meaning, not to its position, and return nothing when nothing anchors it: a sentence that says less is better than one that states a guess as fact.
 - (2 times, content generation) A citation is only as current as the page it points to, and publishers leave old pages up.
-- (2 times, content generation) Anything written ahead of its publication date is a promise about the future made from the past.
+- (2 times, search and metadata) Any sentence about your own product's state is data, and data belongs in one place: build the sentence from the source that knows, and check every page that could repeat it, including the text only search engines read.
 - (2 times, content generation) A label fixed in code is a claim about every value the field will ever hold. When the data carries its own qualifier, such as a timing or a statistic, the label has to be read from the data, and anything that compares or scores the values has to use only the ones that share the qualifier the method names.
 - (2 times, content generation) A fact filed next to another fact tends to inherit its citation. When two facts come from one section of a site, check that each one's own page says it, not the page its neighbour came from.
 - (2 times, tests and guards) A checker has to know when it has not read its source. A response is not the page because it has text in it: a challenge, an error page or a login wall reads as a page with none of the facts on it, and every fact then looks wrong.
@@ -110,18 +111,17 @@ These cost this build twice or more each. If you read nothing else here, read th
 - The moment a single-tenant store becomes multi-tenant, every key in it is a collision waiting to happen.
 - A conditional that treats not-A as the original case is a bug the day a third case exists.
 
-## Search and metadata
-
-- A refactor that moves data has to be followed to every reader, and a loop over nothing is the quietest failure in programming.
-- When one model feeds two pages, generate both from the model in the same pass. Two places that must agree will not, and the reader who notices is the reader you were trying to convince.
-- A URL that search engines know is not the site's to delete quietly; it belongs partly to everyone still linking to it.
-- Any sentence about your own product's state is data, and data belongs in one place: build the sentence from the source that knows, and check every page that could repeat it, including the text only search engines read.
-
 ## Build system
 
 - A parse guard covers the file shapes someone thought of. When the same code moves into a new shape, a separate file, a chunk, a worker, the guard does not follow it.
 - A guard keyed to wording is a guard on the wording, not the fact, and every synonym is a hole in it.
 - A heuristic stopping rule is right only when nothing better is known. Where the size of what is being collected is known exactly, stop at that size and check that it was reached.
+
+## Search and metadata
+
+- A refactor that moves data has to be followed to every reader, and a loop over nothing is the quietest failure in programming.
+- When one model feeds two pages, generate both from the model in the same pass. Two places that must agree will not, and the reader who notices is the reader you were trying to convince.
+- A URL that search engines know is not the site's to delete quietly; it belongs partly to everyone still linking to it.
 
 ## Scoring and selection
 
@@ -150,4 +150,4 @@ These cost this build twice or more each. If you read nothing else here, read th
 - In Postgres, revoking from every role you can name still leaves PUBLIC. Verify with the advisors or by reading the acl, never by reading your own migration.
 - An empty catch block around a write is a silent-loss defect waiting to be born. If a save can fail, the person must be told; a success toast that fires regardless of the result is worse than no toast, because it actively teaches the user the data is safe.
 
-53 more rules, each learned once from a less costly defect, did not fit a prompt sized digest. The checklist in BUILD_PLAYBOOK.md has every rule.
+54 more rules, each learned once from a less costly defect, did not fit a prompt sized digest. The checklist in BUILD_PLAYBOOK.md has every rule.
