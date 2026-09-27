@@ -2820,13 +2820,20 @@ function renderData(){ const el=document.getElementById('v-data'); const s=state
  else { const ab0=s.about||(s.about={}); const nowY0=new Date().getFullYear();
   const MO=['January','February','March','April','May','June','July','August','September','October','November','December'];
   const yrs=[]; for(let y=nowY0;y>=nowY0-100;y--) yrs.push(y);
-  auth='<div class="row"><input type="text" id="authEmail" placeholder="you@example.com" style="min-width:260px" value="'+esc(s.email||'')+'"></div>'
+  // This view is redrawn while someone may be typing into it: each deferred bank chunk
+  // redraws it to update the bank size, and so does the auth listener. What the fields
+  // hold now wins over what was last saved, or a redraw wipes a half-typed sign-in (INC-0149).
+  const now=id=>{ const e=document.getElementById(id); return e?e.value:null; };
+  const tE=now('authEmail'), tM=now('authMonth'), tY=now('authYear');
+  const emailV=tE!==null?tE:(s.email||'');
+  const monthV=tM!==null?(tM?+tM:null):ab0.birth_month, yearV=tY!==null?(tY?+tY:null):ab0.birth_year;
+  auth='<div class="row"><input type="text" id="authEmail" placeholder="you@example.com" style="min-width:260px" value="'+esc(emailV)+'"></div>'
    +'<div class="row" style="flex-wrap:wrap;margin-top:8px">'
    +'<label class="small">Birth month <select id="authMonth"><option value="">Month</option>'
-   +MO.map((m,k)=>'<option value="'+(k+1)+'"'+(ab0.birth_month===k+1?' selected':'')+'>'+m+'</option>').join('')
+   +MO.map((m,k)=>'<option value="'+(k+1)+'"'+(monthV===k+1?' selected':'')+'>'+m+'</option>').join('')
    +'</select></label>'
    +'<label class="small">Birth year <select id="authYear"><option value="">Year</option>'
-   +yrs.map(y=>'<option value="'+y+'"'+(ab0.birth_year===y?' selected':'')+'>'+y+'</option>').join('')
+   +yrs.map(y=>'<option value="'+y+'"'+(yearV===y?' selected':'')+'>'+y+'</option>').join('')
    +'</select></label></div>'
    +'<div class="row" style="margin-top:8px"><button class="btn" onclick="sendMagicLink()">Email Me a Sign-In Link</button></div>'
    +'<div class="small muted" style="margin:14px 0 8px;text-align:center">or continue with</div>'
