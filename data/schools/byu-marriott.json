@@ -134,7 +134,10 @@
    "stat": "students seeking employment placed within three months of graduation, Class of 2025",
    "src": "BYU Marriott MBA placement profile",
    "year": 2025,
-   "url": "https://marriott.byu.edu/mba/career/careers/placement-profile/"
+   "url": "https://marriott.byu.edu/mba/career/careers/placement-profile/",
+   "derived": {
+    "85": "count: printed in words, as Eighty-five percent"
+   }
   }
  },
  "notes": "Class profile page still shows Class of 2025 and publishes no GRE, classic GMAT, or acceptance rate. Placement profile gives medians only by function (94500 to 139250) and industry, no overall median base salary, so salary_median_usd stays null. Costs page publishes only the two-year tuition total with no academic year, so it is the whole program cost, not tuition a year (INC-0144).",
