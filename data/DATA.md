@@ -47,12 +47,18 @@ commentary on how it was read, and is neither printed nor checked, so it sits be
 
 `class_year` names the class the profile describes in words that say what the year is:
 "Class of 2027" for a graduating class, "Fall 2025 entering class" for the class that
-entered then, "2019-20" for a profile dated by academic year, or "Typical class profile
-(no class year stated)" when the page names none. A bare year is refused, because it
+entered then, "2019-20" for a profile dated by academic year, "Three-year average of the
+Classes of 2026, 2027 and 2028" for a profile that averages several classes and shows no
+single one (read as an average over all of them, never as its first class), or "Typical
+class profile (no class year stated)" when the page names none. A bare year is refused, because it
 cannot say which of those it means; six records used one for the year a page was read or
 the cycle it serves and were printed as a Class of that year (INC-0147). A figure takes
-the class its own `stat` or `src` names, else the record's; a figure whose `stat` says its
-page labels no class year takes none.
+the class its own `stat` names, else the one its `src` names, else the record's; a figure
+whose `stat` says its page labels no class year takes none.
+
+A figure is read on its page, never from a search result's snippet of the page: the
+validator refuses a published figure whose `stat`, `note` or `src` says snippet, because
+Rice's GMAT was taken from one and cited to an article that never prints it (INC-0151).
 
 `tuition_usd` is tuition for one year. `program_cost_usd` is the figure a school
 publishes for the whole program, for the schools that price the program and never a

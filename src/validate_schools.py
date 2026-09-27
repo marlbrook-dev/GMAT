@@ -35,10 +35,16 @@ RANK_KEYS = {"usnews", "ft", "bloomberg", "qs", "pq"}
 
 def _figures(s):
     """Every sourced figure in a school file, with where it sits: (path, figure)."""
-    for block in ("profile", "federal"):
+    for block in ("profile", "federal", "scholarship"):
         for f, fv in ((s.get(block) or {}).items()):
             if isinstance(fv, dict) and fv.get("v") is not None:
                 yield "%s.%s" % (block, f), fv
+
+
+# A search result's snippet is an excerpt a search engine made of a page, not the page.
+# Rice's GMAT was taken from one and cited to the article it linked, which never prints
+# the number; only the figure's note said snippet (INC-0151).
+_SNIPPET = re.compile(r"\bsnippets?\b", re.I)
 
 
 # A stat is printed beside its figure on the school's page, so it is copy: one that stops
@@ -155,6 +161,10 @@ def validate(schools):
                     not str(fv.get("url", "")).startswith("https://collegescorecard.ed.gov/"):
                 errors.append(f"{slug}.{where}: cites the College Scorecard but its url "
                               f"{fv.get('url')!r} is not on collegescorecard.ed.gov")
+            said = next((k for k in ("stat", "note", "src") if _SNIPPET.search(str(fv.get(k) or ""))), None)
+            if said:
+                errors.append(f"{slug}.{where}: its {said} says it was read from a snippet; read the "
+                              f"figure on its page, and say what the page prints, before publishing it")
         for oh in (s.get("official_hosts") or []):
             if not (isinstance(oh, dict) and str(oh.get("prefix", "")).startswith("https://")
                     and oh.get("evidence") and re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(oh.get("checked", "")))):

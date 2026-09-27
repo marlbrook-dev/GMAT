@@ -403,6 +403,17 @@ verified rather than that the school does not publish one (INC-0118).
       Programs" (November 9), 35 programs from 10 to 63 percent with the middle class at 37,
       what Tuck, Duke and Miami each count as international, and Columbia's fall from 46 to 41
       percent. Rice stays out of both until its page is read again.
+- [x] **Rice moves to the three-year averages its page shows, and its GMAT was never
+      Poets&Quants'** (INC-0151). Rice's class profiles page now gives only an average of the
+      Classes of 2026, 2027 and 2028, behind its Full-Time MBA button, so the record carries
+      those figures labelled as that average (134 students, a 3.46 GPA, 5.4 years of work
+      experience, 36 percent women, 33 percent international, GRE 159 Quantitative and 157
+      Verbal), and its page says "Averaged over the Classes of 2026, 2027 and 2028, a class has
+      134 students" instead of naming one class. Its GMAT of 693, cited to Poets&Quants' Class
+      of 2027 article, is not in that article, which gives a median of 700; the figure's note
+      said it was read from a search snippet. Neither that median nor the page's 694 names an
+      edition, so Rice shows no GMAT. The validator now refuses a figure whose stat, note or
+      source says snippet, and UNC's and USC's GMAT notes, the other two, quote their articles.
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects
@@ -484,8 +495,9 @@ verified rather than that the school does not publish one (INC-0118).
       browser read fixed (INC-0146), the last run of September 27 ends at 35 figures with a
       number their page does not print, 20 sources unreadable and 6 showing none of their
       figures. Still on pages drawn by JavaScript: Haas (its figures sit behind tabs the read
-      does not open), Kellogg's middle 80 percent ranges, Rice (whose page now gives
-      three-year averages rather than the class we hold), Kelley, WashU Olin and Auburn.
+      does not open), Kellogg's middle 80 percent ranges, Kelley, WashU Olin and Auburn. Rice
+      now holds the three-year averages its page shows (INC-0151), which also sit behind a
+      program button, so the check still needs a way to open it.
       Before that fix the run ended at 40, 20 and 9. Rice's, UVA Darden's and Foster's
       employment rates now declare the printed shares they sum, BYU's rate is printed in
       words, and Rutgers carries its Class of 2025 outcomes (82.6 percent employed three
