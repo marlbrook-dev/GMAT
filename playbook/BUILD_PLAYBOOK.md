@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-27, which is 8 days, across
-85 commits, by one owner directing a series of AI coding sessions. As of this
+86 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 83 Python files, 107 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 64 documents:
 2039 tracked files in total.
@@ -1122,7 +1122,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-85 commits in 8 days, one owner, a series of AI sessions. This
+86 commits in 8 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1214,22 +1214,22 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-142 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+144 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 69 | 49% |
+| Found by reading the code or the output | 71 | 49% |
 | Found by measuring something | 39 | 27% |
 | A test caught it | 16 | 11% |
 | Found by rendering it and looking | 8 | 6% |
-| Found by a review bot or an adversarial pass | 5 | 4% |
+| Found by a review bot or an adversarial pass | 5 | 3% |
 | A build guard caught it | 3 | 2% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 140 of 142 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 142 of 144 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1238,20 +1238,20 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 60 |
-| Degraded | 30 |
+| Wrong data shown or stored | 61 |
+| Degraded | 31 |
 | Silent loss | 26 |
 | Cosmetic | 23 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 142. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 144. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 62 |
+| Content generation | 64 |
 | Tests and guards | 20 |
 | Front end | 10 |
 | Build system | 10 |
@@ -1266,7 +1266,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-136 of 142 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+138 of 144 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1287,7 +1287,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-57 of 142 incidents record that they repeat an earlier lesson, 79 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+59 of 144 incidents record that they repeat an earlier lesson, 81 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1315,6 +1315,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0119 Length corrections appended clauses that repeated what the answer choices already said | INC-0120, INC-0121 | 2 |
 | INC-0124 A blog post put the ACT science add-on at $4 in its table and $5 in its own FAQ, and nothing compared a post's prices with the sourced ones | INC-0125, INC-0132 | 2 |
 | INC-0125 Every College Scorecard figure in the MBA library cited the program's own website as its source URL | INC-0130, INC-0133 | 2 |
+| INC-0133 School pages published figures that the articles they cite do not contain, one of them a GRE total split in half | INC-0140, INC-0143 | 2 |
 | INC-0014 A hardcoded count in the meta description went stale, and Google showed it | INC-0128 | 1 |
 | INC-0023 www and the apex were two origins, so consent and rankings split in half | INC-0127 | 1 |
 | INC-0044 The longest option was the correct answer 81 percent of the time | INC-0091 | 1 |
@@ -1327,11 +1328,11 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0117 Three reading schemas could be answered by matching names, because every distractor came from a different passage | INC-0122 | 1 |
 | INC-0130 The GRE exam guide credited ETS with a combined 260 to 340 score that the ETS page it cited does not describe | INC-0133 | 1 |
 | INC-0132 The GRE guide still quoted a $220 fee eight weeks after ETS's fees became $249 | INC-0136 | 1 |
-| INC-0133 School pages published figures that the articles they cite do not contain, one of them a GRE total split in half | INC-0140 | 1 |
 | INC-0136 The LSAT guide said most test takers choose between remote and in-person testing, after LSAC had moved almost everyone into test centers | INC-0137 | 1 |
 | INC-0137 A post queued to publish the next day said the LSAT trainer was still in development, eleven days after it went live | INC-0138 | 1 |
+| INC-0142 Every school's employment rate was labelled and scored as a three month figure, though 15 of 70 were measured at six months, four months, a year or a reporting date, or at a timing their notes do not give | INC-0144 | 1 |
 
-The largest family runs to 47 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140, INC-0142. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
+The largest family runs to 49 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140, INC-0142, INC-0143, INC-0144. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
 
 Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.
 
@@ -1350,6 +1351,7 @@ Incidents that name an earlier one without claiming to repeat it. Each was read 
 - INC-0129 names INC-0128
 - INC-0130 names INC-0132
 - INC-0131 names INC-0130
+- INC-0143 names INC-0105, INC-0140
 
 
 ## Where defects concentrate
@@ -1366,6 +1368,7 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/gen/g_rc.py`, 5 incidents (INC-0097, INC-0114, INC-0115, INC-0117, INC-0122)
 - `src/check_sources.py`, 5 incidents (INC-0130, INC-0132, INC-0133, INC-0136, INC-0140)
 - `src/bank_repair.py`, 4 incidents (INC-0070, INC-0071, INC-0072, INC-0121)
+- `src/validate_schools.py`, 4 incidents (INC-0125, INC-0141, INC-0143, INC-0144)
 - `src/weekly_audit.js`, 3 incidents (INC-0050, INC-0048, INC-0018)
 - `src/smoke_redirect.js`, 3 incidents (INC-0023, INC-0024, INC-0047)
 - `src/smoke_playbook.js`, 3 incidents (INC-0054, INC-0084, INC-0129)
@@ -1381,7 +1384,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (62)
+## Content generation (64)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -2135,6 +2138,30 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** Each employment figure's timing is read from its note (three months or 90 days, four months, six months, a year, a reporting date, or none we have verified), and the school page, the drawer and the table say that timing. A figure its note places at another point is shown but neither scored nor sorted with the three month rates, as the methodology says; one whose timing is not verified is labelled so and still counts, so an unread report does not move a school on a guess. UNC's figure moves to the three month rate its report prints beside the six month one (88 percent). The SFN top three are unchanged; Michigan State, whose 93 percent is a six month rate, moves from 26th to 43rd, and Tulane, whose 100 percent is at four months, from 36th to 51st.
 - **What stops it now.** build_rankings checks the timing reader against a table of note wordings on every build before any page is written, so a change that reads a six month note as three months, or a reporting date as none, stops the build. in `src/build_rankings.py`
 - **Lesson.** A label fixed in code is a claim about every value the field will ever hold. When the data carries its own qualifier, such as a timing or a statistic, the label has to be read from the data, and anything that compares or scores the values has to use only the ones that share the qualifier the method names.
+
+
+### INC-0143. Six school figures kept their source description under the key reserved for our own commentary, so their pages printed them bare and the source check never read them
+
+*2026-09-27, Degraded*
+
+- **What was seen.** Chicago Booth's and CMU Tepper's tuition, Michigan Ross's and Penn State Smeal's tuition, Emory Goizueta's acceptance rate and Vanderbilt Owen's salary each carried a description of the figure under note and none under stat. School pages print stat beside a figure and never note, so Michigan Ross's tuition showed without saying it is a 2025-26 non-resident rate, Penn State's without saying it is estimated tuition and fees for a one-year program, and Vanderbilt's salary lost the word median from its label, which is read from stat (INC-0105). The school source check leaves note out as commentary (INC-0133), so none of the numbers in those six descriptions had ever been checked against their pages.
+- **Why.** The school schema uses two keys with deliberately different jobs: stat describes the figure as its source states it, and is published and checked; note is our commentary on how a figure was read, and is neither. Nothing enforced the difference, and six entries written before it was drawn put the description under note with no stat at all. Refreshing Booth's and Tepper's tuition in INC-0140's batch kept the key the entry already used.
+- **How it surfaced.** Found on September 27, 2026 while listing tuition figures for a blog post: two of the highest showed no description. A scan of every sourced figure found the six with a note and no stat, and five more with both, whose notes are commentary as intended. (Found by reading the code or the output)
+- **Fix.** The six descriptions move to stat, where the pages print them and the source check reads them; the five figures whose note is commentary keep it.
+- **What stops it now.** validate_schools.py fails the build on a published figure that has a note and no stat, because a note is commentary beside a description, never a replacement for one. in `src/validate_schools.py`
+- **Lesson.** When two fields hold similar text for different purposes, enforce the difference where the data is validated. A convention that only readers of the schema know is one the next edit will not follow.
+
+
+### INC-0144. BYU Marriott's two-year tuition total was published as tuition per year, and the fit card doubled it again
+
+*2026-09-27, Wrong data shown or stored*
+
+- **What was seen.** BYU Marriott's school page showed "Tuition per year $63,968", beside a note saying "two-year program total". BYU's costs page prints $63,968 as the tuition for the entire two-year program for students who are not members of the Church, so the yearly figure was twice what it should be. The rankings tuition column and filter read it as a yearly rate, and the trainer's fit card, which assumes two years, showed $127,936 over two.
+- **Why.** Until program_cost_usd was added on September 27, 2026, the library had only tuition_usd, a yearly field, and a research pass kept BYU's program total in it "with that caveat" rather than leave it blank. The caveat went in the note beside the figure, but every place that reads tuition_usd reads it as one year, so a label and a calculation contradicted the note. Nothing checked that a yearly field's own description did not call it a program total.
+- **How it surfaced.** Found on September 27, 2026 while listing verified tuition figures for a blog post: the note read two-year program total under a column of yearly figures. A scan of every tuition note found no other; the one-year programs whose total is their year are labelled as one-year. (Found by reading the code or the output)
+- **Fix.** BYU's figure moves to program_cost_usd, the field for a whole-program figure, with the members' total in its note, and tuition_usd is blank.
+- **What stops it now.** validate_schools.py fails the build on a tuition_usd whose note calls it a program total, a total program or a whole program, unless the note says the program lasts one year. in `src/validate_schools.py`
+- **Lesson.** A caveat in a note does not travel with a number: every consumer of the field reads the field's meaning, not the note. When a value does not fit the field's meaning, give it a field that does, or leave the field blank.
 
 
 ## Tests and guards (20)
@@ -3264,6 +3291,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A blog post put the ACT science add-on at $4 in its table and $5 in its own FAQ, and nothing compared a post's prices with the sourced ones (INC-0124)</small>
 - [ ] **Learned 3 times over.** A presence check on a source field proves the field is filled, not that it is true. Where a figure names its source, check that the URL belongs to that source, because the easiest value to fill a required field with is the wrong one that happens to be nearby.  
   <small>Every College Scorecard figure in the MBA library cited the program's own website as its source URL (INC-0125)</small>
+- [ ] **Learned 3 times over.** Run the source check on every corpus that cites pages, not just the one that broke. When a field is empty and the research is out of budget, leave it empty: a blank is honest, and a figure made to fit beside a real citation is the most convincing kind of wrong.  
+  <small>School pages published figures that the articles they cite do not contain, one of them a GRE total split in half (INC-0133)</small>
 - [ ] **Learned 2 times over.** Test your content against the strategies a lazy adversary would use, not only against whether it is correct. Measure the score of a rule that ignores the question.  
   <small>The longest option was the correct answer 81 percent of the time (INC-0044)</small>
 - [ ] **Learned 2 times over.** A record has parts that refer to one another, and a tool that edits one part by text is editing a graph while looking at a string. The cheap guard is not to check every reference but to refuse the edit when the old text occurs anywhere else in the record, because that is the only place a reference to it can be. Refusing on a false positive costs one rewritten table entry; not refusing ships an explanation about an option nobody saw.  
@@ -3278,12 +3307,12 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The GRE exam guide credited ETS with a combined 260 to 340 score that the ETS page it cited does not describe (INC-0130)</small>
 - [ ] **Learned 2 times over.** A figure with a source and a year can still go stale, because the source moves and the record does not. For anything a publisher changes on its own schedule, fees above all, read the live source on a schedule instead of trusting the record because it cites one.  
   <small>The GRE guide still quoted a $220 fee eight weeks after ETS's fees became $249 (INC-0132)</small>
-- [ ] **Learned 2 times over.** Run the source check on every corpus that cites pages, not just the one that broke. When a field is empty and the research is out of budget, leave it empty: a blank is honest, and a figure made to fit beside a real citation is the most convincing kind of wrong.  
-  <small>School pages published figures that the articles they cite do not contain, one of them a GRE total split in half (INC-0133)</small>
 - [ ] **Learned 2 times over.** A citation is only as current as the page it points to, and publishers leave old pages up. When a source describes itself as covering a period, check that the period is still running; a page about last year's test can be quoted perfectly and still be wrong about this year's.  
   <small>The LSAT guide said most test takers choose between remote and in-person testing, after LSAC had moved almost everyone into test centers (INC-0136)</small>
 - [ ] **Learned 2 times over.** Anything written ahead of its publication date is a promise about the future made from the past. Re-check a queued post's claims about your own product at build time, where the product's real state is known, rather than trusting the day it was written.  
   <small>A post queued to publish the next day said the LSAT trainer was still in development, eleven days after it went live (INC-0137)</small>
+- [ ] **Learned 2 times over.** A label fixed in code is a claim about every value the field will ever hold. When the data carries its own qualifier, such as a timing or a statistic, the label has to be read from the data, and anything that compares or scores the values has to use only the ones that share the qualifier the method names.  
+  <small>Every school's employment rate was labelled and scored as a three month figure, though 15 of 70 were measured at six months, four months, a year or a reporting date, or at a timing their notes do not give (INC-0142)</small>
 - [ ] Any generator that claims reproducibility must be seeded from something stable across processes. hash() is not, in Python, and the failure shows up as a flaky test rather than as a wrong answer.  
   <small>Item banks were different on every build because Python randomises hash() (INC-0003)</small>
 - [ ] Deletion by shadowing is invisible. Any collection whose size is a fact about the product needs its size asserted, not just its contents.  
@@ -3354,8 +3383,10 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Arizona State's school page said its class entered in 2027, because the label parser took the first year it found (INC-0135)</small>
 - [ ] Any field that is printed on a page is copy, whatever the schema calls it. A length cap that cuts at a character count will eventually cut a word in half and publish it, so shorten text by clause or leave it to a person; and check that printed text ends the way text ends, because a check that a field is present and sourced passes a field cut off halfway through.  
   <small>Two school pages printed a source note cut off mid-word, because the research merge kept the first 300 characters of every note and nothing checked that printed text ends as a clause (INC-0141)</small>
-- [ ] A label fixed in code is a claim about every value the field will ever hold. When the data carries its own qualifier, such as a timing or a statistic, the label has to be read from the data, and anything that compares or scores the values has to use only the ones that share the qualifier the method names.  
-  <small>Every school's employment rate was labelled and scored as a three month figure, though 15 of 70 were measured at six months, four months, a year or a reporting date, or at a timing their notes do not give (INC-0142)</small>
+- [ ] When two fields hold similar text for different purposes, enforce the difference where the data is validated. A convention that only readers of the schema know is one the next edit will not follow.  
+  <small>Six school figures kept their source description under the key reserved for our own commentary, so their pages printed them bare and the source check never read them (INC-0143)</small>
+- [ ] A caveat in a note does not travel with a number: every consumer of the field reads the field's meaning, not the note. When a value does not fit the field's meaning, give it a field that does, or leave the field blank.  
+  <small>BYU Marriott's two-year tuition total was published as tuition per year, and the fit card doubled it again (INC-0144)</small>
 
 
 ## Database
@@ -3632,7 +3663,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 142 real defects reduced to the rules that prevent them,
+the whole project: 144 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -3672,7 +3703,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-142 defects already prevented is genuinely ahead, and every defect it hits
+144 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

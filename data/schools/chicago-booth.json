@@ -106,7 +106,7 @@
   },
   "tuition_usd": {
    "v": 89976,
-   "note": "per year; 2026-27 tuition for three quarters (nine months) for the MBA Class of 2028 per the Booth cost page; student services fee 1,560 and first-year administrative service fee 3,100 are additional",
+   "stat": "2026-27 rate; tuition for three quarters (nine months), MBA Class of 2028; a student services fee of 1,560 and a first-year administrative service fee of 3,100 are additional",
    "src": "Chicago Booth Full-Time MBA Cost page",
    "year": 2026,
    "url": "https://www.chicagobooth.edu/mba/full-time/admissions/cost"

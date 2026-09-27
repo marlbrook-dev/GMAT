@@ -119,10 +119,11 @@
   },
   "salary_median_usd": {
    "v": 150000,
+   "stat": "median base salary across industries, as Bloomberg Businessweek reports it",
    "src": "Bloomberg Businessweek Best B-Schools 2025-26 school profile for Vanderbilt (Owen)",
    "year": 2025,
    "url": "https://www.bloomberg.com/business-schools/vanderbilt-owen/",
-   "note": "Median base salary across industries as reported by Bloomberg; school separately reports Class of 2025 average base of 148,000 plus"
+   "note": "The school's own outcomes page (https://business.vanderbilt.edu/mba/outcomes/, read 2026-09-27) gives $148K+ as the average base starting salary for the Class of 2025, a rounded lower bound rather than a figure, so Bloomberg's median stays as a secondary figure."
   },
   "employment_rate_pct": {
    "v": 87,
@@ -133,7 +134,7 @@
   }
  },
  "website": "https://business.vanderbilt.edu/mba/",
- "notes": "Class profile page publishes GMAT Focus only; no classic-scale figure. Acceptance rate not published on official pages reached. Official outcomes page reports average base starting salary 148K plus and average signing bonus 36K for the Class of 2025 but no median, so salary_median_usd is null; the prior 150,000 figure was Bloomberg's, outside this pass's allowed sources. Previously recorded tuition 74,500 (2025-26) has been superseded on the official page by the 2026-27 rate of 76,700.",
+ "notes": "Class profile page publishes GMAT Focus only; no classic-scale figure. Acceptance rate not published on official pages reached. Official outcomes page reports an average base starting salary of $148K+ and an average signing bonus of $36K for the Class of 2025 but no median; salary_median_usd keeps Bloomberg's median as a secondary figure (see the figure's note). Previously recorded tuition 74,500 (2025-26) has been superseded on the official page by the 2026-27 rate of 76,700.",
  "federal": {
   "matched": true,
   "instnm": "Vanderbilt University",

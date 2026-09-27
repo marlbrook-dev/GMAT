@@ -105,7 +105,7 @@
   },
   "tuition_usd": {
    "v": 49612,
-   "note": "per year; estimated tuition and fees, out-of-state, one-year program; Pennsylvania residents 30486",
+   "stat": "estimated tuition and fees, out-of-state, one-year program; Pennsylvania residents 30486",
    "src": "Penn State Smeal One Year MBA Tuition and Aid (official)",
    "year": 2025,
    "url": "https://oneyearmba.smeal.psu.edu/program-details/tuition-aid"

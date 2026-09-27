@@ -39,6 +39,12 @@ school means adding a file. Never edit generated output.
 }
 ```
 
+A figure's `stat` describes it as its source states it ("average", "2026-27 rate, tuition
+only"), and is printed beside it and checked against its page. A figure's `note` is our
+commentary on how it was read, and is neither printed nor checked, so it sits beside a
+`stat` and never replaces one; the validator refuses a figure with a note and no stat
+(INC-0143).
+
 `tuition_usd` is tuition for one year. `program_cost_usd` is the figure a school
 publishes for the whole program, for the schools that price the program and never a
 year: a total, a program fee, or an estimate of the whole. It is never divided into a

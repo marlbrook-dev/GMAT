@@ -112,7 +112,7 @@
   },
   "tuition_usd": {
    "v": 84186,
-   "note": "per year; 2026-27 tuition, 42,093 a semester; total estimated cost of attendance 120,798 for a single graduate student",
+   "stat": "2026-27 rate; 42,093 a semester; total estimated cost of attendance 120,798 for a single graduate student",
    "src": "CMU Student Financial Services, Tepper Full-Time MBA tuition page",
    "year": 2026,
    "url": "https://www.cmu.edu/sfs/tuition/graduate/tepper/full-accel-mba.html"
