@@ -210,12 +210,11 @@ def _selfcheck_emp():
 def class_subject(label):
     """Read a stored class label into a form a sentence can carry.
 
-    class_year is free text and arrives as 'Class of 2027', '2027', 'Fall 2025 entering
-    class (Class of 2027)', '2019-20', 'MBA15 cohort, 2025' and 'Typical class profile (no
-    class year stated)'. Pasting those into 'The ... profile reports' produced 'The 2025
-    Profile profile reports' (INC-0104). Returns (kind, value):
-      ('classof', '2027')    graduating class, the schema's documented form; a bare year
-                             is that form's shorthand, as data/DATA.md shows it
+    class_year is free text and arrives as 'Class of 2027', 'Fall 2025 entering class
+    (Class of 2027)', '2019-20', 'MBA15 cohort, 2025' and 'Typical class profile (no class
+    year stated)'. Pasting those into 'The ... profile reports' produced 'The 2025 Profile
+    profile reports' (INC-0104). Returns (kind, value):
+      ('classof', '2027')    graduating class, the schema's documented form
       ('entered', '2025')    the class that entered that year
       ('academic', '2019-20') a profile dated by academic year, kept because its age matters
       ('none', '')           nothing a sentence can state honestly
@@ -226,8 +225,12 @@ def class_subject(label):
     m = re.search(r"Class of (\d{4})", t, re.I)
     if m:
         return ("classof", m.group(1))
+    # A bare year names no class. It used to be read as Class of that year, and five
+    # records had written one meaning the year a page was read or the cycle it serves, so
+    # Notre Dame's average cohort size became "The Class of 2027 has 85 students"
+    # (INC-0147). validate_schools refuses a bare year; this reads one as no class at all.
     if re.fullmatch(r"\d{4}", t):
-        return ("classof", t)
+        return ("none", "")
     m = re.search(r"graduat\w*\D{0,12}(\d{4})", t, re.I)
     if m:
         return ("classof", m.group(1))
@@ -245,11 +248,15 @@ def class_subject(label):
     return ("none", "")
 
 
+NO_CLASS = re.compile(r"\b(?:(?:graduating |cohort )?(?:class|cohort) year not (?:labeled|labelled|stated)|"
+                      r"no (?:class|cohort) year|not tied to a stated class year)\b", re.I)
+
+
 def _selfcheck_class_subject(schools, today):
     """INC-0135's guard: every label shape the library has used reads as the class it
     names, and no school's class entered after the year the site is built."""
     for label, want in (("Class of 2027", ("classof", "2027")),
-                        ("2027", ("classof", "2027")),
+                        ("2027", ("none", "")),
                         ("Fall 2025 entering class (Class of 2027)", ("classof", "2027")),
                         ("2027 (entered fall 2025)", ("entered", "2025")),
                         ("Entering Fall 2025 Cohort", ("entered", "2025")),
@@ -269,6 +276,16 @@ def _selfcheck_class_subject(schools, today):
         if kind == "entered" and int(v[:4]) > int(today[:4]):
             raise SystemExit("build_rankings: %s's class label %r reads as a class that entered "
                              "in %s, after %s" % (s["slug"], s["profile"]["class_year"], v, today))
+    # INC-0147's guard: a bare year names no class, and a figure that says its page names no
+    # class year takes none from its record, while one that names its class keeps it.
+    for stat, want in (("average undergrad GPA (class year not labeled on page)", ("none", "")),
+                       ("accepted offers by three months; graduating class year not stated on page", ("none", "")),
+                       ("average (no cohort year labeled on page)", ("none", "")),
+                       ("average", ("classof", "2026")),
+                       ("avg, Class of 2025", ("classof", "2025"))):
+        got = fig_subject({"stat": stat}, {"class_year": "Class of 2026"})
+        if got != want:
+            raise SystemExit("build_rankings: fig_subject for %r is %r, expected %r" % (stat, got, want))
 
 
 def class_label(p):
@@ -283,7 +300,13 @@ def fig_subject(f, p):
     profile labelled for another (Notre Dame's GMAT is Class of 2026 coverage on a
     Class of 2027 page), and a sentence must not merge them under one label."""
     m = re.search(r"Class of (\d{4})", "%s %s" % ((f or {}).get("stat") or "", (f or {}).get("src") or ""), re.I)
-    return ("classof", m.group(1)) if m else class_subject(p.get("class_year"))
+    if m:
+        return ("classof", m.group(1))
+    # A figure whose own description says its page names no class has none, whatever the
+    # record's label says about the rest of its figures (INC-0147).
+    if NO_CLASS.search(str((f or {}).get("stat") or "")):
+        return ("none", "")
+    return class_subject(p.get("class_year"))
 
 
 def as_class(subj):

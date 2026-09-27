@@ -36,7 +36,7 @@
  },
  "specialties": [],
  "profile": {
-  "class_year": "2027",
+  "class_year": "",
   "class_size": {
    "v": null
   },
@@ -107,7 +107,7 @@
    "url": ""
   }
  },
- "notes": "The entire terry.uga.edu domain is behind a Cloudflare bot challenge: every fetch attempt (WebFetch, curl with browser headers, headless Chromium) returned 403 Just a moment pages, so the official class profile and any employment report could not be read this session. Existing figures in the library for this school are sourced to Clear Admit, which is a banned source; they could not be replaced or confirmed. Fields above are listed null only in the sense that no official page was reachable, not confirmed unpublished. Tuition was verified on the UGA Bursar site (busfin.uga.edu), which is official and not blocked; the bursar page labels the program Master in Business Administration (MBA Athens), which is the residential full-time MBA.",
+ "notes": "The entire terry.uga.edu domain is behind a Cloudflare bot challenge: every fetch attempt (WebFetch, curl with browser headers, headless Chromium) returned 403 Just a moment pages, so the official class profile and any employment report could not be read this session. Existing figures in the library for this school are sourced to Clear Admit, which is a banned source; they could not be replaced or confirmed. Fields above are listed null only in the sense that no official page was reachable, not confirmed unpublished. Tuition was verified on the UGA Bursar site (busfin.uga.edu), which is official and not blocked; the bursar page labels the program Master in Business Administration (MBA Athens), which is the residential full-time MBA. The class label was a bare 2027 on a record with no class figures (INC-0147) and is now empty.",
  "federal": {
   "matched": true,
   "instnm": "University of Georgia",

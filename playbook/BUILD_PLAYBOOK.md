@@ -1215,14 +1215,14 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-146 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+147 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 73 | 50% |
+| Found by reading the code or the output | 74 | 50% |
 | Found by measuring something | 39 | 27% |
 | A test caught it | 16 | 11% |
 | Found by rendering it and looking | 8 | 5% |
@@ -1230,7 +1230,7 @@ well enough to audit later. Which is what this book is.
 | A build guard caught it | 3 | 2% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 144 of 146 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 145 of 147 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1239,20 +1239,20 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 62 |
+| Wrong data shown or stored | 63 |
 | Degraded | 32 |
 | Silent loss | 26 |
 | Cosmetic | 23 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 146. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 147. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 65 |
+| Content generation | 66 |
 | Tests and guards | 21 |
 | Front end | 10 |
 | Build system | 10 |
@@ -1267,7 +1267,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-140 of 146 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+141 of 147 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1288,7 +1288,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-60 of 146 incidents record that they repeat an earlier lesson, 82 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+61 of 147 incidents record that they repeat an earlier lesson, 83 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1329,11 +1329,12 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0117 Three reading schemas could be answered by matching names, because every distractor came from a different passage | INC-0122 | 1 |
 | INC-0130 The GRE exam guide credited ETS with a combined 260 to 340 score that the ETS page it cited does not describe | INC-0133 | 1 |
 | INC-0132 The GRE guide still quoted a $220 fee eight weeks after ETS's fees became $249 | INC-0136 | 1 |
+| INC-0135 Arizona State's school page said its class entered in 2027, because the label parser took the first year it found | INC-0147 | 1 |
 | INC-0136 The LSAT guide said most test takers choose between remote and in-person testing, after LSAC had moved almost everyone into test centers | INC-0137 | 1 |
 | INC-0137 A post queued to publish the next day said the LSAT trainer was still in development, eleven days after it went live | INC-0138 | 1 |
 | INC-0142 Every school's employment rate was labelled and scored as a three month figure, though 15 of 70 were measured at six months, four months, a year or a reporting date, or at a timing their notes do not give | INC-0144 | 1 |
 
-The largest family runs to 50 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140, INC-0142, INC-0143, INC-0144, INC-0145. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
+The largest family runs to 51 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140, INC-0142, INC-0143, INC-0144, INC-0145, INC-0147. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
 
 Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.
 
@@ -1367,9 +1368,9 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/bank_emit.py`, 5 incidents (INC-0062, INC-0066, INC-0068, INC-0073, INC-0119)
 - `src/gen/framework.py`, 5 incidents (INC-0074, INC-0075, INC-0078, INC-0087, INC-0096)
 - `src/gen/g_rc.py`, 5 incidents (INC-0097, INC-0114, INC-0115, INC-0117, INC-0122)
+- `src/validate_schools.py`, 5 incidents (INC-0125, INC-0141, INC-0143, INC-0144, INC-0147)
 - `src/check_sources.py`, 5 incidents (INC-0130, INC-0132, INC-0133, INC-0136, INC-0140)
 - `src/bank_repair.py`, 4 incidents (INC-0070, INC-0071, INC-0072, INC-0121)
-- `src/validate_schools.py`, 4 incidents (INC-0125, INC-0141, INC-0143, INC-0144)
 - `src/weekly_audit.js`, 3 incidents (INC-0050, INC-0048, INC-0018)
 - `src/smoke_redirect.js`, 3 incidents (INC-0023, INC-0024, INC-0047)
 - `src/smoke_playbook.js`, 3 incidents (INC-0054, INC-0084, INC-0129)
@@ -1385,7 +1386,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (65)
+## Content generation (66)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -2175,6 +2176,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** The GRE figures join the class sentences, so fig_subject() names their class like any other: Wharton's page now says the Class of 2026 had average GRE scores of 162 Quantitative and 163 Verbal, beside a separate sentence for the Class of 2027's GMAT Focus.
 - **What stops it now.** build_rankings fails the build when a lead paragraph contains a sentence beginning with Its, because a pronoun after a class sentence names that class whether or not the figure belongs to it. in `src/build_rankings.py`
 - **Lesson.** A pronoun is a claim about what came before it. In generated prose the sentence before is chosen by the data, not by the writer, so name the subject of every sentence that carries a figure.
+
+
+### INC-0147. Six school records stored a bare year as their class, which the site printed as a Class of that year, so Notre Dame's average cohort size became "The Class of 2027 has 85 students"
+
+*2026-09-27, Wrong data shown or stored*
+
+- **What was seen.** Notre Dame Mendoza's school page said "The Class of 2027 has 85 students." Its program page prints "85 Average Cohort Size" and names no class; the only 2027s on it are application deadlines, and the record's own notes say its stats are not tied to a stated class year. Penn State Smeal's page said "The Class of 2025 profile lists an average GMAT of 657", citing the Smeal MBA Employment Report 2020, which covers the legacy two-year MBA rather than the One Year MBA the rest of the record describes.
+- **Why.** class_subject() read a bare year in class_year as Class of that year, the shorthand data/DATA.md documented, and fig_subject() gives every figure without a Class of of its own the record's class. The research merge of September 19, 2026 wrote bare years into six records. Two meant the Class of that year (Maryland Smith and Texas A&M Mays, from Poets and Quants' class articles). The others meant something else: the year a page was read or the cycle it serves (Notre Dame 2027, Florida Warrington 2026), the class profile page's year on a record whose GMAT, GPA and salary come from a 2020 report on a program that no longer runs (Penn State Smeal 2025), and a year on a record with no class figures (Georgia Terry 2027). So pages that name no class got one, and figures from different documents shared it. Figures whose own stat said their page labels no class year took the record's class all the same.
+- **How it surfaced.** Found on September 27, 2026 while choosing rows for a GPA post by the class each figure describes: Notre Dame's 3.3 sorted as the Class of 2027 although its notes say the program page names no class year. A scan of every record found five bare years, and the validator rule written for this found a sixth, Texas A&M Mays. (Found by reading the code or the output)
+- **Fix.** class_year must say what its year is. Maryland Smith and Texas A&M Mays now read Class of 2026; Notre Dame and Florida Warrington read Typical class profile (no class year stated); Georgia Terry, which holds no class figures, has no label; Penn State Smeal reads One Year MBA class profile (class year not verified), and its GMAT, GPA and salary from the legacy program's 2020 report are removed. Notre Dame's class_size is empty, because an average cohort size is not a class's enrollment. class_subject() reads a bare year as no class, and fig_subject() gives no class to a figure whose stat says its page names none.
+- **What stops it now.** validate_schools refuses a class_year that is only a year and says what to write instead. build_rankings' class self-check asserts that a bare year reads as no class, and that a figure described as having no class year on its page takes none from a record labelled Class of 2026 while one that names its class keeps it. in `src/validate_schools.py`
+- **Lesson.** A shorthand in a schema is read by code with one meaning and written by people and tools with whatever meaning they had in mind. Where a value names what something is, require it to say so in full; a bare year cannot say whether it is a graduating class, an entering class, or the day a page was read.
 
 
 ## Tests and guards (21)
@@ -3332,6 +3345,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The GRE exam guide credited ETS with a combined 260 to 340 score that the ETS page it cited does not describe (INC-0130)</small>
 - [ ] **Learned 2 times over.** A figure with a source and a year can still go stale, because the source moves and the record does not. For anything a publisher changes on its own schedule, fees above all, read the live source on a schedule instead of trusting the record because it cites one.  
   <small>The GRE guide still quoted a $220 fee eight weeks after ETS's fees became $249 (INC-0132)</small>
+- [ ] **Learned 2 times over.** When a parser must pull one value out of free text, anchor it to the words that give the value its meaning, not to its position, and return nothing when nothing anchors it: a sentence that says less is better than one that states a guess as fact. Keep inferences out of the fields that hold a source's own words, because the inferred class name in a stat is what let one class be reported under two names.  
+  <small>Arizona State's school page said its class entered in 2027, because the label parser took the first year it found (INC-0135)</small>
 - [ ] **Learned 2 times over.** A citation is only as current as the page it points to, and publishers leave old pages up. When a source describes itself as covering a period, check that the period is still running; a page about last year's test can be quoted perfectly and still be wrong about this year's.  
   <small>The LSAT guide said most test takers choose between remote and in-person testing, after LSAC had moved almost everyone into test centers (INC-0136)</small>
 - [ ] **Learned 2 times over.** Anything written ahead of its publication date is a promise about the future made from the past. Re-check a queued post's claims about your own product at build time, where the product's real state is known, rather than trusting the day it was written.  
@@ -3404,8 +3419,6 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Reading questions asked once of each passage passed the length check on the luck of the draw, and two new passages re-rolled it (INC-0122)</small>
 - [ ] A template that puts a fixed word beside a value has decided something about a value it has not seen. Let the value choose the words that depend on it, and check the built page for the rule rather than for the word that broke last time: a guard that lists yesterday's mistake misses the same mistake spelled another way.  
   <small>Two school pages wrote "a 18.8% acceptance rate", because the article was chosen before the number arrived (INC-0134)</small>
-- [ ] When a parser must pull one value out of free text, anchor it to the words that give the value its meaning, not to its position, and return nothing when nothing anchors it: a sentence that says less is better than one that states a guess as fact. Keep inferences out of the fields that hold a source's own words, because the inferred class name in a stat is what let one class be reported under two names.  
-  <small>Arizona State's school page said its class entered in 2027, because the label parser took the first year it found (INC-0135)</small>
 - [ ] Any field that is printed on a page is copy, whatever the schema calls it. A length cap that cuts at a character count will eventually cut a word in half and publish it, so shorten text by clause or leave it to a person; and check that printed text ends the way text ends, because a check that a field is present and sourced passes a field cut off halfway through.  
   <small>Two school pages printed a source note cut off mid-word, because the research merge kept the first 300 characters of every note and nothing checked that printed text ends as a clause (INC-0141)</small>
 - [ ] When two fields hold similar text for different purposes, enforce the difference where the data is validated. A convention that only readers of the schema know is one the next edit will not follow.  
@@ -3414,6 +3427,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>BYU Marriott's two-year tuition total was published as tuition per year, and the fit card doubled it again (INC-0144)</small>
 - [ ] A pronoun is a claim about what came before it. In generated prose the sentence before is chosen by the data, not by the writer, so name the subject of every sentence that carries a figure.  
   <small>Wharton's page credited its Class of 2026 GRE scores to the Class of 2027, because the GRE sentence began with Its and followed whichever class came last (INC-0145)</small>
+- [ ] A shorthand in a schema is read by code with one meaning and written by people and tools with whatever meaning they had in mind. Where a value names what something is, require it to say so in full; a bare year cannot say whether it is a graduating class, an entering class, or the day a page was read.  
+  <small>Six school records stored a bare year as their class, which the site printed as a Class of that year, so Notre Dame's average cohort size became "The Class of 2027 has 85 students" (INC-0147)</small>
 
 
 ## Database
@@ -3692,7 +3707,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 146 real defects reduced to the rules that prevent them,
+the whole project: 147 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -3732,7 +3747,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-146 defects already prevented is genuinely ahead, and every defect it hits
+147 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

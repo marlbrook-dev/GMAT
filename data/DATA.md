@@ -45,6 +45,15 @@ commentary on how it was read, and is neither printed nor checked, so it sits be
 `stat` and never replaces one; the validator refuses a figure with a note and no stat
 (INC-0143).
 
+`class_year` names the class the profile describes in words that say what the year is:
+"Class of 2027" for a graduating class, "Fall 2025 entering class" for the class that
+entered then, "2019-20" for a profile dated by academic year, or "Typical class profile
+(no class year stated)" when the page names none. A bare year is refused, because it
+cannot say which of those it means; six records used one for the year a page was read or
+the cycle it serves and were printed as a Class of that year (INC-0147). A figure takes
+the class its own `stat` or `src` names, else the record's; a figure whose `stat` says its
+page labels no class year takes none.
+
 `tuition_usd` is tuition for one year. `program_cost_usd` is the figure a school
 publishes for the whole program, for the schools that price the program and never a
 year: a total, a program fee, or an estimate of the whole. It is never divided into a

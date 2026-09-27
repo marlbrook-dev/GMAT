@@ -351,6 +351,16 @@ verified rather than that the school does not publish one (INC-0118).
       percent of 645 to 715, 45 percent international, 43 percent female), updated September
       2026. The queued GRE post and the fact sheet carry Wharton's Class of 2027 scores and
       add Stanford's (164 Quant and 164 Verbal, Class of 2027), now read on its own page.
+- [x] **A bare year no longer names a class** (INC-0147). Six records stored a class label
+      that was only a year, which the site printed as a Class of that year: Notre Dame's
+      page said "The Class of 2027 has 85 students" from a program page that prints an
+      average cohort size of 85 and names no class, and Penn State Smeal's credited the
+      Class of 2025 with a GMAT from a 2020 report on its legacy two-year MBA. Maryland and
+      Texas A&M now read Class of 2026, the class their Poets and Quants figures describe;
+      Notre Dame and Florida say no class year is stated; Georgia Terry, with no class
+      figures, has no label; Penn State's legacy GMAT, GPA and salary are removed. A figure
+      whose stat says its page labels no class year now takes none, the validator refuses
+      a bare year, and the class self-check covers both.
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects
