@@ -194,6 +194,69 @@ def check(fact, source_nums):
     return missing
 
 
+# A number found on the page is not the fact found. Columbia's MBA class carried five years
+# of work experience because the article says "an average of five years of work experience",
+# in its paragraph on the 46-student MBAxMS cohort (INC-0150). For the school figures whose
+# numbers are small enough to turn up anywhere, the number must also sit beside a word that
+# says what it counts, and a passage about another program does not count.
+LABELS = {
+    "gpa": r"GPA|grade point",
+    "work_exp_years": r"experience|years|months|worked|workforce",
+    "women_pct": r"women|female",
+    "intl_pct": r"international|countries|citizens|non-U\.?S|abroad|foreign|overseas",
+    "accept_rate_pct": r"accept|admit|admission|selectiv",
+    "employment_rate_pct": r"employ|offer|job|seeking|placement|graduation|accepted",
+    "class_size": r"student|class|enrol|cohort|incoming|matriculat",
+    "gmat_focus": r"GMAT|Focus|Edition",
+    "gmat_classic": r"GMAT|Legacy|Classic|10th|Edition",
+    "gre_quant": r"GRE|Quant",
+    "gre_verbal": r"GRE|Verbal",
+}
+# Names of other programs. A dual degree such as the JD/MBA is left out: its students sit in
+# the MBA class, and class profiles footnote them beside the figures.
+OTHER_PROGRAM = re.compile(r"MBAxMS|MBA ?x ?MS\b|Executive MBA|\bEMBA\b|part[- ]time|\bevening\b|\bweekend\b|"
+                           r"professional MBA|online MBA|hybrid MBA|Master of Science|\bMS in\b|\bMSx\b|"
+                           r"Sloan Fellows", re.I)
+NEAR, PASSAGE = 200, 200
+
+
+def beside_label(field, fact, text):
+    """None when a school figure's number sits beside its label in a passage about this
+    program. Otherwise ("none", why) when it never does, which the report counts as not
+    found, or ("other", why) when it does only near another program's name. Comparison
+    tables and footnotes put other programs beside figures that are right, so that second
+    kind is a list for a person to read rather than a failure; it is how Columbia's
+    MBAxMS figure would have surfaced (INC-0150)."""
+    label = LABELS.get(field)
+    v = fact.get("v")
+    if not label or not isinstance(v, (int, float)) or not text:
+        return None
+    forms = {norm("%g" % v)}
+    derived = fact.get("derived") or {}
+    for n in list(forms):
+        if n in derived:
+            if str(derived[n]).startswith("count:"):
+                return None
+            forms = numbers(derived[n]) - {n} - UNIT
+    if not forms:
+        return None
+    alts = [r"(?<![\d.,])" + re.escape(n) + (r"0*" if "." in n else r"(?:\.0+)?") + r"(?![\d]|,\d)" for n in forms]
+    alts += [r"\b%s\b" % w for w, n in WORDS.items() if n in forms]
+    own = " ".join(str(fact.get(k) or "") for k in ("stat", "src"))
+    other = set()
+    for m in re.finditer("|".join(alts), text, re.I):
+        if not re.search(label, text[max(0, m.start() - NEAR): m.end() + NEAR], re.I):
+            continue
+        near = {x.group(0) for x in OTHER_PROGRAM.finditer(text[max(0, m.start() - PASSAGE): m.end() + PASSAGE])
+                if not re.search(re.escape(x.group(0)), own, re.I)}
+        if not near:
+            return None
+        other |= near
+    if other:
+        return ("other", "beside its label only near another program's name (%s)" % ", ".join(sorted(other)[:3]))
+    return ("none", "not beside a word that says what it counts")
+
+
 # A page that describes itself as covering a year: "For the 2025-2026 testing year, the LSAT
 # fee is $253." LSAC left that page up after the year ended, and a fact cited to it stayed
 # wrong in words the number check could not see (INC-0136).
@@ -213,12 +276,27 @@ def ended_periods(text, today):
 
 
 def _selfcheck():
-    """INC-0140: a year range reads as both years however the page punctuates it."""
+    """INC-0140: a year range reads as both years however the page punctuates it.
+    INC-0150: a school figure is found only beside its label, in a passage about its program."""
     for sep in ("-", "/", "\u2013"):
         got = numbers("rates for 2026%s27" % sep)
         if not {"2026", "2027"} <= got:
             sys.exit("check_sources: a year range written with %r reads as %s, not 2026 and 2027"
                      % (sep, sorted(got)))
+    mbaxms = ("Applications 7,477 5,876. Columbia has also updated the profile for its MBAxMS cohort. The incoming "
+              "class includes 46 students with an average GPA of 3.54 and an average of five years of work experience.")
+    for field, fact, text, want in (
+            ("work_exp_years", {"v": 5, "stat": "average"}, mbaxms, "another program"),
+            ("gpa", {"v": 3.28}, "Average Undergraduate GPA 3.28 Dual degree students include those pursuing the JD/MBA", None),
+            ("intl_pct", {"v": 24}, "almost a quarter, 24% of students come to the program from abroad", None),
+            ("work_exp_years", {"v": 5.25}, "Average Years of Work Experience 5.25 Average Undergraduate GPA 3.31", None),
+            ("gpa", {"v": 3.7}, "Average GPA 3.70 (4.0 scale)", None),
+            ("women_pct", {"v": 44}, "Class of 2027: 44% Women, 26% International", None),
+            ("women_pct", {"v": 44}, "Room 44 is on the second floor of the business school building.", "not beside"),
+            ("work_exp_years", {"v": 5.7, "derived": {"5.7": "68 months / 12"}}, "Average 68 months worked", None)):
+        got = beside_label(field, fact, text)
+        if (want is None) != (got is None) or (want and want not in got[1]):
+            sys.exit("check_sources: beside_label(%s, %r) on %r gave %r" % (field, fact, text[:60], got))
 
 
 def main(argv):
@@ -235,7 +313,7 @@ def main(argv):
     todo = facts(records)
     dataset = [t for t in todo if "scorecard" in str(t[2].get("src", "")).lower()]
     todo = [t for t in todo if t not in dataset]
-    sources, unread, periods = {}, {}, {}
+    sources, unread, periods, texts = {}, {}, {}, {}
     today = datetime.date.fromisoformat(os.environ.get("BLOG_BUILD_DATE") or datetime.date.today().isoformat())
     for url in sorted({f["url"] for _, _, f in todo}):
         try:
@@ -261,6 +339,7 @@ def main(argv):
                 raise RuntimeError("only %d characters of text, a bot challenge or a page "
                                    "built by JavaScript" % len(text))
             sources[url] = numbers(text, words=True)
+            texts[url] = text
             periods[url] = ended_periods(text, today)
         except Exception as e:
             unread[url] = "%s: %s" % (type(e).__name__, e)
@@ -280,11 +359,17 @@ def main(argv):
         counted = [f for f in fs if evidence(f)]
         if u in sources and len(counted) >= 2 and not any(evidence(f) & sources[u] for f in counted):
             blank.add(u)
-    bad = 0
+    bad, worth = 0, []
     for slug, where, f in todo:
         if f["url"] not in sources or f["url"] in blank:
             continue
         miss = check(f, sources[f["url"]])
+        if "--schools" in argv and where.startswith("profile.") and not miss:
+            got = beside_label(where.split(".", 1)[1], f, texts.get(f["url"]))
+            if got and got[0] == "none":
+                miss = [(norm("%g" % f["v"]), got[1])]
+            elif got:
+                worth.append("%s.%s  %s\n    %s: %s" % (slug, where, f["url"], norm("%g" % f["v"]), got[1]))
         if miss:
             bad += 1
             print("%s.%s  %s" % (slug, where, f["url"]))
@@ -305,6 +390,12 @@ def main(argv):
                 print("    the page says it covers the %s %s, which has ended: read the fact against a "
                       "current page, and if it still holds record that in its period_checked"
                       % (", ".join(ended), "year" if len(ended) == 1 else "years"))
+    if worth:
+        print("\nWorth reading: found beside its label only near another program's name, which a "
+              "comparison table or footnote explains as often as a figure from the wrong program:")
+        for w in worth:
+            print(w)
+        print()
     for url in sorted(blank):
         print("shows none of its %d figures, probably built by JavaScript: %s"
               % (len(by_url[url]), url))
@@ -312,8 +403,8 @@ def main(argv):
         print("could not read %s (%s)" % (url, why))
     print("\n%d facts checked against %d sources; %d with a number their source does not "
           "print; %d resting on a page about a period that has ended; %d sources unreadable, "
-          "%d showing none of their figures%s"
-          % (len(todo), len(sources), bad, stale, len(unread), len(blank),
+          "%d showing none of their figures; %d worth reading beside another program's name%s"
+          % (len(todo), len(sources), bad, stale, len(unread), len(blank), len(worth),
           "; %d dataset figures set aside" % len(dataset) if dataset else ""))
     return 1 if bad or stale else (2 if unread else 0)
 

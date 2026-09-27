@@ -133,6 +133,12 @@ at least as many of the cited figures (INC-0146). `--schools` runs the same chec
 school library (INC-0133): it sets aside College Scorecard figures, which come from a
 dataset rather than a page, leaves a figure's `note` out because there it is our
 commentary, and reports a page that shows none of its figures as unread rather than wrong.
+For a school figure it also asks where the number sits (INC-0150): a number found only
+away from a word saying what it counts is reported as not found, and one found beside its
+label only near another program's name (MBAxMS, executive, part-time, evening) is listed as
+worth reading, since comparison tables and footnotes do that to figures that are right.
+Columbia's MBA class carried five years of work experience that the article gives for its
+MBAxMS cohort, and a check that only looked for the number could not tell.
 
 A page can be quoted exactly and still be out of date: LSAC's LSAT FAQ went on describing
 "the 2025-2026 testing year" after LSAC moved almost every test taker into test centers

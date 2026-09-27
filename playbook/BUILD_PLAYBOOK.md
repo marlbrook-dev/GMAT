@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-27, which is 8 days, across
-95 commits, by one owner directing a series of AI coding sessions. As of this
+96 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 83 Python files, 110 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 64 documents:
 2048 tracked files in total.
@@ -1123,7 +1123,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-95 commits in 8 days, one owner, a series of AI sessions. This
+96 commits in 8 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1215,14 +1215,14 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-149 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+150 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 74 | 50% |
+| Found by reading the code or the output | 75 | 50% |
 | Found by measuring something | 39 | 26% |
 | A test caught it | 18 | 12% |
 | Found by rendering it and looking | 8 | 5% |
@@ -1230,7 +1230,7 @@ well enough to audit later. Which is what this book is.
 | A build guard caught it | 3 | 2% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 147 of 149 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 148 of 150 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1239,20 +1239,20 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 63 |
+| Wrong data shown or stored | 64 |
 | Degraded | 34 |
 | Silent loss | 26 |
 | Cosmetic | 23 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 149. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 150. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 66 |
+| Content generation | 67 |
 | Tests and guards | 21 |
 | Front end | 12 |
 | Build system | 10 |
@@ -1267,7 +1267,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-143 of 149 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+144 of 150 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1288,7 +1288,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-61 of 149 incidents record that they repeat an earlier lesson, 83 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+62 of 150 incidents record that they repeat an earlier lesson, 84 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1301,6 +1301,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0092 A schema threw away three draws in four, and the counter that knew was read by nobody | INC-0098, INC-0099, INC-0101 | 3 |
 | INC-0099 Every generated reading comprehension question shipped without its passage | INC-0100, INC-0101, INC-0103 | 3 |
 | INC-0105 Twelve average salaries were published as medians, and the social queue credited schools with figures they never published | INC-0106, INC-0124, INC-0142 | 3 |
+| INC-0133 School pages published figures that the articles they cite do not contain, one of them a GRE total split in half | INC-0140, INC-0143, INC-0150 | 3 |
 | INC-0050 A landing-page icon referenced a colour token that did not exist | INC-0018, INC-0139 | 2 |
 | INC-0055 A new browser suite hardcoded this machine's browser directory and crashed in CI | INC-0067, INC-0110 | 2 |
 | INC-0059 The item counter missed a whole bank file because it assumed a quoting style | INC-0064, INC-0067 | 2 |
@@ -1316,7 +1317,6 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0119 Length corrections appended clauses that repeated what the answer choices already said | INC-0120, INC-0121 | 2 |
 | INC-0124 A blog post put the ACT science add-on at $4 in its table and $5 in its own FAQ, and nothing compared a post's prices with the sourced ones | INC-0125, INC-0132 | 2 |
 | INC-0125 Every College Scorecard figure in the MBA library cited the program's own website as its source URL | INC-0130, INC-0133 | 2 |
-| INC-0133 School pages published figures that the articles they cite do not contain, one of them a GRE total split in half | INC-0140, INC-0143 | 2 |
 | INC-0014 A hardcoded count in the meta description went stale, and Google showed it | INC-0128 | 1 |
 | INC-0023 www and the apex were two origins, so consent and rankings split in half | INC-0127 | 1 |
 | INC-0044 The longest option was the correct answer 81 percent of the time | INC-0091 | 1 |
@@ -1334,7 +1334,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0137 A post queued to publish the next day said the LSAT trainer was still in development, eleven days after it went live | INC-0138 | 1 |
 | INC-0142 Every school's employment rate was labelled and scored as a three month figure, though 15 of 70 were measured at six months, four months, a year or a reporting date, or at a timing their notes do not give | INC-0144 | 1 |
 
-The largest family runs to 51 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140, INC-0142, INC-0143, INC-0144, INC-0145, INC-0147. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
+The largest family runs to 52 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140, INC-0142, INC-0143, INC-0144, INC-0145, INC-0147, INC-0150. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
 
 Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.
 
@@ -1364,12 +1364,12 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/build.py`, 13 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067, INC-0076, INC-0080, INC-0131, INC-0148)
 - `src/test.js`, 8 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085)
 - `src/build_rankings.py`, 6 incidents (INC-0014, INC-0049, INC-0118, INC-0135, INC-0142, INC-0145)
+- `src/check_sources.py`, 6 incidents (INC-0130, INC-0132, INC-0133, INC-0136, INC-0140, INC-0150)
 - `src/review_bot.js`, 5 incidents (INC-0022, INC-0026, INC-0051, INC-0061, INC-0077)
 - `src/bank_emit.py`, 5 incidents (INC-0062, INC-0066, INC-0068, INC-0073, INC-0119)
 - `src/gen/framework.py`, 5 incidents (INC-0074, INC-0075, INC-0078, INC-0087, INC-0096)
 - `src/gen/g_rc.py`, 5 incidents (INC-0097, INC-0114, INC-0115, INC-0117, INC-0122)
 - `src/validate_schools.py`, 5 incidents (INC-0125, INC-0141, INC-0143, INC-0144, INC-0147)
-- `src/check_sources.py`, 5 incidents (INC-0130, INC-0132, INC-0133, INC-0136, INC-0140)
 - `src/bank_repair.py`, 4 incidents (INC-0070, INC-0071, INC-0072, INC-0121)
 - `src/weekly_audit.js`, 3 incidents (INC-0050, INC-0048, INC-0018)
 - `src/smoke_redirect.js`, 3 incidents (INC-0023, INC-0024, INC-0047)
@@ -1386,7 +1386,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (66)
+## Content generation (67)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -2188,6 +2188,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** class_year must say what its year is. Maryland Smith and Texas A&M Mays now read Class of 2026; Notre Dame and Florida Warrington read Typical class profile (no class year stated); Georgia Terry, which holds no class figures, has no label; Penn State Smeal reads One Year MBA class profile (class year not verified), and its GMAT, GPA and salary from the legacy program's 2020 report are removed. Notre Dame's class_size is empty, because an average cohort size is not a class's enrollment. class_subject() reads a bare year as no class, and fig_subject() gives no class to a figure whose stat says its page names none.
 - **What stops it now.** validate_schools refuses a class_year that is only a year and says what to write instead. build_rankings' class self-check asserts that a bare year reads as no class, and that a figure described as having no class year on its page takes none from a record labelled Class of 2026 while one that names its class keeps it. in `src/validate_schools.py`
 - **Lesson.** A shorthand in a schema is read by code with one meaning and written by people and tools with whatever meaning they had in mind. Where a value names what something is, require it to say so in full; a bare year cannot say whether it is a graduating class, an entering class, or the day a page was read.
+
+
+### INC-0150. Columbia's MBA class was credited with five years of work experience, a figure the cited article gives for its 46-student MBAxMS cohort, and the source check passed it because the article does say five years
+
+*2026-09-27, Wrong data shown or stored*
+
+- **What was seen.** data/schools/columbia.json gave work_exp_years 5, "average", cited to Poets&Quants' article on Columbia's Class of 2027, and the queued November 5 post listed Columbia Business School at 5 years. The article's only work experience figure is in its paragraph on the MBAxMS cohort: "The incoming class includes 46 students with an average GPA of 3.54 and an average of five years of work experience." It gives none for the MBA class.
+- **Why.** The research merge took the article's one work experience figure without the sentence around it, which is about a different program. check_sources.py then confirmed it: it asks whether a figure's number appears anywhere on its page, reading number words as numbers, and the article does say "five years of work experience", in the paragraph about the MBAxMS cohort. A check that finds the number cannot tell which program or class the sentence around it describes.
+- **How it surfaced.** Found on September 27, 2026 by a test written to measure how weak a found-anywhere check is for small numbers: for every figure behind the GPA and work experience posts, look for its digits within 150 characters of its field's label on the page the check read. Columbia's 5 was the one figure whose digits never sit near experience; reading the article showed the figure it did print, as the word five, belongs to the MBAxMS cohort. (Found by reading the code or the output)
+- **Fix.** Columbia's work experience is empty, with the reason in its notes, and the queued November 5 post and its fact block drop Columbia: 37 programs, 28 between 4.9 and 6 years, the middle program still at 5.1. William & Mary's 5 years now declares its working, 60 months divided by 12.
+- **What stops it now.** check_sources.py --schools now asks where a school figure's number sits, digits or word. If it never sits within 200 characters of a word saying what it counts (GPA, experience, women, international and so on), the figure is reported as not found. If it does only near another program's name (MBAxMS, executive, part-time, evening, a master of science), it goes on a worth-reading list, because comparison tables and footnotes put other programs beside figures that are right: of the 13 it lists today, 12 are the right program's figures, and the 13th, Rice's international share, has no support on a page that now prints three-year averages. The self-check holds Columbia's paragraph, a JD/MBA footnote and a figure written as "from abroad". in `src/check_sources.py`
+- **Lesson.** Finding a number on a page is not finding the fact. A check has to look for it beside the words that say what it counts, and notice when those words are about something else: another program, another class.
 
 
 ## Tests and guards (21)
@@ -3335,6 +3347,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Every generated reading comprehension question shipped without its passage (INC-0099)</small>
 - [ ] **Learned 4 times over.** Any consumer that describes a value in words must read the field that records what kind of value it is, never the field's name. A field name is a hope about the data, not a description of it, and a schema that allows two kinds of value will be described everywhere as the kind it was named after.  
   <small>Twelve average salaries were published as medians, and the social queue credited schools with figures they never published (INC-0105)</small>
+- [ ] **Learned 4 times over.** Run the source check on every corpus that cites pages, not just the one that broke. When a field is empty and the research is out of budget, leave it empty: a blank is honest, and a figure made to fit beside a real citation is the most convincing kind of wrong.  
+  <small>School pages published figures that the articles they cite do not contain, one of them a GRE total split in half (INC-0133)</small>
 - [ ] **Learned 3 times over.** A module that nothing imports fails no test, and an exception raised on every draw is indistinguishable from an exception raised on a hard draw. Both are silence, and a build that reports totals hears neither. Count what each schema contributed, not what the category holds, and treat a contribution of zero as a failure rather than as a small number.  
   <small>A finished generator module that nothing imported, and two of its four schemas produced nothing (INC-0086)</small>
 - [ ] **Learned 3 times over.** Reading the record does not prevent the defect; the practice does. This one was written hours after its own lesson was read closely enough to be catalogued as a recurrence, and it was caught by rendering three items rather than by remembering. Budget the render, not the recollection.  
@@ -3353,8 +3367,6 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A blog post put the ACT science add-on at $4 in its table and $5 in its own FAQ, and nothing compared a post's prices with the sourced ones (INC-0124)</small>
 - [ ] **Learned 3 times over.** A presence check on a source field proves the field is filled, not that it is true. Where a figure names its source, check that the URL belongs to that source, because the easiest value to fill a required field with is the wrong one that happens to be nearby.  
   <small>Every College Scorecard figure in the MBA library cited the program's own website as its source URL (INC-0125)</small>
-- [ ] **Learned 3 times over.** Run the source check on every corpus that cites pages, not just the one that broke. When a field is empty and the research is out of budget, leave it empty: a blank is honest, and a figure made to fit beside a real citation is the most convincing kind of wrong.  
-  <small>School pages published figures that the articles they cite do not contain, one of them a GRE total split in half (INC-0133)</small>
 - [ ] **Learned 2 times over.** Test your content against the strategies a lazy adversary would use, not only against whether it is correct. Measure the score of a rule that ignores the question.  
   <small>The longest option was the correct answer 81 percent of the time (INC-0044)</small>
 - [ ] **Learned 2 times over.** A record has parts that refer to one another, and a tool that edits one part by text is editing a graph while looking at a string. The cheap guard is not to check every reference but to refuse the edit when the old text occurs anywhere else in the record, because that is the only place a reference to it can be. Refusing on a false positive costs one rewritten table entry; not refusing ships an explanation about an option nobody saw.  
@@ -3453,6 +3465,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Wharton's page credited its Class of 2026 GRE scores to the Class of 2027, because the GRE sentence began with Its and followed whichever class came last (INC-0145)</small>
 - [ ] A shorthand in a schema is read by code with one meaning and written by people and tools with whatever meaning they had in mind. Where a value names what something is, require it to say so in full; a bare year cannot say whether it is a graduating class, an entering class, or the day a page was read.  
   <small>Six school records stored a bare year as their class, which the site printed as a Class of that year, so Notre Dame's average cohort size became "The Class of 2027 has 85 students" (INC-0147)</small>
+- [ ] Finding a number on a page is not finding the fact. A check has to look for it beside the words that say what it counts, and notice when those words are about something else: another program, another class.  
+  <small>Columbia's MBA class was credited with five years of work experience, a figure the cited article gives for its 46-student MBAxMS cohort, and the source check passed it because the article does say five years (INC-0150)</small>
 
 
 ## Database
@@ -3735,7 +3749,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 149 real defects reduced to the rules that prevent them,
+the whole project: 150 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -3775,7 +3789,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-149 defects already prevented is genuinely ahead, and every defect it hits
+150 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

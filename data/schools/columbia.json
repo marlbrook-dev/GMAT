@@ -83,11 +83,7 @@
    "url": ""
   },
   "work_exp_years": {
-   "v": 5,
-   "stat": "average",
-   "src": "Poets&Quants",
-   "year": 2025,
-   "url": "https://poetsandquants.com/2025/11/20/columbia-completes-the-m7-picture-multiple-school-records-set-in-new-mba-class/"
+   "v": null
   },
   "women_pct": {
    "v": 46,
@@ -123,7 +119,7 @@
    "note": ""
   }
  },
- "notes": "US News 2026 rank is a tie at No. 7 with NYU Stern. Class size of 982 includes 758 September entrants and 224 January entrants. FT 2026 rank is null because Columbia was excluded from the 2026 FT ranking (did not meet the alumni survey participation threshold; it placed 2nd in 2025). Columbia Business School's official sites are unreachable from this session: academics.business.columbia.edu and business.columbia.edu both sit behind Cloudflare bot protection that returns 403 challenge pages to WebFetch and curl, and resets TLS connections from headless Chromium routed through the session egress proxy. No official Columbia figure could be verified this session, so nothing here should replace existing data; the existing Poets and Quants sourced figures were not re-verified and still need official sourcing in a session that can reach the site. business.columbia.edu blocks automated access; cost figure read from the official page provided by the site owner in August 2026.",
+ "notes": "US News 2026 rank is a tie at No. 7 with NYU Stern. Class size of 982 includes 758 September entrants and 224 January entrants. FT 2026 rank is null because Columbia was excluded from the 2026 FT ranking (did not meet the alumni survey participation threshold; it placed 2nd in 2025). Columbia Business School's official sites are unreachable from this session: academics.business.columbia.edu and business.columbia.edu both sit behind Cloudflare bot protection that returns 403 challenge pages to WebFetch and curl, and resets TLS connections from headless Chromium routed through the session egress proxy. No official Columbia figure could be verified this session, so nothing here should replace existing data; the existing Poets and Quants sourced figures were not re-verified and still need official sourcing in a session that can reach the site. business.columbia.edu blocks automated access; cost figure read from the official page provided by the site owner in August 2026. Work experience is empty: the Poets&Quants article on the Class of 2027 gives an average of five years only for the 46-student MBAxMS cohort, and the record had carried it as the MBA class's (INC-0150).",
  "website": "https://business.columbia.edu/mba",
  "scholarship": {
   "review": {
