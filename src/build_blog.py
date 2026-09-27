@@ -576,6 +576,13 @@ def main():
         d.mkdir(exist_ok=True)
         p = dict(p, body=delink_held(p["body"], live_slugs))
         (d / "index.html").write_text(build_post(p, live))
+    # The exam guides list their exam's published posts (build_exams.study_room). A guide
+    # built on a different date from the blog could link a post that is not out yet, so
+    # every guide link into the blog has to be a post this build published.
+    for guide in sorted((ROOT / "exams").glob("*/index.html")):
+        for slug in re.findall(r'href="/blog/([a-z0-9-]+)/"', guide.read_text()):
+            if slug not in live_slugs:
+                fail(f"{guide.relative_to(ROOT)} links to /blog/{slug}/, which this build did not publish")
     # The same check build.py runs on every other section (INC-0131).
     from page_checks import python_reprs, articles, offsite_scripts
     off = offsite_scripts(ROOT, ["blog"])

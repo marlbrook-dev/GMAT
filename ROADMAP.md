@@ -573,6 +573,12 @@ verified rather than that the school does not publish one (INC-0118).
       (INC-0162): its check that a post never calls a live trainer unfinished read the fee
       table as one sentence, and College Board's seat Waitlist sat in it beside the SAT's fee.
       It now splits a post at block elements, as the built-page check does.
+- [x] **Each exam guide links to its exam's posts.** The five exam guides linked to no
+      post at all, so the cost and good-score posts had no link from the pages that rank for
+      their exams. Each guide now ends with "From the Study Room": up to six published posts
+      whose slug names the exam, newest first. A post joins its guide on the day it
+      publishes, since both are built with the same date, and the blog build fails if a guide
+      links a post it did not publish.
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects
