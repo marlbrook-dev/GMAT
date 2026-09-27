@@ -382,6 +382,12 @@ verified rather than that the school does not publish one (INC-0118).
       MIT license alongside), the CSP drops jsdelivr from script-src, and both builds fail
       on any page that loads a script from another host. Fonts still come from Google
       (DEVSECOPS.md O6).
+- [x] **A half-typed sign-in survives a redraw** (INC-0149). Each deferred bank chunk redraws
+      the Account page to update the bank size it prints, and the redraw rebuilt the sign-in
+      form from saved settings, so an email typed before pressing Send came back empty.
+      src/smoke_signup.js had been failing on that for as long as it sat outside CI. The form
+      now keeps what its fields hold, the smoke checks a forced redraw directly, and it runs
+      in npm run test:browser.
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects

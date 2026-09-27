@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-27, which is 8 days, across
-94 commits, by one owner directing a series of AI coding sessions. As of this
+95 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 83 Python files, 110 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 64 documents:
 2048 tracked files in total.
@@ -1123,7 +1123,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-94 commits in 8 days, one owner, a series of AI sessions. This
+95 commits in 8 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1215,7 +1215,7 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-148 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+149 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
@@ -1224,13 +1224,13 @@ well enough to audit later. Which is what this book is.
 | --- | ---: | ---: |
 | Found by reading the code or the output | 74 | 50% |
 | Found by measuring something | 39 | 26% |
-| A test caught it | 17 | 11% |
+| A test caught it | 18 | 12% |
 | Found by rendering it and looking | 8 | 5% |
 | Found by a review bot or an adversarial pass | 5 | 3% |
 | A build guard caught it | 3 | 2% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 146 of 148 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 147 of 149 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1240,12 +1240,12 @@ well enough to audit later. Which is what this book is.
 | Severity | Count |
 | --- | ---: |
 | Wrong data shown or stored | 63 |
-| Degraded | 33 |
+| Degraded | 34 |
 | Silent loss | 26 |
 | Cosmetic | 23 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 148. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 149. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
@@ -1254,7 +1254,7 @@ well enough to audit later. Which is what this book is.
 | --- | ---: |
 | Content generation | 66 |
 | Tests and guards | 21 |
-| Front end | 11 |
+| Front end | 12 |
 | Build system | 10 |
 | Search and metadata | 9 |
 | Scoring and selection | 7 |
@@ -1267,7 +1267,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-142 of 148 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+143 of 149 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1288,7 +1288,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-61 of 148 incidents record that they repeat an earlier lesson, 83 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+61 of 149 incidents record that they repeat an earlier lesson, 83 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -2460,7 +2460,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** Loading a page is not the same as reading it. A chart can be a separate document inside the page that draws only when scrolled into view, and a page with trackers may never fall quiet, so a reader built for checking has to scroll like a person, collect every frame, and use waits that give up rather than hang.
 
 
-## Front end (11)
+## Front end (12)
 
 
 ### INC-0001. Unescaped quotes in onclick strings took the whole app down
@@ -2601,6 +2601,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** supabase-js is served from this site at /vendor/supabase-js-2.117.2/supabase.js, with its MIT license beside it. It is the npm package's dist/umd/supabase.js for 2.117.2, the file jsdelivr was serving under @2 apart from a comment header, with one em dash in a debug message made a comma under the house rule; DEVSECOPS.md F5 records both checksums and how to upgrade. The trainer apps, the 404 page built from the app, the community page and the do-not-sell page load it from there, and the content security policy no longer lists cdn.jsdelivr.net as a script source. partials.SUPABASE_JS holds the path once and the pages take it from a placeholder. The trainers' service workers precache the file and treat /vendor/ as immutable: served as an ordinary same-origin file it was missing from the cache on the first offline launch and revalidated in the background after, and src/smoke_offline.js caught both as a request reaching the server with the network off.
 - **What stops it now.** page_checks.offsite_scripts() finds any script a built page loads from another host, and build.py and build_blog.py fail on one. Run on the build from before the fix, it named every trainer, the 404 page, the community page and the do-not-sell page. in `src/build.py`
 - **Lesson.** A script tag is a dependency on the host it names, with that host's speed and uptime. Code a page needs before it can run belongs on the page's own origin; another host belongs only where the page still works when that host is slow or gone.
+
+
+### INC-0149. A half-typed sign-in on the Account page vanished when a deferred bank chunk arrived and redrew the page, and the smoke that shows it had been failing unnoticed outside CI
+
+*2026-09-27, Degraded*
+
+- **What was seen.** node src/smoke_signup.js failed "sends once both are chosen" and "the birth date is kept for the profile push" in all five trainers, on main as well as on the branch that found it. Traced step by step: the smoke typed an email, then chose a birth month, and by the time it chose the year the email field was empty and the sign-in form had been replaced by a new one, so sendMagicLink() refused an empty email and sent nothing.
+- **Why.** The trainer loads most of its bank in deferred chunks after the page's load event, and each chunk calls window.__bankGrew(), which redraws the Account page with renderData() if it is open, because that page prints the bank size. The auth listener in Cloud.init() redraws it the same way when the sign-in state changes. renderData() builds the sign-in form's email box from state.settings.email and its month and year from state.settings.about, which are only written when the link is sent, so any redraw before Send threw away whatever the student had typed or chosen. The smoke fills the form in the seconds after load, when the chunks arrive, and loses that race; a student who opens the Account page and types at once can lose it too. The smoke is not in npm run test:browser, so nothing ran it.
+- **How it surfaced.** Found on September 27, 2026 while running every smoke by hand for the supabase-js change: smoke_signup failed on that branch and on main's own build. A trace of the form's values between steps showed the fields emptied and the element replaced, and wrapping renderData() to record its caller showed the redraw coming from window.__bankGrew, called by bank_rest2.js as it arrived. The auth listener was the first suspect and the trace ruled it out as the trigger in this run. (A test caught it)
+- **Fix.** renderData() now builds the sign-in form from what its email, month and year fields hold at the moment of the redraw, and falls back to the saved values only when the form is not on the page yet. The smoke passes in all five trainers, three runs in a row.
+- **What stops it now.** src/smoke_signup.js fills the form, forces a redraw and fails unless the email, month and year survive; with the old renderData() all three came back empty in every trainer. The smoke now runs in npm run test:browser, so CI runs it. in `src/smoke_signup.js`
+- **Lesson.** A view that is redrawn from saved state loses whatever the user has not saved yet. When a background event can redraw a form, carry the fields' current values across the redraw. And a test that is not in CI is not guarding anything: it fails quietly until someone happens to run it.
 
 
 ## Build system (10)
@@ -3479,6 +3491,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The trainer button on four exam guides and on the study guide hub opened the GMAT trainer (INC-0128)</small>
 - [ ] A script tag is a dependency on the host it names, with that host's speed and uptime. Code a page needs before it can run belongs on the page's own origin; another host belongs only where the page still works when that host is slow or gone.  
   <small>The trainer app ran its own code only after a script from cdn.jsdelivr.net had loaded, so a slow CDN stalled the app and timed out CI's games smoke (INC-0148)</small>
+- [ ] A view that is redrawn from saved state loses whatever the user has not saved yet. When a background event can redraw a form, carry the fields' current values across the redraw. And a test that is not in CI is not guarding anything: it fails quietly until someone happens to run it.  
+  <small>A half-typed sign-in on the Account page vanished when a deferred bank chunk arrived and redrew the page, and the smoke that shows it had been failing unnoticed outside CI (INC-0149)</small>
 
 
 ## Infrastructure and deploy
@@ -3721,7 +3735,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 148 real defects reduced to the rules that prevent them,
+the whole project: 149 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -3761,7 +3775,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-148 defects already prevented is genuinely ahead, and every defect it hits
+149 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

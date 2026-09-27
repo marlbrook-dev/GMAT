@@ -67,6 +67,20 @@ const check = (n, c, d) => {
       await pg.evaluate(() => !document.getElementById('authDay')
         && !/birth day/i.test(document.getElementById('v-data').innerHTML)));
 
+    // A redraw while someone is typing must keep what they typed. Each deferred bank chunk
+    // redraws this view to update the bank size, and the email box used to come back empty,
+    // which is why the send below failed for as long as this suite sat outside CI (INC-0149).
+    const kept = await pg.evaluate(() => {
+      const f = id => document.getElementById(id);
+      f('authEmail').value = 'typed@b.co'; f('authMonth').value = '7'; f('authYear').value = '2001';
+      renderData();
+      const r = { e: f('authEmail').value, m: f('authMonth').value, y: f('authYear').value };
+      f('authEmail').value = ''; f('authMonth').value = ''; f('authYear').value = '';
+      return r;
+    });
+    check('[' + app + '] a redraw keeps a half-typed sign-in',
+      kept.e === 'typed@b.co' && kept.m === '7' && kept.y === '2001', JSON.stringify(kept));
+
     // Intercept the send rather than trusting the button, so a form that looks like it
     // validates but sends anyway cannot pass.
     await pg.evaluate(() => { window.__sent = []; Cloud.signIn = async e => { window.__sent.push(e); return {}; }; });
