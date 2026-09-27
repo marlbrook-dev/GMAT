@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-27, which is 8 days, across
-131 commits, by one owner directing a series of AI coding sessions. As of this
+132 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 86 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
 2103 tracked files in total.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-131 commits in 8 days, one owner, a series of AI sessions. This
+132 commits in 8 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -2818,7 +2818,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0181. The ledger's harvest read only incident ids written out in full and matched commits by their short hash, so seven records fixed under a range such as "INC-0104 to INC-0110" cited nothing and 57 cited fixes came back every week as possible unrecorded defects
 
-*2026-09-27, Degraded*
+*2026-09-27, Degraded, `7ff690443f31290b82700cd0832990934e955f57` PR #176*
 
 - **What was seen.** On September 27, 2026, python3 src/playbook_harvest.py --citations reported eight records that name no commit and that no commit names: INC-0105 to INC-0109, INC-0171, INC-0174 and the just-written INC-0180. The squash commits on main do name the first seven: PR #96's names "INC-0104 to INC-0110", PR #165's "INC-0170 to INC-0172" and PR #166's "INC-0173 to INC-0175". The harvest also listed 38 commits as candidate unrecorded defects, many of them commits whose records simply cited nothing. Reading why, a second fault: the candidate loop compared each commit's short hash with the ledger's citations, 57 of which were full hashes, so every commit cited in full was listed as a candidate unrecorded defect however long ago it was written up.
 - **Why.** incident_commits() finds ids with the pattern INC-\d{4}, so it reads the two ends of a range and nothing between them, and it would read only the first id of a list written "INC-0130, 0131, 0132". Sessions name several incidents in one squash title that way whenever one PR fixes a run of them. The report asked a human to find those seven by hand, when git already held the answer. The candidate loop has the same shape of fault in the other direction: git prints a short hash, the backfill writes a full one, and an exact comparison between the two never matches, so the tool that fills in citations made its own weekly report noisier every time it ran.

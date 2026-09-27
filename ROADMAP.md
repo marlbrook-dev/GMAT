@@ -672,6 +672,15 @@ verified rather than that the school does not publish one (INC-0118).
       script-only challenge, and caches no read too short to be evidence. All 108 exam facts
       pass: 106 in the run of September 27, and the two on GMAC's policies PDF against a
       direct read the same day, since Imperva challenged the run's reads of it.
+- [x] **"What Are the Score Ranges for the GMAT, GRE, LSAT, SAT, and ACT?"** queued for
+      December 5 (James Corbett). Each exam's scale from its test maker's page, read on
+      September 27: the GMAT Focus 205 to 805 with its 60 to 90 sections (and the 10th
+      Edition's 200 to 800 compared only by percentile), the GRE's three scores with no
+      total, the LSAT's raw score converted to 120 to 180, the SAT's sum of two 200 to 800
+      sections, and the ACT's 1 to 36 Composite. It closes on what the test makers say about
+      comparing across exams: ACT and College Board's concordance, which ACT calls an
+      estimate, and GMAC's position that the GMAT is not equated with any other test.
+      EDITORIAL.md gains a score scales block, and INC-0181 now cites the merge that fixed it.
 - [x] **Every ledger record cites its commit, and the weekly harvest is level** (INC-0181).
       The harvest read incident ids only when written out in full, so the squash titles
       that name a range ("INC-0104 to INC-0110", "INC-0173 to INC-0175") left seven records
