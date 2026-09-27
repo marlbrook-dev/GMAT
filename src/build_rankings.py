@@ -61,6 +61,19 @@ def stat_article(f):
     return {"average": "an average", "median": "a median"}.get(stat_kind(f), "a reported")
 
 
+def estimated(f):
+    """True when a figure's own source or note calls it an estimate. Poets&Quants marks
+    Columbia's acceptance rate "*Estimate" and describes Harvard's as estimated, and the
+    page printed both as "reported" (INC-0167)."""
+    f = f or {}
+    return "estimat" in ("%s %s" % (f.get("src") or "", f.get("stat") or "")).lower()
+
+
+def rate_word(f):
+    """How a sentence qualifies an acceptance rate: estimated when its source says so."""
+    return "estimated" if estimated(f) else "reported"
+
+
 UNPUBLISHED = re.compile(r"does not (?:publish|release|report)|not published|never publish", re.I)
 
 
@@ -74,6 +87,11 @@ def prose_problems(s, texts):
     the ones that are scored. Reads what was rendered, not how it was assembled.
     """
     probs = []
+    # INC-0167: an acceptance rate its source gives as an estimate is never called reported.
+    if estimated((s.get("profile") or {}).get("accept_rate_pct")):
+        for t in texts:
+            if re.search(r"reported acceptance rate", t, re.I):
+                probs.append("calls an estimated acceptance rate reported in %r" % t[:90])
     # INC-0118: an empty field means a search came up empty, never that the school does not
     # publish the figure. Checked here for the sentences and again on the whole page.
     for t in texts:
@@ -450,7 +468,7 @@ def lead_paragraph(s, p, g, gc, acc, tui, sal, cs):
                    % ("an average of" if k == "average" else "a median of" if k == "median"
                       else "a reported", fmt_num(we["v"])))
     if acc is not None:
-        out.append("The reported acceptance rate is %s percent." % fmt_num(acc))
+        out.append("The %s acceptance rate is %s percent." % (rate_word(p.get("accept_rate_pct")), fmt_num(acc)))
     if sal:
         sf = p.get("salary_median_usd")
         w, noun = salary_word(sf), salary_noun(sf)
@@ -461,7 +479,7 @@ def lead_paragraph(s, p, g, gc, acc, tui, sal, cs):
                    "on a composite that blends published rankings with outcomes and "
                    "selectivity." % (s["_rank"], s.get("_ranked_total") or s["_total"]))
     out.append("Every figure on this page carries the source it came from and the year it "
-               "was published; anything unverified shows a dash rather than an estimate.")
+               "was published; anything unverified shows a dash, never an estimate of our own.")
     return " ".join(out)
 
 
@@ -995,7 +1013,8 @@ def school_page(s, tpl, today, ranked=()):
     bits = []
     acc = (p.get("accept_rate_pct") or {}).get("v")
     if acc is not None:
-        bits.append("acceptance rate %s%%" % fmt_num(acc))
+        bits.append(("estimated acceptance rate %s%%" if estimated(p.get("accept_rate_pct"))
+                     else "acceptance rate %s%%") % fmt_num(acc))
     if g.get("v"):
         bits.append(" ".join(x for x in (stat_kind(g), "GMAT Focus", str(g["v"])) if x))
     elif gc.get("v"):
@@ -1066,7 +1085,8 @@ def school_page(s, tpl, today, ranked=()):
     if (p.get("accept_rate_pct") or {}).get("v") is not None:
         # The number chooses its article: "an 18.8% acceptance rate" (INC-0134).
         rate = p["accept_rate_pct"]["v"]
-        facts.append((p["accept_rate_pct"], f'{article_for(fmt_num(rate))} {rate}% acceptance rate'))
+        facts.append((p["accept_rate_pct"], f'an estimated {rate}% acceptance rate' if estimated(p["accept_rate_pct"])
+                      else f'{article_for(fmt_num(rate))} {rate}% acceptance rate'))
     # Each figure under the class it describes, so a Class of 2026 figure is never
     # reported as part of a Class of 2027 profile (INC-0104).
     for subj, phrases in grouped(p, facts):
@@ -1099,7 +1119,7 @@ def school_page(s, tpl, today, ranked=()):
                    f'a rate from application counts.'))
     if ar.get("v") is not None:
         qa.append((f'What is the acceptance rate at {s["name"]}?',
-                   f'Its reported acceptance rate is {ar["v"]}%' + (f' ({ar.get("src")}, {ar.get("year")}).' if ar.get("src") else ".")))
+                   f'Its {rate_word(ar)} acceptance rate is {ar["v"]}%' + (f' ({ar.get("src")}, {ar.get("year")}).' if ar.get("src") else ".")))
     tu = p.get("tuition_usd") or {}
     if tu.get("v") is not None:
         qa.append((f'How much is tuition at {s["name"]}?',

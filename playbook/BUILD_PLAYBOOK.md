@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-27, which is 8 days, across
-118 commits, by one owner directing a series of AI coding sessions. As of this
+119 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 86 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
 2098 tracked files in total.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-118 commits in 8 days, one owner, a series of AI sessions. This
+119 commits in 8 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1217,22 +1217,22 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-166 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+168 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 85 | 51% |
-| Found by measuring something | 41 | 25% |
-| A test caught it | 21 | 13% |
+| Found by reading the code or the output | 87 | 52% |
+| Found by measuring something | 41 | 24% |
+| A test caught it | 21 | 12% |
 | Found by rendering it and looking | 8 | 5% |
 | Found by a review bot or an adversarial pass | 5 | 3% |
 | A build guard caught it | 4 | 2% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 164 of 166 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 166 of 168 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1241,20 +1241,20 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 71 |
+| Wrong data shown or stored | 73 |
 | Degraded | 41 |
 | Silent loss | 26 |
 | Cosmetic | 25 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 166. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 168. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 73 |
+| Content generation | 75 |
 | Tests and guards | 27 |
 | Front end | 12 |
 | Build system | 11 |
@@ -1269,7 +1269,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-160 of 166 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+162 of 168 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1290,7 +1290,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-75 of 166 incidents record that they repeat an earlier lesson, 103 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+75 of 168 incidents record that they repeat an earlier lesson, 103 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1380,11 +1380,11 @@ Incidents that name an earlier one without claiming to repeat it. Each was read 
 Files named by three or more incidents. This is not the same signal as the list above: a file that is the natural home for many checks will appear here without any one of them having failed. It says where the work has been, and where a reader new to the codebase should look first.
 
 - `src/build_banks.py`, 17 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011, INC-0079, INC-0081, INC-0086, INC-0088, INC-0089, INC-0090, INC-0091, INC-0092, INC-0120, INC-0123, INC-0126, INC-0127)
+- `src/check_sources.py`, 14 incidents (INC-0130, INC-0132, INC-0133, INC-0136, INC-0140, INC-0150, INC-0152, INC-0154, INC-0155, INC-0156, INC-0158, INC-0159, INC-0161, INC-0168)
 - `src/build.py`, 13 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067, INC-0076, INC-0080, INC-0131, INC-0148)
-- `src/check_sources.py`, 13 incidents (INC-0130, INC-0132, INC-0133, INC-0136, INC-0140, INC-0150, INC-0152, INC-0154, INC-0155, INC-0156, INC-0158, INC-0159, INC-0161)
 - `src/test.js`, 8 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085)
 - `src/validate_schools.py`, 8 incidents (INC-0125, INC-0141, INC-0143, INC-0144, INC-0147, INC-0151, INC-0153, INC-0157)
-- `src/build_rankings.py`, 6 incidents (INC-0014, INC-0049, INC-0118, INC-0135, INC-0142, INC-0145)
+- `src/build_rankings.py`, 7 incidents (INC-0014, INC-0049, INC-0118, INC-0135, INC-0142, INC-0145, INC-0167)
 - `src/review_bot.js`, 5 incidents (INC-0022, INC-0026, INC-0051, INC-0061, INC-0077)
 - `src/bank_emit.py`, 5 incidents (INC-0062, INC-0066, INC-0068, INC-0073, INC-0119)
 - `src/gen/framework.py`, 5 incidents (INC-0074, INC-0075, INC-0078, INC-0087, INC-0096)
@@ -1406,7 +1406,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (73)
+## Content generation (75)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -2292,6 +2292,30 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** The GMAT's cost has a value, 275, the US fee at a test center, with the online fee in its note, and it cites the exam payment page, with the address that page loads its US table from in also_urls so the source check reads the table itself. The rescheduling, cancellation and score report fees from the same table are recorded as key facts. build_exams prints a cost only from its value, never out of a note. Two rules from GMAC's policies document are recorded beside them: rescheduling or cancelling by phone adds a US$10.00 fee, and a voucher or fee waiver covers the exam fee only.
 - **What stops it now.** validate_exams refuses a figure with no value whose note carries a dollar amount, since nothing checks it, and holds also_urls to the rules for url: https, on the test maker's host. check_sources reads the payment table through also_urls, reading it once more when the browser's first read gets Imperva's challenge, which two of three reads on September 27, 2026 did not; that day's run verified every fee. in `src/validate_exams.py`
 - **Lesson.** What a page publishes has to be what the checks read. When a builder falls back to a second field to fill a gap, that field is published, and every check written for the first field has to cover it too.
+
+
+### INC-0167. School pages called an acceptance rate its source gives as an estimate "reported"
+
+*2026-09-27, Wrong data shown or stored*
+
+- **What was seen.** Harvard Business School's page said "The reported acceptance rate is 11.3 percent" and answered its FAQ with "Its reported acceptance rate is 11.3%", though the figure's own source line, kept in the library, reads "Poets&Quants (The M7 By The Numbers 2026, described as estimated)". Adding Columbia's rate, which Poets&Quants marks "*Estimate; source: CBS", produced the same sentence for it: "The reported acceptance rate is 19.5 percent."
+- **Why.** The school page builder writes every acceptance rate with one fixed word, "reported", in the profile sentence, the page lead, the meta description and the FAQ. Whether a figure is an estimate lives in its source and note, which the page prints in its table, but none of the sentences read it, so the table said estimate and the prose said reported.
+- **How it surfaced.** Found on September 27, 2026 when Columbia's estimated acceptance rate was added and its page was read back sentence by sentence. (Found by reading the code or the output)
+- **Fix.** Every sentence that states an acceptance rate reads the figure's own source and note: where either calls it an estimate, the page says "estimated" in the lead, the profile sentence, the meta description and the FAQ. The page's closing line, which said anything unverified shows a dash rather than an estimate, now says a dash, never an estimate of our own: a publisher's estimate is shown, and named as one.
+- **What stops it now.** build_rankings' prose check fails a school page that calls an estimated acceptance rate "reported" in any sentence it writes about itself. in `src/build_rankings.py`
+- **Lesson.** A qualifier recorded next to a figure has to reach every sentence that states the figure. When prose is generated from data, words like reported, median or estimated are part of the value, and a fixed word in a template silently overrides what the record says.
+
+
+### INC-0168. Emory's acceptance rate was shown beside counts that divide to a different rate, with nothing on the page saying so
+
+*2026-09-27, Wrong data shown or stored*
+
+- **What was seen.** Emory Goizueta's page showed a 32% acceptance rate with the source line "Poets&Quants (Class of 2027 admissions coverage: 1,581 applications, 450 admitted)". 450 of 1,581 is 28.5 percent, so the page's own source line contradicted its figure, and a reader who did the division had no way to know which to believe.
+- **Why.** The Poets&Quants article, read on September 27, 2026, prints 32% in its table and its text, and also prints 1,581 applications and 450 admits in both; its table credits the data to Emory. Every earlier year in the same table matches its counts (509 of 1,383 is 36.8%, 432 of 1,104 is 39.1%), and the Class of 2027's yield, 128 of 450 or 28.4%, agrees with the admits, so one of the rate and the application count is misprinted and the article does not say which. The record kept the printed rate and put the counts in its source line as if they were its working.
+- **How it surfaced.** Flagged on September 26, 2026 as an open question while the article answered 403 here; resolved on September 27, 2026 when the article could be read. (Found by reading the code or the output)
+- **Fix.** The rate stays at 32%, as its source prints it. Its source line no longer implies the counts produce it, and its note says what the counts work out to and why the conflict cannot be settled from the article; the school's own class profile page prints no admissions figures.
+- **What stops it now.** The source check now reads the 28.5 in the note as derived from the page's 450 and 1,581, so if the article changes either count or the rate, the check reports the figure. in `src/check_sources.py`
+- **Lesson.** When a source contradicts itself, pick nothing silently. Show the figure it states, show the figures it contradicts, and say which cannot be settled; a reader given the conflict can judge it, a reader given one number cannot.
 
 
 ## Tests and guards (27)
@@ -3697,6 +3721,10 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Baylor's school page gave its whole MBA program's entering class of 80, with 15 part-time students in it, as the full-time class size, and a source note that named only the two full-time tracks (INC-0159)</small>
 - [ ] What a page publishes has to be what the checks read. When a builder falls back to a second field to fill a gap, that field is published, and every check written for the first field has to cover it too.  
   <small>The GMAT guide's Cost tile showed $275 and $300 from a note that no check read, cited to a page that prints no price (INC-0160)</small>
+- [ ] A qualifier recorded next to a figure has to reach every sentence that states the figure. When prose is generated from data, words like reported, median or estimated are part of the value, and a fixed word in a template silently overrides what the record says.  
+  <small>School pages called an acceptance rate its source gives as an estimate "reported" (INC-0167)</small>
+- [ ] When a source contradicts itself, pick nothing silently. Show the figure it states, show the figures it contradicts, and say which cannot be settled; a reader given the conflict can judge it, a reader given one number cannot.  
+  <small>Emory's acceptance rate was shown beside counts that divide to a different rate, with nothing on the page saying so (INC-0168)</small>
 
 
 ## Database
@@ -3993,7 +4021,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 166 real defects reduced to the rules that prevent them,
+the whole project: 168 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -4033,7 +4061,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-166 defects already prevented is genuinely ahead, and every defect it hits
+168 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

@@ -613,6 +613,19 @@ verified rather than that the school does not publish one (INC-0118).
       Crimson Kingfisher 98, pushed the page 35px past a 390px screen. The line now wraps
       with the name kept whole, and `src/smoke_community.js`, in the browser suite, checks
       the longest and shortest names the page can draw at phone and desktop width.
+- [x] **Two more acceptance rates, and an estimate is called one** (INC-0167). Acceptance
+      rate is the largest search intent on the school pages, and the library had one in 15
+      of its 94 school records. Scanning every page the library already cites found two more:
+      Columbia's 19.5%, which Poets&Quants marks as an estimate from CBS data, and Maryland
+      Smith's 38% on the Poets&Quants profile its women and international shares come from.
+      Both were re-read live on September 27 and pass the source check (653 figures, none
+      missing). The school pages called every rate "reported", so Harvard's 11.3%, which its
+      source describes as estimated, read as reported too; the lead, profile sentence, meta
+      description and FAQ now say "estimated" wherever the figure's own source does, and the
+      build fails a page that calls an estimate reported. The SFN Score counts acceptance
+      rate at 10 percent where one exists: Columbia moves from 93.0 to 91.2 and stays 5th,
+      Maryland from 58.9 (42nd) to 56.7 (45th), and Utah, SMU and Michigan State each move up
+      one place.
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects
@@ -704,11 +717,14 @@ verified rather than that the school does not publish one (INC-0118).
       two the check misread (UMass Amherst's PDF, Booth's workbook) and one drawn as images
       (WashU Olin's). Cincinnati keeps its labelled 2025-26 tuition until the school page can
       show a range: from 2026-27 UC bills the Lindner MBA per credit hour over 35 to 48 credits
-- [ ] Emory Goizueta's acceptance rate (32 percent, from Poets&Quants) disagrees with its own
-      source label: 450 admitted of 1,581 applications is 28.5 percent, and the record's
-      notes call the 32 percent "Poets and Quants math" with no official counterpart.
-      Poets&Quants answers 403 here, so the figure is unchanged and flagged to the owner;
-      read the article, then correct the value or the label.
+- [x] Emory Goizueta's acceptance rate (32 percent, from Poets&Quants) disagreed with its own
+      source label: 450 admitted of 1,581 applications is 28.5 percent. Read on September
+      27 (INC-0168): the article prints 32% in its table and its text and credits the data
+      to Emory; every earlier year in its table matches its counts and the new class's
+      yield matches the 450 admits, so either the rate or the 1,581 is misprinted and the
+      article does not say which. The page keeps the printed 32%, its source line no longer
+      implies the counts produce it, and its note gives the 28.5 percent the counts work out
+      to. Emory's own class profile prints no admissions figures.
 - [ ] Six GMAT facts cite pages this sandbox cannot read: four on www.mba.com serve a bot
       challenge and two on support.mba.com answer 403. check_sources reports them as
       unreadable, not wrong. The weekly job may read them from GitHub's runners; if it
