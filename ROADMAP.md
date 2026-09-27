@@ -586,6 +586,17 @@ verified rather than that the school does not publish one (INC-0118).
       appear on October 28 with the tuition post, and a build dated November 21 shows it on
       all 54. The blog build's check that every link into the blog is a published post now
       covers the school pages too.
+- [x] **"How Much Does the ACT Cost in 2026?" queued for November 23**, James Corbett,
+      completing the fee posts for all five live exams: ACT's fees in the United States ($70,
+      $75 with science, $95 with writing, $100 with both) and outside it ($188.50 to
+      $223.50), every other fee (late registration $42, the $49 change fee, standby $75,
+      score reports $20, the $32 archive fee, My Answer Key and score verification), what
+      missing a test costs, the few refunds ACT gives, and the fee waiver's benefits, rules
+      and eligibility. The ACT guide gains six key facts from ACT's US and non-US fees pages,
+      its registration, score sending and fee waiver pages and its 2026-2027 fee waiver PDF,
+      checked weekly (108 exam facts against 67 pages, none missing). ACT's registration page
+      says My Answer Key is offered on three test dates a year and its fee waiver page says
+      four, so the post says only that it is offered on some dates.
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects
