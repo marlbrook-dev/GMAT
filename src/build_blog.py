@@ -125,10 +125,18 @@ def stale_trainer_claims(p, names=None):
 # lifetime, which its retake policy page no longer says (INC-0170). A claim goes here when
 # its source changes or drops it, so no later post can repeat it.
 RETIRED_CLAIMS = [
-    (re.compile(r"(?=[^.]*\bGMAT\b)(?=[^.]*\blifetime\b)(?=[^.]*\b(?:attempt|attempts|retake|retakes|limit|limits|caps?|times|sit)\b)[^.]*", re.I),
+    # (a pattern the whole post must match for the claim to apply, or None; the claim, read
+    # a sentence or table cell at a time; why it no longer holds). The scope exists because a
+    # table cell such as "Up to 12 times in total" names its exam only in the column heading.
+    (None,
+     re.compile(r"(?=[^.]*\bGMAT\b)(?=[^.]*\blifetime\b)(?=[^.]*\b(?:attempt|attempts|retake|retakes|limit|limits|caps?|times|sit)\b)[^.]*", re.I),
      "GMAC's retake policy sets at least 16 days between attempts and up to five in a "
      "rolling 12-month period, and names no lifetime limit (support.mba.com, read "
      "September 27, 2026; INC-0170)"),
+    (re.compile(r"\bACT\b"),
+     re.compile(r"[^.]*\b(?:12|twelve)\s+(?:times|attempts)\b[^.]*", re.I),
+     "ACT's retesting page says there is no limit to how many times students can take the "
+     "ACT (act.org, read September 27, 2026; INC-0172)"),
 ]
 
 
@@ -137,9 +145,12 @@ def retired_claims(p):
     from page_checks import _BLOCK
     parts = re.sub(r"<[^>]+>", " ", _BLOCK.sub("\n", p["body"])).split("\n")
     parts += [str(q.get(k, "")) for q in p["faq"] for k in ("q", "a")]
+    whole = html.unescape(" ".join(parts))
     out = []
-    for part in parts:
-        for rx, why in RETIRED_CLAIMS:
+    for scope, rx, why in RETIRED_CLAIMS:
+        if scope is not None and not scope.search(whole):
+            continue
+        for part in parts:
             m = rx.search(html.unescape(part))
             if m:
                 out.append((m.group(0).strip(), why))
@@ -214,10 +225,14 @@ def _selfcheck_title():
 
 def _selfcheck_retired():
     """INC-0170: the lifetime clause is refused, the current rule and an LSAT lifetime
-    limit are not."""
+    limit are not. INC-0172: an ACT cap of 12 is refused even in a table cell that names
+    the exam only in its column heading; the current rule and a 12-month period are not."""
     cases = (("<p>GMAC limits how many times you can sit the GMAT within a 12 month window and across a lifetime.</p>", True),
              ("<p>GMAC allows up to five GMAT attempts in any rolling 12-month period.</p>", False),
-             ("<p>LSAC allows the LSAT seven times over a lifetime.</p>", False))
+             ("<p>LSAC allows the LSAT seven times over a lifetime.</p>", False),
+             ("<table><tr><th>SAT</th><th>ACT</th></tr><tr><td>No limit</td><td>Up to 12 times in total</td></tr></table>", True),
+             ("<p>There is no limit to how many times you can take the ACT.</p>", False),
+             ("<p>Post completion OPT lasts up to 12 months.</p>", False))
     for body, want in cases:
         got = bool(retired_claims({"body": body, "faq": []}))
         if got != want:

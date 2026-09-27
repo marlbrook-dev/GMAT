@@ -144,7 +144,14 @@ RANGE_SUFFIX = re.compile(r"(\d[\d,]*(?:\.\d+)?)\s?[\u2013\u2014-]\s?\d[\d,]*(?:
 UNIT = {"12", "100"}
 
 
+# A grade range names school years, never a figure. ACT's page stopped giving an attempt
+# limit, and its "Students & Parents K-12" menu link went on confirming the 12 the record
+# still claimed (INC-0172).
+GRADES = re.compile(r"(?:\bPre-?)?\bK\s?[-\u2013]\s?\d{1,2}\b")
+
+
 def numbers(text, words=False):
+    text = GRADES.sub(" ", str(text or ""))
     text = SPAN.sub(lambda m: "%s %s%s" % (m.group(1), m.group(1)[:2], m.group(3)), str(text or ""))
     out = {norm(n) for n in NUM.findall(text)}
     for n, unit in SUFFIX.findall(text) + RANGE_SUFFIX.findall(text):
@@ -496,7 +503,13 @@ def _selfcheck():
     INC-0154: a figure an image carries in its alt text is printed.
     INC-0156: a bot challenge page is not read as the page it was sent for.
     INC-0158: figures glued to their labels, in a counter's attribute or in a workbook cell are
-    read as shown, and a page that moved on shows its new figures beside the labels."""
+    read as shown, and a page that moved on shows its new figures beside the labels.
+    INC-0172: a grade range such as K-12 is not a figure."""
+    # INC-0172: a grade range in a menu confirms nothing; the same number as a figure does.
+    if "12" in numbers("Students & Parents K-12 Workforce Higher Ed", True):
+        sys.exit("check_sources: the 12 of K-12 was read as a figure (INC-0172)")
+    if "12" not in numbers("can be taken up to 12 times in total", True):
+        sys.exit("check_sources: a plain 12 was not read (INC-0172)")
     glued = unglue("CLASS PROFILEAVERAGE AGE32ENROLLED IN DUAL DEGREE22%INTERNATIONAL STUDENTS39%AVERAGE YEARS "
                    "WORK EXPERIENCE8AVERAGE UNDERGRAD GPA3.45AN EXCELLENT EDUCATION")
     if not {"39", "8", "3.45"} <= numbers(glued, True):
