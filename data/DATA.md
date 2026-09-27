@@ -88,7 +88,19 @@ point is shown with its timing and does neither (INC-0142).
 1. Every published value carries `src`, `year`, and `url`. A figure we cannot
    verify is `{"v": null}` or omitted, never a guess.
 2. GMAT Focus (205 to 805) and Classic (200 to 800) are separate fields and
-   are never converted or mixed. `stat` records average vs median.
+   are never converted or mixed. `stat` records average vs median, and says which
+   edition the source gives the figure in the source's own words: the edition's
+   name ("GMAT Focus", "10th Edition", "Legacy", "Traditional exam (older
+   version)"), its scale, or the other edition named beside it ("listed as GMAT
+   beside a separate GMAT Focus figure"). A source that names no edition does not
+   settle it, and neither does the number: an average or median can end in any
+   digit, both scales reach 800, and scores of either edition stay valid for five
+   years (GMAC), so any class that enrolled from 2024 on can hold both. The one
+   proof outside the source is a class that took the test before GMAT Focus testing
+   began on November 7, 2023 (GMAC, August 29, 2023), recorded in
+   `edition_proof` with its reason, the https pages that show it and the date
+   checked. Otherwise the figure is blank, with a note quoting what the source
+   prints (INC-0157). The validator enforces all of this.
 3. Banned sources (build fails): GMAT Club, Quora, Wikipedia, GyanDhan,
    Pagalguy, Reddit, any forum.
 4. Weak sources (build warns, replacement queued): Clear Admit, Stacy

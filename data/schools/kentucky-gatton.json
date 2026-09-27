@@ -56,7 +56,15 @@
    "src": "Gatton College official news",
    "year": 2019,
    "url": "https://gatton.uky.edu/news/gatton-welcomes-talented-201920-one-year-mba-class-university-kentucky",
-   "note": "Stale: the article is dated June 17, 2019 and predates GMAT Focus, so the score is on the classic scale."
+   "note": "Stale: the article is dated June 17, 2019 and predates GMAT Focus, so the score is on the classic scale.",
+   "edition_proof": {
+    "why": "The 2019-20 One Year MBA class enrolled in 2019, four years before GMAT Focus Edition testing began on November 7, 2023, so every score in it is on the Classic scale.",
+    "urls": [
+     "https://gatton.uky.edu/news/gatton-welcomes-talented-201920-one-year-mba-class-university-kentucky",
+     "https://www.gmac.com/why-gmac/gmac-news/gmac-press-releases/gmat-focus-edition-sets-to-deliver-test-pathway-to-in-demand-skills"
+    ],
+    "checked": "2026-09-27"
+   }
   },
   "gre_quant": {
    "v": null,

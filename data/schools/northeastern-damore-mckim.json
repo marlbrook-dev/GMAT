@@ -53,11 +53,18 @@
   },
   "gmat_classic": {
    "v": 623,
-   "stat": "average; the page labels it average GMAT and names no edition",
+   "stat": "average GMAT, Class of 2025",
    "src": "D'Amore-McKim, Meet the Full-Time MBA Class of 2025",
    "year": 2023,
    "url": "https://damore-mckim.northeastern.edu/news/meet-the-full-time-mba-class-of-2025/",
-   "note": "Edition inferred, not labeled: filed as GMAT Classic because the Class of 2025 entered in fall 2023, before the Focus rollout. The program is test optional, so the average reflects the students who submitted a score."
+   "edition_proof": {
+    "why": "The page names no edition, but D'Amore-McKim's full-time MBA runs two years with fall entry, so the Class of 2025 enrolled in fall 2023, before GMAT Focus Edition testing began on November 7, 2023; every score in it is on the Classic scale.",
+    "urls": [
+     "https://damore-mckim.northeastern.edu/programs/mba-full-time/",
+     "https://www.gmac.com/why-gmac/gmac-news/gmac-press-releases/gmat-focus-edition-sets-to-deliver-test-pathway-to-in-demand-skills"
+    ],
+    "checked": "2026-09-27"
+   }
   },
   "gre_quant": {
    "v": null,

@@ -65,10 +65,18 @@
   },
   "gmat_classic": {
    "v": 618,
-   "stat": "avg",
+   "stat": "avg, two-year Class of 2020",
    "src": "Poets and Quants, Meet Babson College's MBA Class of 2020 (dated figure; program is now test optional)",
    "year": 2018,
-   "url": "https://poetsandquants.com/2018/11/21/meet-babson-colleges-mba-class-of-2020/2/"
+   "url": "https://poetsandquants.com/2018/11/21/meet-babson-colleges-mba-class-of-2020/2/",
+   "edition_proof": {
+    "why": "Poets&Quants published this on November 21, 2018, five years before GMAT Focus Edition testing began on November 7, 2023, so every score in it is on the Classic scale.",
+    "urls": [
+     "https://poetsandquants.com/2018/11/21/meet-babson-colleges-mba-class-of-2020/2/",
+     "https://www.gmac.com/why-gmac/gmac-news/gmac-press-releases/gmat-focus-edition-sets-to-deliver-test-pathway-to-in-demand-skills"
+    ],
+    "checked": "2026-09-27"
+   }
   },
   "gre_quant": {
    "v": null,

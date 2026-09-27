@@ -54,12 +54,12 @@
    "url": "https://www.kenan-flagler.unc.edu/programs/mba/full-time-mba/class-profile/"
   },
   "gmat_classic": {
-   "v": 710,
-   "stat": "average",
-   "src": "Poets&Quants, Meet North Carolina Kenan-Flagler's MBA Class of 2027",
-   "year": 2025,
-   "url": "https://poetsandquants.com/2025/10/23/meet-north-carolina-kenan-flaglers-mba-class-of-2027/",
-   "note": "Read on the article, which gives the average and its range without naming an edition: \"The average GMAT came to 710\" and \"scores ran from 660-750 in the mid-80% range\", a 14-point rise over two years. Filed as Classic because 710 and the top of that range sit above every GMAT Focus figure in this library when filed (the highest was 690 on 2026-09-27)."
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "Not published: Poets&Quants' report on the Class of 2027 gives an average GMAT of 710 with a middle 80% range of 660 to 750, and names no GMAT edition. An unlabelled figure could be on either scale, or a mix of both, since GMAT scores of either edition stay valid for five years (GMAC), so it is not filed under one (INC-0157)."
   },
   "gre_quant": {
    "v": null,

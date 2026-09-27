@@ -82,6 +82,41 @@ def _total_as_year(stat):
 
 TRIAGE = pathlib.Path(__file__).resolve().parent.parent / "data" / "source_triage.json"
 
+# A GMAT figure is filed under an edition only when its source says which (INC-0157). The
+# stat says so in the source's words: the edition's name, its 200 to 800 or 205 to 805 scale,
+# or the other edition named beside it. A figure whose source names neither may still carry
+# a proof in edition_proof, such as a class that took the test before the Focus Edition
+# existed, with the pages that show it. Eleven figures had been filed by guesses, from a
+# class year, a last digit or how high a number was, none of which settles the edition.
+_GMAT_LABEL = {
+    "gmat_focus": re.compile(r"focus|205 to 805|205-805|"
+                             r"(?:beside|alongside) a separate (?:\w+ ){0,2}GMAT (?:10th Edition|Classic|Legacy)", re.I),
+    "gmat_classic": re.compile(r"classic|10th edition|legacy|previous (?:edition|format|version)|traditional|older version|"
+                               r"200 to 800|200-800|(?:beside|alongside) a separate (?:\w+ ){0,2}GMAT Focus", re.I),
+}
+_GMAT_GUESS = re.compile(r"not label|consistent with|scale cap|not producible|not attainable|inferred|classified as|predates", re.I)
+
+
+def _gmat_edition_errors(slug, field, fv):
+    """Why a published GMAT figure does not show which edition its source gives it."""
+    proof = fv.get("edition_proof")
+    if proof is not None:
+        if not (isinstance(proof, dict) and len(str(proof.get("why") or "")) >= 60
+                and isinstance(proof.get("urls"), list) and proof["urls"]
+                and all(str(u).startswith("https://") for u in proof["urls"])
+                and re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(proof.get("checked") or ""))):
+            return [f"{slug}.{field}: edition_proof needs a why, the https urls that show it, and a checked date"]
+        return []
+    errs = []
+    if not _GMAT_LABEL[field].search(str(fv.get("stat") or "")):
+        errs.append(f"{slug}.{field}: its stat does not say which edition its source gives it; quote the source's label, "
+                    f"or prove the edition in edition_proof, or leave the figure blank (INC-0157)")
+    said = _GMAT_GUESS.search(" ".join(str(fv.get(k) or "") for k in ("stat", "note")))
+    if said:
+        errs.append(f"{slug}.{field}: its stat or note reasons about the edition ({said.group(0)!r}); a GMAT "
+                    f"figure is filed only under the edition its source names or edition_proof shows (INC-0157)")
+    return errs
+
 
 def _triage_errors(schools, path=TRIAGE):
     """data/source_triage.json records figures a person read and found right where the
@@ -193,6 +228,8 @@ def validate(schools):
             if fv.get("note") and not fv.get("stat"):
                 errors.append(f"{slug}.{f}: has a note but no stat; a note is commentary beside a "
                               f"description, so the description goes in stat")
+            if f in _GMAT_LABEL:
+                errors += _gmat_edition_errors(slug, f, fv)
             if f == "tuition_usd" and _total_as_year(fv.get("stat")):
                 errors.append(f"{slug}.tuition_usd: its note calls it a program total, and the field "
                               f"is one year; a whole-program figure goes in program_cost_usd")

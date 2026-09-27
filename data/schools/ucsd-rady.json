@@ -45,11 +45,12 @@
    "url": "https://rady.ucsd.edu/programs/mba/stats-stories.html"
   },
   "gmat_focus": {
-   "v": 645,
-   "stat": "median (page also lists GMAT mean 627; edition not labeled on page)",
-   "src": "Rady Full-Time MBA Stats and Stories page",
-   "year": 2025,
-   "url": "https://rady.ucsd.edu/programs/mba/stats-stories.html"
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "Not published: the Stats and Stories page prints a GMAT mean of 627 and a median of 645, and names no GMAT edition. An unlabelled figure could be on either scale, or a mix of both, since GMAT scores of either edition stay valid for five years (GMAC), so it is not filed under one (INC-0157)."
   },
   "gmat_classic": {
    "v": null
