@@ -334,6 +334,23 @@ verified rather than that the school does not publish one (INC-0118).
       counts. A sample of every question type from the new passages was read for seams;
       the one "whether or not" finding opens its clause, so the "is unreliable" distractor
       does not run into it.
+- [x] **The source check reads class profiles drawn in embedded charts** (INC-0146). Its
+      browser read waited for a quiet network that pages with trackers never reach, never
+      scrolled, and read only the top frame, so Stanford's class profile, an Infogram chart
+      that draws its numbers only when scrolled into view, came back with no figures.
+      `src/render_page.js` now scrolls, reads every visible frame, skips hidden frames and
+      PDFs, and has one deadline; `src/smoke_render.js` holds a local page with each trait.
+      The session sandbox's browser trust store also lacked the egress proxy's CA, so no
+      page could render here; adding it with certutil (verification stays on) lets the
+      check render in a session as well as in the weekly job, and each new sandbox needs
+      it added again until the environment's setup script does it. First
+      results: Wharton's own page gives its Class of 2027 profile (GPA 3.7, GMAT Focus 676,
+      Classic 735, GRE 163 and 162, 888 students, 44 percent women, 26 percent international),
+      which replaces the Class of 2026 section and Poets&Quants' Focus figure, and MIT Sloan's
+      gives its Class of 2028 (median GPA 3.74, median GMAT Focus 675 with a middle 80
+      percent of 645 to 715, 45 percent international, 43 percent female), updated September
+      2026. The queued GRE post and the fact sheet carry Wharton's Class of 2027 scores and
+      add Stanford's (164 Quant and 164 Verbal, Class of 2027), now read on its own page.
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects
@@ -411,9 +428,13 @@ verified rather than that the school does not publish one (INC-0118).
       page confirms the library's figures)
 - [ ] `src/smoke_load.js` stays out of CI because timing on shared runners is noisy, so run
       it by hand after any change to how the banks are split or loaded (INC-0113)
-- [ ] School figures the `--schools` run could not settle from this sandbox. The last run of
-      September 27 ends at 40 figures with a number their page does not print, 20 sources
-      unreadable and 9 showing none of their figures. Rice's, UVA Darden's and Foster's
+- [ ] School figures the `--schools` run could not settle from this sandbox. With the
+      browser read fixed (INC-0146), the last run of September 27 ends at 35 figures with a
+      number their page does not print, 20 sources unreadable and 6 showing none of their
+      figures. Still on pages drawn by JavaScript: Haas (its figures sit behind tabs the read
+      does not open), Kellogg's middle 80 percent ranges, Rice (whose page now gives
+      three-year averages rather than the class we hold), Kelley, WashU Olin and Auburn.
+      Before that fix the run ended at 40, 20 and 9. Rice's, UVA Darden's and Foster's
       employment rates now declare the printed shares they sum, BYU's rate is printed in
       words, and Rutgers carries its Class of 2025 outcomes (82.6 percent employed three
       months after graduation and a $105,000 median base salary) in place of a 2020-2024

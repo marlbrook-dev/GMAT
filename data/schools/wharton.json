@@ -34,47 +34,47 @@
   }
  },
  "profile": {
-  "class_year": "Class of 2026",
+  "class_year": "Class of 2027",
   "class_size": {
-   "v": 866,
-   "stat": "Class of 2026 class size",
+   "v": 888,
+   "stat": "enrolled class, profile as of August 12, 2025",
    "src": "Wharton MBA class profile",
-   "year": 2024,
+   "year": 2025,
    "url": "https://mba.wharton.upenn.edu/class-profile/"
   },
   "gmat_focus": {
    "v": 676,
-   "stat": "average",
-   "src": "Poets&Quants (Class of 2027 profile coverage)",
+   "stat": "GMAT Focus average",
+   "src": "Wharton MBA class profile",
    "year": 2025,
-   "url": "https://poetsandquants.com/2025/09/23/whartons-mba-class-of-2027-more-racially-diverse-fewer-women-internationals/"
+   "url": "https://mba.wharton.upenn.edu/class-profile/"
   },
   "gmat_classic": {
-   "v": 732,
-   "stat": "average (edition not labeled on page; 732 is not producible on the Focus scale, so classified as classic)",
+   "v": 735,
+   "stat": "GMAT Legacy average, the page's name for the Classic edition",
    "src": "Wharton MBA class profile",
-   "year": 2024,
+   "year": 2025,
    "url": "https://mba.wharton.upenn.edu/class-profile/"
   },
   "gre_quant": {
-   "v": 162,
-   "stat": "average GRE (Quant)",
+   "v": 163,
+   "stat": "average GRE Quant",
    "src": "Wharton MBA class profile",
-   "year": 2024,
+   "year": 2025,
    "url": "https://mba.wharton.upenn.edu/class-profile/"
   },
   "gre_verbal": {
-   "v": 163,
-   "stat": "average GRE (Verbal)",
+   "v": 162,
+   "stat": "average GRE Verbal",
    "src": "Wharton MBA class profile",
-   "year": 2024,
+   "year": 2025,
    "url": "https://mba.wharton.upenn.edu/class-profile/"
   },
   "gpa": {
-   "v": 3.68,
-   "stat": "average undergraduate GPA (4.0-system schools only)",
+   "v": 3.7,
+   "stat": "average GPA, only students who attended universities with a 4.0 grading system",
    "src": "Wharton MBA class profile",
-   "year": 2024,
+   "year": 2025,
    "url": "https://mba.wharton.upenn.edu/class-profile/"
   },
   "accept_rate_pct": {
@@ -82,23 +82,23 @@
   },
   "work_exp_years": {
    "v": 5,
-   "stat": "average, range 1 to 17 years",
+   "stat": "average",
    "src": "Wharton MBA class profile",
-   "year": 2024,
+   "year": 2025,
    "url": "https://mba.wharton.upenn.edu/class-profile/"
   },
   "women_pct": {
-   "v": 47,
-   "stat": "Female: 47%",
+   "v": 44,
+   "stat": "women",
    "src": "Wharton MBA class profile",
-   "year": 2024,
+   "year": 2025,
    "url": "https://mba.wharton.upenn.edu/class-profile/"
   },
   "intl_pct": {
-   "v": 31,
-   "stat": "International Students: 31%",
+   "v": 26,
+   "stat": "international",
    "src": "Wharton MBA class profile",
-   "year": 2024,
+   "year": 2025,
    "url": "https://mba.wharton.upenn.edu/class-profile/"
   },
   "tuition_usd": {
@@ -123,7 +123,7 @@
    "url": "https://mba-pardot.marcomm.wharton.upenn.edu/l/327371/2026-04-14/7lhxf8/327371/1776198122hoMeKEA9/2025_MBA_Career_Report.pdf"
   }
  },
- "notes": "Anchor check passed: average GMAT Focus 676 and average Classic 735 confirmed for Class of 2027. Acceptance rate 20.5% is US News data for the Class of 2026 (fall 2024 entry); P&Q reported Wharton became more selective again in the 2025-26 cycle (yield rose to 62.7%) but the exact newer rate did not appear in snippets. Official class profile page shows Class of 2027 stats as zero placeholders (not yet published), so complete official data is for the Class of 2026; batch's P&Q Class of 2027 figures could not be confirmed on the school domain. GMAT Focus average is not published on the official page. Acceptance rate is not published by Wharton. Career report PDF is hosted on Wharton's Pardot storage and linked from mba.wharton.upenn.edu/mba-career-services/. Wharton does not publish an acceptance rate; prior third-party figure dropped.",
+ "notes": "Class profile figures are the Class of 2027 section of Wharton's own class profile page (profile as of August 12, 2025), which draws its figures with JavaScript: a plain fetch shows them as zero placeholders, so they were read in a browser on September 27, 2026 (INC-0146). Until then the record held the Class of 2026 section and Poets&Quants' Class of 2027 GMAT Focus. Wharton does not publish an acceptance rate; a prior third-party figure was dropped. The career report PDF is hosted on Wharton's Pardot storage and linked from mba.wharton.upenn.edu/mba-career-services/.",
  "website": "https://mba.wharton.upenn.edu/",
  "scholarship": {
   "review": {

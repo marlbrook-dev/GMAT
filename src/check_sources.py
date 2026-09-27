@@ -132,27 +132,14 @@ def to_text(body, ctype):
     return html.unescape(re.sub(r"<[^>]+>", " ", t))
 
 
-RENDER_JS = r"""
-const { chromium } = require('playwright');
-// Under node -e the script has no file name, so its arguments start at argv[1].
-const [, helper, url, ua] = process.argv;
-const { chromiumPath } = require(helper);
-(async () => {
-  const b = await chromium.launch({ executablePath: chromiumPath() });
-  const p = await b.newPage({ userAgent: ua });
-  await p.goto(url, { waitUntil: 'networkidle', timeout: 60000 });
-  process.stdout.write(await p.evaluate(() => document.body.innerText));
-  await b.close();
-})().catch(e => { console.error(String(e)); process.exit(1); });
-"""
-
-
 def render(url):
-    """The page as a browser shows it, for a source that builds its text with JavaScript."""
+    """The page as a person reading it sees it, for a source that builds its text with
+    JavaScript. src/render_page.js scrolls the page and reads every frame, because an
+    embedded chart is its own document and may draw its figures only once scrolled into
+    view (INC-0146)."""
     import subprocess
-    r = subprocess.run(["node", "-e", RENDER_JS, "--", str(ROOT / "src" / "chromium_path.js"),
-                        url, UA], capture_output=True, text=True, timeout=120,
-                       cwd=str(ROOT))
+    r = subprocess.run(["node", str(ROOT / "src" / "render_page.js"), url, UA],
+                       capture_output=True, text=True, timeout=180, cwd=str(ROOT))
     if r.returncode != 0:
         raise RuntimeError("could not render: " + (r.stderr.strip()[:200] or "no output"))
     return r.stdout
@@ -257,10 +244,16 @@ def main(argv):
             # navigation without its figures, until a browser runs it. If the browser
             # cannot load it either, the static text is still evidence when there is
             # enough of it, so it is kept rather than thrown away.
-            if "--render" in argv and (len(text) < MIN_TEXT or any(
-                    check(f, numbers(text, True)) for _, _, f in todo if f["url"] == url)):
+            cited = [f for _, _, f in todo if f["url"] == url]
+            misses = lambda t: sum(len(check(f, numbers(t, True))) for f in cited)
+            if "--render" in argv and (len(text) < MIN_TEXT or misses(text)):
                 try:
-                    text = fetch(url, cache, rendered=True)
+                    shown = fetch(url, cache, rendered=True)
+                    # The browser's read replaces the page as served only when it is at
+                    # least as good a witness: a render that comes back as a challenge
+                    # page, or shorter, must not hide figures the served page printed.
+                    if len(shown) >= MIN_TEXT and (len(text) < MIN_TEXT or misses(shown) <= misses(text)):
+                        text = shown
                 except Exception as e:
                     print("render failed for %s, using the page as served (%s)"
                           % (url, str(e).splitlines()[0][:120]))

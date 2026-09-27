@@ -115,10 +115,15 @@ its source says so with a `derived` entry giving the working, such as
 check then looks for the inputs instead; a number read off the page rather than printed as
 one, counted from a list or split into separate characters, begins its entry with
 `count:`. Pages that build their text with JavaScript need `--render`, which reads them in
-Chromium. `--schools` runs the same check over the school library (INC-0133): it sets
-aside College Scorecard figures, which come from a dataset rather than a page, leaves a
-figure's `note` out because there it is our commentary, and reports a page that shows none
-of its figures as unread rather than wrong.
+Chromium through `src/render_page.js` the way a person would: it scrolls to the bottom so
+charts that draw only when seen get drawn, and reads every visible frame, since some class
+profiles are embedded charts in frames of their own (Stanford's and Wharton's are
+Infogram charts). It leaves PDFs to the ordinary read and skips hidden frames, whose
+text is raw source, and the browser's read replaces the page as served only when it shows
+at least as many of the cited figures (INC-0146). `--schools` runs the same check over the
+school library (INC-0133): it sets aside College Scorecard figures, which come from a
+dataset rather than a page, leaves a figure's `note` out because there it is our
+commentary, and reports a page that shows none of its figures as unread rather than wrong.
 
 A page can be quoted exactly and still be out of date: LSAC's LSAT FAQ went on describing
 "the 2025-2026 testing year" after LSAC moved almost every test taker into test centers
