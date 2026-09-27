@@ -53,7 +53,15 @@ async function read(browser, url, opts) {
       // A response whose frame has gone says nothing about the frames still here.
     }
   });
-  const resp = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: opts.timeout || 60000 });
+  let resp;
+  try {
+    resp = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: opts.timeout || 60000 });
+  } catch (e) {
+    // Chromium without a PDF viewer, as in CI, or a file sent as an attachment, turns the
+    // navigation into a download and goto throws; that is the same refusal.
+    if (/Download is starting/.test(String(e))) throw new Error('not an HTML page (a download)');
+    throw e;
+  }
   const type = (resp && resp.headers()['content-type']) || '';
   if (type && !/html/i.test(type)) throw new Error('not an HTML page (' + type.split(';')[0] + ')');
   await page.waitForLoadState('networkidle', { timeout: opts.quietMs || 10000 }).catch(() => {});

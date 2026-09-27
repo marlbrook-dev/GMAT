@@ -53,8 +53,12 @@ const server = http.createServer((req, res) => {
     // Held open for a moment, like a slow analytics endpoint.
     return setTimeout(() => { res.writeHead(204); res.end(); }, 150);
   }
-  if (p === '/file.pdf') {
-    res.writeHead(200, { 'Content-Type': 'application/pdf' });
+  if (p === '/file.pdf' || p === '/attached.pdf') {
+    // The second is sent as an attachment, which every Chromium turns into a download, as
+    // CI's does with any PDF; the first opens in a viewer where Chromium has one.
+    const head = { 'Content-Type': 'application/pdf' };
+    if (p === '/attached.pdf') head['Content-Disposition'] = 'attachment; filename="attached.pdf"';
+    res.writeHead(200, head);
     return res.end('%PDF-1.4\n%fixture\n');
   }
   if (!PAGES[p]) { res.writeHead(404); return res.end('nope'); }
@@ -92,6 +96,8 @@ const server = http.createServer((req, res) => {
   const pdf = await renderText(base + '/file.pdf').then(() => 'read', e => String(e));
   check('a PDF is refused rather than read in the viewer (' + ((Date.now() - t1) / 1000).toFixed(1) + 's)',
         /not an HTML page/.test(pdf) && Date.now() - t1 < 20000, pdf);
+  const attached = await renderText(base + '/attached.pdf').then(() => 'read', e => String(e));
+  check('a PDF sent as a download is refused the same way', /not an HTML page/.test(attached), attached);
 
   // A PDF in a frame of an HTML page: the viewer never answers a read, so it is skipped.
   const t2 = Date.now();
