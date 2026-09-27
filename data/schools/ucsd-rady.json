@@ -101,11 +101,15 @@
    "url": "https://rady.ucsd.edu/programs/mba/stats-stories.html"
   },
   "tuition_usd": {
-   "v": 51687,
-   "stat": "2025-26 rate; Tuition 13,140 plus MBA Professional Degree Supplemental Tuition 38,547, California resident, excluding campus fees and insurance; nonresident supplemental tuition adds 12,245 for 63,932 tuition-only",
+   "v": 54195,
+   "stat": "2026-27 rate; Tuition 13,722 plus MBA Professional Degree Supplemental Tuition 40,473, California resident, excluding campus fees and insurance; nonresident supplemental tuition adds 12,245 for 66,440 tuition-only",
    "src": "UC San Diego registration fees, Rady MBA state supported program",
-   "year": 2025,
-   "url": "https://students.ucsd.edu/finances/fees/registration/2025-26/rady.html"
+   "year": 2026,
+   "url": "https://students.ucsd.edu/finances/fees/registration/2026-27/rady.html",
+   "derived": {
+    "54195": "13722 + 40473, tuition plus the MBA Professional Degree Supplemental Tuition",
+    "66440": "13722 + 40473 + 12245, adding nonresident supplemental tuition"
+   }
   },
   "salary_median_usd": {
    "v": null,

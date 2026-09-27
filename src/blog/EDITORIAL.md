@@ -44,7 +44,7 @@ Class of 2027 profiles, additions verified against each school's own class profi
 - Duke Fuqua: median GMAT Focus 665; median GMAT Classic 720 (Duke Class of 2027 profile via BusinessBecause, 2025).
 - Texas McCombs: median GMAT Focus 655 (middle 80% 615 to 695) (McCombs class profile, 2025).
 - Emory Goizueta: average GMAT Focus 648; average GMAT Classic 723 (Goizueta class profile, 2025).
-- Georgetown McDonough: average GMAT Focus 625; average GMAT Classic 700 (McDonough class profile, 2025).
+- Georgetown McDonough, now its 2026 entering class (the school's page no longer shows the class above): average GMAT Focus 626 (mid-80% 555 to 682); average GMAT Classic 713 (672 to 752) (McDonough class profile, 2026).
 Note in-text which figures are averages (Stanford, Wharton, Stern, Tuck, Goizueta, McDonough) versus medians (MIT, HBS, Yale, Haas, Fuqua, McCombs).
 
 Product facts (the only permitted product claims, updated September 14, 2026):
@@ -81,6 +81,12 @@ ACT format and scoring (ACT, verified September 26, 2026; every figure is mirror
 - The ACT test is $70; the science add-on $5 and the writing add-on $25, or $100 for all three; late registration $42, standby testing $75, each additional score report $20 (ACT, 2026).
 - Four answer choices in every section, including math, which had five before the enhanced test. Paper, online at a test center, or on your own device, with seven national Saturday dates a year. Up to 12 attempts, though ACT suggests most students retest two to three times. Multiple-choice scores in two to eight weeks, five to eight with writing (ACT, 2026).
 - National ranks, the percent of recent ACT-tested graduates at or below each score, for tests taken September 2026 through August 2027 (graduates of 2024, 2025 and 2026). Composite: 36 is 100, 34 is 99, 32 is 97, 30 is 94, 28 is 91, 27 is 89, 26 is 86, 24 is 80, 22 is 72, 20 is 63, 18 is 52, 16 is 41; mean 19.1, standard deviation 6.1. By section at 30: English 93, math 95, reading 89, science 95; at 25: 84, 84, 78, 86; at 20: 64, 68, 56, 60. Section means: English 18.4, math 19.0, reading 20.0, science 19.5 (ACT national ranks, 2026).
+
+PSAT/NMSQT (College Board, verified September 27, 2026; mirrored with URLs in data/psat_percentiles.json):
+- Each section, Reading and Writing and Math, is scored 160 to 760; the total is the sum of the two, 320 to 1520. The NMSC Selection Index is twice Reading and Writing plus Math, divided by 10, on a scale of 48 to 228, and appears on PSAT/NMSQT score reports only; National Merit Scholarship Corporation uses it to screen students who enter its scholarship programs (College Board, Fall 2026 PSAT/NMSQT Understanding Scores; What Do My Scores Mean?, 2026). Never estimate a National Merit cutoff.
+- Grade-level benchmarks: Reading and Writing 430 in 10th grade and 460 in 11th; Math 480 and 510. "Students meeting or exceeding these benchmarks are considered on track to be college ready" (same guide).
+- Percentiles, nationally representative and user group, by grade (College Board research site, PSAT/NMSQT Nationally Representative and User Percentiles, 2026). Totals, 10th grade then 11th: 1400 is 99 and 99, then 99 and 96; 1300 is 97 and 97, then 96 and 91; 1200 is 92 and 92, then 90 and 82; 1100 is 82 and 82, then 79 and 69; 1000 is 65 and 69, then 59 and 53; 900 is 46 and 51, then 37 and 36; 800 is 24 and 30, then 18 and 19. At the 11th grade benchmarks, 460 in Reading and Writing is the 42nd nationally representative percentile and 510 in Math the 62nd.
+- The score report's All Tester Percentile is based on the past three cohorts who took the PSAT/NMSQT in 10th or 11th grade, and each student gets the percentile for their own grade (same guide). College Board says the SAT Suite, from the PSAT 8/9 through the SAT, uses a common score scale for the total and section scores (Fall 2026 SAT Weekend Understanding Scores).
 
 ## Post file format
 `src/blog/<slug>.html`: an HTML comment front-matter block with JSON metadata, then the body.
