@@ -710,9 +710,16 @@ verified rather than that the school does not publish one (INC-0118).
       mark or a numbered prefix starts afresh and that an initial or "A&M" keeps its
       capital, and build.py and the blog build now check every h1 to h3 on every built
       page, skipping headings a script assembles and school and college names. Still to
-      do: buttons and card titles, which the rule also covers ("Start a free round", "Put
-      this into practice"), and game names written two ways in body copy ("Boss round",
-      "Boss Round").
+      do: game names written two ways in body copy ("Boss round", "Boss Round").
+- [x] **Title Case on every button label, checked by the build** (INC-0178). The rule names
+      buttons beside headings, and 27 styled button labels broke it: "Open the trainer" on
+      138 study guide pages, "Start a free round" on every blog post, the diagnostic's
+      "Take the diagnostic" and "Skip this one", and a score of trainer app buttons ("Start
+      drill", "Back to deck", "Study due cards", "Sign out"). Each is now in Title Case, and
+      so is the blog's "Put This Into Practice" card. build.py and the blog build check
+      the label of every button and link with the btn class, reading each tag's quoted
+      attributes whole; a tag a script assembles no longer lets one match run on for 52,000
+      characters, which on the first try passed off part of an onclick as "Sign out"'s label.
 - [x] **"How Many Times Can You Take the GMAT, GRE, LSAT, SAT, and ACT?"** queued for
       November 25 (Maya Chen). Every limit comes from the test maker's own page, read on
       September 27: the GMAT's 5 in a rolling 12 months with 16 days between, the GRE's 5 in

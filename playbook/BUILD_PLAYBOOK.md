@@ -7,10 +7,10 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-27, which is 8 days, across
-126 commits, by one owner directing a series of AI coding sessions. As of this
+127 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 86 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
-2100 tracked files in total.
+2101 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-126 commits in 8 days, one owner, a series of AI sessions. This
+127 commits in 8 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1217,22 +1217,22 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-177 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+178 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 92 | 52% |
+| Found by reading the code or the output | 93 | 52% |
 | Found by measuring something | 43 | 24% |
 | A test caught it | 22 | 12% |
-| Found by rendering it and looking | 8 | 5% |
+| Found by rendering it and looking | 8 | 4% |
 | Found by a review bot or an adversarial pass | 5 | 3% |
 | A build guard caught it | 5 | 3% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 175 of 177 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 176 of 178 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1243,18 +1243,18 @@ well enough to audit later. Which is what this book is.
 | --- | ---: |
 | Wrong data shown or stored | 78 |
 | Degraded | 43 |
-| Cosmetic | 27 |
+| Cosmetic | 28 |
 | Silent loss | 26 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 177. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 178. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 81 |
+| Content generation | 82 |
 | Tests and guards | 30 |
 | Front end | 12 |
 | Build system | 11 |
@@ -1269,7 +1269,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-171 of 177 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+172 of 178 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1290,7 +1290,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-83 of 177 incidents record that they repeat an earlier lesson, 113 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+84 of 178 incidents record that they repeat an earlier lesson, 115 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1327,6 +1327,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0154 The weekly source check listed Duke's GMAT medians and Michigan Ross's work experience as missing from their sources for weeks, but its 30 findings mixed real errors with pages it cannot read, so none was ever worked | INC-0155, INC-0157 | 2 |
 | INC-0156 The source check read mba.com's bot challenge page as the page it cites and reported the GMAT fact's numbers as missing from it | INC-0158, INC-0175 | 2 |
 | INC-0162 The blog build read a fee table as one sentence and refused a correct post for calling the SAT trainer unfinished, over College Board's seat Waitlist | INC-0165, INC-0169 | 2 |
+| INC-0171 Thirty published blog posts set their section headings in sentence case, against the house rule that headings are Title Case | INC-0176, INC-0178 | 2 |
 | INC-0014 A hardcoded count in the meta description went stale, and Google showed it | INC-0128 | 1 |
 | INC-0023 www and the apex were two origins, so consent and rankings split in half | INC-0127 | 1 |
 | INC-0044 The longest option was the correct answer 81 percent of the time | INC-0091 | 1 |
@@ -1346,9 +1347,9 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0152 The source check read text inside HTML comments as page text, and confirmed Arizona State's 43 percent women from a table row the school had commented out | INC-0173 | 1 |
 | INC-0155 The GMAT guide cited mba.com's Official Score Reports page for the rule on five free score reports within 48 hours, a rule that page never states | INC-0160 | 1 |
 | INC-0158 The source check filed six school pages as probably built by JavaScript; five were something else, and three of them showed newer figures than the library published | INC-0161 | 1 |
-| INC-0171 Thirty published blog posts set their section headings in sentence case, against the house rule that headings are Title Case | INC-0176 | 1 |
 | INC-0172 The ACT exam guide and a live post said the ACT can be taken up to 12 times, after ACT's page had come to say there is no limit, and the source check matched the 12 in the page's K-12 menu | INC-0174 | 1 |
 | INC-0174 Two GMAT facts passed the source check on numbers that meant something else: score validity cited the retake policy page, where "5 times" supplied its 5, and the score release's "3 to 5 days" matched a 3 in the page's helpfulness counter | INC-0177 | 1 |
+| INC-0176 Headings outside blog post bodies broke the Title Case rule on every kind of page, because the build checked only the headings inside posts | INC-0178 | 1 |
 
 The largest family runs to 67 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140, INC-0142, INC-0143, INC-0144, INC-0145, INC-0147, INC-0150, INC-0151, INC-0152, INC-0154, INC-0155, INC-0157, INC-0159, INC-0160, INC-0162, INC-0165, INC-0169, INC-0170, INC-0172, INC-0173, INC-0174, INC-0177. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
 
@@ -1395,11 +1396,11 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/validate_schools.py`, 8 incidents (INC-0125, INC-0141, INC-0143, INC-0144, INC-0147, INC-0151, INC-0153, INC-0157)
 - `src/build_rankings.py`, 7 incidents (INC-0014, INC-0049, INC-0118, INC-0135, INC-0142, INC-0145, INC-0167)
 - `src/gen/g_rc.py`, 6 incidents (INC-0097, INC-0114, INC-0115, INC-0117, INC-0122, INC-0169)
+- `src/page_checks.py`, 6 incidents (INC-0134, INC-0138, INC-0139, INC-0163, INC-0176, INC-0178)
 - `src/review_bot.js`, 5 incidents (INC-0022, INC-0026, INC-0051, INC-0061, INC-0077)
 - `src/bank_emit.py`, 5 incidents (INC-0062, INC-0066, INC-0068, INC-0073, INC-0119)
 - `src/gen/framework.py`, 5 incidents (INC-0074, INC-0075, INC-0078, INC-0087, INC-0096)
 - `src/build_blog.py`, 5 incidents (INC-0124, INC-0137, INC-0162, INC-0170, INC-0171)
-- `src/page_checks.py`, 5 incidents (INC-0134, INC-0138, INC-0139, INC-0163, INC-0176)
 - `src/smoke_playbook.js`, 4 incidents (INC-0054, INC-0084, INC-0129, INC-0165)
 - `src/bank_repair.py`, 4 incidents (INC-0070, INC-0071, INC-0072, INC-0121)
 - `src/weekly_audit.js`, 3 incidents (INC-0050, INC-0048, INC-0018)
@@ -1415,7 +1416,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (81)
+## Content generation (82)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -2397,6 +2398,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** The LSAT score release now says what LSAC's pages say, citing the scoring page and the dates page: scores come out on the published release date for each administration, with an approved writing sample on file and no holds, and writing samples can take up to three weeks to process. The ACT cost note's "all three", a count of our own, now reads "with both add-ons".
 - **What stops it now.** check_sources reads a fact's number words as numbers for the exam guides, as it already did for pages, and a number that is only part of a date (3/3/2027, 2027-03-03) counts as found but never as beside the fact's words or in a table. The self-check holds the old LSAT sentence against the dates page and fails unless it is flagged. in `src/check_sources.py`
 - **Lesson.** A check that reads two sides must read them the same way. Reading number words on the page but not in the fact meant any figure a writer happened to spell out was exempt, and the exemption was invisible because the check reported nothing missing rather than nothing checked.
+
+
+### INC-0178. Buttons across the site named their actions in sentence case, against the house rule that a button naming a destination or action is Title Case, and no check read them
+
+*2026-09-27, Cosmetic*
+
+- **What was seen.** A scan of every built page on September 27, 2026 found 27 distinct labels on styled buttons and button links in sentence case: "Open the trainer" on the study guide pages, "Start a free round" on every blog post, "Take the diagnostic" and "Skip this one" in the diagnostic guide, and in the trainer app "Start drill", "Back to deck", "Study due cards", "Abandon section", "10 questions", "Coming soon" and more. The blog's call to action card was titled "Put this into practice".
+- **Why.** The house rule names buttons alongside headings, but INC-0176's check reads h1 to h3 only, and nothing read a button's label. Buttons are written in several templates and in the trainer app's script strings, each in whatever case its author reached for.
+- **How it surfaced.** Found on September 27, 2026 while closing out INC-0176, whose record listed buttons and card titles as still to do; a scan of built pages with the shared Title Case helper counted them. (Found by reading the code or the output)
+- **Fix.** Every styled button and button link is labelled in Title Case, and the blog's call to action card title too.
+- **What stops it now.** build.py and the blog build check the label of every <button> and <a> carrying the btn class on every built page, reading each tag with its quoted attributes whole so a script in an onclick cannot end it early, and skipping labels a script assembles. in `src/page_checks.py`
+- **Lesson.** A rule with a list of places it applies needs a check for each place on the list. Finishing the headings made the buttons look done by association, and only reading the rule again, clause by clause, showed the gap.
 
 
 ## Tests and guards (30)
@@ -3736,6 +3749,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Rice's school page credited Poets&Quants with an average GMAT of 693 for the Class of 2027, a number the article never prints; the figure's own note said it was read from a search snippet (INC-0151)</small>
 - [ ] **Learned 3 times over.** A report that says the same thing every week stops being read. When a checker has blind spots, record each judgement about a finding it cannot settle, so that what it prints shrinks to what is new; a list that mixes known false alarms with real errors hides the errors about as well as no list at all.  
   <small>The weekly source check listed Duke's GMAT medians and Michigan Ross's work experience as missing from their sources for weeks, but its 30 findings mixed real errors with pages it cannot read, so none was ever worked (INC-0154)</small>
+- [ ] **Learned 3 times over.** A style rule that nothing checks holds only for the work written after someone remembered it. When a rule can be stated precisely enough to apply by hand, it can be checked by the build, and it should be, or the earliest work quietly keeps breaking it.  
+  <small>Thirty published blog posts set their section headings in sentence case, against the house rule that headings are Title Case (INC-0171)</small>
 - [ ] **Learned 2 times over.** Test your content against the strategies a lazy adversary would use, not only against whether it is correct. Measure the score of a rule that ignores the question.  
   <small>The longest option was the correct answer 81 percent of the time (INC-0044)</small>
 - [ ] **Learned 2 times over.** A record has parts that refer to one another, and a tool that edits one part by text is editing a graph while looking at a string. The cheap guard is not to check every reference but to refuse the edit when the old text occurs anywhere else in the record, because that is the only place a reference to it can be. Refusing on a false positive costs one rewritten table entry; not refusing ships an explanation about an option nobody saw.  
@@ -3756,12 +3771,12 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Every school's employment rate was labelled and scored as a three month figure, though 15 of 70 were measured at six months, four months, a year or a reporting date, or at a timing their notes do not give (INC-0142)</small>
 - [ ] **Learned 2 times over.** A fact filed next to another fact tends to inherit its citation. When two facts come from one section of a site, check that each one's own page says it, not the page its neighbour came from.  
   <small>The GMAT guide cited mba.com's Official Score Reports page for the rule on five free score reports within 48 hours, a rule that page never states (INC-0155)</small>
-- [ ] **Learned 2 times over.** A style rule that nothing checks holds only for the work written after someone remembered it. When a rule can be stated precisely enough to apply by hand, it can be checked by the build, and it should be, or the earliest work quietly keeps breaking it.  
-  <small>Thirty published blog posts set their section headings in sentence case, against the house rule that headings are Title Case (INC-0171)</small>
 - [ ] **Learned 2 times over.** A number's presence on a page is weak evidence for a fact, because pages are full of numbers that mean other things: menus, dates, grade ranges, footnote markers. A check that matches numbers should read them where the fact would be, and should expect the page to change what it says around them.  
   <small>The ACT exam guide and a live post said the ACT can be taken up to 12 times, after ACT's page had come to say there is no limit, and the source check matched the 12 in the page's K-12 menu (INC-0172)</small>
 - [ ] **Learned 2 times over.** When a check fails the same way twice with different details, guard the shape rather than the instance. Two narrow guards covered a cohort paragraph and a grade range, and the third instance was a vote counter. The question every match should answer is whether the number sits where the fact would be, and that can be asked of every fact.  
   <small>Two GMAT facts passed the source check on numbers that meant something else: score validity cited the retake policy page, where "5 times" supplied its 5, and the score release's "3 to 5 days" matched a 3 in the page's helpfulness counter (INC-0174)</small>
+- [ ] **Learned 2 times over.** A guard written for the instance found covers only where that instance was. When a rule applies everywhere, check where every page ends up, the built output, rather than one of the several places pages are written.  
+  <small>Headings outside blog post bodies broke the Title Case rule on every kind of page, because the build checked only the headings inside posts (INC-0176)</small>
 - [ ] Any generator that claims reproducibility must be seeded from something stable across processes. hash() is not, in Python, and the failure shows up as a flaky test rather than as a wrong answer.  
   <small>Item banks were different on every build because Python randomises hash() (INC-0003)</small>
 - [ ] Deletion by shadowing is invisible. Any collection whose size is a fact about the product needs its size asserted, not just its contents.  
@@ -3850,10 +3865,10 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Emory's acceptance rate was shown beside counts that divide to a different rate, with nothing on the page saying so (INC-0168)</small>
 - [ ] A fact written into prose without its source cannot be rechecked, so it stays whatever it was the day it was written. State the figure with the page it comes from, or link the page and say nothing it does not say.  
   <small>A published post said GMAC caps GMAT attempts across a lifetime, which its current retake policy does not say (INC-0170)</small>
-- [ ] A guard written for the instance found covers only where that instance was. When a rule applies everywhere, check where every page ends up, the built output, rather than one of the several places pages are written.  
-  <small>Headings outside blog post bodies broke the Title Case rule on every kind of page, because the build checked only the headings inside posts (INC-0176)</small>
 - [ ] A check that reads two sides must read them the same way. Reading number words on the page but not in the fact meant any figure a writer happened to spell out was exempt, and the exemption was invisible because the check reported nothing missing rather than nothing checked.  
   <small>The LSAT guide said scores come out roughly three weeks after each administration, citing a dates page that says no such thing, and the source check never looked because the fact wrote its number as a word (INC-0177)</small>
+- [ ] A rule with a list of places it applies needs a check for each place on the list. Finishing the headings made the buttons look done by association, and only reading the rule again, clause by clause, showed the gap.  
+  <small>Buttons across the site named their actions in sentence case, against the house rule that a button naming a destination or action is Title Case, and no check read them (INC-0178)</small>
 
 
 ## Database
@@ -4156,7 +4171,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 177 real defects reduced to the rules that prevent them,
+the whole project: 178 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -4196,7 +4211,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-177 defects already prevented is genuinely ahead, and every defect it hits
+178 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

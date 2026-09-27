@@ -38,6 +38,10 @@ blog build checked the headings inside each post (INC-0171), and the blog templa
 the next LSAT?" went unread, because no check looked at the pages as built (INC-0176).
 title_case() is the rule, shared with the blog build. A heading a script assembles has no
 fixed text to check, and a school's or college's name is a proper name, so both are left out.
+
+untitled_buttons() does the same for the label of every styled button and button link, which
+the rule names beside headings: "Open the trainer" sat on 138 study guide pages and "Start a
+free round" on every blog post while only headings were read (INC-0178).
 """
 import html
 import json
@@ -428,3 +432,52 @@ def _selfcheck_title_case():
         got = [h for _, h, _ in untitled_headings(d, ["p.html"], {"Universidad del Sagrado Corazon"})]
         if got != ["Frequently asked questions", "Review your section"]:
             raise SystemExit("page_checks: untitled_headings found %r (INC-0176)" % got)
+
+
+# A tag read with its quoted attributes whole, so a script in an onclick, "()=>{...}", does not
+# end it early, and a label that follows it up to the tag's own close. No attribute holds a
+# "<": a tag a script assembles, class="btn sm'+(...)+'", pairs its quotes across the script,
+# and without that stop one match ran 52,000 characters to the next button's "=>".
+_BUTTON = re.compile(r"""<(button|a)\b((?:[^>"'<]|"[^"<]*"|'[^'<]*')*)>([\s\S]*?)</\1\s*>""", re.I)
+_BTN_CLASS = re.compile(r"""\bclass\s*=\s*(?:"[^"]*\bbtn\b[^"]*"|'[^']*\bbtn\b[^']*')""", re.I)
+
+
+def untitled_buttons(root, paths):
+    """(page, label, as it should read) for each <button> or <a> with the btn class on the
+    built pages under paths whose label breaks the Title Case rule (INC-0178), labels a
+    script writes into its strings included and labels it assembles left out."""
+    root = pathlib.Path(root)
+    out = []
+    for rel in paths:
+        base = root / rel
+        files = [base] if base.is_file() else sorted(base.rglob("*.html")) if base.is_dir() else []
+        for f in files:
+            for m in _BUTTON.finditer(f.read_text(errors="replace")):
+                if not _BTN_CLASS.search(m.group(2)) or _ASSEMBLED.search(m.group(3)):
+                    continue
+                label = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", "", m.group(3)))).strip()
+                if label and re.search(r"[a-z]", label) and title_case(label) != label:
+                    out.append((str(f.relative_to(root)), label, title_case(label)))
+    return out
+
+
+def _selfcheck_buttons():
+    """INC-0178: a styled button's label is read even when an onclick holds "=>", a tag a
+    script assembles does not swallow the page after it, and an unstyled button, an
+    assembled label and a Title Case label are left alone."""
+    import tempfile
+    # The trainer app's social filter buttons as its template writes them: the onclick holds a
+    # double-quoted script literal, which is what let quotes pair across the script.
+    assembled = (r"""<script>function f(f){ return '<button class="btn sm'+(socFilter===f[0]?'':' secondary')"""
+                 "\n"
+                 r"""   +'" onclick="socSet(\''+esc(f[0]).replace(/'/g,"\\'")+'\')">'+esc(f[1])+'</button>'; }"""
+                 r"""  const k=esc(p.key).replace(/'/g,"\\'");</script>""")
+    with tempfile.TemporaryDirectory() as d:
+        page = pathlib.Path(d) / "p.html"
+        page.write_text('<a class="btn" href="/app/">Start a free round</a>' + assembled +
+                        '<button class="btn secondary" onclick="go().then(()=>{done()})">Sign out</button>'
+                        '<button onclick="pick(1)">Left is bigger</button>'
+                        '<button class="btn">Create Account</button>')
+        got = [b for _, b, _ in untitled_buttons(d, ["p.html"])]
+        if got != ["Start a free round", "Sign out"]:
+            raise SystemExit("page_checks: untitled_buttons found %r (INC-0178)" % got)
