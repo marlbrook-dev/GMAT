@@ -1,5 +1,5 @@
-/* Drives the ACT, GRE and SAT score calculators the way a student would and checks every
- * number they print.
+/* Drives the ACT, GRE, SAT and PSAT/NMSQT score calculators the way a student would and
+ * checks every number they print.
  *
  * The page's arithmetic is ACT's published rule, so the check computes the same rule
  * independently (Math.round, which rounds halves up for positive numbers) and reads the
@@ -21,6 +21,8 @@ const GRE_PATH = '/exams/gre/score-calculator/';
 const GRE = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'gre_percentiles.json'), 'utf8'));
 const SAT_PATH = '/exams/sat/score-calculator/';
 const SAT = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'sat_percentiles.json'), 'utf8'));
+const PSAT_PATH = '/exams/sat/psat-calculator/';
+const PSAT = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'psat_percentiles.json'), 'utf8'));
 
 const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css',
                 '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png' };
@@ -38,7 +40,7 @@ const server = http.createServer((req, res) => {
 const composite = (a, b, c) => Math.round((a + b + c) / 3);
 
 (async () => {
-  for (const u of [URL_PATH, GRE_PATH, SAT_PATH]) {
+  for (const u of [URL_PATH, GRE_PATH, SAT_PATH, PSAT_PATH]) {
     if (!fs.existsSync(path.join(ROOT, u, 'index.html'))) {
       console.log('  FAIL: ' + u + ' was not built; run python3 src/build.py first');
       process.exit(1);
@@ -235,6 +237,68 @@ const composite = (a, b, c) => Math.round((a + b + c) / 3);
     const bad = off(tables.tot, SAT.total).concat(off(tables.rw, SAT.rw), off(tables.m, SAT.math));
     check(at + ' tables match College Board\'s percentiles', tables.tot.length === 121 && tables.rw.length === 61
           && tables.m.length === 61 && !bad.length, bad.map(c => c.join(' ')).join('; '));
+    const meta = await p.evaluate(() => {
+      const de = document.documentElement;
+      let faq = 0;
+      document.querySelectorAll('script[type="application/ld+json"]').forEach(s => {
+        try { const j = JSON.parse(s.textContent); if (j['@type'] === 'FAQPage') faq = j.mainEntity.length; } catch (e) { faq = -1; } });
+      return { scrollW: de.scrollWidth, clientW: de.clientWidth, faq,
+               cites: [...document.querySelectorAll('.src a')].map(a => a.href) };
+    });
+    const cb = h => h.startsWith('https://research.collegeboard.org/') || h.startsWith('https://satsuite.collegeboard.org/');
+    check(at + ' does not scroll sideways', meta.scrollW <= meta.clientW + 1, meta.scrollW + ' > ' + meta.clientW);
+    check(at + ' has an FAQ block search engines can read', meta.faq >= 3, String(meta.faq));
+    check(at + ' cites only collegeboard.org', meta.cites.length > 0 && meta.cites.every(cb),
+          meta.cites.filter(h => !cb(h)).join(', '));
+    check(at + ' threw no script error', errs.length === 0, errs[0]);
+    await ctx.close();
+  }
+  // The PSAT/NMSQT page: the total, the Selection Index worked the way College Board states
+  // it, each grade's percentiles and its benchmarks, all against the data file.
+  const psatLine = (label, v, t, g) => label + ' ' + v + ': nationally representative percentile '
+    + t[g].national[String(v)] + ', user group percentile ' + t[g].user[String(v)] + '.';
+  const benchLine = (label, v, key, g) => label + ' ' + v + (v >= PSAT.benchmarks[key][g] ? ' meets' : ' is below')
+    + " College Board's " + g + 'th grade benchmark of ' + PSAT.benchmarks[key][g] + '.';
+  for (const width of [390, 1280]) {
+    const ctx = await b.newContext({ viewport: { width, height: 900 } });
+    const p = await ctx.newPage();
+    const errs = [];
+    p.on('pageerror', e => errs.push(String(e)));
+    await p.goto(base + PSAT_PATH, { waitUntil: 'domcontentloaded' });
+    if (await p.isVisible('#sfn-consent').catch(() => false)) await p.click('#sfn-consent .no');
+    const at = width + 'px PSAT';
+    const read = () => p.evaluate(() => ({ text: document.getElementById('psatOut').textContent,
+                                           cls: document.getElementById('psatOut').className }));
+    const wrong = [];
+    for (const g of ['10', '11']) {
+      await p.selectOption('#pG', g);
+      for (const [rw, m] of [[640, 680], [760, 760], [160, 160], [450, 520], [460, 510]]) {
+        await p.fill('#pRW', String(rw)); await p.fill('#pM', String(m));
+        const { text } = await read();
+        const want = [rw + ' + ' + m + ' = ' + (rw + m), '(2 \u00d7 ' + rw + ' + ' + m + ') \u00f7 10 = ' + (2 * rw + m) / 10,
+                      psatLine('Total', rw + m, PSAT.total, g), psatLine('Reading and Writing', rw, PSAT.rw, g),
+                      psatLine('Math', m, PSAT.math, g), benchLine('Reading and Writing', rw, 'rw', g), benchLine('Math', m, 'math', g)];
+        want.filter(w => !text.includes(w)).forEach(w => wrong.push('grade ' + g + ': ' + w));
+      }
+    }
+    check(at + ' totals, Selection Index, percentiles and benchmarks match College Board for both grades', !wrong.length, wrong.slice(0, 4).join('; '));
+    await p.selectOption('#pG', ''); await p.fill('#pRW', '600'); await p.fill('#pM', '600');
+    let r = await read();
+    check(at + ' gives the total and index before a grade is chosen, and no percentile', r.text.includes('600 + 600 = 1200')
+          && r.text.includes('= 180') && r.text.includes('Choose your grade') && !r.text.includes('representative percentile'), r.text);
+    for (const [sel, bad] of [['#pRW', '770'], ['#pRW', '150'], ['#pM', '555']]) {
+      await p.fill('#pRW', '600'); await p.fill('#pM', '600');
+      await p.fill(sel, bad);
+      r = await read();
+      check(at + ' refuses ' + bad + ' in ' + sel, r.cls.includes('err'), r.text);
+    }
+    const tables = await p.evaluate(() => Object.fromEntries(['tot10', 'tot11', 'rw10', 'rw11', 'm10', 'm11'].map(id =>
+      [id, [...document.querySelectorAll('#' + id + ' tbody tr')].map(tr => [...tr.cells].map(td => td.textContent))])));
+    const want = { tot10: [PSAT.total, '10', 121], tot11: [PSAT.total, '11', 121], rw10: [PSAT.rw, '10', 61],
+                   rw11: [PSAT.rw, '11', 61], m10: [PSAT.math, '10', 61], m11: [PSAT.math, '11', 61] };
+    const tbad = Object.entries(want).flatMap(([id, [t, g, n]]) => tables[id].length !== n ? [id + ' has ' + tables[id].length + ' rows']
+      : tables[id].filter(c => c[1] !== t[g].national[c[0]] || c[2] !== t[g].user[c[0]]).map(c => id + ' ' + c.join(' ')));
+    check(at + " tables match College Board's percentiles for both grades", !tbad.length, tbad.slice(0, 4).join('; '));
     const meta = await p.evaluate(() => {
       const de = document.documentElement;
       let faq = 0;

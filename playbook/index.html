@@ -59,7 +59,7 @@ a{color:var(--accent)}
 <p class="eyebrow">Start From Nowhere</p>
 <h1>The Build Playbook</h1>
 <p class="sub">How one person and a set of AI sessions built a multi-exam test-prep platform, every defect hit on the way, and the recipe for doing it again for something else</p>
-<p class="meta">Built 2026-09-27 from commit 26d3b11 &middot; 77 commits over 8 days &middot; 135 recorded defects &middot; 17 chapters<br>
+<p class="meta">Built 2026-09-27 from commit be0481a &middot; 77 commits over 7 days &middot; 135 recorded defects &middot; 17 chapters<br>
 This document is generated. Edit the chapters in docs/playbook/ and the ledger in data/playbook/incidents.jsonl, then run python3 src/build_playbook.py.</p>
 </div>
 <div class="toc"><ol><li><a href="#how-to-use-this-book">How to Use This Book</a></li>
@@ -81,7 +81,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><a href="#the-bootstrap-pack-starting-a-new-project-with-this-loaded">The Bootstrap Pack: Starting a New Project With This Loaded</a></li></ol></div>
 <h1 id="how-to-use-this-book">How to Use This Book</h1>
 <p>This is the record of building one platform, written so it can be used to build a different one.</p>
-<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-09-19 and 2026-09-27, which is 8 days, across 77 commits, by one owner directing a series of AI coding sessions. As of this build it is 82 Python files, 107 JavaScript files, 24 TypeScript edge functions, 35 migrations and 64 documents: 2033 tracked files in total.</p>
+<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-09-19 and 2026-09-26, which is 7 days, across 77 commits, by one owner directing a series of AI coding sessions. As of this build it is 82 Python files, 107 JavaScript files, 24 TypeScript edge functions, 35 migrations and 64 documents: 2033 tracked files in total.</p>
 <p>None of those numbers were typed. They are measured from the repository every time this document is built, which is the first thing worth copying.</p>
 <h2 id="what-is-in-here">What is in here</h2>
 <p>The book has four kinds of chapter, and they age differently.</p>
@@ -618,7 +618,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three defects here were found by taking a screenshot: a chart unreadable in dark mode, a line chart implying values that never existed, and a dashboard that was not on screen. None of them would have been caught by an assertion, because none of them were violations of anything anybody had thought to assert.</p>
 <p><strong>Budget for looking.</strong> It is the cheapest test there is and the only one that catches things you have not imagined.</p>
 <h1 id="running-the-build-as-an-ai-loop">Running the Build as an AI Loop</h1>
-<p>77 commits in 8 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
+<p>77 commits in 7 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
 <h2 id="the-division-of-labour">The division of labour</h2>
 <p><strong>The owner decides</strong>: what to build, what it means, what is acceptable, and every irreversible or outward-facing action. <strong>The session does</strong>: the building, the measuring, the testing, and the reporting of what it found.</p>
 <p>The failure mode at each end is worth naming. An owner who reviews every line becomes the bottleneck and the throughput collapses to the speed of reading. A session that decides product questions on its own produces something coherent that is not what anyone wanted.</p>
@@ -651,7 +651,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>What was left undone, and whether that is a decision or a blocker.</li>
 <li>Numbers, with the command that produced them.</li>
 </ol>
-<p>The commit messages in this repository are written that way, which is why a defect ledger could be reconstructed from them 8 days later. <strong>Write the commit message as though someone will need to mine it. Someone will.</strong></p>
+<p>The commit messages in this repository are written that way, which is why a defect ledger could be reconstructed from them 7 days later. <strong>Write the commit message as though someone will need to mine it. Someone will.</strong></p>
 <h2 id="failure-modes-observed-in-this-project">Failure modes observed in this project</h2>
 <p><strong>Reporting a regression from one seed.</strong> A stochastic measurement compared before and after on a single seed showed an 88 to 72 percent drop. Across three seeds the spread between seeds was larger than the effect. Run more seeds before reporting.</p>
 <p><strong>Pausing to report when told to keep working.</strong> A session that stops to summarise every few minutes converts working time into reading time. If the owner has said to keep going, keep going, and batch the reporting.</p>
@@ -662,7 +662,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Long uninterrupted sessions with standing authorisation, punctuated by the owner redirecting priorities, beat short supervised ones by a wide margin. The standing authorisation that made it work was specific: merge your own work once the checks are green, do not check in on each item, and stop immediately when told to.</p>
 <p>The thing that makes that safe is not trust. It is that the checks are real, the destructive actions still require asking, and the record of what happened is written down well enough to audit later. Which is what this book is.</p>
 <h1 id="what-the-ledger-says-about-itself">What the Ledger Says About Itself</h1>
-<p>135 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.</p>
+<p>135 recorded defects, over 7 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.</p>
 <h2 id="how-defects-were-actually-found">How defects were actually found</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">How</th><th style="text-align:right">Count</th><th style="text-align:right">Share</th></tr></thead><tbody>
 <tr><td style="text-align:left">Found by reading the code or the output</td><td style="text-align:right">64</td><td style="text-align:right">47%</td></tr>

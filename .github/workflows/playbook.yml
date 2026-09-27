@@ -117,9 +117,10 @@ jobs:
           echo "== MBA school library (data/schools)" >> /tmp/sources.txt
           python3 src/check_sources.py --schools --render >> /tmp/sources.txt 2>&1
           schools=$?
-          # The SAT calculator's percentile tables, cell by cell against College Board's page.
+          # The SAT and PSAT/NMSQT calculators' percentile tables, cell by cell against
+          # College Board's pages.
           echo "" >> /tmp/sources.txt
-          echo "== SAT percentile tables (data/sat_percentiles.json)" >> /tmp/sources.txt
+          echo "== SAT and PSAT/NMSQT percentile tables (data/sat_percentiles.json, data/psat_percentiles.json)" >> /tmp/sources.txt
           python3 src/sat_percentiles.py --check >> /tmp/sources.txt 2>&1
           sat=$?
           cat /tmp/sources.txt
@@ -139,12 +140,12 @@ jobs:
             const existing = open.data.find(i => i.title === title);
             const text = [
               'The weekly check read every page that `data/exams.json` and the school library cite, and',
-              'College Board\'s SAT percentile page, and found numbers that those pages no longer print.',
+              'College Board\'s SAT and PSAT/NMSQT percentile pages, and found numbers that those pages no longer print.',
               '',
               'Read each page. If the figure changed, correct the fact and every post that',
               'repeats it. If the fact is arithmetic on the page, add a `derived` entry',
               'with the working. If it is a paraphrase the check cannot see, reword the fact',
-              'to the page. Run `python3 src/check_sources.py` to confirm. If the SAT tables changed,',
+              'to the page. Run `python3 src/check_sources.py` to confirm. If the SAT or PSAT tables changed,',
               'run `python3 src/sat_percentiles.py --write`, read the diff, and rebuild.',
               '',
               '```',

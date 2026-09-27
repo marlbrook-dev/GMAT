@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#122B4E"><link rel="apple-touch-icon" href="/icons/icon-180.png">
-<title>SAT Score Calculator: Total Score and Percentiles</title>
-<meta name="description" content="Add your SAT Reading and Writing and Math scores into a total, and see where each stands in College Board's own percentile tables, with both percentile groups explained.">
+<title>PSAT/NMSQT Score Calculator: Selection Index and Percentiles</title>
+<meta name="description" content="Add your PSAT/NMSQT Reading and Writing and Math scores into a total and an NMSC Selection Index, and see where each stands in College Board's percentiles for 10th and 11th graders.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%23122B4E'/%3E%3Cpath d='M13 33 22 22l6 5 8.5-10' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M29.5 16.5H37V24' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
-<link rel="canonical" href="https://startfromnowhere.com/exams/sat/score-calculator/">
+<link rel="canonical" href="https://startfromnowhere.com/exams/sat/psat-calculator/">
 <script type="application/ld+json">{{FAQ_LD}}</script>
 <style>
 :root{--navy-900:#0C1F3A;--navy-800:#122B4E;--navy-600:#2C4E80;--navy-100:#DCE5F1;--navy-50:#F2F6FB;--gold-600:#A8842F;--gold-50:#FAF5E8;--gray-700:#374151;--gray-500:#4B5563;--gray-300:#D1D5DB;--gray-200:#E5E7EB;--gray-100:#F3F4F6;--gray-50:#F9FAFB;--red-600:#B91C1C;--red-50:#FEF2F2;
@@ -70,52 +70,71 @@ table.dt td.nr{font-family:var(--body);font-size:var(--t-100);color:var(--gray-5
 </style></head><body>
 {{SITE_HEADER}}
 <main class="calc">
-<p class="crumbs"><a href="/exams/">Exams</a> / <a href="/exams/sat/">SAT</a> / Score Calculator</p>
-<h1>SAT Score Calculator</h1>
-<p class="lede">Enter your Reading and Writing and Math scores to get your total and see where each score stands in College Board's own percentile tables.</p>
+<p class="crumbs"><a href="/exams/">Exams</a> / <a href="/exams/sat/">SAT</a> / PSAT/NMSQT Calculator</p>
+<h1>PSAT/NMSQT Score Calculator</h1>
+<p class="lede">Enter your Reading and Writing and Math scores to get your total and your NMSC Selection Index, and see where each stands in College Board's percentiles for 10th and 11th graders.</p>
 <p class="src">Every percentile on this page is College Board's, read {{READ}} from a page last updated {{MODIFIED}}.</p>
 
 <h2 id="scores">Your Scores</h2>
 <div class="panel">
 <form class="fields" autocomplete="off" onsubmit="return false">
-<label>Reading and Writing<input id="sRW" type="number" min="200" max="800" step="10" inputmode="numeric" placeholder="200 to 800"></label>
-<label>Math<input id="sM" type="number" min="200" max="800" step="10" inputmode="numeric" placeholder="200 to 800"></label>
-<label>Total Score<input id="sT" type="number" min="400" max="1600" step="10" inputmode="numeric" placeholder="400 to 1600"></label>
+<label>Reading and Writing<input id="pRW" type="number" min="160" max="760" step="10" inputmode="numeric" placeholder="160 to 760"></label>
+<label>Math<input id="pM" type="number" min="160" max="760" step="10" inputmode="numeric" placeholder="160 to 760"></label>
+<label>Grade<select id="pG"><option value="">Choose your grade</option><option value="10">10th grade</option><option value="11">11th grade</option></select></label>
 </form>
-<div id="satOut" class="result rows" aria-live="polite"><p>Enter both section scores to get your total, or a total from 400 to 1600 on its own.</p></div>
+<div id="psatOut" class="result rows" aria-live="polite"><p>Enter both section scores for your total and Selection Index, and choose your grade for percentiles.</p></div>
 </div>
-<p class="src">Source: {{RANK_CITE}}; the total rule, {{SUM_CITE}}.</p>
+<p class="src">Sources: {{RANK_CITE}}; the scoring rules and benchmarks, {{GUIDE_CITE}}.</p>
 
-<h2 id="total">How the SAT Total Is Formed</h2>
-<p>{{SUM_TEXT}}.</p>
-<p class="src">Source: {{SUM_CITE}}.</p>
+<h2 id="formed">How the Total and the Selection Index Are Formed</h2>
+<p>{{RANGES_TEXT}}. College Board describes the Selection Index this way: "{{SI_RULE}}" It lists the index for the PSAT/NMSQT only.</p>
+<p>{{COMMON_SCALE}}, so a PSAT/NMSQT score and an SAT score sit on the same scale; the SAT's own range is 400 to 1600.</p>
+<p class="src">Sources: {{GUIDE_CITE}}; {{SCORES_CITE}}; {{SAT_GUIDE_CITE}}.</p>
+
+<h2 id="benchmarks">Grade-Level Benchmarks</h2>
+<p>College Board sets a benchmark for each section and grade: {{BENCH_TEXT}}. In its words: "{{BENCH_RULE}}"</p>
+<p class="src">Source: {{GUIDE_CITE}}.</p>
 
 <h2 id="groups">Two Percentiles, Two Groups</h2>
-<p>College Board defines a percentile rank this way: "{{DEF_RANK}}" It prints two for every score, each against a different group of students:</p>
+<p>College Board defines a percentile rank this way: "{{DEF_RANK}}" Its research site prints two for every score and grade, each against a different group of students:</p>
 <ul>
 <li><b>Nationally representative:</b> "{{DEF_NATIONAL}}"</li>
 <li><b>User group:</b> "{{DEF_USER}}"</li>
 </ul>
 <p>{{GROUP_COMPARE}}</p>
 <p>Your score report shows a third figure, the All Tester Percentile, which College Board's guide to fall 2026 scores describes this way: "{{ALL_TESTER}}" College Board does not say that this is the same table as the user group percentiles here, so treat the figure on your own report as the one that describes you.</p>
-<p class="src">Sources: {{RANK_CITE}}; {{TESTER_CITE}}.</p>
+<p>{{HEADING_NOTE}}</p>
+<p class="src">Sources: {{RANK_CITE}}; {{GUIDE_CITE}}.</p>
 
-<h2 id="ranks">SAT Percentile Ranks</h2>
-<p>The percentage of students in each group who scored at or below each score. College Board prints 99+ and 1- at the two ends of the scale rather than a number, and this page shows them the same way.</p>
+<h2 id="ranks">PSAT/NMSQT Percentile Ranks</h2>
+<p>The percentage of students in each group who scored at or below each score, by grade. National is the nationally representative percentile. College Board prints 99+ and 1- at the two ends of the scale rather than a number, and this page shows them the same way.</p>
 <h3>Total Score</h3>
-<div class="tablewrap"><table class="dt" id="totTable"><thead><tr><th>Total</th><th>Nationally representative</th><th>User group</th></tr></thead><tbody>
-{{TOTAL_ROWS}}
-</tbody></table></div>
-<h3>Section Scores</h3>
 <div class="sec">
-<div class="tablewrap"><table class="dt" id="rwTable"><thead><tr><th>Reading and Writing</th><th>National</th><th>User group</th></tr></thead><tbody>
-{{RW_ROWS}}
+<div class="tablewrap"><table class="dt" id="tot10"><thead><tr><th>10th grade</th><th>National</th><th>User group</th></tr></thead><tbody>
+{{TOT10}}
 </tbody></table></div>
-<div class="tablewrap"><table class="dt" id="mTable"><thead><tr><th>Math</th><th>National</th><th>User group</th></tr></thead><tbody>
-{{MATH_ROWS}}
+<div class="tablewrap"><table class="dt" id="tot11"><thead><tr><th>11th grade</th><th>National</th><th>User group</th></tr></thead><tbody>
+{{TOT11}}
 </tbody></table></div>
 </div>
-<p>National is the nationally representative percentile.</p>
+<h3>Reading and Writing</h3>
+<div class="sec">
+<div class="tablewrap"><table class="dt" id="rw10"><thead><tr><th>10th grade</th><th>National</th><th>User group</th></tr></thead><tbody>
+{{RW10}}
+</tbody></table></div>
+<div class="tablewrap"><table class="dt" id="rw11"><thead><tr><th>11th grade</th><th>National</th><th>User group</th></tr></thead><tbody>
+{{RW11}}
+</tbody></table></div>
+</div>
+<h3>Math</h3>
+<div class="sec">
+<div class="tablewrap"><table class="dt" id="m10"><thead><tr><th>10th grade</th><th>National</th><th>User group</th></tr></thead><tbody>
+{{M10}}
+</tbody></table></div>
+<div class="tablewrap"><table class="dt" id="m11"><thead><tr><th>11th grade</th><th>National</th><th>User group</th></tr></thead><tbody>
+{{M11}}
+</tbody></table></div>
+</div>
 <p class="src">Source: {{RANK_CITE}}.</p>
 
 <h2 id="faq">Questions</h2>
@@ -124,37 +143,39 @@ table.dt td.nr{font-family:var(--body);font-size:var(--t-100);color:var(--gray-5
 </div>
 
 <h2 id="practise">Practise for the Score You Want</h2>
-<p>The SAT trainer adapts to you across Reading and Writing and Math, and reports an estimated range once you have answered enough questions. It is practice, not a prediction of your SAT score.</p>
-<div class="next"><a class="btn" href="/sat/app/">Practise SAT Questions</a><a class="btn alt" href="/exams/sat/psat-calculator/">PSAT/NMSQT Calculator</a><a class="btn alt" href="/exams/sat/">SAT Guide</a><a class="btn alt" href="/guide/sat/">SAT Study Guide</a></div>
+<p>The SAT trainer adapts to you across Reading and Writing and Math, the same two sections the PSAT/NMSQT scores, and reports an estimated range on the SAT's scale once you have answered enough questions. It is practice, not a prediction of your score.</p>
+<div class="next"><a class="btn" href="/sat/app/">Practise SAT Questions</a><a class="btn alt" href="/exams/sat/score-calculator/">SAT Score Calculator</a><a class="btn alt" href="/exams/sat/">SAT Guide</a></div>
 </main>
 {{SITE_FOOTER}}
 <script>
 (function(){
 var P={{RANKS_JSON}};
-function num(el,lo,hi){ var s=String(el.value).trim(); if(!/^\d{3,4}$/.test(s)) return null; var n=+s; return n>=lo&&n<=hi&&n%10===0?n:null; }
-function pct(v){ return v==='99+'?'99+':(v==='1-'?'1-':v); }
-function line(label,v,t){ var n=t.national[String(v)], u=t.user[String(v)];
- return '<p><b>'+label+' '+v+'</b>: nationally representative percentile <span class="pct">'+pct(n)+'</span>, user group percentile <span class="pct">'+pct(u)+'</span>.</p>'; }
-var rw=document.getElementById('sRW'), m=document.getElementById('sM'), tt=document.getElementById('sT'), out=document.getElementById('satOut');
+function num(el){ var s=String(el.value).trim(); if(!/^\d{3}$/.test(s)) return null; var n=+s; return n>=160&&n<=760&&n%10===0?n:null; }
+function line(label,v,t,g){ var n=t[g].national[String(v)], u=t[g].user[String(v)];
+ return '<p><b>'+label+' '+v+'</b>: nationally representative percentile <span class="pct">'+n+'</span>, user group percentile <span class="pct">'+u+'</span>.</p>'; }
+function bench(label,v,key,g){ var b=P.bench[key][g];
+ return '<p>'+label+' '+v+(v>=b?' meets':' is below')+' College Board\'s '+g+'th grade benchmark of '+b+'.</p>'; }
+var rw=document.getElementById('pRW'), m=document.getElementById('pM'), gr=document.getElementById('pG'), out=document.getElementById('psatOut');
 function draw(){
- var a=num(rw,200,800), b=num(m,200,800), c=num(tt,400,1600);
- var badS=[rw,m].some(function(el,i){ return String(el.value).trim()!=='' && [a,b][i]===null; });
- var badT=String(tt.value).trim()!=='' && c===null;
- if(badS||badT){ out.className='result rows err'; out.innerHTML='<p>'+(badS?'Section scores run from 200 to 800 in steps of 10, as College Board\'s tables list them.':'A total runs from 400 to 1600 in steps of 10, as College Board\'s tables list it.')+'</p>'; return; }
+ var a=num(rw), b=num(m), g=gr.value;
+ var bad=[rw,m].some(function(el,i){ return String(el.value).trim()!=='' && [a,b][i]===null; });
+ if(bad){ out.className='result rows err'; out.innerHTML='<p>Section scores run from 160 to 760 in steps of 10, as College Board\'s tables list them.</p>'; return; }
  var html='';
  if(a!==null&&b!==null){
-  var t=a+b;
-  html+='<p id="satTotal">Reading and Writing plus Math: <b>'+a+' + '+b+' = '+t+'</b>.</p>';
-  html+=line('Total',t,P.total)+line('Reading and Writing',a,P.rw)+line('Math',b,P.math);
-  if(c!==null&&c!==t) html+='<p>The total you typed, '+c+', is not the sum of the two section scores, so it is left out.</p>';
- } else {
-  if(c!==null) html+=line('Total',c,P.total);
-  if(a!==null) html+=line('Reading and Writing',a,P.rw);
-  if(b!==null) html+=line('Math',b,P.math);
+  var t=a+b, s=2*a+b;
+  html+='<p id="psatTotal">Reading and Writing plus Math: <b>'+a+' + '+b+' = '+t+'</b>.</p>';
+  html+='<p id="psatSI">NMSC Selection Index: <b>(2 \u00d7 '+a+' + '+b+') \u00f7 10 = '+(s/10)+'</b>.</p>';
  }
- out.className='result rows'; out.innerHTML=html||'<p>Enter both section scores to get your total, or a total from 400 to 1600 on its own.</p>';
+ if(g){
+  if(a!==null&&b!==null) html+=line('Total',a+b,P.total,g);
+  if(a!==null) html+=line('Reading and Writing',a,P.rw,g)+bench('Reading and Writing',a,'rw',g);
+  if(b!==null) html+=line('Math',b,P.math,g)+bench('Math',b,'math',g);
+ } else if(a!==null||b!==null){
+  html+='<p>Choose your grade to see percentiles and benchmarks.</p>';
+ }
+ out.className='result rows'; out.innerHTML=html||'<p>Enter both section scores for your total and Selection Index, and choose your grade for percentiles.</p>';
 }
-[rw,m,tt].forEach(function(el){ el.addEventListener('input',draw); });
+[rw,m].forEach(function(el){ el.addEventListener('input',draw); }); gr.addEventListener('change',draw);
 })();
 </script>
 </body></html>

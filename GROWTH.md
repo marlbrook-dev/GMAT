@@ -160,6 +160,11 @@ pages on ChatGPT search (403).
   and user group, each defined in College Board's words. The tables come from College
   Board's research site, parsed by a script, and the page says plainly that College Board
   does not call either one the All Tester Percentile on a score report.
+- **A PSAT/NMSQT calculator at /exams/sat/psat-calculator/**: the total and the NMSC
+  Selection Index, worked the way College Board states them, with College Board's
+  percentiles for 10th and 11th graders and its grade-level benchmarks. It is timed for the
+  fall, when the PSAT/NMSQT is taken and its scores come back, and it estimates no National
+  Merit cutoff, because none is ours to estimate.
 
 ### Next, in the order the evidence ranks them
 
@@ -167,8 +172,9 @@ pages on ChatGPT search (403).
    question to an inbox or account (kaplanquizzes.com; act.org free test prep). This needs an
    owner decision on a sending provider, a consented list, a one-click unsubscribe, and a
    privacy.html update before anything is collected.
-2. **Score calculators built only from published rules**: the ACT, GRE and SAT ones are
-   built (above). Never a percentile or a conversion table we cannot source.
+2. **Score calculators built only from published rules**: the ACT, GRE, SAT and
+   PSAT/NMSQT ones are built (above). Never a percentile or a conversion table we cannot
+   source.
 3. **Per-school MBA deadline pages**, which Clear Admit runs as a hub. Blocked on data: only
    one school file carries a deadline, and each must come from the school's own page.
 4. **An ICS export of the application checklist**, so the dated tasks on /apply/ land in a
