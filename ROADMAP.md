@@ -397,6 +397,12 @@ verified rather than that the school does not publish one (INC-0118).
       for a person to read: 13 today, 12 of them the right program's figures. The 13th, Rice's
       international share, has no support on Rice's page, which now prints three-year
       averages, and Rice is already queued for a refresh.
+- [x] **Two more class data posts queued** on the same rule, now with each figure found beside
+      its label: "Women in MBA Programs" (November 7), 36 programs from 24 to 56 percent with
+      the middle class at 43, and why MIT reports female; "International Students in MBA
+      Programs" (November 9), 35 programs from 10 to 63 percent with the middle class at 37,
+      what Tuck, Duke and Miami each count as international, and Columbia's fall from 46 to 41
+      percent. Rice stays out of both until its page is read again.
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects
