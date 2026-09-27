@@ -59,8 +59,8 @@
     "validity_years": {
       "v": 5,
       "src": "mba.com support (GMAC)",
-      "year": 2025,
-      "url": "https://support.mba.com/hc/en-us/articles/10118337626139-GMAT-Retake-Policies-and-Attempt-Limits"
+      "year": 2023,
+      "url": "https://support.mba.com/hc/en-us/articles/13894860085531-GMAT-How-Long-Are-My-Scores-Valid"
     },
     "delivery": {
       "text": "At test centers or online, with appointments available year round (no fixed testing windows)",
@@ -75,9 +75,9 @@
       "url": "https://support.mba.com/hc/en-us/articles/10118337626139-GMAT-Retake-Policies-and-Attempt-Limits"
     },
     "score_release": {
-      "text": "Official Score Report is typically available in your mba.com account within 3 to 5 days (up to 20 days in some cases), with an email notification when it is ready",
+      "text": "Your official score report should be available within 5 days; although not typical, it can take up to 20 days for the exam to be scored, and scores cannot be expedited",
       "src": "mba.com support (GMAC)",
-      "year": 2025,
+      "year": 2026,
       "url": "https://support.mba.com/hc/en-us/articles/14445842113435-GMAT-When-Will-My-Score-Be-Available"
     },
     "used_for": {
@@ -386,8 +386,8 @@
     "validity_years": {
       "v": 5,
       "src": "ETS",
-      "year": 2025,
-      "url": "https://www.ets.org/gre/test-takers/general-test/scores.html"
+      "year": 2026,
+      "url": "https://www.ets.org/gre/test-takers/general-test/scores/get-scores.html"
     },
     "delivery": {
       "text": "A computer-delivered test offered both at test centers and at home; the at home test is taken on the test taker's own computer and is identical in content, format and on-screen experience to the test center version",

@@ -191,7 +191,19 @@ away from a word saying what it counts is reported as not found, and one found b
 label only near another program's name (MBAxMS, executive, part-time, evening) is listed as
 worth reading, since comparison tables and footnotes do that to figures that are right.
 Columbia's MBA class carried five years of work experience that the article gives for its
-MBAxMS cohort, and a check that only looked for the number could not tell.
+MBAxMS cohort, and a check that only looked for the number could not tell. An exam fact is
+held to the same question (INC-0174): each of its numbers must sit within 160 characters of
+one of the fact's own words, or, for a figure with no text such as a score validity, of a
+word its field is about (valid, reportable, expire), or be a cell in a run of numbers, which
+is how a table prints it. GMAC's retake article confirmed the GMAT's five-year validity with
+"up to 5 times", and its score release article confirmed "3 to 5 days" with the 3 of "0 out
+of 3 found this helpful". Markup is read with an HTML parser rather than patterns, because a
+quoted attribute can hold markup: ETS keeps a copy of each text block in one, and a pattern
+that ended the tag at its first > read an element id's 5 as GRE's score validity (INC-0173).
+Imperva's script challenge, a short page whose only content is a script from
+`/_Incapsula_Resource`, has no words to recognise it by; a plain read that gets it is tried
+once more and then reported as a challenge, and no read too short to be evidence is cached
+(INC-0175).
 
 A figure worked from two pages cites the second in `also_urls`, a list of https urls, and
 the check reads it with the first: Cincinnati's tuition adds the out-of-state surcharge

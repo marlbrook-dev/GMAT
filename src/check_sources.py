@@ -13,7 +13,8 @@ validate_exams.py proves that every published exam figure names a source, a year
 URL. It cannot prove the source says it, and the GRE guide credited ETS with a combined
 260 to 340 score that the ETS page it cited never mentions (INC-0130). This fetches every
 page or PDF that data/exams.json cites and reports each number in a fact that its source
-does not contain.
+does not contain, or prints only away from every word of the fact, in a menu, a counter or
+another passage, and outside any table (INC-0174).
 
 A fact may carry numbers it derives by arithmetic on its source, stated with the working:
 
@@ -43,6 +44,7 @@ It needs the network, so it runs in the weekly audit rather than in the build.
 import datetime
 import hashlib
 import html
+import html.parser
 import io
 import json
 import os
@@ -216,7 +218,36 @@ def to_text(body, ctype):
     hidden = re.compile(r"\shidden(?:[\s=>/]|$)|display\s*:\s*none|visibility\s*:\s*hidden", re.I)
     t = re.sub(r"<img\b[^>]*?\balt\s*=\s*(\"[^\"]*\"|'[^']*')[^>]*>",
                lambda m: " " if hidden.search(m.group(0)) else " %s " % m.group(1)[1:-1], t, flags=re.I)
-    return html.unescape(re.sub(r"<[^>]+>", " ", t))
+    return markup_text(t)
+
+
+class _Text(html.parser.HTMLParser):
+    """The text of a page's markup, with a space where each tag was."""
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.out = []
+
+    def handle_data(self, data):
+        self.out.append(data)
+
+    def handle_starttag(self, tag, attrs):
+        self.out.append(" ")
+
+    def handle_endtag(self, tag):
+        self.out.append(" ")
+
+
+def markup_text(t):
+    """A tag ends at the first > outside its quotes, which a pattern cannot see. ETS keeps a
+    copy of each text block in a data attribute, markup and all, with the markup's > left
+    raw; <[^>]+> ended the tag there and read the rest of the attribute as page text, and an
+    element id's 5 confirmed GRE's five-year score validity on a page that never states it
+    (INC-0173). A parser keeps a quoted attribute whole."""
+    p = _Text()
+    p.feed(t)
+    p.close()
+    return "".join(p.out)
 
 
 def cell_text(v, fmt):
@@ -269,6 +300,22 @@ def render(url):
     return r.stdout
 
 
+RETRY_WAIT = 5
+
+
+def plain_read(url):
+    """The body and content type of a plain read of url."""
+    req = urllib.request.Request(url, headers={"User-Agent": UA})
+    with urllib.request.urlopen(req, timeout=45, context=ssl_context()) as r:
+        return r.read(), r.headers.get("Content-Type", "").lower()
+
+
+def script_challenge(body):
+    """True when a read is Imperva's script challenge: a short page whose only content is a
+    script from /_Incapsula_Resource."""
+    return len(body) < CHALLENGE_MAX and b"_Incapsula_Resource" in body
+
+
 def fetch(url, cache, rendered=False):
     key = hashlib.sha1((("render:" if rendered else "") + url).encode()).hexdigest()
     if cache:
@@ -281,19 +328,30 @@ def fetch(url, cache, rendered=False):
         # and a read a few seconds later is often the page: two of three reads of the GMAT
         # fee table were on September 27, 2026. One more read, then the challenge stands.
         if challenged(re.sub(r"\s+", " ", text)):
-            time.sleep(5)
+            time.sleep(RETRY_WAIT)
             text = render(url)
     else:
-        req = urllib.request.Request(url, headers={"User-Agent": UA})
-        with urllib.request.urlopen(req, timeout=45, context=ssl_context()) as r:
-            text = to_text(r.read(), r.headers.get("Content-Type", "").lower())
+        body, ctype = plain_read(url)
+        # Imperva's script challenge is one script tag and no words, so it reads as an empty
+        # page rather than as a challenge: mba.com served it for GMAC's policies PDF on some
+        # reads and the PDF on others (INC-0175). One more read, then the challenge stands.
+        if script_challenge(body):
+            time.sleep(RETRY_WAIT)
+            body, ctype = plain_read(url)
+            if script_challenge(body):
+                CHALLENGED.add(url)
+                return ""
+        text = to_text(body, ctype)
     text = unglue(re.sub(r"\s+", " ", text))
     # A challenge says nothing about the page, so it is neither returned nor cached; the
     # caller sees an empty read, tries the browser, and reports the source as unreadable.
     if challenged(text):
         CHALLENGED.add(url)
         return ""
-    if cache:
+    # A read too short to be evidence is returned, for the caller to report, but not kept:
+    # a one-character read of GMAC's policies PDF, cached, made every later run report the
+    # PDF unreadable from the cache rather than from the site (INC-0175).
+    if cache and len(text) >= MIN_TEXT:
         (cache / (key + ".txt")).write_text(text, encoding="utf-8")
     return text
 
@@ -454,6 +512,67 @@ def beside_labels(field, text):
     return out
 
 
+# A number found on the page is not the fact found, for an exam fact either. GMAC's retake
+# article confirmed the GMAT's five-year score validity with "up to 5 times", and its score
+# release article confirmed "3 to 5 days" with the 3 of "0 out of 3 found this helpful"
+# (INC-0174), after a K-12 menu link had confirmed an ACT attempt cap (INC-0172). So each
+# number of an exam fact must also sit near a word of the fact's own, or, for a figure with
+# no text, near the word its field is about. A table prints its labels once, at the head of
+# a column, so a number with another number beside it is read as a cell and needs no word.
+WORDS_NEAR = 160
+FIELD_WORDS = {"validity_years": r"valid|reportable|expire"}
+# Words every page about an exam uses, which say nothing about which fact a passage is about.
+COMMON = set("""about after again their there where which while would could should these those other
+every within before during through between under above below among being having doing years
+students student tests exams score scores taken takes taking""".split())
+
+
+def fact_words(where, fact):
+    """What an exam fact is about, as a pattern: its own words of five letters or more, less
+    the common ones, or its field's words for a figure with no text; None when it has none."""
+    words = {w.lower() for w in re.findall(r"[A-Za-z]{5,}", " ".join(str(fact.get(k) or "") for k in FIELDS))}
+    words -= COMMON
+    if words:
+        return r"\b(?:%s)" % "|".join(sorted(map(re.escape, words)))
+    return FIELD_WORDS.get(re.sub(r"\[\d+\]", "", where).split(".")[-1])
+
+
+def in_table(text, start, end):
+    """True when the number at text[start:end] has another number beside it, as a table's
+    cells do: "160 82 50", or "150 36.56% 36.6%"."""
+    return bool(re.search(r"\d[%)]?[\s|,;:]*$", text[max(0, start - 16):start])
+                or re.match(r"[%)]?[\s|,;:]*\(?\$?\d", text[end:end + 16]))
+
+
+def away_from_words(where, fact, texts):
+    """The numbers of an exam fact that its pages print only away from every word of the
+    fact and outside any table, as (number, why). A number printed nowhere is check()'s to
+    report, and a derived one is judged by its inputs."""
+    label = fact_words(where, fact)
+    if not label:
+        return []
+    out = []
+    for n in sorted(printed(fact), key=float):
+        forms = [w for w, d in WORDS.items() if d == n]
+        seen = beside = False
+        for text in texts:
+            text = GRADES.sub(" ", text)
+            spots = [m.span() for m in NUM.finditer(text) if norm(m.group(0)) == n]
+            if forms:
+                spots += [m.span() for m in re.finditer(r"\b(?:%s)\b" % "|".join(forms), text, re.I)]
+            for a, b in spots:
+                seen = True
+                if in_table(text, a, b) or re.search(label, text[max(0, a - WORDS_NEAR): b + WORDS_NEAR], re.I):
+                    beside = True
+                    break
+            if beside:
+                break
+        if seen and not beside:
+            out.append((n, "printed only away from every word of the fact, as in a menu, a counter or "
+                           "another passage"))
+    return out
+
+
 def blank_pages(cited, sources):
     """The pages that print none of the figures cited to them, when two or more are. Every
     figure on such a page would be reported as missing, which says nothing about the
@@ -504,7 +623,74 @@ def _selfcheck():
     INC-0156: a bot challenge page is not read as the page it was sent for.
     INC-0158: figures glued to their labels, in a counter's attribute or in a workbook cell are
     read as shown, and a page that moved on shows its new figures beside the labels.
-    INC-0172: a grade range such as K-12 is not a figure."""
+    INC-0172: a grade range such as K-12 is not a figure.
+    INC-0173: text inside a quoted attribute is not page text, whatever markup it holds.
+    INC-0174: an exam fact's number counts only near a word of the fact's, or in a table.
+    INC-0175: a read too short to be evidence is not cached, and Imperva's script challenge is
+    read once more and then reported as a challenge."""
+    # INC-0175: Imperva's script challenge, as mba.com served it for GMAC's policies PDF.
+    script = (b'<html>\r\n<head>\r\n<META NAME="robots" CONTENT="noindex,nofollow">\r\n<script src="/_Incapsula_'
+              b'Resource?SWJIYLWA=5074a744e2e3d891814e9a2dace20bd4">\r\n</script>\r\n<body>\r\n</body></html>')
+    served = b"<html><body><p>" + b"The GMAT exam policies and procedures. " * 20 + b"</p></body></html>"
+    real_read, real_wait = globals()["plain_read"], globals()["RETRY_WAIT"]
+    globals()["RETRY_WAIT"] = 0
+    try:
+        for reads, want in (([script, served], True), ([script, script], False)):
+            queue = list(reads)
+            globals()["plain_read"] = lambda url: (queue.pop(0), "text/html")
+            CHALLENGED.discard("https://example.org/policies.pdf")
+            got = fetch("https://example.org/policies.pdf", None)
+            if (len(got) >= MIN_TEXT) != want or ("https://example.org/policies.pdf" in CHALLENGED) == want:
+                sys.exit("check_sources: Imperva's script challenge read as %r (INC-0175)" % got[:60])
+        CHALLENGED.discard("https://example.org/policies.pdf")
+    finally:
+        globals()["plain_read"], globals()["RETRY_WAIT"] = real_read, real_wait
+    # INC-0175: a short read is reported by the caller and fetched again next run, not kept.
+    import tempfile
+    real = globals()["render"]
+    globals()["render"] = lambda url: "x"
+    try:
+        with tempfile.TemporaryDirectory() as d:
+            fetch("https://example.org/short", pathlib.Path(d), rendered=True)
+            if any(pathlib.Path(d).iterdir()):
+                sys.exit("check_sources: a read too short to be evidence was cached (INC-0175)")
+    finally:
+        globals()["render"] = real
+    # INC-0173: a quoted attribute is part of its tag, however much markup it holds.
+    layer = ('<div data-cmp-data-layer="{&#34;text-5ae0eb3b6b&#34;:{&#34;xdm:text&#34;:&#34;&lt;p style=\\&#34;'
+             'text-align: center;\\&#34;>Scores last 7 years&lt;/p>&#34;}}" id="text-5ae0eb3b6b" class="cmp-text">'
+             '<p>The GRE General Test</p></div>')
+    got = to_text(layer.encode(), "text/html")
+    if "The GRE General Test" not in got or {"5", "7"} & numbers(got, True):
+        sys.exit("check_sources: text inside a quoted attribute was read as page text (INC-0173): %r" % got)
+    # INC-0174: the retake article's "5 times" and a helpfulness counter's 3 confirm nothing;
+    # the same numbers beside the fact's words, or as cells of a table, do.
+    retake = ("How Many Times Can I Take the GMAT? You may take the GMAT exam up to 5 times within a rolling "
+              "12-month period. This limit includes: online and test center exams combined")
+    valid = "GMAT scores are valid for five (5) years and available for reporting for up to 10 years."
+    lsat = "An LSAT result is reportable for up to five testing years after the testing year in which the score was earned."
+    release = ("Your official score report should be available within five (5) days. Although not typical, it can "
+               "take up to 20 days for your exam to be scored Scores cannot be expedited. Related to GMAT Score "
+               "Was this article helpful? Yes No 0 out of 3 found this helpful Have more questions? Submit a request")
+    # ETS's Table 1B as its PDF reads: the scores down one column, then each measure's
+    # percentiles down the next, so the cells sit far from the words that head them.
+    table = ("Scaled Score Verbal Reasoning Quantitative Reasoning " + " ".join(map(str, range(170, 129, -1))) +
+             " 99 99 98 97 96 95 93 90 88 85 82 79 76 72 68 64 59 54 48 43 39 34 30 27 24 21 18 16 14 11 10 8 6 5"
+             " 4 3 2 2 1 1 89 85 80 75 72 67 63 60 57 53 50 47 45 42 39 37 34 31 29 26 23 21 19 16 14 12 10 9 7 6"
+             " 5 4 3 2 2 1 1 1")
+    for where, fact, text, want in (
+            ("validity_years", {"v": 5}, retake, ["5"]),
+            ("validity_years", {"v": 5}, valid, []),
+            ("validity_years", {"v": 5}, lsat, []),
+            ("score_release", {"text": "Official Score Report is typically available in your mba.com account within "
+                                       "3 to 5 days (up to 20 days in some cases)"}, release, ["3"]),
+            ("score_release", {"text": "Your official score report should be available within 5 days; although not "
+                                       "typical, it can take up to 20 days"}, release, []),
+            ("key_facts[4]", {"text": "160 is the 82nd percentile in Verbal Reasoning and the 50th in Quantitative "
+                                      "Reasoning"}, table, [])):
+        got = [n for n, _ in away_from_words(where, fact, [text])]
+        if got != want:
+            sys.exit("check_sources: away_from_words(%s, %r) gave %s, not %s (INC-0174)" % (where, fact, got, want))
     # INC-0172: a grade range in a menu confirms nothing; the same number as a figure does.
     if "12" in numbers("Students & Parents K-12 Workforce Higher Ed", True):
         sys.exit("check_sources: the 12 of K-12 was read as a figure (INC-0172)")
@@ -636,8 +822,10 @@ def main(argv):
             # navigation without its figures, until a browser runs it. If the browser
             # cannot load it either, the static text is still evidence when there is
             # enough of it, so it is kept rather than thrown away.
-            cited = [f for _, _, f in todo if url in pages(f)]
-            misses = lambda t: sum(len(check(f, numbers(t, True))) for f in cited)
+            cited = [(w, f) for _, w, f in todo if url in pages(f)]
+            misses = lambda t: sum(len(check(f, numbers(t, True)) or
+                                       ([] if "--schools" in argv else away_from_words(w, f, [t])))
+                                   for w, f in cited)
             if "--render" in argv and refused is None and (len(text) < MIN_TEXT or misses(text)):
                 try:
                     shown = fetch(url, cache, rendered=True)
@@ -669,6 +857,8 @@ def main(argv):
         read_ok.add(key)
         # A figure worked from two pages is read against both, as one source.
         miss = check(f, set().union(*(sources[u] for u in pages(f))))
+        if "--schools" not in argv and not miss:
+            miss = away_from_words(where, f, [texts[u] for u in pages(f)])
         if "--schools" in argv and where.startswith("profile.") and not miss:
             got = beside_label(where.split(".", 1)[1], f, " ".join(texts.get(u, "") for u in pages(f)))
             if got and got[0] == "none":
