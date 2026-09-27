@@ -53,8 +53,13 @@ def _check_figure(slug, where, fig, errors):
     if not isinstance(fig, dict):
         errors.append("%s.%s: not an object" % (slug, where))
         return
-    # A figure with no value is not published, so it needs no provenance.
+    # A figure with no value is not published, so it needs no provenance. That holds only
+    # while nothing prints its note: the GMAT's Cost tile once showed $275 and $300 taken
+    # from such a note, checked by nothing (INC-0160). A price belongs in the value.
     if fig.get("text") is None and fig.get("v") is None:
+        if "$" in str(fig.get("note") or ""):
+            errors.append("%s.%s: a dollar amount in the note of a figure with no value is published by "
+                          "nothing and checked by nothing; give the figure its value (INC-0160)" % (slug, where))
         return
     for req in ("src", "year", "url"):
         if not fig.get(req):
@@ -63,17 +68,23 @@ def _check_figure(slug, where, fig, errors):
     if hit:
         errors.append("%s.%s: banned source %r (matched %r); CLAUDE.md bans coaching "
                       "sites outright" % (slug, where, fig.get("src"), hit))
-    url = str(fig.get("url") or "")
-    if url and not url.startswith("https://"):
-        errors.append("%s.%s: source url is not https" % (slug, where))
-    host = host_of(url)
-    if host:
-        allowed = MAKER_DOMAIN.get(slug, [])
-        ok = any(host_within(host, d) for d in allowed) or host in ALLOWED_ELSEWHERE
-        if not ok:
-            errors.append("%s.%s: source host %r is not the test maker's (%s). An exam "
-                          "fact comes from the maker or it does not ship."
-                          % (slug, where, host, ", ".join(allowed) or "none recorded"))
+    # A second page read with the first (also_urls), such as the address mba.com loads its US
+    # fee table from, is held to the same rules as the url (INC-0160).
+    also = fig.get("also_urls") or []
+    if not isinstance(also, list):
+        errors.append("%s.%s: also_urls must be a list of urls" % (slug, where))
+        also = []
+    for url in [str(fig.get("url") or "")] + [str(u) for u in also]:
+        if url and not url.startswith("https://"):
+            errors.append("%s.%s: source url is not https: %s" % (slug, where, url[:80]))
+        host = host_of(url)
+        if host:
+            allowed = MAKER_DOMAIN.get(slug, [])
+            ok = any(host_within(host, d) for d in allowed) or host in ALLOWED_ELSEWHERE
+            if not ok:
+                errors.append("%s.%s: source host %r is not the test maker's (%s). An exam "
+                              "fact comes from the maker or it does not ship."
+                              % (slug, where, host, ", ".join(allowed) or "none recorded"))
     for key in ("text", "src", "url", "stat"):
         val = fig.get(key)
         if isinstance(val, str) and ("—" in val or "–" in val):
@@ -181,6 +192,16 @@ def selftest():
         ("http rather than https is refused",
          {"score_scale": dict(base["score_scale"],
                               url="http://www.mba.com/exams/gmat-exam/scores")}, False),
+        # INC-0160: a price in the note of a figure with no value was printed and checked by nothing.
+        ("a dollar amount in the note of a figure with no value is refused",
+         {"cost_usd": {"v": None, "note": "$275 at a test center, $300 online", "src": "mba.com (GMAC)",
+                       "year": 2025, "url": "https://www.mba.com/exams/gmat-exam/register"}}, False),
+        ("a note with no dollar amount on a figure with no value passes",
+         {"cost_usd": {"v": None, "note": "priced by country"}}, True),
+        ("a second page on a non maker host is refused",
+         {"score_scale": dict(base["score_scale"], also_urls=["https://www.princetonreview.com/gmat"])}, False),
+        ("a second page on the maker's host passes",
+         {"score_scale": dict(base["score_scale"], also_urls=["https://www.mba.com/api/x?y=1"])}, True),
     ]
     failures = []
     for label, patch, should_pass in cases:

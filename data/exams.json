@@ -49,11 +49,12 @@
       "url": "https://www.mba.com/exams/gmat-exam/about/exam-structure"
     },
     "cost_usd": {
-      "v": null,
-      "note": "US pricing differs by delivery: $275 at a test center, $300 online delivered; the online fee covers remote proctoring; includes 5 free score reports if programs are selected within 48 hours of score release",
+      "v": 275,
+      "note": "at a test center in the United States; US$300 when the exam is delivered online. Pricing, local taxes and regulations differ by location: the test center's, or the test taker's for the online exam",
       "src": "mba.com (GMAC)",
-      "year": 2025,
-      "url": "https://www.mba.com/exams/gmat-exam/register"
+      "year": 2026,
+      "url": "https://www.mba.com/exams/gmat-exam/register/exam-payment",
+      "also_urls": ["https://www.mba.com/api/sitecore/CountrySpecific/CountryHTML?selectedValue=%7B58F9E1BA-22B5-452F-95A5-32BFFC591C6D%7D&fieldName=FocusExamPayment"]
     },
     "validity_years": {
       "v": 5,
@@ -127,6 +128,52 @@
         "src": "mba.com (GMAC)",
         "year": 2026,
         "url": "https://www.mba.com/exams/gmat-exam/scores/sending-your-score"
+      },
+      {
+        "text": "In the United States an additional score report costs US$35, whether the exam was taken at a test center or online",
+        "src": "mba.com (GMAC)",
+        "year": 2026,
+        "url": "https://www.mba.com/exams/gmat-exam/register/exam-payment",
+        "also_urls": ["https://www.mba.com/api/sitecore/CountrySpecific/CountryHTML?selectedValue=%7B58F9E1BA-22B5-452F-95A5-32BFFC591C6D%7D&fieldName=FocusExamPayment"]
+      },
+      {
+        "text": "Rescheduling costs US$55 at a test center or US$60 online more than 60 days before the appointment, US$110 or US$120 from 15 to 60 days before it, and US$165 or US$180 within 14 days of it",
+        "src": "mba.com (GMAC)",
+        "year": 2026,
+        "url": "https://www.mba.com/exams/gmat-exam/register/exam-payment",
+        "also_urls": ["https://www.mba.com/api/sitecore/CountrySpecific/CountryHTML?selectedValue=%7B58F9E1BA-22B5-452F-95A5-32BFFC591C6D%7D&fieldName=FocusExamPayment"]
+      },
+      {
+        "text": "Cancelling refunds US$110 of the test center fee or US$120 of the online fee more than 60 days before the appointment, US$80 or US$90 from 15 to 60 days before it, and US$55 or US$60 within 14 days of it",
+        "src": "mba.com (GMAC)",
+        "year": 2026,
+        "url": "https://www.mba.com/exams/gmat-exam/register/exam-payment",
+        "also_urls": ["https://www.mba.com/api/sitecore/CountrySpecific/CountryHTML?selectedValue=%7B58F9E1BA-22B5-452F-95A5-32BFFC591C6D%7D&fieldName=FocusExamPayment"]
+      },
+      {
+        "text": "An appointment cannot be rescheduled or cancelled within 24 hours of its start, and an exam not rescheduled or cancelled more than 24 hours ahead forfeits the entire fee",
+        "src": "mba.com (GMAC)",
+        "year": 2026,
+        "url": "https://www.mba.com/exams/gmat-exam/register/exam-payment",
+        "also_urls": ["https://www.mba.com/api/sitecore/CountrySpecific/CountryHTML?selectedValue=%7B58F9E1BA-22B5-452F-95A5-32BFFC591C6D%7D&fieldName=FocusExamPayment"]
+      },
+      {
+        "text": "A GMAT fee waiver lets an eligible candidate register at a reduced cost or no cost, and waivers are typically distributed through participating business schools and approved programs",
+        "src": "mba.com support (GMAC)",
+        "year": 2026,
+        "url": "https://support.mba.com/hc/en-us/articles/6284241279771-GMAT-Fees-Vouchers-and-Fee-Waivers"
+      },
+      {
+        "text": "An exam can be rescheduled or cancelled online, or by phone for an exam at a test center, and a change made by phone adds a service fee of US$10.00",
+        "src": "GMAT Exam Policies and Procedures (GMAC)",
+        "year": 2026,
+        "url": "https://www.mba.com/-/media/files/mba2/the-gmat-exam/files/register/gmat-policies-and-procedures_aug-2026.pdf?rev=1944562325e64999a09f36900dce5893&hash=C178A7A6EB28EAB4EA48C6C4FD28A3D3"
+      },
+      {
+        "text": "A voucher or fee waiver can be applied to the exam fee but not to rescheduling fees, and it is not refunded, except as required by law",
+        "src": "GMAT Exam Policies and Procedures (GMAC)",
+        "year": 2026,
+        "url": "https://www.mba.com/-/media/files/mba2/the-gmat-exam/files/register/gmat-policies-and-procedures_aug-2026.pdf?rev=1944562325e64999a09f36900dce5893&hash=C178A7A6EB28EAB4EA48C6C4FD28A3D3"
       }
     ]
   },

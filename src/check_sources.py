@@ -50,6 +50,7 @@ import pathlib
 import re
 import ssl
 import sys
+import time
 import urllib.error
 import urllib.request
 
@@ -266,6 +267,12 @@ def fetch(url, cache, rendered=False):
             return hit.read_text(encoding="utf-8")
     if rendered:
         text = render(url)
+        # Imperva answers mba.com with its challenge on some reads and not others (INC-0156),
+        # and a read a few seconds later is often the page: two of three reads of the GMAT
+        # fee table were on September 27, 2026. One more read, then the challenge stands.
+        if challenged(re.sub(r"\s+", " ", text)):
+            time.sleep(5)
+            text = render(url)
     else:
         req = urllib.request.Request(url, headers={"User-Agent": UA})
         with urllib.request.urlopen(req, timeout=45, context=ssl_context()) as r:
@@ -437,6 +444,30 @@ def beside_labels(field, text):
     return out
 
 
+def blank_pages(cited, sources):
+    """The pages that print none of the figures cited to them, when two or more are. Every
+    figure on such a page would be reported as missing, which says nothing about the
+    figures, so the page is reported once instead. A figure is read the way the findings
+    read it, against every page it names and only when all of them were read: mba.com's
+    payment page prints no fee until a country is chosen, and the GMAT's fees are read from
+    the table it loads, named in also_urls (INC-0161)."""
+    by_url = {}
+    for f in cited:
+        if all(u in sources for u in pages(f)):
+            by_url.setdefault(f["url"], []).append(f)
+    # Years do not count as evidence: "Class of 2027" is in the prose of a class profile
+    # whose statistics never rendered.
+    year = re.compile(r"(19|20)\d\d")
+    evidence = lambda f: {n for n in printed(f) if not year.fullmatch(n)}
+    blank = set()
+    for u, fs in by_url.items():
+        counted = [f for f in fs if evidence(f)]
+        if len(counted) >= 2 and not any(evidence(f) & set().union(*(sources[x] for x in pages(f)))
+                                         for f in counted):
+            blank.add(u)
+    return blank
+
+
 # A page that describes itself as covering a year: "For the 2025-2026 testing year, the LSAT
 # fee is $253." LSAC left that page up after the year ended, and a fact cited to it stayed
 # wrong in words the number check could not see (INC-0136).
@@ -482,6 +513,16 @@ def _selfcheck():
         sys.exit("check_sources: a binary file was read as text")
     except RuntimeError:
         pass
+    # INC-0161: a figure is judged blank against every page it names, and only when all were read.
+    pay, table = "https://example.org/pay", "https://example.org/table"
+    two = [{"url": pay, "also_urls": [table], "text": "US$275 at a test center, US$300 online"},
+           {"url": pay, "also_urls": [table], "text": "an additional score report costs US$35"}]
+    for srcs, want in (({pay: {"4", "10"}, table: {"275", "300", "35"}}, set()),
+                       ({pay: {"4", "10"}}, set()),
+                       ({pay: {"4", "10"}, table: {"7"}}, {pay})):
+        if blank_pages(two, srcs) != want:
+            sys.exit("check_sources: blank_pages with %s read gave %s, not %s"
+                     % (sorted(srcs), blank_pages(two, srcs), want))
     moved = ("Discover the MBA Class Profile of 2028 Class size 57 Women 35% International 39% Average years of "
              "full-time employment experience 6 Average GPA 3.38 Average GMAT 618* Average GRE Quantitative Score 161")
     counted = "3.47 Average Undergraduate GPA 1.81 Average Years of Work Experience"
@@ -603,22 +644,7 @@ def main(argv):
             periods[url] = ended_periods(text, today)
         except Exception as e:
             unread[url] = "%s: %s" % (type(e).__name__, e)
-    # A page that prints none of the figures cited to it, when two or more are, has not
-    # shown its data at all: a class profile drawn by JavaScript reads as prose with no
-    # numbers until a browser runs it. Every figure on it would be reported as missing,
-    # which says nothing about the figures, so the page is reported once instead.
-    by_url = {}
-    for _, _, f in todo:
-        by_url.setdefault(f["url"], []).append(f)
-    # Years do not count as evidence: "Class of 2027" is in the prose of a class profile
-    # whose statistics never rendered.
-    year = re.compile(r"(19|20)\d\d")
-    evidence = lambda f: {n for n in printed(f) if not year.fullmatch(n)}
-    blank = set()
-    for u, fs in by_url.items():
-        counted = [f for f in fs if evidence(f)]
-        if u in sources and len(counted) >= 2 and not any(evidence(f) & sources[u] for f in counted):
-            blank.add(u)
+    blank = blank_pages([f for _, _, f in todo], sources)
     bad, worth, judged, read_ok, flagged = 0, [], [], set(), set()
     for slug, where, f in todo:
         if any(u not in sources for u in pages(f)) or f["url"] in blank:

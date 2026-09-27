@@ -152,6 +152,13 @@ missing the figures (INC-0156). A page that refuses the plain read with 401, 403
 read in the browser, under the same user agent, before it is called unreadable: Baylor's
 pages refuse a script and render for a browser, while Columbia's, Michigan Ross's and
 Bloomberg's answer the browser with a challenge as well, which is reported as one (INC-0159).
+A browser read that gets a challenge is tried once more a few seconds later, because Imperva
+challenges mba.com on some reads and not others. An exam figure is published from its value
+or text only: the note of a figure with no value is never printed, and validate_exams refuses
+a dollar amount there, since the GMAT's cost tile once showed prices from such a note that no
+check read (INC-0160). A figure a page shows only after a choice, as mba.com shows the GMAT's
+fees once a country is chosen, is read from the address the page loads it from, named in
+`also_urls` and held by validate_exams to the test maker's host.
 It runs weekly in `.github/workflows/playbook.yml`
 and opens an issue when something no longer matches. A fact whose number is arithmetic on
 its source says so with a `derived` entry giving the working, such as
