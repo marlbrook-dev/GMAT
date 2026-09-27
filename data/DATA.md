@@ -163,7 +163,16 @@ text is raw source, and the browser's read replaces the page as served only when
 at least as many of the cited figures (INC-0146). `--schools` runs the same check over the
 school library (INC-0133): it sets aside College Scorecard figures, which come from a
 dataset rather than a page, leaves a figure's `note` out because there it is our
-commentary, and reports a page that shows none of its figures as unread rather than wrong.
+commentary, and reports a page that shows none of its figures, with what the page prints
+beside each figure's label (INC-0158). Other numbers there mean the page has probably moved
+on to a newer class: Kelley's page showed the Class of 2028 while the library published
+the Class of 2027, and was written off as a page built by JavaScript, because a page whose
+every figure changed looks, to a check for numbers, like a page that never loaded. Such a
+page fails the run until its figures are fixed or triaged. The check reads what a person
+sees in places a plain text read misses: a counter that counts up from 0 is read at the
+figure in its `data-target` attribute (Auburn), a figure a PDF's text layer glues to its
+label ("GPA3.45") is split from it (UMass Amherst), and an Excel workbook is read as its
+cells display, 87.8% rather than 0.878 (Chicago Booth), which needs `pip install xlrd`.
 For a school figure it also asks where the number sits (INC-0150): a number found only
 away from a word saying what it counts is reported as not found, and one found beside its
 label only near another program's name (MBAxMS, executive, part-time, evening) is listed as

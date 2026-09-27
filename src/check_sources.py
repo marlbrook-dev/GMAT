@@ -32,6 +32,12 @@ and the date (INC-0154). Those are reported apart, so the list of findings, and 
 status the weekly job opens an issue on, holds only what nobody has judged. A figure worked
 from two pages names the second in also_urls, and both are read.
 
+A page that prints none of the figures cited to it is reported with what it prints beside
+each figure's label (INC-0158). Other numbers there mean the page has probably moved on to a
+newer class or been revised; nothing there means a person has to read it. Either way it
+counts as a finding until every figure on it is fixed or triaged, because to a check that
+looks for numbers, a page whose every figure changed looks exactly like one that never loaded.
+
 It needs the network, so it runs in the weekly audit rather than in the build.
 """
 import datetime
@@ -83,6 +89,28 @@ CHALLENGED = set()
 def challenged(text):
     """True when a read is a bot challenge rather than the page it was sent for."""
     return len(text) < CHALLENGE_MAX and bool(CHALLENGE.search(text))
+
+
+# A PDF laid out in boxes can come out of the text extractor with each figure glued to its
+# label: UMass Amherst's class profile reads "INTERNATIONAL STUDENTS39%" and "GPA3.45", and
+# NUM reads no number that follows a letter, so the page showed none of its figures
+# (INC-0158). A number is split from a word of three or more letters glued before it; codes
+# such as H1B and Q3 are left alone.
+GLUED = re.compile(r"(?<=[A-Za-z]{3})(?=\d)")
+
+
+def unglue(text):
+    return GLUED.sub(" ", text)
+
+
+# A counter that counts up once scrolled into view is served as 0, with the figure it stops
+# at in an attribute: Auburn's page as served reads "0 Average Undergraduate GPA" (INC-0158).
+# A reader sees the figure it stops at, so that is what is read.
+COUNTER = re.compile(r"(<([a-z][a-z0-9]*)\b[^>]*?\bdata-(?:target|count|to|end|number)\s*=\s*[\"']\s*"
+                     r"(\d[\d,]*(?:\.\d+)?)\s*[\"'][^>]*>)\s*0?\s*(</\2\s*>)", re.I)
+# An Excel workbook is an OLE2 compound file, and decoded as text it is noise with none of its
+# figures in it: Chicago Booth publishes its employment statistics as one (INC-0158).
+OLE2 = b"\xd0\xcf\x11\xe0\xa1\xb1\x1a\xe1"
 
 
 def norm(n):
@@ -143,19 +171,26 @@ def ssl_context():
 
 
 def to_text(body, ctype):
-    """The readable text of a fetched page or PDF."""
+    """The readable text of a fetched page, PDF or Excel workbook."""
     if body[:5] == b"%PDF-" or "pdf" in ctype:
         try:
             from pdfminer.high_level import extract_text
         except ImportError:
             raise RuntimeError("a PDF, and pdfminer.six is not installed")
         return extract_text(io.BytesIO(body))
+    if body[:8] == OLE2 or "excel" in ctype:
+        return xls_text(body)
+    # Any other binary file decoded as text reads as noise with none of its figures in it,
+    # which the report would show as a page missing every figure, so it is unreadable instead.
+    if b"\x00" in body[:4096]:
+        raise RuntimeError("a binary file (%s) this check cannot read" % (ctype.split(";")[0] or "no content type"))
     t = body.decode("utf-8", errors="replace")
     # A comment is markup no reader sees. Kept, its text read as printed, and Arizona
     # State's 43 percent women was confirmed from a row the school had commented out
     # (INC-0152). It goes first, because a comment can hold tags and scripts.
     t = re.sub(r"<!--[\s\S]*?-->", " ", t)
     t = re.sub(r"<(script|style|noscript)[\s\S]*?</\1>", " ", t, flags=re.I)
+    t = COUNTER.sub(lambda m: m.group(1) + m.group(3) + m.group(4), t)
     # An image's alt text is the words a page gives for the image, read out in its place to
     # anyone who cannot see it. Berkeley Haas and Pitt Katz draw their figures as images and
     # write the figures into the alt text, so it is read as part of the page (INC-0154).
@@ -164,6 +199,43 @@ def to_text(body, ctype):
     t = re.sub(r"<img\b[^>]*?\balt\s*=\s*(\"[^\"]*\"|'[^']*')[^>]*>",
                lambda m: " " if hidden.search(m.group(0)) else " %s " % m.group(1)[1:-1], t, flags=re.I)
     return html.unescape(re.sub(r"<[^>]+>", " ", t))
+
+
+def cell_text(v, fmt):
+    """A number as a workbook cell shows it through its format: Booth's 0.8782771535580525
+    under 0.0% is 87.8%, and 175000 under "$"#,##0 is 175,000."""
+    part = re.sub(r'"[^"]*"|\[[^\]]*\]|\\.', "", str(fmt or "")).split(";")[0]
+    if not re.search(r"[0#?]", part):
+        return "%d" % v if float(v).is_integer() else "%.10g" % v
+    places = re.search(r"\.([0#?]+)", part)
+    pct = "%" in part
+    shown = ("{:,.%df}" if "," in part else "{:.%df}") % (len(places.group(1)) if places else 0)
+    return shown.format(v * 100 if pct else v) + ("%" if pct else "")
+
+
+def xls_text(body):
+    """An Excel workbook as its cells show it, a row to a line."""
+    try:
+        import xlrd
+    except ImportError:
+        raise RuntimeError("an Excel workbook, and xlrd is not installed")
+    book = xlrd.open_workbook(file_contents=body, formatting_info=True)
+    lines = []
+    for sheet in book.sheets():
+        for r in range(sheet.nrows):
+            cells = []
+            for cell in sheet.row(r):
+                if cell.ctype == xlrd.XL_CELL_DATE:
+                    d = xlrd.xldate_as_datetime(cell.value, book.datemode)
+                    cells.append("%s %d, %d" % (d.strftime("%B"), d.day, d.year))
+                elif cell.ctype == xlrd.XL_CELL_NUMBER:
+                    f = book.format_map.get(book.xf_list[cell.xf_index].format_key)
+                    cells.append(cell_text(cell.value, f.format_str if f else ""))
+                elif cell.ctype == xlrd.XL_CELL_TEXT and cell.value.strip():
+                    cells.append(cell.value.strip())
+            if cells:
+                lines.append(" ".join(cells))
+    return "\n".join(lines)
 
 
 def render(url):
@@ -191,7 +263,7 @@ def fetch(url, cache, rendered=False):
         req = urllib.request.Request(url, headers={"User-Agent": UA})
         with urllib.request.urlopen(req, timeout=45, context=ssl_context()) as r:
             text = to_text(r.read(), r.headers.get("Content-Type", "").lower())
-    text = re.sub(r"\s+", " ", text)
+    text = unglue(re.sub(r"\s+", " ", text))
     # A challenge says nothing about the page, so it is neither returned nor cached; the
     # caller sees an empty read, tries the browser, and reports the source as unreadable.
     if challenged(text):
@@ -328,6 +400,36 @@ def beside_label(field, fact, text):
     return ("none", "not beside a word that says what it counts")
 
 
+# How far from a label a figure is looked for on a page that shows none of the figures cited
+# to it: a few words either side, the gap between a label and its figure in a table row.
+BESIDE = 40
+
+
+def beside_labels(field, text):
+    """The numbers a page prints next to a school figure's label that could be that figure,
+    nearest first: in the field's range, and not a year. A page that prints none of its
+    figures but these has moved on or been revised: Kelley's printed "Average GPA 3.38"
+    where the library had the Class of 2027's 3.48 (INC-0158)."""
+    from validate_schools import RANGES
+    label, span = LABELS.get(field), RANGES.get(field)
+    if not label or not span or not text:
+        return []
+    near = []
+    for m in re.finditer(label, text, re.I):
+        after = [x for x in NUM.finditer(text, m.end(), m.end() + BESIDE + 12)
+                 if x.start() <= m.end() + BESIDE][:1]
+        before = list(NUM.finditer(text, max(0, m.start() - BESIDE), m.start()))[-1:]
+        for gap, x in [(x.start() - m.end(), x) for x in after] + [(m.start() - x.end(), x) for x in before]:
+            n = norm(x.group(0))
+            if n != "0" and not re.fullmatch(r"(?:19|20)\d\d", n) and span[0] <= float(n) <= span[1]:
+                near.append((gap, n))
+    out = []
+    for _, n in sorted(near, key=lambda g: g[0]):
+        if n not in out:
+            out.append(n)
+    return out
+
+
 # A page that describes itself as covering a year: "For the 2025-2026 testing year, the LSAT
 # fee is $253." LSAC left that page up after the year ended, and a fact cited to it stayed
 # wrong in words the number check could not see (INC-0136).
@@ -351,7 +453,38 @@ def _selfcheck():
     INC-0150: a school figure is found only beside its label, in a passage about its program.
     INC-0152: a figure only inside an HTML comment is not printed; the same figure outside one is.
     INC-0154: a figure an image carries in its alt text is printed.
-    INC-0156: a bot challenge page is not read as the page it was sent for."""
+    INC-0156: a bot challenge page is not read as the page it was sent for.
+    INC-0158: figures glued to their labels, in a counter's attribute or in a workbook cell are
+    read as shown, and a page that moved on shows its new figures beside the labels."""
+    glued = unglue("CLASS PROFILEAVERAGE AGE32ENROLLED IN DUAL DEGREE22%INTERNATIONAL STUDENTS39%AVERAGE YEARS "
+                   "WORK EXPERIENCE8AVERAGE UNDERGRAD GPA3.45AN EXCELLENT EDUCATION")
+    if not {"39", "8", "3.45"} <= numbers(glued, True):
+        sys.exit("check_sources: figures glued to their labels were not read: %s" % sorted(numbers(glued, True)))
+    if "1" in numbers(unglue("sponsors an H1B visa"), True):
+        sys.exit("check_sources: a code such as H1B was read as a number")
+    counter = ('<li class="stat"><span class="stat-number countup" data-target="3.47" data-decimals="2">0</span>'
+               '<div class="stat-label">Average Undergraduate GPA</div></li>')
+    if "3.47" not in numbers(to_text(counter.encode(), "text/html")):
+        sys.exit("check_sources: a counter's final value was not read")
+    for v, fmt, want in ((0.8782771535580525, "0.0%", "87.8%"), (0.42, "0%", "42%"),
+                         (175000.0, '"$"#,##0', "175,000"), (534.0, "General", "534")):
+        if cell_text(v, fmt) != want:
+            sys.exit("check_sources: a workbook cell of %r under %r reads %r, not %r" % (v, fmt, cell_text(v, fmt), want))
+    try:
+        to_text(b"PK\x03\x04\x14\x00\x06\x00", "application/octet-stream")
+        sys.exit("check_sources: a binary file was read as text")
+    except RuntimeError:
+        pass
+    moved = ("Discover the MBA Class Profile of 2028 Class size 57 Women 35% International 39% Average years of "
+             "full-time employment experience 6 Average GPA 3.38 Average GMAT 618* Average GRE Quantitative Score 161")
+    counted = "3.47 Average Undergraduate GPA 1.81 Average Years of Work Experience"
+    for field, text, want in (("gpa", moved, "3.38"), ("gmat_focus", moved, "618"), ("class_size", moved, "57"),
+                              ("work_exp_years", moved, "6"), ("gpa", counted, "3.47"),
+                              ("work_exp_years", counted, "1.81"),
+                              ("gpa", "Students come from 22 countries and every industry.", None)):
+        got = beside_labels(field, text)
+        if (got[:1] or [None])[0] != want:
+            sys.exit("check_sources: beside_labels(%s) on %r gave %r, not %r" % (field, text[:40], got, want))
     imperva = ("www.mba.com - Additional security check is required Why am I seeing this page? The website you "
                "are visiting is protected and accelerated by Imperva. Your computer may have been infected by malware.")
     cloudflare = "Just a moment... Enable JavaScript and cookies to continue"
@@ -415,7 +548,7 @@ def main(argv):
     todo = facts(records)
     dataset = [t for t in todo if "scorecard" in str(t[2].get("src", "")).lower()]
     todo = [t for t in todo if t not in dataset]
-    sources, unread, periods, texts = {}, {}, {}, {}
+    sources, unread, periods, texts, served = {}, {}, {}, {}, {}
     today = datetime.date.fromisoformat(os.environ.get("BLOG_BUILD_DATE") or datetime.date.today().isoformat())
     for url in sorted({u for _, _, f in todo for u in pages(f)}):
         try:
@@ -433,7 +566,7 @@ def main(argv):
                     # least as good a witness: a render that comes back as a challenge
                     # page, or shorter, must not hide figures the served page printed.
                     if len(shown) >= MIN_TEXT and (len(text) < MIN_TEXT or misses(shown) <= misses(text)):
-                        text = shown
+                        served[url], text = text, shown
                 except Exception as e:
                     print("render failed for %s, using the page as served (%s)"
                           % (url, str(e).splitlines()[0][:120]))
@@ -488,6 +621,29 @@ def main(argv):
             print("    %s" % str(f.get("text") or f.get("v"))[:220])
             for n, why in miss:
                 print("    %s: %s" % (n, why))
+    # A page that shows none of its figures is a finding until a person has read it, because a
+    # page whose every figure changed looks, to a check that looks for numbers, exactly like a
+    # page that never loaded: Kelley's class profile had moved on to the Class of 2028 and was
+    # reported as probably built by JavaScript (INC-0158). What the page prints beside each
+    # figure's label says which it is, and a figure a person has read there is triaged.
+    unseen = []
+    for u in sorted(blank):
+        rows = []
+        for slug, where, f in todo:
+            if f["url"] != u:
+                continue
+            key = "%s.%s" % (slug, where)
+            read_ok.add(key)
+            flagged.add(key)
+            entry = triaged(key, f, check(f, set().union(*(sources.get(x, set()) for x in pages(f)))), triage)
+            if entry:
+                judged.append((key, f, entry))
+            else:
+                # Both reads, since a browser leaves out what a closed accordion holds and
+                # Auburn's counters sit in one: the page as served showed them (INC-0158).
+                rows.append((key, f, beside_labels(where.split(".", 1)[-1], texts[u] + " " + served.get(u, ""))))
+        if rows:
+            unseen.append((u, rows))
     # Figures a person has read and found right where this check cannot see them. They are
     # listed so the list stays visible, and apart, so a new finding is never one of 30.
     if judged:
@@ -520,18 +676,27 @@ def main(argv):
         for w in worth:
             print(w)
         print()
-    for url in sorted(blank):
-        print("shows none of its %d figures, probably built by JavaScript: %s"
-              % (len(by_url[url]), url))
+    for url, rows in unseen:
+        if sum(1 for _, _, near in rows if near) >= min(2, len(rows)):
+            print("prints none of its %d figures, and other numbers beside their labels, so it has probably "
+                  "moved on to a newer class or been revised: read it and update them: %s" % (len(rows), url))
+        else:
+            print("prints none of its %d figures and no number beside their labels: read it, since it may draw "
+                  "them as images, build them with JavaScript the browser did not run, or no longer carry them: %s"
+                  % (len(rows), url))
+        for key, f, near in rows:
+            shown = norm("%g" % f["v"]) if isinstance(f.get("v"), (int, float)) else str(f.get("text"))[:80]
+            print("    %s  %s%s" % (key, shown, "; beside its label the page prints %s" % ", ".join(near[:3])
+                                     if near else ""))
     for url, why in sorted(unread.items()):
         print("could not read %s (%s)" % (url, why))
     print("\n%d facts checked against %d sources; %d with a number their source does not "
           "print; %d resting on a page about a period that has ended; %d sources unreadable, "
           "%d showing none of their figures; %d worth reading beside another program's name%s%s"
-          % (len(todo), len(sources), bad, stale, len(unread), len(blank), len(worth),
+          % (len(todo), len(sources), bad, stale, len(unread), len(unseen), len(worth),
           "; %d triaged" % len(judged) if triage else "",
           "; %d dataset figures set aside" % len(dataset) if dataset else ""))
-    return 1 if bad or stale else (2 if unread else 0)
+    return 1 if bad or stale or unseen else (2 if unread else 0)
 
 
 if __name__ == "__main__":

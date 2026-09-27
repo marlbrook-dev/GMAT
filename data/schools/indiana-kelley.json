@@ -39,19 +39,19 @@
   }
  },
  "profile": {
-  "class_year": "Class of 2027",
+  "class_year": "Class of 2028",
   "class_size": {
-   "v": 106,
+   "v": 57,
    "stat": "class size",
-   "src": "Kelley full-time MBA class profile",
-   "year": 2025,
+   "src": "Kelley Full-Time +Flex MBA class profile",
+   "year": 2026,
    "url": "https://kelley.iu.edu/programs/full-time-mba/admissions/class-profile.html"
   },
   "gmat_focus": {
-   "v": 607,
+   "v": 618,
    "stat": "average GMAT score; page note: current edition, previously called GMAT Focus",
-   "src": "Kelley full-time MBA class profile",
-   "year": 2025,
+   "src": "Kelley Full-Time +Flex MBA class profile",
+   "year": 2026,
    "url": "https://kelley.iu.edu/programs/full-time-mba/admissions/class-profile.html"
   },
   "gmat_classic": {
@@ -60,27 +60,27 @@
    "src": "",
    "year": null,
    "url": "",
-   "note": "No classic-scale GMAT reported for the Class of 2027 in sources reviewed"
+   "note": "No classic-scale GMAT reported for the Class of 2028 in sources reviewed"
   },
   "gre_quant": {
-   "v": 159,
-   "stat": "average quantitative GRE score; average total GRE 317",
-   "src": "Kelley full-time MBA class profile",
-   "year": 2025,
+   "v": 161,
+   "stat": "average quantitative GRE score",
+   "src": "Kelley Full-Time +Flex MBA class profile",
+   "year": 2026,
    "url": "https://kelley.iu.edu/programs/full-time-mba/admissions/class-profile.html"
   },
   "gre_verbal": {
-   "v": 158,
+   "v": 160,
    "stat": "average verbal GRE score",
-   "src": "Kelley full-time MBA class profile",
-   "year": 2025,
+   "src": "Kelley Full-Time +Flex MBA class profile",
+   "year": 2026,
    "url": "https://kelley.iu.edu/programs/full-time-mba/admissions/class-profile.html"
   },
   "gpa": {
-   "v": 3.48,
+   "v": 3.38,
    "stat": "average GPA",
-   "src": "Kelley full-time MBA class profile",
-   "year": 2025,
+   "src": "Kelley Full-Time +Flex MBA class profile",
+   "year": 2026,
    "url": "https://kelley.iu.edu/programs/full-time-mba/admissions/class-profile.html"
   },
   "accept_rate_pct": {
@@ -91,24 +91,24 @@
    "note": "Secondary sources conflict (27.3 to 38 percent); no figure seen from a preferred source"
   },
   "work_exp_years": {
-   "v": 6.25,
-   "stat": "average years of full-time employment experience; 98 percent with full-time work experience",
-   "src": "Kelley full-time MBA class profile",
-   "year": 2025,
+   "v": 6,
+   "stat": "average years of full-time employment experience; 100 percent with full-time work experience",
+   "src": "Kelley Full-Time +Flex MBA class profile",
+   "year": 2026,
    "url": "https://kelley.iu.edu/programs/full-time-mba/admissions/class-profile.html"
   },
   "women_pct": {
-   "v": 28,
+   "v": 35,
    "stat": "women",
-   "src": "Kelley full-time MBA class profile",
-   "year": 2025,
+   "src": "Kelley Full-Time +Flex MBA class profile",
+   "year": 2026,
    "url": "https://kelley.iu.edu/programs/full-time-mba/admissions/class-profile.html"
   },
   "intl_pct": {
-   "v": 42,
-   "stat": "international",
-   "src": "Kelley full-time MBA class profile",
-   "year": 2025,
+   "v": 39,
+   "stat": "international; 14 countries represented",
+   "src": "Kelley Full-Time +Flex MBA class profile",
+   "year": 2026,
    "url": "https://kelley.iu.edu/programs/full-time-mba/admissions/class-profile.html"
   },
   "tuition_usd": {
@@ -134,7 +134,7 @@
   }
  },
  "website": "https://kelley.iu.edu/programs/full-time-mba/",
- "notes": "Official class profile page (Class of 2027) confirms and supersedes the P and Q figures; GMAT 607 is explicitly labeled current edition, previously called GMAT Focus, and no classic-scale GMAT is published. Acceptance rate is not published on the class profile or admissions pages. The employment report PDF now on kelley.iu.edu is the 2025-26 edition covering the graduating Class of 2025, replacing the prior Class of 2024 data; the old newdev.kelley.iu.edu host no longer resolves. Tuition confirmed on the official Kelley tuition page at the 2026-27 rate, replacing the Clear Admit sourced entry.",
+ "notes": "The official class profile page, read on September 27, 2026, is headed Class Profile of 2028 and covers the Full-Time +Flex MBA; it replaced the Class of 2027 profile (106 students, average GMAT 607, GPA 3.48) the library carried until then, which the source check had reported as a page probably built by JavaScript (INC-0158). GMAT 618 is labeled current edition, previously called GMAT Focus, and no classic-scale GMAT is published; the page no longer gives a total GRE. Acceptance rate is not published on the class profile or admissions pages. The employment report PDF now on kelley.iu.edu is the 2025-26 edition covering the graduating Class of 2025, replacing the prior Class of 2024 data; the old newdev.kelley.iu.edu host no longer resolves. Tuition confirmed on the official Kelley tuition page at the 2026-27 rate, replacing the Clear Admit sourced entry.",
  "federal": {
   "matched": false,
   "reason": "no CIP 5202 master's record in the federal file"

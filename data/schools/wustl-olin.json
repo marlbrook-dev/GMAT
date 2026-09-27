@@ -46,7 +46,8 @@
   "class_year": "2025-2027 (three-class snapshot)",
   "class_size": {
    "v": 95,
-   "src": "Olin full-time MBA student snapshot (median cohort size)",
+   "stat": "students in a typical cohort, based on the Classes of 2025, 2026 and 2027",
+   "src": "Olin full-time MBA student snapshot",
    "year": 2025,
    "url": "https://olin.washu.edu/programs/mbas/full-time-mba/class-profile.php"
   },
@@ -65,18 +66,18 @@
    "url": "https://olin.washu.edu/programs/mbas/full-time-mba/class-profile.php"
   },
   "gre_quant": {
-   "v": null,
-   "stat": "",
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 166,
+   "stat": "median, Classes of 2025, 2026 and 2027",
+   "src": "Olin full-time MBA student snapshot",
+   "year": 2025,
+   "url": "https://olin.washu.edu/programs/mbas/full-time-mba/class-profile.php"
   },
   "gre_verbal": {
-   "v": null,
-   "stat": "",
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 164,
+   "stat": "median, Classes of 2025, 2026 and 2027",
+   "src": "Olin full-time MBA student snapshot",
+   "year": 2025,
+   "url": "https://olin.washu.edu/programs/mbas/full-time-mba/class-profile.php"
   },
   "gpa": {
    "v": 3.6,
@@ -92,23 +93,25 @@
    "url": ""
   },
   "work_exp_years": {
-   "v": null,
-   "stat": "",
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 4.3,
+   "stat": "years of work experience, a typical cohort over the Classes of 2025, 2026 and 2027",
+   "src": "Olin full-time MBA student snapshot",
+   "year": 2025,
+   "url": "https://olin.washu.edu/programs/mbas/full-time-mba/class-profile.php"
   },
   "women_pct": {
-   "v": null,
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 44,
+   "stat": "female, a typical cohort over the Classes of 2025, 2026 and 2027",
+   "src": "Olin full-time MBA student snapshot",
+   "year": 2025,
+   "url": "https://olin.washu.edu/programs/mbas/full-time-mba/class-profile.php"
   },
   "intl_pct": {
-   "v": null,
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 47,
+   "stat": "international, a typical cohort over the Classes of 2025, 2026 and 2027; 22 countries by citizenship",
+   "src": "Olin full-time MBA student snapshot",
+   "year": 2025,
+   "url": "https://olin.washu.edu/programs/mbas/full-time-mba/class-profile.php"
   },
   "tuition_usd": {
    "v": 72700,
@@ -132,7 +135,7 @@
    "url": "https://olin.washu.edu/docs/programs/employment/mba-employment-report.pdf"
   }
  },
- "notes": "The official class profile page now renders all class statistics (medians, backgrounds, gender, international) as images with no machine-readable text, so the existing class_size, gmat_classic, and gpa figures already sourced to that page were kept but could not be re-read this session, and the remaining profile fields could not be filled. The Class of 2024 employment report PDF, linked from the careers page, has no text layer and was read as images on 2026-09-27: median salary 126,000 and average 126,773; 3-Month Job Acceptance Rate 78 percent (52 of 67 seeking employment) and 3-Month Job Offer Rate 81 percent (54 of 67). The careers page's own headline figures, a 130,000 median base salary and an 81 percent employment rate three months after graduation, name no class, and the 130,000 is not the Class of 2024's, so the report's figures are used (INC-0154). Tuition updated from 70,250 (2025-26) to the 72,700 2026-27 rate now posted.",
+ "notes": "The official class profile page draws its class statistics as images, whose alt text, where there is any, names the chart and none of its figures. Read from the images on September 27, 2026, a typical cohort over the Classes of 2025, 2026 and 2027 has 95 students, 22 countries by citizenship, 47 percent international, 44 percent female and 4.3 years of work experience, with a median GPA of 3.6, an average GMAT of 702 on a scale of 200 to 800, and median GRE scores of 164 verbal and 166 quantitative. The page does not call 95 a median, as this record once did. The source check cannot read images, so each of these figures is recorded in data/source_triage.json with what the image shows (INC-0158). The Class of 2024 employment report PDF, linked from the careers page, has no text layer and was read as images on 2026-09-27: median salary 126,000 and average 126,773; 3-Month Job Acceptance Rate 78 percent (52 of 67 seeking employment) and 3-Month Job Offer Rate 81 percent (54 of 67). The careers page's own headline figures, a 130,000 median base salary and an 81 percent employment rate three months after graduation, name no class, and the 130,000 is not the Class of 2024's, so the report's figures are used (INC-0154). Tuition updated from 70,250 (2025-26) to the 72,700 2026-27 rate now posted.",
  "federal": {
   "matched": true,
   "instnm": "Washington University in St Louis",

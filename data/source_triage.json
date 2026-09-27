@@ -44,6 +44,81 @@
    ],
    "why": "Kellogg draws the middle 80 percent range as a box plot rather than as text. The chart's data in the page, 149, 156, 160, 167 and 170, puts the box from 156 to 167, and the box's tooltip reads Middle 80% range; the average beside it, 162, is printed as text under Average GRE (Verbal) score.",
    "checked": "2026-09-27"
+  },
+  {
+   "key": "wustl-olin.profile.class_size",
+   "v": 95,
+   "missing": [
+    "95"
+   ],
+   "why": "Olin draws its class statistics as images, and the check reads no text in an image. ftmba-top-stats-0.png (alt text FTMBA Class Statistics, repeated for narrow screens in ftmba-top-stats-1.png and -2.png) prints 95 Students in a Cohort, under the page's sentence that these describe a typical cohort from the Classes of 2025, 2026 and 2027.",
+   "checked": "2026-09-27"
+  },
+  {
+   "key": "wustl-olin.profile.gmat_classic",
+   "v": 702,
+   "missing": [
+    "200",
+    "702",
+    "800"
+   ],
+   "why": "Olin draws its class statistics as images, and the check reads no text in an image. four-medians.png, which has no alt text, sits under a heading image whose alt text reads Medians for classes 2025, 2026, and 2027, and prints a GMAT bar on a scale from 200 to 800 with 702 AVERAGE beside it.",
+   "checked": "2026-09-27"
+  },
+  {
+   "key": "wustl-olin.profile.gre_quant",
+   "v": 166,
+   "missing": [
+    "166"
+   ],
+   "why": "Olin draws its class statistics as images, and the check reads no text in an image. four-medians.png, which has no alt text, sits under a heading image whose alt text reads Medians for classes 2025, 2026, and 2027, and prints a GRE Q bar on a scale from 130 to 170 with 166 MEDIAN beside it.",
+   "checked": "2026-09-27"
+  },
+  {
+   "key": "wustl-olin.profile.gre_verbal",
+   "v": 164,
+   "missing": [
+    "164"
+   ],
+   "why": "Olin draws its class statistics as images, and the check reads no text in an image. four-medians.png, which has no alt text, sits under a heading image whose alt text reads Medians for classes 2025, 2026, and 2027, and prints a GRE V bar on a scale from 130 to 170 with 164 MEDIAN beside it.",
+   "checked": "2026-09-27"
+  },
+  {
+   "key": "wustl-olin.profile.gpa",
+   "v": 3.6,
+   "missing": [
+    "3.6"
+   ],
+   "why": "Olin draws its class statistics as images, and the check reads no text in an image. four-medians.png, which has no alt text, sits under a heading image whose alt text reads Medians for classes 2025, 2026, and 2027, and prints a GPA bar on a scale from 0.0 to 4.0 with 3.6 MEDIAN beside it.",
+   "checked": "2026-09-27"
+  },
+  {
+   "key": "wustl-olin.profile.work_exp_years",
+   "v": 4.3,
+   "missing": [
+    "4.3"
+   ],
+   "why": "Olin draws its class statistics as images, and the check reads no text in an image. ftmba-top-stats-0.png (alt text FTMBA Class Statistics, repeated for narrow screens in ftmba-top-stats-1.png and -2.png) prints 4.3 Years Work Experience, under the page's sentence that these describe a typical cohort from the Classes of 2025, 2026 and 2027.",
+   "checked": "2026-09-27"
+  },
+  {
+   "key": "wustl-olin.profile.women_pct",
+   "v": 44,
+   "missing": [
+    "44"
+   ],
+   "why": "Olin draws its class statistics as images, and the check reads no text in an image. ftmba-top-stats-0.png (alt text FTMBA Class Statistics, repeated for narrow screens in ftmba-top-stats-1.png and -2.png) prints 44% Female and 56% Male, under the page's sentence that these describe a typical cohort from the Classes of 2025, 2026 and 2027.",
+   "checked": "2026-09-27"
+  },
+  {
+   "key": "wustl-olin.profile.intl_pct",
+   "v": 47,
+   "missing": [
+    "22",
+    "47"
+   ],
+   "why": "Olin draws its class statistics as images, and the check reads no text in an image. ftmba-top-stats-0.png (alt text FTMBA Class Statistics, repeated for narrow screens in ftmba-top-stats-1.png and -2.png) prints 53% Domestic and 47% International, and 22 Countries by Citizenship, under the page's sentence that these describe a typical cohort from the Classes of 2025, 2026 and 2027.",
+   "checked": "2026-09-27"
   }
  ]
 }
