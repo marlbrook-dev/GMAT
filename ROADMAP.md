@@ -672,6 +672,19 @@ verified rather than that the school does not publish one (INC-0118).
       script-only challenge, and caches no read too short to be evidence. All 108 exam facts
       pass: 106 in the run of September 27, and the two on GMAC's policies PDF against a
       direct read the same day, since Imperva challenged the run's reads of it.
+- [x] **Every ledger record cites its commit, and the weekly harvest is level** (INC-0181).
+      The harvest read incident ids only when written out in full, so the squash titles
+      that name a range ("INC-0104 to INC-0110", "INC-0173 to INC-0175") left seven records
+      citing nothing; and it matched candidate commits by short hash against citations
+      written in full, so 57 fixed commits came back every week as possible unrecorded
+      defects, 38 of them on the last run. It now reads ranges and short lists and counts a
+      commit cited in full or short, and --backfill filled 77 citations from main's
+      history. The five candidates left were read and cleared with reasons in
+      cleared.jsonl: validation or design language in two, a claim the same change made
+      stale in one, and follow-on work on INC-0079 and INC-0057 in two. The harvest now
+      reports the ledger level with the repository. Still open: 24 of the earliest
+      citations point at commits no longer on main whose PRs landed without a "(#N)"
+      title, so nothing can repoint them automatically.
 - [x] **Exam facts with no number, read by their words** (INC-0180). The GMAT's delivery
       line said appointments are available year round with no fixed testing windows, and
       the mba.com register page it cites no longer says either. The source check compares

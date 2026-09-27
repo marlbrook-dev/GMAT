@@ -7,10 +7,10 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-27, which is 8 days, across
-130 commits, by one owner directing a series of AI coding sessions. As of this
+131 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 86 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
-2102 tracked files in total.
+2103 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-130 commits in 8 days, one owner, a series of AI sessions. This
+131 commits in 8 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1217,14 +1217,14 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-180 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+181 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 95 | 53% |
+| Found by reading the code or the output | 96 | 53% |
 | Found by measuring something | 43 | 24% |
 | A test caught it | 22 | 12% |
 | Found by rendering it and looking | 8 | 4% |
@@ -1232,7 +1232,7 @@ well enough to audit later. Which is what this book is.
 | A build guard caught it | 5 | 3% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 178 of 180 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 179 of 181 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1242,12 +1242,12 @@ well enough to audit later. Which is what this book is.
 | Severity | Count |
 | --- | ---: |
 | Wrong data shown or stored | 79 |
-| Degraded | 43 |
+| Degraded | 44 |
 | Cosmetic | 29 |
 | Silent loss | 26 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 180. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 181. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
@@ -1255,7 +1255,7 @@ well enough to audit later. Which is what this book is.
 | Area | Count |
 | --- | ---: |
 | Content generation | 84 |
-| Tests and guards | 30 |
+| Tests and guards | 31 |
 | Front end | 12 |
 | Build system | 11 |
 | Search and metadata | 10 |
@@ -1269,7 +1269,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-174 of 180 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+175 of 181 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1290,7 +1290,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-86 of 180 incidents record that they repeat an earlier lesson, 117 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+86 of 181 incidents record that they repeat an earlier lesson, 117 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1384,6 +1384,7 @@ Incidents that name an earlier one without claiming to repeat it. Each was read 
 - INC-0172 names INC-0170
 - INC-0173 names INC-0174
 - INC-0174 names INC-0173
+- INC-0181 names INC-0057, INC-0079, INC-0104, INC-0105, INC-0109, INC-0110, INC-0130, INC-0170, INC-0171, INC-0172, INC-0173, INC-0174, INC-0175, INC-0180
 
 
 ## Where defects concentrate
@@ -1899,7 +1900,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0105. Twelve average salaries were published as medians, and the social queue credited schools with figures they never published
 
-*2026-09-26, Wrong data shown or stored*
+*2026-09-26, Wrong data shown or stored, `3230ba014d8f660a9783ccc633c0a132c7c7b24c` PR #96*
 
 - **What was seen.** 12 of the 53 MBA programs with a salary figure publish only an average; several of their stat notes say so in as many words ('average salary, Class of 2023; median not published'). Every one was labelled a median: 'Median starting salary is $X' in the page lead, 'median starting salary $X' in the meta description, a 'Median base salary' table row sitting beside a note saying no median exists, 'Median salary' in the rankings detail view and the printed report. The social post queue in Admin went further in two ways: every salary post said graduates 'report a median starting salary' that was 'reported by the school', although 8 salary figures come from a secondary source, and every acceptance rate post said the figure was 'from the school's own class profile', although 9 of the 16 come from Poets&Quants (six), US News, GMAC or a university news office. The international share posts said 'Class composition is published by the school' and 'Sourced from the school' for all of them, although 7 of the 60 international shares come from a secondary source. And two acceptance rates whose own sources call them 'estimated' and 'around 22%' were posted as flat facts.
 - **Why.** The field is named salary_median_usd, and every consumer took the name as the definition. The source ladder allows an average when a school publishes no median and the data entry recorded which one it was in the stat note, but nothing that renders the figure reads the note. The social templates were written as fixed sentences about the typical case, a school reporting its own median, and never looked at the figure's own source.
@@ -1911,7 +1912,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0106. Official figures from a school's own university were footnoted as secondary and 'indicative rather than official'
 
-*2026-09-26, Wrong data shown or stored*
+*2026-09-26, Wrong data shown or stored, `3230ba014d8f660a9783ccc633c0a132c7c7b24c` PR #96*
 
 - **What was seen.** 29 figures across 10 MBA school pages carried the secondary-source asterisk and the footnote 'This school does not publish this figure on its own site, so it comes from a secondary source ... treat it as indicative rather than official', although every one comes from the school's own university: Cornell Johnson's class profile and employment figures (9 of them) from business.cornell.edu, Miami Herbert's class profile (8) from the university news office, tuition from the bursar, registrar or student accounts pages of Rice, Pitt, UC Irvine, UC San Diego, Kentucky, Georgia and Howard, Howard's salary and employment figures from the university's own news site, and Wharton's tuition, salary and employment figures from Wharton subdomains including its own career report. The same test drove the social queue, which would have said 'as reported by Wharton 2025 MBA Career Report' as if that were a third party.
 - **Why.** is_secondary decides 'the school published this' by comparing the figure's host with the host of the program's website field, allowing only an exact match or one being a subdomain of the other. Universities publish from sibling hosts (bursar.rice.edu beside business.rice.edu, business.cornell.edu beside johnson.cornell.edu), which are neither, so the test read 'a different host' as 'a different publisher'.
@@ -1923,7 +1924,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0108. The college methodology page quoted its own checks from the day they were written, and the build had moved on
 
-*2026-09-26, Wrong data shown or stored*
+*2026-09-26, Wrong data shown or stored, `3230ba014d8f660a9783ccc633c0a132c7c7b24c` PR #96*
 
 - **What was seen.** /colleges/methodology/ told readers that 80 percent of our top 25 appears in a published top 25, that 96 percent appears somewhere in a published ranking, and that the score correlates with admission rate at -0.41. The build that generated the page printed 76 percent, 100 percent and -0.38 on the same run. The page also states how many public colleges charge a non-resident premium, the largest premium, and how many private colleges report identical in-state and out-of-state tuition, all as literals.
 - **Why.** The figures were typed into the page template as prose when the reweighting shipped, beside placeholders for the counts that were templated. validate_ranking.report computes all of them on every build and returns them to build_colleges, which used only the per-category agreement. Nothing compared the prose to the numbers the same build had just printed.
@@ -1935,7 +1936,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0114. Reading inference questions credited a key that depended on a rule the passage never stated
 
-*2026-09-26, Wrong data shown or stored*
+*2026-09-26, Wrong data shown or stored, `3230ba014d8f660a9783ccc633c0a132c7c7b24c` PR #96*
 
 - **What was seen.** An rc_infer item asked 'If the Kivalliq site recorded a snowpack of twenty-two centimetres, which of the following can be properly inferred from the passage?' and credited 'The Kivalliq site did not show the winter reversal.' The passage says the reversal appeared wherever the snowpack exceeded forty centimetres, which is the opposite direction: deep snow is enough for the reversal, not required for it, so a site with shallow snow may or may not show it. The rule that makes the key follow, that every site in the survey that showed the reversal had deep snow, is held in the corpus and never appears in the text. None of the forty universals the inference schema runs on appears in its passage. Read one by one against the prose, twenty of the forty credited a conclusion that the passage and the stem's premise do not establish together: the first conditional of tundra, guilds, reefs, roads, saltmarsh, cicadas, almshouse, riparian and phonotactic, the second of tenements, basalt and lichen, and both of scriptoria, pidgin, birdsong and assize. The failures are of four kinds: the passage states the converse of the rule (tundra, guilds, riparian); it states nothing like the rule (scriptoria, basalt, almshouse, phonotactic and others); the case is never placed inside the study the rule covers, so a rule about the eleven Canadian sites is applied to a site that may not be one of them (roads, saltmarsh, and the scoped ones above); or the step needs outside knowledge, that English is the lexifier of Krio or the year the lichen hypothesis was published. The explanation on all forty opened 'The passage establishes that' and then quoted the universal, which the passage does not contain. Birdsong's first key did not follow even with its rule stated. The schema runs on both the GMAT (v_inf) and the LSAT (lsat_rc_inf).
 - **Why.** The module docstring says 'Each passage carries two conditionals', and the passage data does carry them, as fields beside the prose. text(p), which builds what the reader sees, assembles the old view, the two findings, the revision and the caveat, and never the conditionals. The generator then computes the key from the stored universal and the explanation quotes it, so every string the item is built from agrees with every other and the item looks valid to anything that reads the data. What the reader gets is the prose, and for half of the conditionals the prose was written to say something close to the rule rather than the rule. INC-0097 fixed the same shape one field over: the case was used to compute the key and never printed, and that fix printed the case. The universal had exactly the same property and was not looked at, because the fix answered the question 'is the case shown' rather than 'which premises is the reader shown'.
@@ -1947,7 +1948,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0115. A field written to open a sentence was printed mid-sentence in a reading stem
 
-*2026-09-26, Cosmetic*
+*2026-09-26, Cosmetic, `3230ba014d8f660a9783ccc633c0a132c7c7b24c` PR #96*
 
 - **What was seen.** Every rc_stated item that asks about a passage's second finding opened 'According to the passage, A later survey of eleven sites across northern Canada found that', with a capital A after the comma. The built banks carried 20 of them for the GMAT (13 in bank.js, 7 in the deferred chunks) and 8 for the LSAT, one per passage. The same field joined to its neighbour with a fixed 'of' also produced 'A second team of carbon isotope records from three continents found that', a team made of records, and 'Later laboratory work of colonies' and 'A playback experiment of the same population' in the passages themselves.
 - **Why.** ev2who is used in two slots. text(p) puts it at the start of a sentence, so it was written capitalised, and the stated-idea stem puts it after 'According to the passage,' where it needs lower case. The field was written for the first slot and never read in the second. The 'of' join is the same fault in a different form: the template supplies a preposition that suits most of the stored phrases and was never checked against all of them.
@@ -1959,7 +1960,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0116. A passage described zircon dating with the vocabulary of argon dating
 
-*2026-09-26, Wrong data shown or stored*
+*2026-09-26, Wrong data shown or stored, `3230ba014d8f660a9783ccc633c0a132c7c7b24c` PR #96*
 
 - **What was seen.** The basalt passage said the extinction dates 'come from zircon crystals, which close to argon loss and so record the eruption rather than later heating'. Zircon is dated by uranium and lead, and the property that makes it useful is that it keeps its lead when heated later; closure to argon loss is the language of argon dating, which uses other minerals. The sentence was also the key of a stated-idea item, so a student was asked to select it as what the passage says.
 - **Why.** The passage was written from memory and the two dating methods were conflated in one clause. Nothing checks the science in a passage, because a reading question is answered from the text and every check on the item passes whether the text is true or not.
@@ -1971,7 +1972,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0117. Three reading schemas could be answered by matching names, because every distractor came from a different passage
 
-*2026-09-26, Wrong data shown or stored*
+*2026-09-26, Wrong data shown or stored, `3230ba014d8f660a9783ccc633c0a132c7c7b24c` PR #96*
 
 - **What was seen.** An inference item stated 'If Providence adopted the building codes and filtration in the same year' and offered five conclusions, of which only the key mentioned Providence; the others were about the Arezzo panel, infant 14, the Wendle map and the Blakeney marsh. Choosing the option that shares the most names with the premise picked the key on 549 of 600 distinct seeded draws of rc_infer (91 percent) and 572 of 600 of rc_infer_long (95 percent). Main idea and caveat items had the same property with topic words instead of names: choosing the option whose words appear most in the passage picked the key on 92 percent of rc_main and rc_caveat draws and on 79 and 84 percent of their LSAT variants. Every one of these items also closed with 'Watch for: Every other choice states something the passage also says. They are true', which is the stated-idea note and is false of all three schemas, whose wrong choices the passage does not say.
 - **Why.** INC-0088 found the inference key was the shortest option on 68 percent of items and fixed it by adding other passages' conclusions to the distractor pool, because they are the right length. They are also about a different subject, so the fix traded a length tell for a subject tell. Main idea and caveat were built the same way from the start: their only wrong answers were other passages' summaries, which are safely wrong because they describe a different subject, and safely wrong is the same as eliminable without reading. test.js measures length rank and nothing else, so the ratchet reported these schemas as clean. The 'Watch for' note was written once in the shared emit() for the schema it describes and inherited by the three it does not.
@@ -1983,7 +1984,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0118. School pages said a program does not publish an acceptance rate when we had only not found one
 
-*2026-09-26, Wrong data shown or stored*
+*2026-09-26, Wrong data shown or stored, `3230ba014d8f660a9783ccc633c0a132c7c7b24c` PR #96*
 
 - **What was seen.** Every school page without an acceptance rate, 75 of the 91 active programs, printed 'not published' in the class profile table and answered 'What is the acceptance rate at X?' with 'X does not publish an acceptance rate, and neither do most full-time MBA programs', in the page and in its FAQPage structured data. Of the 16 programs that do carry a rate, 8 come from the school's own site and 8 from a publisher, which is the point: a program without one on its own site can still report one that a publisher prints, and this session could not reach US News or Poets and Quants at all. Acceptance rate is the largest search intent on the school pages, 2,204 impressions in the owner's export. The same sentence ran through the /schools/ index (its Dataset description, the international column note, an FAQ answer and the methodology), the trainer's fit view ('not published' beside a school's missing figure, and twice in its help text) and a queued social post, and the index hard-coded 'Twenty' and 'sixty' as program counts in one of those sentences.
 - **Why.** The copy states the conclusion of a search as a fact about the school. 'We did not find a rate from a source we trust and could read' became 'the school does not publish one', and the generalisation about most programs was never sourced. The branch that writes it runs for every program whose field is empty, so it asserts a negative about each of them without anything recording that anyone looked.
@@ -1995,7 +1996,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0119. Length corrections appended clauses that repeated what the answer choices already said
 
-*2026-09-26, Wrong data shown or stored*
+*2026-09-26, Wrong data shown or stored, `9b254b7fb5db916c3b78cd5a875dd5a665a75c64` PR #97*
 
 - **What was seen.** GRE item GR001 offered 'establish that literacy rates were higher before printing than is usually supposed than is usually supposed'. ACT item AR047 offered 'poorly made pianos require more frequent tuning than well made ones than well made ones do.' GMAT item V613 offered 'explaining why the Hanseatic League never established a court with power to compel its members of its own'. Across nine hand written bank files (ACT reading, GRE reading, GMAT reading, SAT reading and writing, LSAT reasoning and LSAT reading), 165 answer choices were garbled where a clause had been appended to them: 48 carried a run of words twice back to back, and 117 restated their own ending in other words or carried on from a point earlier in the choice than the place the clause landed. Every one was a distractor, so every one was a wrong answer a careful reader could reject for being garbled rather than for being wrong.
 - **Why.** The length tell on hand written items is corrected by appending an authored clause to named distractors: bank_emit.extend() for banks emitted by a script, bank_repair.py for banks edited in place. A table entry names its choice by a needle, a substring of it, and the clause is appended at the end of the choice, not after the needle. Most of these clauses were written as though they would land straight after the needle: the needle stopped short of the end of the choice, and the clause said again, in its own words, the text that still followed the needle ('designed before depletion was understood' + ' had been observed anywhere'). Others were written against the full choice and opened with the words it already ended on. Neither tool compared a clause with the text it was appended to: extend() checked that the needle matched exactly one choice that is not the key, and check_lift() checked where the key landed afterwards, so an entry that repeats itself passed both. bank_repair.py compared only the clause's first three words, and its first word, with the end of the choice, which misses a restatement in other words. INC-0072's doubled word check looks for one word twice, and a phrase twice is a different string.
@@ -2007,7 +2008,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0120. A generated word problem printed its rate unit twice
 
-*2026-09-26, Cosmetic*
+*2026-09-26, Cosmetic, `9b254b7fb5db916c3b78cd5a875dd5a665a75c64` PR #97*
 
 - **What was seen.** SAT item ZS3711 read 'A pool contains 60 gallons of water and is filled at a constant rate of 3 gallons per minute gallons per minute.' Every pool version of the linear word problem schema (sat_alg_word) carried the unit twice: 136 SAT items and 151 ACT items in the generated banks, 4 of each in the starter slice that loads first and the rest in the deferred chunks, plus one ACT question of the day queued in the admin social queue.
 - **Why.** The schema's pool template already ends '{r} gallons per minute.', and build() appends ' gallons per minute' to the rate whenever the setup mentions gallons, so both write the unit. Both halves were in the file from the commit that created the schema (4b25169). Nothing reads a generated stem as a sentence: the build checks that the arithmetic works, that the choices are distinct and that the key's length rank is not a tell, and a repeated phrase breaks none of those.
@@ -2019,7 +2020,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0121. The banks lengthened in place carried the same garbled seams, and nothing recorded what had been appended
 
-*2026-09-26, Wrong data shown or stored*
+*2026-09-26, Wrong data shown or stored, `c1fafa255d26d98f22f26fc8c71c9491389d777a` PR #98*
 
 - **What was seen.** Thirteen older hand written banks (ACT reading and science, LSAT reading, SAT reading and writing, GMAT verbal) had 293 distractors lengthened in place by bank_repair.py in one commit. Reading every one of those seams found 12 more garbled distractors in 6 of the files: 'at every hour measured hour that was measured', 'adopted numerical inflation targets during the 1990s during that decade', 'the manufacturer's pumps machines in more or less every respect', 'recommends correcting them held in European collections'. Two appended clauses had lost an apostrophe ('a single year of that company operation', 'the whole of a bottle life'), and one key, written that way from the start, read 'keeping the movement structural role'.
 - **Why.** The same defect as INC-0119, in the files INC-0119's sweep could not reach. The banks emitted by a script keep their clause tables, so each append could be checked against the text it followed. bank_repair.py edits a bank in place, and the tables it was run with were one-off and never committed, so once the edit landed nothing recorded which text was original and which was appended. A text scan finds a phrase said twice back to back, but a clause written to follow a needle that stopped short does not repeat anything word for word, and without the table there was no seam to check. The apostrophes were dropped because a clause inserted into a single quoted literal cannot carry a bare one.
@@ -2031,7 +2032,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0122. Reading questions asked once of each passage passed the length check on the luck of the draw, and two new passages re-rolled it
 
-*2026-09-26, Degraded*
+*2026-09-26, Degraded, `a442f830c3e19edaca1e92908fea414ba0227086` PR #103*
 
 - **What was seen.** Adding two long reading passages (ferries, bridgepiers) failed the build: lsat/rc_caveat_long put 7 of its 14 keys at the middle length rank, 50 percent against a cap of 47 at that size. In the same build lsat/rc_main_long never had its key as the shortest choice (0, 1, 4, 4 and 5 keys at the five ranks, shortest to longest). Neither schema had changed; the two passages moved every draw that came after them. The GRE variants, given a rotation in PR 101 for this very reason, were not even either: 4, 10, 5, 7 and 6 of 32 caveat keys.
 - **Why.** MainIdea and CaveatImplication ask one fixed question of each passage, so each ships one item per passage: 14 on the LSAT corpus, 32 on the GMAT and GRE one. The key's length rank was drawn at random for each item. Even with every rank open, 14 uniform draws put 7 on one rank about 6 percent of the time, and every rank was not open: a key longer or shorter than the options its passage offers cannot be built at some ranks (the juries caveat key only as the shortest choice, riparian's never as either of the two shortest, the new bridgepiers main idea key only as the longest, because it was longer than every option in its pool), so the draws piled into the ranks that were left. The rotation added for GRE in PR 101 was scoped to GRE because the GMAT and LSAT variants were passing at the time, and passing was the draw rather than the design. Rotation on its own also misses: where a passage cannot build its turn, _balance_own falls back to a random rank, and even a buildable turn is missed when twelve random picks of the forced option never find the one that works.
@@ -2043,7 +2044,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0124. A blog post put the ACT science add-on at $4 in its table and $5 in its own FAQ, and nothing compared a post's prices with the sourced ones
 
-*2026-09-26, Wrong data shown or stored*
+*2026-09-26, Wrong data shown or stored, `5ad630fcac638d8ef029727e2a365a303080dfaf` PR #106*
 
 - **What was seen.** The comparison table in /blog/sat-vs-act-2026/, published September 26, 2026, gave the enhanced ACT's optional science section as '40 questions, 40 min, $4'. ACT's fee page says 'Science Add-On $5' (read September 26, 2026), data/exams.json records $5.00 against that page, and the same post's fee row and FAQ both say $5, so the page contradicted itself a few lines apart.
 - **Why.** The fee was typed into the table rather than taken from the sourced record. build_blog.py checks a post's structure (title and description length, FAQ count, sibling links, dashes, banned sources) and never compares a figure in a post with the figure the site already holds for it, so two statements of one fee, one right and one wrong, passed every check.
@@ -2055,7 +2056,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0125. Every College Scorecard figure in the MBA library cited the program's own website as its source URL
 
-*2026-09-26, Wrong data shown or stored*
+*2026-09-26, Wrong data shown or stored, `bb8ef13c00e42bfea89d5abee8ba0c9d7b560218` PR #108*
 
 - **What was seen.** The 337 College Scorecard figures in 87 MBA school files (median earnings one and four years after completing, median federal debt, and the national median for the field) all carried the program's own website as their url, although their src names the US Department of Education's College Scorecard field of study file. None of those pages holds the figure. The school pages cite the Scorecard in text and do not print these URLs, so no reader was sent to the wrong page, but the public data files recorded, for every one of them, a source that does not contain the number.
 - **Why.** enrich_schools_federal.py set each figure's url to s.get('website'), the one URL the script had to hand, so that every figure carried the three fields the source policy asks for. validate_schools.py checks src, year and url on the profile figures and never looked at the federal block, so nothing compared a url with the source it is meant to point to. A url field that is present passes a presence check whatever it points at.
@@ -2067,7 +2068,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0130. The GRE exam guide credited ETS with a combined 260 to 340 score that the ETS page it cited does not describe
 
-*2026-09-26, Wrong data shown or stored*
+*2026-09-26, Wrong data shown or stored, `4727c2e59c09a7d1bbe45f95e917b8cfab2ee836` PR #117*
 
 - **What was seen.** data/exams.json gave the GRE score scale as 'Verbal Reasoning and Quantitative Reasoning each scored 130 to 170, for a combined 260 to 340; Analytical Writing scored separately', cited to ETS's GRE scoring page, and the exam pages published it as that page's fact: in full in the /exams/ hub's structured data, and in part in the GRE guide's Score Scale tile. The page says three scores are reported, Verbal Reasoning and Quantitative Reasoning from 130 to 170 in 1-point increments and Analytical Writing from 0 to 6 in half-point increments, and mentions no combined score, 260 or 340. The site's own GRE posts already said the total is an informal sum that ETS does not report.
 - **Why.** The sum is arithmetic that applicants and schools commonly use, and it was written into the fact as though the source said it, in the same sentence as the two numbers the source does give. validate_exams checks that every fact names a source, a year and a URL, not that the source says what the fact says, so a figure that looks right and sits beside a real citation passes every check there is.
@@ -2079,7 +2080,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0132. The GRE guide still quoted a $220 fee eight weeks after ETS's fees became $249
 
-*2026-09-26, Wrong data shown or stored*
+*2026-09-26, Wrong data shown or stored, `4727c2e59c09a7d1bbe45f95e917b8cfab2ee836` PR #117*
 
 - **What was seen.** The GRE exam guide's Cost tile read $220, from data/exams.json, whose note gave China's fee as $231.30. ETS's fees page, the page the figure cited, says its fees are effective August 1, 2026 and lists the GRE General Test at $231.30 in China and $249 in all other areas of the world. A price is the figure the site's rules most insist on, and this one had been wrong on the page since August 1.
 - **Why.** A fee is a figure its publisher changes on a date of its own choosing. The record carried the year it was read, 2025, and nothing ever read the page again. validate_exams checks that a source is named, and the blog's price guard (INC-0124) checks that a dollar amount in a post appears in the sourced data. Both passed, because both compare the site with itself: the posts agreed with the data while the source had moved.
@@ -2091,7 +2092,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0133. School pages published figures that the articles they cite do not contain, one of them a GRE total split in half
 
-*2026-09-27, Wrong data shown or stored*
+*2026-09-27, Wrong data shown or stored, `f0d4186c4d35925e0e2f48fa3b9cf2ebf9de2c94` PR #119*
 
 - **What was seen.** Columbia's school page gave its Class of 2027 a GRE Verbal average of 163 and a GRE Quant average of 163, cited to a Poets&Quants article that prints a combined GRE average of 326 and a 150 to 170 range for each section, and no section average at all: 163 is 326 halved. Miami Herbert's page gave a GMAT median of 650 and 40 percent women, cited to a University of Miami news story that mentions neither; it gives GPA, a combined GRE, the acceptance rate, class size, work experience and citizenship, which the page reports correctly.
 - **Why.** The library was compiled across sessions, some of which ran out of research budget, and a figure that fills an empty field is easiest to take from arithmetic or from somewhere other than the page cited. validate_schools checks that each figure has a source, a year and a URL and that the source is allowed, not that the page says the number, so a figure invented beside a real citation passes every check, which is the gap INC-0130 found in the exam guides.
@@ -2103,7 +2104,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0134. Two school pages wrote "a 18.8% acceptance rate", because the article was chosen before the number arrived
 
-*2026-09-27, Cosmetic*
+*2026-09-27, Cosmetic, `2d4369d75871766abdb5db40f6d52880b0357a5f` PR #120*
 
 - **What was seen.** MIT Sloan's school page opened 'The Class of 2027 profile reports a median GMAT Focus of 675, a 18.8% acceptance rate', and Harvard Business School's read 'a median GMAT Focus of 685, a class of 943, a 11.3% acceptance rate'. Eighteen and eleven begin with a vowel sound, so both take 'an'. They are the only two of the 16 programs with a verified rate whose rate starts with one of those sounds, which is why the sentence read correctly everywhere else.
 - **Why.** The opening paragraph in build_rankings.py writes f'a {rate}% acceptance rate', so the template chose 'a' before it knew the number. In English the article follows the sound of the next word, and for a numeral that is the number spoken aloud, so a rate beginning eight, eleven or eighteen breaks the sentence. INC-0104 met the same fault with words ('a average'), and its guard names those two words, so a number that reads the same way passed it.
@@ -2115,7 +2116,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0135. Arizona State's school page said its class entered in 2027, because the label parser took the first year it found
 
-*2026-09-27, Wrong data shown or stored*
+*2026-09-27, Wrong data shown or stored, `2d4369d75871766abdb5db40f6d52880b0357a5f` PR #120*
 
 - **What was seen.** W. P. Carey's page read 'The profile of the class that entered in 2027 reports a class of 47, a 19% acceptance rate', one sentence after 'The Class of 2027 profile reports an average GMAT Focus of 690'. The school's page describes a single class, its incoming class of fall 2025, so the site split one class into two and dated one of them in the future.
 - **Why.** class_subject() in build_rankings.py turns a free-text class label into a sentence. When the label held 'enter', 'incoming' or 'cohort' it returned the first four-digit number anywhere in the label, and ASU's label was '2027 (entered fall 2025)', which leads with a graduating year we had inferred rather than one the page prints. The GMAT figure's stat carried the same inferred 'Class of 2027', and a figure's own class name outranks the page label, so the one class came out under two names.
@@ -2127,7 +2128,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0136. The LSAT guide said most test takers choose between remote and in-person testing, after LSAC had moved almost everyone into test centers
 
-*2026-09-27, Wrong data shown or stored*
+*2026-09-27, Wrong data shown or stored, `bb46090cc18ccf961615d6a2ead116943c5695d3` PR #123*
 
 - **What was seen.** The /exams/lsat/ guide's delivery fact read 'Most test takers choose between an online, live remote-proctored test and in-person testing at a Prometric digital testing center', cited to LSAC's LSAT FAQ page. LSAC's LSAT Remote Testing and Distance Exceptions page says that starting with the August 2026 LSAT the multiple-choice portion is moving toward in-center testing for almost all test takers, with limited exceptions, so the guide described a choice most readers no longer have.
 - **Why.** The fact was accurate to the page it cites, and that page is out of date: LSAC's FAQ still describes the 2025-2026 testing year, fee included, while the change was announced on a different LSAC page. check_sources.py compares only the numbers in a fact with the numbers on its page, and this sentence has no number in it, so a page that went stale in its words could not show up as a mismatch.
@@ -2139,7 +2140,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0137. A post queued to publish the next day said the LSAT trainer was still in development, eleven days after it went live
 
-*2026-09-27, Wrong data shown or stored*
+*2026-09-27, Wrong data shown or stored, `bb46090cc18ccf961615d6a2ead116943c5695d3` PR #123*
 
 - **What was seen.** lsat-format-scoring-guide, set to publish on September 28, 2026, ended by saying an LSAT trainer 'is in development' and pointed readers to the LSAT guide's waitlist; the LSAT trainer has been live at /lsat/app/ since September 16. The same post gave the LSAT 'roughly 75 to 80 scored questions', a count LSAC does not publish, and repeated the remote-or-in-person delivery claim from INC-0136.
 - **Why.** Posts are written ahead and published by date, so a post carries the state of the product on the day it was written. Nothing re-read a queued post when that state changed, and the build checks posts for dashes, links and held slugs, not for claims about which trainers are live.
@@ -2151,7 +2152,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0141. Two school pages printed a source note cut off mid-word, because the research merge kept the first 300 characters of every note and nothing checked that printed text ends as a clause
 
-*2026-09-27, Cosmetic*
+*2026-09-27, Cosmetic, `214f8da3401b8186dff51a54ce9bbff918edecf8` PR #127*
 
 - **What was seen.** Cincinnati Lindner's tuition note ended "tuition only, general, campus life and ITIE fees excluded; B" and UC Davis's ended "page marks figures as estimates subject to". Both are printed beside the tuition figure on the school's page, so each stopped partway through a word or a phrase in front of visitors.
 - **Why.** data/research/merge_results.py joined a research result's stat and note and kept the first 300 characters, with a slice that cuts wherever the count runs out. Both notes are exactly 300 characters long, the longest in the library, and both entered the file in commit 4b25169 on September 19, 2026. build_rankings.py prints a figure's stat beside it, but validate_schools.py only checked a figure's src, year and url and whether the stat carried a dash, so a note that stopped mid-word passed every check.
@@ -2163,7 +2164,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0142. Every school's employment rate was labelled and scored as a three month figure, though 15 of 70 were measured at six months, four months, a year or a reporting date, or at a timing their notes do not give
 
-*2026-09-27, Wrong data shown or stored*
+*2026-09-27, Wrong data shown or stored, `2127341e6ab72debe85a7d0c7cac6740f476ebd4` PR #129*
 
 - **What was seen.** School pages and the rankings drawer printed every employment_rate_pct under the fixed label "Employed at 3 months", and the SFN Score's methodology says outcomes use 3-month employment. Of the 70 figures in the library, 9 are six month figures (Kogod, Babson, GW, Michigan State, Kellogg, SMU, Tennessee, UC Irvine, UNC), Tulane's is at four months, Northeastern's is within a year, and 4 notes give no timing in months (BC Carroll's reports to October 31; Portland State's, Wharton's and William & Mary's give none). Kogod's drawer read "Employed at 3 months: 94%, students reporting fully employed, in graduate school, or both, six months post-graduation", the label and its own note disagreeing on one line. The rankings table's Employ column, its sort, and the SFN Score's outcomes component used all 70 as if they were one measure, so a school reporting a later count was sorted and scored on a different measure from the rest.
 - **Why.** The label and the methodology describe the field as it was meant to be filled, not as it was filled. Each figure's note records its timing, but nothing read the note: the label was a constant in PROFILE_FIELDS and the drawer, and sfn_score() took whatever value the field held. INC-0105 fixed the same shape of problem for salary (a median label on averages) by deriving the label from each figure's note, and the employment field was never given the same treatment.
@@ -2175,7 +2176,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0143. Six school figures kept their source description under the key reserved for our own commentary, so their pages printed them bare and the source check never read them
 
-*2026-09-27, Degraded*
+*2026-09-27, Degraded, `8066d24aa5eec6aae6089f9940ea89851fa93c96` PR #130*
 
 - **What was seen.** Chicago Booth's and CMU Tepper's tuition, Michigan Ross's and Penn State Smeal's tuition, Emory Goizueta's acceptance rate and Vanderbilt Owen's salary each carried a description of the figure under note and none under stat. School pages print stat beside a figure and never note, so Michigan Ross's tuition showed without saying it is a 2025-26 non-resident rate, Penn State's without saying it is estimated tuition and fees for a one-year program, and Vanderbilt's salary lost the word median from its label, which is read from stat (INC-0105). The school source check leaves note out as commentary (INC-0133), so none of the numbers in those six descriptions had ever been checked against their pages.
 - **Why.** The school schema uses two keys with deliberately different jobs: stat describes the figure as its source states it, and is published and checked; note is our commentary on how a figure was read, and is neither. Nothing enforced the difference, and six entries written before it was drawn put the description under note with no stat at all. Refreshing Booth's and Tepper's tuition in INC-0140's batch kept the key the entry already used.
@@ -2187,7 +2188,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0144. BYU Marriott's two-year tuition total was published as tuition per year, and the fit card doubled it again
 
-*2026-09-27, Wrong data shown or stored*
+*2026-09-27, Wrong data shown or stored, `8066d24aa5eec6aae6089f9940ea89851fa93c96` PR #130*
 
 - **What was seen.** BYU Marriott's school page showed "Tuition per year $63,968", beside a note saying "two-year program total". BYU's costs page prints $63,968 as the tuition for the entire two-year program for students who are not members of the Church, so the yearly figure was twice what it should be. The rankings tuition column and filter read it as a yearly rate, and the trainer's fit card, which assumes two years, showed $127,936 over two.
 - **Why.** Until program_cost_usd was added on September 27, 2026, the library had only tuition_usd, a yearly field, and a research pass kept BYU's program total in it "with that caveat" rather than leave it blank. The caveat went in the note beside the figure, but every place that reads tuition_usd reads it as one year, so a label and a calculation contradicted the note. Nothing checked that a yearly field's own description did not call it a program total.
@@ -2199,7 +2200,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0145. Wharton's page credited its Class of 2026 GRE scores to the Class of 2027, because the GRE sentence began with Its and followed whichever class came last
 
-*2026-09-27, Wrong data shown or stored*
+*2026-09-27, Wrong data shown or stored, `cc6f1854fbb5995656e1cc739174defee0eddd4a` PR #133*
 
 - **What was seen.** Wharton's school page read "The Class of 2027 has an average GMAT Focus of 676. Its average GRE scores are 162 Quantitative and 163 Verbal." The GRE figures come from the Class of 2026 section of Wharton's own class profile page, where the Class of 2027's figures are drawn by JavaScript, so the sentence gave one class's scores to another.
 - **Why.** The lead paragraph writes class size and GMAT through class_sentences(), which asks fig_subject() which class each figure describes and names it, so a record that mixes classes gets one sentence per class (INC-0104). The GRE sentence was written separately and began with Its, meant as the program. Placed after a class sentence, Its reads as that class, so whenever a record's last class sentence and its GRE figures describe different classes, the page misattributes the scores. Wharton's record is the one that mixes them: its GMAT Focus is Poets&Quants' Class of 2027 coverage and its GRE is the official page's Class of 2026 section.
@@ -2211,7 +2212,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0147. Six school records stored a bare year as their class, which the site printed as a Class of that year, so Notre Dame's average cohort size became "The Class of 2027 has 85 students"
 
-*2026-09-27, Wrong data shown or stored*
+*2026-09-27, Wrong data shown or stored, `b1024a5805d4ec9f538dd4c4e09c2b672e271321` PR #136*
 
 - **What was seen.** Notre Dame Mendoza's school page said "The Class of 2027 has 85 students." Its program page prints "85 Average Cohort Size" and names no class; the only 2027s on it are application deadlines, and the record's own notes say its stats are not tied to a stated class year. Penn State Smeal's page said "The Class of 2025 profile lists an average GMAT of 657", citing the Smeal MBA Employment Report 2020, which covers the legacy two-year MBA rather than the One Year MBA the rest of the record describes.
 - **Why.** class_subject() read a bare year in class_year as Class of that year, the shorthand data/DATA.md documented, and fig_subject() gives every figure without a Class of of its own the record's class. The research merge of September 19, 2026 wrote bare years into six records. Two meant the Class of that year (Maryland Smith and Texas A&M Mays, from Poets and Quants' class articles). The others meant something else: the year a page was read or the cycle it serves (Notre Dame 2027, Florida Warrington 2026), the class profile page's year on a record whose GMAT, GPA and salary come from a 2020 report on a program that no longer runs (Penn State Smeal 2025), and a year on a record with no class figures (Georgia Terry 2027). So pages that name no class got one, and figures from different documents shared it. Figures whose own stat said their page labels no class year took the record's class all the same.
@@ -2223,7 +2224,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0150. Columbia's MBA class was credited with five years of work experience, a figure the cited article gives for its 46-student MBAxMS cohort, and the source check passed it because the article does say five years
 
-*2026-09-27, Wrong data shown or stored*
+*2026-09-27, Wrong data shown or stored, `d24b47f6bf43ad598a908de5d67fcac94caf983f` PR #140*
 
 - **What was seen.** data/schools/columbia.json gave work_exp_years 5, "average", cited to Poets&Quants' article on Columbia's Class of 2027, and the queued November 5 post listed Columbia Business School at 5 years. The article's only work experience figure is in its paragraph on the MBAxMS cohort: "The incoming class includes 46 students with an average GPA of 3.54 and an average of five years of work experience." It gives none for the MBA class.
 - **Why.** The research merge took the article's one work experience figure without the sentence around it, which is about a different program. check_sources.py then confirmed it: it asks whether a figure's number appears anywhere on its page, reading number words as numbers, and the article does say "five years of work experience", in the paragraph about the MBAxMS cohort. A check that finds the number cannot tell which program or class the sentence around it describes.
@@ -2235,7 +2236,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0151. Rice's school page credited Poets&Quants with an average GMAT of 693 for the Class of 2027, a number the article never prints; the figure's own note said it was read from a search snippet
 
-*2026-09-27, Wrong data shown or stored*
+*2026-09-27, Wrong data shown or stored, `26150577529d7e7a333b05d676afdee5ea716838` PR #142*
 
 - **What was seen.** data/schools/rice-jones.json gave gmat_classic 693, "average", cited to Poets&Quants' "Meet the Rice Business MBA Class of 2027" (2026), and the live page said "The Class of 2027 profile lists an average GMAT of 693 on the Classic 200 to 800 scale (Poets&Quants, Meet the Rice Business MBA Class of 2027, 2026)." The article's only GMAT figure for the class is "In terms of testing, the median GMAT came in a 700." It never prints 693 and names no edition. The figure's note read "Scale not labeled in snippet", and the record's own notes said Rice's class profile page printed an average GMAT of 693 with no edition label and was not recorded under the edition rule: the same number, refused under one citation and published under another.
 - **Why.** The research merge filled Rice's GMAT from a search result's snippet and wrote the article the result pointed to as its source, keeping the snippet only in the figure's note, which is commentary and is never printed or checked. validate_schools warns on a source labelled search snippet, but it reads src, and this src named the article. Nothing at build time compares a figure with its page. The weekly source check does (INC-0133), and it listed "693: not in the source" among 35 open findings, but its report is a queue worked by hand. This session's plan for refreshing Rice was to keep the figure because it named its own class, without rereading the article.
@@ -2247,7 +2248,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0154. The weekly source check listed Duke's GMAT medians and Michigan Ross's work experience as missing from their sources for weeks, but its 30 findings mixed real errors with pages it cannot read, so none was ever worked
 
-*2026-09-27, Wrong data shown or stored*
+*2026-09-27, Wrong data shown or stored, `9bd9bb1fe5872b7b0a24043c7bce467b4011867b` PR #147*
 
 - **What was seen.** data/schools/duke-fuqua.json gave a median GMAT Focus of 665 and a median GMAT Classic of 720, cited to GMAC's article "Who Is In The Duke MBA Class Of 2027?" (2025), and Duke's school page printed both. The article prints neither: its only GMAT figures are a Class of 2027 middle 80 percent of 680 to 770 "under the previous scoring system" and its writer's estimates of about 615 and 735 on the current scale. Duke's own class profile page, now for the Class of 2028, gives only a middle 80 percent GMAT Focus range of 605 to 715, and the record's own notes said the two medians "were not confirmable". michigan-ross.json gave 5.8 average years of work experience, cited to a Poets&Quants article that prints no work experience figure, and filed Ross's GMAT as unlabelled although that article labels it: "Average GMAT 10th Edition 731" and "Average GMAT Focus 681". The same list held Washington University Olin's $130,000 median salary, shown with the year 2024 and a note naming the Class of 2024 employment report, which gives a median salary of $126,000 and calls the 81 percent beside it an offer rate, with 78 percent accepting a job; Darden's GMAT ranges, which our stat called middle 80 percent where the page prints only Low and High; Boston College's class size and acceptance rate and Wisconsin's women and international shares, which their pages no longer print; USC Marshall's 2024-25 tuition, a year behind its page; and William & Mary's tuition, dated fall 2024 by a page that names no year.
 - **Why.** check_sources.py --schools prints every figure whose numbers it cannot find on the cited page and exits 1, and the weekly job opens an issue with that list. Nothing recorded a person's judgement about a finding, so each run printed the same list again. Fourteen of its 30 lines were right figures the check cannot read, drawn as graphics at Berkeley Haas, as chart data at Northwestern Kellogg, as images at Pitt Katz, or split across two fee pages at Cincinnati, and those can never leave the list; three more were flagged only for numbers in our own commentary. A list in which more than half the lines are known false alarms reads as noise, and the 13 real errors sat in it unworked from week to week. Duke's medians came from the research merge and were kept with a note that they could not be confirmed, which records the doubt and publishes the figure anyway.
@@ -2259,7 +2260,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0155. The GMAT guide cited mba.com's Official Score Reports page for the rule on five free score reports within 48 hours, a rule that page never states
 
-*2026-09-27, Wrong data shown or stored*
+*2026-09-27, Wrong data shown or stored, `58c9567d9d403a8a70a268cea4209520fc1d095a` PR #148*
 
 - **What was seen.** data/exams.json gmat.key_facts[5] said "Up to 5 free score reports can be sent if programs are selected within 48 hours of the Official Score becoming available" and linked it to https://www.mba.com/exams/gmat-exam/scores/official-score-reports. Read in a browser on September 27, 2026, that page describes the score report and its performance insights and mentions neither free reports nor 48 hours. The rule is on the page its Sending Your Score link opens: "If you would like to take advantage of the free score reports, you must send your (up to 5) free score reports within 48 hours of your Official Score being made available on mba.com." The fact was right and its citation sent a reader to a page that does not support it.
 - **Why.** The fact was filed with the URL of the fact beside it, the report's performance insights, which that page does print; the rule on sending scores sits on a sibling page in the same section. mba.com answers a plain fetch with a bot challenge, so check_sources.py reported the page as unreadable on most runs and flagged "48: not in the source" only on runs whose browser read got through. A finding that appears on some runs and not others looks like noise, and nothing recorded that anyone had looked.
@@ -2271,7 +2272,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0157. Eleven GMAT figures on ten school pages were filed under an edition their sources never name, by guesses from the class year, the last digit or how high the number was
 
-*2026-09-27, Wrong data shown or stored*
+*2026-09-27, Wrong data shown or stored, `52e8d6caf9abeb828313f67a7e5be710a2b9d504` PR #149*
 
 - **What was seen.** Georgia Tech's 654, Washington Foster's 655, UC San Diego Rady's 645 and Arizona State's 690 were published as GMAT Focus figures, and Arizona State's 698, Texas A&M's 672, William & Mary's 620, Notre Dame's 680, USC Marshall's 742, UNC Kenan-Flagler's 710 and Cornell's 710 as GMAT Classic figures, though no source for any of them says which edition it is on. Several stats printed the reasoning beside the figure, and some of it was false: Arizona State's and WashU Olin's called 698 and 702 "above Focus scale cap", though the Focus scale runs to 805; William & Mary's said 620 "is not producible on the Focus scale", though an average can be any number; Cornell's notes said 710 "is not an attainable GMAT Focus total", though a median of an even number of Focus scores can be 710, and Cornell's own FAQ names "the GMAT" and "GMAT 10th Edition" as separate exams, so its plain "GMAT (median) 710" may be the current one. USC's notes said its official average of 742 names no edition and was not recorded, while the same 742 sat in gmat_classic cited to Poets&Quants, which names none either. At the same time 13 figures whose pages do name the edition carried stats that did not say so, and Alabama's and Rutgers' stats said no edition was labeled where the pages print "GMAT Traditional exam (older version)" and "GMAT (Classic)".
 - **Why.** The research merges filed an unlabelled GMAT figure under whichever edition looked likely and wrote the reasoning into the stat. GMAC's own announcements rule out each reason: GMAT Focus testing began on November 7, 2023, and scores of either edition stay valid for five years, so any class that enrolled from 2024 on can hold both; an average or median can end in any digit; and neither scale tops out below 800. The library applied two rules at once, since Rice (INC-0151) and USC's own page had been left blank for want of a label. validate_schools checked a GMAT figure's range and never that its stat named the edition, and the school page's GMAT row already told readers that an unlabelled figure is never guessed.
@@ -2283,7 +2284,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0159. Baylor's school page gave its whole MBA program's entering class of 80, with 15 part-time students in it, as the full-time class size, and a source note that named only the two full-time tracks
 
-*2026-09-27, Wrong data shown or stored*
+*2026-09-27, Wrong data shown or stored, `9871ec6b11ca2f47fc09be06056a86cd15b0ea5b` PR #153*
 
 - **What was seen.** Baylor Hankamer's school page said the class that entered in 2024 has 80 students, and the figure's source line read "Total - MBA Program, entering 2024; includes Two-Year 53 and One-Year 12 tracks". Baylor's student profile gives the entering class as 53 in the two-year MBA, 12 in the one-year MBA and 15 in the part-time MBA: 80 counts the part-time students, and the two tracks the note names make 65. The acceptance rate of 24.4 percent was the same whole-program total, 121 accepted of 495 applications, and every one of the 15 part-time applicants was accepted; the two full-time tracks accepted 106 of 480. The GPA, women and international figures beside them are the whole program's too, and only the GPA said so.
 - **Why.** The research merge took the page's Total - MBA Program row for the class size and the acceptance rate, and described the class size from the rows above it, naming two of the three tracks the total adds up. Nothing compared the description with the page: the source check could not read Baylor at all, because its pages answer 403 to a script, and nothing adds up the parts a description names.
@@ -2295,7 +2296,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0160. The GMAT guide's Cost tile showed $275 and $300 from a note that no check read, cited to a page that prints no price
 
-*2026-09-27, Degraded*
+*2026-09-27, Degraded, `3525aa85563806e01ec2bd9cab7074f70b030615` PR #154*
 
 - **What was seen.** The GMAT exam guide's Cost tile read "$275 / $300". build_exams took both from the note of a cost figure whose value is empty, cited to mba.com's register page, and that page, read in a browser on September 27, 2026, prints no price, fee or cost at all. The prices are on mba.com's exam payment page, and only after a country is chosen. The figures were right, and that was luck: nothing had checked them.
 - **Why.** Two parts of the site disagreed about what a figure publishes. build_exams falls back to the dollar amounts in a cost's note when the cost has no value, while validate_exams treats a figure with no value as unpublished and asks nothing of it, and check_sources reads only figures that have a value or text. The GMAT's cost was stored without a value because its US price depends on how the exam is delivered, which put the one published GMAT price where neither check looked.
@@ -2307,7 +2308,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0167. School pages called an acceptance rate its source gives as an estimate "reported"
 
-*2026-09-27, Wrong data shown or stored*
+*2026-09-27, Wrong data shown or stored, `2ed6c9cea644c397b9223ab96f364497b47d8cc2` PR #163*
 
 - **What was seen.** Harvard Business School's page said "The reported acceptance rate is 11.3 percent" and answered its FAQ with "Its reported acceptance rate is 11.3%", though the figure's own source line, kept in the library, reads "Poets&Quants (The M7 By The Numbers 2026, described as estimated)". Adding Columbia's rate, which Poets&Quants marks "*Estimate; source: CBS", produced the same sentence for it: "The reported acceptance rate is 19.5 percent."
 - **Why.** The school page builder writes every acceptance rate with one fixed word, "reported", in the profile sentence, the page lead, the meta description and the FAQ. Whether a figure is an estimate lives in its source and note, which the page prints in its table, but none of the sentences read it, so the table said estimate and the prose said reported.
@@ -2319,7 +2320,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0168. Emory's acceptance rate was shown beside counts that divide to a different rate, with nothing on the page saying so
 
-*2026-09-27, Wrong data shown or stored*
+*2026-09-27, Wrong data shown or stored, `2ed6c9cea644c397b9223ab96f364497b47d8cc2` PR #163*
 
 - **What was seen.** Emory Goizueta's page showed a 32% acceptance rate with the source line "Poets&Quants (Class of 2027 admissions coverage: 1,581 applications, 450 admitted)". 450 of 1,581 is 28.5 percent, so the page's own source line contradicted its figure, and a reader who did the division had no way to know which to believe.
 - **Why.** The Poets&Quants article, read on September 27, 2026, prints 32% in its table and its text, and also prints 1,581 applications and 450 admits in both; its table credits the data to Emory. Every earlier year in the same table matches its counts (509 of 1,383 is 36.8%, 432 of 1,104 is 39.1%), and the Class of 2027's yield, 128 of 450 or 28.4%, agrees with the admits, so one of the rate and the application count is misprinted and the article does not say which. The record kept the printed rate and put the counts in its source line as if they were its working.
@@ -2331,7 +2332,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0170. A published post said GMAC caps GMAT attempts across a lifetime, which its current retake policy does not say
 
-*2026-09-27, Wrong data shown or stored*
+*2026-09-27, Wrong data shown or stored, `9a074f173c89e85a1c4450105c243c2e3193a5f8` PR #165*
 
 - **What was seen.** "Should You Retake the GMAT? A Decision Framework", live since August 25, 2026, said GMAC "limits how many times you can sit the GMAT within a 12 month window and across a lifetime". GMAC's retake policy page, read in the browser on September 27, 2026, sets two limits only: at least 16 calendar days between appointments and up to 5 exams in a rolling 12-month period. It names no lifetime limit. The site's own exam record and its GMAT cost post already gave the current rule.
 - **Why.** The post described the policy from memory in general terms, without a source for the lifetime clause, and linked the GMAT home page rather than the policy it described. It was written before exam facts were mirrored with their URLs and read weekly, and a post's prose is not compared with those facts, so the claim sat unchecked when the page it would have cited said otherwise.
@@ -2343,7 +2344,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0171. Thirty published blog posts set their section headings in sentence case, against the house rule that headings are Title Case
 
-*2026-09-27, Cosmetic*
+*2026-09-27, Cosmetic, `9a074f173c89e85a1c4450105c243c2e3193a5f8` PR #165*
 
 - **What was seen.** A scan of every post's h2 and h3 on September 27, 2026 found the 30 posts published from August 17 to September 20 setting their headings as sentence-case questions ("What does GMAC's retake policy allow?", "Where does data sufficiency live now?"), while the posts queued after them use Title Case ("What Does the ACT Cost in 2026?"). A handful of later headings capitalise a small word mid-heading ("Submit Early, On Purpose").
 - **Why.** The Title Case rule in CLAUDE.md covers section headings, but the blog build checks a post's structure, links, prices and trainer claims and never its headings, so the first batch of posts, written in sentence case, shipped that way and nothing flagged them when later posts followed the rule.
@@ -2355,7 +2356,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0172. The ACT exam guide and a live post said the ACT can be taken up to 12 times, after ACT's page had come to say there is no limit, and the source check matched the 12 in the page's K-12 menu
 
-*2026-09-27, Wrong data shown or stored*
+*2026-09-27, Wrong data shown or stored, `9a074f173c89e85a1c4450105c243c2e3193a5f8` PR #165*
 
 - **What was seen.** The ACT exam record's retake policy, shown on /exams/act/, read "Can be taken up to 12 times in total; ACT suggests most students retest only two to three times", and the SAT vs ACT post, live since September 26, 2026, gave "Up to 12 times in total" in its comparison table. The page both cite, read on September 27, 2026, says "There is no limit to how many times students can take the ACT test. On average it takes students 2-3 times to achieve their testing goals." The weekly exam source check had passed the figure every week.
 - **Why.** The source check confirms that every number in a fact appears somewhere on the cited page. ACT's page no longer gives an attempt limit, but its navigation carries a "Students & Parents K-12" link, so 12 was found, and 2 and 3 were found in "2-3 times". A number matched anywhere on a page is not the fact found: the school check learned this and wants a figure beside its label (INC-0150), but the exam check still accepted a number from anywhere, the site menu included.
@@ -2367,7 +2368,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0174. Two GMAT facts passed the source check on numbers that meant something else: score validity cited the retake policy page, where "5 times" supplied its 5, and the score release's "3 to 5 days" matched a 3 in the page's helpfulness counter
 
-*2026-09-27, Wrong data shown or stored*
+*2026-09-27, Wrong data shown or stored, `b6727f6ba5f7be256111a4212877c1bc4980feaf` PR #166*
 
 - **What was seen.** /exams/gmat/ showed Score Validity 5 years citing GMAC's retake policy article, which says nothing about validity; GMAC's validity article, last updated October 30, 2023, says "GMAT scores are valid for five (5) years and available for reporting for up to 10 years." Its Score Release row read "Official Score Report is typically available in your mba.com account within 3 to 5 days (up to 20 days in some cases), with an email notification when it is ready". The article it cites, last updated September 9, 2026 and read on September 27, says "Your official score report should be available within five (5) days. Although not typical, it can take up to 20 days for your exam to be scored" and "Scores cannot be expedited", with no 3 and no email notification. The weekly exam source check had passed both.
 - **Why.** The exam check confirmed a fact when each of its numbers appeared anywhere on the cited page. The retake article prints 5 in "up to 5 times within a rolling 12-month period", and the release article prints 3 only in its footer's "0 out of 3 found this helpful". INC-0172 met the same weakness through a K-12 menu link but guarded only grade ranges, so any other stray number still passed; and a fact with no text of its own, such as a validity figure, had no words for a number to sit beside. Both facts entered the record on September 19, 2026 (PR #45), ten days after the release article's last update, so whether it ever said 3 to 5 days cannot be told from here.
@@ -2379,7 +2380,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0176. Headings outside blog post bodies broke the Title Case rule on every kind of page, because the build checked only the headings inside posts
 
-*2026-09-27, Cosmetic*
+*2026-09-27, Cosmetic, `847a00a070c30c03bf268490fd5e56ec5bcddf3f` PR #168*
 
 - **What was seen.** A scan of every built page on September 27, 2026 found sentence-case headings outside post bodies: the blog template's "Keep reading" and "Frequently asked questions" on every post, the blog index's "Insight for your next big exam", headings in the trainer app such as "Review your section", "Custom drill" and "Which exam are you preparing for?", the FAQ questions on the SAT, ACT and LSAT test date pages ("When is the next LSAT?"), the rankings page's "Summary comparison" and "Sources and method", and the funding page's "Veterans and Military: the Post-9/11 GI Bill".
 - **Why.** INC-0171 added a Title Case check to the blog build, and it reads the h2 and h3 in each post's own body, the only place its incident had looked. Every other heading is written in a template or a page generator, and nothing read those. The helper had also never met headings from the rest of the site: it lowered the first word of a subtitle after a question mark ("Should You Retake the GMAT? a Decision Framework"), the first word after a numbered prefix ("1. the Short Version"), a middle initial ("Richard a. Chaifetz") and the A of "Texas A&M", so it could not have been pointed at the whole site as it stood.
@@ -2391,7 +2392,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0177. The LSAT guide said scores come out roughly three weeks after each administration, citing a dates page that says no such thing, and the source check never looked because the fact wrote its number as a word
 
-*2026-09-27, Wrong data shown or stored*
+*2026-09-27, Wrong data shown or stored, `3519ae8d2ce6498eb1751b609494e9b987486f03` PR #169*
 
 - **What was seen.** /exams/lsat/ gave the LSAT's score release as "Scores are released on published dates roughly three weeks after each administration; processing can take up to three weeks from the date LSAT Argumentative Writing is completed", citing LSAC's LSAT dates page. Read on September 27, 2026, that page is a table of dates: its 2026-2027 releases fall 18 days after each administration's last test day, and it says nothing in words about three weeks. The processing sentence is on LSAC's LSAT scoring page, which the fact did not cite, and that page also says a score is released on its date only with an approved writing sample on file and no holds on the account.
 - **Why.** The source check reads a fact's numbers as digits only, while it reads the page's numbers as digits and words, so a fact that writes its number as a word ("three weeks", "five sections", "all three") has nothing to check. 34 of the 109 exam facts write at least one number as a word. And a number that is only part of a date in a table, such as the 3 of 3/3/2027, counted as a table cell beside other numbers, so it would have confirmed the 3 had the check looked.
@@ -2403,7 +2404,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0178. Buttons across the site named their actions in sentence case, against the house rule that a button naming a destination or action is Title Case, and no check read them
 
-*2026-09-27, Cosmetic*
+*2026-09-27, Cosmetic, `39375d2c0ea0f60024ef7b50d25b93a368b2954e` PR #172*
 
 - **What was seen.** A scan of every built page on September 27, 2026 found 27 distinct labels on styled buttons and button links in sentence case: "Open the trainer" on the study guide pages, "Start a free round" on every blog post, "Take the diagnostic" and "Skip this one" in the diagnostic guide, and in the trainer app "Start drill", "Back to deck", "Study due cards", "Abandon section", "10 questions", "Coming soon" and more. The blog's call to action card was titled "Put this into practice".
 - **Why.** The house rule names buttons alongside headings, but INC-0176's check reads h1 to h3 only, and nothing read a button's label. Buttons are written in several templates and in the trainer app's script strings, each in whatever case its author reached for.
@@ -2415,7 +2416,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0179. A new reading passage's revision opened with a place name, and the stated-idea questions printed it as "ardley cheese"
 
-*2026-09-27, Cosmetic*
+*2026-09-27, Cosmetic, `26cb4febc386d201c3984787bf154cffd7f4cbb5` PR #174*
 
 - **What was seen.** Reading every item generated from five new long passages on September 27, 2026, before they shipped, the LSAT stated-idea questions on the Ardley cheese passage offered "ardley cheese grew famous mainly because the railway let the farms reach the city markets quickly, and the abbey's recipe played at most a small part" as a choice, with the place name in lower case.
 - **Why.** The stated-idea schemas print each of a passage's sentences as a choice with its first letter lowered, since the choices continue a stem ("According to the passage, Quillan found that"). That is right for a sentence that opens "The" or "Food historians" and wrong for one that opens with a proper noun. Every earlier passage happened to open its revision with a common word, and check_corpus, which checks a passage's shape, did not look at how its sentences open.
@@ -2427,7 +2428,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0180. The GMAT's delivery fact said appointments are available year round with no fixed testing windows, words its cited page no longer carries, and the source check passed it because 20 of the 113 exam facts carry no number for it to look for
 
-*2026-09-27, Wrong data shown or stored*
+*2026-09-27, Wrong data shown or stored, `767d7b9230bc51f1f3fcfa345586af7ac4cd97aa` PR #175*
 
 - **What was seen.** Reading mba.com's GMAT register page on September 27, 2026, for a post on testing at home, the page offers an online or a test center appointment and says nothing about appointments being available year round or about testing windows. The GMAT delivery fact in data/exams.json, cited to that page as mba.com 2025, says "At test centers or online, with appointments available year round (no fixed testing windows)", and the GMAT exam guide prints it under Delivery. The source check run the same day had reported 113 exam facts checked against 67 sources with none flagged.
 - **Why.** check_sources.py compares the numbers in a fact with the numbers on its page. 20 of the 113 exam facts carry no number at all (the delivery, used_for and acceptance lines and several key facts), so for them there was nothing to compare, and they were still counted among the facts checked. INC-0136 found this blind spot on the LSAT's delivery fact and guarded one way a page goes stale, a page that names a testing year that has ended, which leaves a page that simply stops saying something undetected. The summary line counted a fact with nothing to check as a fact checked, so "0 flagged" read as 113 facts verified when 20 had not been read for anything.
@@ -2437,7 +2438,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** A check that finds nothing wrong has only checked what it could see. Count the things it had no way to test as unchecked rather than as passed, or a clean report will quietly include everything the check was blind to.
 
 
-## Tests and guards (30)
+## Tests and guards (31)
 
 
 ### INC-0016. The performance test waited for the load event, which waits for the thing being optimised
@@ -2673,7 +2674,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0110. A browser suite outside CI had failed on its first click since the consent dialog shipped
 
-*2026-09-26, Degraded*
+*2026-09-26, Degraded, `3230ba014d8f660a9783ccc633c0a132c7c7b24c` PR #96*
 
 - **What was seen.** node src/smoke_pages.js, the suite for /international/ and /apply/, timed out on 2026-09-26 trying to tick the international checkbox: the consent dialog, which is modal, sat over the page and intercepted the click. Everything the suite exists to check after that point (checklist persistence, the shortlist carried from /schools/, CSV export, overflow at phone width) had not been checked since the dialog arrived.
 - **Why.** The suite was written before the consent dialog and loads pages with empty storage, which is exactly the state in which the dialog appears. Other suites pre-set a consent choice; this one was never updated. It is not in ci.yml, so nothing ran it on a schedule and its failure was invisible.
@@ -2685,7 +2686,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0140. The source check read a page's 2026-27, written with an en dash, as 2026 and 27, so every figure we labelled 2026-27 looked unsupported
 
-*2026-09-27, Cosmetic*
+*2026-09-27, Cosmetic, `214f8da3401b8186dff51a54ce9bbff918edecf8` PR #127*
 
 - **What was seen.** check_sources.py --schools reported the year 2027 as missing from Indiana Kelley's and Wisconsin's fee pages, which print their figures and the year 2026-27 with an en dash between the years. Our facts write 2026-27 with a hyphen. The check expanded our span into 2026 and 2027 but left the page's span as 2026 and 27, so a figure matched word for word was reported as unsupported in the weekly issue.
 - **Why.** SPAN, the pattern that turns a year range into both years, accepted a hyphen or a slash between the years and not an en dash. Our data never contains an en dash, by house rule, but the pages we cite use one all the time, so the two sides of the comparison were normalised differently.
@@ -2697,7 +2698,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0146. The source check's browser read returned Stanford's class profile without a single figure, because the figures are drawn in an embedded chart that renders only when scrolled into view
 
-*2026-09-27, Degraded*
+*2026-09-27, Degraded, `b295d09de941a53b84e3d5154dcd62ed87e0ac6a` PR #135*
 
 - **What was seen.** check_sources.py --render exists to read pages built by JavaScript, and the weekly audit runs it over the exam guides and the school library. On Stanford GSB's class profile it timed out after 60 seconds, and the check fell back to the page as served. With the timeout avoided it still returned only the page's prose, 2,341 characters of navigation and introduction with no 3.76 average GPA, although a person reading the same page sees the figure.
 - **Why.** render() waited for networkidle, which a page that keeps sending analytics requests never reaches, so Stanford's page timed out. It then read document.body.innerText of the top frame only and never scrolled. Stanford draws its class profile in an Infogram chart embedded as an iframe from e.infogram.com, and the chart writes its numbers only once it is scrolled into view: loaded without scrolling, the frame exists and holds no 3.76; scrolled, it does. The top frame's text never holds the figures at all.
@@ -2709,7 +2710,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0152. The source check read text inside HTML comments as page text, and confirmed Arizona State's 43 percent women from a table row the school had commented out
 
-*2026-09-27, Wrong data shown or stored*
+*2026-09-27, Wrong data shown or stored, `914cd0ddb6818c683e36ec05dae84f5b340122c7` PR #143*
 
 - **What was seen.** data/schools/arizona-state-carey.json gave women_pct 43, "female, incoming class of fall 2025", cited to W. P. Carey's class profile page, and check_sources.py --schools counted it as printed there. The page a reader sees has no gender figure at all: its class profile lists applications, admits, class size, age, GMAT, GRE, GPA, work experience, international share and majors. The 43 is in a row the school wrapped in an HTML comment, "<!-- ... Male 57% ... Female 43% -->". ASU's school page showed it, and the November 7 post on women in MBA classes, queued but not yet published, listed ASU at 43 percent.
 - **Why.** to_text() in check_sources.py removes script, style and noscript elements, then every tag, and keeps the text between them. An HTML comment is not an element: the tag pattern removed only its opening up to the first >, and every word and number inside it survived as page text, followed by a stray "-->". A page that hides old figures in a comment therefore confirms them. Rice's class profile does the same with a Class of 23, 24, 25 block. The browser read (INC-0146) never had this gap, because innerText holds only rendered text; the check prefers the page as served whenever it finds as many figures.
@@ -2721,7 +2722,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0156. The source check read mba.com's bot challenge page as the page it cites and reported the GMAT fact's numbers as missing from it
 
-*2026-09-27, Degraded*
+*2026-09-27, Degraded, `58c9567d9d403a8a70a268cea4209520fc1d095a` PR #148*
 
 - **What was seen.** After INC-0155 moved the free score report fact to mba.com's Sending Your Score page, python3 src/check_sources.py --render reported "5: not in the source" and "48: not in the source" against it. The page prints both. The text the check had read and cached for it was 726 characters beginning "www.mba.com - Additional security check is required Why am I seeing this page? The website you are visiting is protected and accelerated by Imperva": the challenge page, not the page. A browser read of the same URL minutes earlier returned the page itself, rule included.
 - **Why.** check_sources.py treats a read as the page when it holds at least 400 characters (MIN_TEXT), a floor set to catch empty shells of pages built by JavaScript. A bot challenge is a page of its own, with a paragraph of explanation, and Imperva's is 726 characters, so it passed the floor and every number in the fact was reported as missing. It was also cached, so a later run with --cache reused the challenge. Imperva challenges mba.com's pages on some reads and not others, so the same fact could be confirmed, reported missing or reported unreadable from one run to the next.
@@ -2733,7 +2734,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0158. The source check filed six school pages as probably built by JavaScript; five were something else, and three of them showed newer figures than the library published
 
-*2026-09-27, Wrong data shown or stored*
+*2026-09-27, Wrong data shown or stored, `f16c2b0ea0bb816c3d422465136e05477da63995` PR #152*
 
 - **What was seen.** Each python3 src/check_sources.py --schools run on September 27, 2026 ended with pages reported as "shows none of its N figures, probably built by JavaScript", nine in the day's first runs and six in the later ones, and ROADMAP.md explained the six as pages drawn by JavaScript or as images without alt text. Reading each page on September 27 found one that fitted. Kelley's class profile is a plain table that now describes the Class of 2028 (57 students, average GMAT 618, GPA 3.38) while the library published the Class of 2027 (106, 607, 3.48). Poets&Quants' Maryland Smith profile, updated September 25, 2026, prints female 36% and international 47% where the library published 35 and 68 cited to it, and a full-time enrollment of 115 where the library published a class size of 69. Auburn's page draws its cohort statistics with counters that show 0 until they animate, inside a closed accordion, and their values now read GPA 3.47 and 1.81 years of work experience against the library's 3.49 and 2.73, with no international share at all where the library published 19 percent. UMass Amherst's PDF prints all three of its figures glued to their labels ("STUDENTS39%", "GPA3.45"), and it is a file created in August 2025 that the library dated 2023 from its folder name. Chicago Booth's employment statistics are an Excel workbook, which the check decoded as text. Only WashU Olin's page fitted the explanation: its figures are drawn as images, whose alt text, where there is any, names the chart and none of its figures.
 - **Why.** The check sets a page aside when it prints none of the two or more figures cited to it, because a page drawn by JavaScript reads as prose with no numbers, and it gave that one cause in its report. But a page that prints none of its figures is also what a page looks like when every figure on it has changed, which is how a class profile goes stale when a school moves it on to the next class: the same labels with all new numbers. Set-aside pages did not count toward the check's exit status, so the weekly issue could never open for them. Three gaps in how pages are read put more pages in the same place: a number glued to the word before it is not read as a number, a spreadsheet was decoded as if it were text, and a counter that animates shows 0 in the page as served. The diagnosis was then written into the ROADMAP without anyone reading the pages.
@@ -2745,7 +2746,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0161. The source check's blank-page rule judged a figure worked from two pages by its first page alone, and called mba.com's payment page blank while the second page was unreadable
 
-*2026-09-27, Degraded*
+*2026-09-27, Degraded, `3525aa85563806e01ec2bd9cab7074f70b030615` PR #154*
 
 - **What was seen.** With the GMAT's fees recorded against mba.com's exam payment page and, in also_urls, the address that page loads its US fee table from, python3 src/check_sources.py --render reported the payment page as "prints none of its 5 figures and no number beside their labels" and exited 1. The payment page prints no fee until a country is chosen, which is why the table's address is read with it, and on that run the table's address had answered with a bot challenge, so it was reported unreadable in the same output.
 - **Why.** The rule for a page that shows none of its figures dates from INC-0133, when every figure was read against one page: it groups figures by their url and looks for their numbers in that page alone. also_urls (INC-0154) made a figure's source the union of its pages, and the finding loop reads it that way and skips a figure any of whose pages went unread, but the blank-page rule was not changed with it. Until INC-0158 a blank page was only a line in the report, so nothing depended on it; from INC-0158 it fails the run.
@@ -2757,7 +2758,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0165. The playbook's smoke test and its builder disagreed on what counts as an unresolved placeholder, so a correctly quoted one failed the smoke
 
-*2026-09-27, Degraded*
+*2026-09-27, Degraded, `44b3f8c80bb2860eb619880931f9cca9272b3ee7` PR #162*
 
 - **What was seen.** After INC-0163's record quoted `{{FONTS_CSS}}` in a code span, python3 src/build_playbook.py built the book, and node src/smoke_playbook.js failed it with "no unresolved placeholders: FONTS_CSS".
 - **Why.** The builder decides what is an unresolved placeholder by blanking code spans and fenced blocks first, since a quoted placeholder is an example rather than a place to substitute, and its comment says why it does not use an allowlist: one would go stale. The smoke test, written to catch a builder change that dropped that check, used exactly such an allowlist, CHROME_CSS and PLACEHOLDER, the two quoted names that existed when it was written. The first new quoted name failed it.
@@ -2769,7 +2770,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0166. The standalone page smoke test still loaded pages from disk, where the site's root-relative paths point at the filesystem root, so it failed once the fonts moved onto the site
 
-*2026-09-27, Degraded*
+*2026-09-27, Degraded, `44b3f8c80bb2860eb619880931f9cca9272b3ee7` PR #162*
 
 - **What was seen.** After INC-0163, node src/smoke_pages.js failed /international/ and /apply/ with five console errors, each "Failed to load resource: net::ERR_FILE_NOT_FOUND": the pages link their fonts at /vendor/fonts-2026-09-27/fonts.css, and loaded as file:// that path is the root of the disk, not of the site.
 - **Why.** smoke_pages opened the built pages as file:// URLs. A page that loads anything by a root-relative path cannot load it that way, and smoke_billing and smoke_guide had already moved to a local server for that reason; smoke_pages had not, and nothing forced it to, because until now every root-relative reference those two pages make failed without writing to the console, and the one resource that did fail loudly, Google Fonts, was on its list of environment noise.
@@ -2781,7 +2782,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0169. The reading corpus check accepted a near miss whose only negative word opened it, and the item builder, which capitalises first, could not use it
 
-*2026-09-27, Degraded*
+*2026-09-27, Degraded, `6ec335282a2f1056aea8af4ff21019207fcc33ac` PR #164*
 
 - **What was seen.** A new passage's near miss read "no water was pumped from the lower levels on the fourteenth of June 1866". check_premises passed it as the negative near miss the inference question needs, and python3 src/build.py then failed with "gmat/v_inf did not ship the questions its schemas list": every draw of that question raised "balance needs 4 wrong answers, pool has 117".
 - **Why.** Both places test a near miss with the same pattern, NEGATIVE, which matches not, no, none and never in lower case only. check_premises tests the near miss as stored, lower case; the inference builder capitalises it first, because it becomes a sentence, so "No water" no longer matched and the builder found no negative near miss to offer. The balancer's error then counted every wrong answer in the pool instead of the one kind it lacked, so the message pointed away from the cause.
@@ -2793,7 +2794,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0173. The source check ended a tag at the first > it met, so markup inside a quoted attribute leaked into the page text, and an element id's 5 confirmed GRE's five-year score validity on a page that never states it
 
-*2026-09-27, Wrong data shown or stored*
+*2026-09-27, Wrong data shown or stored, `b6727f6ba5f7be256111a4212877c1bc4980feaf` PR #166*
 
 - **What was seen.** /exams/gre/ showed Score Validity 5 years citing ETS's GRE scores overview page. Read on September 27, 2026, that page says nothing about how long scores last; ETS's Get Your Scores page does: "GRE scores are reportable for 5 years following your test date." The weekly exam source check had passed the figure, and the text it read from the overview page held the fragment "}}" id="text-5ae0eb3b6b" class="cmp-text">, markup no reader sees. The figure is right; the page cited for it was not the one that says it.
 - **Why.** to_text removed tags with the pattern <[^>]+>, which ends a tag at the first > it meets. ETS's pages keep a copy of each text block in a data-cmp-data-layer attribute: JSON holding the block's markup with its < escaped but its > left raw, inside the attribute's quotes. The first > in that attribute ended the tag early, and the rest of the attribute, the block's markup and text again and then the element id text-5ae0eb3b6b, was read as page text. The number pattern accepts a digit after a hyphen, so the id supplied a 5.
@@ -2805,7 +2806,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0175. The source check cached Imperva's script challenge as GMAC's policies PDF, a page with no words, so every later run with --cache reported the PDF unreadable from its own cache
 
-*2026-09-27, Degraded*
+*2026-09-27, Degraded, `b6727f6ba5f7be256111a4212877c1bc4980feaf` PR #166*
 
 - **What was seen.** A run of check_sources --render --cache on September 27, 2026 reported GMAC's GMAT policies and procedures PDF unreadable with "only 1 characters of text", and a second run reported the same, although curl had just fetched the same URL as the 295,049 byte PDF with 80,078 characters of text. The cache file for the URL held a single space.
 - **Why.** Some reads of the PDF's URL get Imperva's script challenge instead: 212 bytes of text/html whose only content is a script from /_Incapsula_Resource. The challenge check matches a challenge's words, and this one has none once its script is removed, so it read as an empty page. fetch() caches every read except a recognised challenge, so the empty read was kept, and the next run took it from the cache instead of reading again: a one-off refusal became a standing one. The browser read, which the check tries for short pages, fails on a PDF, so nothing replaced it.
@@ -2813,6 +2814,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** fetch() recognises Imperva's script challenge in a plain read, reads once more a few seconds later, as the browser read already does for challenges, and reports the source as challenged if it comes back again. It caches a read only when it holds at least MIN_TEXT characters, so a short read of any kind is tried again on the next run.
 - **What stops it now.** check_sources' self-check serves fetch() the challenge as mba.com sent it, followed by the page and then by the challenge again, and fails unless the first comes back as the page and the second as a challenge; and it reads a short page through fetch() with a cache and fails if the read was kept. in `src/check_sources.py`
 - **Lesson.** A cache should keep only what would be accepted as an answer. Caching a failure turns a transient fault into a permanent one, and it then looks like the source's fault rather than the cache's. And a detector that looks for a refusal's words misses a refusal that has none.
+
+
+### INC-0181. The ledger's harvest read only incident ids written out in full and matched commits by their short hash, so seven records fixed under a range such as "INC-0104 to INC-0110" cited nothing and 57 cited fixes came back every week as possible unrecorded defects
+
+*2026-09-27, Degraded*
+
+- **What was seen.** On September 27, 2026, python3 src/playbook_harvest.py --citations reported eight records that name no commit and that no commit names: INC-0105 to INC-0109, INC-0171, INC-0174 and the just-written INC-0180. The squash commits on main do name the first seven: PR #96's names "INC-0104 to INC-0110", PR #165's "INC-0170 to INC-0172" and PR #166's "INC-0173 to INC-0175". The harvest also listed 38 commits as candidate unrecorded defects, many of them commits whose records simply cited nothing. Reading why, a second fault: the candidate loop compared each commit's short hash with the ledger's citations, 57 of which were full hashes, so every commit cited in full was listed as a candidate unrecorded defect however long ago it was written up.
+- **Why.** incident_commits() finds ids with the pattern INC-\d{4}, so it reads the two ends of a range and nothing between them, and it would read only the first id of a list written "INC-0130, 0131, 0132". Sessions name several incidents in one squash title that way whenever one PR fixes a run of them. The report asked a human to find those seven by hand, when git already held the answer. The candidate loop has the same shape of fault in the other direction: git prints a short hash, the backfill writes a full one, and an exact comparison between the two never matches, so the tool that fills in citations made its own weekly report noisier every time it ran.
+- **How it surfaced.** Found on September 27, 2026 by running the harvest's --citations report after a merge and reading why each uncited record had no match. (Found by reading the code or the output)
+- **Fix.** playbook_harvest reads an incident range ("INC-0104 to INC-0110") and a short list ("INC-0130, 0131, 0132") as every id they name, capped at 20 past the first so a year after a comma is never an id, and counts a commit as cited when either hash is a prefix of the other. --backfill then filled 77 citations from main's history, leaving only this record, which this change's own merge will name. The five candidates left were read and cleared in data/playbook/cleared.jsonl with reasons: two were validation or design language, one a claim the same change made stale, and two follow-on work on INC-0079 and INC-0057.
+- **What stops it now.** playbook_harvest's self-check, run first on every invocation, reads the four forms main's commits use and fails unless each yields every id it names, rejects an over-long range and a year after a comma, and requires a commit cited in full or short to count as cited; mutants that drop the range reading, the list reading or the cap each fail it. in `src/playbook_harvest.py`
+- **Lesson.** A reader of free text has to read every way people actually write the thing it looks for. Check the forms in the history, not the form you would write, before trusting that a pattern finds all of them.
 
 
 ## Front end (12)
@@ -2924,7 +2937,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0113. The GMAT trainer's first question on a slow connection took twice as long as when the bank split shipped
 
-*2026-09-26, Degraded*
+*2026-09-26, Degraded, `3230ba014d8f660a9783ccc633c0a132c7c7b24c` PR #96*
 
 - **What was seen.** src/smoke_load.js measured 21.7 seconds to the first GMAT question on its 3G profile (400 kbit/s, 400 ms latency) against a 15 second budget, and main failed identically. The two-stage bank load had put the same measurement at 11.0 seconds when it shipped. ACT was 13.8, LSAT 11.0, SAT 9.4 and GRE 7.0 on the same run.
 - **Why.** The deferred bank chunks were written into the page as async script tags immediately after the blocking bank.js. Async only means the tag does not block parsing; the preload scanner still finds it and starts the download at once, so on a slow connection the one file a first question needs shared its bandwidth with 30 MB it does not. The GMAT remainder was later split into two chunks to stay under Cloudflare's 25 MiB asset limit, which made three concurrent downloads instead of two and is why GMAT degraded most. The suite that measures it is not in ci.yml, so nothing ran it after the chunking.
@@ -2936,7 +2949,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0128. The trainer button on four exam guides and on the study guide hub opened the GMAT trainer
 
-*2026-09-26, Degraded*
+*2026-09-26, Degraded, `97ea315375fb1fb12f5ebdd98b856c5a3d0b43ce` PR #115*
 
 - **What was seen.** The Train for It Here block at the foot of the SAT, GRE, LSAT and ACT guides (/exams/<exam>/) ended in an Open the trainer button that linked to /app/, the GMAT Focus trainer. A student reading the ACT guide who took it landed in GMAT practice. The study guide hub at /guide/, which covers all five exams, had the same button to the same place. Each exam page's other trainer button, Start Training Free in its header, went to the right trainer, which is how the wrong one went unnoticed.
 - **Why.** exam_page() builds the header button from APP_PATH, the map of each exam's trainer. The block further down the same function wrote the literal /app/, as it has since build_exams.py was added on September 19 (#45), and the guide hub template added on September 22 (#89) copied the literal. A path written out by hand is right only for the exam it was written for, and nothing compared where a page's trainer links went with the exam the page is about.
@@ -2948,7 +2961,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0148. The trainer app ran its own code only after a script from cdn.jsdelivr.net had loaded, so a slow CDN stalled the app and timed out CI's games smoke
 
-*2026-09-27, Degraded*
+*2026-09-27, Degraded, `77404eaa5c0fc0418e41c8f069825cea33a600ac` PR #138*
 
 - **What was seen.** CI failed on marlbrook-dev/GMAT#136 in src/smoke_games.js with "page.goto: Timeout 30000ms exceeded" navigating to /app/index.html and waiting for load, before any game check ran. The same suite passed locally on that commit and on one re-run. The pull request touched only school records and their validators, nothing the app loads.
 - **Why.** The trainer app, the community page and the do-not-sell page load the supabase-js client from https://cdn.jsdelivr.net as a plain blocking script tag, and in the app it sits ahead of the item bank and the app's own code, which needs window.supabase to exist when it starts. So the browser runs none of the app until jsdelivr answers or fails, and the page's load event waits on it too. A slow response from jsdelivr, or a network that blocks it, holds the whole app for as long as the request takes, for students as well as for CI, and the content security policy had to name jsdelivr as a script source to allow it.
@@ -2960,7 +2973,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0149. A half-typed sign-in on the Account page vanished when a deferred bank chunk arrived and redrew the page, and the smoke that shows it had been failing unnoticed outside CI
 
-*2026-09-27, Degraded*
+*2026-09-27, Degraded, `15334bab858321bb91c38ad9cb881d4194686ccb` PR #139*
 
 - **What was seen.** node src/smoke_signup.js failed "sends once both are chosen" and "the birth date is kept for the profile push" in all five trainers, on main as well as on the branch that found it. Traced step by step: the smoke typed an email, then chose a birth month, and by the time it chose the year the email field was empty and the sign-in form had been replaced by a new one, so sendMagicLink() refused an empty email and sent nothing.
 - **Why.** The trainer loads most of its bank in deferred chunks after the page's load event, and each chunk calls window.__bankGrew(), which redraws the Account page with renderData() if it is open, because that page prints the bank size. The auth listener in Cloud.init() redraws it the same way when the sign-in state changes. renderData() builds the sign-in form's email box from state.settings.email and its month and year from state.settings.about, which are only written when the link is sent, so any redraw before Send threw away whatever the student had typed or chosen. The smoke fills the form in the seconds after load, when the chunks arrive, and loses that race; a student who opens the Account page and types at once can lose it too. The smoke is not in npm run test:browser, so nothing ran it.
@@ -3063,7 +3076,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0123. The Data Sufficiency answer counter outlived the run it belonged to, so a second run from the same seed made different items
 
-*2026-09-26, Degraded*
+*2026-09-26, Degraded, `c7b1946dc4688fa7256c20309cf26f17bf85fae1` PR #104*
 
 - **What was seen.** All five GMAT Data Sufficiency schemas (gmat_ds_linear, gmat_ds_inequality, gmat_ds_average, gmat_ds_rectangle, gmat_ds_percent) made a different set of 300 items when framework.run was called a second time in the same process with the same seed, and clearing the schema's answer counter between the two runs brought back the first run's items exactly. The ROADMAP had recorded the difference for two of the five without a cause. Run twice at 60 items each, every other schema the build plans made the same items both times.
 - **Why.** DSBase thins whichever answer is running ahead of an even share (INC-0081), counting the answers it has produced in self._seen, which lived on the schema instance for as long as the process did. The count describes one sequence of draws, but nothing reset it when a new sequence began, so a second run thinned against the first run's answers, called rng.random() at different points, and diverged from its first item on. The build was unaffected only because it runs each Data Sufficiency schema once; check_discarded, which draws from the same schemas after the bank run on a seed of its own to make its figure exact, was drawing with the bank run's count still in place.
@@ -3075,7 +3088,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0126. The runner's 400 draw cutoff dropped the last question of a small reading schema on three of four builds
 
-*2026-09-26, Silent loss*
+*2026-09-26, Silent loss, `3d9b66ecfb7150707e5bd8eaf72514aa8a7aa116` PR #113*
 
 - **What was seen.** Of the four builds on September 26 that added reading passages, three shipped one question fewer than the passages define. Three short passages gave the GRE 29 new items instead of 30. The first batch of five long passages left out a GMAT stated idea question, and the second left out a GRE one: what the earlier account in the guilds passage failed to address. Nothing failed. The counts were one short, and the ROADMAP recorded it as expected behaviour.
 - **Why.** framework.run retires a schema after 400 duplicate draws in a row. That rule was meant for schemas whose space is unknown and large. A reading schema's space is small and exact: a fixed list of questions per passage. Near the end of a run only one question is still unseen, and each draw finds it with probability one in the size of the space. So 400 misses in a row become likely as the space grows. At the corpus's present size, the GMAT stated idea schema (252 questions) ends a build short about one time in four, and the GRE one (168) about one time in ten. Every passage added makes this worse, while the 400 stays put. The schema knew exactly what its questions were; the runner never asked.
@@ -3087,7 +3100,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0129. The rules digest crossed its word budget again, because the earlier fix bounded each rule and not the digest
 
-*2026-09-26, Degraded*
+*2026-09-26, Degraded, `97ea315375fb1fb12f5ebdd98b856c5a3d0b43ce` PR #115*
 
 - **What was seen.** smoke_playbook failed with 'the digest stays prompt sized (4012 words)' against its 4000 word limit, on the commit that added the 128th incident, whose only relation to the playbook was that one record. The bootstrap RULES_DIGEST.md is the file a new project pastes into its prompt, so it crossing the limit makes the deliverable too long for its purpose.
 - **Why.** INC-0083 fixed the same failure at 82 incidents by printing each lesson's operative rule instead of the whole lesson. That bounded the size of each rule, at about 30 words, and not the size of the digest, which still printed one rule per incident, so it kept growing by about 30 words a record and crossed again at 128. Printing every rule and staying under a fixed budget cannot both hold as the ledger grows. The companion check that every lesson reaches the digest made the budget the one to give way, and nothing in the generator decided which rules a prompt sized digest should keep.
@@ -3099,7 +3112,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0162. The blog build read a fee table as one sentence and refused a correct post for calling the SAT trainer unfinished, over College Board's seat Waitlist
 
-*2026-09-27, Degraded*
+*2026-09-27, Degraded, `75a55429214346dcc3f56bdb48603c64812db29c` PR #158*
 
 - **What was seen.** python3 src/build_blog.py refused the queued post "How Much Does the SAT Cost in 2026?" with "calls a live trainer unfinished", quoting a run of text that began inside its fee table ("ET before test day $44 Waitlist $0 Source: College Board's SAT test fees..."). The post says nothing about the trainer being unfinished: "Waitlist" is the name of College Board's service that places a test taker in an open seat, and it cost $0 in the table's last row.
 - **Why.** The check that a post never calls a live trainer unfinished (INC-0137) strips a post's tags with a space and splits what is left at sentence punctuation, so a table's cells, which carry no punctuation, run together with the paragraph after them into one sentence. That sentence held both "wait list" in College Board's sense and "SAT", which is what the check looks for. The same check over built pages (INC-0138) had already learned that block elements end a sentence, after the site header's menu read as one run-on sentence; the post version was never given the same rule.
@@ -3165,7 +3178,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0104. Half the school pages opened with a data note pasted into a sentence, and the structured data repeated it
 
-*2026-09-26, Degraded*
+*2026-09-26, Degraded, `3230ba014d8f660a9783ccc633c0a132c7c7b24c` PR #96*
 
 - **What was seen.** On 47 of 91 MBA school pages the opening paragraph, the first prose on the page, read like Kellogg's: 'The Class of 2027 profile reports a average GMAT Focus score, middle 80 pct 645-735 GMAT Focus of 687, a class of 534.' Notre Dame's read 'reports a avg, Class of 2026, range 560-760 (edition not labeled; range consistent with Classic) GMAT of 680 (Classic edition)'. The same text answered 'What GMAT score do you need' in the Quick Answers block and in the FAQPage JSON-LD that search and answer engines read. Separately, 70 pages said a school 'ranks #5 of 91' in the first sentence and 'number 5 of the 70 programs it scores' in the next paragraph, because 21 of the 91 programs are listed unscored. The rankings table itself cut the same note to its first three characters beside every GMAT figure, so all 50 rows that carry one showed a slice rather than a statistic: 'Focus ave' on 22 of them, and 'Focus lis', 'Classic typ' and 'Classic 202' on one each. The class label had the same problem: 22 intros pasted the stored class_year verbatim, producing 'The 2025 Profile profile reports', 'The Typical class profile (no class year stated) profile reports' and 'The Full-time MBA Graduates, 2025 (outcomes) profile reports'. And four pages reported a figure from one class inside a sentence about another: Notre Dame's GMAT comes from Poets&Quants coverage of the Class of 2026 and was stated as the Class of 2027's.
 - **Why.** The stat field on a profile figure is free text written for the table's provenance column ('average GMAT Focus score, middle 80 pct 645-735'), not a word for a sentence. Three sentences on the page interpolated it. lead_paragraph was fixed for exactly this in PR 45 (commit 4b25169, whose comment reads 'only a recognised one word statistic is used and anything else becomes a reported'), and the fix was written inside that one function. The intro and the FAQ are built seventy lines further down in the function that calls lead_paragraph, and kept interpolating the raw field. The denominator is the same shape: lead_paragraph was taught the scored total and the intro was not. The rankings table is a fourth consumer: it sliced stat[:3] on the assumption that every note begins with the statistic's name. class_year is free text too, stored in more than twenty shapes, and the intro treated it as a noun phrase that always fits 'The ... profile'. Each figure also carries its own class in its note or source, which a single page-level label cannot represent.
@@ -3177,7 +3190,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0107. Seven college titles promised SAT scores the page does not have
 
-*2026-09-26, Cosmetic*
+*2026-09-26, Cosmetic, `3230ba014d8f660a9783ccc633c0a132c7c7b24c` PR #96*
 
 - **What was seen.** Seven of the 1,451 college pages report an ACT midpoint and no SAT figure of any kind, and their title still read '...: Acceptance Rate, Cost, and SAT Scores'. A student searching for that college's SAT scores who clicked found none.
 - **Why.** title_bits added 'SAT Scores' when either sat_avg or act_mid was present, treating the two tests as one field. The function's own docstring says it promises only what the page holds, and for these seven it did not.
@@ -3189,7 +3202,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0109. Two withdrawn exam guides kept their search traffic and sent it to a 404 that is the whole GMAT trainer
 
-*2026-09-26, Silent loss*
+*2026-09-26, Silent loss, `3230ba014d8f660a9783ccc633c0a132c7c7b24c` PR #96*
 
 - **What was seen.** The MCAT and Executive Assessment guides were withdrawn on 2026-09-18 because their official sources could not be re-verified. Search Console for the five weeks to 2026-09-24 still showed 220 impressions for /exams/mcat/ and 82 for /exams/executive-assessment/, the second at an average position of 9.6, with queries like 'executive assessment test cost'. Both URLs answered 404, and the 404 page is the GMAT trainer, so a searcher looking for the Executive Assessment landed in a GMAT app with no word about what had happened. llms.txt, the file written for answer engines, still listed both guides among the exam guides the site publishes.
 - **Why.** Withdrawing a page was treated as deleting a file. Nothing in the build or the deploy knows which URLs used to exist, so nothing asked what a visitor arriving at one should see, and the generic 404 handling that suits a mistyped URL was applied to a URL search engines were still ranking.
@@ -3201,7 +3214,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0131. The exam hub's structured data described every exam with a printed Python dict
 
-*2026-09-26, Degraded*
+*2026-09-26, Degraded, `4727c2e59c09a7d1bbe45f95e917b8cfab2ee836` PR #117*
 
 - **What was seen.** The ItemList structured data on /exams/ described each exam as 'Scored' followed by the Python repr of its score_scale record, braces, quotes, src, year and url included: Scored {'text': 'Total score 205 to 805, always ending in 5; ...', 'src': 'GMAC', 'year': 2026, 'url': '...'}. That is the text search and answer engines read for each exam, it was on every exam, and it had been since the page was added on September 19 (#45).
 - **Why.** score_scale is a sourced record of text, src, year and url, and the description interpolated the record itself with an f-string rather than its text. Python formats a dict without complaint, so the build succeeded, and structured data is not drawn on the page, so no one reading the page could see it.
@@ -3213,7 +3226,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0138. The exam guides hub told search engines only the GMAT and SAT trainers were live, eleven days after all five were
 
-*2026-09-27, Wrong data shown or stored*
+*2026-09-27, Wrong data shown or stored, `a91fe6f677c6f3a45121f4e9bb1026a81663fcc5` PR #124*
 
 - **What was seen.** The /exams/ page's meta description, the text a search result shows under the title, read 'GMAT Focus and digital SAT training are live; more exams in development.' The GRE, LSAT and ACT trainers went live on September 16, 2026, so every search result for the hub understated the product by three trainers and promised work that was already done.
 - **Why.** The description was typed into exams_index_template.html when two trainers were live, while build_exams.py already knew which exams are live (LIVE) and used it for every other status on the page. A sentence about the product's state was written once as copy instead of being built from the one place that knows it, and no check reads meta descriptions for claims about trainers.
@@ -3225,7 +3238,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0153. Five school pages were named only "School of Business", "College of Business" or "Graduate School of Management", so their titles and answers named no school
 
-*2026-09-27, Degraded*
+*2026-09-27, Degraded, `6edd506aa79fd565dab17809a3fa936e3193bfd3` PR #145*
 
 - **What was seen.** data/schools/charleston.json, lehigh.json, portland-state.json, uc-davis-gsm.json and uc-riverside.json gave their name as "School of Business", "College of Business", "The School of Business", "Graduate School of Management" and "School of Business". A school page prints name in its title, heading, lead sentence and every Quick Answer, so College of Charleston's page was titled "School of Business MBA: Cost and Class Profile" and asked "What is the acceptance rate at School of Business?": a title no search for the college could match and questions that name no school.
 - **Why.** The research merge copied each business school's name as the school's own site prints it in its header, where the university's name sits beside it and nothing more is needed. The library keeps the university in a field of its own, and every page that prints name prints it alone. validate_schools checked that a name was there, not that it said which school it was.
@@ -3305,7 +3318,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0139. Every blog page drew the site header without the design tokens, so its logo sat against the screen edge on phones
 
-*2026-09-27, Cosmetic*
+*2026-09-27, Cosmetic, `3f4de8317b7469acadf1f24da99af04ee00a381e` PR #126*
 
 - **What was seen.** On all 32 blog pages, the 31 published posts and the blog index, the shared header's wordmark sat at 0 pixels from the left edge at phone width where every other page puts it 24 pixels in, and the header and footer ignored the page width. Their stylesheet used 22 design tokens, --gutter, --page and the radii and motion values among them, that the blog pages never defined.
 - **Why.** partials.apply_chrome() injects TOKENS_CSS ahead of CHROME_CSS wherever a template carries the CHROME_CSS placeholder. build_blog.py writes its own page shell and pasted partials.CHROME_CSS into it directly, so the blog got the rules without the variables they read. CSS treats a variable that was never defined by quietly falling back to the property's initial value, so nothing failed: the padding became 0 and the max width none.
@@ -3317,7 +3330,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0163. The shared site header rendered its bold labels at two weights, because each page template asked Google Fonts for its own list of IBM Plex Sans weights
 
-*2026-09-27, Cosmetic*
+*2026-09-27, Cosmetic, `44b3f8c80bb2860eb619880931f9cca9272b3ee7` PR #162*
 
 - **What was seen.** The site header's Create Account button is styled font-weight 700, 13px, and is meant to be identical on every page. Measured in Chromium on September 27, 2026, its label drew 92.41px wide on the landing page and on /exams/, where only the 400 and 600 faces of IBM Plex Sans had loaded, and 93.61px on /daily/, where the 700 face had. The shared chrome's other 700 weight rules, the header's tags and the mobile menu's group labels, draw from the same declared faces, so they fall back the same way.
 - **Why.** The header's CSS is injected once, from partials.py, but the font files it depends on were not: each of 30 page sources (28 templates, plus build_blog.py and build_colleges.py, which write their own page heads) carried its own Google Fonts link and its own list of weights. Five of them (the daily page template and the four study guide templates) asked for IBM Plex Sans 400, 500, 600 and 700; the other 25 stopped at 600. A browser asked for 700 when only 600 is loaded draws the 600 face and says nothing, so the shared rules looked right in every template on its own and differed between them. The terms and privacy pages also imported the design system's font sheet, which still requested Manrope, the retired fourth face, from Google on every load.
@@ -3329,7 +3342,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0164. The community page scrolled sideways on phones for visitors whose random pseudonym was long, because the line that names it could not wrap
 
-*2026-09-27, Cosmetic*
+*2026-09-27, Cosmetic, `44b3f8c80bb2860eb619880931f9cca9272b3ee7` PR #162*
 
 - **What was seen.** At 390px wide, signed out, /community/ shows "Anonymous posts from this device appear as" and the device's pseudonym on one line. Measured on September 27, 2026 with the bold weight the page loaded before INC-0163 (600), the page scrolled 35px sideways for Crimson Kingfisher 98, the longest name the page can draw, and 16px for Steady Swallow 10; Wise Owl 2 fit. The pseudonym is picked at random per device from 20 adjectives, 20 birds and a number from 2 to 98, so whether a visitor's page slid sideways depended on the name they happened to draw.
 - **Why.** The identity line is styled white-space:nowrap. In the hero's wrapping flex row it drops below the heading on a phone, but a line that cannot break is as wide as its whole sentence, and with a long name that sentence is wider than the screen.
@@ -3396,7 +3409,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0111. The question of the day promised to be the same for everyone and was not, and its streak punished a wrong answer
 
-*2026-09-26, Degraded*
+*2026-09-26, Degraded, `3230ba014d8f660a9783ccc633c0a132c7c7b24c` PR #96*
 
 - **What was seen.** The trainer's Question of the Day card said 'One question, picked for everyone today'. The pick was pool[hash(date) % pool.length] over the live BANK, which grows when the deferred bank chunks arrive, so a student who opened it before the chunks loaded and one who opened it after were served different questions, and any deploy that changed the bank changed the day's question under students who had already answered it. Every hand-written ACT item belongs to a passage group, and the pool excluded passage items, so the ACT question of the day was always a generated item. Separately, the streak reset to zero on a wrong answer, so the card asking people to build a daily habit counted accuracy and punished exactly the students who showed up and missed.
 - **Why.** The pick was computed from whatever array was in memory at the moment of the click, and nothing about the design had a notion of a question being assigned to a date independently of the bank. The streak rule was written as a correctness streak and labelled as a habit.
@@ -3408,7 +3421,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0112. Weakest-first selection starved skills for struggling students, down to none at all
 
-*2026-09-26, Degraded*
+*2026-09-26, Degraded, `3230ba014d8f660a9783ccc633c0a132c7c7b24c` PR #96*
 
 - **What was seen.** In a 140 question sitting simulated with the engine's own response model, a student at about 35 percent accuracy on the fifteen-skill ACT got 0.6 questions on average on their least-practised skill, several skills got none, and 5.2 of the 15 stayed under the five attempts after which the dashboard stops saying 'calibrating'. GMAT and LSAT struggling students showed the same pattern at one question at worst. The dashboard could therefore say nothing about a third of the ACT skills for exactly the students who most needed to know. The roadmap had recorded a milder version (Two-Part Analysis at 2 attempts in 120) as a tuning question for the owner.
 - **Why.** pickQuestions gives 70 percent of every round to the three lowest-rated skills. A struggling student's practised skills fall below the starting rating while unpractised ones stay at it, so the unpractised skills rank as the student's strongest and are never chosen; the remaining 30 percent goes to whichever other skill has an item closest to the target difficulty, not round-robin. The diagnostic pass exits once half the skills have three attempts, which leaves the other half to that competition. The review bot measured reach across all sittings combined, so a skill each student touched once or not at all still counted as reached.
@@ -3420,7 +3433,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0127. Generated item ids were positions, so a bank change pointed stored reviews at different questions
 
-*2026-09-26, Wrong data shown or stored*
+*2026-09-26, Wrong data shown or stored, `de96fd9f1b4f2b57d5c8fb220a164fa2668ddbf7` PR #114*
 
 - **What was seen.** A generated item's id was its position in the build: framework.run numbered items in the order it made them, continuing across an exam's categories. The trainer keys a student's spaced review (state.review), the seen counts and the item telemetry (item_events.qid) on that id. Any change to a bank renumbers what follows it. After such a deploy, a review due for a missed question served whatever question now held that number, and the telemetry pooled answers to different questions under one qid. The runner fix just before this one (INC-0126) would alone have repointed 6826 live ids, although it removed no question. 6627 of them were GRE ids, and 6534 of those were sentence equivalence and text completion ids that each came to name the question next to the one they had named, because GRE reading, which is numbered ahead of them, gained a question.
 - **Why.** The id was used as a name but assigned as an index. A position is stable only while nothing before it changes, and the banks change on nearly every build: a new passage, an edited schema or a different draw order shifts everything numbered after it. Nothing that stored an id could tell that the question behind it had changed.
@@ -4084,6 +4097,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The source check ended a tag at the first > it met, so markup inside a quoted attribute leaked into the page text, and an element id's 5 confirmed GRE's five-year score validity on a page that never states it (INC-0173)</small>
 - [ ] A cache should keep only what would be accepted as an answer. Caching a failure turns a transient fault into a permanent one, and it then looks like the source's fault rather than the cache's. And a detector that looks for a refusal's words misses a refusal that has none.  
   <small>The source check cached Imperva's script challenge as GMAC's policies PDF, a page with no words, so every later run with --cache reported the PDF unreadable from its own cache (INC-0175)</small>
+- [ ] A reader of free text has to read every way people actually write the thing it looks for. Check the forms in the history, not the form you would write, before trusting that a pattern finds all of them.  
+  <small>The ledger's harvest read only incident ids written out in full and matched commits by their short hash, so seven records fixed under a range such as "INC-0104 to INC-0110" cited nothing and 57 cited fixes came back every week as possible unrecorded defects (INC-0181)</small>
 
 
 # Adapting This to a Different Business
@@ -4200,7 +4215,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 180 real defects reduced to the rules that prevent them,
+the whole project: 181 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -4240,7 +4255,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-180 defects already prevented is genuinely ahead, and every defect it hits
+181 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

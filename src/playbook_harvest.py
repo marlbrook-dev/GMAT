@@ -80,6 +80,49 @@ def ledger_rows():
 #   checked against all eight ambiguous cases in this repository rather than assumed: the
 #   later mentions read "was the same", "exactly", "recurring inside".
 INC_RE = re.compile(r'INC-\d{4}')
+# A commit that fixes a run of incidents names them as a range or a short list, and reading
+# only the ids written out in full left INC-0105 to INC-0109, INC-0171 and INC-0174 citing
+# nothing: main names them "INC-0104 to INC-0110", "INC-0170 to INC-0172" and "INC-0173 to
+# INC-0175", and once "INC-0130, 0131, 0132" (INC-0181). A range or a list reaches at most
+# RUN ids past its first, so "(INC-0180, 2026)" never reads as INC-2026.
+RANGE_RE = re.compile(r'INC-(\d{4}) to (?:INC-)?(\d{4})')
+LIST_RE = re.compile(r'INC-(\d{4})((?:,? (?:and )?\d{4}\b)+)')
+RUN = 20
+
+
+def incident_ids(text):
+    """Every incident id a commit message names, ranges and lists included."""
+    ids = set(INC_RE.findall(text))
+    for a, b in RANGE_RE.findall(text):
+        if int(a) < int(b) <= int(a) + RUN:
+            ids |= {'INC-%04d' % n for n in range(int(a), int(b) + 1)}
+    for a, rest in LIST_RE.findall(text):
+        ids |= {'INC-%s' % n for n in re.findall(r'\d{4}', rest) if int(a) < int(n) <= int(a) + RUN}
+    return ids
+
+
+def is_cited(full, cited):
+    """True when a commit's full hash is one of the cited hashes, cited in full or short."""
+    return any(len(s) >= 7 and full.startswith(s) for s in cited)
+
+
+def _selfcheck():
+    """INC-0181: the ways main's commits name more than one incident all read in full, and a
+    commit cited by its full hash or a short one counts as cited."""
+    for text, want in (('Search-driven page fixes (INC-0104 to INC-0110) (#96)', range(104, 111)),
+                       ('Check every exam fact against the page it cites (INC-0130, 0131, 0132) (#117)',
+                        (130, 131, 132)),
+                       ('correct three exam facts (INC-0173 to INC-0175) (#166)', (173, 174, 175)),
+                       ('refuse a lowered sentence (INC-0179) (#174)', (179,)),
+                       ('(INC-0180, 2026) and INC-0150 to INC-0990', (150, 180, 990))):
+        got = incident_ids(text)
+        if got != {'INC-%04d' % n for n in want}:
+            sys.exit('playbook_harvest: %r read as %s (INC-0181)' % (text, sorted(got)))
+    full = '767d7b9230bc51f1f3fcfa345586af7ac4cd97aa'
+    for cited, want in (({full}, True), ({'767d7b9'}, True), ({'767d7b92'}, True),
+                        ({'767d7b8'}, False), ({'767'}, False), (set(), False)):
+        if is_cited(full, cited) != want:
+            sys.exit('playbook_harvest: a commit cited as %s read as %s (INC-0181)' % (sorted(cited), not want))
 
 
 def incident_commits(rev='origin/main'):
@@ -97,7 +140,7 @@ def incident_commits(rev='origin/main'):
             when = int(ts)
         except ValueError:
             continue
-        for inc in set(INC_RE.findall(subj + ' ' + body)):
+        for inc in incident_ids(subj + ' ' + body):
             prev = found.get(inc)
             if prev is None or when < prev[0]:
                 found[inc] = (when, sha, subj)
@@ -193,6 +236,7 @@ def backfill(write=False):
 
 
 def main():
+    _selfcheck()
     # Citation backfill runs first and on its own, because it answers a different question
     # from the rest of this tool: not "is the ledger missing a record" but "does a record
     # we already have still fail to point at the commit that fixed it".
@@ -245,11 +289,15 @@ def main():
         if len(parts) < 5:
             continue
         full, short, date, subject, body = parts[0], parts[1], parts[2], parts[3], parts[4]
-        commits.append({'sha': short, 'date': date, 'subject': subject, 'body': body})
+        commits.append({'sha': short, 'full': full, 'date': date, 'subject': subject, 'body': body})
 
     candidates = []
     for c in commits:
-        if c['sha'] in cited or SKIP_SUBJECT.search(c['subject']):
+        # A citation is a full hash or a short one, and git prints either at whatever length
+        # it likes, so a commit counts as cited when one is a prefix of the other. Comparing
+        # the short form alone never matched the 57 records cited in full, and every one of
+        # those fixed commits came back each week as a possible unrecorded defect (INC-0181).
+        if is_cited(c['full'], cited) or SKIP_SUBJECT.search(c['subject']):
             continue
         text = c['subject'] + '\n' + c['body']
         hits = []
