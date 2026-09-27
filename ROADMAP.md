@@ -375,6 +375,13 @@ verified rather than that the school does not publish one (INC-0118).
       5.1 years. It quotes Wharton's page that there is no minimum or maximum, the ranges
       that reach 0 years (NYU Stern, Colorado Leeds, Boston College Carroll), and the four
       programs built for fewer years.
+- [x] **supabase-js is served from this site** (INC-0148). The trainer apps, the community
+      page and the do-not-sell page loaded it from cdn.jsdelivr.net as a blocking script,
+      so none of the app's own code ran until jsdelivr answered, and a slow answer timed
+      out CI's games smoke. It now comes from /vendor/ (2.117.2, the build jsdelivr served,
+      MIT license alongside), the CSP drops jsdelivr from script-src, and both builds fail
+      on any page that loads a script from another host. Fonts still come from Google
+      (DEVSECOPS.md O6).
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects

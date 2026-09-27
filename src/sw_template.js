@@ -35,7 +35,9 @@ const PRECACHE = {{PRECACHE_JSON}};
 
 // Matched by suffix: these are rebuilt every deploy under the same name, so the cache
 // name carrying VERSION is what invalidates them rather than any header.
-const IMMUTABLE = [/\/bank\.js$/, /\/bank_rest\d*\.js$/, /\/icons\//];
+// /vendor/ is versioned by directory, so a file there never changes; revalidating it in the
+// background asked the network for supabase-js with the app offline (INC-0148).
+const IMMUTABLE = [/\/bank\.js$/, /\/bank_rest\d*\.js$/, /\/icons\//, /^\/vendor\//];
 
 self.addEventListener('install', event => {
   event.waitUntil((async () => {

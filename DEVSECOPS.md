@@ -113,6 +113,26 @@ policy boots identically to without it (12 skills, 448 bank items, same dashboar
 **F4. A JavaScript error on a live page was invisible.** VERIFIED: no error capture existed
 anywhere in the codebase. This is the gap section 3 addresses.
 
+**F5. The trainer app ran none of its own code until a CDN answered (INC-0148).**
+VERIFIED. The app, the community page and the do-not-sell page loaded supabase-js from
+`cdn.jsdelivr.net` as a blocking script, in the app ahead of the bank and the app's code,
+and CI's games smoke timed out on the app's load event while jsdelivr was slow. The
+library is now served from this site at `/vendor/supabase-js-2.117.2/supabase.js`, with
+its MIT `LICENSE` beside it, and the CSP's `script-src` no longer names jsdelivr. The file
+is the npm package's `dist/umd/supabase.js` for 2.117.2, which is what jsdelivr was serving
+under `@2` (its copy differed only by a comment header), with one change: the house rule
+against em dashes reaches code strings, and a debug message read "access token still
+valid" and "preserving session" joined by one, now a comma. sha256 of the npm file:
+`59d39487c3589843b410322d8a3d562ce022aba1e5ccb16898ef3fb2a0da2ecd`; of ours:
+`c8c4ac82f85eeab690f1ae88cd433c817eb2d6afb4be40d14706b1fe833e6223`. To upgrade, take
+`dist/umd/supabase.js` from the new release with `npm pack`, make the same change if the
+dash is still there, put it under a new versioned directory, and point the pages
+at it: `partials.SUPABASE_JS` holds the path once. The trainers' service workers precache it
+and never revalidate anything under `/vendor/`, which is what keeps the offline launch off
+the network. The build fails on any page that loads a script from another host
+(`page_checks.offsite_scripts`). The Google Fonts stylesheet is still fetched from Google;
+it holds up first paint rather than the app's code, and moving it is open as O6.
+
 ### Checked and found sound, so nobody re-litigates them
 
 **Forum output escaping.** VERIFIED. Every path where user-submitted content reaches the
@@ -139,6 +159,7 @@ raw IP, while an anonymous `select` returns `[]` with a row present. Same for
 | O3 | `script-src` still needs `unsafe-inline`, because every page carries inline scripts. | Closing it means extracting the inline scripts to files with hashes. Real work, not urgent. |
 | O4 | No dependency or secret scanning in CI. | `.github/workflows` runs the publish cron only. |
 | O5 | No billing event log, so trial-to-paid conversion can only be reported as a snapshot ratio. | Called out in the Revenue tab itself. |
+| O6 | Every page's fonts come from fonts.googleapis.com and fonts.gstatic.com, so a slow or blocked Google delays first paint and tells Google who visited. | Serve the three faces from this site as `/vendor/` now serves supabase-js (INC-0148). |
 
 ## 3. Sentinel: the loop that improves with time
 

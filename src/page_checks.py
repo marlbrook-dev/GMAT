@@ -19,6 +19,11 @@ meta description said only two trainers were live, eleven days after all five we
 undefined_tokens() looks for a design token a page uses but never defines. The blog pasted
 the shared header's CSS without the tokens it reads, and CSS let every one of them fall
 back to nothing without a word, so the logo sat against the screen edge (INC-0139).
+
+offsite_scripts() looks for a script loaded from another host. The trainer app loaded
+supabase-js from cdn.jsdelivr.net ahead of its own code, so none of the app ran until
+jsdelivr answered, and a slow response timed out CI's games smoke (INC-0148). Code a page
+needs is served from this site, as /vendor/ now serves that library.
 """
 import pathlib
 import re
@@ -160,4 +165,20 @@ def undefined_tokens(root, paths, tokens):
             missing = sorted(used - set(re.findall(r"(--[a-z0-9-]+)\s*:", css)))
             if missing:
                 found.append((page.relative_to(root).as_posix(), missing))
+    return found
+
+
+_OFFSITE = re.compile(r"""<script\b[^>]*\bsrc\s*=\s*["']?((?:https?:)?//[^"'\s>]+)""", re.I)
+
+
+def offsite_scripts(root, paths):
+    """[(page, url)] for every built page under `paths` that loads a script from another host."""
+    root = pathlib.Path(root)
+    found = []
+    for rel in paths:
+        base = root / rel
+        pages = [base] if base.is_file() else sorted(base.rglob("*.html")) if base.is_dir() else []
+        for page in pages:
+            for m in _OFFSITE.finditer(page.read_text(encoding="utf-8", errors="replace")):
+                found.append((page.relative_to(root).as_posix(), m.group(1)))
     return found

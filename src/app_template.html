@@ -349,7 +349,7 @@ body.focus header.app,body.focus footer.app{display:none}
     <div id="modal-body"></div>
   </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="{{SUPABASE_JS}}"></script>
 <!-- The item bank is a separate file on purpose. It is the largest part of the app and the
      part that changes most often, so keeping it out of the shell lets the browser cache each
      independently, and stops a bank of thousands of items from blocking first paint. It is a
