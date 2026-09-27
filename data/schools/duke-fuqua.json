@@ -43,18 +43,20 @@
    "url": "https://www.fuqua.duke.edu/programs/daytime-mba/class-profile"
   },
   "gmat_focus": {
-   "v": 665,
-   "stat": "median",
-   "src": "GMAC/BusinessBecause (Duke MBA Class of 2027 profile)",
-   "year": 2025,
-   "url": "https://www.gmac.com/resources/learners/business-programs/explore-programs/duke-mba-class-profile"
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "Not published: no median or average is printed. Duke's own class profile page gives the Class of 2028 a middle 80 percent GMAT Focus range of 605 to 715 and nothing else; GMAC's article on the Class of 2027 gives a middle 80 percent of 680 to 770 under the previous scoring system, with its writer's estimates of about 615 and 735 on the current scale. The 665 once recorded here is printed by neither (INC-0154)."
   },
   "gmat_classic": {
-   "v": 720,
-   "stat": "median",
-   "src": "GMAC/BusinessBecause (Duke MBA Class of 2027 profile)",
-   "year": 2025,
-   "url": "https://www.gmac.com/resources/learners/business-programs/explore-programs/duke-mba-class-profile"
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "Not published: GMAC's article on the Class of 2027 gives a middle 80 percent of 680 to 770 under the previous scoring system and no median or average, and Duke's Class of 2028 page gives no previous edition figure. The 720 once recorded here is printed by neither (INC-0154)."
   },
   "gre_quant": {
    "v": null,
@@ -126,7 +128,7 @@
    "url": "https://www.fuqua.duke.edu/sites/default/files/media/programs/daytime/duke-mba-employment-2025.pdf"
   }
  },
- "notes": "GMAT Focus median was reported as approximately 665 in coverage; classic median 720 with middle-80% range 680-770. GPA nulled: only a middle-80% GPA range (3.16 to 3.91) was published, no average or median seen. Acceptance rate reported as around 22%. QS 2026 and P&Q 2025-2026 ranks not seen in snippets and nulled. Fuqua's Class of 2025 median base salary fell from $175,000 to $160,000 per P&Q. The official Class of 2027 profile page publishes only middle 80 percent ranges, with no medians or averages: GMAT Range (Middle 80%) 680-770 with no edition label, GRE Verbal/Quant Combined Range 307-328, EA Range 149-158, GPA middle 80 percent 3.16-3.91. The existing GMAC/BusinessBecause medians (Focus 665, classic 720) were not confirmable on Fuqua's own pages this session; GMAC is not a school domain but was not in the mandatory-replace list, so those entries were left untouched rather than verified. No acceptance rate is published officially. Prior tuition figure (81,000, 2025-26 official COA PDF) superseded by the official 2026-27 rate of 83,700.",
+ "notes": "GMAT and GPA: Duke's own class profile page gives the Class of 2028 only middle 80 percent ranges, GMAT Focus 605 to 715, GRE Verbal and Quant combined 307 to 330, EA 150 to 162 and undergraduate GPA 3.15 to 3.90, with no average or median, so GMAT and GPA are empty. GMAC's article on the Class of 2027 gives a GMAT middle 80 percent of 680 to 770 under the previous scoring system and no median; the Focus 665 and Classic 720 medians once recorded were printed by neither and were removed on 2026-09-27 (INC-0154). Acceptance rate: GMAC's article gives around 22 percent for the Class of 2027; Duke's own pages publish none. QS 2026 and P&Q 2025-2026 ranks not seen and nulled. Fuqua's Class of 2025 median base salary fell from $175,000 to $160,000 per P&Q. Prior tuition figure (81,000, 2025-26 official COA PDF) superseded by the official 2026-27 rate of 83,700.",
  "website": "https://www.fuqua.duke.edu/programs/daytime-mba",
  "scholarship": {
   "review": {

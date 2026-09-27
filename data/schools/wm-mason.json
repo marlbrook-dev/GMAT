@@ -110,9 +110,9 @@
   },
   "tuition_usd": {
    "v": 51796,
-   "stat": "annual tuition and fees, out-of-state, fall 2024 rates as posted; in-state 39,394; one-time fees (orientation 595, dues 300, bootcamp 450) itemized separately",
+   "stat": "annual tuition and fees, out-of-state, as the page posts them; the page names no academic year; in-state 39,394; one-time fees (orientation 595, dues 300, bootcamp 450) itemized separately",
    "src": "W&M full-time MBA tuition and financial aid page",
-   "year": 2024,
+   "year": 2026,
    "url": "https://mason.wm.edu/graduate/mba/full-time-mba/admissions/tuition-financial-aid/"
   },
   "salary_median_usd": {
@@ -130,7 +130,7 @@
    "url": "https://mason.wm.edu/graduate/mba/full-time-mba/career-outcomes/"
   }
  },
- "notes": "W&M publishes only a 'Typical Full-Time Class Profile' on the admissions page with no class year; the stale 2018 news figures in the current data are superseded by these. Class size, acceptance rate, and GRE stats are not published on reachable official pages. Salary is an average for 2023 graduates; the 88% employment offers figure carries no timeframe definition and sits next to the 2023 salary stat. Tuition page posts fall 2024 rates and bundles tuition and fees into one annual figure.",
+ "notes": "W&M publishes only a 'Typical Full-Time Class Profile' on the admissions page with no class year; the stale 2018 news figures in the current data are superseded by these. Class size, acceptance rate, and GRE stats are not published on reachable official pages. Salary is an average for 2023 graduates; the 88% employment offers figure carries no timeframe definition and sits next to the 2023 salary stat. The tuition page bundles tuition and fees into one annual figure and names no academic year; it says annual increases are announced each May and take effect in August. Read 2026-09-27.",
  "federal": {
   "matched": true,
   "instnm": "William & Mary",

@@ -456,6 +456,23 @@ verified rather than that the school does not publish one (INC-0118).
       `src/smoke_dates.js` checks the note on four different days and every calendar file
       against the row it came from. Linked from each exam guide, the /exams/ hub, the
       Resources menu and llms.txt.
+- [x] **Every school figure the source check flagged is fixed or judged** (INC-0154). The
+      weekly check listed 30 figures their pages do not print, and 13 were wrong or out of
+      date. Duke's GMAT Focus 665 and Classic 720 medians were never printed by the GMAC
+      article they cite, and Duke's own Class of 2028 page gives only a middle 80 percent range
+      of 605 to 715, so Duke's GMAT is blank. Michigan Ross's 5.8 years of work experience is
+      in no source (blank), and Ross gains the article's GMAT Focus average of 681, both GMAT
+      figures now carrying its edition labels. WashU Olin's $130,000 salary sat beside the
+      Class of 2024 report, which gives $126,000; Olin now carries that report's median and its
+      78 percent accepting a job within three months (81 percent with an offer). Darden's
+      "middle 80 percent" ranges are the page's Low and High. Boston College's class size and
+      acceptance rate and Wisconsin's women and international shares are blank, their pages
+      no longer printing them; USC's tuition is its 2026-27 $86,295; William & Mary's says its
+      page names no year. The check now reads an image's alt text, where Berkeley Haas and
+      Pitt Katz print their figures, and a second page named in `also_urls` (Cincinnati's
+      surcharge). Kellogg's middle 80 percent ranges, drawn only as box plots, are recorded in
+      `data/source_triage.json`: the check lists triaged figures apart and fails only on a
+      finding nobody has judged, and validate_schools refuses an entry once its figure changes.
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects
@@ -533,36 +550,17 @@ verified rather than that the school does not publish one (INC-0118).
       page confirms the library's figures)
 - [ ] `src/smoke_load.js` stays out of CI because timing on shared runners is noisy, so run
       it by hand after any change to how the banks are split or loaded (INC-0113)
-- [ ] School figures the `--schools` run could not settle from this sandbox. With the
-      browser read fixed (INC-0146), Rice refreshed (INC-0151) and comments no longer read
-      as page text (INC-0152), the last run of September 27 ends at 30 figures with a number
-      their page does not print, 19 sources unreadable and 6 showing none of their figures. Still on pages drawn by JavaScript: Haas (its figures sit behind tabs the read
-      does not open), Kellogg's middle 80 percent ranges, Kelley, WashU Olin and Auburn. Rice
-      now holds the three-year averages its page shows (INC-0151), which also sit behind a
-      program button, so the check still needs a way to open it.
-      Before that fix the run ended at 40, 20 and 9. Rice's, UVA Darden's and Foster's
-      employment rates now declare the printed shares they sum, BYU's rate is printed in
-      words, and Rutgers carries its Class of 2025 outcomes (82.6 percent employed three
-      months after graduation and a $105,000 median base salary) in place of a 2020-2024
-      average its page no longer prints. Most of what remains is on pages that draw their
-      figures with JavaScript (Haas, Kellogg, Rice's class profile, Pitt, UCSD), plus years a
-      note gives for context that the page itself does not print. Tuition is down from 23 of those to 3:
-      Booth, Tepper, Willamette and Georgia Terry now cite their 2026-27 pages, every tuition
-      sum declares its working so the check verifies the inputs (INC-0140), and two notes the
-      research merge had cut off at 300 characters are whole again (INC-0141). USC Marshall's
-      and William & Mary's tuition pages draw their figures with JavaScript, and Cincinnati's
-      out-of-state surcharge sits on a second UC page, named in its notes. From 2026-27 UC
-      bills the Lindner MBA per credit hour and the program runs 35 to 48 credits, so
-      Cincinnati keeps its labelled 2025-26 figure until the school page can show a range.
-      Georgetown and Ohio State Fisher now carry the classes that entered in 2026,
-      read from their own pages, and MIT Sloan's class size is its Class of 2028 figure; the
-      rest of MIT's Class of 2028 profile is drawn by JavaScript, so it waits for the weekly
-      rendered run (the posts quoting its Class of 2027 figures name that class, so they stay
-      correct). Pages whose figures render by JavaScript (Stanford, Kellogg, Haas, Kelley,
-      Rady and others) are for the weekly job, which reads them with Chromium. UCSD's Rady
-      tuition now reads UCSD's 2026-27 fee page, the 2025-26 one being gone. Unreadable from here: 403s at Columbia, Baylor, Michigan
-      Ross and Bloomberg, certificate failures at Penn State Smeal and UC Irvine Merage (not
-      to be bypassed), US News, Fordham redirects and ASU (522)
+- [ ] School figures the `--schools` run could not settle from this sandbox. After INC-0154
+      the run of September 27 ends at 0 figures with a number their page does not print, 4
+      triaged (Kellogg's middle 80 percent ranges, drawn only as box plots), 20 sources
+      unreadable and 6 showing none of their figures. Unread: pages drawn by JavaScript or as
+      images without alt text (Kelley, WashU Olin's class profile, Auburn, UMass Amherst's
+      PDF, Maryland on Poets&Quants, Booth's .xls report); 403s at Columbia, Baylor, Michigan
+      Ross and Bloomberg; certificate failures at Penn State Smeal and UC Irvine Merage (not to
+      be bypassed); US News; Fordham's redirect loop; ASU's old profile host (522); Wharton's
+      career report; and Olin's Class of 2024 report, an image-only PDF read by eye on
+      September 27. Cincinnati keeps its labelled 2025-26 tuition until the school page can
+      show a range: from 2026-27 UC bills the Lindner MBA per credit hour over 35 to 48 credits
 - [ ] Emory Goizueta's acceptance rate (32 percent, from Poets&Quants) disagrees with its own
       source label: 450 admitted of 1,581 applications is 28.5 percent, and the record's
       notes call the 32 percent "Poets and Quants math" with no official counterpart.

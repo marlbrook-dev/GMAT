@@ -6,6 +6,8 @@ Policy source: CLAUDE.md. Every published figure needs src, year, and url;
 unverifiable values are null, never guesses; GMAT editions are never mixed
 or converted.
 """
+import json
+import pathlib
 import re
 import sys
 
@@ -76,6 +78,48 @@ def _total_as_year(stat):
     the program is not a one-year program, whose total is its year."""
     stat = str(stat or "")
     return bool(_WHOLE_PROGRAM.search(stat)) and not _ONE_YEAR.search(stat)
+
+
+TRIAGE = pathlib.Path(__file__).resolve().parent.parent / "data" / "source_triage.json"
+
+
+def _triage_errors(schools, path=TRIAGE):
+    """data/source_triage.json records figures a person read and found right where the
+    source check cannot read them (INC-0154). An entry holds for the figure it judged and no
+    other: the figure has to exist with the same value, and still carry every number the
+    entry says the check misses, or the entry is refused and the figure has to be read again."""
+    if not path.exists():
+        return []
+    from check_sources import norm, school_numbers
+    errors, seen = [], set()
+    by_slug = {s.get("slug"): s for s in schools}
+    for e in json.loads(path.read_text()).get("entries", []):
+        key = str(e.get("key") or "")
+        if key in seen:
+            errors.append(f"source_triage: {key} is listed twice")
+        seen.add(key)
+        parts = key.split(".")
+        s = by_slug.get(parts[0]) if len(parts) == 3 else None
+        fv = ((s or {}).get(parts[1]) or {}).get(parts[2]) if s else None
+        if not isinstance(fv, dict) or fv.get("v") is None:
+            errors.append(f"source_triage: {key} names no published figure; remove the entry")
+            continue
+        if e.get("v") != fv["v"]:
+            errors.append(f"source_triage: {key} was read as {e.get('v')!r} and is now {fv['v']!r}; "
+                          f"read the figure on its page again and update or remove the entry")
+        missing = {norm(str(n)) for n in e.get("missing") or []}
+        gone = sorted(missing - school_numbers(fv))
+        if not missing or gone:
+            errors.append(f"source_triage: {key} lists missing numbers {sorted(missing)} that the figure "
+                          f"no longer carries ({gone}); read it again and update the entry")
+        why = str(e.get("why") or "")
+        if len(why) < 40:
+            errors.append(f"source_triage: {key} needs a why that says where the page shows the figure")
+        if "\u2014" in why or "\u2013" in why:
+            errors.append(f"source_triage: {key}: em/en dash in why")
+        if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(e.get("checked") or "")):
+            errors.append(f"source_triage: {key} needs the date it was read, as YYYY-MM-DD")
+    return errors
 
 
 def validate(schools):
@@ -170,6 +214,14 @@ def validate(schools):
                     not str(fv.get("url", "")).startswith("https://collegescorecard.ed.gov/"):
                 errors.append(f"{slug}.{where}: cites the College Scorecard but its url "
                               f"{fv.get('url')!r} is not on collegescorecard.ed.gov")
+            # A figure worked from two pages names the second, and the source check reads both
+            # (INC-0154). Each is a source like the first, under the same policy.
+            also = fv.get("also_urls")
+            if also is not None:
+                if not (isinstance(also, list) and also and all(str(u).startswith("https://") for u in also)):
+                    errors.append(f"{slug}.{where}: also_urls must be a list of https urls")
+                elif any(b in str(u).lower() for u in also for b in BANNED_SOURCES):
+                    errors.append(f"{slug}.{where}: also_urls names a banned source")
             said = next((k for k in ("stat", "note", "src") if _SNIPPET.search(str(fv.get(k) or ""))), None)
             if said:
                 errors.append(f"{slug}.{where}: its {said} says it was read from a snippet; read the "
@@ -227,6 +279,7 @@ def validate(schools):
                     errors.append(f"{slug}.scholarship.avg_award_usd: {amt['v']} outside a plausible "
                                   f"annual award range")
 
+    errors += _triage_errors(schools)
     if warnings:
         print(f"validate_schools: {weak_count} figures still on weak sources "
               f"(Clear Admit / Stacy Blackman / snippets), replacement queued", file=sys.stderr)

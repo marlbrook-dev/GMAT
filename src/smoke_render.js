@@ -40,6 +40,11 @@ const PAGES = {
   // rendered, so its innerText is its raw source, script included.
   '/hidden/': `<!doctype html><html><body><script>var config = { figure: ${JSON.stringify(DECOY)} };</script></body></html>`,
   '/plain/': `<!doctype html><html><body><h1>Plain Page</h1><p>The figure printed in the page itself is 7,531.</p>${BEACON}</body></html>`,
+  // Figures drawn as images, with the figures in the alt text, as Berkeley Haas and Pitt
+  // Katz publish them (INC-0154); a hidden image's alt text is not shown to anyone.
+  '/images/': `<!doctype html><html><body><h1>Class Profile</h1><h3>GMAT Focus</h3>
+<img src="/none.svg" width="400" height="113" alt="637 to 725 middle 80% range; 675 median">
+<img src="/none.svg" style="display:none" alt="9.94 from a hidden image"></body></html>`,
   // A link that is an HTML page with the PDF in a frame, as Wharton's career report is.
   '/wrapped/': `<!doctype html><html><body><p>Report wrapper text.</p>
 <iframe src="/file.pdf" style="width:800px;height:600px;border:0"></iframe></body></html>`,
@@ -89,6 +94,11 @@ const server = http.createServer((req, res) => {
   const plain = await renderText(base + '/plain/', { quietMs: 2000, settleMs: 500 });
   check('a figure in the page itself still comes back', plain.includes('printed in the page itself is 7,531'),
         JSON.stringify(plain.slice(0, 200)));
+
+  const images = await renderText(base + '/images/', { quietMs: 2000, settleMs: 500 });
+  check('a figure an image carries in its alt text comes back', images.includes('675 median'),
+        JSON.stringify(images.slice(0, 200)));
+  check('a hidden image\'s alt text stays out of the text', !images.includes('9.94'));
 
   // A PDF is not built by script. Shown in Chromium's viewer it stalled the read on a
   // school's PDF, so it is refused at once instead.

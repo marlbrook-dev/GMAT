@@ -1,14 +1,14 @@
 # Rules Digest
 
-Rules from 153 defects in a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
+Rules from 154 defects in a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
 
-Generated 2026-09-27 from a ledger spanning 8 days and 102 commits.
+Generated 2026-09-27 from a ledger spanning 8 days and 103 commits.
 
 ## Read this first
 
-The three ways defects were most often found, in order: found by reading the code or the output (78), found by measuring something (39), a test caught it (18). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
+The three ways defects were most often found, in order: found by reading the code or the output (79), found by measuring something (39), a test caught it (18). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
 
-The dominant failure mode is silent loss, 26 of 153: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
+The dominant failure mode is silent loss, 26 of 154: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
 
 ## Learned the hard way, more than once
 
@@ -16,10 +16,10 @@ These cost this build twice or more each. If you read nothing else here, read th
 
 - (7 times, content generation) A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell.
 - (6 times, search and metadata) When a fix names a class of input, such as 'the stat field is free text', find every place that input is used before closing it.
+- (6 times, content generation) Run the source check on every corpus that cites pages, not just the one that broke.
 - (5 times, build system) A guard that covers a subset of cases reproduces the original defect in the cases it skips, and it is more dangerous than no guard because the incident it was written for feels closed.
 - (5 times, content generation) An aggregate over a mixed population reports the population, and if part of that population is flat by construction it will hide the part that is not.
 - (5 times, content generation) A corpus field is written against the one sentence the author had in mind, and the schema that reuses it three templates later has no way to know which shape it is.
-- (5 times, content generation) Run the source check on every corpus that cites pages, not just the one that broke.
 - (4 times, content generation) Two lessons, and they compound. A rule copied into code by its examples loses the clause the examples were illustrating: CLAUDE.md bans six named sites and coaching site blogs, and the list kept the six and dropped the category, which is the half that generalises.
 - (4 times, content generation) A counter that nothing reads is not instrumentation, it is a comment that looks like instrumentation, and it is worse than nothing because it answers the question 'is anyone watching this' with a yes.
 - (4 times, content generation) A check that infers what to expect from the same data it is checking cannot fail on a missing field: absence reads as nothing to look for.
@@ -56,6 +56,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (2 times, content generation) Anything written ahead of its publication date is a promise about the future made from the past.
 - (2 times, content generation) A label fixed in code is a claim about every value the field will ever hold. When the data carries its own qualifier, such as a timing or a statistic, the label has to be read from the data, and anything that compares or scores the values has to use only the ones that share the qualifier the method names.
 - (2 times, content generation) Finding a number on a page is not finding the fact. A check has to look for it beside the words that say what it counts, and notice when those words are about something else: another program, another class.
+- (2 times, content generation) A search result's snippet is not the page it links to. A figure taken from one has to be read again on the page before it is published, and a record that admits the snippet in a note while citing the page looks fully sourced, which is why nobody rereads it.
 
 ## Content generation
 
@@ -85,7 +86,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - A caveat in a note does not travel with a number: every consumer of the field reads the field's meaning, not the note.
 - A pronoun is a claim about what came before it. In generated prose the sentence before is chosen by the data, not by the writer, so name the subject of every sentence that carries a figure.
 - A shorthand in a schema is read by code with one meaning and written by people and tools with whatever meaning they had in mind.
-- A search result's snippet is not the page it links to. A figure taken from one has to be read again on the page before it is published, and a record that admits the snippet in a note while citing the page looks fully sourced, which is why nobody rereads it.
+- A report that says the same thing every week stops being read. When a checker has blind spots, record each judgement about a finding it cannot settle, so that what it prints shrinks to what is new; a list that mixes known false alarms with real errors hides the errors about as well as no list at all.
 
 ## Tests and guards
 
@@ -94,7 +95,6 @@ These cost this build twice or more each. If you read nothing else here, read th
 - A negative assertion passes when the system is broken in the right way. Always pair it with the positive case, or it is testing nothing.
 - A test that is not wired into CI is a test that does not exist. Prove a suite runs in the place it is supposed to run, not on your machine.
 - Before you measure a layout, assert the thing is rendered. Hidden elements answer most DOM questions, and they answer them wrongly.
-- An error feed with no filter is a feed nobody reads. Signal has to be defended, and the cheapest defence is a human label that mutes permanently, so the queue gets quieter as it learns.
 - When you add a condition that skips a check, make sure it describes the failure and not something merely correlated with it.
 - A commit hash is not a durable citation in a repository that squashes. Pull requests, issues and tags survive history rewriting; branch commits do not.
 - An aggregate is a claim about whatever you grouped by. Group by the file and you have measured the file.
@@ -141,7 +141,6 @@ These cost this build twice or more each. If you read nothing else here, read th
 
 - An exclusion list is a denylist, and denylists are wrong by omission. Derive the allowed set from what the built pages actually reference.
 - Know your platform's hard limits and assert them in the build. A deploy-time rejection is a bad place to learn a number your build could have told you.
-- A guard that is a hand-kept list of safe paths is written by the same hand that made the mistake.
 
 ## Payments
 
@@ -162,4 +161,4 @@ These cost this build twice or more each. If you read nothing else here, read th
 
 - Chart form is a claim about the data. A line claims the values in between existed.
 
-39 more rules, each learned once from a less costly defect, did not fit a prompt sized digest. The checklist in BUILD_PLAYBOOK.md has every rule.
+41 more rules, each learned once from a less costly defect, did not fit a prompt sized digest. The checklist in BUILD_PLAYBOOK.md has every rule.

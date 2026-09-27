@@ -38,10 +38,11 @@
  "profile": {
   "class_year": "Class of 2028",
   "class_size": {
-   "v": 77,
-   "src": "BC Carroll Full-Time MBA page class profile (Class of 2027, as published in 2025; the page has since replaced that profile with one that omits this figure)",
-   "year": 2025,
-   "url": "https://www.bc.edu/bc-web/schools/carroll-school/graduate/mba/full-time-mba.html"
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "Not published: the Class of 2028 profile on BC's full-time MBA page gives no class size. The 77 once recorded here was the Class of 2027's, from a profile the page has since replaced (INC-0154)."
   },
   "gmat_focus": {
    "v": 584,
@@ -81,10 +82,11 @@
    "url": "https://www.bc.edu/bc-web/schools/carroll-school/graduate/mba/full-time-mba.html"
   },
   "accept_rate_pct": {
-   "v": 54,
-   "src": "BC Carroll Full-Time MBA page class profile (Class of 2027, as published in 2025; the page has since replaced that profile with one that omits this figure)",
-   "year": 2025,
-   "url": "https://www.bc.edu/bc-web/schools/carroll-school/graduate/mba/full-time-mba.html"
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "Not published: the Class of 2028 profile on BC's full-time MBA page gives no acceptance rate. The 54 percent once recorded here was the Class of 2027's, from a profile the page has since replaced (INC-0154)."
   },
   "work_exp_years": {
    "v": 3.7,
@@ -131,7 +133,7 @@
    "url": "https://www.bc.edu/bc-web/schools/carroll-school/graduate/career-development.html"
   }
  },
- "notes": "BC publishes only a combined GRE average (318), not quant/verbal splits. Career page publishes average total compensation (126090, base plus signing bonus) but no median base salary. Annual tuition computed as 2 semesters at the published 35195 per-semester 2026-27 rate.",
+ "notes": "The Class of 2028 profile gives only a combined GRE average (314), not quant and verbal splits, and no class size or acceptance rate; the Class of 2027 figures it replaced are not published (INC-0154). Career page publishes average total compensation (126090, base plus signing bonus) but no median base salary. Annual tuition computed as 2 semesters at the published 35195 per-semester 2026-27 rate.",
  "federal": {
   "matched": true,
   "instnm": "Boston College",

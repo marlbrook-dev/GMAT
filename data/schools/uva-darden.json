@@ -49,14 +49,14 @@
   },
   "gmat_focus": {
    "v": 671,
-   "stat": "average; median 665; middle 80 percent 626-715",
+   "stat": "average; median 665; low 626 and high 715, labeled GMAT Total Score (Focus Edition, Current)",
    "src": "UVA Darden Class of 2027 profile (official Darden blog)",
    "year": 2025,
    "url": "https://www.darden.virginia.edu/programs/blog/introducing-uva-dardens-full-time-mba-class-of-2027-class-profile"
   },
   "gmat_classic": {
    "v": 725,
-   "stat": "average; median 730; middle 80 percent 690-750; labeled previous (10th) edition",
+   "stat": "average; median 730; low 690 and high 750, labeled GMAT Total Score (Previous Edition)",
    "src": "UVA Darden Class of 2027 profile (official Darden blog)",
    "year": 2025,
    "url": "https://www.darden.virginia.edu/programs/blog/introducing-uva-dardens-full-time-mba-class-of-2027-class-profile"

@@ -118,21 +118,21 @@
    "url": "https://olin.washu.edu/programs/mbas/full-time-mba/cost-aid-scholarships.php"
   },
   "salary_median_usd": {
-   "v": 130000,
-   "stat": "median base salary; class year not stated on the page, and the linked official employment report is titled Full-Time MBA Class of 2024 Employment Report",
-   "src": "Olin full-time MBA career prospects page",
+   "v": 126000,
+   "stat": "median salary, Class of 2024; average 126,773, from 41 graduates reporting salary",
+   "src": "Olin Full-Time MBA Class of 2024 Employment Report",
    "year": 2024,
-   "url": "https://olin.washu.edu/programs/mbas/full-time-mba/career-prospects.php"
+   "url": "https://olin.washu.edu/docs/programs/employment/mba-employment-report.pdf"
   },
   "employment_rate_pct": {
-   "v": 81,
-   "stat": "employment rate three months after graduation; class year not stated on the page (linked report covers Class of 2024)",
-   "src": "Olin full-time MBA career prospects page",
+   "v": 78,
+   "stat": "3-Month Job Acceptance Rate, Class of 2024: 52 of 67 graduates seeking employment accepted a job by three months after graduation; 3-Month Job Offer Rate 81 percent",
+   "src": "Olin Full-Time MBA Class of 2024 Employment Report",
    "year": 2024,
-   "url": "https://olin.washu.edu/programs/mbas/full-time-mba/career-prospects.php"
+   "url": "https://olin.washu.edu/docs/programs/employment/mba-employment-report.pdf"
   }
  },
- "notes": "The official class profile page now renders all class statistics (medians, backgrounds, gender, international) as images with no machine-readable text, so the existing class_size, gmat_classic, and gpa figures already sourced to that page were kept but could not be re-read this session, and the remaining profile fields could not be filled. The Class of 2024 employment report PDF downloads but contains no extractable text (image-only PDF). Tuition updated from 70,250 (2025-26) to the 72,700 2026-27 rate now posted.",
+ "notes": "The official class profile page now renders all class statistics (medians, backgrounds, gender, international) as images with no machine-readable text, so the existing class_size, gmat_classic, and gpa figures already sourced to that page were kept but could not be re-read this session, and the remaining profile fields could not be filled. The Class of 2024 employment report PDF, linked from the careers page, has no text layer and was read as images on 2026-09-27: median salary 126,000 and average 126,773; 3-Month Job Acceptance Rate 78 percent (52 of 67 seeking employment) and 3-Month Job Offer Rate 81 percent (54 of 67). The careers page's own headline figures, a 130,000 median base salary and an 81 percent employment rate three months after graduation, name no class, and the 130,000 is not the Class of 2024's, so the report's figures are used (INC-0154). Tuition updated from 70,250 (2025-26) to the 72,700 2026-27 rate now posted.",
  "federal": {
   "matched": true,
   "instnm": "Washington University in St Louis",

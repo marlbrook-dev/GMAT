@@ -25,6 +25,13 @@ as the entries in a list, says so: "count: the US schools listed, counted 2026-0
 person rather than a fix: a miss can be a paraphrase (five for 5) as easily as a wrong
 figure, and only reading the source tells which.
 
+A school figure that is right but sits where this cannot read it, drawn as a graphic, held
+in a chart's data, printed in an image or worked from a second page, is recorded in
+data/source_triage.json once a person has read it, with the numbers this cannot find, why,
+and the date (INC-0154). Those are reported apart, so the list of findings, and the exit
+status the weekly job opens an issue on, holds only what nobody has judged. A figure worked
+from two pages names the second in also_urls, and both are read.
+
 It needs the network, so it runs in the weekly audit rather than in the build.
 """
 import datetime
@@ -42,6 +49,7 @@ import urllib.request
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 EXAMS = ROOT / "data" / "exams.json"
 SCHOOLS = ROOT / "data" / "schools"
+TRIAGE = ROOT / "data" / "source_triage.json"
 # Where a fact keeps numbers its source must print. An exam fact's note carries sourced
 # detail (a fee's regional prices); a school figure's note is our own commentary, such as
 # why a score must be on the classic scale, so --schools leaves it out.
@@ -133,6 +141,13 @@ def to_text(body, ctype):
     # (INC-0152). It goes first, because a comment can hold tags and scripts.
     t = re.sub(r"<!--[\s\S]*?-->", " ", t)
     t = re.sub(r"<(script|style|noscript)[\s\S]*?</\1>", " ", t, flags=re.I)
+    # An image's alt text is the words a page gives for the image, read out in its place to
+    # anyone who cannot see it. Berkeley Haas and Pitt Katz draw their figures as images and
+    # write the figures into the alt text, so it is read as part of the page (INC-0154).
+    # An image the markup hides is shown to nobody, so its alt text is not read.
+    hidden = re.compile(r"\shidden(?:[\s=>/]|$)|display\s*:\s*none|visibility\s*:\s*hidden", re.I)
+    t = re.sub(r"<img\b[^>]*?\balt\s*=\s*(\"[^\"]*\"|'[^']*')[^>]*>",
+               lambda m: " " if hidden.search(m.group(0)) else " %s " % m.group(1)[1:-1], t, flags=re.I)
     return html.unescape(re.sub(r"<[^>]+>", " ", t))
 
 
@@ -173,6 +188,38 @@ def printed(fact):
     if isinstance(fact.get("v"), (int, float)):
         want.add(norm("%g" % fact["v"]))
     return want - set(fact.get("derived") or {})
+
+
+def school_numbers(fact):
+    """The numbers a school figure puts to its source: its value and every number in its
+    text and stat, as --schools reads them, leaving out the ones it derives."""
+    want = set().union(*(numbers(fact.get(k)) for k in ("text", "stat")))
+    if isinstance(fact.get("v"), (int, float)):
+        want.add(norm("%g" % fact["v"]))
+    return want - set(fact.get("derived") or {})
+
+
+def pages(fact):
+    """Every page a fact is read against: its url, and for a figure worked from two pages,
+    the ones in also_urls."""
+    return [fact["url"]] + [u for u in (fact.get("also_urls") or []) if u]
+
+
+def load_triage(path=TRIAGE):
+    """data/source_triage.json's entries by figure key ('slug.profile.field')."""
+    if not path.exists():
+        return {}
+    return {e["key"]: e for e in json.loads(path.read_text()).get("entries", [])}
+
+
+def triaged(key, fact, miss, triage):
+    """The triage entry that covers a flagged figure, or None. It covers the figure only
+    while the value is the one a person read and every number the check misses is one they
+    recorded, so a figure that changes, or starts missing another number, is new again."""
+    e = triage.get(key)
+    if not e or not isinstance(fact.get("v"), (int, float)) or e.get("v") != fact["v"]:
+        return None
+    return e if {n for n, _ in miss} <= {norm(str(n)) for n in e.get("missing") or []} else None
 
 
 def check(fact, source_nums):
@@ -282,7 +329,14 @@ def ended_periods(text, today):
 def _selfcheck():
     """INC-0140: a year range reads as both years however the page punctuates it.
     INC-0150: a school figure is found only beside its label, in a passage about its program.
-    INC-0152: a figure only inside an HTML comment is not printed; the same figure outside one is."""
+    INC-0152: a figure only inside an HTML comment is not printed; the same figure outside one is.
+    INC-0154: a figure an image carries in its alt text is printed."""
+    img = '<h3>GMAT Focus</h3><img src="GMAT%20Focus-3.svg" width="400" alt="637 to 725 middle 80% range; 675 median">'
+    if "675" not in numbers(to_text(img.encode(), "text/html")):
+        sys.exit("check_sources: a figure in an image's alt text was not read as printed")
+    for tag in ('<img src="a.svg" style="display: none" alt="9.94 hidden">', '<img hidden src="a.svg" alt="9.94 hidden">'):
+        if "9.94" in numbers(to_text(tag.encode(), "text/html")):
+            sys.exit("check_sources: a hidden image's alt text was read as printed: %s" % tag)
     row = '<p class="tableItem Title">Female</p> <p class="tableItem">43%</p>'
     for page, want in (("<div>Class composition International 32%</div><!-- <div>" + row + "</div> -->", False),
                        ("<div>Class composition International 32%</div><div>" + row + "</div>", True)):
@@ -308,6 +362,13 @@ def _selfcheck():
         got = beside_label(field, fact, text)
         if (want is None) != (got is None) or (want and want not in got[1]):
             sys.exit("check_sources: beside_label(%s, %r) on %r gave %r" % (field, fact, text[:60], got))
+    # INC-0154: a triage entry covers a finding only for the value and numbers it recorded.
+    entry = {"x.profile.gpa": {"key": "x.profile.gpa", "v": 3.67, "missing": ["3.67", "3.4", "3.91"]}}
+    for fact, miss, want in (({"v": 3.67}, [("3.67", ""), ("3.91", "")], True),
+                             ({"v": 3.68}, [("3.68", "")], False),
+                             ({"v": 3.67}, [("3.67", ""), ("80", "")], False)):
+        if (triaged("x.profile.gpa", fact, miss, entry) is not None) != want:
+            sys.exit("check_sources: triage of %r missing %r should be %s" % (fact, miss, want))
 
 
 def main(argv):
@@ -316,9 +377,11 @@ def main(argv):
     if "--cache" in argv:
         cache = pathlib.Path(argv[argv.index("--cache") + 1])
         cache.mkdir(parents=True, exist_ok=True)
+    triage = {}
     if "--schools" in argv:
         records = [json.loads(p.read_text()) for p in sorted(SCHOOLS.glob("*.json"))]
         FIELDS[:] = ["text", "stat"]
+        triage = load_triage()
     else:
         records = json.loads(EXAMS.read_text())
     todo = facts(records)
@@ -326,14 +389,14 @@ def main(argv):
     todo = [t for t in todo if t not in dataset]
     sources, unread, periods, texts = {}, {}, {}, {}
     today = datetime.date.fromisoformat(os.environ.get("BLOG_BUILD_DATE") or datetime.date.today().isoformat())
-    for url in sorted({f["url"] for _, _, f in todo}):
+    for url in sorted({u for _, _, f in todo for u in pages(f)}):
         try:
             text = fetch(url, cache)
             # A page that builds itself with JavaScript reads as nearly empty, or as
             # navigation without its figures, until a browser runs it. If the browser
             # cannot load it either, the static text is still evidence when there is
             # enough of it, so it is kept rather than thrown away.
-            cited = [f for _, _, f in todo if f["url"] == url]
+            cited = [f for _, _, f in todo if url in pages(f)]
             misses = lambda t: sum(len(check(f, numbers(t, True))) for f in cited)
             if "--render" in argv and (len(text) < MIN_TEXT or misses(text)):
                 try:
@@ -370,23 +433,43 @@ def main(argv):
         counted = [f for f in fs if evidence(f)]
         if u in sources and len(counted) >= 2 and not any(evidence(f) & sources[u] for f in counted):
             blank.add(u)
-    bad, worth = 0, []
+    bad, worth, judged, read_ok, flagged = 0, [], [], set(), set()
     for slug, where, f in todo:
-        if f["url"] not in sources or f["url"] in blank:
+        if any(u not in sources for u in pages(f)) or f["url"] in blank:
             continue
-        miss = check(f, sources[f["url"]])
+        key = "%s.%s" % (slug, where)
+        read_ok.add(key)
+        # A figure worked from two pages is read against both, as one source.
+        miss = check(f, set().union(*(sources[u] for u in pages(f))))
         if "--schools" in argv and where.startswith("profile.") and not miss:
-            got = beside_label(where.split(".", 1)[1], f, texts.get(f["url"]))
+            got = beside_label(where.split(".", 1)[1], f, " ".join(texts.get(u, "") for u in pages(f)))
             if got and got[0] == "none":
                 miss = [(norm("%g" % f["v"]), got[1])]
             elif got:
                 worth.append("%s.%s  %s\n    %s: %s" % (slug, where, f["url"], norm("%g" % f["v"]), got[1]))
         if miss:
+            flagged.add(key)
+            entry = triaged(key, f, miss, triage)
+            if entry:
+                judged.append((key, f, entry))
+                continue
             bad += 1
             print("%s.%s  %s" % (slug, where, f["url"]))
             print("    %s" % str(f.get("text") or f.get("v"))[:220])
             for n, why in miss:
                 print("    %s: %s" % (n, why))
+    # Figures a person has read and found right where this check cannot see them. They are
+    # listed so the list stays visible, and apart, so a new finding is never one of 30.
+    if judged:
+        print("\nTriaged: read by a person and found right where this check cannot read them "
+              "(data/source_triage.json):")
+        for key, f, e in judged:
+            print("  %s  %s, checked %s: %s" % (key, norm("%g" % f["v"]), e.get("checked"), e.get("why")))
+    # An entry whose figure was read and is no longer flagged is not needed: the page now
+    # prints the figure, or the figure changed and validate_schools refuses the entry.
+    spare = sorted(k for k in triage if k in read_ok and k not in flagged)
+    for k in spare:
+        print("triage entry no longer needed, the check now finds the figure: %s" % k)
     # The exam guides only: a school's fee page naming last year is the tuition queue's
     # business, and a reason to read the page rather than a fact about the exam.
     stale = 0
@@ -414,8 +497,9 @@ def main(argv):
         print("could not read %s (%s)" % (url, why))
     print("\n%d facts checked against %d sources; %d with a number their source does not "
           "print; %d resting on a page about a period that has ended; %d sources unreadable, "
-          "%d showing none of their figures; %d worth reading beside another program's name%s"
+          "%d showing none of their figures; %d worth reading beside another program's name%s%s"
           % (len(todo), len(sources), bad, stale, len(unread), len(blank), len(worth),
+          "; %d triaged" % len(judged) if triage else "",
           "; %d dataset figures set aside" % len(dataset) if dataset else ""))
     return 1 if bad or stale else (2 if unread else 0)
 

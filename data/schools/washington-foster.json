@@ -48,10 +48,11 @@
   },
   "gmat_focus": {
    "v": 655,
-   "stat": "median; middle 80 percent 615-695; Page labels it only Median GMAT with no edition; classified as Focus because the profile is Class of 2027 (entered fall 2025, after the classic exam retired) and 655 is a valid Focus-scale score (Focus totals end in 5; classic totals end in 0)",
+   "stat": "median; middle 80 percent 615-695; the page labels it Median GMAT and names no edition",
    "src": "Foster Full-Time MBA class profile",
    "year": 2025,
-   "url": "https://foster.uw.edu/academics/degree-programs/full-time-mba/class-profile/"
+   "url": "https://foster.uw.edu/academics/degree-programs/full-time-mba/class-profile/",
+   "note": "Edition inferred, not labeled: filed as GMAT Focus because the profile is the Class of 2027's, entered fall 2025, and 655 ends in 5 as Focus scores do while Classic scores end in 0; a median of an even number of Classic scores can also end in 5."
   },
   "gmat_classic": {
    "v": null
