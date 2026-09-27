@@ -98,6 +98,10 @@ MBA employment rates (each school's own employment report or outcomes page, chec
 - Class of 2025, within three months, offers received then accepted: Minnesota Carlson 83 and 73; MIT Sloan 91.0 and 87.1; Duke Fuqua 82.2 and 79; Dartmouth Tuck 90 and 87; Indiana Kelley 91.6 and 89.2 (90 days); Cornell Johnson 85 and 83; Berkeley Haas 86 and 84; Notre Dame Mendoza 72.2 and 71.1. Harvard Business School: 90 percent of students seeking employment had received an offer three months after graduation.
 - Denominators: Maryland Smith's 77.3 percent is 34 of 44 Class of 2025 graduates seeking employment; Texas McCombs reports its Class of 2024 rate as a share of 184 students seeking employment.
 
+GRE figures at MBA programs (each school's own class profile page, 2025, UCLA Anderson's 2026, and Poets&Quants' report for Michigan Ross; checked against those pages in September 2026, with the citation and URL in data/schools/<slug>.json):
+- Quant then Verbal, Class of 2027 unless noted: Yale SOM median 166 and 163; Harvard Business School median 164 and 164; NYU Stern average 164 and 163; UCLA Anderson average 164 and 162 (Class of 2028); Georgia Tech Scheller average 164 and 160; Chicago Booth average 163 and 161, 42 percent of the class submitted a GRE; Carnegie Mellon Tepper average 163 and 159; Michigan Ross average 163 and 160 (Poets&Quants); Wharton average 162 and 163 (Class of 2026, the section of its page that is not drawn by script); Dartmouth Tuck average 160 and 162; Vanderbilt Owen average 159 and 160; Washington Foster median 158 and 160. Quant only: BU Questrom average 161 (entered September 2025); UC Davis average 161 (entered fall 2025).
+- More ETS percentiles for the same window (mirrored in data/gre_percentiles.json): Quantitative Reasoning 166 is 72, 162 is 57, 161 is 53, 159 is 47; Verbal Reasoning 166 is 96, 162 is 88, 161 is 85, 159 is 79.
+
 ## Post file format
 `src/blog/<slug>.html`: an HTML comment front-matter block with JSON metadata, then the body.
 Allowed body tags: h2, h3, p, ul, ol, li, div.tablewrap > table (thead/tbody/tr/th/td), strong, em, a. No h1, images, scripts, or inline styles.

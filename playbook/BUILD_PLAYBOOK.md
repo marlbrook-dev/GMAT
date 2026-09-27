@@ -7,10 +7,10 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-27, which is 8 days, across
-88 commits, by one owner directing a series of AI coding sessions. As of this
+89 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 83 Python files, 107 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 64 documents:
-2041 tracked files in total.
+2042 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -1122,7 +1122,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-88 commits in 8 days, one owner, a series of AI sessions. This
+89 commits in 8 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1214,14 +1214,14 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-144 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+145 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 71 | 49% |
+| Found by reading the code or the output | 72 | 50% |
 | Found by measuring something | 39 | 27% |
 | A test caught it | 16 | 11% |
 | Found by rendering it and looking | 8 | 6% |
@@ -1229,7 +1229,7 @@ well enough to audit later. Which is what this book is.
 | A build guard caught it | 3 | 2% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 142 of 144 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 143 of 145 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1238,20 +1238,20 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 61 |
+| Wrong data shown or stored | 62 |
 | Degraded | 31 |
 | Silent loss | 26 |
 | Cosmetic | 23 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 144. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 145. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 64 |
+| Content generation | 65 |
 | Tests and guards | 20 |
 | Front end | 10 |
 | Build system | 10 |
@@ -1266,7 +1266,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-138 of 144 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+139 of 145 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1287,15 +1287,15 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-59 of 144 incidents record that they repeat an earlier lesson, 81 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+60 of 145 incidents record that they repeat an earlier lesson, 82 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
 | INC-0088 A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked | INC-0089, INC-0098, INC-0099, INC-0101, INC-0117, INC-0122 | 6 |
+| INC-0104 Half the school pages opened with a data note pasted into a sentence, and the structured data repeated it | INC-0105, INC-0131, INC-0134, INC-0135, INC-0145 | 5 |
 | INC-0064 The guard against a blind counter was itself blind to three exams | INC-0067, INC-0082, INC-0085, INC-0088 | 4 |
 | INC-0069 A bank a student can play at 88 percent, inside a section the check passed | INC-0079, INC-0085, INC-0086, INC-0088 | 4 |
 | INC-0074 A corpus field written for one grammatical slot was spliced into another | INC-0075, INC-0087, INC-0093, INC-0096 | 4 |
-| INC-0104 Half the school pages opened with a data note pasted into a sentence, and the structured data repeated it | INC-0105, INC-0131, INC-0134, INC-0135 | 4 |
 | INC-0082 Nine published exam facts cite test prep companies, in the one published corpus with no source validator | INC-0124, INC-0125, INC-0130 | 3 |
 | INC-0092 A schema threw away three draws in four, and the counter that knew was read by nobody | INC-0098, INC-0099, INC-0101 | 3 |
 | INC-0099 Every generated reading comprehension question shipped without its passage | INC-0100, INC-0101, INC-0103 | 3 |
@@ -1332,7 +1332,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0137 A post queued to publish the next day said the LSAT trainer was still in development, eleven days after it went live | INC-0138 | 1 |
 | INC-0142 Every school's employment rate was labelled and scored as a three month figure, though 15 of 70 were measured at six months, four months, a year or a reporting date, or at a timing their notes do not give | INC-0144 | 1 |
 
-The largest family runs to 49 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140, INC-0142, INC-0143, INC-0144. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
+The largest family runs to 50 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140, INC-0142, INC-0143, INC-0144, INC-0145. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
 
 Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.
 
@@ -1361,7 +1361,7 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/build_banks.py`, 17 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011, INC-0079, INC-0081, INC-0086, INC-0088, INC-0089, INC-0090, INC-0091, INC-0092, INC-0120, INC-0123, INC-0126, INC-0127)
 - `src/build.py`, 12 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067, INC-0076, INC-0080, INC-0131)
 - `src/test.js`, 8 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085)
-- `src/build_rankings.py`, 5 incidents (INC-0014, INC-0049, INC-0118, INC-0135, INC-0142)
+- `src/build_rankings.py`, 6 incidents (INC-0014, INC-0049, INC-0118, INC-0135, INC-0142, INC-0145)
 - `src/review_bot.js`, 5 incidents (INC-0022, INC-0026, INC-0051, INC-0061, INC-0077)
 - `src/bank_emit.py`, 5 incidents (INC-0062, INC-0066, INC-0068, INC-0073, INC-0119)
 - `src/gen/framework.py`, 5 incidents (INC-0074, INC-0075, INC-0078, INC-0087, INC-0096)
@@ -1384,7 +1384,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (64)
+## Content generation (65)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -2162,6 +2162,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** BYU's figure moves to program_cost_usd, the field for a whole-program figure, with the members' total in its note, and tuition_usd is blank.
 - **What stops it now.** validate_schools.py fails the build on a tuition_usd whose note calls it a program total, a total program or a whole program, unless the note says the program lasts one year. in `src/validate_schools.py`
 - **Lesson.** A caveat in a note does not travel with a number: every consumer of the field reads the field's meaning, not the note. When a value does not fit the field's meaning, give it a field that does, or leave the field blank.
+
+
+### INC-0145. Wharton's page credited its Class of 2026 GRE scores to the Class of 2027, because the GRE sentence began with Its and followed whichever class came last
+
+*2026-09-27, Wrong data shown or stored*
+
+- **What was seen.** Wharton's school page read "The Class of 2027 has an average GMAT Focus of 676. Its average GRE scores are 162 Quantitative and 163 Verbal." The GRE figures come from the Class of 2026 section of Wharton's own class profile page, where the Class of 2027's figures are drawn by JavaScript, so the sentence gave one class's scores to another.
+- **Why.** The lead paragraph writes class size and GMAT through class_sentences(), which asks fig_subject() which class each figure describes and names it, so a record that mixes classes gets one sentence per class (INC-0104). The GRE sentence was written separately and began with Its, meant as the program. Placed after a class sentence, Its reads as that class, so whenever a record's last class sentence and its GRE figures describe different classes, the page misattributes the scores. Wharton's record is the one that mixes them: its GMAT Focus is Poets&Quants' Class of 2027 coverage and its GRE is the official page's Class of 2026 section.
+- **How it surfaced.** Found on September 27, 2026 while checking which class Wharton's GRE figures describe before quoting them in a blog post: the page's own sentence put them in the Class of 2027. A scan of every school with both GRE figures found no other page affected today. (Found by reading the code or the output)
+- **Fix.** The GRE figures join the class sentences, so fig_subject() names their class like any other: Wharton's page now says the Class of 2026 had average GRE scores of 162 Quantitative and 163 Verbal, beside a separate sentence for the Class of 2027's GMAT Focus.
+- **What stops it now.** build_rankings fails the build when a lead paragraph contains a sentence beginning with Its, because a pronoun after a class sentence names that class whether or not the figure belongs to it. in `src/build_rankings.py`
+- **Lesson.** A pronoun is a claim about what came before it. In generated prose the sentence before is chosen by the data, not by the writer, so name the subject of every sentence that carries a figure.
 
 
 ## Tests and guards (20)
@@ -3387,6 +3399,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Six school figures kept their source description under the key reserved for our own commentary, so their pages printed them bare and the source check never read them (INC-0143)</small>
 - [ ] A caveat in a note does not travel with a number: every consumer of the field reads the field's meaning, not the note. When a value does not fit the field's meaning, give it a field that does, or leave the field blank.  
   <small>BYU Marriott's two-year tuition total was published as tuition per year, and the fit card doubled it again (INC-0144)</small>
+- [ ] A pronoun is a claim about what came before it. In generated prose the sentence before is chosen by the data, not by the writer, so name the subject of every sentence that carries a figure.  
+  <small>Wharton's page credited its Class of 2026 GRE scores to the Class of 2027, because the GRE sentence began with Its and followed whichever class came last (INC-0145)</small>
 
 
 ## Database
@@ -3485,7 +3499,7 @@ Read it before starting a piece of work in the matching area, and again before y
 
 ## Search and metadata
 
-- [ ] **Learned 5 times over.** When a fix names a class of input, such as 'the stat field is free text', find every place that input is used before closing it. A correct rule written inside one caller protects that caller, and the existence of the rule makes the unprotected siblings look protected.  
+- [ ] **Learned 6 times over.** When a fix names a class of input, such as 'the stat field is free text', find every place that input is used before closing it. A correct rule written inside one caller protects that caller, and the existence of the rule makes the unprotected siblings look protected.  
   <small>Half the school pages opened with a data note pasted into a sentence, and the structured data repeated it (INC-0104)</small>
 - [ ] **Learned 3 times over.** An enumeration that has to be kept in step by memory will fall out of step, and the failure is silent because nothing downstream can tell the difference between a section that was excluded on purpose and one that was forgotten. Derive the list from what was actually produced, and when that is not practical, make something compare the two. Publishing work nobody can find is not a smaller version of publishing it.  
   <small>A 139 page section shipped with no route into it from the sitemap (INC-0103)</small>
@@ -3663,7 +3677,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 144 real defects reduced to the rules that prevent them,
+the whole project: 145 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -3703,7 +3717,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-144 defects already prevented is genuinely ahead, and every defect it hits
+145 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed
