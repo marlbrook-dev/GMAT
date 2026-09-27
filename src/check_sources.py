@@ -91,7 +91,10 @@ CHALLENGED = set()
 # A site that refuses a script can still serve a browser: Baylor's pages answer 403 to the
 # plain read and render in Chromium under the same user agent, while Columbia's and Michigan
 # Ross's answer the browser with Cloudflare's verification page, which is then reported.
-REFUSED = {401, 403, 429}
+# Fordham's pages send a script round a redirect loop, setting a cookie a browser keeps and
+# a script does not, and render in the browser too; urllib raises the redirect's own code
+# only when it gives up on a loop, since it follows every other redirect itself.
+REFUSED = {301, 302, 303, 307, 308, 401, 403, 429}
 
 
 def challenged(text):
