@@ -597,6 +597,22 @@ verified rather than that the school does not publish one (INC-0118).
       checked weekly (108 exam facts against 67 pages, none missing). ACT's registration page
       says My Answer Key is offered on three test dates a year and its fee waiver page says
       four, so the post says only that it is offered on some dates.
+- [x] **The fonts are served from this site** (INC-0163, DEVSECOPS O6 closed as F6). Every
+      page fetched its fonts from Google, so first paint waited on two Google hosts and each
+      visit told Google who came, and each of 30 page sources asked for its own weights: the
+      shared header's 700 weight drew as 600 on the 25 that stopped at 600. The three faces
+      now come from `/vendor/fonts-2026-09-27/` (52 faces in 28 files, Google's own files,
+      with their licenses), through one stylesheet every page links via `{{FONTS_CSS}}`; the
+      CSP no longer allows Google's font hosts; the trainers precache the fonts for offline
+      use; and both builds fail on a font or stylesheet from another host, or one of ours
+      that is missing. The header's Create Account label now measures 93.61px on each page
+      measured (the landing page, /exams/, /daily/, /blog/ and the terms page), where it
+      was 92.41px on the landing page and /exams/.
+- [x] **The community page no longer slides sideways on phones** (INC-0164). The line
+      naming a signed-out visitor's pseudonym could not wrap, so a long random name, up to
+      Crimson Kingfisher 98, pushed the page 35px past a 390px screen. The line now wraps
+      with the name kept whole, and `src/smoke_community.js`, in the browser suite, checks
+      the longest and shortest names the page can draw at phone and desktop width.
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects

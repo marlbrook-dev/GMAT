@@ -161,8 +161,11 @@ for app in APPS:
     _scope = "/" + app["out"] + "/"
     # supabase-js too: the app's code waits on it, and a page that is not yet controlled when
     # it loads leaves it out of the cache, so the first offline launch would ask the network.
+    # The fonts as well, now they are served from this site (INC-0163): without them the first
+    # offline launch draws in system fonts.
     _precache = ([_scope, _scope + "bank.js"] + rest_paths
-                 + ["/manifest.json", "/icons/icon-192.png", "/icons/icon-512.png", partials.SUPABASE_JS])
+                 + ["/manifest.json", "/icons/icon-192.png", "/icons/icon-512.png", partials.SUPABASE_JS]
+                 + partials.font_precache())
     import json as _sw_json
     _sw = ((d / "sw_template.js").read_text()
            .replace("{{SW_VERSION}}", partials.build_id())
@@ -191,7 +194,8 @@ for app in APPS:
               # the one page people spend real time on, ended up without a banner.
               .replace("{{SENTINEL}}", partials.consent_js()
                        + partials.sentinel_js("app-" + app["exam"] + "-" + partials.build_id()))
-              .replace("{{SUPABASE_JS}}", partials.SUPABASE_JS))
+              .replace("{{SUPABASE_JS}}", partials.SUPABASE_JS)
+              .replace("{{FONTS_CSS}}", partials.FONTS_CSS))
     if "{{" in out:
         import re as _r
         print("ERROR: unresolved placeholder in " + app["out"] + ": " + str(_r.findall(r"\{\{[A-Z_]+\}\}", out)[:4]), file=sys.stderr)
@@ -660,6 +664,18 @@ if _off:
     for _pg, _u in _off[:10]:
         print("ERROR: %s loads a script from another host: %s" % (_pg, _u), file=sys.stderr)
     print("ERROR: serve it from this site, as /vendor/ serves supabase-js", file=sys.stderr)
+    sys.exit(1)
+# Nor a stylesheet or font: each page asked Google Fonts for its own weights, and the shared
+# header's 700 drew as 600 on 25 of them (INC-0163). The faces come from /vendor/ through
+# partials.FONTS_CSS, and a stylesheet of ours that a page links must exist.
+from page_checks import offsite_styles, _selfcheck_offsite_styles
+_selfcheck_offsite_styles()
+_offs = offsite_styles(root, _SECTIONS)
+if _offs:
+    for _pg, _why in _offs[:10]:
+        print("ERROR: %s %s" % (_pg, _why), file=sys.stderr)
+    print("ERROR: link {{FONTS_CSS}} for fonts, and serve any other stylesheet from this site",
+          file=sys.stderr)
     sys.exit(1)
 
 

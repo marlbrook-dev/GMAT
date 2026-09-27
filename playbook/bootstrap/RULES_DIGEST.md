@@ -1,14 +1,14 @@
 # Rules Digest
 
-Rules from 162 defects in a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
+Rules from 166 defects in a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
 
-Generated 2026-09-27 from a ledger spanning 8 days and 117 commits.
+Generated 2026-09-27 from a ledger spanning 8 days and 118 commits.
 
 ## Read this first
 
-The three ways defects were most often found, in order: found by reading the code or the output (85), found by measuring something (39), a test caught it (19). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
+The three ways defects were most often found, in order: found by reading the code or the output (85), found by measuring something (41), a test caught it (21). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
 
-The dominant failure mode is silent loss, 26 of 162: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
+The dominant failure mode is silent loss, 26 of 166: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
 
 ## Learned the hard way, more than once
 
@@ -59,10 +59,12 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (2 times, content generation) When a parser must pull one value out of free text, anchor it to the words that give the value its meaning, not to its position, and return nothing when nothing anchors it: a sentence that says less is better than one that states a guess as fact.
 - (2 times, content generation) A citation is only as current as the page it points to, and publishers leave old pages up.
 - (2 times, search and metadata) Any sentence about your own product's state is data, and data belongs in one place: build the sentence from the source that knows, and check every page that could repeat it, including the text only search engines read.
+- (2 times, css and layout) CSS forgives a variable that was never defined by quietly using the initial value, so a missing token never throws, it only looks slightly wrong.
 - (2 times, content generation) A label fixed in code is a claim about every value the field will ever hold. When the data carries its own qualifier, such as a timing or a statistic, the label has to be read from the data, and anything that compares or scores the values has to use only the ones that share the qualifier the method names.
 - (2 times, content generation) A fact filed next to another fact tends to inherit its citation. When two facts come from one section of a site, check that each one's own page says it, not the page its neighbour came from.
 - (2 times, tests and guards) A checker has to know when it has not read its source. A response is not the page because it has text in it: a challenge, an error page or a login wall reads as a page with none of the facts on it, and every fact then looks wrong.
 - (2 times, tests and guards) A checker's excuse category needs the same scrutiny as its findings. "Shows none of its figures" was given one cause and the cause was believed, but to a check that looks for numbers, a page whose every figure changed looks exactly like a page that never loaded.
+- (2 times, build system) Two copies of one check drift apart. When a check exists in two places, a fix to one is a question about the other, and the cheapest answer is to make them share the code that splits text.
 
 ## Content generation
 
@@ -89,8 +91,6 @@ These cost this build twice or more each. If you read nothing else here, read th
 - Practice material is still published writing. A passage that is only there to be read carefully is still read by people who know the subject, and a question built on it can ask them to endorse the error.
 - An empty field records that a search came up empty, not that the thing does not exist.
 - An edit tool that throws away its input leaves the diff as the only record of what it changed.
-- A caveat in a note does not travel with a number: every consumer of the field reads the field's meaning, not the note.
-- A pronoun is a claim about what came before it. In generated prose the sentence before is chosen by the data, not by the writer, so name the subject of every sentence that carries a figure.
 
 ## Tests and guards
 
@@ -128,7 +128,6 @@ These cost this build twice or more each. If you read nothing else here, read th
 - Check that your instrumentation fired at all before you trust anything built on it.
 - A type system spread across a renderer and a grader will drift. The cheapest guard is one that exercises every variant end to end, once.
 - If your system branches on difficulty, measure that the branches actually differ.
-- An identifier that anything outside the build stores must be derived from what it identifies, not from where it happened to land.
 
 ## Infrastructure and deploy
 
@@ -150,4 +149,4 @@ These cost this build twice or more each. If you read nothing else here, read th
 - In Postgres, revoking from every role you can name still leaves PUBLIC. Verify with the advisors or by reading the acl, never by reading your own migration.
 - An empty catch block around a write is a silent-loss defect waiting to be born. If a save can fail, the person must be told; a success toast that fires regardless of the result is worse than no toast, because it actively teaches the user the data is safe.
 
-54 more rules, each learned once from a less costly defect, did not fit a prompt sized digest. The checklist in BUILD_PLAYBOOK.md has every rule.
+59 more rules, each learned once from a less costly defect, did not fit a prompt sized digest. The checklist in BUILD_PLAYBOOK.md has every rule.

@@ -38,8 +38,11 @@ const text = read(md);
 // The whole claim of the document is that nothing in it was typed. An unresolved
 // placeholder means a harvested fact stopped resolving; the builder already fails on
 // this, and the test exists so a change to the builder cannot quietly remove that.
-const left = [...text.matchAll(/\{\{([A-Z_]+)\}\}/g)].map(m => m[1])
-  .filter(k => k !== 'CHROME_CSS' && k !== 'PLACEHOLDER');
+// It applies the builder's rule: a placeholder quoted in a code span or a fenced block
+// is an example, not a substitution site. It used to keep a list of the quoted names
+// instead, and the first new one failed it (INC-0165).
+const prose = text.replace(/```[\s\S]*?```/g, '').replace(/`[^`\n]*`/g, '');
+const left = [...prose.matchAll(/\{\{([A-Z_]+)\}\}/g)].map(m => m[1]);
 ok(left.length === 0, 'no unresolved placeholders' + (left.length ? ': ' + left.join(', ') : ''));
 ok(!/\u2014|\u2013/.test(text), 'no em or en dashes, the rule it says it enforces');
 

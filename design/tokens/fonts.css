@@ -1,2 +1,5 @@
-/* Webfonts via Google Fonts CDN — no brand font binaries were provided; flag for replacement if official files exist */
-@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Manrope:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+/* The site's three faces, served from this site rather than Google Fonts (INC-0163): the
+   same stylesheet every page links through partials.FONTS_CSS. Manrope, the retired
+   fourth face, is no longer requested. The path is relative so it resolves both on the
+   site and in a checkout. */
+@import url('../../vendor/fonts-2026-09-27/fonts.css');

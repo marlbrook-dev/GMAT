@@ -24,6 +24,13 @@ offsite_scripts() looks for a script loaded from another host. The trainer app l
 supabase-js from cdn.jsdelivr.net ahead of its own code, so none of the app ran until
 jsdelivr answered, and a slow response timed out CI's games smoke (INC-0148). Code a page
 needs is served from this site, as /vendor/ now serves that library.
+
+offsite_styles() does the same for stylesheets and fonts, following @import through every
+stylesheet on this site a page links. Each page used to ask Google Fonts for its own list of
+weights, so the shared header's 700 weight drew as 600 on the pages whose list stopped at
+600 (INC-0163). The faces are served from /vendor/ through one stylesheet, and a page that
+loads a font or stylesheet from anywhere else, or links one of ours that is not there, fails
+the build.
 """
 import pathlib
 import re
@@ -182,3 +189,114 @@ def offsite_scripts(root, paths):
             for m in _OFFSITE.finditer(page.read_text(encoding="utf-8", errors="replace")):
                 found.append((page.relative_to(root).as_posix(), m.group(1)))
     return found
+
+
+_LINK_TAG = re.compile(r"<link\b[^>]*>", re.I)
+_LINK_REL = re.compile(r"""\brel\s*=\s*["']?([^"'>]+)""", re.I)
+_LINK_HREF = re.compile(r"""\bhref\s*=\s*["']?([^"'\s>]+)""", re.I)
+_CSS_IMPORT = re.compile(r"""@import\s+(?:url\(\s*)?["']?([^"')\s;]+)""", re.I)
+_CSS_URL = re.compile(r"""url\(\s*["']?([^"')\s]+)""", re.I)
+_ELSEWHERE = re.compile(r"^(?:[a-z][a-z0-9+.-]*:)?//", re.I)
+
+
+def _local(root, base_dir, ref):
+    """The file a reference on this site names, resolved from the directory it appears in."""
+    import posixpath
+    ref = ref.split("#")[0].split("?")[0]
+    path = ref if ref.startswith("/") else posixpath.join(base_dir, ref)
+    return pathlib.Path(root) / posixpath.normpath(path).lstrip("/")
+
+
+def _sheet_problems(root, sheet, seen, cache):
+    """Problems in one stylesheet on this site and every stylesheet it imports."""
+    key = sheet.as_posix()
+    if key in cache:
+        return cache[key]
+    if key in seen:
+        return []
+    seen.add(key)
+    rel = "/" + sheet.relative_to(root).as_posix()
+    if not sheet.is_file():
+        cache[key] = ["links %s, which is not there" % rel]
+        return cache[key]
+    css = sheet.read_text(encoding="utf-8", errors="replace")
+    here = rel.rsplit("/", 1)[0] + "/"
+    out = []
+    imports = set(_CSS_IMPORT.findall(css))
+    for ref in sorted(imports | set(_CSS_URL.findall(css))):
+        if ref.startswith("data:"):
+            continue
+        if _ELSEWHERE.match(ref):
+            out.append("%s loads %s from another host" % (rel, ref))
+        elif ref in imports:
+            out += _sheet_problems(root, _local(root, here, ref), seen, cache)
+        elif not _local(root, here, ref).is_file():
+            out.append("%s names %s, which is not there" % (rel, ref))
+    cache[key] = out
+    return out
+
+
+def offsite_styles(root, paths):
+    """[(page, problem)] for every built page under `paths` that loads a stylesheet or a font
+    from another host, in a link tag, in its own CSS, or through @import in a stylesheet of
+    ours it links; or that links a stylesheet of ours, or names a file from one, that is not
+    there."""
+    root = pathlib.Path(root)
+    found, cache = [], {}
+    for rel in paths:
+        base = root / rel
+        pages = [base] if base.is_file() else sorted(base.rglob("*.html")) if base.is_dir() else []
+        for page in pages:
+            raw = page.read_text(encoding="utf-8", errors="replace")
+            name = page.relative_to(root).as_posix()
+            here = "/" + name.rsplit("/", 1)[0] + "/" if "/" in name else "/"
+            problems = []
+            for tag in _LINK_TAG.findall(raw):
+                rel_m, href_m = _LINK_REL.search(tag), _LINK_HREF.search(tag)
+                if not rel_m or not href_m:
+                    continue
+                kinds = rel_m.group(1).lower().split()
+                href = href_m.group(1)
+                if "stylesheet" not in kinds and "preload" not in kinds:
+                    continue
+                if _ELSEWHERE.match(href):
+                    problems.append("loads %s from another host" % href)
+                elif "stylesheet" in kinds and not href.startswith("data:"):
+                    problems += _sheet_problems(root, _local(root, here, href), set(), cache)
+            css = "\n".join(_STYLE_BLOCK.findall(raw))
+            for ref in sorted(set(_CSS_IMPORT.findall(css)) | set(_CSS_URL.findall(css))):
+                if _ELSEWHERE.match(ref):
+                    problems.append("loads %s from another host in its own CSS" % ref)
+            for pr in dict.fromkeys(problems):
+                found.append((name, pr))
+    return found
+
+
+def _selfcheck_offsite_styles():
+    """INC-0163: a Google Fonts link, an @import of it from a stylesheet of ours, and a
+    stylesheet of ours that is missing are each reported; a page on the site's own font
+    stylesheet is not."""
+    import tempfile
+    with tempfile.TemporaryDirectory() as d:
+        d = pathlib.Path(d)
+        (d / "vendor" / "f").mkdir(parents=True)
+        (d / "vendor" / "f" / "a.woff2").write_bytes(b"wOF2")
+        (d / "vendor" / "f" / "fonts.css").write_text("@font-face{src:url(a.woff2)}")
+        (d / "css").mkdir()
+        (d / "css" / "g.css").write_text("@import url('https://fonts.googleapis.com/css2?family=X');")
+        (d / "css" / "ok.css").write_text("@import url('../vendor/f/fonts.css');")
+        pages = {
+            "good.html": '<link rel="stylesheet" href="/vendor/f/fonts.css"><link rel="stylesheet" href="/css/ok.css">',
+            "google.html": '<link href="https://fonts.googleapis.com/css2?family=X" rel="stylesheet">',
+            "imported.html": '<link rel="stylesheet" href="/css/g.css">',
+            "missing.html": '<link rel="stylesheet" href="/vendor/old/fonts.css">',
+            "inline.html": "<style>@import url(https://fonts.googleapis.com/css2?family=X);</style>",
+        }
+        for n, body in pages.items():
+            (d / n).write_text("<head>%s</head>" % body)
+        got = {p for p, _ in offsite_styles(d, list(pages))}
+        want = {"google.html", "imported.html", "missing.html", "inline.html"}
+        if got != want:
+            raise SystemExit("page_checks: offsite_styles self-check flagged %s, expected %s"
+                             % (sorted(got), sorted(want)))
+

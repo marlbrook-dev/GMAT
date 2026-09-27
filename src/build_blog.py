@@ -192,8 +192,8 @@ article .tablewrap{overflow-x:auto}article strong{color:var(--gray-900)}
 .cta{background:var(--gold-50);border:1px solid var(--gold-100);border-radius:10px;padding:22px 24px;margin:40px 0 8px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
 @media(max-width:860px){.grid3{grid-template-columns:1fr!important}.feature{grid-template-columns:1fr!important}.feature .fhero{min-height:200px}}"""
 
-FONTS = """<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,600;0,8..60,700;1,8..60,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">"""
+# The same stylesheet every other page links, served from this site (INC-0163).
+FONTS = '<link rel="stylesheet" href="%s">' % partials.FONTS_CSS
 FAVICON = """<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%23122B4E'/%3E%3Cpath d='M13 33 22 22l6 5 8.5-10' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M29.5 16.5H37V24' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">"""
 LOGO = """<svg viewBox="0 0 48 48" width="30" height="30" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#122B4E"/><path d="M13 33 22 22l6 5 8.5-10" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M29.5 16.5H37V24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>"""
 
@@ -585,11 +585,16 @@ def main():
             if slug not in live_slugs:
                 fail(f"{guide.relative_to(ROOT)} links to /blog/{slug}/, which this build did not publish")
     # The same check build.py runs on every other section (INC-0131).
-    from page_checks import python_reprs, articles, offsite_scripts
+    from page_checks import python_reprs, articles, offsite_scripts, offsite_styles
     off = offsite_scripts(ROOT, ["blog"])
     if off:
         for pg, u in off[:10]:
             print("build_blog: %s loads a script from another host: %s (INC-0148)" % (pg, u), file=sys.stderr)
+        sys.exit(1)
+    offs = offsite_styles(ROOT, ["blog"])
+    if offs:
+        for pg, why in offs[:10]:
+            print("build_blog: %s %s (INC-0163)" % (pg, why), file=sys.stderr)
         sys.exit(1)
     reprs = python_reprs(ROOT, ["blog"])
     if reprs:

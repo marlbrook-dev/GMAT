@@ -342,6 +342,27 @@ LEGAL_LINE = (
 # upgrade, add a new directory and change this line; DEVSECOPS.md F5 says how.
 SUPABASE_JS = "/vendor/supabase-js-2.117.2/supabase.js"
 
+# The three faces are served from this site too (INC-0163). Every page used to ask Google
+# Fonts for its own list of weights, so the shared header's 700 weight drew as 600 on pages
+# from the 25 templates whose list stopped at 600, and every visit waited on Google and
+# told it who came.
+# One stylesheet now holds every face any page uses, and every template links it through
+# {{FONTS_CSS}}. src/vendor_fonts.py wrote the directory; to refresh, run it and change this
+# line, as the directory is versioned the same way as supabase-js's.
+FONTS_CSS = "/vendor/fonts-2026-09-27/fonts.css"
+
+
+def font_precache():
+    """The font files a trainer's service worker fetches on install: the stylesheet and its
+    Latin files in upright styles, which is what the app draws. A page not yet controlled
+    when it loads leaves its fonts out of the cache, so without these the first offline
+    launch would fall back to system fonts. Other scripts and the blog's italic are fetched
+    and cached on first use."""
+    import pathlib
+    d = pathlib.Path(__file__).resolve().parent.parent / FONTS_CSS.lstrip("/").rsplit("/", 1)[0]
+    base = FONTS_CSS.rsplit("/", 1)[0] + "/"
+    return [FONTS_CSS] + [base + f.name for f in sorted(d.glob("*-latin.woff2")) if "italic" not in f.name]
+
 
 def build_id():
     """Short git sha when available, otherwise the build date. This is what pins a
@@ -773,6 +794,7 @@ def apply_chrome(html, extra_legal=""):
         .replace("{{SITE_FOOTER}}", footer_html(extra_legal))
         .replace("{{SENTINEL}}", consent_js() + sentinel_js())
         .replace("{{SUPABASE_JS}}", SUPABASE_JS)
+        .replace("{{FONTS_CSS}}", FONTS_CSS)
     )
     out = apply_social(out)
     if "—" in out or "–" in out:

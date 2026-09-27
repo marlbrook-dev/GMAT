@@ -1,13 +1,36 @@
 // Browser validation for the standalone content pages (/international/ and /apply/): no console errors, checklist state
 // survives a reload, the shortlist written by /schools/ shows up on /apply/, and CSV
 // export produces a real download.
+//
+// Served over http, as the pages are live. It used to open them as file:// URLs, where a
+// root-relative path such as /vendor/fonts-2026-09-27/fonts.css names the root of the disk
+// rather than the site, so it could not load the site's own stylesheet once the fonts moved
+// onto it (INC-0166).
 const { chromium } = require('playwright');
 const { chromiumPath } = require('./chromium_path.js');
+const http = require('http');
+const fs = require('fs');
 const path = require('path');
 const ROOT = path.resolve(__dirname, '..');
-const url = p => 'file://' + path.join(ROOT, p);
+const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css',
+                '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png',
+                '.woff2': 'font/woff2', '.webmanifest': 'application/manifest+json' };
+const server = http.createServer((req, res) => {
+  let rel = decodeURIComponent(req.url.split('?')[0]);
+  if (rel.endsWith('/')) rel += 'index.html';
+  const file = path.join(ROOT, rel);
+  if (!file.startsWith(ROOT) || !fs.existsSync(file) || fs.statSync(file).isDirectory()) {
+    res.writeHead(404); res.end('not found'); return;
+  }
+  res.writeHead(200, { 'Content-Type': TYPES[path.extname(file)] || 'application/octet-stream' });
+  fs.createReadStream(file).pipe(res);
+});
+let PORT = 0;
+const url = p => 'http://127.0.0.1:' + PORT + '/' + p;
 
 (async () => {
+  await new Promise(r => server.listen(0, r));
+  PORT = server.address().port;
   const b = await chromium.launch({ executablePath: chromiumPath() });
   const p = await b.newPage({ viewport: { width: 1280, height: 900 } });
   // A consent choice already made, the way a returning visitor arrives. Without it the
@@ -18,12 +41,14 @@ const url = p => 'file://' + path.join(ROOT, p);
   });
   const errs = [];
   p.on('pageerror', e => errs.push('pageerror: ' + e.message));
-  // Google Fonts cannot be fetched through this sandbox's proxy CA, so the cert failure
-  // it produces is environment noise rather than a page defect. Everything else counts.
-  // Google Fonts cannot be fetched through this sandbox's proxy CA, and the analytics
-  // beacon has nothing to POST to over file://. Both are environment noise.
-  const noise = t => /ERR_CERT_AUTHORITY_INVALID|fonts\.(googleapis|gstatic)\.com|Failed to fetch/.test(t);
-  p.on('console', m => { if (m.type() === 'error' && !noise(m.text())) errs.push('console: ' + m.text()); });
+  // Every console error counts. Supabase is answered locally, since a test run must not
+  // call it, and a resource that fails to load is a page defect now that the site's own
+  // paths resolve: this used to excuse Google Fonts' failures here, and that excuse is how
+  // the file:// loads went unnoticed (INC-0166).
+  await p.route('**/rest/v1/**', r => r.fulfill({ status: 200, contentType: 'application/json', body: '[]' }));
+  p.on('requestfailed', r => errs.push('failed: ' + r.url()));
+  p.on('response', r => { if (r.status() >= 400) errs.push(r.status() + ': ' + r.url()); });
+  p.on('console', m => { if (m.type() === 'error') errs.push('console: ' + m.text()); });
 
   // 1. International hub renders.
   await p.goto(url('international/index.html'));
@@ -91,5 +116,6 @@ const url = p => 'file://' + path.join(ROOT, p);
 
   console.log('errors:', errs.length ? errs : 'none');
   await b.close();
+  server.close();
   if (errs.length) process.exit(1);
 })();
