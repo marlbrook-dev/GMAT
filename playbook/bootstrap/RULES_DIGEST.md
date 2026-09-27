@@ -1,14 +1,14 @@
 # Rules Digest
 
-Rules from 151 defects in a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
+Rules from 152 defects in a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
 
-Generated 2026-09-27 from a ledger spanning 8 days and 98 commits.
+Generated 2026-09-27 from a ledger spanning 8 days and 99 commits.
 
 ## Read this first
 
-The three ways defects were most often found, in order: found by reading the code or the output (76), found by measuring something (39), a test caught it (18). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
+The three ways defects were most often found, in order: found by reading the code or the output (77), found by measuring something (39), a test caught it (18). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
 
-The dominant failure mode is silent loss, 26 of 151: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
+The dominant failure mode is silent loss, 26 of 152: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
 
 ## Learned the hard way, more than once
 
@@ -55,6 +55,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (2 times, content generation) A citation is only as current as the page it points to, and publishers leave old pages up.
 - (2 times, content generation) Anything written ahead of its publication date is a promise about the future made from the past.
 - (2 times, content generation) A label fixed in code is a claim about every value the field will ever hold. When the data carries its own qualifier, such as a timing or a statistic, the label has to be read from the data, and anything that compares or scores the values has to use only the ones that share the qualifier the method names.
+- (2 times, content generation) Finding a number on a page is not finding the fact. A check has to look for it beside the words that say what it counts, and notice when those words are about something else: another program, another class.
 
 ## Content generation
 
@@ -84,7 +85,6 @@ These cost this build twice or more each. If you read nothing else here, read th
 - A caveat in a note does not travel with a number: every consumer of the field reads the field's meaning, not the note.
 - A pronoun is a claim about what came before it. In generated prose the sentence before is chosen by the data, not by the writer, so name the subject of every sentence that carries a figure.
 - A shorthand in a schema is read by code with one meaning and written by people and tools with whatever meaning they had in mind.
-- Finding a number on a page is not finding the fact. A check has to look for it beside the words that say what it counts, and notice when those words are about something else: another program, another class.
 - A search result's snippet is not the page it links to. A figure taken from one has to be read again on the page before it is published, and a record that admits the snippet in a note while citing the page looks fully sourced, which is why nobody rereads it.
 
 ## Tests and guards
@@ -98,6 +98,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - When you add a condition that skips a check, make sure it describes the failure and not something merely correlated with it.
 - A commit hash is not a durable citation in a repository that squashes. Pull requests, issues and tags survive history rewriting; branch commits do not.
 - An aggregate is a claim about whatever you grouped by. Group by the file and you have measured the file.
+- A checker that reads a page has to read the page a person sees, not the file behind it.
 
 ## Front end
 
@@ -135,7 +136,6 @@ These cost this build twice or more each. If you read nothing else here, read th
 - CSS comments do not nest. When a whole page category loses its styling, read the built artefact, not the source that produced it.
 - An undefined CSS custom property is silent. Audit computed colour, not authored colour, and do it on the rendered page.
 - A dark mode does not break by having a wrong colour. It breaks by missing one. Any colour paired with a ramp has to move with the ramp.
-- CSS never fails loudly. A malformed rule is skipped, a bad selector eats the block after it, and an undefined variable paints as nothing.
 
 ## Infrastructure and deploy
 
@@ -162,4 +162,4 @@ These cost this build twice or more each. If you read nothing else here, read th
 
 - Chart form is a claim about the data. A line claims the values in between existed.
 
-37 more rules, each learned once from a less costly defect, did not fit a prompt sized digest. The checklist in BUILD_PLAYBOOK.md has every rule.
+38 more rules, each learned once from a less costly defect, did not fit a prompt sized digest. The checklist in BUILD_PLAYBOOK.md has every rule.

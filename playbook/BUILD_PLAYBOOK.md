@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-27, which is 8 days, across
-98 commits, by one owner directing a series of AI coding sessions. As of this
+99 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 83 Python files, 110 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 64 documents:
 2050 tracked files in total.
@@ -1123,7 +1123,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-98 commits in 8 days, one owner, a series of AI sessions. This
+99 commits in 8 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1215,14 +1215,14 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-151 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+152 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 76 | 50% |
+| Found by reading the code or the output | 77 | 51% |
 | Found by measuring something | 39 | 26% |
 | A test caught it | 18 | 12% |
 | Found by rendering it and looking | 8 | 5% |
@@ -1230,7 +1230,7 @@ well enough to audit later. Which is what this book is.
 | A build guard caught it | 3 | 2% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 149 of 151 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 150 of 152 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1239,13 +1239,13 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 65 |
+| Wrong data shown or stored | 66 |
 | Degraded | 34 |
 | Silent loss | 26 |
 | Cosmetic | 23 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 151. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 152. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
@@ -1253,7 +1253,7 @@ well enough to audit later. Which is what this book is.
 | Area | Count |
 | --- | ---: |
 | Content generation | 68 |
-| Tests and guards | 21 |
+| Tests and guards | 22 |
 | Front end | 12 |
 | Build system | 10 |
 | Search and metadata | 9 |
@@ -1267,7 +1267,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-145 of 151 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+146 of 152 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1288,7 +1288,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-63 of 151 incidents record that they repeat an earlier lesson, 85 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+64 of 152 incidents record that they repeat an earlier lesson, 86 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1333,8 +1333,9 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0136 The LSAT guide said most test takers choose between remote and in-person testing, after LSAC had moved almost everyone into test centers | INC-0137 | 1 |
 | INC-0137 A post queued to publish the next day said the LSAT trainer was still in development, eleven days after it went live | INC-0138 | 1 |
 | INC-0142 Every school's employment rate was labelled and scored as a three month figure, though 15 of 70 were measured at six months, four months, a year or a reporting date, or at a timing their notes do not give | INC-0144 | 1 |
+| INC-0150 Columbia's MBA class was credited with five years of work experience, a figure the cited article gives for its 46-student MBAxMS cohort, and the source check passed it because the article does say five years | INC-0152 | 1 |
 
-The largest family runs to 53 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140, INC-0142, INC-0143, INC-0144, INC-0145, INC-0147, INC-0150, INC-0151. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
+The largest family runs to 54 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140, INC-0142, INC-0143, INC-0144, INC-0145, INC-0147, INC-0150, INC-0151, INC-0152. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
 
 Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.
 
@@ -1354,6 +1355,7 @@ Incidents that name an earlier one without claiming to repeat it. Each was read 
 - INC-0130 names INC-0132
 - INC-0131 names INC-0130
 - INC-0143 names INC-0105, INC-0140
+- INC-0152 names INC-0146
 
 
 ## Where defects concentrate
@@ -1363,9 +1365,9 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/build_banks.py`, 17 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011, INC-0079, INC-0081, INC-0086, INC-0088, INC-0089, INC-0090, INC-0091, INC-0092, INC-0120, INC-0123, INC-0126, INC-0127)
 - `src/build.py`, 13 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067, INC-0076, INC-0080, INC-0131, INC-0148)
 - `src/test.js`, 8 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085)
+- `src/check_sources.py`, 7 incidents (INC-0130, INC-0132, INC-0133, INC-0136, INC-0140, INC-0150, INC-0152)
 - `src/build_rankings.py`, 6 incidents (INC-0014, INC-0049, INC-0118, INC-0135, INC-0142, INC-0145)
 - `src/validate_schools.py`, 6 incidents (INC-0125, INC-0141, INC-0143, INC-0144, INC-0147, INC-0151)
-- `src/check_sources.py`, 6 incidents (INC-0130, INC-0132, INC-0133, INC-0136, INC-0140, INC-0150)
 - `src/review_bot.js`, 5 incidents (INC-0022, INC-0026, INC-0051, INC-0061, INC-0077)
 - `src/bank_emit.py`, 5 incidents (INC-0062, INC-0066, INC-0068, INC-0073, INC-0119)
 - `src/gen/framework.py`, 5 incidents (INC-0074, INC-0075, INC-0078, INC-0087, INC-0096)
@@ -2214,7 +2216,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** A search result's snippet is not the page it links to. A figure taken from one has to be read again on the page before it is published, and a record that admits the snippet in a note while citing the page looks fully sourced, which is why nobody rereads it.
 
 
-## Tests and guards (21)
+## Tests and guards (22)
 
 
 ### INC-0016. The performance test waited for the load event, which waits for the thing being optimised
@@ -2482,6 +2484,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** The browser read moves to src/render_page.js, which check_sources.py calls. It waits for the page's own content, gives the network at most ten seconds to go quiet instead of requiring it, scrolls to the bottom in steps so lazy content draws, and returns the text of every frame a reader can see, the page's own first. A hidden frame is skipped, because the text of a document that is not rendered is its raw source: on Wharton's page one hidden Infogram frame gave more than 21,000 characters of chart configuration. It refuses a response that is not HTML, since a PDF shown in Chromium's viewer held a read of a school's PDF for more than three minutes with nothing to show, and it has one deadline for the whole read so that a stalled page ends with the browser closed. check_sources.py also keeps the browser's read only when it shows at least as many of the cited figures as the page as served, so a render that comes back as a challenge page cannot hide figures the served page printed.
 - **What stops it now.** src/smoke_render.js serves fixtures from a local server: a page that requests the network every 200 ms, embeds far below the fold an iframe that writes its figure only when an IntersectionObserver sees it, and hides a second iframe whose script holds a decoy figure. The smoke fails unless render_page.js returns the figure, the page's own text first, and not the decoy; it also serves a PDF, which must be refused at once, and runs one read past a short deadline, which must end with an error. It runs in npm run test:browser, so CI runs it; with networkidle restored it times out, and with hidden frames read it returns the decoy. in `src/smoke_render.js`
 - **Lesson.** Loading a page is not the same as reading it. A chart can be a separate document inside the page that draws only when scrolled into view, and a page with trackers may never fall quiet, so a reader built for checking has to scroll like a person, collect every frame, and use waits that give up rather than hang.
+
+
+### INC-0152. The source check read text inside HTML comments as page text, and confirmed Arizona State's 43 percent women from a table row the school had commented out
+
+*2026-09-27, Wrong data shown or stored*
+
+- **What was seen.** data/schools/arizona-state-carey.json gave women_pct 43, "female, incoming class of fall 2025", cited to W. P. Carey's class profile page, and check_sources.py --schools counted it as printed there. The page a reader sees has no gender figure at all: its class profile lists applications, admits, class size, age, GMAT, GRE, GPA, work experience, international share and majors. The 43 is in a row the school wrapped in an HTML comment, "<!-- ... Male 57% ... Female 43% -->". ASU's school page showed it, and the November 7 post on women in MBA classes, queued but not yet published, listed ASU at 43 percent.
+- **Why.** to_text() in check_sources.py removes script, style and noscript elements, then every tag, and keeps the text between them. An HTML comment is not an element: the tag pattern removed only its opening up to the first >, and every word and number inside it survived as page text, followed by a stray "-->". A page that hides old figures in a comment therefore confirms them. Rice's class profile does the same with a Class of 23, 24, 25 block. The browser read (INC-0146) never had this gap, because innerText holds only rendered text; the check prefers the page as served whenever it finds as many figures.
+- **How it surfaced.** Found on September 27, 2026 while moving Rice to its three-year averages: its page as served carried blocks ending in a literal "-->", which showed comment text reaching the check. Rerunning both checks with comments removed changed exactly one result: ASU's women share went from found to not in the source. The exam check's 79 facts came out the same. (Found by reading the code or the output)
+- **Fix.** to_text() drops every HTML comment before reading tags. ASU's women share is empty, with the commented-out row and the reason in a note, and the queued November 7 post and its fact block drop ASU: 35 programs, the middle class still 43 percent women.
+- **What stops it now.** check_sources.py's self-check holds a page whose only copy of a figure sits inside a comment, and fails if that figure is read as printed; it also holds the same figure outside the comment, which must still be found. in `src/check_sources.py`
+- **Lesson.** A checker that reads a page has to read the page a person sees, not the file behind it. Markup can hold text no reader is shown, in comments, hidden elements and templates, and a site that retires a figure often leaves it there.
 
 
 ## Front end (12)
@@ -3401,6 +3415,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A post queued to publish the next day said the LSAT trainer was still in development, eleven days after it went live (INC-0137)</small>
 - [ ] **Learned 2 times over.** A label fixed in code is a claim about every value the field will ever hold. When the data carries its own qualifier, such as a timing or a statistic, the label has to be read from the data, and anything that compares or scores the values has to use only the ones that share the qualifier the method names.  
   <small>Every school's employment rate was labelled and scored as a three month figure, though 15 of 70 were measured at six months, four months, a year or a reporting date, or at a timing their notes do not give (INC-0142)</small>
+- [ ] **Learned 2 times over.** Finding a number on a page is not finding the fact. A check has to look for it beside the words that say what it counts, and notice when those words are about something else: another program, another class.  
+  <small>Columbia's MBA class was credited with five years of work experience, a figure the cited article gives for its 46-student MBAxMS cohort, and the source check passed it because the article does say five years (INC-0150)</small>
 - [ ] Any generator that claims reproducibility must be seeded from something stable across processes. hash() is not, in Python, and the failure shows up as a flaky test rather than as a wrong answer.  
   <small>Item banks were different on every build because Python randomises hash() (INC-0003)</small>
 - [ ] Deletion by shadowing is invisible. Any collection whose size is a fact about the product needs its size asserted, not just its contents.  
@@ -3477,8 +3493,6 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Wharton's page credited its Class of 2026 GRE scores to the Class of 2027, because the GRE sentence began with Its and followed whichever class came last (INC-0145)</small>
 - [ ] A shorthand in a schema is read by code with one meaning and written by people and tools with whatever meaning they had in mind. Where a value names what something is, require it to say so in full; a bare year cannot say whether it is a graduating class, an entering class, or the day a page was read.  
   <small>Six school records stored a bare year as their class, which the site printed as a Class of that year, so Notre Dame's average cohort size became "The Class of 2027 has 85 students" (INC-0147)</small>
-- [ ] Finding a number on a page is not finding the fact. A check has to look for it beside the words that say what it counts, and notice when those words are about something else: another program, another class.  
-  <small>Columbia's MBA class was credited with five years of work experience, a figure the cited article gives for its 46-student MBAxMS cohort, and the source check passed it because the article does say five years (INC-0150)</small>
 - [ ] A search result's snippet is not the page it links to. A figure taken from one has to be read again on the page before it is published, and a record that admits the snippet in a note while citing the page looks fully sourced, which is why nobody rereads it.  
   <small>Rice's school page credited Poets&Quants with an average GMAT of 693 for the Class of 2027, a number the article never prints; the figure's own note said it was read from a search snippet (INC-0151)</small>
 
@@ -3647,6 +3661,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The source check read a page's 2026-27, written with an en dash, as 2026 and 27, so every figure we labelled 2026-27 looked unsupported (INC-0140)</small>
 - [ ] Loading a page is not the same as reading it. A chart can be a separate document inside the page that draws only when scrolled into view, and a page with trackers may never fall quiet, so a reader built for checking has to scroll like a person, collect every frame, and use waits that give up rather than hang.  
   <small>The source check's browser read returned Stanford's class profile without a single figure, because the figures are drawn in an embedded chart that renders only when scrolled into view (INC-0146)</small>
+- [ ] A checker that reads a page has to read the page a person sees, not the file behind it. Markup can hold text no reader is shown, in comments, hidden elements and templates, and a site that retires a figure often leaves it there.  
+  <small>The source check read text inside HTML comments as page text, and confirmed Arizona State's 43 percent women from a table row the school had commented out (INC-0152)</small>
 
 
 # Adapting This to a Different Business
@@ -3763,7 +3779,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 151 real defects reduced to the rules that prevent them,
+the whole project: 152 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -3803,7 +3819,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-151 defects already prevented is genuinely ahead, and every defect it hits
+152 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

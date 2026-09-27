@@ -123,7 +123,10 @@ length, a domain label, or a question range is either sourced or absent.
 A citation proves a source is named, not that it says the figure (INC-0130), and a
 publisher changes its fees on its own schedule (INC-0132). `python3 src/check_sources.py`
 reads every page and PDF the file cites and reports each number in a fact, or in its
-`note`, that the source does not print. It runs weekly in `.github/workflows/playbook.yml`
+`note`, that the source does not print. It reads a page as a person sees it: text inside
+an HTML comment is left out, because a school that retires a figure often comments it out
+rather than deleting it, and Arizona State's 43 percent women was confirmed from such a
+row (INC-0152). It runs weekly in `.github/workflows/playbook.yml`
 and opens an issue when something no longer matches. A fact whose number is arithmetic on
 its source says so with a `derived` entry giving the working, such as
 `"derived": {"63": "21 + 42, the private and public colleges the page lists"}`, and the

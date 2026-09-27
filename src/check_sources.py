@@ -128,6 +128,10 @@ def to_text(body, ctype):
             raise RuntimeError("a PDF, and pdfminer.six is not installed")
         return extract_text(io.BytesIO(body))
     t = body.decode("utf-8", errors="replace")
+    # A comment is markup no reader sees. Kept, its text read as printed, and Arizona
+    # State's 43 percent women was confirmed from a row the school had commented out
+    # (INC-0152). It goes first, because a comment can hold tags and scripts.
+    t = re.sub(r"<!--[\s\S]*?-->", " ", t)
     t = re.sub(r"<(script|style|noscript)[\s\S]*?</\1>", " ", t, flags=re.I)
     return html.unescape(re.sub(r"<[^>]+>", " ", t))
 
@@ -277,7 +281,14 @@ def ended_periods(text, today):
 
 def _selfcheck():
     """INC-0140: a year range reads as both years however the page punctuates it.
-    INC-0150: a school figure is found only beside its label, in a passage about its program."""
+    INC-0150: a school figure is found only beside its label, in a passage about its program.
+    INC-0152: a figure only inside an HTML comment is not printed; the same figure outside one is."""
+    row = '<p class="tableItem Title">Female</p> <p class="tableItem">43%</p>'
+    for page, want in (("<div>Class composition International 32%</div><!-- <div>" + row + "</div> -->", False),
+                       ("<div>Class composition International 32%</div><div>" + row + "</div>", True)):
+        if ("43" in numbers(to_text(page.encode(), "text/html"))) != want:
+            sys.exit("check_sources: a figure %s an HTML comment was %s" % (
+                ("inside", "read as printed") if not want else ("outside", "not found")))
     for sep in ("-", "/", "\u2013"):
         got = numbers("rates for 2026%s27" % sep)
         if not {"2026", "2027"} <= got:
