@@ -178,6 +178,12 @@
         "url": "https://www.mba.com/-/media/files/mba2/the-gmat-exam/files/register/gmat-policies-and-procedures_aug-2026.pdf?rev=1944562325e64999a09f36900dce5893&hash=C178A7A6EB28EAB4EA48C6C4FD28A3D3"
       },
       {
+        "text": "Vouchers issued by GMAC and fee waivers issued by schools may not be sold, redistributed or transferred by test takers, and vouchers and fee waivers for the exam delivered online may not be used for the exam delivered at a test center, nor those for a test center online",
+        "src": "GMAT Exam Policies and Procedures (GMAC)",
+        "year": 2026,
+        "url": "https://www.mba.com/-/media/files/mba2/the-gmat-exam/files/register/gmat-policies-and-procedures_aug-2026.pdf?rev=1944562325e64999a09f36900dce5893&hash=C178A7A6EB28EAB4EA48C6C4FD28A3D3"
+      },
+      {
         "text": "GMAT scores are valid for five years and available for reporting for up to 10 years; results over 10 years old are not available",
         "src": "mba.com support (GMAC)",
         "year": 2023,
@@ -334,6 +340,13 @@
         "url": "https://satsuite.collegeboard.org/sat/registration/fee-waivers/fee-waiver-benefits"
       },
       {
+        "text": "SAT fee waivers are available to low-income 11th- and 12th-grade students in the United States or territories and United States citizens living abroad, and a student may redeem one fee waiver code or receive benefits directly through College Board once per lifetime",
+        "src": "College Board",
+        "year": 2026,
+        "url": "https://satsuite.collegeboard.org/sat/registration/fee-waivers/fee-waiver-eligibility",
+        "also_urls": ["https://satsuite.collegeboard.org/sat/registration/fee-waivers"]
+      },
+      {
         "text": "Once a student has left high school and has not tested for a year, College Board archives their SAT scores; archived scores can still be sent, with a retrieval fee on top of each report's fee, but scores older than 2005 are no longer accessible, and College Board says reports sent five or more years after a test date may be less valid predictors of college performance",
         "src": "College Board",
         "year": 2026,
@@ -458,6 +471,12 @@
         "src": "ETS",
         "year": 2026,
         "url": "https://www.ets.org/gre/score-users/reducing-barriers/fee-reductions.html"
+      },
+      {
+        "text": "ETS offers GRE Fee Reduction Vouchers to US citizens or resident aliens with financial need who are college seniors or unenrolled college graduates whose FAFSA Submission Summary shows a Student Aid Index (SAI) of zero or less, to individuals who are unemployed and receiving unemployment compensation, to individuals currently serving in the Peace Corps, and through national programs that work with underrepresented groups; a voucher may be used for one General Test and/or one Subject Test",
+        "src": "ETS",
+        "year": 2026,
+        "url": "https://www.ets.org/gre/test-takers/general-test/register/fees.html"
       },
       {
         "text": "Percentile ranks, the percentage of test takers who scored lower, from everyone who tested between July 1, 2022, and June 30, 2025: 160 is the 82nd percentile in Verbal Reasoning and the 50th in Quantitative Reasoning, 165 the 95th and 67th, 170 the 99th and 89th; the means are 151.39 in Verbal (standard deviation 8.43, 788,021 test takers), 157.62 in Quantitative (9.90, 790,864) and 3.46 in Analytical Writing",
@@ -664,6 +683,12 @@
       },
       {
         "text": "LSAC's fee waiver has two tiers for US and Canadian applicants: Tier 1 includes two LSATs, 6 law school reports, a five-year CAS subscription and a year of LawHub Advantage; Tier 2 includes one LSAT, 3 law school reports, the CAS subscription and LawHub Advantage",
+        "src": "LSAC",
+        "year": 2026,
+        "url": "https://www.lsac.org/lsat/register-lsat/lsat-cas-fees/fee-waiver"
+      },
+      {
+        "text": "Fee waiver tiers are set by tax-filing status and income: an independent applicant qualifies for Tier 1 up to 235% of the federal poverty guidelines and for Tier 2 from 235 to 260%, and a dependent applicant up to 150% and up to 200% on the applicant's income, or up to 200% and from 200 to 300% on the applicant's and parents' income; maximum asset and cash balance levels also apply",
         "src": "LSAC",
         "year": 2026,
         "url": "https://www.lsac.org/lsat/register-lsat/lsat-cas-fees/fee-waiver"
