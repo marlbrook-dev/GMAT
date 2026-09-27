@@ -89,7 +89,10 @@
    "stat": "average work experience stated as 60 months (converted to years)",
    "src": "W&M full-time MBA admissions page",
    "year": 2025,
-   "url": "https://mason.wm.edu/graduate/mba/full-time-mba/admissions/"
+   "url": "https://mason.wm.edu/graduate/mba/full-time-mba/admissions/",
+   "derived": {
+    "5": "60 months / 12, the page's average work experience in years"
+   }
   },
   "women_pct": {
    "v": 30,

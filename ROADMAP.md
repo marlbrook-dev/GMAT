@@ -388,6 +388,15 @@ verified rather than that the school does not publish one (INC-0118).
       src/smoke_signup.js had been failing on that for as long as it sat outside CI. The form
       now keeps what its fields hold, the smoke checks a forced redraw directly, and it runs
       in npm run test:browser.
+- [x] **Columbia's work experience was another program's** (INC-0150). The record's five years
+      is the MBAxMS cohort's in the cited Poets&Quants article, which gives none for the MBA
+      class; the source check passed it because the article does say five years. It is empty
+      now, and the queued work experience post drops Columbia (37 programs, 28 between 4.9 and
+      6 years, the middle one still 5.1). The school check now wants each figure's number beside
+      a word saying what it counts, and lists a figure found only near another program's name
+      for a person to read: 13 today, 12 of them the right program's figures. The 13th, Rice's
+      international share, has no support on Rice's page, which now prints three-year
+      averages, and Rice is already queued for a refresh.
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects
