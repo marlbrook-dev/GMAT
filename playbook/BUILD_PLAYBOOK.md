@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-27, which is 8 days, across
-84 commits, by one owner directing a series of AI coding sessions. As of this
+85 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 83 Python files, 107 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 64 documents:
 2039 tracked files in total.
@@ -1122,7 +1122,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-84 commits in 8 days, one owner, a series of AI sessions. This
+85 commits in 8 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1214,7 +1214,7 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-141 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+142 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
@@ -1222,14 +1222,14 @@ well enough to audit later. Which is what this book is.
 | How | Count | Share |
 | --- | ---: | ---: |
 | Found by reading the code or the output | 69 | 49% |
-| Found by measuring something | 39 | 28% |
+| Found by measuring something | 39 | 27% |
 | A test caught it | 16 | 11% |
-| Found by rendering it and looking | 7 | 5% |
+| Found by rendering it and looking | 8 | 6% |
 | Found by a review bot or an adversarial pass | 5 | 4% |
 | A build guard caught it | 3 | 2% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 139 of 141 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 140 of 142 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1238,20 +1238,20 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 59 |
+| Wrong data shown or stored | 60 |
 | Degraded | 30 |
 | Silent loss | 26 |
 | Cosmetic | 23 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 141. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 142. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 61 |
+| Content generation | 62 |
 | Tests and guards | 20 |
 | Front end | 10 |
 | Build system | 10 |
@@ -1266,7 +1266,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-135 of 141 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+136 of 142 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1287,7 +1287,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-56 of 141 incidents record that they repeat an earlier lesson, 78 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+57 of 142 incidents record that they repeat an earlier lesson, 79 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1299,6 +1299,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0082 Nine published exam facts cite test prep companies, in the one published corpus with no source validator | INC-0124, INC-0125, INC-0130 | 3 |
 | INC-0092 A schema threw away three draws in four, and the counter that knew was read by nobody | INC-0098, INC-0099, INC-0101 | 3 |
 | INC-0099 Every generated reading comprehension question shipped without its passage | INC-0100, INC-0101, INC-0103 | 3 |
+| INC-0105 Twelve average salaries were published as medians, and the social queue credited schools with figures they never published | INC-0106, INC-0124, INC-0142 | 3 |
 | INC-0050 A landing-page icon referenced a colour token that did not exist | INC-0018, INC-0139 | 2 |
 | INC-0055 A new browser suite hardcoded this machine's browser directory and crashed in CI | INC-0067, INC-0110 | 2 |
 | INC-0059 The item counter missed a whole bank file because it assumed a quoting style | INC-0064, INC-0067 | 2 |
@@ -1311,7 +1312,6 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0098 The table said 31.0 and the explanation said 31, because the fix covered the table only | INC-0099, INC-0101 | 2 |
 | INC-0101 A new field-by-field copier reproduced the passage loss defect four days after the ledger recorded it | INC-0102, INC-0103 | 2 |
 | INC-0103 A 139 page section shipped with no route into it from the sitemap | INC-0108, INC-0109 | 2 |
-| INC-0105 Twelve average salaries were published as medians, and the social queue credited schools with figures they never published | INC-0106, INC-0124 | 2 |
 | INC-0119 Length corrections appended clauses that repeated what the answer choices already said | INC-0120, INC-0121 | 2 |
 | INC-0124 A blog post put the ACT science add-on at $4 in its table and $5 in its own FAQ, and nothing compared a post's prices with the sourced ones | INC-0125, INC-0132 | 2 |
 | INC-0125 Every College Scorecard figure in the MBA library cited the program's own website as its source URL | INC-0130, INC-0133 | 2 |
@@ -1331,7 +1331,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0136 The LSAT guide said most test takers choose between remote and in-person testing, after LSAC had moved almost everyone into test centers | INC-0137 | 1 |
 | INC-0137 A post queued to publish the next day said the LSAT trainer was still in development, eleven days after it went live | INC-0138 | 1 |
 
-The largest family runs to 46 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
+The largest family runs to 47 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140, INC-0142. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
 
 Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.
 
@@ -1359,12 +1359,12 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/build_banks.py`, 17 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011, INC-0079, INC-0081, INC-0086, INC-0088, INC-0089, INC-0090, INC-0091, INC-0092, INC-0120, INC-0123, INC-0126, INC-0127)
 - `src/build.py`, 12 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067, INC-0076, INC-0080, INC-0131)
 - `src/test.js`, 8 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085)
+- `src/build_rankings.py`, 5 incidents (INC-0014, INC-0049, INC-0118, INC-0135, INC-0142)
 - `src/review_bot.js`, 5 incidents (INC-0022, INC-0026, INC-0051, INC-0061, INC-0077)
 - `src/bank_emit.py`, 5 incidents (INC-0062, INC-0066, INC-0068, INC-0073, INC-0119)
 - `src/gen/framework.py`, 5 incidents (INC-0074, INC-0075, INC-0078, INC-0087, INC-0096)
 - `src/gen/g_rc.py`, 5 incidents (INC-0097, INC-0114, INC-0115, INC-0117, INC-0122)
 - `src/check_sources.py`, 5 incidents (INC-0130, INC-0132, INC-0133, INC-0136, INC-0140)
-- `src/build_rankings.py`, 4 incidents (INC-0014, INC-0049, INC-0118, INC-0135)
 - `src/bank_repair.py`, 4 incidents (INC-0070, INC-0071, INC-0072, INC-0121)
 - `src/weekly_audit.js`, 3 incidents (INC-0050, INC-0048, INC-0018)
 - `src/smoke_redirect.js`, 3 incidents (INC-0023, INC-0024, INC-0047)
@@ -1381,7 +1381,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (61)
+## Content generation (62)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -2123,6 +2123,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** Both notes are rewritten whole from their pages, and the Cincinnati entry declares the working behind its two sums. merge_results.py keeps the whole note; a note too long for the page is for a person to shorten.
 - **What stops it now.** validate_schools.py fails the build on a profile or scholarship stat whose last clause is one or two letters long, or that ends on a separator or on a word such as and, or, the, of, to. merge_results.py runs the same test and rejects a result that would store such a note. in `src/validate_schools.py`
 - **Lesson.** Any field that is printed on a page is copy, whatever the schema calls it. A length cap that cuts at a character count will eventually cut a word in half and publish it, so shorten text by clause or leave it to a person; and check that printed text ends the way text ends, because a check that a field is present and sourced passes a field cut off halfway through.
+
+
+### INC-0142. Every school's employment rate was labelled and scored as a three month figure, though 15 of 70 were measured at six months, four months, a year or a reporting date, or at a timing their notes do not give
+
+*2026-09-27, Wrong data shown or stored*
+
+- **What was seen.** School pages and the rankings drawer printed every employment_rate_pct under the fixed label "Employed at 3 months", and the SFN Score's methodology says outcomes use 3-month employment. Of the 70 figures in the library, 9 are six month figures (Kogod, Babson, GW, Michigan State, Kellogg, SMU, Tennessee, UC Irvine, UNC), Tulane's is at four months, Northeastern's is within a year, and 4 notes give no timing in months (BC Carroll's reports to October 31; Portland State's, Wharton's and William & Mary's give none). Kogod's drawer read "Employed at 3 months: 94%, students reporting fully employed, in graduate school, or both, six months post-graduation", the label and its own note disagreeing on one line. The rankings table's Employ column, its sort, and the SFN Score's outcomes component used all 70 as if they were one measure, so a school reporting a later count was sorted and scored on a different measure from the rest.
+- **Why.** The label and the methodology describe the field as it was meant to be filled, not as it was filled. Each figure's note records its timing, but nothing read the note: the label was a constant in PROFILE_FIELDS and the drawer, and sfn_score() took whatever value the field held. INC-0105 fixed the same shape of problem for salary (a median label on averages) by deriving the label from each figure's note, and the employment field was never given the same treatment.
+- **How it surfaced.** Found on September 27, 2026 while checking the new whole program cost row in the rankings drawer: Kogod's drawer showed the three month label above a note that says six months. A scan of all 70 notes by the first timing each names found the rest. (Found by rendering it and looking)
+- **Fix.** Each employment figure's timing is read from its note (three months or 90 days, four months, six months, a year, a reporting date, or none we have verified), and the school page, the drawer and the table say that timing. A figure its note places at another point is shown but neither scored nor sorted with the three month rates, as the methodology says; one whose timing is not verified is labelled so and still counts, so an unread report does not move a school on a guess. UNC's figure moves to the three month rate its report prints beside the six month one (88 percent). The SFN top three are unchanged; Michigan State, whose 93 percent is a six month rate, moves from 26th to 43rd, and Tulane, whose 100 percent is at four months, from 36th to 51st.
+- **What stops it now.** build_rankings checks the timing reader against a table of note wordings on every build before any page is written, so a change that reads a six month note as three months, or a reporting date as none, stops the build. in `src/build_rankings.py`
+- **Lesson.** A label fixed in code is a claim about every value the field will ever hold. When the data carries its own qualifier, such as a timing or a statistic, the label has to be read from the data, and anything that compares or scores the values has to use only the ones that share the qualifier the method names.
 
 
 ## Tests and guards (20)
@@ -3232,6 +3244,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A schema threw away three draws in four, and the counter that knew was read by nobody (INC-0092)</small>
 - [ ] **Learned 4 times over.** A check that infers what to expect from the same data it is checking cannot fail on a missing field: absence reads as nothing to look for. Derive the expectation from something the data cannot erase, the item's TYPE, and then look for what that type requires. A field that is set in memory, used by every in-process test and copied by hand into the shipped format has no test at all between the two, so the copying should be checked as a whole rather than field by field. And a check that runs one random draw is not a check of a random process: this one was correct for months and simply never asked often enough to see the answer.  
   <small>Every generated reading comprehension question shipped without its passage (INC-0099)</small>
+- [ ] **Learned 4 times over.** Any consumer that describes a value in words must read the field that records what kind of value it is, never the field's name. A field name is a hope about the data, not a description of it, and a schema that allows two kinds of value will be described everywhere as the kind it was named after.  
+  <small>Twelve average salaries were published as medians, and the social queue credited schools with figures they never published (INC-0105)</small>
 - [ ] **Learned 3 times over.** A module that nothing imports fails no test, and an exception raised on every draw is indistinguishable from an exception raised on a hard draw. Both are silence, and a build that reports totals hears neither. Count what each schema contributed, not what the category holds, and treat a contribution of zero as a failure rather than as a small number.  
   <small>A finished generator module that nothing imported, and two of its four schemas produced nothing (INC-0086)</small>
 - [ ] **Learned 3 times over.** Reading the record does not prevent the defect; the practice does. This one was written hours after its own lesson was read closely enough to be catalogued as a recurrence, and it was caught by rendering three items rather than by remembering. Budget the render, not the recollection.  
@@ -3244,8 +3258,6 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The table said 31.0 and the explanation said 31, because the fix covered the table only (INC-0098)</small>
 - [ ] **Learned 3 times over.** When a defect is about a KIND of code rather than a line of code, a guard bolted to the site of the failure does not generalise, and writing one feels like closing the case. Ask instead what the next instance of this code will look like and where it will live: here the answer was anywhere an item is copied out of the bank, and the durable check is that an item asking about source material has to be carrying it, wherever it is being rendered.  
   <small>A new field-by-field copier reproduced the passage loss defect four days after the ledger recorded it (INC-0101)</small>
-- [ ] **Learned 3 times over.** Any consumer that describes a value in words must read the field that records what kind of value it is, never the field's name. A field name is a hope about the data, not a description of it, and a schema that allows two kinds of value will be described everywhere as the kind it was named after.  
-  <small>Twelve average salaries were published as medians, and the social queue credited schools with figures they never published (INC-0105)</small>
 - [ ] **Learned 3 times over.** An edit that appends text has to read what it is appending to. A correction step that checks only its own goal (here, that the choice got longer) will happily achieve it by making the choice worse, and every check downstream measures the goal, so nothing notices. Check the seam: the words either side of where new text meets old text.  
   <small>Length corrections appended clauses that repeated what the answer choices already said (INC-0119)</small>
 - [ ] **Learned 3 times over.** A figure written twice on one page will eventually be written two ways. Where the site already holds a sourced value, a page that states it should be checked against that value, because a reader who meets $4 and $5 for the same fee trusts neither.  
@@ -3342,6 +3354,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Arizona State's school page said its class entered in 2027, because the label parser took the first year it found (INC-0135)</small>
 - [ ] Any field that is printed on a page is copy, whatever the schema calls it. A length cap that cuts at a character count will eventually cut a word in half and publish it, so shorten text by clause or leave it to a person; and check that printed text ends the way text ends, because a check that a field is present and sourced passes a field cut off halfway through.  
   <small>Two school pages printed a source note cut off mid-word, because the research merge kept the first 300 characters of every note and nothing checked that printed text ends as a clause (INC-0141)</small>
+- [ ] A label fixed in code is a claim about every value the field will ever hold. When the data carries its own qualifier, such as a timing or a statistic, the label has to be read from the data, and anything that compares or scores the values has to use only the ones that share the qualifier the method names.  
+  <small>Every school's employment rate was labelled and scored as a three month figure, though 15 of 70 were measured at six months, four months, a year or a reporting date, or at a timing their notes do not give (INC-0142)</small>
 
 
 ## Database
@@ -3618,7 +3632,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 141 real defects reduced to the rules that prevent them,
+the whole project: 142 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -3658,7 +3672,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-141 defects already prevented is genuinely ahead, and every defect it hits
+142 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

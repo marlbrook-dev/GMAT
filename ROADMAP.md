@@ -327,6 +327,17 @@ verified rather than that the school does not publish one (INC-0118).
       figures are a year or the whole program), Iowa, Missouri and UConn (their full-time
       programs closed), and Northeastern, Purdue, Syracuse, San Diego and Temple (per-credit
       rates only, or a JavaScript calculator).
+- [x] **Each employment rate says when it was measured** (INC-0142): every figure was
+      labelled "Employed at 3 months" and scored as one, though 15 of 70 were measured at
+      six months, four months, a year or a reporting date, or at a timing not yet verified.
+      The label now comes from each figure's own note; a rate measured at another point is
+      shown with its timing and neither scored nor sorted with the three month rates, as the
+      methodology says, and an unverified timing is labelled so and still counts. UNC moves
+      to the three month rate its report prints (88 percent). The SFN top three are
+      unchanged; Michigan State (93 percent at six months) goes from 26th to 43rd and Tulane
+      (100 percent at four months) from 36th to 51st. Still to verify: the timing of
+      Wharton's, William & Mary's and Portland State's rates (Wharton's report is unreadable
+      from here).
 - [x] **The school library checked against its sources** (INC-0133): `check_sources.py
       --schools` reads every page the library cites (652 figures, 225 pages; the 337 College
       Scorecard figures come from a dataset and are set aside). Reading its flags on static

@@ -12,7 +12,8 @@ Two-layer ranking, both documented verbatim on the page:
    with weights renormalized over available components. Outcomes = the mean
    of salary points (70k to 190k maps 0 to 100; the median where a school
    publishes one, otherwise its published average, per INC-0105) and 3-month employment
-   points (60% to 95% maps 0 to 100); both bands recalibrated August 2026
+   points (60% to 95% maps 0 to 100; a rate measured at another point is shown but not
+   scored, per INC-0142); both bands recalibrated August 2026
    to the observed range of official school reports. GMAT maps Focus 555 to 695 or
    Classic 605 to 745 onto 0 to 100 (whichever edition the school
    publishes; never converted). Acceptance maps 60% down to 6% onto 0 to
@@ -138,6 +139,72 @@ def salary_noun(f):
     calling that a salary overstates what a graduate is paid in salary."""
     head = re.split(r"[;,(]", str((f or {}).get("stat") or "").lower(), 1)[0]
     return "total compensation" if re.search(r"bonus|total compensation", head) else "starting salary"
+
+
+# An employment rate is measured at some point after graduation, and each figure's note
+# says which. Labelling every one "at 3 months", and scoring them as one measure, put a
+# six month rate beside three month rates as if a later count were the same count
+# (INC-0142). The first timing a note names is the headline figure's.
+_EMP_TIMING = (
+    (re.compile(r"\b(?:three|3)[- ]months?\b|\b90 days\b", re.I), 3),
+    (re.compile(r"\b(?:four|4)[- ]months?\b|\b120 days\b", re.I), 4),
+    (re.compile(r"\b(?:six|6)[- ]months?\b|\b180 days\b", re.I), 6),
+    (re.compile(r"\bwithin a year\b|\b(?:twelve|12)[- ]months?\b", re.I), 12),
+)
+_EMP_BY_DATE = re.compile(r"\breported up to ([A-Z][a-z]+ \d{1,2})\b")
+
+
+def emp_months(f):
+    """How many months after graduation an employment figure is measured, read from the
+    first timing its note names; None when the note names no timing in months."""
+    stat = str((f or {}).get("stat") or "")
+    hits = [(m.start(), months) for rx, months in _EMP_TIMING for m in [rx.search(stat)] if m]
+    return min(hits)[1] if hits else None
+
+
+def emp_when(f):
+    """The timing an employment figure is measured at, in words, for its label and its note
+    in the table: 'at 3 months', 'within a year', 'by October 31', or 'timing not verified'.
+    The last says what we hold, not what the school publishes (INC-0118)."""
+    months = emp_months(f)
+    if months == 12:
+        return "within a year"
+    if months:
+        return "at %d months" % months
+    m = _EMP_BY_DATE.search(str((f or {}).get("stat") or ""))
+    return "by " + m.group(1) if m else "timing not verified"
+
+
+def emp_comparable(f):
+    """Whether an employment figure can stand beside three month rates: it is one, or no
+    timing in its note is verified either way. A figure its own note places at another point
+    cannot, so it is shown with its timing but neither scored nor sorted with them."""
+    return emp_when(f) in ("at 3 months", "timing not verified")
+
+
+def emp_label(f):
+    """'Employed at 6 months', 'Employed within a year', 'Employed by October 31', or
+    'Employment rate, timing not verified'."""
+    when = emp_when(f)
+    return ("Employment rate, " if when == "timing not verified" else "Employed ") + when
+
+
+def _selfcheck_emp():
+    """INC-0142's guard: the notes as schools word them read as the timing they state."""
+    table = (
+        ("accepted offers within 3 months of graduation; 89 percent within 6 months", 3),
+        ("employment rate within 90 days of graduation, Class of 2023", 3),
+        ("employed by six months post graduation (accepted offers by 3 months: 60 percent)", 6),
+        ("gained full-time employment within 4 months of graduation", 4),
+        ("accepted a full-time job offer within a year of graduation", 12),
+        ("employment offers; timeframe and class year not stated on the page", None),
+    )
+    for stat, want in table:
+        if emp_months({"stat": stat}) != want:
+            raise SystemExit("build_rankings: emp_months read %r as %s, expected %s"
+                             % (stat, emp_months({"stat": stat}), want))
+    if emp_label({"stat": "data reported up to October 31, 2025"}) != "Employed by October 31":
+        raise SystemExit("build_rankings: emp_label misreads a reporting date")
 
 
 def class_subject(label):
@@ -381,7 +448,8 @@ def sfn_score(s):
     sal = field(s, "salary_median_usd")
     if sal is not None:
         outs.append(clamp01((sal - 70000) / (190000 - 70000)) * 100)
-    emp = field(s, "employment_rate_pct")
+    ef = (s.get("profile") or {}).get("employment_rate_pct") or {}
+    emp = ef.get("v") if emp_comparable(ef) else None
     if emp is not None:
         outs.append(clamp01((emp - 60) / 35) * 100)
     if outs:
@@ -504,7 +572,7 @@ PROFILE_FIELDS = [
     ("women_pct", "Women", "%", False), ("intl_pct", "International", "%", False),
     ("tuition_usd", "Tuition per year", "", True), ("program_cost_usd", "Whole program cost", "", True),
     ("salary_median_usd", "Starting salary", "", True),
-    ("employment_rate_pct", "Employed at 3 months", "%", False),
+    ("employment_rate_pct", "Employment rate", "%", False),
 ]
 
 def federal_section(s):
@@ -721,6 +789,16 @@ def fit_blob(p):
     return out
 
 
+def emp_cell(s):
+    """The table's employment cell. The column is three month employment, so a figure whose
+    note says anything else carries that timing, and one measured at another point sorts last."""
+    f = (s.get("profile") or {}).get("employment_rate_pct") or {}
+    if f.get("v") is None:
+        return fmt(None, "%")
+    note = "" if emp_months(f) == 3 else "<span class=note>%s</span>" % esc(emp_when(f))
+    return fmt(f["v"], "%") + note
+
+
 def seo_name(school):
     """Title-facing name: university plus school, only where that adds something."""
     name = (school.get('name') or '').strip()
@@ -761,6 +839,9 @@ def school_page(s, tpl, today, ranked=()):
         f = p.get(key) or {}
         if key == "salary_median_usd":
             label = " ".join(x for x in (salary_word(f), salary_noun(f)) if x).capitalize()
+            labels.append(label)
+        if key == "employment_rate_pct" and f.get("v") is not None:
+            label = emp_label(f)
             labels.append(label)
         if f.get("v") is None:
             # Acceptance rate is the single most searched attribute in our tracked
@@ -1015,6 +1096,7 @@ def main():
     import validate_schools
     validate_schools.validate(schools)
     _selfcheck_secondary()
+    _selfcheck_emp()
     _selfcheck_class_subject(schools, os.environ.get("BLOG_BUILD_DATE") or datetime.date.today().isoformat())
     dropped = [s["slug"] for s in schools if s.get("discontinued")]
     if dropped:
@@ -1086,7 +1168,7 @@ def main():
             f'<td class="num">{fmt(field(s, "intl_pct"), "%")}</td>'
             f'<td>{schol_cell(s)}</td>'
             f'<td class="num">{tuition_cell}</td>'
-            f'<td class="num">{fmt(field(s, "employment_rate_pct"), "%")}</td>'
+            f'<td class="num">{emp_cell(s)}</td>'
             f'<td class="expcell"><span class="car">&#9660;</span></td>'
             "</tr>")
     weights_rows = "".join(
@@ -1099,6 +1181,9 @@ def main():
         sf = (s.get("profile") or {}).get("salary_median_usd")
         if isinstance(sf, dict) and sf.get("v") is not None:
             sf["label"] = " ".join(x for x in (salary_word(sf), salary_noun(sf)) if x).capitalize()
+        ef = (s.get("profile") or {}).get("employment_rate_pct")
+        if isinstance(ef, dict) and ef.get("v") is not None:
+            ef["label"], ef["comparable"] = emp_label(ef), emp_comparable(ef)
 
     ld_items = "".join(
         f'{{"@type":"ListItem","position":{s["_rank"]},"name":{json.dumps(s["name"])},"url":"{SITE}/schools/{s["slug"]}/"}},'

@@ -211,7 +211,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:var(--s4);flex-wrap:
 <th class="num" onclick="sortBy('intl')" title="Share of the class holding a non-US passport, as each school reports it on its own class profile">Intl</th>
 <th onclick="sortBy('schol')" title="Whether every admitted student is considered for scholarship automatically, or a separate application is required. Sourced from each school's own financial aid pages; a dash means the school does not state it.">Scholarship</th>
 <th class="num" onclick="sortBy('tuition')">Tuition/yr</th>
-<th class="num" onclick="sortBy('employ')" title="Employment rate about 3 months after graduation, as each school reports it">Employ</th>
+<th class="num" onclick="sortBy('employ')" title="Employment rate 3 months after graduation, as each school reports it. A figure whose timing differs or is not verified shows its timing, and one measured at another point sorts last.">Employ</th>
 <th></th>
 </tr></thead><tbody id="rows">
 {{ROWS}}
@@ -238,7 +238,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:var(--s4);flex-wrap:
 <div>
 <p>Each publisher's most recent full-time MBA ranking is converted to points (rank 1 = 100 points, rank 2 = 99, and so on), then combined as a weighted average using the weights shown. When a source does not rank a school, the remaining weights are renormalized so no school is penalized for a publisher's coverage gaps; a school needs ranks from at least three of the five publishers to receive a composite rank at all. Ties share a rank.</p>
 <p>Why these weights: US News carries the most applicant mindshare in the United States and audits school-reported placement and selectivity data. The Financial Times brings a global, alumni-outcomes view built on a survey taken three years after graduation. Bloomberg surveys students and recruiters directly but its year-to-year volatility is well documented, so it earns a smaller share. QS adds international employer perception. Poets and Quants is itself a consensus of other lists, useful signal but partly double-counted, so it also stays at the smaller share. We publish the weights so you can disagree with them: every per-source rank is shown in the table, and the CSV export includes all of them.</p>
-<p>The Score column is the SFN Score (0 to 100), which ranks every school including those the big lists skip: publisher consensus 50%, published outcomes (starting salary and 3-month employment) 20%, GMAT selectivity 20%, acceptance rate 10%, with weights renormalized over whatever components a school actually publishes. Outcome points map starting salary from $70k to $190k and 3-month employment from 60% to 95%, bands set to the observed range of official school reports and restated here whenever they change. Salary is the median wherever a school publishes one; where a school publishes only an average, or salary plus bonus, that is the figure used, and its page says which. A school needs the publisher component or at least two data components to be scored. Schools ranked without publisher coverage carry a "data-based score" basis you can filter on: their position reflects published outcomes and selectivity only, weighted exactly as stated, which is the same logic the major publishers use, applied transparently.</p>
+<p>The Score column is the SFN Score (0 to 100), which ranks every school including those the big lists skip: publisher consensus 50%, published outcomes (starting salary and 3-month employment) 20%, GMAT selectivity 20%, acceptance rate 10%, with weights renormalized over whatever components a school actually publishes. Outcome points map starting salary from $70k to $190k and 3-month employment from 60% to 95%, bands set to the observed range of official school reports and restated here whenever they change. An employment rate a school measures at another point, such as six months, is shown with its timing but not scored, because a later count is a different measure; one whose timing we have not verified is labelled so and still counts until it is checked. Salary is the median wherever a school publishes one; where a school publishes only an average, or salary plus bonus, that is the figure used, and its page says which. A school needs the publisher component or at least two data components to be scored. Schools ranked without publisher coverage carry a "data-based score" basis you can filter on: their position reflects published outcomes and selectivity only, weighted exactly as stated, which is the same logic the major publishers use, applied transparently.</p>
 <p>Class profile figures (GMAT, GPA, class size, acceptance rate, tuition) come from each school's own published class profile or admissions pages wherever available, labeled with source and year on each school's profile page. We never estimate, convert between GMAT editions, or fill gaps with guesses; a dash means we have not verified the figure from the school or a tracked publisher. Rankings referenced belong to their respective publishers and are cited as published facts with attribution.</p>
 </div>
 </div>
@@ -335,7 +335,9 @@ function sortVal(s,key){
  if(key==='_rank') return s._rank==null?999:s._rank;
  if(key==='gmat'){ var g=gmatOf(s); return g?(g.ed==='Focus'?g.v+60:g.v):0; }
  if(key==='gpa') return fieldV(s,'gpa')||0;
- if(key==='employ') return fieldV(s,'employment_rate_pct')==null?-1:fieldV(s,'employment_rate_pct');
+ // Three month rates only; a rate taken at another point, like a school with none, sorts
+ // after them whichever way the column is sorted (INC-0142).
+ if(key==='employ'){ var e=(s.profile||{}).employment_rate_pct; return (e&&e.v!=null&&e.comparable)?e.v:null; }
  if(key==='accept') return fieldV(s,'accept_rate_pct')==null?999:fieldV(s,'accept_rate_pct');
  if(key==='size') return fieldV(s,'class_size')||0;
  if(key==='intl') return fieldV(s,'intl_pct');
@@ -376,7 +378,7 @@ function toggleDetail(slug){ var ex=document.getElementById('det-'+slug);
  +dfield('Women',p.women_pct,'%')+dfield('International',p.intl_pct,'%')
  +dfield('Tuition per year',p.tuition_usd,'',true)+dfield('Whole program cost',p.program_cost_usd,'',true)
  +dfield(salLabel(p.salary_median_usd),p.salary_median_usd,'',true)
- +dfield('Employed at 3 months',p.employment_rate_pct,'%')
+ +dfield((p.employment_rate_pct&&p.employment_rate_pct.label)||'Employment rate',p.employment_rate_pct,'%')
  +ranksTxt+'</div></td>';
  var row=document.querySelector('tr.srow[data-slug="'+slug+'"]'); row.classList.add('open'); row.parentNode.insertBefore(tr,row.nextSibling); }
 

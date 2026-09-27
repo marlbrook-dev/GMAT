@@ -126,8 +126,8 @@
    "note": "Median not seen; school one-pager reports average base salary 139,637 for the Class of 2025 (153 reporting) at https://www.kenan-flagler.unc.edu/wp-content/uploads/2025/12/FTMBA26-032-Employment-Statistics-One-Pager_FNL.pdf"
   },
   "employment_rate_pct": {
-   "v": 90,
-   "stat": "job accepts 6 months post-graduation, all students, Class of 2025 (88 percent at 3 months post-graduation; 91 percent with US work authorization, 81 percent without)",
+   "v": 88,
+   "stat": "job offers and job accepts 3 months post-graduation, all students, Class of 2025; the report prints 91 percent for students with U.S. work authorization and 81 percent without beside it, and 90 percent job accepts 6 months post-graduation",
    "src": "Kenan-Flagler MBA Class of 2025 employment statistics one-pager",
    "year": 2025,
    "url": "https://www.kenan-flagler.unc.edu/wp-content/uploads/2025/12/FTMBA26-032-Employment-Statistics-One-Pager_FNL.pdf"
