@@ -52,11 +52,11 @@
    "url": ""
   },
   "gmat_classic": {
-   "v": 650,
-   "stat": "median",
-   "src": "University of Miami news, Fall 2025 cohort (edition not labeled; recorded as reported)",
-   "year": 2025,
-   "url": "https://news.miami.edu/miamiherbert/stories/2025/10/mba-students-continue-miami-herberts-upward-momentum.html"
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": ""
   },
   "gre_quant": {
    "v": null,
@@ -94,17 +94,20 @@
    "url": "https://news.miami.edu/miamiherbert/stories/2025/10/mba-students-continue-miami-herberts-upward-momentum.html"
   },
   "women_pct": {
-   "v": 40,
-   "src": "University of Miami news, Fall 2025 cohort",
-   "year": 2025,
-   "url": "https://news.miami.edu/miamiherbert/stories/2025/10/mba-students-continue-miami-herberts-upward-momentum.html"
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": ""
   },
   "intl_pct": {
    "v": 32,
    "stat": "non-US citizens; article states 68 percent of the cohort are US citizens",
    "src": "University of Miami news, Fall 2025 cohort",
    "year": 2025,
-   "url": "https://news.miami.edu/miamiherbert/stories/2025/10/mba-students-continue-miami-herberts-upward-momentum.html"
+   "url": "https://news.miami.edu/miamiherbert/stories/2025/10/mba-students-continue-miami-herberts-upward-momentum.html",
+   "derived": {
+    "32": "100 - 68, the share the story says are US citizens"
+   }
   },
   "tuition_usd": {
    "v": null,

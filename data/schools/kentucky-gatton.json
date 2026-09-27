@@ -52,10 +52,11 @@
   },
   "gmat_classic": {
    "v": 634,
-   "stat": "average GMAT of 634, 2019-20 One Year MBA class (stale; article dated June 17, 2019; predates GMAT Focus so classic 200 to 800 scale)",
+   "stat": "average GMAT of 634, 2019-20 One Year MBA class",
    "src": "Gatton College official news",
    "year": 2019,
-   "url": "https://gatton.uky.edu/news/gatton-welcomes-talented-201920-one-year-mba-class-university-kentucky"
+   "url": "https://gatton.uky.edu/news/gatton-welcomes-talented-201920-one-year-mba-class-university-kentucky",
+   "note": "Stale: the article is dated June 17, 2019 and predates GMAT Focus, so the score is on the classic scale."
   },
   "gre_quant": {
    "v": null,

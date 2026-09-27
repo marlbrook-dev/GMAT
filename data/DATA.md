@@ -90,7 +90,10 @@ its source says so with a `derived` entry giving the working, such as
 `"derived": {"63": "21 + 42, the private and public colleges the page lists"}`, and the
 check then looks for the inputs instead; a number counted off the page begins its entry
 with `count:`. Pages that build their text with JavaScript need `--render`, which reads
-them in Chromium.
+them in Chromium. `--schools` runs the same check over the school library (INC-0133): it
+sets aside College Scorecard figures, which come from a dataset rather than a page, leaves
+a figure's `note` out because there it is our commentary, and reports a page that shows
+none of its figures as unread rather than wrong.
 
 ## SAT, as encoded in `src/engine.js`
 

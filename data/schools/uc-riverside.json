@@ -28,7 +28,10 @@
    "stat": "page states average work experience (months): 38",
    "src": "UCR School of Business MBA class profile",
    "year": 2025,
-   "url": "https://business.ucr.edu/mba/class-profile"
+   "url": "https://business.ucr.edu/mba/class-profile",
+   "derived": {
+    "3.2": "38 months / 12"
+   }
   },
   "women_pct": {
    "v": 40,

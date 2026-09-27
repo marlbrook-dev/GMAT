@@ -7,10 +7,10 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-26, which is 7 days, across
-73 commits, by one owner directing a series of AI coding sessions. As of this
+74 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 81 Python files, 107 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 64 documents:
-2028 tracked files in total.
+2030 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -1122,7 +1122,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-73 commits in 7 days, one owner, a series of AI sessions. This
+74 commits in 7 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1214,22 +1214,22 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-132 recorded defects, over 7 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+133 recorded defects, over 7 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 63 | 48% |
-| Found by measuring something | 37 | 28% |
+| Found by reading the code or the output | 63 | 47% |
+| Found by measuring something | 38 | 29% |
 | A test caught it | 16 | 12% |
 | Found by rendering it and looking | 6 | 5% |
 | Found by a review bot or an adversarial pass | 5 | 4% |
 | A build guard caught it | 3 | 2% |
 | A person hit it | 2 | 2% |
 
-**This is the most useful table in the book.** 130 of 132 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 131 of 133 defects, 98 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1238,20 +1238,20 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 54 |
+| Wrong data shown or stored | 55 |
 | Degraded | 30 |
 | Silent loss | 26 |
 | Cosmetic | 19 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 132. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 133. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 55 |
+| Content generation | 56 |
 | Tests and guards | 19 |
 | Front end | 10 |
 | Build system | 10 |
@@ -1266,7 +1266,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-126 of 132 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+127 of 133 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1287,7 +1287,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-48 of 132 incidents record that they repeat an earlier lesson, 69 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+49 of 133 incidents record that they repeat an earlier lesson, 71 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1313,6 +1313,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0105 Twelve average salaries were published as medians, and the social queue credited schools with figures they never published | INC-0106, INC-0124 | 2 |
 | INC-0119 Length corrections appended clauses that repeated what the answer choices already said | INC-0120, INC-0121 | 2 |
 | INC-0124 A blog post put the ACT science add-on at $4 in its table and $5 in its own FAQ, and nothing compared a post's prices with the sourced ones | INC-0125, INC-0132 | 2 |
+| INC-0125 Every College Scorecard figure in the MBA library cited the program's own website as its source URL | INC-0130, INC-0133 | 2 |
 | INC-0014 A hardcoded count in the meta description went stale, and Google showed it | INC-0128 | 1 |
 | INC-0023 www and the apex were two origins, so consent and rankings split in half | INC-0127 | 1 |
 | INC-0044 The longest option was the correct answer 81 percent of the time | INC-0091 | 1 |
@@ -1324,9 +1325,9 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0093 Seven variable names were plural and every sentence built around them said was | INC-0096 | 1 |
 | INC-0110 A browser suite outside CI had failed on its first click since the consent dialog shipped | INC-0113 | 1 |
 | INC-0117 Three reading schemas could be answered by matching names, because every distractor came from a different passage | INC-0122 | 1 |
-| INC-0125 Every College Scorecard figure in the MBA library cited the program's own website as its source URL | INC-0130 | 1 |
+| INC-0130 The GRE exam guide credited ETS with a combined 260 to 340 score that the ETS page it cited does not describe | INC-0133 | 1 |
 
-The largest family runs to 39 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
+The largest family runs to 40 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
 
 Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.
 
@@ -1365,6 +1366,7 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/smoke_playbook.js`, 3 incidents (INC-0054, INC-0084, INC-0129)
 - `src/build_playbook.py`, 3 incidents (INC-0057, INC-0065, INC-0083)
 - `src/gen/g_act_sci.py`, 3 incidents (INC-0093, INC-0094, INC-0098)
+- `src/check_sources.py`, 3 incidents (INC-0130, INC-0132, INC-0133)
 
 
 # The Defect Ledger
@@ -1374,7 +1376,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (55)
+## Content generation (56)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -2044,6 +2046,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** The fee is $249, with the date ETS says it took effect. China's $231.30 and the $100 fee reduction price stay, since the same page still prints both.
 - **What stops it now.** src/check_sources.py runs in the weekly audit and reports any number in an exam fact that the cited page no longer prints, so a changed price surfaces within a week rather than whenever someone next happens to read the page. in `src/check_sources.py`
 - **Lesson.** A figure with a source and a year can still go stale, because the source moves and the record does not. For anything a publisher changes on its own schedule, fees above all, read the live source on a schedule instead of trusting the record because it cites one.
+
+
+### INC-0133. School pages published figures that the articles they cite do not contain, one of them a GRE total split in half
+
+*2026-09-27, Wrong data shown or stored*
+
+- **What was seen.** Columbia's school page gave its Class of 2027 a GRE Verbal average of 163 and a GRE Quant average of 163, cited to a Poets&Quants article that prints a combined GRE average of 326 and a 150 to 170 range for each section, and no section average at all: 163 is 326 halved. Miami Herbert's page gave a GMAT median of 650 and 40 percent women, cited to a University of Miami news story that mentions neither; it gives GPA, a combined GRE, the acceptance rate, class size, work experience and citizenship, which the page reports correctly.
+- **Why.** The library was compiled across sessions, some of which ran out of research budget, and a figure that fills an empty field is easiest to take from arithmetic or from somewhere other than the page cited. validate_schools checks that each figure has a source, a year and a URL and that the source is allowed, not that the page says the number, so a figure invented beside a real citation passes every check, which is the gap INC-0130 found in the exam guides.
+- **How it surfaced.** Found on September 27, 2026 by running src/check_sources.py over the school library for the first time, then reading each flagged source that is a static article, where a missing number means something. (Found by measuring something)
+- **Fix.** The three unsupported figures are removed, since the rule is that an unverifiable figure is shown as a dash and never guessed. Figures that are honest arithmetic on their page, such as months of work experience given in years or a count given as a percentage, now declare their working in a derived entry so the check can verify the inputs.
+- **What stops it now.** check_sources.py --schools reads every page the school library cites, sets aside the College Scorecard dataset figures, reports a page that shows none of its figures as unread rather than wrong, and reports every other number its page does not print. It runs weekly in the playbook workflow, rendering pages built by JavaScript, alongside the exam check. in `src/check_sources.py`
+- **Lesson.** Run the source check on every corpus that cites pages, not just the one that broke. When a field is empty and the research is out of budget, leave it empty: a blank is honest, and a figure made to fit beside a real citation is the most convincing kind of wrong.
 
 
 ## Tests and guards (19)
@@ -3133,6 +3147,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Length corrections appended clauses that repeated what the answer choices already said (INC-0119)</small>
 - [ ] **Learned 3 times over.** A figure written twice on one page will eventually be written two ways. Where the site already holds a sourced value, a page that states it should be checked against that value, because a reader who meets $4 and $5 for the same fee trusts neither.  
   <small>A blog post put the ACT science add-on at $4 in its table and $5 in its own FAQ, and nothing compared a post's prices with the sourced ones (INC-0124)</small>
+- [ ] **Learned 3 times over.** A presence check on a source field proves the field is filled, not that it is true. Where a figure names its source, check that the URL belongs to that source, because the easiest value to fill a required field with is the wrong one that happens to be nearby.  
+  <small>Every College Scorecard figure in the MBA library cited the program's own website as its source URL (INC-0125)</small>
 - [ ] **Learned 2 times over.** Test your content against the strategies a lazy adversary would use, not only against whether it is correct. Measure the score of a rule that ignores the question.  
   <small>The longest option was the correct answer 81 percent of the time (INC-0044)</small>
 - [ ] **Learned 2 times over.** A record has parts that refer to one another, and a tool that edits one part by text is editing a graph while looking at a string. The cheap guard is not to check every reference but to refuse the edit when the old text occurs anywhere else in the record, because that is the only place a reference to it can be. Refusing on a false positive costs one rewritten table entry; not refusing ships an explanation about an option nobody saw.  
@@ -3143,8 +3159,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Seven variable names were plural and every sentence built around them said was (INC-0093)</small>
 - [ ] **Learned 2 times over.** A test measures what someone can get right without the skill, and there is more than one way to do that. Removing one tell does not make an item sound; it moves the question to the next shortcut. Distractors drawn from unrelated material are always wrong and therefore always free, so a wrong answer has to be wrong about the same thing the right one is about.  
   <small>Three reading schemas could be answered by matching names, because every distractor came from a different passage (INC-0117)</small>
-- [ ] **Learned 2 times over.** A presence check on a source field proves the field is filled, not that it is true. Where a figure names its source, check that the URL belongs to that source, because the easiest value to fill a required field with is the wrong one that happens to be nearby.  
-  <small>Every College Scorecard figure in the MBA library cited the program's own website as its source URL (INC-0125)</small>
+- [ ] **Learned 2 times over.** A citation vouches only for what its source says, so check each figure against the source rather than checking that a citation is present. The claim most likely to slip through is the true looking one written next to real ones, arithmetic or common knowledge put in the source's mouth.  
+  <small>The GRE exam guide credited ETS with a combined 260 to 340 score that the ETS page it cited does not describe (INC-0130)</small>
 - [ ] Any generator that claims reproducibility must be seeded from something stable across processes. hash() is not, in Python, and the failure shows up as a flaky test rather than as a wrong answer.  
   <small>Item banks were different on every build because Python randomises hash() (INC-0003)</small>
 - [ ] Deletion by shadowing is invisible. Any collection whose size is a fact about the product needs its size asserted, not just its contents.  
@@ -3209,10 +3225,10 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The banks lengthened in place carried the same garbled seams, and nothing recorded what had been appended (INC-0121)</small>
 - [ ] A check that passes on a random draw has told you about that draw. When a schema ships a handful of items, a property the whole bank needs, such as keys spread over every length rank, has to be assigned rather than sampled. And a fix proven on one variant of a shared class belongs on the class: the variants left alone were passing on luck, and the next unrelated change spends it.  
   <small>Reading questions asked once of each passage passed the length check on the luck of the draw, and two new passages re-rolled it (INC-0122)</small>
-- [ ] A citation vouches only for what its source says, so check each figure against the source rather than checking that a citation is present. The claim most likely to slip through is the true looking one written next to real ones, arithmetic or common knowledge put in the source's mouth.  
-  <small>The GRE exam guide credited ETS with a combined 260 to 340 score that the ETS page it cited does not describe (INC-0130)</small>
 - [ ] A figure with a source and a year can still go stale, because the source moves and the record does not. For anything a publisher changes on its own schedule, fees above all, read the live source on a schedule instead of trusting the record because it cites one.  
   <small>The GRE guide still quoted a $220 fee eight weeks after ETS's fees became $249 (INC-0132)</small>
+- [ ] Run the source check on every corpus that cites pages, not just the one that broke. When a field is empty and the research is out of budget, leave it empty: a blank is honest, and a figure made to fit beside a real citation is the most convincing kind of wrong.  
+  <small>School pages published figures that the articles they cite do not contain, one of them a GRE total split in half (INC-0133)</small>
 
 
 ## Database
@@ -3485,7 +3501,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 132 real defects reduced to the rules that prevent them,
+the whole project: 133 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -3525,7 +3541,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-132 defects already prevented is genuinely ahead, and every defect it hits
+133 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

@@ -85,7 +85,10 @@
    "stat": "average, published as 44 months of average work experience",
    "src": "Whitman full-time MBA class profile",
    "year": 2026,
-   "url": "https://whitman.syracuse.edu/graduate-programs/full-time-mba-program/full-time-mba-class-profile"
+   "url": "https://whitman.syracuse.edu/graduate-programs/full-time-mba-program/full-time-mba-class-profile",
+   "derived": {
+    "3.7": "44 months / 12"
+   }
   },
   "women_pct": {
    "v": null

@@ -270,6 +270,15 @@ verified rather than that the school does not publish one (INC-0118).
       cells, so the columns were aligned against the rendered table and the build rejects a
       blank above a reported score. Verbal plus Quant is shown only as arithmetic, with no
       percentile, because ETS reports and ranks the three scores separately.
+- [x] **The school library checked against its sources** (INC-0133): `check_sources.py
+      --schools` reads every page the library cites (652 figures, 225 pages; the 337 College
+      Scorecard figures come from a dataset and are set aside). Reading its flags on static
+      sources found Columbia's GRE Verbal and Quant each recorded as 163, half the combined
+      326 its article prints, and Miami Herbert's GMAT median and share of women, which its
+      news story never mentions; all three are now blank. Honest conversions (months to
+      years, a count to a percentage, a rounded GPA, $100k over two years) now declare their
+      working, and the checker reads $175K, 30-70 k and 2026-27 the way pages print them.
+      The school check runs weekly with the exam check, rendering pages built by JavaScript.
 - **Decided against** mapping the two paragraph passages onto GRE reading as they are. ETS
   says most GRE passages are one paragraph long (ETS, GRE General Test Verbal Reasoning,
   https://www.ets.org/gre/test-takers/general-test/prepare/content/verbal-reasoning.html, read
@@ -297,6 +306,15 @@ verified rather than that the school does not publish one (INC-0118).
       page confirms the library's figures)
 - [ ] `src/smoke_load.js` stays out of CI because timing on shared runners is noisy, so run
       it by hand after any change to how the banks are split or loaded (INC-0113)
+- [ ] School figures the first `--schools` run could not settle from this sandbox (78 left):
+      MIT Sloan's class profile now shows the Class of 2028, and Georgetown's and Ohio State
+      Fisher's pages print figures that differ from the library, so all three need a class
+      refresh read from the page; 23 tuition figures to reconcile with their fee pages, many
+      of them sums; and pages whose figures render by JavaScript (Stanford, Kellogg, Haas,
+      Kelley, Rady and others), which the weekly job reads with Chromium. UCSD's 2025-26 Rady
+      fee page is a 404 now. Unreadable from here: 403s at Columbia, Baylor, Michigan Ross and
+      Bloomberg, certificate failures at Penn State Smeal and UC Irvine Merage (not to be
+      bypassed), US News, Fordham redirects and ASU (522)
 - [ ] Six GMAT facts cite pages this sandbox cannot read: four on www.mba.com serve a bot
       challenge and two on support.mba.com answer 403. check_sources reports them as
       unreadable, not wrong. The weekly job may read them from GitHub's runners; if it

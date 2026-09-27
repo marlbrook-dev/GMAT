@@ -14,7 +14,10 @@
    "stat": "average (page shows 3.514; mid-50% enrolled 3.23 to 3.72)",
    "src": "CofC One-Year MBA cohort profile MBA15",
    "year": 2025,
-   "url": "https://charleston.edu/mba/one-year/prospective-students/cohort-profile/cohort-profile15.php"
+   "url": "https://charleston.edu/mba/one-year/prospective-students/cohort-profile/cohort-profile15.php",
+   "derived": {
+    "3.51": "3.514 as printed, rounded to two places"
+   }
   },
   "class_size": {
    "v": 56,
@@ -28,7 +31,10 @@
    "stat": "page states average months of experience: 17.1",
    "src": "CofC One-Year MBA cohort profile MBA15",
    "year": 2025,
-   "url": "https://charleston.edu/mba/one-year/prospective-students/cohort-profile/cohort-profile15.php"
+   "url": "https://charleston.edu/mba/one-year/prospective-students/cohort-profile/cohort-profile15.php",
+   "derived": {
+    "1.4": "17.1 months / 12"
+   }
   },
   "women_pct": {
    "v": 50,

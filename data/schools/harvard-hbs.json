@@ -142,7 +142,10 @@
    "stat": "$100k average need-based scholarship awarded over two years, roughly $50k a year; majority of scholarships fall in a $30k to $70k range",
    "src": "HBS MBA financial aid",
    "year": 2026,
-   "url": "https://www.hbs.edu/mba/financial-aid/Pages/default.aspx"
+   "url": "https://www.hbs.edu/mba/financial-aid/Pages/default.aspx",
+   "derived": {
+    "50000": "100000 / 2, the $100k average need-based award over two years"
+   }
   },
   "basis": "need",
   "named_awards": [],
