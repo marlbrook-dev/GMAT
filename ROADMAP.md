@@ -398,7 +398,7 @@ verified rather than that the school does not publish one (INC-0118).
       international share, has no support on Rice's page, which now prints three-year
       averages, and Rice is already queued for a refresh.
 - [x] **Two more class data posts queued** on the same rule, now with each figure found beside
-      its label: "Women in MBA Programs" (November 7), 36 programs from 24 to 56 percent with
+      its label: "Women in MBA Programs" (November 7), 35 programs from 24 to 56 percent with
       the middle class at 43, and why MIT reports female; "International Students in MBA
       Programs" (November 9), 35 programs from 10 to 63 percent with the middle class at 37,
       what Tuck, Duke and Miami each count as international, and Columbia's fall from 46 to 41
@@ -414,6 +414,14 @@ verified rather than that the school does not publish one (INC-0118).
       said it was read from a search snippet. Neither that median nor the page's 694 names an
       edition, so Rice shows no GMAT. The validator now refuses a figure whose stat, note or
       source says snippet, and UNC's and USC's GMAT notes, the other two, quote their articles.
+- [x] **The source check no longer reads HTML comments** (INC-0152). It kept the text inside
+      comments as page text, so a figure a school had commented out still counted as
+      printed: Arizona State's 43 percent women sits only in a hidden row, and its page shows
+      no gender figure at all. Comments are dropped before the page is read, the self-check
+      holds a commented-out row, ASU's women share is empty, and the queued November 7 post
+      drops ASU (35 programs, the middle class still 43 percent women). Rerun without
+      comments, the exam check's 79 facts come out the same, and ASU's is the only school
+      figure that changes.
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects
@@ -492,9 +500,9 @@ verified rather than that the school does not publish one (INC-0118).
 - [ ] `src/smoke_load.js` stays out of CI because timing on shared runners is noisy, so run
       it by hand after any change to how the banks are split or loaded (INC-0113)
 - [ ] School figures the `--schools` run could not settle from this sandbox. With the
-      browser read fixed (INC-0146), the last run of September 27 ends at 35 figures with a
-      number their page does not print, 20 sources unreadable and 6 showing none of their
-      figures. Still on pages drawn by JavaScript: Haas (its figures sit behind tabs the read
+      browser read fixed (INC-0146), Rice refreshed (INC-0151) and comments no longer read
+      as page text (INC-0152), the last run of September 27 ends at 30 figures with a number
+      their page does not print, 19 sources unreadable and 6 showing none of their figures. Still on pages drawn by JavaScript: Haas (its figures sit behind tabs the read
       does not open), Kellogg's middle 80 percent ranges, Kelley, WashU Olin and Auburn. Rice
       now holds the three-year averages its page shows (INC-0151), which also sit behind a
       program button, so the check still needs a way to open it.

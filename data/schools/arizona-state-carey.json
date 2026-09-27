@@ -106,11 +106,12 @@
    "url": "https://wpcarey.asu.edu/mba-programs/full-time/class-profile"
   },
   "women_pct": {
-   "v": 43,
-   "stat": "female, incoming class of fall 2025",
-   "src": "W. P. Carey full-time MBA class profile",
-   "year": 2025,
-   "url": "https://wpcarey.asu.edu/mba-programs/full-time/class-profile"
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "Not published: the class profile page shows no gender figure. Its HTML holds a Male 57% and Female 43% row inside a comment, which the page does not show (read 2026-09-27, INC-0152)."
   },
   "intl_pct": {
    "v": 32,
