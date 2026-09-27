@@ -88,12 +88,13 @@ reads every page and PDF the file cites and reports each number in a fact, or in
 and opens an issue when something no longer matches. A fact whose number is arithmetic on
 its source says so with a `derived` entry giving the working, such as
 `"derived": {"63": "21 + 42, the private and public colleges the page lists"}`, and the
-check then looks for the inputs instead; a number counted off the page begins its entry
-with `count:`. Pages that build their text with JavaScript need `--render`, which reads
-them in Chromium. `--schools` runs the same check over the school library (INC-0133): it
-sets aside College Scorecard figures, which come from a dataset rather than a page, leaves
-a figure's `note` out because there it is our commentary, and reports a page that shows
-none of its figures as unread rather than wrong.
+check then looks for the inputs instead; a number read off the page rather than printed as
+one, counted from a list or split into separate characters, begins its entry with
+`count:`. Pages that build their text with JavaScript need `--render`, which reads them in
+Chromium. `--schools` runs the same check over the school library (INC-0133): it sets
+aside College Scorecard figures, which come from a dataset rather than a page, leaves a
+figure's `note` out because there it is our commentary, and reports a page that shows none
+of its figures as unread rather than wrong.
 
 ## SAT, as encoded in `src/engine.js`
 

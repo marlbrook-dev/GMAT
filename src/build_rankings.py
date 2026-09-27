@@ -27,6 +27,7 @@ D = pathlib.Path(__file__).parent
 ROOT = D.parent
 sys.path.insert(0, str(D))
 import partials
+from page_checks import article_for
 SITE = "https://startfromnowhere.com"
 RANKINGS_LEGAL = ("Rankings cited from US News, Financial Times, Bloomberg, QS, and Poets and Quants, "
                   "each the property of its publisher. Class profile data from the sources shown on each row.")
@@ -163,12 +164,44 @@ def class_subject(label):
     m = re.search(r"graduat\w*\D{0,12}(\d{4})", t, re.I)
     if m:
         return ("classof", m.group(1))
-    m = re.search(r"(\d{4}(?:-\d{2,4})?)", t)
-    if m and re.search(r"enter|incoming|cohort", t, re.I):
+    # The year of entry is the one written beside the entering word: 'entered fall 2025',
+    # 'Entering Fall 2025 Cohort', 'Fall 2025 entering class', 'MBA15 cohort, 2025'. This
+    # used to take the first year anywhere in the label, and '2027 (entered fall 2025)'
+    # became a class that entered in 2027 (INC-0135). No year beside the word, no class.
+    year, enter = r"(\d{4}(?:-\d{2,4})?)", r"(?:enter\w*|incoming|cohorts?)"
+    m = (re.search(enter + r"\W+(?:[A-Za-z]+\W+){0,3}?" + year, t, re.I)
+         or re.search(year + r"\W+(?:[A-Za-z]+\W+)?" + enter + r"\b", t, re.I))
+    if m:
         return ("entered", m.group(1))
     if re.fullmatch(r"\d{4}-\d{2,4}", t):
         return ("academic", t)
     return ("none", "")
+
+
+def _selfcheck_class_subject(schools, today):
+    """INC-0135's guard: every label shape the library has used reads as the class it
+    names, and no school's class entered after the year the site is built."""
+    for label, want in (("Class of 2027", ("classof", "2027")),
+                        ("2027", ("classof", "2027")),
+                        ("Fall 2025 entering class (Class of 2027)", ("classof", "2027")),
+                        ("2027 (entered fall 2025)", ("entered", "2025")),
+                        ("Entering Fall 2025 Cohort", ("entered", "2025")),
+                        ("Fall 2025 entering cohort", ("entered", "2025")),
+                        ("September 2025 incoming class", ("entered", "2025")),
+                        ("MBA15 cohort, 2025", ("entered", "2025")),
+                        ("2025-26 incoming class", ("entered", "2025-26")),
+                        ("Data from 2022-2023 (Daytime and Evening cohorts)", ("none", "")),
+                        ("2019-20", ("academic", "2019-20")),
+                        ("Typical class profile (no class year stated)", ("none", "")),
+                        ("", ("none", ""))):
+        got = class_subject(label)
+        if got != want:
+            raise SystemExit("build_rankings: class_subject(%r) is %r, expected %r" % (label, got, want))
+    for s in schools:
+        kind, v = class_subject((s.get("profile") or {}).get("class_year"))
+        if kind == "entered" and int(v[:4]) > int(today[:4]):
+            raise SystemExit("build_rankings: %s's class label %r reads as a class that entered "
+                             "in %s, after %s" % (s["slug"], s["profile"]["class_year"], v, today))
 
 
 def class_label(p):
@@ -839,7 +872,9 @@ def school_page(s, tpl, today, ranked=()):
     if (p.get("class_size") or {}).get("v"):
         facts.append((p["class_size"], f'a class of {p["class_size"]["v"]}'))
     if (p.get("accept_rate_pct") or {}).get("v") is not None:
-        facts.append((p["accept_rate_pct"], f'a {p["accept_rate_pct"]["v"]}% acceptance rate'))
+        # The number chooses its article: "an 18.8% acceptance rate" (INC-0134).
+        rate = p["accept_rate_pct"]["v"]
+        facts.append((p["accept_rate_pct"], f'{article_for(fmt_num(rate))} {rate}% acceptance rate'))
     # Each figure under the class it describes, so a Class of 2026 figure is never
     # reported as part of a Class of 2027 profile (INC-0104).
     for subj, phrases in grouped(p, facts):
@@ -959,6 +994,7 @@ def main():
     import validate_schools
     validate_schools.validate(schools)
     _selfcheck_secondary()
+    _selfcheck_class_subject(schools, os.environ.get("BLOG_BUILD_DATE") or datetime.date.today().isoformat())
     dropped = [s["slug"] for s in schools if s.get("discontinued")]
     if dropped:
         print("build_rankings: excluding discontinued programs:", ", ".join(dropped))

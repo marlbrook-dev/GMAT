@@ -541,11 +541,18 @@ def main():
         p = dict(p, body=delink_held(p["body"], live_slugs))
         (d / "index.html").write_text(build_post(p, live))
     # The same check build.py runs on every other section (INC-0131).
-    from page_checks import python_reprs
+    from page_checks import python_reprs, articles
     reprs = python_reprs(ROOT, ["blog"])
     if reprs:
         for pg, frag in reprs[:10]:
             print("build_blog: %s prints a Python data structure: ...%s..." % (pg, frag),
+                  file=sys.stderr)
+        sys.exit(1)
+    # And the article before a number, as build.py checks it (INC-0134).
+    arts = articles(ROOT, ["blog"])
+    if arts:
+        for pg, frag in arts[:10]:
+            print("build_blog: %s puts the wrong article before a number: ...%s..." % (pg, frag),
                   file=sys.stderr)
         sys.exit(1)
     sitemap = build_sitemap(live)

@@ -49,7 +49,7 @@
   }
  ],
  "profile": {
-  "class_year": "2027 (entered fall 2025)",
+  "class_year": "Fall 2025 incoming class",
   "class_size": {
    "v": 47,
    "src": "W. P. Carey full-time MBA class profile (fall 2025 entering class)",
@@ -58,10 +58,11 @@
   },
   "gmat_focus": {
    "v": 690,
-   "stat": "average; page labels it GMAT without naming the edition, fall 2025 entering class (Class of 2027, value within Focus scale)",
+   "stat": "average GMAT, incoming class of fall 2025",
    "src": "W. P. Carey full-time MBA class profile",
    "year": 2025,
-   "url": "https://wpcarey.asu.edu/mba-programs/full-time/class-profile"
+   "url": "https://wpcarey.asu.edu/mba-programs/full-time/class-profile",
+   "note": "The page labels it GMAT without naming the edition. It was filed as GMAT Focus when it was added, on the ground that 690 lies on the Focus scale."
   },
   "gmat_classic": {
    "v": 698,
@@ -106,9 +107,10 @@
   },
   "women_pct": {
    "v": 43,
+   "stat": "female, incoming class of fall 2025",
    "src": "W. P. Carey full-time MBA class profile",
-   "year": 2024,
-   "url": "https://ems.wpcarey.asu.edu/mba-programs/full-time/class-profile"
+   "year": 2025,
+   "url": "https://wpcarey.asu.edu/mba-programs/full-time/class-profile"
   },
   "intl_pct": {
    "v": 32,

@@ -37,10 +37,13 @@
   "class_year": "Class of 2027",
   "class_size": {
    "v": 450,
-   "stat": "includes LGO students",
-   "src": "MIT Sloan MBA Class of 2027 profile page",
-   "year": 2025,
-   "url": "https://mitsloan.mit.edu/mba/admissions/class-profile"
+   "stat": "Class of 2028, includes LGO students",
+   "src": "MIT Sloan MBA Class of 2028 profile page",
+   "year": 2026,
+   "url": "https://mitsloan.mit.edu/mba/admissions/class-profile",
+   "derived": {
+    "450": "count: the page prints it as the separate digits 4 5 0"
+   }
   },
   "gmat_focus": {
    "v": 675,

@@ -306,15 +306,18 @@ verified rather than that the school does not publish one (INC-0118).
       page confirms the library's figures)
 - [ ] `src/smoke_load.js` stays out of CI because timing on shared runners is noisy, so run
       it by hand after any change to how the banks are split or loaded (INC-0113)
-- [ ] School figures the first `--schools` run could not settle from this sandbox (78 left):
-      MIT Sloan's class profile now shows the Class of 2028, and Georgetown's and Ohio State
-      Fisher's pages print figures that differ from the library, so all three need a class
-      refresh read from the page; 23 tuition figures to reconcile with their fee pages, many
-      of them sums; and pages whose figures render by JavaScript (Stanford, Kellogg, Haas,
-      Kelley, Rady and others), which the weekly job reads with Chromium. UCSD's 2025-26 Rady
-      fee page is a 404 now. Unreadable from here: 403s at Columbia, Baylor, Michigan Ross and
-      Bloomberg, certificate failures at Penn State Smeal and UC Irvine Merage (not to be
-      bypassed), US News, Fordham redirects and ASU (522)
+- [ ] School figures the `--schools` run could not settle from this sandbox. The run of
+      September 27 ends at 65 figures with a number their page does not print (23 of them
+      tuition, many of those sums), 21 sources unreadable and 9 showing none of their
+      figures. Georgetown and Ohio State Fisher now carry the classes that entered in 2026,
+      read from their own pages, and MIT Sloan's class size is its Class of 2028 figure; the
+      rest of MIT's Class of 2028 profile is drawn by JavaScript, so it waits for the weekly
+      rendered run (the posts quoting its Class of 2027 figures name that class, so they stay
+      correct). Pages whose figures render by JavaScript (Stanford, Kellogg, Haas, Kelley,
+      Rady and others) are for the weekly job, which reads them with Chromium. UCSD's 2025-26
+      Rady fee page is a 404 now. Unreadable from here: 403s at Columbia, Baylor, Michigan
+      Ross and Bloomberg, certificate failures at Penn State Smeal and UC Irvine Merage (not
+      to be bypassed), US News, Fordham redirects and ASU (522)
 - [ ] Six GMAT facts cite pages this sandbox cannot read: four on www.mba.com serve a bot
       challenge and two on support.mba.com answer 403. check_sources reports them as
       unreadable, not wrong. The weekly job may read them from GitHub's runners; if it
