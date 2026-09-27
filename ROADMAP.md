@@ -499,6 +499,15 @@ verified rather than that the school does not publish one (INC-0118).
       averages against medians, and the ranges that reach below every headline figure.
       Harvard's GMAT stats gain the middle 80 percent ranges its page prints. The fact block
       is in EDITORIAL.md.
+- [x] **Five more long reading passages** (an observatory's star catalogue, cracked
+      cathedral glass, fever in a port town, a region's fiddle tunes, the fineness of a
+      flock's wool), invented like the rest of the corpus, each a revision narrative with its
+      two rules printed, 300 to 330 words. The banks grow by 50 GMAT, 50 GRE and 50 LSAT
+      items (GMAT 34112, GRE 20488, LSAT 14392 of which 14020 are generated), and llms.txt and
+      the EDITORIAL product facts carry the new counts. Every question type from the new
+      passages was read at GMAT, GRE and LSAT length; the source phrase the distractors reuse
+      lost its trailing "house by house", and names that other passages already use (Merrow,
+      Ferrand, Maddox) were changed so that no two passages share a researcher or a place.
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects
