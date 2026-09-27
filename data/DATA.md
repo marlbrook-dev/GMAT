@@ -133,7 +133,10 @@ an HTML comment is left out, because a school that retires a figure often commen
 rather than deleting it, and Arizona State's 43 percent women was confirmed from such a
 row (INC-0152). An image's alt text is read with the page, because it is the text the page
 gives in the image's place: Berkeley Haas and Pitt Katz draw their figures as images and
-write the figures into the alt text (INC-0154). It runs weekly in `.github/workflows/playbook.yml`
+write the figures into the alt text (INC-0154). A bot challenge is never read as the page it
+stands in for: a short read in a challenge's words (Imperva's security check on mba.com,
+Cloudflare's Just a moment) is not cached, and the source is reported unreadable rather than
+missing the figures (INC-0156). It runs weekly in `.github/workflows/playbook.yml`
 and opens an issue when something no longer matches. A fact whose number is arithmetic on
 its source says so with a `derived` entry giving the working, such as
 `"derived": {"63": "21 + 42, the private and public colleges the page lists"}`, and the

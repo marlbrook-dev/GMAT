@@ -68,6 +68,21 @@ WORDS.update({"thirty": "30", "forty": "40", "fifty": "50", "sixty": "60", "seve
 # A page that yields less readable text than this served a bot challenge or builds itself
 # with JavaScript, and a number missing from it says nothing about the fact.
 MIN_TEXT = 400
+# A bot challenge is a page of its own, and Imperva's on mba.com runs to 726 characters, so
+# it passed MIN_TEXT and every number in a fact was reported missing from it (INC-0156).
+# Short reads in a challenge's words are not the page; a long page that mentions a security
+# check in passing is.
+CHALLENGE = re.compile(r"Additional security check is required|protected and accelerated by Imperva|"
+                       r"Incapsula incident|Just a moment\.\.\.|Checking your browser|Attention Required! \| Cloudflare|"
+                       r"Verify(?:ing)? you are (?:a )?human|Please enable (?:cookies|JavaScript) to continue|"
+                       r"Access Denied.{0,80}You don't have permission|Request unsuccessful", re.I)
+CHALLENGE_MAX = 3000
+CHALLENGED = set()
+
+
+def challenged(text):
+    """True when a read is a bot challenge rather than the page it was sent for."""
+    return len(text) < CHALLENGE_MAX and bool(CHALLENGE.search(text))
 
 
 def norm(n):
@@ -177,6 +192,11 @@ def fetch(url, cache, rendered=False):
         with urllib.request.urlopen(req, timeout=45, context=ssl_context()) as r:
             text = to_text(r.read(), r.headers.get("Content-Type", "").lower())
     text = re.sub(r"\s+", " ", text)
+    # A challenge says nothing about the page, so it is neither returned nor cached; the
+    # caller sees an empty read, tries the browser, and reports the source as unreadable.
+    if challenged(text):
+        CHALLENGED.add(url)
+        return ""
     if cache:
         (cache / (key + ".txt")).write_text(text, encoding="utf-8")
     return text
@@ -330,7 +350,15 @@ def _selfcheck():
     """INC-0140: a year range reads as both years however the page punctuates it.
     INC-0150: a school figure is found only beside its label, in a passage about its program.
     INC-0152: a figure only inside an HTML comment is not printed; the same figure outside one is.
-    INC-0154: a figure an image carries in its alt text is printed."""
+    INC-0154: a figure an image carries in its alt text is printed.
+    INC-0156: a bot challenge page is not read as the page it was sent for."""
+    imperva = ("www.mba.com - Additional security check is required Why am I seeing this page? The website you "
+               "are visiting is protected and accelerated by Imperva. Your computer may have been infected by malware.")
+    cloudflare = "Just a moment... Enable JavaScript and cookies to continue"
+    page = "Score reports. " * 250 + "Every account has an additional security check is required step at sign in."
+    for text, want in ((imperva, True), (cloudflare, True), (page, False)):
+        if challenged(text) != want:
+            sys.exit("check_sources: challenged(%r) should be %s" % (text[:50], want))
     img = '<h3>GMAT Focus</h3><img src="GMAT%20Focus-3.svg" width="400" alt="637 to 725 middle 80% range; 675 median">'
     if "675" not in numbers(to_text(img.encode(), "text/html")):
         sys.exit("check_sources: a figure in an image's alt text was not read as printed")
@@ -409,6 +437,8 @@ def main(argv):
                 except Exception as e:
                     print("render failed for %s, using the page as served (%s)"
                           % (url, str(e).splitlines()[0][:120]))
+            if url in CHALLENGED and len(text) < MIN_TEXT:
+                raise RuntimeError("the site answered with a bot challenge, not the page")
             if len(text) < MIN_TEXT:
                 raise RuntimeError("only %d characters of text, a bot challenge or a page "
                                    "built by JavaScript" % len(text))
