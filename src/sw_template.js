@@ -78,8 +78,9 @@ self.addEventListener('fetch', event => {
 
   const url = new URL(req.url);
 
-  // Same origin only. Supabase, Stripe and fonts go straight to the network: a cached
-  // auth or billing response is worse than an honest failure.
+  // Same origin only. Supabase and Stripe go straight to the network: a cached auth or
+  // billing response is worse than an honest failure. The fonts are same origin since
+  // INC-0163, under /vendor/, so they are cached like the rest of it.
   if (url.origin !== self.location.origin) return;
 
   // Immutable per build: cache first, and never go to the network on a hit. This is what

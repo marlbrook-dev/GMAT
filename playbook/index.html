@@ -59,7 +59,7 @@ a{color:var(--accent)}
 <p class="eyebrow">Start From Nowhere</p>
 <h1>The Build Playbook</h1>
 <p class="sub">How one person and a set of AI sessions built a multi-exam test-prep platform, every defect hit on the way, and the recipe for doing it again for something else</p>
-<p class="meta">Built 2026-09-27 from commit c5663b0 &middot; 117 commits over 8 days &middot; 162 recorded defects &middot; 17 chapters<br>
+<p class="meta">Built 2026-09-27 from commit 691e91c &middot; 118 commits over 8 days &middot; 166 recorded defects &middot; 17 chapters<br>
 This document is generated. Edit the chapters in docs/playbook/ and the ledger in data/playbook/incidents.jsonl, then run python3 src/build_playbook.py.</p>
 </div>
 <div class="toc"><ol><li><a href="#how-to-use-this-book">How to Use This Book</a></li>
@@ -81,7 +81,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><a href="#the-bootstrap-pack-starting-a-new-project-with-this-loaded">The Bootstrap Pack: Starting a New Project With This Loaded</a></li></ol></div>
 <h1 id="how-to-use-this-book">How to Use This Book</h1>
 <p>This is the record of building one platform, written so it can be used to build a different one.</p>
-<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-09-19 and 2026-09-27, which is 8 days, across 117 commits, by one owner directing a series of AI coding sessions. As of this build it is 85 Python files, 111 JavaScript files, 24 TypeScript edge functions, 35 migrations and 64 documents: 2063 tracked files in total.</p>
+<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-09-19 and 2026-09-27, which is 8 days, across 118 commits, by one owner directing a series of AI coding sessions. As of this build it is 86 Python files, 112 JavaScript files, 24 TypeScript edge functions, 35 migrations and 65 documents: 2098 tracked files in total.</p>
 <p>None of those numbers were typed. They are measured from the repository every time this document is built, which is the first thing worth copying.</p>
 <h2 id="what-is-in-here">What is in here</h2>
 <p>The book has four kinds of chapter, and they age differently.</p>
@@ -161,7 +161,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <h1 id="from-an-empty-repository-to-a-live-site">From an Empty Repository to a Live Site</h1>
 <p>The order below is the one that worked, and the order matters more than any individual step. Most of what went wrong in this build went wrong because something was done before the thing that would have caught it.</p>
 <h2 id="phase-0-the-rules-file-before-any-code">Phase 0: the rules file, before any code</h2>
-<p>Write the project's standing rules into a file the AI session reads on every turn. On this project that is <code>CLAUDE.md</code>, 64 documents in, and it is still the highest leverage file in the repository.</p>
+<p>Write the project's standing rules into a file the AI session reads on every turn. On this project that is <code>CLAUDE.md</code>, 65 documents in, and it is still the highest leverage file in the repository.</p>
 <p>It is not documentation. It is the constitution, and it should contain only things that are load-bearing and that you would otherwise have to say again:</p>
 <ul>
 <li>The house style rules that a build can enforce. Ours bans em dashes and en dashes</li>
@@ -254,6 +254,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><code>src/smoke_business.js</code></li>
 <li><code>src/smoke_calculator.js</code></li>
 <li><code>src/smoke_charts.js</code></li>
+<li><code>src/smoke_community.js</code></li>
 <li><code>src/smoke_consent.js</code></li>
 <li><code>src/smoke_daily.js</code></li>
 <li><code>src/smoke_dates.js</code></li>
@@ -276,7 +277,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><code>src/test.js</code></li>
 <li><code>src/weekly_audit.js</code></li>
 </ul>
-<p>27 test files in total. The layering is deliberate:</p>
+<p>28 test files in total. The layering is deliberate:</p>
 <ol>
 <li><strong>The build</strong> catches structural problems in the artefact.</li>
 <li><strong>Engine tests</strong> run the domain logic headlessly, once per exam.</li>
@@ -593,7 +594,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <h2 id="never-fabricate">Never fabricate</h2>
 <p>No invented user counts, testimonials, efficacy claims or seeded activity. On a forum, house-authored posts say they are house-authored. This is not only an ethics rule; a fabricated number in a dashboard eventually gets used for a decision, and by then nobody remembers it was a placeholder.</p>
 <h1 id="tests-and-guards">Tests and Guards</h1>
-<p>27 test files, and the interesting thing about them is not what they assert. It is that the analysis chapter can count how defects were <strong>actually</strong> found, and the answer reshapes where you put effort.</p>
+<p>28 test files, and the interesting thing about them is not what they assert. It is that the analysis chapter can count how defects were <strong>actually</strong> found, and the answer reshapes where you put effort.</p>
 <h2 id="the-ladder">The ladder</h2>
 <p><strong>Rung 1: the build.</strong> Structural guards on the artefact. Parse every generated script. Assert every collection size. Fail on platform limits. Compare inputs to outputs at every filter. Cheapest rung, catches the most.</p>
 <p><strong>Rung 2: domain logic, headless.</strong> The engine, run without a browser, once per variant. Fast enough to run on every change.</p>
@@ -620,7 +621,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three defects here were found by taking a screenshot: a chart unreadable in dark mode, a line chart implying values that never existed, and a dashboard that was not on screen. None of them would have been caught by an assertion, because none of them were violations of anything anybody had thought to assert.</p>
 <p><strong>Budget for looking.</strong> It is the cheapest test there is and the only one that catches things you have not imagined.</p>
 <h1 id="running-the-build-as-an-ai-loop">Running the Build as an AI Loop</h1>
-<p>117 commits in 8 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
+<p>118 commits in 8 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
 <h2 id="the-division-of-labour">The division of labour</h2>
 <p><strong>The owner decides</strong>: what to build, what it means, what is acceptable, and every irreversible or outward-facing action. <strong>The session does</strong>: the building, the measuring, the testing, and the reporting of what it found.</p>
 <p>The failure mode at each end is worth naming. An owner who reviews every line becomes the bottleneck and the throughput collapses to the speed of reading. A session that decides product questions on its own produces something coherent that is not what anyone wanted.</p>
@@ -664,44 +665,44 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Long uninterrupted sessions with standing authorisation, punctuated by the owner redirecting priorities, beat short supervised ones by a wide margin. The standing authorisation that made it work was specific: merge your own work once the checks are green, do not check in on each item, and stop immediately when told to.</p>
 <p>The thing that makes that safe is not trust. It is that the checks are real, the destructive actions still require asking, and the record of what happened is written down well enough to audit later. Which is what this book is.</p>
 <h1 id="what-the-ledger-says-about-itself">What the Ledger Says About Itself</h1>
-<p>162 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.</p>
+<p>166 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.</p>
 <h2 id="how-defects-were-actually-found">How defects were actually found</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">How</th><th style="text-align:right">Count</th><th style="text-align:right">Share</th></tr></thead><tbody>
-<tr><td style="text-align:left">Found by reading the code or the output</td><td style="text-align:right">85</td><td style="text-align:right">52%</td></tr>
-<tr><td style="text-align:left">Found by measuring something</td><td style="text-align:right">39</td><td style="text-align:right">24%</td></tr>
-<tr><td style="text-align:left">A test caught it</td><td style="text-align:right">19</td><td style="text-align:right">12%</td></tr>
+<tr><td style="text-align:left">Found by reading the code or the output</td><td style="text-align:right">85</td><td style="text-align:right">51%</td></tr>
+<tr><td style="text-align:left">Found by measuring something</td><td style="text-align:right">41</td><td style="text-align:right">25%</td></tr>
+<tr><td style="text-align:left">A test caught it</td><td style="text-align:right">21</td><td style="text-align:right">13%</td></tr>
 <tr><td style="text-align:left">Found by rendering it and looking</td><td style="text-align:right">8</td><td style="text-align:right">5%</td></tr>
 <tr><td style="text-align:left">Found by a review bot or an adversarial pass</td><td style="text-align:right">5</td><td style="text-align:right">3%</td></tr>
 <tr><td style="text-align:left">A build guard caught it</td><td style="text-align:right">4</td><td style="text-align:right">2%</td></tr>
 <tr><td style="text-align:left">A person hit it</td><td style="text-align:right">2</td><td style="text-align:right">1%</td></tr>
 </tbody></table></div>
-<p><strong>This is the most useful table in the book.</strong> 160 of 162 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.</p>
+<p><strong>This is the most useful table in the book.</strong> 164 of 166 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.</p>
 <p><strong>Read that percentage with the bias it carries.</strong> This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.</p>
 <h2 id="by-severity">By severity</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">Severity</th><th style="text-align:right">Count</th></tr></thead><tbody>
 <tr><td style="text-align:left">Wrong data shown or stored</td><td style="text-align:right">71</td></tr>
-<tr><td style="text-align:left">Degraded</td><td style="text-align:right">39</td></tr>
+<tr><td style="text-align:left">Degraded</td><td style="text-align:right">41</td></tr>
 <tr><td style="text-align:left">Silent loss</td><td style="text-align:right">26</td></tr>
-<tr><td style="text-align:left">Cosmetic</td><td style="text-align:right">23</td></tr>
+<tr><td style="text-align:left">Cosmetic</td><td style="text-align:right">25</td></tr>
 <tr><td style="text-align:left">Site down</td><td style="text-align:right">3</td></tr>
 </tbody></table></div>
-<p><strong>Silent loss is the dominant failure mode</strong>, at 26 of 162. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.</p>
+<p><strong>Silent loss is the dominant failure mode</strong>, at 26 of 166. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.</p>
 <h2 id="by-area">By area</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">Area</th><th style="text-align:right">Count</th></tr></thead><tbody>
 <tr><td style="text-align:left">Content generation</td><td style="text-align:right">73</td></tr>
-<tr><td style="text-align:left">Tests and guards</td><td style="text-align:right">25</td></tr>
+<tr><td style="text-align:left">Tests and guards</td><td style="text-align:right">27</td></tr>
 <tr><td style="text-align:left">Front end</td><td style="text-align:right">12</td></tr>
 <tr><td style="text-align:left">Build system</td><td style="text-align:right">11</td></tr>
 <tr><td style="text-align:left">Search and metadata</td><td style="text-align:right">10</td></tr>
+<tr><td style="text-align:left">CSS and layout</td><td style="text-align:right">8</td></tr>
 <tr><td style="text-align:left">Scoring and selection</td><td style="text-align:right">7</td></tr>
-<tr><td style="text-align:left">CSS and layout</td><td style="text-align:right">6</td></tr>
 <tr><td style="text-align:left">Infrastructure and deploy</td><td style="text-align:right">6</td></tr>
 <tr><td style="text-align:left">Payments</td><td style="text-align:right">5</td></tr>
 <tr><td style="text-align:left">Database</td><td style="text-align:right">4</td></tr>
 <tr><td style="text-align:left">Interface and data display</td><td style="text-align:right">3</td></tr>
 </tbody></table></div>
 <h2 id="guard-coverage">Guard coverage</h2>
-<p>156 of 162 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.</p>
+<p>160 of 166 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.</p>
 <p>Carried by attention:</p>
 <ul>
 <li><strong>INC-0010</strong> CSS comments do not nest, and one placeholder killed the palette on 1451 pages</li>
@@ -717,7 +718,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>weekly_audit checks computed colour on every page (INC-0050, INC-0048)</li>
 </ul>
 <h2 id="lessons-learned-more-than-once">Lessons learned more than once</h2>
-<p>73 of 162 incidents record that they repeat an earlier lesson, 101 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.</p>
+<p>75 of 166 incidents record that they repeat an earlier lesson, 103 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.</p>
 <div class="tw"><table><thead><tr><th style="text-align:left">Lesson first recorded in</th><th style="text-align:left">Repeated by</th><th style="text-align:right">Times</th></tr></thead><tbody>
 <tr><td style="text-align:left">INC-0088 A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked</td><td style="text-align:left">INC-0089, INC-0098, INC-0099, INC-0101, INC-0117, INC-0122</td><td style="text-align:right">6</td></tr>
 <tr><td style="text-align:left">INC-0104 Half the school pages opened with a data note pasted into a sentence, and the structured data repeated it</td><td style="text-align:left">INC-0105, INC-0131, INC-0134, INC-0135, INC-0145</td><td style="text-align:right">5</td></tr>
@@ -764,12 +765,14 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <tr><td style="text-align:left">INC-0135 Arizona State's school page said its class entered in 2027, because the label parser took the first year it found</td><td style="text-align:left">INC-0147</td><td style="text-align:right">1</td></tr>
 <tr><td style="text-align:left">INC-0136 The LSAT guide said most test takers choose between remote and in-person testing, after LSAC had moved almost everyone into test centers</td><td style="text-align:left">INC-0137</td><td style="text-align:right">1</td></tr>
 <tr><td style="text-align:left">INC-0138 The exam guides hub told search engines only the GMAT and SAT trainers were live, eleven days after all five were</td><td style="text-align:left">INC-0162</td><td style="text-align:right">1</td></tr>
+<tr><td style="text-align:left">INC-0139 Every blog page drew the site header without the design tokens, so its logo sat against the screen edge on phones</td><td style="text-align:left">INC-0163</td><td style="text-align:right">1</td></tr>
 <tr><td style="text-align:left">INC-0142 Every school's employment rate was labelled and scored as a three month figure, though 15 of 70 were measured at six months, four months, a year or a reporting date, or at a timing their notes do not give</td><td style="text-align:left">INC-0144</td><td style="text-align:right">1</td></tr>
 <tr><td style="text-align:left">INC-0155 The GMAT guide cited mba.com's Official Score Reports page for the rule on five free score reports within 48 hours, a rule that page never states</td><td style="text-align:left">INC-0160</td><td style="text-align:right">1</td></tr>
 <tr><td style="text-align:left">INC-0156 The source check read mba.com's bot challenge page as the page it cites and reported the GMAT fact's numbers as missing from it</td><td style="text-align:left">INC-0158</td><td style="text-align:right">1</td></tr>
 <tr><td style="text-align:left">INC-0158 The source check filed six school pages as probably built by JavaScript; five were something else, and three of them showed newer figures than the library published</td><td style="text-align:left">INC-0161</td><td style="text-align:right">1</td></tr>
+<tr><td style="text-align:left">INC-0162 The blog build read a fee table as one sentence and refused a correct post for calling the SAT trainer unfinished, over College Board's seat Waitlist</td><td style="text-align:left">INC-0165</td><td style="text-align:right">1</td></tr>
 </tbody></table></div>
-<p>The largest family runs to 60 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140, INC-0142, INC-0143, INC-0144, INC-0145, INC-0147, INC-0150, INC-0151, INC-0152, INC-0154, INC-0155, INC-0157, INC-0159, INC-0160, INC-0162. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.</p>
+<p>The largest family runs to 61 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140, INC-0142, INC-0143, INC-0144, INC-0145, INC-0147, INC-0150, INC-0151, INC-0152, INC-0154, INC-0155, INC-0157, INC-0159, INC-0160, INC-0162, INC-0165. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.</p>
 <p>Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.</p>
 <ul>
 <li>INC-0013 names INC-0012</li>
@@ -792,6 +795,9 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>INC-0155 names INC-0156</li>
 <li>INC-0156 names INC-0155</li>
 <li>INC-0161 names INC-0133, INC-0154</li>
+<li>INC-0164 names INC-0163</li>
+<li>INC-0165 names INC-0163</li>
+<li>INC-0166 names INC-0163</li>
 </ul>
 <h2 id="where-defects-concentrate">Where defects concentrate</h2>
 <p>Files named by three or more incidents. This is not the same signal as the list above: a file that is the natural home for many checks will appear here without any one of them having failed. It says where the work has been, and where a reader new to the codebase should look first.</p>
@@ -806,14 +812,14 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><code>src/bank_emit.py</code>, 5 incidents (INC-0062, INC-0066, INC-0068, INC-0073, INC-0119)</li>
 <li><code>src/gen/framework.py</code>, 5 incidents (INC-0074, INC-0075, INC-0078, INC-0087, INC-0096)</li>
 <li><code>src/gen/g_rc.py</code>, 5 incidents (INC-0097, INC-0114, INC-0115, INC-0117, INC-0122)</li>
+<li><code>src/smoke_playbook.js</code>, 4 incidents (INC-0054, INC-0084, INC-0129, INC-0165)</li>
 <li><code>src/bank_repair.py</code>, 4 incidents (INC-0070, INC-0071, INC-0072, INC-0121)</li>
+<li><code>src/page_checks.py</code>, 4 incidents (INC-0134, INC-0138, INC-0139, INC-0163)</li>
 <li><code>src/weekly_audit.js</code>, 3 incidents (INC-0050, INC-0048, INC-0018)</li>
 <li><code>src/smoke_redirect.js</code>, 3 incidents (INC-0023, INC-0024, INC-0047)</li>
-<li><code>src/smoke_playbook.js</code>, 3 incidents (INC-0054, INC-0084, INC-0129)</li>
 <li><code>src/build_playbook.py</code>, 3 incidents (INC-0057, INC-0065, INC-0083)</li>
 <li><code>src/gen/g_act_sci.py</code>, 3 incidents (INC-0093, INC-0094, INC-0098)</li>
 <li><code>src/build_blog.py</code>, 3 incidents (INC-0124, INC-0137, INC-0162)</li>
-<li><code>src/page_checks.py</code>, 3 incidents (INC-0134, INC-0138, INC-0139)</li>
 </ul>
 <h1 id="the-defect-ledger">The Defect Ledger</h1>
 <p>Every entry here happened. Each one is a record of something that broke, how it was found, what fixed it, and what now stops it coming back. The last field is the one that matters for a different business: the transferable lesson, stated without reference to this codebase.</p>
@@ -1558,7 +1564,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>What stops it now.</strong> validate_exams refuses a figure with no value whose note carries a dollar amount, since nothing checks it, and holds also_urls to the rules for url: https, on the test maker's host. check_sources reads the payment table through also_urls, reading it once more when the browser's first read gets Imperva's challenge, which two of three reads on September 27, 2026 did not; that day's run verified every fee. in <code>src/validate_exams.py</code></li>
 <li><strong>Lesson.</strong> What a page publishes has to be what the checks read. When a builder falls back to a second field to fill a gap, that field is published, and every check written for the first field has to cover it too.</li>
 </ul>
-<h2 id="tests-and-guards-25">Tests and guards (25)</h2>
+<h2 id="tests-and-guards-27">Tests and guards (27)</h2>
 <h3 id="inc-0016-the-performance-test-waited-for-the-load-event-which-waits-for-the-thing-being-optimised">INC-0016. The performance test waited for the load event, which waits for the thing being optimised</h3>
 <p><em>2026-09-19, Silent loss, <code>4b25169</code> PR #45</em></p>
 <ul>
@@ -1823,6 +1829,26 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Fix.</strong> The blank-page rule reads a figure the way the finding loop does: against every page it names, and only when all of them were read. A figure with an unread page is left to the unreadable list.</li>
 <li><strong>What stops it now.</strong> check_sources' self-check holds a figure whose numbers are on its second page only, which must not make its first page blank, and one whose second page went unread, which must be left out of the blank-page rule. in <code>src/check_sources.py</code></li>
 <li><strong>Lesson.</strong> When a check learns a new way to read a source, every rule that reads a source has to learn it too. A second reader that lags the first is found only when the data first depends on the difference.</li>
+</ul>
+<h3 id="inc-0165-the-playbook-s-smoke-test-and-its-builder-disagreed-on-what-counts-as-an-unresolved-placeholder-so-a-correctly-quoted-one-failed-the-smoke">INC-0165. The playbook's smoke test and its builder disagreed on what counts as an unresolved placeholder, so a correctly quoted one failed the smoke</h3>
+<p><em>2026-09-27, Degraded</em></p>
+<ul>
+<li><strong>What was seen.</strong> After INC-0163's record quoted <code>{{FONTS_CSS}}</code> in a code span, python3 src/build_playbook.py built the book, and node src/smoke_playbook.js failed it with "no unresolved placeholders: FONTS_CSS".</li>
+<li><strong>Why.</strong> The builder decides what is an unresolved placeholder by blanking code spans and fenced blocks first, since a quoted placeholder is an example rather than a place to substitute, and its comment says why it does not use an allowlist: one would go stale. The smoke test, written to catch a builder change that dropped that check, used exactly such an allowlist, CHROME_CSS and PLACEHOLDER, the two quoted names that existed when it was written. The first new quoted name failed it.</li>
+<li><strong>How it surfaced.</strong> Found on September 27, 2026 when the suites were run on the font change. (A test caught it)</li>
+<li><strong>Fix.</strong> The smoke test blanks code spans and fenced blocks the way the builder does and keeps no list of names.</li>
+<li><strong>What stops it now.</strong> smoke_playbook's placeholder check now applies the builder's own rule, so the two cannot disagree about a quoted placeholder, and it still fails on one left in running text. in <code>src/smoke_playbook.js</code></li>
+<li><strong>Lesson.</strong> A test of a check should apply the check's rule, not a snapshot of the cases that existed when the test was written. An allowlist of known exceptions is a record of the past, and the first new legitimate case turns it into a false failure.</li>
+</ul>
+<h3 id="inc-0166-the-standalone-page-smoke-test-still-loaded-pages-from-disk-where-the-site-s-root-relative-paths-point-at-the-filesystem-root-so-it-failed-once-the-fonts-moved-onto-the-site">INC-0166. The standalone page smoke test still loaded pages from disk, where the site's root-relative paths point at the filesystem root, so it failed once the fonts moved onto the site</h3>
+<p><em>2026-09-27, Degraded</em></p>
+<ul>
+<li><strong>What was seen.</strong> After INC-0163, node src/smoke_pages.js failed /international/ and /apply/ with five console errors, each "Failed to load resource: net::ERR_FILE_NOT_FOUND": the pages link their fonts at /vendor/fonts-2026-09-27/fonts.css, and loaded as file:// that path is the root of the disk, not of the site.</li>
+<li><strong>Why.</strong> smoke_pages opened the built pages as file:// URLs. A page that loads anything by a root-relative path cannot load it that way, and smoke_billing and smoke_guide had already moved to a local server for that reason; smoke_pages had not, and nothing forced it to, because until now every root-relative reference those two pages make failed without writing to the console, and the one resource that did fail loudly, Google Fonts, was on its list of environment noise.</li>
+<li><strong>How it surfaced.</strong> Found on September 27, 2026 when the suites were run on the font change. (A test caught it)</li>
+<li><strong>Fix.</strong> smoke_pages serves the built site from a local HTTP server and opens the pages through it, as the other page smokes do, so every root-relative path resolves the way it does live.</li>
+<li><strong>What stops it now.</strong> smoke_pages counts any resource that fails to load as an error, now that the site's own paths resolve, so a stylesheet, font or script a page names and the build did not produce fails it; Google's hosts are no longer on its noise list. in <code>src/smoke_pages.js</code></li>
+<li><strong>Lesson.</strong> A test harness has to load a page the way a visitor does or its passes mean less than they say. file:// quietly breaks every root-relative path, and a noise filter written for one failure hides the next one of the same kind; when a test has to ignore an error to pass, it is worth asking what else that exemption lets through.</li>
 </ul>
 <h2 id="front-end-12">Front end (12)</h2>
 <h3 id="inc-0001-unescaped-quotes-in-onclick-strings-took-the-whole-app-down">INC-0001. Unescaped quotes in onclick strings took the whole app down</h3>
@@ -2172,6 +2198,92 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>What stops it now.</strong> validate_schools refuses a school name made only of generic words (school, college, graduate, business, management and the like), because a name printed on its own has to say which school it is. in <code>src/validate_schools.py</code></li>
 <li><strong>Lesson.</strong> A value copied from a page carries the context the page gave it, and loses that context wherever it is printed on its own. A name that is plain under its university's banner is anonymous in a page title, so store the form that stands alone.</li>
 </ul>
+<h2 id="css-and-layout-8">CSS and layout (8)</h2>
+<h3 id="inc-0050-a-landing-page-icon-referenced-a-colour-token-that-did-not-exist">INC-0050. A landing-page icon referenced a colour token that did not exist</h3>
+<p><em>2026-08-19, Cosmetic, <code>5337dfd</code></em></p>
+<ul>
+<li><strong>What was seen.</strong> One game icon on the landing grid rendered without its colour.</li>
+<li><strong>Why.</strong> An undefined custom property, which CSS treats as a fallback rather than an error.</li>
+<li><strong>How it surfaced.</strong> Looking at the page on a phone during a mobile pass. (Found by rendering it and looking)</li>
+<li><strong>Fix.</strong> Use a defined token.</li>
+<li><strong>What stops it now.</strong> weekly_audit checks computed colour on every page in <code>src/weekly_audit.js</code></li>
+<li><strong>Cost.</strong> one icon, and the same root cause later cost a compliance control</li>
+<li><strong>Lesson.</strong> The same undefined-property failure will find you repeatedly, at every severity from one icon to an invisible legal control. One audit of computed colour catches the whole class.</li>
+</ul>
+<h3 id="inc-0010-css-comments-do-not-nest-and-one-placeholder-killed-the-palette-on-1451-pages">INC-0010. CSS comments do not nest, and one placeholder killed the palette on 1451 pages</h3>
+<p><em>2026-09-17, Degraded, <code>61c3ed2</code> PR #40</em></p>
+<ul>
+<li><strong>What was seen.</strong> The colour palette was gone from every college page. It looked like a design problem and was chased as one for hours.</li>
+<li><strong>Why.</strong> A <code>{{CHROME_CSS}}</code> placeholder was left inside an opening CSS comment in rankings_base.css. The first */ closes the outer comment, so everything after it was live CSS that overwrote the palette.</li>
+<li><strong>How it surfaced.</strong> Eventually, by reading the built CSS rather than the template. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Remove the nested comment.</li>
+<li><strong>What stops it now.</strong> Nothing automated. This one is still carried by attention.</li>
+<li><strong>Cost.</strong> hours, on 1451 pages</li>
+<li><strong>Lesson.</strong> CSS comments do not nest. When a whole page category loses its styling, read the built artefact, not the source that produced it.</li>
+</ul>
+<h3 id="inc-0048-error-recovery-in-the-css-parser-swallowed-the-palette-silently">INC-0048. Error recovery in the CSS parser swallowed the palette silently</h3>
+<p><em>2026-09-17, Degraded, <code>a920f5c</code> PR #41</em></p>
+<ul>
+<li><strong>What was seen.</strong> Score bars rendered as empty gaps and panels lost their borders on 1,451 college pages and the rankings.</li>
+<li><strong>Why.</strong> A nested comment ended early, the leftover words became a selector, and the CSS parser's error recovery discarded the :root colour block that followed it. Every grey and navy variable on those pages resolved to nothing. There is no error anywhere in this chain; CSS is specified to recover and continue.</li>
+<li><strong>How it surfaced.</strong> The missing borders eventually gave it away, after the missing colours did not. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Remove the nested comment.</li>
+<li><strong>What stops it now.</strong> weekly_audit checks computed colour on every page in <code>src/weekly_audit.js</code></li>
+<li><strong>Cost.</strong> the palette on over 1,450 pages</li>
+<li><strong>Lesson.</strong> CSS never fails loudly. A malformed rule is skipped, a bad selector eats the block after it, and an undefined variable paints as nothing. Anything that matters visually has to be asserted on the rendered page, because the parser will not tell you.</li>
+</ul>
+<h3 id="inc-0018-the-do-not-sell-button-was-invisible-from-the-day-it-shipped">INC-0018. The Do Not Sell button was invisible from the day it shipped</h3>
+<p><em>2026-09-19, Degraded, <code>a34a798</code> PR #47</em></p>
+<ul>
+<li><strong>What was seen.</strong> White text on a transparent background on a white page. A legally required control that nobody could see.</li>
+<li><strong>Why.</strong> The page referenced nine colour custom properties that exist nowhere. CSS does not treat an undefined custom property as an error; it falls back to the initial value and paints.</li>
+<li><strong>How it surfaced.</strong> An automated contrast audit across every page. (A test caught it)</li>
+<li><strong>Fix.</strong> Define the tokens and fix seven contrast failures, all site wide because all lived in shared chrome.</li>
+<li><strong>What stops it now.</strong> weekly_audit checks computed contrast on every page in <code>src/weekly_audit.js</code></li>
+<li><strong>Cost.</strong> an invisible compliance control for the life of the page</li>
+<li><strong>Lesson.</strong> An undefined CSS custom property is silent. Audit computed colour, not authored colour, and do it on the rendered page.</li>
+</ul>
+<h3 id="inc-0029-a-sequential-colour-ramp-inverts-direction-between-themes-and-the-label-text-did-not">INC-0029. A sequential colour ramp inverts direction between themes, and the label text did not</h3>
+<p><em>2026-09-21, Degraded, <code>8af7188</code> PR #61</em></p>
+<ul>
+<li><strong>What was seen.</strong> White heatmap labels on a light cell in dark mode.</li>
+<li><strong>Why.</strong> A sequential ramp runs light to dark in a light theme and dark to light in a dark theme. The label colour was hardcoded white, so it was correct in one theme and unreadable in the other.</li>
+<li><strong>How it surfaced.</strong> Rendering the chart in dark mode and looking at it. (Found by rendering it and looking)</li>
+<li><strong>Fix.</strong> An --sfnc-on-seq token that flips with the theme.</li>
+<li><strong>What stops it now.</strong> smoke_charts asserts token parity between the light and dark blocks in <code>src/smoke_charts.js</code></li>
+<li><strong>Cost.</strong> an unreadable chart in one theme</li>
+<li><strong>Lesson.</strong> A dark mode does not break by having a wrong colour. It breaks by missing one. Any colour paired with a ramp has to move with the ramp.</li>
+</ul>
+<h3 id="inc-0139-every-blog-page-drew-the-site-header-without-the-design-tokens-so-its-logo-sat-against-the-screen-edge-on-phones">INC-0139. Every blog page drew the site header without the design tokens, so its logo sat against the screen edge on phones</h3>
+<p><em>2026-09-27, Cosmetic</em></p>
+<ul>
+<li><strong>What was seen.</strong> On all 32 blog pages, the 31 published posts and the blog index, the shared header's wordmark sat at 0 pixels from the left edge at phone width where every other page puts it 24 pixels in, and the header and footer ignored the page width. Their stylesheet used 22 design tokens, --gutter, --page and the radii and motion values among them, that the blog pages never defined.</li>
+<li><strong>Why.</strong> partials.apply_chrome() injects TOKENS_CSS ahead of CHROME_CSS wherever a template carries the CHROME_CSS placeholder. build_blog.py writes its own page shell and pasted partials.CHROME_CSS into it directly, so the blog got the rules without the variables they read. CSS treats a variable that was never defined by quietly falling back to the property's initial value, so nothing failed: the padding became 0 and the max width none.</li>
+<li><strong>How it surfaced.</strong> Found on September 27, 2026 while previewing a queued post at phone width: the logo touched the screen edge, and an already published post showed the same. (Found by rendering it and looking)</li>
+<li><strong>Fix.</strong> build_blog.py injects TOKENS_CSS with CHROME_CSS, as apply_chrome does.</li>
+<li><strong>What stops it now.</strong> page_checks.undefined_tokens() reads every built page's inline CSS and any local stylesheet it links, and fails the build when a page uses one of TOKENS_CSS's variables without a fallback and never defines it. in <code>src/page_checks.py</code></li>
+<li><strong>Lesson.</strong> CSS forgives a variable that was never defined by quietly using the initial value, so a missing token never throws, it only looks slightly wrong. When shared rules depend on shared variables, inject them together through one function, and check built pages for variables used but never defined.</li>
+</ul>
+<h3 id="inc-0163-the-shared-site-header-rendered-its-bold-labels-at-two-weights-because-each-page-template-asked-google-fonts-for-its-own-list-of-ibm-plex-sans-weights">INC-0163. The shared site header rendered its bold labels at two weights, because each page template asked Google Fonts for its own list of IBM Plex Sans weights</h3>
+<p><em>2026-09-27, Cosmetic</em></p>
+<ul>
+<li><strong>What was seen.</strong> The site header's Create Account button is styled font-weight 700, 13px, and is meant to be identical on every page. Measured in Chromium on September 27, 2026, its label drew 92.41px wide on the landing page and on /exams/, where only the 400 and 600 faces of IBM Plex Sans had loaded, and 93.61px on /daily/, where the 700 face had. The shared chrome's other 700 weight rules, the header's tags and the mobile menu's group labels, draw from the same declared faces, so they fall back the same way.</li>
+<li><strong>Why.</strong> The header's CSS is injected once, from partials.py, but the font files it depends on were not: each of 30 page sources (28 templates, plus build_blog.py and build_colleges.py, which write their own page heads) carried its own Google Fonts link and its own list of weights. Five of them (the daily page template and the four study guide templates) asked for IBM Plex Sans 400, 500, 600 and 700; the other 25 stopped at 600. A browser asked for 700 when only 600 is loaded draws the 600 face and says nothing, so the shared rules looked right in every template on its own and differed between them. The terms and privacy pages also imported the design system's font sheet, which still requested Manrope, the retired fourth face, from Google on every load.</li>
+<li><strong>How it surfaced.</strong> Found on September 27, 2026 while moving the fonts off Google (DEVSECOPS O6): listing the distinct Google Fonts requests across the templates turned up five different ones, and a measurement of the header button on three pages confirmed the weights differ. (Found by measuring something)</li>
+<li><strong>Fix.</strong> The three faces are served from this site at /vendor/fonts-2026-09-27/ with one stylesheet covering every weight any page uses (Source Serif 4 600, 700 and italic 400; IBM Plex Sans 400, 500, 600 and 700; IBM Plex Mono 400 and 500). Every template links it through one placeholder, <code>{{FONTS_CSS}}</code>, filled from partials.FONTS_CSS, so no page can ask for a different set. The design system's font sheet points at the same file, and Manrope is gone from it.</li>
+<li><strong>What stops it now.</strong> The builds fail on any page that loads a stylesheet or font from another host, including through @import in a stylesheet the page links (page_checks.offsite_styles), so a template cannot go back to its own font request, and the Content-Security-Policy no longer allows fonts.googleapis.com or fonts.gstatic.com. in <code>src/page_checks.py</code></li>
+<li><strong>Lesson.</strong> Shared CSS is only shared if everything it depends on travels with it. A rule that asks for a font weight depends on that weight's file being loaded, and a browser that cannot find it substitutes a near one without an error, so the difference shows only when two pages are measured side by side. Load what shared rules need from the same single place the rules come from.</li>
+</ul>
+<h3 id="inc-0164-the-community-page-scrolled-sideways-on-phones-for-visitors-whose-random-pseudonym-was-long-because-the-line-that-names-it-could-not-wrap">INC-0164. The community page scrolled sideways on phones for visitors whose random pseudonym was long, because the line that names it could not wrap</h3>
+<p><em>2026-09-27, Cosmetic</em></p>
+<ul>
+<li><strong>What was seen.</strong> At 390px wide, signed out, /community/ shows "Anonymous posts from this device appear as" and the device's pseudonym on one line. Measured on September 27, 2026 with the bold weight the page loaded before INC-0163 (600), the page scrolled 35px sideways for Crimson Kingfisher 98, the longest name the page can draw, and 16px for Steady Swallow 10; Wise Owl 2 fit. The pseudonym is picked at random per device from 20 adjectives, 20 birds and a number from 2 to 98, so whether a visitor's page slid sideways depended on the name they happened to draw.</li>
+<li><strong>Why.</strong> The identity line is styled white-space:nowrap. In the hero's wrapping flex row it drops below the heading on a phone, but a line that cannot break is as wide as its whole sentence, and with a long name that sentence is wider than the screen.</li>
+<li><strong>How it surfaced.</strong> Found on September 27, 2026 while checking the self-hosted fonts at 390px: the page showed 11px of sideways scroll on one load and none on the next, which is what a random name produces. (Found by measuring something)</li>
+<li><strong>Fix.</strong> The sentence may wrap; the name inside it stays whole (white-space:nowrap on the name only).</li>
+<li><strong>What stops it now.</strong> src/smoke_community.js, run in npm run test:browser, loads /community/ at 390px signed out with the longest and the shortest pseudonym stored, with Supabase answered locally the way it answers a visitor, and fails on sideways scroll or a name broken across lines. No smoke test measured the community page's width before: smoke_launch loads it at 390px for its heading, contrast and link checks but never measures sideways scroll, the suites that do measure it cover other pages, and where the network fails the page replaces this line with a short notice, so a run without Supabase never drew it. in <code>src/smoke_community.js</code></li>
+<li><strong>Lesson.</strong> A layout checked with one sample of random content is checked for that sample. When a page draws something at random, a name, a pick or a shuffle, test it with the widest value it can produce, and pin that value, since a check that passes or fails by luck is not a check.</li>
+</ul>
 <h2 id="scoring-and-selection-7">Scoring and selection (7)</h2>
 <h3 id="inc-0040-the-easier-module-was-not-easier">INC-0040. The easier module was not easier</h3>
 <p><em>2026-09-16, Wrong data shown or stored, <code>81eecec</code> PR #30</em></p>
@@ -2246,72 +2358,6 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Fix.</strong> A generated item's id is now derived from what the item is: the exam's prefix and the first twelve hex digits of its canon key, the hash the runner already dedups on. For a reading item that key covers the schema, the stem and the passage; for the rest, the schema, the stem and the choices. The same question keeps its id across rebuilds whatever else changes, and a changed question gets a new one. Numbered ids already stored in a browser cannot be mapped back, because each one named different questions in different builds, so the trainer drops review and seen entries of the old form once, on load, rather than keep them.</li>
 <li><strong>What stops it now.</strong> build_banks.py recomputes every generated id from its item and fails if one differs from its canon key or two items in an exam share an id. A twelve digit prefix makes a chance collision about three in a million per exam per build. in <code>src/build_banks.py</code></li>
 <li><strong>Lesson.</strong> An identifier that anything outside the build stores must be derived from what it identifies, not from where it happened to land. A position is a fine name only for something nobody keeps.</li>
-</ul>
-<h2 id="css-and-layout-6">CSS and layout (6)</h2>
-<h3 id="inc-0050-a-landing-page-icon-referenced-a-colour-token-that-did-not-exist">INC-0050. A landing-page icon referenced a colour token that did not exist</h3>
-<p><em>2026-08-19, Cosmetic, <code>5337dfd</code></em></p>
-<ul>
-<li><strong>What was seen.</strong> One game icon on the landing grid rendered without its colour.</li>
-<li><strong>Why.</strong> An undefined custom property, which CSS treats as a fallback rather than an error.</li>
-<li><strong>How it surfaced.</strong> Looking at the page on a phone during a mobile pass. (Found by rendering it and looking)</li>
-<li><strong>Fix.</strong> Use a defined token.</li>
-<li><strong>What stops it now.</strong> weekly_audit checks computed colour on every page in <code>src/weekly_audit.js</code></li>
-<li><strong>Cost.</strong> one icon, and the same root cause later cost a compliance control</li>
-<li><strong>Lesson.</strong> The same undefined-property failure will find you repeatedly, at every severity from one icon to an invisible legal control. One audit of computed colour catches the whole class.</li>
-</ul>
-<h3 id="inc-0010-css-comments-do-not-nest-and-one-placeholder-killed-the-palette-on-1451-pages">INC-0010. CSS comments do not nest, and one placeholder killed the palette on 1451 pages</h3>
-<p><em>2026-09-17, Degraded, <code>61c3ed2</code> PR #40</em></p>
-<ul>
-<li><strong>What was seen.</strong> The colour palette was gone from every college page. It looked like a design problem and was chased as one for hours.</li>
-<li><strong>Why.</strong> A <code>{{CHROME_CSS}}</code> placeholder was left inside an opening CSS comment in rankings_base.css. The first */ closes the outer comment, so everything after it was live CSS that overwrote the palette.</li>
-<li><strong>How it surfaced.</strong> Eventually, by reading the built CSS rather than the template. (Found by reading the code or the output)</li>
-<li><strong>Fix.</strong> Remove the nested comment.</li>
-<li><strong>What stops it now.</strong> Nothing automated. This one is still carried by attention.</li>
-<li><strong>Cost.</strong> hours, on 1451 pages</li>
-<li><strong>Lesson.</strong> CSS comments do not nest. When a whole page category loses its styling, read the built artefact, not the source that produced it.</li>
-</ul>
-<h3 id="inc-0048-error-recovery-in-the-css-parser-swallowed-the-palette-silently">INC-0048. Error recovery in the CSS parser swallowed the palette silently</h3>
-<p><em>2026-09-17, Degraded, <code>a920f5c</code> PR #41</em></p>
-<ul>
-<li><strong>What was seen.</strong> Score bars rendered as empty gaps and panels lost their borders on 1,451 college pages and the rankings.</li>
-<li><strong>Why.</strong> A nested comment ended early, the leftover words became a selector, and the CSS parser's error recovery discarded the :root colour block that followed it. Every grey and navy variable on those pages resolved to nothing. There is no error anywhere in this chain; CSS is specified to recover and continue.</li>
-<li><strong>How it surfaced.</strong> The missing borders eventually gave it away, after the missing colours did not. (Found by reading the code or the output)</li>
-<li><strong>Fix.</strong> Remove the nested comment.</li>
-<li><strong>What stops it now.</strong> weekly_audit checks computed colour on every page in <code>src/weekly_audit.js</code></li>
-<li><strong>Cost.</strong> the palette on over 1,450 pages</li>
-<li><strong>Lesson.</strong> CSS never fails loudly. A malformed rule is skipped, a bad selector eats the block after it, and an undefined variable paints as nothing. Anything that matters visually has to be asserted on the rendered page, because the parser will not tell you.</li>
-</ul>
-<h3 id="inc-0018-the-do-not-sell-button-was-invisible-from-the-day-it-shipped">INC-0018. The Do Not Sell button was invisible from the day it shipped</h3>
-<p><em>2026-09-19, Degraded, <code>a34a798</code> PR #47</em></p>
-<ul>
-<li><strong>What was seen.</strong> White text on a transparent background on a white page. A legally required control that nobody could see.</li>
-<li><strong>Why.</strong> The page referenced nine colour custom properties that exist nowhere. CSS does not treat an undefined custom property as an error; it falls back to the initial value and paints.</li>
-<li><strong>How it surfaced.</strong> An automated contrast audit across every page. (A test caught it)</li>
-<li><strong>Fix.</strong> Define the tokens and fix seven contrast failures, all site wide because all lived in shared chrome.</li>
-<li><strong>What stops it now.</strong> weekly_audit checks computed contrast on every page in <code>src/weekly_audit.js</code></li>
-<li><strong>Cost.</strong> an invisible compliance control for the life of the page</li>
-<li><strong>Lesson.</strong> An undefined CSS custom property is silent. Audit computed colour, not authored colour, and do it on the rendered page.</li>
-</ul>
-<h3 id="inc-0029-a-sequential-colour-ramp-inverts-direction-between-themes-and-the-label-text-did-not">INC-0029. A sequential colour ramp inverts direction between themes, and the label text did not</h3>
-<p><em>2026-09-21, Degraded, <code>8af7188</code> PR #61</em></p>
-<ul>
-<li><strong>What was seen.</strong> White heatmap labels on a light cell in dark mode.</li>
-<li><strong>Why.</strong> A sequential ramp runs light to dark in a light theme and dark to light in a dark theme. The label colour was hardcoded white, so it was correct in one theme and unreadable in the other.</li>
-<li><strong>How it surfaced.</strong> Rendering the chart in dark mode and looking at it. (Found by rendering it and looking)</li>
-<li><strong>Fix.</strong> An --sfnc-on-seq token that flips with the theme.</li>
-<li><strong>What stops it now.</strong> smoke_charts asserts token parity between the light and dark blocks in <code>src/smoke_charts.js</code></li>
-<li><strong>Cost.</strong> an unreadable chart in one theme</li>
-<li><strong>Lesson.</strong> A dark mode does not break by having a wrong colour. It breaks by missing one. Any colour paired with a ramp has to move with the ramp.</li>
-</ul>
-<h3 id="inc-0139-every-blog-page-drew-the-site-header-without-the-design-tokens-so-its-logo-sat-against-the-screen-edge-on-phones">INC-0139. Every blog page drew the site header without the design tokens, so its logo sat against the screen edge on phones</h3>
-<p><em>2026-09-27, Cosmetic</em></p>
-<ul>
-<li><strong>What was seen.</strong> On all 32 blog pages, the 31 published posts and the blog index, the shared header's wordmark sat at 0 pixels from the left edge at phone width where every other page puts it 24 pixels in, and the header and footer ignored the page width. Their stylesheet used 22 design tokens, --gutter, --page and the radii and motion values among them, that the blog pages never defined.</li>
-<li><strong>Why.</strong> partials.apply_chrome() injects TOKENS_CSS ahead of CHROME_CSS wherever a template carries the CHROME_CSS placeholder. build_blog.py writes its own page shell and pasted partials.CHROME_CSS into it directly, so the blog got the rules without the variables they read. CSS treats a variable that was never defined by quietly falling back to the property's initial value, so nothing failed: the padding became 0 and the max width none.</li>
-<li><strong>How it surfaced.</strong> Found on September 27, 2026 while previewing a queued post at phone width: the logo touched the screen edge, and an already published post showed the same. (Found by rendering it and looking)</li>
-<li><strong>Fix.</strong> build_blog.py injects TOKENS_CSS with CHROME_CSS, as apply_chrome does.</li>
-<li><strong>What stops it now.</strong> page_checks.undefined_tokens() reads every built page's inline CSS and any local stylesheet it links, and fails the build when a page uses one of TOKENS_CSS's variables without a fallback and never defines it. in <code>src/page_checks.py</code></li>
-<li><strong>Lesson.</strong> CSS forgives a variable that was never defined by quietly using the initial value, so a missing token never throws, it only looks slightly wrong. When shared rules depend on shared variables, inject them together through one function, and check built pages for variables used but never defined.</li>
 </ul>
 <h2 id="infrastructure-and-deploy-6">Infrastructure and deploy (6)</h2>
 <h3 id="inc-0023-www-and-the-apex-were-two-origins-so-consent-and-rankings-split-in-half">INC-0023. www and the apex were two origins, so consent and rankings split in half</h3>
@@ -2535,6 +2581,10 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 </ul>
 <p>&lt;small&gt;A build step that fails while the build exits zero, and a verification run that was a remembered subset (INC-0080)&lt;/small&gt;</p>
 <ul>
+<li>[ ] <strong>Learned 2 times over.</strong> Two copies of one check drift apart. When a check exists in two places, a fix to one is a question about the other, and the cheapest answer is to make them share the code that splits text.  </li>
+</ul>
+<p>&lt;small&gt;The blog build read a fee table as one sentence and refused a correct post for calling the SAT trainer unfinished, over College Board's seat Waitlist (INC-0162)&lt;/small&gt;</p>
+<ul>
 <li>[ ] A parse guard covers the file shapes someone thought of. When the same code moves into a new shape, a separate file, a chunk, a worker, the guard does not follow it. List what the guard covers against what the deploy actually ships, and check the difference rather than the intention.  </li>
 </ul>
 <p>&lt;small&gt;Nothing parsed the one file every user downloads (INC-0060)&lt;/small&gt;</p>
@@ -2558,15 +2608,15 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>[ ] When a generated file has a size limit and a completeness rule, decide which one wins before the file grows, because it will. Bound the whole output in the generator, and let the file say what it left out and where the rest is, so omission is a stated choice rather than a silent one.  </li>
 </ul>
 <p>&lt;small&gt;The rules digest crossed its word budget again, because the earlier fix bounded each rule and not the digest (INC-0129)&lt;/small&gt;</p>
-<ul>
-<li>[ ] Two copies of one check drift apart. When a check exists in two places, a fix to one is a question about the other, and the cheapest answer is to make them share the code that splits text.  </li>
-</ul>
-<p>&lt;small&gt;The blog build read a fee table as one sentence and refused a correct post for calling the SAT trainer unfinished, over College Board's seat Waitlist (INC-0162)&lt;/small&gt;</p>
 <h2 id="css-and-layout">CSS and layout</h2>
 <ul>
 <li>[ ] <strong>Learned 3 times over.</strong> The same undefined-property failure will find you repeatedly, at every severity from one icon to an invisible legal control. One audit of computed colour catches the whole class.  </li>
 </ul>
 <p>&lt;small&gt;A landing-page icon referenced a colour token that did not exist (INC-0050)&lt;/small&gt;</p>
+<ul>
+<li>[ ] <strong>Learned 2 times over.</strong> CSS forgives a variable that was never defined by quietly using the initial value, so a missing token never throws, it only looks slightly wrong. When shared rules depend on shared variables, inject them together through one function, and check built pages for variables used but never defined.  </li>
+</ul>
+<p>&lt;small&gt;Every blog page drew the site header without the design tokens, so its logo sat against the screen edge on phones (INC-0139)&lt;/small&gt;</p>
 <ul>
 <li>[ ] CSS comments do not nest. When a whole page category loses its styling, read the built artefact, not the source that produced it.  </li>
 </ul>
@@ -2584,9 +2634,13 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 </ul>
 <p>&lt;small&gt;Error recovery in the CSS parser swallowed the palette silently (INC-0048)&lt;/small&gt;</p>
 <ul>
-<li>[ ] CSS forgives a variable that was never defined by quietly using the initial value, so a missing token never throws, it only looks slightly wrong. When shared rules depend on shared variables, inject them together through one function, and check built pages for variables used but never defined.  </li>
+<li>[ ] Shared CSS is only shared if everything it depends on travels with it. A rule that asks for a font weight depends on that weight's file being loaded, and a browser that cannot find it substitutes a near one without an error, so the difference shows only when two pages are measured side by side. Load what shared rules need from the same single place the rules come from.  </li>
 </ul>
-<p>&lt;small&gt;Every blog page drew the site header without the design tokens, so its logo sat against the screen edge on phones (INC-0139)&lt;/small&gt;</p>
+<p>&lt;small&gt;The shared site header rendered its bold labels at two weights, because each page template asked Google Fonts for its own list of IBM Plex Sans weights (INC-0163)&lt;/small&gt;</p>
+<ul>
+<li>[ ] A layout checked with one sample of random content is checked for that sample. When a page draws something at random, a name, a pick or a shuffle, test it with the widest value it can produce, and pin that value, since a check that passes or fails by luck is not a check.  </li>
+</ul>
+<p>&lt;small&gt;The community page scrolled sideways on phones for visitors whose random pseudonym was long, because the line that names it could not wrap (INC-0164)&lt;/small&gt;</p>
 <h2 id="content-generation">Content generation</h2>
 <ul>
 <li>[ ] <strong>Learned 7 times over.</strong> A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell. When a measurement cannot be trusted at a small sample, widen the tolerance to what the sample supports rather than declining to measure, and notice when a count of what was measured does not move after you add something to measure.  </li>
@@ -3176,6 +3230,14 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>[ ] When a check learns a new way to read a source, every rule that reads a source has to learn it too. A second reader that lags the first is found only when the data first depends on the difference.  </li>
 </ul>
 <p>&lt;small&gt;The source check's blank-page rule judged a figure worked from two pages by its first page alone, and called mba.com's payment page blank while the second page was unreadable (INC-0161)&lt;/small&gt;</p>
+<ul>
+<li>[ ] A test of a check should apply the check's rule, not a snapshot of the cases that existed when the test was written. An allowlist of known exceptions is a record of the past, and the first new legitimate case turns it into a false failure.  </li>
+</ul>
+<p>&lt;small&gt;The playbook's smoke test and its builder disagreed on what counts as an unresolved placeholder, so a correctly quoted one failed the smoke (INC-0165)&lt;/small&gt;</p>
+<ul>
+<li>[ ] A test harness has to load a page the way a visitor does or its passes mean less than they say. file:// quietly breaks every root-relative path, and a noise filter written for one failure hides the next one of the same kind; when a test has to ignore an error to pass, it is worth asking what else that exemption lets through.  </li>
+</ul>
+<p>&lt;small&gt;The standalone page smoke test still loaded pages from disk, where the site's root-relative paths point at the filesystem root, so it failed once the fonts moved onto the site (INC-0166)&lt;/small&gt;</p>
 <h1 id="adapting-this-to-a-different-business">Adapting This to a Different Business</h1>
 <p>Most of this book is about a test-preparation platform. This chapter separates what was specific to that from what was structural, so you know what to keep.</p>
 <h2 id="what-was-specific">What was specific</h2>
@@ -3231,7 +3293,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p><code>python3 src/build_playbook.py</code> writes four files into <code>playbook/bootstrap/</code>, all generated from the same ledger as the book, so none of them can drift from it.</p>
 <p><strong><code>CLAUDE.template.md</code></strong> goes in the new repository's root. Claude Code reads it on every turn. It is the constitution: the house rules, the never-invent-a-value rule, the sourcing rules, the communication rule, and a short architecture section you fill in as you build. Four bracketed blanks at the top are the only things you have to change.</p>
 <p><strong><code>KICKOFF.md</code></strong> is the literal first message for a new conversation. It sets the working agreement, the phase order, and what a session should report. Paste it, then describe your business idea underneath it.</p>
-<p><strong><code>RULES_DIGEST.md</code></strong> is every lesson in the defect ledger, compressed to one line each and grouped by area. It is about three pages. This is the highest value-per-token artefact in the whole project: 162 real defects reduced to the rules that prevent them, with the specifics of this codebase stripped out.</p>
+<p><strong><code>RULES_DIGEST.md</code></strong> is every lesson in the defect ledger, compressed to one line each and grouped by area. It is about three pages. This is the highest value-per-token artefact in the whole project: 166 real defects reduced to the rules that prevent them, with the specifics of this codebase stripped out.</p>
 <p><strong><code>incidents.jsonl</code></strong> is the raw ledger, copied so the new project can start appending to it on day one rather than starting an empty one.</p>
 <h2 id="how-to-load-it-by-surface">How to load it, by surface</h2>
 <p><strong>Claude Code, new repository.</strong> Copy <code>CLAUDE.template.md</code> to the repo root as <code>CLAUDE.md</code>, fill in the four blanks, and copy <code>incidents.jsonl</code> to <code>data/playbook/incidents.jsonl</code>. Copy <code>src/build_playbook.py</code> too, so the new project's own ledger becomes its own book from the first defect. Then open a session with <code>KICKOFF.md</code> as the first message.</p>
@@ -3241,7 +3303,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three reasons, and they are worth understanding rather than just following.</p>
 <p><strong>Retrieval beats repetition.</strong> A document in project knowledge is consulted when relevant. The same document in the prompt is re-read on every single turn, at full cost, mostly when it is irrelevant. For anything longer than a few pages, retrieval is strictly better.</p>
 <p><strong>Instructions need to be short enough to be followed.</strong> A rule competing with ten thousand words of context is a rule that gets applied inconsistently. The digest is deliberately brutal: one line per lesson, imperative mood, no examples. The examples are in the book, where they can be looked up when a rule seems wrong.</p>
-<p><strong>The ledger is the part that compounds.</strong> The recipe chapters age. The rules do not, because each one is the residue of a real failure, and the failure modes of software are considerably more stable than its tooling. A new project that starts with 162 defects already prevented is genuinely ahead, and every defect it hits of its own makes the next project further ahead still.</p>
+<p><strong>The ledger is the part that compounds.</strong> The recipe chapters age. The rules do not, because each one is the residue of a real failure, and the failure modes of software are considerably more stable than its tooling. A new project that starts with 166 defects already prevented is genuinely ahead, and every defect it hits of its own makes the next project further ahead still.</p>
 <h2 id="keeping-the-loop-closed">Keeping the loop closed</h2>
 <p>The pack is only worth carrying forward if the new project feeds it back. So the working agreement in <code>KICKOFF.md</code> includes one instruction that does the whole job:</p>
 <p>&gt; When something breaks, append a record to <code>data/playbook/incidents.jsonl</code> before fixing &gt; it, while you still remember what you believed was true five minutes ago.</p>

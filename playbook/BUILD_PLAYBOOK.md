@@ -7,10 +7,10 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-27, which is 8 days, across
-117 commits, by one owner directing a series of AI coding sessions. As of this
-build it is 85 Python files, 111 JavaScript files, 24
-TypeScript edge functions, 35 migrations and 64 documents:
-2063 tracked files in total.
+118 commits, by one owner directing a series of AI coding sessions. As of this
+build it is 86 Python files, 112 JavaScript files, 24
+TypeScript edge functions, 35 migrations and 65 documents:
+2098 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -195,7 +195,7 @@ the thing that would have caught it.
 ## Phase 0: the rules file, before any code
 
 Write the project's standing rules into a file the AI session reads on every turn. On this
-project that is `CLAUDE.md`, 64 documents in, and it is still the highest
+project that is `CLAUDE.md`, 65 documents in, and it is still the highest
 leverage file in the repository.
 
 It is not documentation. It is the constitution, and it should contain only things that
@@ -386,6 +386,7 @@ The build is the first rung. Above it, in the order they run:
 - `src/smoke_business.js`
 - `src/smoke_calculator.js`
 - `src/smoke_charts.js`
+- `src/smoke_community.js`
 - `src/smoke_consent.js`
 - `src/smoke_daily.js`
 - `src/smoke_dates.js`
@@ -408,7 +409,7 @@ The build is the first rung. Above it, in the order they run:
 - `src/test.js`
 - `src/weekly_audit.js`
 
-27 test files in total. The layering is deliberate:
+28 test files in total. The layering is deliberate:
 
 1. **The build** catches structural problems in the artefact.
 2. **Engine tests** run the domain logic headlessly, once per exam.
@@ -1031,7 +1032,7 @@ remembers it was a placeholder.
 
 # Tests and Guards
 
-27 test files, and the interesting thing about them is not what they assert.
+28 test files, and the interesting thing about them is not what they assert.
 It is that the analysis chapter can count how defects were **actually** found, and the
 answer reshapes where you put effort.
 
@@ -1124,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-117 commits in 8 days, one owner, a series of AI sessions. This
+118 commits in 8 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1216,22 +1217,22 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-162 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+166 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 85 | 52% |
-| Found by measuring something | 39 | 24% |
-| A test caught it | 19 | 12% |
+| Found by reading the code or the output | 85 | 51% |
+| Found by measuring something | 41 | 25% |
+| A test caught it | 21 | 13% |
 | Found by rendering it and looking | 8 | 5% |
 | Found by a review bot or an adversarial pass | 5 | 3% |
 | A build guard caught it | 4 | 2% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 160 of 162 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 164 of 166 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1241,12 +1242,12 @@ well enough to audit later. Which is what this book is.
 | Severity | Count |
 | --- | ---: |
 | Wrong data shown or stored | 71 |
-| Degraded | 39 |
+| Degraded | 41 |
 | Silent loss | 26 |
-| Cosmetic | 23 |
+| Cosmetic | 25 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 162. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 166. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
@@ -1254,12 +1255,12 @@ well enough to audit later. Which is what this book is.
 | Area | Count |
 | --- | ---: |
 | Content generation | 73 |
-| Tests and guards | 25 |
+| Tests and guards | 27 |
 | Front end | 12 |
 | Build system | 11 |
 | Search and metadata | 10 |
+| CSS and layout | 8 |
 | Scoring and selection | 7 |
-| CSS and layout | 6 |
 | Infrastructure and deploy | 6 |
 | Payments | 5 |
 | Database | 4 |
@@ -1268,7 +1269,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-156 of 162 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+160 of 166 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1289,7 +1290,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-73 of 162 incidents record that they repeat an earlier lesson, 101 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+75 of 166 incidents record that they repeat an earlier lesson, 103 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1338,12 +1339,14 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0135 Arizona State's school page said its class entered in 2027, because the label parser took the first year it found | INC-0147 | 1 |
 | INC-0136 The LSAT guide said most test takers choose between remote and in-person testing, after LSAC had moved almost everyone into test centers | INC-0137 | 1 |
 | INC-0138 The exam guides hub told search engines only the GMAT and SAT trainers were live, eleven days after all five were | INC-0162 | 1 |
+| INC-0139 Every blog page drew the site header without the design tokens, so its logo sat against the screen edge on phones | INC-0163 | 1 |
 | INC-0142 Every school's employment rate was labelled and scored as a three month figure, though 15 of 70 were measured at six months, four months, a year or a reporting date, or at a timing their notes do not give | INC-0144 | 1 |
 | INC-0155 The GMAT guide cited mba.com's Official Score Reports page for the rule on five free score reports within 48 hours, a rule that page never states | INC-0160 | 1 |
 | INC-0156 The source check read mba.com's bot challenge page as the page it cites and reported the GMAT fact's numbers as missing from it | INC-0158 | 1 |
 | INC-0158 The source check filed six school pages as probably built by JavaScript; five were something else, and three of them showed newer figures than the library published | INC-0161 | 1 |
+| INC-0162 The blog build read a fee table as one sentence and refused a correct post for calling the SAT trainer unfinished, over College Board's seat Waitlist | INC-0165 | 1 |
 
-The largest family runs to 60 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140, INC-0142, INC-0143, INC-0144, INC-0145, INC-0147, INC-0150, INC-0151, INC-0152, INC-0154, INC-0155, INC-0157, INC-0159, INC-0160, INC-0162. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
+The largest family runs to 61 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140, INC-0142, INC-0143, INC-0144, INC-0145, INC-0147, INC-0150, INC-0151, INC-0152, INC-0154, INC-0155, INC-0157, INC-0159, INC-0160, INC-0162, INC-0165. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
 
 Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.
 
@@ -1367,6 +1370,9 @@ Incidents that name an earlier one without claiming to repeat it. Each was read 
 - INC-0155 names INC-0156
 - INC-0156 names INC-0155
 - INC-0161 names INC-0133, INC-0154
+- INC-0164 names INC-0163
+- INC-0165 names INC-0163
+- INC-0166 names INC-0163
 
 
 ## Where defects concentrate
@@ -1383,14 +1389,14 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/bank_emit.py`, 5 incidents (INC-0062, INC-0066, INC-0068, INC-0073, INC-0119)
 - `src/gen/framework.py`, 5 incidents (INC-0074, INC-0075, INC-0078, INC-0087, INC-0096)
 - `src/gen/g_rc.py`, 5 incidents (INC-0097, INC-0114, INC-0115, INC-0117, INC-0122)
+- `src/smoke_playbook.js`, 4 incidents (INC-0054, INC-0084, INC-0129, INC-0165)
 - `src/bank_repair.py`, 4 incidents (INC-0070, INC-0071, INC-0072, INC-0121)
+- `src/page_checks.py`, 4 incidents (INC-0134, INC-0138, INC-0139, INC-0163)
 - `src/weekly_audit.js`, 3 incidents (INC-0050, INC-0048, INC-0018)
 - `src/smoke_redirect.js`, 3 incidents (INC-0023, INC-0024, INC-0047)
-- `src/smoke_playbook.js`, 3 incidents (INC-0054, INC-0084, INC-0129)
 - `src/build_playbook.py`, 3 incidents (INC-0057, INC-0065, INC-0083)
 - `src/gen/g_act_sci.py`, 3 incidents (INC-0093, INC-0094, INC-0098)
 - `src/build_blog.py`, 3 incidents (INC-0124, INC-0137, INC-0162)
-- `src/page_checks.py`, 3 incidents (INC-0134, INC-0138, INC-0139)
 
 
 # The Defect Ledger
@@ -2288,7 +2294,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** What a page publishes has to be what the checks read. When a builder falls back to a second field to fill a gap, that field is published, and every check written for the first field has to cover it too.
 
 
-## Tests and guards (25)
+## Tests and guards (27)
 
 
 ### INC-0016. The performance test waited for the load event, which waits for the thing being optimised
@@ -2604,6 +2610,30 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** The blank-page rule reads a figure the way the finding loop does: against every page it names, and only when all of them were read. A figure with an unread page is left to the unreadable list.
 - **What stops it now.** check_sources' self-check holds a figure whose numbers are on its second page only, which must not make its first page blank, and one whose second page went unread, which must be left out of the blank-page rule. in `src/check_sources.py`
 - **Lesson.** When a check learns a new way to read a source, every rule that reads a source has to learn it too. A second reader that lags the first is found only when the data first depends on the difference.
+
+
+### INC-0165. The playbook's smoke test and its builder disagreed on what counts as an unresolved placeholder, so a correctly quoted one failed the smoke
+
+*2026-09-27, Degraded*
+
+- **What was seen.** After INC-0163's record quoted `{{FONTS_CSS}}` in a code span, python3 src/build_playbook.py built the book, and node src/smoke_playbook.js failed it with "no unresolved placeholders: FONTS_CSS".
+- **Why.** The builder decides what is an unresolved placeholder by blanking code spans and fenced blocks first, since a quoted placeholder is an example rather than a place to substitute, and its comment says why it does not use an allowlist: one would go stale. The smoke test, written to catch a builder change that dropped that check, used exactly such an allowlist, CHROME_CSS and PLACEHOLDER, the two quoted names that existed when it was written. The first new quoted name failed it.
+- **How it surfaced.** Found on September 27, 2026 when the suites were run on the font change. (A test caught it)
+- **Fix.** The smoke test blanks code spans and fenced blocks the way the builder does and keeps no list of names.
+- **What stops it now.** smoke_playbook's placeholder check now applies the builder's own rule, so the two cannot disagree about a quoted placeholder, and it still fails on one left in running text. in `src/smoke_playbook.js`
+- **Lesson.** A test of a check should apply the check's rule, not a snapshot of the cases that existed when the test was written. An allowlist of known exceptions is a record of the past, and the first new legitimate case turns it into a false failure.
+
+
+### INC-0166. The standalone page smoke test still loaded pages from disk, where the site's root-relative paths point at the filesystem root, so it failed once the fonts moved onto the site
+
+*2026-09-27, Degraded*
+
+- **What was seen.** After INC-0163, node src/smoke_pages.js failed /international/ and /apply/ with five console errors, each "Failed to load resource: net::ERR_FILE_NOT_FOUND": the pages link their fonts at /vendor/fonts-2026-09-27/fonts.css, and loaded as file:// that path is the root of the disk, not of the site.
+- **Why.** smoke_pages opened the built pages as file:// URLs. A page that loads anything by a root-relative path cannot load it that way, and smoke_billing and smoke_guide had already moved to a local server for that reason; smoke_pages had not, and nothing forced it to, because until now every root-relative reference those two pages make failed without writing to the console, and the one resource that did fail loudly, Google Fonts, was on its list of environment noise.
+- **How it surfaced.** Found on September 27, 2026 when the suites were run on the font change. (A test caught it)
+- **Fix.** smoke_pages serves the built site from a local HTTP server and opens the pages through it, as the other page smokes do, so every root-relative path resolves the way it does live.
+- **What stops it now.** smoke_pages counts any resource that fails to load as an error, now that the site's own paths resolve, so a stylesheet, font or script a page names and the build did not produce fails it; Google's hosts are no longer on its noise list. in `src/smoke_pages.js`
+- **Lesson.** A test harness has to load a page the way a visitor does or its passes mean less than they say. file:// quietly breaks every root-relative path, and a noise filter written for one failure hides the next one of the same kind; when a test has to ignore an error to pass, it is worth asking what else that exemption lets through.
 
 
 ## Front end (12)
@@ -3026,6 +3056,110 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** A value copied from a page carries the context the page gave it, and loses that context wherever it is printed on its own. A name that is plain under its university's banner is anonymous in a page title, so store the form that stands alone.
 
 
+## CSS and layout (8)
+
+
+### INC-0050. A landing-page icon referenced a colour token that did not exist
+
+*2026-08-19, Cosmetic, `5337dfd`*
+
+- **What was seen.** One game icon on the landing grid rendered without its colour.
+- **Why.** An undefined custom property, which CSS treats as a fallback rather than an error.
+- **How it surfaced.** Looking at the page on a phone during a mobile pass. (Found by rendering it and looking)
+- **Fix.** Use a defined token.
+- **What stops it now.** weekly_audit checks computed colour on every page in `src/weekly_audit.js`
+- **Cost.** one icon, and the same root cause later cost a compliance control
+- **Lesson.** The same undefined-property failure will find you repeatedly, at every severity from one icon to an invisible legal control. One audit of computed colour catches the whole class.
+
+
+### INC-0010. CSS comments do not nest, and one placeholder killed the palette on 1451 pages
+
+*2026-09-17, Degraded, `61c3ed2` PR #40*
+
+- **What was seen.** The colour palette was gone from every college page. It looked like a design problem and was chased as one for hours.
+- **Why.** A `{{CHROME_CSS}}` placeholder was left inside an opening CSS comment in rankings_base.css. The first */ closes the outer comment, so everything after it was live CSS that overwrote the palette.
+- **How it surfaced.** Eventually, by reading the built CSS rather than the template. (Found by reading the code or the output)
+- **Fix.** Remove the nested comment.
+- **What stops it now.** Nothing automated. This one is still carried by attention.
+- **Cost.** hours, on 1451 pages
+- **Lesson.** CSS comments do not nest. When a whole page category loses its styling, read the built artefact, not the source that produced it.
+
+
+### INC-0048. Error recovery in the CSS parser swallowed the palette silently
+
+*2026-09-17, Degraded, `a920f5c` PR #41*
+
+- **What was seen.** Score bars rendered as empty gaps and panels lost their borders on 1,451 college pages and the rankings.
+- **Why.** A nested comment ended early, the leftover words became a selector, and the CSS parser's error recovery discarded the :root colour block that followed it. Every grey and navy variable on those pages resolved to nothing. There is no error anywhere in this chain; CSS is specified to recover and continue.
+- **How it surfaced.** The missing borders eventually gave it away, after the missing colours did not. (Found by reading the code or the output)
+- **Fix.** Remove the nested comment.
+- **What stops it now.** weekly_audit checks computed colour on every page in `src/weekly_audit.js`
+- **Cost.** the palette on over 1,450 pages
+- **Lesson.** CSS never fails loudly. A malformed rule is skipped, a bad selector eats the block after it, and an undefined variable paints as nothing. Anything that matters visually has to be asserted on the rendered page, because the parser will not tell you.
+
+
+### INC-0018. The Do Not Sell button was invisible from the day it shipped
+
+*2026-09-19, Degraded, `a34a798` PR #47*
+
+- **What was seen.** White text on a transparent background on a white page. A legally required control that nobody could see.
+- **Why.** The page referenced nine colour custom properties that exist nowhere. CSS does not treat an undefined custom property as an error; it falls back to the initial value and paints.
+- **How it surfaced.** An automated contrast audit across every page. (A test caught it)
+- **Fix.** Define the tokens and fix seven contrast failures, all site wide because all lived in shared chrome.
+- **What stops it now.** weekly_audit checks computed contrast on every page in `src/weekly_audit.js`
+- **Cost.** an invisible compliance control for the life of the page
+- **Lesson.** An undefined CSS custom property is silent. Audit computed colour, not authored colour, and do it on the rendered page.
+
+
+### INC-0029. A sequential colour ramp inverts direction between themes, and the label text did not
+
+*2026-09-21, Degraded, `8af7188` PR #61*
+
+- **What was seen.** White heatmap labels on a light cell in dark mode.
+- **Why.** A sequential ramp runs light to dark in a light theme and dark to light in a dark theme. The label colour was hardcoded white, so it was correct in one theme and unreadable in the other.
+- **How it surfaced.** Rendering the chart in dark mode and looking at it. (Found by rendering it and looking)
+- **Fix.** An --sfnc-on-seq token that flips with the theme.
+- **What stops it now.** smoke_charts asserts token parity between the light and dark blocks in `src/smoke_charts.js`
+- **Cost.** an unreadable chart in one theme
+- **Lesson.** A dark mode does not break by having a wrong colour. It breaks by missing one. Any colour paired with a ramp has to move with the ramp.
+
+
+### INC-0139. Every blog page drew the site header without the design tokens, so its logo sat against the screen edge on phones
+
+*2026-09-27, Cosmetic*
+
+- **What was seen.** On all 32 blog pages, the 31 published posts and the blog index, the shared header's wordmark sat at 0 pixels from the left edge at phone width where every other page puts it 24 pixels in, and the header and footer ignored the page width. Their stylesheet used 22 design tokens, --gutter, --page and the radii and motion values among them, that the blog pages never defined.
+- **Why.** partials.apply_chrome() injects TOKENS_CSS ahead of CHROME_CSS wherever a template carries the CHROME_CSS placeholder. build_blog.py writes its own page shell and pasted partials.CHROME_CSS into it directly, so the blog got the rules without the variables they read. CSS treats a variable that was never defined by quietly falling back to the property's initial value, so nothing failed: the padding became 0 and the max width none.
+- **How it surfaced.** Found on September 27, 2026 while previewing a queued post at phone width: the logo touched the screen edge, and an already published post showed the same. (Found by rendering it and looking)
+- **Fix.** build_blog.py injects TOKENS_CSS with CHROME_CSS, as apply_chrome does.
+- **What stops it now.** page_checks.undefined_tokens() reads every built page's inline CSS and any local stylesheet it links, and fails the build when a page uses one of TOKENS_CSS's variables without a fallback and never defines it. in `src/page_checks.py`
+- **Lesson.** CSS forgives a variable that was never defined by quietly using the initial value, so a missing token never throws, it only looks slightly wrong. When shared rules depend on shared variables, inject them together through one function, and check built pages for variables used but never defined.
+
+
+### INC-0163. The shared site header rendered its bold labels at two weights, because each page template asked Google Fonts for its own list of IBM Plex Sans weights
+
+*2026-09-27, Cosmetic*
+
+- **What was seen.** The site header's Create Account button is styled font-weight 700, 13px, and is meant to be identical on every page. Measured in Chromium on September 27, 2026, its label drew 92.41px wide on the landing page and on /exams/, where only the 400 and 600 faces of IBM Plex Sans had loaded, and 93.61px on /daily/, where the 700 face had. The shared chrome's other 700 weight rules, the header's tags and the mobile menu's group labels, draw from the same declared faces, so they fall back the same way.
+- **Why.** The header's CSS is injected once, from partials.py, but the font files it depends on were not: each of 30 page sources (28 templates, plus build_blog.py and build_colleges.py, which write their own page heads) carried its own Google Fonts link and its own list of weights. Five of them (the daily page template and the four study guide templates) asked for IBM Plex Sans 400, 500, 600 and 700; the other 25 stopped at 600. A browser asked for 700 when only 600 is loaded draws the 600 face and says nothing, so the shared rules looked right in every template on its own and differed between them. The terms and privacy pages also imported the design system's font sheet, which still requested Manrope, the retired fourth face, from Google on every load.
+- **How it surfaced.** Found on September 27, 2026 while moving the fonts off Google (DEVSECOPS O6): listing the distinct Google Fonts requests across the templates turned up five different ones, and a measurement of the header button on three pages confirmed the weights differ. (Found by measuring something)
+- **Fix.** The three faces are served from this site at /vendor/fonts-2026-09-27/ with one stylesheet covering every weight any page uses (Source Serif 4 600, 700 and italic 400; IBM Plex Sans 400, 500, 600 and 700; IBM Plex Mono 400 and 500). Every template links it through one placeholder, `{{FONTS_CSS}}`, filled from partials.FONTS_CSS, so no page can ask for a different set. The design system's font sheet points at the same file, and Manrope is gone from it.
+- **What stops it now.** The builds fail on any page that loads a stylesheet or font from another host, including through @import in a stylesheet the page links (page_checks.offsite_styles), so a template cannot go back to its own font request, and the Content-Security-Policy no longer allows fonts.googleapis.com or fonts.gstatic.com. in `src/page_checks.py`
+- **Lesson.** Shared CSS is only shared if everything it depends on travels with it. A rule that asks for a font weight depends on that weight's file being loaded, and a browser that cannot find it substitutes a near one without an error, so the difference shows only when two pages are measured side by side. Load what shared rules need from the same single place the rules come from.
+
+
+### INC-0164. The community page scrolled sideways on phones for visitors whose random pseudonym was long, because the line that names it could not wrap
+
+*2026-09-27, Cosmetic*
+
+- **What was seen.** At 390px wide, signed out, /community/ shows "Anonymous posts from this device appear as" and the device's pseudonym on one line. Measured on September 27, 2026 with the bold weight the page loaded before INC-0163 (600), the page scrolled 35px sideways for Crimson Kingfisher 98, the longest name the page can draw, and 16px for Steady Swallow 10; Wise Owl 2 fit. The pseudonym is picked at random per device from 20 adjectives, 20 birds and a number from 2 to 98, so whether a visitor's page slid sideways depended on the name they happened to draw.
+- **Why.** The identity line is styled white-space:nowrap. In the hero's wrapping flex row it drops below the heading on a phone, but a line that cannot break is as wide as its whole sentence, and with a long name that sentence is wider than the screen.
+- **How it surfaced.** Found on September 27, 2026 while checking the self-hosted fonts at 390px: the page showed 11px of sideways scroll on one load and none on the next, which is what a random name produces. (Found by measuring something)
+- **Fix.** The sentence may wrap; the name inside it stays whole (white-space:nowrap on the name only).
+- **What stops it now.** src/smoke_community.js, run in npm run test:browser, loads /community/ at 390px signed out with the longest and the shortest pseudonym stored, with Supabase answered locally the way it answers a visitor, and fails on sideways scroll or a name broken across lines. No smoke test measured the community page's width before: smoke_launch loads it at 390px for its heading, contrast and link checks but never measures sideways scroll, the suites that do measure it cover other pages, and where the network fails the page replaces this line with a short notice, so a run without Supabase never drew it. in `src/smoke_community.js`
+- **Lesson.** A layout checked with one sample of random content is checked for that sample. When a page draws something at random, a name, a pick or a shuffle, test it with the widest value it can produce, and pin that value, since a check that passes or fails by luck is not a check.
+
+
 ## Scoring and selection (7)
 
 
@@ -3115,86 +3249,6 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** A generated item's id is now derived from what the item is: the exam's prefix and the first twelve hex digits of its canon key, the hash the runner already dedups on. For a reading item that key covers the schema, the stem and the passage; for the rest, the schema, the stem and the choices. The same question keeps its id across rebuilds whatever else changes, and a changed question gets a new one. Numbered ids already stored in a browser cannot be mapped back, because each one named different questions in different builds, so the trainer drops review and seen entries of the old form once, on load, rather than keep them.
 - **What stops it now.** build_banks.py recomputes every generated id from its item and fails if one differs from its canon key or two items in an exam share an id. A twelve digit prefix makes a chance collision about three in a million per exam per build. in `src/build_banks.py`
 - **Lesson.** An identifier that anything outside the build stores must be derived from what it identifies, not from where it happened to land. A position is a fine name only for something nobody keeps.
-
-
-## CSS and layout (6)
-
-
-### INC-0050. A landing-page icon referenced a colour token that did not exist
-
-*2026-08-19, Cosmetic, `5337dfd`*
-
-- **What was seen.** One game icon on the landing grid rendered without its colour.
-- **Why.** An undefined custom property, which CSS treats as a fallback rather than an error.
-- **How it surfaced.** Looking at the page on a phone during a mobile pass. (Found by rendering it and looking)
-- **Fix.** Use a defined token.
-- **What stops it now.** weekly_audit checks computed colour on every page in `src/weekly_audit.js`
-- **Cost.** one icon, and the same root cause later cost a compliance control
-- **Lesson.** The same undefined-property failure will find you repeatedly, at every severity from one icon to an invisible legal control. One audit of computed colour catches the whole class.
-
-
-### INC-0010. CSS comments do not nest, and one placeholder killed the palette on 1451 pages
-
-*2026-09-17, Degraded, `61c3ed2` PR #40*
-
-- **What was seen.** The colour palette was gone from every college page. It looked like a design problem and was chased as one for hours.
-- **Why.** A `{{CHROME_CSS}}` placeholder was left inside an opening CSS comment in rankings_base.css. The first */ closes the outer comment, so everything after it was live CSS that overwrote the palette.
-- **How it surfaced.** Eventually, by reading the built CSS rather than the template. (Found by reading the code or the output)
-- **Fix.** Remove the nested comment.
-- **What stops it now.** Nothing automated. This one is still carried by attention.
-- **Cost.** hours, on 1451 pages
-- **Lesson.** CSS comments do not nest. When a whole page category loses its styling, read the built artefact, not the source that produced it.
-
-
-### INC-0048. Error recovery in the CSS parser swallowed the palette silently
-
-*2026-09-17, Degraded, `a920f5c` PR #41*
-
-- **What was seen.** Score bars rendered as empty gaps and panels lost their borders on 1,451 college pages and the rankings.
-- **Why.** A nested comment ended early, the leftover words became a selector, and the CSS parser's error recovery discarded the :root colour block that followed it. Every grey and navy variable on those pages resolved to nothing. There is no error anywhere in this chain; CSS is specified to recover and continue.
-- **How it surfaced.** The missing borders eventually gave it away, after the missing colours did not. (Found by reading the code or the output)
-- **Fix.** Remove the nested comment.
-- **What stops it now.** weekly_audit checks computed colour on every page in `src/weekly_audit.js`
-- **Cost.** the palette on over 1,450 pages
-- **Lesson.** CSS never fails loudly. A malformed rule is skipped, a bad selector eats the block after it, and an undefined variable paints as nothing. Anything that matters visually has to be asserted on the rendered page, because the parser will not tell you.
-
-
-### INC-0018. The Do Not Sell button was invisible from the day it shipped
-
-*2026-09-19, Degraded, `a34a798` PR #47*
-
-- **What was seen.** White text on a transparent background on a white page. A legally required control that nobody could see.
-- **Why.** The page referenced nine colour custom properties that exist nowhere. CSS does not treat an undefined custom property as an error; it falls back to the initial value and paints.
-- **How it surfaced.** An automated contrast audit across every page. (A test caught it)
-- **Fix.** Define the tokens and fix seven contrast failures, all site wide because all lived in shared chrome.
-- **What stops it now.** weekly_audit checks computed contrast on every page in `src/weekly_audit.js`
-- **Cost.** an invisible compliance control for the life of the page
-- **Lesson.** An undefined CSS custom property is silent. Audit computed colour, not authored colour, and do it on the rendered page.
-
-
-### INC-0029. A sequential colour ramp inverts direction between themes, and the label text did not
-
-*2026-09-21, Degraded, `8af7188` PR #61*
-
-- **What was seen.** White heatmap labels on a light cell in dark mode.
-- **Why.** A sequential ramp runs light to dark in a light theme and dark to light in a dark theme. The label colour was hardcoded white, so it was correct in one theme and unreadable in the other.
-- **How it surfaced.** Rendering the chart in dark mode and looking at it. (Found by rendering it and looking)
-- **Fix.** An --sfnc-on-seq token that flips with the theme.
-- **What stops it now.** smoke_charts asserts token parity between the light and dark blocks in `src/smoke_charts.js`
-- **Cost.** an unreadable chart in one theme
-- **Lesson.** A dark mode does not break by having a wrong colour. It breaks by missing one. Any colour paired with a ramp has to move with the ramp.
-
-
-### INC-0139. Every blog page drew the site header without the design tokens, so its logo sat against the screen edge on phones
-
-*2026-09-27, Cosmetic*
-
-- **What was seen.** On all 32 blog pages, the 31 published posts and the blog index, the shared header's wordmark sat at 0 pixels from the left edge at phone width where every other page puts it 24 pixels in, and the header and footer ignored the page width. Their stylesheet used 22 design tokens, --gutter, --page and the radii and motion values among them, that the blog pages never defined.
-- **Why.** partials.apply_chrome() injects TOKENS_CSS ahead of CHROME_CSS wherever a template carries the CHROME_CSS placeholder. build_blog.py writes its own page shell and pasted partials.CHROME_CSS into it directly, so the blog got the rules without the variables they read. CSS treats a variable that was never defined by quietly falling back to the property's initial value, so nothing failed: the padding became 0 and the max width none.
-- **How it surfaced.** Found on September 27, 2026 while previewing a queued post at phone width: the logo touched the screen edge, and an already published post showed the same. (Found by rendering it and looking)
-- **Fix.** build_blog.py injects TOKENS_CSS with CHROME_CSS, as apply_chrome does.
-- **What stops it now.** page_checks.undefined_tokens() reads every built page's inline CSS and any local stylesheet it links, and fails the build when a page uses one of TOKENS_CSS's variables without a fallback and never defines it. in `src/page_checks.py`
-- **Lesson.** CSS forgives a variable that was never defined by quietly using the initial value, so a missing token never throws, it only looks slightly wrong. When shared rules depend on shared variables, inject them together through one function, and check built pages for variables used but never defined.
 
 
 ## Infrastructure and deploy (6)
@@ -3459,6 +3513,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The rules digest promises to be prompt sized and its generator grows without bound (INC-0083)</small>
 - [ ] **Learned 2 times over.** Two habits, both mine rather than the code's. Verify with the sequence the pipeline runs, read out of its config, not with the subset you remember: a suite chosen from memory drifts to the parts that were failing last week. And when a step is deliberately non fatal, the word it fails with is the whole of its signal, so it has to be the word people grep for. WARNING on a line that means a deliverable did not build is an invitation to miss it, and the cost of saying ERROR while still exiting zero is nothing at all.  
   <small>A build step that fails while the build exits zero, and a verification run that was a remembered subset (INC-0080)</small>
+- [ ] **Learned 2 times over.** Two copies of one check drift apart. When a check exists in two places, a fix to one is a question about the other, and the cheapest answer is to make them share the code that splits text.  
+  <small>The blog build read a fee table as one sentence and refused a correct post for calling the SAT trainer unfinished, over College Board's seat Waitlist (INC-0162)</small>
 - [ ] A parse guard covers the file shapes someone thought of. When the same code moves into a new shape, a separate file, a chunk, a worker, the guard does not follow it. List what the guard covers against what the deploy actually ships, and check the difference rather than the intention.  
   <small>Nothing parsed the one file every user downloads (INC-0060)</small>
 - [ ] A guard keyed to wording is a guard on the wording, not the fact, and every synonym is a hole in it. Widening the wording is the obvious repair and it trades missed defects for false alarms, which cost more because they get the guard switched off. Match a phrase that only the thing you care about can produce, rather than every word it might happen to use.  
@@ -3471,14 +3527,14 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The runner's 400 draw cutoff dropped the last question of a small reading schema on three of four builds (INC-0126)</small>
 - [ ] When a generated file has a size limit and a completeness rule, decide which one wins before the file grows, because it will. Bound the whole output in the generator, and let the file say what it left out and where the rest is, so omission is a stated choice rather than a silent one.  
   <small>The rules digest crossed its word budget again, because the earlier fix bounded each rule and not the digest (INC-0129)</small>
-- [ ] Two copies of one check drift apart. When a check exists in two places, a fix to one is a question about the other, and the cheapest answer is to make them share the code that splits text.  
-  <small>The blog build read a fee table as one sentence and refused a correct post for calling the SAT trainer unfinished, over College Board's seat Waitlist (INC-0162)</small>
 
 
 ## CSS and layout
 
 - [ ] **Learned 3 times over.** The same undefined-property failure will find you repeatedly, at every severity from one icon to an invisible legal control. One audit of computed colour catches the whole class.  
   <small>A landing-page icon referenced a colour token that did not exist (INC-0050)</small>
+- [ ] **Learned 2 times over.** CSS forgives a variable that was never defined by quietly using the initial value, so a missing token never throws, it only looks slightly wrong. When shared rules depend on shared variables, inject them together through one function, and check built pages for variables used but never defined.  
+  <small>Every blog page drew the site header without the design tokens, so its logo sat against the screen edge on phones (INC-0139)</small>
 - [ ] CSS comments do not nest. When a whole page category loses its styling, read the built artefact, not the source that produced it.  
   <small>CSS comments do not nest, and one placeholder killed the palette on 1451 pages (INC-0010)</small>
 - [ ] An undefined CSS custom property is silent. Audit computed colour, not authored colour, and do it on the rendered page.  
@@ -3487,8 +3543,10 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A sequential colour ramp inverts direction between themes, and the label text did not (INC-0029)</small>
 - [ ] CSS never fails loudly. A malformed rule is skipped, a bad selector eats the block after it, and an undefined variable paints as nothing. Anything that matters visually has to be asserted on the rendered page, because the parser will not tell you.  
   <small>Error recovery in the CSS parser swallowed the palette silently (INC-0048)</small>
-- [ ] CSS forgives a variable that was never defined by quietly using the initial value, so a missing token never throws, it only looks slightly wrong. When shared rules depend on shared variables, inject them together through one function, and check built pages for variables used but never defined.  
-  <small>Every blog page drew the site header without the design tokens, so its logo sat against the screen edge on phones (INC-0139)</small>
+- [ ] Shared CSS is only shared if everything it depends on travels with it. A rule that asks for a font weight depends on that weight's file being loaded, and a browser that cannot find it substitutes a near one without an error, so the difference shows only when two pages are measured side by side. Load what shared rules need from the same single place the rules come from.  
+  <small>The shared site header rendered its bold labels at two weights, because each page template asked Google Fonts for its own list of IBM Plex Sans weights (INC-0163)</small>
+- [ ] A layout checked with one sample of random content is checked for that sample. When a page draws something at random, a name, a pick or a shuffle, test it with the widest value it can produce, and pin that value, since a check that passes or fails by luck is not a check.  
+  <small>The community page scrolled sideways on phones for visitors whose random pseudonym was long, because the line that names it could not wrap (INC-0164)</small>
 
 
 ## Content generation
@@ -3815,6 +3873,10 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The source check read text inside HTML comments as page text, and confirmed Arizona State's 43 percent women from a table row the school had commented out (INC-0152)</small>
 - [ ] When a check learns a new way to read a source, every rule that reads a source has to learn it too. A second reader that lags the first is found only when the data first depends on the difference.  
   <small>The source check's blank-page rule judged a figure worked from two pages by its first page alone, and called mba.com's payment page blank while the second page was unreadable (INC-0161)</small>
+- [ ] A test of a check should apply the check's rule, not a snapshot of the cases that existed when the test was written. An allowlist of known exceptions is a record of the past, and the first new legitimate case turns it into a false failure.  
+  <small>The playbook's smoke test and its builder disagreed on what counts as an unresolved placeholder, so a correctly quoted one failed the smoke (INC-0165)</small>
+- [ ] A test harness has to load a page the way a visitor does or its passes mean less than they say. file:// quietly breaks every root-relative path, and a noise filter written for one failure hides the next one of the same kind; when a test has to ignore an error to pass, it is worth asking what else that exemption lets through.  
+  <small>The standalone page smoke test still loaded pages from disk, where the site's root-relative paths point at the filesystem root, so it failed once the fonts moved onto the site (INC-0166)</small>
 
 
 # Adapting This to a Different Business
@@ -3931,7 +3993,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 162 real defects reduced to the rules that prevent them,
+the whole project: 166 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -3971,7 +4033,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-162 defects already prevented is genuinely ahead, and every defect it hits
+166 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

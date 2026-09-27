@@ -133,6 +133,28 @@ the network. The build fails on any page that loads a script from another host
 (`page_checks.offsite_scripts`). The Google Fonts stylesheet is still fetched from Google;
 it holds up first paint rather than the app's code, and moving it is open as O6.
 
+**F6. Every page fetched its fonts from Google, each asking for its own weights (INC-0163).**
+VERIFIED. All 30 page sources linked fonts.googleapis.com, so first paint waited on two
+Google hosts and every visit told Google who came, which privacy.html never disclosed.
+Each also carried its own list of weights: the daily and study guide templates asked for
+IBM Plex Sans 400 to 700, the other 25 stopped at 600, and the shared header's 700 weight
+silently drew as 600 on those (the Create Account label measured 92.41px on the landing
+page and 93.61px on /daily/). The three faces are now served from
+`/vendor/fonts-2026-09-27/`: 52 faces in 28 WOFF2 files, Google's own files byte for byte,
+written by `src/vendor_fonts.py` from one Google Fonts request covering every face any page
+uses, with each family's SIL Open Font License beside them and a README listing the request
+and a sha256 per file. Every template links the one stylesheet through `{{FONTS_CSS}}`,
+filled from `partials.FONTS_CSS`, including the design system's font sheet that the legal
+pages import, which also stops requesting Manrope. The CSP drops fonts.googleapis.com from
+`style-src` and fonts.gstatic.com from `font-src`, in `_headers` and the worker alike. The
+trainers' service workers precache the stylesheet and its Latin files, so the first offline
+launch draws in the right faces. Both builds fail on any page that loads a stylesheet or
+font from another host, directly, in its own CSS or through `@import` in a stylesheet of
+ours, or that links one of ours that is not there (`page_checks.offsite_styles`). To
+refresh the fonts, run `src/vendor_fonts.py`, point `partials.FONTS_CSS` and
+`design/tokens/fonts.css` at the new directory, and delete the old one; the build fails if
+either still names it.
+
 ### Checked and found sound, so nobody re-litigates them
 
 **Forum output escaping.** VERIFIED. Every path where user-submitted content reaches the
@@ -159,7 +181,7 @@ raw IP, while an anonymous `select` returns `[]` with a row present. Same for
 | O3 | `script-src` still needs `unsafe-inline`, because every page carries inline scripts. | Closing it means extracting the inline scripts to files with hashes. Real work, not urgent. |
 | O4 | No dependency or secret scanning in CI. | `.github/workflows` runs the publish cron only. |
 | O5 | No billing event log, so trial-to-paid conversion can only be reported as a snapshot ratio. | Called out in the Revenue tab itself. |
-| O6 | Every page's fonts come from fonts.googleapis.com and fonts.gstatic.com, so a slow or blocked Google delays first paint and tells Google who visited. | Serve the three faces from this site as `/vendor/` now serves supabase-js (INC-0148). |
+| O6 | CLOSED September 27, 2026 as F6: fonts came from fonts.googleapis.com and fonts.gstatic.com, so a slow or blocked Google delayed first paint and told Google who visited. | The three faces are served from `/vendor/`, and the build fails on a font or stylesheet from another host (INC-0163). |
 
 ## 3. Sentinel: the loop that improves with time
 
