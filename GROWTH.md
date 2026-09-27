@@ -172,6 +172,11 @@ pages on ChatGPT search (403).
 - **All five calculators on the /exams/ hub and in the Resources menu**, so a visitor who
   lands on one exam's calculator can find the others, and search engines see them linked
   from a page they already index.
+- **Test dates at /exams/sat/test-dates/, /exams/act/test-dates/ and /exams/lsat/test-dates/**:
+  every date and deadline from the test maker's own table, re-read weekly, leading with
+  where registration stands on the reader's day. Each date downloads as a calendar file
+  with reminders before the deadline and the test, so the student's own calendar brings
+  them back, with no list or consent needed for it.
 
 ### Next, in the order the evidence ranks them
 

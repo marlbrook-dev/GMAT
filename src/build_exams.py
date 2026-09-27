@@ -34,6 +34,23 @@ CALC_BLURBS = {
 }
 
 
+# Test date pages, built by build_test_dates.py from each maker's own table.
+DATES = {"sat": ("/exams/sat/test-dates/", "SAT Test Dates"),
+         "act": ("/exams/act/test-dates/", "ACT Test Dates"),
+         "lsat": ("/exams/lsat/test-dates/", "LSAT Test Dates")}
+DATE_BLURBS = {
+    "sat": "Every SAT Weekend date with its registration and late deadlines, from College Board, and a calendar file for each.",
+    "act": "Every ACT national date with its deadlines and score release, from ACT, and a calendar file for each.",
+    "lsat": "Every LSAT administration with its deadlines and score release, from LSAC, and a calendar file for each.",
+}
+
+
+def date_cards(exams):
+    """The hub's test date cards, in exam order, from the same DATES the guides use."""
+    return [f'<a class="card exam" href="{DATES[e["slug"]][0]}"><div class="row"><span class="en">{esc(DATES[e["slug"]][1])}</span>'
+            f'</div><p>{esc(DATE_BLURBS[e["slug"]])}</p></a>' for e in exams if e["slug"] in DATES]
+
+
 def calculator_cards(exams):
     """The hub's calculator cards, in exam order, from the same CALCULATORS the guides use."""
     cards = []
@@ -150,7 +167,7 @@ def exam_page(e, tpl, today):
     reg = (e.get("maker") or {}).get("register_url")
     reg_btn = f'<a class="btn sec" href="{esc(reg)}" rel="noopener" target="_blank">Register at {esc((e.get("maker") or {}).get("name") or "the official site")}</a>' if reg else ""
     calc_btn = "".join(f'<a class="btn sec" href="{href}">{esc(label)}</a>'
-                       for href, label in CALCULATORS.get(e["slug"], []))
+                       for href, label in CALCULATORS.get(e["slug"], []) + ([DATES[e["slug"]]] if e["slug"] in DATES else []))
     def brief(s, cap=46):
         if not s:
             return s
@@ -359,6 +376,7 @@ def main():
         sys.exit(1)
     pages.append((dest / "index.html", itpl.replace("{{CARDS}}", "\n".join(cards))
                   .replace("{{CALCS}}", "\n".join(calculator_cards(exams)))
+                  .replace("{{DATES}}", "\n".join(date_cards(exams)))
                   .replace("{{HUB_DESCRIPTION}}", esc(desc))
                   .replace("{{UPDATED}}", today).replace("{{EXAM_LD}}", exam_ld)))
     pages = [(path, partials.apply_chrome(content)) for path, content in pages]

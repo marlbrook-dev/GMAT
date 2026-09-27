@@ -572,6 +572,9 @@ _sp.run([sys.executable, str(d/"build_exams.py")], check=True)
 # Score calculators live under /exams/<exam>/ and carry their arithmetic inline, so each is
 # parsed like every other inline script.
 _sp.run([sys.executable, str(d/"build_calculators.py")], check=True)
+# Test date pages, from the makers' own tables (data/test_dates.json), with a calendar file
+# for each date. Their script chooses a note by the reader's date, so it is parsed too.
+_sp.run([sys.executable, str(d/"build_test_dates.py")], check=True)
 for _cp in sorted((root/"exams").glob("*/*/index.html")):
     check_scripts(_cp)
 _sp.run([sys.executable, str(d/"build_guide.py")], check=True)
