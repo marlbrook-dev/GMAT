@@ -159,8 +159,10 @@ for app in APPS:
     # also the substance behind the App Review 4.2 claim that this is not a repackaged
     # website.
     _scope = "/" + app["out"] + "/"
+    # supabase-js too: the app's code waits on it, and a page that is not yet controlled when
+    # it loads leaves it out of the cache, so the first offline launch would ask the network.
     _precache = ([_scope, _scope + "bank.js"] + rest_paths
-                 + ["/manifest.json", "/icons/icon-192.png", "/icons/icon-512.png"])
+                 + ["/manifest.json", "/icons/icon-192.png", "/icons/icon-512.png", partials.SUPABASE_JS])
     import json as _sw_json
     _sw = ((d / "sw_template.js").read_text()
            .replace("{{SW_VERSION}}", partials.build_id())
@@ -188,7 +190,8 @@ for app in APPS:
               # consent module has to be added here too. Missing it was how the trainer,
               # the one page people spend real time on, ended up without a banner.
               .replace("{{SENTINEL}}", partials.consent_js()
-                       + partials.sentinel_js("app-" + app["exam"] + "-" + partials.build_id())))
+                       + partials.sentinel_js("app-" + app["exam"] + "-" + partials.build_id()))
+              .replace("{{SUPABASE_JS}}", partials.SUPABASE_JS))
     if "{{" in out:
         import re as _r
         print("ERROR: unresolved placeholder in " + app["out"] + ": " + str(_r.findall(r"\{\{[A-Z_]+\}\}", out)[:4]), file=sys.stderr)
@@ -645,6 +648,15 @@ if _arts:
     for _pg, _frag in _arts[:10]:
         print("ERROR: %s puts the wrong article before a number: ...%s..." % (_pg, _frag),
               file=sys.stderr)
+    sys.exit(1)
+# Nor may a page load a script from another host: the trainer app ran none of its own
+# code until cdn.jsdelivr.net answered, and a slow answer timed out CI (INC-0148).
+from page_checks import offsite_scripts
+_off = offsite_scripts(root, _SECTIONS)
+if _off:
+    for _pg, _u in _off[:10]:
+        print("ERROR: %s loads a script from another host: %s" % (_pg, _u), file=sys.stderr)
+    print("ERROR: serve it from this site, as /vendor/ serves supabase-js", file=sys.stderr)
     sys.exit(1)
 
 

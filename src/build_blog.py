@@ -559,7 +559,12 @@ def main():
         p = dict(p, body=delink_held(p["body"], live_slugs))
         (d / "index.html").write_text(build_post(p, live))
     # The same check build.py runs on every other section (INC-0131).
-    from page_checks import python_reprs, articles
+    from page_checks import python_reprs, articles, offsite_scripts
+    off = offsite_scripts(ROOT, ["blog"])
+    if off:
+        for pg, u in off[:10]:
+            print("build_blog: %s loads a script from another host: %s (INC-0148)" % (pg, u), file=sys.stderr)
+        sys.exit(1)
     reprs = python_reprs(ROOT, ["blog"])
     if reprs:
         for pg, frag in reprs[:10]:

@@ -7,10 +7,10 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-27, which is 8 days, across
-93 commits, by one owner directing a series of AI coding sessions. As of this
-build it is 83 Python files, 109 JavaScript files, 24
+94 commits, by one owner directing a series of AI coding sessions. As of this
+build it is 83 Python files, 110 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 64 documents:
-2046 tracked files in total.
+2048 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -1123,7 +1123,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-93 commits in 8 days, one owner, a series of AI sessions. This
+94 commits in 8 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1215,7 +1215,7 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-147 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+148 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
@@ -1223,14 +1223,14 @@ well enough to audit later. Which is what this book is.
 | How | Count | Share |
 | --- | ---: | ---: |
 | Found by reading the code or the output | 74 | 50% |
-| Found by measuring something | 39 | 27% |
-| A test caught it | 16 | 11% |
+| Found by measuring something | 39 | 26% |
+| A test caught it | 17 | 11% |
 | Found by rendering it and looking | 8 | 5% |
 | Found by a review bot or an adversarial pass | 5 | 3% |
 | A build guard caught it | 3 | 2% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 145 of 147 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 146 of 148 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1240,12 +1240,12 @@ well enough to audit later. Which is what this book is.
 | Severity | Count |
 | --- | ---: |
 | Wrong data shown or stored | 63 |
-| Degraded | 32 |
+| Degraded | 33 |
 | Silent loss | 26 |
 | Cosmetic | 23 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 147. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 148. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
@@ -1254,7 +1254,7 @@ well enough to audit later. Which is what this book is.
 | --- | ---: |
 | Content generation | 66 |
 | Tests and guards | 21 |
-| Front end | 10 |
+| Front end | 11 |
 | Build system | 10 |
 | Search and metadata | 9 |
 | Scoring and selection | 7 |
@@ -1267,7 +1267,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-141 of 147 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+142 of 148 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1288,7 +1288,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-61 of 147 incidents record that they repeat an earlier lesson, 83 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+61 of 148 incidents record that they repeat an earlier lesson, 83 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1361,7 +1361,7 @@ Incidents that name an earlier one without claiming to repeat it. Each was read 
 Files named by three or more incidents. This is not the same signal as the list above: a file that is the natural home for many checks will appear here without any one of them having failed. It says where the work has been, and where a reader new to the codebase should look first.
 
 - `src/build_banks.py`, 17 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011, INC-0079, INC-0081, INC-0086, INC-0088, INC-0089, INC-0090, INC-0091, INC-0092, INC-0120, INC-0123, INC-0126, INC-0127)
-- `src/build.py`, 12 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067, INC-0076, INC-0080, INC-0131)
+- `src/build.py`, 13 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067, INC-0076, INC-0080, INC-0131, INC-0148)
 - `src/test.js`, 8 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085)
 - `src/build_rankings.py`, 6 incidents (INC-0014, INC-0049, INC-0118, INC-0135, INC-0142, INC-0145)
 - `src/review_bot.js`, 5 incidents (INC-0022, INC-0026, INC-0051, INC-0061, INC-0077)
@@ -2460,7 +2460,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** Loading a page is not the same as reading it. A chart can be a separate document inside the page that draws only when scrolled into view, and a page with trackers may never fall quiet, so a reader built for checking has to scroll like a person, collect every frame, and use waits that give up rather than hang.
 
 
-## Front end (10)
+## Front end (11)
 
 
 ### INC-0001. Unescaped quotes in onclick strings took the whole app down
@@ -2589,6 +2589,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** The block takes its link from APP_PATH, as the header button does, and names the exam: Open the ACT Trainer. The hub, which is about every exam, links to each live exam's trainer by name instead of to one of them.
 - **What stops it now.** build_exams.py fails if any link into a trainer on an exam page goes anywhere but that exam's own trainer, or if a page for an exam without a live trainer links to one. build_guide.py fails unless the hub links to every live exam's trainer. in `src/build_exams.py`
 - **Lesson.** When a site grows from one of something to several, grep for the literals the single case left behind. A link that was right when there was one trainer is wrong four times over when there are five, and it still looks right to anyone checking the page it was written for.
+
+
+### INC-0148. The trainer app ran its own code only after a script from cdn.jsdelivr.net had loaded, so a slow CDN stalled the app and timed out CI's games smoke
+
+*2026-09-27, Degraded*
+
+- **What was seen.** CI failed on marlbrook-dev/GMAT#136 in src/smoke_games.js with "page.goto: Timeout 30000ms exceeded" navigating to /app/index.html and waiting for load, before any game check ran. The same suite passed locally on that commit and on one re-run. The pull request touched only school records and their validators, nothing the app loads.
+- **Why.** The trainer app, the community page and the do-not-sell page load the supabase-js client from https://cdn.jsdelivr.net as a plain blocking script tag, and in the app it sits ahead of the item bank and the app's own code, which needs window.supabase to exist when it starts. So the browser runs none of the app until jsdelivr answers or fails, and the page's load event waits on it too. A slow response from jsdelivr, or a network that blocks it, holds the whole app for as long as the request takes, for students as well as for CI, and the content security policy had to name jsdelivr as a script source to allow it.
+- **How it surfaced.** CI on September 27, 2026: build-and-test failed in the games smoke on PR 136 and passed on one re-run. Reading what the app's load event waits on found two other hosts: a Google Fonts stylesheet and supabase-js from jsdelivr, the second blocking the app's code. (A test caught it)
+- **Fix.** supabase-js is served from this site at /vendor/supabase-js-2.117.2/supabase.js, with its MIT license beside it. It is the npm package's dist/umd/supabase.js for 2.117.2, the file jsdelivr was serving under @2 apart from a comment header, with one em dash in a debug message made a comma under the house rule; DEVSECOPS.md F5 records both checksums and how to upgrade. The trainer apps, the 404 page built from the app, the community page and the do-not-sell page load it from there, and the content security policy no longer lists cdn.jsdelivr.net as a script source. partials.SUPABASE_JS holds the path once and the pages take it from a placeholder. The trainers' service workers precache the file and treat /vendor/ as immutable: served as an ordinary same-origin file it was missing from the cache on the first offline launch and revalidated in the background after, and src/smoke_offline.js caught both as a request reaching the server with the network off.
+- **What stops it now.** page_checks.offsite_scripts() finds any script a built page loads from another host, and build.py and build_blog.py fail on one. Run on the build from before the fix, it named every trainer, the 404 page, the community page and the do-not-sell page. in `src/build.py`
+- **Lesson.** A script tag is a dependency on the host it names, with that host's speed and uptime. Code a page needs before it can run belongs on the page's own origin; another host belongs only where the page still works when that host is slow or gone.
 
 
 ## Build system (10)
@@ -3465,6 +3477,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The GMAT trainer's first question on a slow connection took twice as long as when the bank split shipped (INC-0113)</small>
 - [ ] When a site grows from one of something to several, grep for the literals the single case left behind. A link that was right when there was one trainer is wrong four times over when there are five, and it still looks right to anyone checking the page it was written for.  
   <small>The trainer button on four exam guides and on the study guide hub opened the GMAT trainer (INC-0128)</small>
+- [ ] A script tag is a dependency on the host it names, with that host's speed and uptime. Code a page needs before it can run belongs on the page's own origin; another host belongs only where the page still works when that host is slow or gone.  
+  <small>The trainer app ran its own code only after a script from cdn.jsdelivr.net had loaded, so a slow CDN stalled the app and timed out CI's games smoke (INC-0148)</small>
 
 
 ## Infrastructure and deploy
@@ -3707,7 +3721,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 147 real defects reduced to the rules that prevent them,
+the whole project: 148 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -3747,7 +3761,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-147 defects already prevented is genuinely ahead, and every defect it hits
+148 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

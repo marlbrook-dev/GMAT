@@ -335,6 +335,13 @@ LEGAL_LINE = (
 # raw IP never leaves the request (country and a salted hash are added by a
 # trigger). Messages and stacks are capped server-side.
 
+# supabase-js is served from this site rather than a CDN, so no page waits on another host
+# before its own code runs (INC-0148). The directory carries the version, so the file under
+# it never changes: the trainers' service workers precache it and never revalidate it. To
+# upgrade, add a new directory and change this line; DEVSECOPS.md F5 says how.
+SUPABASE_JS = "/vendor/supabase-js-2.117.2/supabase.js"
+
+
 def build_id():
     """Short git sha when available, otherwise the build date. This is what pins a
     regression to the build that introduced it, so it is worth the subprocess."""
@@ -764,6 +771,7 @@ def apply_chrome(html, extra_legal=""):
         .replace("{{SITE_HEADER}}", header_html())
         .replace("{{SITE_FOOTER}}", footer_html(extra_legal))
         .replace("{{SENTINEL}}", consent_js() + sentinel_js())
+        .replace("{{SUPABASE_JS}}", SUPABASE_JS)
     )
     out = apply_social(out)
     if "—" in out or "–" in out:
