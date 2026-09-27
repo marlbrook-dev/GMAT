@@ -361,6 +361,20 @@ verified rather than that the school does not publish one (INC-0118).
       figures, has no label; Penn State's legacy GMAT, GPA and salary are removed. A figure
       whose stat says its page labels no class year now takes none, the validator refuses
       a bare year, and the class self-check covers both.
+- [x] **"Average GPA for MBA Programs: 2026 Class Data"** queued for November 3: every
+      program in the library whose GPA figure names a class that entered in 2025 or 2026
+      and matched its page in September 2026, 37 in all, from 3.28 at Boston College
+      Carroll to 3.76 at Harvard Business School and Stanford GSB, each labelled average,
+      median or mean and by class, with the ranges that put admitted students well below
+      the averages and the schools whose figure counts only 4.0-system or domestic GPAs.
+      A program whose page names no class year is left out rather than given one, which
+      is how INC-0147 surfaced.
+- [x] **"How Much Work Experience Do You Need for an MBA? 2026 Class Data"** queued for
+      November 5, on the same rule: 38 programs, from 17.1 months at College of
+      Charleston's one-year MBA to 6 years at seven programs, with the middle program at
+      5.1 years. It quotes Wharton's page that there is no minimum or maximum, the ranges
+      that reach 0 years (NYU Stern, Colorado Leeds, Boston College Carroll), and the four
+      programs built for fewer years.
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects
