@@ -338,6 +338,18 @@ verified rather than that the school does not publish one (INC-0118).
       (100 percent at four months) from 36th to 51st. Still to verify: the timing of
       Wharton's, William & Mary's and Portland State's rates (Wharton's report is unreadable
       from here).
+- [x] **Six figure descriptions moved where the pages print them** (INC-0143): Booth's,
+      Tepper's, Michigan Ross's and Penn State's tuition, Emory's acceptance rate and
+      Vanderbilt's salary carried their description under `note`, our commentary, so their
+      pages showed them bare and the source check never read them. They are now `stat`, and
+      the validator refuses a note without one. Vanderbilt's note, cut off at "plus", is
+      whole again, and its salary keeps Bloomberg's median as a secondary figure because the
+      school's own page prints only "$148K+".
+- [x] **BYU Marriott's two-year total is no longer tuition a year** (INC-0144): its page
+      prints $63,968 as tuition for the entire two-year program (members 31,984), which the
+      library held as tuition per year, so the page, the tuition column and the fit card's
+      two-year arithmetic all doubled it. It is now a whole program cost, and the validator
+      refuses a yearly tuition whose note calls it a program total.
 - [x] **The school library checked against its sources** (INC-0133): `check_sources.py
       --schools` reads every page the library cites (652 figures, 225 pages; the 337 College
       Scorecard figures come from a dataset and are set aside). Reading its flags on static
@@ -393,6 +405,11 @@ verified rather than that the school does not publish one (INC-0118).
       tuition now reads UCSD's 2026-27 fee page, the 2025-26 one being gone. Unreadable from here: 403s at Columbia, Baylor, Michigan
       Ross and Bloomberg, certificate failures at Penn State Smeal and UC Irvine Merage (not
       to be bypassed), US News, Fordham redirects and ASU (522)
+- [ ] Emory Goizueta's acceptance rate (32 percent, from Poets&Quants) disagrees with its own
+      source label: 450 admitted of 1,581 applications is 28.5 percent, and the record's
+      notes call the 32 percent "Poets and Quants math" with no official counterpart.
+      Poets&Quants answers 403 here, so the figure is unchanged and flagged to the owner;
+      read the article, then correct the value or the label.
 - [ ] Six GMAT facts cite pages this sandbox cannot read: four on www.mba.com serve a bot
       challenge and two on support.mba.com answer 403. check_sources reports them as
       unreadable, not wrong. The weekly job may read them from GitHub's runners; if it

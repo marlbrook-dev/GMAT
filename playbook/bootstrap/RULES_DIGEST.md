@@ -1,14 +1,14 @@
 # Rules Digest
 
-Rules from 142 defects in a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
+Rules from 144 defects in a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
 
-Generated 2026-09-27 from a ledger spanning 8 days and 85 commits.
+Generated 2026-09-27 from a ledger spanning 8 days and 86 commits.
 
 ## Read this first
 
-The three ways defects were most often found, in order: found by reading the code or the output (69), found by measuring something (39), a test caught it (16). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
+The three ways defects were most often found, in order: found by reading the code or the output (71), found by measuring something (39), a test caught it (16). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
 
-The dominant failure mode is silent loss, 26 of 142: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
+The dominant failure mode is silent loss, 26 of 144: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
 
 ## Learned the hard way, more than once
 
@@ -38,6 +38,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (3 times, content generation) An edit that appends text has to read what it is appending to. A correction step that checks only its own goal (here, that the choice got longer) will happily achieve it by making the choice worse, and every check downstream measures the goal, so nothing notices.
 - (3 times, content generation) A figure written twice on one page will eventually be written two ways. Where the site already holds a sourced value, a page that states it should be checked against that value, because a reader who meets $4 and $5 for the same fee trusts neither.
 - (3 times, content generation) A presence check on a source field proves the field is filled, not that it is true.
+- (3 times, content generation) Run the source check on every corpus that cites pages, not just the one that broke.
 - (2 times, search and metadata) Any number in user-facing copy that describes the size of something must be computed from that thing at build time.
 - (2 times, infrastructure and deploy) Two hostnames are two origins and therefore two of everything the browser scopes by origin.
 - (2 times, content generation) Test your content against the strategies a lazy adversary would use, not only against whether it is correct.
@@ -50,9 +51,9 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (2 times, content generation) A test measures what someone can get right without the skill, and there is more than one way to do that.
 - (2 times, content generation) A citation vouches only for what its source says, so check each figure against the source rather than checking that a citation is present.
 - (2 times, content generation) A figure with a source and a year can still go stale, because the source moves and the record does not.
-- (2 times, content generation) Run the source check on every corpus that cites pages, not just the one that broke.
 - (2 times, content generation) A citation is only as current as the page it points to, and publishers leave old pages up.
 - (2 times, content generation) Anything written ahead of its publication date is a promise about the future made from the past.
+- (2 times, content generation) A label fixed in code is a claim about every value the field will ever hold. When the data carries its own qualifier, such as a timing or a statistic, the label has to be read from the data, and anything that compares or scores the values has to use only the ones that share the qualifier the method names.
 
 ## Content generation
 
@@ -83,7 +84,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - An empty field records that a search came up empty, not that the thing does not exist.
 - An edit tool that throws away its input leaves the diff as the only record of what it changed.
 - When a parser must pull one value out of free text, anchor it to the words that give the value its meaning, not to its position, and return nothing when nothing anchors it: a sentence that says less is better than one that states a guess as fact.
-- A label fixed in code is a claim about every value the field will ever hold. When the data carries its own qualifier, such as a timing or a statistic, the label has to be read from the data, and anything that compares or scores the values has to use only the ones that share the qualifier the method names.
+- A caveat in a note does not travel with a number: every consumer of the field reads the field's meaning, not the note.
 
 ## Tests and guards
 
@@ -162,4 +163,4 @@ These cost this build twice or more each. If you read nothing else here, read th
 - Chart form is a claim about the data. A line claims the values in between existed.
 - Never encode a state by colour alone. The word also survives greyscale printing, forced-colors mode and a glance from across a room, so it is better for everyone and not only for the people it is required by.
 
-28 more rules, each learned once from a less costly defect, did not fit a prompt sized digest. The checklist in BUILD_PLAYBOOK.md has every rule.
+29 more rules, each learned once from a less costly defect, did not fit a prompt sized digest. The checklist in BUILD_PLAYBOOK.md has every rule.

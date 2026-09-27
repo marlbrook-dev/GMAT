@@ -43,7 +43,7 @@ def _figures(s):
 
 # A stat is printed beside its figure on the school's page, so it is copy: one that stops
 # mid-word is published as it stands. Cincinnati's tuition note ended "; B" (INC-0141).
-_CUT_ENDINGS = (",", ";", "(", " and", " or", " the", " of", " to", " for", " with")
+_CUT_ENDINGS = (",", ";", "(", " and", " or", " the", " of", " to", " for", " with", " plus")
 
 
 def _cut_off(stat):
@@ -54,6 +54,20 @@ def _cut_off(stat):
         return False
     last = re.split(r"[;,(]", stat)[-1].strip()
     return bool(re.fullmatch(r"[A-Za-z]{1,2}", last)) or stat.endswith(_CUT_ENDINGS)
+
+
+# tuition_usd is one year, and everything that reads it (the tuition column and filter,
+# the fit card's two-year arithmetic) reads it as one year. BYU's two-year total sat in it
+# with the caveat only in its note, so the page called it tuition per year (INC-0144).
+_WHOLE_PROGRAM = re.compile(r"\b(?:program total|total program|whole program|entire (?:two|2)[- ]year)\b", re.I)
+_ONE_YEAR = re.compile(r"\b(?:one|1)[- ]year\b|\b1[0-2][- ]month\b|\bone academic year\b", re.I)
+
+
+def _total_as_year(stat):
+    """True when a yearly tuition figure's note says it is the whole program's total and
+    the program is not a one-year program, whose total is its year."""
+    stat = str(stat or "")
+    return bool(_WHOLE_PROGRAM.search(stat)) and not _ONE_YEAR.search(stat)
 
 
 def validate(schools):
@@ -107,6 +121,15 @@ def validate(schools):
                     errors.append(f"{slug}.{f}: em/en dash in metadata")
             if _cut_off(fv.get("stat")):
                 errors.append(f"{slug}.{f}: stat stops partway: {str(fv['stat'])[-40:]!r}")
+            # stat describes a figure as its source states it, and is printed and checked;
+            # note is our commentary, and is neither. A description filed under note left six
+            # figures bare on their pages and unchecked (INC-0143).
+            if fv.get("note") and not fv.get("stat"):
+                errors.append(f"{slug}.{f}: has a note but no stat; a note is commentary beside a "
+                              f"description, so the description goes in stat")
+            if f == "tuition_usd" and _total_as_year(fv.get("stat")):
+                errors.append(f"{slug}.tuition_usd: its note calls it a program total, and the field "
+                              f"is one year; a whole-program figure goes in program_cost_usd")
         # official_hosts: places outside the school's own domain where the school itself
         # publishes (its storage bucket, an alias domain). Each needs the evidence that it is
         # the school's and the date that was checked, because this field changes a figure's

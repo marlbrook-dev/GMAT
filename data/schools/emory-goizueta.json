@@ -85,6 +85,7 @@
   },
   "accept_rate_pct": {
    "v": 32,
+   "stat": "acceptance rate for the Class of 2027 admissions cycle, as Poets&Quants reports it",
    "src": "Poets&Quants (Class of 2027 admissions coverage: 1,581 applications, 450 admitted)",
    "year": 2025,
    "url": "https://poetsandquants.com/2025/10/30/emory-goizuetas-international-mba-enrollment-plunges-9-points-in-one-year/",
