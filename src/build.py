@@ -677,6 +677,18 @@ if _offs:
     print("ERROR: link {{FONTS_CSS}} for fonts, and serve any other stylesheet from this site",
           file=sys.stderr)
     sys.exit(1)
+# Nor may a heading break the house Title Case rule. The blog build read the headings in
+# its posts (INC-0171) and nothing read the rest, so the trainer app's, the test date pages'
+# and the blog template's own went out in sentence case (INC-0176). School and college names
+# are proper names and keep their own capitals.
+from page_checks import untitled_headings, entity_names, _selfcheck_title_case
+_selfcheck_title_case()
+_untitled = untitled_headings(root, _SECTIONS, entity_names(root))
+if _untitled:
+    for _pg, _h, _want in _untitled[:15]:
+        print("ERROR: %s has a heading that breaks Title Case: %r should read %r" % (_pg, _h, _want),
+              file=sys.stderr)
+    sys.exit(1)
 
 
 # ---------------------------------------------------------------------------

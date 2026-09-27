@@ -31,7 +31,16 @@ weights, so the shared header's 700 weight drew as 600 on the pages whose list s
 600 (INC-0163). The faces are served from /vendor/ through one stylesheet, and a page that
 loads a font or stylesheet from anywhere else, or links one of ours that is not there, fails
 the build.
+
+untitled_headings() looks for an h1, h2 or h3 that breaks the house Title Case rule. The
+blog build checked the headings inside each post (INC-0171), and the blog template's own
+"Keep reading", the trainer app's "Review your section" and the test date pages' "When is
+the next LSAT?" went unread, because no check looked at the pages as built (INC-0176).
+title_case() is the rule, shared with the blog build. A heading a script assembles has no
+fixed text to check, and a school's or college's name is a proper name, so both are left out.
 """
+import html
+import json
 import pathlib
 import re
 
@@ -300,3 +309,122 @@ def _selfcheck_offsite_styles():
             raise SystemExit("page_checks: offsite_styles self-check flagged %s, expected %s"
                              % (sorted(got), sorted(want)))
 
+
+
+SMALL_WORDS = frozenset("a an the of and or to for by in on at vs".split())
+_LEAD = re.compile(r"^([^A-Za-z0-9]*)([A-Za-z]+)(.*)$")
+
+
+def title_case(h):
+    """A heading in the house Title Case. A word that already carries a capital (GMAT,
+    GMAC's, iPad) keeps its letters; an all lower case word is capitalised, and a small
+    word is lowered anywhere but first, last, or first after a colon, a question mark, an
+    exclamation mark or a numbered prefix such as "1." (INC-0176). Hyphenated parts are
+    treated as words, and the first part of a compound is capitalised whatever it is. A
+    single capital with a full stop is an initial ("Richard A. Chaifetz"), and a small word
+    joined to more letters by & is part of a name ("Texas A&M"): both keep their letters."""
+    toks = h.split(" ")
+    last = max((i for i, t in enumerate(toks) if re.search(r"[A-Za-z0-9]", t)), default=-1)
+    out, first = [], True
+    for i, tok in enumerate(toks):
+        parts = tok.split("-")
+        for j, part in enumerate(parts):
+            m = _LEAD.match(part)
+            if not m:
+                continue
+            pre, word, rest = m.groups()
+            edge = (first and j == 0) or (i == last and j == len(parts) - 1)
+            # The first part of a hyphenated compound is capitalised whatever it is:
+            # "On-Screen", not "on-Screen".
+            lead = len(parts) > 1 and j == 0
+            named = (len(word) == 1 and word.isupper() and rest.startswith(".")) or rest[:1] == "&"
+            if word.lower() in SMALL_WORDS and not edge and not lead and not named:
+                word = word.lower()
+            elif word.islower():
+                word = word[0].upper() + word[1:]
+            parts[j] = pre + word + rest
+        out.append("-".join(parts))
+        if re.search(r"[A-Za-z0-9]", tok):
+            first = tok.endswith((":", "?", "!")) or bool(re.fullmatch(r"\d+[.)]", tok))
+    return " ".join(out)
+
+
+_HEADING = re.compile(r"<(h[1-3])\b[^>]*>([\s\S]*?)</\1\s*>", re.I)
+# Concatenation or a template placeholder: a heading built by a script from parts.
+_ASSEMBLED = re.compile(r"""['"`]\s*\+|\+\s*['"`]|\$\{|\{\{""")
+
+
+def entity_names(root):
+    """The names of every school and college in the data, which are proper names and keep
+    their own capitals ("Universidad del Sagrado Corazon")."""
+    root = pathlib.Path(root)
+    names = set()
+    for d in ("schools", "colleges"):
+        for f in sorted((root / "data" / d).glob("*.json")):
+            rec = json.loads(f.read_text())
+            names.update(n for n in (rec.get("name"), rec.get("university")) if n)
+    return names
+
+
+# Names whose capitals are their own, whatever the rule would make of them: the blog's name.
+PROPER = ("The Study Room",)
+
+
+def untitled_headings(root, paths, names=()):
+    """(page, heading, as it should read) for each h1, h2 or h3 on the built pages under
+    paths that breaks the Title Case rule, headings written into a script's strings
+    included, since the trainer app draws most of its own."""
+    root = pathlib.Path(root)
+    out = []
+    for rel in paths:
+        base = root / rel
+        files = [base] if base.is_file() else sorted(base.rglob("*.html")) if base.is_dir() else []
+        for f in files:
+            for m in _HEADING.finditer(f.read_text(errors="replace")):
+                inner = m.group(2)
+                if _ASSEMBLED.search(inner):
+                    continue
+                h = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", "", inner))).strip()
+                if not h or h in names:
+                    continue
+                want = title_case(h)
+                for name in PROPER:
+                    if name in h:
+                        want = re.sub(re.escape(name), name, want, flags=re.I)
+                if want != h:
+                    out.append((str(f.relative_to(root)), h, want))
+    return out
+
+
+def _selfcheck_title_case():
+    """INC-0171 and INC-0176: the rule's own examples, a small word at each end, after a
+    colon, a question mark or a numbered prefix, and the initials and names it keeps."""
+    cases = {
+        "What does GMAC's retake policy allow?": "What Does GMAC's Retake Policy Allow?",
+        "Submit Early, On Purpose": "Submit Early, on Purpose",
+        "What Are the ACT Percentiles for 2026?": "What Are the ACT Percentiles for 2026?",
+        "MBA Salary by School: the Class of 2025": "MBA Salary by School: The Class of 2025",
+        "Where to begin": "Where to Begin",
+        "What is a two-minute rule for?": "What Is a Two-Minute Rule For?",
+        "11th Grade": "11th Grade",
+        "How should you use the on-screen calculator?": "How Should You Use the On-Screen Calculator?",
+        "Day-to-day review": "Day-to-Day Review",
+        "Should You Retake the GMAT? A Decision Framework": "Should You Retake the GMAT? A Decision Framework",
+        "1. The Short Version": "1. The Short Version",
+        "Raymond A. Mason School of Business": "Raymond A. Mason School of Business",
+        "Texas A&M University-Kingsville": "Texas A&M University-Kingsville",
+        "Keep reading": "Keep Reading",
+        "GMAT vs. the GRE": "GMAT vs. the GRE",
+    }
+    for h, want in cases.items():
+        if title_case(h) != want:
+            raise SystemExit("page_checks: title_case(%r) gave %r, expected %r (INC-0176)" % (h, title_case(h), want))
+    import tempfile
+    with tempfile.TemporaryDirectory() as d:
+        page = pathlib.Path(d) / "p.html"
+        page.write_text("<h1>Frequently asked questions</h1><h2>Keep Reading</h2><h2>Introducing The Study Room</h2>"
+                        "<script>x='<h2>'+esc(t)+'</h2>'; y='<h3>Review your section</h3>';</script>"
+                        "<h2>Universidad del Sagrado Corazon</h2>")
+        got = [h for _, h, _ in untitled_headings(d, ["p.html"], {"Universidad del Sagrado Corazon"})]
+        if got != ["Frequently asked questions", "Review your section"]:
+            raise SystemExit("page_checks: untitled_headings found %r (INC-0176)" % got)

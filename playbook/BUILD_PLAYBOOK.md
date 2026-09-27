@@ -7,10 +7,10 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-27, which is 8 days, across
-122 commits, by one owner directing a series of AI coding sessions. As of this
+123 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 86 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
-2098 tracked files in total.
+2099 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-122 commits in 8 days, one owner, a series of AI sessions. This
+123 commits in 8 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1217,22 +1217,22 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-175 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+176 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 90 | 51% |
-| Found by measuring something | 43 | 25% |
-| A test caught it | 22 | 13% |
+| Found by reading the code or the output | 91 | 52% |
+| Found by measuring something | 43 | 24% |
+| A test caught it | 22 | 12% |
 | Found by rendering it and looking | 8 | 5% |
 | Found by a review bot or an adversarial pass | 5 | 3% |
 | A build guard caught it | 5 | 3% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 173 of 175 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 174 of 176 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1243,18 +1243,18 @@ well enough to audit later. Which is what this book is.
 | --- | ---: |
 | Wrong data shown or stored | 77 |
 | Degraded | 43 |
-| Cosmetic | 26 |
+| Cosmetic | 27 |
 | Silent loss | 26 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 175. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 176. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 79 |
+| Content generation | 80 |
 | Tests and guards | 30 |
 | Front end | 12 |
 | Build system | 11 |
@@ -1269,7 +1269,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-169 of 175 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+170 of 176 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1290,7 +1290,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-81 of 175 incidents record that they repeat an earlier lesson, 110 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+82 of 176 incidents record that they repeat an earlier lesson, 111 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1346,6 +1346,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0152 The source check read text inside HTML comments as page text, and confirmed Arizona State's 43 percent women from a table row the school had commented out | INC-0173 | 1 |
 | INC-0155 The GMAT guide cited mba.com's Official Score Reports page for the rule on five free score reports within 48 hours, a rule that page never states | INC-0160 | 1 |
 | INC-0158 The source check filed six school pages as probably built by JavaScript; five were something else, and three of them showed newer figures than the library published | INC-0161 | 1 |
+| INC-0171 Thirty published blog posts set their section headings in sentence case, against the house rule that headings are Title Case | INC-0176 | 1 |
 | INC-0172 The ACT exam guide and a live post said the ACT can be taken up to 12 times, after ACT's page had come to say there is no limit, and the source check matched the 12 in the page's K-12 menu | INC-0174 | 1 |
 
 The largest family runs to 66 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140, INC-0142, INC-0143, INC-0144, INC-0145, INC-0147, INC-0150, INC-0151, INC-0152, INC-0154, INC-0155, INC-0157, INC-0159, INC-0160, INC-0162, INC-0165, INC-0169, INC-0170, INC-0172, INC-0173, INC-0174. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
@@ -1397,9 +1398,9 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/bank_emit.py`, 5 incidents (INC-0062, INC-0066, INC-0068, INC-0073, INC-0119)
 - `src/gen/framework.py`, 5 incidents (INC-0074, INC-0075, INC-0078, INC-0087, INC-0096)
 - `src/build_blog.py`, 5 incidents (INC-0124, INC-0137, INC-0162, INC-0170, INC-0171)
+- `src/page_checks.py`, 5 incidents (INC-0134, INC-0138, INC-0139, INC-0163, INC-0176)
 - `src/smoke_playbook.js`, 4 incidents (INC-0054, INC-0084, INC-0129, INC-0165)
 - `src/bank_repair.py`, 4 incidents (INC-0070, INC-0071, INC-0072, INC-0121)
-- `src/page_checks.py`, 4 incidents (INC-0134, INC-0138, INC-0139, INC-0163)
 - `src/weekly_audit.js`, 3 incidents (INC-0050, INC-0048, INC-0018)
 - `src/smoke_redirect.js`, 3 incidents (INC-0023, INC-0024, INC-0047)
 - `src/build_playbook.py`, 3 incidents (INC-0057, INC-0065, INC-0083)
@@ -1413,7 +1414,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (79)
+## Content generation (80)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -2371,6 +2372,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** The validity figure cites GMAC's validity article, and the score release says what the release article now says.
 - **What stops it now.** check_sources now wants each number of an exam fact within 160 characters of one of the fact's own words (five letters or more, less words that every exam page uses), or of its field's label for a figure with no text (validity: valid, reportable, expire), or as a cell in a run of numbers, which is how a table prints it. Its self-check holds the retake article's "5 times", the helpfulness counter and a percentile table row. in `src/check_sources.py`
 - **Lesson.** When a check fails the same way twice with different details, guard the shape rather than the instance. Two narrow guards covered a cohort paragraph and a grade range, and the third instance was a vote counter. The question every match should answer is whether the number sits where the fact would be, and that can be asked of every fact.
+
+
+### INC-0176. Headings outside blog post bodies broke the Title Case rule on every kind of page, because the build checked only the headings inside posts
+
+*2026-09-27, Cosmetic*
+
+- **What was seen.** A scan of every built page on September 27, 2026 found sentence-case headings outside post bodies: the blog template's "Keep reading" and "Frequently asked questions" on every post, the blog index's "Insight for your next big exam", headings in the trainer app such as "Review your section", "Custom drill" and "Which exam are you preparing for?", the FAQ questions on the SAT, ACT and LSAT test date pages ("When is the next LSAT?"), the rankings page's "Summary comparison" and "Sources and method", and the funding page's "Veterans and Military: the Post-9/11 GI Bill".
+- **Why.** INC-0171 added a Title Case check to the blog build, and it reads the h2 and h3 in each post's own body, the only place its incident had looked. Every other heading is written in a template or a page generator, and nothing read those. The helper had also never met headings from the rest of the site: it lowered the first word of a subtitle after a question mark ("Should You Retake the GMAT? a Decision Framework"), the first word after a numbered prefix ("1. the Short Version"), a middle initial ("Richard a. Chaifetz") and the A of "Texas A&M", so it could not have been pointed at the whole site as it stood.
+- **How it surfaced.** Found on September 27, 2026 while previewing a new post: its template's own headings were in sentence case, and a scan of every built page with the same helper counted the rest. (Found by reading the code or the output)
+- **Fix.** Every heading in a template or page generator is set in Title Case. The helper moves to page_checks, where build.py can use it too; it treats the word after a colon, a question mark, an exclamation mark or a numbered prefix as first, and keeps a single-letter initial and a small word joined to other letters by & as written.
+- **What stops it now.** build.py checks every h1, h2 and h3 on every built page against the rule, and the blog build does the same for blog pages, template included. Both skip a heading a script assembles, which has no fixed text to check, and the names of schools and colleges, which are proper names. in `src/page_checks.py`
+- **Lesson.** A guard written for the instance found covers only where that instance was. When a rule applies everywhere, check where every page ends up, the built output, rather than one of the several places pages are written.
 
 
 ## Tests and guards (30)
@@ -3730,6 +3743,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Every school's employment rate was labelled and scored as a three month figure, though 15 of 70 were measured at six months, four months, a year or a reporting date, or at a timing their notes do not give (INC-0142)</small>
 - [ ] **Learned 2 times over.** A fact filed next to another fact tends to inherit its citation. When two facts come from one section of a site, check that each one's own page says it, not the page its neighbour came from.  
   <small>The GMAT guide cited mba.com's Official Score Reports page for the rule on five free score reports within 48 hours, a rule that page never states (INC-0155)</small>
+- [ ] **Learned 2 times over.** A style rule that nothing checks holds only for the work written after someone remembered it. When a rule can be stated precisely enough to apply by hand, it can be checked by the build, and it should be, or the earliest work quietly keeps breaking it.  
+  <small>Thirty published blog posts set their section headings in sentence case, against the house rule that headings are Title Case (INC-0171)</small>
 - [ ] **Learned 2 times over.** A number's presence on a page is weak evidence for a fact, because pages are full of numbers that mean other things: menus, dates, grade ranges, footnote markers. A check that matches numbers should read them where the fact would be, and should expect the page to change what it says around them.  
   <small>The ACT exam guide and a live post said the ACT can be taken up to 12 times, after ACT's page had come to say there is no limit, and the source check matched the 12 in the page's K-12 menu (INC-0172)</small>
 - [ ] Any generator that claims reproducibility must be seeded from something stable across processes. hash() is not, in Python, and the failure shows up as a flaky test rather than as a wrong answer.  
@@ -3820,10 +3835,10 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Emory's acceptance rate was shown beside counts that divide to a different rate, with nothing on the page saying so (INC-0168)</small>
 - [ ] A fact written into prose without its source cannot be rechecked, so it stays whatever it was the day it was written. State the figure with the page it comes from, or link the page and say nothing it does not say.  
   <small>A published post said GMAC caps GMAT attempts across a lifetime, which its current retake policy does not say (INC-0170)</small>
-- [ ] A style rule that nothing checks holds only for the work written after someone remembered it. When a rule can be stated precisely enough to apply by hand, it can be checked by the build, and it should be, or the earliest work quietly keeps breaking it.  
-  <small>Thirty published blog posts set their section headings in sentence case, against the house rule that headings are Title Case (INC-0171)</small>
 - [ ] When a check fails the same way twice with different details, guard the shape rather than the instance. Two narrow guards covered a cohort paragraph and a grade range, and the third instance was a vote counter. The question every match should answer is whether the number sits where the fact would be, and that can be asked of every fact.  
   <small>Two GMAT facts passed the source check on numbers that meant something else: score validity cited the retake policy page, where "5 times" supplied its 5, and the score release's "3 to 5 days" matched a 3 in the page's helpfulness counter (INC-0174)</small>
+- [ ] A guard written for the instance found covers only where that instance was. When a rule applies everywhere, check where every page ends up, the built output, rather than one of the several places pages are written.  
+  <small>Headings outside blog post bodies broke the Title Case rule on every kind of page, because the build checked only the headings inside posts (INC-0176)</small>
 
 
 ## Database
@@ -4126,7 +4141,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 175 real defects reduced to the rules that prevent them,
+the whole project: 176 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -4166,7 +4181,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-175 defects already prevented is genuinely ahead, and every defect it hits
+176 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

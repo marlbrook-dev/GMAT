@@ -672,6 +672,20 @@ verified rather than that the school does not publish one (INC-0118).
       script-only challenge, and caches no read too short to be evidence. All 108 exam facts
       pass: 106 in the run of September 27, and the two on GMAC's policies PDF against a
       direct read the same day, since Imperva challenged the run's reads of it.
+- [x] **Title Case on every built heading, checked by the build** (INC-0176). The blog
+      build checked the headings inside posts, and nothing read the rest: the blog
+      template's "Keep reading" and "Frequently asked questions" sat on every post, and the
+      trainer app, the test date pages' FAQ questions, the rankings page, the funding page
+      and the diagnostic guide carried more. Each is now in Title Case; the flashcard
+      round's result heading keeps to two words and moves its sentence under it, and the
+      exam guides' "What It Is For and Who Accepts It" becomes "Uses and Acceptance". The
+      Title Case helper moves to `page_checks.py`, learns that a subtitle after a question
+      mark or a numbered prefix starts afresh and that an initial or "A&M" keeps its
+      capital, and build.py and the blog build now check every h1 to h3 on every built
+      page, skipping headings a script assembles and school and college names. Still to
+      do: buttons and card titles, which the rule also covers ("Start a free round", "Put
+      this into practice"), and game names written two ways in body copy ("Boss round",
+      "Boss Round").
 - [x] **"How Many Times Can You Take the GMAT, GRE, LSAT, SAT, and ACT?"** queued for
       November 25 (Maya Chen). Every limit comes from the test maker's own page, read on
       September 27: the GMAT's 5 in a rolling 12 months with 16 days between, the GRE's 5 in
