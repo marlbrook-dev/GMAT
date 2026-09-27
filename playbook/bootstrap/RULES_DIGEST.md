@@ -1,24 +1,24 @@
 # Rules Digest
 
-Rules from 144 defects in a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
+Rules from 145 defects in a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
 
-Generated 2026-09-27 from a ledger spanning 8 days and 88 commits.
+Generated 2026-09-27 from a ledger spanning 8 days and 89 commits.
 
 ## Read this first
 
-The three ways defects were most often found, in order: found by reading the code or the output (71), found by measuring something (39), a test caught it (16). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
+The three ways defects were most often found, in order: found by reading the code or the output (72), found by measuring something (39), a test caught it (16). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
 
-The dominant failure mode is silent loss, 26 of 144: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
+The dominant failure mode is silent loss, 26 of 145: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
 
 ## Learned the hard way, more than once
 
 These cost this build twice or more each. If you read nothing else here, read these.
 
 - (7 times, content generation) A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell.
+- (6 times, search and metadata) When a fix names a class of input, such as 'the stat field is free text', find every place that input is used before closing it.
 - (5 times, build system) A guard that covers a subset of cases reproduces the original defect in the cases it skips, and it is more dangerous than no guard because the incident it was written for feels closed.
 - (5 times, content generation) An aggregate over a mixed population reports the population, and if part of that population is flat by construction it will hide the part that is not.
 - (5 times, content generation) A corpus field is written against the one sentence the author had in mind, and the schema that reuses it three templates later has no way to know which shape it is.
-- (5 times, search and metadata) When a fix names a class of input, such as 'the stat field is free text', find every place that input is used before closing it.
 - (4 times, content generation) Two lessons, and they compound. A rule copied into code by its examples loses the clause the examples were illustrating: CLAUDE.md bans six named sites and coaching site blogs, and the list kept the six and dropped the category, which is the half that generalises.
 - (4 times, content generation) A counter that nothing reads is not instrumentation, it is a comment that looks like instrumentation, and it is worse than nothing because it answers the question 'is anyone watching this' with a yes.
 - (4 times, content generation) A check that infers what to expect from the same data it is checking cannot fail on a missing field: absence reads as nothing to look for.
@@ -73,7 +73,6 @@ These cost this build twice or more each. If you read nothing else here, read th
 - A standard library function whose name is a plausible description of half of what it does will be used for that half.
 - Presentation rules travel with the value, and a value formatted at the point of use is formatted by whoever was writing that line.
 - A check is scoped to a grain, and the grain is a claim about where a defect can live.
-- Two corpora side by side, one guarded per unit and one guarded only in total, is not two levels of rigour but one measurement and one blind spot.
 - Generated data gets checked for the properties the questions need, monotone and positive and distinguishable, and not for the properties the world needs.
 - A check downgraded because a source is unreachable carries an assumption with no expiry date on it, and the assumption is usually narrower than the downgrade.
 - When the same file already solves a problem correctly, the second implementation is the one to distrust: the reference was available and was not used, so whatever made it easy to skip will make it easy to skip again.
@@ -85,6 +84,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - An edit tool that throws away its input leaves the diff as the only record of what it changed.
 - When a parser must pull one value out of free text, anchor it to the words that give the value its meaning, not to its position, and return nothing when nothing anchors it: a sentence that says less is better than one that states a guess as fact.
 - A caveat in a note does not travel with a number: every consumer of the field reads the field's meaning, not the note.
+- A pronoun is a claim about what came before it. In generated prose the sentence before is chosen by the data, not by the writer, so name the subject of every sentence that carries a figure.
 
 ## Tests and guards
 
@@ -163,4 +163,4 @@ These cost this build twice or more each. If you read nothing else here, read th
 - Chart form is a claim about the data. A line claims the values in between existed.
 - Never encode a state by colour alone. The word also survives greyscale printing, forced-colors mode and a glance from across a room, so it is better for everyone and not only for the people it is required by.
 
-29 more rules, each learned once from a less costly defect, did not fit a prompt sized digest. The checklist in BUILD_PLAYBOOK.md has every rule.
+30 more rules, each learned once from a less costly defect, did not fit a prompt sized digest. The checklist in BUILD_PLAYBOOK.md has every rule.

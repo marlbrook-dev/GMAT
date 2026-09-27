@@ -323,7 +323,10 @@ def class_sentences(p, items):
     for subj, phrases in grouped(p, items):
         y = int(subj[1]) if subj[0] == "classof" else None
         verb = "had" if y and (y < today.year or (y == today.year and today.month >= 6)) else "has"
-        out.append("%s %s %s." % (as_class(subj), verb, " and ".join(phrases)))
+        # Three phrases read "943 students, a median GMAT Focus of 685 and median GRE
+        # scores of ..." rather than chaining two ands (house style: no serial comma).
+        said = " and ".join(phrases) if len(phrases) < 3 else ", ".join(phrases[:-1]) + " and " + phrases[-1]
+        out.append("%s %s %s." % (as_class(subj), verb, said))
     return out
 
 
@@ -373,19 +376,18 @@ def lead_paragraph(s, p, g, gc, acc, tui, sal, cs):
         # sentence can carry (INC-0104).
         gf = g if g.get("v") else gc
         cls.append((gf, "%s GMAT%s of %s" % (stat_article(gf), " Focus" if g.get("v") else "", gv)))
-    out.extend(class_sentences(p, cls))
-    # The other questions people search a program by ("average GRE", "GPA", "work
-    # experience"), each as a sentence with its own statistic word, because a table cell
-    # answers a reader but not a search engine quoting a passage.
+    # GRE scores go through the class sentences like the GMAT, so they are said of the
+    # class they describe. Written apart, as "Its ... GRE scores", they took whichever class
+    # the sentence before named, and Wharton's Class of 2026 scores read as 2027's (INC-0145).
     gq, gvb = p.get("gre_quant") or {}, p.get("gre_verbal") or {}
     if gq.get("v") and gvb.get("v"):
         k1, k2 = stat_kind(gq), stat_kind(gvb)
-        if k1 == k2 and k1:
-            out.append("Its %s GRE scores are %s Quantitative and %s Verbal."
-                       % (k1, fmt_num(gq["v"]), fmt_num(gvb["v"])))
-        else:
-            out.append("Reported GRE scores are %s Quantitative and %s Verbal."
-                       % (fmt_num(gq["v"]), fmt_num(gvb["v"])))
+        cls.append((gq, "%s GRE scores of %s Quantitative and %s Verbal"
+                    % (k1 if k1 == k2 and k1 else "reported", fmt_num(gq["v"]), fmt_num(gvb["v"]))))
+    out.extend(class_sentences(p, cls))
+    # The other questions people search a program by ("GPA", "work experience"), each as a
+    # sentence with its own statistic word, because a table cell answers a reader but not a
+    # search engine quoting a passage.
     gpa = p.get("gpa") or {}
     if gpa.get("v"):
         k = stat_kind(gpa)
@@ -1010,6 +1012,11 @@ def school_page(s, tpl, today, ranked=()):
         faq_section = '<div class="section"><h2>Quick Answers</h2>' + "".join(
             f'<p style="margin:0 0 12px"><b>{esc(q)}</b><br>{esc(a)}</p>' for q, a in qa) + "</div>"
     lead = lead_paragraph(s, p, g, gc, acc, tui, sal, cs)
+    # A sentence that opens with a pronoun names whatever the sentence before it named,
+    # and in generated prose the data chooses that sentence (INC-0145).
+    if re.search(r"(?:^|[.!?]\s+)Its\s", lead):
+        raise SystemExit("build_rankings: %s's lead has a sentence beginning with Its; name "
+                         "its subject: %r" % (s["slug"], lead[:300]))
     # The footnote and the rows the builder writes itself are copy too (INC-0118). A stat
     # note quoted from a source ("median not published" in a named report) is provenance
     # about the document read, and stays out of this list.

@@ -318,6 +318,14 @@ verified rather than that the school does not publish one (INC-0118).
       check read and matched, both have EDITORIAL fact sheet blocks, and a script checked
       each number in them against those records. Stanford's employment page is built by
       JavaScript, so it is left out until the weekly rendered run reads it.
+- [x] **"GRE Scores for Top MBA Programs: 2026 Guide"** queued for November 1: thirteen
+      schools' verified class GRE figures (158 to 166 Quant, 159 to 164 Verbal, each labelled
+      median or average and by class) beside ETS's percentiles, which put a 164 at the 63rd
+      percentile in Quant and the 93rd in Verbal, and the share of HBS's and Booth's classes
+      that submitted a GRE. Checking Wharton's row found its page crediting its Class of
+      2026 GRE scores to the Class of 2027 (INC-0145): the GRE sentence began with Its and
+      took the class named before it. GRE now goes through the class sentences, and a lead
+      sentence that opens with Its fails the build.
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects
