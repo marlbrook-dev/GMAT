@@ -557,6 +557,12 @@ verified rather than that the school does not publish one (INC-0118).
       refund deadline; no CAS refunds since May 20, 2024) and the two fee waiver tiers. The
       LSAT guide gains five key facts from LSAC's fees, refund and fee waiver pages, checked
       weekly. With the GMAT and GRE posts this makes a three-post run on what each test costs.
+- [x] **Fordham's pages are read in the browser.** They send a script round a login
+      gateway's redirect loop, so the source check reported them unreadable; it now gives a
+      redirect loop the browser read it gives a refusal, and all four Fordham figures verify
+      (59 percent international, 39 percent women, 5.3 years, and 85 percent of the Class of
+      2025 seeking work accepting offers within 3 months). Fordham's record now says which of the page's two MBA blocks
+      its figures come from.
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects
@@ -638,12 +644,12 @@ verified rather than that the school does not publish one (INC-0118).
       the run of September 27 ends at 0 figures with a number their page does not print and
       0 pages showing none of their figures, with 12 triaged (Kellogg's middle 80 percent
       ranges, drawn only as box plots, and WashU Olin's class profile, drawn only as images)
-      and 16 sources unreadable: Columbia, Michigan Ross and Bloomberg, which refuse a script
+      and 14 sources unreadable: Columbia, Michigan Ross and Bloomberg, which refuse a script
       and answer the browser with a bot challenge (Baylor's, which refused only the script,
-      are read in the browser since INC-0159); certificate failures at Penn State Smeal and
-      UC Irvine Merage (not to be bypassed); US News; Fordham's redirect loop; Wharton's
-      career report; and Olin's Class of 2024 report, an image-only PDF read by eye on
-      September 27. The six pages once written off as built
+      and Fordham's, which loop a script through redirects, are read in the browser);
+      certificate failures at Penn State Smeal and UC Irvine Merage (not to be bypassed); US
+      News, which answers the browser with plain text; Wharton's career report; and Olin's
+      Class of 2024 report, an image-only PDF read by eye on September 27. The six pages once written off as built
       by JavaScript were three that had changed (Kelley, Maryland on Poets&Quants, Auburn),
       two the check misread (UMass Amherst's PDF, Booth's workbook) and one drawn as images
       (WashU Olin's). Cincinnati keeps its labelled 2025-26 tuition until the school page can

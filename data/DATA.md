@@ -152,6 +152,8 @@ missing the figures (INC-0156). A page that refuses the plain read with 401, 403
 read in the browser, under the same user agent, before it is called unreadable: Baylor's
 pages refuse a script and render for a browser, while Columbia's, Michigan Ross's and
 Bloomberg's answer the browser with a challenge as well, which is reported as one (INC-0159).
+A page that sends a script round a redirect loop, as Fordham's login gateway does, is read in
+the browser the same way.
 A browser read that gets a challenge is tried once more a few seconds later, because Imperva
 challenges mba.com on some reads and not others. An exam figure is published from its value
 or text only: the note of a figure with no value is never printed, and validate_exams refuses
