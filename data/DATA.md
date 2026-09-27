@@ -50,6 +50,13 @@ tuition apart from fees, `v` is the tuition; otherwise it is the page's combined
 figure, and `stat` says which. A page that names no academic year keeps the year it
 was read in `year` and says so in `stat`.
 
+`employment_rate_pct` is measured at some point after graduation, and its `stat` must
+say when, in the words the school uses ("within 3 months", "90 days", "six months",
+"within a year", "reported up to October 31"). The build reads the first timing the note
+names for the figure's label. Only a three month figure, or one whose timing the note
+leaves unverified, is scored or sorted with the others; a figure measured at another
+point is shown with its timing and does neither (INC-0142).
+
 ## Hard Rules (validator enforces)
 
 1. Every published value carries `src`, `year`, and `url`. A figure we cannot
