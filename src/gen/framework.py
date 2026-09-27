@@ -518,7 +518,12 @@ def balance(rng, right, pool, need, own=(), k=0, target=None):
     process that made it. Without a target, nothing changes for any other schema.
     """
     own = list(own)
-    if k > len(own) or len(pool) + len(own) < need:
+    # Said apart, because the two have different causes: this once reported a pool of 117
+    # when what was missing was the one answer about the same case it must offer (INC-0169).
+    if k > len(own):
+        raise ItemError("balance must offer %d wrong answer(s) about the same case as the key "
+                        "and has %d" % (k, len(own)))
+    if len(pool) + len(own) < need:
         raise ItemError("balance needs %d wrong answers, pool has %d" % (need, len(pool) + len(own)))
     if k:
         return _balance_own(rng, right, pool, need, own, k, target)
