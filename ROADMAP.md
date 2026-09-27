@@ -672,6 +672,22 @@ verified rather than that the school does not publish one (INC-0118).
       script-only challenge, and caches no read too short to be evidence. All 108 exam facts
       pass: 106 in the run of September 27, and the two on GMAC's policies PDF against a
       direct read the same day, since Imperva challenged the run's reads of it.
+- [x] **Five more long reading passages** (cheese, millfires, wolves, lakebloom,
+      registers): a regional cheese credited to an abbey's recipe that grew famous with the
+      railway; cotton mill fires blamed on careless workers, started by fibre heated in the
+      faster carding engines; wolves whose return followed forest regrowing on abandoned
+      farms rather than the end of a bounty; lake blooms blamed on farm fertiliser, fed by a
+      sewage main; and parish register gaps blamed on the plague, left by clerks who went to
+      better-paid work at the ports. They run 283 to 311 words, share no researcher or place
+      with another passage (a first draft reused Oster, Tarn and Pell from existing passages
+      and three names from other banks, all renamed), and pass the premise, answer tell and
+      key spread checks. The banks grow by 50 GMAT, 50 GRE and 50 LSAT items: GMAT 34212,
+      GRE 20588 and LSAT 14492, of which 14120 are generated. Every new item was read at
+      LSAT, GMAT and GRE length, and each GRE rendering splits into its six sentences.
+      Reading them caught the cheese passage's revision opening with its place name, which
+      the stated-idea choices printed as "ardley cheese" (INC-0179); the corpus check now
+      refuses a lowered sentence that opens with a name the passage capitalises
+      mid-sentence, and over all 62 passages it flags only that one.
 - [x] **"How Long Is the GMAT, GRE, LSAT, SAT, and ACT?"** queued for December 1 (Aisha
       Thompson). Each exam's testing time and sections from the checked timing facts: the
       GRE about 1 hour 58 minutes, the SAT 2 hours 14, the GMAT 2 hours 15, the ACT 2 hours
