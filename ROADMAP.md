@@ -672,6 +672,15 @@ verified rather than that the school does not publish one (INC-0118).
       script-only challenge, and caches no read too short to be evidence. All 108 exam facts
       pass: 106 in the run of September 27, and the two on GMAC's policies PDF against a
       direct read the same day, since Imperva challenged the run's reads of it.
+- [x] **"When Do GMAT, GRE, LSAT, SAT, and ACT Scores Come Out?"** queued for November 27
+      (Sarah Whitfield). Each test maker's rule, read on September 27, with this testing
+      year's release dates for the LSAT, the SAT and the ACT from the same tables the test
+      date pages use: GMAT within 5 days (up to 20), GRE 8 to 10 days, LSAT 18 days after
+      each administration's last test day with an approved writing sample on file, SAT 13
+      days after each fall weekend test, and ACT about 2 to 4 weeks for over 97 percent of
+      scores. ACT's online testing page gives wider ranges, and the post says which page
+      says which. A new ACT fact and a fuller GRE one put the post's statements under the
+      weekly source check; EDITORIAL.md gains a score release block.
 - [x] **The LSAT's score release, and number words in the source check** (INC-0177). The
       LSAT guide said scores come out "roughly three weeks after each administration",
       citing LSAC's dates page, which is a table of dates releasing scores 18 days after

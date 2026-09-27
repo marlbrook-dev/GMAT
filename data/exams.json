@@ -403,7 +403,7 @@
       "url": "https://www.ets.org/gre/test-takers/general-test/schedule.html"
     },
     "score_release": {
-      "text": "Official scores are available in your ETS account 8 to 10 days after the test date",
+      "text": "Official scores are available in your ETS account 8 to 10 days after the test date; ETS emails you when they are available, and sends official score reports to the recipients chosen on test day at that time",
       "src": "ETS",
       "year": 2025,
       "url": "https://www.ets.org/gre/test-takers/general-test/scores/get-scores.html"
@@ -841,6 +841,12 @@
         "src": "ACT",
         "year": 2026,
         "url": "https://www.act.org/content/act/en/products-and-services/the-act/scores/sending-your-scores.html"
+      },
+      {
+        "text": "ACT says over 97% of ACT scores are released within about 2 to 4 weeks after the test date, and that if the optional writing test was taken, complete scores may be released a bit later, as all parts are processed together",
+        "src": "act.org",
+        "year": 2026,
+        "url": "https://www.act.org/content/act/en/products-and-services/the-act/registration/test-dates.html"
       },
       {
         "text": "The ACT Fee Waiver Program covers the registration fee for up to two ACT tests plus the science and writing add-on fees, with 1 year of free access to The Official ACT Self-Paced Course, ACT My Answer Key at no extra cost, and free additional score reports; it is for students enrolled in 11th or 12th grade, testing in the United States, US territories or Puerto Rico, who meet an indicator of economic need, and a school counselor determines eligibility",
