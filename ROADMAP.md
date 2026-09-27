@@ -686,6 +686,20 @@ verified rather than that the school does not publish one (INC-0118).
       LSAT 14542, of which 14170 are generated, counts read from the build. All 150 new items
       were read at LSAT, GMAT and GRE length; one ambiguity was fixed first ("they fell in
       the weeks of winter flood" became "they were clustered in").
+- [x] **"Who Qualifies for a GMAT, GRE, LSAT, SAT, or ACT Fee Waiver?"** queued for
+      December 11 (Elena Rodriguez). Who can get each waiver and how to apply, where the
+      cost posts cover what each one pays for: GMAT fee waivers, typically distributed
+      through business schools and approved programs that decide who is eligible, and
+      GMAC's policies on vouchers and fee waivers (the exam fee only, no switching between
+      online and test center, never transferred); ETS's four Fee Reduction groups, with the
+      $100 General Test against $249; LSAC's two tiers by tax-filing status and income
+      against the federal poverty guidelines, with asset and cash limits; College Board's
+      six eligibility descriptions and its two routes, a counselor's code or the request
+      form, once per lifetime; and ACT's indicators of economic need, decided by a school
+      counselor. Every page was read on September 27. support.mba.com refused direct reads
+      that afternoon, and the source check's browser read GMAC's article at 18:54 UTC. Four
+      eligibility rules join data/exams.json, where the source check reads them weekly, and
+      EDITORIAL.md gains a fee waivers block.
 - [x] **"Can You Use a Calculator on the GMAT, GRE, LSAT, SAT, and ACT?"** queued for
       December 9 (Sarah Whitfield). The GMAT's on-screen calculator in Data Insights only,
       the GRE's on-screen calculator in Quant, none on the LSAT, and the SAT's and the
