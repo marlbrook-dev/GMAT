@@ -83,11 +83,16 @@
    "v": null
   },
   "tuition_usd": {
-   "v": 34920,
-   "stat": "2025-26 rate; MBA Athens flat rate for 12+ hours, 17460 per semester x 2 semesters, domestic non-resident; Georgia resident 13918 (6959 per semester); out-of-country 35934 (17967 per semester); excludes mandatory fees",
+   "v": 36000,
+   "stat": "2026-27 rate; MBA Athens flat rate for 12 or more credit hours, 18,000 per semester for two semesters, domestic non-resident; Georgia resident 14,064 (7,032 per semester); out-of-country 37,032 (18,516 per semester); excludes mandatory fees",
    "src": "UGA Bursar tuition and fees 2025-2026",
-   "year": 2025,
-   "url": "https://busfin.uga.edu/finance-division/bursar/students-parents/bursar-tuition-fees/2025-2026/"
+   "year": 2026,
+   "url": "https://busfin.uga.edu/finance-division/bursar/students-parents/bursar-tuition-fees/2026-2027/",
+   "derived": {
+    "36000": "18000 + 18000, the fall and spring semesters",
+    "14064": "7032 + 7032, the fall and spring semesters",
+    "37032": "18516 + 18516, the fall and spring semesters"
+   }
   },
   "salary_median_usd": {
    "v": null,

@@ -52,7 +52,10 @@
    "stat": "approximately 19835 per quarter x 3 quarters, CA resident, includes health insurance fees (nonresident approximately 23917 per quarter); page says current academic year without naming it, fetched August 2026",
    "src": "UCR MBA program tuition page",
    "year": 2026,
-   "url": "https://business.ucr.edu/mba-program-tuition"
+   "url": "https://business.ucr.edu/mba-program-tuition",
+   "derived": {
+    "59505": "19835 + 19835 + 19835, the three quarters the page lists"
+   }
   },
   "salary_median_usd": {
    "v": 87276,

@@ -41,7 +41,11 @@
    "stat": "Hawaii resident per year (887 per credit, 12 credits per semester); non-resident 38352 per year; excludes fees; undated page, verified August 2026",
    "src": "Shidler graduate tuition page",
    "year": 2026,
-   "url": "https://shidler.hawaii.edu/graduate/tuition"
+   "url": "https://shidler.hawaii.edu/graduate/tuition",
+   "derived": {
+    "21288": "10644 + 10644, the full-time resident rate for the fall and spring semesters",
+    "38352": "19176 + 19176, the non-resident rate for the fall and spring semesters"
+   }
   }
  },
  "notes": "Class profile page states no class year or entering term anywhere on the page, so class_year and per-field year are omitted rather than guessed. Applications submitted (69) and class size (37) do not give an admit count, so acceptance rate cannot be computed. No international student percentage on the profile. No MBA-specific employment report exists on shidler.hawaii.edu (a UH news item covers BBA grads only, not used). Honolulu, HI address confirmed in site footer; University of Hawaii is public. shidler.hawaii.edu would not load via WebFetch (domain verification error) so pages were fetched directly over HTTPS with curl this session. US News rank omitted: not confirmable from a fetched page. Publishes average GMAT 539 with no edition label; not recorded per the edition-ambiguity rule.",

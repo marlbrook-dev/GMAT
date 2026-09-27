@@ -45,9 +45,9 @@
   },
   "tuition_usd": {
    "v": 32000,
-   "stat": "2025-26, one-year program, flat rate including mandatory fees (fall 13600 + spring 13600 + summer 4800)",
+   "stat": "one-year program, flat rate including mandatory fees (fall 13,600 + spring 13,600 + summer 4,800); the page names no year",
    "src": "CofC MBA tuition and financial aid page",
-   "year": 2025,
+   "year": 2026,
    "url": "https://charleston.edu/mba/one-year/tuition-aid.php"
   }
  },

@@ -106,10 +106,14 @@
   },
   "tuition_usd": {
    "v": 32508,
-   "stat": "2025-26 rate; per year; derived from official 2025-26 bursar per-semester rates: instructional fee 11,717 per full-time semester plus out-of-state surcharge 4,537 per full-time semester, times two semesters; Ohio resident annual is 23,434; tuition only, general, campus life and ITIE fees excluded; B",
+   "stat": "2025-26 rate; per year, nonresident: the Business graduate premium programs instructional fee of 11,717 per full-time term plus the out-of-state surcharge of 4,537 per full-time semester, for fall and spring; Ohio resident 23,434; general, campus life and ITIE fees excluded",
    "src": "UC Bursar 2025-26 graduate and professional tuition and out-of-state surcharge pages",
    "year": 2025,
-   "url": "https://www.uc.edu/about/bursar/tuition-fees/prior-year-fees/2023-2024-fees11/graduate---professional-students.html"
+   "url": "https://www.uc.edu/about/bursar/tuition-fees/prior-year-fees/2023-2024-fees11/graduate---professional-students.html",
+   "derived": {
+    "23434": "11717 + 11717, the instructional fee per full-time term for fall and spring",
+    "32508": "11717 + 4537 + 11717 + 4537, adding the out-of-state surcharge per full-time semester, which UC prints on its 2025-26 surcharge page named in the notes"
+   }
   },
   "salary_median_usd": {
    "v": 75000,
@@ -126,7 +130,7 @@
    "url": "https://www.business.uc.edu/programs-degrees/graduate/mba/full-time-mba.html"
   }
  },
- "notes": "Lindner does not publish a full-time MBA class profile with test scores, work experience or demographics on any official page found (program page, MBA admissions page, Lindner by the Numbers). The out-of-state surcharge figure is on https://www.uc.edu/about/bursar/tuition-fees/prior-year-fees/2023-2024-fees11/2025-26-Out-of-State-Surcharge.html. The 96,846 salary on the program page is an average, not a median, and undated; the career outcomes page median is used instead. Existing women_pct and class_size values from US News should be dropped or kept per house rules; official class size 36 (Class of 2026) replaces the US News enrollment figure.",
+ "notes": "Lindner does not publish a full-time MBA class profile with test scores, work experience or demographics on any official page found (program page, MBA admissions page, Lindner by the Numbers). The out-of-state surcharge figure is on https://www.uc.edu/about/bursar/tuition-fees/prior-year-fees/2023-2024-fees11/2025-26-Out-of-State-Surcharge.html. The 96,846 salary on the program page is an average, not a median, and undated; the career outcomes page median is used instead. Existing women_pct and class_size values from US News should be dropped or kept per house rules; official class size 36 (Class of 2026) replaces the US News enrollment figure. UC's page for 2025-26 sits at a path named 2023-2024-fees11 but prints Graduate & Professional Students 2025-2026 Academic Year. From 2026-27 the bursar bills Business graduate premium programs per credit hour with no full-time term rate: an instructional fee of 1,061 per credit hour (https://www.uc.edu/about/bursar/tuition-fees/graduate---professional-students.html) and an out-of-state surcharge of 250 per credit hour (https://www.uc.edu/about/bursar/tuition-fees/non-resident-surcharges.html). The Fall 2026 full-time MBA curriculum page gives Minimum Credits: 35 - 48 (https://webapps2.uc.edu/ecurriculum/DegreePrograms/Home/MajorMapPreview/11334), so there is no single 2026-27 annual figure; the 2025-26 figure stays, labelled as such, until the school page can show a range. Read 2026-09-27.",
  "federal": {
   "matched": true,
   "instnm": "University of Cincinnati-Main Campus",

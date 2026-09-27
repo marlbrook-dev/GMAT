@@ -112,7 +112,10 @@
    "stat": "2026-27 rate",
    "src": "BC Carroll graduate tuition and aid page",
    "year": 2026,
-   "url": "https://www.bc.edu/bc-web/schools/carroll-school/graduate/admission/tuition-and-aid.html"
+   "url": "https://www.bc.edu/bc-web/schools/carroll-school/graduate/admission/tuition-and-aid.html",
+   "derived": {
+    "70390": "35195 + 35195, the per-semester Full-Time MBA tuition for the fall and spring semesters"
+   }
   },
   "salary_median_usd": {
    "v": null,

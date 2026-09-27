@@ -115,7 +115,10 @@
    "stat": "2026-27 rate; Full-Time MBA per semester 19705 x 2 semesters, tuition only, same for all residencies; full-time excess credit rate 1473 per credit",
    "src": "Howard University Student Financial Services, official notice of student charges 2026-27",
    "year": 2026,
-   "url": "https://financialservices.howard.edu/official-notice/student-charges-2026-27"
+   "url": "https://financialservices.howard.edu/official-notice/student-charges-2026-27",
+   "derived": {
+    "39410": "19705 + 19705, the fall and spring semesters"
+   }
   },
   "salary_median_usd": {
    "v": 115500,

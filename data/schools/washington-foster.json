@@ -107,10 +107,14 @@
   },
   "tuition_usd": {
    "v": 60180,
-   "stat": "2026-27 rate; annual tuition only, non-Washington-resident, 20,060 per quarter for the 3 quarters per academic year (6 quarters per 2-year program); resident 42,498 (14,166 per quarter); 403 per quarter fees excluded",
+   "stat": "2026-27 rate; annual tuition only, non-Washington-resident, 20,060 per quarter across the three quarters of an academic year; resident 42,498 (14,166 per quarter); 403 per quarter fees excluded",
    "src": "Foster Full-Time MBA tuition and fees page",
    "year": 2026,
-   "url": "https://www.foster.washington.edu/academics/degree-programs/full-time-mba/tuition-and-fees"
+   "url": "https://www.foster.washington.edu/academics/degree-programs/full-time-mba/tuition-and-fees",
+   "derived": {
+    "60180": "20060 + 20060 + 20060, the three quarters of an academic year",
+    "42498": "14166 + 14166 + 14166, the same three quarters"
+   }
   },
   "salary_median_usd": {
    "v": 142800,

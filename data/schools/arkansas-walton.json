@@ -109,7 +109,11 @@
    "stat": "2026-27, out-of-state tuition and fees for the full 38-credit program, which runs one academic year (August to June); in-state 30091",
    "src": "Walton graduate programs tuition and cost page",
    "year": 2026,
-   "url": "https://walton.uark.edu/graduate-programs/admissions/tuition-cost.php"
+   "url": "https://walton.uark.edu/graduate-programs/admissions/tuition-cost.php",
+   "derived": {
+    "76942": "76941.64 as printed, rounded to the dollar",
+    "30091": "30091.44 as printed, rounded to the dollar"
+   }
   },
   "salary_median_usd": {
    "v": 82185,

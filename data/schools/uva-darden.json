@@ -110,10 +110,15 @@
   },
   "tuition_usd": {
    "v": 88000,
-   "stat": "2026-27 rate; annual tuition and required comprehensive fees, non-Virginia domicile; Virginia 83,000, international 88,240; case fees (550 per semester) and health insurance billed separately",
+   "stat": "2026-27, twice the fall 2026 tuition and required comprehensive fees the page itemizes (it lists fall only), non-Virginia domicile; Virginia 83,000, international 88,240; case fees (550 per semester) and health insurance billed separately",
    "src": "UVA Darden tuition, fees and billing page",
    "year": 2026,
-   "url": "https://www.darden.virginia.edu/mba/tuition-financial-aid/tuition-fees-billing"
+   "url": "https://www.darden.virginia.edu/mba/tuition-financial-aid/tuition-fees-billing",
+   "derived": {
+    "88000": "44000 + 44000: the page itemizes fall 2026 tuition and fees only, and this doubles the non-Virginia figure for the two semesters",
+    "83000": "41500 + 41500, the Virginia figure doubled the same way",
+    "88240": "44120 + 44120, the international figure doubled the same way"
+   }
   },
   "salary_median_usd": {
    "v": 175000,

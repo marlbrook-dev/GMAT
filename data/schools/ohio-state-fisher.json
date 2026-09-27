@@ -111,7 +111,12 @@
    "stat": "2026-27 rate; tuition only for non-resident (instructional fee 29,752 plus non-resident charge 31,191); published tuition-and-fees totals are 62,538 non-resident and 31,347 Ohio resident",
    "src": "Fisher full-time MBA tuition and funding page",
    "year": 2026,
-   "url": "https://fisher.osu.edu/graduate/ftmba/admissions/tuition-funding"
+   "url": "https://fisher.osu.edu/graduate/ftmba/admissions/tuition-funding",
+   "derived": {
+    "60943": "29752 + 31191.04, the instructional fee and non-resident charge for the academic year, rounded to the dollar",
+    "31191": "31191.04 as printed, rounded to the dollar",
+    "2027": "count: the page labels the academic year AU26 & SP27"
+   }
   },
   "salary_median_usd": {
    "v": 118000,
