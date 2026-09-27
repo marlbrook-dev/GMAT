@@ -1,14 +1,14 @@
 # Rules Digest
 
-Rules from 152 defects in a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
+Rules from 153 defects in a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
 
-Generated 2026-09-27 from a ledger spanning 8 days and 100 commits.
+Generated 2026-09-27 from a ledger spanning 8 days and 101 commits.
 
 ## Read this first
 
-The three ways defects were most often found, in order: found by reading the code or the output (77), found by measuring something (39), a test caught it (18). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
+The three ways defects were most often found, in order: found by reading the code or the output (78), found by measuring something (39), a test caught it (18). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
 
-The dominant failure mode is silent loss, 26 of 152: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
+The dominant failure mode is silent loss, 26 of 153: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
 
 ## Learned the hard way, more than once
 
@@ -111,18 +111,18 @@ These cost this build twice or more each. If you read nothing else here, read th
 - A conditional that treats not-A as the original case is a bug the day a third case exists.
 - Anything that reports failures must not be able to report its own. Check whether each call rejects or throws before you wrap it, and make the reporting path unable to re-enter itself.
 
-## Build system
-
-- A parse guard covers the file shapes someone thought of. When the same code moves into a new shape, a separate file, a chunk, a worker, the guard does not follow it.
-- A guard keyed to wording is a guard on the wording, not the fact, and every synonym is a hole in it.
-- A heuristic stopping rule is right only when nothing better is known. Where the size of what is being collected is known exactly, stop at that size and check that it was reached.
-
 ## Search and metadata
 
 - A refactor that moves data has to be followed to every reader, and a loop over nothing is the quietest failure in programming.
 - When one model feeds two pages, generate both from the model in the same pass. Two places that must agree will not, and the reader who notices is the reader you were trying to convince.
 - A URL that search engines know is not the site's to delete quietly; it belongs partly to everyone still linking to it.
 - Any sentence about your own product's state is data, and data belongs in one place: build the sentence from the source that knows, and check every page that could repeat it, including the text only search engines read.
+
+## Build system
+
+- A parse guard covers the file shapes someone thought of. When the same code moves into a new shape, a separate file, a chunk, a worker, the guard does not follow it.
+- A guard keyed to wording is a guard on the wording, not the fact, and every synonym is a hole in it.
+- A heuristic stopping rule is right only when nothing better is known. Where the size of what is being collected is known exactly, stop at that size and check that it was reached.
 
 ## Scoring and selection
 
@@ -162,4 +162,4 @@ These cost this build twice or more each. If you read nothing else here, read th
 
 - Chart form is a claim about the data. A line claims the values in between existed.
 
-38 more rules, each learned once from a less costly defect, did not fit a prompt sized digest. The checklist in BUILD_PLAYBOOK.md has every rule.
+39 more rules, each learned once from a less costly defect, did not fit a prompt sized digest. The checklist in BUILD_PLAYBOOK.md has every rule.

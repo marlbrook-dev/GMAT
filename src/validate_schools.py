@@ -10,6 +10,8 @@ import re
 import sys
 
 REGIONS = {"Northeast", "Midwest", "South", "West"}
+_GENERIC = {"the", "school", "college", "graduate", "of", "business", "management", "and", "at",
+            "administration", "economics", "faculty", "institute"}
 TYPES = {"Private", "Public"}
 
 # The source policy lives in src/sources.py so the three published corpora
@@ -88,6 +90,13 @@ def validate(schools):
         for key in ["slug", "name", "university", "city", "state", "region", "type", "ranks", "profile"]:
             if key not in s:
                 errors.append(f"{slug}: missing key {key}")
+        # A page prints the name alone, in its title, heading and every answer, so the name
+        # has to say which school it is. Five records held a business school's own short name,
+        # "School of Business", which is plain under its university's banner and anonymous in a
+        # page title (INC-0153).
+        if s.get("name") and all(w.lower() in _GENERIC for w in re.findall(r"[A-Za-z]+", s["name"])):
+            errors.append(f"{slug}: name {s['name']!r} does not say which school it is; use the "
+                          f"standalone name its own site gives, such as the university's name with it")
         if s.get("region") not in REGIONS:
             errors.append(f"{slug}: bad region {s.get('region')!r}")
         if s.get("type") not in TYPES:

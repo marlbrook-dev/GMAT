@@ -1,6 +1,6 @@
 {
  "slug": "portland-state",
- "name": "The School of Business",
+ "name": "Portland State University School of Business",
  "university": "Portland State University",
  "city": "Portland",
  "state": "Oregon",
@@ -65,7 +65,7 @@
    "url": "https://www.pdx.edu/business/grad-mba-employment-profile"
   }
  },
- "notes": "Class profile page publishes no GMAT, GRE, acceptance rate, or class size. Daytime cohort figures used as the full-time program; Evening figures noted in stat. Tuition year omitted because the page does not state the academic year. Portland, OR address confirmed in page footer. US News rank not included: could not fetch a usnews.com page (blocked).",
+ "notes": "Class profile page publishes no GMAT, GRE, acceptance rate, or class size. Daytime cohort figures used as the full-time program; Evening figures noted in stat. Tuition year omitted because the page does not state the academic year. Portland, OR address confirmed in page footer. US News rank not included: could not fetch a usnews.com page (blocked). The name joins the two parts the school's own header prints together, \"Portland State University\" and \"The School of Business\"; its site title reads \"The School of Business at PSU\" (https://www.pdx.edu/business/, read 2026-09-27).",
  "website": "https://www.pdx.edu/academics/programs/graduate/portland-mba",
  "federal": {
   "matched": true,

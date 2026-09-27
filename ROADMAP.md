@@ -436,6 +436,14 @@ verified rather than that the school does not publish one (INC-0118).
       Columbia's. Left out and said so: averages, pooled classes, SMU Cox (its page calls the
       same $126,000 an average and a median) and BU Questrom (its report's text does not show
       which figure is the median). Michigan Ross's salary gains the stat its article prints.
+- [x] **Five school pages name their school** (INC-0153). Charleston, Lehigh, Portland
+      State, UC Davis and UC Riverside were named "School of Business", "College of
+      Business" or "Graduate School of Management", which the page printed alone in its
+      title, heading and answers ("School of Business MBA: Cost and Class Profile"). Each now
+      carries a standalone name its own site uses (Charleston School of Business, Lehigh
+      College of Business, Portland State University School of Business, UC Davis Graduate
+      School of Management, UC Riverside School of Business), and the validator refuses a name
+      made only of generic words.
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects

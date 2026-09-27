@@ -1,6 +1,6 @@
 {
  "slug": "charleston",
- "name": "School of Business",
+ "name": "Charleston School of Business",
  "university": "College of Charleston",
  "city": "Charleston",
  "state": "SC",
@@ -51,7 +51,7 @@
    "url": "https://charleston.edu/mba/one-year/tuition-aid.php"
   }
  },
- "notes": "Cohort profile lists Average GMAT: 586 without naming the exam edition and the cohort predates Class of 2026, so per protocol it is left unclassified. GRE listed as n/a on the profile (test optional). MBA15 page gives countries represented but no international percent; the prior cohort page (MBA14, 2024, the batch URL) listed International: 14% and Average GMAT: 586. No acceptance rate and no employment report with salary or placement found on charleston.edu; career management page has no outcome figures. City and state confirmed from page footer (66 George Street, Charleston, SC). Public control is not stated on the fetched pages.",
+ "notes": "Cohort profile lists Average GMAT: 586 without naming the exam edition and the cohort predates Class of 2026, so per protocol it is left unclassified. GRE listed as n/a on the profile (test optional). MBA15 page gives countries represented but no international percent; the prior cohort page (MBA14, 2024, the batch URL) listed International: 14% and Average GMAT: 586. No acceptance rate and no employment report with salary or placement found on charleston.edu; career management page has no outcome figures. City and state confirmed from page footer (66 George Street, Charleston, SC). Public control is not stated on the fetched pages. The name is the one the school's own site prints: \"the Charleston School of Business\" (https://charleston.edu/school-business/index.php, read 2026-09-27).",
  "website": "https://charleston.edu/mba/one-year/index.php",
  "federal": {
   "matched": true,

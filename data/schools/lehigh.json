@@ -1,6 +1,6 @@
 {
  "slug": "lehigh",
- "name": "College of Business",
+ "name": "Lehigh College of Business",
  "university": "Lehigh University",
  "city": "Bethlehem",
  "state": "PA",
@@ -52,7 +52,7 @@
    "url": "https://business.lehigh.edu/academics/graduate/masters-programs/full-time-mba/about-program/career-outcomes"
   }
  },
- "notes": "Class profile publishes no GMAT or GRE figures and no class size. Career outcomes page gives average salary only, no placement rate. Salary value placed in salary_median_usd because it is the only salary field; stat flags it as an average. City and state confirmed from page footer (Bethlehem, PA 18015).",
+ "notes": "Class profile publishes no GMAT or GRE figures and no class size. Career outcomes page gives average salary only, no placement rate. Salary value placed in salary_median_usd because it is the only salary field; stat flags it as an average. City and state confirmed from page footer (Bethlehem, PA 18015). The name is the one the school's own site prints: \"Lehigh College of Business\" and \"the College of Business at Lehigh University\" (https://business.lehigh.edu/, read 2026-09-27).",
  "website": "https://business.lehigh.edu/academics/graduate/masters-programs/full-time-mba",
  "federal": {
   "matched": true,
