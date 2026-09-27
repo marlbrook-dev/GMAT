@@ -80,10 +80,11 @@
    "url": "https://www.rhsmith.umd.edu/programs/full-time-mba/admissions"
   },
   "accept_rate_pct": {
-   "v": null,
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 38,
+   "stat": "acceptance rate; the profile, updated September 25, 2026, names no class (class year not labeled on page)",
+   "src": "Poets&Quants school profile",
+   "year": 2026,
+   "url": "https://poetsandquants.com/school-profile/maryland-smith/"
   },
   "work_exp_years": {
    "v": 6,

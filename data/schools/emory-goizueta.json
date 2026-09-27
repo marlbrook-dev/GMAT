@@ -85,11 +85,14 @@
   },
   "accept_rate_pct": {
    "v": 32,
-   "stat": "acceptance rate for the Class of 2027 admissions cycle, as Poets&Quants reports it",
-   "src": "Poets&Quants (Class of 2027 admissions coverage: 1,581 applications, 450 admitted)",
+   "stat": "acceptance rate for the Class of 2027 as Poets&Quants prints it, in its table and its text, from data it credits to Emory; the same table's 450 admits of 1,581 applications work out to 28.5 percent, the earlier years' rates match their counts, and the article does not say which figure is misprinted",
+   "src": "Poets&Quants (Class of 2027 admissions coverage; source: Emory)",
    "year": 2025,
    "url": "https://poetsandquants.com/2025/10/30/emory-goizuetas-international-mba-enrollment-plunges-9-points-in-one-year/",
-   "note": "prior cycles were 36.8 and 39.1 percent per the same coverage"
+   "note": "prior cycles were 36.8 and 39.1 percent per the same coverage",
+   "derived": {
+    "28.5": "450 / 1581, the admits and applications the same table prints"
+   }
   },
   "work_exp_years": {
    "v": 6,
@@ -142,7 +145,7 @@
   }
  },
  "website": "https://goizueta.emory.edu/full-time-mba",
- "notes": "Official class profile publishes no GRE figures and no acceptance rate; the prior 32 percent acceptance figure was Poets and Quants math and has no official counterpart. tuition_usd stays null because the official tuition page states only two-year program totals with no per-year rate or academic year label: Total Tuition 158,400 plus Mandatory Fees 4,904 (Total MBA Tuition and Fees 163,549) at https://goizueta.emory.edu/full-time-mba/two-year-mba/admissions/tuition; these totals are newer than the 153,800 plus 7,824 noted previously.",
+ "notes": "Official class profile publishes no GRE figures and no acceptance rate; the 32 percent acceptance rate is the figure Poets&Quants prints for data it credits to Emory, and its own counts in the same table give 28.5 percent (INC-0168). tuition_usd stays null because the official tuition page states only two-year program totals with no per-year rate or academic year label: Total Tuition 158,400 plus Mandatory Fees 4,904 (Total MBA Tuition and Fees 163,549) at https://goizueta.emory.edu/full-time-mba/two-year-mba/admissions/tuition; these totals are newer than the 153,800 plus 7,824 noted previously.",
  "federal": {
   "matched": true,
   "instnm": "Emory University",
