@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-27, which is 8 days, across
-108 commits, by one owner directing a series of AI coding sessions. As of this
+109 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 85 Python files, 111 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 64 documents:
 2058 tracked files in total.
@@ -1124,7 +1124,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-108 commits in 8 days, one owner, a series of AI sessions. This
+109 commits in 8 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1216,14 +1216,14 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-158 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+159 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 83 | 53% |
+| Found by reading the code or the output | 84 | 53% |
 | Found by measuring something | 39 | 25% |
 | A test caught it | 18 | 11% |
 | Found by rendering it and looking | 8 | 5% |
@@ -1231,7 +1231,7 @@ well enough to audit later. Which is what this book is.
 | A build guard caught it | 3 | 2% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 156 of 158 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 157 of 159 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1240,20 +1240,20 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 70 |
+| Wrong data shown or stored | 71 |
 | Degraded | 36 |
 | Silent loss | 26 |
 | Cosmetic | 23 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 158. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 159. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 71 |
+| Content generation | 72 |
 | Tests and guards | 24 |
 | Front end | 12 |
 | Search and metadata | 10 |
@@ -1268,7 +1268,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-152 of 158 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+153 of 159 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1289,7 +1289,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-69 of 158 incidents record that they repeat an earlier lesson, 95 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+70 of 159 incidents record that they repeat an earlier lesson, 96 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1320,6 +1320,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0125 Every College Scorecard figure in the MBA library cited the program's own website as its source URL | INC-0130, INC-0133 | 2 |
 | INC-0130 The GRE exam guide credited ETS with a combined 260 to 340 score that the ETS page it cited does not describe | INC-0133, INC-0155 | 2 |
 | INC-0146 The source check's browser read returned Stanford's class profile without a single figure, because the figures are drawn in an embedded chart that renders only when scrolled into view | INC-0156, INC-0158 | 2 |
+| INC-0150 Columbia's MBA class was credited with five years of work experience, a figure the cited article gives for its 46-student MBAxMS cohort, and the source check passed it because the article does say five years | INC-0152, INC-0159 | 2 |
 | INC-0151 Rice's school page credited Poets&Quants with an average GMAT of 693 for the Class of 2027, a number the article never prints; the figure's own note said it was read from a search snippet | INC-0154, INC-0157 | 2 |
 | INC-0154 The weekly source check listed Duke's GMAT medians and Michigan Ross's work experience as missing from their sources for weeks, but its 30 findings mixed real errors with pages it cannot read, so none was ever worked | INC-0155, INC-0157 | 2 |
 | INC-0014 A hardcoded count in the meta description went stale, and Google showed it | INC-0128 | 1 |
@@ -1337,10 +1338,9 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0136 The LSAT guide said most test takers choose between remote and in-person testing, after LSAC had moved almost everyone into test centers | INC-0137 | 1 |
 | INC-0137 A post queued to publish the next day said the LSAT trainer was still in development, eleven days after it went live | INC-0138 | 1 |
 | INC-0142 Every school's employment rate was labelled and scored as a three month figure, though 15 of 70 were measured at six months, four months, a year or a reporting date, or at a timing their notes do not give | INC-0144 | 1 |
-| INC-0150 Columbia's MBA class was credited with five years of work experience, a figure the cited article gives for its 46-student MBAxMS cohort, and the source check passed it because the article does say five years | INC-0152 | 1 |
 | INC-0156 The source check read mba.com's bot challenge page as the page it cites and reported the GMAT fact's numbers as missing from it | INC-0158 | 1 |
 
-The largest family runs to 57 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140, INC-0142, INC-0143, INC-0144, INC-0145, INC-0147, INC-0150, INC-0151, INC-0152, INC-0154, INC-0155, INC-0157. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
+The largest family runs to 58 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140, INC-0142, INC-0143, INC-0144, INC-0145, INC-0147, INC-0150, INC-0151, INC-0152, INC-0154, INC-0155, INC-0157, INC-0159. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
 
 Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.
 
@@ -1371,7 +1371,7 @@ Files named by three or more incidents. This is not the same signal as the list 
 
 - `src/build_banks.py`, 17 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011, INC-0079, INC-0081, INC-0086, INC-0088, INC-0089, INC-0090, INC-0091, INC-0092, INC-0120, INC-0123, INC-0126, INC-0127)
 - `src/build.py`, 13 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067, INC-0076, INC-0080, INC-0131, INC-0148)
-- `src/check_sources.py`, 11 incidents (INC-0130, INC-0132, INC-0133, INC-0136, INC-0140, INC-0150, INC-0152, INC-0154, INC-0155, INC-0156, INC-0158)
+- `src/check_sources.py`, 12 incidents (INC-0130, INC-0132, INC-0133, INC-0136, INC-0140, INC-0150, INC-0152, INC-0154, INC-0155, INC-0156, INC-0158, INC-0159)
 - `src/test.js`, 8 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085)
 - `src/validate_schools.py`, 8 incidents (INC-0125, INC-0141, INC-0143, INC-0144, INC-0147, INC-0151, INC-0153, INC-0157)
 - `src/build_rankings.py`, 6 incidents (INC-0014, INC-0049, INC-0118, INC-0135, INC-0142, INC-0145)
@@ -1395,7 +1395,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (71)
+## Content generation (72)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -2257,6 +2257,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** The 11 figures whose sources name no edition are blank, each with a note quoting what its source prints. Every other GMAT figure's stat says which edition its source gives it in the source's words, or carries an edition_proof: Babson's and Kentucky's classes enrolled in 2018 and 2019, and Northeastern's and TCU's Classes of 2025 in fall 2023, before Focus testing began, each shown from the school's program page or the article's date and GMAC's announcement. WashU Olin's 702 stays, drawn on the page's 200 to 800 scale, without the false reasoning. The school page's GMAT row now says a figure printed without its edition is left out rather than guessed.
 - **What stops it now.** validate_schools refuses a published GMAT figure whose stat does not show the edition its source gives it (the edition's name, its scale, or the other edition named beside it) unless an edition_proof gives the reason and the pages that show it, and refuses a stat or note that reasons about the edition, such as "consistent with", "scale cap" or "not labeled". in `src/validate_schools.py`
 - **Lesson.** A figure with a unit that its source leaves out is not verified until the unit is. Deducing it from the number's shape feels like evidence and is not; either the source says it, or something outside the number proves it, or the figure stays blank.
+
+
+### INC-0159. Baylor's school page gave its whole MBA program's entering class of 80, with 15 part-time students in it, as the full-time class size, and a source note that named only the two full-time tracks
+
+*2026-09-27, Wrong data shown or stored*
+
+- **What was seen.** Baylor Hankamer's school page said the class that entered in 2024 has 80 students, and the figure's source line read "Total - MBA Program, entering 2024; includes Two-Year 53 and One-Year 12 tracks". Baylor's student profile gives the entering class as 53 in the two-year MBA, 12 in the one-year MBA and 15 in the part-time MBA: 80 counts the part-time students, and the two tracks the note names make 65. The acceptance rate of 24.4 percent was the same whole-program total, 121 accepted of 495 applications, and every one of the 15 part-time applicants was accepted; the two full-time tracks accepted 106 of 480. The GPA, women and international figures beside them are the whole program's too, and only the GPA said so.
+- **Why.** The research merge took the page's Total - MBA Program row for the class size and the acceptance rate, and described the class size from the rows above it, naming two of the three tracks the total adds up. Nothing compared the description with the page: the source check could not read Baylor at all, because its pages answer 403 to a script, and nothing adds up the parts a description names.
+- **How it surfaced.** Found on September 27, 2026 while testing whether the source check's browser read could open the pages that refuse its plain read: Baylor's rendered in Chromium, and its table did not add up to the note. (Found by reading the code or the output)
+- **Fix.** Baylor's class size is 65, the two-year and one-year entering classes, and its acceptance rate 22.1 percent, 106 accepted of 480 applications to those tracks, each with its working in a derived entry and a description that gives the program's totals with the part-time students. The GPA, women and international figures say they describe the whole MBA program, part-time included. The source check now tries the browser when a site refuses its plain read with 401, 403 or 429, so Baylor's three pages are read every week, and it recognises Cloudflare's verification page and Bloomberg's unusual-activity page, which Columbia, Michigan Ross and Bloomberg answer the browser with, as challenges. Read at last, Baylor's pages showed two more loose ends, now fixed: its tuition of 67,756 is two semesters at 33,878 with no working declared, and its salary's description cites a median of 80,000 that only the tuition page prints, which is now read with it through also_urls.
+- **What stops it now.** check_sources reads a page refused with 401, 403 or 429 in the browser before calling it unreadable, and its self-check holds Cloudflare's and Bloomberg's challenge text, Bloomberg's being long enough to pass for a page. Run on the library as it was, the check now reads Baylor's pages, lists the class size of 80 and the GPA as found only beside the part-time MBA's name, and reports the acceptance rate, the tuition and the salary description as numbers the pages do not print; the derived entries now make it find every input of Baylor's arithmetic on the page. in `src/check_sources.py`
+- **Lesson.** A total is only as good as the rows it adds. When a page breaks a figure into parts, record which parts the figure counts, and prefer arithmetic a check can redo over a description it has to trust.
 
 
 ## Tests and guards (24)
@@ -3474,6 +3486,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Every College Scorecard figure in the MBA library cited the program's own website as its source URL (INC-0125)</small>
 - [ ] **Learned 3 times over.** A citation vouches only for what its source says, so check each figure against the source rather than checking that a citation is present. The claim most likely to slip through is the true looking one written next to real ones, arithmetic or common knowledge put in the source's mouth.  
   <small>The GRE exam guide credited ETS with a combined 260 to 340 score that the ETS page it cited does not describe (INC-0130)</small>
+- [ ] **Learned 3 times over.** Finding a number on a page is not finding the fact. A check has to look for it beside the words that say what it counts, and notice when those words are about something else: another program, another class.  
+  <small>Columbia's MBA class was credited with five years of work experience, a figure the cited article gives for its 46-student MBAxMS cohort, and the source check passed it because the article does say five years (INC-0150)</small>
 - [ ] **Learned 3 times over.** A search result's snippet is not the page it links to. A figure taken from one has to be read again on the page before it is published, and a record that admits the snippet in a note while citing the page looks fully sourced, which is why nobody rereads it.  
   <small>Rice's school page credited Poets&Quants with an average GMAT of 693 for the Class of 2027, a number the article never prints; the figure's own note said it was read from a search snippet (INC-0151)</small>
 - [ ] **Learned 3 times over.** A report that says the same thing every week stops being read. When a checker has blind spots, record each judgement about a finding it cannot settle, so that what it prints shrinks to what is new; a list that mixes known false alarms with real errors hides the errors about as well as no list at all.  
@@ -3498,8 +3512,6 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A post queued to publish the next day said the LSAT trainer was still in development, eleven days after it went live (INC-0137)</small>
 - [ ] **Learned 2 times over.** A label fixed in code is a claim about every value the field will ever hold. When the data carries its own qualifier, such as a timing or a statistic, the label has to be read from the data, and anything that compares or scores the values has to use only the ones that share the qualifier the method names.  
   <small>Every school's employment rate was labelled and scored as a three month figure, though 15 of 70 were measured at six months, four months, a year or a reporting date, or at a timing their notes do not give (INC-0142)</small>
-- [ ] **Learned 2 times over.** Finding a number on a page is not finding the fact. A check has to look for it beside the words that say what it counts, and notice when those words are about something else: another program, another class.  
-  <small>Columbia's MBA class was credited with five years of work experience, a figure the cited article gives for its 46-student MBAxMS cohort, and the source check passed it because the article does say five years (INC-0150)</small>
 - [ ] Any generator that claims reproducibility must be seeded from something stable across processes. hash() is not, in Python, and the failure shows up as a flaky test rather than as a wrong answer.  
   <small>Item banks were different on every build because Python randomises hash() (INC-0003)</small>
 - [ ] Deletion by shadowing is invisible. Any collection whose size is a fact about the product needs its size asserted, not just its contents.  
@@ -3580,6 +3592,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The GMAT guide cited mba.com's Official Score Reports page for the rule on five free score reports within 48 hours, a rule that page never states (INC-0155)</small>
 - [ ] A figure with a unit that its source leaves out is not verified until the unit is. Deducing it from the number's shape feels like evidence and is not; either the source says it, or something outside the number proves it, or the figure stays blank.  
   <small>Eleven GMAT figures on ten school pages were filed under an edition their sources never name, by guesses from the class year, the last digit or how high the number was (INC-0157)</small>
+- [ ] A total is only as good as the rows it adds. When a page breaks a figure into parts, record which parts the figure counts, and prefer arithmetic a check can redo over a description it has to trust.  
+  <small>Baylor's school page gave its whole MBA program's entering class of 80, with 15 part-time students in it, as the full-time class size, and a source note that named only the two full-time tracks (INC-0159)</small>
 
 
 ## Database
@@ -3870,7 +3884,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 158 real defects reduced to the rules that prevent them,
+the whole project: 159 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -3910,7 +3924,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-158 defects already prevented is genuinely ahead, and every defect it hits
+159 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

@@ -522,6 +522,15 @@ verified rather than that the school does not publish one (INC-0118).
       figure is fixed or triaged. WashU's eight image figures, five of them new (44 percent
       women, 47 percent international, 4.3 years, GRE 166 and 164), were read from its
       images and triaged.
+- [x] **Baylor's class size counts its full-time students, and refused pages are read in
+      the browser** (INC-0159). Baylor's 80 was the whole MBA program's entering class, 15
+      of them part-time, under a note naming only the two full-time tracks; its acceptance
+      rate of 24.4 percent was the same total, with all 15 part-time applicants accepted. The
+      class size is now 65 (53 two-year and 12 one-year) and the acceptance rate 22.1 percent
+      (106 of 480), each with its working, and the whole-program GPA, women and
+      international figures say so. The source check reads a page that refuses its plain read
+      in the browser, which opens Baylor's pages; Columbia, Michigan Ross and Bloomberg answer
+      the browser with a bot challenge, now recognised and reported as one.
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects
@@ -599,14 +608,16 @@ verified rather than that the school does not publish one (INC-0118).
       page confirms the library's figures)
 - [ ] `src/smoke_load.js` stays out of CI because timing on shared runners is noisy, so run
       it by hand after any change to how the banks are split or loaded (INC-0113)
-- [ ] School figures the `--schools` run could not settle from this sandbox. After INC-0158
+- [ ] School figures the `--schools` run could not settle from this sandbox. After INC-0159
       the run of September 27 ends at 0 figures with a number their page does not print and
       0 pages showing none of their figures, with 12 triaged (Kellogg's middle 80 percent
       ranges, drawn only as box plots, and WashU Olin's class profile, drawn only as images)
-      and 19 sources unreadable: 403s at Columbia, Baylor, Michigan Ross and Bloomberg;
-      certificate failures at Penn State Smeal and UC Irvine Merage (not to be bypassed); US
-      News; Fordham's redirect loop; Wharton's career report; and Olin's Class of 2024 report,
-      an image-only PDF read by eye on September 27. The six pages once written off as built
+      and 16 sources unreadable: Columbia, Michigan Ross and Bloomberg, which refuse a script
+      and answer the browser with a bot challenge (Baylor's, which refused only the script,
+      are read in the browser since INC-0159); certificate failures at Penn State Smeal and
+      UC Irvine Merage (not to be bypassed); US News; Fordham's redirect loop; Wharton's
+      career report; and Olin's Class of 2024 report, an image-only PDF read by eye on
+      September 27. The six pages once written off as built
       by JavaScript were three that had changed (Kelley, Maryland on Poets&Quants, Auburn),
       two the check misread (UMass Amherst's PDF, Booth's workbook) and one drawn as images
       (WashU Olin's). Cincinnati keeps its labelled 2025-26 tuition until the school page can
