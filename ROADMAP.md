@@ -541,6 +541,14 @@ verified rather than that the school does not publish one (INC-0118).
       address mba.com loads its US table from. The source check's blank-page rule now reads a
       figure against every page it names (INC-0161), and a browser read that gets a challenge is
       tried once more.
+- [x] **"How Much Does the GRE Cost in 2026?" queued for November 17**, Elena Rodriguez:
+      ETS's fees ($249 outside China and India, $231.30 in China, $55 to reschedule or change
+      test center, $40 per extra score report, $60 Analytical Writing review, $50 score
+      reinstatement), the one deadline for rescheduling and the half refund, four free score
+      recipients, the non-refundable 4% online service fee and the taxes added in the United
+      States, and the fee reduction. The GRE guide gains five key facts from ETS's fees page and
+      the 2026-27 Bulletin, checked weekly. ETS values its free prep bundle at $110 on one page
+      and $100 on two others, so the post quotes the items, not a total.
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects
