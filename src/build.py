@@ -689,6 +689,16 @@ if _untitled:
         print("ERROR: %s has a heading that breaks Title Case: %r should read %r" % (_pg, _h, _want),
               file=sys.stderr)
     sys.exit(1)
+# And no styled button's label, which the same rule names: "Open the trainer" sat on 138 study
+# guide pages while only headings were read (INC-0178).
+from page_checks import untitled_buttons, _selfcheck_buttons
+_selfcheck_buttons()
+_unbuttoned = untitled_buttons(root, _SECTIONS)
+if _unbuttoned:
+    for _pg, _b, _want in _unbuttoned[:15]:
+        print("ERROR: %s has a button label that breaks Title Case: %r should read %r" % (_pg, _b, _want),
+              file=sys.stderr)
+    sys.exit(1)
 
 
 # ---------------------------------------------------------------------------

@@ -403,7 +403,7 @@ def build_index(posts):
 <label>Your story<textarea required name="story" rows="6" placeholder="Paste your draft or outline. 300 words is plenty to start."></textarea></label>
 <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
 <span style="font-size:12px;color:var(--gray-500)">Submissions open your mail app addressed to editors@startfromnowhere.com. If we publish, we credit you and confirm edits with you first.</span>
-<button type="submit" class="btn" style="border:none;font-size:15px;padding:12px 26px;cursor:pointer">Submit for review</button>
+<button type="submit" class="btn" style="border:none;font-size:15px;padding:12px 26px;cursor:pointer">Submit for Review</button>
 </div>
 </form>
 </div>
@@ -549,9 +549,9 @@ def build_post(p, posts):
 <div style="font-size:14px;color:var(--gray-500);margin:16px 0 8px"><span style="font-family:var(--display);font-weight:700;color:var(--navy-900)">{html.escape(p['author'])}</span> · {fmt_date(p['date'])}{upd_note} · {p['read_min']} min read</div>
 <hr style="border:none;border-top:1px solid var(--gray-200);margin:20px 0 28px">
 {p['body']}
-<div class="cta"><div><div style="font-family:var(--display);font-weight:800;font-size:17px;color:var(--navy-900)">Put this into practice</div>
+<div class="cta"><div><div style="font-family:var(--display);font-weight:800;font-size:17px;color:var(--navy-900)">Put This Into Practice</div>
 <div style="font-size:14px;color:var(--gray-500);margin-top:4px">Run a free adaptive round. No account needed; the trainer finds your weak skills in one session.</div></div>
-<a class="btn" href="/app/" style="font-size:15px;padding:12px 22px">Start a free round</a></div>
+<a class="btn" href="/app/" style="font-size:15px;padding:12px 22px">Start a Free Round</a></div>
 <h2 style="font-size:24px">Frequently Asked Questions</h2>
 <div class="faq">{faq_vis}</div>
 </div>
@@ -726,6 +726,14 @@ def main():
     if untitled:
         for pg, h, want in untitled[:10]:
             print("build_blog: %s has a heading that breaks Title Case: %r should read %r" % (pg, h, want),
+                  file=sys.stderr)
+        sys.exit(1)
+    # And every styled button's label, as build.py checks it (INC-0178).
+    from page_checks import untitled_buttons
+    unbuttoned = untitled_buttons(ROOT, ["blog"])
+    if unbuttoned:
+        for pg, b, want in unbuttoned[:10]:
+            print("build_blog: %s has a button label that breaks Title Case: %r should read %r" % (pg, b, want),
                   file=sys.stderr)
         sys.exit(1)
     # And the article before a number, as build.py checks it (INC-0134).
