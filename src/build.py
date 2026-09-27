@@ -607,14 +607,23 @@ if _over:
 # structured data as "Scored {'text': ..., 'src': ...}" because an f-string was handed a
 # record where its text was meant (INC-0131). The blog is checked by build_blog.py, which
 # builds it after this.
-from page_checks import python_reprs
-_reprs = python_reprs(root, ["index.html", "404.html", "terms.html", "privacy.html",
-                             "app", "sat", "gre", "act", "lsat", "exams", "schools",
-                             "colleges", "guide", "daily", "apply", "scoring", "funding",
-                             "international", "community", "pricing", "do-not-sell"])
+from page_checks import python_reprs, articles
+_SECTIONS = ["index.html", "404.html", "terms.html", "privacy.html",
+             "app", "sat", "gre", "act", "lsat", "exams", "schools",
+             "colleges", "guide", "daily", "apply", "scoring", "funding",
+             "international", "community", "pricing", "do-not-sell"]
+_reprs = python_reprs(root, _SECTIONS)
 if _reprs:
     for _pg, _frag in _reprs[:10]:
         print("ERROR: %s prints a Python data structure: ...%s..." % (_pg, _frag),
+              file=sys.stderr)
+    sys.exit(1)
+# Nor may a page put "a" before a number spoken with a vowel sound: two school pages read
+# "a 18.8% acceptance rate" and "a 11.3% acceptance rate" (INC-0134).
+_arts = articles(root, _SECTIONS)
+if _arts:
+    for _pg, _frag in _arts[:10]:
+        print("ERROR: %s puts the wrong article before a number: ...%s..." % (_pg, _frag),
               file=sys.stderr)
     sys.exit(1)
 

@@ -36,26 +36,26 @@
  },
  "specialties": [],
  "profile": {
-  "class_year": "Class of 2027 (2025 incoming class)",
+  "class_year": "2026 incoming class",
   "class_size": {
    "v": 100,
-   "stat": "approximately 100 students",
-   "src": "Fisher 2025 incoming class profile",
-   "year": 2025,
+   "stat": "approximately 100 students (the page says a community of ~100)",
+   "src": "Fisher 2026 incoming class profile",
+   "year": 2026,
    "url": "https://fisher.osu.edu/graduate/ftmba/admissions/class-profile"
   },
   "gmat_focus": {
-   "v": 653,
-   "stat": "avg GMAT Focus score (labeled)",
-   "src": "Fisher 2025 incoming class profile",
-   "year": 2025,
+   "v": 650,
+   "stat": "average GMAT Focus score (labeled)",
+   "src": "Fisher 2026 incoming class profile",
+   "year": 2026,
    "url": "https://fisher.osu.edu/graduate/ftmba/admissions/class-profile"
   },
   "gmat_classic": {
-   "v": 673,
-   "stat": "avg GMAT Classic score (labeled)",
-   "src": "Fisher 2025 incoming class profile",
-   "year": 2025,
+   "v": 700,
+   "stat": "average GMAT Classic score (labeled)",
+   "src": "Fisher 2026 incoming class profile",
+   "year": 2026,
    "url": "https://fisher.osu.edu/graduate/ftmba/admissions/class-profile"
   },
   "gre_quant": {
@@ -73,10 +73,10 @@
    "url": ""
   },
   "gpa": {
-   "v": 3.49,
-   "stat": "avg GPA (undergrad)",
-   "src": "Fisher 2025 incoming class profile",
-   "year": 2025,
+   "v": 3.55,
+   "stat": "average undergraduate GPA; middle 80% 3.05 to 3.96",
+   "src": "Fisher 2026 incoming class profile",
+   "year": 2026,
    "url": "https://fisher.osu.edu/graduate/ftmba/admissions/class-profile"
   },
   "accept_rate_pct": {
@@ -86,24 +86,24 @@
    "url": ""
   },
   "work_exp_years": {
-   "v": 4.7,
+   "v": 5.4,
    "stat": "average years of work experience",
-   "src": "Fisher 2025 incoming class profile",
-   "year": 2025,
+   "src": "Fisher 2026 incoming class profile",
+   "year": 2026,
    "url": "https://fisher.osu.edu/graduate/ftmba/admissions/class-profile"
   },
   "women_pct": {
-   "v": 31,
-   "stat": "31% female",
-   "src": "Fisher 2025 incoming class profile",
-   "year": 2025,
+   "v": 39,
+   "stat": "39% female",
+   "src": "Fisher 2026 incoming class profile",
+   "year": 2026,
    "url": "https://fisher.osu.edu/graduate/ftmba/admissions/class-profile"
   },
   "intl_pct": {
-   "v": 44,
-   "stat": "44% international",
-   "src": "Fisher 2025 incoming class profile",
-   "year": 2025,
+   "v": 21,
+   "stat": "21% international",
+   "src": "Fisher 2026 incoming class profile",
+   "year": 2026,
    "url": "https://fisher.osu.edu/graduate/ftmba/admissions/class-profile"
   },
   "tuition_usd": {

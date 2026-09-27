@@ -39,26 +39,26 @@
   }
  },
  "profile": {
-  "class_year": "Class of 2027",
+  "class_year": "2026 entering class",
   "class_size": {
-   "v": 248,
-   "stat": "enrolled; 1617 applications received",
-   "src": "Georgetown McDonough full-time MBA class profile (2025 entering class)",
-   "year": 2025,
+   "v": 197,
+   "stat": "enrolled; 1,269 applications received",
+   "src": "Georgetown McDonough full-time MBA class profile (2026 entering class)",
+   "year": 2026,
    "url": "https://msb.georgetown.edu/full-time-mba/class-profile/"
   },
   "gmat_focus": {
-   "v": 625,
-   "stat": "average GMAT Focus Edition (labeled separately on page); mid-80 pct range 569-687",
+   "v": 626,
+   "stat": "average GMAT Focus Edition; mid-80% range 555 to 682",
    "src": "Georgetown McDonough full-time MBA class profile",
-   "year": 2025,
+   "year": 2026,
    "url": "https://msb.georgetown.edu/full-time-mba/class-profile/"
   },
   "gmat_classic": {
-   "v": 700,
-   "stat": "average GMAT; mid-80 pct range 660-740",
+   "v": 713,
+   "stat": "average GMAT; mid-80% range 672 to 752",
    "src": "Georgetown McDonough full-time MBA class profile",
-   "year": 2025,
+   "year": 2026,
    "url": "https://msb.georgetown.edu/full-time-mba/class-profile/"
   },
   "gre_quant": {
@@ -79,9 +79,9 @@
   },
   "gpa": {
    "v": 3.3,
-   "stat": "average; mid-80 pct range 2.75-3.8",
+   "stat": "average; mid-80% range 2.86 to 3.8",
    "src": "Georgetown McDonough full-time MBA class profile",
-   "year": 2025,
+   "year": 2026,
    "url": "https://msb.georgetown.edu/full-time-mba/class-profile/"
   },
   "accept_rate_pct": {
@@ -92,24 +92,24 @@
    "note": "US News 2025 edition reportedly lists 60.3 percent, but that was seen only relayed through program-guide sites and other secondary figures conflict widely (16 to 35 percent); not recorded"
   },
   "work_exp_years": {
-   "v": 5,
-   "stat": "average",
+   "v": 5.3,
+   "stat": "average years of work experience",
    "src": "Georgetown McDonough full-time MBA class profile",
-   "year": 2025,
+   "year": 2026,
    "url": "https://msb.georgetown.edu/full-time-mba/class-profile/"
   },
   "women_pct": {
-   "v": 31,
+   "v": 33,
    "stat": "female",
    "src": "Georgetown McDonough full-time MBA class profile",
-   "year": 2025,
+   "year": 2026,
    "url": "https://msb.georgetown.edu/full-time-mba/class-profile/"
   },
   "intl_pct": {
    "v": 44,
    "stat": "international",
    "src": "Georgetown McDonough full-time MBA class profile",
-   "year": 2025,
+   "year": 2026,
    "url": "https://msb.georgetown.edu/full-time-mba/class-profile/"
   },
   "tuition_usd": {
