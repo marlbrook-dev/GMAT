@@ -175,6 +175,12 @@
         "src": "GMAT Exam Policies and Procedures (GMAC)",
         "year": 2026,
         "url": "https://www.mba.com/-/media/files/mba2/the-gmat-exam/files/register/gmat-policies-and-procedures_aug-2026.pdf?rev=1944562325e64999a09f36900dce5893&hash=C178A7A6EB28EAB4EA48C6C4FD28A3D3"
+      },
+      {
+        "text": "GMAT scores are valid for five years and available for reporting for up to 10 years; results over 10 years old are not available",
+        "src": "mba.com support (GMAC)",
+        "year": 2023,
+        "url": "https://support.mba.com/hc/en-us/articles/13894860085531-GMAT-How-Long-Are-My-Scores-Valid"
       }
     ]
   },
@@ -325,6 +331,12 @@
         "src": "College Board",
         "year": 2026,
         "url": "https://satsuite.collegeboard.org/sat/registration/fee-waivers/fee-waiver-benefits"
+      },
+      {
+        "text": "Once a student has left high school and has not tested for a year, College Board archives their SAT scores; archived scores can still be sent, with a retrieval fee on top of each report's fee, but scores older than 2005 are no longer accessible, and College Board says reports sent five or more years after a test date may be less valid predictors of college performance",
+        "src": "College Board",
+        "year": 2026,
+        "url": "https://satsuite.collegeboard.org/scores/sending-sat-scores/additional/sending-archived-scores"
       }
     ]
   },
@@ -653,6 +665,12 @@
         "src": "LSAC",
         "year": 2026,
         "url": "https://www.lsac.org/lsat/register-lsat/lsat-cas-fees/fee-waiver"
+      },
+      {
+        "text": "LSAT scores earned before July 2021 are not considered valid for law school admission and are not included in the score report, which carries the results of up to 12 reportable tests, absences and cancellations included",
+        "src": "LSAC",
+        "year": 2026,
+        "url": "https://www.lsac.org/lsat/lsat-scoring"
       }
     ],
     "answer_choices": {

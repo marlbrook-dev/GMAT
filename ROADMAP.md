@@ -672,6 +672,13 @@ verified rather than that the school does not publish one (INC-0118).
       script-only challenge, and caches no read too short to be evidence. All 108 exam facts
       pass: 106 in the run of September 27, and the two on GMAC's policies PDF against a
       direct read the same day, since Imperva challenged the run's reads of it.
+- [x] **"How Long Are GMAT, GRE, LSAT, SAT, and ACT Scores Valid?"** queued for November
+      29 (Elena Rodriguez). GMAT scores are valid for five years and reportable for up to
+      10, GRE scores reportable for five years, LSAT scores for five testing years with
+      nothing before July 2021 counting, and neither College Board nor ACT gives an expiry
+      date, though both charge more to send old scores. New key facts for GMAT's 10-year
+      reporting, LSAT's July 2021 cutoff and College Board's archive rule put the post's
+      statements under the weekly source check; EDITORIAL.md gains a validity block.
 - [x] **"When Do GMAT, GRE, LSAT, SAT, and ACT Scores Come Out?"** queued for November 27
       (Sarah Whitfield). Each test maker's rule, read on September 27, with this testing
       year's release dates for the LSAT, the SAT and the ACT from the same tables the test
