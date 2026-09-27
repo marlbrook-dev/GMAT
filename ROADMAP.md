@@ -309,6 +309,15 @@ verified rather than that the school does not publish one (INC-0118).
       the Selection Index, every figure generated from `data/psat_percentiles.json` and
       checked against it by script, with a PSAT/NMSQT block added to the EDITORIAL fact
       sheet. It estimates no National Merit cutoff.
+- [x] **Two MBA posts queued from the verified school library**: "How Much Does an MBA
+      Cost? 2026 Tuition by School" (October 28) sets 2026-27 tuition at twelve two-year
+      programs beside what it leaves out, the two prices public programs charge, and the
+      schools that price the whole program; "MBA Employment Rates: How to Read the 3 Month
+      Number" (October 30) shows the same classes counted at three and six months, and as
+      offers received and accepted. Every figure comes from a school record the source
+      check read and matched, both have EDITORIAL fact sheet blocks, and a script checked
+      each number in them against those records. Stanford's employment page is built by
+      JavaScript, so it is left out until the weekly rendered run reads it.
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects
