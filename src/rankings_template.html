@@ -279,7 +279,7 @@ function gmatOf(s){ var f=(s.profile||{}).gmat_focus||{}; if(f.v!=null) return {
 // (INC-0105); this only reads it.
 function salLabel(f){ return (f&&f.label)||'Starting salary'; }
 function fitOf(s){ var p=s.profile||{}, out={};
- ['gpa','work_exp_years','tuition_usd','accept_rate_pct','class_size','salary_median_usd'].forEach(function(k){
+ ['gpa','work_exp_years','tuition_usd','program_cost_usd','accept_rate_pct','class_size','salary_median_usd'].forEach(function(k){
   var f=p[k]; if(f&&f.v!=null) out[k]={v:f.v,stat:f.stat||'',src:f.src||'',year:f.year||null,url:f.url||''}; });
  return out; }
 function metaFor(slug,prev){ var s=BY[slug];
@@ -374,7 +374,8 @@ function toggleDetail(slug){ var ex=document.getElementById('det-'+slug);
  +dfield('GPA',p.gpa)+dfield('Acceptance rate',p.accept_rate_pct,'%')
  +dfield('Class size',p.class_size)+dfield('Work experience',p.work_exp_years,' yrs')
  +dfield('Women',p.women_pct,'%')+dfield('International',p.intl_pct,'%')
- +dfield('Tuition per year',p.tuition_usd,'',true)+dfield(salLabel(p.salary_median_usd),p.salary_median_usd,'',true)
+ +dfield('Tuition per year',p.tuition_usd,'',true)+dfield('Whole program cost',p.program_cost_usd,'',true)
+ +dfield(salLabel(p.salary_median_usd),p.salary_median_usd,'',true)
  +dfield('Employed at 3 months',p.employment_rate_pct,'%')
  +ranksTxt+'</div></td>';
  var row=document.querySelector('tr.srow[data-slug="'+slug+'"]'); row.classList.add('open'); row.parentNode.insertBefore(tr,row.nextSibling); }
@@ -421,7 +422,7 @@ function listRows(){ var L=lst(); return L.order.map(function(slug){ var s=BY[sl
   usnews:rankOf(s,'usnews'), ft:rankOf(s,'ft'), bloomberg:rankOf(s,'bloomberg'), qs:rankOf(s,'qs'), pq:rankOf(s,'pq'),
   gmat:g?g.v:null, gmat_edition:g?g.ed:null, gmat_stat:g?g.stat:null, gpa:fieldV(s,'gpa'),
   accept_rate_pct:fieldV(s,'accept_rate_pct'), class_size:fieldV(s,'class_size'), work_exp_years:fieldV(s,'work_exp_years'),
-  women_pct:fieldV(s,'women_pct'), intl_pct:fieldV(s,'intl_pct'), tuition_usd:fieldV(s,'tuition_usd'), salary_usd:fieldV(s,'salary_median_usd'), salary_measure:salLabel((s.profile||{}).salary_median_usd),
+  women_pct:fieldV(s,'women_pct'), intl_pct:fieldV(s,'intl_pct'), tuition_usd:fieldV(s,'tuition_usd'), program_cost_usd:fieldV(s,'program_cost_usd'), salary_usd:fieldV(s,'salary_median_usd'), salary_measure:salLabel((s.profile||{}).salary_median_usd),
   my_tag:m.tag||'target', my_note:m.note||'', data_as_of:'{{UPDATED}}', source:'startfromnowhere.com/schools/' };
  }).filter(Boolean); }
 function csvExport(){ var rows=listRows(); if(!rows.length){ alert('Your list is empty.'); return; }

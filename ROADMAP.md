@@ -314,6 +314,19 @@ verified rather than that the school does not publish one (INC-0118).
       never defined and the logo sat against the screen edge on phones. The blog now injects
       the tokens as `apply_chrome` does, and the build fails on any page that uses a token
       it never defines.
+- [x] **Whole program cost for 19 schools that never price a year**: `program_cost_usd`
+      holds the figure a school publishes for the whole program (a total, a program fee or
+      an estimate of the whole), shown in its own row, sentence and Quick Answer, in the
+      rankings drawer, the CSV export and the trainer's fit card (compared against a budget
+      as it stands, with no two-year arithmetic). It never enters the SFN Score, the tuition
+      column or the tuition filter, and a per-credit rate is never multiplied out. Every
+      figure was read from the school's own page and passes the source check (671 facts on
+      243 pages). The school pages gain Cost in their titles. Oklahoma Price's full-time MBA
+      moves to Oklahoma City, where its page says it meets. Not filled: Fordham (its tuition
+      page loops on redirects from here), Texas A&M (its page does not say whether its
+      figures are a year or the whole program), Iowa, Missouri and UConn (their full-time
+      programs closed), and Northeastern, Purdue, Syracuse, San Diego and Temple (per-credit
+      rates only, or a JavaScript calculator).
 - [x] **The school library checked against its sources** (INC-0133): `check_sources.py
       --schools` reads every page the library cites (652 figures, 225 pages; the 337 College
       Scorecard figures come from a dataset and are set aside). Reading its flags on static

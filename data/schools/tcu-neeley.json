@@ -110,6 +110,13 @@
    "year": null,
    "url": ""
   },
+  "program_cost_usd": {
+   "v": 141810,
+   "stat": "estimated total program cost of the Full-time MBA, tuition at 2,315 per semester hour plus fees of 4,200 per semester in fall and spring; annual tuition increases, books and materials excluded; the page names no academic year for it",
+   "src": "TCU Neeley graduate tuition and fees page",
+   "year": 2026,
+   "url": "https://neeley.tcu.edu/admissions/graduate/tuition-fees.php"
+  },
   "salary_median_usd": {
    "v": 139142,
    "stat": "average total compensation including salary and bonus; not a median base salary",

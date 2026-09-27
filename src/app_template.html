@@ -1060,6 +1060,17 @@ function fitCard(){
       :badge(cover>=1?'Covers two years':Math.round(cover*24)+' months of tuition',cover>=1?'success':'warning'))+'</td></tr>'
     +'<tr><td colspan="4" class="small muted" style="padding-top:0">Published tuition only. It is not the cost of attendance: fees, living costs, insurance and travel are on top, and scholarships come off. Two years is the standard full-time length and a school may differ.</td></tr>';
   }
+  // Some schools price the whole program and never a year. That figure is compared as it
+  // stands, with no two-year assumption, because the school has already said how long.
+  else if(f.program_cost_usd&&f.program_cost_usd.v!=null){
+   const tot=Number(f.program_cost_usd.v);
+   const cover=me.budget===null?null:(me.budget/tot);
+   rows+='<tr><td>Program cost</td><td class="num">'+(me.budget===null?'<span class="muted">not set</span>':esc(usd(me.budget))+' budget')+'</td>'
+    +'<td><span class="num">'+esc(usd(tot))+'</span> <span class="small muted">for the whole program</span>'+fitCite(f.program_cost_usd)+'</td>'
+    +'<td>'+(cover===null?'<span class="muted">-</span>'
+      :badge(cover>=1?'Covers the program':Math.floor(cover*100)+'% of the program',cover>=1?'success':'warning'))+'</td></tr>'
+    +'<tr><td colspan="4" class="small muted" style="padding-top:0">The school\'s published figure for the whole program; the note in its profile says what it covers. Living costs, insurance and travel are on top, and scholarships come off.</td></tr>';
+  }
 
   if(f.accept_rate_pct&&f.accept_rate_pct.v!=null){
    rows+='<tr><td>Acceptance rate</td><td class="num"><span class="muted">n/a</span></td>'

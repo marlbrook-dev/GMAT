@@ -43,6 +43,13 @@
     "21.2": "21.21 as printed, rounded to one place"
    }
   },
+  "program_cost_usd": {
+   "v": 53880,
+   "stat": "tuition for the whole 60-credit program, non-resident and international students, at the current fee schedule; residents of Oregon, Washington and other western states 43,560; full-time fees 4,503, for 58,383 in all; the page names no academic year",
+   "src": "Portland State MBA tuition and fees page",
+   "year": 2026,
+   "url": "https://www.pdx.edu/business/grad-mba-tuition-fees"
+  },
   "salary_median_usd": {
    "v": 85000,
    "stat": "median salary (average 89067), classes of 2021 and 2022 combined; 27% of graduates reported salary; page notes data not collected per MBACSEA standards",

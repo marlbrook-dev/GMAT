@@ -15,7 +15,7 @@ from validate_schools import RANGES, BANNED_SOURCES, WEAK_SOURCES, _cut_off
 
 FIELDS = ["gmat_focus", "gmat_classic", "gre_quant", "gre_verbal", "gpa",
           "accept_rate_pct", "class_size", "work_exp_years", "women_pct",
-          "intl_pct", "tuition_usd", "salary_median_usd", "employment_rate_pct"]
+          "intl_pct", "tuition_usd", "program_cost_usd", "salary_median_usd", "employment_rate_pct"]
 
 def load_result(path):
     text = pathlib.Path(path).read_text().strip()

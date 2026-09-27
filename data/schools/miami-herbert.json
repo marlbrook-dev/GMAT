@@ -116,6 +116,13 @@
    "year": null,
    "url": ""
   },
+  "program_cost_usd": {
+   "v": 133817,
+   "stat": "2026-27 rate; estimated tuition for the whole 56-credit program; mandatory fees 2,913, for 136,730 in all",
+   "src": "Miami Herbert full-time MBA cost of attendance page",
+   "year": 2026,
+   "url": "https://www.mbs.miami.edu/graduate/find-and-compare-programs/full-time-mba/cost-of-attendance.html"
+  },
   "salary_median_usd": {
    "v": null,
    "src": "",

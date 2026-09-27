@@ -260,6 +260,12 @@ def class_sentences(p, items):
     return out
 
 
+def about(f):
+    """'about ' for a figure the school itself prints as approximate (FIU's "approximately
+    $47,000", GW's "~$134,000"), so a sentence never states it more exactly than the page."""
+    return "about " if str((f or {}).get("stat") or "").lower().startswith("approximately") else ""
+
+
 def lead_paragraph(s, p, g, gc, acc, tui, sal, cs):
     """The sentences an answer engine can actually quote.
 
@@ -284,6 +290,13 @@ def lead_paragraph(s, p, g, gc, acc, tui, sal, cs):
                       " (%s, %s)" % ((p.get("tuition_usd") or {}).get("src"),
                                      (p.get("tuition_usd") or {}).get("year"))
                       if (p.get("tuition_usd") or {}).get("src") else ""))
+    pc = p.get("program_cost_usd") or {}
+    if pc.get("v") is not None:
+        # About a fifth of the library prices the whole program and never a year, so
+        # that figure is its own sentence and never recast as tuition a year.
+        out.append("Published cost for the whole program is %s$%s%s."
+                   % (about(pc), format(int(pc["v"]), ",d"),
+                      " (%s, %s)" % (pc.get("src"), pc.get("year")) if pc.get("src") else ""))
     cls = []
     if cs:
         cls.append((p.get("class_size"), "%s students" % format(int(cs), ",d")))
@@ -489,7 +502,8 @@ PROFILE_FIELDS = [
     ("gpa", "Undergrad GPA", "", False), ("accept_rate_pct", "Acceptance rate", "%", False),
     ("class_size", "Class size", "", False), ("work_exp_years", "Work experience", " yrs", False),
     ("women_pct", "Women", "%", False), ("intl_pct", "International", "%", False),
-    ("tuition_usd", "Tuition per year", "", True), ("salary_median_usd", "Starting salary", "", True),
+    ("tuition_usd", "Tuition per year", "", True), ("program_cost_usd", "Whole program cost", "", True),
+    ("salary_median_usd", "Starting salary", "", True),
     ("employment_rate_pct", "Employed at 3 months", "%", False),
 ]
 
@@ -698,7 +712,7 @@ def fit_blob(p):
     rendering a zero that reads as a real number.
     """
     out = {}
-    for k in ("gpa", "work_exp_years", "tuition_usd", "accept_rate_pct",
+    for k in ("gpa", "work_exp_years", "tuition_usd", "program_cost_usd", "accept_rate_pct",
               "class_size", "salary_median_usd"):
         f = (p or {}).get(k) or {}
         if f.get("v") is not None:
@@ -813,6 +827,8 @@ def school_page(s, tpl, today, ranked=()):
     tui = (p.get("tuition_usd") or {}).get("v")
     if tui:
         bits.append("tuition $%s a year" % format(int(tui), ",d"))
+    elif (p.get("program_cost_usd") or {}).get("v") is not None:
+        bits.append("whole program cost %s$%s" % (about(p["program_cost_usd"]), format(int(p["program_cost_usd"]["v"]), ",d")))
     sal = (p.get("salary_median_usd") or {}).get("v")
     if sal:
         sf = p.get("salary_median_usd")
@@ -829,7 +845,7 @@ def school_page(s, tpl, today, ranked=()):
     have = []
     if acc is not None:
         have.append("Acceptance Rate")
-    if tui:
+    if tui or (p.get("program_cost_usd") or {}).get("v") is not None:
         have.append("Cost")
     if g.get("v") or gc.get("v"):
         have.append("GMAT")
@@ -901,6 +917,11 @@ def school_page(s, tpl, today, ranked=()):
     if tu.get("v") is not None:
         qa.append((f'How much is tuition at {s["name"]}?',
                    f'Published tuition is ${tu["v"]:,} per year' + (f' ({tu.get("src")}, {tu.get("year")}).' if tu.get("src") else ".") + " Fees and living costs are additional; confirm on the school site."))
+    pc = p.get("program_cost_usd") or {}
+    if pc.get("v") is not None:
+        qa.append((f'How much does the whole MBA cost at {s["name"]}?',
+                   f'Published cost for the whole program is {about(pc)}${pc["v"]:,}' + (f' ({pc.get("src")}, {pc.get("year")}).' if pc.get("src") else ".")
+                   + " The note beside the figure in the profile says what it covers. Living costs are additional; confirm on the school site."))
     faq_ld, faq_section = "", ""
     if len(qa) >= 2:
         faq_ld = '<script type="application/ld+json">' + json.dumps({"@context": "https://schema.org", "@type": "FAQPage",

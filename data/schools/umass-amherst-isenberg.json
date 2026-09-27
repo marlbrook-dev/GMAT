@@ -97,6 +97,13 @@
    "year": null,
    "url": ""
   },
+  "program_cost_usd": {
+   "v": 58598,
+   "stat": "2025-26 rates; the page's estimate of core MBA tuition for the whole program, out-of-state and international students; in-state 25,574; fees listed separately, and a dual degree adds a semester",
+   "src": "Isenberg on-campus MBA tuition and aid page",
+   "year": 2025,
+   "url": "https://www.isenberg.umass.edu/programs/masters/mba/on-campus/tuition-and-aid"
+  },
   "salary_median_usd": {
    "v": null,
    "src": "",

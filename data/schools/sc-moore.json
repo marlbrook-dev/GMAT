@@ -123,6 +123,13 @@
    "year": 2025,
    "url": "https://www.usnews.com/best-graduate-schools/top-business-schools/university-of-south-carolina-01199"
   },
+  "program_cost_usd": {
+   "v": 60384,
+   "stat": "2024-25 program fee for the whole International MBA, non-resident, which the page says is for the duration of the program and not an annual fee; South Carolina residents 32,000; the One-Year MBA is 25,625 for residents and 29,520 for non-residents",
+   "src": "Moore full-time MBA tuition and fees page",
+   "year": 2024,
+   "url": "https://sc.edu/study/colleges_schools/moore/study/business_administration/fulltime_mba_programs/tuition_and_fees/index.php"
+  },
   "salary_median_usd": {
    "v": null,
    "src": "",

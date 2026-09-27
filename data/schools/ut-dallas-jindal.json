@@ -55,6 +55,13 @@
    "src": "JSOM Full-Time MBA cohort page",
    "year": 2026,
    "url": "https://mba.utdallas.edu/academics/full-time-mba/"
+  },
+  "program_cost_usd": {
+   "v": 60307,
+   "stat": "2026-27 estimate; tuition for the whole 53-credit Full-Time MBA, nonresident; fees 5,300 more, 65,607 in all; the page says all full-time students qualify for resident pricing through scholarships, 30,818 in tuition and 36,118 with fees",
+   "src": "Jindal MBA tuition and value page",
+   "year": 2026,
+   "url": "https://mba.utdallas.edu/tuition-value/"
   }
  },
  "notes": "Cohort profile on the program page carries no class year label; year given is page publication year. GMAT and GRE averages and acceptance rate are not published on the program or admissions pages. Salary is published only as 140175 USD avg starting salary plus bonus secured by the 2024-2025 cohorts (not median base), so salary_median_usd left null. Tuition is published only as total program cost for 53 credits at 2025-26 rates: resident 36118 USD, nonresident 65607 USD, fees 5300 USD itemized separately (https://mba.utdallas.edu/tuition-value/); no annual figure. US News stat on the page reads: No. 23 Best Business School by U.S. News and World Report (2026).",

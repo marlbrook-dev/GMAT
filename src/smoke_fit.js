@@ -42,8 +42,10 @@ const ok = (c, label) => { if (!c) { fails++; console.log('  FAIL ' + label); } 
 //   Work 5.0 yrs against 4.80 average     -> at about (difference 0.20, margin 0.50)
 //   Budget 120,000 against 84,996 a year  -> 169,992 over two years.
 //     120000/169992 = 0.7059 of the programme, and 0.7059 * 24 = 16.9, so 17 months.
+//   Budget 120,000 against 150,000 for a whole program -> 0.8 of it, so 80%, with no
+//     two-year arithmetic, because the school has already priced the whole program.
 const SAVED = {
-  order: ['alpha-gsb', 'beta-school'],
+  order: ['alpha-gsb', 'beta-school', 'gamma-school'],
   meta: {
     'alpha-gsb': {
       tag: 'reach', note: '', name: 'Alpha Graduate School of Business',
@@ -58,6 +60,13 @@ const SAVED = {
     'beta-school': {
       tag: 'safety', note: '', name: 'Beta School of Management',
       gmat: null, fit: {},
+    },
+    'gamma-school': {
+      tag: 'target', note: '', name: 'Gamma College of Business',
+      gmat: null,
+      fit: {
+        program_cost_usd: { v: 150000, stat: 'total tuition for the whole program', src: 'Gamma tuition page', year: 2026, url: 'https://example.invalid/gamma-t' },
+      },
     },
   },
 };
@@ -101,6 +110,15 @@ const SAVED = {
     ok(/\$169,992/.test(text), 'two years is computed, not typed');
     ok(/17 months of tuition/.test(text), 'a budget short of two years says how far it goes');
     ok(/Alpha GSB class profile/.test(text) && /2025/.test(text), 'the source and year travel with the figure');
+
+    // A school that prices only the whole program is compared against that figure as it
+    // stands. Sliced from its own name in the fit card, so Alpha's two-year row cannot
+    // satisfy or fail these by accident.
+    const fitCard = text.slice(text.indexOf('Fit Against Your Target Schools'));
+    const gamma = fitCard.slice(fitCard.indexOf('Gamma College of Business'));
+    ok(/\$150,000/.test(gamma) && /for the whole program/.test(gamma), 'a whole-program cost is shown as published, and named as such');
+    ok(/80% of the program/.test(gamma), 'a budget short of the program says how much of it the budget covers');
+    ok(!/over two|months of tuition/.test(gamma.slice(0, 600)), 'and no two-year arithmetic is applied to it');
 
     // The school that publishes nothing is the case that must not invent anything.
     //

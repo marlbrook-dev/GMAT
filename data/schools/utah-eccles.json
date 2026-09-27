@@ -112,6 +112,13 @@
    "year": null,
    "url": ""
   },
+  "program_cost_usd": {
+   "v": 80600,
+   "stat": "estimated tuition and fees for the whole two-year program, 62 required credit hours at 1,300 per credit over four semesters; the page says rates change annually and names no academic year",
+   "src": "Eccles full-time MBA financing page",
+   "year": 2026,
+   "url": "https://eccles.utah.edu/programs/mba/full-time-mba/financing-your-mba/"
+  },
   "salary_median_usd": {
    "v": null,
    "src": "",
