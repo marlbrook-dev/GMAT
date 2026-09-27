@@ -22,6 +22,13 @@
    "src": "Crummer Early Advantage MBA page",
    "year": 2025,
    "url": "https://crummer.rollins.edu/programs/early-advantage-mba"
+  },
+  "program_cost_usd": {
+   "v": 87944,
+   "stat": "total program tuition for the Early Advantage MBA, which the page calls its total program investment, covering coursework, global immersion programming except airfare and select meals, career services and student fees; a 100 association fee and a 145 parking decal are one-time fees on top; the page names no academic year",
+   "src": "Crummer Early Advantage MBA page",
+   "year": 2026,
+   "url": "https://crummer.rollins.edu/academic-programs/early-advantage-mba/"
   }
  },
  "notes": "Early Advantage MBA is aimed at early-career students (average age 22) and the program states no GMAT or GRE is required; no test averages, GPA, acceptance rate, or work experience figures are published. Cohort page lists 10 countries represented but no percent international. Cost is published as Total Program Investment of 87944 USD for the 16 to 20 month program, not annual tuition, so tuition_usd left null. No employment report or placement and salary statistics found on official pages; the school's career pages and resource articles cite only national GMAC survey data.",

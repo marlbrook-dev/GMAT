@@ -37,6 +37,13 @@
    "year": 2026,
    "url": "https://mba.ncsu.edu/full-time-mba/full-time-class-profile/"
   },
+  "program_cost_usd": {
+   "v": 99715,
+   "stat": "2025-26 rates; the page's minimum estimate of tuition for the whole Full-Time MBA, out-of-state; in-state 57,119; books, materials and future tuition increases excluded",
+   "src": "NC State Jenkins MBA tuition and financial aid page",
+   "year": 2025,
+   "url": "https://mba.ncsu.edu/admissions-process/tuition-and-financial-aid/"
+  },
   "salary_median_usd": {
    "v": 104773,
    "stat": "average accepted salary, class of 2025",

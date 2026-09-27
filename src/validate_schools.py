@@ -26,6 +26,7 @@ RANGES = {
     "class_size": (10, 2000), "work_exp_years": (0, 15),
     "women_pct": (0, 100), "intl_pct": (0, 100),
     "tuition_usd": (10000, 150000), "salary_median_usd": (40000, 300000),
+    "program_cost_usd": (15000, 250000),
     "employment_rate_pct": (0, 100),
 }
 

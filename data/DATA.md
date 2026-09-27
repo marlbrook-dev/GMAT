@@ -33,11 +33,22 @@ school means adding a file. Never edit generated output.
    "gmat_focus":  {"v": 689, "stat": "average", "src": "...", "year": 2025, "url": "https://..."},
    "gmat_classic": ..., "gre_quant": ..., "gre_verbal": ...,
    "gpa": ..., "accept_rate_pct": ..., "class_size": ..., "work_exp_years": ...,
-   "women_pct": ..., "intl_pct": ..., "tuition_usd": ...,
+   "women_pct": ..., "intl_pct": ..., "tuition_usd": ..., "program_cost_usd": ...,
    "salary_median_usd": ..., "employment_rate_pct": ...
  }
 }
 ```
+
+`tuition_usd` is tuition for one year. `program_cost_usd` is the figure a school
+publishes for the whole program, for the schools that price the program and never a
+year: a total, a program fee, or an estimate of the whole. It is never divided into a
+year, never added to the SFN Score or the tuition column and filter, and never filled
+by multiplying a per-credit rate by a credit count, because students do not all take
+the same number of credits. Where a school prices by residency, `v` is the figure for
+an out-of-state student and the resident figure goes in `stat`. Where the page prints
+tuition apart from fees, `v` is the tuition; otherwise it is the page's combined
+figure, and `stat` says which. A page that names no academic year keeps the year it
+was read in `year` and says so in `stat`.
 
 ## Hard Rules (validator enforces)
 

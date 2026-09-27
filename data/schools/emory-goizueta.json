@@ -118,6 +118,13 @@
    "year": null,
    "url": ""
   },
+  "program_cost_usd": {
+   "v": 158400,
+   "stat": "total tuition for the two-year Full-Time MBA; mandatory fees 4,904 and application and transcript fees 245 listed separately, 163,549 in all; the page names no academic year and says rates are updated each spring for the upcoming academic year",
+   "src": "Goizueta two-year MBA tuition page",
+   "year": 2026,
+   "url": "https://goizueta.emory.edu/full-time-mba/two-year-mba/admissions/tuition"
+  },
   "salary_median_usd": {
    "v": 175000,
    "stat": "median base salary, Two-Year MBA Class of 2025; median total compensation 205,000",

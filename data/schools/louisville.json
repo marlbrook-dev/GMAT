@@ -112,6 +112,13 @@
    "year": null,
    "url": ""
   },
+  "program_cost_usd": {
+   "v": 38500,
+   "stat": "total tuition and fees for the Full-Time MBA, the same in state and out of state; textbooks and airfare for the MBA international trip are on top, and the rate is guaranteed for a student who finishes with their original cohort; the page names no academic year",
+   "src": "UofL College of Business graduate tuition page",
+   "year": 2026,
+   "url": "https://business.louisville.edu/admission/cost-aid/graduate-tuition-scholarships"
+  },
   "salary_median_usd": {
    "v": null,
    "src": "",

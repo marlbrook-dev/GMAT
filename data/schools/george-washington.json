@@ -120,6 +120,13 @@
    "year": null,
    "url": ""
   },
+  "program_cost_usd": {
+   "v": 134000,
+   "stat": "approximately, as printed: the base tuition for the 53-credit Global MBA; university fees, books and living expenses are on top; the page names no academic year",
+   "src": "GW Global MBA program page",
+   "year": 2026,
+   "url": "https://business.gwu.edu/academics/programs/mba/global-mba"
+  },
   "salary_median_usd": {
    "v": null,
    "src": "",

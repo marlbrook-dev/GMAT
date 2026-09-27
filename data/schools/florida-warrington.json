@@ -96,6 +96,13 @@
    "year": null,
    "url": ""
   },
+  "program_cost_usd": {
+   "v": 69565,
+   "stat": "out-of-state tuition for the whole Full-Time MBA, 2-Year, at the page's most current pricing; Florida resident 25,561; a 1,000 professional development fee is listed separately; the page names no academic year",
+   "src": "Warrington graduate cost and aid page",
+   "year": 2026,
+   "url": "https://warrington.ufl.edu/admissions-aid/cost-aid/graduate/"
+  },
   "salary_median_usd": {
    "v": null,
    "src": "",

@@ -2,7 +2,7 @@
  "slug": "oklahoma-price",
  "name": "Michael F. Price College of Business",
  "university": "University of Oklahoma",
- "city": "Norman",
+ "city": "Oklahoma City",
  "state": "OK",
  "region": "South",
  "type": "Public",
@@ -112,6 +112,16 @@
    "year": null,
    "url": ""
   },
+  "program_cost_usd": {
+   "v": 52898,
+   "stat": "the page's cost for the 48-credit, 16-month full-time MBA, non-residents, 52,897.92 as printed; Oklahoma residents 33,306.24; the page names no academic year",
+   "src": "Price full-time MBA page",
+   "year": 2026,
+   "url": "https://www.ou.edu/price/mba/full-time",
+   "derived": {
+    "52898": "52897.92 as printed, rounded to the dollar"
+   }
+  },
   "salary_median_usd": {
    "v": 76000,
    "stat": "median salary as listed on program page (shown as $76K, attributed to 2024 sources)",
@@ -126,7 +136,7 @@
    "url": ""
   }
  },
- "notes": "OU Price does not publish a full-time MBA class profile (no GMAT, GRE, GPA, work experience, or demographic figures) or an employment rate on any official page found via site search. Tuition is published only as a total for the 16-month program; no annual rate exists, so the value carries an explicit note rather than an annualized guess.",
+ "notes": "OU Price does not publish a full-time MBA class profile (no GMAT, GRE, GPA, work experience, or demographic figures) or an employment rate on any official page found via site search. Tuition is published only as a total for the 16-month program; no annual rate exists, so the value carries an explicit note rather than an annualized guess. The full-time MBA page gives the program's location as Oklahoma City, OK, and says the full-time program offers its required courses during the day on the OKC campus, so the city is Oklahoma City rather than the university's Norman campus (read 2026-09-27, https://www.ou.edu/price/mba/full-time).",
  "federal": {
   "matched": true,
   "instnm": "University of Oklahoma-Norman Campus",

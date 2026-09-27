@@ -117,6 +117,13 @@
    "year": null,
    "url": ""
   },
+  "program_cost_usd": {
+   "v": 69825,
+   "stat": "2026-27 estimate; projected tuition and fees for the whole program, fall, winter mini-term, spring and fall II, out-of-state; in-state 38,982; the seating deposit, graduation fee and winter mini-term travel are on top",
+   "src": "Haslam Full-Time MBA Fall 2026 projected start-up expenses",
+   "year": 2026,
+   "url": "https://apply.haslam.utk.edu/www/documents/26-27%20Expenses/FTMBA%20Start-Up%20Expenses%202026-2027.pdf"
+  },
   "salary_median_usd": {
    "v": 79893,
    "stat": "average salary, Fall and Spring Class of 2022 and Spring Class of 2023, at 6 months after graduation; school publishes no median",
