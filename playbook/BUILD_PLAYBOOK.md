@@ -7,10 +7,10 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-27, which is 8 days, across
-109 commits, by one owner directing a series of AI coding sessions. As of this
+110 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 85 Python files, 111 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 64 documents:
-2058 tracked files in total.
+2059 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -1124,7 +1124,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-109 commits in 8 days, one owner, a series of AI sessions. This
+110 commits in 8 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1216,22 +1216,22 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-159 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+161 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 84 | 53% |
-| Found by measuring something | 39 | 25% |
-| A test caught it | 18 | 11% |
+| Found by reading the code or the output | 85 | 53% |
+| Found by measuring something | 39 | 24% |
+| A test caught it | 19 | 12% |
 | Found by rendering it and looking | 8 | 5% |
 | Found by a review bot or an adversarial pass | 5 | 3% |
 | A build guard caught it | 3 | 2% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 157 of 159 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 159 of 161 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1241,20 +1241,20 @@ well enough to audit later. Which is what this book is.
 | Severity | Count |
 | --- | ---: |
 | Wrong data shown or stored | 71 |
-| Degraded | 36 |
+| Degraded | 38 |
 | Silent loss | 26 |
 | Cosmetic | 23 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 159. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 161. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 72 |
-| Tests and guards | 24 |
+| Content generation | 73 |
+| Tests and guards | 25 |
 | Front end | 12 |
 | Search and metadata | 10 |
 | Build system | 10 |
@@ -1268,7 +1268,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-153 of 159 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+155 of 161 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1289,7 +1289,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-70 of 159 incidents record that they repeat an earlier lesson, 96 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+72 of 161 incidents record that they repeat an earlier lesson, 99 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1303,6 +1303,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0092 A schema threw away three draws in four, and the counter that knew was read by nobody | INC-0098, INC-0099, INC-0101 | 3 |
 | INC-0099 Every generated reading comprehension question shipped without its passage | INC-0100, INC-0101, INC-0103 | 3 |
 | INC-0105 Twelve average salaries were published as medians, and the social queue credited schools with figures they never published | INC-0106, INC-0124, INC-0142 | 3 |
+| INC-0130 The GRE exam guide credited ETS with a combined 260 to 340 score that the ETS page it cited does not describe | INC-0133, INC-0155, INC-0160 | 3 |
 | INC-0050 A landing-page icon referenced a colour token that did not exist | INC-0018, INC-0139 | 2 |
 | INC-0055 A new browser suite hardcoded this machine's browser directory and crashed in CI | INC-0067, INC-0110 | 2 |
 | INC-0059 The item counter missed a whole bank file because it assumed a quoting style | INC-0064, INC-0067 | 2 |
@@ -1318,7 +1319,6 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0119 Length corrections appended clauses that repeated what the answer choices already said | INC-0120, INC-0121 | 2 |
 | INC-0124 A blog post put the ACT science add-on at $4 in its table and $5 in its own FAQ, and nothing compared a post's prices with the sourced ones | INC-0125, INC-0132 | 2 |
 | INC-0125 Every College Scorecard figure in the MBA library cited the program's own website as its source URL | INC-0130, INC-0133 | 2 |
-| INC-0130 The GRE exam guide credited ETS with a combined 260 to 340 score that the ETS page it cited does not describe | INC-0133, INC-0155 | 2 |
 | INC-0146 The source check's browser read returned Stanford's class profile without a single figure, because the figures are drawn in an embedded chart that renders only when scrolled into view | INC-0156, INC-0158 | 2 |
 | INC-0150 Columbia's MBA class was credited with five years of work experience, a figure the cited article gives for its 46-student MBAxMS cohort, and the source check passed it because the article does say five years | INC-0152, INC-0159 | 2 |
 | INC-0151 Rice's school page credited Poets&Quants with an average GMAT of 693 for the Class of 2027, a number the article never prints; the figure's own note said it was read from a search snippet | INC-0154, INC-0157 | 2 |
@@ -1338,9 +1338,11 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0136 The LSAT guide said most test takers choose between remote and in-person testing, after LSAC had moved almost everyone into test centers | INC-0137 | 1 |
 | INC-0137 A post queued to publish the next day said the LSAT trainer was still in development, eleven days after it went live | INC-0138 | 1 |
 | INC-0142 Every school's employment rate was labelled and scored as a three month figure, though 15 of 70 were measured at six months, four months, a year or a reporting date, or at a timing their notes do not give | INC-0144 | 1 |
+| INC-0155 The GMAT guide cited mba.com's Official Score Reports page for the rule on five free score reports within 48 hours, a rule that page never states | INC-0160 | 1 |
 | INC-0156 The source check read mba.com's bot challenge page as the page it cites and reported the GMAT fact's numbers as missing from it | INC-0158 | 1 |
+| INC-0158 The source check filed six school pages as probably built by JavaScript; five were something else, and three of them showed newer figures than the library published | INC-0161 | 1 |
 
-The largest family runs to 58 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140, INC-0142, INC-0143, INC-0144, INC-0145, INC-0147, INC-0150, INC-0151, INC-0152, INC-0154, INC-0155, INC-0157, INC-0159. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
+The largest family runs to 59 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140, INC-0142, INC-0143, INC-0144, INC-0145, INC-0147, INC-0150, INC-0151, INC-0152, INC-0154, INC-0155, INC-0157, INC-0159, INC-0160. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
 
 Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.
 
@@ -1363,6 +1365,7 @@ Incidents that name an earlier one without claiming to repeat it. Each was read 
 - INC-0152 names INC-0146
 - INC-0155 names INC-0156
 - INC-0156 names INC-0155
+- INC-0161 names INC-0133, INC-0154
 
 
 ## Where defects concentrate
@@ -1371,7 +1374,7 @@ Files named by three or more incidents. This is not the same signal as the list 
 
 - `src/build_banks.py`, 17 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011, INC-0079, INC-0081, INC-0086, INC-0088, INC-0089, INC-0090, INC-0091, INC-0092, INC-0120, INC-0123, INC-0126, INC-0127)
 - `src/build.py`, 13 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067, INC-0076, INC-0080, INC-0131, INC-0148)
-- `src/check_sources.py`, 12 incidents (INC-0130, INC-0132, INC-0133, INC-0136, INC-0140, INC-0150, INC-0152, INC-0154, INC-0155, INC-0156, INC-0158, INC-0159)
+- `src/check_sources.py`, 13 incidents (INC-0130, INC-0132, INC-0133, INC-0136, INC-0140, INC-0150, INC-0152, INC-0154, INC-0155, INC-0156, INC-0158, INC-0159, INC-0161)
 - `src/test.js`, 8 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085)
 - `src/validate_schools.py`, 8 incidents (INC-0125, INC-0141, INC-0143, INC-0144, INC-0147, INC-0151, INC-0153, INC-0157)
 - `src/build_rankings.py`, 6 incidents (INC-0014, INC-0049, INC-0118, INC-0135, INC-0142, INC-0145)
@@ -1395,7 +1398,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (72)
+## Content generation (73)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -2271,7 +2274,19 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** A total is only as good as the rows it adds. When a page breaks a figure into parts, record which parts the figure counts, and prefer arithmetic a check can redo over a description it has to trust.
 
 
-## Tests and guards (24)
+### INC-0160. The GMAT guide's Cost tile showed $275 and $300 from a note that no check read, cited to a page that prints no price
+
+*2026-09-27, Degraded*
+
+- **What was seen.** The GMAT exam guide's Cost tile read "$275 / $300". build_exams took both from the note of a cost figure whose value is empty, cited to mba.com's register page, and that page, read in a browser on September 27, 2026, prints no price, fee or cost at all. The prices are on mba.com's exam payment page, and only after a country is chosen. The figures were right, and that was luck: nothing had checked them.
+- **Why.** Two parts of the site disagreed about what a figure publishes. build_exams falls back to the dollar amounts in a cost's note when the cost has no value, while validate_exams treats a figure with no value as unpublished and asks nothing of it, and check_sources reads only figures that have a value or text. The GMAT's cost was stored without a value because its US price depends on how the exam is delivered, which put the one published GMAT price where neither check looked.
+- **How it surfaced.** Found on September 27, 2026 while collecting the GMAT's fees for a post: the register page the cost cites printed none, and the fee table appeared on the exam payment page only once United States was chosen. (Found by reading the code or the output)
+- **Fix.** The GMAT's cost has a value, 275, the US fee at a test center, with the online fee in its note, and it cites the exam payment page, with the address that page loads its US table from in also_urls so the source check reads the table itself. The rescheduling, cancellation and score report fees from the same table are recorded as key facts. build_exams prints a cost only from its value, never out of a note. Two rules from GMAC's policies document are recorded beside them: rescheduling or cancelling by phone adds a US$10.00 fee, and a voucher or fee waiver covers the exam fee only.
+- **What stops it now.** validate_exams refuses a figure with no value whose note carries a dollar amount, since nothing checks it, and holds also_urls to the rules for url: https, on the test maker's host. check_sources reads the payment table through also_urls, reading it once more when the browser's first read gets Imperva's challenge, which two of three reads on September 27, 2026 did not; that day's run verified every fee. in `src/validate_exams.py`
+- **Lesson.** What a page publishes has to be what the checks read. When a builder falls back to a second field to fill a gap, that field is published, and every check written for the first field has to cover it too.
+
+
+## Tests and guards (25)
 
 
 ### INC-0016. The performance test waited for the load event, which waits for the thing being optimised
@@ -2575,6 +2590,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** Kelley moves to its Class of 2028 figures. Maryland's women and international shares come from the profile as updated, its class size is blank because Poets&Quants gives a full-time enrollment without saying whether it counts one class or both years, and the profile's class is recorded as not labeled. Auburn's GPA and work experience move to the page's current values, its international share is blank, and its class is recorded as not labeled. UMass's figures are dated 2025. The check now reads an Excel workbook as the values its cells display, splits a number from a word it is glued to, and reads an animated counter's final value. A page that still prints none of its figures is sorted by what it does print: numbers beside the figures' labels are reported per figure as a finding, since the page has probably moved on, and anything else is reported for a person to read. Either way it counts toward the exit status, so the weekly issue opens, unless every figure on it carries a triage entry, as WashU Olin's three now do after being read from its images, along with five more figures read from the same images and added to its record.
 - **What stops it now.** check_sources.py's self-check holds a page that moved on (the labels with other numbers), which must be reported with what it prints beside each label, a page with neither, which must be reported to be read, text with numbers glued to their labels and a counter whose value sits in its data-target attribute, which must both yield their numbers, and a spreadsheet cell formatted as a percentage, which must read as the percentage it displays. A page showing none of its figures now fails the run unless every figure on it is triaged. in `src/check_sources.py`
 - **Lesson.** A checker's excuse category needs the same scrutiny as its findings. "Shows none of its figures" was given one cause and the cause was believed, but to a check that looks for numbers, a page whose every figure changed looks exactly like a page that never loaded. A category that explains itself away should instead say what it saw, and keep counting until a person has looked.
+
+
+### INC-0161. The source check's blank-page rule judged a figure worked from two pages by its first page alone, and called mba.com's payment page blank while the second page was unreadable
+
+*2026-09-27, Degraded*
+
+- **What was seen.** With the GMAT's fees recorded against mba.com's exam payment page and, in also_urls, the address that page loads its US fee table from, python3 src/check_sources.py --render reported the payment page as "prints none of its 5 figures and no number beside their labels" and exited 1. The payment page prints no fee until a country is chosen, which is why the table's address is read with it, and on that run the table's address had answered with a bot challenge, so it was reported unreadable in the same output.
+- **Why.** The rule for a page that shows none of its figures dates from INC-0133, when every figure was read against one page: it groups figures by their url and looks for their numbers in that page alone. also_urls (INC-0154) made a figure's source the union of its pages, and the finding loop reads it that way and skips a figure any of whose pages went unread, but the blank-page rule was not changed with it. Until INC-0158 a blank page was only a line in the report, so nothing depended on it; from INC-0158 it fails the run.
+- **How it surfaced.** Found on September 27, 2026 on the first run after the GMAT's fee facts were added with also_urls: the page the rule called blank was one the facts had never claimed to be read alone. (A test caught it)
+- **Fix.** The blank-page rule reads a figure the way the finding loop does: against every page it names, and only when all of them were read. A figure with an unread page is left to the unreadable list.
+- **What stops it now.** check_sources' self-check holds a figure whose numbers are on its second page only, which must not make its first page blank, and one whose second page went unread, which must be left out of the blank-page rule. in `src/check_sources.py`
+- **Lesson.** When a check learns a new way to read a source, every rule that reads a source has to learn it too. A second reader that lags the first is found only when the data first depends on the difference.
 
 
 ## Front end (12)
@@ -3466,6 +3493,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Every generated reading comprehension question shipped without its passage (INC-0099)</small>
 - [ ] **Learned 4 times over.** Any consumer that describes a value in words must read the field that records what kind of value it is, never the field's name. A field name is a hope about the data, not a description of it, and a schema that allows two kinds of value will be described everywhere as the kind it was named after.  
   <small>Twelve average salaries were published as medians, and the social queue credited schools with figures they never published (INC-0105)</small>
+- [ ] **Learned 4 times over.** A citation vouches only for what its source says, so check each figure against the source rather than checking that a citation is present. The claim most likely to slip through is the true looking one written next to real ones, arithmetic or common knowledge put in the source's mouth.  
+  <small>The GRE exam guide credited ETS with a combined 260 to 340 score that the ETS page it cited does not describe (INC-0130)</small>
 - [ ] **Learned 3 times over.** A module that nothing imports fails no test, and an exception raised on every draw is indistinguishable from an exception raised on a hard draw. Both are silence, and a build that reports totals hears neither. Count what each schema contributed, not what the category holds, and treat a contribution of zero as a failure rather than as a small number.  
   <small>A finished generator module that nothing imported, and two of its four schemas produced nothing (INC-0086)</small>
 - [ ] **Learned 3 times over.** Reading the record does not prevent the defect; the practice does. This one was written hours after its own lesson was read closely enough to be catalogued as a recurrence, and it was caught by rendering three items rather than by remembering. Budget the render, not the recollection.  
@@ -3484,8 +3513,6 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A blog post put the ACT science add-on at $4 in its table and $5 in its own FAQ, and nothing compared a post's prices with the sourced ones (INC-0124)</small>
 - [ ] **Learned 3 times over.** A presence check on a source field proves the field is filled, not that it is true. Where a figure names its source, check that the URL belongs to that source, because the easiest value to fill a required field with is the wrong one that happens to be nearby.  
   <small>Every College Scorecard figure in the MBA library cited the program's own website as its source URL (INC-0125)</small>
-- [ ] **Learned 3 times over.** A citation vouches only for what its source says, so check each figure against the source rather than checking that a citation is present. The claim most likely to slip through is the true looking one written next to real ones, arithmetic or common knowledge put in the source's mouth.  
-  <small>The GRE exam guide credited ETS with a combined 260 to 340 score that the ETS page it cited does not describe (INC-0130)</small>
 - [ ] **Learned 3 times over.** Finding a number on a page is not finding the fact. A check has to look for it beside the words that say what it counts, and notice when those words are about something else: another program, another class.  
   <small>Columbia's MBA class was credited with five years of work experience, a figure the cited article gives for its 46-student MBAxMS cohort, and the source check passed it because the article does say five years (INC-0150)</small>
 - [ ] **Learned 3 times over.** A search result's snippet is not the page it links to. A figure taken from one has to be read again on the page before it is published, and a record that admits the snippet in a note while citing the page looks fully sourced, which is why nobody rereads it.  
@@ -3512,6 +3539,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A post queued to publish the next day said the LSAT trainer was still in development, eleven days after it went live (INC-0137)</small>
 - [ ] **Learned 2 times over.** A label fixed in code is a claim about every value the field will ever hold. When the data carries its own qualifier, such as a timing or a statistic, the label has to be read from the data, and anything that compares or scores the values has to use only the ones that share the qualifier the method names.  
   <small>Every school's employment rate was labelled and scored as a three month figure, though 15 of 70 were measured at six months, four months, a year or a reporting date, or at a timing their notes do not give (INC-0142)</small>
+- [ ] **Learned 2 times over.** A fact filed next to another fact tends to inherit its citation. When two facts come from one section of a site, check that each one's own page says it, not the page its neighbour came from.  
+  <small>The GMAT guide cited mba.com's Official Score Reports page for the rule on five free score reports within 48 hours, a rule that page never states (INC-0155)</small>
 - [ ] Any generator that claims reproducibility must be seeded from something stable across processes. hash() is not, in Python, and the failure shows up as a flaky test rather than as a wrong answer.  
   <small>Item banks were different on every build because Python randomises hash() (INC-0003)</small>
 - [ ] Deletion by shadowing is invisible. Any collection whose size is a fact about the product needs its size asserted, not just its contents.  
@@ -3588,12 +3617,12 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Wharton's page credited its Class of 2026 GRE scores to the Class of 2027, because the GRE sentence began with Its and followed whichever class came last (INC-0145)</small>
 - [ ] A shorthand in a schema is read by code with one meaning and written by people and tools with whatever meaning they had in mind. Where a value names what something is, require it to say so in full; a bare year cannot say whether it is a graduating class, an entering class, or the day a page was read.  
   <small>Six school records stored a bare year as their class, which the site printed as a Class of that year, so Notre Dame's average cohort size became "The Class of 2027 has 85 students" (INC-0147)</small>
-- [ ] A fact filed next to another fact tends to inherit its citation. When two facts come from one section of a site, check that each one's own page says it, not the page its neighbour came from.  
-  <small>The GMAT guide cited mba.com's Official Score Reports page for the rule on five free score reports within 48 hours, a rule that page never states (INC-0155)</small>
 - [ ] A figure with a unit that its source leaves out is not verified until the unit is. Deducing it from the number's shape feels like evidence and is not; either the source says it, or something outside the number proves it, or the figure stays blank.  
   <small>Eleven GMAT figures on ten school pages were filed under an edition their sources never name, by guesses from the class year, the last digit or how high the number was (INC-0157)</small>
 - [ ] A total is only as good as the rows it adds. When a page breaks a figure into parts, record which parts the figure counts, and prefer arithmetic a check can redo over a description it has to trust.  
   <small>Baylor's school page gave its whole MBA program's entering class of 80, with 15 part-time students in it, as the full-time class size, and a source note that named only the two full-time tracks (INC-0159)</small>
+- [ ] What a page publishes has to be what the checks read. When a builder falls back to a second field to fill a gap, that field is published, and every check written for the first field has to cover it too.  
+  <small>The GMAT guide's Cost tile showed $275 and $300 from a note that no check read, cited to a page that prints no price (INC-0160)</small>
 
 
 ## Database
@@ -3732,6 +3761,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A browser suite outside CI had failed on its first click since the consent dialog shipped (INC-0110)</small>
 - [ ] **Learned 2 times over.** A checker has to know when it has not read its source. A response is not the page because it has text in it: a challenge, an error page or a login wall reads as a page with none of the facts on it, and every fact then looks wrong.  
   <small>The source check read mba.com's bot challenge page as the page it cites and reported the GMAT fact's numbers as missing from it (INC-0156)</small>
+- [ ] **Learned 2 times over.** A checker's excuse category needs the same scrutiny as its findings. "Shows none of its figures" was given one cause and the cause was believed, but to a check that looks for numbers, a page whose every figure changed looks exactly like a page that never loaded. A category that explains itself away should instead say what it saw, and keep counting until a person has looked.  
+  <small>The source check filed six school pages as probably built by JavaScript; five were something else, and three of them showed newer figures than the library published (INC-0158)</small>
 - [ ] Measure the moment the user can act, not a browser lifecycle event. A test that measures the wrong instant is worse than no test, because it produces a number people trust.  
   <small>The performance test waited for the load event, which waits for the thing being optimised (INC-0016)</small>
 - [ ] A regex with a length bound is a guard with an expiry date. Assert the number of things checked, not only that the checks passed.  
@@ -3766,8 +3797,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The source check read a page's 2026-27, written with an en dash, as 2026 and 27, so every figure we labelled 2026-27 looked unsupported (INC-0140)</small>
 - [ ] A checker that reads a page has to read the page a person sees, not the file behind it. Markup can hold text no reader is shown, in comments, hidden elements and templates, and a site that retires a figure often leaves it there.  
   <small>The source check read text inside HTML comments as page text, and confirmed Arizona State's 43 percent women from a table row the school had commented out (INC-0152)</small>
-- [ ] A checker's excuse category needs the same scrutiny as its findings. "Shows none of its figures" was given one cause and the cause was believed, but to a check that looks for numbers, a page whose every figure changed looks exactly like a page that never loaded. A category that explains itself away should instead say what it saw, and keep counting until a person has looked.  
-  <small>The source check filed six school pages as probably built by JavaScript; five were something else, and three of them showed newer figures than the library published (INC-0158)</small>
+- [ ] When a check learns a new way to read a source, every rule that reads a source has to learn it too. A second reader that lags the first is found only when the data first depends on the difference.  
+  <small>The source check's blank-page rule judged a figure worked from two pages by its first page alone, and called mba.com's payment page blank while the second page was unreadable (INC-0161)</small>
 
 
 # Adapting This to a Different Business
@@ -3884,7 +3915,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 159 real defects reduced to the rules that prevent them,
+the whole project: 161 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -3924,7 +3955,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-159 defects already prevented is genuinely ahead, and every defect it hits
+161 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

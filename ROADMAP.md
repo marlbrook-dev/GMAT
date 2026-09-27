@@ -531,6 +531,16 @@ verified rather than that the school does not publish one (INC-0118).
       international figures say so. The source check reads a page that refuses its plain read
       in the browser, which opens Baylor's pages; Columbia, Michigan Ross and Bloomberg answer
       the browser with a bot challenge, now recognised and reported as one.
+- [x] **"How Much Does the GMAT Cost in 2026?" queued for November 15**, Sarah Whitfield:
+      the US fee table from mba.com's exam payment page ($275 at a test center, $300 online,
+      $35 per extra score report), the rescheduling and cancellation schedules with what each
+      costs as a share of the fee, the 24-hour rule, free score reports, fee waivers and
+      vouchers. The GMAT guide's Cost tile had shown $275 and $300 from the note of a cost with
+      no value, cited to a register page that prints no price and read by no check (INC-0160);
+      the cost now has its value and the fee table is a set of checked key facts, read from the
+      address mba.com loads its US table from. The source check's blank-page rule now reads a
+      figure against every page it names (INC-0161), and a browser read that gets a challenge is
+      tried once more.
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects

@@ -192,13 +192,12 @@ def exam_page(e, tpl, today):
     ss = txt(e.get("score_scale"))
     if ss:
         tiles.append(("Score Scale", brief(ss)))
+    # A cost is printed from its value only. The GMAT's tile once showed $275 and $300 read
+    # out of the note of a cost with no value, which neither validate_exams nor the source
+    # check reads, and the page it cited printed no price (INC-0160).
     cost = (e.get("cost_usd") or {})
     if cost.get("v") is not None:
         tiles.append(("Cost", "$" + str(cost["v"])))
-    elif cost.get("note"):
-        import re as _re
-        monies = _re.findall(r"\$\d+(?:\.\d+)?", cost["note"])
-        tiles.append(("Cost", " / ".join(monies[:2]) if monies else brief(cost["note"])))
     val = (e.get("validity_years") or {})
     if val.get("v") is not None:
         tiles.append(("Scores Valid", f"{val['v']} years"))
