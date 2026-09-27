@@ -579,6 +579,13 @@ verified rather than that the school does not publish one (INC-0118).
       whose slug names the exam, newest first. A post joins its guide on the day it
       publishes, since both are built with the same date, and the blog build fails if a guide
       links a post it did not publish.
+- [x] **Each school page links to the posts that quote it.** Eleven MBA posts link to 54
+      school pages where they quote the schools' figures, and no school page linked a post
+      back. A school page now shows "In the Study Room": up to five published posts that link
+      it, newest first. None is published yet, so no page shows the section today; the first
+      appear on October 28 with the tuition post, and a build dated November 21 shows it on
+      all 54. The blog build's check that every link into the blog is a published post now
+      covers the school pages too.
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects

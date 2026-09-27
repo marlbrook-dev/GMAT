@@ -688,6 +688,31 @@ def federal_section(s):
             % (warn, rows, esc(f.get("instnm", "")), count_line))
 
 
+_POSTS = []
+
+
+def posts_citing(slug, today, cap=5):
+    """The published posts that link this school's page, newest first. The MBA posts link a
+    school where they quote its figures, and until this the school page linked none of
+    them back. Only posts dated on or before the build date count, the way the blog
+    publishes them, so a queued post joins the page the day it goes live."""
+    if not _POSTS:
+        import build_blog
+        _POSTS.extend(build_blog.load_posts())
+    href = 'href="/schools/%s/"' % slug
+    hits = [p for p in _POSTS if p.get("date", "9999") <= today and href in p["body"]]
+    hits.sort(key=lambda p: (p["date"], p["slug"]), reverse=True)
+    return hits[:cap]
+
+
+def reading_block(posts):
+    if not posts:
+        return ""
+    lis = "".join('<li><a href="/blog/%s/">%s</a></li>' % (esc(p["slug"]), esc(p["title"])) for p in posts)
+    return ('<div class="section"><h2>In the Study Room</h2><p class="note">Posts from our blog '
+            'that quote this program\'s figures, each with its source.</p><ul class="reads">%s</ul></div>' % lis)
+
+
 def peer_block(s, ranked):
     """The schools nearest this one in our ranking, plus the obvious next steps.
 
@@ -1131,6 +1156,7 @@ def school_page(s, tpl, today, ranked=()):
               .replace("{{METHOD_LINE}}", method)
               .replace("{{UPDATED}}", today)
               .replace("{{INTRO}}", esc(intro).replace("&#x27;", "'"))
+              .replace("{{READING}}", reading_block(posts_citing(s["slug"], today)))
               .replace("{{ONWARD}}", peer_block(s, ranked))
               .replace("{{FAQ_SECTION}}", faq_section)
               .replace("{{FAQ_LD}}", faq_ld)

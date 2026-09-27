@@ -576,10 +576,11 @@ def main():
         d.mkdir(exist_ok=True)
         p = dict(p, body=delink_held(p["body"], live_slugs))
         (d / "index.html").write_text(build_post(p, live))
-    # The exam guides list their exam's published posts (build_exams.study_room). A guide
-    # built on a different date from the blog could link a post that is not out yet, so
-    # every guide link into the blog has to be a post this build published.
-    for guide in sorted((ROOT / "exams").glob("*/index.html")):
+    # The exam guides list their exam's published posts (build_exams.study_room), and the
+    # school pages the posts that quote them (build_rankings.posts_citing). A page built on
+    # a different date from the blog could link a post that is not out yet, so every such
+    # link into the blog has to be a post this build published.
+    for guide in sorted((ROOT / "exams").glob("*/index.html")) + sorted((ROOT / "schools").glob("*/index.html")):
         for slug in re.findall(r'href="/blog/([a-z0-9-]+)/"', guide.read_text()):
             if slug not in live_slugs:
                 fail(f"{guide.relative_to(ROOT)} links to /blog/{slug}/, which this build did not publish")
