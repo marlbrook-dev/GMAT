@@ -120,6 +120,110 @@ def stale_trainer_claims(p, names=None):
     return [s for part in parts for s in stale_sentences(html.unescape(part), names)]
 
 
+# Claims that were once made and no longer hold, each with why. A post that makes one fails
+# the build. The first came from a live post saying GMAC caps GMAT attempts across a
+# lifetime, which its retake policy page no longer says (INC-0170). A claim goes here when
+# its source changes or drops it, so no later post can repeat it.
+RETIRED_CLAIMS = [
+    (re.compile(r"(?=[^.]*\bGMAT\b)(?=[^.]*\blifetime\b)(?=[^.]*\b(?:attempt|attempts|retake|retakes|limit|limits|caps?|times|sit)\b)[^.]*", re.I),
+     "GMAC's retake policy sets at least 16 days between attempts and up to five in a "
+     "rolling 12-month period, and names no lifetime limit (support.mba.com, read "
+     "September 27, 2026; INC-0170)"),
+]
+
+
+def retired_claims(p):
+    """(sentence, why) for each retired claim a post makes, in its body or its FAQ."""
+    from page_checks import _BLOCK
+    parts = re.sub(r"<[^>]+>", " ", _BLOCK.sub("\n", p["body"])).split("\n")
+    parts += [str(q.get(k, "")) for q in p["faq"] for k in ("q", "a")]
+    out = []
+    for part in parts:
+        for rx, why in RETIRED_CLAIMS:
+            m = rx.search(html.unescape(part))
+            if m:
+                out.append((m.group(0).strip(), why))
+    return out
+
+
+# Headings are Title Case (CLAUDE.md): every word capitalised except these, which stay lower
+# case unless first, last, or first after a colon. The first thirty posts set theirs in
+# sentence case and nothing checked (INC-0171).
+SMALL_WORDS = frozenset("a an the of and or to for by in on at vs".split())
+_LEAD = re.compile(r"^([^A-Za-z0-9]*)([A-Za-z]+)(.*)$")
+
+
+def title_case(h):
+    """A heading in the house Title Case. A word that already carries a capital (GMAT,
+    GMAC's, iPad) keeps its letters; an all lower case word is capitalised, and a small
+    word is lowered where the rule says so. Hyphenated parts are treated as words."""
+    toks = h.split(" ")
+    last = max((i for i, t in enumerate(toks) if re.search(r"[A-Za-z0-9]", t)), default=-1)
+    out, first = [], True
+    for i, tok in enumerate(toks):
+        parts = tok.split("-")
+        for j, part in enumerate(parts):
+            m = _LEAD.match(part)
+            if not m:
+                continue
+            pre, word, rest = m.groups()
+            edge = (first and j == 0) or (i == last and j == len(parts) - 1)
+            # The first part of a hyphenated compound is capitalised whatever it is:
+            # "On-Screen", not "on-Screen".
+            lead = len(parts) > 1 and j == 0
+            if word.lower() in SMALL_WORDS and not edge and not lead:
+                word = word.lower()
+            elif word.islower():
+                word = word[0].upper() + word[1:]
+            parts[j] = pre + word + rest
+        new = "-".join(parts)
+        out.append(new)
+        if re.search(r"[A-Za-z0-9]", tok):
+            first = tok.endswith(":")
+    return " ".join(out)
+
+
+def untitled_headings(p):
+    """(heading, as it should read) for each h2 or h3 in a post that breaks Title Case."""
+    out = []
+    for m in re.finditer(r"<h([23])>(.*?)</h\1>", p["body"]):
+        h = html.unescape(m.group(2))
+        if title_case(h) != h:
+            out.append((h, title_case(h)))
+    return out
+
+
+def _selfcheck_title():
+    """INC-0171: the rule's own examples, a small word at each end and after a colon,
+    a capitalised word left alone, and a number standing last."""
+    cases = {
+        "What does GMAC's retake policy allow?": "What Does GMAC's Retake Policy Allow?",
+        "Submit Early, On Purpose": "Submit Early, on Purpose",
+        "What Are the ACT Percentiles for 2026?": "What Are the ACT Percentiles for 2026?",
+        "MBA Salary by School: the Class of 2025": "MBA Salary by School: The Class of 2025",
+        "Where to begin": "Where to Begin",
+        "What is a two-minute rule for?": "What Is a Two-Minute Rule For?",
+        "11th Grade": "11th Grade",
+        "How should you use the on-screen calculator?": "How Should You Use the On-Screen Calculator?",
+        "Day-to-day review": "Day-to-Day Review",
+    }
+    for h, want in cases.items():
+        if title_case(h) != want:
+            fail("title_case(%r) gave %r, expected %r (INC-0171)" % (h, title_case(h), want))
+
+
+def _selfcheck_retired():
+    """INC-0170: the lifetime clause is refused, the current rule and an LSAT lifetime
+    limit are not."""
+    cases = (("<p>GMAC limits how many times you can sit the GMAT within a 12 month window and across a lifetime.</p>", True),
+             ("<p>GMAC allows up to five GMAT attempts in any rolling 12-month period.</p>", False),
+             ("<p>LSAC allows the LSAT seven times over a lifetime.</p>", False))
+    for body, want in cases:
+        got = bool(retired_claims({"body": body, "faq": []}))
+        if got != want:
+            fail("retired_claims on %r gave %s, expected %s (INC-0170)" % (body[:60], got, want))
+
+
 def _selfcheck_stale():
     """INC-0162: a table naming College Board's Waitlist beside an SAT fee is not a claim
     about the trainer; a sentence saying the SAT trainer is in development still is."""
@@ -161,6 +265,13 @@ def validate(posts):
                  f"sourced data (data/exams.json, the EDITORIAL fact sheet, data/schools); source "
                  f"the figure there before a post prints it (INC-0124)")
         if re.search(r"<h1[\s>]", p["body"]): fail(f"{n}: body must not contain h1")
+        untitled = untitled_headings(p)
+        if untitled:
+            fail(f"{n}: heading not in Title Case: {untitled[0][0]!r} should read "
+                 f"{untitled[0][1]!r} (CLAUDE.md; INC-0171)")
+        gone = retired_claims(p)
+        if gone:
+            fail(f"{n}: makes a retired claim: {gone[0][0][:160]!r}; {gone[0][1]}")
         stale = stale_trainer_claims(p)
         if stale:
             fail(f"{n}: calls a live trainer unfinished: {stale[0][:200]!r}; say it is live and "
@@ -564,6 +675,8 @@ def sitemap_gaps(sitemap):
 
 def main():
     _selfcheck_stale()
+    _selfcheck_retired()
+    _selfcheck_title()
     posts = load_posts()
     validate(posts)  # validate everything, including held future posts
     live = split_live(posts)
