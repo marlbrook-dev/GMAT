@@ -153,8 +153,8 @@ jobs:
             const text = [
               'The weekly check read every page that `data/exams.json` and the school library cite, and',
               'the SAT, PSAT/NMSQT and LSAT percentile pages and the SAT, ACT and LSAT test date tables, and found',
-              'numbers or dates that those pages no longer print,',
-              'or facts resting on a page that describes a year which has ended.',
+              'numbers or dates that those pages no longer print, words of a fact with no number that',
+              'its page no longer prints (INC-0180), or facts resting on a page that describes a year which has ended.',
               '',
               'Read each page. If the figure changed, correct the fact and every post that',
               'repeats it. If the fact is arithmetic on the page, add a `derived` entry',

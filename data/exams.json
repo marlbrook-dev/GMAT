@@ -63,10 +63,11 @@
       "url": "https://support.mba.com/hc/en-us/articles/13894860085531-GMAT-How-Long-Are-My-Scores-Valid"
     },
     "delivery": {
-      "text": "At test centers or online, with appointments available year round (no fixed testing windows)",
+      "text": "At test centers and online; the exam delivered online is available in most locations, with the exception of Mainland China, Cuba, Iran, North Korea and Sudan",
       "src": "mba.com (GMAC)",
-      "year": 2025,
-      "url": "https://www.mba.com/exams/gmat-exam/register"
+      "year": 2026,
+      "url": "https://www.mba.com/exams/gmat-exam/plan-for-exam-day/taking-the-exam-online",
+      "also_urls": ["https://www.mba.com/exams/gmat-exam/plan-for-exam-day"]
     },
     "retake_policy": {
       "text": "Up to 5 attempts in any rolling 12-month period, with at least 16 calendar days between attempts; online and test center exams count together toward the limit, and so do exams with canceled scores, while appointments canceled before the exam or missed do not",
@@ -81,9 +82,9 @@
       "url": "https://support.mba.com/hc/en-us/articles/14445842113435-GMAT-When-Will-My-Score-Be-Available"
     },
     "used_for": {
-      "text": "The most widely used admissions test designed specifically for graduate business education, including MBA and business master's programs",
+      "text": "The most widely used assessment designed specifically for graduate business education",
       "src": "mba.com (GMAC)",
-      "year": 2025,
+      "year": 2026,
       "url": "https://www.mba.com/exams/gmat-exam"
     },
     "acceptance": {
@@ -106,10 +107,10 @@
         "url": "https://www.gmac.com/gmat-other-assessments/about-the-gmat-focus-edition/exam-scores"
       },
       {
-        "text": "No calculator is allowed in the Quantitative Reasoning section",
-        "src": "mba.com (GMAC)",
-        "year": 2025,
-        "url": "https://www.mba.com/exams/gmat-exam/about/exam-structure"
+        "text": "The Quant section has no calculator: unlike the Quant section of the GMAT, you have access to an onscreen calculator in Data Insights",
+        "src": "GMAC",
+        "year": 2026,
+        "url": "https://www.gmac.com/resources/learners/how-to-apply/exams-preparation/gmat-data-insights"
       },
       {
         "text": "Data Insights consists of 20 multiple-choice questions in 45 minutes, drawn from five question types: data sufficiency, multi-source reasoning, table analysis, graphics interpretation and two-part analysis",
@@ -119,9 +120,9 @@
         "url": "https://www.gmac.com/gmat-other-assessments/about-the-gmat-focus-edition/exam-scores"
       },
       {
-        "text": "The Official Score Report includes free performance insights: percentile rankings plus breakdowns by section, question type, content domain, and time management",
+        "text": "The Official Score Report includes detailed performance insights at no additional cost: in addition to total and section scores and percentile rankings, insights by section, question type and content domain, and details on time management",
         "src": "mba.com (GMAC)",
-        "year": 2025,
+        "year": 2026,
         "url": "https://www.mba.com/exams/gmat-exam/scores/official-score-reports"
       },
       {
@@ -159,7 +160,7 @@
         "also_urls": ["https://www.mba.com/api/sitecore/CountrySpecific/CountryHTML?selectedValue=%7B58F9E1BA-22B5-452F-95A5-32BFFC591C6D%7D&fieldName=FocusExamPayment"]
       },
       {
-        "text": "A GMAT fee waiver lets an eligible candidate register at a reduced cost or no cost, and waivers are typically distributed through participating business schools and approved programs",
+        "text": "A GMAT fee waiver allows an eligible candidate to register for the GMAT exam at a reduced cost or no cost, and GMAT fee waivers are typically distributed through participating business schools and approved programs",
         "src": "mba.com support (GMAC)",
         "year": 2026,
         "url": "https://support.mba.com/hc/en-us/articles/6284241279771-GMAT-Fees-Vouchers-and-Fee-Waivers"
@@ -259,10 +260,10 @@
       "url": "https://satsuite.collegeboard.org/scores/score-release-dates"
     },
     "used_for": {
-      "text": "Used by US colleges for admission decisions, merit scholarship eligibility, course placement, and student support",
+      "text": "Part of the college admissions process, and also used for course placement, with some US colleges placing students in courses such as math and writing classes by their scores, and to help students qualify for scholarships",
       "src": "College Board (BigFuture)",
       "year": 2026,
-      "url": "https://bigfuture.collegeboard.org/plan-for-college/find-your-fit/what-colleges-require-SAT"
+      "url": "https://bigfuture.collegeboard.org/help-center/what-are-sat-scores-used"
     },
     "acceptance": {
       "text": "Per College Board's BigFuture, 63 US colleges (21 private, 42 public) currently or soon will require SAT or ACT scores, and many other colleges are test optional or test preferred, using scores in admission if submitted and for scholarships and placement",
@@ -279,13 +280,13 @@
         "url": "https://satsuite.collegeboard.org/sat/whats-on-the-test/structure"
       },
       {
-        "text": "The Desmos graphing calculator is built into the Bluebook app and allowed on the entire Math section, alongside tools like annotation, answer elimination, and question flagging",
+        "text": "Bluebook has an embedded Desmos calculator, with graphing and scientific options students can toggle between at any point in the Math section, or students can use their own approved handheld calculator",
         "src": "College Board",
         "year": 2025,
         "url": "https://satsuite.collegeboard.org/sat/what-to-bring-do/calculator-policy"
       },
       {
-        "text": "Many colleges superscore the SAT, combining a student's highest Math section score with their highest Reading and Writing section score even when those come from different test dates; each college sets its own policy",
+        "text": "Many schools use superscoring, combining a student's highest Math section score with their highest Reading and Writing section score, even if those scores are from different test dates",
         "src": "College Board",
         "year": 2026,
         "url": "https://satsuite.collegeboard.org/help-center/how-many-times-can-student-take-sat-and-when-should-they-take-it"
@@ -403,7 +404,7 @@
       "url": "https://www.ets.org/gre/test-takers/general-test/scores/get-scores.html"
     },
     "delivery": {
-      "text": "A computer-delivered test offered both at test centers and at home; the at home test is taken on the test taker's own computer and is identical in content, format and on-screen experience to the test center version",
+      "text": "A computer-delivered test offered both at test centers and at home; the at home test is taken on the test taker's own computer and is identical in content, format and on-screen experience to the GRE General Test taken at a test center",
       "src": "ETS",
       "year": 2026,
       "url": "https://www.ets.org/gre/score-users/about/general-test/testing-locations.html"
@@ -421,9 +422,9 @@
       "url": "https://www.ets.org/gre/test-takers/general-test/scores/get-scores.html"
     },
     "used_for": {
-      "text": "ETS positions it as the only graduate admissions test usable across a range of master's, MBA, specialized business master's, JD, and doctoral programs",
+      "text": "Accepted by more than 20,000 graduate, business and law programs worldwide: master's and PhD programs across multiple disciplines, more than 1,300 MBA programs and more than 100 ABA-accredited JD programs",
       "src": "ETS",
-      "year": 2025,
+      "year": 2026,
       "url": "https://www.ets.org/gre.html"
     },
     "acceptance": {
@@ -440,9 +441,9 @@
         "url": "https://www.ets.org/gre/test-takers/general-test/prepare/test-structure.html"
       },
       {
-        "text": "Verbal and Quantitative are section-level adaptive: the second section's difficulty is set by your performance on the first",
+        "text": "Verbal and Quantitative are section-level adaptive: the difficulty level of the second section of each measure depends on your performance on the first section",
         "src": "ETS",
-        "year": 2025,
+        "year": 2026,
         "url": "https://www.ets.org/gre/test-takers/general-test/prepare/test-structure.html"
       },
       {
@@ -587,9 +588,9 @@
       ]
     },
     "used_for": {
-      "text": "The admission test for JD programs at law schools; LSAC describes it as the only test accepted by all ABA-approved law schools",
+      "text": "The admission test for JD programs at law schools, and the only test accepted by all ABA-approved law schools",
       "src": "LSAC",
-      "year": 2025,
+      "year": 2026,
       "url": "https://www.lsac.org/lsat/about"
     },
     "acceptance": {
@@ -619,10 +620,11 @@
         "url": "https://www.lsac.org/about/lsac-policies/limits-on-repeating-lsat"
       },
       {
-        "text": "LSAT Argumentative Writing is unscored and completed separately from the multiple-choice test; law schools receive a copy with your score report",
+        "text": "LSAT Argumentative Writing is an unscored writing sample, administered separately from the multiple-choice sections, and the law school report includes your LSAT scores and writing sample",
         "src": "LSAC",
-        "year": 2025,
-        "url": "https://www.lsac.org/lsat/register-lsat/accommodations/specifications-lsat-and-lsat-argumentative-writing"
+        "year": 2026,
+        "url": "https://www.lsac.org/lsat/register-lsat/accommodations/specifications-lsat-and-lsat-argumentative-writing",
+        "also_urls": ["https://www.lsac.org/applying-law-school/jd-application-process/credential-assembly-service-cas/law-school-reports"]
       },
       {
         "text": "The unscored section can be any one of the question types, Reading Comprehension or Logical Reasoning, and can occur at any point in the test",
@@ -762,7 +764,7 @@
       "url": ""
     },
     "delivery": {
-      "text": "On paper, online, or online on your own computer or a school-managed computer brought to a test site (Bring Your Own Device, BYOD)",
+      "text": "Paper, online, or Bring Your Own Device (BYOD): the online experience with the option to bring your own computer or a school-managed computer to a test site",
       "src": "act.org",
       "year": 2026,
       "url": "https://www.act.org/content/act/en/products-and-services/the-act/registration.html"
@@ -806,17 +808,17 @@
         "url": "https://www.act.org/content/act/en/products-and-services/the-act/scores/understanding-your-scores.html"
       },
       {
-        "text": "Whether science is administered in ACT State and District Testing is decided at the contract level, so a student testing through their school may still sit it",
+        "text": "In ACT State and District Testing, the choice of what subjects are administered continues at the contract level: English, math and reading are administered, and each client decides whether to include science and writing",
         "src": "ACT",
         "year": 2026,
         "url": "https://www.act.org/content/act/en/products-and-services/the-act-educator/the-act-test/enhancements-k12/faqs.html",
         "period_checked": {"periods": ["2025-2026"], "on": "2026-09-27", "why": "the page's 2025-2026 mention is a footnote on PreACT; its answer on State and District Testing is unchanged"}
       },
       {
-        "text": "ACT supports superscoring: the superscore averages your best English, Math, and Reading section scores across test attempts",
+        "text": "The ACT Superscore is the average of a student's best scores from each section across multiple ACT test attempts; on the enhanced ACT that is English, math and reading, rounded to the nearest whole number",
         "src": "act.org",
         "year": 2026,
-        "url": "https://www.act.org/content/act/en/products-and-services/the-act/scores.html"
+        "url": "https://www.act.org/content/act/en/students-and-parents/high-school-success/testing-advice-for-the-act/superscore-faqs.html"
       },
       {
         "text": "The superscore is calculated automatically once a student has tested more than once since September 2016, rounded the same way as the Composite; the optional science and writing tests are not part of it, and ACT advises checking each school's own score policy",
