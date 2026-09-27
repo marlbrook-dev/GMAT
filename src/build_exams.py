@@ -255,7 +255,7 @@ def exam_page(e, tpl, today):
     acc = txt(e.get("acceptance")) or ""
     usage = ""
     if used or acc:
-        usage = '<div class="section"><h2>What It Is For and Who Accepts It</h2>'
+        usage = '<div class="section"><h2>Uses and Acceptance</h2>'
         if used:
             usage += f'<p>{esc(used)}{src_note(e.get("used_for"))}</p>'
         if acc:

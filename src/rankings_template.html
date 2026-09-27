@@ -437,7 +437,7 @@ function shareList(){ var L=lst(); if(!L.order.length){ alert('Your list is empt
 function printReport(){ var L=lst(); if(!L.order.length){ alert('Your list is empty.'); return; }
  var pk=document.getElementById('printPack'); var today='{{UPDATED}}';
  var h='<div class="ppage pcover"><div class="brand">Start From Nowhere</div><h1>MBA Shortlist</h1><p>'+L.order.length+' programs, selected on startfromnowhere.com/schools/</p><div class="pmeta">Prepared '+today+' · data as published by each school and publisher, sources on the final page</div></div>';
- h+='<div class="ppage"><h2>Summary comparison</h2><table><thead><tr><th>School</th><th>My tag</th><th>SFN rank</th><th>GMAT</th><th>GPA</th><th>Accept</th><th>Class</th><th>Tuition/yr</th><th>Note</th></tr></thead><tbody>';
+ h+='<div class="ppage"><h2>Summary Comparison</h2><table><thead><tr><th>School</th><th>My tag</th><th>SFN rank</th><th>GMAT</th><th>GPA</th><th>Accept</th><th>Class</th><th>Tuition/yr</th><th>Note</th></tr></thead><tbody>';
  L.order.forEach(function(slug){ var s=BY[slug]; if(!s) return; var m=L.meta[slug]||{}; var g=gmatOf(s);
   h+='<tr><td>'+s.name+'</td><td>'+(m.tag||'target')+'</td><td>'+(s._rank||'-')+'</td><td>'+(g?g.v+' '+g.ed:'-')+'</td><td>'+(fieldV(s,'gpa')||'-')+'</td><td>'+(fieldV(s,'accept_rate_pct')!=null?fieldV(s,'accept_rate_pct')+'%':'-')+'</td><td>'+(fieldV(s,'class_size')||'-')+'</td><td>'+(fieldV(s,'tuition_usd')!=null?'$'+Number(fieldV(s,'tuition_usd')).toLocaleString():'-')+'</td><td>'+(m.note||'')+'</td></tr>'; });
  h+='</tbody></table></div>';
@@ -450,7 +450,7 @@ function printReport(){ var L=lst(); if(!L.order.length){ alert('Your list is em
   Object.keys(s.ranks||{}).forEach(function(k){ var r=s.ranks[k]; if(r&&r.rank!=null){ var lbl={usnews:'US News',ft:'Financial Times',bloomberg:'Bloomberg',qs:'QS',pq:'Poets and Quants'}[k]; h+='<tr><td>'+lbl+' rank</td><td>#'+r.rank+'</td><td>'+(r.edition||'')+'</td></tr>'; } });
   if(m.note) h+='<tr><td>My note</td><td colspan="2">'+m.note+'</td></tr>';
   h+='</tbody></table></div>'; });
- h+='<div class="ppage"><h2>Sources and method</h2><p>Composite rank: weighted average of published ranks from US News, Financial Times, Bloomberg, QS, and Poets and Quants (weights at startfromnowhere.com/schools/#methodology). Class profile figures come from each school\'s published class profile or admissions pages; every figure on the school pages above lists its source and year. Rankings belong to their respective publishers. Data as of '+today+'. Built free at startfromnowhere.com.</p></div>';
+ h+='<div class="ppage"><h2>Sources and Method</h2><p>Composite rank: weighted average of published ranks from US News, Financial Times, Bloomberg, QS, and Poets and Quants (weights at startfromnowhere.com/schools/#methodology). Class profile figures come from each school\'s published class profile or admissions pages; every figure on the school pages above lists its source and year. Rankings belong to their respective publishers. Data as of '+today+'. Built free at startfromnowhere.com.</p></div>';
  pk.innerHTML=h; window.print(); }
 
 // compact vs detailed columns

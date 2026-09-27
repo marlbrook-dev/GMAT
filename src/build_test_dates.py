@@ -322,15 +322,15 @@ def sat(data, today):
         if closed:
             c = closed[0]["row"]
             lead = "The next SAT is on %s, %s, but registration for it closed %s. " % (weekday(c["test"]), long(c["test"]), long(c["late_by"]))
-        faq.append(("When is the next SAT?", lead + "The next date open for registration is %s, %s: register by %s, and changes, "
+        faq.append(("When Is the Next SAT?", lead + "The next date open for registration is %s, %s: register by %s, and changes, "
                     "regular cancellation and late registration close %s (College Board, read %s)."
                     % (weekday(o["test"]), long(o["test"]), long(o["register_by"]), long(o["late_by"]), read)))
-    faq.append(("How many SAT dates are there this year?", "College Board lists %d SAT Weekend dates from %s to %s (College "
+    faq.append(("How Many SAT Dates Are There This Year?", "College Board lists %d SAT Weekend dates from %s to %s (College "
                 "Board, read %s)." % (len(rows), long(rows[0]["test"]), long(rows[-1]["test"]), read)))
     if reg_gap and late_gap:
-        faq.append(("When is the SAT registration deadline?", "In College Board's table for this year, %d days before each test "
+        faq.append(("When Is the SAT Registration Deadline?", "In College Board's table for this year, %d days before each test "
                     "date, and changes and late registration close %d days before. %s" % (reg_gap, late_gap, deadline)))
-    faq.append(("When are the SAT dates for next year?", "College Board lists anticipated SAT Weekend dates of %s (College "
+    faq.append(("When Are the SAT Dates for Next Year?", "College Board lists anticipated SAT Weekend dates of %s (College "
                 "Board, read %s)." % (", ".join(long(x) for x in antic), read)))
     s = season(rows[0]["test"], rows[-1]["test"])
     cfg = {"short": "SAT", "title": "SAT Test Dates %s: Registration Deadlines" % s,
@@ -403,15 +403,15 @@ def act(data, today):
         if closed:
             c = closed[0]["row"]
             lead = "The next ACT is on %s, %s, but its late deadline passed %s. " % (weekday(c["test"]), long(c["test"]), long(c["late_by"]))
-        faq.append(("When is the next ACT?", lead + "The next date open for registration is %s, %s: register by %s to avoid the "
+        faq.append(("When Is the Next ACT?", lead + "The next date open for registration is %s, %s: register by %s to avoid the "
                     "late fee, and the late deadline is %s (ACT, read %s)."
                     % (weekday(o["test"]), long(o["test"]), long(o["register_by"]), long(o["late_by"]), read)))
     if per_year and len(rows) == 7:
-        faq.append(("How many times a year is the ACT offered?", 'ACT: "%s" Its table lists %d national dates from %s to %s '
+        faq.append(("How Many Times a Year Is the ACT Offered?", 'ACT: "%s" Its table lists %d national dates from %s to %s '
                     "(ACT, read %s)." % (per_year, len(rows), long(rows[0]["test"]), long(rows[-1]["test"]), read)))
-    faq.append(("When do ACT scores come out?", "ACT lists an initial score release date for paper tests beside each test "
+    faq.append(("When Do ACT Scores Come Out?", "ACT lists an initial score release date for paper tests beside each test "
                 "date, %d to %d days after the test in its current table (ACT, read %s)." % (lo, hi, read)))
-    faq.append(("When are the ACT dates for next year?", "ACT lists projected national test dates of %s (ACT, read %s)."
+    faq.append(("When Are the ACT Dates for Next Year?", "ACT lists projected national test dates of %s (ACT, read %s)."
                 % (", ".join(long(x) for x in proj), read)))
     s = season(rows[0]["test"], rows[-1]["test"])
     cfg = {"short": "ACT", "title": "ACT Test Dates %s: Deadlines and Score Release" % s,
@@ -491,13 +491,13 @@ def lsat(data, today):
             c = closed[0]["row"]
             lead = "The next LSAT in the U.S. and Canada is the %s administration, %s, but its registration deadline passed %s. " % (
                 c["administration"], days_text(c["days"]), long(c["register_by"]))
-        faq.append(("When is the next LSAT?", lead + "The next administration open for registration is %s, %s: register by %s, "
+        faq.append(("When Is the Next LSAT?", lead + "The next administration open for registration is %s, %s: register by %s, "
                     "and scores are released %s (LSAC, read %s)."
                     % (o["administration"], days_text(o["days"]), long(o["register_by"]), long(o["scores"]), read)))
-    faq.append(("How many LSAT administrations are there this testing year?", "LSAC lists %d administrations in the U.S. and "
+    faq.append(("How Many LSAT Administrations Are There This Testing Year?", "LSAC lists %d administrations in the U.S. and "
                 "Canada, from %s to %s, and %d for test takers elsewhere (LSAC, read %s)."
                 % (len(home), home[0]["administration"], home[-1]["administration"], len(abroad), read)))
-    faq.append(("When are LSAT scores released?", "LSAC lists a score release date for each administration, %d to %d days "
+    faq.append(("When Are LSAT Scores Released?", "LSAC lists a score release date for each administration, %d to %d days "
                 "after its last test day in the current table (LSAC, read %s)." % (lo, hi, read)))
     s = season(home[0]["days"][0], home[-1]["days"][-1])
     cfg = {"short": "LSAT", "title": "LSAT Test Dates %s: Deadlines and Score Release" % s,

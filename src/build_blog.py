@@ -160,38 +160,9 @@ def retired_claims(p):
 # Headings are Title Case (CLAUDE.md): every word capitalised except these, which stay lower
 # case unless first, last, or first after a colon. The first thirty posts set theirs in
 # sentence case and nothing checked (INC-0171).
-SMALL_WORDS = frozenset("a an the of and or to for by in on at vs".split())
-_LEAD = re.compile(r"^([^A-Za-z0-9]*)([A-Za-z]+)(.*)$")
-
-
-def title_case(h):
-    """A heading in the house Title Case. A word that already carries a capital (GMAT,
-    GMAC's, iPad) keeps its letters; an all lower case word is capitalised, and a small
-    word is lowered where the rule says so. Hyphenated parts are treated as words."""
-    toks = h.split(" ")
-    last = max((i for i, t in enumerate(toks) if re.search(r"[A-Za-z0-9]", t)), default=-1)
-    out, first = [], True
-    for i, tok in enumerate(toks):
-        parts = tok.split("-")
-        for j, part in enumerate(parts):
-            m = _LEAD.match(part)
-            if not m:
-                continue
-            pre, word, rest = m.groups()
-            edge = (first and j == 0) or (i == last and j == len(parts) - 1)
-            # The first part of a hyphenated compound is capitalised whatever it is:
-            # "On-Screen", not "on-Screen".
-            lead = len(parts) > 1 and j == 0
-            if word.lower() in SMALL_WORDS and not edge and not lead:
-                word = word.lower()
-            elif word.islower():
-                word = word[0].upper() + word[1:]
-            parts[j] = pre + word + rest
-        new = "-".join(parts)
-        out.append(new)
-        if re.search(r"[A-Za-z0-9]", tok):
-            first = tok.endswith(":")
-    return " ".join(out)
+# The Title Case rule lives in page_checks, which build.py also uses to check every built
+# page's headings (INC-0176).
+from page_checks import SMALL_WORDS, title_case  # noqa: E402
 
 
 def untitled_headings(p):
@@ -403,7 +374,7 @@ def build_index(posts):
 <div style="font-size:13px;color:var(--gray-500);margin-top:16px"><span style="font-family:var(--display);font-weight:700;color:var(--navy-900)">{html.escape(feat['author'])}</span> · {fmt_date(feat['date'])} · {feat['read_min']} min read</div>
 </div></a>"""
     body = f"""<section class="wrap" style="padding:64px 24px 40px;text-align:center">
-<h1 style="font-size:44px;text-wrap:pretty">Insight for your next big exam</h1>
+<h1 style="font-size:44px;text-wrap:pretty">Insight for Your Next Big Exam</h1>
 <nav aria-label="Categories" style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:26px">{chips}</nav>
 <div style="margin-top:18px"><input type="search" id="q" placeholder="Search articles" aria-label="Search blog" style="font:inherit;font-size:14px;border:1px solid var(--gray-300);border-radius:999px;padding:8px 18px;width:260px;outline:none"></div>
 </section>
@@ -567,7 +538,7 @@ def build_post(p, posts):
     rel_html = ""
     onward = onward_html(p, p["body"])
     if related:
-        rel_html = f"""<section class="narrow" style="padding:8px 24px 0"><h2 style="font-size:22px;margin:32px 0 14px">Keep reading</h2>
+        rel_html = f"""<section class="narrow" style="padding:8px 24px 0"><h2 style="font-size:22px;margin:32px 0 14px">Keep Reading</h2>
 <div class="grid3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">{"".join(card(x) for x in related)}</div></section>"""
     updated = p.get("updated", p["date"])
     upd_note = f" · Updated {fmt_date(updated)}" if updated != p["date"] else ""
@@ -581,7 +552,7 @@ def build_post(p, posts):
 <div class="cta"><div><div style="font-family:var(--display);font-weight:800;font-size:17px;color:var(--navy-900)">Put this into practice</div>
 <div style="font-size:14px;color:var(--gray-500);margin-top:4px">Run a free adaptive round. No account needed; the trainer finds your weak skills in one session.</div></div>
 <a class="btn" href="/app/" style="font-size:15px;padding:12px 22px">Start a free round</a></div>
-<h2 style="font-size:24px">Frequently asked questions</h2>
+<h2 style="font-size:24px">Frequently Asked Questions</h2>
 <div class="faq">{faq_vis}</div>
 </div>
 </article>
@@ -746,6 +717,16 @@ def main():
     if stale:
         for pg, sent in stale[:10]:
             print("build_blog: %s calls a live trainer unfinished: %r" % (pg, sent), file=sys.stderr)
+        sys.exit(1)
+    # And every heading on a built blog page, the template's own included, in Title Case as
+    # build.py checks it: "Keep reading" sat on every post while only post bodies were read
+    # (INC-0176).
+    from page_checks import untitled_headings, entity_names
+    untitled = untitled_headings(ROOT, ["blog"], entity_names(ROOT))
+    if untitled:
+        for pg, h, want in untitled[:10]:
+            print("build_blog: %s has a heading that breaks Title Case: %r should read %r" % (pg, h, want),
+                  file=sys.stderr)
         sys.exit(1)
     # And the article before a number, as build.py checks it (INC-0134).
     arts = articles(ROOT, ["blog"])
