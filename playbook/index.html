@@ -59,7 +59,7 @@ a{color:var(--accent)}
 <p class="eyebrow">Start From Nowhere</p>
 <h1>The Build Playbook</h1>
 <p class="sub">How one person and a set of AI sessions built a multi-exam test-prep platform, every defect hit on the way, and the recipe for doing it again for something else</p>
-<p class="meta">Built 2026-09-27 from commit 767d7b9 &middot; 131 commits over 8 days &middot; 181 recorded defects &middot; 17 chapters<br>
+<p class="meta">Built 2026-09-27 from commit 9821a1f &middot; 133 commits over 8 days &middot; 181 recorded defects &middot; 17 chapters<br>
 This document is generated. Edit the chapters in docs/playbook/ and the ledger in data/playbook/incidents.jsonl, then run python3 src/build_playbook.py.</p>
 </div>
 <div class="toc"><ol><li><a href="#how-to-use-this-book">How to Use This Book</a></li>
@@ -81,7 +81,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><a href="#the-bootstrap-pack-starting-a-new-project-with-this-loaded">The Bootstrap Pack: Starting a New Project With This Loaded</a></li></ol></div>
 <h1 id="how-to-use-this-book">How to Use This Book</h1>
 <p>This is the record of building one platform, written so it can be used to build a different one.</p>
-<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-09-19 and 2026-09-27, which is 8 days, across 131 commits, by one owner directing a series of AI coding sessions. As of this build it is 86 Python files, 112 JavaScript files, 24 TypeScript edge functions, 35 migrations and 65 documents: 2103 tracked files in total.</p>
+<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-09-19 and 2026-09-27, which is 8 days, across 133 commits, by one owner directing a series of AI coding sessions. As of this build it is 86 Python files, 112 JavaScript files, 24 TypeScript edge functions, 35 migrations and 65 documents: 2104 tracked files in total.</p>
 <p>None of those numbers were typed. They are measured from the repository every time this document is built, which is the first thing worth copying.</p>
 <h2 id="what-is-in-here">What is in here</h2>
 <p>The book has four kinds of chapter, and they age differently.</p>
@@ -621,7 +621,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three defects here were found by taking a screenshot: a chart unreadable in dark mode, a line chart implying values that never existed, and a dashboard that was not on screen. None of them would have been caught by an assertion, because none of them were violations of anything anybody had thought to assert.</p>
 <p><strong>Budget for looking.</strong> It is the cheapest test there is and the only one that catches things you have not imagined.</p>
 <h1 id="running-the-build-as-an-ai-loop">Running the Build as an AI Loop</h1>
-<p>131 commits in 8 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
+<p>133 commits in 8 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
 <h2 id="the-division-of-labour">The division of labour</h2>
 <p><strong>The owner decides</strong>: what to build, what it means, what is acceptable, and every irreversible or outward-facing action. <strong>The session does</strong>: the building, the measuring, the testing, and the reporting of what it found.</p>
 <p>The failure mode at each end is worth naming. An owner who reviews every line becomes the bottleneck and the throughput collapses to the speed of reading. A session that decides product questions on its own produces something coherent that is not what anyone wanted.</p>
@@ -2003,7 +2003,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A cache should keep only what would be accepted as an answer. Caching a failure turns a transient fault into a permanent one, and it then looks like the source's fault rather than the cache's. And a detector that looks for a refusal's words misses a refusal that has none.</li>
 </ul>
 <h3 id="inc-0181-the-ledger-s-harvest-read-only-incident-ids-written-out-in-full-and-matched-commits-by-their-short-hash-so-seven-records-fixed-under-a-range-such-as-inc-0104-to-inc-0110-cited-nothing-and-57-cited-fixes-came-back-every-week-as-possible-unrecorded-defects">INC-0181. The ledger's harvest read only incident ids written out in full and matched commits by their short hash, so seven records fixed under a range such as "INC-0104 to INC-0110" cited nothing and 57 cited fixes came back every week as possible unrecorded defects</h3>
-<p><em>2026-09-27, Degraded</em></p>
+<p><em>2026-09-27, Degraded, <code>7ff690443f31290b82700cd0832990934e955f57</code> PR #176</em></p>
 <ul>
 <li><strong>What was seen.</strong> On September 27, 2026, python3 src/playbook_harvest.py --citations reported eight records that name no commit and that no commit names: INC-0105 to INC-0109, INC-0171, INC-0174 and the just-written INC-0180. The squash commits on main do name the first seven: PR #96's names "INC-0104 to INC-0110", PR #165's "INC-0170 to INC-0172" and PR #166's "INC-0173 to INC-0175". The harvest also listed 38 commits as candidate unrecorded defects, many of them commits whose records simply cited nothing. Reading why, a second fault: the candidate loop compared each commit's short hash with the ledger's citations, 57 of which were full hashes, so every commit cited in full was listed as a candidate unrecorded defect however long ago it was written up.</li>
 <li><strong>Why.</strong> incident_commits() finds ids with the pattern INC-\d{4}, so it reads the two ends of a range and nothing between them, and it would read only the first id of a list written "INC-0130, 0131, 0132". Sessions name several incidents in one squash title that way whenever one PR fixes a run of them. The report asked a human to find those seven by hand, when git already held the answer. The candidate loop has the same shape of fault in the other direction: git prints a short hash, the backfill writes a full one, and an exact comparison between the two never matches, so the tool that fills in citations made its own weekly report noisier every time it ran.</li>
