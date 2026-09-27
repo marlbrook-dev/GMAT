@@ -563,6 +563,16 @@ verified rather than that the school does not publish one (INC-0118).
       (59 percent international, 39 percent women, 5.3 years, and 85 percent of the Class of
       2025 seeking work accepting offers within 3 months). Fordham's record now says which of the page's two MBA blocks
       its figures come from.
+- [x] **"How Much Does the SAT Cost in 2026?" queued for November 21**, David Okafor:
+      College Board's fees ($68 in the US, $111 abroad with the $43 international fee, a $24
+      test center fee at listed centers, $38 late registration, $34 to change test center or
+      cancel by the change deadline and $44 later, 4 free score reports within 9 days and $15
+      each after), what cancelling gives back ($34, or $24 late), and the fee waiver's
+      benefits. The SAT guide gains five key facts from College Board's fees, international
+      fees, refunds and fee waiver pages, checked weekly. The blog build had refused the post
+      (INC-0162): its check that a post never calls a live trainer unfinished read the fee
+      table as one sentence, and College Board's seat Waitlist sat in it beside the SAT's fee.
+      It now splits a post at block elements, as the built-page check does.
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects

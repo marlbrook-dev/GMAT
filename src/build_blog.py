@@ -104,14 +104,31 @@ def split_live(posts):
 # A post is written ahead and published by date, so it carries the product as it stood on
 # the day it was written. lsat-format-scoring-guide was queued saying the LSAT trainer was
 # in development, eleven days after it went live (INC-0137).
-def stale_trainer_claims(p):
-    """Sentences in a post, body or FAQ, that call a trainer unfinished when it is live."""
-    from build_exams import LIVE
-    from page_checks import stale_sentences
-    short = {e["slug"]: e["short"] for e in json.loads((ROOT / "data" / "exams.json").read_text())}
-    text = html.unescape(re.sub(r"<[^>]+>", " ", p["body"] + " " + " ".join(
-        str(q.get("q", "")) + " " + str(q.get("a", "")) for q in p["faq"])))
-    return stale_sentences(text, [short[x] for x in LIVE if x in short])
+def stale_trainer_claims(p, names=None):
+    """Sentences in a post, body or FAQ, that call a trainer unfinished when it is live.
+    Block elements end a sentence, as they do in page_checks.trainer_claims: read as one run,
+    a fee table's row for College Board's seat Waitlist sat in one "sentence" with the SAT's
+    registration fee, and a correct post was refused as calling the SAT trainer unfinished
+    (INC-0162)."""
+    from page_checks import stale_sentences, _BLOCK
+    if names is None:
+        from build_exams import LIVE
+        short = {e["slug"]: e["short"] for e in json.loads((ROOT / "data" / "exams.json").read_text())}
+        names = [short[x] for x in LIVE if x in short]
+    parts = re.sub(r"<[^>]+>", " ", _BLOCK.sub("\n", p["body"])).split("\n")
+    parts += [str(q.get(k, "")) for q in p["faq"] for k in ("q", "a")]
+    return [s for part in parts for s in stale_sentences(html.unescape(part), names)]
+
+
+def _selfcheck_stale():
+    """INC-0162: a table naming College Board's Waitlist beside an SAT fee is not a claim
+    about the trainer; a sentence saying the SAT trainer is in development still is."""
+    table = ("<div class=\"tablewrap\"><table><tbody><tr><td>SAT registration</td><td>$68</td></tr>"
+             "<tr><td>Waitlist</td><td>$0</td></tr></tbody></table></div><p>Source: the SAT fees page.</p>")
+    for body, want in ((table, False), ("<p>Our SAT trainer is in development.</p>", True)):
+        got = bool(stale_trainer_claims({"body": body, "faq": []}, ["SAT"]))
+        if got != want:
+            fail("stale_trainer_claims on %r gave %s, expected %s (INC-0162)" % (body[:60], got, want))
 
 
 def validate(posts):
@@ -546,6 +563,7 @@ def sitemap_gaps(sitemap):
 
 
 def main():
+    _selfcheck_stale()
     posts = load_posts()
     validate(posts)  # validate everything, including held future posts
     live = split_live(posts)
