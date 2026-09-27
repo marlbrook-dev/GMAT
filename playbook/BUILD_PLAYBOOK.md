@@ -7,10 +7,10 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-26, which is 7 days, across
-80 commits, by one owner directing a series of AI coding sessions. As of this
+81 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 83 Python files, 107 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 64 documents:
-2038 tracked files in total.
+2039 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -1122,7 +1122,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-80 commits in 7 days, one owner, a series of AI sessions. This
+81 commits in 7 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1214,22 +1214,22 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-138 recorded defects, over 7 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+139 recorded defects, over 7 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 67 | 49% |
+| Found by reading the code or the output | 67 | 48% |
 | Found by measuring something | 39 | 28% |
 | A test caught it | 16 | 12% |
-| Found by rendering it and looking | 6 | 4% |
+| Found by rendering it and looking | 7 | 5% |
 | Found by a review bot or an adversarial pass | 5 | 4% |
 | A build guard caught it | 3 | 2% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 136 of 138 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 137 of 139 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1241,10 +1241,10 @@ well enough to audit later. Which is what this book is.
 | Wrong data shown or stored | 59 |
 | Degraded | 30 |
 | Silent loss | 26 |
-| Cosmetic | 20 |
+| Cosmetic | 21 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 138. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 139. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
@@ -1257,8 +1257,8 @@ well enough to audit later. Which is what this book is.
 | Build system | 10 |
 | Search and metadata | 9 |
 | Scoring and selection | 7 |
+| CSS and layout | 6 |
 | Infrastructure and deploy | 6 |
-| CSS and layout | 5 |
 | Payments | 5 |
 | Database | 4 |
 | Interface and data display | 3 |
@@ -1266,7 +1266,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-132 of 138 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+133 of 139 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1287,7 +1287,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-54 of 138 incidents record that they repeat an earlier lesson, 76 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+55 of 139 incidents record that they repeat an earlier lesson, 77 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1299,6 +1299,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0082 Nine published exam facts cite test prep companies, in the one published corpus with no source validator | INC-0124, INC-0125, INC-0130 | 3 |
 | INC-0092 A schema threw away three draws in four, and the counter that knew was read by nobody | INC-0098, INC-0099, INC-0101 | 3 |
 | INC-0099 Every generated reading comprehension question shipped without its passage | INC-0100, INC-0101, INC-0103 | 3 |
+| INC-0050 A landing-page icon referenced a colour token that did not exist | INC-0018, INC-0139 | 2 |
 | INC-0055 A new browser suite hardcoded this machine's browser directory and crashed in CI | INC-0067, INC-0110 | 2 |
 | INC-0059 The item counter missed a whole bank file because it assumed a quoting style | INC-0064, INC-0067 | 2 |
 | INC-0067 The browser path fix covered two suites and three others kept crashing | INC-0070, INC-0104 | 2 |
@@ -1317,7 +1318,6 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0014 A hardcoded count in the meta description went stale, and Google showed it | INC-0128 | 1 |
 | INC-0023 www and the apex were two origins, so consent and rankings split in half | INC-0127 | 1 |
 | INC-0044 The longest option was the correct answer 81 percent of the time | INC-0091 | 1 |
-| INC-0050 A landing-page icon referenced a colour token that did not exist | INC-0018 | 1 |
 | INC-0072 A distractor was replaced and the explanation went on naming the old one | INC-0119 | 1 |
 | INC-0080 A build step that fails while the build exits zero, and a verification run that was a remembered subset | INC-0095 | 1 |
 | INC-0081 A student who always answers 1 scores 98 percent on a schema, and no check looked at the answer itself | INC-0123 | 1 |
@@ -1370,6 +1370,7 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/smoke_playbook.js`, 3 incidents (INC-0054, INC-0084, INC-0129)
 - `src/build_playbook.py`, 3 incidents (INC-0057, INC-0065, INC-0083)
 - `src/gen/g_act_sci.py`, 3 incidents (INC-0093, INC-0094, INC-0098)
+- `src/page_checks.py`, 3 incidents (INC-0134, INC-0138, INC-0139)
 
 
 # The Defect Ledger
@@ -2820,6 +2821,86 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** An identifier that anything outside the build stores must be derived from what it identifies, not from where it happened to land. A position is a fine name only for something nobody keeps.
 
 
+## CSS and layout (6)
+
+
+### INC-0050. A landing-page icon referenced a colour token that did not exist
+
+*2026-08-19, Cosmetic, `5337dfd`*
+
+- **What was seen.** One game icon on the landing grid rendered without its colour.
+- **Why.** An undefined custom property, which CSS treats as a fallback rather than an error.
+- **How it surfaced.** Looking at the page on a phone during a mobile pass. (Found by rendering it and looking)
+- **Fix.** Use a defined token.
+- **What stops it now.** weekly_audit checks computed colour on every page in `src/weekly_audit.js`
+- **Cost.** one icon, and the same root cause later cost a compliance control
+- **Lesson.** The same undefined-property failure will find you repeatedly, at every severity from one icon to an invisible legal control. One audit of computed colour catches the whole class.
+
+
+### INC-0010. CSS comments do not nest, and one placeholder killed the palette on 1451 pages
+
+*2026-09-17, Degraded, `61c3ed2` PR #40*
+
+- **What was seen.** The colour palette was gone from every college page. It looked like a design problem and was chased as one for hours.
+- **Why.** A `{{CHROME_CSS}}` placeholder was left inside an opening CSS comment in rankings_base.css. The first */ closes the outer comment, so everything after it was live CSS that overwrote the palette.
+- **How it surfaced.** Eventually, by reading the built CSS rather than the template. (Found by reading the code or the output)
+- **Fix.** Remove the nested comment.
+- **What stops it now.** Nothing automated. This one is still carried by attention.
+- **Cost.** hours, on 1451 pages
+- **Lesson.** CSS comments do not nest. When a whole page category loses its styling, read the built artefact, not the source that produced it.
+
+
+### INC-0048. Error recovery in the CSS parser swallowed the palette silently
+
+*2026-09-17, Degraded, `a920f5c` PR #41*
+
+- **What was seen.** Score bars rendered as empty gaps and panels lost their borders on 1,451 college pages and the rankings.
+- **Why.** A nested comment ended early, the leftover words became a selector, and the CSS parser's error recovery discarded the :root colour block that followed it. Every grey and navy variable on those pages resolved to nothing. There is no error anywhere in this chain; CSS is specified to recover and continue.
+- **How it surfaced.** The missing borders eventually gave it away, after the missing colours did not. (Found by reading the code or the output)
+- **Fix.** Remove the nested comment.
+- **What stops it now.** weekly_audit checks computed colour on every page in `src/weekly_audit.js`
+- **Cost.** the palette on over 1,450 pages
+- **Lesson.** CSS never fails loudly. A malformed rule is skipped, a bad selector eats the block after it, and an undefined variable paints as nothing. Anything that matters visually has to be asserted on the rendered page, because the parser will not tell you.
+
+
+### INC-0018. The Do Not Sell button was invisible from the day it shipped
+
+*2026-09-19, Degraded, `a34a798` PR #47*
+
+- **What was seen.** White text on a transparent background on a white page. A legally required control that nobody could see.
+- **Why.** The page referenced nine colour custom properties that exist nowhere. CSS does not treat an undefined custom property as an error; it falls back to the initial value and paints.
+- **How it surfaced.** An automated contrast audit across every page. (A test caught it)
+- **Fix.** Define the tokens and fix seven contrast failures, all site wide because all lived in shared chrome.
+- **What stops it now.** weekly_audit checks computed contrast on every page in `src/weekly_audit.js`
+- **Cost.** an invisible compliance control for the life of the page
+- **Lesson.** An undefined CSS custom property is silent. Audit computed colour, not authored colour, and do it on the rendered page.
+
+
+### INC-0029. A sequential colour ramp inverts direction between themes, and the label text did not
+
+*2026-09-21, Degraded, `8af7188` PR #61*
+
+- **What was seen.** White heatmap labels on a light cell in dark mode.
+- **Why.** A sequential ramp runs light to dark in a light theme and dark to light in a dark theme. The label colour was hardcoded white, so it was correct in one theme and unreadable in the other.
+- **How it surfaced.** Rendering the chart in dark mode and looking at it. (Found by rendering it and looking)
+- **Fix.** An --sfnc-on-seq token that flips with the theme.
+- **What stops it now.** smoke_charts asserts token parity between the light and dark blocks in `src/smoke_charts.js`
+- **Cost.** an unreadable chart in one theme
+- **Lesson.** A dark mode does not break by having a wrong colour. It breaks by missing one. Any colour paired with a ramp has to move with the ramp.
+
+
+### INC-0139. Every blog page drew the site header without the design tokens, so its logo sat against the screen edge on phones
+
+*2026-09-27, Cosmetic*
+
+- **What was seen.** On all 32 blog pages, the 31 published posts and the blog index, the shared header's wordmark sat at 0 pixels from the left edge at phone width where every other page puts it 24 pixels in, and the header and footer ignored the page width. Their stylesheet used 22 design tokens, --gutter, --page and the radii and motion values among them, that the blog pages never defined.
+- **Why.** partials.apply_chrome() injects TOKENS_CSS ahead of CHROME_CSS wherever a template carries the CHROME_CSS placeholder. build_blog.py writes its own page shell and pasted partials.CHROME_CSS into it directly, so the blog got the rules without the variables they read. CSS treats a variable that was never defined by quietly falling back to the property's initial value, so nothing failed: the padding became 0 and the max width none.
+- **How it surfaced.** Found on September 27, 2026 while previewing a queued post at phone width: the logo touched the screen edge, and an already published post showed the same. (Found by rendering it and looking)
+- **Fix.** build_blog.py injects TOKENS_CSS with CHROME_CSS, as apply_chrome does.
+- **What stops it now.** page_checks.undefined_tokens() reads every built page's inline CSS and any local stylesheet it links, and fails the build when a page uses one of TOKENS_CSS's variables without a fallback and never defines it. in `src/page_checks.py`
+- **Lesson.** CSS forgives a variable that was never defined by quietly using the initial value, so a missing token never throws, it only looks slightly wrong. When shared rules depend on shared variables, inject them together through one function, and check built pages for variables used but never defined.
+
+
 ## Infrastructure and deploy (6)
 
 
@@ -2898,74 +2979,6 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** Nothing to change in the repository. The value was read with git rev-parse and the merge went through. What is recorded here is the shape of the mistake, because the rule against it already existed and was not enough.
 - **What stops it now.** the merge API compares the expected head against the real one and refuses a mismatch, which is what caught this; the rule in CLAUDE.md is the part that failed, so the record is the reinforcement in `CLAUDE.md`
 - **Lesson.** An optional safety parameter is a guard only while its value is read rather than recalled. Fill it from memory and it becomes a coin flip that looks exactly like a guard from the outside, and the flips it wins are the ones where it was not needed. A value that is cheap to read is never worth remembering: reading costs one command, and the failure mode of remembering is an operation that succeeds on the wrong thing.
-
-
-## CSS and layout (5)
-
-
-### INC-0050. A landing-page icon referenced a colour token that did not exist
-
-*2026-08-19, Cosmetic, `5337dfd`*
-
-- **What was seen.** One game icon on the landing grid rendered without its colour.
-- **Why.** An undefined custom property, which CSS treats as a fallback rather than an error.
-- **How it surfaced.** Looking at the page on a phone during a mobile pass. (Found by rendering it and looking)
-- **Fix.** Use a defined token.
-- **What stops it now.** weekly_audit checks computed colour on every page in `src/weekly_audit.js`
-- **Cost.** one icon, and the same root cause later cost a compliance control
-- **Lesson.** The same undefined-property failure will find you repeatedly, at every severity from one icon to an invisible legal control. One audit of computed colour catches the whole class.
-
-
-### INC-0010. CSS comments do not nest, and one placeholder killed the palette on 1451 pages
-
-*2026-09-17, Degraded, `61c3ed2` PR #40*
-
-- **What was seen.** The colour palette was gone from every college page. It looked like a design problem and was chased as one for hours.
-- **Why.** A `{{CHROME_CSS}}` placeholder was left inside an opening CSS comment in rankings_base.css. The first */ closes the outer comment, so everything after it was live CSS that overwrote the palette.
-- **How it surfaced.** Eventually, by reading the built CSS rather than the template. (Found by reading the code or the output)
-- **Fix.** Remove the nested comment.
-- **What stops it now.** Nothing automated. This one is still carried by attention.
-- **Cost.** hours, on 1451 pages
-- **Lesson.** CSS comments do not nest. When a whole page category loses its styling, read the built artefact, not the source that produced it.
-
-
-### INC-0048. Error recovery in the CSS parser swallowed the palette silently
-
-*2026-09-17, Degraded, `a920f5c` PR #41*
-
-- **What was seen.** Score bars rendered as empty gaps and panels lost their borders on 1,451 college pages and the rankings.
-- **Why.** A nested comment ended early, the leftover words became a selector, and the CSS parser's error recovery discarded the :root colour block that followed it. Every grey and navy variable on those pages resolved to nothing. There is no error anywhere in this chain; CSS is specified to recover and continue.
-- **How it surfaced.** The missing borders eventually gave it away, after the missing colours did not. (Found by reading the code or the output)
-- **Fix.** Remove the nested comment.
-- **What stops it now.** weekly_audit checks computed colour on every page in `src/weekly_audit.js`
-- **Cost.** the palette on over 1,450 pages
-- **Lesson.** CSS never fails loudly. A malformed rule is skipped, a bad selector eats the block after it, and an undefined variable paints as nothing. Anything that matters visually has to be asserted on the rendered page, because the parser will not tell you.
-
-
-### INC-0018. The Do Not Sell button was invisible from the day it shipped
-
-*2026-09-19, Degraded, `a34a798` PR #47*
-
-- **What was seen.** White text on a transparent background on a white page. A legally required control that nobody could see.
-- **Why.** The page referenced nine colour custom properties that exist nowhere. CSS does not treat an undefined custom property as an error; it falls back to the initial value and paints.
-- **How it surfaced.** An automated contrast audit across every page. (A test caught it)
-- **Fix.** Define the tokens and fix seven contrast failures, all site wide because all lived in shared chrome.
-- **What stops it now.** weekly_audit checks computed contrast on every page in `src/weekly_audit.js`
-- **Cost.** an invisible compliance control for the life of the page
-- **Lesson.** An undefined CSS custom property is silent. Audit computed colour, not authored colour, and do it on the rendered page.
-
-
-### INC-0029. A sequential colour ramp inverts direction between themes, and the label text did not
-
-*2026-09-21, Degraded, `8af7188` PR #61*
-
-- **What was seen.** White heatmap labels on a light cell in dark mode.
-- **Why.** A sequential ramp runs light to dark in a light theme and dark to light in a dark theme. The label colour was hardcoded white, so it was correct in one theme and unreadable in the other.
-- **How it surfaced.** Rendering the chart in dark mode and looking at it. (Found by rendering it and looking)
-- **Fix.** An --sfnc-on-seq token that flips with the theme.
-- **What stops it now.** smoke_charts asserts token parity between the light and dark blocks in `src/smoke_charts.js`
-- **Cost.** an unreadable chart in one theme
-- **Lesson.** A dark mode does not break by having a wrong colour. It breaks by missing one. Any colour paired with a ramp has to move with the ramp.
 
 
 ## Payments (5)
@@ -3166,7 +3179,7 @@ Read it before starting a piece of work in the matching area, and again before y
 
 ## CSS and layout
 
-- [ ] **Learned 2 times over.** The same undefined-property failure will find you repeatedly, at every severity from one icon to an invisible legal control. One audit of computed colour catches the whole class.  
+- [ ] **Learned 3 times over.** The same undefined-property failure will find you repeatedly, at every severity from one icon to an invisible legal control. One audit of computed colour catches the whole class.  
   <small>A landing-page icon referenced a colour token that did not exist (INC-0050)</small>
 - [ ] CSS comments do not nest. When a whole page category loses its styling, read the built artefact, not the source that produced it.  
   <small>CSS comments do not nest, and one placeholder killed the palette on 1451 pages (INC-0010)</small>
@@ -3176,6 +3189,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A sequential colour ramp inverts direction between themes, and the label text did not (INC-0029)</small>
 - [ ] CSS never fails loudly. A malformed rule is skipped, a bad selector eats the block after it, and an undefined variable paints as nothing. Anything that matters visually has to be asserted on the rendered page, because the parser will not tell you.  
   <small>Error recovery in the CSS parser swallowed the palette silently (INC-0048)</small>
+- [ ] CSS forgives a variable that was never defined by quietly using the initial value, so a missing token never throws, it only looks slightly wrong. When shared rules depend on shared variables, inject them together through one function, and check built pages for variables used but never defined.  
+  <small>Every blog page drew the site header without the design tokens, so its logo sat against the screen edge on phones (INC-0139)</small>
 
 
 ## Content generation
@@ -3574,7 +3589,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 138 real defects reduced to the rules that prevent them,
+the whole project: 139 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -3614,7 +3629,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-138 defects already prevented is genuinely ahead, and every defect it hits
+139 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

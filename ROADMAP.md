@@ -309,6 +309,11 @@ verified rather than that the school does not publish one (INC-0118).
       the Selection Index, every figure generated from `data/psat_percentiles.json` and
       checked against it by script, with a PSAT/NMSQT block added to the EDITORIAL fact
       sheet. It estimates no National Merit cutoff.
+- [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
+      header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
+      never defined and the logo sat against the screen edge on phones. The blog now injects
+      the tokens as `apply_chrome` does, and the build fails on any page that uses a token
+      it never defines.
 - [x] **The school library checked against its sources** (INC-0133): `check_sources.py
       --schools` reads every page the library cites (652 figures, 225 pages; the 337 College
       Scorecard figures come from a dataset and are set aside). Reading its flags on static

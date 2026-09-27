@@ -59,7 +59,7 @@ a{color:var(--accent)}
 <p class="eyebrow">Start From Nowhere</p>
 <h1>The Build Playbook</h1>
 <p class="sub">How one person and a set of AI sessions built a multi-exam test-prep platform, every defect hit on the way, and the recipe for doing it again for something else</p>
-<p class="meta">Built 2026-09-27 from commit a91fe6f &middot; 80 commits over 7 days &middot; 138 recorded defects &middot; 17 chapters<br>
+<p class="meta">Built 2026-09-27 from commit 1521666 &middot; 81 commits over 7 days &middot; 139 recorded defects &middot; 17 chapters<br>
 This document is generated. Edit the chapters in docs/playbook/ and the ledger in data/playbook/incidents.jsonl, then run python3 src/build_playbook.py.</p>
 </div>
 <div class="toc"><ol><li><a href="#how-to-use-this-book">How to Use This Book</a></li>
@@ -81,7 +81,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><a href="#the-bootstrap-pack-starting-a-new-project-with-this-loaded">The Bootstrap Pack: Starting a New Project With This Loaded</a></li></ol></div>
 <h1 id="how-to-use-this-book">How to Use This Book</h1>
 <p>This is the record of building one platform, written so it can be used to build a different one.</p>
-<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-09-19 and 2026-09-26, which is 7 days, across 80 commits, by one owner directing a series of AI coding sessions. As of this build it is 83 Python files, 107 JavaScript files, 24 TypeScript edge functions, 35 migrations and 64 documents: 2038 tracked files in total.</p>
+<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-09-19 and 2026-09-26, which is 7 days, across 81 commits, by one owner directing a series of AI coding sessions. As of this build it is 83 Python files, 107 JavaScript files, 24 TypeScript edge functions, 35 migrations and 64 documents: 2039 tracked files in total.</p>
 <p>None of those numbers were typed. They are measured from the repository every time this document is built, which is the first thing worth copying.</p>
 <h2 id="what-is-in-here">What is in here</h2>
 <p>The book has four kinds of chapter, and they age differently.</p>
@@ -618,7 +618,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three defects here were found by taking a screenshot: a chart unreadable in dark mode, a line chart implying values that never existed, and a dashboard that was not on screen. None of them would have been caught by an assertion, because none of them were violations of anything anybody had thought to assert.</p>
 <p><strong>Budget for looking.</strong> It is the cheapest test there is and the only one that catches things you have not imagined.</p>
 <h1 id="running-the-build-as-an-ai-loop">Running the Build as an AI Loop</h1>
-<p>80 commits in 7 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
+<p>81 commits in 7 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
 <h2 id="the-division-of-labour">The division of labour</h2>
 <p><strong>The owner decides</strong>: what to build, what it means, what is acceptable, and every irreversible or outward-facing action. <strong>The session does</strong>: the building, the measuring, the testing, and the reporting of what it found.</p>
 <p>The failure mode at each end is worth naming. An owner who reviews every line becomes the bottleneck and the throughput collapses to the speed of reading. A session that decides product questions on its own produces something coherent that is not what anyone wanted.</p>
@@ -662,28 +662,28 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Long uninterrupted sessions with standing authorisation, punctuated by the owner redirecting priorities, beat short supervised ones by a wide margin. The standing authorisation that made it work was specific: merge your own work once the checks are green, do not check in on each item, and stop immediately when told to.</p>
 <p>The thing that makes that safe is not trust. It is that the checks are real, the destructive actions still require asking, and the record of what happened is written down well enough to audit later. Which is what this book is.</p>
 <h1 id="what-the-ledger-says-about-itself">What the Ledger Says About Itself</h1>
-<p>138 recorded defects, over 7 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.</p>
+<p>139 recorded defects, over 7 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.</p>
 <h2 id="how-defects-were-actually-found">How defects were actually found</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">How</th><th style="text-align:right">Count</th><th style="text-align:right">Share</th></tr></thead><tbody>
-<tr><td style="text-align:left">Found by reading the code or the output</td><td style="text-align:right">67</td><td style="text-align:right">49%</td></tr>
+<tr><td style="text-align:left">Found by reading the code or the output</td><td style="text-align:right">67</td><td style="text-align:right">48%</td></tr>
 <tr><td style="text-align:left">Found by measuring something</td><td style="text-align:right">39</td><td style="text-align:right">28%</td></tr>
 <tr><td style="text-align:left">A test caught it</td><td style="text-align:right">16</td><td style="text-align:right">12%</td></tr>
-<tr><td style="text-align:left">Found by rendering it and looking</td><td style="text-align:right">6</td><td style="text-align:right">4%</td></tr>
+<tr><td style="text-align:left">Found by rendering it and looking</td><td style="text-align:right">7</td><td style="text-align:right">5%</td></tr>
 <tr><td style="text-align:left">Found by a review bot or an adversarial pass</td><td style="text-align:right">5</td><td style="text-align:right">4%</td></tr>
 <tr><td style="text-align:left">A build guard caught it</td><td style="text-align:right">3</td><td style="text-align:right">2%</td></tr>
 <tr><td style="text-align:left">A person hit it</td><td style="text-align:right">2</td><td style="text-align:right">1%</td></tr>
 </tbody></table></div>
-<p><strong>This is the most useful table in the book.</strong> 136 of 138 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.</p>
+<p><strong>This is the most useful table in the book.</strong> 137 of 139 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.</p>
 <p><strong>Read that percentage with the bias it carries.</strong> This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.</p>
 <h2 id="by-severity">By severity</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">Severity</th><th style="text-align:right">Count</th></tr></thead><tbody>
 <tr><td style="text-align:left">Wrong data shown or stored</td><td style="text-align:right">59</td></tr>
 <tr><td style="text-align:left">Degraded</td><td style="text-align:right">30</td></tr>
 <tr><td style="text-align:left">Silent loss</td><td style="text-align:right">26</td></tr>
-<tr><td style="text-align:left">Cosmetic</td><td style="text-align:right">20</td></tr>
+<tr><td style="text-align:left">Cosmetic</td><td style="text-align:right">21</td></tr>
 <tr><td style="text-align:left">Site down</td><td style="text-align:right">3</td></tr>
 </tbody></table></div>
-<p><strong>Silent loss is the dominant failure mode</strong>, at 26 of 138. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.</p>
+<p><strong>Silent loss is the dominant failure mode</strong>, at 26 of 139. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.</p>
 <h2 id="by-area">By area</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">Area</th><th style="text-align:right">Count</th></tr></thead><tbody>
 <tr><td style="text-align:left">Content generation</td><td style="text-align:right">60</td></tr>
@@ -692,14 +692,14 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <tr><td style="text-align:left">Build system</td><td style="text-align:right">10</td></tr>
 <tr><td style="text-align:left">Search and metadata</td><td style="text-align:right">9</td></tr>
 <tr><td style="text-align:left">Scoring and selection</td><td style="text-align:right">7</td></tr>
+<tr><td style="text-align:left">CSS and layout</td><td style="text-align:right">6</td></tr>
 <tr><td style="text-align:left">Infrastructure and deploy</td><td style="text-align:right">6</td></tr>
-<tr><td style="text-align:left">CSS and layout</td><td style="text-align:right">5</td></tr>
 <tr><td style="text-align:left">Payments</td><td style="text-align:right">5</td></tr>
 <tr><td style="text-align:left">Database</td><td style="text-align:right">4</td></tr>
 <tr><td style="text-align:left">Interface and data display</td><td style="text-align:right">3</td></tr>
 </tbody></table></div>
 <h2 id="guard-coverage">Guard coverage</h2>
-<p>132 of 138 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.</p>
+<p>133 of 139 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.</p>
 <p>Carried by attention:</p>
 <ul>
 <li><strong>INC-0010</strong> CSS comments do not nest, and one placeholder killed the palette on 1451 pages</li>
@@ -715,7 +715,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>weekly_audit checks computed colour on every page (INC-0050, INC-0048)</li>
 </ul>
 <h2 id="lessons-learned-more-than-once">Lessons learned more than once</h2>
-<p>54 of 138 incidents record that they repeat an earlier lesson, 76 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.</p>
+<p>55 of 139 incidents record that they repeat an earlier lesson, 77 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.</p>
 <div class="tw"><table><thead><tr><th style="text-align:left">Lesson first recorded in</th><th style="text-align:left">Repeated by</th><th style="text-align:right">Times</th></tr></thead><tbody>
 <tr><td style="text-align:left">INC-0088 A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked</td><td style="text-align:left">INC-0089, INC-0098, INC-0099, INC-0101, INC-0117, INC-0122</td><td style="text-align:right">6</td></tr>
 <tr><td style="text-align:left">INC-0064 The guard against a blind counter was itself blind to three exams</td><td style="text-align:left">INC-0067, INC-0082, INC-0085, INC-0088</td><td style="text-align:right">4</td></tr>
@@ -725,6 +725,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <tr><td style="text-align:left">INC-0082 Nine published exam facts cite test prep companies, in the one published corpus with no source validator</td><td style="text-align:left">INC-0124, INC-0125, INC-0130</td><td style="text-align:right">3</td></tr>
 <tr><td style="text-align:left">INC-0092 A schema threw away three draws in four, and the counter that knew was read by nobody</td><td style="text-align:left">INC-0098, INC-0099, INC-0101</td><td style="text-align:right">3</td></tr>
 <tr><td style="text-align:left">INC-0099 Every generated reading comprehension question shipped without its passage</td><td style="text-align:left">INC-0100, INC-0101, INC-0103</td><td style="text-align:right">3</td></tr>
+<tr><td style="text-align:left">INC-0050 A landing-page icon referenced a colour token that did not exist</td><td style="text-align:left">INC-0018, INC-0139</td><td style="text-align:right">2</td></tr>
 <tr><td style="text-align:left">INC-0055 A new browser suite hardcoded this machine's browser directory and crashed in CI</td><td style="text-align:left">INC-0067, INC-0110</td><td style="text-align:right">2</td></tr>
 <tr><td style="text-align:left">INC-0059 The item counter missed a whole bank file because it assumed a quoting style</td><td style="text-align:left">INC-0064, INC-0067</td><td style="text-align:right">2</td></tr>
 <tr><td style="text-align:left">INC-0067 The browser path fix covered two suites and three others kept crashing</td><td style="text-align:left">INC-0070, INC-0104</td><td style="text-align:right">2</td></tr>
@@ -743,7 +744,6 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <tr><td style="text-align:left">INC-0014 A hardcoded count in the meta description went stale, and Google showed it</td><td style="text-align:left">INC-0128</td><td style="text-align:right">1</td></tr>
 <tr><td style="text-align:left">INC-0023 www and the apex were two origins, so consent and rankings split in half</td><td style="text-align:left">INC-0127</td><td style="text-align:right">1</td></tr>
 <tr><td style="text-align:left">INC-0044 The longest option was the correct answer 81 percent of the time</td><td style="text-align:left">INC-0091</td><td style="text-align:right">1</td></tr>
-<tr><td style="text-align:left">INC-0050 A landing-page icon referenced a colour token that did not exist</td><td style="text-align:left">INC-0018</td><td style="text-align:right">1</td></tr>
 <tr><td style="text-align:left">INC-0072 A distractor was replaced and the explanation went on naming the old one</td><td style="text-align:left">INC-0119</td><td style="text-align:right">1</td></tr>
 <tr><td style="text-align:left">INC-0080 A build step that fails while the build exits zero, and a verification run that was a remembered subset</td><td style="text-align:left">INC-0095</td><td style="text-align:right">1</td></tr>
 <tr><td style="text-align:left">INC-0081 A student who always answers 1 scores 98 percent on a schema, and no check looked at the answer itself</td><td style="text-align:left">INC-0123</td><td style="text-align:right">1</td></tr>
@@ -793,6 +793,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><code>src/smoke_playbook.js</code>, 3 incidents (INC-0054, INC-0084, INC-0129)</li>
 <li><code>src/build_playbook.py</code>, 3 incidents (INC-0057, INC-0065, INC-0083)</li>
 <li><code>src/gen/g_act_sci.py</code>, 3 incidents (INC-0093, INC-0094, INC-0098)</li>
+<li><code>src/page_checks.py</code>, 3 incidents (INC-0134, INC-0138, INC-0139)</li>
 </ul>
 <h1 id="the-defect-ledger">The Defect Ledger</h1>
 <p>Every entry here happened. Each one is a record of something that broke, how it was found, what fixed it, and what now stops it coming back. The last field is the one that matters for a different business: the transferable lesson, stated without reference to this codebase.</p>
@@ -1996,6 +1997,72 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>What stops it now.</strong> build_banks.py recomputes every generated id from its item and fails if one differs from its canon key or two items in an exam share an id. A twelve digit prefix makes a chance collision about three in a million per exam per build. in <code>src/build_banks.py</code></li>
 <li><strong>Lesson.</strong> An identifier that anything outside the build stores must be derived from what it identifies, not from where it happened to land. A position is a fine name only for something nobody keeps.</li>
 </ul>
+<h2 id="css-and-layout-6">CSS and layout (6)</h2>
+<h3 id="inc-0050-a-landing-page-icon-referenced-a-colour-token-that-did-not-exist">INC-0050. A landing-page icon referenced a colour token that did not exist</h3>
+<p><em>2026-08-19, Cosmetic, <code>5337dfd</code></em></p>
+<ul>
+<li><strong>What was seen.</strong> One game icon on the landing grid rendered without its colour.</li>
+<li><strong>Why.</strong> An undefined custom property, which CSS treats as a fallback rather than an error.</li>
+<li><strong>How it surfaced.</strong> Looking at the page on a phone during a mobile pass. (Found by rendering it and looking)</li>
+<li><strong>Fix.</strong> Use a defined token.</li>
+<li><strong>What stops it now.</strong> weekly_audit checks computed colour on every page in <code>src/weekly_audit.js</code></li>
+<li><strong>Cost.</strong> one icon, and the same root cause later cost a compliance control</li>
+<li><strong>Lesson.</strong> The same undefined-property failure will find you repeatedly, at every severity from one icon to an invisible legal control. One audit of computed colour catches the whole class.</li>
+</ul>
+<h3 id="inc-0010-css-comments-do-not-nest-and-one-placeholder-killed-the-palette-on-1451-pages">INC-0010. CSS comments do not nest, and one placeholder killed the palette on 1451 pages</h3>
+<p><em>2026-09-17, Degraded, <code>61c3ed2</code> PR #40</em></p>
+<ul>
+<li><strong>What was seen.</strong> The colour palette was gone from every college page. It looked like a design problem and was chased as one for hours.</li>
+<li><strong>Why.</strong> A <code>{{CHROME_CSS}}</code> placeholder was left inside an opening CSS comment in rankings_base.css. The first */ closes the outer comment, so everything after it was live CSS that overwrote the palette.</li>
+<li><strong>How it surfaced.</strong> Eventually, by reading the built CSS rather than the template. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Remove the nested comment.</li>
+<li><strong>What stops it now.</strong> Nothing automated. This one is still carried by attention.</li>
+<li><strong>Cost.</strong> hours, on 1451 pages</li>
+<li><strong>Lesson.</strong> CSS comments do not nest. When a whole page category loses its styling, read the built artefact, not the source that produced it.</li>
+</ul>
+<h3 id="inc-0048-error-recovery-in-the-css-parser-swallowed-the-palette-silently">INC-0048. Error recovery in the CSS parser swallowed the palette silently</h3>
+<p><em>2026-09-17, Degraded, <code>a920f5c</code> PR #41</em></p>
+<ul>
+<li><strong>What was seen.</strong> Score bars rendered as empty gaps and panels lost their borders on 1,451 college pages and the rankings.</li>
+<li><strong>Why.</strong> A nested comment ended early, the leftover words became a selector, and the CSS parser's error recovery discarded the :root colour block that followed it. Every grey and navy variable on those pages resolved to nothing. There is no error anywhere in this chain; CSS is specified to recover and continue.</li>
+<li><strong>How it surfaced.</strong> The missing borders eventually gave it away, after the missing colours did not. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> Remove the nested comment.</li>
+<li><strong>What stops it now.</strong> weekly_audit checks computed colour on every page in <code>src/weekly_audit.js</code></li>
+<li><strong>Cost.</strong> the palette on over 1,450 pages</li>
+<li><strong>Lesson.</strong> CSS never fails loudly. A malformed rule is skipped, a bad selector eats the block after it, and an undefined variable paints as nothing. Anything that matters visually has to be asserted on the rendered page, because the parser will not tell you.</li>
+</ul>
+<h3 id="inc-0018-the-do-not-sell-button-was-invisible-from-the-day-it-shipped">INC-0018. The Do Not Sell button was invisible from the day it shipped</h3>
+<p><em>2026-09-19, Degraded, <code>a34a798</code> PR #47</em></p>
+<ul>
+<li><strong>What was seen.</strong> White text on a transparent background on a white page. A legally required control that nobody could see.</li>
+<li><strong>Why.</strong> The page referenced nine colour custom properties that exist nowhere. CSS does not treat an undefined custom property as an error; it falls back to the initial value and paints.</li>
+<li><strong>How it surfaced.</strong> An automated contrast audit across every page. (A test caught it)</li>
+<li><strong>Fix.</strong> Define the tokens and fix seven contrast failures, all site wide because all lived in shared chrome.</li>
+<li><strong>What stops it now.</strong> weekly_audit checks computed contrast on every page in <code>src/weekly_audit.js</code></li>
+<li><strong>Cost.</strong> an invisible compliance control for the life of the page</li>
+<li><strong>Lesson.</strong> An undefined CSS custom property is silent. Audit computed colour, not authored colour, and do it on the rendered page.</li>
+</ul>
+<h3 id="inc-0029-a-sequential-colour-ramp-inverts-direction-between-themes-and-the-label-text-did-not">INC-0029. A sequential colour ramp inverts direction between themes, and the label text did not</h3>
+<p><em>2026-09-21, Degraded, <code>8af7188</code> PR #61</em></p>
+<ul>
+<li><strong>What was seen.</strong> White heatmap labels on a light cell in dark mode.</li>
+<li><strong>Why.</strong> A sequential ramp runs light to dark in a light theme and dark to light in a dark theme. The label colour was hardcoded white, so it was correct in one theme and unreadable in the other.</li>
+<li><strong>How it surfaced.</strong> Rendering the chart in dark mode and looking at it. (Found by rendering it and looking)</li>
+<li><strong>Fix.</strong> An --sfnc-on-seq token that flips with the theme.</li>
+<li><strong>What stops it now.</strong> smoke_charts asserts token parity between the light and dark blocks in <code>src/smoke_charts.js</code></li>
+<li><strong>Cost.</strong> an unreadable chart in one theme</li>
+<li><strong>Lesson.</strong> A dark mode does not break by having a wrong colour. It breaks by missing one. Any colour paired with a ramp has to move with the ramp.</li>
+</ul>
+<h3 id="inc-0139-every-blog-page-drew-the-site-header-without-the-design-tokens-so-its-logo-sat-against-the-screen-edge-on-phones">INC-0139. Every blog page drew the site header without the design tokens, so its logo sat against the screen edge on phones</h3>
+<p><em>2026-09-27, Cosmetic</em></p>
+<ul>
+<li><strong>What was seen.</strong> On all 32 blog pages, the 31 published posts and the blog index, the shared header's wordmark sat at 0 pixels from the left edge at phone width where every other page puts it 24 pixels in, and the header and footer ignored the page width. Their stylesheet used 22 design tokens, --gutter, --page and the radii and motion values among them, that the blog pages never defined.</li>
+<li><strong>Why.</strong> partials.apply_chrome() injects TOKENS_CSS ahead of CHROME_CSS wherever a template carries the CHROME_CSS placeholder. build_blog.py writes its own page shell and pasted partials.CHROME_CSS into it directly, so the blog got the rules without the variables they read. CSS treats a variable that was never defined by quietly falling back to the property's initial value, so nothing failed: the padding became 0 and the max width none.</li>
+<li><strong>How it surfaced.</strong> Found on September 27, 2026 while previewing a queued post at phone width: the logo touched the screen edge, and an already published post showed the same. (Found by rendering it and looking)</li>
+<li><strong>Fix.</strong> build_blog.py injects TOKENS_CSS with CHROME_CSS, as apply_chrome does.</li>
+<li><strong>What stops it now.</strong> page_checks.undefined_tokens() reads every built page's inline CSS and any local stylesheet it links, and fails the build when a page uses one of TOKENS_CSS's variables without a fallback and never defines it. in <code>src/page_checks.py</code></li>
+<li><strong>Lesson.</strong> CSS forgives a variable that was never defined by quietly using the initial value, so a missing token never throws, it only looks slightly wrong. When shared rules depend on shared variables, inject them together through one function, and check built pages for variables used but never defined.</li>
+</ul>
 <h2 id="infrastructure-and-deploy-6">Infrastructure and deploy (6)</h2>
 <h3 id="inc-0023-www-and-the-apex-were-two-origins-so-consent-and-rankings-split-in-half">INC-0023. www and the apex were two origins, so consent and rankings split in half</h3>
 <p><em>2026-09-21, Wrong data shown or stored, <code>b852727</code> PR #54</em></p>
@@ -2061,62 +2128,6 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Fix.</strong> Nothing to change in the repository. The value was read with git rev-parse and the merge went through. What is recorded here is the shape of the mistake, because the rule against it already existed and was not enough.</li>
 <li><strong>What stops it now.</strong> the merge API compares the expected head against the real one and refuses a mismatch, which is what caught this; the rule in CLAUDE.md is the part that failed, so the record is the reinforcement in <code>CLAUDE.md</code></li>
 <li><strong>Lesson.</strong> An optional safety parameter is a guard only while its value is read rather than recalled. Fill it from memory and it becomes a coin flip that looks exactly like a guard from the outside, and the flips it wins are the ones where it was not needed. A value that is cheap to read is never worth remembering: reading costs one command, and the failure mode of remembering is an operation that succeeds on the wrong thing.</li>
-</ul>
-<h2 id="css-and-layout-5">CSS and layout (5)</h2>
-<h3 id="inc-0050-a-landing-page-icon-referenced-a-colour-token-that-did-not-exist">INC-0050. A landing-page icon referenced a colour token that did not exist</h3>
-<p><em>2026-08-19, Cosmetic, <code>5337dfd</code></em></p>
-<ul>
-<li><strong>What was seen.</strong> One game icon on the landing grid rendered without its colour.</li>
-<li><strong>Why.</strong> An undefined custom property, which CSS treats as a fallback rather than an error.</li>
-<li><strong>How it surfaced.</strong> Looking at the page on a phone during a mobile pass. (Found by rendering it and looking)</li>
-<li><strong>Fix.</strong> Use a defined token.</li>
-<li><strong>What stops it now.</strong> weekly_audit checks computed colour on every page in <code>src/weekly_audit.js</code></li>
-<li><strong>Cost.</strong> one icon, and the same root cause later cost a compliance control</li>
-<li><strong>Lesson.</strong> The same undefined-property failure will find you repeatedly, at every severity from one icon to an invisible legal control. One audit of computed colour catches the whole class.</li>
-</ul>
-<h3 id="inc-0010-css-comments-do-not-nest-and-one-placeholder-killed-the-palette-on-1451-pages">INC-0010. CSS comments do not nest, and one placeholder killed the palette on 1451 pages</h3>
-<p><em>2026-09-17, Degraded, <code>61c3ed2</code> PR #40</em></p>
-<ul>
-<li><strong>What was seen.</strong> The colour palette was gone from every college page. It looked like a design problem and was chased as one for hours.</li>
-<li><strong>Why.</strong> A <code>{{CHROME_CSS}}</code> placeholder was left inside an opening CSS comment in rankings_base.css. The first */ closes the outer comment, so everything after it was live CSS that overwrote the palette.</li>
-<li><strong>How it surfaced.</strong> Eventually, by reading the built CSS rather than the template. (Found by reading the code or the output)</li>
-<li><strong>Fix.</strong> Remove the nested comment.</li>
-<li><strong>What stops it now.</strong> Nothing automated. This one is still carried by attention.</li>
-<li><strong>Cost.</strong> hours, on 1451 pages</li>
-<li><strong>Lesson.</strong> CSS comments do not nest. When a whole page category loses its styling, read the built artefact, not the source that produced it.</li>
-</ul>
-<h3 id="inc-0048-error-recovery-in-the-css-parser-swallowed-the-palette-silently">INC-0048. Error recovery in the CSS parser swallowed the palette silently</h3>
-<p><em>2026-09-17, Degraded, <code>a920f5c</code> PR #41</em></p>
-<ul>
-<li><strong>What was seen.</strong> Score bars rendered as empty gaps and panels lost their borders on 1,451 college pages and the rankings.</li>
-<li><strong>Why.</strong> A nested comment ended early, the leftover words became a selector, and the CSS parser's error recovery discarded the :root colour block that followed it. Every grey and navy variable on those pages resolved to nothing. There is no error anywhere in this chain; CSS is specified to recover and continue.</li>
-<li><strong>How it surfaced.</strong> The missing borders eventually gave it away, after the missing colours did not. (Found by reading the code or the output)</li>
-<li><strong>Fix.</strong> Remove the nested comment.</li>
-<li><strong>What stops it now.</strong> weekly_audit checks computed colour on every page in <code>src/weekly_audit.js</code></li>
-<li><strong>Cost.</strong> the palette on over 1,450 pages</li>
-<li><strong>Lesson.</strong> CSS never fails loudly. A malformed rule is skipped, a bad selector eats the block after it, and an undefined variable paints as nothing. Anything that matters visually has to be asserted on the rendered page, because the parser will not tell you.</li>
-</ul>
-<h3 id="inc-0018-the-do-not-sell-button-was-invisible-from-the-day-it-shipped">INC-0018. The Do Not Sell button was invisible from the day it shipped</h3>
-<p><em>2026-09-19, Degraded, <code>a34a798</code> PR #47</em></p>
-<ul>
-<li><strong>What was seen.</strong> White text on a transparent background on a white page. A legally required control that nobody could see.</li>
-<li><strong>Why.</strong> The page referenced nine colour custom properties that exist nowhere. CSS does not treat an undefined custom property as an error; it falls back to the initial value and paints.</li>
-<li><strong>How it surfaced.</strong> An automated contrast audit across every page. (A test caught it)</li>
-<li><strong>Fix.</strong> Define the tokens and fix seven contrast failures, all site wide because all lived in shared chrome.</li>
-<li><strong>What stops it now.</strong> weekly_audit checks computed contrast on every page in <code>src/weekly_audit.js</code></li>
-<li><strong>Cost.</strong> an invisible compliance control for the life of the page</li>
-<li><strong>Lesson.</strong> An undefined CSS custom property is silent. Audit computed colour, not authored colour, and do it on the rendered page.</li>
-</ul>
-<h3 id="inc-0029-a-sequential-colour-ramp-inverts-direction-between-themes-and-the-label-text-did-not">INC-0029. A sequential colour ramp inverts direction between themes, and the label text did not</h3>
-<p><em>2026-09-21, Degraded, <code>8af7188</code> PR #61</em></p>
-<ul>
-<li><strong>What was seen.</strong> White heatmap labels on a light cell in dark mode.</li>
-<li><strong>Why.</strong> A sequential ramp runs light to dark in a light theme and dark to light in a dark theme. The label colour was hardcoded white, so it was correct in one theme and unreadable in the other.</li>
-<li><strong>How it surfaced.</strong> Rendering the chart in dark mode and looking at it. (Found by rendering it and looking)</li>
-<li><strong>Fix.</strong> An --sfnc-on-seq token that flips with the theme.</li>
-<li><strong>What stops it now.</strong> smoke_charts asserts token parity between the light and dark blocks in <code>src/smoke_charts.js</code></li>
-<li><strong>Cost.</strong> an unreadable chart in one theme</li>
-<li><strong>Lesson.</strong> A dark mode does not break by having a wrong colour. It breaks by missing one. Any colour paired with a ramp has to move with the ramp.</li>
 </ul>
 <h2 id="payments-5">Payments (5)</h2>
 <h3 id="inc-0041-a-signed-in-user-could-grant-themselves-a-paid-plan">INC-0041. A signed-in user could grant themselves a paid plan</h3>
@@ -2299,7 +2310,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>&lt;small&gt;The rules digest crossed its word budget again, because the earlier fix bounded each rule and not the digest (INC-0129)&lt;/small&gt;</p>
 <h2 id="css-and-layout">CSS and layout</h2>
 <ul>
-<li>[ ] <strong>Learned 2 times over.</strong> The same undefined-property failure will find you repeatedly, at every severity from one icon to an invisible legal control. One audit of computed colour catches the whole class.  </li>
+<li>[ ] <strong>Learned 3 times over.</strong> The same undefined-property failure will find you repeatedly, at every severity from one icon to an invisible legal control. One audit of computed colour catches the whole class.  </li>
 </ul>
 <p>&lt;small&gt;A landing-page icon referenced a colour token that did not exist (INC-0050)&lt;/small&gt;</p>
 <ul>
@@ -2318,6 +2329,10 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>[ ] CSS never fails loudly. A malformed rule is skipped, a bad selector eats the block after it, and an undefined variable paints as nothing. Anything that matters visually has to be asserted on the rendered page, because the parser will not tell you.  </li>
 </ul>
 <p>&lt;small&gt;Error recovery in the CSS parser swallowed the palette silently (INC-0048)&lt;/small&gt;</p>
+<ul>
+<li>[ ] CSS forgives a variable that was never defined by quietly using the initial value, so a missing token never throws, it only looks slightly wrong. When shared rules depend on shared variables, inject them together through one function, and check built pages for variables used but never defined.  </li>
+</ul>
+<p>&lt;small&gt;Every blog page drew the site header without the design tokens, so its logo sat against the screen edge on phones (INC-0139)&lt;/small&gt;</p>
 <h2 id="content-generation">Content generation</h2>
 <ul>
 <li>[ ] <strong>Learned 7 times over.</strong> A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell. When a measurement cannot be trusted at a small sample, widen the tolerance to what the sample supports rather than declining to measure, and notice when a count of what was measured does not move after you add something to measure.  </li>
@@ -2874,7 +2889,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p><code>python3 src/build_playbook.py</code> writes four files into <code>playbook/bootstrap/</code>, all generated from the same ledger as the book, so none of them can drift from it.</p>
 <p><strong><code>CLAUDE.template.md</code></strong> goes in the new repository's root. Claude Code reads it on every turn. It is the constitution: the house rules, the never-invent-a-value rule, the sourcing rules, the communication rule, and a short architecture section you fill in as you build. Four bracketed blanks at the top are the only things you have to change.</p>
 <p><strong><code>KICKOFF.md</code></strong> is the literal first message for a new conversation. It sets the working agreement, the phase order, and what a session should report. Paste it, then describe your business idea underneath it.</p>
-<p><strong><code>RULES_DIGEST.md</code></strong> is every lesson in the defect ledger, compressed to one line each and grouped by area. It is about three pages. This is the highest value-per-token artefact in the whole project: 138 real defects reduced to the rules that prevent them, with the specifics of this codebase stripped out.</p>
+<p><strong><code>RULES_DIGEST.md</code></strong> is every lesson in the defect ledger, compressed to one line each and grouped by area. It is about three pages. This is the highest value-per-token artefact in the whole project: 139 real defects reduced to the rules that prevent them, with the specifics of this codebase stripped out.</p>
 <p><strong><code>incidents.jsonl</code></strong> is the raw ledger, copied so the new project can start appending to it on day one rather than starting an empty one.</p>
 <h2 id="how-to-load-it-by-surface">How to load it, by surface</h2>
 <p><strong>Claude Code, new repository.</strong> Copy <code>CLAUDE.template.md</code> to the repo root as <code>CLAUDE.md</code>, fill in the four blanks, and copy <code>incidents.jsonl</code> to <code>data/playbook/incidents.jsonl</code>. Copy <code>src/build_playbook.py</code> too, so the new project's own ledger becomes its own book from the first defect. Then open a session with <code>KICKOFF.md</code> as the first message.</p>
@@ -2884,7 +2899,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three reasons, and they are worth understanding rather than just following.</p>
 <p><strong>Retrieval beats repetition.</strong> A document in project knowledge is consulted when relevant. The same document in the prompt is re-read on every single turn, at full cost, mostly when it is irrelevant. For anything longer than a few pages, retrieval is strictly better.</p>
 <p><strong>Instructions need to be short enough to be followed.</strong> A rule competing with ten thousand words of context is a rule that gets applied inconsistently. The digest is deliberately brutal: one line per lesson, imperative mood, no examples. The examples are in the book, where they can be looked up when a rule seems wrong.</p>
-<p><strong>The ledger is the part that compounds.</strong> The recipe chapters age. The rules do not, because each one is the residue of a real failure, and the failure modes of software are considerably more stable than its tooling. A new project that starts with 138 defects already prevented is genuinely ahead, and every defect it hits of its own makes the next project further ahead still.</p>
+<p><strong>The ledger is the part that compounds.</strong> The recipe chapters age. The rules do not, because each one is the residue of a real failure, and the failure modes of software are considerably more stable than its tooling. A new project that starts with 139 defects already prevented is genuinely ahead, and every defect it hits of its own makes the next project further ahead still.</p>
 <h2 id="keeping-the-loop-closed">Keeping the loop closed</h2>
 <p>The pack is only worth carrying forward if the new project feeds it back. So the working agreement in <code>KICKOFF.md</code> includes one instruction that does the whole job:</p>
 <p>&gt; When something breaks, append a record to <code>data/playbook/incidents.jsonl</code> before fixing &gt; it, while you still remember what you believed was true five minutes ago.</p>
