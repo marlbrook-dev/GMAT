@@ -7,10 +7,10 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-27, which is 8 days, across
-90 commits, by one owner directing a series of AI coding sessions. As of this
-build it is 83 Python files, 107 JavaScript files, 24
+91 commits, by one owner directing a series of AI coding sessions. As of this
+build it is 83 Python files, 109 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 64 documents:
-2042 tracked files in total.
+2044 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -401,12 +401,13 @@ The build is the first rung. Above it, in the order they run:
 - `src/smoke_playbook.js`
 - `src/smoke_rankings.js`
 - `src/smoke_redirect.js`
+- `src/smoke_render.js`
 - `src/smoke_sharing.js`
 - `src/smoke_signup.js`
 - `src/test.js`
 - `src/weekly_audit.js`
 
-25 test files in total. The layering is deliberate:
+26 test files in total. The layering is deliberate:
 
 1. **The build** catches structural problems in the artefact.
 2. **Engine tests** run the domain logic headlessly, once per exam.
@@ -1029,7 +1030,7 @@ remembers it was a placeholder.
 
 # Tests and Guards
 
-25 test files, and the interesting thing about them is not what they assert.
+26 test files, and the interesting thing about them is not what they assert.
 It is that the analysis chapter can count how defects were **actually** found, and the
 answer reshapes where you put effort.
 
@@ -1122,7 +1123,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-90 commits in 8 days, one owner, a series of AI sessions. This
+91 commits in 8 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1214,22 +1215,22 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-145 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+146 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 72 | 50% |
+| Found by reading the code or the output | 73 | 50% |
 | Found by measuring something | 39 | 27% |
 | A test caught it | 16 | 11% |
-| Found by rendering it and looking | 8 | 6% |
+| Found by rendering it and looking | 8 | 5% |
 | Found by a review bot or an adversarial pass | 5 | 3% |
 | A build guard caught it | 3 | 2% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 143 of 145 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 144 of 146 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1239,12 +1240,12 @@ well enough to audit later. Which is what this book is.
 | Severity | Count |
 | --- | ---: |
 | Wrong data shown or stored | 62 |
-| Degraded | 31 |
+| Degraded | 32 |
 | Silent loss | 26 |
 | Cosmetic | 23 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 145. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 146. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
@@ -1252,7 +1253,7 @@ well enough to audit later. Which is what this book is.
 | Area | Count |
 | --- | ---: |
 | Content generation | 65 |
-| Tests and guards | 20 |
+| Tests and guards | 21 |
 | Front end | 10 |
 | Build system | 10 |
 | Search and metadata | 9 |
@@ -1266,7 +1267,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-139 of 145 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+140 of 146 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1287,7 +1288,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-60 of 145 incidents record that they repeat an earlier lesson, 82 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+60 of 146 incidents record that they repeat an earlier lesson, 82 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -2176,7 +2177,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** A pronoun is a claim about what came before it. In generated prose the sentence before is chosen by the data, not by the writer, so name the subject of every sentence that carries a figure.
 
 
-## Tests and guards (20)
+## Tests and guards (21)
 
 
 ### INC-0016. The performance test waited for the load event, which waits for the thing being optimised
@@ -2432,6 +2433,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** SPAN accepts an en dash as well as a hyphen or a slash between the years, so a page's range reads as 2026 and 2027 like ours.
 - **What stops it now.** check_sources.py checks its own normaliser before it reads a page: a year range written with a hyphen, a slash or an en dash must read as both years, or the run stops. in `src/check_sources.py`
 - **Lesson.** When you compare text you wrote against text someone else wrote, normalise both sides with the same rules, and remember the other side does not follow your house style: a comparison is only as fair as its most lenient reading of the source.
+
+
+### INC-0146. The source check's browser read returned Stanford's class profile without a single figure, because the figures are drawn in an embedded chart that renders only when scrolled into view
+
+*2026-09-27, Degraded*
+
+- **What was seen.** check_sources.py --render exists to read pages built by JavaScript, and the weekly audit runs it over the exam guides and the school library. On Stanford GSB's class profile it timed out after 60 seconds, and the check fell back to the page as served. With the timeout avoided it still returned only the page's prose, 2,341 characters of navigation and introduction with no 3.76 average GPA, although a person reading the same page sees the figure.
+- **Why.** render() waited for networkidle, which a page that keeps sending analytics requests never reaches, so Stanford's page timed out. It then read document.body.innerText of the top frame only and never scrolled. Stanford draws its class profile in an Infogram chart embedded as an iframe from e.infogram.com, and the chart writes its numbers only once it is scrolled into view: loaded without scrolling, the frame exists and holds no 3.76; scrolled, it does. The top frame's text never holds the figures at all.
+- **How it surfaced.** Found on September 27, 2026 while checking Stanford GSB's average GPA before quoting it in a blog post. The sandbox's browser certificate store had been empty, so no rendered read had run here before; once the proxy's CA was added to it, Stanford's page loaded, and three runs separated the causes: without scrolling neither the page nor its frames held 3.76, and with scrolling the Infogram frame did. (Found by reading the code or the output)
+- **Fix.** The browser read moves to src/render_page.js, which check_sources.py calls. It waits for the page's own content, gives the network at most ten seconds to go quiet instead of requiring it, scrolls to the bottom in steps so lazy content draws, and returns the text of every frame a reader can see, the page's own first. A hidden frame is skipped, because the text of a document that is not rendered is its raw source: on Wharton's page one hidden Infogram frame gave more than 21,000 characters of chart configuration. It refuses a response that is not HTML, since a PDF shown in Chromium's viewer held a read of a school's PDF for more than three minutes with nothing to show, and it has one deadline for the whole read so that a stalled page ends with the browser closed. check_sources.py also keeps the browser's read only when it shows at least as many of the cited figures as the page as served, so a render that comes back as a challenge page cannot hide figures the served page printed.
+- **What stops it now.** src/smoke_render.js serves fixtures from a local server: a page that requests the network every 200 ms, embeds far below the fold an iframe that writes its figure only when an IntersectionObserver sees it, and hides a second iframe whose script holds a decoy figure. The smoke fails unless render_page.js returns the figure, the page's own text first, and not the decoy; it also serves a PDF, which must be refused at once, and runs one read past a short deadline, which must end with an error. It runs in npm run test:browser, so CI runs it; with networkidle restored it times out, and with hidden frames read it returns the decoy. in `src/smoke_render.js`
+- **Lesson.** Loading a page is not the same as reading it. A chart can be a separate document inside the page that draws only when scrolled into view, and a page with trackers may never fall quiet, so a reader built for checking has to scroll like a person, collect every frame, and use waits that give up rather than hang.
 
 
 ## Front end (10)
@@ -3561,6 +3574,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A review bot check whose verdict was three coin flips warned on an unrelated bank change (INC-0077)</small>
 - [ ] When you compare text you wrote against text someone else wrote, normalise both sides with the same rules, and remember the other side does not follow your house style: a comparison is only as fair as its most lenient reading of the source.  
   <small>The source check read a page's 2026-27, written with an en dash, as 2026 and 27, so every figure we labelled 2026-27 looked unsupported (INC-0140)</small>
+- [ ] Loading a page is not the same as reading it. A chart can be a separate document inside the page that draws only when scrolled into view, and a page with trackers may never fall quiet, so a reader built for checking has to scroll like a person, collect every frame, and use waits that give up rather than hang.  
+  <small>The source check's browser read returned Stanford's class profile without a single figure, because the figures are drawn in an embedded chart that renders only when scrolled into view (INC-0146)</small>
 
 
 # Adapting This to a Different Business
@@ -3677,7 +3692,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 145 real defects reduced to the rules that prevent them,
+the whole project: 146 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -3717,7 +3732,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-145 defects already prevented is genuinely ahead, and every defect it hits
+146 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

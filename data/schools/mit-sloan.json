@@ -34,7 +34,7 @@
   }
  },
  "profile": {
-  "class_year": "Class of 2027",
+  "class_year": "Class of 2028",
   "class_size": {
    "v": 450,
    "stat": "Class of 2028, includes LGO students",
@@ -47,10 +47,10 @@
   },
   "gmat_focus": {
    "v": 675,
-   "stat": "median",
-   "src": "Poets&Quants (Class of 2027 profile coverage)",
-   "year": 2025,
-   "url": "https://poetsandquants.com/2025/11/04/mit-sloan-mba-class-of-2027-international-ranks-grow-but-u-s-diversity-stays-flat/"
+   "stat": "median; middle 80% 645 to 715",
+   "src": "MIT Sloan MBA Class of 2028 profile page",
+   "year": 2026,
+   "url": "https://mitsloan.mit.edu/mba/admissions/class-profile"
   },
   "gmat_classic": {
    "v": 720,
@@ -74,11 +74,11 @@
    "url": ""
   },
   "gpa": {
-   "v": 3.69,
-   "stat": "median",
-   "src": "Poets&Quants",
-   "year": 2025,
-   "url": "https://poetsandquants.com/2025/11/04/mit-sloan-mba-class-of-2027-international-ranks-grow-but-u-s-diversity-stays-flat/"
+   "v": 3.74,
+   "stat": "median, out of 4.0, based on schools that use a 4.0 grading system",
+   "src": "MIT Sloan MBA Class of 2028 profile page",
+   "year": 2026,
+   "url": "https://mitsloan.mit.edu/mba/admissions/class-profile"
   },
   "accept_rate_pct": {
    "v": 18.8,
@@ -88,22 +88,24 @@
   },
   "work_exp_years": {
    "v": 5,
-   "stat": "average",
-   "src": "Poets&Quants",
-   "year": 2025,
-   "url": "https://poetsandquants.com/2025/11/04/mit-sloan-mba-class-of-2027-international-ranks-grow-but-u-s-diversity-stays-flat/"
+   "stat": "average years of work experience",
+   "src": "MIT Sloan MBA Class of 2028 profile page",
+   "year": 2026,
+   "url": "https://mitsloan.mit.edu/mba/admissions/class-profile"
   },
   "women_pct": {
-   "v": 47,
-   "src": "Poets&Quants",
-   "year": 2025,
-   "url": "https://poetsandquants.com/2025/11/04/mit-sloan-mba-class-of-2027-international-ranks-grow-but-u-s-diversity-stays-flat/"
+   "v": 43,
+   "stat": "female, as the page reports it",
+   "src": "MIT Sloan MBA Class of 2028 profile page",
+   "year": 2026,
+   "url": "https://mitsloan.mit.edu/mba/admissions/class-profile"
   },
   "intl_pct": {
-   "v": 42,
-   "src": "Poets&Quants",
-   "year": 2025,
-   "url": "https://poetsandquants.com/2025/11/04/mit-sloan-mba-class-of-2027-international-ranks-grow-but-u-s-diversity-stays-flat/"
+   "v": 45,
+   "stat": "international",
+   "src": "MIT Sloan MBA Class of 2028 profile page",
+   "year": 2026,
+   "url": "https://mitsloan.mit.edu/mba/admissions/class-profile"
   },
   "tuition_usd": {
    "v": 91892,
@@ -127,7 +129,7 @@
    "url": "https://mitsloan.mit.edu/sites/default/files/2026-03/2025-2026-MBA-Employment-Report.pdf"
   }
  },
- "notes": "Anchor check passed: median GMAT Focus 675 and median Classic 720 confirmed for Class of 2027. Class size of 450 includes full-time MBA plus dual-degree LGO students, per P&Q. FT 2026 rank No. 1 is MIT Sloan's first time atop the FT ranking. P&Q 2025-2026 composite rank was not stated in any snippet seen (P&Q noted only a modest decline) and is nulled. MIT's admit rate rose from 14.1% to 18.8% in the 2025-26 cycle per P&Q. The official Class of 2027 profile page as served contains only the class size stat (450); the GMAT, GPA, women, and international stats did not render in the fetched HTML (JS animated content, headless render blocked by proxy), so the P&Q-sourced Class of 2027 admissions figures could not be replaced with official ones this session. For reference, the official 2025-2026 employment report's own class profile (Class of 2025, as of matriculation, includes LGO) lists: median GMAT 730, average GPA 3.61, 46 pct female, 40 pct international, 5 years average work experience.",
+ "notes": "Anchor check passed: median GMAT Focus 675 and median Classic 720 confirmed for Class of 2027. Class size of 450 includes full-time MBA plus dual-degree LGO students, per P&Q. FT 2026 rank No. 1 is MIT Sloan's first time atop the FT ranking. P&Q 2025-2026 composite rank was not stated in any snippet seen (P&Q noted only a modest decline) and is nulled. MIT's admit rate rose from 14.1% to 18.8% in the 2025-26 cycle per P&Q. The official class profile page draws its figures with JavaScript, so a plain fetch shows only the class size. It was read in a browser on September 27, 2026 (INC-0146), when it showed the Class of 2028 (updated September 2026), and the GPA, GMAT Focus, women, international and work experience figures come from it. It prints no Classic GMAT and only a middle 80% range for the GRE, so the median Classic 720 stays Poets&Quants' Class of 2027 figure and the GRE fields stay empty. For reference, the official 2025-2026 employment report's own class profile (Class of 2025, as of matriculation, includes LGO) lists: median GMAT 730, average GPA 3.61, 46 pct female, 40 pct international, 5 years average work experience.",
  "website": "https://mitsloan.mit.edu/mba",
  "scholarship": {
   "review": {
