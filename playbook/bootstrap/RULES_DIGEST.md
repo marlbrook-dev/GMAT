@@ -1,14 +1,14 @@
 # Rules Digest
 
-Rules from 146 defects in a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
+Rules from 147 defects in a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
 
 Generated 2026-09-27 from a ledger spanning 8 days and 92 commits.
 
 ## Read this first
 
-The three ways defects were most often found, in order: found by reading the code or the output (73), found by measuring something (39), a test caught it (16). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
+The three ways defects were most often found, in order: found by reading the code or the output (74), found by measuring something (39), a test caught it (16). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
 
-The dominant failure mode is silent loss, 26 of 146: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
+The dominant failure mode is silent loss, 26 of 147: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
 
 ## Learned the hard way, more than once
 
@@ -51,6 +51,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (2 times, content generation) A test measures what someone can get right without the skill, and there is more than one way to do that.
 - (2 times, content generation) A citation vouches only for what its source says, so check each figure against the source rather than checking that a citation is present.
 - (2 times, content generation) A figure with a source and a year can still go stale, because the source moves and the record does not.
+- (2 times, content generation) When a parser must pull one value out of free text, anchor it to the words that give the value its meaning, not to its position, and return nothing when nothing anchors it: a sentence that says less is better than one that states a guess as fact.
 - (2 times, content generation) A citation is only as current as the page it points to, and publishers leave old pages up.
 - (2 times, content generation) Anything written ahead of its publication date is a promise about the future made from the past.
 - (2 times, content generation) A label fixed in code is a claim about every value the field will ever hold. When the data carries its own qualifier, such as a timing or a statistic, the label has to be read from the data, and anything that compares or scores the values has to use only the ones that share the qualifier the method names.
@@ -68,7 +69,6 @@ These cost this build twice or more each. If you read nothing else here, read th
 - A correction table is a set of claims about outcomes, and an entry that quietly fails still counts as applied.
 - A seeded shuffle is deterministic, which makes calling it twice look harmless: the same input gives the same output.
 - A report that truncates its output invites the reader to write text that continues it, and a tool that appends will put that text somewhere else.
-- A guard that takes the intent as an argument is only as good as the argument, and an argument derived by hand from the same data the guard is checking is a second implementation of the thing being checked.
 - A guard written from the instance in front of you covers that instance. An earlier defect was a bare infinitive in a noun slot, so the guard looked for bare infinitives, and the sentence one screen away in the same file was a wh clause in a clause slot and went straight through.
 - A standard library function whose name is a plausible description of half of what it does will be used for that half.
 - Presentation rules travel with the value, and a value formatted at the point of use is formatted by whoever was writing that line.
@@ -82,9 +82,9 @@ These cost this build twice or more each. If you read nothing else here, read th
 - Practice material is still published writing. A passage that is only there to be read carefully is still read by people who know the subject, and a question built on it can ask them to endorse the error.
 - An empty field records that a search came up empty, not that the thing does not exist.
 - An edit tool that throws away its input leaves the diff as the only record of what it changed.
-- When a parser must pull one value out of free text, anchor it to the words that give the value its meaning, not to its position, and return nothing when nothing anchors it: a sentence that says less is better than one that states a guess as fact.
 - A caveat in a note does not travel with a number: every consumer of the field reads the field's meaning, not the note.
 - A pronoun is a claim about what came before it. In generated prose the sentence before is chosen by the data, not by the writer, so name the subject of every sentence that carries a figure.
+- A shorthand in a schema is read by code with one meaning and written by people and tools with whatever meaning they had in mind.
 
 ## Tests and guards
 
@@ -163,4 +163,4 @@ These cost this build twice or more each. If you read nothing else here, read th
 - Chart form is a claim about the data. A line claims the values in between existed.
 - Never encode a state by colour alone. The word also survives greyscale printing, forced-colors mode and a glance from across a room, so it is better for everyone and not only for the people it is required by.
 
-31 more rules, each learned once from a less costly defect, did not fit a prompt sized digest. The checklist in BUILD_PLAYBOOK.md has every rule.
+32 more rules, each learned once from a less costly defect, did not fit a prompt sized digest. The checklist in BUILD_PLAYBOOK.md has every rule.

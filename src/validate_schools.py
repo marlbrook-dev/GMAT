@@ -94,6 +94,13 @@ def validate(schools):
         for f, fv in (s.get("profile") or {}).items():
             if not isinstance(fv, dict):
                 if f == "class_year":
+                    # A bare year does not say what it is: a graduating class, an entering
+                    # class, or the year a page was read. Five records meant the last and
+                    # were printed as the first (INC-0147).
+                    if re.fullmatch(r"\s*\d{4}\s*", str(fv or "")):
+                        errors.append(f"{slug}.class_year: {fv!r} is a bare year; write what it names "
+                                      f"('Class of {str(fv).strip()}', 'Fall {str(fv).strip()} entering class') "
+                                      f"or 'Typical class profile (no class year stated)'")
                     continue
                 errors.append(f"{slug}.{f}: not an object")
                 continue

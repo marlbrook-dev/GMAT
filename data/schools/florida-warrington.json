@@ -36,7 +36,7 @@
  },
  "specialties": [],
  "profile": {
-  "class_year": "2026",
+  "class_year": "Typical class profile (no class year stated)",
   "class_size": {
    "v": null
   },
@@ -117,7 +117,7 @@
    "url": "https://warrington.ufl.edu/graduate/full-time-mba/"
   }
  },
- "notes": "UF publishes no dated class profile page. GMAT: program page says typical candidate has 'a 615 GMAT score' with no edition label and no class year, ambiguous between scales, so both GMAT fields left unset per rules. GRE: only 'average GRE score of applicants is 315' (combined, applicants not enrolled). Salary: page publishes average base salary 124783 and signing bonus 28307 for FT MBA graduates but no median, so salary_median_usd left null. Tuition: official pages publish program totals only, not annual: financial info page (undated, 'most current pricing') lists Full-Time MBA 2-Year tuition 25561 Florida resident / 69565 out-of-state plus 1000 professional development fee at https://warrington.ufl.edu/mba/financial-information/; program page lists tuition-and-fees 18041/47377 (1-year business majors, 10 months) and 26561/70565 (1-year all majors, 12 months). Class size and demographics: only a Nov 2023 news article covering the Classes of 2024/2025 (34 students, 11 pct women) at https://warrington.ufl.edu/programs/meet-the-latest-incoming-university-of-florida-full-time-mba-class/, too old and ambiguously worded to record; prior Clear Admit-sourced class_size/women_pct/GMAT figures were dropped because Clear Admit is a banned source and no current official equivalents exist.",
+ "notes": "UF publishes no dated class profile page. GMAT: program page says typical candidate has 'a 615 GMAT score' with no edition label and no class year, ambiguous between scales, so both GMAT fields left unset per rules. GRE: only 'average GRE score of applicants is 315' (combined, applicants not enrolled). Salary: page publishes average base salary 124783 and signing bonus 28307 for FT MBA graduates but no median, so salary_median_usd left null. Tuition: official pages publish program totals only, not annual: financial info page (undated, 'most current pricing') lists Full-Time MBA 2-Year tuition 25561 Florida resident / 69565 out-of-state plus 1000 professional development fee at https://warrington.ufl.edu/mba/financial-information/; program page lists tuition-and-fees 18041/47377 (1-year business majors, 10 months) and 26561/70565 (1-year all majors, 12 months). Class size and demographics: only a Nov 2023 news article covering the Classes of 2024/2025 (34 students, 11 pct women) at https://warrington.ufl.edu/programs/meet-the-latest-incoming-university-of-florida-full-time-mba-class/, too old and ambiguously worded to record; prior Clear Admit-sourced class_size/women_pct/GMAT figures were dropped because Clear Admit is a banned source and no current official equivalents exist. The class label was stored as a bare 2026 and read as the Class of 2026 (INC-0147); the program page describes a typical candidate and names no class, so the label now says so.",
  "federal": {
   "matched": true,
   "instnm": "University of Florida",

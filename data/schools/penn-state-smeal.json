@@ -36,7 +36,7 @@
  },
  "specialties": [],
  "profile": {
-  "class_year": "2025",
+  "class_year": "One Year MBA class profile (class year not verified)",
   "class_size": {
    "v": 105,
    "src": "Penn State Smeal One Year MBA Class Profile (official)",
@@ -51,11 +51,7 @@
    "url": ""
   },
   "gmat_classic": {
-   "v": 657,
-   "stat": "mean",
-   "src": "Smeal MBA Employment Report 2020 (official PDF)",
-   "year": 2020,
-   "url": "https://www.smeal.psu.edu/pgp/2020-smeal-mba-employment-report-pdf.pdf"
+   "v": null
   },
   "gre_quant": {
    "v": null,
@@ -72,11 +68,7 @@
    "url": ""
   },
   "gpa": {
-   "v": 3.4,
-   "stat": "mean",
-   "src": "Smeal MBA Employment Report 2020 (official PDF)",
-   "year": 2020,
-   "url": "https://www.smeal.psu.edu/pgp/2020-smeal-mba-employment-report-pdf.pdf"
+   "v": null
   },
   "accept_rate_pct": {
    "v": null,
@@ -111,11 +103,7 @@
    "url": "https://oneyearmba.smeal.psu.edu/program-details/tuition-aid"
   },
   "salary_median_usd": {
-   "v": 116500,
-   "stat": "median base salary, from the 2020 employment report",
-   "src": "Smeal MBA Employment Report 2020 (official PDF); median base, predates the 2023 switch to the one-year early-career MBA",
-   "year": 2020,
-   "url": "https://www.smeal.psu.edu/pgp/2020-smeal-mba-employment-report-pdf.pdf"
+   "v": null
   },
   "employment_rate_pct": {
    "v": null,
@@ -124,7 +112,7 @@
    "url": ""
   }
  },
- "notes": "The entire Smeal web presence was unreachable this session: oneyearmba.smeal.psu.edu returned HTTP 503 on repeated attempts via WebFetch and connection reset via headless Chromium, and www.smeal.psu.edu also returned 503. No field could be verified or updated this session. Existing figures already sourced to smeal.psu.edu domains (class_size, intl_pct, tuition, and the 2020 legacy-program GMAT, GPA, salary) should be kept as-is per protocol. A search snippet indicated the official career outcomes page lists Class of 2025 average salary 83,000 and 87% employed within six months, but the page would not load so those figures are NOT reported.",
+ "notes": "The entire Smeal web presence was unreachable this session: oneyearmba.smeal.psu.edu returned HTTP 503 on repeated attempts via WebFetch and connection reset via headless Chromium, and www.smeal.psu.edu also returned 503. No field could be verified or updated this session. Existing figures already sourced to smeal.psu.edu domains (class_size, intl_pct, tuition, and the 2020 legacy-program GMAT, GPA, salary) should be kept as-is per protocol. A search snippet indicated the official career outcomes page lists Class of 2025 average salary 83,000 and 87% employed within six months, but the page would not load so those figures are NOT reported. The class label was a bare 2025, printed as the Class of 2025, and that class was given the mean GMAT 657, mean GPA 3.4 and median salary 116,500 from the 2020 employment report of the legacy two-year MBA (INC-0147). Those describe a program that no longer runs, so they are removed; the One Year MBA class profile page is unreadable from the sandbox (certificate failure), so which class its class size and international share describe is not verified, and the label says so.",
  "federal": {
   "matched": true,
   "instnm": "Pennsylvania State University-Main Campus",

@@ -36,7 +36,7 @@
  },
  "specialties": [],
  "profile": {
-  "class_year": "2026",
+  "class_year": "Class of 2026",
   "class_size": {
    "v": 36,
    "src": "Poets and Quants, Meet the Texas A&M Mays MBA Class of 2026",
@@ -125,7 +125,7 @@
    "url": "https://mays.tamu.edu/news/2026/02/02/the-value-of-the-mays-mba-is-higher-than-ever/"
   }
  },
- "notes": "Mays publishes no full-time MBA class profile on its official site (only the Professional MBA has a class profile page), so the existing Poets and Quants class size, GMAT and GPA figures could not be replaced or confirmed officially. The program page states 96.3 percent of MBA graduates received offers within 90 days with no class year attached; the Feb 2026 news article attributes 96 percent within 90 days to the Class of 2024, which is recorded here. The news article also says 100 percent of the December 2025 graduating cohort seeking employment had offers by graduation. Tuition: program page lists Texas Residents 77497 and Non-Resident 104799 marked subject to change, with no statement of whether these are per year or total for the 2-year program and no academic year, so no annual tuition figure could be recorded.",
+ "notes": "Mays publishes no full-time MBA class profile on its official site (only the Professional MBA has a class profile page), so the existing Poets and Quants class size, GMAT and GPA figures could not be replaced or confirmed officially. The program page states 96.3 percent of MBA graduates received offers within 90 days with no class year attached; the Feb 2026 news article attributes 96 percent within 90 days to the Class of 2024, which is recorded here. The news article also says 100 percent of the December 2025 graduating cohort seeking employment had offers by graduation. Tuition: program page lists Texas Residents 77497 and Non-Resident 104799 marked subject to change, with no statement of whether these are per year or total for the 2-year program and no academic year, so no annual tuition figure could be recorded. The class label, stored as a bare 2026 (INC-0147), is written out as the Class of 2026, the class Poets and Quants' article profiles.",
  "federal": {
   "matched": true,
   "instnm": "Texas A&M University-College Station",
