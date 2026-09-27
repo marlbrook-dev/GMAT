@@ -104,21 +104,14 @@ def split_live(posts):
 # A post is written ahead and published by date, so it carries the product as it stood on
 # the day it was written. lsat-format-scoring-guide was queued saying the LSAT trainer was
 # in development, eleven days after it went live (INC-0137).
-NOT_LIVE = re.compile(r"in development|coming soon|wait ?list|not (?:yet )?live", re.I)
-
-
 def stale_trainer_claims(p):
     """Sentences in a post, body or FAQ, that call a trainer unfinished when it is live."""
     from build_exams import LIVE
+    from page_checks import stale_sentences
     short = {e["slug"]: e["short"] for e in json.loads((ROOT / "data" / "exams.json").read_text())}
     text = html.unescape(re.sub(r"<[^>]+>", " ", p["body"] + " " + " ".join(
         str(q.get("q", "")) + " " + str(q.get("a", "")) for q in p["faq"])))
-    out = []
-    for sentence in re.split(r"(?<=[.!?])\s+", re.sub(r"\s+", " ", text)):
-        if NOT_LIVE.search(sentence) and any(
-                re.search(r"\b%s\b" % re.escape(short[x]), sentence) for x in LIVE if x in short):
-            out.append(sentence.strip())
-    return out
+    return stale_sentences(text, [short[x] for x in LIVE if x in short])
 
 
 def validate(posts):
@@ -571,6 +564,15 @@ def main():
         for pg, frag in reprs[:10]:
             print("build_blog: %s prints a Python data structure: ...%s..." % (pg, frag),
                   file=sys.stderr)
+        sys.exit(1)
+    # And no built blog page may call a live trainer unfinished, as build.py checks (INC-0138).
+    from page_checks import trainer_claims
+    from build_exams import LIVE
+    names = [e["short"] for e in json.loads((ROOT / "data" / "exams.json").read_text()) if e["slug"] in LIVE]
+    stale = trainer_claims(ROOT, ["blog"], names)
+    if stale:
+        for pg, sent in stale[:10]:
+            print("build_blog: %s calls a live trainer unfinished: %r" % (pg, sent), file=sys.stderr)
         sys.exit(1)
     # And the article before a number, as build.py checks it (INC-0134).
     arts = articles(ROOT, ["blog"])

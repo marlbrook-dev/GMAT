@@ -618,6 +618,17 @@ if _reprs:
         print("ERROR: %s prints a Python data structure: ...%s..." % (_pg, _frag),
               file=sys.stderr)
     sys.exit(1)
+# Nor may any page call a live trainer unfinished: the /exams/ hub's description said two
+# trainers were live for eleven days after all five were (INC-0138).
+from page_checks import trainer_claims
+from build_exams import LIVE as _LIVE
+_live_names = [e["short"] for e in _json_mod.loads((root / "data" / "exams.json").read_text())
+               if e["slug"] in _LIVE]
+_stale = trainer_claims(root, _SECTIONS, _live_names)
+if _stale:
+    for _pg, _s in _stale[:10]:
+        print("ERROR: %s calls a live trainer unfinished: %r" % (_pg, _s), file=sys.stderr)
+    sys.exit(1)
 # Nor may a page put "a" before a number spoken with a vowel sound: two school pages read
 # "a 18.8% acceptance rate" and "a 11.3% acceptance rate" (INC-0134).
 _arts = articles(root, _SECTIONS)

@@ -11,6 +11,10 @@ mistake was, and it is published text that no one sees rendered.
 articles() looks for "a" or "an" before a number that is spoken the other way. MIT
 Sloan's page read "a 18.8% acceptance rate" because a template chose the article before it
 knew the number (INC-0134). article_for() is how a template should choose it instead.
+
+trainer_claims() looks for a sentence calling a live trainer unfinished. The /exams/ hub's
+meta description said only two trainers were live, eleven days after all five were
+(INC-0138); a queued post said the same of the LSAT (INC-0137).
 """
 import pathlib
 import re
@@ -86,4 +90,43 @@ def articles(root, paths):
                 found.append((page.relative_to(root).as_posix(),
                               text[max(0, m.start() - 40):m.end() + 30]))
                 break
+    return found
+
+
+# Words that call something unfinished. A sentence with one of these and the name of an exam
+# whose trainer is live is a stale claim about the product (INC-0137, INC-0138).
+NOT_LIVE = re.compile(r"in development|coming soon|wait ?list|not (?:yet )?live", re.I)
+_META = re.compile(r'<meta\s+name="description"\s+content="([^"]*)"', re.I)
+_BLOCK = re.compile(r"</?(?:p|li|ul|ol|div|h[1-6]|td|th|tr|table|section|nav|header|footer|main|"
+                    r"article|aside|details|summary|button|label|option|select|br|script)\b[^>]*>", re.I)
+
+
+def stale_sentences(text, names):
+    """Sentences in `text` that call one of the live exams in `names` unfinished."""
+    out = []
+    for sentence in re.split(r"(?<=[.!?])\s+", re.sub(r"\s+", " ", text)):
+        if NOT_LIVE.search(sentence) and any(re.search(r"\b%s\b" % re.escape(n), sentence) for n in names):
+            out.append(sentence.strip())
+    return out
+
+
+def trainer_claims(root, paths, names):
+    """[(page, sentence)] for every built page whose text or meta description calls a live
+    trainer unfinished. Ordinary scripts are skipped, as elsewhere here."""
+    import html
+    root = pathlib.Path(root)
+    found = []
+    for rel in paths:
+        base = root / rel
+        pages = [base] if base.is_file() else sorted(base.rglob("*.html")) if base.is_dir() else []
+        for page in pages:
+            raw = page.read_text(encoding="utf-8", errors="replace")
+            # Block elements end a sentence; inline ones (a link inside a paragraph) do not.
+            # Without this the header's menu reads as one run-on sentence in which "Law
+            # Schools, Coming Soon" sits beside "LSAT, Live".
+            body = _BLOCK.sub("\n", _STYLE.sub(" ", _CODE.sub(" ", raw)))
+            parts = _META.findall(raw) + _TAG.sub(" ", body).split("\n")
+            hits = [h for part in parts for h in stale_sentences(html.unescape(part), names)]
+            if hits:
+                found.append((page.relative_to(root).as_posix(), hits[0][:200]))
     return found

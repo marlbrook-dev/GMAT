@@ -23,6 +23,42 @@ CALCULATORS = {"act": [("/exams/act/score-calculator/", "ACT Score Calculator")]
                "sat": [("/exams/sat/score-calculator/", "SAT Score Calculator"),
                        ("/exams/sat/psat-calculator/", "PSAT/NMSQT Calculator")]}
 
+# What each calculator does, in one line, for the /exams/ hub. Keyed by path so an entry in
+# CALCULATORS without a line here fails the build rather than shipping a bare link.
+CALC_BLURBS = {
+    "/exams/act/score-calculator/": "The Composite and superscore by ACT's rounding rule, with ACT's national ranks.",
+    "/exams/gre/score-calculator/": "Verbal, Quantitative and Writing scores in ETS's own percentile ranks.",
+    "/exams/sat/score-calculator/": "The total from two section scores, in College Board's two percentile groups.",
+    "/exams/sat/psat-calculator/": "The total and NMSC Selection Index, with 10th and 11th grade percentiles.",
+    "/exams/lsat/percentile-calculator/": "Any score's percentile in LSAC's table, or the score that clears a percentile.",
+}
+
+
+def calculator_cards(exams):
+    """The hub's calculator cards, in exam order, from the same CALCULATORS the guides use."""
+    cards = []
+    for e in exams:
+        for href, label in CALCULATORS.get(e["slug"], []):
+            if href not in CALC_BLURBS:
+                print("build_exams: %s has no line in CALC_BLURBS" % href, file=sys.stderr)
+                sys.exit(1)
+            cards.append(f'<a class="card exam" href="{href}"><div class="row"><span class="en">{esc(label)}</span></div><p>{esc(CALC_BLURBS[href])}</p></a>')
+    return cards
+
+
+def hub_description(exams):
+    """The /exams/ hub's meta description, built from LIVE so it changes when a trainer does:
+    typed as copy, it said two trainers were live for eleven days after all five were
+    (INC-0138)."""
+    live = [e["short"] for e in exams if e["slug"] in LIVE]
+    names = ", ".join(live[:-1]) + " and " + live[-1] if len(live) > 1 else "".join(live)
+    if len(live) == len(exams):
+        return ("Plain-English guides to the %s: structure, timing, cost and registration, every "
+                "fact sourced, with an adaptive trainer live for each." % names)
+    return ("Plain-English guides to the major admissions exams, every fact sourced. Adaptive "
+            "trainers are live for the %s." % names)
+
+
 # Plan feature matrix for /pricing/. Values: True = included, False = not
 # included, string = shown verbatim. Order defines the page.
 PRICING = [
@@ -316,7 +352,14 @@ def main():
                       "provider": {"@type": "Organization", "name": e.get("maker", "")}}}
             for i, e in enumerate(exams)],
     }, separators=(",", ":"))
+    desc = hub_description(exams)
+    missing = [e["short"] for e in exams if e["slug"] in LIVE and not re.search(r"\b%s\b" % re.escape(e["short"]), desc)]
+    if missing:
+        print("build_exams: the hub description leaves out live trainers: %s" % ", ".join(missing), file=sys.stderr)
+        sys.exit(1)
     pages.append((dest / "index.html", itpl.replace("{{CARDS}}", "\n".join(cards))
+                  .replace("{{CALCS}}", "\n".join(calculator_cards(exams)))
+                  .replace("{{HUB_DESCRIPTION}}", esc(desc))
                   .replace("{{UPDATED}}", today).replace("{{EXAM_LD}}", exam_ld)))
     pages = [(path, partials.apply_chrome(content)) for path, content in pages]
     for path, content in pages:
