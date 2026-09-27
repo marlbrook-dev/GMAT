@@ -115,16 +115,17 @@
    }
   },
   "salary_median_usd": {
-   "v": null,
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 105000,
+   "stat": "median base salary, Class of 2025 (average 107,123; minimum 42,000; maximum 180,000)",
+   "src": "Rutgers full-time MBA employment outcomes page",
+   "year": 2025,
+   "url": "https://www.business.rutgers.edu/full-time-mba/employment-outcomes"
   },
   "employment_rate_pct": {
-   "v": 91.4,
-   "stat": "employed 3 months after graduation; 5-year average, classes of 2020 to 2024 (77.8% employed at graduation)",
+   "v": 82.6,
+   "stat": "full-time graduates employed three months after graduation, Class of 2025 (52.2 percent employed at graduation)",
    "src": "Rutgers full-time MBA employment outcomes page",
-   "year": 2024,
+   "year": 2025,
    "url": "https://www.business.rutgers.edu/full-time-mba/employment-outcomes"
   }
  },

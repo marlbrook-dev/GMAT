@@ -131,7 +131,10 @@
    "stat": "accepted a job within 3 months of graduation (87 of 122 seeking employment; 54.9% by graduation plus 16.4% within 3 months after)",
    "src": "Rice Business CDO 2025 full-time MBA employment statistics",
    "year": 2025,
-   "url": "https://cdn.uconnectlabs.com/wp-content/uploads/sites/99/2026/02/2025-FTMBA-Employment-Outcomes-Data.pdf"
+   "url": "https://cdn.uconnectlabs.com/wp-content/uploads/sites/99/2026/02/2025-FTMBA-Employment-Outcomes-Data.pdf",
+   "derived": {
+    "71.3": "54.9 + 16.4, the share that accepted a job by graduation plus the share that accepted one within three months after"
+   }
   }
  },
  "website": "https://business.rice.edu/rice-mba/full-time-mba",

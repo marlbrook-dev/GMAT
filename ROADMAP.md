@@ -396,8 +396,14 @@ verified rather than that the school does not publish one (INC-0118).
 - [ ] `src/smoke_load.js` stays out of CI because timing on shared runners is noisy, so run
       it by hand after any change to how the banks are split or loaded (INC-0113)
 - [ ] School figures the `--schools` run could not settle from this sandbox. The last run of
-      September 27 ends at 45 figures with a number their page does not print, 20 sources
-      unreadable and 9 showing none of their figures. Tuition is down from 23 of those to 3:
+      September 27 ends at 40 figures with a number their page does not print, 20 sources
+      unreadable and 9 showing none of their figures. Rice's, UVA Darden's and Foster's
+      employment rates now declare the printed shares they sum, BYU's rate is printed in
+      words, and Rutgers carries its Class of 2025 outcomes (82.6 percent employed three
+      months after graduation and a $105,000 median base salary) in place of a 2020-2024
+      average its page no longer prints. Most of what remains is on pages that draw their
+      figures with JavaScript (Haas, Kellogg, Rice's class profile, Pitt, UCSD), plus years a
+      note gives for context that the page itself does not print. Tuition is down from 23 of those to 3:
       Booth, Tepper, Willamette and Georgia Terry now cite their 2026-27 pages, every tuition
       sum declares its working so the check verifies the inputs (INC-0140), and two notes the
       research merge had cut off at 300 characters are whole again (INC-0141). USC Marshall's

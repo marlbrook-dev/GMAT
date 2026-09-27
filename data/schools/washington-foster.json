@@ -128,7 +128,10 @@
    "stat": "received a job offer within 3 months of graduation (Class of 2025; 74 of 95 seeking employment; report notes offer and acceptance data were equal for the period)",
    "src": "Foster 2026 Full-Time MBA Employment Report (official PDF)",
    "year": 2026,
-   "url": "https://foster.uw.edu/wp-content/uploads/2026/04/2026-Full-Time-MBA-Employment-Report-4.2.26.pdf"
+   "url": "https://foster.uw.edu/wp-content/uploads/2026/04/2026-Full-Time-MBA-Employment-Report-4.2.26.pdf",
+   "derived": {
+    "77.9": "66.3 + 11.6, first offers by graduation plus first offers within three months after, of the 95 seeking employment"
+   }
   }
  },
  "website": "https://foster.uw.edu/academics/degree-programs/full-time-mba/",

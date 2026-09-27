@@ -132,7 +132,11 @@
    "stat": "accepted job offers within 3 months of graduation (Class of 2025; 292 of 327 seeking employment; offers received within 3 months 90.2 percent)",
    "src": "UVA Darden Class of 2025 Full-Time MBA Employment Outcome Data (official PDF)",
    "year": 2025,
-   "url": "https://www.darden.virginia.edu/sites/default/files/2025-11/UVA%20Darden%20Class%20of%202025%20FT%20Employment%20Outcome%20Data_web.pdf"
+   "url": "https://www.darden.virginia.edu/sites/default/files/2025-11/UVA%20Darden%20Class%20of%202025%20FT%20Employment%20Outcome%20Data_web.pdf",
+   "derived": {
+    "89.3": "76.8 + 12.5, first offers accepted by graduation plus jobs accepted within three months after (Table 2.B)",
+    "90.2": "79.5 + 10.7, first offers by graduation plus first offers within three months after (Table 2.A)"
+   }
   }
  },
  "website": "https://www.darden.virginia.edu/mba",
