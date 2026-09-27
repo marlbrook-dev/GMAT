@@ -672,6 +672,20 @@ verified rather than that the school does not publish one (INC-0118).
       script-only challenge, and caches no read too short to be evidence. All 108 exam facts
       pass: 106 in the run of September 27, and the two on GMAC's policies PDF against a
       direct read the same day, since Imperva challenged the run's reads of it.
+- [x] **Five more long reading passages** (bells, saltwells, schooldays, canal, wrecks):
+      church bells whose cracking was blamed on hard winters, cracked by a new supplier's
+      impure tin; town wells whose salt was blamed on sea floods, drawn in by a brewery's
+      pumping; school absences blamed on the harvest, caused by flooded fords; a canal's lost
+      trade blamed on the railway, lost to a leaking reservoir; and shipwrecks blamed on
+      wreckers, caused by a chart that placed a sandbank too far out. The first drafts of two
+      were replaced before commit: a saltmarsh starved of silt repeated the short corpus's
+      saltmarsh passage, and a honey passage would have made a third about bees. Every name
+      was checked against every corpus and bank, and the places are invented rather than
+      real towns. They run 290 to 309 words and pass the premise, answer tell and key spread
+      checks. The banks grow by 50 GMAT, 50 GRE and 50 LSAT items: GMAT 34262, GRE 20638 and
+      LSAT 14542, of which 14170 are generated, counts read from the build. All 150 new items
+      were read at LSAT, GMAT and GRE length; one ambiguity was fixed first ("they fell in
+      the weeks of winter flood" became "they were clustered in").
 - [x] **"Can You Use a Calculator on the GMAT, GRE, LSAT, SAT, and ACT?"** queued for
       December 9 (Sarah Whitfield). The GMAT's on-screen calculator in Data Insights only,
       the GRE's on-screen calculator in Quant, none on the LSAT, and the SAT's and the
