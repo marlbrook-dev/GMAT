@@ -672,6 +672,14 @@ verified rather than that the school does not publish one (INC-0118).
       script-only challenge, and caches no read too short to be evidence. All 108 exam facts
       pass: 106 in the run of September 27, and the two on GMAC's policies PDF against a
       direct read the same day, since Imperva challenged the run's reads of it.
+- [x] **"How Many Times Can You Take the GMAT, GRE, LSAT, SAT, and ACT?"** queued for
+      November 25 (Maya Chen). Every limit comes from the test maker's own page, read on
+      September 27: the GMAT's 5 in a rolling 12 months with 16 days between, the GRE's 5 in
+      any 365 days with 21 between, the LSAT's 5 since July 2021 and 7 in all, and no limit
+      on the SAT or the ACT, with what each counts as an attempt. The GMAT and GRE retake
+      facts now say that canceled scores count, and a new LSAT fact records what does and
+      does not count against LSAC's limits, so the weekly source check reads each rule the
+      post states. EDITORIAL.md gains a retake block.
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects
