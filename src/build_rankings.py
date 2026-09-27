@@ -908,6 +908,18 @@ def school_page(s, tpl, today, ranked=()):
                     'verified from the school or a tracked publisher, so none is shown. We '
                     'never estimate one.</td></tr>' % label)
                 prof_rows.append(own_rows[-1])
+            # The average GMAT is the other question these pages are searched by, and half
+            # the library has no figure: some schools print none, and some print one without
+            # saying which edition it is on, which is never guessed (INC-0151). One row says
+            # so where the two GMAT rows would be.
+            if key == "gmat_classic" and (p.get("gmat_focus") or {}).get("v") is None:
+                own_rows.append(
+                    '<tr><td>GMAT</td><td class="num"><span class="note">not verified</span>'
+                    '</td><td class="src">No GMAT score for this program has been verified, '
+                    'with the edition it is on, from the school or a tracked publisher, so '
+                    'none is shown. We never convert a score from one GMAT edition to the '
+                    'other.</td></tr>')
+                prof_rows.append(own_rows[-1])
             continue
         stat = f' <span class="src">{esc(f["stat"])}</span>' if f.get("stat") else ""
         mark = ""
@@ -1037,6 +1049,17 @@ def school_page(s, tpl, today, ranked=()):
     elif gcl.get("v"):
         qa.append((f'What GMAT score do you need for {s["name"]}?',
                    f'{as_profile(fig_subject(gcl, p))} lists {stat_article(gcl)} GMAT of {gcl["v"]} on the Classic 200 to 800 scale' + (f' ({gcl.get("src")}, {gcl.get("year")}).' if gcl.get("src") else ".")))
+    else:
+        gq, gvb = p.get("gre_quant") or {}, p.get("gre_verbal") or {}
+        gre = ""
+        if gq.get("v") and gvb.get("v"):
+            k1, k2 = stat_kind(gq), stat_kind(gvb)
+            gre = (f' {as_profile(fig_subject(gq, p))} lists {k1 if k1 == k2 and k1 else "reported"} GRE scores of '
+                   f'{fmt_num(gq["v"])} Quantitative and {fmt_num(gvb["v"])} Verbal'
+                   + (f' ({gq.get("src")}, {gq.get("year")}).' if gq.get("src") else "."))
+        qa.append((f'What GMAT score do you need for {s["name"]}?',
+                   f'No GMAT score for {s["name"]} has been verified, with the edition it is on, '
+                   f'from the school or a tracked publisher, so we do not show one.' + gre))
     ar = p.get("accept_rate_pct") or {}
     if ar.get("v") is None:
         qa.append((f'What is the acceptance rate at {s["name"]}?',

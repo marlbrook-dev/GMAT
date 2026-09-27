@@ -422,6 +422,20 @@ verified rather than that the school does not publish one (INC-0118).
       drops ASU (35 programs, the middle class still 43 percent women). Rerun without
       comments, the exam check's 79 facts come out the same, and ASU's is the only school
       figure that changes.
+- [x] **School pages say why no GMAT is shown.** 44 school pages have no GMAT figure: some
+      schools print none, and some print one without naming its edition, which is never
+      guessed (INC-0151). Those pages used to drop the GMAT rows without a word, though the
+      average GMAT is one of the questions they are searched by. They now carry one GMAT row
+      marked not verified, as the acceptance rate row does (INC-0118), and a Quick Answer
+      that says so and gives the program's GRE scores where it has both.
+- [x] **"MBA Salary by School" queued for November 11**: median salaries for graduates of
+      2025 at 26 programs, from $105,000 at Rutgers to $185,000 at Stanford GSB and Wharton,
+      13 of them at $175,000 or more, each read on its page (Kellogg's in a browser, since
+      its page draws the figure with JavaScript). Wharton's and Booth's own reports cannot be
+      read from here, so theirs come from Poets&Quants' M7 report, as do Harvard's and
+      Columbia's. Left out and said so: averages, pooled classes, SMU Cox (its page calls the
+      same $126,000 an average and a median) and BU Questrom (its report's text does not show
+      which figure is the median). Michigan Ross's salary gains the stat its article prints.
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects

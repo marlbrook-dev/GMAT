@@ -110,6 +110,7 @@
   },
   "salary_median_usd": {
    "v": 170000,
+   "stat": "median base salary, Class of 2025",
    "src": "Poets&Quants (Class of 2025 employment report coverage)",
    "year": 2025,
    "url": "https://poetsandquants.com/2025/12/12/mba-jobs-2025-later-hires-for-michigan-ross-but-pay-holds-steady/"
