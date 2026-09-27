@@ -39,12 +39,12 @@
   }
  },
  "profile": {
-  "class_year": "Class of 2027",
+  "class_year": "Three-year average of the Classes of 2026, 2027 and 2028",
   "class_size": {
-   "v": 137,
-   "stat": "enrollment",
-   "src": "Rice Business MBA class profiles page (Full-Time MBA, This Year 2025)",
-   "year": 2025,
+   "v": 134,
+   "stat": "three-year average enrollment",
+   "src": "Rice Business MBA class profiles page (Full-Time MBA, three-year average)",
+   "year": 2026,
    "url": "https://business.rice.edu/mba-admissions/class-profiles"
   },
   "gmat_focus": {
@@ -53,35 +53,35 @@
    "src": "",
    "year": null,
    "url": "",
-   "note": "No GMAT Focus figure seen for the Class of 2027 in sources reviewed"
+   "note": "No GMAT Focus figure seen in sources reviewed; the GMAT figures Rice and Poets&Quants publish name no edition"
   },
   "gmat_classic": {
-   "v": 693,
-   "stat": "average",
-   "src": "Poets&Quants, Meet the Rice Business MBA Class of 2027",
-   "year": 2026,
-   "url": "https://poetsandquants.com/2026/07/13/meet-the-rice-business-mba-class-of-2027/",
-   "note": "Scale not labeled in snippet; recorded as classic because a 693 class average is implausible on the Focus scale and continues Rice's classic-scale reporting"
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "Not published: no GMAT figure seen names an edition. The class profiles page gives an average GMAT of 694 (mid-50% 678-720) across the Classes of 2026, 2027 and 2028, and Poets&Quants' Meet the Rice Business MBA Class of 2027 gives a median GMAT of 700 (INC-0151)."
   },
   "gre_quant": {
-   "v": 161,
-   "stat": "average; mid-50% range 154-168",
-   "src": "Rice Business MBA class profiles page (Full-Time MBA, This Year 2025)",
-   "year": 2025,
+   "v": 159,
+   "stat": "three-year average; mid-50% range 154-166",
+   "src": "Rice Business MBA class profiles page (Full-Time MBA, three-year average)",
+   "year": 2026,
    "url": "https://business.rice.edu/mba-admissions/class-profiles"
   },
   "gre_verbal": {
-   "v": 159,
-   "stat": "average; mid-50% range 155-163",
-   "src": "Rice Business MBA class profiles page (Full-Time MBA, This Year 2025)",
-   "year": 2025,
+   "v": 157,
+   "stat": "three-year average; mid-50% range 153-161",
+   "src": "Rice Business MBA class profiles page (Full-Time MBA, three-year average)",
+   "year": 2026,
    "url": "https://business.rice.edu/mba-admissions/class-profiles"
   },
   "gpa": {
-   "v": 3.4,
-   "stat": "average; mid-50% range 3.13-3.75",
-   "src": "Rice Business MBA class profiles page (Full-Time MBA, This Year 2025)",
-   "year": 2025,
+   "v": 3.46,
+   "stat": "three-year average; mid-50% range 3.2-3.79",
+   "src": "Rice Business MBA class profiles page (Full-Time MBA, three-year average)",
+   "year": 2026,
    "url": "https://business.rice.edu/mba-admissions/class-profiles"
   },
   "accept_rate_pct": {
@@ -92,24 +92,24 @@
    "note": "A roughly 39 percent figure (459 admitted of 1,178 applicants) appeared only via a non-preferred source; cycle year unverified"
   },
   "work_exp_years": {
-   "v": 5.7,
-   "stat": "average work experience (in years)",
-   "src": "Rice Business MBA class profiles page (Full-Time MBA, This Year 2025)",
-   "year": 2025,
+   "v": 5.4,
+   "stat": "three-year average work experience (in years)",
+   "src": "Rice Business MBA class profiles page (Full-Time MBA, three-year average)",
+   "year": 2026,
    "url": "https://business.rice.edu/mba-admissions/class-profiles"
   },
   "women_pct": {
-   "v": 34,
-   "stat": "% female",
-   "src": "Rice Business MBA class profiles page (Full-Time MBA, This Year 2025)",
-   "year": 2025,
+   "v": 36,
+   "stat": "three-year average % female",
+   "src": "Rice Business MBA class profiles page (Full-Time MBA, three-year average)",
+   "year": 2026,
    "url": "https://business.rice.edu/mba-admissions/class-profiles"
   },
   "intl_pct": {
-   "v": 34,
-   "stat": "% international",
-   "src": "Rice Business MBA class profiles page (Full-Time MBA, This Year 2025)",
-   "year": 2025,
+   "v": 33,
+   "stat": "three-year average % international",
+   "src": "Rice Business MBA class profiles page (Full-Time MBA, three-year average)",
+   "year": 2026,
    "url": "https://business.rice.edu/mba-admissions/class-profiles"
   },
   "tuition_usd": {
@@ -138,7 +138,7 @@
   }
  },
  "website": "https://business.rice.edu/rice-mba/full-time-mba",
- "notes": "Class profile is labeled This Year 2025 (entering fall 2025); the program's own class profile page titles it Rice Business Full-Time MBA Class of 2027 Profile. GMAT edition is not labeled on the page; recorded as classic because a 693 average is implausible on the Focus scale (would be roughly 99th percentile) and is continuous with Rice's classic-era 3-year average of 702 shown on the same page; no Focus-labeled figure is published. Acceptance rate not published on official pages. Employment statistics PDF is hosted on cdn.uconnectlabs.com, linked from the official Rice CDO reports page (cdo.business.rice.edu/outcomes/). The school's career highlights page for the same class states 146K average starting salary and 32K average signing bonus. Rice publishes average GMAT 693 (mid-50% 675-720) with no edition label on the class profiles page; not recorded per the edition-ambiguity rule.",
+ "notes": "The class profiles page shows its figures only once the Full-Time MBA button is selected, and on 2026-09-27 it showed a three-year average of the Classes of 2026, 2027 and 2028 and no single class; every class profile figure here is that average. Its served HTML also holds older blocks inside comments, such as a Class of 23, 24, 25 average, which the page does not show. No GMAT figure is published: the page's average of 694 and Poets&Quants' Class of 2027 median of 700 both name no edition (INC-0151). Acceptance rate not published on official pages. Employment statistics PDF is hosted on cdn.uconnectlabs.com, linked from the official Rice CDO reports page (cdo.business.rice.edu/outcomes/). The school's career highlights page for the same class states 146K average starting salary and 32K average signing bonus.",
  "federal": {
   "matched": true,
   "instnm": "Rice University",

@@ -1,14 +1,14 @@
 # Rules Digest
 
-Rules from 150 defects in a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
+Rules from 151 defects in a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
 
-Generated 2026-09-27 from a ledger spanning 8 days and 97 commits.
+Generated 2026-09-27 from a ledger spanning 8 days and 98 commits.
 
 ## Read this first
 
-The three ways defects were most often found, in order: found by reading the code or the output (75), found by measuring something (39), a test caught it (18). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
+The three ways defects were most often found, in order: found by reading the code or the output (76), found by measuring something (39), a test caught it (18). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
 
-The dominant failure mode is silent loss, 26 of 150: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
+The dominant failure mode is silent loss, 26 of 151: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
 
 ## Learned the hard way, more than once
 
@@ -19,11 +19,11 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (5 times, build system) A guard that covers a subset of cases reproduces the original defect in the cases it skips, and it is more dangerous than no guard because the incident it was written for feels closed.
 - (5 times, content generation) An aggregate over a mixed population reports the population, and if part of that population is flat by construction it will hide the part that is not.
 - (5 times, content generation) A corpus field is written against the one sentence the author had in mind, and the schema that reuses it three templates later has no way to know which shape it is.
+- (5 times, content generation) Run the source check on every corpus that cites pages, not just the one that broke.
 - (4 times, content generation) Two lessons, and they compound. A rule copied into code by its examples loses the clause the examples were illustrating: CLAUDE.md bans six named sites and coaching site blogs, and the list kept the six and dropped the category, which is the half that generalises.
 - (4 times, content generation) A counter that nothing reads is not instrumentation, it is a comment that looks like instrumentation, and it is worse than nothing because it answers the question 'is anyone watching this' with a yes.
 - (4 times, content generation) A check that infers what to expect from the same data it is checking cannot fail on a missing field: absence reads as nothing to look for.
 - (4 times, content generation) Any consumer that describes a value in words must read the field that records what kind of value it is, never the field's name.
-- (4 times, content generation) Run the source check on every corpus that cites pages, not just the one that broke.
 - (3 times, css and layout) The same undefined-property failure will find you repeatedly, at every severity from one icon to an invisible legal control.
 - (3 times, tests and guards) A path that exists on the machine you wrote the test on is not a path. Resolve environment-specific locations through one helper that falls back to the tool's own default, and return undefined rather than an empty string, because undefined means 'you decide' and an empty string means 'launch nothing'.
 - (3 times, build system) A regex that counts things assumes a formatting convention, and a file that legitimately breaks the convention counts as zero rather than as an error.
@@ -85,6 +85,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - A pronoun is a claim about what came before it. In generated prose the sentence before is chosen by the data, not by the writer, so name the subject of every sentence that carries a figure.
 - A shorthand in a schema is read by code with one meaning and written by people and tools with whatever meaning they had in mind.
 - Finding a number on a page is not finding the fact. A check has to look for it beside the words that say what it counts, and notice when those words are about something else: another program, another class.
+- A search result's snippet is not the page it links to. A figure taken from one has to be read again on the page before it is published, and a record that admits the snippet in a note while citing the page looks fully sourced, which is why nobody rereads it.
 
 ## Tests and guards
 
@@ -127,7 +128,6 @@ These cost this build twice or more each. If you read nothing else here, read th
 - Check that your instrumentation fired at all before you trust anything built on it.
 - A type system spread across a renderer and a grader will drift. The cheapest guard is one that exercises every variant end to end, once.
 - If your system branches on difficulty, measure that the branches actually differ.
-- When you add a filter, find every path that adds items after the filter runs. A gate on the entry point is not a gate on the set.
 - An identifier that anything outside the build stores must be derived from what it identifies, not from where it happened to land.
 
 ## CSS and layout
@@ -161,6 +161,5 @@ These cost this build twice or more each. If you read nothing else here, read th
 ## Interface and data display
 
 - Chart form is a claim about the data. A line claims the values in between existed.
-- Never encode a state by colour alone. The word also survives greyscale printing, forced-colors mode and a glance from across a room, so it is better for everyone and not only for the people it is required by.
 
-35 more rules, each learned once from a less costly defect, did not fit a prompt sized digest. The checklist in BUILD_PLAYBOOK.md has every rule.
+37 more rules, each learned once from a less costly defect, did not fit a prompt sized digest. The checklist in BUILD_PLAYBOOK.md has every rule.

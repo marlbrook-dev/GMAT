@@ -217,11 +217,17 @@ def class_subject(label):
       ('classof', '2027')    graduating class, the schema's documented form
       ('entered', '2025')    the class that entered that year
       ('academic', '2019-20') a profile dated by academic year, kept because its age matters
+      ('span', '2026, 2027 and 2028') an average over those classes, never one of them
       ('none', '')           nothing a sentence can state honestly
     """
     t = str(label or "").strip()
     if t in ("", "None"):
         return ("none", "")
+    # An average over several classes names them all, and read for its first year Rice's
+    # "average of Class of 2026, 2027 and 2028" was the Class of 2026 alone.
+    m = SPAN.search(t)
+    if m:
+        return ("span", m.group(1))
     m = re.search(r"Class of (\d{4})", t, re.I)
     if m:
         return ("classof", m.group(1))
@@ -248,6 +254,7 @@ def class_subject(label):
     return ("none", "")
 
 
+SPAN = re.compile(r"\bClass(?:es)? of (\d{4}(?:, \d{4})*,? and \d{4})\b", re.I)
 NO_CLASS = re.compile(r"\b(?:(?:graduating |cohort )?(?:class|cohort) year not (?:labeled|labelled|stated)|"
                       r"no (?:class|cohort) year|not tied to a stated class year)\b", re.I)
 
@@ -267,6 +274,8 @@ def _selfcheck_class_subject(schools, today):
                         ("Data from 2022-2023 (Daytime and Evening cohorts)", ("none", "")),
                         ("2019-20", ("academic", "2019-20")),
                         ("Typical class profile (no class year stated)", ("none", "")),
+                        ("Three-year average of the Classes of 2026, 2027 and 2028", ("span", "2026, 2027 and 2028")),
+                        ("*Data is the average of Class of 2026, 2027 and 2028.", ("span", "2026, 2027 and 2028")),
                         ("", ("none", ""))):
         got = class_subject(label)
         if got != want:
@@ -282,8 +291,18 @@ def _selfcheck_class_subject(schools, today):
                        ("accepted offers by three months; graduating class year not stated on page", ("none", "")),
                        ("average (no cohort year labeled on page)", ("none", "")),
                        ("average", ("classof", "2026")),
-                       ("avg, Class of 2025", ("classof", "2025"))):
+                       ("avg, Class of 2025", ("classof", "2025")),
+                       ("three-year average of the Classes of 2024, 2025 and 2026", ("span", "2024, 2025 and 2026"))):
         got = fig_subject({"stat": stat}, {"class_year": "Class of 2026"})
+        if got != want:
+            raise SystemExit("build_rankings: fig_subject for %r is %r, expected %r" % (stat, got, want))
+    # A figure that names its class keeps it when its source is a report on several classes.
+    for stat, src, want in (("median base salary, Class of 2024", "employment report, Classes of 2024 and 2025",
+                             ("classof", "2024")),
+                            ("three-year average enrollment", "class profiles page (three-year average)",
+                             ("span", "2026, 2027 and 2028"))):
+        got = fig_subject({"stat": stat, "src": src},
+                          {"class_year": "Three-year average of the Classes of 2026, 2027 and 2028"})
         if got != want:
             raise SystemExit("build_rankings: fig_subject for %r is %r, expected %r" % (stat, got, want))
 
@@ -299,9 +318,15 @@ def fig_subject(f, p):
     names one, else the page's. Four programs mix a figure from one class with a
     profile labelled for another (Notre Dame's GMAT is Class of 2026 coverage on a
     Class of 2027 page), and a sentence must not merge them under one label."""
-    m = re.search(r"Class of (\d{4})", "%s %s" % ((f or {}).get("stat") or "", (f or {}).get("src") or ""), re.I)
-    if m:
-        return ("classof", m.group(1))
+    # The stat first, then the source: McCombs' Class of 2024 salary comes from a report
+    # titled for the Classes of 2024 and 2025, and the figure is the one class it names.
+    for own in ((f or {}).get("stat") or "", (f or {}).get("src") or ""):
+        m = SPAN.search(own)
+        if m:
+            return ("span", m.group(1))
+        m = re.search(r"Class of (\d{4})", own, re.I)
+        if m:
+            return ("classof", m.group(1))
     # A figure whose own description says its page names no class has none, whatever the
     # record's label says about the rest of its figures (INC-0147).
     if NO_CLASS.search(str((f or {}).get("stat") or "")):
@@ -312,14 +337,16 @@ def fig_subject(f, p):
 def as_class(subj):
     kind, v = subj
     return {"classof": "The Class of %s" % v, "entered": "The class that entered in %s" % v,
-            "academic": "The class profiled in %s" % v}.get(kind, "The most recently reported class")
+            "academic": "The class profiled in %s" % v,
+            "span": "Averaged over the Classes of %s, a class" % v}.get(kind, "The most recently reported class")
 
 
 def as_profile(subj):
     kind, v = subj
     return {"classof": "The Class of %s profile" % v,
             "entered": "The profile of the class that entered in %s" % v,
-            "academic": "The %s profile" % v}.get(kind, "The most recent published profile")
+            "academic": "The %s profile" % v,
+            "span": "The profile averaged over the Classes of %s" % v}.get(kind, "The most recent published profile")
 
 
 def grouped(p, items):
