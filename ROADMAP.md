@@ -549,6 +549,14 @@ verified rather than that the school does not publish one (INC-0118).
       States, and the fee reduction. The GRE guide gains five key facts from ETS's fees page and
       the 2026-27 Bulletin, checked weekly. ETS values its free prep bundle at $110 on one page
       and $100 on two others, so the post quotes the items, not a total.
+- [x] **"How Much Does the LSAT Cost in 2026?" queued for November 19**, Aisha Thompson:
+      LSAC's fees ($253 for the LSAT with Argumentative Writing, $219 for CAS, $45 per law
+      school report, Score Preview $46 or $87, a $50 candidate score report, a $150 Score
+      Audit), what applying costs in LSAC fees ($517 for one school, $697 for five, $922 for
+      ten), the test date change steps (free, $153, $253), the refund rules (full through the
+      refund deadline; no CAS refunds since May 20, 2024) and the two fee waiver tiers. The
+      LSAT guide gains five key facts from LSAC's fees, refund and fee waiver pages, checked
+      weekly. With the GMAT and GRE posts this makes a three-post run on what each test costs.
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects
