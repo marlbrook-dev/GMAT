@@ -6,11 +6,11 @@ different one.
 The platform is Start From Nowhere, a test-preparation site with five adaptive exam
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
-2026-09-19 and 2026-09-26, which is 7 days, across
-75 commits, by one owner directing a series of AI coding sessions. As of this
-build it is 81 Python files, 107 JavaScript files, 24
+2026-09-19 and 2026-09-27, which is 8 days, across
+77 commits, by one owner directing a series of AI coding sessions. As of this
+build it is 82 Python files, 107 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 64 documents:
-2030 tracked files in total.
+2033 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -1122,7 +1122,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-75 commits in 7 days, one owner, a series of AI sessions. This
+77 commits in 8 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1175,7 +1175,7 @@ Not a list of files changed. The useful report is:
 5. Numbers, with the command that produced them.
 
 The commit messages in this repository are written that way, which is why a defect ledger
-could be reconstructed from them 7 days later. **Write the commit message
+could be reconstructed from them 8 days later. **Write the commit message
 as though someone will need to mine it. Someone will.**
 
 ## Failure modes observed in this project
@@ -1214,7 +1214,7 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-135 recorded defects, over 7 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+135 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found

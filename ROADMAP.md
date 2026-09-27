@@ -270,6 +270,17 @@ verified rather than that the school does not publish one (INC-0118).
       cells, so the columns were aligned against the rendered table and the build rejects a
       blank above a reported score. Verbal plus Quant is shown only as arithmetic, with no
       percentile, because ETS reports and ranks the three scores separately.
+- [x] **SAT score calculator** at `/exams/sat/score-calculator/`: the table the queue was
+      waiting on is on College Board's research site
+      (research.collegeboard.org/reports/sat-suite/understanding-scores/sat, last modified
+      September 15, 2026), with a nationally representative and a user group percentile for
+      every total from 400 to 1600 and every section score from 200 to 800. It is parsed by a
+      script (`src/sat_percentiles.py --write`) into `data/sat_percentiles.json` with the
+      page's definitions quoted verbatim, and the total rule is the fall 2026 Understanding
+      Scores guide's "Sum of the 2 section scores". The weekly source job runs `--check`,
+      which re-reads the page and opens an issue when any cell or definition changes. The page does not say which three cohorts the user group covers, so the site
+      does not either, and it does not claim either group is the All Tester Percentile on a
+      score report. The SAT guide, the SAT vs ACT post and the good SAT score post link to it.
 - [x] **The school library checked against its sources** (INC-0133): `check_sources.py
       --schools` reads every page the library cites (652 figures, 225 pages; the 337 College
       Scorecard figures come from a dataset and are set aside). Reading its flags on static
@@ -323,11 +334,6 @@ verified rather than that the school does not publish one (INC-0118).
       unreadable, not wrong. The weekly job may read them from GitHub's runners; if it
       cannot either, find the same figures on gmac.com and move the citations (INC-0100
       did this for the section table)
-- [ ] An SAT one needs College Board's own percentile table. The fall 2026 Understanding
-      Scores PDFs, for SAT Weekend (satsuite.collegeboard.org/media/pdf/sat-understanding-scores.pdf)
-      and SAT School Day, state that the total is the sum of the two section scores and
-      define the All Tester Percentile, but print no table, so find the document that does
-      before building anything; a calculator that only adds two numbers is not worth a page
 
 ## Session log, September 16, 2026: LSAT and ACT live, MCAT and EA blocked
 

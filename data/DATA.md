@@ -96,6 +96,13 @@ aside College Scorecard figures, which come from a dataset rather than a page, l
 figure's `note` out because there it is our commentary, and reports a page that shows none
 of its figures as unread rather than wrong.
 
+The SAT score calculator's percentiles in `data/sat_percentiles.json` are College Board's,
+parsed from its research page by `python3 src/sat_percentiles.py --write`, which also quotes
+the page's definitions word for word and the fall 2026 Understanding Scores guide's rule
+that the total is the sum of the two section scores. Nothing in the file is typed. The
+weekly job runs `--check`, which re-reads the page and reports any cell, row or definition
+that changed.
+
 ## SAT, as encoded in `src/engine.js`
 
 | What | Where it comes from |

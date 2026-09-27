@@ -17,7 +17,8 @@ APP_PATH = {"gmat": "/app/", "sat": "/sat/app/", "gre": "/gre/app/",
             "lsat": "/lsat/app/", "act": "/act/app/"}  # where each live trainer lives
 # Score calculators, built by build_calculators.py from the maker's published rules.
 CALCULATORS = {"act": ("/exams/act/score-calculator/", "ACT Score Calculator"),
-               "gre": ("/exams/gre/score-calculator/", "GRE Score Calculator")}
+               "gre": ("/exams/gre/score-calculator/", "GRE Score Calculator"),
+               "sat": ("/exams/sat/score-calculator/", "SAT Score Calculator")}
 
 # Plan feature matrix for /pricing/. Values: True = included, False = not
 # included, string = shown verbatim. Order defines the page.
