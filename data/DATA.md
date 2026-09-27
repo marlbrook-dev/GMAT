@@ -148,7 +148,11 @@ gives in the image's place: Berkeley Haas and Pitt Katz draw their figures as im
 write the figures into the alt text (INC-0154). A bot challenge is never read as the page it
 stands in for: a short read in a challenge's words (Imperva's security check on mba.com,
 Cloudflare's Just a moment) is not cached, and the source is reported unreadable rather than
-missing the figures (INC-0156). It runs weekly in `.github/workflows/playbook.yml`
+missing the figures (INC-0156). A page that refuses the plain read with 401, 403 or 429 is
+read in the browser, under the same user agent, before it is called unreadable: Baylor's
+pages refuse a script and render for a browser, while Columbia's, Michigan Ross's and
+Bloomberg's answer the browser with a challenge as well, which is reported as one (INC-0159).
+It runs weekly in `.github/workflows/playbook.yml`
 and opens an issue when something no longer matches. A fact whose number is arithmetic on
 its source says so with a `derived` entry giving the working, such as
 `"derived": {"63": "21 + 42, the private and public colleges the page lists"}`, and the

@@ -50,6 +50,7 @@ import pathlib
 import re
 import ssl
 import sys
+import urllib.error
 import urllib.request
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -81,9 +82,15 @@ MIN_TEXT = 400
 CHALLENGE = re.compile(r"Additional security check is required|protected and accelerated by Imperva|"
                        r"Incapsula incident|Just a moment\.\.\.|Checking your browser|Attention Required! \| Cloudflare|"
                        r"Verify(?:ing)? you are (?:a )?human|Please enable (?:cookies|JavaScript) to continue|"
-                       r"Access Denied.{0,80}You don't have permission|Request unsuccessful", re.I)
+                       r"Access Denied.{0,80}You don't have permission|Request unsuccessful|"
+                       r"Performing security verification|uses a security service to protect against malicious bots|"
+                       r"detected unusual activity from your computer network|let us know you're not a robot", re.I)
 CHALLENGE_MAX = 3000
 CHALLENGED = set()
+# A site that refuses a script can still serve a browser: Baylor's pages answer 403 to the
+# plain read and render in Chromium under the same user agent, while Columbia's and Michigan
+# Ross's answer the browser with Cloudflare's verification page, which is then reported.
+REFUSED = {401, 403, 429}
 
 
 def challenged(text):
@@ -488,8 +495,12 @@ def _selfcheck():
     imperva = ("www.mba.com - Additional security check is required Why am I seeing this page? The website you "
                "are visiting is protected and accelerated by Imperva. Your computer may have been infected by malware.")
     cloudflare = "Just a moment... Enable JavaScript and cookies to continue"
+    verifying = ("business.columbia.edu Performing security verification This website uses a security service to "
+                 "protect against malicious bots. This page is displayed while the website verifies you are not a bot.")
+    unusual = ("Bloomberg Need help? Contact us We've detected unusual activity from your computer network To continue, "
+               "please click the box below to let us know you're not a robot. Why did this happen? " + "x" * 600)
     page = "Score reports. " * 250 + "Every account has an additional security check is required step at sign in."
-    for text, want in ((imperva, True), (cloudflare, True), (page, False)):
+    for text, want in ((imperva, True), (cloudflare, True), (verifying, True), (unusual, True), (page, False)):
         if challenged(text) != want:
             sys.exit("check_sources: challenged(%r) should be %s" % (text[:50], want))
     img = '<h3>GMAT Focus</h3><img src="GMAT%20Focus-3.svg" width="400" alt="637 to 725 middle 80% range; 675 median">'
@@ -552,14 +563,25 @@ def main(argv):
     today = datetime.date.fromisoformat(os.environ.get("BLOG_BUILD_DATE") or datetime.date.today().isoformat())
     for url in sorted({u for _, _, f in todo for u in pages(f)}):
         try:
-            text = fetch(url, cache)
+            refused = None
+            try:
+                text = fetch(url, cache)
+            except urllib.error.HTTPError as e:
+                if "--render" not in argv or e.code not in REFUSED:
+                    raise
+                refused = e.code
+                try:
+                    text = fetch(url, cache, rendered=True)
+                except Exception as e2:
+                    raise RuntimeError("HTTP %d, and the browser could not read it either (%s)"
+                                       % (e.code, str(e2).splitlines()[0][:120]))
             # A page that builds itself with JavaScript reads as nearly empty, or as
             # navigation without its figures, until a browser runs it. If the browser
             # cannot load it either, the static text is still evidence when there is
             # enough of it, so it is kept rather than thrown away.
             cited = [f for _, _, f in todo if url in pages(f)]
             misses = lambda t: sum(len(check(f, numbers(t, True))) for f in cited)
-            if "--render" in argv and (len(text) < MIN_TEXT or misses(text)):
+            if "--render" in argv and refused is None and (len(text) < MIN_TEXT or misses(text)):
                 try:
                     shown = fetch(url, cache, rendered=True)
                     # The browser's read replaces the page as served only when it is at
@@ -571,7 +593,8 @@ def main(argv):
                     print("render failed for %s, using the page as served (%s)"
                           % (url, str(e).splitlines()[0][:120]))
             if url in CHALLENGED and len(text) < MIN_TEXT:
-                raise RuntimeError("the site answered with a bot challenge, not the page")
+                raise RuntimeError("%sthe site answered with a bot challenge, not the page"
+                                   % ("HTTP %d to a script, and in the browser " % refused if refused else ""))
             if len(text) < MIN_TEXT:
                 raise RuntimeError("only %d characters of text, a bot challenge or a page "
                                    "built by JavaScript" % len(text))
