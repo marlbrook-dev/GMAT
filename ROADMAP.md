@@ -304,6 +304,11 @@ verified rather than that the school does not publish one (INC-0118).
       it found the hub's meta description still saying only the GMAT and SAT trainers were
       live (INC-0138): it is now built from `LIVE`, and every built page is checked for a
       sentence that calls a live trainer unfinished.
+- [x] **"What Is a Good PSAT Score in 2026?"** queued for October 26, the next free drip slot:
+      College Board's percentiles for 10th and 11th graders, the grade-level benchmarks and
+      the Selection Index, every figure generated from `data/psat_percentiles.json` and
+      checked against it by script, with a PSAT/NMSQT block added to the EDITORIAL fact
+      sheet. It estimates no National Merit cutoff.
 - [x] **The school library checked against its sources** (INC-0133): `check_sources.py
       --schools` reads every page the library cites (652 figures, 225 pages; the 337 College
       Scorecard figures come from a dataset and are set aside). Reading its flags on static
@@ -348,8 +353,8 @@ verified rather than that the school does not publish one (INC-0118).
       rest of MIT's Class of 2028 profile is drawn by JavaScript, so it waits for the weekly
       rendered run (the posts quoting its Class of 2027 figures name that class, so they stay
       correct). Pages whose figures render by JavaScript (Stanford, Kellogg, Haas, Kelley,
-      Rady and others) are for the weekly job, which reads them with Chromium. UCSD's 2025-26
-      Rady fee page is a 404 now. Unreadable from here: 403s at Columbia, Baylor, Michigan
+      Rady and others) are for the weekly job, which reads them with Chromium. UCSD's Rady
+      tuition now reads UCSD's 2026-27 fee page, the 2025-26 one being gone. Unreadable from here: 403s at Columbia, Baylor, Michigan
       Ross and Bloomberg, certificate failures at Penn State Smeal and UC Irvine Merage (not
       to be bypassed), US News, Fordham redirects and ASU (522)
 - [ ] Six GMAT facts cite pages this sandbox cannot read: four on www.mba.com serve a bot
