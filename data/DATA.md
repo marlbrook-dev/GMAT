@@ -96,12 +96,14 @@ aside College Scorecard figures, which come from a dataset rather than a page, l
 figure's `note` out because there it is our commentary, and reports a page that shows none
 of its figures as unread rather than wrong.
 
-The SAT score calculator's percentiles in `data/sat_percentiles.json` are College Board's,
-parsed from its research page by `python3 src/sat_percentiles.py --write`, which also quotes
-the page's definitions word for word and the fall 2026 Understanding Scores guide's rule
-that the total is the sum of the two section scores. Nothing in the file is typed. The
-weekly job runs `--check`, which re-reads the page and reports any cell, row or definition
-that changed.
+The SAT and PSAT/NMSQT calculators' percentiles in `data/sat_percentiles.json` and
+`data/psat_percentiles.json` are College Board's, parsed from its research pages by
+`python3 src/sat_percentiles.py --write`, which also quotes each page's definitions word for
+word, the fall 2026 Understanding Scores guides' rule that a total is the sum of the two
+section scores, the NMSC Selection Index rule from College Board's What Do My Scores Mean?
+page, and the PSAT/NMSQT guide's grade-level benchmarks, read off its table. Nothing in
+either file is typed. The weekly job runs `--check`, which re-reads both pages and reports
+any cell, row or definition that changed.
 
 ## SAT, as encoded in `src/engine.js`
 

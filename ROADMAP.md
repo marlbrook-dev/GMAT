@@ -281,6 +281,15 @@ verified rather than that the school does not publish one (INC-0118).
       which re-reads the page and opens an issue when any cell or definition changes. The page does not say which three cohorts the user group covers, so the site
       does not either, and it does not claim either group is the All Tester Percentile on a
       score report. The SAT guide, the SAT vs ACT post and the good SAT score post link to it.
+- [x] **PSAT/NMSQT calculator** at `/exams/sat/psat-calculator/`: the total and the NMSC
+      Selection Index, (2 x Reading and Writing + Math) / 10 on 48 to 228, from the fall 2026
+      PSAT/NMSQT Understanding Scores guide and College Board's scores page, with College
+      Board's percentiles for 10th and 11th graders from its research site and the guide's
+      grade-level benchmarks. The research page gives each section table's grade only in
+      the heading printed before it, so the parser reads that heading rather than trusting
+      the order, and it records the reading column's heading as printed ("Evidence-Based
+      Reading and Writing", "EBRW"), which the page notes. No National Merit cutoff is
+      estimated. `sat_percentiles.py --check` covers both pages weekly.
 - [x] **The school library checked against its sources** (INC-0133): `check_sources.py
       --schools` reads every page the library cites (652 figures, 225 pages; the 337 College
       Scorecard figures come from a dataset and are set aside). Reading its flags on static

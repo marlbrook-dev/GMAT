@@ -3,6 +3,7 @@
     /exams/act/score-calculator/   the ACT Composite and superscore, with national ranks
     /exams/gre/score-calculator/   GRE percentile ranks for Verbal, Quant and Writing
     /exams/sat/score-calculator/   the SAT total and College Board's two percentile groups
+    /exams/sat/psat-calculator/    the PSAT/NMSQT total, NMSC Selection Index and percentiles
 
 A calculator is only as honest as its rule. Each one here does arithmetic that the test
 maker publishes and nothing else: no score conversion, estimate or percentile that the
@@ -27,6 +28,9 @@ SITE = "https://startfromnowhere.com"
 ACT_RANKS = ROOT / "data" / "act_national_ranks.json"
 GRE_RANKS = ROOT / "data" / "gre_percentiles.json"
 SAT_RANKS = ROOT / "data" / "sat_percentiles.json"
+PSAT_RANKS = ROOT / "data" / "psat_percentiles.json"
+PSAT_TOTALS = [str(x) for x in range(1520, 319, -10)]
+PSAT_SECTIONS = [str(x) for x in range(760, 159, -10)]
 SAT_TOTALS = [str(x) for x in range(1600, 399, -10)]
 SAT_SECTIONS = [str(x) for x in range(800, 199, -10)]
 # College Board prints a whole-number percentile, or 99+ and 1- at the ends of the scale.
@@ -394,6 +398,135 @@ def sat_page(d):
     return partials.apply_chrome(page)
 
 
+def check_psat(d):
+    """College Board's PSAT/NMSQT percentiles, rules and benchmarks, checked like the SAT's,
+    for each of the two grades the page prints."""
+    bad = []
+    if d.get("src") != "College Board" or not str(d.get("url", "")).startswith(
+            "https://research.collegeboard.org/"):
+        bad.append("the source must be College Board, with a URL on research.collegeboard.org")
+    for k in ("year", "read", "modified", "title"):
+        if not d.get(k):
+            bad.append("no " + k)
+    if sorted((d.get("definitions") or {})) != ["national", "rank", "user"]:
+        bad.append("the three definitions the page prints must be quoted")
+    for part, keys in (("total", PSAT_TOTALS), ("rw", PSAT_SECTIONS), ("math", PSAT_SECTIONS)):
+        for grade in ("10", "11"):
+            for grp in ("national", "user"):
+                c = ((d.get(part) or {}).get(grade) or {}).get(grp) or {}
+                if list(c) != keys:
+                    bad.append("%s grade %s %s does not list every score in order" % (part, grade, grp))
+                    continue
+                vals = [c[k] for k in keys]
+                if not all(isinstance(v, str) and SAT_CELL.match(v) for v in vals):
+                    bad.append("%s grade %s %s has a cell College Board would not print" % (part, grade, grp))
+                elif [sat_order(v) for v in vals] != sorted((sat_order(v) for v in vals), reverse=True):
+                    bad.append("%s grade %s %s percentiles must fall as the score falls" % (part, grade, grp))
+    b = d.get("benchmarks") or {}
+    for sec in ("rw", "math"):
+        for grade in ("10", "11"):
+            v = (b.get(sec) or {}).get(grade)
+            if not isinstance(v, int) or str(v) not in PSAT_SECTIONS:
+                bad.append("no %s benchmark on the section scale for grade %s" % (sec, grade))
+    for k in ("ranges", "selection_index", "all_tester", "benchmarks", "common_scale"):
+        f = d.get(k) or {}
+        if not all(f.get(x) for x in ("text", "src", "year", "url", "title")) or \
+                not f["url"].startswith("https://satsuite.collegeboard.org/"):
+            bad.append("%s needs its text, title, source, year and a satsuite.collegeboard.org URL" % k)
+    if sorted(d.get("rw_heading") or {}) != ["10", "11"]:
+        bad.append("the reading section's column heading must be recorded for each grade")
+    if bad:
+        fail("data/psat_percentiles.json: " + "; ".join(bad))
+
+
+def psat_page(d):
+    rank_cite = cite(d["title"], {"src": d["src"], "year": d["year"], "url": d["url"]})
+    guide_cite = cite(d["ranges"]["title"], d["ranges"])
+    scores_cite = cite(d["selection_index"]["title"], d["selection_index"])
+    sat_guide_cite = cite(d["common_scale"]["title"], d["common_scale"])
+    tot, rw, math, defs, bench = d["total"], d["rw"], d["math"], d["definitions"], d["benchmarks"]
+
+    def rows(t, grade):
+        keys = PSAT_TOTALS if t is tot else PSAT_SECTIONS
+        return "\n".join("<tr><td>%s</td><td>%s</td><td>%s</td></tr>"
+                         % (k, esc(t[grade]["national"][k]), esc(t[grade]["user"][k])) for k in keys)
+
+    def tally(grade):
+        n, u = tot[grade]["national"], tot[grade]["user"]
+        hi = sum(1 for k in PSAT_TOTALS if sat_order(n[k]) > sat_order(u[k]))
+        lo = sum(1 for k in PSAT_TOTALS if sat_order(n[k]) < sat_order(u[k]))
+        return hi, lo, len(PSAT_TOTALS) - hi - lo
+    h10, l10, e10 = tally("10")
+    h11, l11, e11 = tally("11")
+    compare = ("Neither group always gives the higher figure. Of the %d totals College Board lists, "
+               "the nationally representative percentile is the higher at %d for 10th graders and "
+               "%d for 11th graders, the user group percentile at %d and %d, and the two match at "
+               "%d and %d. For an 11th grader, a total of 1200 is at %s and %s."
+               % (len(PSAT_TOTALS), h10, h11, l10, l11, e10, e11,
+                  tot["11"]["national"]["1200"], tot["11"]["user"]["1200"]))
+    heads = d["rw_heading"]
+    heading_note = ('College Board\'s percentile page heads the reading section\'s columns "%s" in '
+                    'its 10th grade table and "%s" in its 11th grade table. This page calls the '
+                    'section Reading and Writing, as College Board\'s fall 2026 score guide does.'
+                    % (heads["10"], heads["11"]))
+    bench_text = ("Reading and Writing %d in 10th grade and %d in 11th, and Math %d in 10th grade "
+                  "and %d in 11th" % (bench["rw"]["10"], bench["rw"]["11"],
+                                      bench["math"]["10"], bench["math"]["11"]))
+
+    def at(score):
+        vals = [tot[g][grp][score] for g in ("10", "11") for grp in ("national", "user")]
+        if not all(v.isdigit() for v in vals):
+            fail("the PSAT/NMSQT FAQ quotes the percentiles for %s, which are no longer whole numbers" % score)
+        return ("On College Board's tables a total of %s is at the %s nationally representative "
+                "percentile and the %s user group percentile for 10th graders, and at the %s and "
+                "the %s for 11th graders." % (score, ordinal(vals[0]), ordinal(vals[1]),
+                                              ordinal(vals[2]), ordinal(vals[3])))
+    faq = [
+        ("How Is the PSAT/NMSQT Selection Index Calculated?",
+         'College Board describes it this way: "%s" It runs from 48 to 228, and College Board '
+         "lists it for the PSAT/NMSQT only." % d["selection_index"]["text"], scores_cite),
+        ("How Is the PSAT/NMSQT Total Score Calculated?", d["ranges"]["text"] + ".", guide_cite),
+        ("What Percentile Is a 1200 on the PSAT/NMSQT?", at("1200"), rank_cite),
+        ("What Percentile Is a 1000 on the PSAT/NMSQT?", at("1000"), rank_cite),
+        ("What Are the PSAT/NMSQT Benchmarks?",
+         "College Board's grade-level benchmarks are %s. %s" % (bench_text, bench["text"]), guide_cite),
+        ("Does This Page Estimate National Merit Cutoffs?",
+         "No. It works out the Selection Index as College Board describes it and shows College "
+         "Board's percentiles and benchmarks. It does not estimate any National Merit cutoff.",
+         None),
+    ]
+    # The last answer is about this page, so it cites nothing.
+    faq_html = "\n".join('<h3>%s</h3><p>%s</p>%s' % (esc(q), esc(a), '<p class="src">Source: %s.</p>' % c if c else "")
+                         for q, a, c in faq)
+    faq_ld = json.dumps({"@context": "https://schema.org", "@type": "FAQPage",
+                         "mainEntity": [{"@type": "Question", "name": q,
+                                         "acceptedAnswer": {"@type": "Answer", "text": a}}
+                                        for q, a, _ in faq]}, separators=(",", ":"))
+    ranks = json.dumps({"total": tot, "rw": rw, "math": math,
+                        "bench": {"rw": bench["rw"], "math": bench["math"]}}, separators=(",", ":"))
+    page = ((D / "psat_calculator.html").read_text()
+            .replace("{{FAQ_LD}}", faq_ld).replace("{{FAQ_HTML}}", faq_html)
+            .replace("{{TOT10}}", rows(tot, "10")).replace("{{TOT11}}", rows(tot, "11"))
+            .replace("{{RW10}}", rows(rw, "10")).replace("{{RW11}}", rows(rw, "11"))
+            .replace("{{M10}}", rows(math, "10")).replace("{{M11}}", rows(math, "11"))
+            .replace("{{RANKS_JSON}}", ranks)
+            .replace("{{RANK_CITE}}", rank_cite).replace("{{GUIDE_CITE}}", guide_cite)
+            .replace("{{SCORES_CITE}}", scores_cite).replace("{{SAT_GUIDE_CITE}}", sat_guide_cite)
+            .replace("{{RANGES_TEXT}}", esc(d["ranges"]["text"]))
+            .replace("{{SI_RULE}}", esc(d["selection_index"]["text"]))
+            .replace("{{COMMON_SCALE}}", esc(d["common_scale"]["text"]))
+            .replace("{{BENCH_TEXT}}", esc(bench_text)).replace("{{BENCH_RULE}}", esc(bench["text"]))
+            .replace("{{DEF_RANK}}", esc(defs["rank"]))
+            .replace("{{DEF_NATIONAL}}", esc(defs["national"]))
+            .replace("{{DEF_USER}}", esc(defs["user"]))
+            .replace("{{ALL_TESTER}}", esc(d["all_tester"]["text"]))
+            .replace("{{GROUP_COMPARE}}", esc(compare))
+            .replace("{{HEADING_NOTE}}", esc(heading_note))
+            .replace("{{READ}}", long_date(d["read"]))
+            .replace("{{MODIFIED}}", long_date(d["modified"])))
+    return partials.apply_chrome(page)
+
+
 def write_page(rel, page):
     if "{{" in page:
         fail("unresolved placeholder in /%s/" % rel)
@@ -423,6 +556,9 @@ def main():
     sat = json.loads(SAT_RANKS.read_text())
     check_sat(sat)
     write_page("exams/sat/score-calculator", sat_page(sat))
+    psat = json.loads(PSAT_RANKS.read_text())
+    check_psat(psat)
+    write_page("exams/sat/psat-calculator", psat_page(psat))
 
 
 if __name__ == "__main__":
