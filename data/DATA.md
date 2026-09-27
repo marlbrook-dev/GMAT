@@ -176,6 +176,18 @@ any cell, row or definition that changed. The LSAT percentile calculator's table
 and score bands quoted; its `--check` runs weekly too, since LSAC updates percentiles every
 year by the end of July.
 
+The test date pages under `/exams/<exam>/test-dates/` come from `data/test_dates.json`:
+College Board's SAT Weekend table and its fall score release table, ACT's national test
+dates table and LSAC's two LSAT tables, parsed by `python3 src/test_dates.py --write` row by
+row under the header each page prints. A row whose dates do not run in order is refused
+rather than guessed, a date printed without a year takes the year that puts a deadline
+before its test and a score release after it, and a sentence a page is quoted with is kept
+only if the page prints it word for word. Nothing in the file is typed. The weekly job runs
+`--check`, which re-reads all four tables and reports any date, row or table that moved.
+The pages lead with where registration stands on the reader's own day, never the next test
+date alone, and each date downloads as a calendar file whose events carry the table's own
+dates, which `src/smoke_dates.js` checks against the file.
+
 ## SAT, as encoded in `src/engine.js`
 
 | What | Where it comes from |

@@ -1,0 +1,339 @@
+{
+ "read": "2026-09-27",
+ "sat": {
+  "src": "College Board, SAT Suite Test Dates and Deadlines",
+  "url": "https://satsuite.collegeboard.org/sat/dates-deadlines",
+  "scores_src": "College Board, Score Release Dates for Students and Educators",
+  "scores_url": "https://satsuite.collegeboard.org/scores/score-release-dates",
+  "weekend": [
+   {
+    "test": "2026-08-22",
+    "register_by": "2026-08-07",
+    "late_by": "2026-08-11",
+    "scores_student": "2026-09-04",
+    "scores_educator": "2026-09-08"
+   },
+   {
+    "test": "2026-09-12",
+    "register_by": "2026-08-28",
+    "late_by": "2026-09-01",
+    "scores_student": "2026-09-25",
+    "scores_educator": "2026-09-28"
+   },
+   {
+    "test": "2026-10-03",
+    "register_by": "2026-09-18",
+    "late_by": "2026-09-22",
+    "scores_student": "2026-10-16",
+    "scores_educator": "2026-10-19"
+   },
+   {
+    "test": "2026-11-07",
+    "register_by": "2026-10-23",
+    "late_by": "2026-10-27",
+    "scores_student": "2026-11-20",
+    "scores_educator": "2026-11-23"
+   },
+   {
+    "test": "2026-12-05",
+    "register_by": "2026-11-20",
+    "late_by": "2026-11-24",
+    "scores_student": "2026-12-18",
+    "scores_educator": "2026-12-21"
+   },
+   {
+    "test": "2027-03-06",
+    "register_by": "2027-02-19",
+    "late_by": "2027-02-23"
+   },
+   {
+    "test": "2027-05-01",
+    "register_by": "2027-04-16",
+    "late_by": "2027-04-20"
+   },
+   {
+    "test": "2027-06-05",
+    "register_by": "2027-05-21",
+    "late_by": "2027-05-25"
+   }
+  ],
+  "in_school": [
+   {
+    "tests": "SAT School Day, PSAT/NMSQT, and PSAT 8/9",
+    "season": "Fall 2026",
+    "from": "2026-10-01",
+    "to": "2026-10-30"
+   },
+   {
+    "tests": "SAT School Day, PSAT 10, and PSAT 8/9",
+    "season": "Spring 2027",
+    "from": "2027-03-01",
+    "to": "2027-04-30"
+   }
+  ],
+  "anticipated": [
+   "2027-08-28",
+   "2027-09-18",
+   "2027-10-02",
+   "2027-11-06",
+   "2027-12-04",
+   "2028-03-04",
+   "2028-05-06",
+   "2028-06-03"
+  ],
+  "quotes": [
+   "SAT Weekend deadlines expire at 11:59 p.m. ET, U.S.",
+   "Late registration is available worldwide.",
+   "Students taking SAT School Day or PSAT assessments do not need to register on their own."
+  ]
+ },
+ "act": {
+  "src": "ACT, ACT Exam Test Dates and Deadlines",
+  "url": "https://www.act.org/content/act/en/products-and-services/the-act/registration/test-dates.html",
+  "national": [
+   {
+    "test": "2026-09-19",
+    "register_by": "2026-08-14",
+    "late_by": "2026-09-01",
+    "photo_standby_by": "2026-09-14",
+    "scores_paper": "2026-10-06"
+   },
+   {
+    "test": "2026-10-17",
+    "register_by": "2026-09-11",
+    "late_by": "2026-09-29",
+    "photo_standby_by": "2026-10-12",
+    "scores_paper": "2026-10-27"
+   },
+   {
+    "test": "2026-12-12",
+    "register_by": "2026-11-06",
+    "late_by": "2026-11-29",
+    "photo_standby_by": "2026-12-07",
+    "scores_paper": "2026-12-22"
+   },
+   {
+    "test": "2027-02-27",
+    "register_by": "2027-01-22",
+    "late_by": "2027-02-09",
+    "photo_standby_by": "2027-02-22",
+    "scores_paper": "2027-03-16"
+   },
+   {
+    "test": "2027-04-10",
+    "register_by": "2027-03-05",
+    "late_by": "2027-03-23",
+    "photo_standby_by": "2027-04-05",
+    "scores_paper": "2027-04-20"
+   },
+   {
+    "test": "2027-06-12",
+    "register_by": "2027-05-07",
+    "late_by": "2027-05-25",
+    "photo_standby_by": "2027-06-07",
+    "scores_paper": "2027-06-23"
+   },
+   {
+    "test": "2027-07-10",
+    "register_by": "2027-06-04",
+    "late_by": "2027-06-22",
+    "photo_standby_by": "2027-07-05",
+    "scores_paper": "2027-07-20"
+   }
+  ],
+  "projected": [
+   "2027-09-11",
+   "2027-10-16",
+   "2027-12-11",
+   "2028-02-26",
+   "2028-04-08",
+   "2028-06-10",
+   "2028-07-15"
+  ],
+  "quotes": [
+   "The ACT is offered 7 times per year at test centers across the United States.",
+   "National test dates are for the United States, US territories, and Puerto Rico.",
+   "Deadlines occur at 11:59 pm Central Time.",
+   "Projected test dates are subject to change."
+  ]
+ },
+ "lsat": {
+  "src": "LSAC, Upcoming LSAT Dates",
+  "url": "https://www.lsac.org/LSATdates",
+  "administrations": [
+   {
+    "administration": "September 2026",
+    "region": "us_canada",
+    "days": [
+     "2026-09-09",
+     "2026-09-10",
+     "2026-09-11",
+     "2026-09-12"
+    ],
+    "writing_opens": "2026-09-01",
+    "register_by": "2026-07-28",
+    "scheduling_opens": "2026-08-25",
+    "scores": "2026-09-30"
+   },
+   {
+    "administration": "October 2026",
+    "region": "us_canada",
+    "days": [
+     "2026-10-07",
+     "2026-10-08",
+     "2026-10-09",
+     "2026-10-10"
+    ],
+    "writing_opens": "2026-09-29",
+    "register_by": "2026-08-27",
+    "scheduling_opens": "2026-09-22",
+    "scores": "2026-10-28"
+   },
+   {
+    "administration": "November 2026",
+    "region": "us_canada",
+    "days": [
+     "2026-11-11",
+     "2026-11-12",
+     "2026-11-13",
+     "2026-11-14"
+    ],
+    "writing_opens": "2026-11-03",
+    "register_by": "2026-10-01",
+    "scheduling_opens": "2026-10-27",
+    "scores": "2026-12-02"
+   },
+   {
+    "administration": "January 2027",
+    "region": "us_canada",
+    "days": [
+     "2027-01-13",
+     "2027-01-14",
+     "2027-01-15",
+     "2027-01-16"
+    ],
+    "writing_opens": "2027-01-05",
+    "register_by": "2026-12-01",
+    "scheduling_opens": "2026-12-22",
+    "scores": "2027-02-03"
+   },
+   {
+    "administration": "February 2027",
+    "region": "us_canada",
+    "days": [
+     "2027-02-12",
+     "2027-02-13"
+    ],
+    "writing_opens": "2027-02-04",
+    "register_by": "2026-12-29",
+    "scheduling_opens": "2027-01-26",
+    "scores": "2027-03-03"
+   },
+   {
+    "administration": "February 2027, Puerto Rico",
+    "region": "us_canada",
+    "place": "Puerto Rico",
+    "days": [
+     "2027-02-18",
+     "2027-02-19",
+     "2027-02-20"
+    ],
+    "writing_opens": "2027-02-10",
+    "register_by": "2027-01-05",
+    "scheduling_opens": "2027-02-02",
+    "scores": "2027-03-10"
+   },
+   {
+    "administration": "April 2027",
+    "region": "us_canada",
+    "days": [
+     "2027-04-08",
+     "2027-04-09",
+     "2027-04-10"
+    ],
+    "writing_opens": "2027-03-31",
+    "register_by": "2027-02-25",
+    "scheduling_opens": "2027-03-23",
+    "scores": "2027-04-28"
+   },
+   {
+    "administration": "June 2027",
+    "region": "us_canada",
+    "days": [
+     "2027-06-09",
+     "2027-06-10",
+     "2027-06-11",
+     "2027-06-12"
+    ],
+    "writing_opens": "2027-06-01",
+    "register_by": "2027-04-29",
+    "scheduling_opens": "2027-05-25",
+    "scores": "2027-06-30"
+   },
+   {
+    "administration": "June 2026 (international)",
+    "region": "international",
+    "days": [
+     "2026-06-05"
+    ],
+    "writing_opens": "2026-05-26",
+    "register_by": "2026-04-21",
+    "scheduling_opens": "2026-05-19",
+    "scores": "2026-06-24"
+   },
+   {
+    "administration": "October 2026 (international)",
+    "region": "international",
+    "days": [
+     "2026-10-09",
+     "2026-10-10"
+    ],
+    "writing_opens": "2026-09-29",
+    "register_by": "2026-08-27",
+    "scheduling_opens": "2026-09-22",
+    "scores": "2026-10-28"
+   },
+   {
+    "administration": "January 2027 (international)",
+    "region": "international",
+    "days": [
+     "2027-01-15",
+     "2027-01-16"
+    ],
+    "writing_opens": "2027-01-05",
+    "register_by": "2026-12-01",
+    "scheduling_opens": "2026-12-22",
+    "scores": "2027-02-03"
+   },
+   {
+    "administration": "April 2027 (international)",
+    "region": "international",
+    "days": [
+     "2027-04-09",
+     "2027-04-10"
+    ],
+    "writing_opens": "2027-03-31",
+    "register_by": "2027-02-25",
+    "scheduling_opens": "2027-03-23",
+    "scores": "2027-04-28"
+   },
+   {
+    "administration": "June 2027 (international)",
+    "region": "international",
+    "days": [
+     "2027-06-11",
+     "2027-06-12"
+    ],
+    "writing_opens": "2027-06-01",
+    "register_by": "2027-04-29",
+    "scheduling_opens": "2027-05-25",
+    "scores": "2027-06-30"
+   }
+  ],
+  "quotes": [
+   "All dates are listed in Eastern Time (ET), and all receipt deadlines are by 11:59 p.m. ET.",
+   "Registered test takers will receive an email when scheduling becomes available.",
+   "Note: These dates are subject to change."
+  ]
+ }
+}

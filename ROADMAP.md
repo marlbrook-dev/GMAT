@@ -444,6 +444,18 @@ verified rather than that the school does not publish one (INC-0118).
       College of Business, Portland State University School of Business, UC Davis Graduate
       School of Management, UC Riverside School of Business), and the validator refuses a name
       made only of generic words.
+- [x] **Test dates for the SAT, ACT and LSAT** at `/exams/<exam>/test-dates/`, parsed by
+      `src/test_dates.py` from College Board's, ACT's and LSAC's own tables: 8 SAT Weekend
+      dates, 7 ACT national dates and 13 LSAT administrations, with the in-school SAT and
+      PSAT windows and next year's anticipated and projected dates. Each page leads with
+      where registration stands on the reader's own day, the next date still open (regular
+      or late) and any nearer test whose deadlines have passed, because the next test date
+      alone can be one a student can no longer register for. Every date downloads as a
+      calendar file holding its deadlines and test day, with reminders. The build refuses a
+      row whose dates run out of order, the weekly source job re-reads all three tables, and
+      `src/smoke_dates.js` checks the note on four different days and every calendar file
+      against the row it came from. Linked from each exam guide, the /exams/ hub, the
+      Resources menu and llms.txt.
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects

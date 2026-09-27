@@ -230,6 +230,7 @@ _NAV_GROUPS = [
         ("The Study Room (Blog)", "/blog/", None),
         ("Exam Guides", "/exams/", None),
         ("Score Calculators", "/exams/#calculators", "New"),
+        ("Test Dates", "/exams/#test-dates", "New"),
         ("How Scoring Works", "/scoring/", None),
         ("Compare Plans", "/pricing/", None),
         ("FAQ", "/#faq", None),
