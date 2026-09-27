@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-27, which is 8 days, across
-122 commits, by one owner directing a series of AI coding sessions. As of this
+121 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 86 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
 2098 tracked files in total.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-122 commits in 8 days, one owner, a series of AI sessions. This
+121 commits in 8 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1217,22 +1217,22 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-172 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+175 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 90 | 52% |
-| Found by measuring something | 41 | 24% |
-| A test caught it | 21 | 12% |
+| Found by reading the code or the output | 90 | 51% |
+| Found by measuring something | 43 | 25% |
+| A test caught it | 22 | 13% |
 | Found by rendering it and looking | 8 | 5% |
 | Found by a review bot or an adversarial pass | 5 | 3% |
 | A build guard caught it | 5 | 3% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 170 of 172 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 173 of 175 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1241,21 +1241,21 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 75 |
-| Degraded | 42 |
+| Wrong data shown or stored | 77 |
+| Degraded | 43 |
 | Cosmetic | 26 |
 | Silent loss | 26 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 172. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 175. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 78 |
-| Tests and guards | 28 |
+| Content generation | 79 |
+| Tests and guards | 30 |
 | Front end | 12 |
 | Build system | 11 |
 | Search and metadata | 10 |
@@ -1269,7 +1269,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-166 of 172 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+169 of 175 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1290,7 +1290,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-78 of 172 incidents record that they repeat an earlier lesson, 106 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+81 of 175 incidents record that they repeat an earlier lesson, 110 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1300,13 +1300,13 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0064 The guard against a blind counter was itself blind to three exams | INC-0067, INC-0082, INC-0085, INC-0088 | 4 |
 | INC-0069 A bank a student can play at 88 percent, inside a section the check passed | INC-0079, INC-0085, INC-0086, INC-0088 | 4 |
 | INC-0074 A corpus field written for one grammatical slot was spliced into another | INC-0075, INC-0087, INC-0093, INC-0096 | 4 |
+| INC-0150 Columbia's MBA class was credited with five years of work experience, a figure the cited article gives for its 46-student MBAxMS cohort, and the source check passed it because the article does say five years | INC-0152, INC-0159, INC-0172, INC-0174 | 4 |
 | INC-0082 Nine published exam facts cite test prep companies, in the one published corpus with no source validator | INC-0124, INC-0125, INC-0130 | 3 |
 | INC-0092 A schema threw away three draws in four, and the counter that knew was read by nobody | INC-0098, INC-0099, INC-0101 | 3 |
 | INC-0099 Every generated reading comprehension question shipped without its passage | INC-0100, INC-0101, INC-0103 | 3 |
 | INC-0105 Twelve average salaries were published as medians, and the social queue credited schools with figures they never published | INC-0106, INC-0124, INC-0142 | 3 |
 | INC-0130 The GRE exam guide credited ETS with a combined 260 to 340 score that the ETS page it cited does not describe | INC-0133, INC-0155, INC-0160 | 3 |
 | INC-0137 A post queued to publish the next day said the LSAT trainer was still in development, eleven days after it went live | INC-0138, INC-0162, INC-0170 | 3 |
-| INC-0150 Columbia's MBA class was credited with five years of work experience, a figure the cited article gives for its 46-student MBAxMS cohort, and the source check passed it because the article does say five years | INC-0152, INC-0159, INC-0172 | 3 |
 | INC-0050 A landing-page icon referenced a colour token that did not exist | INC-0018, INC-0139 | 2 |
 | INC-0055 A new browser suite hardcoded this machine's browser directory and crashed in CI | INC-0067, INC-0110 | 2 |
 | INC-0059 The item counter missed a whole bank file because it assumed a quoting style | INC-0064, INC-0067 | 2 |
@@ -1325,6 +1325,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0146 The source check's browser read returned Stanford's class profile without a single figure, because the figures are drawn in an embedded chart that renders only when scrolled into view | INC-0156, INC-0158 | 2 |
 | INC-0151 Rice's school page credited Poets&Quants with an average GMAT of 693 for the Class of 2027, a number the article never prints; the figure's own note said it was read from a search snippet | INC-0154, INC-0157 | 2 |
 | INC-0154 The weekly source check listed Duke's GMAT medians and Michigan Ross's work experience as missing from their sources for weeks, but its 30 findings mixed real errors with pages it cannot read, so none was ever worked | INC-0155, INC-0157 | 2 |
+| INC-0156 The source check read mba.com's bot challenge page as the page it cites and reported the GMAT fact's numbers as missing from it | INC-0158, INC-0175 | 2 |
 | INC-0162 The blog build read a fee table as one sentence and refused a correct post for calling the SAT trainer unfinished, over College Board's seat Waitlist | INC-0165, INC-0169 | 2 |
 | INC-0014 A hardcoded count in the meta description went stale, and Google showed it | INC-0128 | 1 |
 | INC-0023 www and the apex were two origins, so consent and rankings split in half | INC-0127 | 1 |
@@ -1342,11 +1343,12 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0138 The exam guides hub told search engines only the GMAT and SAT trainers were live, eleven days after all five were | INC-0162 | 1 |
 | INC-0139 Every blog page drew the site header without the design tokens, so its logo sat against the screen edge on phones | INC-0163 | 1 |
 | INC-0142 Every school's employment rate was labelled and scored as a three month figure, though 15 of 70 were measured at six months, four months, a year or a reporting date, or at a timing their notes do not give | INC-0144 | 1 |
+| INC-0152 The source check read text inside HTML comments as page text, and confirmed Arizona State's 43 percent women from a table row the school had commented out | INC-0173 | 1 |
 | INC-0155 The GMAT guide cited mba.com's Official Score Reports page for the rule on five free score reports within 48 hours, a rule that page never states | INC-0160 | 1 |
-| INC-0156 The source check read mba.com's bot challenge page as the page it cites and reported the GMAT fact's numbers as missing from it | INC-0158 | 1 |
 | INC-0158 The source check filed six school pages as probably built by JavaScript; five were something else, and three of them showed newer figures than the library published | INC-0161 | 1 |
+| INC-0172 The ACT exam guide and a live post said the ACT can be taken up to 12 times, after ACT's page had come to say there is no limit, and the source check matched the 12 in the page's K-12 menu | INC-0174 | 1 |
 
-The largest family runs to 64 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140, INC-0142, INC-0143, INC-0144, INC-0145, INC-0147, INC-0150, INC-0151, INC-0152, INC-0154, INC-0155, INC-0157, INC-0159, INC-0160, INC-0162, INC-0165, INC-0169, INC-0170, INC-0172. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
+The largest family runs to 66 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140, INC-0142, INC-0143, INC-0144, INC-0145, INC-0147, INC-0150, INC-0151, INC-0152, INC-0154, INC-0155, INC-0157, INC-0159, INC-0160, INC-0162, INC-0165, INC-0169, INC-0170, INC-0172, INC-0173, INC-0174. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
 
 Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.
 
@@ -1376,14 +1378,16 @@ Incidents that name an earlier one without claiming to repeat it. Each was read 
 - INC-0169 names INC-0126
 - INC-0171 names INC-0170
 - INC-0172 names INC-0170
+- INC-0173 names INC-0174
+- INC-0174 names INC-0173
 
 
 ## Where defects concentrate
 
 Files named by three or more incidents. This is not the same signal as the list above: a file that is the natural home for many checks will appear here without any one of them having failed. It says where the work has been, and where a reader new to the codebase should look first.
 
+- `src/check_sources.py`, 18 incidents (INC-0130, INC-0132, INC-0133, INC-0136, INC-0140, INC-0150, INC-0152, INC-0154, INC-0155, INC-0156, INC-0158, INC-0159, INC-0161, INC-0168, INC-0172, INC-0173, INC-0174, INC-0175)
 - `src/build_banks.py`, 17 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011, INC-0079, INC-0081, INC-0086, INC-0088, INC-0089, INC-0090, INC-0091, INC-0092, INC-0120, INC-0123, INC-0126, INC-0127)
-- `src/check_sources.py`, 15 incidents (INC-0130, INC-0132, INC-0133, INC-0136, INC-0140, INC-0150, INC-0152, INC-0154, INC-0155, INC-0156, INC-0158, INC-0159, INC-0161, INC-0168, INC-0172)
 - `src/build.py`, 13 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067, INC-0076, INC-0080, INC-0131, INC-0148)
 - `src/test.js`, 8 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085)
 - `src/validate_schools.py`, 8 incidents (INC-0125, INC-0141, INC-0143, INC-0144, INC-0147, INC-0151, INC-0153, INC-0157)
@@ -1409,7 +1413,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (78)
+## Content generation (79)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -2357,7 +2361,19 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** A number's presence on a page is weak evidence for a fact, because pages are full of numbers that mean other things: menus, dates, grade ranges, footnote markers. A check that matches numbers should read them where the fact would be, and should expect the page to change what it says around them.
 
 
-## Tests and guards (28)
+### INC-0174. Two GMAT facts passed the source check on numbers that meant something else: score validity cited the retake policy page, where "5 times" supplied its 5, and the score release's "3 to 5 days" matched a 3 in the page's helpfulness counter
+
+*2026-09-27, Wrong data shown or stored*
+
+- **What was seen.** /exams/gmat/ showed Score Validity 5 years citing GMAC's retake policy article, which says nothing about validity; GMAC's validity article, last updated October 30, 2023, says "GMAT scores are valid for five (5) years and available for reporting for up to 10 years." Its Score Release row read "Official Score Report is typically available in your mba.com account within 3 to 5 days (up to 20 days in some cases), with an email notification when it is ready". The article it cites, last updated September 9, 2026 and read on September 27, says "Your official score report should be available within five (5) days. Although not typical, it can take up to 20 days for your exam to be scored" and "Scores cannot be expedited", with no 3 and no email notification. The weekly exam source check had passed both.
+- **Why.** The exam check confirmed a fact when each of its numbers appeared anywhere on the cited page. The retake article prints 5 in "up to 5 times within a rolling 12-month period", and the release article prints 3 only in its footer's "0 out of 3 found this helpful". INC-0172 met the same weakness through a K-12 menu link but guarded only grade ranges, so any other stray number still passed; and a fact with no text of its own, such as a validity figure, had no words for a number to sit beside. Both facts entered the record on September 19, 2026 (PR #45), ten days after the release article's last update, so whether it ever said 3 to 5 days cannot be told from here.
+- **How it surfaced.** Found on September 27, 2026 by an audit of every exam figure found on its page only away from all of the fact's words: 21 numbers, 18 of them cells of percentile tables (ETS's Table 1B, LSAC's percentiles, ACT's national ranks) confirmed row by row, and these two plus GRE's validity (INC-0173). (Found by measuring something)
+- **Fix.** The validity figure cites GMAC's validity article, and the score release says what the release article now says.
+- **What stops it now.** check_sources now wants each number of an exam fact within 160 characters of one of the fact's own words (five letters or more, less words that every exam page uses), or of its field's label for a figure with no text (validity: valid, reportable, expire), or as a cell in a run of numbers, which is how a table prints it. Its self-check holds the retake article's "5 times", the helpfulness counter and a percentile table row. in `src/check_sources.py`
+- **Lesson.** When a check fails the same way twice with different details, guard the shape rather than the instance. Two narrow guards covered a cohort paragraph and a grade range, and the third instance was a vote counter. The question every match should answer is whether the number sits where the fact would be, and that can be asked of every fact.
+
+
+## Tests and guards (30)
 
 
 ### INC-0016. The performance test waited for the load event, which waits for the thing being optimised
@@ -2709,6 +2725,30 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** NEGATIVE matches in any case, so a near miss counts as negative however it is capitalised, in the check and in the builder alike. When the balancer lacks the answers about the same case that it must offer, its error now says that and how many it has.
 - **What stops it now.** g_rc checks at import that every near miss the corpus check counts as negative still counts once capitalised as the builder prints it, and the build's existing check that every listed question ships (INC-0126) caught this one. in `src/gen/g_rc.py`
 - **Lesson.** A check that tests a value in a different form from the one the code uses tests something else. Test what is printed, after every transformation the code applies, or make the test indifferent to the transformation.
+
+
+### INC-0173. The source check ended a tag at the first > it met, so markup inside a quoted attribute leaked into the page text, and an element id's 5 confirmed GRE's five-year score validity on a page that never states it
+
+*2026-09-27, Wrong data shown or stored*
+
+- **What was seen.** /exams/gre/ showed Score Validity 5 years citing ETS's GRE scores overview page. Read on September 27, 2026, that page says nothing about how long scores last; ETS's Get Your Scores page does: "GRE scores are reportable for 5 years following your test date." The weekly exam source check had passed the figure, and the text it read from the overview page held the fragment "}}" id="text-5ae0eb3b6b" class="cmp-text">, markup no reader sees. The figure is right; the page cited for it was not the one that says it.
+- **Why.** to_text removed tags with the pattern <[^>]+>, which ends a tag at the first > it meets. ETS's pages keep a copy of each text block in a data-cmp-data-layer attribute: JSON holding the block's markup with its < escaped but its > left raw, inside the attribute's quotes. The first > in that attribute ended the tag early, and the rest of the attribute, the block's markup and text again and then the element id text-5ae0eb3b6b, was read as page text. The number pattern accepts a digit after a hyphen, so the id supplied a 5.
+- **How it surfaced.** Found on September 27, 2026 by an audit that listed every exam figure the check found on its page only away from all of the fact's words (INC-0174); the 5 it had matched on this page sat inside an element id. (Found by measuring something)
+- **Fix.** The GRE validity figure cites ETS's Get Your Scores page. to_text reads markup with Python's HTML parser, which keeps a quoted attribute whole, so no attribute text reaches the page text.
+- **What stops it now.** check_sources' self-check reads a tag whose quoted attribute holds markup, a > and a number, and fails if any of the attribute's text comes back as page text. The proximity check added for INC-0174 would also refuse a 5 standing in an id. in `src/check_sources.py`
+- **Lesson.** Taking HTML apart with regular expressions works until a page puts markup where the pattern did not expect it, and then it fails silently, by producing text that looks plausible. A parser knows where a tag ends and costs nothing here, so anything whose output is used as evidence should read HTML with one.
+
+
+### INC-0175. The source check cached Imperva's script challenge as GMAC's policies PDF, a page with no words, so every later run with --cache reported the PDF unreadable from its own cache
+
+*2026-09-27, Degraded*
+
+- **What was seen.** A run of check_sources --render --cache on September 27, 2026 reported GMAC's GMAT policies and procedures PDF unreadable with "only 1 characters of text", and a second run reported the same, although curl had just fetched the same URL as the 295,049 byte PDF with 80,078 characters of text. The cache file for the URL held a single space.
+- **Why.** Some reads of the PDF's URL get Imperva's script challenge instead: 212 bytes of text/html whose only content is a script from /_Incapsula_Resource. The challenge check matches a challenge's words, and this one has none once its script is removed, so it read as an empty page. fetch() caches every read except a recognised challenge, so the empty read was kept, and the next run took it from the cache instead of reading again: a one-off refusal became a standing one. The browser read, which the check tries for short pages, fails on a PDF, so nothing replaced it.
+- **How it surfaced.** Found on September 27, 2026 when a retry, meant to read the one source the first run could not, reported the same failure. (A test caught it)
+- **Fix.** fetch() recognises Imperva's script challenge in a plain read, reads once more a few seconds later, as the browser read already does for challenges, and reports the source as challenged if it comes back again. It caches a read only when it holds at least MIN_TEXT characters, so a short read of any kind is tried again on the next run.
+- **What stops it now.** check_sources' self-check serves fetch() the challenge as mba.com sent it, followed by the page and then by the challenge again, and fails unless the first comes back as the page and the second as a challenge; and it reads a short page through fetch() with a cache and fails if the read was kept. in `src/check_sources.py`
+- **Lesson.** A cache should keep only what would be accepted as an answer. Caching a failure turns a transient fault into a permanent one, and it then looks like the source's fault rather than the cache's. And a detector that looks for a refusal's words misses a refusal that has none.
 
 
 ## Front end (12)
@@ -3634,6 +3674,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A bank a student can play at 88 percent, inside a section the check passed (INC-0069)</small>
 - [ ] **Learned 5 times over.** A corpus field is written against the one sentence the author had in mind, and the schema that reuses it three templates later has no way to know which shape it is. The type system says str in both places. Two things follow. Store the field in every shape a template needs and name the shapes, rather than storing one shape and trusting the next author to notice. And guard the output, not the corpus: the generated sentence is the only place the mismatch becomes visible, and a cheap pattern over the rendered text catches a class that no check on the inputs can see.  
   <small>A corpus field written for one grammatical slot was spliced into another (INC-0074)</small>
+- [ ] **Learned 5 times over.** Finding a number on a page is not finding the fact. A check has to look for it beside the words that say what it counts, and notice when those words are about something else: another program, another class.  
+  <small>Columbia's MBA class was credited with five years of work experience, a figure the cited article gives for its 46-student MBAxMS cohort, and the source check passed it because the article does say five years (INC-0150)</small>
 - [ ] **Learned 4 times over.** Two lessons, and they compound. A rule copied into code by its examples loses the clause the examples were illustrating: CLAUDE.md bans six named sites and coaching site blogs, and the list kept the six and dropped the category, which is the half that generalises. And a validator gets written for the corpus that had the problem at the time, then quietly defines what is checked: two of three published corpora were enforced and the third had never had a source read, which is not a weaker check but an absent one. When a guard exists, the question is not only whether it is strict enough but which of the things it could be pointed at it is not pointed at.  
   <small>Nine published exam facts cite test prep companies, in the one published corpus with no source validator (INC-0082)</small>
 - [ ] **Learned 4 times over.** A counter that nothing reads is not instrumentation, it is a comment that looks like instrumentation, and it is worse than nothing because it answers the question 'is anyone watching this' with a yes. Every time a guard is written against one symptom, ask what the same failure looks like arriving another way, and count the whole category rather than the instance that prompted it.  
@@ -3646,8 +3688,6 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The GRE exam guide credited ETS with a combined 260 to 340 score that the ETS page it cited does not describe (INC-0130)</small>
 - [ ] **Learned 4 times over.** Anything written ahead of its publication date is a promise about the future made from the past. Re-check a queued post's claims about your own product at build time, where the product's real state is known, rather than trusting the day it was written.  
   <small>A post queued to publish the next day said the LSAT trainer was still in development, eleven days after it went live (INC-0137)</small>
-- [ ] **Learned 4 times over.** Finding a number on a page is not finding the fact. A check has to look for it beside the words that say what it counts, and notice when those words are about something else: another program, another class.  
-  <small>Columbia's MBA class was credited with five years of work experience, a figure the cited article gives for its 46-student MBAxMS cohort, and the source check passed it because the article does say five years (INC-0150)</small>
 - [ ] **Learned 3 times over.** A module that nothing imports fails no test, and an exception raised on every draw is indistinguishable from an exception raised on a hard draw. Both are silence, and a build that reports totals hears neither. Count what each schema contributed, not what the category holds, and treat a contribution of zero as a failure rather than as a small number.  
   <small>A finished generator module that nothing imported, and two of its four schemas produced nothing (INC-0086)</small>
 - [ ] **Learned 3 times over.** Reading the record does not prevent the defect; the practice does. This one was written hours after its own lesson was read closely enough to be catalogued as a recurrence, and it was caught by rendering three items rather than by remembering. Budget the render, not the recollection.  
@@ -3690,6 +3730,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Every school's employment rate was labelled and scored as a three month figure, though 15 of 70 were measured at six months, four months, a year or a reporting date, or at a timing their notes do not give (INC-0142)</small>
 - [ ] **Learned 2 times over.** A fact filed next to another fact tends to inherit its citation. When two facts come from one section of a site, check that each one's own page says it, not the page its neighbour came from.  
   <small>The GMAT guide cited mba.com's Official Score Reports page for the rule on five free score reports within 48 hours, a rule that page never states (INC-0155)</small>
+- [ ] **Learned 2 times over.** A number's presence on a page is weak evidence for a fact, because pages are full of numbers that mean other things: menus, dates, grade ranges, footnote markers. A check that matches numbers should read them where the fact would be, and should expect the page to change what it says around them.  
+  <small>The ACT exam guide and a live post said the ACT can be taken up to 12 times, after ACT's page had come to say there is no limit, and the source check matched the 12 in the page's K-12 menu (INC-0172)</small>
 - [ ] Any generator that claims reproducibility must be seeded from something stable across processes. hash() is not, in Python, and the failure shows up as a flaky test rather than as a wrong answer.  
   <small>Item banks were different on every build because Python randomises hash() (INC-0003)</small>
 - [ ] Deletion by shadowing is invisible. Any collection whose size is a fact about the product needs its size asserted, not just its contents.  
@@ -3780,8 +3822,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A published post said GMAC caps GMAT attempts across a lifetime, which its current retake policy does not say (INC-0170)</small>
 - [ ] A style rule that nothing checks holds only for the work written after someone remembered it. When a rule can be stated precisely enough to apply by hand, it can be checked by the build, and it should be, or the earliest work quietly keeps breaking it.  
   <small>Thirty published blog posts set their section headings in sentence case, against the house rule that headings are Title Case (INC-0171)</small>
-- [ ] A number's presence on a page is weak evidence for a fact, because pages are full of numbers that mean other things: menus, dates, grade ranges, footnote markers. A check that matches numbers should read them where the fact would be, and should expect the page to change what it says around them.  
-  <small>The ACT exam guide and a live post said the ACT can be taken up to 12 times, after ACT's page had come to say there is no limit, and the source check matched the 12 in the page's K-12 menu (INC-0172)</small>
+- [ ] When a check fails the same way twice with different details, guard the shape rather than the instance. Two narrow guards covered a cohort paragraph and a grade range, and the third instance was a vote counter. The question every match should answer is whether the number sits where the fact would be, and that can be asked of every fact.  
+  <small>Two GMAT facts passed the source check on numbers that meant something else: score validity cited the retake policy page, where "5 times" supplied its 5, and the score release's "3 to 5 days" matched a 3 in the page's helpfulness counter (INC-0174)</small>
 
 
 ## Database
@@ -3914,12 +3956,14 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The browser path fix covered two suites and three others kept crashing (INC-0067)</small>
 - [ ] **Learned 3 times over.** Loading a page is not the same as reading it. A chart can be a separate document inside the page that draws only when scrolled into view, and a page with trackers may never fall quiet, so a reader built for checking has to scroll like a person, collect every frame, and use waits that give up rather than hang.  
   <small>The source check's browser read returned Stanford's class profile without a single figure, because the figures are drawn in an embedded chart that renders only when scrolled into view (INC-0146)</small>
+- [ ] **Learned 3 times over.** A checker has to know when it has not read its source. A response is not the page because it has text in it: a challenge, an error page or a login wall reads as a page with none of the facts on it, and every fact then looks wrong.  
+  <small>The source check read mba.com's bot challenge page as the page it cites and reported the GMAT fact's numbers as missing from it (INC-0156)</small>
 - [ ] **Learned 2 times over.** A ratchet is only read while it is quiet. One that fires on noise gets re-recorded as a reflex, and the re-recording is indistinguishable from accepting a real regression, so the mechanism that exists to catch regressions becomes the mechanism that launders them. Give a comparison the same error bars as the measurement it is made from, and fix the thing that fires wrongly before the habit of clearing it forms.  
   <small>A ratchet that trips on sampling noise gets re-recorded rather than read (INC-0089)</small>
 - [ ] **Learned 2 times over.** Run every browser suite when a site-wide element such as a modal ships, because a test nobody runs is a claim about the past. Every suite that loads a page with empty storage meets the new element before anything it was written to check.  
   <small>A browser suite outside CI had failed on its first click since the consent dialog shipped (INC-0110)</small>
-- [ ] **Learned 2 times over.** A checker has to know when it has not read its source. A response is not the page because it has text in it: a challenge, an error page or a login wall reads as a page with none of the facts on it, and every fact then looks wrong.  
-  <small>The source check read mba.com's bot challenge page as the page it cites and reported the GMAT fact's numbers as missing from it (INC-0156)</small>
+- [ ] **Learned 2 times over.** A checker that reads a page has to read the page a person sees, not the file behind it. Markup can hold text no reader is shown, in comments, hidden elements and templates, and a site that retires a figure often leaves it there.  
+  <small>The source check read text inside HTML comments as page text, and confirmed Arizona State's 43 percent women from a table row the school had commented out (INC-0152)</small>
 - [ ] **Learned 2 times over.** A checker's excuse category needs the same scrutiny as its findings. "Shows none of its figures" was given one cause and the cause was believed, but to a check that looks for numbers, a page whose every figure changed looks exactly like a page that never loaded. A category that explains itself away should instead say what it saw, and keep counting until a person has looked.  
   <small>The source check filed six school pages as probably built by JavaScript; five were something else, and three of them showed newer figures than the library published (INC-0158)</small>
 - [ ] Measure the moment the user can act, not a browser lifecycle event. A test that measures the wrong instant is worse than no test, because it produces a number people trust.  
@@ -3954,8 +3998,6 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A review bot check whose verdict was three coin flips warned on an unrelated bank change (INC-0077)</small>
 - [ ] When you compare text you wrote against text someone else wrote, normalise both sides with the same rules, and remember the other side does not follow your house style: a comparison is only as fair as its most lenient reading of the source.  
   <small>The source check read a page's 2026-27, written with an en dash, as 2026 and 27, so every figure we labelled 2026-27 looked unsupported (INC-0140)</small>
-- [ ] A checker that reads a page has to read the page a person sees, not the file behind it. Markup can hold text no reader is shown, in comments, hidden elements and templates, and a site that retires a figure often leaves it there.  
-  <small>The source check read text inside HTML comments as page text, and confirmed Arizona State's 43 percent women from a table row the school had commented out (INC-0152)</small>
 - [ ] When a check learns a new way to read a source, every rule that reads a source has to learn it too. A second reader that lags the first is found only when the data first depends on the difference.  
   <small>The source check's blank-page rule judged a figure worked from two pages by its first page alone, and called mba.com's payment page blank while the second page was unreadable (INC-0161)</small>
 - [ ] A test of a check should apply the check's rule, not a snapshot of the cases that existed when the test was written. An allowlist of known exceptions is a record of the past, and the first new legitimate case turns it into a false failure.  
@@ -3964,6 +4006,10 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The standalone page smoke test still loaded pages from disk, where the site's root-relative paths point at the filesystem root, so it failed once the fonts moved onto the site (INC-0166)</small>
 - [ ] A check that tests a value in a different form from the one the code uses tests something else. Test what is printed, after every transformation the code applies, or make the test indifferent to the transformation.  
   <small>The reading corpus check accepted a near miss whose only negative word opened it, and the item builder, which capitalises first, could not use it (INC-0169)</small>
+- [ ] Taking HTML apart with regular expressions works until a page puts markup where the pattern did not expect it, and then it fails silently, by producing text that looks plausible. A parser knows where a tag ends and costs nothing here, so anything whose output is used as evidence should read HTML with one.  
+  <small>The source check ended a tag at the first > it met, so markup inside a quoted attribute leaked into the page text, and an element id's 5 confirmed GRE's five-year score validity on a page that never states it (INC-0173)</small>
+- [ ] A cache should keep only what would be accepted as an answer. Caching a failure turns a transient fault into a permanent one, and it then looks like the source's fault rather than the cache's. And a detector that looks for a refusal's words misses a refusal that has none.  
+  <small>The source check cached Imperva's script challenge as GMAC's policies PDF, a page with no words, so every later run with --cache reported the PDF unreadable from its own cache (INC-0175)</small>
 
 
 # Adapting This to a Different Business
@@ -4080,7 +4126,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 172 real defects reduced to the rules that prevent them,
+the whole project: 175 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -4120,7 +4166,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-172 defects already prevented is genuinely ahead, and every defect it hits
+175 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

@@ -654,6 +654,24 @@ verified rather than that the school does not publish one (INC-0118).
       figures there, and the retired-claims table refuses a 12-attempt ACT cap in any post.
       ACT's retesting page also says fee waivers cover up to four tests where its fee waiver
       page and requirements say two; posts follow the program page (EDITORIAL.md).
+- [x] **Exam figures confirmed by numbers that meant something else** (INC-0173 to
+      INC-0175). An audit of every exam figure the source check found only away from all of
+      the fact's words turned up 21 numbers: 18 were percentile table cells, confirmed row by
+      row, and three were wrong confirmations. The GMAT's five-year score validity cited
+      GMAC's retake article, where "up to 5 times" supplied the 5; it now cites GMAC's
+      validity article, which says scores are valid for five years and reportable for up to
+      10. The GMAT score release said "3 to 5 days" with an email notification; GMAC's article,
+      updated September 9, says within five days, up to 20 though not typically, and that
+      scores cannot be expedited, and the 3 had come from its "0 out of 3 found this helpful"
+      counter. GRE's five-year validity cited ETS's scores overview, which never states it:
+      the check's tag pattern ended a tag at a > inside a quoted attribute, and an element
+      id's 5 leaked into the text. It now cites ETS's Get Your Scores page ("reportable for 5
+      years following your test date"), and the live GRE format guide says so in place of
+      "a multi year window". The check now reads markup with an HTML parser, wants each
+      exam figure beside one of its fact's words or in a table, recognises Imperva's
+      script-only challenge, and caches no read too short to be evidence. All 108 exam facts
+      pass: 106 in the run of September 27, and the two on GMAC's policies PDF against a
+      direct read the same day, since Imperva challenged the run's reads of it.
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects
@@ -753,11 +771,11 @@ verified rather than that the school does not publish one (INC-0118).
       article does not say which. The page keeps the printed 32%, its source line no longer
       implies the counts produce it, and its note gives the 28.5 percent the counts work out
       to. Emory's own class profile prints no admissions figures.
-- [ ] Six GMAT facts cite pages this sandbox cannot read: four on www.mba.com serve a bot
-      challenge and two on support.mba.com answer 403. check_sources reports them as
-      unreadable, not wrong. The weekly job may read them from GitHub's runners; if it
-      cannot either, find the same figures on gmac.com and move the citations (INC-0100
-      did this for the section table)
+- [x] Six GMAT facts cite pages this sandbox could not read: four on www.mba.com served a
+      bot challenge and two on support.mba.com answered 403. Since INC-0156 and INC-0159 the
+      check reads them in the browser, and the run of September 27 read all of them except
+      GMAC's policies PDF, which Imperva challenged on some reads and served on others
+      (INC-0175); its two facts were read against a direct fetch of the PDF the same day
 
 ## Session log, September 16, 2026: LSAT and ACT live, MCAT and EA blocked
 
