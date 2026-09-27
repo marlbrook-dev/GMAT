@@ -19,6 +19,7 @@ APP_PATH = {"gmat": "/app/", "sat": "/sat/app/", "gre": "/gre/app/",
 # The calculators under each exam's guide, in the order its page lists them.
 CALCULATORS = {"act": [("/exams/act/score-calculator/", "ACT Score Calculator")],
                "gre": [("/exams/gre/score-calculator/", "GRE Score Calculator")],
+               "lsat": [("/exams/lsat/percentile-calculator/", "LSAT Percentile Calculator")],
                "sat": [("/exams/sat/score-calculator/", "SAT Score Calculator"),
                        ("/exams/sat/psat-calculator/", "PSAT/NMSQT Calculator")]}
 

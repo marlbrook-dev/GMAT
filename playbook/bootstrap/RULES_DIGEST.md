@@ -1,14 +1,14 @@
 # Rules Digest
 
-Rules from 135 defects in a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
+Rules from 137 defects in a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
 
-Generated 2026-09-27 from a ledger spanning 7 days and 77 commits.
+Generated 2026-09-27 from a ledger spanning 7 days and 78 commits.
 
 ## Read this first
 
-The three ways defects were most often found, in order: found by reading the code or the output (64), found by measuring something (39), a test caught it (16). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
+The three ways defects were most often found, in order: found by reading the code or the output (66), found by measuring something (39), a test caught it (16). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
 
-The dominant failure mode is silent loss, 26 of 135: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
+The dominant failure mode is silent loss, 26 of 137: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
 
 ## Learned the hard way, more than once
 
@@ -49,6 +49,8 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (2 times, tests and guards) Run every browser suite when a site-wide element such as a modal ships, because a test nobody runs is a claim about the past.
 - (2 times, content generation) A test measures what someone can get right without the skill, and there is more than one way to do that.
 - (2 times, content generation) A citation vouches only for what its source says, so check each figure against the source rather than checking that a citation is present.
+- (2 times, content generation) A figure with a source and a year can still go stale, because the source moves and the record does not.
+- (2 times, content generation) A citation is only as current as the page it points to, and publishers leave old pages up.
 
 ## Content generation
 
@@ -79,10 +81,9 @@ These cost this build twice or more each. If you read nothing else here, read th
 - Practice material is still published writing. A passage that is only there to be read carefully is still read by people who know the subject, and a question built on it can ask them to endorse the error.
 - An empty field records that a search came up empty, not that the thing does not exist.
 - An edit tool that throws away its input leaves the diff as the only record of what it changed.
-- A check that passes on a random draw has told you about that draw. When a schema ships a handful of items, a property the whole bank needs, such as keys spread over every length rank, has to be assigned rather than sampled.
-- A figure with a source and a year can still go stale, because the source moves and the record does not.
 - Run the source check on every corpus that cites pages, not just the one that broke.
 - When a parser must pull one value out of free text, anchor it to the words that give the value its meaning, not to its position, and return nothing when nothing anchors it: a sentence that says less is better than one that states a guess as fact.
+- Anything written ahead of its publication date is a promise about the future made from the past.
 
 ## Tests and guards
 
@@ -163,4 +164,4 @@ These cost this build twice or more each. If you read nothing else here, read th
 - Chart form is a claim about the data. A line claims the values in between existed.
 - Never encode a state by colour alone. The word also survives greyscale printing, forced-colors mode and a glance from across a room, so it is better for everyone and not only for the people it is required by.
 
-20 more rules, each learned once from a less costly defect, did not fit a prompt sized digest. The checklist in BUILD_PLAYBOOK.md has every rule.
+21 more rules, each learned once from a less costly defect, did not fit a prompt sized digest. The checklist in BUILD_PLAYBOOK.md has every rule.

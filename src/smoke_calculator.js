@@ -1,4 +1,4 @@
-/* Drives the ACT, GRE, SAT and PSAT/NMSQT score calculators the way a student would and
+/* Drives the ACT, GRE, SAT, PSAT/NMSQT and LSAT calculators the way a student would and
  * checks every number they print.
  *
  * The page's arithmetic is ACT's published rule, so the check computes the same rule
@@ -23,6 +23,8 @@ const SAT_PATH = '/exams/sat/score-calculator/';
 const SAT = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'sat_percentiles.json'), 'utf8'));
 const PSAT_PATH = '/exams/sat/psat-calculator/';
 const PSAT = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'psat_percentiles.json'), 'utf8'));
+const LSAT_PATH = '/exams/lsat/percentile-calculator/';
+const LSAT = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'lsat_percentiles.json'), 'utf8'));
 
 const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css',
                 '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png' };
@@ -40,7 +42,7 @@ const server = http.createServer((req, res) => {
 const composite = (a, b, c) => Math.round((a + b + c) / 3);
 
 (async () => {
-  for (const u of [URL_PATH, GRE_PATH, SAT_PATH, PSAT_PATH]) {
+  for (const u of [URL_PATH, GRE_PATH, SAT_PATH, PSAT_PATH, LSAT_PATH]) {
     if (!fs.existsSync(path.join(ROOT, u, 'index.html'))) {
       console.log('  FAIL: ' + u + ' was not built; run python3 src/build.py first');
       process.exit(1);
@@ -312,6 +314,62 @@ const composite = (a, b, c) => Math.round((a + b + c) / 3);
     check(at + ' has an FAQ block search engines can read', meta.faq >= 3, String(meta.faq));
     check(at + ' cites only collegeboard.org', meta.cites.length > 0 && meta.cites.every(cb),
           meta.cites.filter(h => !cb(h)).join(', '));
+    check(at + ' threw no script error', errs.length === 0, errs[0]);
+    await ctx.close();
+  }
+  // The LSAT page: LSAC's table looked up both ways, against the data file.
+  const lowestAt = p => { for (let v = 120; v <= 180; v++) if (+LSAT.ranks[String(v)].hundredths >= p) return v; return null; };
+  for (const width of [390, 1280]) {
+    const ctx = await b.newContext({ viewport: { width, height: 900 } });
+    const p = await ctx.newPage();
+    const errs = [];
+    p.on('pageerror', e => errs.push(String(e)));
+    await p.goto(base + LSAT_PATH, { waitUntil: 'domcontentloaded' });
+    if (await p.isVisible('#sfn-consent').catch(() => false)) await p.click('#sfn-consent .no');
+    const at = width + 'px LSAT';
+    const read = () => p.evaluate(() => ({ text: document.getElementById('lsatOut').textContent,
+                                           cls: document.getElementById('lsatOut').className }));
+    const wrong = [];
+    await p.fill('#lP', '');
+    for (const s of [120, 150, 160, 170, 180]) {
+      await p.fill('#lS', String(s));
+      const { text } = await read();
+      const want = s + ': ' + LSAT.ranks[String(s)].hundredths + ' percent of test scores were lower';
+      if (!text.includes(want)) wrong.push(want);
+    }
+    await p.fill('#lS', '');
+    for (const t of ['50', '90', '99', '75.5', '0']) {
+      await p.fill('#lP', t);
+      const { text } = await read();
+      const v = lowestAt(+t);
+      const want = 'at least ' + t + ' percent of test scores below it is ' + v + ' (' + LSAT.ranks[String(v)].hundredths + ' percent)';
+      if (!text.includes(want)) wrong.push(want);
+    }
+    await p.fill('#lP', '99.9');
+    let r = await read();
+    if (!r.text.includes('No score in LSAC')) wrong.push('99.9 beyond the table');
+    check(at + " looks up scores and percentiles both ways in LSAC's table", !wrong.length, wrong.join('; '));
+    for (const [sel, bad] of [['#lS', '119'], ['#lS', '181'], ['#lS', '150.5'], ['#lP', '100'], ['#lP', '-5']]) {
+      await p.fill('#lS', ''); await p.fill('#lP', '');
+      await p.fill(sel, bad).catch(() => {});
+      r = await read();
+      check(at + ' refuses ' + bad + ' in ' + sel, r.cls.includes('err'), r.text);
+    }
+    const rows = await p.evaluate(() => [...document.querySelectorAll('#lsatTable tbody tr')].map(tr => [...tr.cells].map(td => td.textContent)));
+    const off = rows.filter(c => { const x = LSAT.ranks[c[0]]; return !x || c[1] !== x.hundredths || c[2] !== x.tenths || c[3] !== x.whole; });
+    check(at + " table matches LSAC's percentiles", rows.length === 61 && !off.length, off.map(c => c.join(' ')).join('; '));
+    const meta = await p.evaluate(() => {
+      const de = document.documentElement;
+      let faq = 0;
+      document.querySelectorAll('script[type="application/ld+json"]').forEach(s => {
+        try { const j = JSON.parse(s.textContent); if (j['@type'] === 'FAQPage') faq = j.mainEntity.length; } catch (e) { faq = -1; } });
+      return { scrollW: de.scrollWidth, clientW: de.clientWidth, faq,
+               cites: [...document.querySelectorAll('.src a')].map(a => a.href) };
+    });
+    check(at + ' does not scroll sideways', meta.scrollW <= meta.clientW + 1, meta.scrollW + ' > ' + meta.clientW);
+    check(at + ' has an FAQ block search engines can read', meta.faq >= 3, String(meta.faq));
+    check(at + ' cites only lsac.org', meta.cites.length > 0 && meta.cites.every(h => h.startsWith('https://www.lsac.org/')),
+          meta.cites.filter(h => !h.startsWith('https://www.lsac.org/')).join(', '));
     check(at + ' threw no script error', errs.length === 0, errs[0]);
     await ctx.close();
   }

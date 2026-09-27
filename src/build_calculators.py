@@ -4,6 +4,7 @@
     /exams/gre/score-calculator/   GRE percentile ranks for Verbal, Quant and Writing
     /exams/sat/score-calculator/   the SAT total and College Board's two percentile groups
     /exams/sat/psat-calculator/    the PSAT/NMSQT total, NMSC Selection Index and percentiles
+    /exams/lsat/percentile-calculator/   LSAC's LSAT percentiles, looked up either way
 
 A calculator is only as honest as its rule. Each one here does arithmetic that the test
 maker publishes and nothing else: no score conversion, estimate or percentile that the
@@ -29,6 +30,8 @@ ACT_RANKS = ROOT / "data" / "act_national_ranks.json"
 GRE_RANKS = ROOT / "data" / "gre_percentiles.json"
 SAT_RANKS = ROOT / "data" / "sat_percentiles.json"
 PSAT_RANKS = ROOT / "data" / "psat_percentiles.json"
+LSAT_RANKS = ROOT / "data" / "lsat_percentiles.json"
+LSAT_SCORES = [str(x) for x in range(180, 119, -1)]
 PSAT_TOTALS = [str(x) for x in range(1520, 319, -10)]
 PSAT_SECTIONS = [str(x) for x in range(760, 159, -10)]
 SAT_TOTALS = [str(x) for x in range(1600, 399, -10)]
@@ -527,6 +530,100 @@ def psat_page(d):
     return partials.apply_chrome(page)
 
 
+def check_lsat(d):
+    """LSAC's LSAT percentiles, checked before anything is rendered from them.
+
+    Parsed from LSAC's Data Library by a script, never typed: every score from 180 to 120,
+    each in the three precisions LSAC prints, the three agreeing with each other, never
+    rising as the score falls, and the testing years and quoted sentences present."""
+    bad = []
+    if d.get("src") != "LSAC" or not str(d.get("url", "")).startswith("https://www.lsac.org/"):
+        bad.append("the source must be LSAC, with a URL on lsac.org")
+    for k in ("year", "read", "title", "definition"):
+        if not d.get(k):
+            bad.append("no " + k)
+    if len(d.get("window") or []) != 3:
+        bad.append("the three testing years the table covers must be recorded")
+    r = d.get("ranks") or {}
+    if list(r) != LSAT_SCORES:
+        bad.append("the table does not list every score from 180 down to 120")
+    else:
+        h = [float(r[k]["hundredths"]) for k in LSAT_SCORES]
+        if h != sorted(h, reverse=True) or not (0 <= min(h) and max(h) < 100):
+            bad.append("percentiles must fall as the score falls, and stay under 100")
+        # Each column rounds the same underlying figure, so tenths sit within 0.055 of the
+        # hundredths and whole numbers within 0.505; LSAC's whole-number column stops at 99,
+        # so 99.5 and above print as 99. A wider gap means the columns were misread.
+        for k in LSAT_SCORES:
+            x, w = float(r[k]["hundredths"]), float(r[k]["whole"])
+            if abs(float(r[k]["tenths"]) - x) > 0.0551 or not (abs(w - x) <= 0.505 or (w == 99 and x >= 99.5)):
+                bad.append("the three precisions disagree at %s" % k)
+                break
+    for k in ("scale", "report", "years", "band"):
+        f = d.get(k) or {}
+        if not all(f.get(x) for x in ("text", "src", "year", "url", "title")) or \
+                not f["url"].startswith("https://www.lsac.org/"):
+            bad.append("%s needs its text, title, source, year and an lsac.org URL" % k)
+    if bad:
+        fail("data/lsat_percentiles.json: " + "; ".join(bad))
+
+
+def lsat_page(d):
+    rank_cite = cite(d["title"], {"src": d["src"], "year": d["year"], "url": d["url"]})
+    scoring_cite = cite(d["scale"]["title"], d["scale"])
+    band_cite = cite(d["band"]["title"], d["band"])
+    r = d["ranks"]
+    window = "%s, %s and %s" % tuple(d["window"])
+
+    def lowest(p):
+        return next(int(k) for k in reversed(LSAT_SCORES) if float(r[k]["hundredths"]) >= p)
+    rows = "\n".join("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>"
+                     % (k, esc(r[k]["hundredths"]), esc(r[k]["tenths"]), esc(r[k]["whole"]))
+                     for k in LSAT_SCORES)
+
+    def at(score):
+        return ("On LSAC's percentile table, %s percent of LSAT test scores in the %s testing "
+                "years were lower than %s." % (r[score]["hundredths"], window, score))
+
+    def need(p):
+        s = lowest(p)
+        return ("The lowest score with at least %d percent of test scores below it is %d, with "
+                "%s percent, on LSAC's table for the %s testing years."
+                % (p, s, r[str(s)]["hundredths"], window))
+    faq = [
+        ("What Percentile Is a 160 on the LSAT?", at("160"), rank_cite),
+        ("What Percentile Is a 170 on the LSAT?", at("170"), rank_cite),
+        ("What LSAT Score Is the 90th Percentile?", need(90), rank_cite),
+        ("What LSAT Score Is the 50th Percentile?", need(50), rank_cite),
+        ("What Is an LSAT Score Band?",
+         'LSAC reports a score band with each score. In its words: "%s"' % d["band"]["text"], band_cite),
+        ("How Often Does LSAC Update Its Percentiles?",
+         'LSAC\'s scoring page says: "%s" And: "%s" The table on this page covers the %s testing '
+         'years.' % (d["report"]["text"].split(". ", 1)[1], d["years"]["text"], window), scoring_cite),
+    ]
+    faq_html = "\n".join('<h3>%s</h3><p>%s</p><p class="src">Source: %s.</p>'
+                         % (esc(q), esc(a), c) for q, a, c in faq)
+    faq_ld = json.dumps({"@context": "https://schema.org", "@type": "FAQPage",
+                         "mainEntity": [{"@type": "Question", "name": q,
+                                         "acceptedAnswer": {"@type": "Answer", "text": a}}
+                                        for q, a, _ in faq]}, separators=(",", ":"))
+    ranks = json.dumps({"ranks": r, "window": window}, separators=(",", ":"))
+    report = d["report"]["text"]
+    page = ((D / "lsat_calculator.html").read_text()
+            .replace("{{FAQ_LD}}", faq_ld).replace("{{FAQ_HTML}}", faq_html)
+            .replace("{{ROWS}}", rows).replace("{{RANKS_JSON}}", ranks)
+            .replace("{{RANK_CITE}}", rank_cite).replace("{{SCORING_CITE}}", scoring_cite)
+            .replace("{{BAND_CITE}}", band_cite)
+            .replace("{{DEFINITION}}", esc(d["definition"]))
+            .replace("{{REPORT}}", esc(report))
+            .replace("{{YEARS}}", esc(d["years"]["text"]))
+            .replace("{{SCALE}}", esc(d["scale"]["text"]))
+            .replace("{{BAND}}", esc(d["band"]["text"]))
+            .replace("{{WINDOW}}", esc(window))
+            .replace("{{READ}}", long_date(d["read"])))
+    return partials.apply_chrome(page)
+
+
 def write_page(rel, page):
     if "{{" in page:
         fail("unresolved placeholder in /%s/" % rel)
@@ -559,6 +656,9 @@ def main():
     psat = json.loads(PSAT_RANKS.read_text())
     check_psat(psat)
     write_page("exams/sat/psat-calculator", psat_page(psat))
+    lsat = json.loads(LSAT_RANKS.read_text())
+    check_lsat(lsat)
+    write_page("exams/lsat/percentile-calculator", lsat_page(lsat))
 
 
 if __name__ == "__main__":

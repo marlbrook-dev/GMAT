@@ -290,6 +290,14 @@ verified rather than that the school does not publish one (INC-0118).
       the order, and it records the reading column's heading as printed ("Evidence-Based
       Reading and Writing", "EBRW"), which the page notes. No National Merit cutoff is
       estimated. `sat_percentiles.py --check` covers both pages weekly.
+- [x] **LSAT percentile calculator** at `/exams/lsat/percentile-calculator/`: LSAC's Data
+      Library table (every score 120 to 180, percent of test scores below, 2023-2024 to
+      2025-2026 testing years) parsed by `src/lsat_percentiles.py`, looked up both ways. The
+      build checks that the three precisions LSAC prints agree; its whole-number column
+      stops at 99, which the page notes. Linking it from the queued LSAT format post found
+      that post calling the live LSAT trainer "in development" (INC-0137) and repeating a
+      delivery claim LSAC had overtaken, which was also live in the LSAT guide (INC-0136):
+      both fixed, and the blog build and the weekly source check now catch each kind.
 - [x] **The school library checked against its sources** (INC-0133): `check_sources.py
       --schools` reads every page the library cites (652 figures, 225 pages; the 337 College
       Scorecard figures come from a dataset and are set aside). Reading its flags on static
