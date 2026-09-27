@@ -15,6 +15,10 @@ knew the number (INC-0134). article_for() is how a template should choose it ins
 trainer_claims() looks for a sentence calling a live trainer unfinished. The /exams/ hub's
 meta description said only two trainers were live, eleven days after all five were
 (INC-0138); a queued post said the same of the LSAT (INC-0137).
+
+undefined_tokens() looks for a design token a page uses but never defines. The blog pasted
+the shared header's CSS without the tokens it reads, and CSS let every one of them fall
+back to nothing without a word, so the logo sat against the screen edge (INC-0139).
 """
 import pathlib
 import re
@@ -129,4 +133,31 @@ def trainer_claims(root, paths, names):
             hits = [h for part in parts for h in stale_sentences(html.unescape(part), names)]
             if hits:
                 found.append((page.relative_to(root).as_posix(), hits[0][:200]))
+    return found
+
+
+_STYLE_BLOCK = re.compile(r"<style[^>]*>([\s\S]*?)</style>", re.I)
+_SHEET = re.compile(r'<link[^>]+rel="stylesheet"[^>]+href="(/[^"]+)"|<link[^>]+href="(/[^"]+)"[^>]+rel="stylesheet"', re.I)
+
+
+def undefined_tokens(root, paths, tokens):
+    """[(page, [token, ...])] for every built page whose CSS uses one of `tokens` with no
+    fallback, var(--x) rather than var(--x, y), and defines it nowhere: not inline, not in
+    a local stylesheet it links."""
+    root = pathlib.Path(root)
+    found = []
+    for rel in paths:
+        base = root / rel
+        pages = [base] if base.is_file() else sorted(base.rglob("*.html")) if base.is_dir() else []
+        for page in pages:
+            raw = page.read_text(encoding="utf-8", errors="replace")
+            css = "\n".join(_STYLE_BLOCK.findall(raw))
+            for a, b in _SHEET.findall(raw):
+                sheet = root / (a or b).lstrip("/").split("?")[0]
+                if sheet.is_file():
+                    css += "\n" + sheet.read_text(encoding="utf-8", errors="replace")
+            used = set(re.findall(r"var\((--[a-z0-9-]+)\)", css)) & set(tokens)
+            missing = sorted(used - set(re.findall(r"(--[a-z0-9-]+)\s*:", css)))
+            if missing:
+                found.append((page.relative_to(root).as_posix(), missing))
     return found

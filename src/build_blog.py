@@ -202,7 +202,8 @@ def page(title, description, canonical, body, extra_head=""):
 <meta name="twitter:image" content="{partials.SITE_ORIGIN}/og/blog.png">
 {FONTS}
 {FAVICON}
-{extra_head}<style>{HEAD_CSS}
+{extra_head}<style>{partials.TOKENS_CSS}
+{HEAD_CSS}
 {partials.CHROME_CSS}
 /* The submit form used to carry every rule as an inline style attribute, which made the
    markup unreadable and left its two-column row unable to shrink: the labels held a
@@ -563,6 +564,14 @@ def main():
     if reprs:
         for pg, frag in reprs[:10]:
             print("build_blog: %s prints a Python data structure: ...%s..." % (pg, frag),
+                  file=sys.stderr)
+        sys.exit(1)
+    # And no blog page may use a design token it never defines, as build.py checks (INC-0139).
+    from page_checks import undefined_tokens
+    undef = undefined_tokens(ROOT, ["blog"], re.findall(r"(--[a-z0-9-]+)\s*:", partials.TOKENS_CSS))
+    if undef:
+        for pg, missing in undef[:10]:
+            print("build_blog: %s uses design tokens it never defines: %s" % (pg, ", ".join(missing)),
                   file=sys.stderr)
         sys.exit(1)
     # And no built blog page may call a live trainer unfinished, as build.py checks (INC-0138).

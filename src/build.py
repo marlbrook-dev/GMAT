@@ -618,6 +618,15 @@ if _reprs:
         print("ERROR: %s prints a Python data structure: ...%s..." % (_pg, _frag),
               file=sys.stderr)
     sys.exit(1)
+# Nor may a page use a design token it never defines: CSS lets it fall back to nothing,
+# and the blog drew the whole site header without them (INC-0139).
+from page_checks import undefined_tokens
+_TOKENS = _re.findall(r"(--[a-z0-9-]+)\s*:", partials.TOKENS_CSS)
+_undef = undefined_tokens(root, _SECTIONS, _TOKENS)
+if _undef:
+    for _pg, _missing in _undef[:10]:
+        print("ERROR: %s uses design tokens it never defines: %s" % (_pg, ", ".join(_missing)), file=sys.stderr)
+    sys.exit(1)
 # Nor may any page call a live trainer unfinished: the /exams/ hub's description said two
 # trainers were live for eleven days after all five were (INC-0138).
 from page_checks import trainer_claims
