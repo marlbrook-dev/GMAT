@@ -100,9 +100,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install the PDF reader and a browser for pages built by JavaScript
+      - name: Install the PDF and Excel readers and a browser for pages built by JavaScript
         run: |
-          pip install pdfminer.six
+          # Chicago Booth publishes its employment statistics as an .xls workbook, which
+          # xlrd reads as its cells display them (INC-0158).
+          pip install pdfminer.six xlrd
           npm install --no-audit --no-fund
           npx playwright install --with-deps chromium
       - name: Check every exam fact against the page it cites
@@ -160,6 +162,9 @@ jobs:
               'to the page. If a school figure is right but its page shows it where the check cannot read it, as',
               'a chart or a figure worked from two pages, cite the second page in `also_urls`, or record what you',
               'read in `data/source_triage.json` with the date; the check then lists it apart as triaged.',
+              'A page that prints none of its figures is listed with what it prints beside their labels:',
+              'numbers there usually mean a newer class, so read the page and update the figures; if the',
+              'figures are right but drawn where the check cannot read them, triage each one.',
               'If a fact rests on a page about an ended year, read it against a current page and',
               'correct it, or record in its `period_checked` why it still holds. Run `python3 src/check_sources.py`',
               'to confirm. If a percentile table changed, run `python3 src/sat_percentiles.py --write` or',

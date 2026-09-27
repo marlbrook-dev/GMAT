@@ -508,6 +508,20 @@ verified rather than that the school does not publish one (INC-0118).
       passages was read at GMAT, GRE and LSAT length; the source phrase the distractors reuse
       lost its trailing "house by house", and names that other passages already use (Merrow,
       Ferrand, Maddox) were changed so that no two passages share a researcher or a place.
+- [x] **Kelley moves to its Class of 2028, and a page showing none of its figures is a
+      finding** (INC-0158). The source check had written off six pages as probably built by
+      JavaScript, and only WashU Olin's, drawn as images, was. Kelley's page had moved on to
+      the Class of 2028 (57 students, GMAT 618, GPA 3.38, against the library's 106, 607 and
+      3.48); Poets&Quants' Maryland profile, updated September 25, now gives 36 percent women
+      and 47 percent international, not 35 and 68, and its enrollment of 115 does not say
+      whether it counts one class, so Maryland's class size is blank; Auburn's counters now
+      stop at a 3.47 GPA and 1.81 years and give no international share; UMass's PDF glued
+      each figure to its label and dates from August 2025, not 2023; Booth's report is an
+      Excel workbook. The check now reads counters, glued figures and workbooks, lists a
+      blank page with what it prints beside each label, and fails the run on it until every
+      figure is fixed or triaged. WashU's eight image figures, five of them new (44 percent
+      women, 47 percent international, 4.3 years, GRE 166 and 164), were read from its
+      images and triaged.
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects
@@ -585,16 +599,17 @@ verified rather than that the school does not publish one (INC-0118).
       page confirms the library's figures)
 - [ ] `src/smoke_load.js` stays out of CI because timing on shared runners is noisy, so run
       it by hand after any change to how the banks are split or loaded (INC-0113)
-- [ ] School figures the `--schools` run could not settle from this sandbox. After INC-0154
-      the run of September 27 ends at 0 figures with a number their page does not print, 4
-      triaged (Kellogg's middle 80 percent ranges, drawn only as box plots), 20 sources
-      unreadable and 6 showing none of their figures. Unread: pages drawn by JavaScript or as
-      images without alt text (Kelley, WashU Olin's class profile, Auburn, UMass Amherst's
-      PDF, Maryland on Poets&Quants, Booth's .xls report); 403s at Columbia, Baylor, Michigan
-      Ross and Bloomberg; certificate failures at Penn State Smeal and UC Irvine Merage (not to
-      be bypassed); US News; Fordham's redirect loop; ASU's old profile host (522); Wharton's
-      career report; and Olin's Class of 2024 report, an image-only PDF read by eye on
-      September 27. Cincinnati keeps its labelled 2025-26 tuition until the school page can
+- [ ] School figures the `--schools` run could not settle from this sandbox. After INC-0158
+      the run of September 27 ends at 0 figures with a number their page does not print and
+      0 pages showing none of their figures, with 12 triaged (Kellogg's middle 80 percent
+      ranges, drawn only as box plots, and WashU Olin's class profile, drawn only as images)
+      and 19 sources unreadable: 403s at Columbia, Baylor, Michigan Ross and Bloomberg;
+      certificate failures at Penn State Smeal and UC Irvine Merage (not to be bypassed); US
+      News; Fordham's redirect loop; Wharton's career report; and Olin's Class of 2024 report,
+      an image-only PDF read by eye on September 27. The six pages once written off as built
+      by JavaScript were three that had changed (Kelley, Maryland on Poets&Quants, Auburn),
+      two the check misread (UMass Amherst's PDF, Booth's workbook) and one drawn as images
+      (WashU Olin's). Cincinnati keeps its labelled 2025-26 tuition until the school page can
       show a range: from 2026-27 UC bills the Lindner MBA per credit hour over 35 to 48 credits
 - [ ] Emory Goizueta's acceptance rate (32 percent, from Poets&Quants) disagrees with its own
       source label: 450 admitted of 1,581 applications is 28.5 percent, and the record's

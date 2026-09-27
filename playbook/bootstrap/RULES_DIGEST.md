@@ -1,14 +1,14 @@
 # Rules Digest
 
-Rules from 157 defects in a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
+Rules from 158 defects in a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
 
-Generated 2026-09-27 from a ledger spanning 8 days and 107 commits.
+Generated 2026-09-27 from a ledger spanning 8 days and 108 commits.
 
 ## Read this first
 
-The three ways defects were most often found, in order: found by reading the code or the output (82), found by measuring something (39), a test caught it (18). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
+The three ways defects were most often found, in order: found by reading the code or the output (83), found by measuring something (39), a test caught it (18). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
 
-The dominant failure mode is silent loss, 26 of 157: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
+The dominant failure mode is silent loss, 26 of 158: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
 
 ## Learned the hard way, more than once
 
@@ -40,6 +40,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (3 times, content generation) A figure written twice on one page will eventually be written two ways. Where the site already holds a sourced value, a page that states it should be checked against that value, because a reader who meets $4 and $5 for the same fee trusts neither.
 - (3 times, content generation) A presence check on a source field proves the field is filled, not that it is true.
 - (3 times, content generation) A citation vouches only for what its source says, so check each figure against the source rather than checking that a citation is present.
+- (3 times, tests and guards) Loading a page is not the same as reading it. A chart can be a separate document inside the page that draws only when scrolled into view, and a page with trackers may never fall quiet, so a reader built for checking has to scroll like a person, collect every frame, and use waits that give up rather than hang.
 - (3 times, content generation) A search result's snippet is not the page it links to. A figure taken from one has to be read again on the page before it is published, and a record that admits the snippet in a note while citing the page looks fully sourced, which is why nobody rereads it.
 - (3 times, content generation) A report that says the same thing every week stops being read. When a checker has blind spots, record each judgement about a finding it cannot settle, so that what it prints shrinks to what is new; a list that mixes known false alarms with real errors hides the errors about as well as no list at all.
 - (2 times, search and metadata) Any number in user-facing copy that describes the size of something must be computed from that thing at build time.
@@ -57,8 +58,8 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (2 times, content generation) A citation is only as current as the page it points to, and publishers leave old pages up.
 - (2 times, content generation) Anything written ahead of its publication date is a promise about the future made from the past.
 - (2 times, content generation) A label fixed in code is a claim about every value the field will ever hold. When the data carries its own qualifier, such as a timing or a statistic, the label has to be read from the data, and anything that compares or scores the values has to use only the ones that share the qualifier the method names.
-- (2 times, tests and guards) Loading a page is not the same as reading it. A chart can be a separate document inside the page that draws only when scrolled into view, and a page with trackers may never fall quiet, so a reader built for checking has to scroll like a person, collect every frame, and use waits that give up rather than hang.
 - (2 times, content generation) Finding a number on a page is not finding the fact. A check has to look for it beside the words that say what it counts, and notice when those words are about something else: another program, another class.
+- (2 times, tests and guards) A checker has to know when it has not read its source. A response is not the page because it has text in it: a challenge, an error page or a login wall reads as a page with none of the facts on it, and every fact then looks wrong.
 
 ## Content generation
 
@@ -106,7 +107,6 @@ These cost this build twice or more each. If you read nothing else here, read th
 ## Front end
 
 - Generated code is code. If your build writes JavaScript into a string, the build must parse the result, because the blast radius of one bad character is the whole file, not the line.
-- Nobody notices a page getting slower one commit at a time. Put the number in a test the first time you care about it, not the first time somebody complains.
 - try/catch around an API that returns errors is decoration. Know which convention each call uses before you wrap it.
 - A fixed rounding rule is wrong at one end of the range or the other. Pick the precision from the magnitude, and write the expected number down before you write the code that produces it.
 - The moment a single-tenant store becomes multi-tenant, every key in it is a collision waiting to happen.
@@ -132,10 +132,6 @@ These cost this build twice or more each. If you read nothing else here, read th
 - If your system branches on difficulty, measure that the branches actually differ.
 - An identifier that anything outside the build stores must be derived from what it identifies, not from where it happened to land.
 
-## CSS and layout
-
-- CSS comments do not nest. When a whole page category loses its styling, read the built artefact, not the source that produced it.
-
 ## Infrastructure and deploy
 
 - An exclusion list is a denylist, and denylists are wrong by omission. Derive the allowed set from what the built pages actually reference.
@@ -156,4 +152,4 @@ These cost this build twice or more each. If you read nothing else here, read th
 - In Postgres, revoking from every role you can name still leaves PUBLIC. Verify with the advisors or by reading the acl, never by reading your own migration.
 - An empty catch block around a write is a silent-loss defect waiting to be born. If a save can fail, the person must be told; a success toast that fires regardless of the result is worse than no toast, because it actively teaches the user the data is safe.
 
-46 more rules, each learned once from a less costly defect, did not fit a prompt sized digest. The checklist in BUILD_PLAYBOOK.md has every rule.
+48 more rules, each learned once from a less costly defect, did not fit a prompt sized digest. The checklist in BUILD_PLAYBOOK.md has every rule.

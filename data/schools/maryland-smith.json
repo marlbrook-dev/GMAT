@@ -36,12 +36,13 @@
  },
  "specialties": [],
  "profile": {
-  "class_year": "Class of 2026",
+  "class_year": "Typical class profile (no class year stated)",
   "class_size": {
-   "v": 69,
-   "src": "Poets and Quants school profile",
-   "year": 2026,
-   "url": "https://poetsandquants.com/school-profile/maryland-smith/"
+   "v": null,
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "Poets&Quants' school profile, updated September 25, 2026, gives a full-time enrollment of 115 without saying whether it counts one class or both years, and Smith's own admissions page gives no class size. The 69 carried until September 27, 2026 is no longer printed there (INC-0158)."
   },
   "gmat_focus": {
    "v": null,
@@ -92,14 +93,16 @@
    "url": "https://www.rhsmith.umd.edu/programs/full-time-mba/admissions"
   },
   "women_pct": {
-   "v": 35,
-   "src": "Poets and Quants school profile",
+   "v": 36,
+   "stat": "female; the profile, updated September 25, 2026, names no class (class year not labeled on page)",
+   "src": "Poets&Quants school profile",
    "year": 2026,
    "url": "https://poetsandquants.com/school-profile/maryland-smith/"
   },
   "intl_pct": {
-   "v": 68,
-   "src": "Poets and Quants school profile",
+   "v": 47,
+   "stat": "international; the profile, updated September 25, 2026, names no class (class year not labeled on page)",
+   "src": "Poets&Quants school profile",
    "year": 2026,
    "url": "https://poetsandquants.com/school-profile/maryland-smith/"
   },
@@ -125,7 +128,7 @@
    "url": "https://www.rhsmith.umd.edu/offices/career-services/employment-reports/full-time-mba-report"
   }
  },
- "notes": "Official admissions page reports GMAT only as a GMAT Focus Edition 55th to 72nd percentile ranking, no score, so gmat_focus stays null. Tuition is charged per credit only: Fall 2025 rates 1759.50 USD per credit Maryland resident, 2157.00 non-resident, plus semester fees, per the official Networth page (https://networth.rhsmith.umd.edu/smith/financial-information/fall-2025-tuition, fetched this session); no official annual tuition figure is published, so tuition_usd stays null. Program is 48 credits. Class of 2026 figures in the prior data (69 students, GMAT 633, GRE 324) trace to Clear Admit/P&Q and could not be found on an official page this session; the prior employment_rate 77 sourced to P&Q is now replaced by the official report figure. The class label, stored as a bare 2026 (INC-0147), is written out as the Class of 2026, the class the Poets and Quants figures describe; the GPA and work experience come from an admissions page that labels no class year, and their stat says so, so they carry no class.",
+ "notes": "Official admissions page reports GMAT only as a GMAT Focus Edition 55th to 72nd percentile ranking, no score, so gmat_focus stays null. Tuition is charged per credit only: Fall 2025 rates 1759.50 USD per credit Maryland resident, 2157.00 non-resident, plus semester fees, per the official Networth page (https://networth.rhsmith.umd.edu/smith/financial-information/fall-2025-tuition, fetched this session); no official annual tuition figure is published, so tuition_usd stays null. Program is 48 credits. Earlier Class of 2026 figures (69 students, GMAT 633, GRE 324) traced to Clear Admit and Poets&Quants and were never found on an official page; the prior employment rate of 77 sourced to Poets&Quants is replaced by the official report figure. Poets&Quants' school profile, updated September 25, 2026, now gives female 36 percent, international 47 percent, full-time enrollment 115, average GPA 3.3, median GMAT 643 with no edition named and median GRE 306, and names no class; the women and international shares were 35 and 68 before (INC-0158). Its GMAT stays out for want of an edition, and its GPA is not used because Smith's own admissions page gives 3.25. No source names the class, so the profile carries none, and each figure's stat says its page labels no class year.",
  "federal": {
   "matched": true,
   "instnm": "University of Maryland-College Park",
