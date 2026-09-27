@@ -7,10 +7,10 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-26, which is 7 days, across
-78 commits, by one owner directing a series of AI coding sessions. As of this
-build it is 82 Python files, 107 JavaScript files, 24
+79 commits, by one owner directing a series of AI coding sessions. As of this
+build it is 83 Python files, 107 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 64 documents:
-2035 tracked files in total.
+2038 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -1122,7 +1122,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-78 commits in 7 days, one owner, a series of AI sessions. This
+79 commits in 7 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1214,14 +1214,14 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-137 recorded defects, over 7 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+138 recorded defects, over 7 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 66 | 48% |
+| Found by reading the code or the output | 67 | 49% |
 | Found by measuring something | 39 | 28% |
 | A test caught it | 16 | 12% |
 | Found by rendering it and looking | 6 | 4% |
@@ -1229,7 +1229,7 @@ well enough to audit later. Which is what this book is.
 | A build guard caught it | 3 | 2% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 135 of 137 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 136 of 138 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1238,13 +1238,13 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 58 |
+| Wrong data shown or stored | 59 |
 | Degraded | 30 |
 | Silent loss | 26 |
 | Cosmetic | 20 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 137. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 138. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
@@ -1255,7 +1255,7 @@ well enough to audit later. Which is what this book is.
 | Tests and guards | 19 |
 | Front end | 10 |
 | Build system | 10 |
-| Search and metadata | 8 |
+| Search and metadata | 9 |
 | Scoring and selection | 7 |
 | Infrastructure and deploy | 6 |
 | CSS and layout | 5 |
@@ -1266,7 +1266,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-131 of 137 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+132 of 138 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1287,7 +1287,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-53 of 137 incidents record that they repeat an earlier lesson, 75 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+54 of 138 incidents record that they repeat an earlier lesson, 76 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1328,8 +1328,9 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0130 The GRE exam guide credited ETS with a combined 260 to 340 score that the ETS page it cited does not describe | INC-0133 | 1 |
 | INC-0132 The GRE guide still quoted a $220 fee eight weeks after ETS's fees became $249 | INC-0136 | 1 |
 | INC-0136 The LSAT guide said most test takers choose between remote and in-person testing, after LSAC had moved almost everyone into test centers | INC-0137 | 1 |
+| INC-0137 A post queued to publish the next day said the LSAT trainer was still in development, eleven days after it went live | INC-0138 | 1 |
 
-The largest family runs to 44 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
+The largest family runs to 45 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
 
 Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.
 
@@ -2614,7 +2615,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** When a generated file has a size limit and a completeness rule, decide which one wins before the file grows, because it will. Bound the whole output in the generator, and let the file say what it left out and where the rest is, so omission is a stated choice rather than a silent one.
 
 
-## Search and metadata (8)
+## Search and metadata (9)
 
 
 ### INC-0002. School URLs vanished from the sitemap when the data file was split
@@ -2714,6 +2715,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** The description uses the record's text.
 - **What stops it now.** build.py scans every built page for the printed form of a Python dict or list, such as {'text': or 'src':, and fails naming the page and the fragment, since no page on the site has a reason to contain one. in `src/build.py`
 - **Lesson.** Structured data is published text that no one reads on the page, so check it the way a page is checked. Interpolating a record where its text was meant succeeds silently in Python, and the only place the mistake shows is the output, so scan the output for the printed form of a data structure.
+
+
+### INC-0138. The exam guides hub told search engines only the GMAT and SAT trainers were live, eleven days after all five were
+
+*2026-09-27, Wrong data shown or stored*
+
+- **What was seen.** The /exams/ page's meta description, the text a search result shows under the title, read 'GMAT Focus and digital SAT training are live; more exams in development.' The GRE, LSAT and ACT trainers went live on September 16, 2026, so every search result for the hub understated the product by three trainers and promised work that was already done.
+- **Why.** The description was typed into exams_index_template.html when two trainers were live, while build_exams.py already knew which exams are live (LIVE) and used it for every other status on the page. A sentence about the product's state was written once as copy instead of being built from the one place that knows it, and no check reads meta descriptions for claims about trainers.
+- **How it surfaced.** Found on September 27, 2026 while adding a calculators section to the hub, the same day INC-0137 found a queued post calling the live LSAT trainer unfinished. (Found by reading the code or the output)
+- **Fix.** The hub's description is now built from LIVE and the exams' names, so it changes when a trainer does.
+- **What stops it now.** build_exams.py builds the hub's description from LIVE and fails if it leaves out a live trainer; page_checks.trainer_claims() reads every built page's text and meta description, treating block elements as sentence breaks, and fails the build on a sentence that names a live exam and calls something in development, coming soon or on a waitlist; build_blog.py runs the same pattern over posts. in `src/page_checks.py`
+- **Lesson.** Any sentence about your own product's state is data, and data belongs in one place: build the sentence from the source that knows, and check every page that could repeat it, including the text only search engines read.
 
 
 ## Scoring and selection (7)
@@ -3215,6 +3228,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The GRE guide still quoted a $220 fee eight weeks after ETS's fees became $249 (INC-0132)</small>
 - [ ] **Learned 2 times over.** A citation is only as current as the page it points to, and publishers leave old pages up. When a source describes itself as covering a period, check that the period is still running; a page about last year's test can be quoted perfectly and still be wrong about this year's.  
   <small>The LSAT guide said most test takers choose between remote and in-person testing, after LSAC had moved almost everyone into test centers (INC-0136)</small>
+- [ ] **Learned 2 times over.** Anything written ahead of its publication date is a promise about the future made from the past. Re-check a queued post's claims about your own product at build time, where the product's real state is known, rather than trusting the day it was written.  
+  <small>A post queued to publish the next day said the LSAT trainer was still in development, eleven days after it went live (INC-0137)</small>
 - [ ] Any generator that claims reproducibility must be seeded from something stable across processes. hash() is not, in Python, and the failure shows up as a flaky test rather than as a wrong answer.  
   <small>Item banks were different on every build because Python randomises hash() (INC-0003)</small>
 - [ ] Deletion by shadowing is invisible. Any collection whose size is a fact about the product needs its size asserted, not just its contents.  
@@ -3285,8 +3300,6 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Two school pages wrote "a 18.8% acceptance rate", because the article was chosen before the number arrived (INC-0134)</small>
 - [ ] When a parser must pull one value out of free text, anchor it to the words that give the value its meaning, not to its position, and return nothing when nothing anchors it: a sentence that says less is better than one that states a guess as fact. Keep inferences out of the fields that hold a source's own words, because the inferred class name in a stat is what let one class be reported under two names.  
   <small>Arizona State's school page said its class entered in 2027, because the label parser took the first year it found (INC-0135)</small>
-- [ ] Anything written ahead of its publication date is a promise about the future made from the past. Re-check a queued post's claims about your own product at build time, where the product's real state is known, rather than trusting the day it was written.  
-  <small>A post queued to publish the next day said the LSAT trainer was still in development, eleven days after it went live (INC-0137)</small>
 
 
 ## Database
@@ -3401,6 +3414,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Two withdrawn exam guides kept their search traffic and sent it to a 404 that is the whole GMAT trainer (INC-0109)</small>
 - [ ] Structured data is published text that no one reads on the page, so check it the way a page is checked. Interpolating a record where its text was meant succeeds silently in Python, and the only place the mistake shows is the output, so scan the output for the printed form of a data structure.  
   <small>The exam hub's structured data described every exam with a printed Python dict (INC-0131)</small>
+- [ ] Any sentence about your own product's state is data, and data belongs in one place: build the sentence from the source that knows, and check every page that could repeat it, including the text only search engines read.  
+  <small>The exam guides hub told search engines only the GMAT and SAT trainers were live, eleven days after all five were (INC-0138)</small>
 
 
 ## Tests and guards
@@ -3559,7 +3574,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 137 real defects reduced to the rules that prevent them,
+the whole project: 138 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -3599,7 +3614,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-137 defects already prevented is genuinely ahead, and every defect it hits
+138 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

@@ -298,6 +298,12 @@ verified rather than that the school does not publish one (INC-0118).
       that post calling the live LSAT trainer "in development" (INC-0137) and repeating a
       delivery claim LSAC had overtaken, which was also live in the LSAT guide (INC-0136):
       both fixed, and the blog build and the weekly source check now catch each kind.
+- [x] **Score calculators on the `/exams/` hub** and under Resources in the site menu: one
+      card per calculator, generated from the `CALCULATORS` map the exam guides use, so a
+      new calculator appears in both places or the build fails for want of its line. Adding
+      it found the hub's meta description still saying only the GMAT and SAT trainers were
+      live (INC-0138): it is now built from `LIVE`, and every built page is checked for a
+      sentence that calls a live trainer unfinished.
 - [x] **The school library checked against its sources** (INC-0133): `check_sources.py
       --schools` reads every page the library cites (652 figures, 225 pages; the 337 College
       Scorecard figures come from a dataset and are set aside). Reading its flags on static

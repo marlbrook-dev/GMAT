@@ -169,6 +169,9 @@ pages on ChatGPT search (403).
   looked up both ways, a score to the percentage of test scores below it and a percentile
   to the lowest score that clears it, with LSAC's words on score bands. LSAC gives no band
   width on that page, so the calculator works none out.
+- **All five calculators on the /exams/ hub and in the Resources menu**, so a visitor who
+  lands on one exam's calculator can find the others, and search engines see them linked
+  from a page they already index.
 
 ### Next, in the order the evidence ranks them
 

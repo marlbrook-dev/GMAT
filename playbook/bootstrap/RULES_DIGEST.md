@@ -1,14 +1,14 @@
 # Rules Digest
 
-Rules from 137 defects in a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
+Rules from 138 defects in a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
 
-Generated 2026-09-27 from a ledger spanning 7 days and 78 commits.
+Generated 2026-09-27 from a ledger spanning 7 days and 79 commits.
 
 ## Read this first
 
-The three ways defects were most often found, in order: found by reading the code or the output (66), found by measuring something (39), a test caught it (16). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
+The three ways defects were most often found, in order: found by reading the code or the output (67), found by measuring something (39), a test caught it (16). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
 
-The dominant failure mode is silent loss, 26 of 137: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
+The dominant failure mode is silent loss, 26 of 138: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
 
 ## Learned the hard way, more than once
 
@@ -51,6 +51,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (2 times, content generation) A citation vouches only for what its source says, so check each figure against the source rather than checking that a citation is present.
 - (2 times, content generation) A figure with a source and a year can still go stale, because the source moves and the record does not.
 - (2 times, content generation) A citation is only as current as the page it points to, and publishers leave old pages up.
+- (2 times, content generation) Anything written ahead of its publication date is a promise about the future made from the past.
 
 ## Content generation
 
@@ -83,7 +84,6 @@ These cost this build twice or more each. If you read nothing else here, read th
 - An edit tool that throws away its input leaves the diff as the only record of what it changed.
 - Run the source check on every corpus that cites pages, not just the one that broke.
 - When a parser must pull one value out of free text, anchor it to the words that give the value its meaning, not to its position, and return nothing when nothing anchors it: a sentence that says less is better than one that states a guess as fact.
-- Anything written ahead of its publication date is a promise about the future made from the past.
 
 ## Tests and guards
 
@@ -107,7 +107,6 @@ These cost this build twice or more each. If you read nothing else here, read th
 - The moment a single-tenant store becomes multi-tenant, every key in it is a collision waiting to happen.
 - A conditional that treats not-A as the original case is a bug the day a third case exists.
 - Anything that reports failures must not be able to report its own. Check whether each call rejects or throws before you wrap it, and make the reporting path unable to re-enter itself.
-- Async on a script tag decides when it runs, not when it downloads, so an async tag still competes for bandwidth with everything the page is waiting for.
 
 ## Build system
 
@@ -120,6 +119,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - A refactor that moves data has to be followed to every reader, and a loop over nothing is the quietest failure in programming.
 - When one model feeds two pages, generate both from the model in the same pass. Two places that must agree will not, and the reader who notices is the reader you were trying to convince.
 - A URL that search engines know is not the site's to delete quietly; it belongs partly to everyone still linking to it.
+- Any sentence about your own product's state is data, and data belongs in one place: build the sentence from the source that knows, and check every page that could repeat it, including the text only search engines read.
 
 ## Scoring and selection
 
@@ -128,7 +128,6 @@ These cost this build twice or more each. If you read nothing else here, read th
 - If your system branches on difficulty, measure that the branches actually differ.
 - When you add a filter, find every path that adds items after the filter runs. A gate on the entry point is not a gate on the set.
 - Anything a page promises is the same for everyone has to be assigned, stored and served, not recomputed from whatever happens to be loaded, because the recomputation will eventually run against different inputs.
-- Measure an adaptive policy per student, not in aggregate: a pooled statistic averages the starved students with the well-served ones and reports a system that works.
 - An identifier that anything outside the build stores must be derived from what it identifies, not from where it happened to land.
 
 ## Infrastructure and deploy
@@ -164,4 +163,4 @@ These cost this build twice or more each. If you read nothing else here, read th
 - Chart form is a claim about the data. A line claims the values in between existed.
 - Never encode a state by colour alone. The word also survives greyscale printing, forced-colors mode and a glance from across a room, so it is better for everyone and not only for the people it is required by.
 
-21 more rules, each learned once from a less costly defect, did not fit a prompt sized digest. The checklist in BUILD_PLAYBOOK.md has every rule.
+23 more rules, each learned once from a less costly defect, did not fit a prompt sized digest. The checklist in BUILD_PLAYBOOK.md has every rule.
