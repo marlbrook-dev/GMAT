@@ -11,7 +11,7 @@ school means adding a file. Never edit generated output.
 ```
 {
  "slug": "stanford-gsb",            unique, kebab-case, becomes the URL
- "name": "Stanford Graduate School of Business",
+ "name": "Stanford Graduate School of Business",   stands alone: never just "School of Business"
  "university": "Stanford University",
  "city": "Stanford", "state": "CA",
  "region": "West",                  Northeast | Midwest | South | West
@@ -38,6 +38,11 @@ school means adding a file. Never edit generated output.
  }
 }
 ```
+
+`name` is printed on its own in a page's title, heading and every answer, so it says which
+school it is: "UC Riverside School of Business", not the "School of Business" that the
+school's site can print under its university's banner. The validator refuses a name made
+only of words like school, college, business and management (INC-0153).
 
 A figure's `stat` describes it as its source states it ("average", "2026-27 rate, tuition
 only"), and is printed beside it and checked against its page. A figure's `note` is our

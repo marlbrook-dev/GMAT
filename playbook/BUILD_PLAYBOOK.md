@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-27, which is 8 days, across
-100 commits, by one owner directing a series of AI coding sessions. As of this
+101 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 83 Python files, 110 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 64 documents:
 2051 tracked files in total.
@@ -1123,7 +1123,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-100 commits in 8 days, one owner, a series of AI sessions. This
+101 commits in 8 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1215,22 +1215,22 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-152 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+153 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 77 | 51% |
-| Found by measuring something | 39 | 26% |
+| Found by reading the code or the output | 78 | 51% |
+| Found by measuring something | 39 | 25% |
 | A test caught it | 18 | 12% |
 | Found by rendering it and looking | 8 | 5% |
 | Found by a review bot or an adversarial pass | 5 | 3% |
 | A build guard caught it | 3 | 2% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 150 of 152 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 151 of 153 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1240,12 +1240,12 @@ well enough to audit later. Which is what this book is.
 | Severity | Count |
 | --- | ---: |
 | Wrong data shown or stored | 66 |
-| Degraded | 34 |
+| Degraded | 35 |
 | Silent loss | 26 |
 | Cosmetic | 23 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 152. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 153. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
@@ -1255,8 +1255,8 @@ well enough to audit later. Which is what this book is.
 | Content generation | 68 |
 | Tests and guards | 22 |
 | Front end | 12 |
+| Search and metadata | 10 |
 | Build system | 10 |
-| Search and metadata | 9 |
 | Scoring and selection | 7 |
 | CSS and layout | 6 |
 | Infrastructure and deploy | 6 |
@@ -1267,7 +1267,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-146 of 152 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+147 of 153 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1288,7 +1288,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-64 of 152 incidents record that they repeat an earlier lesson, 86 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+64 of 153 incidents record that they repeat an earlier lesson, 86 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1365,9 +1365,9 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/build_banks.py`, 17 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011, INC-0079, INC-0081, INC-0086, INC-0088, INC-0089, INC-0090, INC-0091, INC-0092, INC-0120, INC-0123, INC-0126, INC-0127)
 - `src/build.py`, 13 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067, INC-0076, INC-0080, INC-0131, INC-0148)
 - `src/test.js`, 8 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085)
+- `src/validate_schools.py`, 7 incidents (INC-0125, INC-0141, INC-0143, INC-0144, INC-0147, INC-0151, INC-0153)
 - `src/check_sources.py`, 7 incidents (INC-0130, INC-0132, INC-0133, INC-0136, INC-0140, INC-0150, INC-0152)
 - `src/build_rankings.py`, 6 incidents (INC-0014, INC-0049, INC-0118, INC-0135, INC-0142, INC-0145)
-- `src/validate_schools.py`, 6 incidents (INC-0125, INC-0141, INC-0143, INC-0144, INC-0147, INC-0151)
 - `src/review_bot.js`, 5 incidents (INC-0022, INC-0026, INC-0051, INC-0061, INC-0077)
 - `src/bank_emit.py`, 5 incidents (INC-0062, INC-0066, INC-0068, INC-0073, INC-0119)
 - `src/gen/framework.py`, 5 incidents (INC-0074, INC-0075, INC-0078, INC-0087, INC-0096)
@@ -2653,6 +2653,132 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** A view that is redrawn from saved state loses whatever the user has not saved yet. When a background event can redraw a form, carry the fields' current values across the redraw. And a test that is not in CI is not guarding anything: it fails quietly until someone happens to run it.
 
 
+## Search and metadata (10)
+
+
+### INC-0002. School URLs vanished from the sitemap when the data file was split
+
+*2026-08-24, Silent loss, `df14c7c` PR #23*
+
+- **What was seen.** Per-school pages were live and correct, and absent from sitemap.xml.
+- **Why.** The sitemap generator read schools.json. When the library was split into one file per school, nothing read the new directory, and a loop over an empty list emits nothing rather than failing.
+- **How it surfaced.** Noticed while reviewing the built sitemap. (Found by reading the code or the output)
+- **Fix.** Generate sitemap entries from the same directory scan the pages are built from.
+- **What stops it now.** the build asserts the sitemap URL count matches the page count in `src/build.py`
+- **Cost.** unknown period of missing indexation
+- **Lesson.** A refactor that moves data has to be followed to every reader, and a loop over nothing is the quietest failure in programming. Derive counts from one source and assert they agree.
+
+
+### INC-0014. A hardcoded count in the meta description went stale, and Google showed it
+
+*2026-09-19, Wrong data shown or stored, `36b1e92` PR #43*
+
+- **What was seen.** The meta description claimed 1,451 colleges after the number changed. og:description and twitter:description both derive from that tag, so all three were wrong.
+- **Why.** A figure typed into a template instead of computed at build time, which is the exact failure build-time counting exists to prevent.
+- **How it surfaced.** Reading the built page. (Found by reading the code or the output)
+- **Fix.** Derive the number from the same count the pages are built from.
+- **What stops it now.** no hardcoded corpus counts in templates in `src/build_rankings.py`
+- **Cost.** a wrong figure in the search result snippet
+- **Lesson.** Any number in user-facing copy that describes the size of something must be computed from that thing at build time. The moment it is typed, it has a half-life.
+
+
+### INC-0049. Two pages told the same story with different numbers after a reweighting
+
+*2026-09-19, Wrong data shown or stored, `a34a798` PR #47*
+
+- **What was seen.** The rankings index still showed figures from before a scoring change while the methodology page showed the new ones.
+- **Why.** Two artefacts derived from one model, and only one was regenerated.
+- **How it surfaced.** Reading both pages after the change. (Found by reading the code or the output)
+- **Fix.** Derive both from the same computed values at build time.
+- **What stops it now.** both figures are printed by the build from one source in `src/build_rankings.py`
+- **Cost.** a visible contradiction between two pages
+- **Lesson.** When one model feeds two pages, generate both from the model in the same pass. Two places that must agree will not, and the reader who notices is the reader you were trying to convince.
+
+
+### INC-0103. A 139 page section shipped with no route into it from the sitemap
+
+*2026-09-24, Silent loss, `52026960246aaac40d2d261dbf0bbb5f48a1d3f1` PR #95*
+
+- **What was seen.** The study guide went live on 2026-09-22 with 139 pages across five exams and thirteen sections. The sitemap carries 1,592 URLs and not one of them is a guide page. Every other content section is there: 1,453 colleges, 92 schools, 31 blog posts, 6 exams. The pages resolve and are linked from the site header, so nothing looks wrong, and a search engine's cheapest and most reliable route into the largest new body of content on the site does not exist.
+- **Why.** build_sitemap opens with a hand written list of section URLs and then expands the data driven ones from data/exams.json, data/schools and data/colleges. A new section is therefore invisible to it until somebody remembers to add a line. Nothing about building 139 pages causes them to appear, and nothing about their absence causes a failure, so the omission is silent in both directions.
+- **How it surfaced.** Found during a search performance audit, three days after the guide shipped, by reading the live sitemap rather than the code that writes it. No check looks at the sitemap at all: the build validates the pages it writes and never asks whether anything can find them. (Found by measuring something)
+- **Fix.** The sitemap walks the built output for guide pages rather than naming them, so the section cannot fall out of step with itself, and a section added later is carried without a code change.
+- **What stops it now.** build_blog compares every built index.html under the site's content directories against the sitemap it just wrote, and fails when a page that was built is not listed. The check is on the BUILT OUTPUT rather than on a list of sections, because a list of sections is the thing that was wrong.
+- **Lesson.** An enumeration that has to be kept in step by memory will fall out of step, and the failure is silent because nothing downstream can tell the difference between a section that was excluded on purpose and one that was forgotten. Derive the list from what was actually produced, and when that is not practical, make something compare the two. Publishing work nobody can find is not a smaller version of publishing it.
+
+
+### INC-0104. Half the school pages opened with a data note pasted into a sentence, and the structured data repeated it
+
+*2026-09-26, Degraded*
+
+- **What was seen.** On 47 of 91 MBA school pages the opening paragraph, the first prose on the page, read like Kellogg's: 'The Class of 2027 profile reports a average GMAT Focus score, middle 80 pct 645-735 GMAT Focus of 687, a class of 534.' Notre Dame's read 'reports a avg, Class of 2026, range 560-760 (edition not labeled; range consistent with Classic) GMAT of 680 (Classic edition)'. The same text answered 'What GMAT score do you need' in the Quick Answers block and in the FAQPage JSON-LD that search and answer engines read. Separately, 70 pages said a school 'ranks #5 of 91' in the first sentence and 'number 5 of the 70 programs it scores' in the next paragraph, because 21 of the 91 programs are listed unscored. The rankings table itself cut the same note to its first three characters beside every GMAT figure, so all 50 rows that carry one showed a slice rather than a statistic: 'Focus ave' on 22 of them, and 'Focus lis', 'Classic typ' and 'Classic 202' on one each. The class label had the same problem: 22 intros pasted the stored class_year verbatim, producing 'The 2025 Profile profile reports', 'The Typical class profile (no class year stated) profile reports' and 'The Full-time MBA Graduates, 2025 (outcomes) profile reports'. And four pages reported a figure from one class inside a sentence about another: Notre Dame's GMAT comes from Poets&Quants coverage of the Class of 2026 and was stated as the Class of 2027's.
+- **Why.** The stat field on a profile figure is free text written for the table's provenance column ('average GMAT Focus score, middle 80 pct 645-735'), not a word for a sentence. Three sentences on the page interpolated it. lead_paragraph was fixed for exactly this in PR 45 (commit 4b25169, whose comment reads 'only a recognised one word statistic is used and anything else becomes a reported'), and the fix was written inside that one function. The intro and the FAQ are built seventy lines further down in the function that calls lead_paragraph, and kept interpolating the raw field. The denominator is the same shape: lead_paragraph was taught the scored total and the intro was not. The rankings table is a fourth consumer: it sliced stat[:3] on the assumption that every note begins with the statistic's name. class_year is free text too, stored in more than twenty shapes, and the intro treated it as a noun phrase that always fits 'The ... profile'. Each figure also carries its own class in its note or source, which a single page-level label cannot represent.
+- **How it surfaced.** Found on 2026-09-26 by reading the built text of the school pages with the most Search Console impressions, while checking what they say against the queries they are shown for. No check read the prose on a school page: validate_schools reads the data files and the build validates structure, not sentences. (Found by reading the code or the output)
+- **Fix.** One helper, stat_kind, reads a note and returns average, median or nothing, and every consumer outside the provenance column calls it: the intro, the lead, each FAQ answer, the meta description and the rankings table. The note itself stays in the provenance column where it belongs. Every rank claim on the page uses the scored total. The class label is parsed into one of four forms a sentence can carry (the Class of YYYY, the class that entered in YYYY, an academic year, or 'the most recent published profile'), and each figure is reported under its own class where its source names one, with past tense for a class that has graduated.
+- **What stops it now.** build_rankings checks every school page before writing it: no multi-word stat note of that school may appear in the intro, the lead or an FAQ answer, no sentence may read 'a average' or 'a avg', and every 'of N' rank claim must use the scored total. A failure names the school and the sentence. The same check fails on a pasted label ('profile profile', ') profile', 'no class year stated') and on any sentence that states a figure whose source names its class under a different 'Class of' year.
+- **Lesson.** When a fix names a class of input, such as 'the stat field is free text', find every place that input is used before closing it. A correct rule written inside one caller protects that caller, and the existence of the rule makes the unprotected siblings look protected.
+
+
+### INC-0107. Seven college titles promised SAT scores the page does not have
+
+*2026-09-26, Cosmetic*
+
+- **What was seen.** Seven of the 1,451 college pages report an ACT midpoint and no SAT figure of any kind, and their title still read '...: Acceptance Rate, Cost, and SAT Scores'. A student searching for that college's SAT scores who clicked found none.
+- **Why.** title_bits added 'SAT Scores' when either sat_avg or act_mid was present, treating the two tests as one field. The function's own docstring says it promises only what the page holds, and for these seven it did not.
+- **How it surfaced.** Found on 2026-09-26 while reading the college title logic against the Search Console export, by counting pages whose data has act_mid and no sat field. (Found by reading the code or the output)
+- **Fix.** The title names the test the page actually reports: SAT Scores when any SAT figure exists, ACT Scores when only the ACT does.
+- **What stops it now.** build_colleges fails when a page's title names SAT or ACT scores and the page's data has no figure for that test.
+- **Lesson.** Test every noun in a title against the page's own data, because a title is a promise to someone who has not seen the page yet. Grouping two fields under one flag because they usually travel together is how a promise gets made on the pages where they do not.
+
+
+### INC-0109. Two withdrawn exam guides kept their search traffic and sent it to a 404 that is the whole GMAT trainer
+
+*2026-09-26, Silent loss*
+
+- **What was seen.** The MCAT and Executive Assessment guides were withdrawn on 2026-09-18 because their official sources could not be re-verified. Search Console for the five weeks to 2026-09-24 still showed 220 impressions for /exams/mcat/ and 82 for /exams/executive-assessment/, the second at an average position of 9.6, with queries like 'executive assessment test cost'. Both URLs answered 404, and the 404 page is the GMAT trainer, so a searcher looking for the Executive Assessment landed in a GMAT app with no word about what had happened. llms.txt, the file written for answer engines, still listed both guides among the exam guides the site publishes.
+- **Why.** Withdrawing a page was treated as deleting a file. Nothing in the build or the deploy knows which URLs used to exist, so nothing asked what a visitor arriving at one should see, and the generic 404 handling that suits a mistyped URL was applied to a URL search engines were still ranking.
+- **How it surfaced.** Found on 2026-09-26 in the owner's Search Console export: both URLs appear in the top pages list with impressions after their removal date, and fetching them from this environment returned 404. (Found by measuring something)
+- **Fix.** src/worker.mjs keeps a RETIRED table of withdrawn paths and answers each with a 301 to the exams hub, on either hostname, with or without the trailing slash, keeping the query string. The hub says which exams are covered. An entry is removed when its page returns. llms.txt now lists the five exams actually covered and says the other two were withdrawn and why.
+- **What stops it now.** src/smoke_redirect.js asserts the retired paths redirect in one hop and that /exams/ itself and lookalike paths are served normally. The recorded practice is the larger guard: withdrawing a page means adding it to RETIRED in the same change.
+- **Lesson.** A URL that search engines know is not the site's to delete quietly; it belongs partly to everyone still linking to it. Removing the content is one decision and deciding what that address now says is another, and skipping the second one sends real visitors to whatever the 404 happens to be.
+
+
+### INC-0131. The exam hub's structured data described every exam with a printed Python dict
+
+*2026-09-26, Degraded*
+
+- **What was seen.** The ItemList structured data on /exams/ described each exam as 'Scored' followed by the Python repr of its score_scale record, braces, quotes, src, year and url included: Scored {'text': 'Total score 205 to 805, always ending in 5; ...', 'src': 'GMAC', 'year': 2026, 'url': '...'}. That is the text search and answer engines read for each exam, it was on every exam, and it had been since the page was added on September 19 (#45).
+- **Why.** score_scale is a sourced record of text, src, year and url, and the description interpolated the record itself with an f-string rather than its text. Python formats a dict without complaint, so the build succeeded, and structured data is not drawn on the page, so no one reading the page could see it.
+- **How it surfaced.** Found on September 26, 2026 while tracing where the GRE score scale text was published, for INC-0130. (Found by reading the code or the output)
+- **Fix.** The description uses the record's text.
+- **What stops it now.** build.py scans every built page for the printed form of a Python dict or list, such as {'text': or 'src':, and fails naming the page and the fragment, since no page on the site has a reason to contain one. in `src/build.py`
+- **Lesson.** Structured data is published text that no one reads on the page, so check it the way a page is checked. Interpolating a record where its text was meant succeeds silently in Python, and the only place the mistake shows is the output, so scan the output for the printed form of a data structure.
+
+
+### INC-0138. The exam guides hub told search engines only the GMAT and SAT trainers were live, eleven days after all five were
+
+*2026-09-27, Wrong data shown or stored*
+
+- **What was seen.** The /exams/ page's meta description, the text a search result shows under the title, read 'GMAT Focus and digital SAT training are live; more exams in development.' The GRE, LSAT and ACT trainers went live on September 16, 2026, so every search result for the hub understated the product by three trainers and promised work that was already done.
+- **Why.** The description was typed into exams_index_template.html when two trainers were live, while build_exams.py already knew which exams are live (LIVE) and used it for every other status on the page. A sentence about the product's state was written once as copy instead of being built from the one place that knows it, and no check reads meta descriptions for claims about trainers.
+- **How it surfaced.** Found on September 27, 2026 while adding a calculators section to the hub, the same day INC-0137 found a queued post calling the live LSAT trainer unfinished. (Found by reading the code or the output)
+- **Fix.** The hub's description is now built from LIVE and the exams' names, so it changes when a trainer does.
+- **What stops it now.** build_exams.py builds the hub's description from LIVE and fails if it leaves out a live trainer; page_checks.trainer_claims() reads every built page's text and meta description, treating block elements as sentence breaks, and fails the build on a sentence that names a live exam and calls something in development, coming soon or on a waitlist; build_blog.py runs the same pattern over posts. in `src/page_checks.py`
+- **Lesson.** Any sentence about your own product's state is data, and data belongs in one place: build the sentence from the source that knows, and check every page that could repeat it, including the text only search engines read.
+
+
+### INC-0153. Five school pages were named only "School of Business", "College of Business" or "Graduate School of Management", so their titles and answers named no school
+
+*2026-09-27, Degraded*
+
+- **What was seen.** data/schools/charleston.json, lehigh.json, portland-state.json, uc-davis-gsm.json and uc-riverside.json gave their name as "School of Business", "College of Business", "The School of Business", "Graduate School of Management" and "School of Business". A school page prints name in its title, heading, lead sentence and every Quick Answer, so College of Charleston's page was titled "School of Business MBA: Cost and Class Profile" and asked "What is the acceptance rate at School of Business?": a title no search for the college could match and questions that name no school.
+- **Why.** The research merge copied each business school's name as the school's own site prints it in its header, where the university's name sits beside it and nothing more is needed. The library keeps the university in a field of its own, and every page that prints name prints it alone. validate_schools checked that a name was there, not that it said which school it was.
+- **How it surfaced.** Found on September 27, 2026 while reading the new GMAT Quick Answer on College of Charleston's page: "What GMAT score do you need for School of Business?". Searching the library for names made only of words like School, College, Graduate, Business and Management found these five. (Found by reading the code or the output)
+- **Fix.** Each of the five now carries a name its school's own site uses that says which school it is: Charleston School of Business, Lehigh College of Business, Portland State University School of Business (its header reads Portland State University, The School of Business), UC Davis Graduate School of Management and UC Riverside School of Business.
+- **What stops it now.** validate_schools refuses a school name made only of generic words (school, college, graduate, business, management and the like), because a name printed on its own has to say which school it is. in `src/validate_schools.py`
+- **Lesson.** A value copied from a page carries the context the page gave it, and loses that context wherever it is printed on its own. A name that is plain under its university's banner is anonymous in a page title, so store the form that stands alone.
+
+
 ## Build system (10)
 
 
@@ -2778,120 +2904,6 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** The generator now holds the budget itself. It always keeps every rule the build learned more than once, then adds the rest in order of severity, oldest first within each level, while they fit. It says how many rules it left out and that the checklist in BUILD_PLAYBOOK.md carries every one, since the checklist was already checked to include every lesson. The kickoff no longer claims the digest holds one rule for every defect.
 - **What stops it now.** smoke_playbook still holds the 4000 word limit. In place of every lesson reaching the digest, it checks three things: every rule learned more than once is there; the rules present are a prefix of the priority order, so none left out outranks one kept; and the count the digest states as left out equals the number of lessons missing from it. in `src/smoke_playbook.js`
 - **Lesson.** When a generated file has a size limit and a completeness rule, decide which one wins before the file grows, because it will. Bound the whole output in the generator, and let the file say what it left out and where the rest is, so omission is a stated choice rather than a silent one.
-
-
-## Search and metadata (9)
-
-
-### INC-0002. School URLs vanished from the sitemap when the data file was split
-
-*2026-08-24, Silent loss, `df14c7c` PR #23*
-
-- **What was seen.** Per-school pages were live and correct, and absent from sitemap.xml.
-- **Why.** The sitemap generator read schools.json. When the library was split into one file per school, nothing read the new directory, and a loop over an empty list emits nothing rather than failing.
-- **How it surfaced.** Noticed while reviewing the built sitemap. (Found by reading the code or the output)
-- **Fix.** Generate sitemap entries from the same directory scan the pages are built from.
-- **What stops it now.** the build asserts the sitemap URL count matches the page count in `src/build.py`
-- **Cost.** unknown period of missing indexation
-- **Lesson.** A refactor that moves data has to be followed to every reader, and a loop over nothing is the quietest failure in programming. Derive counts from one source and assert they agree.
-
-
-### INC-0014. A hardcoded count in the meta description went stale, and Google showed it
-
-*2026-09-19, Wrong data shown or stored, `36b1e92` PR #43*
-
-- **What was seen.** The meta description claimed 1,451 colleges after the number changed. og:description and twitter:description both derive from that tag, so all three were wrong.
-- **Why.** A figure typed into a template instead of computed at build time, which is the exact failure build-time counting exists to prevent.
-- **How it surfaced.** Reading the built page. (Found by reading the code or the output)
-- **Fix.** Derive the number from the same count the pages are built from.
-- **What stops it now.** no hardcoded corpus counts in templates in `src/build_rankings.py`
-- **Cost.** a wrong figure in the search result snippet
-- **Lesson.** Any number in user-facing copy that describes the size of something must be computed from that thing at build time. The moment it is typed, it has a half-life.
-
-
-### INC-0049. Two pages told the same story with different numbers after a reweighting
-
-*2026-09-19, Wrong data shown or stored, `a34a798` PR #47*
-
-- **What was seen.** The rankings index still showed figures from before a scoring change while the methodology page showed the new ones.
-- **Why.** Two artefacts derived from one model, and only one was regenerated.
-- **How it surfaced.** Reading both pages after the change. (Found by reading the code or the output)
-- **Fix.** Derive both from the same computed values at build time.
-- **What stops it now.** both figures are printed by the build from one source in `src/build_rankings.py`
-- **Cost.** a visible contradiction between two pages
-- **Lesson.** When one model feeds two pages, generate both from the model in the same pass. Two places that must agree will not, and the reader who notices is the reader you were trying to convince.
-
-
-### INC-0103. A 139 page section shipped with no route into it from the sitemap
-
-*2026-09-24, Silent loss, `52026960246aaac40d2d261dbf0bbb5f48a1d3f1` PR #95*
-
-- **What was seen.** The study guide went live on 2026-09-22 with 139 pages across five exams and thirteen sections. The sitemap carries 1,592 URLs and not one of them is a guide page. Every other content section is there: 1,453 colleges, 92 schools, 31 blog posts, 6 exams. The pages resolve and are linked from the site header, so nothing looks wrong, and a search engine's cheapest and most reliable route into the largest new body of content on the site does not exist.
-- **Why.** build_sitemap opens with a hand written list of section URLs and then expands the data driven ones from data/exams.json, data/schools and data/colleges. A new section is therefore invisible to it until somebody remembers to add a line. Nothing about building 139 pages causes them to appear, and nothing about their absence causes a failure, so the omission is silent in both directions.
-- **How it surfaced.** Found during a search performance audit, three days after the guide shipped, by reading the live sitemap rather than the code that writes it. No check looks at the sitemap at all: the build validates the pages it writes and never asks whether anything can find them. (Found by measuring something)
-- **Fix.** The sitemap walks the built output for guide pages rather than naming them, so the section cannot fall out of step with itself, and a section added later is carried without a code change.
-- **What stops it now.** build_blog compares every built index.html under the site's content directories against the sitemap it just wrote, and fails when a page that was built is not listed. The check is on the BUILT OUTPUT rather than on a list of sections, because a list of sections is the thing that was wrong.
-- **Lesson.** An enumeration that has to be kept in step by memory will fall out of step, and the failure is silent because nothing downstream can tell the difference between a section that was excluded on purpose and one that was forgotten. Derive the list from what was actually produced, and when that is not practical, make something compare the two. Publishing work nobody can find is not a smaller version of publishing it.
-
-
-### INC-0104. Half the school pages opened with a data note pasted into a sentence, and the structured data repeated it
-
-*2026-09-26, Degraded*
-
-- **What was seen.** On 47 of 91 MBA school pages the opening paragraph, the first prose on the page, read like Kellogg's: 'The Class of 2027 profile reports a average GMAT Focus score, middle 80 pct 645-735 GMAT Focus of 687, a class of 534.' Notre Dame's read 'reports a avg, Class of 2026, range 560-760 (edition not labeled; range consistent with Classic) GMAT of 680 (Classic edition)'. The same text answered 'What GMAT score do you need' in the Quick Answers block and in the FAQPage JSON-LD that search and answer engines read. Separately, 70 pages said a school 'ranks #5 of 91' in the first sentence and 'number 5 of the 70 programs it scores' in the next paragraph, because 21 of the 91 programs are listed unscored. The rankings table itself cut the same note to its first three characters beside every GMAT figure, so all 50 rows that carry one showed a slice rather than a statistic: 'Focus ave' on 22 of them, and 'Focus lis', 'Classic typ' and 'Classic 202' on one each. The class label had the same problem: 22 intros pasted the stored class_year verbatim, producing 'The 2025 Profile profile reports', 'The Typical class profile (no class year stated) profile reports' and 'The Full-time MBA Graduates, 2025 (outcomes) profile reports'. And four pages reported a figure from one class inside a sentence about another: Notre Dame's GMAT comes from Poets&Quants coverage of the Class of 2026 and was stated as the Class of 2027's.
-- **Why.** The stat field on a profile figure is free text written for the table's provenance column ('average GMAT Focus score, middle 80 pct 645-735'), not a word for a sentence. Three sentences on the page interpolated it. lead_paragraph was fixed for exactly this in PR 45 (commit 4b25169, whose comment reads 'only a recognised one word statistic is used and anything else becomes a reported'), and the fix was written inside that one function. The intro and the FAQ are built seventy lines further down in the function that calls lead_paragraph, and kept interpolating the raw field. The denominator is the same shape: lead_paragraph was taught the scored total and the intro was not. The rankings table is a fourth consumer: it sliced stat[:3] on the assumption that every note begins with the statistic's name. class_year is free text too, stored in more than twenty shapes, and the intro treated it as a noun phrase that always fits 'The ... profile'. Each figure also carries its own class in its note or source, which a single page-level label cannot represent.
-- **How it surfaced.** Found on 2026-09-26 by reading the built text of the school pages with the most Search Console impressions, while checking what they say against the queries they are shown for. No check read the prose on a school page: validate_schools reads the data files and the build validates structure, not sentences. (Found by reading the code or the output)
-- **Fix.** One helper, stat_kind, reads a note and returns average, median or nothing, and every consumer outside the provenance column calls it: the intro, the lead, each FAQ answer, the meta description and the rankings table. The note itself stays in the provenance column where it belongs. Every rank claim on the page uses the scored total. The class label is parsed into one of four forms a sentence can carry (the Class of YYYY, the class that entered in YYYY, an academic year, or 'the most recent published profile'), and each figure is reported under its own class where its source names one, with past tense for a class that has graduated.
-- **What stops it now.** build_rankings checks every school page before writing it: no multi-word stat note of that school may appear in the intro, the lead or an FAQ answer, no sentence may read 'a average' or 'a avg', and every 'of N' rank claim must use the scored total. A failure names the school and the sentence. The same check fails on a pasted label ('profile profile', ') profile', 'no class year stated') and on any sentence that states a figure whose source names its class under a different 'Class of' year.
-- **Lesson.** When a fix names a class of input, such as 'the stat field is free text', find every place that input is used before closing it. A correct rule written inside one caller protects that caller, and the existence of the rule makes the unprotected siblings look protected.
-
-
-### INC-0107. Seven college titles promised SAT scores the page does not have
-
-*2026-09-26, Cosmetic*
-
-- **What was seen.** Seven of the 1,451 college pages report an ACT midpoint and no SAT figure of any kind, and their title still read '...: Acceptance Rate, Cost, and SAT Scores'. A student searching for that college's SAT scores who clicked found none.
-- **Why.** title_bits added 'SAT Scores' when either sat_avg or act_mid was present, treating the two tests as one field. The function's own docstring says it promises only what the page holds, and for these seven it did not.
-- **How it surfaced.** Found on 2026-09-26 while reading the college title logic against the Search Console export, by counting pages whose data has act_mid and no sat field. (Found by reading the code or the output)
-- **Fix.** The title names the test the page actually reports: SAT Scores when any SAT figure exists, ACT Scores when only the ACT does.
-- **What stops it now.** build_colleges fails when a page's title names SAT or ACT scores and the page's data has no figure for that test.
-- **Lesson.** Test every noun in a title against the page's own data, because a title is a promise to someone who has not seen the page yet. Grouping two fields under one flag because they usually travel together is how a promise gets made on the pages where they do not.
-
-
-### INC-0109. Two withdrawn exam guides kept their search traffic and sent it to a 404 that is the whole GMAT trainer
-
-*2026-09-26, Silent loss*
-
-- **What was seen.** The MCAT and Executive Assessment guides were withdrawn on 2026-09-18 because their official sources could not be re-verified. Search Console for the five weeks to 2026-09-24 still showed 220 impressions for /exams/mcat/ and 82 for /exams/executive-assessment/, the second at an average position of 9.6, with queries like 'executive assessment test cost'. Both URLs answered 404, and the 404 page is the GMAT trainer, so a searcher looking for the Executive Assessment landed in a GMAT app with no word about what had happened. llms.txt, the file written for answer engines, still listed both guides among the exam guides the site publishes.
-- **Why.** Withdrawing a page was treated as deleting a file. Nothing in the build or the deploy knows which URLs used to exist, so nothing asked what a visitor arriving at one should see, and the generic 404 handling that suits a mistyped URL was applied to a URL search engines were still ranking.
-- **How it surfaced.** Found on 2026-09-26 in the owner's Search Console export: both URLs appear in the top pages list with impressions after their removal date, and fetching them from this environment returned 404. (Found by measuring something)
-- **Fix.** src/worker.mjs keeps a RETIRED table of withdrawn paths and answers each with a 301 to the exams hub, on either hostname, with or without the trailing slash, keeping the query string. The hub says which exams are covered. An entry is removed when its page returns. llms.txt now lists the five exams actually covered and says the other two were withdrawn and why.
-- **What stops it now.** src/smoke_redirect.js asserts the retired paths redirect in one hop and that /exams/ itself and lookalike paths are served normally. The recorded practice is the larger guard: withdrawing a page means adding it to RETIRED in the same change.
-- **Lesson.** A URL that search engines know is not the site's to delete quietly; it belongs partly to everyone still linking to it. Removing the content is one decision and deciding what that address now says is another, and skipping the second one sends real visitors to whatever the 404 happens to be.
-
-
-### INC-0131. The exam hub's structured data described every exam with a printed Python dict
-
-*2026-09-26, Degraded*
-
-- **What was seen.** The ItemList structured data on /exams/ described each exam as 'Scored' followed by the Python repr of its score_scale record, braces, quotes, src, year and url included: Scored {'text': 'Total score 205 to 805, always ending in 5; ...', 'src': 'GMAC', 'year': 2026, 'url': '...'}. That is the text search and answer engines read for each exam, it was on every exam, and it had been since the page was added on September 19 (#45).
-- **Why.** score_scale is a sourced record of text, src, year and url, and the description interpolated the record itself with an f-string rather than its text. Python formats a dict without complaint, so the build succeeded, and structured data is not drawn on the page, so no one reading the page could see it.
-- **How it surfaced.** Found on September 26, 2026 while tracing where the GRE score scale text was published, for INC-0130. (Found by reading the code or the output)
-- **Fix.** The description uses the record's text.
-- **What stops it now.** build.py scans every built page for the printed form of a Python dict or list, such as {'text': or 'src':, and fails naming the page and the fragment, since no page on the site has a reason to contain one. in `src/build.py`
-- **Lesson.** Structured data is published text that no one reads on the page, so check it the way a page is checked. Interpolating a record where its text was meant succeeds silently in Python, and the only place the mistake shows is the output, so scan the output for the printed form of a data structure.
-
-
-### INC-0138. The exam guides hub told search engines only the GMAT and SAT trainers were live, eleven days after all five were
-
-*2026-09-27, Wrong data shown or stored*
-
-- **What was seen.** The /exams/ page's meta description, the text a search result shows under the title, read 'GMAT Focus and digital SAT training are live; more exams in development.' The GRE, LSAT and ACT trainers went live on September 16, 2026, so every search result for the hub understated the product by three trainers and promised work that was already done.
-- **Why.** The description was typed into exams_index_template.html when two trainers were live, while build_exams.py already knew which exams are live (LIVE) and used it for every other status on the page. A sentence about the product's state was written once as copy instead of being built from the one place that knows it, and no check reads meta descriptions for claims about trainers.
-- **How it surfaced.** Found on September 27, 2026 while adding a calculators section to the hub, the same day INC-0137 found a queued post calling the live LSAT trainer unfinished. (Found by reading the code or the output)
-- **Fix.** The hub's description is now built from LIVE and the exams' names, so it changes when a trainer does.
-- **What stops it now.** build_exams.py builds the hub's description from LIVE and fails if it leaves out a live trainer; page_checks.trainer_claims() reads every built page's text and meta description, treating block elements as sentence breaks, and fails the build on a sentence that names a live exam and calls something in development, coming soon or on a waitlist; build_blog.py runs the same pattern over posts. in `src/page_checks.py`
-- **Lesson.** Any sentence about your own product's state is data, and data belongs in one place: build the sentence from the source that knows, and check every page that could repeat it, including the text only search engines read.
 
 
 ## Scoring and selection (7)
@@ -3615,6 +3627,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The exam hub's structured data described every exam with a printed Python dict (INC-0131)</small>
 - [ ] Any sentence about your own product's state is data, and data belongs in one place: build the sentence from the source that knows, and check every page that could repeat it, including the text only search engines read.  
   <small>The exam guides hub told search engines only the GMAT and SAT trainers were live, eleven days after all five were (INC-0138)</small>
+- [ ] A value copied from a page carries the context the page gave it, and loses that context wherever it is printed on its own. A name that is plain under its university's banner is anonymous in a page title, so store the form that stands alone.  
+  <small>Five school pages were named only "School of Business", "College of Business" or "Graduate School of Management", so their titles and answers named no school (INC-0153)</small>
 
 
 ## Tests and guards
@@ -3779,7 +3793,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 152 real defects reduced to the rules that prevent them,
+the whole project: 153 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -3819,7 +3833,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-152 defects already prevented is genuinely ahead, and every defect it hits
+153 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

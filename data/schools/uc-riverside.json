@@ -1,6 +1,6 @@
 {
  "slug": "uc-riverside",
- "name": "School of Business",
+ "name": "UC Riverside School of Business",
  "university": "University of California, Riverside",
  "city": "Riverside",
  "state": "CA",
@@ -72,7 +72,7 @@
    "url": "https://business.ucr.edu/news/2025/04/08/ucr-business-grad-programs-rank-high-nationally"
   }
  },
- "notes": "Class profile lists Average GMAT: N/A and only a combined Average GRE: 311, so no GRE quant or verbal split is available. Tuition figure is the school's own approximate quarterly rate times three; the registrar quarterly fee page rendered only stale 2022 term tables when fetched. Salary and employment come from an official school news page, not a standalone employment report; definitions are quoted in stat. City and state confirmed from page (900 University Ave, Riverside, CA 92521); UCR is a University of California campus (public).",
+ "notes": "Class profile lists Average GMAT: N/A and only a combined Average GRE: 311, so no GRE quant or verbal split is available. Tuition figure is the school's own approximate quarterly rate times three; the registrar quarterly fee page rendered only stale 2022 term tables when fetched. Salary and employment come from an official school news page, not a standalone employment report; definitions are quoted in stat. City and state confirmed from page (900 University Ave, Riverside, CA 92521); UCR is a University of California campus (public). The name is the one the school's own site prints: \"UC Riverside School of Business\" (https://business.ucr.edu/mba, read 2026-09-27).",
  "website": "https://business.ucr.edu/mba",
  "federal": {
   "matched": true,

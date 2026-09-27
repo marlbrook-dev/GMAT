@@ -1,6 +1,6 @@
 {
  "slug": "uc-davis-gsm",
- "name": "Graduate School of Management",
+ "name": "UC Davis Graduate School of Management",
  "university": "University of California, Davis",
  "city": "Davis",
  "state": "CA",
@@ -124,7 +124,7 @@
    "url": "https://gsm.ucdavis.edu/full-time-mba/your-career"
   }
  },
- "notes": "The official 2025 cohort profile publishes no GMAT figure on either scale and only GRE quant (161 average), no GRE verbal, and no acceptance rate. Salary is published only as 117K+ average for U.S. eligible graduates (Class of 2025), a rounded figure with no median, so salary_median_usd stays null. The standalone placement report URL returned HTTP 403.",
+ "notes": "The official 2025 cohort profile publishes no GMAT figure on either scale and only GRE quant (161 average), no GRE verbal, and no acceptance rate. Salary is published only as 117K+ average for U.S. eligible graduates (Class of 2025), a rounded figure with no median, so salary_median_usd stays null. The standalone placement report URL returned HTTP 403. The name is the one the school's own site prints in its title: \"UC Davis Graduate School of Management\" (https://gsm.ucdavis.edu/full-time-mba, read 2026-09-27).",
  "federal": {
   "matched": true,
   "instnm": "University of California-Davis",
