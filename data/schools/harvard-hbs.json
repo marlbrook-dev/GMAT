@@ -44,14 +44,14 @@
   },
   "gmat_focus": {
    "v": 685,
-   "stat": "median, listed under GMAT Scores beside a separate GMAT 10th Edition Scores section; Median Scores Total 685, Verbal 86, Quantitative 84",
+   "stat": "median, listed under GMAT Scores beside a separate GMAT 10th Edition Scores section; middle 80% 645-735; Median Scores Total 685, Verbal 86, Quantitative 84",
    "src": "HBS MBA class profile",
    "year": 2025,
    "url": "https://www.hbs.edu/mba/admissions/class-profile"
   },
   "gmat_classic": {
    "v": 730,
-   "stat": "median, page section GMAT 10th Edition Scores, Median Scores Total 730, Verbal 42, Quantitative 49",
+   "stat": "median, page section GMAT 10th Edition Scores; middle 80% 690-770; Median Scores Total 730, Verbal 42, Quantitative 49",
    "src": "HBS MBA class profile",
    "year": 2025,
    "url": "https://www.hbs.edu/mba/admissions/class-profile"
