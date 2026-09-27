@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-27, which is 8 days, across
-120 commits, by one owner directing a series of AI coding sessions. As of this
+122 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 86 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
 2098 tracked files in total.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-120 commits in 8 days, one owner, a series of AI sessions. This
+122 commits in 8 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1217,14 +1217,14 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-169 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+172 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 87 | 51% |
+| Found by reading the code or the output | 90 | 52% |
 | Found by measuring something | 41 | 24% |
 | A test caught it | 21 | 12% |
 | Found by rendering it and looking | 8 | 5% |
@@ -1232,7 +1232,7 @@ well enough to audit later. Which is what this book is.
 | A build guard caught it | 5 | 3% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 167 of 169 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 170 of 172 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1241,20 +1241,20 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 73 |
+| Wrong data shown or stored | 75 |
 | Degraded | 42 |
+| Cosmetic | 26 |
 | Silent loss | 26 |
-| Cosmetic | 25 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 169. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 172. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 75 |
+| Content generation | 78 |
 | Tests and guards | 28 |
 | Front end | 12 |
 | Build system | 11 |
@@ -1269,7 +1269,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-163 of 169 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+166 of 172 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1290,7 +1290,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-76 of 169 incidents record that they repeat an earlier lesson, 104 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+78 of 172 incidents record that they repeat an earlier lesson, 106 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1305,6 +1305,8 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0099 Every generated reading comprehension question shipped without its passage | INC-0100, INC-0101, INC-0103 | 3 |
 | INC-0105 Twelve average salaries were published as medians, and the social queue credited schools with figures they never published | INC-0106, INC-0124, INC-0142 | 3 |
 | INC-0130 The GRE exam guide credited ETS with a combined 260 to 340 score that the ETS page it cited does not describe | INC-0133, INC-0155, INC-0160 | 3 |
+| INC-0137 A post queued to publish the next day said the LSAT trainer was still in development, eleven days after it went live | INC-0138, INC-0162, INC-0170 | 3 |
+| INC-0150 Columbia's MBA class was credited with five years of work experience, a figure the cited article gives for its 46-student MBAxMS cohort, and the source check passed it because the article does say five years | INC-0152, INC-0159, INC-0172 | 3 |
 | INC-0050 A landing-page icon referenced a colour token that did not exist | INC-0018, INC-0139 | 2 |
 | INC-0055 A new browser suite hardcoded this machine's browser directory and crashed in CI | INC-0067, INC-0110 | 2 |
 | INC-0059 The item counter missed a whole bank file because it assumed a quoting style | INC-0064, INC-0067 | 2 |
@@ -1320,9 +1322,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0119 Length corrections appended clauses that repeated what the answer choices already said | INC-0120, INC-0121 | 2 |
 | INC-0124 A blog post put the ACT science add-on at $4 in its table and $5 in its own FAQ, and nothing compared a post's prices with the sourced ones | INC-0125, INC-0132 | 2 |
 | INC-0125 Every College Scorecard figure in the MBA library cited the program's own website as its source URL | INC-0130, INC-0133 | 2 |
-| INC-0137 A post queued to publish the next day said the LSAT trainer was still in development, eleven days after it went live | INC-0138, INC-0162 | 2 |
 | INC-0146 The source check's browser read returned Stanford's class profile without a single figure, because the figures are drawn in an embedded chart that renders only when scrolled into view | INC-0156, INC-0158 | 2 |
-| INC-0150 Columbia's MBA class was credited with five years of work experience, a figure the cited article gives for its 46-student MBAxMS cohort, and the source check passed it because the article does say five years | INC-0152, INC-0159 | 2 |
 | INC-0151 Rice's school page credited Poets&Quants with an average GMAT of 693 for the Class of 2027, a number the article never prints; the figure's own note said it was read from a search snippet | INC-0154, INC-0157 | 2 |
 | INC-0154 The weekly source check listed Duke's GMAT medians and Michigan Ross's work experience as missing from their sources for weeks, but its 30 findings mixed real errors with pages it cannot read, so none was ever worked | INC-0155, INC-0157 | 2 |
 | INC-0162 The blog build read a fee table as one sentence and refused a correct post for calling the SAT trainer unfinished, over College Board's seat Waitlist | INC-0165, INC-0169 | 2 |
@@ -1346,7 +1346,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0156 The source check read mba.com's bot challenge page as the page it cites and reported the GMAT fact's numbers as missing from it | INC-0158 | 1 |
 | INC-0158 The source check filed six school pages as probably built by JavaScript; five were something else, and three of them showed newer figures than the library published | INC-0161 | 1 |
 
-The largest family runs to 62 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140, INC-0142, INC-0143, INC-0144, INC-0145, INC-0147, INC-0150, INC-0151, INC-0152, INC-0154, INC-0155, INC-0157, INC-0159, INC-0160, INC-0162, INC-0165, INC-0169. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
+The largest family runs to 64 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140, INC-0142, INC-0143, INC-0144, INC-0145, INC-0147, INC-0150, INC-0151, INC-0152, INC-0154, INC-0155, INC-0157, INC-0159, INC-0160, INC-0162, INC-0165, INC-0169, INC-0170, INC-0172. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
 
 Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.
 
@@ -1374,6 +1374,8 @@ Incidents that name an earlier one without claiming to repeat it. Each was read 
 - INC-0165 names INC-0163
 - INC-0166 names INC-0163
 - INC-0169 names INC-0126
+- INC-0171 names INC-0170
+- INC-0172 names INC-0170
 
 
 ## Where defects concentrate
@@ -1381,7 +1383,7 @@ Incidents that name an earlier one without claiming to repeat it. Each was read 
 Files named by three or more incidents. This is not the same signal as the list above: a file that is the natural home for many checks will appear here without any one of them having failed. It says where the work has been, and where a reader new to the codebase should look first.
 
 - `src/build_banks.py`, 17 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011, INC-0079, INC-0081, INC-0086, INC-0088, INC-0089, INC-0090, INC-0091, INC-0092, INC-0120, INC-0123, INC-0126, INC-0127)
-- `src/check_sources.py`, 14 incidents (INC-0130, INC-0132, INC-0133, INC-0136, INC-0140, INC-0150, INC-0152, INC-0154, INC-0155, INC-0156, INC-0158, INC-0159, INC-0161, INC-0168)
+- `src/check_sources.py`, 15 incidents (INC-0130, INC-0132, INC-0133, INC-0136, INC-0140, INC-0150, INC-0152, INC-0154, INC-0155, INC-0156, INC-0158, INC-0159, INC-0161, INC-0168, INC-0172)
 - `src/build.py`, 13 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067, INC-0076, INC-0080, INC-0131, INC-0148)
 - `src/test.js`, 8 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085)
 - `src/validate_schools.py`, 8 incidents (INC-0125, INC-0141, INC-0143, INC-0144, INC-0147, INC-0151, INC-0153, INC-0157)
@@ -1390,6 +1392,7 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/review_bot.js`, 5 incidents (INC-0022, INC-0026, INC-0051, INC-0061, INC-0077)
 - `src/bank_emit.py`, 5 incidents (INC-0062, INC-0066, INC-0068, INC-0073, INC-0119)
 - `src/gen/framework.py`, 5 incidents (INC-0074, INC-0075, INC-0078, INC-0087, INC-0096)
+- `src/build_blog.py`, 5 incidents (INC-0124, INC-0137, INC-0162, INC-0170, INC-0171)
 - `src/smoke_playbook.js`, 4 incidents (INC-0054, INC-0084, INC-0129, INC-0165)
 - `src/bank_repair.py`, 4 incidents (INC-0070, INC-0071, INC-0072, INC-0121)
 - `src/page_checks.py`, 4 incidents (INC-0134, INC-0138, INC-0139, INC-0163)
@@ -1397,7 +1400,6 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/smoke_redirect.js`, 3 incidents (INC-0023, INC-0024, INC-0047)
 - `src/build_playbook.py`, 3 incidents (INC-0057, INC-0065, INC-0083)
 - `src/gen/g_act_sci.py`, 3 incidents (INC-0093, INC-0094, INC-0098)
-- `src/build_blog.py`, 3 incidents (INC-0124, INC-0137, INC-0162)
 
 
 # The Defect Ledger
@@ -1407,7 +1409,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (75)
+## Content generation (78)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -2317,6 +2319,42 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** The rate stays at 32%, as its source prints it. Its source line no longer implies the counts produce it, and its note says what the counts work out to and why the conflict cannot be settled from the article; the school's own class profile page prints no admissions figures.
 - **What stops it now.** The source check now reads the 28.5 in the note as derived from the page's 450 and 1,581, so if the article changes either count or the rate, the check reports the figure. in `src/check_sources.py`
 - **Lesson.** When a source contradicts itself, pick nothing silently. Show the figure it states, show the figures it contradicts, and say which cannot be settled; a reader given the conflict can judge it, a reader given one number cannot.
+
+
+### INC-0170. A published post said GMAC caps GMAT attempts across a lifetime, which its current retake policy does not say
+
+*2026-09-27, Wrong data shown or stored*
+
+- **What was seen.** "Should You Retake the GMAT? A Decision Framework", live since August 25, 2026, said GMAC "limits how many times you can sit the GMAT within a 12 month window and across a lifetime". GMAC's retake policy page, read in the browser on September 27, 2026, sets two limits only: at least 16 calendar days between appointments and up to 5 exams in a rolling 12-month period. It names no lifetime limit. The site's own exam record and its GMAT cost post already gave the current rule.
+- **Why.** The post described the policy from memory in general terms, without a source for the lifetime clause, and linked the GMAT home page rather than the policy it described. It was written before exam facts were mirrored with their URLs and read weekly, and a post's prose is not compared with those facts, so the claim sat unchecked when the page it would have cited said otherwise.
+- **How it surfaced.** Found on September 27, 2026 while collecting the five exams' retake limits for a new post: a search of every post for GMAT retake claims turned up the lifetime clause. (Found by reading the code or the output)
+- **Fix.** The post states GMAC's current limits with their source and links the policy page itself, and its FAQ answer gives the same figures.
+- **What stops it now.** build_blog keeps a table of retired claims, each a pattern and the reason it no longer holds, and fails any post that makes one; a GMAT lifetime attempt limit is its first entry. in `src/build_blog.py`
+- **Lesson.** A fact written into prose without its source cannot be rechecked, so it stays whatever it was the day it was written. State the figure with the page it comes from, or link the page and say nothing it does not say.
+
+
+### INC-0171. Thirty published blog posts set their section headings in sentence case, against the house rule that headings are Title Case
+
+*2026-09-27, Cosmetic*
+
+- **What was seen.** A scan of every post's h2 and h3 on September 27, 2026 found the 30 posts published from August 17 to September 20 setting their headings as sentence-case questions ("What does GMAC's retake policy allow?", "Where does data sufficiency live now?"), while the posts queued after them use Title Case ("What Does the ACT Cost in 2026?"). A handful of later headings capitalise a small word mid-heading ("Submit Early, On Purpose").
+- **Why.** The Title Case rule in CLAUDE.md covers section headings, but the blog build checks a post's structure, links, prices and trainer claims and never its headings, so the first batch of posts, written in sentence case, shipped that way and nothing flagged them when later posts followed the rule.
+- **How it surfaced.** Found on September 27, 2026 while correcting one of those posts (INC-0170): its headings were plainly in sentence case, and a scan of all posts counted the rest. (Found by reading the code or the output)
+- **Fix.** Every post heading is rewritten to Title Case by the rule's own terms: each word capitalised except a, an, the, of, and, or, to, for, by, in, on, at and vs, which stay lower case unless first, last, or first after a colon; words already carrying capitals, such as GMAT or GMAC's, keep them.
+- **What stops it now.** build_blog fails any post whose h2 or h3 is not in Title Case by that rule, and names the heading and the words to change. in `src/build_blog.py`
+- **Lesson.** A style rule that nothing checks holds only for the work written after someone remembered it. When a rule can be stated precisely enough to apply by hand, it can be checked by the build, and it should be, or the earliest work quietly keeps breaking it.
+
+
+### INC-0172. The ACT exam guide and a live post said the ACT can be taken up to 12 times, after ACT's page had come to say there is no limit, and the source check matched the 12 in the page's K-12 menu
+
+*2026-09-27, Wrong data shown or stored*
+
+- **What was seen.** The ACT exam record's retake policy, shown on /exams/act/, read "Can be taken up to 12 times in total; ACT suggests most students retest only two to three times", and the SAT vs ACT post, live since September 26, 2026, gave "Up to 12 times in total" in its comparison table. The page both cite, read on September 27, 2026, says "There is no limit to how many times students can take the ACT test. On average it takes students 2-3 times to achieve their testing goals." The weekly exam source check had passed the figure every week.
+- **Why.** The source check confirms that every number in a fact appears somewhere on the cited page. ACT's page no longer gives an attempt limit, but its navigation carries a "Students & Parents K-12" link, so 12 was found, and 2 and 3 were found in "2-3 times". A number matched anywhere on a page is not the fact found: the school check learned this and wants a figure beside its label (INC-0150), but the exam check still accepted a number from anywhere, the site menu included.
+- **How it surfaced.** Found on September 27, 2026 while reading the five exams' retake pages for a post on retake limits. (Found by reading the code or the output)
+- **Fix.** The ACT record, the SAT vs ACT post, the queued ACT format guide and the editorial fact sheet say what ACT's page now says: no limit, with 2 to 3 attempts the average ACT reports. The source check no longer reads a number out of a grade range such as K-12.
+- **What stops it now.** check_sources' self-check holds a page that prints 12 only in "K-12", which must not confirm a fact's 12; and the blog build's retired-claims table (INC-0170) fails any post that gives the ACT a 12-attempt cap. in `src/check_sources.py`
+- **Lesson.** A number's presence on a page is weak evidence for a fact, because pages are full of numbers that mean other things: menus, dates, grade ranges, footnote markers. A check that matches numbers should read them where the fact would be, and should expect the page to change what it says around them.
 
 
 ## Tests and guards (28)
@@ -3606,6 +3644,10 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Twelve average salaries were published as medians, and the social queue credited schools with figures they never published (INC-0105)</small>
 - [ ] **Learned 4 times over.** A citation vouches only for what its source says, so check each figure against the source rather than checking that a citation is present. The claim most likely to slip through is the true looking one written next to real ones, arithmetic or common knowledge put in the source's mouth.  
   <small>The GRE exam guide credited ETS with a combined 260 to 340 score that the ETS page it cited does not describe (INC-0130)</small>
+- [ ] **Learned 4 times over.** Anything written ahead of its publication date is a promise about the future made from the past. Re-check a queued post's claims about your own product at build time, where the product's real state is known, rather than trusting the day it was written.  
+  <small>A post queued to publish the next day said the LSAT trainer was still in development, eleven days after it went live (INC-0137)</small>
+- [ ] **Learned 4 times over.** Finding a number on a page is not finding the fact. A check has to look for it beside the words that say what it counts, and notice when those words are about something else: another program, another class.  
+  <small>Columbia's MBA class was credited with five years of work experience, a figure the cited article gives for its 46-student MBAxMS cohort, and the source check passed it because the article does say five years (INC-0150)</small>
 - [ ] **Learned 3 times over.** A module that nothing imports fails no test, and an exception raised on every draw is indistinguishable from an exception raised on a hard draw. Both are silence, and a build that reports totals hears neither. Count what each schema contributed, not what the category holds, and treat a contribution of zero as a failure rather than as a small number.  
   <small>A finished generator module that nothing imported, and two of its four schemas produced nothing (INC-0086)</small>
 - [ ] **Learned 3 times over.** Reading the record does not prevent the defect; the practice does. This one was written hours after its own lesson was read closely enough to be catalogued as a recurrence, and it was caught by rendering three items rather than by remembering. Budget the render, not the recollection.  
@@ -3624,10 +3666,6 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A blog post put the ACT science add-on at $4 in its table and $5 in its own FAQ, and nothing compared a post's prices with the sourced ones (INC-0124)</small>
 - [ ] **Learned 3 times over.** A presence check on a source field proves the field is filled, not that it is true. Where a figure names its source, check that the URL belongs to that source, because the easiest value to fill a required field with is the wrong one that happens to be nearby.  
   <small>Every College Scorecard figure in the MBA library cited the program's own website as its source URL (INC-0125)</small>
-- [ ] **Learned 3 times over.** Anything written ahead of its publication date is a promise about the future made from the past. Re-check a queued post's claims about your own product at build time, where the product's real state is known, rather than trusting the day it was written.  
-  <small>A post queued to publish the next day said the LSAT trainer was still in development, eleven days after it went live (INC-0137)</small>
-- [ ] **Learned 3 times over.** Finding a number on a page is not finding the fact. A check has to look for it beside the words that say what it counts, and notice when those words are about something else: another program, another class.  
-  <small>Columbia's MBA class was credited with five years of work experience, a figure the cited article gives for its 46-student MBAxMS cohort, and the source check passed it because the article does say five years (INC-0150)</small>
 - [ ] **Learned 3 times over.** A search result's snippet is not the page it links to. A figure taken from one has to be read again on the page before it is published, and a record that admits the snippet in a note while citing the page looks fully sourced, which is why nobody rereads it.  
   <small>Rice's school page credited Poets&Quants with an average GMAT of 693 for the Class of 2027, a number the article never prints; the figure's own note said it was read from a search snippet (INC-0151)</small>
 - [ ] **Learned 3 times over.** A report that says the same thing every week stops being read. When a checker has blind spots, record each judgement about a finding it cannot settle, so that what it prints shrinks to what is new; a list that mixes known false alarms with real errors hides the errors about as well as no list at all.  
@@ -3738,6 +3776,12 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>School pages called an acceptance rate its source gives as an estimate "reported" (INC-0167)</small>
 - [ ] When a source contradicts itself, pick nothing silently. Show the figure it states, show the figures it contradicts, and say which cannot be settled; a reader given the conflict can judge it, a reader given one number cannot.  
   <small>Emory's acceptance rate was shown beside counts that divide to a different rate, with nothing on the page saying so (INC-0168)</small>
+- [ ] A fact written into prose without its source cannot be rechecked, so it stays whatever it was the day it was written. State the figure with the page it comes from, or link the page and say nothing it does not say.  
+  <small>A published post said GMAC caps GMAT attempts across a lifetime, which its current retake policy does not say (INC-0170)</small>
+- [ ] A style rule that nothing checks holds only for the work written after someone remembered it. When a rule can be stated precisely enough to apply by hand, it can be checked by the build, and it should be, or the earliest work quietly keeps breaking it.  
+  <small>Thirty published blog posts set their section headings in sentence case, against the house rule that headings are Title Case (INC-0171)</small>
+- [ ] A number's presence on a page is weak evidence for a fact, because pages are full of numbers that mean other things: menus, dates, grade ranges, footnote markers. A check that matches numbers should read them where the fact would be, and should expect the page to change what it says around them.  
+  <small>The ACT exam guide and a live post said the ACT can be taken up to 12 times, after ACT's page had come to say there is no limit, and the source check matched the 12 in the page's K-12 menu (INC-0172)</small>
 
 
 ## Database
@@ -4036,7 +4080,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 169 real defects reduced to the rules that prevent them,
+the whole project: 172 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -4076,7 +4120,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-169 defects already prevented is genuinely ahead, and every defect it hits
+172 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

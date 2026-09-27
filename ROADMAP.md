@@ -637,6 +637,23 @@ verified rather than that the school does not publish one (INC-0118).
       (orchard pollination, and bakers and bread prices), and the build refused one near
       miss (INC-0169): the corpus check counted "no water was pumped" as negative, and the
       builder, which capitalises first, did not. Negatives now match in any case.
+- [x] **A live post's wrong GMAT retake rule, and Title Case on every post heading**
+      (INC-0170, INC-0171). "Should You Retake the GMAT?", live since August 25, said GMAC
+      limits attempts across a lifetime; GMAC's retake policy page, read on September 27,
+      sets at least 16 days between attempts and five in a rolling 12 months and names no
+      lifetime limit. The post and its FAQ now give those figures and link the policy page,
+      and the blog build keeps a table of retired claims that fails any post repeating one.
+      The same post's headings were sentence case, like those of the 30 posts published
+      from August 17 to September 20: 204 headings across 32 posts now follow the house Title
+      Case rule, and the blog build fails a heading that breaks it.
+- [x] **The ACT has no attempt limit** (INC-0172). The ACT exam guide, the live SAT vs ACT
+      post and the queued ACT format guide said the ACT can be taken up to 12 times; ACT's
+      retesting page, which the record cites, now says there is no limit and that students
+      take it 2 to 3 times on average to reach their goals. The weekly source check had passed
+      the 12 because the page's "K-12" menu link prints it; grade ranges no longer count as
+      figures there, and the retired-claims table refuses a 12-attempt ACT cap in any post.
+      ACT's retesting page also says fee waivers cover up to four tests where its fee waiver
+      page and requirements say two; posts follow the program page (EDITORIAL.md).
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects
