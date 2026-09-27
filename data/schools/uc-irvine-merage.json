@@ -110,7 +110,11 @@
    "stat": "2026-27 rate; Tuition 13,722 plus Professional Degree Supplemental Tuition 34,539, California resident, excluding campus fees and insurance; nonresident supplemental tuition adds 12,245 for 60,506 tuition-only",
    "src": "UCI Registrar MBA Business Fees 2026-27",
    "year": 2026,
-   "url": "https://www.reg.uci.edu/fees/2026-2027/business.html"
+   "url": "https://www.reg.uci.edu/fees/2026-2027/business.html",
+   "derived": {
+    "48261": "13722 + 34539, the annual Tuition plus the annual Professional Degree Supplemental Tuition",
+    "60506": "13722 + 34539 + 12245, adding the annual Nonresident Supplemental Tuition"
+   }
   },
   "salary_median_usd": {
    "v": 128000,

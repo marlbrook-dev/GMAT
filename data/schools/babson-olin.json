@@ -118,7 +118,10 @@
    "stat": "2026-27 rate, first-year tuition of the Two-Year MBA",
    "src": "Babson graduate catalog tuition and fees page",
    "year": 2026,
-   "url": "https://graduatecatalog.babson.edu/tuition-and-fees-0"
+   "url": "https://graduatecatalog.babson.edu/tuition-and-fees-0",
+   "derived": {
+    "75848": "120158 - 44310, the page's total program tuition less its second-year tuition; the page prints the first year as $75.848"
+   }
   },
   "salary_median_usd": {
    "v": 110000,

@@ -108,7 +108,11 @@
    "stat": "2026-27 rate, tuition only; per-semester tuition 16356 in-state and 28668 out-of-state times two semesters; fees itemized separately (student fee 979.50, technology 221, off-site 1119.50, school 594.50 per semester); per year, out-of-state and international; in-state 32712",
    "src": "Rutgers full-time MBA tuition and fees page",
    "year": 2026,
-   "url": "https://www.business.rutgers.edu/full-time-mba/tuition"
+   "url": "https://www.business.rutgers.edu/full-time-mba/tuition",
+   "derived": {
+    "57336": "28668 + 28668, the fall and spring semesters",
+    "32712": "16356 + 16356, the fall and spring semesters"
+   }
   },
   "salary_median_usd": {
    "v": null,

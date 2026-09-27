@@ -350,10 +350,17 @@ verified rather than that the school does not publish one (INC-0118).
       page confirms the library's figures)
 - [ ] `src/smoke_load.js` stays out of CI because timing on shared runners is noisy, so run
       it by hand after any change to how the banks are split or loaded (INC-0113)
-- [ ] School figures the `--schools` run could not settle from this sandbox. The run of
-      September 27 ends at 65 figures with a number their page does not print (23 of them
-      tuition, many of those sums), 21 sources unreadable and 9 showing none of their
-      figures. Georgetown and Ohio State Fisher now carry the classes that entered in 2026,
+- [ ] School figures the `--schools` run could not settle from this sandbox. The last run of
+      September 27 ends at 45 figures with a number their page does not print, 20 sources
+      unreadable and 9 showing none of their figures. Tuition is down from 23 of those to 3:
+      Booth, Tepper, Willamette and Georgia Terry now cite their 2026-27 pages, every tuition
+      sum declares its working so the check verifies the inputs (INC-0140), and two notes the
+      research merge had cut off at 300 characters are whole again (INC-0141). USC Marshall's
+      and William & Mary's tuition pages draw their figures with JavaScript, and Cincinnati's
+      out-of-state surcharge sits on a second UC page, named in its notes. From 2026-27 UC
+      bills the Lindner MBA per credit hour and the program runs 35 to 48 credits, so
+      Cincinnati keeps its labelled 2025-26 figure until the school page can show a range.
+      Georgetown and Ohio State Fisher now carry the classes that entered in 2026,
       read from their own pages, and MIT Sloan's class size is its Class of 2028 figure; the
       rest of MIT's Class of 2028 profile is drawn by JavaScript, so it waits for the weekly
       rendered run (the posts quoting its Class of 2027 figures name that class, so they stay

@@ -68,7 +68,9 @@ def norm(n):
 
 
 # "2026-27" names two years; the page may print "2026-2027", so both are read in full.
-SPAN = re.compile(r"\b((?:19|20)(\d\d))[-/](\d\d)\b")
+# Pages write a year range with a hyphen, a slash or an en dash; our data, by house rule, never
+# with an en dash, so both sides must read the same way (INC-0140).
+SPAN = re.compile(r"\b((?:19|20)(\d\d))[-/\u2013](\d\d)\b")
 
 
 # "$175K" and "$47 M" are 175000 and 47000000 on the page, and a fact records them in full.
@@ -223,7 +225,17 @@ def ended_periods(text, today):
     return sorted(out)
 
 
+def _selfcheck():
+    """INC-0140: a year range reads as both years however the page punctuates it."""
+    for sep in ("-", "/", "\u2013"):
+        got = numbers("rates for 2026%s27" % sep)
+        if not {"2026", "2027"} <= got:
+            sys.exit("check_sources: a year range written with %r reads as %s, not 2026 and 2027"
+                     % (sep, sorted(got)))
+
+
 def main(argv):
+    _selfcheck()
     cache = None
     if "--cache" in argv:
         cache = pathlib.Path(argv[argv.index("--cache") + 1])

@@ -40,6 +40,21 @@ def _figures(s):
                 yield "%s.%s" % (block, f), fv
 
 
+# A stat is printed beside its figure on the school's page, so it is copy: one that stops
+# mid-word is published as it stands. Cincinnati's tuition note ended "; B" (INC-0141).
+_CUT_ENDINGS = (",", ";", "(", " and", " or", " the", " of", " to", " for", " with")
+
+
+def _cut_off(stat):
+    """True when a stat's text stops partway: a last clause of one or two letters, or an
+    ending on a separator or a word that needs something after it."""
+    stat = str(stat or "").rstrip()
+    if not stat:
+        return False
+    last = re.split(r"[;,(]", stat)[-1].strip()
+    return bool(re.fullmatch(r"[A-Za-z]{1,2}", last)) or stat.endswith(_CUT_ENDINGS)
+
+
 def validate(schools):
     errors, warnings = [], []
     seen = set()
@@ -89,6 +104,8 @@ def validate(schools):
             for sval in [fv.get("src"), fv.get("stat"), fv.get("url")]:
                 if isinstance(sval, str) and ("—" in sval or "–" in sval):
                     errors.append(f"{slug}.{f}: em/en dash in metadata")
+            if _cut_off(fv.get("stat")):
+                errors.append(f"{slug}.{f}: stat stops partway: {str(fv['stat'])[-40:]!r}")
         # official_hosts: places outside the school's own domain where the school itself
         # publishes (its storage bucket, an alias domain). Each needs the evidence that it is
         # the school's and the date that was checked, because this field changes a figure's
@@ -149,6 +166,9 @@ def validate(schools):
                     for sval in (fv.get("src"), fv.get("stat"), fv.get("url")):
                         if isinstance(sval, str) and ("\u2014" in sval or "\u2013" in sval):
                             errors.append(f"{slug}.scholarship.{f}: em/en dash in metadata")
+                    if _cut_off(fv.get("stat")):
+                        errors.append(f"{slug}.scholarship.{f}: stat stops partway: "
+                                      f"{str(fv['stat'])[-40:]!r}")
                 pct = sch.get("pct_receiving")
                 if pct and isinstance(pct.get("v"), (int, float)) and not (0 <= pct["v"] <= 100):
                     errors.append(f"{slug}.scholarship.pct_receiving: {pct['v']} is not a percentage")

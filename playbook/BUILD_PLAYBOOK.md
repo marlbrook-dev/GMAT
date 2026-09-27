@@ -6,8 +6,8 @@ different one.
 The platform is Start From Nowhere, a test-preparation site with five adaptive exam
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
-2026-09-19 and 2026-09-26, which is 7 days, across
-81 commits, by one owner directing a series of AI coding sessions. As of this
+2026-09-19 and 2026-09-27, which is 8 days, across
+83 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 83 Python files, 107 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 64 documents:
 2039 tracked files in total.
@@ -1122,7 +1122,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-81 commits in 7 days, one owner, a series of AI sessions. This
+83 commits in 8 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1175,7 +1175,7 @@ Not a list of files changed. The useful report is:
 5. Numbers, with the command that produced them.
 
 The commit messages in this repository are written that way, which is why a defect ledger
-could be reconstructed from them 7 days later. **Write the commit message
+could be reconstructed from them 8 days later. **Write the commit message
 as though someone will need to mine it. Someone will.**
 
 ## Failure modes observed in this project
@@ -1214,22 +1214,22 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-139 recorded defects, over 7 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+141 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 67 | 48% |
+| Found by reading the code or the output | 69 | 49% |
 | Found by measuring something | 39 | 28% |
-| A test caught it | 16 | 12% |
+| A test caught it | 16 | 11% |
 | Found by rendering it and looking | 7 | 5% |
 | Found by a review bot or an adversarial pass | 5 | 4% |
 | A build guard caught it | 3 | 2% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 137 of 139 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 139 of 141 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1241,18 +1241,18 @@ well enough to audit later. Which is what this book is.
 | Wrong data shown or stored | 59 |
 | Degraded | 30 |
 | Silent loss | 26 |
-| Cosmetic | 21 |
+| Cosmetic | 23 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 139. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 141. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 60 |
-| Tests and guards | 19 |
+| Content generation | 61 |
+| Tests and guards | 20 |
 | Front end | 10 |
 | Build system | 10 |
 | Search and metadata | 9 |
@@ -1266,7 +1266,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-133 of 139 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+135 of 141 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1287,7 +1287,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-55 of 139 incidents record that they repeat an earlier lesson, 77 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+56 of 141 incidents record that they repeat an earlier lesson, 78 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1327,10 +1327,11 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0117 Three reading schemas could be answered by matching names, because every distractor came from a different passage | INC-0122 | 1 |
 | INC-0130 The GRE exam guide credited ETS with a combined 260 to 340 score that the ETS page it cited does not describe | INC-0133 | 1 |
 | INC-0132 The GRE guide still quoted a $220 fee eight weeks after ETS's fees became $249 | INC-0136 | 1 |
+| INC-0133 School pages published figures that the articles they cite do not contain, one of them a GRE total split in half | INC-0140 | 1 |
 | INC-0136 The LSAT guide said most test takers choose between remote and in-person testing, after LSAC had moved almost everyone into test centers | INC-0137 | 1 |
 | INC-0137 A post queued to publish the next day said the LSAT trainer was still in development, eleven days after it went live | INC-0138 | 1 |
 
-The largest family runs to 45 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
+The largest family runs to 46 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
 
 Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.
 
@@ -1362,9 +1363,9 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/bank_emit.py`, 5 incidents (INC-0062, INC-0066, INC-0068, INC-0073, INC-0119)
 - `src/gen/framework.py`, 5 incidents (INC-0074, INC-0075, INC-0078, INC-0087, INC-0096)
 - `src/gen/g_rc.py`, 5 incidents (INC-0097, INC-0114, INC-0115, INC-0117, INC-0122)
+- `src/check_sources.py`, 5 incidents (INC-0130, INC-0132, INC-0133, INC-0136, INC-0140)
 - `src/build_rankings.py`, 4 incidents (INC-0014, INC-0049, INC-0118, INC-0135)
 - `src/bank_repair.py`, 4 incidents (INC-0070, INC-0071, INC-0072, INC-0121)
-- `src/check_sources.py`, 4 incidents (INC-0130, INC-0132, INC-0133, INC-0136)
 - `src/weekly_audit.js`, 3 incidents (INC-0050, INC-0048, INC-0018)
 - `src/smoke_redirect.js`, 3 incidents (INC-0023, INC-0024, INC-0047)
 - `src/smoke_playbook.js`, 3 incidents (INC-0054, INC-0084, INC-0129)
@@ -1380,7 +1381,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (60)
+## Content generation (61)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -2112,7 +2113,19 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** Anything written ahead of its publication date is a promise about the future made from the past. Re-check a queued post's claims about your own product at build time, where the product's real state is known, rather than trusting the day it was written.
 
 
-## Tests and guards (19)
+### INC-0141. Two school pages printed a source note cut off mid-word, because the research merge kept the first 300 characters of every note and nothing checked that printed text ends as a clause
+
+*2026-09-27, Cosmetic*
+
+- **What was seen.** Cincinnati Lindner's tuition note ended "tuition only, general, campus life and ITIE fees excluded; B" and UC Davis's ended "page marks figures as estimates subject to". Both are printed beside the tuition figure on the school's page, so each stopped partway through a word or a phrase in front of visitors.
+- **Why.** data/research/merge_results.py joined a research result's stat and note and kept the first 300 characters, with a slice that cuts wherever the count runs out. Both notes are exactly 300 characters long, the longest in the library, and both entered the file in commit 4b25169 on September 19, 2026. build_rankings.py prints a figure's stat beside it, but validate_schools.py only checked a figure's src, year and url and whether the stat carried a dash, so a note that stopped mid-word passed every check.
+- **How it surfaced.** Found on September 27, 2026 while rewriting the Cincinnati tuition entry for the school source check: its last clause was the letter B. A hand scan for other short last clauses found nothing more; the new validator check then found UC Davis, whose note ends on the word to, which the scan had not looked for. (Found by reading the code or the output)
+- **Fix.** Both notes are rewritten whole from their pages, and the Cincinnati entry declares the working behind its two sums. merge_results.py keeps the whole note; a note too long for the page is for a person to shorten.
+- **What stops it now.** validate_schools.py fails the build on a profile or scholarship stat whose last clause is one or two letters long, or that ends on a separator or on a word such as and, or, the, of, to. merge_results.py runs the same test and rejects a result that would store such a note. in `src/validate_schools.py`
+- **Lesson.** Any field that is printed on a page is copy, whatever the schema calls it. A length cap that cuts at a character count will eventually cut a word in half and publish it, so shorten text by clause or leave it to a person; and check that printed text ends the way text ends, because a check that a field is present and sourced passes a field cut off halfway through.
+
+
+## Tests and guards (20)
 
 
 ### INC-0016. The performance test waited for the load event, which waits for the thing being optimised
@@ -2356,6 +2369,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** The suite sets a consent choice before any page loads, the way a returning visitor arrives, and passes again end to end.
 - **What stops it now.** The pattern is now in the suite itself with the reason written beside it. The larger gap stays open and is named here: suites outside ci.yml only run when someone remembers them.
 - **Lesson.** Run every browser suite when a site-wide element such as a modal ships, because a test nobody runs is a claim about the past. Every suite that loads a page with empty storage meets the new element before anything it was written to check.
+
+
+### INC-0140. The source check read a page's 2026-27, written with an en dash, as 2026 and 27, so every figure we labelled 2026-27 looked unsupported
+
+*2026-09-27, Cosmetic*
+
+- **What was seen.** check_sources.py --schools reported the year 2027 as missing from Indiana Kelley's and Wisconsin's fee pages, which print their figures and the year 2026-27 with an en dash between the years. Our facts write 2026-27 with a hyphen. The check expanded our span into 2026 and 2027 but left the page's span as 2026 and 27, so a figure matched word for word was reported as unsupported in the weekly issue.
+- **Why.** SPAN, the pattern that turns a year range into both years, accepted a hyphen or a slash between the years and not an en dash. Our data never contains an en dash, by house rule, but the pages we cite use one all the time, so the two sides of the comparison were normalised differently.
+- **How it surfaced.** Found on September 27, 2026 while reading the tuition flags from the school source check: two of them flagged only the year, on pages that plainly print it. (Found by reading the code or the output)
+- **Fix.** SPAN accepts an en dash as well as a hyphen or a slash between the years, so a page's range reads as 2026 and 2027 like ours.
+- **What stops it now.** check_sources.py checks its own normaliser before it reads a page: a year range written with a hyphen, a slash or an en dash must read as both years, or the run stops. in `src/check_sources.py`
+- **Lesson.** When you compare text you wrote against text someone else wrote, normalise both sides with the same rules, and remember the other side does not follow your house style: a comparison is only as fair as its most lenient reading of the source.
 
 
 ## Front end (10)
@@ -3241,6 +3266,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The GRE exam guide credited ETS with a combined 260 to 340 score that the ETS page it cited does not describe (INC-0130)</small>
 - [ ] **Learned 2 times over.** A figure with a source and a year can still go stale, because the source moves and the record does not. For anything a publisher changes on its own schedule, fees above all, read the live source on a schedule instead of trusting the record because it cites one.  
   <small>The GRE guide still quoted a $220 fee eight weeks after ETS's fees became $249 (INC-0132)</small>
+- [ ] **Learned 2 times over.** Run the source check on every corpus that cites pages, not just the one that broke. When a field is empty and the research is out of budget, leave it empty: a blank is honest, and a figure made to fit beside a real citation is the most convincing kind of wrong.  
+  <small>School pages published figures that the articles they cite do not contain, one of them a GRE total split in half (INC-0133)</small>
 - [ ] **Learned 2 times over.** A citation is only as current as the page it points to, and publishers leave old pages up. When a source describes itself as covering a period, check that the period is still running; a page about last year's test can be quoted perfectly and still be wrong about this year's.  
   <small>The LSAT guide said most test takers choose between remote and in-person testing, after LSAC had moved almost everyone into test centers (INC-0136)</small>
 - [ ] **Learned 2 times over.** Anything written ahead of its publication date is a promise about the future made from the past. Re-check a queued post's claims about your own product at build time, where the product's real state is known, rather than trusting the day it was written.  
@@ -3309,12 +3336,12 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The banks lengthened in place carried the same garbled seams, and nothing recorded what had been appended (INC-0121)</small>
 - [ ] A check that passes on a random draw has told you about that draw. When a schema ships a handful of items, a property the whole bank needs, such as keys spread over every length rank, has to be assigned rather than sampled. And a fix proven on one variant of a shared class belongs on the class: the variants left alone were passing on luck, and the next unrelated change spends it.  
   <small>Reading questions asked once of each passage passed the length check on the luck of the draw, and two new passages re-rolled it (INC-0122)</small>
-- [ ] Run the source check on every corpus that cites pages, not just the one that broke. When a field is empty and the research is out of budget, leave it empty: a blank is honest, and a figure made to fit beside a real citation is the most convincing kind of wrong.  
-  <small>School pages published figures that the articles they cite do not contain, one of them a GRE total split in half (INC-0133)</small>
 - [ ] A template that puts a fixed word beside a value has decided something about a value it has not seen. Let the value choose the words that depend on it, and check the built page for the rule rather than for the word that broke last time: a guard that lists yesterday's mistake misses the same mistake spelled another way.  
   <small>Two school pages wrote "a 18.8% acceptance rate", because the article was chosen before the number arrived (INC-0134)</small>
 - [ ] When a parser must pull one value out of free text, anchor it to the words that give the value its meaning, not to its position, and return nothing when nothing anchors it: a sentence that says less is better than one that states a guess as fact. Keep inferences out of the fields that hold a source's own words, because the inferred class name in a stat is what let one class be reported under two names.  
   <small>Arizona State's school page said its class entered in 2027, because the label parser took the first year it found (INC-0135)</small>
+- [ ] Any field that is printed on a page is copy, whatever the schema calls it. A length cap that cuts at a character count will eventually cut a word in half and publish it, so shorten text by clause or leave it to a person; and check that printed text ends the way text ends, because a check that a field is present and sourced passes a field cut off halfway through.  
+  <small>Two school pages printed a source note cut off mid-word, because the research merge kept the first 300 characters of every note and nothing checked that printed text ends as a clause (INC-0141)</small>
 
 
 ## Database
@@ -3473,6 +3500,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The analysis chapter called one file eight failing guards (INC-0065)</small>
 - [ ] A check that reports pass or fail from a handful of random draws is a check that will flip on work that has nothing to do with it, and the cost is not the false alarm. It is that the next real alarm arrives in a tool people have learned to shrug at. Before believing or dismissing a warning, run the thing it measures enough times to know its rate: that answers both whether this alarm is real and whether the check is worth keeping in its current form. Here the answer was that the engine was fine and the check was wrong, and both were worth knowing.  
   <small>A review bot check whose verdict was three coin flips warned on an unrelated bank change (INC-0077)</small>
+- [ ] When you compare text you wrote against text someone else wrote, normalise both sides with the same rules, and remember the other side does not follow your house style: a comparison is only as fair as its most lenient reading of the source.  
+  <small>The source check read a page's 2026-27, written with an en dash, as 2026 and 27, so every figure we labelled 2026-27 looked unsupported (INC-0140)</small>
 
 
 # Adapting This to a Different Business
@@ -3589,7 +3618,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 139 real defects reduced to the rules that prevent them,
+the whole project: 141 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -3629,7 +3658,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-139 defects already prevented is genuinely ahead, and every defect it hits
+141 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

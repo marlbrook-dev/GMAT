@@ -91,10 +91,13 @@
   },
   "tuition_usd": {
    "v": 33310,
-   "stat": "2026-27 rate",
+   "stat": "non-resident MBA tuition, 16,655 per semester for two semesters, at SUNY-approved rates for fall 2026; resident 7,615 per semester; university and other fees excluded",
    "src": "UB School of Management MBA funding page",
    "year": 2026,
-   "url": "https://management.buffalo.edu/degree-programs/master-of-business-mba/funding-scholarships-fellowships.html"
+   "url": "https://management.buffalo.edu/degree-programs/master-of-business-mba/funding-scholarships-fellowships.html",
+   "derived": {
+    "33310": "16655 + 16655, two semesters of non-resident MBA tuition"
+   }
   },
   "salary_median_usd": {
    "v": null,

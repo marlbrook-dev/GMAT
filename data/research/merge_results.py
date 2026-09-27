@@ -11,7 +11,7 @@ import json, pathlib, re, sys
 
 REPO = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO / "src"))
-from validate_schools import RANGES, BANNED_SOURCES, WEAK_SOURCES
+from validate_schools import RANGES, BANNED_SOURCES, WEAK_SOURCES, _cut_off
 
 FIELDS = ["gmat_focus", "gmat_classic", "gre_quant", "gre_verbal", "gpa",
           "accept_rate_pct", "class_size", "work_exp_years", "women_pct",
@@ -64,8 +64,13 @@ for arg in sys.argv[1:]:
             meta = (str(nf.get("stat", "")) + " " + str(nf.get("note", ""))).lower()
             if f == "tuition_usd" and any(t in meta for t in ["program total", "total program", "not per year", "not annual", "two-year total", "16-month", "program cost"]):
                 problems.append("tuition is a program total, not annual")
+            # The whole note is kept. This used to keep the first 300 characters, which cut two
+            # published notes off mid-word; a note too long for the page is for a person to
+            # shorten, and the validator's check for a stat that stops partway runs here too
+            # so a result arrives whole or is rejected (INC-0141).
             if nf.get("note") and not problems:
-                nf["stat"] = (str(nf.get("stat") or "").strip() + ("; " if nf.get("stat") else "") + str(nf["note"]).strip())[:300]
+                nf["stat"] = str(nf.get("stat") or "").strip() + ("; " if nf.get("stat") else "") + str(nf["note"]).strip()
+            if _cut_off(nf.get("stat")): problems.append("stat stops partway")
             if not nf.get("src"): problems.append("no src")
             if not isinstance(nf.get("year"), int) or not (2018 <= nf["year"] <= 2027): problems.append("bad year")
             if not str(nf.get("url", "")).startswith("http"): problems.append("no url")
