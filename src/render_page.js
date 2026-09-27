@@ -97,7 +97,17 @@ async function read(browser, url, opts) {
         const box = el && await el.boundingBox();
         if (!box || box.width < 2 || box.height < 2 || !(await el.isVisible())) continue;
       }
-      const text = await within(10000, frame.evaluate(() => (document.body ? document.body.innerText : '')));
+      // An image's alt text is the words the page gives for it, read out in its place to
+      // anyone who cannot see it, and innerText leaves it out. Berkeley Haas and Pitt Katz
+      // draw their figures as images and write the figures into the alt text (INC-0154), so
+      // the alt text of every image that is shown is read after the frame's own text.
+      const text = await within(10000, frame.evaluate(() => {
+        if (!document.body) return '';
+        const alts = Array.from(document.images)
+          .filter(i => (i.alt || '').trim() && i.getClientRects().length && getComputedStyle(i).visibility !== 'hidden')
+          .map(i => i.alt.trim());
+        return document.body.innerText + (alts.length ? '\n' + alts.join('\n') : '');
+      }));
       if (text && text.trim()) parts.push(text);
     } catch (e) {
       // A frame that navigated or detached while it was being read has nothing to give.

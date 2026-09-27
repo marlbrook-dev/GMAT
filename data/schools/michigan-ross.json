@@ -42,15 +42,15 @@
    "url": "https://poetsandquants.com/2025/11/16/fewer-students-higher-scores-inside-michigan-rosss-new-mba-class/"
   },
   "gmat_focus": {
-   "v": null,
-   "stat": "",
-   "src": "",
-   "year": null,
-   "url": ""
+   "v": 681,
+   "stat": "average, labeled Average GMAT Focus",
+   "src": "Poets&Quants / Michigan Ross (Class of 2027 profile coverage)",
+   "year": 2025,
+   "url": "https://poetsandquants.com/2025/11/16/fewer-students-higher-scores-inside-michigan-rosss-new-mba-class/"
   },
   "gmat_classic": {
    "v": 731,
-   "stat": "average",
+   "stat": "average, labeled Average GMAT 10th Edition",
    "src": "Poets&Quants / Michigan Ross (Class of 2027 profile coverage)",
    "year": 2025,
    "url": "https://poetsandquants.com/2025/11/16/fewer-students-higher-scores-inside-michigan-rosss-new-mba-class/"
@@ -83,11 +83,12 @@
    "url": "https://poetsandquants.com/2025/11/16/fewer-students-higher-scores-inside-michigan-rosss-new-mba-class/"
   },
   "work_exp_years": {
-   "v": 5.8,
-   "stat": "average",
-   "src": "Poets&Quants / Michigan Ross",
-   "year": 2025,
-   "url": "https://poetsandquants.com/2025/11/16/fewer-students-higher-scores-inside-michigan-rosss-new-mba-class/"
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "Not published: Poets&Quants' report on the Class of 2027, the source this figure cited, prints no work experience figure, and Ross's own class profile could not be read (michiganross.umich.edu answers every fetch from this environment with a bot challenge). The 5.8 years once recorded here was removed (INC-0154)."
   },
   "women_pct": {
    "v": 39,
@@ -123,7 +124,7 @@
    "note": ""
   }
  },
- "notes": "Ross reports a single average GMAT of 731 without an explicit edition label in the coverage seen; the reported middle-80% range of 700-770 is consistent with the classic 200-800 scale, so it is recorded as classic, and no separate GMAT Focus figure was seen (nulled). FT 2026 full-time MBA rank could not be verified in any snippet and is nulled. QS 2026 rank not seen and nulled. michiganross.umich.edu is behind a Cloudflare bot challenge that returned 403 to every fetch attempt this session (WebFetch, curl, and headless Chromium all blocked), so no Ross field could be verified or replaced with an official page. Existing figures sourced to Poets and Quants remain unverified; the existing tuition_usd (81152, 2025-26 non-resident) was already sourced to the official Ross tuition page in a prior session and is kept unchanged. Ross does publish a Class of 2027 profile (news item: Ambition in Action) and a 2025 full-time MBA career report on its site; retry these URLs from a network that passes the Cloudflare challenge.",
+ "notes": "Poets&Quants' report on the Class of 2027, read on 2026-09-27, labels both GMAT averages: \"Average GMAT 10th Edition 731\" and \"Average GMAT Focus 681\", with average GRE 163 Quant and 160 Verbal, average GPA 3.43, 379 students from 3,923 applications, a 30 percent acceptance rate, 39 percent women and 40 percent international. It prints no work experience figure, so the 5.8 years once recorded was removed (INC-0154). FT 2026 full-time MBA rank could not be verified and is nulled. QS 2026 rank not seen and nulled. michiganross.umich.edu is behind a Cloudflare bot challenge that returned 403 to every fetch attempt (WebFetch, curl, and headless Chromium all blocked), so no Ross field could be read on an official page. The tuition_usd (81152, 2025-26 non-resident) was sourced to the official Ross tuition page in a prior session and is kept unchanged. Ross does publish a Class of 2027 profile (news item: Ambition in Action) and a 2025 full-time MBA career report on its site; retry these URLs from a network that passes the Cloudflare challenge.",
  "website": "https://michiganross.umich.edu/graduate/full-time-mba",
  "scholarship": {
   "review": {

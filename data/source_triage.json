@@ -1,0 +1,49 @@
+{
+ "about": "School figures that python3 src/check_sources.py --schools cannot find on their pages, read there by a person and found right (INC-0154). The check lists them apart from new findings. An entry holds only for the figure's value and the numbers in missing: if the figure changes, or stops carrying one of those numbers, validate_schools refuses the entry until the figure is read again. A figure the check can be taught to read, such as one in an image's alt text or on a second page named in also_urls, is fixed that way instead of listed here.",
+ "entries": [
+  {
+   "key": "northwestern-kellogg.profile.gmat_focus",
+   "v": 687,
+   "missing": [
+    "80",
+    "645",
+    "735"
+   ],
+   "why": "Kellogg draws the middle 80 percent range as a box plot rather than as text. The chart's data in the page, 515, 645, 687, 735 and 775, puts the box from 645 to 735, and the box's tooltip reads Middle 80% range; the average beside it, 687, is printed as text under Average GMAT Focus score.",
+   "checked": "2026-09-27"
+  },
+  {
+   "key": "northwestern-kellogg.profile.gmat_classic",
+   "v": 733,
+   "missing": [
+    "80",
+    "710",
+    "760"
+   ],
+   "why": "Kellogg draws the middle 80 percent range as a box plot rather than as text. The chart's data in the page, 680, 710, 725, 760 and 770, puts the box from 710 to 760, and the box's tooltip reads Middle 80% range; the average beside it, 733, is printed as text under Average GMAT Legacy score.",
+   "checked": "2026-09-27"
+  },
+  {
+   "key": "northwestern-kellogg.profile.gre_quant",
+   "v": 162,
+   "missing": [
+    "80",
+    "157",
+    "168"
+   ],
+   "why": "Kellogg draws the middle 80 percent range as a box plot rather than as text. The chart's data in the page, 146, 157, 158, 168 and 170, puts the box from 157 to 168, and the box's tooltip reads Middle 80% range; the average beside it, 162, is printed as text under Average GRE (Quant) score.",
+   "checked": "2026-09-27"
+  },
+  {
+   "key": "northwestern-kellogg.profile.gre_verbal",
+   "v": 162,
+   "missing": [
+    "80",
+    "156",
+    "167"
+   ],
+   "why": "Kellogg draws the middle 80 percent range as a box plot rather than as text. The chart's data in the page, 149, 156, 160, 167 and 170, puts the box from 156 to 167, and the box's tooltip reads Middle 80% range; the average beside it, 162, is printed as text under Average GRE (Verbal) score.",
+   "checked": "2026-09-27"
+  }
+ ]
+}

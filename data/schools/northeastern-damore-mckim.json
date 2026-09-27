@@ -53,10 +53,11 @@
   },
   "gmat_classic": {
    "v": 623,
-   "stat": "average; edition not labeled, class entered fall 2023 before Focus rollout; program is test optional so average reflects submitters",
+   "stat": "average; the page labels it average GMAT and names no edition",
    "src": "D'Amore-McKim, Meet the Full-Time MBA Class of 2025",
    "year": 2023,
-   "url": "https://damore-mckim.northeastern.edu/news/meet-the-full-time-mba-class-of-2025/"
+   "url": "https://damore-mckim.northeastern.edu/news/meet-the-full-time-mba-class-of-2025/",
+   "note": "Edition inferred, not labeled: filed as GMAT Classic because the Class of 2025 entered in fall 2023, before the Focus rollout. The program is test optional, so the average reflects the students who submitted a score."
   },
   "gre_quant": {
    "v": null,

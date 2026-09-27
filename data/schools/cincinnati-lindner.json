@@ -112,8 +112,11 @@
    "url": "https://www.uc.edu/about/bursar/tuition-fees/prior-year-fees/2023-2024-fees11/graduate---professional-students.html",
    "derived": {
     "23434": "11717 + 11717, the instructional fee per full-time term for fall and spring",
-    "32508": "11717 + 4537 + 11717 + 4537, adding the out-of-state surcharge per full-time semester, which UC prints on its 2025-26 surcharge page named in the notes"
-   }
+    "32508": "11717 + 4537 + 11717 + 4537, adding the out-of-state surcharge per full-time semester, which UC prints on its 2025-26 Out-of-State Surcharge page (also_urls)"
+   },
+   "also_urls": [
+    "https://www.uc.edu/about/bursar/tuition-fees/prior-year-fees/2023-2024-fees11/2025-26-Out-of-State-Surcharge.html"
+   ]
   },
   "salary_median_usd": {
    "v": 75000,

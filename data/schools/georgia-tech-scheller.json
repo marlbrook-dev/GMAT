@@ -53,10 +53,11 @@
   },
   "gmat_focus": {
    "v": 654,
-   "stat": "average; page label is 'GMAT Average' without edition; Class of 2027 (fall 2025 entering class), value consistent with the Focus scale",
+   "stat": "average; the page labels it GMAT Average and names no edition",
    "src": "Scheller full-time MBA class profile",
    "year": 2025,
-   "url": "https://www.scheller.gatech.edu/explore-programs/mba-programs/full-time-mba/admissions/class-profile.html"
+   "url": "https://www.scheller.gatech.edu/explore-programs/mba-programs/full-time-mba/admissions/class-profile.html",
+   "note": "Edition inferred, not labeled: filed as GMAT Focus because the profile is the Class of 2027's, the fall 2025 entering class; an average of 654 is possible on either scale."
   },
   "gmat_classic": {
    "v": null,

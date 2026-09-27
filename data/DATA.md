@@ -131,7 +131,9 @@ reads every page and PDF the file cites and reports each number in a fact, or in
 `note`, that the source does not print. It reads a page as a person sees it: text inside
 an HTML comment is left out, because a school that retires a figure often comments it out
 rather than deleting it, and Arizona State's 43 percent women was confirmed from such a
-row (INC-0152). It runs weekly in `.github/workflows/playbook.yml`
+row (INC-0152). An image's alt text is read with the page, because it is the text the page
+gives in the image's place: Berkeley Haas and Pitt Katz draw their figures as images and
+write the figures into the alt text (INC-0154). It runs weekly in `.github/workflows/playbook.yml`
 and opens an issue when something no longer matches. A fact whose number is arithmetic on
 its source says so with a `derived` entry giving the working, such as
 `"derived": {"63": "21 + 42, the private and public colleges the page lists"}`, and the
@@ -153,6 +155,19 @@ label only near another program's name (MBAxMS, executive, part-time, evening) i
 worth reading, since comparison tables and footnotes do that to figures that are right.
 Columbia's MBA class carried five years of work experience that the article gives for its
 MBAxMS cohort, and a check that only looked for the number could not tell.
+
+A figure worked from two pages cites the second in `also_urls`, a list of https urls, and
+the check reads it with the first: Cincinnati's tuition adds the out-of-state surcharge
+from UC's surcharge page to the fee on its fee page. A school figure that is right but that
+the check cannot read, such as a range Kellogg draws only as a box plot, goes in
+`data/source_triage.json` once a person has read it on its page: its key
+(`slug.profile.field`), its value, the numbers the check misses, why, and the date it was
+read. The check lists those apart and fails only on a finding nobody has judged, so the
+weekly issue shows what is new; 13 real errors once sat unworked among 30 findings, 14 of
+them right figures the check could not then read (INC-0154). validate_schools refuses an entry whose
+figure has gone, has changed value, or no longer carries the numbers it lists, so a
+judgement never outlives the figure it was about. Teach the check to read a figure before
+triaging it.
 
 A page can be quoted exactly and still be out of date: LSAC's LSAT FAQ went on describing
 "the 2025-2026 testing year" after LSAC moved almost every test taker into test centers

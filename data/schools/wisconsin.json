@@ -93,18 +93,20 @@
    "url": "https://business.wisc.edu/graduate/mba/full-time/admissions/class-profile/"
   },
   "women_pct": {
-   "v": 49.4,
-   "stat": "page publishes counts, not percent: 39 female students of 79 enrolled; percent computed",
-   "src": "Wisconsin full-time MBA class profile",
-   "year": 2025,
-   "url": "https://business.wisc.edu/graduate/mba/full-time/admissions/class-profile/"
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "Not published: the Class of 2027 profile page no longer prints a count or share of women, read in a browser on 2026-09-27. The 49.4 percent once recorded here was computed from the 39 female students of 79 enrolled it used to print (INC-0154)."
   },
   "intl_pct": {
-   "v": 16.5,
-   "stat": "page publishes counts, not percent: 13 international students of 79 enrolled; percent computed",
-   "src": "Wisconsin full-time MBA class profile",
-   "year": 2025,
-   "url": "https://business.wisc.edu/graduate/mba/full-time/admissions/class-profile/"
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "Not published: the Class of 2027 profile page no longer prints a count or share of international students, read in a browser on 2026-09-27. The 16.5 percent once recorded here was computed from the 13 international students of 79 enrolled it used to print (INC-0154)."
   },
   "tuition_usd": {
    "v": 51413,
@@ -131,7 +133,7 @@
    "url": "https://business.wisc.edu/graduate/mba/full-time/careers/"
   }
  },
- "notes": "Class profile publishes women and international as raw counts; percentages above are computed from the page's own counts (39/79 and 13/79). GRE averages and acceptance rate are not published on the official pages. Salary is an average, not a median; school does not publish a median. Employment and salary figures are a three-class aggregate labeled Classes of 2023-2025 on the page.",
+ "notes": "The class profile page used to print women and international students as counts (39 and 13 of 79 enrolled); it no longer prints either, so both shares are empty (INC-0154). GRE averages and acceptance rate are not published on the official pages. Salary is an average, not a median; school does not publish a median. Employment and salary figures are a three-class aggregate labeled Classes of 2023-2025 on the page.",
  "federal": {
   "matched": true,
   "instnm": "University of Wisconsin-Madison",
