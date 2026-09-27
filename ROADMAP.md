@@ -626,6 +626,17 @@ verified rather than that the school does not publish one (INC-0118).
       rate at 10 percent where one exists: Columbia moves from 93.0 to 91.2 and stays 5th,
       Maryland from 58.9 (42nd) to 56.7 (45th), and Utah, SMU and Michigan State each move up
       one place.
+- [x] **Five more long reading passages** (flooding in a lead mine, buried coin hoards,
+      earthquake damage in a market town, a valley's changing birdsong, crumbling book
+      bindings), invented like the rest of the corpus, each a revision narrative with its two
+      rules printed, 317 to 334 words, with no researcher or place another passage uses. The
+      banks grow by 50 GMAT, 50 GRE and 50 LSAT items (GMAT 34162, GRE 20538, LSAT 14442 of
+      which 14070 are generated), and llms.txt and the EDITORIAL product facts carry the new
+      counts. Every item from the new passages was read at GMAT, GRE and LSAT length. Two
+      first drafts were replaced because short passages already covered their ground
+      (orchard pollination, and bakers and bread prices), and the build refused one near
+      miss (INC-0169): the corpus check counted "no water was pumped" as negative, and the
+      builder, which capitalises first, did not. Negatives now match in any case.
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects

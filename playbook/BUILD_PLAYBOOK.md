@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-27, which is 8 days, across
-119 commits, by one owner directing a series of AI coding sessions. As of this
+120 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 86 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
 2098 tracked files in total.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-119 commits in 8 days, one owner, a series of AI sessions. This
+120 commits in 8 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1217,22 +1217,22 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-168 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+169 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 87 | 52% |
+| Found by reading the code or the output | 87 | 51% |
 | Found by measuring something | 41 | 24% |
 | A test caught it | 21 | 12% |
 | Found by rendering it and looking | 8 | 5% |
 | Found by a review bot or an adversarial pass | 5 | 3% |
-| A build guard caught it | 4 | 2% |
+| A build guard caught it | 5 | 3% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 166 of 168 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 167 of 169 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1242,12 +1242,12 @@ well enough to audit later. Which is what this book is.
 | Severity | Count |
 | --- | ---: |
 | Wrong data shown or stored | 73 |
-| Degraded | 41 |
+| Degraded | 42 |
 | Silent loss | 26 |
 | Cosmetic | 25 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 168. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 169. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
@@ -1255,7 +1255,7 @@ well enough to audit later. Which is what this book is.
 | Area | Count |
 | --- | ---: |
 | Content generation | 75 |
-| Tests and guards | 27 |
+| Tests and guards | 28 |
 | Front end | 12 |
 | Build system | 11 |
 | Search and metadata | 10 |
@@ -1269,7 +1269,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-162 of 168 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+163 of 169 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1290,7 +1290,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-75 of 168 incidents record that they repeat an earlier lesson, 103 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+76 of 169 incidents record that they repeat an earlier lesson, 104 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1325,6 +1325,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0150 Columbia's MBA class was credited with five years of work experience, a figure the cited article gives for its 46-student MBAxMS cohort, and the source check passed it because the article does say five years | INC-0152, INC-0159 | 2 |
 | INC-0151 Rice's school page credited Poets&Quants with an average GMAT of 693 for the Class of 2027, a number the article never prints; the figure's own note said it was read from a search snippet | INC-0154, INC-0157 | 2 |
 | INC-0154 The weekly source check listed Duke's GMAT medians and Michigan Ross's work experience as missing from their sources for weeks, but its 30 findings mixed real errors with pages it cannot read, so none was ever worked | INC-0155, INC-0157 | 2 |
+| INC-0162 The blog build read a fee table as one sentence and refused a correct post for calling the SAT trainer unfinished, over College Board's seat Waitlist | INC-0165, INC-0169 | 2 |
 | INC-0014 A hardcoded count in the meta description went stale, and Google showed it | INC-0128 | 1 |
 | INC-0023 www and the apex were two origins, so consent and rankings split in half | INC-0127 | 1 |
 | INC-0044 The longest option was the correct answer 81 percent of the time | INC-0091 | 1 |
@@ -1344,9 +1345,8 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0155 The GMAT guide cited mba.com's Official Score Reports page for the rule on five free score reports within 48 hours, a rule that page never states | INC-0160 | 1 |
 | INC-0156 The source check read mba.com's bot challenge page as the page it cites and reported the GMAT fact's numbers as missing from it | INC-0158 | 1 |
 | INC-0158 The source check filed six school pages as probably built by JavaScript; five were something else, and three of them showed newer figures than the library published | INC-0161 | 1 |
-| INC-0162 The blog build read a fee table as one sentence and refused a correct post for calling the SAT trainer unfinished, over College Board's seat Waitlist | INC-0165 | 1 |
 
-The largest family runs to 61 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140, INC-0142, INC-0143, INC-0144, INC-0145, INC-0147, INC-0150, INC-0151, INC-0152, INC-0154, INC-0155, INC-0157, INC-0159, INC-0160, INC-0162, INC-0165. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
+The largest family runs to 62 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140, INC-0142, INC-0143, INC-0144, INC-0145, INC-0147, INC-0150, INC-0151, INC-0152, INC-0154, INC-0155, INC-0157, INC-0159, INC-0160, INC-0162, INC-0165, INC-0169. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
 
 Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.
 
@@ -1373,6 +1373,7 @@ Incidents that name an earlier one without claiming to repeat it. Each was read 
 - INC-0164 names INC-0163
 - INC-0165 names INC-0163
 - INC-0166 names INC-0163
+- INC-0169 names INC-0126
 
 
 ## Where defects concentrate
@@ -1385,10 +1386,10 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/test.js`, 8 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085)
 - `src/validate_schools.py`, 8 incidents (INC-0125, INC-0141, INC-0143, INC-0144, INC-0147, INC-0151, INC-0153, INC-0157)
 - `src/build_rankings.py`, 7 incidents (INC-0014, INC-0049, INC-0118, INC-0135, INC-0142, INC-0145, INC-0167)
+- `src/gen/g_rc.py`, 6 incidents (INC-0097, INC-0114, INC-0115, INC-0117, INC-0122, INC-0169)
 - `src/review_bot.js`, 5 incidents (INC-0022, INC-0026, INC-0051, INC-0061, INC-0077)
 - `src/bank_emit.py`, 5 incidents (INC-0062, INC-0066, INC-0068, INC-0073, INC-0119)
 - `src/gen/framework.py`, 5 incidents (INC-0074, INC-0075, INC-0078, INC-0087, INC-0096)
-- `src/gen/g_rc.py`, 5 incidents (INC-0097, INC-0114, INC-0115, INC-0117, INC-0122)
 - `src/smoke_playbook.js`, 4 incidents (INC-0054, INC-0084, INC-0129, INC-0165)
 - `src/bank_repair.py`, 4 incidents (INC-0070, INC-0071, INC-0072, INC-0121)
 - `src/page_checks.py`, 4 incidents (INC-0134, INC-0138, INC-0139, INC-0163)
@@ -2318,7 +2319,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** When a source contradicts itself, pick nothing silently. Show the figure it states, show the figures it contradicts, and say which cannot be settled; a reader given the conflict can judge it, a reader given one number cannot.
 
 
-## Tests and guards (27)
+## Tests and guards (28)
 
 
 ### INC-0016. The performance test waited for the load event, which waits for the thing being optimised
@@ -2658,6 +2659,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** smoke_pages serves the built site from a local HTTP server and opens the pages through it, as the other page smokes do, so every root-relative path resolves the way it does live.
 - **What stops it now.** smoke_pages counts any resource that fails to load as an error, now that the site's own paths resolve, so a stylesheet, font or script a page names and the build did not produce fails it; Google's hosts are no longer on its noise list. in `src/smoke_pages.js`
 - **Lesson.** A test harness has to load a page the way a visitor does or its passes mean less than they say. file:// quietly breaks every root-relative path, and a noise filter written for one failure hides the next one of the same kind; when a test has to ignore an error to pass, it is worth asking what else that exemption lets through.
+
+
+### INC-0169. The reading corpus check accepted a near miss whose only negative word opened it, and the item builder, which capitalises first, could not use it
+
+*2026-09-27, Degraded*
+
+- **What was seen.** A new passage's near miss read "no water was pumped from the lower levels on the fourteenth of June 1866". check_premises passed it as the negative near miss the inference question needs, and python3 src/build.py then failed with "gmat/v_inf did not ship the questions its schemas list": every draw of that question raised "balance needs 4 wrong answers, pool has 117".
+- **Why.** Both places test a near miss with the same pattern, NEGATIVE, which matches not, no, none and never in lower case only. check_premises tests the near miss as stored, lower case; the inference builder capitalises it first, because it becomes a sentence, so "No water" no longer matched and the builder found no negative near miss to offer. The balancer's error then counted every wrong answer in the pool instead of the one kind it lacked, so the message pointed away from the cause.
+- **How it surfaced.** Found on September 27, 2026 when the build refused a batch of five new reading passages. (A build guard caught it)
+- **Fix.** NEGATIVE matches in any case, so a near miss counts as negative however it is capitalised, in the check and in the builder alike. When the balancer lacks the answers about the same case that it must offer, its error now says that and how many it has.
+- **What stops it now.** g_rc checks at import that every near miss the corpus check counts as negative still counts once capitalised as the builder prints it, and the build's existing check that every listed question ships (INC-0126) caught this one. in `src/gen/g_rc.py`
+- **Lesson.** A check that tests a value in a different form from the one the code uses tests something else. Test what is printed, after every transformation the code applies, or make the test indifferent to the transformation.
 
 
 ## Front end (12)
@@ -3535,10 +3548,10 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The item counter missed a whole bank file because it assumed a quoting style (INC-0059)</small>
 - [ ] **Learned 3 times over.** A size limit on a generated file is only a guard if something bounds the generator too; otherwise it is a delayed failure that lands on whoever commits next, and reads as their fault. When two guards constrain the same output, check the fix against both: shortening this file to satisfy the size check would have broken the completeness check that reads its first 60 characters.  
   <small>The rules digest promises to be prompt sized and its generator grows without bound (INC-0083)</small>
+- [ ] **Learned 3 times over.** Two copies of one check drift apart. When a check exists in two places, a fix to one is a question about the other, and the cheapest answer is to make them share the code that splits text.  
+  <small>The blog build read a fee table as one sentence and refused a correct post for calling the SAT trainer unfinished, over College Board's seat Waitlist (INC-0162)</small>
 - [ ] **Learned 2 times over.** Two habits, both mine rather than the code's. Verify with the sequence the pipeline runs, read out of its config, not with the subset you remember: a suite chosen from memory drifts to the parts that were failing last week. And when a step is deliberately non fatal, the word it fails with is the whole of its signal, so it has to be the word people grep for. WARNING on a line that means a deliverable did not build is an invitation to miss it, and the cost of saying ERROR while still exiting zero is nothing at all.  
   <small>A build step that fails while the build exits zero, and a verification run that was a remembered subset (INC-0080)</small>
-- [ ] **Learned 2 times over.** Two copies of one check drift apart. When a check exists in two places, a fix to one is a question about the other, and the cheapest answer is to make them share the code that splits text.  
-  <small>The blog build read a fee table as one sentence and refused a correct post for calling the SAT trainer unfinished, over College Board's seat Waitlist (INC-0162)</small>
 - [ ] A parse guard covers the file shapes someone thought of. When the same code moves into a new shape, a separate file, a chunk, a worker, the guard does not follow it. List what the guard covers against what the deploy actually ships, and check the difference rather than the intention.  
   <small>Nothing parsed the one file every user downloads (INC-0060)</small>
 - [ ] A guard keyed to wording is a guard on the wording, not the fact, and every synonym is a hole in it. Widening the wording is the obvious repair and it trades missed defects for false alarms, which cost more because they get the guard switched off. Match a phrase that only the thing you care about can produce, rather than every word it might happen to use.  
@@ -3905,6 +3918,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The playbook's smoke test and its builder disagreed on what counts as an unresolved placeholder, so a correctly quoted one failed the smoke (INC-0165)</small>
 - [ ] A test harness has to load a page the way a visitor does or its passes mean less than they say. file:// quietly breaks every root-relative path, and a noise filter written for one failure hides the next one of the same kind; when a test has to ignore an error to pass, it is worth asking what else that exemption lets through.  
   <small>The standalone page smoke test still loaded pages from disk, where the site's root-relative paths point at the filesystem root, so it failed once the fonts moved onto the site (INC-0166)</small>
+- [ ] A check that tests a value in a different form from the one the code uses tests something else. Test what is printed, after every transformation the code applies, or make the test indifferent to the transformation.  
+  <small>The reading corpus check accepted a near miss whose only negative word opened it, and the item builder, which capitalises first, could not use it (INC-0169)</small>
 
 
 # Adapting This to a Different Business
@@ -4021,7 +4036,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 168 real defects reduced to the rules that prevent them,
+the whole project: 169 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -4061,7 +4076,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-168 defects already prevented is genuinely ahead, and every defect it hits
+169 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed
