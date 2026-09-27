@@ -672,6 +672,14 @@ verified rather than that the school does not publish one (INC-0118).
       script-only challenge, and caches no read too short to be evidence. All 108 exam facts
       pass: 106 in the run of September 27, and the two on GMAC's policies PDF against a
       direct read the same day, since Imperva challenged the run's reads of it.
+- [x] **"Can You Use a Calculator on the GMAT, GRE, LSAT, SAT, and ACT?"** queued for
+      December 9 (Sarah Whitfield). The GMAT's on-screen calculator in Data Insights only,
+      the GRE's on-screen calculator in Quant, none on the LSAT, and the SAT's and the
+      ACT's rules for Desmos and handheld models on math only, with each one's prohibited
+      computer algebra models. Every rule was read on September 27; EDITORIAL.md gains a
+      calculators block. The post planned for this slot, on cancelling scores, is held:
+      GMAC's cancellation article is on support.mba.com, which Cloudflare refused all day,
+      and no GMAC page that could be read states the rule. Write it once that page opens.
 - [x] **"Free Score Reports on the GMAT, GRE, LSAT, SAT, and ACT"** queued for December 7
       (Maya Chen). Five free GMAT reports within 48 hours of the Official Score, four GRE
       reports on test day, none on the LSAT (a $45 law school report per application), four
