@@ -270,6 +270,8 @@ def exam_page(e, tpl, today):
 
     # From APP_PATH, like the header button. This one was the literal /app/, so on four of
     # the five live guides it opened the GMAT trainer (INC-0128).
+    reading = study_room_html(study_room(e["slug"], today))
+
     prep = (f'<div class="cta"><h2>Train for It Here</h2><p>The Start From Nowhere trainer is live for this exam: adaptive practice, mock sections, games, and flashcards, free to start with no account.</p><a class="btn" href="{APP_PATH[e["slug"]]}">Open the {esc(e["short"])} Trainer</a></div>' if live else
             f'<div class="cta"><h2>Prep Is on the Way</h2><p>Our adaptive trainer for the {esc(e["short"])} is in development: the same engine, games, and mock sections already live for the GMAT. Join the waitlist and you will be first in.</p>{cta}</div>')
 
@@ -289,11 +291,33 @@ def exam_page(e, tpl, today):
                .replace("{{LOGISTICS}}", logistics)
                .replace("{{USAGE}}", usage)
                .replace("{{FACTS}}", facts)
+               .replace("{{READING}}", reading)
                .replace("{{PREP}}", prep)
                .replace("{{UPDATED}}", today)
                .replace("{{LD}}", ld))
 
 TRAINER_LINK = re.compile(r'href="(/(?:[a-z]+/)?app/)')
+
+
+def study_room(slug, today, cap=6):
+    """The published posts about an exam, newest first, for its guide page. A post is about
+    an exam when its slug names it as a whole word ("sat-cost-2026", "sat-vs-act-2026"), so
+    PSAT posts stay off the SAT guide. Only posts dated on or before the build date are
+    listed, the way the blog publishes them, so a queued post appears on its guide the day
+    its post goes live and never before."""
+    import build_blog
+    posts = [p for p in build_blog.load_posts()
+             if p.get("date", "9999") <= today and p.get("category") != "Company News"
+             and slug in p["slug"].split("-")]
+    posts.sort(key=lambda p: (p["date"], p["slug"]), reverse=True)
+    return posts[:cap]
+
+
+def study_room_html(posts):
+    if not posts:
+        return ""
+    lis = "".join(f'<li><a href="/blog/{esc(p["slug"])}/">{esc(p["title"])}</a></li>' for p in posts)
+    return f'<div class="section"><h2>From the Study Room</h2><ul class="kf">{lis}</ul></div>'
 
 
 def check_trainer_links(slug, page):
