@@ -7,10 +7,10 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-27, which is 8 days, across
-128 commits, by one owner directing a series of AI coding sessions. As of this
+129 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 86 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
-2101 tracked files in total.
+2102 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-128 commits in 8 days, one owner, a series of AI sessions. This
+129 commits in 8 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1217,14 +1217,14 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-178 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+179 recorded defects, over 8 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 93 | 52% |
+| Found by reading the code or the output | 94 | 53% |
 | Found by measuring something | 43 | 24% |
 | A test caught it | 22 | 12% |
 | Found by rendering it and looking | 8 | 4% |
@@ -1232,7 +1232,7 @@ well enough to audit later. Which is what this book is.
 | A build guard caught it | 5 | 3% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 176 of 178 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 177 of 179 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1243,18 +1243,18 @@ well enough to audit later. Which is what this book is.
 | --- | ---: |
 | Wrong data shown or stored | 78 |
 | Degraded | 43 |
-| Cosmetic | 28 |
+| Cosmetic | 29 |
 | Silent loss | 26 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 178. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 179. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 82 |
+| Content generation | 83 |
 | Tests and guards | 30 |
 | Front end | 12 |
 | Build system | 11 |
@@ -1269,7 +1269,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-172 of 178 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+173 of 179 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1290,7 +1290,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-84 of 178 incidents record that they repeat an earlier lesson, 115 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+85 of 179 incidents record that they repeat an earlier lesson, 116 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1337,6 +1337,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0089 A ratchet that trips on sampling noise gets re-recorded rather than read | INC-0123 | 1 |
 | INC-0093 Seven variable names were plural and every sentence built around them said was | INC-0096 | 1 |
 | INC-0110 A browser suite outside CI had failed on its first click since the consent dialog shipped | INC-0113 | 1 |
+| INC-0115 A field written to open a sentence was printed mid-sentence in a reading stem | INC-0179 | 1 |
 | INC-0117 Three reading schemas could be answered by matching names, because every distractor came from a different passage | INC-0122 | 1 |
 | INC-0132 The GRE guide still quoted a $220 fee eight weeks after ETS's fees became $249 | INC-0136 | 1 |
 | INC-0135 Arizona State's school page said its class entered in 2027, because the label parser took the first year it found | INC-0147 | 1 |
@@ -1395,7 +1396,7 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/test.js`, 8 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085)
 - `src/validate_schools.py`, 8 incidents (INC-0125, INC-0141, INC-0143, INC-0144, INC-0147, INC-0151, INC-0153, INC-0157)
 - `src/build_rankings.py`, 7 incidents (INC-0014, INC-0049, INC-0118, INC-0135, INC-0142, INC-0145, INC-0167)
-- `src/gen/g_rc.py`, 6 incidents (INC-0097, INC-0114, INC-0115, INC-0117, INC-0122, INC-0169)
+- `src/gen/g_rc.py`, 7 incidents (INC-0097, INC-0114, INC-0115, INC-0117, INC-0122, INC-0169, INC-0179)
 - `src/page_checks.py`, 6 incidents (INC-0134, INC-0138, INC-0139, INC-0163, INC-0176, INC-0178)
 - `src/review_bot.js`, 5 incidents (INC-0022, INC-0026, INC-0051, INC-0061, INC-0077)
 - `src/bank_emit.py`, 5 incidents (INC-0062, INC-0066, INC-0068, INC-0073, INC-0119)
@@ -1416,7 +1417,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (82)
+## Content generation (83)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -2410,6 +2411,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** Every styled button and button link is labelled in Title Case, and the blog's call to action card title too.
 - **What stops it now.** build.py and the blog build check the label of every <button> and <a> carrying the btn class on every built page, reading each tag with its quoted attributes whole so a script in an onclick cannot end it early, and skipping labels a script assembles. in `src/page_checks.py`
 - **Lesson.** A rule with a list of places it applies needs a check for each place on the list. Finishing the headings made the buttons look done by association, and only reading the rule again, clause by clause, showed the gap.
+
+
+### INC-0179. A new reading passage's revision opened with a place name, and the stated-idea questions printed it as "ardley cheese"
+
+*2026-09-27, Cosmetic*
+
+- **What was seen.** Reading every item generated from five new long passages on September 27, 2026, before they shipped, the LSAT stated-idea questions on the Ardley cheese passage offered "ardley cheese grew famous mainly because the railway let the farms reach the city markets quickly, and the abbey's recipe played at most a small part" as a choice, with the place name in lower case.
+- **Why.** The stated-idea schemas print each of a passage's sentences as a choice with its first letter lowered, since the choices continue a stem ("According to the passage, Quillan found that"). That is right for a sentence that opens "The" or "Food historians" and wrong for one that opens with a proper noun. Every earlier passage happened to open its revision with a common word, and check_corpus, which checks a passage's shape, did not look at how its sentences open.
+- **How it surfaced.** Found on September 27, 2026 by reading the items a new batch of passages generated, at LSAT length, before committing them. (Found by reading the code or the output)
+- **Fix.** The revision now opens "the fame of Ardley cheese came mainly from the railway", which lowers safely.
+- **What stops it now.** check_corpus refuses a passage whose lowered sentence opens with a word the same passage writes capitalised in the middle of a sentence, which is how a proper noun shows itself; run over all 62 passages it flags only the one found here. in `src/gen/g_rc.py`
+- **Lesson.** Changing the case of text you did not write is only safe when you know what its first word is. A generator that lowers or raises a first letter needs a check that the word is one it may change, or the corpus has to be written so it never matters.
 
 
 ## Tests and guards (30)
@@ -3759,6 +3772,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A student who always answers 1 scores 98 percent on a schema, and no check looked at the answer itself (INC-0081)</small>
 - [ ] **Learned 2 times over.** A template is a promise about the grammar of what goes into it, and the promise is invisible: the code says name and the sentence needs a singular noun phrase. Whenever a stored string lands next to a verb, an article or a plural, write the requirement down beside the data rather than in the template, and make adding a new row state that it meets it. Renaming the data to fit one grammar is usually cheaper and always safer than teaching the templates to handle two.  
   <small>Seven variable names were plural and every sentence built around them said was (INC-0093)</small>
+- [ ] **Learned 2 times over.** A stored phrase that goes into more than one slot has to be written for the hardest of them, and the transform has to run in the direction that cannot damage anything: capitalising a sentence opener is always safe, lowercasing one breaks proper nouns. When a field is reused, read the output of every slot it lands in, not the one it was written for.  
+  <small>A field written to open a sentence was printed mid-sentence in a reading stem (INC-0115)</small>
 - [ ] **Learned 2 times over.** A test measures what someone can get right without the skill, and there is more than one way to do that. Removing one tell does not make an item sound; it moves the question to the next shortcut. Distractors drawn from unrelated material are always wrong and therefore always free, so a wrong answer has to be wrong about the same thing the right one is about.  
   <small>Three reading schemas could be answered by matching names, because every distractor came from a different passage (INC-0117)</small>
 - [ ] **Learned 2 times over.** A figure with a source and a year can still go stale, because the source moves and the record does not. For anything a publisher changes on its own schedule, fees above all, read the live source on a schedule instead of trusting the record because it cites one.  
@@ -3829,8 +3844,6 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The college methodology page quoted its own checks from the day they were written, and the build had moved on (INC-0108)</small>
 - [ ] When a key is derived from premises held as data, each premise has to be found in what the reader sees, and a check should prove that by searching the rendered text rather than the data. Fixing the one missing premise that was noticed is not the same as asking which premises the reader is shown: list them all, and look for each one in the output.  
   <small>Reading inference questions credited a key that depended on a rule the passage never stated (INC-0114)</small>
-- [ ] A stored phrase that goes into more than one slot has to be written for the hardest of them, and the transform has to run in the direction that cannot damage anything: capitalising a sentence opener is always safe, lowercasing one breaks proper nouns. When a field is reused, read the output of every slot it lands in, not the one it was written for.  
-  <small>A field written to open a sentence was printed mid-sentence in a reading stem (INC-0115)</small>
 - [ ] Practice material is still published writing. A passage that is only there to be read carefully is still read by people who know the subject, and a question built on it can ask them to endorse the error.  
   <small>A passage described zircon dating with the vocabulary of argon dating (INC-0116)</small>
 - [ ] An empty field records that a search came up empty, not that the thing does not exist. Write the absence as what was done ('not verified from the sources we could read'), never as a fact about the world, because the world is the part nobody checked.  
@@ -3869,6 +3882,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The LSAT guide said scores come out roughly three weeks after each administration, citing a dates page that says no such thing, and the source check never looked because the fact wrote its number as a word (INC-0177)</small>
 - [ ] A rule with a list of places it applies needs a check for each place on the list. Finishing the headings made the buttons look done by association, and only reading the rule again, clause by clause, showed the gap.  
   <small>Buttons across the site named their actions in sentence case, against the house rule that a button naming a destination or action is Title Case, and no check read them (INC-0178)</small>
+- [ ] Changing the case of text you did not write is only safe when you know what its first word is. A generator that lowers or raises a first letter needs a check that the word is one it may change, or the corpus has to be written so it never matters.  
+  <small>A new reading passage's revision opened with a place name, and the stated-idea questions printed it as "ardley cheese" (INC-0179)</small>
 
 
 ## Database
@@ -4171,7 +4186,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 178 real defects reduced to the rules that prevent them,
+the whole project: 179 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -4211,7 +4226,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-178 defects already prevented is genuinely ahead, and every defect it hits
+179 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

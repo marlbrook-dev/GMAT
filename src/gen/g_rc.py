@@ -1832,6 +1832,161 @@ P_LONG = [
           "the sample from the spine of the county atlas came from a book shelved on the north wall")),
   about="arguing that bindings blamed on a damp building crumbled mainly because of how their leather was tanned",
   implies="less is known about the leather of the sound books, because few of them could be sampled"),
+ dict( key="cheese",
+  topic="the rise of a regional cheese",
+  old="Food historians long credited the fame of Ardley cheese to the recipe of the abbey at Ardley, whose monks were said to have perfected the cheese and taught it to the farms around them.",
+  old_why="The abbey's records describe the making of a hard cheese, and the farms that later sold Ardley cheese in the cities lay within a day's walk of the abbey.",
+  problem="The account could not explain why sales in the cities stayed small for two centuries after the abbey closed and then rose within a few years of 1860, or why farms far from the abbey sold as much as those beside it.",
+  ev1who="Quillan",
+  ev1where="the freight ledgers of the county's railway",
+  ev1what="each district's sales rose in the year its farms could first send cheese from a station of their own, whether or not the district lay near the abbey",
+  ev1detail="the ledgers record every consignment with the station it left from, the farm that sent it and its weight",
+  ev2who="a later study",
+  ev2where="letters from the dealers who bought the cheese",
+  ev2what="the dealers in London ordered by rail and bought from whichever farms could deliver within two days, since the cheese spoiled on longer journeys by road",
+  ev2detail="the letters were kept by the railway's agents, who filed each order with the station that filled it",
+  revision="the fame of Ardley cheese came mainly from the railway, which let the farms reach the city markets quickly, and the abbey's recipe played at most a small part",
+  caveat="Only letters kept by the railway's agents survive, so dealers who ordered by other means are hardly represented.",
+  cond1=("every farm in Quillan's study sent its cheese from a station named in the freight ledgers",
+         "the Coldharbour farm sent its cheese from a station named in none of the freight ledgers",
+         "the Coldharbour farm is not among those in Quillan's study",
+         "the Coldharbour farm",
+         "",
+         ("the Coldharbour farm sold no cheese in the cities",
+          "the Coldharbour farm made its cheese by the abbey's recipe")),
+  cond2=("every letter in the later study that was written by a London dealer named a railway station",
+         "the letter signed by Amos Venn, one of those in the later study, named no railway station",
+         "the letter signed by Amos Venn was not written by a London dealer",
+         "the letter signed by Amos Venn",
+         "the later study",
+         ("the letter signed by Amos Venn ordered no cheese",
+          "the letter signed by Amos Venn was written before 1860")),
+  about="arguing that a cheese credited to an abbey's recipe grew famous mainly because the railway reached its farms",
+  implies="less is known about dealers who ordered by other means, because few of their letters survive"),
+ dict( key="millfires",
+  topic="fires in cotton mills",
+  old="Fires in the cotton mills of Harrowdale were long blamed on the carelessness of the workers, who were said to smoke among the bales and to leave lamps burning when they went home.",
+  old_why="The owners' reports after each fire named a careless hand, and the magistrates fined workers found smoking in the mills.",
+  problem="The account could not explain why fires grew more frequent after smoking was banned outright in 1852, or why most of them broke out at night, when the mills stood empty.",
+  ev1who="Kilbey",
+  ev1where="the surveys made by the mills' fire insurers",
+  ev1what="most fires began in the carding rooms of mills that had put in the faster carding engines, and few began where workers smoked or lamps were kept",
+  ev1detail="each survey records the room in which a fire began and lists the machines that stood in it",
+  ev2who="a later study",
+  ev2where="the logbooks of the town's fire brigade",
+  ev2what="the fibre that gathered on the faster engines grew hot in their bearings and smouldered for hours before flames appeared, which is why the fires were so often found at night",
+  ev2detail="the brigade logged the hour at which each fire was reported and the state of the building when it arrived",
+  revision="most fires in the mills were started by fibre heated in the bearings of the faster carding engines, and the workers' carelessness played at most a small part",
+  caveat="The brigade logged only the fires it was called to, so small fires that workers put out themselves are missing from the study.",
+  cond1=("every mill in Kilbey's study was surveyed by one of the insurers",
+         "the Ferncliff mill was surveyed by none of the insurers",
+         "the Ferncliff mill is not among those in Kilbey's study",
+         "the Ferncliff mill",
+         "",
+         ("the Ferncliff mill never had a fire",
+          "the Ferncliff mill ran the faster carding engines")),
+  cond2=("every fire in the later study that began in a carding room broke out in a mill running the faster engines",
+         "the fire at the Brook Lane mill, one of those in the later study, broke out in a mill running none of the faster engines",
+         "the fire at the Brook Lane mill did not begin in a carding room",
+         "the fire at the Brook Lane mill",
+         "the later study",
+         ("the fire at the Brook Lane mill was not reported at night",
+          "the fire at the Brook Lane mill was started by a careless worker")),
+  about="arguing that mill fires blamed on careless workers were started mainly by the machines",
+  implies="less is known about small fires, because those the workers put out were never logged"),
+ dict( key="wolves",
+  topic="wolves returning to a mountain range",
+  old="The return of wolves to the Skarn mountains was long credited to the end of the bounty on wolves in 1971, which was said to have stopped the hunting that had kept them out of the range.",
+  old_why="Bounty claims had fallen to nothing by then, and wardens began to report wolves in the range within twenty years of the bounty's end.",
+  problem="The account could not explain why wolves came back first to valleys where hunting went on longest, or why they were slow to reach the national park, where it had stopped earliest.",
+  ev1who="Brekke",
+  ev1where="the land registers of the parishes in the old diocese",
+  ev1what="wolves settled first in the valleys where farms had been given up and the fields had grown back into forest, whatever the local rules on hunting",
+  ev1detail="the registers record for each parish the year in which each field was given up",
+  ev2who="a later study",
+  ev2where="the wardens' winter counts of deer",
+  ev2what="the young forest held far more deer than the open pastures it replaced, and wolves settled where the deer were most numerous",
+  ev2detail="the counts were made each winter by the same wardens along the same routes, so the numbers can be compared from year to year",
+  revision="wolves returned to the Skarn mountains mainly because abandoned farmland grew into forest full of deer, and the end of the bounty played at most a small part",
+  caveat="The deer counts began only after wolves had come back to some valleys, so the earliest years of their return are not covered.",
+  cond1=("every valley in Brekke's study lay within the old diocese",
+         "the Kelda valley lay outside the old diocese",
+         "the Kelda valley is not among those in Brekke's study",
+         "the Kelda valley",
+         "",
+         ("the Kelda valley has not been resettled by wolves",
+          "the Kelda valley was farmed until recently")),
+  cond2=("every count in the later study that was made on a forest route found deer",
+         "the count on the Scaur ridge, one of those in the later study, found no deer",
+         "the count on the Scaur ridge was not made on a forest route",
+         "the count on the Scaur ridge",
+         "the later study",
+         ("the count on the Scaur ridge was not made in winter",
+          "the count on the Scaur ridge was made by a new warden")),
+  about="arguing that the return of wolves credited to the end of a bounty followed mainly from the regrowth of forest",
+  implies="less is known about the first years of the wolves' return, because the deer counts began after them"),
+ dict( key="lakebloom",
+  topic="green blooms on a lake",
+  old="The green blooms that spread across Lake Ellery each summer were long blamed on fertiliser washed from the farms around the lake, which was said to feed the algae.",
+  old_why="The blooms were worst after wet springs, when the most water ran off the fields, and the farms' use of fertiliser had doubled since the war.",
+  problem="The account could not explain why the blooms kept spreading after the farms cut their use of fertiliser, or why each summer they appeared first in the north bay, far from any farmland.",
+  ev1who="Nyberg",
+  ev1where="water sampled at fixed points around the shore",
+  ev1what="most of the phosphorus that fed the algae entered the lake along the north shore, beside the sewage main that served the lakeside towns",
+  ev1detail="the points were chosen so that every stream and pipe entering the lake had one close by",
+  ev2who="a later study",
+  ev2where="cores of mud drilled from the lake bed",
+  ev2what="the blooms began in the year the main was laid, long before the farms' use of fertiliser rose, and grew as the towns it served grew",
+  ev2detail="each year's settling mud forms its own layer, so the remains of algae can be dated to the year",
+  revision="the blooms were fed mainly by phosphorus from the sewage main, and fertiliser from the farms played at most a small part",
+  caveat="All the cores were drilled in the north bay, so the mud off the southern shore has not been dated.",
+  cond1=("every sample in Nyberg's study was taken at one of the fixed points",
+         "the sample from the ferry landing was taken at none of the fixed points",
+         "the sample from the ferry landing is not among those in Nyberg's study",
+         "the sample from the ferry landing",
+         "",
+         ("the sample from the ferry landing held no phosphorus",
+          "the sample from the ferry landing was taken after a wet spring")),
+  cond2=("every layer in the later study that formed after the main was laid held the remains of blooms",
+         "the layer from the Heron Point core, one of those in the later study, held no remains of blooms",
+         "the layer from the Heron Point core did not form after the main was laid",
+         "the layer from the Heron Point core",
+         "the later study",
+         ("the layer from the Heron Point core was not drilled in the north bay",
+          "the layer from the Heron Point core formed after a wet spring")),
+  about="arguing that blooms blamed on farm fertiliser were fed mainly by a sewage main",
+  implies="less is known about the southern shore, because no core was drilled there"),
+ dict( key="registers",
+  topic="gaps in parish registers",
+  old="Gaps of a year or more in the baptism registers of the parishes of Eskwith were long put down to the plague of the 1660s, which was said to have killed or scattered the clergy who kept them.",
+  old_why="The gaps cluster in the years when the plague was reported in the county, and several of the parishes that lost clergy to it have no entries for those years.",
+  problem="The account could not explain why parishes the plague never reached show the same gaps, or why several parishes where it killed dozens kept their registers without a break.",
+  ev1who="Ackroyd",
+  ev1where="the records of the bishops' visitations",
+  ev1what="the gaps fell in the years when a parish had lost its clerk and named no successor, whether or not the plague had reached it",
+  ev1detail="each visitation record names the clerk of every parish and the date on which he took office",
+  ev2who="a later study",
+  ev2where="the payrolls of the customs houses at the county's ports",
+  ev2what="many clerks left their parishes to work as writers at the ports, which paid far more, and the parishes that raised the clerk's fee kept their registers without a break",
+  ev2detail="the payrolls give each writer's name and the parish he came from",
+  revision="the gaps opened mainly because parishes lost their clerks to better-paid work at the ports, and the plague played at most a small part",
+  caveat="The bishops visited only every few years, so a clerk who left and was replaced between two visits would not appear in the records.",
+  cond1=("every parish in Ackroyd's study was visited by the bishop at least twice",
+         "the parish of Low Mardle was visited by the bishop only once",
+         "the parish of Low Mardle is not among those in Ackroyd's study",
+         "the parish of Low Mardle",
+         "",
+         ("the parish of Low Mardle was not reached by the plague",
+          "the parish of Low Mardle raised its clerk's fee")),
+  cond2=("every writer in the later study who came from a parish with a gap had been that parish's clerk",
+         "Thomas Garrow, one of the writers in the later study, had never been a parish clerk",
+         "Thomas Garrow did not come from a parish with a gap",
+         "Thomas Garrow",
+         "the later study",
+         ("Thomas Garrow was not paid more than a clerk",
+          "Thomas Garrow came from a parish the plague reached")),
+  about="arguing that gaps in parish registers blamed on the plague opened mainly because clerks left for better pay",
+  implies="short vacancies may have been missed, because a clerk replaced between two visits left no trace in the records"),
 ]
 
 
@@ -1845,6 +2000,27 @@ MEMBER = re.compile(r"\b(?:is|are|was|were) not (?:among|in)\b")
 # sentence, and "No water was pumped" matched nothing while the corpus check, testing the
 # stored "no water", passed it (INC-0169).
 NEGATIVE = re.compile(r"\b(?:not|no|none|never)\b", re.I)
+
+
+# The sentences sentences() offers as choices, which the stated-idea schemas print with
+# their first letter lowered.
+LOWERED = ("old", "old_why", "problem", "ev1what", "ev2what", "ev1detail", "ev2detail",
+           "revision", "caveat")
+
+
+def _strings(p):
+    """Every stored string of a passage, the rules' parts included."""
+    out = []
+    for v in p.values():
+        if isinstance(v, str):
+            out.append(v)
+        elif isinstance(v, (list, tuple)):
+            for x in v:
+                if isinstance(x, str):
+                    out.append(x)
+                elif isinstance(x, (list, tuple)):
+                    out += [y for y in x if isinstance(y, str)]
+    return out
 
 
 def check_corpus():
@@ -1884,6 +2060,20 @@ def check_corpus():
             if not p[c][0].startswith("every "):
                 raise ItemError("passage %s %s: the rule must open 'every', because text() "
                                 "prints it as a sentence of that form" % (p["key"], c))
+        # A stated-idea choice prints each of these with its first letter lowered, which is
+        # safe for "The" and wrong for a proper noun: a revision opening "Ardley cheese" was
+        # offered as "ardley cheese grew famous" (INC-0179). A word the passage writes
+        # capitalised in the middle of a sentence is a proper noun, and no lowered field may
+        # open with one.
+        mid = set()
+        for s_ in _strings(p):
+            mid |= set(re.findall(r"(?<=[a-z0-9,;:'] )([A-Z][A-Za-z'-]*)", s_))
+        for f in LOWERED:
+            w = re.match(r"[A-Za-z'-]+", p[f])
+            if w and w.group(0)[0].isupper() and w.group(0) in mid:
+                raise ItemError("passage %s %s opens with %r, a name this passage capitalises "
+                                "mid-sentence, and the stated-idea choices lower its first "
+                                "letter: open the sentence with a common word" % (p["key"], f, w.group(0)))
 
 
 check_corpus()
