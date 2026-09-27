@@ -88,7 +88,10 @@
    "stat": "average, 68 months worked",
    "src": "Tuck class profile page",
    "year": 2025,
-   "url": "https://tuck.dartmouth.edu/admissions/class-profile"
+   "url": "https://tuck.dartmouth.edu/admissions/class-profile",
+   "derived": {
+    "5.7": "68 months / 12"
+   }
   },
   "women_pct": {
    "v": 44,

@@ -21,7 +21,10 @@
    "stat": "average work experience 53 months, Daytime MBA (Evening 110 months)",
    "src": "Portland MBA class profile",
    "year": 2022,
-   "url": "https://www.pdx.edu/business/grad-mba-class-profile"
+   "url": "https://www.pdx.edu/business/grad-mba-class-profile",
+   "derived": {
+    "4.4": "53 months / 12"
+   }
   },
   "women_pct": {
    "v": 59,
@@ -35,7 +38,10 @@
    "stat": "international students 21.21%, Daytime MBA (Evening 9.09%)",
    "src": "Portland MBA class profile",
    "year": 2022,
-   "url": "https://www.pdx.edu/business/grad-mba-class-profile"
+   "url": "https://www.pdx.edu/business/grad-mba-class-profile",
+   "derived": {
+    "21.2": "21.21 as printed, rounded to one place"
+   }
   },
   "salary_median_usd": {
    "v": 85000,

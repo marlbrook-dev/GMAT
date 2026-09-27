@@ -109,10 +109,16 @@ jobs:
         id: sources
         run: |
           set +e
-          python3 src/check_sources.py --render > /tmp/sources.txt 2>&1
-          code=$?
+          echo "== Exam guides (data/exams.json)" > /tmp/sources.txt
+          python3 src/check_sources.py --render >> /tmp/sources.txt 2>&1
+          exams=$?
+          # The school library's figures, the same way (INC-0133).
+          echo "" >> /tmp/sources.txt
+          echo "== MBA school library (data/schools)" >> /tmp/sources.txt
+          python3 src/check_sources.py --schools --render >> /tmp/sources.txt 2>&1
+          schools=$?
           cat /tmp/sources.txt
-          if [ "$code" = "1" ]; then echo "stale=true" >> "$GITHUB_OUTPUT"; else echo "stale=false" >> "$GITHUB_OUTPUT"; fi
+          if [ "$exams" = "1" ] || [ "$schools" = "1" ]; then echo "stale=true" >> "$GITHUB_OUTPUT"; else echo "stale=false" >> "$GITHUB_OUTPUT"; fi
       - name: Open an issue when a fact no longer matches its source
         if: steps.sources.outputs.stale == 'true'
         uses: actions/github-script@v7
@@ -127,7 +133,7 @@ jobs:
             });
             const existing = open.data.find(i => i.title === title);
             const text = [
-              'The weekly check read every page that `data/exams.json` cites and found',
+              'The weekly check read every page that `data/exams.json` and the school library cite and found',
               'numbers in our facts that those pages no longer print.',
               '',
               'Read each page. If the figure changed, correct the fact and every post that',

@@ -28,7 +28,10 @@
    "stat": "mean work experience 19 months (median 3 months, range 0 to 119 months), full-time entering class of 2024",
    "src": "Atkinson MBA class profile",
    "year": 2024,
-   "url": "https://willamette.edu/academics/mba/consumer-info/class-profile"
+   "url": "https://willamette.edu/academics/mba/consumer-info/class-profile",
+   "derived": {
+    "1.6": "19 months / 12"
+   }
   },
   "women_pct": {
    "v": 36,

@@ -3,6 +3,11 @@
     python3 src/check_sources.py              fetch every cited source and report
     python3 src/check_sources.py --cache DIR  keep what was fetched in DIR between runs
     python3 src/check_sources.py --render     read pages built by JavaScript in Chromium
+    python3 src/check_sources.py --schools    check the MBA school library instead
+
+The school library cites a College Scorecard figure to the Scorecard's data page, which
+offers the dataset rather than printing any one school's numbers, so those figures are
+counted and set aside: checking them means reading the dataset, not the page.
 
 validate_exams.py proves that every published exam figure names a source, a year and a
 URL. It cannot prove the source says it, and the GRE guide credited ETS with a combined
@@ -35,6 +40,11 @@ import urllib.request
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 EXAMS = ROOT / "data" / "exams.json"
+SCHOOLS = ROOT / "data" / "schools"
+# Where a fact keeps numbers its source must print. An exam fact's note carries sourced
+# detail (a fee's regional prices); a school figure's note is our own commentary, such as
+# why a score must be on the classic scale, so --schools leaves it out.
+FIELDS = ["text", "note", "stat"]
 UA = "Mozilla/5.0 (compatible; StartFromNowhere source check; +https://startfromnowhere.com)"
 # A number as a fact writes it: thousands commas allowed, decimals allowed. The commas are
 # dropped before comparing, so 2,004,965 on the page matches 2004965 anywhere.
@@ -56,9 +66,24 @@ def norm(n):
     return n.rstrip("0").rstrip(".") if "." in n else n
 
 
+# "2026-27" names two years; the page may print "2026-2027", so both are read in full.
+SPAN = re.compile(r"\b((?:19|20)(\d\d))[-/](\d\d)\b")
+
+
+# "$175K" and "$47 M" are 175000 and 47000000 on the page, and a fact records them in full.
+SUFFIX = re.compile(r"(\d[\d,]*(?:\.\d+)?)\s?([kKmM])\b")
+# "$30-70 k" puts the suffix on both ends of the range.
+RANGE_SUFFIX = re.compile(r"(\d[\d,]*(?:\.\d+)?)\s?[\u2013\u2014-]\s?\d[\d,]*(?:\.\d+)?\s?([kKmM])\b")
+# Constants a derivation may use that no source needs to print: months in a year and the
+# base of a percentage.
+UNIT = {"12", "100"}
+
+
 def numbers(text, words=False):
-    text = str(text or "")
+    text = SPAN.sub(lambda m: "%s %s%s" % (m.group(1), m.group(1)[:2], m.group(3)), str(text or ""))
     out = {norm(n) for n in NUM.findall(text)}
+    for n, unit in SUFFIX.findall(text) + RANGE_SUFFIX.findall(text):
+        out.add(norm("%.6f" % (float(n.replace(",", "")) * (1000 if unit in "kK" else 1000000))))
     if words:
         out |= {WORDS[w] for w in re.findall(r"[a-z]+", text.lower()) if w in WORDS}
     return out
@@ -148,10 +173,18 @@ def fetch(url, cache, rendered=False):
     return text
 
 
+def printed(fact):
+    """The numbers a fact expects its source to print, leaving out the ones it derives."""
+    want = set().union(*(numbers(fact.get(k)) for k in FIELDS))
+    if isinstance(fact.get("v"), (int, float)):
+        want.add(norm("%g" % fact["v"]))
+    return want - set(fact.get("derived") or {})
+
+
 def check(fact, source_nums):
     """The numbers in a fact that its source does not print, as (number, why)."""
     derived = fact.get("derived") or {}
-    want = numbers(fact.get("text")) | numbers(fact.get("note"))
+    want = set().union(*(numbers(fact.get(k)) for k in FIELDS))
     if isinstance(fact.get("v"), (int, float)):
         want.add(norm("%g" % fact["v"]))
     missing = []
@@ -161,7 +194,7 @@ def check(fact, source_nums):
         if n in derived:
             if str(derived[n]).startswith("count:"):
                 continue
-            inputs = numbers(derived[n]) - {n}
+            inputs = numbers(derived[n]) - {n} - UNIT
             gone = sorted(inputs - source_nums, key=float)
             if gone:
                 missing.append((n, "derived from %s, which the source does not print"
@@ -176,8 +209,14 @@ def main(argv):
     if "--cache" in argv:
         cache = pathlib.Path(argv[argv.index("--cache") + 1])
         cache.mkdir(parents=True, exist_ok=True)
-    exams = json.loads(EXAMS.read_text())
-    todo = facts(exams)
+    if "--schools" in argv:
+        records = [json.loads(p.read_text()) for p in sorted(SCHOOLS.glob("*.json"))]
+        FIELDS[:] = ["text", "stat"]
+    else:
+        records = json.loads(EXAMS.read_text())
+    todo = facts(records)
+    dataset = [t for t in todo if "scorecard" in str(t[2].get("src", "")).lower()]
+    todo = [t for t in todo if t not in dataset]
     sources, unread = {}, {}
     for url in sorted({f["url"] for _, _, f in todo}):
         try:
@@ -199,9 +238,25 @@ def main(argv):
             sources[url] = numbers(text, words=True)
         except Exception as e:
             unread[url] = "%s: %s" % (type(e).__name__, e)
+    # A page that prints none of the figures cited to it, when two or more are, has not
+    # shown its data at all: a class profile drawn by JavaScript reads as prose with no
+    # numbers until a browser runs it. Every figure on it would be reported as missing,
+    # which says nothing about the figures, so the page is reported once instead.
+    by_url = {}
+    for _, _, f in todo:
+        by_url.setdefault(f["url"], []).append(f)
+    # Years do not count as evidence: "Class of 2027" is in the prose of a class profile
+    # whose statistics never rendered.
+    year = re.compile(r"(19|20)\d\d")
+    evidence = lambda f: {n for n in printed(f) if not year.fullmatch(n)}
+    blank = set()
+    for u, fs in by_url.items():
+        counted = [f for f in fs if evidence(f)]
+        if u in sources and len(counted) >= 2 and not any(evidence(f) & sources[u] for f in counted):
+            blank.add(u)
     bad = 0
     for slug, where, f in todo:
-        if f["url"] not in sources:
+        if f["url"] not in sources or f["url"] in blank:
             continue
         miss = check(f, sources[f["url"]])
         if miss:
@@ -210,10 +265,15 @@ def main(argv):
             print("    %s" % str(f.get("text") or f.get("v"))[:220])
             for n, why in miss:
                 print("    %s: %s" % (n, why))
+    for url in sorted(blank):
+        print("shows none of its %d figures, probably built by JavaScript: %s"
+              % (len(by_url[url]), url))
     for url, why in sorted(unread.items()):
         print("could not read %s (%s)" % (url, why))
     print("\n%d facts checked against %d sources; %d with a number their source does not "
-          "print; %d sources unreadable" % (len(todo), len(sources), bad, len(unread)))
+          "print; %d sources unreadable, %d showing none of their figures%s"
+          % (len(todo), len(sources), bad, len(unread), len(blank),
+          "; %d dataset figures set aside" % len(dataset) if dataset else ""))
     return 1 if bad else (2 if unread else 0)
 
 
