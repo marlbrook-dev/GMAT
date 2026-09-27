@@ -473,6 +473,13 @@ verified rather than that the school does not publish one (INC-0118).
       surcharge). Kellogg's middle 80 percent ranges, drawn only as box plots, are recorded in
       `data/source_triage.json`: the check lists triaged figures apart and fails only on a
       finding nobody has judged, and validate_schools refuses an entry once its figure changes.
+- [x] **The GMAT guide's free score report rule cites the page that states it** (INC-0155):
+      "up to 5 free score reports ... within 48 hours" linked to mba.com's Official Score
+      Reports page, which never mentions them; it now cites the Sending Your Score page. The
+      source check no longer reads a bot challenge as the page it stands in for (INC-0156):
+      mba.com's Imperva challenge, 726 characters, had passed the 400 character floor, so a
+      right fact was reported wrong. A challenge is now reported as an unreadable source and
+      never cached.
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects
