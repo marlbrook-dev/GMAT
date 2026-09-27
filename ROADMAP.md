@@ -672,6 +672,17 @@ verified rather than that the school does not publish one (INC-0118).
       script-only challenge, and caches no read too short to be evidence. All 108 exam facts
       pass: 106 in the run of September 27, and the two on GMAC's policies PDF against a
       direct read the same day, since Imperva challenged the run's reads of it.
+- [x] **The LSAT's score release, and number words in the source check** (INC-0177). The
+      LSAT guide said scores come out "roughly three weeks after each administration",
+      citing LSAC's dates page, which is a table of dates releasing scores 18 days after
+      each administration's last test day and says nothing of three weeks; the writing
+      sample's three-week processing sat on the scoring page it did not cite. It now says
+      what LSAC says: scores come out on the published date with an approved writing sample
+      on file and no holds, citing both pages. The check had never looked because it read
+      the fact's numbers as digits only, and 34 of 109 exam facts spell one out. It now
+      reads them as words too, and a number only inside a date never counts as beside the
+      fact's words; that also turned up the ACT cost note's "all three", our own count,
+      and the five Data Insights question types GMAC lists, now declared as a count.
 - [x] **Title Case on every built heading, checked by the build** (INC-0176). The blog
       build checked the headings inside posts, and nothing read the rest: the blog
       template's "Keep reading" and "Frequently asked questions" sat on every post, and the

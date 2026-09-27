@@ -200,6 +200,13 @@ is how a table prints it. GMAC's retake article confirmed the GMAT's five-year v
 of 3 found this helpful". Markup is read with an HTML parser rather than patterns, because a
 quoted attribute can hold markup: ETS keeps a copy of each text block in one, and a pattern
 that ended the tag at its first > read an element id's 5 as GRE's score validity (INC-0173).
+A fact's numbers are read in words as well as digits, as a page's always were, so "roughly
+three weeks" is looked for like "3 weeks", and a number that is only part of a date such as
+3/3/2027 counts as found but never as beside the fact's words: the LSAT guide said scores
+come out roughly three weeks after each administration, which neither LSAC page says, and
+the check had never looked (INC-0177). A number a fact counts off a page's list, such as the
+five Data Insights question types GMAC lists without numbering them, is declared with a
+`count:` entry.
 Imperva's script challenge, a short page whose only content is a script from
 `/_Incapsula_Resource`, has no words to recognise it by; a plain read that gets it is tried
 once more and then reported as a challenge, and no read too short to be evidence is cached
