@@ -69,9 +69,9 @@
       "url": "https://www.mba.com/exams/gmat-exam/register"
     },
     "retake_policy": {
-      "text": "Up to 5 attempts in any rolling 12-month period, with at least 16 days between attempts; online and test-center attempts both count toward the limit, while canceled or missed appointments do not",
+      "text": "Up to 5 attempts in any rolling 12-month period, with at least 16 calendar days between attempts; online and test center exams count together toward the limit, and so do exams with canceled scores, while appointments canceled before the exam or missed do not",
       "src": "mba.com support (GMAC)",
-      "year": 2025,
+      "year": 2026,
       "url": "https://support.mba.com/hc/en-us/articles/10118337626139-GMAT-Retake-Policies-and-Attempt-Limits"
     },
     "score_release": {
@@ -396,9 +396,9 @@
       "url": "https://www.ets.org/gre/score-users/about/general-test/testing-locations.html"
     },
     "retake_policy": {
-      "text": "Can be taken once every 21 days, up to 5 times within any continuous rolling 12-month period",
+      "text": "Can be taken once every 21 days, up to 5 times within any continuous rolling 12-month period (365 days), even if the scores of an earlier test were canceled",
       "src": "ETS",
-      "year": 2025,
+      "year": 2026,
       "url": "https://www.ets.org/gre/test-takers/general-test/schedule.html"
     },
     "score_release": {
@@ -595,6 +595,12 @@
         "src": "LSAC",
         "year": 2025,
         "url": "https://www.lsac.org/lsat/lsat-scoring"
+      },
+      {
+        "text": "Canceled LSAT scores, including those canceled with Score Preview, count against the limits on repeating the test, while absences and withdrawals do not; tests taken before September 2019 and the May, June, July and August 2020 LSAT-Flex tests do not count, and LSAC estimates the limits affect less than 1 percent of LSAT takers",
+        "src": "LSAC",
+        "year": 2026,
+        "url": "https://www.lsac.org/about/lsac-policies/limits-on-repeating-lsat"
       },
       {
         "text": "LSAT Argumentative Writing is unscored and completed separately from the multiple-choice test; law schools receive a copy with your score report",
