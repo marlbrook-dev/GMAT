@@ -672,6 +672,30 @@ verified rather than that the school does not publish one (INC-0118).
       script-only challenge, and caches no read too short to be evidence. All 108 exam facts
       pass: 106 in the run of September 27, and the two on GMAC's policies PDF against a
       direct read the same day, since Imperva challenged the run's reads of it.
+- [x] **Exam facts with no number, read by their words** (INC-0180). The GMAT's delivery
+      line said appointments are available year round with no fixed testing windows, and
+      the mba.com register page it cites no longer says either. The source check compares
+      numbers, and 20 of the 113 exam facts have none, so it had counted them as checked
+      with nothing to look for. It now reads such a fact by its words, a plural or another
+      tense counting, and its summary counts those facts apart. Run over the data it
+      flagged 14; all 14 were read against their pages on September 27 and now say what
+      the pages say. Four had claims no page of theirs made and are re-cited: the GMAT's
+      Quant calculator rule to GMAC's Data Insights guide, the SAT's uses to College
+      Board's "What are SAT scores used for?", the ACT superscore's arithmetic to ACT's
+      superscore FAQs, and the LSAT writing sample reaching law schools to LSAC's law
+      school reports page. The queued December 1 post and the SAT format post repeated two
+      of them and are corrected. support.mba.com refused every read that day (403), so
+      the GMAT calculator rule cites GMAC's guide rather than mba.com's calculator policy
+      article, and mba.com's exam content page answered every read with Imperva's challenge.
+- [x] **"Can You Take the GMAT, GRE, LSAT, SAT, or ACT at Home?"** queued for December 3
+      (David Okafor). The GMAT online (not in Mainland China, Cuba, Iran, North Korea or
+      Sudan; US$300 against US$275 at a test center) and the GRE at home (24 hours a day,
+      7 days a week) with each one's equipment and room rules; the LSAT's move to test
+      centers from August 2026 with LSAC's four remote exceptions and its writing section
+      still online; and the SAT and the ACT, given only at schools and test sites, with
+      College Board's device lending and ACT's three testing modes. Every rule was read on
+      the test makers' pages on September 27; EDITORIAL.md gains a block on where you can
+      test.
 - [x] **Five more long reading passages** (cheese, millfires, wolves, lakebloom,
       registers): a regional cheese credited to an abbey's recipe that grew famous with the
       railway; cotton mill fires blamed on careless workers, started by fibre heated in the

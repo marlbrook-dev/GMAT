@@ -207,6 +207,15 @@ come out roughly three weeks after each administration, which neither LSAC page 
 the check had never looked (INC-0177). A number a fact counts off a page's list, such as the
 five Data Insights question types GMAC lists without numbering them, is declared with a
 `count:` entry.
+An exam fact with no number at all, such as a delivery or a used-for line, is read by its
+words instead (INC-0180): each content word must be on one of its pages, as the word or a
+plural or another tense of it, and a hyphenated word may be written solid ("onscreen" for
+"on-screen"). The summary counts those facts apart, because the check once counted 20 facts
+with nothing to look for as checked, and the GMAT's delivery line kept "appointments
+available year round (no fixed testing windows)" after mba.com stopped saying it. Word the
+fact the way its page words it: the check cannot tell a paraphrase from a change, and it
+cannot see a "not", so it finds a page that stopped saying something rather than proving
+what the page says.
 Imperva's script challenge, a short page whose only content is a script from
 `/_Incapsula_Resource`, has no words to recognise it by; a plain read that gets it is tried
 once more and then reported as a challenge, and no read too short to be evidence is cached

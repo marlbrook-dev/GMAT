@@ -39,6 +39,10 @@ newer class or been revised; nothing there means a person has to read it. Either
 counts as a finding until every figure on it is fixed or triaged, because to a check that
 looks for numbers, a page whose every figure changed looks exactly like one that never loaded.
 
+An exam fact with no number at all, a delivery or a used-for line, is read by its words: each
+content word must be on one of its pages, in some form, and the summary counts those facts
+apart, since 20 of them were once counted as checked with nothing to look for (INC-0180).
+
 It needs the network, so it runs in the weekly audit rather than in the build.
 """
 import datetime
@@ -629,6 +633,62 @@ def ended_periods(text, today):
     return sorted(out)
 
 
+# A fact with no number gives the checks above nothing to look for, and 20 of the 113 exam
+# facts have none: the GMAT's delivery line kept "appointments available year round (no fixed
+# testing windows)" after its page stopped saying so, and the check counted it as checked
+# (INC-0180). Such a fact is read by its words instead: every content word must be on one of
+# its pages, a plural or another tense of it counting, and a word that is not is reported the
+# way a missing number is. It cannot tell a paraphrase from a change, so a fact is worded the
+# way its page words it; and it cannot see a "not", so it finds a page that stopped saying
+# something rather than proving what the page says.
+STOPWORDS = frozenset("""
+a an the of and or to for by in on at vs is are be been being it its with as from that this these those
+can cannot not no nor but their your you they them which who whom whose has have had was were will would
+may might must should could do does did than then so such also into onto over under about after before
+between both each either neither other any all some most more much many few own same only just very
+there here where when while what how why if because per via
+says said notes describes lists calls explains states adds""".split())
+# When a count was made is ours, not the page's: "counted on September 26, 2026".
+COUNTED = re.compile(r"\bcounted(?: on)? (?:[A-Z][a-z]+ \d{1,2}, )?\d{4}")
+
+
+def stem(word):
+    """A word less its ending, so "decided" meets "decide" and "superscoring" meets
+    "superscore"."""
+    w = word.lower()
+    for end, put in (("ies", "y"), ("ied", "y"), ("sses", "ss"), ("ss", "ss"), ("ing", ""), ("ed", ""),
+                     ("es", ""), ("s", ""), ("ly", "")):
+        if w.endswith(end) and len(w) - len(end) >= 3:
+            w = w[:len(w) - len(end)] + put
+            break
+    return w[:-1] if w.endswith("e") and len(w) >= 4 else w
+
+
+def page_stems(text):
+    """Every word a page prints, stemmed; a hyphenated word also counts written solid, as
+    GMAC writes "on-screen" on one page and "onscreen" on another."""
+    low = text.lower()
+    words = re.findall(r"[a-z]+", low) + [w.replace("-", "") for w in re.findall(r"[a-z]+(?:-[a-z]+)+", low)]
+    return {stem(w) for w in words}
+
+
+def unseen_words(fact, texts):
+    """The content words of a fact that none of its pages prints, in the fact's order
+    (INC-0180). A hyphenated word is found written solid or as its parts."""
+    text = " ".join(str(fact.get(k) or "") for k in FIELDS)
+    if any(str(v).startswith("count:") for v in (fact.get("derived") or {}).values()):
+        text = COUNTED.sub(" ", text)
+    seen = set().union(*(page_stems(t) for t in texts)) if texts else set()
+    out = []
+    for term in re.findall(r"[a-z]+(?:-[a-z]+)*", text.lower()):
+        if term in STOPWORDS or len(term.replace("-", "")) < 3 or term in out:
+            continue
+        parts = [p for p in term.split("-") if p not in STOPWORDS and len(p) >= 3]
+        if stem(term.replace("-", "")) not in seen and not (parts and all(stem(p) in seen for p in parts)):
+            out.append(term)
+    return out
+
+
 def _selfcheck():
     """INC-0140: a year range reads as both years however the page punctuates it.
     INC-0150: a school figure is found only beside its label, in a passage about its program.
@@ -642,7 +702,37 @@ def _selfcheck():
     INC-0174: an exam fact's number counts only near a word of the fact's, or in a table.
     INC-0175: a read too short to be evidence is not cached, and Imperva's script challenge is
     read once more and then reported as a challenge.
-    INC-0177: a fact's number words are numbers, and a number only in a date is no figure."""
+    INC-0177: a fact's number words are numbers, and a number only in a date is no figure.
+    INC-0180: a fact with no number is read by its words, in any of their forms."""
+    # INC-0180: the GMAT's old delivery line against the register page it cited, as the page
+    # read on September 27, 2026, and the line that replaced it against the page it cites now.
+    register = ("Get started in 4 easy steps Create mba.com Account. Pick Online or Test Center. On your My Account "
+                "page, click the Register button and choose how you want to test. 2. Test on your terms. Choose an "
+                "online or test center appointment and schedule the GMAT around your application timeline. Your "
+                "score remains valid for five years, giving you flexibility to apply when the time is right.")
+    online = ("Taking the Exam at a Test Center Taking the Exam Online The GMAT exam delivered online is available "
+              "in most locations, with the exception of: Mainland China, Cuba, Iran, North Korea, and Sudan due to "
+              "regulatory and local data privacy rules.")
+    ets = ("ETS Law schools that accept GRE General Test scores for admission to their JD programs. United States "
+           "Albany Law School American University China Peking University")
+    for fact, text, want in (
+            ({"text": "At test centers or online, with appointments available year round (no fixed testing windows)"},
+             register, ["available", "round", "fixed", "windows"]),
+            ({"text": "At test centers and online; the exam delivered online is available in most locations, "
+                      "with the exception of Mainland China, Cuba, Iran, North Korea and Sudan"}, online, []),
+            ({"text": "Whether science is administered is decided at the contract level"},
+             "The choice will continue to be at the contract level. Clients will decide whether to have science "
+             "administered", []),
+            ({"text": "ACT superscores average the best section scores"},
+             "The ACT Superscore is the average of a student's best scores from each section", []),
+            ({"text": "An on-screen calculator is available"}, "you have access to an onscreen calculator, available", []),
+            ({"text": "ETS lists the law schools that accept GRE General Test scores for admission to their JD "
+                      "programs: 128 in the United States and 1 in China, counted on September 26, 2026",
+              "derived": {"128": "count: the schools", "1": "count: the schools", "26": "count: the date",
+                          "2026": "count: the year"}}, ets, [])):
+        got = unseen_words(fact, [text])
+        if got != want:
+            sys.exit("check_sources: unseen_words(%r) gave %s, not %s (INC-0180)" % (fact["text"][:50], got, want))
     # INC-0177: the LSAT guide's "roughly three weeks" against LSAC's table of dates, as the
     # page prints it: the only 3s are in dates, so the fact is flagged, not confirmed.
     lsac = ("Administration Primary test dates LSAT Argumentative Writing opens Registration deadline Scheduling "
@@ -852,7 +942,8 @@ def main(argv):
             # enough of it, so it is kept rather than thrown away.
             cited = [(w, f) for _, w, f in todo if url in pages(f)]
             misses = lambda t: sum(len(check(f, numbers(t, True)) or
-                                       ([] if "--schools" in argv else away_from_words(w, f, [t])))
+                                       ([] if "--schools" in argv else away_from_words(w, f, [t]) or
+                                        ([] if printed(f) else unseen_words(f, [t]))))
                                    for w, f in cited)
             if "--render" in argv and refused is None and (len(text) < MIN_TEXT or misses(text)):
                 try:
@@ -877,7 +968,7 @@ def main(argv):
         except Exception as e:
             unread[url] = "%s: %s" % (type(e).__name__, e)
     blank = blank_pages([f for _, _, f in todo], sources)
-    bad, worth, judged, read_ok, flagged = 0, [], [], set(), set()
+    bad, worded, by_words, worth, judged, read_ok, flagged = 0, 0, 0, [], [], set(), set()
     for slug, where, f in todo:
         if any(u not in sources for u in pages(f)) or f["url"] in blank:
             continue
@@ -887,6 +978,14 @@ def main(argv):
         miss = check(f, set().union(*(sources[u] for u in pages(f))))
         if "--schools" not in argv and not miss:
             miss = away_from_words(where, f, [texts[u] for u in pages(f)])
+        # A fact with no number to look for is read by its words, against both reads of each
+        # page, since a browser leaves out what a closed accordion holds (INC-0180).
+        if "--schools" not in argv and not printed(f):
+            by_words += 1
+            gone = unseen_words(f, [texts[u] + " " + served.get(u, "") for u in pages(f)])
+            worded += bool(gone)
+            miss = miss + [(w, "not on the page; with no number to look for, the fact is read by its words")
+                           for w in gone]
         if "--schools" in argv and where.startswith("profile.") and not miss:
             got = beside_label(where.split(".", 1)[1], f, " ".join(texts.get(u, "") for u in pages(f)))
             if got and got[0] == "none":
@@ -973,12 +1072,16 @@ def main(argv):
                                      if near else ""))
     for url, why in sorted(unread.items()):
         print("could not read %s (%s)" % (url, why))
-    print("\n%d facts checked against %d sources; %d with a number their source does not "
-          "print; %d resting on a page about a period that has ended; %d sources unreadable, "
+    # A fact read by its words is counted as that, so a clean report never passes off a fact
+    # with nothing to check as a fact checked (INC-0180).
+    print("\n%d facts checked against %d sources%s; %d with a number their source does not "
+          "print%s; %d resting on a page about a period that has ended; %d sources unreadable, "
           "%d showing none of their figures; %d worth reading beside another program's name%s%s"
-          % (len(todo), len(sources), bad, stale, len(unread), len(unseen), len(worth),
-          "; %d triaged" % len(judged) if triage else "",
-          "; %d dataset figures set aside" % len(dataset) if dataset else ""))
+          % (len(todo), len(sources), ", %d of them by their words for want of a number" % by_words if by_words else "",
+             bad - worded, "; %d with no number and a word their source does not print" % worded if by_words else "",
+             stale, len(unread), len(unseen), len(worth),
+             "; %d triaged" % len(judged) if triage else "",
+             "; %d dataset figures set aside" % len(dataset) if dataset else ""))
     return 1 if bad or stale or unseen else (2 if unread else 0)
 
 
