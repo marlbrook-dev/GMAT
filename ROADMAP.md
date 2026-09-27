@@ -672,6 +672,14 @@ verified rather than that the school does not publish one (INC-0118).
       script-only challenge, and caches no read too short to be evidence. All 108 exam facts
       pass: 106 in the run of September 27, and the two on GMAC's policies PDF against a
       direct read the same day, since Imperva challenged the run's reads of it.
+- [x] **"Free Score Reports on the GMAT, GRE, LSAT, SAT, and ACT"** queued for December 7
+      (Maya Chen). Five free GMAT reports within 48 hours of the Official Score, four GRE
+      reports on test day, none on the LSAT (a $45 law school report per application), four
+      SAT reports until nine days after a weekend test, and four ACT colleges named at
+      registration, with what each later report costs and which scores it sends. Checking
+      the draft against ETS's page caught a wrong claim before commit: GRE takers view their
+      scores at the test center before choosing, so only the SAT's and the ACT's free
+      reports go out before a score exists. EDITORIAL.md gains a sending scores block.
 - [x] **"What Are the Score Ranges for the GMAT, GRE, LSAT, SAT, and ACT?"** queued for
       December 5 (James Corbett). Each exam's scale from its test maker's page, read on
       September 27: the GMAT Focus 205 to 805 with its 60 to 90 sections (and the 10th
