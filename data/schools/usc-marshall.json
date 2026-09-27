@@ -56,12 +56,12 @@
    "note": "No GMAT Focus figure seen for the Class of 2027 in sources reviewed"
   },
   "gmat_classic": {
-   "v": 742,
-   "stat": "average",
-   "src": "Poets&Quants, Meet USC Marshall's MBA Class of 2027",
-   "year": 2026,
-   "url": "https://poetsandquants.com/2026/05/24/meet-usc-marshalls-mba-class-of-2027/",
-   "note": "Read on the article, which gives the average without naming an edition: \"the class averaged a 742 GMAT\". Filed as Classic because 742 sits above every GMAT Focus figure in this library when filed (the highest was 690 on 2026-09-27)."
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "Not published: Poets&Quants' report on the Class of 2027 gives an average GMAT of 742, and names no GMAT edition. An unlabelled figure could be on either scale, or a mix of both, since GMAT scores of either edition stay valid for five years (GMAC), so it is not filed under one (INC-0157)."
   },
   "gre_quant": {
    "v": null,

@@ -47,14 +47,14 @@
   },
   "gmat_focus": {
    "v": 675,
-   "stat": "median; middle 80% 645 to 715",
+   "stat": "median, labeled Median GMAT Focus; middle 80% 645 to 715",
    "src": "MIT Sloan MBA Class of 2028 profile page",
    "year": 2026,
    "url": "https://mitsloan.mit.edu/mba/admissions/class-profile"
   },
   "gmat_classic": {
    "v": 720,
-   "stat": "median",
+   "stat": "median, labeled Median Class GMAT beside a separate Median GMAT Focus row",
    "src": "Poets&Quants (Class of 2027 profile coverage)",
    "year": 2025,
    "url": "https://poetsandquants.com/2025/11/04/mit-sloan-mba-class-of-2027-international-ranks-grow-but-u-s-diversity-stays-flat/"

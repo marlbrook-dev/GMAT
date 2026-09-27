@@ -480,6 +480,17 @@ verified rather than that the school does not publish one (INC-0118).
       mba.com's Imperva challenge, 726 characters, had passed the 400 character floor, so a
       right fact was reported wrong. A challenge is now reported as an unreadable source and
       never cached.
+- [x] **Every GMAT figure says which edition its source gives it** (INC-0157). Eleven
+      figures on ten school pages had been filed under an edition their sources never name,
+      by guesses printed beside them, some false ("above Focus scale cap" for 698 and 702,
+      though the Focus scale runs to 805). They are blank, each with a note quoting what its
+      source prints: Georgia Tech, Washington Foster, UC San Diego Rady, Arizona State (both),
+      Texas A&M, William & Mary, Notre Dame, USC Marshall, UNC Kenan-Flagler's Classic figure
+      and Cornell, whose own FAQ calls the current exam plain "GMAT". Thirteen whose pages do
+      name the edition now say so in the page's words, WashU's stays on its page's 200 to 800
+      scale, and Babson, Kentucky, Northeastern and TCU keep theirs with an `edition_proof`:
+      each class enrolled before Focus testing began on November 7, 2023. validate_schools
+      refuses a GMAT figure that shows neither its source's label nor a proof.
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects

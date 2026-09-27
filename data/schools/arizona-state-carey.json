@@ -57,19 +57,20 @@
    "url": "https://wpcarey.asu.edu/mba-programs/full-time/class-profile"
   },
   "gmat_focus": {
-   "v": 690,
-   "stat": "average GMAT, incoming class of fall 2025",
-   "src": "W. P. Carey full-time MBA class profile",
-   "year": 2025,
-   "url": "https://wpcarey.asu.edu/mba-programs/full-time/class-profile",
-   "note": "The page labels it GMAT without naming the edition. It was filed as GMAT Focus when it was added, on the ground that 690 lies on the Focus scale."
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "Not published: the fall 2025 class profile prints \"GMAT 690\" among its class averages, and names no GMAT edition. An unlabelled figure could be on either scale, or a mix of both, since GMAT scores of either edition stay valid for five years (GMAC), so it is not filed under one (INC-0157)."
   },
   "gmat_classic": {
-   "v": 698,
-   "stat": "avg (edition not labeled; value above Focus scale cap)",
-   "src": "W. P. Carey full-time MBA class profile",
-   "year": 2024,
-   "url": "https://ems.wpcarey.asu.edu/mba-programs/full-time/class-profile"
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "Not published: the 2024 profile this cited, which no longer loads, recorded an average of 698 with no edition named, and the reasoning once printed beside it, that 698 is above the Focus scale's cap, was wrong: the Focus scale runs to 805 (INC-0157)."
   },
   "gre_quant": {
    "v": null,

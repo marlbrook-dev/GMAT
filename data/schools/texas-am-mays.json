@@ -51,11 +51,12 @@
    "url": ""
   },
   "gmat_classic": {
-   "v": 672,
-   "stat": "avg, Class of 2026 (edition not labeled; fall 2024 entering class)",
-   "src": "Poets and Quants, Meet the Texas A&M Mays MBA Class of 2026",
-   "year": 2024,
-   "url": "https://poetsandquants.com/2024/11/14/meet-the-texas-am-mays-mba-class-of-2026/"
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "Not published: Poets&Quants' report on the Class of 2026 gives an average GMAT of 672, and names no GMAT edition. An unlabelled figure could be on either scale, or a mix of both, since GMAT scores of either edition stay valid for five years (GMAC), so it is not filed under one (INC-0157)."
   },
   "gre_quant": {
    "v": null,

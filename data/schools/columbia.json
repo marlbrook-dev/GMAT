@@ -43,14 +43,14 @@
   },
   "gmat_focus": {
    "v": 690,
-   "stat": "average",
+   "stat": "average, labeled GMAT Average (Focus); range 615-805",
    "src": "Poets&Quants (Class of 2027 profile coverage)",
    "year": 2025,
    "url": "https://poetsandquants.com/2025/11/20/columbia-completes-the-m7-picture-multiple-school-records-set-in-new-mba-class/"
   },
   "gmat_classic": {
    "v": 734,
-   "stat": "average",
+   "stat": "average, labeled GMAT Average (10th Edition); range 610-780",
    "src": "Poets&Quants (Class of 2027 profile coverage)",
    "year": 2025,
    "url": "https://poetsandquants.com/2025/11/20/columbia-completes-the-m7-picture-multiple-school-records-set-in-new-mba-class/"

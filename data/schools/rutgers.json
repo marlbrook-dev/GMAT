@@ -52,7 +52,7 @@
   },
   "gmat_classic": {
    "v": 640,
-   "stat": "typical student profile ('The Full-Time MBA student profile has a 640 GMAT score'); stat type and edition not labeled",
+   "stat": "typical student profile, labeled GMAT (Classic): 'The Full-Time MBA student profile has a 640 GMAT (Classic) score'",
    "src": "Rutgers full-time MBA FAQ",
    "year": 2026,
    "url": "https://www.business.rutgers.edu/full-time-mba/frequently-asked-questions"

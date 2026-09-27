@@ -917,11 +917,17 @@ def school_page(s, tpl, today, ranked=()):
                     '<tr><td>GMAT</td><td class="num"><span class="note">not verified</span>'
                     '</td><td class="src">No GMAT score for this program has been verified, '
                     'with the edition it is on, from the school or a tracked publisher, so '
-                    'none is shown. We never convert a score from one GMAT edition to the '
-                    'other.</td></tr>')
+                    'none is shown. Where a school prints a GMAT figure without saying which '
+                    'edition it is on, we leave it out rather than guess, and we never '
+                    'convert a score from one GMAT edition to the other.</td></tr>')
                 prof_rows.append(own_rows[-1])
             continue
         stat = f' <span class="src">{esc(f["stat"])}</span>' if f.get("stat") else ""
+        # A GMAT figure whose source names no edition is shown only with the proof of its
+        # edition, and the proof is printed with it, so the page says why (INC-0157).
+        proof = (f.get("edition_proof") or {}).get("why")
+        if proof:
+            stat += f' <span class="src">{esc(proof)}</span>'
         mark = ""
         if is_secondary(s, f):
             mark = SECONDARY_MARK

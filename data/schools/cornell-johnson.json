@@ -54,11 +54,12 @@
    "note": "No GMAT Focus Edition figure seen for Cornell in sources reviewed"
   },
   "gmat_classic": {
-   "v": 710,
-   "stat": "median",
-   "src": "Cornell Johnson MBA class profile (recruiting page)",
-   "year": 2025,
-   "url": "https://business.cornell.edu/partners/recruiting-johnson/"
+   "v": null,
+   "stat": "",
+   "src": "",
+   "year": null,
+   "url": "",
+   "note": "Not published: the Class of 2027 profile prints \"GMAT (median) 710\", and names no GMAT edition. An unlabelled figure could be on either scale, or a mix of both, since GMAT scores of either edition stay valid for five years (GMAC), so it is not filed under one (INC-0157). Cornell's own FAQ names \"the GMAT\" and \"GMAT 10th Edition\" as separate exams, so its plain GMAT may be the current one."
   },
   "gre_quant": {
    "v": null,
