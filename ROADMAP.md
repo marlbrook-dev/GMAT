@@ -491,6 +491,14 @@ verified rather than that the school does not publish one (INC-0118).
       scale, and Babson, Kentucky, Northeastern and TCU keep theirs with an `edition_proof`:
       each class enrolled before Focus testing began on November 7, 2023. validate_schools
       refuses a GMAT figure that shows neither its source's label nor a proof.
+- [x] **"Average GMAT Score by MBA Program" queued for November 13**, Maya Chen: every
+      verified GMAT figure for a class that entered in 2025 or 2026, each edition in its own
+      table (GMAT Focus at 25 programs, 541 to 690; Classic at 21, 650 to 740), with why
+      classes report two editions (Focus testing from November 7, 2023; scores valid five
+      years), Chicago Booth's split of who submitted which, GMAC's percentile concordance,
+      averages against medians, and the ranges that reach below every headline figure.
+      Harvard's GMAT stats gain the middle 80 percent ranges its page prints. The fact block
+      is in EDITORIAL.md.
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects
