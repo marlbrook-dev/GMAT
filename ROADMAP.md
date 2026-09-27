@@ -686,6 +686,18 @@ verified rather than that the school does not publish one (INC-0118).
       LSAT 14542, of which 14170 are generated, counts read from the build. All 150 new items
       were read at LSAT, GMAT and GRE length; one ambiguity was fixed first ("they fell in
       the weeks of winter flood" became "they were clustered in").
+- [x] **"Can You Cancel Your GMAT, GRE, LSAT, SAT, or ACT Score?"** queued for December
+      13 (David Okafor), the post held since the calculator post took its slot. GMAC's own
+      article says GMAT scores do not need to be canceled, since you see the official score
+      before deciding whether to send it; the GRE's report or cancel choice at the end of the
+      test, with reinstatement within 60 days for $50; the LSAT's six calendar days, or six
+      days after release with Score Preview, and the Candidate Cancel law schools see; the
+      SAT's week after a weekend test; and ACT's cancellation on request from its examinee
+      terms. support.mba.com, which refused reads all day, answers requests that carry the
+      source check's own declared user agent and refuses those presenting as a browser, so
+      its articles are readable after all. Five cancellation rules join data/exams.json and
+      pass the source check against their live pages, and EDITORIAL.md gains a canceling
+      scores block.
 - [x] **"Who Qualifies for a GMAT, GRE, LSAT, SAT, or ACT Fee Waiver?"** queued for
       December 11 (Elena Rodriguez). Who can get each waiver and how to apply, where the
       cost posts cover what each one pays for: GMAT fee waivers, typically distributed
