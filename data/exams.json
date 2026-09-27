@@ -113,6 +113,7 @@
       },
       {
         "text": "Data Insights consists of 20 multiple-choice questions in 45 minutes, drawn from five question types: data sufficiency, multi-source reasoning, table analysis, graphics interpretation and two-part analysis",
+        "derived": {"5": "count: the question types the page lists, counted 2026-09-27"},
         "src": "GMAC",
         "year": 2026,
         "url": "https://www.gmac.com/gmat-other-assessments/about-the-gmat-focus-edition/exam-scores"
@@ -565,10 +566,13 @@
       "url": "https://www.lsac.org/about/lsac-policies/limits-on-repeating-lsat"
     },
     "score_release": {
-      "text": "Scores are released on published dates roughly three weeks after each administration; processing can take up to three weeks from the date LSAT Argumentative Writing is completed",
+      "text": "Scores are released on the score release date LSAC publishes for each administration, provided an approved writing sample is on file and the account has no holds; a writing sample can take up to three weeks to process from the date LSAT Argumentative Writing is completed",
       "src": "LSAC",
       "year": 2026,
-      "url": "https://www.lsac.org/LSATdates"
+      "url": "https://www.lsac.org/lsat/lsat-scoring",
+      "also_urls": [
+        "https://www.lsac.org/LSATdates"
+      ]
     },
     "used_for": {
       "text": "The admission test for JD programs at law schools; LSAC describes it as the only test accepted by all ABA-approved law schools",
@@ -728,7 +732,7 @@
     },
     "cost_usd": {
       "v": 70,
-      "note": "The ACT Test (English, mathematics and reading) is $70.00. The science add-on is $5.00 and the writing add-on is $25.00, or $100.00 for all three. Late registration adds $42.00 and standby testing $75.00. Additional score reports are $20.00 each.",
+      "note": "The ACT Test (English, mathematics and reading) is $70.00. The science add-on is $5.00 and the writing add-on is $25.00, or $100.00 with both add-ons. Late registration adds $42.00 and standby testing $75.00. Additional score reports are $20.00 each.",
       "src": "ACT",
       "year": 2026,
       "url": "https://www.act.org/content/act/en/products-and-services/the-act/registration/fees.html"

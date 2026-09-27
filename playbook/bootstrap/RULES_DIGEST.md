@@ -1,14 +1,14 @@
 # Rules Digest
 
-Rules from 176 defects in a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
+Rules from 177 defects in a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
 
-Generated 2026-09-27 from a ledger spanning 8 days and 123 commits.
+Generated 2026-09-27 from a ledger spanning 8 days and 124 commits.
 
 ## Read this first
 
-The three ways defects were most often found, in order: found by reading the code or the output (91), found by measuring something (43), a test caught it (22). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
+The three ways defects were most often found, in order: found by reading the code or the output (92), found by measuring something (43), a test caught it (22). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
 
-The dominant failure mode is silent loss, 26 of 176: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
+The dominant failure mode is silent loss, 26 of 177: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
 
 ## Learned the hard way, more than once
 
@@ -20,12 +20,12 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (5 times, build system) A guard that covers a subset of cases reproduces the original defect in the cases it skips, and it is more dangerous than no guard because the incident it was written for feels closed.
 - (5 times, content generation) An aggregate over a mixed population reports the population, and if part of that population is flat by construction it will hide the part that is not.
 - (5 times, content generation) A corpus field is written against the one sentence the author had in mind, and the schema that reuses it three templates later has no way to know which shape it is.
+- (5 times, content generation) A citation vouches only for what its source says, so check each figure against the source rather than checking that a citation is present.
 - (5 times, content generation) Finding a number on a page is not finding the fact. A check has to look for it beside the words that say what it counts, and notice when those words are about something else: another program, another class.
 - (4 times, content generation) Two lessons, and they compound. A rule copied into code by its examples loses the clause the examples were illustrating: CLAUDE.md bans six named sites and coaching site blogs, and the list kept the six and dropped the category, which is the half that generalises.
 - (4 times, content generation) A counter that nothing reads is not instrumentation, it is a comment that looks like instrumentation, and it is worse than nothing because it answers the question 'is anyone watching this' with a yes.
 - (4 times, content generation) A check that infers what to expect from the same data it is checking cannot fail on a missing field: absence reads as nothing to look for.
 - (4 times, content generation) Any consumer that describes a value in words must read the field that records what kind of value it is, never the field's name.
-- (4 times, content generation) A citation vouches only for what its source says, so check each figure against the source rather than checking that a citation is present.
 - (4 times, content generation) Anything written ahead of its publication date is a promise about the future made from the past.
 - (3 times, css and layout) The same undefined-property failure will find you repeatedly, at every severity from one icon to an invisible legal control.
 - (3 times, tests and guards) A path that exists on the machine you wrote the test on is not a path. Resolve environment-specific locations through one helper that falls back to the tool's own default, and return undefined rather than an empty string, because undefined means 'you decide' and an empty string means 'launch nothing'.
@@ -68,6 +68,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (2 times, tests and guards) A checker's excuse category needs the same scrutiny as its findings. "Shows none of its figures" was given one cause and the cause was believed, but to a check that looks for numbers, a page whose every figure changed looks exactly like a page that never loaded.
 - (2 times, content generation) A style rule that nothing checks holds only for the work written after someone remembered it.
 - (2 times, content generation) A number's presence on a page is weak evidence for a fact, because pages are full of numbers that mean other things: menus, dates, grade ranges, footnote markers.
+- (2 times, content generation) When a check fails the same way twice with different details, guard the shape rather than the instance.
 
 ## Content generation
 
@@ -90,7 +91,6 @@ These cost this build twice or more each. If you read nothing else here, read th
 - When the same file already solves a problem correctly, the second implementation is the one to distrust: the reference was available and was not used, so whatever made it easy to skip will make it easy to skip again.
 - A provenance label is a factual claim and deserves the same checking as the number it annotates.
 - When a page publishes a number the build computes, the page should read it from the build.
-- When a key is derived from premises held as data, each premise has to be found in what the reader sees, and a check should prove that by searching the rendered text rather than the data.
 
 ## Tests and guards
 
@@ -149,4 +149,4 @@ These cost this build twice or more each. If you read nothing else here, read th
 - In Postgres, revoking from every role you can name still leaves PUBLIC. Verify with the advisors or by reading the acl, never by reading your own migration.
 - An empty catch block around a write is a silent-loss defect waiting to be born. If a save can fail, the person must be told; a success toast that fires regardless of the result is worse than no toast, because it actively teaches the user the data is safe.
 
-69 more rules, each learned once from a less costly defect, did not fit a prompt sized digest. The checklist in BUILD_PLAYBOOK.md has every rule.
+70 more rules, each learned once from a less costly defect, did not fit a prompt sized digest. The checklist in BUILD_PLAYBOOK.md has every rule.

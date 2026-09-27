@@ -356,9 +356,15 @@ def fetch(url, cache, rendered=False):
     return text
 
 
+# A fact's number words are its numbers, as a page's are: the LSAT guide's "roughly three
+# weeks" went unchecked because only the page side read words (INC-0177). The school library
+# is read without them, since its text is a figure's description rather than the figure.
+FACT_WORDS = [True]
+
+
 def printed(fact):
     """The numbers a fact expects its source to print, leaving out the ones it derives."""
-    want = set().union(*(numbers(fact.get(k)) for k in FIELDS))
+    want = set().union(*(numbers(fact.get(k), FACT_WORDS[0]) for k in FIELDS))
     if isinstance(fact.get("v"), (int, float)):
         want.add(norm("%g" % fact["v"]))
     return want - set(fact.get("derived") or {})
@@ -399,7 +405,7 @@ def triaged(key, fact, miss, triage):
 def check(fact, source_nums):
     """The numbers in a fact that its source does not print, as (number, why)."""
     derived = fact.get("derived") or {}
-    want = set().union(*(numbers(fact.get(k)) for k in FIELDS))
+    want = set().union(*(numbers(fact.get(k), FACT_WORDS[0]) for k in FIELDS))
     if isinstance(fact.get("v"), (int, float)):
         want.add(norm("%g" % fact["v"]))
     missing = []
@@ -537,6 +543,11 @@ def fact_words(where, fact):
     return FIELD_WORDS.get(re.sub(r"\[\d+\]", "", where).split(".")[-1])
 
 
+# A number that is only part of a date is the date's, not a figure: the 3 of 3/3/2027 in
+# LSAC's table of test dates would have confirmed the LSAT guide's "three weeks" (INC-0177).
+DATE = re.compile(r"\b\d{1,2}/\d{1,2}/\d{2,4}\b|\b\d{4}-\d{2}-\d{2}\b")
+
+
 def in_table(text, start, end):
     """True when the number at text[start:end] has another number beside it, as a table's
     cells do: "160 82 50", or "150 36.56% 36.6%"."""
@@ -560,8 +571,11 @@ def away_from_words(where, fact, texts):
             spots = [m.span() for m in NUM.finditer(text) if norm(m.group(0)) == n]
             if forms:
                 spots += [m.span() for m in re.finditer(r"\b(?:%s)\b" % "|".join(forms), text, re.I)]
+            dates = [m.span() for m in DATE.finditer(text)]
             for a, b in spots:
                 seen = True
+                if any(x <= a and b <= y for x, y in dates):
+                    continue
                 if in_table(text, a, b) or re.search(label, text[max(0, a - WORDS_NEAR): b + WORDS_NEAR], re.I):
                     beside = True
                     break
@@ -627,7 +641,20 @@ def _selfcheck():
     INC-0173: text inside a quoted attribute is not page text, whatever markup it holds.
     INC-0174: an exam fact's number counts only near a word of the fact's, or in a table.
     INC-0175: a read too short to be evidence is not cached, and Imperva's script challenge is
-    read once more and then reported as a challenge."""
+    read once more and then reported as a challenge.
+    INC-0177: a fact's number words are numbers, and a number only in a date is no figure."""
+    # INC-0177: the LSAT guide's "roughly three weeks" against LSAC's table of dates, as the
+    # page prints it: the only 3s are in dates, so the fact is flagged, not confirmed.
+    lsac = ("Administration Primary test dates LSAT Argumentative Writing opens Registration deadline Scheduling "
+            "opens Score release January 2027 1/13/2027 1/14/2027 1/15/2027 1/16/2027 1/5/2027 12/1/2026 12/22/2026 "
+            "2/3/2027 Register for the January 2027 February 2027 2/12/2027 2/13/2027 2/4/2027 12/29/2026 1/26/2027 "
+            "3/3/2027 Register for the February 2027")
+    weeks = {"text": "Scores are released on published dates roughly three weeks after each administration"}
+    if "3" not in printed(weeks) or [n for n, _ in away_from_words("score_release", weeks, [lsac])] != ["3"]:
+        sys.exit("check_sources: a number written as a word, found only in dates, passed (INC-0177)")
+    if [n for n, _ in away_from_words("score_release", weeks, ["Processing can take up to three weeks "
+                                                               "after each administration's release is published"])]:
+        sys.exit("check_sources: a number word beside the fact's words was not found (INC-0177)")
     # INC-0175: Imperva's script challenge, as mba.com served it for GMAC's policies PDF.
     script = (b'<html>\r\n<head>\r\n<META NAME="robots" CONTENT="noindex,nofollow">\r\n<script src="/_Incapsula_'
               b'Resource?SWJIYLWA=5074a744e2e3d891814e9a2dace20bd4">\r\n</script>\r\n<body>\r\n</body></html>')
@@ -796,6 +823,7 @@ def main(argv):
     if "--schools" in argv:
         records = [json.loads(p.read_text()) for p in sorted(SCHOOLS.glob("*.json"))]
         FIELDS[:] = ["text", "stat"]
+        FACT_WORDS[0] = False
         triage = load_triage()
     else:
         records = json.loads(EXAMS.read_text())
