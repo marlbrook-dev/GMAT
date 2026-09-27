@@ -2,6 +2,7 @@
 
     /exams/act/score-calculator/   the ACT Composite and superscore, with national ranks
     /exams/gre/score-calculator/   GRE percentile ranks for Verbal, Quant and Writing
+    /exams/sat/score-calculator/   the SAT total and College Board's two percentile groups
 
 A calculator is only as honest as its rule. Each one here does arithmetic that the test
 maker publishes and nothing else: no score conversion, estimate or percentile that the
@@ -14,6 +15,7 @@ import html
 import json
 import os
 import pathlib
+import re
 import sys
 
 D = pathlib.Path(__file__).parent
@@ -24,6 +26,11 @@ import partials
 SITE = "https://startfromnowhere.com"
 ACT_RANKS = ROOT / "data" / "act_national_ranks.json"
 GRE_RANKS = ROOT / "data" / "gre_percentiles.json"
+SAT_RANKS = ROOT / "data" / "sat_percentiles.json"
+SAT_TOTALS = [str(x) for x in range(1600, 399, -10)]
+SAT_SECTIONS = [str(x) for x in range(800, 199, -10)]
+# College Board prints a whole-number percentile, or 99+ and 1- at the ends of the scale.
+SAT_CELL = re.compile(r"^(99\+|1-|[1-9]\d?)$")
 GRE_SCORES = [str(x) for x in range(170, 129, -1)]
 GRE_WRITING = ["6.0", "5.5", "5.0", "4.5", "4.0", "3.5", "3.0", "2.5", "2.0", "1.5", "1.0",
                "0.5", "0.0"]
@@ -269,6 +276,124 @@ def gre_page(gre, d):
     return partials.apply_chrome(page)
 
 
+def sat_order(v):
+    """A printed percentile as a number that sorts: 99+ above 99, 1- below 1."""
+    return 99.5 if v == "99+" else 0.5 if v == "1-" else int(v)
+
+
+def check_sat(d):
+    """College Board's SAT percentiles, checked before anything is rendered from them.
+
+    Parsed from the research page by a script, never typed. Every score College Board
+    lists must be there in each group, in the form it prints, never rising as the score
+    falls; the definitions quoted on the page and the two citations must be present.
+    """
+    bad = []
+    if d.get("src") != "College Board" or not str(d.get("url", "")).startswith(
+            "https://research.collegeboard.org/"):
+        bad.append("the source must be College Board, with a URL on research.collegeboard.org")
+    for k in ("year", "read", "modified", "title"):
+        if not d.get(k):
+            bad.append("no " + k)
+    if sorted((d.get("definitions") or {})) != ["national", "rank", "user"]:
+        bad.append("the three definitions the page prints must be quoted")
+    for part, keys in (("total", SAT_TOTALS), ("rw", SAT_SECTIONS), ("math", SAT_SECTIONS)):
+        for grp in ("national", "user"):
+            c = (d.get(part) or {}).get(grp) or {}
+            if list(c) != keys:
+                bad.append("%s %s does not list every score in order" % (part, grp))
+                continue
+            vals = [c[k] for k in keys]
+            if not all(isinstance(v, str) and SAT_CELL.match(v) for v in vals):
+                bad.append("%s %s has a cell College Board would not print" % (part, grp))
+            elif [sat_order(v) for v in vals] != sorted((sat_order(v) for v in vals), reverse=True):
+                bad.append("%s %s percentiles must fall as the score falls" % (part, grp))
+    for k in ("sum_rule", "all_tester"):
+        f = d.get(k) or {}
+        if not all(f.get(x) for x in ("text", "src", "year", "url", "title")) or \
+                not f["url"].startswith("https://satsuite.collegeboard.org/"):
+            bad.append("%s needs its text, title, source, year and a satsuite.collegeboard.org URL" % k)
+    if bad:
+        fail("data/sat_percentiles.json: " + "; ".join(bad))
+
+
+def ordinal(n):
+    n = int(n)
+    suf = "th" if 10 <= n % 100 <= 20 else {1: "st", 2: "nd", 3: "rd"}.get(n % 10, "th")
+    return "%d%s" % (n, suf)
+
+
+def sat_page(d):
+    rank_src = {"src": d["src"], "year": d["year"], "url": d["url"]}
+    rank_cite = cite(d["title"], rank_src)
+    sum_cite = cite(d["sum_rule"]["title"], d["sum_rule"])
+    tester_cite = cite(d["all_tester"]["title"], d["all_tester"])
+    tot, rw, math = d["total"], d["rw"], d["math"]
+    defs = d["definitions"]
+
+    total_rows = "\n".join("<tr><td>%s</td><td>%s</td><td>%s</td></tr>"
+                            % (k, esc(tot["national"][k]), esc(tot["user"][k])) for k in SAT_TOTALS)
+    def section_rows(t):
+        return "\n".join("<tr><td>%s</td><td>%s</td><td>%s</td></tr>"
+                         % (k, esc(t["national"][k]), esc(t["user"][k])) for k in SAT_SECTIONS)
+    hi = sum(1 for k in SAT_TOTALS if sat_order(tot["national"][k]) > sat_order(tot["user"][k]))
+    lo = sum(1 for k in SAT_TOTALS if sat_order(tot["national"][k]) < sat_order(tot["user"][k]))
+    eq = len(SAT_TOTALS) - hi - lo
+    compare = ("Neither group always gives the higher figure. Of the %d totals College Board "
+               "lists, the nationally representative percentile is the higher at %d, the user "
+               "group percentile at %d, and the two match at %d. At a total of 1200 they are %s "
+               "and %s; at 800 they are %s and %s."
+               % (len(SAT_TOTALS), hi, lo, eq, tot["national"]["1200"], tot["user"]["1200"],
+                  tot["national"]["800"], tot["user"]["800"]))
+
+    def at(score):
+        n, u = tot["national"][score], tot["user"][score]
+        if not (n.isdigit() and u.isdigit()):
+            fail("the SAT FAQ quotes the percentiles for %s, which are no longer whole numbers" % score)
+        return ("On College Board's tables a total of %s is at the %s nationally representative "
+                "percentile and the %s user group percentile: %s percent of the nationally "
+                "representative group, and %s percent of the user group, scored at or below it."
+                % (score, ordinal(n), ordinal(u), n, u))
+    faq = [
+        ("How Is the SAT Total Score Calculated?", d["sum_rule"]["text"] + ".", sum_cite),
+        ("What Percentile Is a 1200 on the SAT?", at("1200"), rank_cite),
+        ("What Percentile Is a 1400 on the SAT?", at("1400"), rank_cite),
+        ("What Percentile Is a 1000 on the SAT?", at("1000"), rank_cite),
+        ("What Is the Difference Between the Two SAT Percentiles?",
+         'College Board describes them this way: "%s" And: "%s"' % (defs["national"], defs["user"]),
+         rank_cite),
+        ("Is the Percentile on My Score Report One of These?",
+         'Your score report shows an All Tester Percentile, which College Board\'s guide to '
+         'fall 2026 scores describes this way: "%s"' % d["all_tester"]["text"] +
+         " College Board does not say that it is the same table as the user group "
+         "percentiles on its research site, so the figure on your own report is the one that "
+         "describes you.", tester_cite),
+    ]
+    faq_html = "\n".join('<h3>%s</h3><p>%s</p><p class="src">Source: %s.</p>'
+                         % (esc(q), esc(a), c) for q, a, c in faq)
+    faq_ld = json.dumps({"@context": "https://schema.org", "@type": "FAQPage",
+                         "mainEntity": [{"@type": "Question", "name": q,
+                                         "acceptedAnswer": {"@type": "Answer", "text": a}}
+                                        for q, a, _ in faq]}, separators=(",", ":"))
+    ranks = json.dumps({k: d[k] for k in ("total", "rw", "math")}, separators=(",", ":"))
+    page = ((D / "sat_calculator.html").read_text()
+            .replace("{{FAQ_LD}}", faq_ld).replace("{{FAQ_HTML}}", faq_html)
+            .replace("{{TOTAL_ROWS}}", total_rows)
+            .replace("{{RW_ROWS}}", section_rows(rw)).replace("{{MATH_ROWS}}", section_rows(math))
+            .replace("{{RANKS_JSON}}", ranks)
+            .replace("{{RANK_CITE}}", rank_cite).replace("{{SUM_CITE}}", sum_cite)
+            .replace("{{TESTER_CITE}}", tester_cite)
+            .replace("{{SUM_TEXT}}", esc(d["sum_rule"]["text"]))
+            .replace("{{DEF_RANK}}", esc(defs["rank"]))
+            .replace("{{DEF_NATIONAL}}", esc(defs["national"]))
+            .replace("{{DEF_USER}}", esc(defs["user"]))
+            .replace("{{ALL_TESTER}}", esc(d["all_tester"]["text"]))
+            .replace("{{GROUP_COMPARE}}", esc(compare))
+            .replace("{{READ}}", long_date(d["read"]))
+            .replace("{{MODIFIED}}", long_date(d["modified"])))
+    return partials.apply_chrome(page)
+
+
 def write_page(rel, page):
     if "{{" in page:
         fail("unresolved placeholder in /%s/" % rel)
@@ -295,6 +420,9 @@ def main():
     g = json.loads(GRE_RANKS.read_text())
     check_gre(g)
     write_page("exams/gre/score-calculator", gre_page(gre, g))
+    sat = json.loads(SAT_RANKS.read_text())
+    check_sat(sat)
+    write_page("exams/sat/score-calculator", sat_page(sat))
 
 
 if __name__ == "__main__":

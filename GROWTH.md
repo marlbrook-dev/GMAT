@@ -154,6 +154,12 @@ pages on ChatGPT search (403).
   parsed from ETS's interpretive data PDF the same way. ETS reports three scores and ranks
   each separately, so the page adds Verbal and Quant only as arithmetic and gives the sum
   no percentile.
+- **An SAT score calculator at /exams/sat/score-calculator/**: the total as College Board
+  defines it, the sum of the two section scores, and where the total and each section stand
+  in College Board's own percentile tables, both groups of them: nationally representative
+  and user group, each defined in College Board's words. The tables come from College
+  Board's research site, parsed by a script, and the page says plainly that College Board
+  does not call either one the All Tester Percentile on a score report.
 
 ### Next, in the order the evidence ranks them
 
@@ -161,9 +167,8 @@ pages on ChatGPT search (403).
    question to an inbox or account (kaplanquizzes.com; act.org free test prep). This needs an
    owner decision on a sending provider, a consented list, a one-click unsubscribe, and a
    privacy.html update before anything is collected.
-2. **Score calculators built only from published rules**: the ACT and GRE ones are built
-   (above). An SAT one waits on finding College Board's percentile table. Never a
-   percentile or a conversion table we cannot source.
+2. **Score calculators built only from published rules**: the ACT, GRE and SAT ones are
+   built (above). Never a percentile or a conversion table we cannot source.
 3. **Per-school MBA deadline pages**, which Clear Admit runs as a hub. Blocked on data: only
    one school file carries a deadline, and each must come from the school's own page.
 4. **An ICS export of the application checklist**, so the dated tasks on /apply/ land in a

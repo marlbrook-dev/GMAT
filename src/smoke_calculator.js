@@ -1,4 +1,5 @@
-/* Drives the ACT score calculator the way a student would and checks every number it prints.
+/* Drives the ACT, GRE and SAT score calculators the way a student would and checks every
+ * number they print.
  *
  * The page's arithmetic is ACT's published rule, so the check computes the same rule
  * independently (Math.round, which rounds halves up for positive numbers) and reads the
@@ -18,6 +19,8 @@ const DATA = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'act_national_ra
 const RANK = DATA.ranks.composite.at_or_below;
 const GRE_PATH = '/exams/gre/score-calculator/';
 const GRE = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'gre_percentiles.json'), 'utf8'));
+const SAT_PATH = '/exams/sat/score-calculator/';
+const SAT = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'sat_percentiles.json'), 'utf8'));
 
 const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css',
                 '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png' };
@@ -35,7 +38,7 @@ const server = http.createServer((req, res) => {
 const composite = (a, b, c) => Math.round((a + b + c) / 3);
 
 (async () => {
-  for (const u of [URL_PATH, GRE_PATH]) {
+  for (const u of [URL_PATH, GRE_PATH, SAT_PATH]) {
     if (!fs.existsSync(path.join(ROOT, u, 'index.html'))) {
       console.log('  FAIL: ' + u + ' was not built; run python3 src/build.py first');
       process.exit(1);
@@ -183,6 +186,68 @@ const composite = (a, b, c) => Math.round((a + b + c) / 3);
     check(at + ' has an FAQ block search engines can read', meta.faq >= 3, String(meta.faq));
     check(at + ' cites only ets.org', meta.cites.length > 0 && meta.cites.every(h => h.startsWith('https://www.ets.org/')),
           meta.cites.filter(h => !h.startsWith('https://www.ets.org/')).join(', '));
+    check(at + ' threw no script error', errs.length === 0, errs[0]);
+    await ctx.close();
+  }
+  // The SAT page: the total is the sum of the two sections, and every percentile is read
+  // off the data file the page was built from, 99+ and 1- included.
+  const satLine = (label, v, t) => label + ' ' + v + ': nationally representative percentile '
+    + t.national[String(v)] + ', user group percentile ' + t.user[String(v)] + '.';
+  for (const width of [390, 1280]) {
+    const ctx = await b.newContext({ viewport: { width, height: 900 } });
+    const p = await ctx.newPage();
+    const errs = [];
+    p.on('pageerror', e => errs.push(String(e)));
+    await p.goto(base + SAT_PATH, { waitUntil: 'domcontentloaded' });
+    if (await p.isVisible('#sfn-consent').catch(() => false)) await p.click('#sfn-consent .no');
+    const at = width + 'px SAT';
+    const read = () => p.evaluate(() => ({ text: document.getElementById('satOut').textContent,
+                                           cls: document.getElementById('satOut').className }));
+    const wrong = [];
+    for (const [rw, m] of [[600, 600], [800, 800], [200, 200], [510, 690], [730, 540]]) {
+      await p.fill('#sT', ''); await p.fill('#sRW', String(rw)); await p.fill('#sM', String(m));
+      const { text } = await read();
+      const t = rw + m;
+      if (!text.includes(rw + ' + ' + m + ' = ' + t)) wrong.push('sum ' + rw + '+' + m);
+      for (const line of [satLine('Total', t, SAT.total), satLine('Reading and Writing', rw, SAT.rw),
+                          satLine('Math', m, SAT.math)]) {
+        if (!text.includes(line)) wrong.push(line);
+      }
+    }
+    check(at + ' totals and percentiles match College Board\'s tables, 99+ and 1- included', !wrong.length, wrong.join('; '));
+    await p.fill('#sRW', ''); await p.fill('#sM', ''); await p.fill('#sT', '1350');
+    let r = await read();
+    check(at + ' looks up a total typed on its own', r.text.includes(satLine('Total', 1350, SAT.total)) && !r.cls.includes('err'), r.text);
+    await p.fill('#sRW', '600'); await p.fill('#sM', '600'); await p.fill('#sT', '1300');
+    r = await read();
+    check(at + ' sets aside a typed total that is not the sum', r.text.includes('1300, is not the sum') && r.text.includes(satLine('Total', 1200, SAT.total)), r.text);
+    for (const [sel, bad] of [['#sRW', '805'], ['#sRW', '195'], ['#sM', '555'], ['#sT', '1605']]) {
+      await p.fill('#sRW', '600'); await p.fill('#sM', '600'); await p.fill('#sT', '');
+      await p.fill(sel, bad);
+      r = await read();
+      check(at + ' refuses ' + bad + ' in ' + sel, r.cls.includes('err'), r.text);
+    }
+    const tables = await p.evaluate(() => ({
+      tot: [...document.querySelectorAll('#totTable tbody tr')].map(tr => [...tr.cells].map(td => td.textContent)),
+      rw: [...document.querySelectorAll('#rwTable tbody tr')].map(tr => [...tr.cells].map(td => td.textContent)),
+      m: [...document.querySelectorAll('#mTable tbody tr')].map(tr => [...tr.cells].map(td => td.textContent)) }));
+    const off = (rows, t) => rows.filter(c => c[1] !== t.national[c[0]] || c[2] !== t.user[c[0]]);
+    const bad = off(tables.tot, SAT.total).concat(off(tables.rw, SAT.rw), off(tables.m, SAT.math));
+    check(at + ' tables match College Board\'s percentiles', tables.tot.length === 121 && tables.rw.length === 61
+          && tables.m.length === 61 && !bad.length, bad.map(c => c.join(' ')).join('; '));
+    const meta = await p.evaluate(() => {
+      const de = document.documentElement;
+      let faq = 0;
+      document.querySelectorAll('script[type="application/ld+json"]').forEach(s => {
+        try { const j = JSON.parse(s.textContent); if (j['@type'] === 'FAQPage') faq = j.mainEntity.length; } catch (e) { faq = -1; } });
+      return { scrollW: de.scrollWidth, clientW: de.clientWidth, faq,
+               cites: [...document.querySelectorAll('.src a')].map(a => a.href) };
+    });
+    const cb = h => h.startsWith('https://research.collegeboard.org/') || h.startsWith('https://satsuite.collegeboard.org/');
+    check(at + ' does not scroll sideways', meta.scrollW <= meta.clientW + 1, meta.scrollW + ' > ' + meta.clientW);
+    check(at + ' has an FAQ block search engines can read', meta.faq >= 3, String(meta.faq));
+    check(at + ' cites only collegeboard.org', meta.cites.length > 0 && meta.cites.every(cb),
+          meta.cites.filter(h => !cb(h)).join(', '));
     check(at + ' threw no script error', errs.length === 0, errs[0]);
     await ctx.close();
   }
