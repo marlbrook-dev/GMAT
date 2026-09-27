@@ -672,6 +672,12 @@ verified rather than that the school does not publish one (INC-0118).
       script-only challenge, and caches no read too short to be evidence. All 108 exam facts
       pass: 106 in the run of September 27, and the two on GMAC's policies PDF against a
       direct read the same day, since Imperva challenged the run's reads of it.
+- [x] **"How Long Is the GMAT, GRE, LSAT, SAT, and ACT?"** queued for December 1 (Aisha
+      Thompson). Each exam's testing time and sections from the checked timing facts: the
+      GRE about 1 hour 58 minutes, the SAT 2 hours 14, the GMAT 2 hours 15, the ACT 2 hours
+      45 with science (125 minutes without), and the LSAT about 3 hours with no published
+      question counts, with a table of the average time each section allows per question,
+      worked out from the test makers' figures.
 - [x] **"How Long Are GMAT, GRE, LSAT, SAT, and ACT Scores Valid?"** queued for November
       29 (Elena Rodriguez). GMAT scores are valid for five years and reportable for up to
       10, GRE scores reportable for five years, LSAT scores for five testing years with
