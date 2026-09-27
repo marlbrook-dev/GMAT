@@ -326,6 +326,14 @@ verified rather than that the school does not publish one (INC-0118).
       2026 GRE scores to the Class of 2027 (INC-0145): the GRE sentence began with Its and
       took the class named before it. GRE now goes through the class sentences, and a lead
       sentence that opens with Its fails the build.
+- [x] **Five more long reading passages** (a downland moth, a port's tide predictions,
+      upland cattle fairs, how village names were said, a change in pottery), invented like
+      the rest of the corpus, each a revision narrative with its two rules printed. The
+      banks grow by 50 GMAT, 50 GRE and 50 LSAT items (GMAT 34062, GRE 20438, LSAT 14342 of
+      which 13970 are generated), and llms.txt and the EDITORIAL product facts carry the new
+      counts. A sample of every question type from the new passages was read for seams;
+      the one "whether or not" finding opens its clause, so the "is unreliable" distractor
+      does not run into it.
 - [x] **Blog pages get the design tokens** (INC-0139): `build_blog.py` pasted the shared
       header and footer CSS without `TOKENS_CSS`, so all 32 blog pages used 22 tokens they
       never defined and the logo sat against the screen edge on phones. The blog now injects
