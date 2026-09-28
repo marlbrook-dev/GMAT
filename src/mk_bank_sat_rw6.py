@@ -417,7 +417,7 @@ q('SR240','rw_cs','Text Structure and Purpose',3,
   'To describe the experiments by which the meaning of the dance was determined',
   'To explain how bees locate flowers in the absence of a communicative signal'],
  "The text affirms that the dance carries information and then reports two findings that limit what follows from it.",
- "The first sentence of the text grants what B denies, the experiments are summarised rather than described, and no alternative mechanism is offered.")
+ "The first sentence of the text grants what {B} denies, the experiments are summarised rather than described, and no alternative mechanism is offered.")
 q('SR241','rw_cs','Text Structure and Purpose',4,
  "The Domesday Book records the value of almost every manor in England in 1086 and in 1066. "
  "Historians use the pair of figures to measure the damage of the conquest. The measurement "
@@ -849,7 +849,7 @@ q('SR272','rw_ii','Central Ideas and Details',3,
   'Three-arm trials are more informative than trials with two arms',
   'The attention patients receive in a trial is the principal cause of their recovery'],
  "The text lists what a placebo arm receives and closes by naming what it measures.",
- "No equivalence with an active drug is claimed, the three-arm design is evidence, and the last option overstates.")
+ "No equivalence with an active drug is claimed, the three-arm design is evidence, and {D} overstates.")
 
 # ============================================================ Command of Evidence
 q('SR273','rw_ii','Command of Evidence',3,
@@ -1254,7 +1254,7 @@ q('SR307','rw_ii','Inferences',4,
   'unrelated to the true effect of the treatment studied.',
   'the most useful available guide to how a drug will perform.'],
  "Stopping when the observed difference is largest selects on a fluctuation, which inflates the reported effect.",
- "Precision is a separate property, the effect is not unrelated to the truth, and the last option reverses the conclusion.")
+ "Precision is a separate property, the effect is not unrelated to the truth, and {D} reverses the conclusion.")
 q('SR308','rw_ii','Command of Evidence',3,
  "A curator argued that the manuscript was copied in a scriptorium that produced books for "
  "sale rather than for a monastic library.",

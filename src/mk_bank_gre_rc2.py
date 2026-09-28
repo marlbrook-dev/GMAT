@@ -141,7 +141,7 @@ q('GR005','B','Inference',4,
   'a counterexample must be typical to be informative',
   'the excavation was more carefully conducted than earlier ones'],
  'The objection is that one site is too little. That bites against a claim of prevalence, which is precisely the claim the author did not make.',
- 'Dating method, the chronology and excavation quality are not what the objection concerns, and the fourth is the principle the passage denies.')
+ 'Dating method, the chronology and excavation quality are not what the objection concerns, and {D} is the principle the passage denies.')
 q('GR006','B','Function of a sentence',4,
  'The final sentence functions to',
  ['state the general principle on which the passage\'s defence of the author rests',

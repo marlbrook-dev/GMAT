@@ -116,7 +116,7 @@ q('LC101','11','lsat_rc_main',3,
   'The exclusionary rule protects the integrity of judicial proceedings rather than',
   'Critics of the exclusionary rule have misunderstood the purpose the rule was adopted'],
  'The passage sets out the deterrence defence, two objections, the answer to one of them and the awkward consequence of that answer, and closes on the third position and its fate.',
- 'B is never recommended, C is one objection, D is the third position rather than the point, and the passage grants one of the criticisms.')
+ '{B} is never recommended, {C} is one objection, {D} is the third position rather than the point, and the passage grants one of the criticisms.')
 q('LC102','11','lsat_rc_stated',2,
  'According to the passage, the distributive objection to the exclusionary rule is that the rule',
  ['benefits only those against whom an unlawful search produced evidence',
@@ -134,7 +134,7 @@ q('LC103','11','lsat_rc_stated',3,
   'undervalues the interest defendants have in a fair trial',
   'assumes that the rule was adopted to compensate'],
  'The third paragraph gives exactly this answer, adding that the rule is not a compensation scheme.',
- 'B is the other objection, and C, D and E are not the response described.')
+ '{B} is the other objection, and {C}, {D} and {E} are not the response described.')
 q('LC104','11','lsat_rc_inf',4,
  "It can be inferred from the passage that the author regards the defenders' answer to the distributive objection as",
  ['correct, and as narrowing the ground on which the rule can be defended',
@@ -170,7 +170,7 @@ q('LC107','11','lsat_rc_app',3,
   'Courts should adopt whichever justification for a rule is least vulnerable',
   'The exclusionary rule should be retained in its present form'],
  'The third paragraph draws exactly this consequence: once the rule is purely a deterrent, a deterrent that cannot be shown to deter is hard to defend.',
- 'B is the objection the passage says is answered, C contradicts the treatment of the empirical objection, D is a procedural recommendation never made, and E is a verdict the passage withholds.')
+ '{B} is the objection the passage says is answered, {C} contradicts the treatment of the empirical objection, {D} is a procedural recommendation never made, and {E} is a verdict the passage withholds.')
 
 # ------------------------------------------------------------------ LP12 mycorrhizal
 q('LC108','12','lsat_rc_main',3,
@@ -181,7 +181,7 @@ q('LC108','12','lsat_rc_main',3,
   'Metaphors have no legitimate place in the description of biological systems',
   'Experiments giving plants and fungi conflicting interests have shown'],
  'The passage grants the linkage evidence, finds the functional evidence weak, identifies the metaphor filling the gap, and says what measurement would settle it.',
- 'B is the claim under examination, C is background, D is stronger than anything said, and E describes experiments the passage says have rarely been attempted.')
+ '{B} is the claim under examination, {C} is background, {D} is stronger than anything said, and {E} describes experiments the passage says have rarely been attempted.')
 q('LC109','12','lsat_rc_stated',2,
  'According to the passage, the evidence that fungal threads link neighbouring plants includes',
  ['radioactive carbon given to one tree appearing in a neighbour',
@@ -190,7 +190,7 @@ q('LC109','12','lsat_rc_stated',2,
   'the universality of the plant and fungus partnership among land plants',
   'the greater volume of soil a fungus can reach than a root system can'],
  'The second paragraph names the labelled carbon result and the microscope observations as the good evidence for linkage.',
- 'B is expressly denied, C is part of the claim rather than the evidence, and D and E are background about the partnership.')
+ '{B} is expressly denied, {C} is part of the claim rather than the evidence, and {D} and {E} are background about the partnership.')
 q('LC110','12','lsat_rc_stated',3,
  'The passage states that carbon moving from one plant to another may be doing so because',
  ['the fungus takes the carbon and later releases it, making the fungus the agent',
@@ -208,7 +208,7 @@ q('LC111','12','lsat_rc_inf',4,
   'settle whether plants can respond to attacks on their neighbours',
   'show that the cooperative reading of the network is mistaken'],
  'The final paragraph names this design and says exactly what it would identify.',
- 'B is already established, C and D are different questions, and E presupposes the answer the experiment is meant to find.')
+ '{B} is already established, {C} and {D} are different questions, and {E} presupposes the answer the experiment is meant to find.')
 q('LC112','12','lsat_rc_struct',4,
  'The author refers to a finding that fits being reported as confirmation and a finding that does not as a complication primarily in order to',
  ['describe how a metaphor accepted in advance shapes the interpretation of later evidence',
@@ -246,7 +246,7 @@ q('LC115','13','lsat_rc_main',3,
   'Courts applying the fixation rule to recorded oral traditions decided those cases wrongly',
   'Transcribing an oral performance requires choices that copyright ordinarily treats as authorship'],
  'The final paragraph states it: copyright cannot match the scope of a right to the size of the contribution, and oral traditions are where the assumption that makes this acceptable fails.',
- 'B is the response the passage calls weaker than it sounds, C and D are remedies and verdicts never offered, and E is a supporting premise.')
+ '{B} is the response the passage calls weaker than it sounds, {C} and {D} are remedies and verdicts never offered, and {E} is a supporting premise.')
 q('LC116','13','lsat_rc_stated',2,
  'According to the passage, a work is protected by copyright only if it is',
  ['fixed in a tangible medium',
@@ -273,7 +273,7 @@ q('LC118','13','lsat_rc_inf',4,
   'apply only to works whose origins lie in an oral tradition',
   "have been rejected by the courts that considered the collectors' claims"],
  'The third paragraph says the choices transcription requires are the sort of thing copyright treats as authorship, and a rule denying them protection would also deny it to editorial work.',
- 'B, C, D and E each assert consequences the passage does not draw.')
+ '{B}, {C}, {D} and {E} each assert consequences the passage does not draw.')
 q('LC119','13','lsat_rc_struct',4,
  'The author characterises the response that the collectors contributed nothing original as weaker than it sounds primarily in order to',
  ['show that the difficulty cannot be resolved by denying that the collectors did anything',
@@ -291,7 +291,7 @@ q('LC120','13','lsat_rc_app',4,
   'A photographer who is refused copyright in a photograph of a public building',
   'An archivist who catalogues a collection and is credited in the published guide'],
  'A small addition producing a right over the whole is exactly the structure the passage describes.',
- 'B, C and E match contribution to reward, and D is a denial of protection rather than a mismatch.')
+ '{B}, {C} and {E} match contribution to reward, and {D} is a denial of protection rather than a mismatch.')
 q('LC121','13','lsat_rc_app',3,
  'The passage suggests that copyright law manages without a mechanism for matching a right to the size of a contribution because',
  ['in the ordinary case the contribution being protected is the entire work',
@@ -387,7 +387,7 @@ q('LC122','14','lsat_rc_main',4,
   "Policy makers need judgments about mechanisms, which randomised trials cannot supply",
   "Development economics has become less rigorous since it adopted the randomised trial"],
  "The final paragraph narrows the disagreement to a judgment about the second best and notes that neither side has produced evidence about it.",
- "B is the method's achievement, C is the advocates' response, D is the critics' claim, and E is never said.")
+ "{B} is the method's achievement, {C} is the advocates' response, {D} is the critics' claim, and {E} is never said.")
 q('LC123','14','lsat_rc_stated',2,
  'According to the passage, randomising the placement of a programme addresses the problem that',
  ["a programme may have been placed where the outcome it aims at was already improving",
@@ -414,7 +414,7 @@ q('LC125','14','lsat_rc_inf',4,
   "less expensive than the critics have suggested",
   "an admission that the method cannot support policy decisions"],
  "The third paragraph calls it the right response and an expensive one, and then states that the critics' objection is about kind rather than coverage.",
- "B reverses the critics' position, C contradicts the fourth paragraph, D reverses the cost remark, and E is not conceded.")
+ "{B} reverses the critics' position, {C} contradicts the fourth paragraph, {D} reverses the cost remark, and {E} is not conceded.")
 q('LC126','14','lsat_rc_struct',4,
  'The final paragraph functions primarily to',
  ["identify the question on which the two positions actually differ and note that it is unexamined",
@@ -441,7 +441,7 @@ q('LC128','14','lsat_rc_app',3,
   "Statistical adjustment is an adequate substitute for randomisation",
   "Mechanisms established in one setting can be relied on in any other"],
  "The closing clause calls the absence of evidence about the comparison an odd position for a field that made its reputation by demanding evidence.",
- "B, C, D and E are positions the passage either attributes to one side or contradicts outright.")
+ "{B}, {C}, {D} and {E} are positions the passage either attributes to one side or contradicts outright.")
 
 # ------------------------------------------------------------------ LP15 originalism
 q('LC129','15','lsat_rc_main',4,
@@ -497,7 +497,7 @@ q('LC134','15','lsat_rc_app',4,
   "A method of interpretation that cannot be shown to be wrong",
   "Contemporary values have no determinate content"],
  "A rests its case on constraint and B tests the same claim, so both treat constraint as the standard that matters.",
- "B asserts the second and A would deny it; A asserts the third and fifth; and the fourth is A's argument rather than shared ground.")
+ "Passage B asserts {B} and passage A would deny it; passage A asserts {C} and {E}; and {D} is passage A's argument rather than shared ground.")
 q('LC135','15','lsat_rc_app',3,
  "Which one of the following, if true, would most strengthen passage B's argument?",
  ["A study finds that originalist and non originalist judges are equally likely to reach the outcome their prior writings favour",
@@ -517,7 +517,7 @@ q('LC136','16','lsat_rc_main',3,
   "A theory supported by circumstantial evidence should be accepted even where no mechanism is known",
   "Geologists apply a stricter standard to theories proposed by outsiders"],
  "The final paragraph states it: the demand for a mechanism was reasonable, the absence was a real defect, and the gap could not be filled from the direction the theory came from.",
- "B is the account the passage calls too comfortable, C is the evidence rather than the point, D is contradicted, and E is never suggested.")
+ "{B} is the account the passage calls too comfortable, {C} is the evidence rather than the point, {D} is contradicted, and {E} is never suggested.")
 q('LC137','16','lsat_rc_stated',2,
  'According to the passage, the evidence Wegener assembled included all of the following EXCEPT',
  ["magnetic striping symmetrical about mid ocean ridges",
@@ -544,7 +544,7 @@ q('LC139','16','lsat_rc_inf',4,
   "made the sea floor surveys of the 1950s unnecessary",
   "shown the demand for a mechanism to be unreasonable"],
  "The closing paragraph says the circumstantial evidence could not repair the defect however much of it accumulated.",
- "B contradicts that sentence, C misapplies the physicists' objection, D reverses the role of the surveys, and E contradicts the passage's verdict on the demand.")
+ "{B} contradicts that sentence, {C} misapplies the physicists' objection, {D} reverses the role of the surveys, and {E} contradicts the passage's verdict on the demand.")
 q('LC140','16','lsat_rc_struct',4,
  'The author describes the usual account of the rejection as too comfortable primarily in order to',
  ["signal that the passage will defend the critics on grounds the usual account ignores",
@@ -683,7 +683,7 @@ q('LC143','17','lsat_rc_main',4,
   "The access justification for class actions is the only one",
   "Absent class members should be given a greater role in instructing counsel"],
  "The final paragraph reframes the objection: a class action is a regulatory proceeding conducted privately, and the standards appropriate to it are regulatory ones.",
- "B is expressly rejected as the reading, C is a step in the argument, D is not claimed, and E is the insistence the passage says should be abandoned.")
+ "{B} is expressly rejected as the reading, {C} is a step in the argument, {D} is not claimed, and {E} is the insistence the passage says should be abandoned.")
 q('LC144','17','lsat_rc_stated',2,
  'According to the passage, the usual justification for the class action is that it',
  ["makes it worth bringing claims that would be too small to bring alone",
@@ -710,7 +710,7 @@ q('LC146','17','lsat_rc_inf',4,
   "unnecessary once the members have received adequate notice",
   "the feature that distinguishes a class action from a regulatory proceeding"],
  "The third paragraph grants that the standard is demanding on paper and says it does not supply the adversarial testing the rest of the system depends on.",
- "B and D overstate its adequacy, C accuses courts of inattention the passage does not allege, and E reverses the final paragraph.")
+ "{B} and {D} overstate its adequacy, {C} accuses courts of inattention the passage does not allege, and {E} reverses the final paragraph.")
 q('LC147','17','lsat_rc_struct',4,
  "The author's observation that nobody in the room has an interest in identifying a settlement's defects functions primarily to",
  ["explain why judicial review cannot do the work adversarial process does elsewhere",
@@ -748,7 +748,7 @@ q('LC150','18','lsat_rc_main',4,
   "Human reasoning is better described as a bundle of narrow specialisations",
   "Species should not be ranked on a single scale of intelligence"],
  "The final paragraph names what has actually been established and separates it from the harder question, and the third paragraph makes the caution symmetrical across species.",
- "B is called probably right but stated more carefully in the passage, C is one finding, D is a position the passage attributes to others, and E is a closing remark rather than the point.")
+ "{B} is called probably right but stated more carefully in the passage, {C} is one finding, {D} is a position the passage attributes to others, and {E} is a closing remark rather than the point.")
 q('LC151','18','lsat_rc_stated',2,
  'According to the passage, New Caledonian crows in captivity have',
  ["solved problems requiring a tool to be used on another tool",
@@ -775,7 +775,7 @@ q('LC153','18','lsat_rc_inf',4,
   "comparisons between species are of little scientific value",
   "the conclusion that crow tool use is specialised is mistaken"],
  "The paragraph grants that the specialised conclusion is probably right and then notes the same pattern in every species tested, including humans, whom nobody describes that way on that basis.",
- "B, C and D overreach, and E contradicts the concession the paragraph makes.")
+ "{B}, {C} and {D} overreach, and {E} contradicts the concession the paragraph makes.")
 q('LC154','18','lsat_rc_struct',4,
  'The third paragraph relates to the second in that it',
  ["accepts the conclusion the second paragraph supports while questioning the strength of one line of support for it",
@@ -802,7 +802,7 @@ q('LC156','18','lsat_rc_app',3,
   "an approach that the field abandoned during the last century",
   "the only available way of comparing distantly related species"],
  "The closing sentence calls it a temptation the field has failed to resist for a century, offered in place of the separate and harder question.",
- "B and E endorse it, C narrows it to birds, and D says it was abandoned when the passage says the opposite.")
+ "{B} and {E} endorse it, {C} narrows it to birds, and {D} says it was abandoned when the passage says the opposite.")
 
 # ------------------------------------------------------------------ LP19 translation
 q('LC157','19','lsat_rc_main',3,
@@ -813,7 +813,7 @@ q('LC157','19','lsat_rc_main',3,
   "The debate between domestication and foreignisation cannot be resolved",
   "Translators should be trained as literary critics before being allowed to translate"],
  "The third paragraph names the interesting question and the fourth says why it is rarely addressed.",
- "B and C are the halves the passage balances, D is more defeatist than the passage, and E is a recommendation never made.")
+ "{B} and {C} are the halves the passage balances, {D} is more defeatist than the passage, and {E} is a recommendation never made.")
 q('LC158','19','lsat_rc_stated',2,
  'According to the passage, the case for domestication rests on the claim that',
  ["a translation is a text in its own language and should work as one",
@@ -840,7 +840,7 @@ q('LC160','19','lsat_rc_inf',4,
   "the same result as a translator who applies domestication uniformly",
   "a translation that critics will prefer to one produced by any other policy"],
  "The third paragraph says domestication has the better argument about the ordinary sentence, where a literal rendering is simply worse English and communicates less.",
- "B and E overstate, C contradicts the balance struck, and D denies the asymmetry the paragraph insists on.")
+ "{B} and {E} overstate, {C} contradicts the balance struck, and {D} denies the asymmetry the paragraph insists on.")
 q('LC161','19','lsat_rc_struct',4,
  'The author says the two cases are not symmetrical primarily in order to',
  ["show that each has the better argument over a different part of a text, which is why a uniform policy fails",
@@ -878,7 +878,7 @@ q('LC164','20','lsat_rc_main',4,
   "The size of the informal sector cannot be measured by any available method",
   "Aggressive enforcement causes respondents to conceal informal activity"],
  "The second paragraph denies that it is a fact waiting to be measured, the third says be specific about what a number is for, and the fourth carries the point into policy.",
- "B ranks methods the passage only contrasts, C is one example, D is more defeatist than the passage, and E is a step in the argument.")
+ "{B} ranks methods the passage only contrasts, {C} is one example, {D} is more defeatist than the passage, and {E} is a step in the argument.")
 q('LC165','20','lsat_rc_stated',2,
  'According to the passage, the gap between currency based and survey based estimates is widest in countries where',
  ["enforcement is most aggressive",
@@ -905,7 +905,7 @@ q('LC167','20','lsat_rc_inf',4,
   "a reasonable target for statistical agencies to pursue",
   "the most important input to a programme of formalisation"],
  "The third paragraph says the point is not despair but a reason to be specific about what a particular number is for.",
- "B is the despair the passage disclaims, C and D treat a single figure as the goal, and E inverts the fourth paragraph.")
+ "{B} is the despair the passage disclaims, {C} and {D} treat a single figure as the goal, and {E} inverts the fourth paragraph.")
 q('LC168','20','lsat_rc_struct',4,
  'The author describes a programme that raises registrations without changing working conditions primarily in order to',
  ["show that the confusion identified in measurement reappears as a failure in policy",
@@ -923,7 +923,7 @@ q('LC169','20','lsat_rc_app',4,
   "A hospital that treats more patients than it did in the previous year",
   "A hospital that measures waiting times from referral rather than from first contact"],
  "A measure improved by a route that leaves the underlying situation untouched is exactly the structure described.",
- "Reporting frequency, comparison, volume and the definitional choice in E are different problems, and E comes closest only as a measurement definition rather than as improving the number without changing the thing.")
+ "Reporting frequency, comparison, volume and the definitional choice in {E} are different problems, and {E} comes closest only as a measurement definition rather than as improving the number without changing the thing.")
 q('LC170','20','lsat_rc_app',3,
  'Which one of the following, if true, would most undermine the claim that respondents in countries with aggressive enforcement conceal more?',
  ["Currency in circulation in those countries is inflated by cross border demand unrelated to informal work",
@@ -1050,7 +1050,7 @@ q('LC177','21','lsat_rc_app',3,
   "Peer review is unaffected by how a journal is funded",
   "Waivers make the processing charge model accessible to authors"],
  "A argues the subscription model failed readers twice over, and B says it had its own and worse exclusions.",
- "B disputes the second, A never endorses the third, the fourth is A's alone, and B denies the fifth.")
+ "Passage B disputes {B}, passage A never endorses {C}, {D} is passage A's alone, and passage B denies {E}.")
 
 # ------------------------------------------------------------------ LP22 Helicobacter
 q('LC178','22','lsat_rc_main',4,
@@ -1061,7 +1061,7 @@ q('LC178','22','lsat_rc_main',4,
   "Peptic ulcers were misunderstood for most of the twentieth century",
   "Eradicating Helicobacter pylori cures ulcers and prevents their recurrence"],
  "The final paragraph names the usual lesson, calls it true and not the lesson, and states the one the passage draws.",
- "B is called not baseless but secondary, C is called the least important of the three, and D and E are premises.")
+ "{B} is called not baseless but secondary, {C} is called the least important of the three, and {D} and {E} are premises.")
 q('LC179','22','lsat_rc_stated',2,
  'According to the passage, the substantive objection to the bacterial theory included the belief that',
  ["the stomach was sterile",
@@ -1115,7 +1115,7 @@ q('LC184','22','lsat_rc_app',3,
   "inconsistent with the profitability of acid suppressing drugs",
   "an invention of writers unfamiliar with the scientific record"],
  "The second paragraph says the account is not baseless, names the profitability, and then says the substantive objection came first and was serious.",
- "B and D deny the profitability the passage grants, C treats it as complete, and E accuses the writers of ignorance the passage does not allege.")
+ "{B} and {D} deny the profitability the passage grants, {C} treats it as complete, and {E} accuses the writers of ignorance the passage does not allege.")
 
 # Six further primary purpose and organisation questions. Main Idea and Primary Purpose
 # was the one reading skill that twelve sets of seven would have left at 24, one short of
@@ -1174,7 +1174,7 @@ q('LC190','21','lsat_rc_main',4,
   "Whether waivers for processing charges exist in practice",
   "Whether publicly funded research should be readable by the public"],
  "A presents open access as correcting the failure; B argues the exclusion has been relocated rather than removed.",
- "Both grant the second, only A addresses the third, both grant the fourth, and neither disputes the fifth.")
+ "Both grant {B}, only passage A addresses {C}, both grant {D}, and neither disputes {E}.")
 
 LIFT = {
  'LC101': [("protects the integrity of judicial proceedings rather than", " the interests of any of the parties who happen to be before the court in a particular case"),

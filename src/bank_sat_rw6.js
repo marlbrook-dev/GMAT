@@ -221,7 +221,7 @@ const BANK_SAT_RW6 = [
  stem:"Which choice best states the main purpose of the text?",
  choices:["To argue that the waggle dance does not carry information about food sources at all","To grant a familiar claim while narrowing what the evidence establishes about it","To explain how bees locate flowers in the absence of a communicative signal from the hive","To describe the experiments by which the meaning of the dance was determined in the first place"],answer:1,
  expl:"The text affirms that the dance carries information and then reports two findings that limit what follows from it.",
- wrong:"The first sentence of the text grants what B denies, the experiments are summarised rather than described, and no alternative mechanism is offered."},
+ wrong:"The first sentence of the text grants what A denies, the experiments are summarised rather than described, and no alternative mechanism is offered."},
 {id:'SR241',section:'RW',type:'RW',sub:"Text Structure and Purpose",skill:'rw_cs',diff:4,
  stem:"Which choice best describes the function of the underlined sentence in the text as a whole?",
  choices:["It explains how the Domesday commissioners gathered information in 1086","It identifies the weakness in a source that the preceding sentence relies on","It establishes that the Domesday Book is the most complete survey of its period","It questions whether the conquest caused any measurable economic damage"],answer:1,
@@ -384,7 +384,7 @@ const BANK_SAT_RW6 = [
  stem:"Which choice best states the main idea of the text?",
  choices:["A placebo arm measures the effect of the care surrounding a treatment, not the effect of nothing","Three-arm trials are more informative than trials with two arms","Patients given a placebo recover as fully as patients given an active drug in most trials of this kind","The attention patients receive in a trial is the principal cause of their recovery"],answer:0,
  expl:"The text lists what a placebo arm receives and closes by naming what it measures.",
- wrong:"No equivalence with an active drug is claimed, the three-arm design is evidence, and the last option overstates."},
+ wrong:"No equivalence with an active drug is claimed, the three-arm design is evidence, and D overstates."},
 // ---------- Command of Evidence ----------
 {id:'SR273',section:'RW',type:'RW',sub:"Command of Evidence",skill:'rw_ii',diff:3,
  stem:"Which finding, if true, would most directly support the researchers claim?",
@@ -569,7 +569,7 @@ const BANK_SAT_RW6 = [
  stem:"Which choice most logically completes the text?",
  choices:["the most useful available guide to how a drug will perform.","unrelated to the true effect of the treatment studied.","biased upward by the condition that caused the trial to stop.","less precise than those from trials that ran to completion."],answer:2,
  expl:"Stopping when the observed difference is largest selects on a fluctuation, which inflates the reported effect.",
- wrong:"Precision is a separate property, the effect is not unrelated to the truth, and the last option reverses the conclusion."},
+ wrong:"Precision is a separate property, the effect is not unrelated to the truth, and A reverses the conclusion."},
 // ---------- Command of Evidence ----------
 {id:'SR308',section:'RW',type:'RW',sub:"Command of Evidence",skill:'rw_ii',diff:3,
  stem:"Which finding, if true, would most directly support the researchers claim?",

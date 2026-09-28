@@ -66,7 +66,7 @@ q('LL103','lsat_lr_assum','Sufficient assumption',4,
   'The lower site was occupied for a shorter period than the upper site was',
   'Pottery styles spread from one settlement to another more slowly than other crafts do'],
  'With that premise, a style present at the lower site cannot have been in use anywhere earlier, so the upper site occupation using it had ended. That forces the conclusion.',
- 'B contradicts the evidence, C and D do not bear on order, and E is about rate rather than sequence.')
+ '{B} contradicts the evidence, {C} and {D} do not bear on order, and {E} is about rate rather than sequence.')
 q('LL104','lsat_lr_assum','Necessary assumption',2,
  "Nutritionist: The participants who followed our meal plan lost more weight over six months "
  "than those who did not. The plan is therefore effective.\n\n"
@@ -89,7 +89,7 @@ q('LL105','lsat_lr_assum','Sufficient assumption',4,
   'The newspaper has printed corrections for inaccurate forecasts in the past',
   'A forecast that is wrong about the day of an event is wrong about the event itself'],
  'The rule applies to false statements of fact. Calling an unfulfilled forecast one brings the case under the rule, which is what the conclusion needs.',
- 'Responsibility, reliance and past practice do not connect the forecast to the rule, and E restates the error without classifying it.')
+ 'Responsibility, reliance and past practice do not connect the forecast to the rule, and {E} restates the error without classifying it.')
 q('LL106','lsat_lr_assum','Necessary assumption',3,
  "Economist: Firms that grant their workers a share of profits report higher productivity "
  "than comparable firms that do not. Profit sharing therefore raises productivity, and "
@@ -113,7 +113,7 @@ q('LL107','lsat_lr_assum','Necessary assumption',3,
   'No dog loses protection against the virus in less than three years',
   'Veterinarians recommend annual revaccination because it increases their revenue'],
  'The argument weighs a small risk against nothing. If the annual dose added protection, whether by covering the minority whose immunity lapses or by improving coverage, the balance is not established.',
- 'Severity, compliance and motive are beside the point, and D is stronger than the argument needs and is not required.')
+ 'Severity, compliance and motive are beside the point, and {D} is stronger than the argument needs and is not required.')
 q('LL108','lsat_lr_assum','Sufficient assumption',4,
  "Critic: Any film that depicts a historical figure has a duty to the record. This film "
  "invents a meeting between two people who never met. It therefore fails in its duty.\n\n"
@@ -124,7 +124,7 @@ q('LL108','lsat_lr_assum','Sufficient assumption',4,
   'A film with a duty to the record should state at the outset which of its scenes are invented',
   'Inventing a meeting is a more serious departure from the record than inventing dialogue'],
  'The premise establishes a duty and an invention. The gap is whether inventing breaches the duty, and the assumption closes it.',
- 'B is nearly given by the first premise, C and D add obligations without linking invention to breach, and E compares breaches rather than establishing one.')
+ '{B} is nearly given by the first premise, {C} and {D} add obligations without linking invention to breach, and {E} compares breaches rather than establishing one.')
 q('LL109','lsat_lr_assum','Necessary assumption',3,
  "Airline executive: Passengers say they want more legroom, but when we offer seats with more "
  "legroom at a higher fare, most passengers buy the cheaper seat. Their stated preference is "
@@ -136,7 +136,7 @@ q('LL109','lsat_lr_assum','Necessary assumption',3,
   'No airline offers more legroom without charging a higher fare for it',
   'Passengers would pay more for other improvements to the cabin as well'],
  'A choice reveals a preference only where both options were available. If the higher fare was out of reach, buying the cheaper seat says nothing about wanting legroom.',
- 'Noticeability and awareness bear on whether the choice was informed rather than whether it was free, and D and E are irrelevant to this airline\'s passengers.')
+ 'Noticeability and awareness bear on whether the choice was informed rather than whether it was free, and {D} and {E} are irrelevant to this airline\'s passengers.')
 q('LL110','lsat_lr_assum','Necessary assumption',3,
  "Historian: The invention of double entry bookkeeping is often credited with enabling the "
  "growth of large commercial partnerships. But merchants in several cities ran partnerships "
@@ -149,7 +149,7 @@ q('LL110','lsat_lr_assum','Necessary assumption',3,
   'Large partnerships became more common after double entry bookkeeping spread than before',
   'No merchant who used double entry bookkeeping operated a partnership of comparable size'],
  'The argument infers from earlier large partnerships that the method was not what enabled them. That holds only if those merchants were not doing by other means what the method later did.',
- 'Place of invention, record survival, later prevalence and E all leave the inference untouched or contradict the premises.')
+ 'Place of invention, record survival, later prevalence and {E} all leave the inference untouched or contradict the premises.')
 q('LL111','lsat_lr_assum','Sufficient assumption',3,
  "Gardener: Plants in the shaded bed flowered two weeks later than those in the sunny bed. "
  "Since the two beds were planted on the same day with seed from the same packet, the "
@@ -161,7 +161,7 @@ q('LL111','lsat_lr_assum','Sufficient assumption',3,
   'The shaded bed received at least some direct sunlight each day',
   'Flowering time is a reliable indicator of a plant\'s overall health'],
  'Same day, same seed and light as the sole remaining difference leaves light as the only available cause, which makes the conclusion follow.',
- 'Genetic identity is close to given, B and C support the claim without forcing it, and E is beside the point.')
+ 'Genetic identity is close to given, {B} and {C} support the claim without forcing it, and {E} is beside the point.')
 q('LL112','lsat_lr_assum','Necessary assumption',4,
  "Sociologist: Neighbourhoods with more community organisations report less crime. Some argue "
  "that the organisations deter crime. In fact the causation runs the other way: where crime "
@@ -173,7 +173,7 @@ q('LL112','lsat_lr_assum','Necessary assumption',4,
   'Crime statistics are reported with equal accuracy in all neighbourhoods',
   'Most community organisations hold their meetings in the evening rather than during the day'],
  'The reversed account works through willingness to attend. If crime levels did not affect that willingness, the mechanism the sociologist proposes would not exist.',
- 'B is stronger than the argument needs, and C, D and E are not required for the reversed direction to hold.')
+ '{B} is stronger than the argument needs, and {C}, {D} and {E} are not required for the reversed direction to hold.')
 q('LL113','lsat_lr_assum','Necessary assumption',3,
  "Manufacturer: Our competitor claims its batteries last longer than ours. But its test ran "
  "the batteries continuously, while ours are designed for intermittent use. The comparison "
@@ -197,7 +197,7 @@ q('LL114','lsat_lr_assum','Sufficient assumption',4,
   'The defendant is not responsible for the situation in which the witness finds herself',
   'Testimony from the witness would change the outcome of the proceeding'],
  'The rule is about the harm keeping the promise would cause. The premise gives the harm of refusing to testify. Linking the two requires that keeping the promise is refusing to testify.',
- 'B, C, D and E are about weight, obligation, fault and effect, none of which bridges the rule to the stated harm.')
+ '{B}, {C}, {D} and {E} are about weight, obligation, fault and effect, none of which bridges the rule to the stated harm.')
 q('LL115','lsat_lr_assum','Necessary assumption',3,
  "Programme director: Students who took our summer course scored higher on the entrance "
  "examination than students who did not. The course therefore prepares students well for the "
@@ -231,7 +231,7 @@ q('LL117','lsat_lr_assum','Sufficient assumption',3,
   'Training sessions are held on Monday, Wednesday and Friday',
   'Reyes had no acceptable reason for missing the two sessions'],
  'The rule needs three consecutive misses and the premises give two. Only an assumption supplying the third, and making the three consecutive, closes the gap.',
- 'Warnings, past practice and reasons do not supply the missing session, and D makes Monday and Wednesday non consecutive.')
+ 'Warnings, past practice and reasons do not supply the missing session, and {D} makes Monday and Wednesday non consecutive.')
 q('LL118','lsat_lr_assum','Necessary assumption',4,
  "Analyst: The company should not enter the South American market. Its two previous foreign "
  "ventures both failed within three years, and each cost more to unwind than it earned.\n\n"
@@ -242,7 +242,7 @@ q('LL118','lsat_lr_assum','Necessary assumption',4,
   'A venture that is unwound at a loss is worse for the company than not entering the market at all',
   'No competitor has succeeded in the South American market after failing'],
  'Two failures predict a third only if something transferable caused them. If both failures were specific to those markets, the record says nothing about this one.',
- 'Relative competitiveness, capital, the comparison in D and competitors\' records do not license the projection from past to future.')
+ 'Relative competitiveness, capital, the comparison in {D} and competitors\' records do not license the projection from past to future.')
 q('LL119','lsat_lr_assum','Necessary assumption',3,
  "Librarian: Circulation of physical books has fallen every year for a decade, while use of "
  "our digital collection has risen. We should therefore shift acquisition funds from print to "
@@ -302,7 +302,7 @@ q('LL123','lsat_lr_flaw','Flaw',4,
   'relies on a definition of best salespeople that is not stated',
   'generalises from the sales team to the company as a whole'],
  'High call volume may be a consequence of skill, or a correlate of it. That the best all do it does not make it the cause of their results.',
- 'Capability, the possibility in C, definitional vagueness and scope are not what the inference turns on.')
+ 'Capability, the possibility in {C}, definitional vagueness and scope are not what the inference turns on.')
 q('LL124','lsat_lr_flaw','Flaw',3,
  "Council member: Either we raise the transit fare or we cut service. Riders have made clear "
  "they will not accept a service cut. So we must raise the fare.\n\n"
@@ -356,10 +356,10 @@ q('LL128','lsat_lr_flaw','Parallel flaw',4,
  ['Every building on the square that survived the fire is made of stone. The library is made of stone. So the library survived the fire.',
   'Every building on the square that survived the fire is made of stone. The library did not survive the fire. So the library is not made of stone.',
   'No building on the square that survived the fire is made of wood. The library is made of wood. So the library did not survive the fire.',
-  'Every building made of stone on the square survived the fire. The library survived the fire. So the library is made of stone.',
+  'Every building on the square that survived the fire is made of stone. The library is not made of stone. So the library did not survive the fire.',
   'Most buildings on the square that survived the fire are made of stone. The library is made of stone. So the library probably survived the fire.'],
- 'The original affirms the consequent: all A are B, x is B, therefore x is A. A reproduces that exactly.',
- 'B is a valid contrapositive, C is valid, D affirms the consequent in the other direction and is not the same form, and E is probabilistic rather than flawed in this way.')
+ 'The original affirms the consequent: all P are Q, x is Q, therefore x is P. {A} reproduces that exactly.',
+ '{B} denies the antecedent, which is a different flaw, {C} is valid, {D} is the valid contrapositive of the premise, and {E} is probabilistic rather than flawed in this way.')
 q('LL129','lsat_lr_flaw','Flaw',3,
  "Developer: Residents object that the new tower will block their light. But the same "
  "residents objected to the last three buildings approved in the district, and none of those "
@@ -371,7 +371,7 @@ q('LL129','lsat_lr_flaw','Flaw',3,
   'ignores the possibility that the earlier objections led to changes in those buildings',
   'concludes that a prediction is false merely because it has not yet been verified'],
  'Whether this tower blocks light is a question about this tower. A poor forecasting record gives reason for scepticism and is not an answer.',
- 'B, C and D are all specific ways the analogy might fail, each of which matters only once the general move is granted; E misdescribes what the developer does.')
+ '{B}, {C} and {D} are all specific ways the analogy might fail, each of which matters only once the general move is granted; {E} misdescribes what the developer does.')
 q('LL130','lsat_lr_flaw','Flaw',3,
  "Nutritional supplement label: In a study, participants who took our supplement reported "
  "more energy than participants who took nothing at all. The supplement therefore increases "
@@ -383,7 +383,7 @@ q('LL130','lsat_lr_flaw','Flaw',3,
   'assumes that all participants took the supplement as directed',
   'generalises from participants in a study to the population at large'],
  'A comparison against nothing rather than against a placebo leaves expectation as an untested explanation of a self reported outcome.',
- 'B is close but is a feature of the outcome measure rather than the design gap; C, D and E are secondary.')
+ '{B} is close but is a feature of the outcome measure rather than the design gap; {C}, {D} and {E} are secondary.')
 q('LL131','lsat_lr_flaw','Flaw',4,
  "Scientist: Either the sample was contaminated or the instrument was miscalibrated. We have "
  "confirmed that the instrument was miscalibrated. So the sample was not contaminated.\n\n"
@@ -429,7 +429,7 @@ q('LL134','lsat_lr_flaw','Flaw',4,
   'does not establish that the tombs and the grave goods date from the same period',
   'takes for granted that every society with such a belief practises elaborate rites'],
  'The generalisation is about elaborate rites and the evidence is about two specific practices. Whether those amount to elaborate rites in the relevant sense is assumed.',
- 'B is a real worry but is weaker here, C and D are evidentiary, and E reverses the conditional without being what the argument does.')
+ '{B} is a real worry but is weaker here, {C} and {D} are evidentiary, and {E} reverses the conditional without being what the argument does.')
 q('LL135','lsat_lr_flaw','Flaw',3,
  "Union representative: Management says it cannot afford the raise. But last year management "
  "said the same thing, and the company reported record profits. So the company can afford "
@@ -441,7 +441,7 @@ q('LL135','lsat_lr_flaw','Flaw',3,
   'treats record profits as though they were unusually large profits',
   'fails to specify the size of the raise being sought'],
  'One year\'s record profits establish that the claim was wrong then. The argument needs this year to be relevantly like last year, which it does not show.',
- 'B and D are quibbles about the financial terms, C misdescribes the move, and E is beside the point.')
+ '{B} and {D} are quibbles about the financial terms, {C} misdescribes the move, and {E} is beside the point.')
 q('LL136','lsat_lr_flaw','Parallel flaw',4,
  "If the shipment had arrived on time, the shelves would be full. The shelves are not full. "
  "So the shipment did not arrive on time. And since the shipment did not arrive on time, the "
@@ -453,7 +453,7 @@ q('LL136','lsat_lr_flaw','Parallel flaw',4,
   'relies on a premise that contradicts one of its own conclusions',
   'treats a sufficient condition for full shelves as a necessary one'],
  'The first step is a valid contrapositive. The second jumps from a delay to one particular explanation of it without excluding any other.',
- 'B describes the second step too weakly to be a flaw, and C, D and E misdescribe the first step, which is sound.')
+ '{B} describes the second step too weakly to be a flaw, and {C}, {D} and {E} misdescribe the first step, which is sound.')
 q('LL137','lsat_lr_flaw','Flaw',3,
  "Journalist: The bridge inspection found no structural defects. The engineers who conducted "
  "it are employed by the authority that owns the bridge. The inspection is therefore "
@@ -465,7 +465,7 @@ q('LL137','lsat_lr_flaw','Flaw',3,
   'treats the authority\'s ownership of the bridge as evidence of negligence',
   'generalises from one inspection to the authority\'s inspections as a whole'],
  'An interested inspector is a reason for a second opinion. Worthless is a much stronger claim and nothing supports it.',
- 'B, C and D each assert something the journalist does not say, and E misstates the scope.')
+ '{B}, {C} and {D} each assert something the journalist does not say, and {E} misstates the scope.')
 q('LL138','lsat_lr_flaw','Flaw',3,
  "Buyer: This vineyard's wine won a gold medal in each of the last four years. Its wine is "
  "therefore better than that of the neighbouring vineyard, which has never won a medal.\n\n"
@@ -487,7 +487,7 @@ q('LL139','lsat_lr_flaw','Flaw',4,
   'It treats traffic volume as equivalent to congestion',
   'It draws a conclusion about one region from evidence about several'],
  'Volumes returning to their previous level is consistent with the widening having prevented a much larger increase. The counterfactual is never addressed.',
- 'B, C and D name assumptions worth examining, and E misdescribes the evidence, which is from this region.')
+ '{B}, {C} and {D} name assumptions worth examining, and {E} misdescribes the evidence, which is from this region.')
 q('LL140','lsat_lr_flaw','Flaw',3,
  "Teacher: Students who read for pleasure write better essays. Requiring students to read a "
  "novel each month will therefore improve their essays.\n\n"
@@ -524,7 +524,7 @@ q('LL142','lsat_lr_evid','Strengthen',3,
   'Volcanic ash from large eruptions can remain in the stratosphere for more than a year',
   'Narrow rings in this species are usually caused by drought rather than by cold'],
  'A regional signal is what a hemispheric cooling would produce and a local cause would not. Independent stands showing the same three years is the strongest available confirmation.',
- 'B weakens by showing the pattern is not special, C is background, D is already assumed by the argument, and E weakens it.')
+ '{B} weakens by showing the pattern is not special, {C} is background, {D} is already assumed by the argument, and {E} weakens it.')
 q('LL143','lsat_lr_evid','Weaken',4,
  "Economist: Raising the minimum wage in this city did not reduce employment: the number of "
  "restaurant jobs in the city was the same a year after the increase as it was before.\n\n"
@@ -570,7 +570,7 @@ q('LL146','lsat_lr_evid','Evaluate',4,
   'Whether yields on this farm were rising before the switch',
   'What equipment is required to plant without tilling'],
  'The recommendation generalises from one farm to a district. Whether the relevant soil conditions carry over is what decides whether it should.',
- 'D is a good question about the causal claim, but the recommendation to others turns on transferability; subsidy, duration and equipment bear on cost and confidence rather than on the generalisation.')
+ '{D} is a good question about the causal claim, but the recommendation to others turns on transferability; subsidy, duration and equipment bear on cost and confidence rather than on the generalisation.')
 q('LL147','lsat_lr_evid','Strengthen',3,
  "Curator: This manuscript was probably copied in the northern scriptorium. Its parchment was "
  "prepared by a method used there and rarely elsewhere.\n\n"
@@ -581,7 +581,7 @@ q('LL147','lsat_lr_evid','Strengthen',3,
   'The manuscript\'s script resembles that of manuscripts from several scriptoria',
   'The northern scriptorium kept records of the manuscripts it produced'],
  'A second independent indicator pointing to the same place is what an argument from one indicator most needs.',
- 'B is weak base rate support, C weakens the inference, D is neutral, and E matters only if the records were consulted.')
+ '{B} is weak base rate support, {C} weakens the inference, {D} is neutral, and {E} matters only if the records were consulted.')
 q('LL148','lsat_lr_evid','Weaken',3,
  "Safety officer: Since the warning signs were installed at the crossing, the number of "
  "collisions there has fallen by half. The signs are therefore working.\n\n"
@@ -592,7 +592,7 @@ q('LL148','lsat_lr_evid','Weaken',3,
   'Collisions at other crossings in the region have not fallen over the same period',
   'The signs cost more to install than the safety officer had estimated'],
  'Half the collisions with a fraction of the traffic is not an improvement in safety per crossing. The bypass supplies the whole of the change.',
- 'B and C are details, D would strengthen, and cost is beside the point.')
+ '{B} and {C} are details, {D} would strengthen, and cost is beside the point.')
 q('LL149','lsat_lr_evid','Strengthen',4,
  "Zoologist: The birds on the island have shorter wings than those on the mainland. Since "
  "long wings are a disadvantage where strong winds can carry a bird out to sea, the "
@@ -604,7 +604,7 @@ q('LL149','lsat_lr_evid','Strengthen',4,
   'Wing length in this species varies more on the island than on the mainland',
   'The diet available on the island is similar to that available on the mainland'],
  'Short wings in birds raised in mainland conditions shows the trait is inherited rather than produced by the island environment, which is exactly what selection requires and diet or climate would not give.',
- 'B supports the selective pressure without addressing heritability, C weakens by allowing gene flow, D is neutral, and E removes one rival explanation but not the climate one.')
+ '{B} supports the selective pressure without addressing heritability, {C} weakens by allowing gene flow, {D} is neutral, and {E} removes one rival explanation but not the climate one.')
 q('LL150','lsat_lr_evid','Weaken',3,
  "Consultant: Firms that hold weekly all staff meetings report higher employee satisfaction "
  "than firms that do not. Your firm should institute weekly all staff meetings.\n\n"
@@ -626,7 +626,7 @@ q('LL151','lsat_lr_evid','Strengthen',3,
   'Several other valuable items were kept in plain view elsewhere',
   'The intruder entered through a window at the back of the house'],
  'A recent move means the location was known only to people with current knowledge of the household, which is stronger than knowing the layout.',
- 'B and E concern entry, C offers an innocent explanation for the choice of drawer, and D supports the conclusion only weakly.')
+ '{B} and {E} concern entry, {C} offers an innocent explanation for the choice of drawer, and {D} supports the conclusion only weakly.')
 q('LL152','lsat_lr_evid','Weaken',4,
  "Historian: The plague cannot have caused the collapse of the city, because the population "
  "had already fallen by a third in the two decades before the plague arrived.\n\n"
@@ -649,7 +649,7 @@ q('LL153','lsat_lr_evid','Strengthen',3,
   'The impact occurred within hours of the crack being discovered',
   'Bands on a fracture surface can sometimes be obscured by corrosion'],
  'The bands are evidence for fatigue only if the rival cause would not produce them. Ruling that out converts the sign into a discriminating one.',
- 'Service life and base rates are weak support, D is neutral or slightly adverse, and E concerns the reliability of the sign\'s absence.')
+ 'Service life and base rates are weak support, {D} is neutral or slightly adverse, and {E} concerns the reliability of the sign\'s absence.')
 q('LL154','lsat_lr_evid','Weaken',3,
  "School board member: The reading programme should be discontinued. Test scores at the three "
  "schools that adopted it have not risen since it began.\n\n"
@@ -660,7 +660,7 @@ q('LL154','lsat_lr_evid','Weaken',3,
   'Scores at schools that did not adopt the programme also failed to rise',
   'The programme was designed for students in the earliest grades only'],
  'Selecting the fastest falling schools means holding steady is an improvement. The flat result is consistent with the programme working.',
- 'Cost and enjoyment are other considerations, D strengthens rather than weakens, and E narrows the claim without rescuing it.')
+ 'Cost and enjoyment are other considerations, {D} strengthens rather than weakens, and {E} narrows the claim without rescuing it.')
 q('LL155','lsat_lr_evid','Strengthen',3,
  "Archaeologist: The settlement was abandoned suddenly. Cooking pots were left on hearths and "
  "tools were left in the workshops.\n\n"
@@ -682,7 +682,7 @@ q('LL156','lsat_lr_evid','Weaken',4,
   'Competing products were advertised on television during the same four weeks',
   'The advertisements were shown mainly during programmes watched by existing customers'],
  'A distribution change of that size explains the increase on its own, and it coincides exactly with the campaign.',
- 'B concerns profitability rather than effect, C is weakly favourable to the director, and D and E raise doubts without supplying a rival cause.')
+ '{B} concerns profitability rather than effect, {C} is weakly favourable to the director, and {D} and {E} raise doubts without supplying a rival cause.')
 q('LL157','lsat_lr_evid','Strengthen',3,
  "Ecologist: Removing the deer from the island allowed the understorey to recover. Seedlings "
  "of five tree species reappeared within three years of the removal.\n\n"
@@ -693,7 +693,7 @@ q('LL157','lsat_lr_evid','Strengthen',3,
   'Rainfall over the three years was close to the long term average',
   'Seedlings of two other species did not reappear after the removal'],
  'A control island isolates the removal from anything else the three years brought. That is what the inference needs.',
- 'Duration, commonness and average rainfall are background, and E is mildly adverse.')
+ 'Duration, commonness and average rainfall are background, and {E} is mildly adverse.')
 q('LL158','lsat_lr_evid','Weaken',3,
  "Insurer: Drivers who install our monitoring device have fewer accidents than those who do "
  "not. The device makes drivers safer, so we will require it of all policyholders.\n\n"
@@ -727,7 +727,7 @@ q('LL160','lsat_lr_evid','Strengthen',3,
   'The two languages share a similar word order in simple sentences',
   'Both languages are spoken in regions that were once part of the same empire'],
  'Regular correspondence across a large and varied vocabulary is the signature of common descent, which borrowing across ten words is not.',
- 'C helps but is weaker, and trade, word order and shared political history each supply an alternative to descent or nothing at all.')
+ '{C} helps but is weaker, and trade, word order and shared political history each supply an alternative to descent or nothing at all.')
 
 # ===================================================================== conclusions
 q('LL161','lsat_lr_concl','Must be true',3,
@@ -740,7 +740,7 @@ q('LL161','lsat_lr_concl','Must be true',3,
   'Some members of chamber groups are violinists in the orchestra',
   'Every conservatory teacher is barred from joining a chamber group'],
  'Orchestra violinists are all in chamber groups, and nobody in a chamber group teaches at the conservatory. Alvarez teaches there, so Alvarez is not one of them.',
- 'B overreaches from orchestra to instrument, C and E generalise beyond the premises, and D does not follow if the orchestra has no violinists.')
+ '{B} overreaches from orchestra to instrument, {C} and {E} generalise beyond the premises, and {D} does not follow if the orchestra has no violinists.')
 q('LL162','lsat_lr_concl','Must be true',3,
  "The library will extend its hours only if the council approves the budget. The council will "
  "approve the budget only if the audit is completed by June. The audit will not be completed "
@@ -752,7 +752,7 @@ q('LL162','lsat_lr_concl','Must be true',3,
   'The library would have extended its hours had the audit been completed',
   'The council would have approved the budget had it wished to'],
  'Two chained necessary conditions fail at the far end, so the near end fails too.',
- 'B is stronger than not approving, C adds a fact not given, and D and E reverse the conditionals.')
+ '{B} is stronger than not approving, {C} adds a fact not given, and {D} and {E} reverse the conditionals.')
 q('LL163','lsat_lr_concl','Most strongly supported',4,
  "In the decade after the tax on sugary drinks took effect, sales of those drinks in the city "
  "fell by a fifth while sales in the surrounding region were unchanged. Sales of bottled "
@@ -765,7 +765,7 @@ q('LL163','lsat_lr_concl','Most strongly supported',4,
   'Dental treatment rates are a poor measure of children\'s dental health',
   'Bottled water is as damaging to children\'s teeth as sugary drinks are'],
  'Substitution is established by the two sales figures against a stable regional comparison, and the dental figure shows the intended outcome did not follow.',
- 'B contradicts the sales data, C is possible but unsupported, and D and E are speculative explanations rather than what the data supports.')
+ '{B} contradicts the sales data, {C} is possible but unsupported, and {D} and {E} are speculative explanations rather than what the data supports.')
 q('LL164','lsat_lr_concl','Main conclusion',3,
  "Some argue that the museum should return the bronzes because they were taken by force. That "
  "is true, but it is not the strongest reason. The strongest reason is that the objects mean "
@@ -778,7 +778,7 @@ q('LL164','lsat_lr_concl','Main conclusion',3,
   'Arguments from the circumstances of acquisition are weaker than arguments from meaning',
   'The museum is not a suitable place to display the bronzes'],
  'The passage concedes the force argument and then names the strongest reason, which is the claim everything else supports.',
- 'B is the conceded point, C is a premise, D is implied rather than asserted as the conclusion, and E is a consequence the passage does not draw.')
+ '{B} is the conceded point, {C} is a premise, {D} is implied rather than asserted as the conclusion, and {E} is a consequence the passage does not draw.')
 q('LL165','lsat_lr_concl','Must be true',3,
  "Every package that arrived on Tuesday was sent by express. Some packages sent by express "
  "were damaged in transit. No damaged package was accepted by the receiving clerk.\n\n"
@@ -789,7 +789,7 @@ q('LL165','lsat_lr_concl','Must be true',3,
   'No package sent by express was accepted by the receiving clerk',
   'Some packages sent by express arrived on a day other than Tuesday'],
  'The third premise applies to any damaged package, whenever it arrived.',
- 'B, D and E assert existence or universality the premises do not give, and C does not follow at all.')
+ '{B}, {D} and {E} assert existence or universality the premises do not give, and {C} does not follow at all.')
 q('LL166','lsat_lr_concl','Most strongly supported',3,
  "A survey of household energy use found that homes with programmable thermostats used no "
  "less energy on average than homes without them. A separate study found that most owners of "
@@ -801,7 +801,7 @@ q('LL166','lsat_lr_concl','Most strongly supported',3,
   'Manufacturers set the default settings of programmable thermostats badly',
   'Most households would save energy by removing their programmable thermostats'],
  'The two findings fit together as a configuration problem: the device can save and is not being used in the way that saves.',
- 'B and E go further than the data, C reverses it, and D is one explanation among several the data does not choose between.')
+ '{B} and {E} go further than the data, {C} reverses it, and {D} is one explanation among several the data does not choose between.')
 q('LL167','lsat_lr_concl','Must be true',4,
  "If the treaty is ratified, the tariffs will fall. If the tariffs fall, either exports will "
  "rise or domestic producers will lose market share. Domestic producers will not lose market "
@@ -811,10 +811,10 @@ q('LL167','lsat_lr_concl','Must be true',4,
  ['Exports will rise',
   'The tariffs will not fall',
   'Domestic producers will increase their market share',
-  'Exports will rise only if the tariffs fall',
-  'The treaty will be ratified only if exports rise'],
+  'The tariffs will fall only if domestic producers increase their market share',
+  'Exports would have risen even if the treaty had not been ratified'],
  'Ratification gives falling tariffs, which gives the disjunction, and the second disjunct is denied.',
- 'B contradicts the chain, C is stronger than not losing share, and D and E state conditionals the premises do not support.')
+ '{B} contradicts the chain, {C} is stronger than not losing share, {D} ties the fall in tariffs to a gain the premises never mention, and {E} is about what would have happened without ratification, which the premises do not address.')
 q('LL168','lsat_lr_concl','Main conclusion',3,
  "Critics of the new pension rule say it will reduce saving. They point to the fall in "
  "contributions in the first quarter after the rule took effect. But contributions fall in "
@@ -827,7 +827,7 @@ q('LL168','lsat_lr_concl','Main conclusion',3,
   'This year\'s fall in contributions was smaller than usual',
   'The critics have misunderstood how the new pension rule works'],
  'The final sentence is what the seasonal facts are offered to establish, and it is a claim about their evidence rather than about the rule.',
- 'B is stronger than what is argued, C and D are the premises, and E is never asserted.')
+ '{B} is stronger than what is argued, {C} and {D} are the premises, and {E} is never asserted.')
 q('LL169','lsat_lr_concl','Most strongly supported',3,
  "Among the plays attributed to the dramatist, those written after 1605 use a vocabulary of "
  "roughly nine thousand distinct words, while those written before 1600 use roughly six "
@@ -839,7 +839,7 @@ q('LL169','lsat_lr_concl','Most strongly supported',3,
   'Some of the plays attributed to the dramatist were written by someone else',
   'Vocabulary size is the best available test of when a play was written'],
  'Equal length with more distinct words is precisely a wider vocabulary per unit of text, which is what the two figures give.',
- 'B is a specific mechanism, C concerns difficulty, D raises attribution, and E makes a methodological claim, none of which the data supports.')
+ '{B} is a specific mechanism, {C} concerns difficulty, {D} raises attribution, and {E} makes a methodological claim, none of which the data supports.')
 q('LL170','lsat_lr_concl','Must be true',3,
  "No employee who works remotely attends the Monday briefing. Every employee on the product "
  "team attends the Monday briefing. Nakamura works remotely.\n\n"
@@ -850,7 +850,7 @@ q('LL170','lsat_lr_concl','Must be true',3,
   'Some employees who work remotely are on the product team',
   'Nakamura attends a briefing on a day other than Monday'],
  'Product team members all attend; remote workers never do; Nakamura is remote.',
- 'B reverses a conditional, C overstates it, D contradicts the premises, and E adds a fact not given.')
+ '{B} reverses a conditional, {C} overstates it, {D} contradicts the premises, and {E} adds a fact not given.')
 q('LL171','lsat_lr_concl','Most strongly supported',4,
  "Insurance claims for water damage in the district rose sharply in the year after the new "
  "drainage system was completed. The system was designed to handle the heaviest rainfall "
@@ -863,7 +863,7 @@ q('LL171','lsat_lr_concl','Most strongly supported',4,
   'Insurance claims for water damage are a reliable measure of water damage',
   'Rainfall in the district is becoming less predictable than it was'],
  'The two facts about rainfall and design capacity jointly exclude one explanation and say nothing about the others.',
- 'B and C name particular explanations the facts do not establish, D is a methodological assumption, and E is unsupported.')
+ '{B} and {C} name particular explanations the facts do not establish, {D} is a methodological assumption, and {E} is unsupported.')
 q('LL172','lsat_lr_concl','Main conclusion',3,
  "It is often said that a jury of ordinary citizens cannot understand expert testimony. The "
  "evidence does not bear this out. Studies comparing jury verdicts with the verdicts judges "
@@ -876,7 +876,7 @@ q('LL172','lsat_lr_concl','Main conclusion',3,
   'technical cases are no harder for juries than other cases',
   'the jury system should be retained in its present form'],
  'The second sentence states the conclusion and the studies are offered in support of it.',
- 'B and D are the evidence, C is stronger than a claim about agreement rates, and E is a policy conclusion never drawn.')
+ '{B} and {D} are the evidence, {C} is stronger than a claim about agreement rates, and {E} is a policy conclusion never drawn.')
 q('LL173','lsat_lr_concl','Must be true',3,
  "All of the manuscripts in the collection that are dated were produced in the fifteenth "
  "century. Some manuscripts in the collection are illuminated. No illuminated manuscript in "
@@ -888,7 +888,7 @@ q('LL173','lsat_lr_concl','Must be true',3,
   'No undated manuscript in the collection was produced in the fifteenth century',
   'Most manuscripts in the collection are illuminated'],
  'Some are illuminated, none of those is undated, so some are dated, and all dated ones are fifteenth century.',
- 'B and D go beyond the dated subset, C reverses the third premise, and E is a quantity claim the premises do not give.')
+ '{B} and {D} go beyond the dated subset, {C} reverses the third premise, and {E} is a quantity claim the premises do not give.')
 q('LL174','lsat_lr_concl','Most strongly supported',3,
  "Cities that introduced bicycle sharing schemes saw the number of cycling injuries rise. "
  "They also saw the number of cycling trips rise by a larger proportion than injuries did.\n\n"
@@ -899,7 +899,7 @@ q('LL174','lsat_lr_concl','Most strongly supported',3,
   'The rise in injuries would have been larger without the sharing schemes',
   'Cyclists using shared bicycles are more careful than other cyclists'],
  'Injuries rising more slowly than trips is a fall in injuries per trip, which is the rate that describes safety.',
- 'B misreads the totals, C and E make claims about shared bicycles specifically, and D is a counterfactual the data does not support.')
+ '{B} misreads the totals, {C} and {E} make claims about shared bicycles specifically, and {D} is a counterfactual the data does not support.')
 q('LL175','lsat_lr_concl','Must be true',4,
  "If the compound is present, the solution turns blue. The solution turns blue only if the "
  "temperature is above twenty degrees. The temperature is eighteen degrees.\n\n"
@@ -910,7 +910,7 @@ q('LL175','lsat_lr_concl','Must be true',4,
   'The solution turns blue whenever the temperature is above twenty degrees',
   'The compound is present only at temperatures above twenty degrees'],
  'Below twenty the solution cannot be blue, and the compound would make it blue, so the compound is absent.',
- 'B is self contradictory given the premises, C and D reverse the second conditional, and E confuses a condition on the colour with one on the compound.')
+ '{B} is self contradictory given the premises, {C} and {D} reverse the second conditional, and {E} confuses a condition on the colour with one on the compound.')
 q('LL176','lsat_lr_concl','Most strongly supported',3,
  "The factory installed sensors that stop a machine when a worker's hand approaches it. In "
  "the year after installation, reported hand injuries fell by two thirds, and reported near "
@@ -922,7 +922,7 @@ q('LL176','lsat_lr_concl','Most strongly supported',3,
   'Near misses were underreported before the sensors were installed',
   'The factory will eliminate hand injuries entirely within a few years'],
  'A near miss is what an injury becomes when something intervenes, and the two figures move in exactly that pattern.',
- 'B, C and D are possible explanations of part of the data, and E is a prediction the data does not license.')
+ '{B}, {C} and {D} are possible explanations of part of the data, and {E} is a prediction the data does not license.')
 q('LL177','lsat_lr_concl','Main conclusion',3,
  "The proposal would require every new building to include parking. Supporters say this "
  "prevents crowding on the streets. But parking requirements raise construction costs, and "
@@ -935,7 +935,7 @@ q('LL177','lsat_lr_concl','Main conclusion',3,
   'Street crowding is not a serious problem in the district',
   'The proposal will not achieve what its supporters intend'],
  'The last sentence states the general principle as the verdict on the proposal, and the cost facts are what lead to it.',
- 'B is a premise, C is implied but narrower, and D and E are not asserted.')
+ '{B} is a premise, {C} is implied but narrower, and {D} and {E} are not asserted.')
 q('LL178','lsat_lr_concl','Must be true',3,
  "Whenever the ferry is cancelled, the road is closed or the sea is rough. The road was open "
  "all week. The ferry was cancelled on Thursday.\n\n"
@@ -946,7 +946,7 @@ q('LL178','lsat_lr_concl','Must be true',3,
   'The road is closed whenever the sea is rough',
   'The ferry is cancelled whenever the sea is rough'],
  'Cancellation requires one of two conditions; the road was open, so the other held.',
- 'B, C, D and E each assert more than Thursday, or reverse the conditional.')
+ '{B}, {C}, {D} and {E} each assert more than Thursday, or reverse the conditional.')
 q('LL179','lsat_lr_concl','Most strongly supported',4,
  "Two groups of readers were given the same article. One group read it in a typeface designed "
  "to be slightly hard to read. That group scored higher on a test of recall a week later, but "
@@ -958,7 +958,7 @@ q('LL179','lsat_lr_concl','Most strongly supported',4,
   'Recall a week later is the most important measure of reading',
   'The two groups differed in reading ability before the study began'],
  'All three findings are stated and the conclusion does no more than put them together as a tradeoff.',
- 'B is a recommendation, C generalises a correlation, D ranks measures, and E contradicts the design as described.')
+ '{B} is a recommendation, {C} generalises a correlation, {D} ranks measures, and {E} contradicts the design as described.')
 q('LL180','lsat_lr_concl','Must be true',3,
  "No document in the sealed file has been read by anyone outside the ministry. Some documents "
  "in the sealed file were written by the ambassador. Everything the ambassador wrote in that "
@@ -970,7 +970,7 @@ q('LL180','lsat_lr_concl','Must be true',3,
   'Everything in the sealed file was written by the ambassador',
   'The foreign press is not outside the ministry'],
  'Sealed file documents by the ambassador are unread outside the ministry, so they cannot be among the things read by the foreign press, so they were not written in that year.',
- 'B contradicts the first premise, C and D are stronger than the premises allow, and E is an unmotivated escape.')
+ '{B} contradicts the first premise, {C} and {D} are stronger than the premises allow, and {E} is an unmotivated escape.')
 
 # ===================================================================== structure
 q('LL181','lsat_lr_struct','Role of a claim',3,
@@ -986,7 +986,7 @@ q('LL181','lsat_lr_struct','Role of a claim',3,
   'It is an assumption the planner must make in order to compare the two groups',
   'It is a claim the planner goes on to show is false'],
  'The phrase It is true that marks a concession, and the next sentence gives the reason it does not settle the matter.',
- 'B and C misplace it, D calls a stated fact an assumption, and the planner never denies it.')
+ '{B} and {C} misplace it, {D} calls a stated fact an assumption, and the planner never denies it.')
 q('LL182','lsat_lr_struct','Method of argument',3,
  "Physician: You say that because the trial found no benefit, the treatment does not work. "
  "But the trial enrolled forty patients. A trial that size would miss a benefit of the "
@@ -1011,7 +1011,7 @@ q('LL183','lsat_lr_struct','Point at issue',4,
   'the public is capable of judging the value of contemporary art',
   'art and research are funded from the same public budgets'],
  'Ferrand proposes broad demand as the criterion and Iqbal offers a case where it plainly does not apply, which is a denial of the criterion.',
- 'Neither addresses B or E; Iqbal treats research funding as common ground rather than arguing for it; and D is not what either says.')
+ 'Neither addresses {B} or {E}; Iqbal treats research funding as common ground rather than arguing for it; and {D} is not what either says.')
 q('LL184','lsat_lr_struct','Role of a claim',3,
  "Editor: Our readers complain that the paper covers national politics at the expense of "
  "local news. Circulation is falling. Papers that expanded local coverage in comparable "
@@ -1035,7 +1035,7 @@ q('LL185','lsat_lr_struct','Argument structure',4,
   'demonstrating that the usual account rests on a confusion of terms',
   'conceding the main point while disputing a subsidiary one'],
  'Onset before the strike is what rules out causation, and the concession about recovery is exactly the lesser role.',
- 'B ignores the concession, C offers no alternative, D names no confusion, and E reverses which point is conceded.')
+ '{B} ignores the concession, {C} offers no alternative, {D} names no confusion, and {E} reverses which point is conceded.')
 q('LL186','lsat_lr_struct','Role of a claim',3,
  "Geologist: Some say the boulders were carried here by a glacier. The nearest glaciated "
  "terrain is four hundred kilometres away, which is far but not impossible for ice to carry "
@@ -1110,7 +1110,7 @@ q('LL191','lsat_lr_struct','Argument structure',3,
   'refuting an objection and then offering positive evidence',
   'deriving a general principle from a particular case'],
  'Efficacy is put aside, the two part standard is stated, and the last sentence claims it is satisfied.',
- 'B misstates the inference, only one standard is given, nothing is refuted, and the movement is from principle to case.')
+ '{B} misstates the inference, only one standard is given, nothing is refuted, and the movement is from principle to case.')
 q('LL192','lsat_lr_struct','Role of a claim',3,
  "Auditor: The department says the overspend was caused by unexpected fuel prices. Fuel "
  "prices did rise. But fuel is four percent of the department's budget, and the overspend was "
@@ -1208,7 +1208,7 @@ q('LL199','lsat_lr_struct','Method of argument',3,
   'treats enforcement and enforceability as the same thing',
   'fails to name the people who called the earlier statutes unenforceable'],
  'The track record establishes that the objection has been wrong before, which is not an answer to the objection as made about this bill.',
- 'B, C, D and E are narrower complaints about the comparison rather than the reason it does not answer the charge.')
+ '{B}, {C}, {D} and {E} are narrower complaints about the comparison rather than the reason it does not answer the charge.')
 q('LL200','lsat_lr_struct','Role of a claim',4,
  "Curator: Attributing the drawing to the workshop rather than the master would lower its "
  "value considerably. That is a reason to examine the attribution carefully. It is not a "
@@ -1235,7 +1235,7 @@ q('LL201','lsat_lr_prin','Identify the principle',3,
   'A sale price must remain available for a reasonable period after it is advertised',
   'A seller may not offer a discount smaller than the one advertised'],
  'The shop\'s failure to remove the display is what the case turns on, and this principle makes the display binding while it stands.',
- 'B is about notice, C about compensation, D about duration and E about the size of the offer, none of which matches the facts as given.')
+ '{B} is about notice, {C} about compensation, {D} about duration and {E} about the size of the offer, none of which matches the facts as given.')
 q('LL202','lsat_lr_prin','Apply a principle',3,
  "Principle: A person who benefits from another's mistake should return the benefit if the "
  "mistake was one the person could easily have pointed out at the time.\n\n"
@@ -1246,7 +1246,7 @@ q('LL202','lsat_lr_prin','Apply a principle',3,
   'Quinn, whose neighbour built a fence on Quinn\'s land by mistake, should pay for the fence',
   'Sandoval, who was overcharged and did not notice, should be refunded the difference'],
  'Noticing at the time is precisely the condition, and Marchetti did notice and stayed silent.',
- 'B is a correct application of the exception rather than the principle, C, D and E concern situations the principle does not govern.')
+ '{B} is a correct application of the exception rather than the principle, {C}, {D} and {E} concern situations the principle does not govern.')
 q('LL203','lsat_lr_prin','Identify the principle',4,
  "The researcher declined to publish the finding because the sample had been collected by a "
  "method she had criticised in print two years earlier. Her colleagues thought this "
@@ -1259,7 +1259,7 @@ q('LL203','lsat_lr_prin','Identify the principle',4,
   'One should not criticise in print a method one may later need to use',
   'A researcher\'s past publications should not constrain her present choices'],
  'The distinctive fact is the public criticism, and the principle makes consistency binding regardless of how the result would have come out.',
- 'B imposes replication, C is a probabilistic claim the colleagues already dispute, D reverses the lesson, and E contradicts the decision.')
+ '{B} imposes replication, {C} is a probabilistic claim the colleagues already dispute, {D} reverses the lesson, and {E} contradicts the decision.')
 q('LL204','lsat_lr_prin','Apply a principle',3,
  "Principle: An institution that solicits donations for a stated purpose must use them for "
  "that purpose or return them.\n\n"
@@ -1270,7 +1270,7 @@ q('LL204','lsat_lr_prin','Apply a principle',3,
   'A hospital that bought a scanner from general funds may keep donations raised afterwards',
   'A hospital may solicit donations for a purpose it has not yet decided to pursue'],
  'Abandoning the stated purpose triggers the alternative the principle gives, which is return.',
- 'B diverts funds, C adds a duty the principle does not state, D is not addressed, and E concerns solicitation rather than use.')
+ '{B} diverts funds, {C} adds a duty the principle does not state, {D} is not addressed, and {E} concerns solicitation rather than use.')
 q('LL205','lsat_lr_prin','Parallel principle',4,
  "A referee should not officiate a match involving a club she once played for, even if she "
  "is confident of her impartiality, because the appearance of partiality damages the game.\n\n"
@@ -1281,8 +1281,8 @@ q('LL205','lsat_lr_prin','Parallel principle',4,
   'A judge should recuse himself from a case in which he holds a financial interest, because he might decide it wrongly',
   'A teacher should not grade the work of a relative, because she would be unable to judge it fairly',
   'A journalist should disclose any payment received from a subject she writes about'],
- 'The structure is: appearance matters independently of actual impartiality, and the harm is to confidence in the institution. A reproduces both.',
- 'C and D rest the duty on the risk of a wrong decision, which is the reasoning the original expressly sets aside; B and E are different duties.')
+ 'The structure is: appearance matters independently of actual impartiality, and the harm is to confidence in the institution. {A} reproduces both.',
+ '{C} and {D} rest the duty on the risk of a wrong decision, which is the reasoning the original expressly sets aside; {B} and {E} are different duties.')
 q('LL206','lsat_lr_prin','Identify the principle',3,
  "The airline rebooked the passenger on a later flight without telling her and she missed a "
  "connection. The airline says its terms allow it to change bookings. The airline still owes "
@@ -1294,7 +1294,7 @@ q('LL206','lsat_lr_prin','Identify the principle',3,
   'A party that causes a loss must compensate it regardless of what its terms provide',
   'A customer who books a connection assumes the risk that it will be missed'],
  'The airline\'s right to change is conceded, so the ground of liability must be the failure to notify, which this principle supplies.',
- 'B denies the conceded right, C and D are far broader than the case needs, and E contradicts the conclusion.')
+ '{B} denies the conceded right, {C} and {D} are far broader than the case needs, and {E} contradicts the conclusion.')
 q('LL207','lsat_lr_prin','Apply a principle',3,
  "Principle: A person should be praised for an act only if she could have chosen not to do "
  "it.\n\n"
@@ -1305,7 +1305,7 @@ q('LL207','lsat_lr_prin','Apply a principle',3,
   'The clerk deserves praise for reporting the theft, since the report led to the recovery of the money',
   'The clerk deserves no praise for reporting the theft, since she did not report it promptly'],
  'The principle makes the availability of an alternative necessary, and compulsion under threat of prosecution is what removes it.',
- 'B, C, D and E turn on courage, evidence, outcome and timing, none of which the principle addresses.')
+ '{B}, {C}, {D} and {E} turn on courage, evidence, outcome and timing, none of which the principle addresses.')
 q('LL208','lsat_lr_prin','Identify the principle',4,
  "The newspaper published the leaked memorandum. Its editor knew the leak would cost the "
  "source her job. The memorandum showed that a regulator had suppressed a safety report. The "
@@ -1317,7 +1317,7 @@ q('LL208','lsat_lr_prin','Identify the principle',4,
   'A newspaper should not publish a leaked document unless it has verified its contents independently',
   'The public interest in safety outweighs every competing consideration'],
  'The case pairs a serious institutional failure with a known personal cost, and the principle weighs exactly those two.',
- 'B is too permissive, C dismisses the cost rather than weighing it, D would count against publishing here, and E is too strong to be plausible.')
+ '{B} is too permissive, {C} dismisses the cost rather than weighing it, {D} would count against publishing here, and {E} is too strong to be plausible.')
 q('LL209','lsat_lr_prin','Apply a principle',3,
  "Principle: A rule adopted to prevent a particular harm should not be applied where that "
  "harm cannot occur.\n\n"
@@ -1328,7 +1328,7 @@ q('LL209','lsat_lr_prin','Apply a principle',3,
   'A prohibition on open flames should be replaced by a requirement that fire extinguishers be provided',
   'A prohibition on open flames in the archive should be enforced more strictly during the winter'],
  'The rule\'s purpose is protecting paper, and a room with no paper is precisely where the harm cannot occur.',
- 'B extends rather than limits, C appeals to convenience, D substitutes a different rule, and E varies enforcement.')
+ '{B} extends rather than limits, {C} appeals to convenience, {D} substitutes a different rule, and {E} varies enforcement.')
 q('LL210','lsat_lr_prin','Identify the principle',3,
  "The tenant painted the flat without permission. The landlord says the lease forbids "
  "alterations. The paint improved the flat and the landlord relet it at a higher rent without "
@@ -1341,7 +1341,7 @@ q('LL210','lsat_lr_prin','Identify the principle',3,
   'A party may recover only losses that were foreseeable when the agreement was made',
   'A tenant may alter a property where the alteration is an improvement'],
  'The landlord kept the paint and raised the rent, so the restoration cost was never incurred and is not recoverable on this principle.',
- 'B claims a share, C is about waiver generally, D is a remoteness rule, and E rewrites the lease.')
+ '{B} claims a share, {C} is about waiver generally, {D} is a remoteness rule, and {E} rewrites the lease.')
 q('LL211','lsat_lr_prin','Apply a principle',4,
  "Principle: One may break a minor rule in order to prevent a much greater harm, provided no "
  "lawful means of preventing that harm was available.\n\n"
@@ -1352,7 +1352,7 @@ q('LL211','lsat_lr_prin','Apply a principle',4,
   'A driver who crossed a solid line to avoid a child and was not seen by any other driver acted permissibly',
   'A driver who crossed a solid line and caused no accident acted permissibly'],
  'A greater harm, a minor rule and no alternative are all present: there was no room to stop.',
- 'B had a lawful means available, C names no harm, and D and E rest on being unobserved or lucky rather than on the principle.')
+ '{B} had a lawful means available, {C} names no harm, and {D} and {E} rest on being unobserved or lucky rather than on the principle.')
 q('LL212','lsat_lr_prin','Identify the principle',3,
  "The committee rejected the grant application because the applicant had failed to disclose a "
  "previous award for closely related work. The application was otherwise the strongest "
@@ -1364,7 +1364,7 @@ q('LL212','lsat_lr_prin','Identify the principle',3,
   'A committee should reject any application it cannot verify in full',
   'An applicant who fails to disclose information should be given an opportunity to correct the omission'],
  'The decision turns on non disclosure overriding merit, and the principle says exactly that.',
- 'B would reverse the decision, C makes the prior award rather than the concealment decisive, D is far broader, and E recommends a different course.')
+ '{B} would reverse the decision, {C} makes the prior award rather than the concealment decisive, {D} is far broader, and {E} recommends a different course.')
 q('LL213','lsat_lr_prin','Apply a principle',3,
  "Principle: A professional should not accept work she lacks the competence to perform, even "
  "where the client understands the limits of her experience.\n\n"
@@ -1375,7 +1375,7 @@ q('LL213','lsat_lr_prin','Apply a principle',3,
   'The surveyor should have declined the marine survey because the owner was not told her experience was limited',
   'The surveyor was entitled to accept the marine survey because no experienced surveyor was available'],
  'The principle makes the client\'s understanding irrelevant, which is the distinctive feature of the case as stated.',
- 'B and E rely on consent and necessity, C is about fees, and D makes disclosure decisive when the principle says it is not.')
+ '{B} and {E} rely on consent and necessity, {C} is about fees, and {D} makes disclosure decisive when the principle says it is not.')
 q('LL214','lsat_lr_prin','Parallel principle',4,
  "A government should not fund a project whose benefits accrue entirely to those already able "
  "to pay for it, since public money is justified by the provision of what the market will not "
@@ -1387,7 +1387,7 @@ q('LL214','lsat_lr_prin','Parallel principle',4,
   'The city should not fund a bus route that few residents use, since the cost per passenger is high',
   'The city should fund a museum, since museums attract visitors who spend money locally'],
  'The principle turns on benefits confined to those who can already buy the thing in a market, which is exactly the marina case.',
- 'B is a budget priority argument, C and E give positive reasons of a different kind, and D turns on cost per user.')
+ '{B} is a budget priority argument, {C} and {E} give positive reasons of a different kind, and {D} turns on cost per user.')
 q('LL215','lsat_lr_prin','Identify the principle',3,
  "The teacher gave the same mark to a student who had plainly worked for weeks and to one who "
  "had written the essay the night before, because the two essays were of equal quality. The "
@@ -1399,7 +1399,7 @@ q('LL215','lsat_lr_prin','Identify the principle',3,
   'Effort should be rewarded only where it produces a better result',
   'Two students who receive the same mark should be given the same feedback'],
  'Equal marks for unequal effort at equal quality is precisely an achievement standard.',
- 'B and E are about communication, C is about evidence, and D is close but concedes that effort is rewardable when it pays, which the case does not require.')
+ '{B} and {E} are about communication, {C} is about evidence, and {D} is close but concedes that effort is rewardable when it pays, which the case does not require.')
 q('LL216','lsat_lr_prin','Apply a principle',3,
  "Principle: An organisation should disclose a data breach to those affected as soon as it "
  "is confirmed, even if the investigation is not complete.\n\n"
@@ -1410,7 +1410,7 @@ q('LL216','lsat_lr_prin','Apply a principle',3,
   'The company should have written only to customers whose accounts were shown to have been accessed',
   'The company should have written to all customers, whether or not they were affected'],
  'Confirmation is the trigger and completion of the investigation is expressly not required.',
- 'B moves the trigger to suspicion, C contradicts the principle, and D and E concern who is told rather than when.')
+ '{B} moves the trigger to suspicion, {C} contradicts the principle, and {D} and {E} concern who is told rather than when.')
 q('LL217','lsat_lr_prin','Identify the principle',4,
  "The publisher withdrew the book after learning that its author had fabricated an interview "
  "in an earlier book. Nothing in the present book had been shown to be false. The publisher "
@@ -1422,7 +1422,7 @@ q('LL217','lsat_lr_prin','Identify the principle',4,
   'A publisher should verify every factual claim in a work of nonfiction before publishing it',
   'A reader who buys a book of nonfiction is entitled to a refund if any part of it is false'],
  'Nothing in this book was shown false, so the ground has to be the loss of warrant rather than a found error, and the principle supplies it.',
- 'B and E require a falsehood the case lacks, C is an empirical claim rather than a principle, and D would make publication impossible.')
+ '{B} and {E} require a falsehood the case lacks, {C} is an empirical claim rather than a principle, and {D} would make publication impossible.')
 q('LL218','lsat_lr_prin','Apply a principle',3,
  "Principle: Where two parties are equally at fault for a loss, each should bear half of "
  "it.\n\n"
@@ -1433,7 +1433,7 @@ q('LL218','lsat_lr_prin','Apply a principle',3,
   'The larger firm should bear more of the cost, since it can better afford to',
   'The firm whose failure occurred first should bear the whole cost'],
  'Equal fault by both is the condition, and it is satisfied by two firms each failing at its own task.',
- 'B denies fault, C rewards discovery, D allocates by capacity, and E allocates by sequence.')
+ '{B} denies fault, {C} rewards discovery, {D} allocates by capacity, and {E} allocates by sequence.')
 q('LL219','lsat_lr_prin','Identify the principle',3,
  "The conductor programmed a work by a composer whose politics he found repellent. He "
  "explained the composer's history in the programme note. He was right to do both.\n\n"
@@ -1444,7 +1444,7 @@ q('LL219','lsat_lr_prin','Identify the principle',3,
   'A programme note should describe the circumstances in which a work was composed',
   'Works by objectionable figures should be performed only rarely'],
  'The decision has two parts and only this principle licenses both: perform on merit, and disclose the context.',
- 'B and C justify the performance alone, D justifies the note alone, and E recommends a restriction the conductor did not observe.')
+ '{B} and {C} justify the performance alone, {D} justifies the note alone, and {E} recommends a restriction the conductor did not observe.')
 q('LL220','lsat_lr_prin','Apply a principle',4,
  "Principle: A promise extracted by a threat is not binding, but a promise made in exchange "
  "for a favour is binding even if the favour was small.\n\n"
@@ -1455,7 +1455,7 @@ q('LL220','lsat_lr_prin','Apply a principle',4,
   'Ferreira, who promised to work a double shift for no reason, is bound by the promise',
   'Ferreira, who promised to work a double shift, may withdraw the promise at any time before the shift begins'],
  'A small favour given in exchange makes the promise binding on the principle\'s second clause.',
- 'B is the threat case the first clause releases, C imports a proportionality test the principle rejects, and D and E are not governed by it.')
+ '{B} is the threat case the first clause releases, {C} imports a proportionality test the principle rejects, and {D} and {E} are not governed by it.')
 
 # ===================================================================== explanations
 q('LL221','lsat_lr_expl','Resolve the discrepancy',3,
@@ -1480,7 +1480,7 @@ q('LL222','lsat_lr_expl','Explain the discrepancy',3,
   'The bakery occupies less floor space at the front of the store than it did at the back',
   'Some customers visit the supermarket only to buy bread'],
  'A single mechanism, impulse purchase at the new location displacing a planned one, moves both figures in the directions observed.',
- 'B explains only the pastry rise, C and D are background, and E explains neither change.')
+ '{B} explains only the pastry rise, {C} and {D} are background, and {E} explains neither change.')
 q('LL223','lsat_lr_expl','Parallel reasoning',4,
  "Whenever the archive is open, at least one archivist is on duty. The archive was open on "
  "Friday. So an archivist was on duty on Friday.\n\n"
@@ -1491,8 +1491,8 @@ q('LL223','lsat_lr_expl','Parallel reasoning',4,
   'Whenever a pilot is aboard, the ferry runs. The ferry did not run on Sunday. So no pilot was aboard.',
   'The ferry usually runs when a pilot is available. A pilot was available on Sunday. So the ferry probably ran.',
   'Whenever the ferry runs, a pilot is aboard. The ferry did not run on Sunday. So no pilot was aboard.'],
- 'The original is a straightforward modus ponens on a universal conditional, which A reproduces exactly.',
- 'B affirms the consequent, C is a valid contrapositive of a different conditional, D is probabilistic, and E denies the antecedent.')
+ 'The original is a straightforward modus ponens on a universal conditional, which {A} reproduces exactly.',
+ '{B} affirms the consequent, {C} is a valid contrapositive of a different conditional, {D} is probabilistic, and {E} denies the antecedent.')
 q('LL224','lsat_lr_expl','Resolve the discrepancy',3,
  "A study found that people who eat breakfast weigh less on average than people who skip it. "
  "A trial that randomly assigned participants to eat or skip breakfast found no difference in "
@@ -1504,7 +1504,7 @@ q('LL224','lsat_lr_expl','Resolve the discrepancy',3,
   'Breakfast eaters in the study were younger on average than breakfast skippers',
   'Four months is long enough for a difference in weight to appear'],
  'A common cause behind both the habit and the weight makes the observed association real and the causal claim false, which is what the trial found.',
- 'B and E bear on the trial\'s internal workings, C questions the measure, and D names one confounder without connecting it to weight.')
+ '{B} and {E} bear on the trial\'s internal workings, {C} questions the measure, and {D} names one confounder without connecting it to weight.')
 q('LL225','lsat_lr_expl','Explain the discrepancy',3,
  "The city replaced its street lights with brighter ones. Reported crime on the affected "
  "streets rose in the following year, while residents reported feeling safer.\n\n"
@@ -1515,7 +1515,7 @@ q('LL225','lsat_lr_expl','Explain the discrepancy',3,
   'Brighter lighting makes it easier for offenders to identify targets',
   'The city installed the new lights on its busiest streets first'],
  'Reporting rates and actual crime are different things, and a rise in willingness to report raises the first without the second, alongside the feeling of safety.',
- 'B is irrelevant, C removes the local puzzle without explaining the pairing, D explains the rise but contradicts the feeling, and E is background.')
+ '{B} is irrelevant, {C} removes the local puzzle without explaining the pairing, {D} explains the rise but contradicts the feeling, and {E} is background.')
 q('LL226','lsat_lr_expl','Resolve the discrepancy',4,
  "The airline reduced the number of flights it cancels, and its on time arrival rate "
  "improved. Passenger complaints about delays nonetheless rose.\n\n"
@@ -1526,7 +1526,7 @@ q('LL226','lsat_lr_expl','Resolve the discrepancy',4,
   'On time arrival is measured against a schedule the airline sets itself',
   'Other airlines also reduced their cancellation rates over the period'],
  'Cancelled flights carry no arriving passengers and generate a different complaint. Operating them adds late arrivals to the count while the published rate still improves.',
- 'B and C raise complaint volume without connecting to delays specifically, D questions the metric, and E is beside the point.')
+ '{B} and {C} raise complaint volume without connecting to delays specifically, {D} questions the metric, and {E} is beside the point.')
 q('LL227','lsat_lr_expl','Parallel reasoning',4,
  "Most of the students who passed the examination attended the review session. So the review "
  "session probably helped students pass.\n\n"
@@ -1538,7 +1538,7 @@ q('LL227','lsat_lr_expl','Parallel reasoning',4,
   'No plant outside the greenhouse survived the frost. So the greenhouse was necessary for survival.',
   'Some plants survived the frost outside the greenhouse. So the greenhouse was not necessary for survival.'],
  'Both move from a majority of the successful cases sharing a feature to a tentative causal claim about that feature.',
- 'B is universal rather than majority, C reverses the proportion, and D and E are about necessity.')
+ '{B} is universal rather than majority, {C} reverses the proportion, and {D} and {E} are about necessity.')
 q('LL228','lsat_lr_expl','Explain the discrepancy',3,
  "Vineyards in the valley have planted a grape that ripens two weeks earlier than the "
  "traditional variety. Harvest dates have not moved.\n\n"
@@ -1585,7 +1585,7 @@ q('LL231','lsat_lr_expl','Resolve the discrepancy',4,
   'Spending per pupil is measured in local currency and converted at market exchange rates',
   'Some countries spend more on teacher salaries and others on buildings'],
  'A within country correlation produced by allocation rather than by effect would vanish at the country level, which is exactly the pattern described.',
- 'B, C, D and E identify differences between countries without explaining why the relationship reverses across the two levels.')
+ '{B}, {C}, {D} and {E} identify differences between countries without explaining why the relationship reverses across the two levels.')
 q('LL232','lsat_lr_expl','Explain the discrepancy',3,
  "The train operator added carriages to its busiest service. The number of passengers "
  "standing did not fall.\n\n"
@@ -1608,7 +1608,7 @@ q('LL233','lsat_lr_expl','Parallel reasoning',3,
   'No book printed before 1800 is in the library. Some atlases are not in the library. So some atlases were printed before 1800.',
   'Some books in the library are atlases. Some atlases were printed after 1800. So some books in the library were printed after 1800.'],
  'A universal restriction on a set plus an existential claim about members of that set yields an existential conclusion combining the two, which A copies exactly.',
- 'B reverses the direction, C overgeneralises, D draws an invalid conclusion from a negative, and E chains two existentials.')
+ '{B} reverses the direction, {C} overgeneralises, {D} draws an invalid conclusion from a negative, and {E} chains two existentials.')
 q('LL234','lsat_lr_expl','Resolve the discrepancy',3,
  "The bookshop moved its fiction section upstairs. Fiction sales fell by a tenth. Total sales "
  "for the shop rose by a tenth.\n\n"
@@ -1619,7 +1619,7 @@ q('LL234','lsat_lr_expl','Resolve the discrepancy',3,
   'The shop\'s fiction stock was reduced when the section moved',
   'Nearby shops also reported higher sales over the same period'],
  'The two figures fit if what took the vacated space sells more than the displaced fiction lost, which is what A says.',
- 'B and C would deepen the puzzle or explain only the fall, D explains the fall alone, and E explains neither.')
+ '{B} and {C} would deepen the puzzle or explain only the fall, {D} explains the fall alone, and {E} explains neither.')
 q('LL235','lsat_lr_expl','Explain the discrepancy',4,
  "Hospitals that adopted the checklist reported fewer surgical complications in the first "
  "year. In the third year their complication rates had returned to where they began.\n\n"
@@ -1630,7 +1630,7 @@ q('LL235','lsat_lr_expl','Explain the discrepancy',4,
   'The checklist was revised at the end of the first year',
   'Surgical volumes at the adopting hospitals rose over the three years'],
  'A procedure that is recorded rather than performed produces exactly this shape: an early gain that decays as the practice hollows out.',
- 'B explains an initial fall by regression, C rules out a general trend, D is a change without a direction, and E is volume rather than rate.')
+ '{B} explains an initial fall by regression, {C} rules out a general trend, {D} is a change without a direction, and {E} is volume rather than rate.')
 q('LL236','lsat_lr_expl','Resolve the discrepancy',3,
  "Wolves were reintroduced to the park, and the elk population fell as expected. The number "
  "of elk killed by wolves each year, however, is far too small to account for the "
@@ -1642,7 +1642,7 @@ q('LL236','lsat_lr_expl','Resolve the discrepancy',3,
   'Wolf numbers in the park have grown each year since the reintroduction',
   'Elk calves are more vulnerable to predation than adults are'],
  'Behavioural displacement from the best feeding grounds reduces survival and reproduction far beyond the kill count, which is the gap the puzzle names.',
- 'B would help elk, C is methodological, D raises kills rather than closing the gap, and E is about which elk are taken.')
+ '{B} would help elk, {C} is methodological, {D} raises kills rather than closing the gap, and {E} is about which elk are taken.')
 q('LL237','lsat_lr_expl','Explain the discrepancy',3,
  "The company introduced an annual bonus for the ten employees with the highest individual "
  "output. Individual output rose in every department. Total output for the company fell.\n\n"
@@ -1653,7 +1653,7 @@ q('LL237','lsat_lr_expl','Explain the discrepancy',3,
   'Some departments produce components used by others',
   'The company hired no new employees during the year'],
  'Measured individual output rising while the total falls is what happens when cooperation, which the measure ignores, is withdrawn.',
- 'B, C and E are background, and D describes a dependency without saying anything changed.')
+ '{B}, {C} and {E} are background, and {D} describes a dependency without saying anything changed.')
 q('LL238','lsat_lr_expl','Resolve the discrepancy',4,
  "Since the museum began charging for entry, attendance has fallen by a third while revenue "
  "from the shop and cafe has risen.\n\n"
@@ -1665,7 +1665,7 @@ q('LL238','lsat_lr_expl','Resolve the discrepancy',4,
   'Attendance had been rising for several years before the charge',
   'The museum spends its shop and cafe revenue on conservation'],
  'A charge selects for committed visitors and changes the behaviour of those who come, which is enough to raise spending on a smaller base.',
- 'B and C are alternative causes that do not connect to the attendance fall, D is background, and E concerns what the money is used for.')
+ '{B} and {C} are alternative causes that do not connect to the attendance fall, {D} is background, and {E} concerns what the money is used for.')
 q('LL239','lsat_lr_expl','Explain the discrepancy',3,
  "A manufacturer improved the fuel efficiency of its delivery vans by a quarter. The fuel its "
  "customers buy for those vans has not fallen.\n\n"
@@ -1677,7 +1677,7 @@ q('LL239','lsat_lr_expl','Explain the discrepancy',3,
   'Some customers operate vans from more than one manufacturer',
   'The efficiency improvement was measured under laboratory conditions'],
  'A lower cost per kilometre invites more kilometres, and the extra distance absorbs the saving.',
- 'Purchase price, fuel prices and mixed fleets are beside the point, and E questions the figure rather than explaining the outcome.')
+ 'Purchase price, fuel prices and mixed fleets are beside the point, and {E} questions the figure rather than explaining the outcome.')
 q('LL240','lsat_lr_expl','Parallel reasoning',4,
  "The only way to reach the summit before dark is to leave at dawn. The party did not reach "
  "the summit before dark. So the party did not leave at dawn.\n\n"
@@ -1687,8 +1687,8 @@ q('LL240','lsat_lr_expl','Parallel reasoning',4,
   'Anyone who submits by March qualifies for the grant. The laboratory qualified. So the laboratory submitted by March.',
   'The only way to qualify for the grant is to submit by March. The laboratory submitted by March. So the laboratory qualified for the grant.',
   'Most laboratories that submit by March qualify for the grant. The laboratory submitted by March. So it probably qualified.'],
- 'Leaving at dawn is necessary rather than sufficient, so failing to arrive does not show the party slept in. A reproduces that error exactly.',
- 'B is a valid use of the necessary condition, C affirms the consequent of a different conditional, D treats a necessary condition as sufficient, and E is probabilistic.')
+ 'Leaving at dawn is necessary rather than sufficient, so failing to arrive does not show the party slept in. {A} reproduces that error exactly.',
+ '{B} is a valid use of the necessary condition, {C} affirms the consequent of a different conditional, {D} treats a necessary condition as sufficient, and {E} is probabilistic.')
 
 E.permute(I)
 
