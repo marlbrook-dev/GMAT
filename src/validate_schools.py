@@ -142,11 +142,19 @@ def _triage_errors(schools, path=TRIAGE):
         if e.get("v") != fv["v"]:
             errors.append(f"source_triage: {key} was read as {e.get('v')!r} and is now {fv['v']!r}; "
                           f"read the figure on its page again and update or remove the entry")
-        missing = {norm(str(n)) for n in e.get("missing") or []}
-        gone = sorted(missing - school_numbers(fv))
-        if not missing or gone:
-            errors.append(f"source_triage: {key} lists missing numbers {sorted(missing)} that the figure "
-                          f"no longer carries ({gone}); read it again and update the entry")
+        near = e.get("near")
+        if near is not None:
+            # A figure found beside another program's name and read as this program's: the
+            # entry names the programs it was read beside, and nothing else is judged by it.
+            if not isinstance(near, list) or not near or not all(isinstance(n, str) and n.strip() for n in near):
+                errors.append(f"source_triage: {key} needs near, the other programs' names the check "
+                              f"finds beside the figure")
+        else:
+            missing = {norm(str(n)) for n in e.get("missing") or []}
+            gone = sorted(missing - school_numbers(fv))
+            if not missing or gone:
+                errors.append(f"source_triage: {key} lists missing numbers {sorted(missing)} that the figure "
+                              f"no longer carries ({gone}); read it again and update the entry")
         why = str(e.get("why") or "")
         if len(why) < 40:
             errors.append(f"source_triage: {key} needs a why that says where the page shows the figure")

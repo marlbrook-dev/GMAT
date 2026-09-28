@@ -495,8 +495,23 @@ def beside_label(field, fact, text):
             return None
         other |= near
     if other:
-        return ("other", "beside its label only near another program's name (%s)" % ", ".join(sorted(other)[:3]))
+        return ("other", "beside its label only near another program's name (%s)" % ", ".join(sorted(other)[:3]),
+                sorted(other))
     return ("none", "not beside a word that says what it counts")
+
+
+def judged_near(key, fact, names, triage):
+    """The triage entry recording a person's reading of a figure found beside its label only
+    near another program's name, or None. Such a list is for a person to read once, not every
+    week: a report that repeats what has been judged stops being read (INC-0154). The entry
+    holds only while the value is the one they read and every program name the check finds
+    near it is one they judged, so a figure that changes, or a page that adds a program, is
+    new again."""
+    e = triage.get(key)
+    if not e or not e.get("near") or not isinstance(fact.get("v"), (int, float)) or e.get("v") != fact["v"]:
+        return None
+    judged = {str(n).lower() for n in e["near"]}
+    return e if {str(n).lower() for n in names} <= judged else None
 
 
 # How far from a label a figure is looked for on a page that shows none of the figures cited
@@ -906,6 +921,17 @@ def _selfcheck():
         got = beside_label(field, fact, text)
         if (want is None) != (got is None) or (want and want not in got[1]):
             sys.exit("check_sources: beside_label(%s, %r) on %r gave %r" % (field, fact, text[:60], got))
+    # A figure beside another program's name, judged by a person, is listed as triaged only
+    # while its value and the programs near it are the ones they read.
+    tepper = "Online Hybrid MBA Class Profile Full-Time MBA Class of 2027 144 Students 38% International Citizens"
+    got = beside_label("class_size", {"v": 144}, tepper)
+    if not got or got[0] != "other" or got[2] != ["Hybrid MBA"]:
+        sys.exit("check_sources: beside_label(class_size, 144) on the Tepper fixture gave %r" % (got,))
+    near = {"x.profile.class_size": {"key": "x.profile.class_size", "v": 144, "near": ["Hybrid MBA"]}}
+    for fact, names, want in (({"v": 144}, ["Hybrid MBA"], True), ({"v": 145}, ["Hybrid MBA"], False),
+                              ({"v": 144}, ["Hybrid MBA", "EMBA"], False), ({"v": 144}, ["hybrid mba"], True)):
+        if bool(judged_near("x.profile.class_size", fact, names, near)) != want:
+            sys.exit("check_sources: judged_near(%r, %r) should be %s" % (fact, names, want))
     # INC-0154: a triage entry covers a finding only for the value and numbers it recorded.
     entry = {"x.profile.gpa": {"key": "x.profile.gpa", "v": 3.67, "missing": ["3.67", "3.4", "3.91"]}}
     for fact, miss, want in (({"v": 3.67}, [("3.67", ""), ("3.91", "")], True),
@@ -1003,7 +1029,14 @@ def main(argv):
             if got and got[0] == "none":
                 miss = [(norm("%g" % f["v"]), got[1])]
             elif got:
-                worth.append("%s.%s  %s\n    %s: %s" % (slug, where, f["url"], norm("%g" % f["v"]), got[1]))
+                entry = judged_near(key, f, got[2], triage)
+                if entry:
+                    # Judged, so listed with the triaged figures, and kept from being reported
+                    # as an entry the check no longer needs.
+                    flagged.add(key)
+                    judged.append((key, f, entry))
+                else:
+                    worth.append("%s.%s  %s\n    %s: %s" % (slug, where, f["url"], norm("%g" % f["v"]), got[1]))
         if miss:
             flagged.add(key)
             entry = triaged(key, f, miss, triage)
@@ -1041,7 +1074,7 @@ def main(argv):
     # Figures a person has read and found right where this check cannot see them. They are
     # listed so the list stays visible, and apart, so a new finding is never one of 30.
     if judged:
-        print("\nTriaged: read by a person and found right where this check cannot read them "
+        print("\nTriaged: read by a person and found right where this check cannot settle them "
               "(data/source_triage.json):")
         for key, f, e in judged:
             print("  %s  %s, checked %s: %s" % (key, norm("%g" % f["v"]), e.get("checked"), e.get("why")))
