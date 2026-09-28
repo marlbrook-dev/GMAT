@@ -382,6 +382,12 @@
         "url": "https://satsuite.collegeboard.org/sat/registration/fees-refunds/test-fees"
       },
       {
+        "text": "With Score Choice you choose which scores you send to colleges by test date, but some colleges and scholarship programs require you to send all your scores, and the option is not available for free score sends selected when you register for a weekend SAT or for in-school testing",
+        "src": "College Board",
+        "year": 2026,
+        "url": "https://satsuite.collegeboard.org/scores/sending-sat-scores/additional/score-choice"
+      },
+      {
         "text": "SAT Weekend scores can be canceled no later than 11:59 p.m. Eastern Time one week after the test date, and after a request to cancel, the scores can't be reinstated or reported to you or any institutions",
         "src": "College Board",
         "year": 2026,
@@ -629,6 +635,12 @@
         "url": "https://www.ets.org/content/dam/ets-org/pdfs/gre/gre-info-bulletin.pdf"
       },
       {
+        "text": "With the ScoreSelect option you can send scores from your Most Recent, All or Any specific test administration; some programs require applicants who have taken a GRE test more than once to report the scores from all their GRE test administrations",
+        "src": "ETS",
+        "year": 2026,
+        "url": "https://www.ets.org/gre/test-takers/general-test/scores/send-scores.html"
+      },
+      {
         "text": "The final charge includes a non-refundable 4% online service fee, and in the United States and the other jurisdictions the Bulletin lists, such as Canada, Australia and the European Union countries, sales, value-added or similar taxes are added to the order",
         "src": "GRE Information Bulletin 2026-27 (ETS)",
         "year": 2026,
@@ -750,6 +762,12 @@
         "text": "LSAT scores are reportable for up to five testing years after the testing year in which the score is earned",
         "src": "LSAC",
         "year": 2025,
+        "url": "https://www.lsac.org/lsat/lsat-scoring"
+      },
+      {
+        "text": "All of your LSAT results are reported to the law schools to which you apply if earned in the current testing year or in the prior five testing years, and LSAT results include scores, cancellations, and absences",
+        "src": "LSAC",
+        "year": 2026,
         "url": "https://www.lsac.org/lsat/lsat-scoring"
       },
       {
@@ -1039,6 +1057,12 @@
       },
       {
         "text": "Score reports ordered after registration cost $20 per test date, per report, and scores 3 or more years old carry a $32 archive fee, which is nonrefundable; a report is processed once the test is scored and all results for the test option are available, and is usually sent the same day",
+        "src": "ACT",
+        "year": 2026,
+        "url": "https://www.act.org/content/act/en/products-and-services/the-act/scores/sending-your-scores.html"
+      },
+      {
+        "text": "ACT automatically sends your scores to the high school and colleges you selected when you registered; after that you can send the scores from an individual test event or your Superscore, the average of your highest section scores across all test dates",
         "src": "ACT",
         "year": 2026,
         "url": "https://www.act.org/content/act/en/products-and-services/the-act/scores/sending-your-scores.html"
