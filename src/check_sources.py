@@ -514,6 +514,32 @@ def judged_near(key, fact, names, triage):
     return e if {str(n).lower() for n in names} <= judged else None
 
 
+# An edition as annual rankings write theirs, 2026-27 or 2026-2027, whose second year follows
+# the first: a date such as 2026-10, or a span such as 2025-2027, is not one. The en dash is
+# written as an escape, since this file is held to the house style too.
+EDITION = re.compile(r"(?<!\d)(20\d\d)\s*[-\u2013/]\s*(20\d\d|\d\d)(?!\d)")
+
+
+def editions(text):
+    """The first year of every edition a text names: 2026 for "2026-27"."""
+    out = set()
+    for m in EDITION.finditer(text or ""):
+        a, b = int(m.group(1)), m.group(2)
+        if (len(b) == 2 and int(b) == (a + 1) % 100) or (len(b) == 4 and int(b) == a + 1):
+            out.add(a)
+    return out
+
+
+def later_edition(recorded, text):
+    """The latest edition a page names after the one a rank records, as "2026-27", or None.
+    Bloomberg rewrites each school's page when it publishes a new edition, so a rank read
+    from it holds only until the next one: Vanderbilt's page named 2026-27 while the library
+    still held its 2025-26 rank and salary (INC-0184)."""
+    rec = editions(recorded)
+    later = [y for y in editions(text) if rec and y > max(rec)]
+    return "%d-%02d" % (max(later), (max(later) + 1) % 100) if later else None
+
+
 # How far from a label a figure is looked for on a page that shows none of the figures cited
 # to it: a few words either side, the gap between a label and its figure in a table row.
 BESIDE = 40
@@ -932,6 +958,16 @@ def _selfcheck():
                               ({"v": 144}, ["Hybrid MBA", "EMBA"], False), ({"v": 144}, ["hybrid mba"], True)):
         if bool(judged_near("x.profile.class_size", fact, names, near)) != want:
             sys.exit("check_sources: judged_near(%r, %r) should be %s" % (fact, names, want))
+    # INC-0184: a rank recorded as one edition, on a page that now names a later one.
+    page = ("Vanderbilt (Owen) - Best Business Schools & MBA Programs 2026\u201327 ... #17 US "
+            "\u25b2 10 from 2025\u201326")
+    for recorded, text, want in (("2025-26", page, "2026-27"), ("2025-26", "Rankings 2025-26 #27", None),
+                                 ("2025-2026", "the 2026-2027 ranking", "2026-27"),
+                                 ("2025-26", "updated 2026-10-01, covering 2025-2027", None),
+                                 ("2026", page, None)):
+        if later_edition(recorded, text) != want:
+            sys.exit("check_sources: later_edition(%r) on %r gave %r, not %r"
+                     % (recorded, text[:50], later_edition(recorded, text), want))
     # INC-0154: a triage entry covers a finding only for the value and numbers it recorded.
     entry = {"x.profile.gpa": {"key": "x.profile.gpa", "v": 3.67, "missing": ["3.67", "3.4", "3.91"]}}
     for fact, miss, want in (({"v": 3.67}, [("3.67", ""), ("3.91", "")], True),
@@ -958,9 +994,15 @@ def main(argv):
     todo = facts(records)
     dataset = [t for t in todo if "scorecard" in str(t[2].get("src", "")).lower()]
     todo = [t for t in todo if t not in dataset]
+    # A rank has no v, so facts() never collects one, and a 2025-26 Bloomberg rank sat
+    # unread after its page moved to 2026-27 (INC-0184). Those whose edition a page can
+    # name a later one of are read for that alone.
+    ranked = [(r.get("slug"), "ranks." + k, e) for r in records if "--schools" in argv
+              for k, e in sorted((r.get("ranks") or {}).items())
+              if isinstance(e, dict) and e.get("url") and editions(str(e.get("edition") or ""))]
     sources, unread, periods, texts, served = {}, {}, {}, {}, {}
     today = datetime.date.fromisoformat(os.environ.get("BLOG_BUILD_DATE") or datetime.date.today().isoformat())
-    for url in sorted({u for _, _, f in todo for u in pages(f)}):
+    for url in sorted({u for _, _, f in todo for u in pages(f)} | {e["url"] for _, _, e in ranked}):
         try:
             refused = None
             try:
@@ -1097,6 +1139,14 @@ def main(argv):
                 print("    the page says it covers the %s %s, which has ended: read the fact against a "
                       "current page, and if it still holds record that in its period_checked"
                       % (", ".join(ended), "year" if len(ended) == 1 else "years"))
+    newer = 0
+    for slug, where, e in ranked:
+        later = later_edition(str(e.get("edition")), texts.get(e["url"], ""))
+        if later:
+            newer += 1
+            print("%s.%s  %s" % (slug, where, e["url"]))
+            print("    rank %s from the %s edition; the page now names the %s edition: read the new "
+                  "edition's rank and update the entry" % (e.get("rank"), e.get("edition"), later))
     if worth:
         print("\nWorth reading: found beside its label only near another program's name, which a "
               "comparison table or footnote explains as often as a figure from the wrong program:")
@@ -1121,13 +1171,15 @@ def main(argv):
     # with nothing to check as a fact checked (INC-0180).
     print("\n%d facts checked against %d sources%s; %d with a number their source does not "
           "print%s; %d resting on a page about a period that has ended; %d sources unreadable, "
-          "%d showing none of their figures; %d worth reading beside another program's name%s%s"
+          "%d showing none of their figures; %d worth reading beside another program's name%s%s%s"
           % (len(todo), len(sources), ", %d of them by their words for want of a number" % by_words if by_words else "",
              bad - worded, "; %d with no number and a word their source does not print" % worded if by_words else "",
              stale, len(unread), len(unseen), len(worth),
+             "; %d ranks read for their edition, %d from an edition their page has moved past"
+             % (sum(1 for _, _, e in ranked if e["url"] in texts), newer) if ranked else "",
              "; %d triaged" % len(judged) if triage else "",
              "; %d dataset figures set aside" % len(dataset) if dataset else ""))
-    return 1 if bad or stale or unseen else (2 if unread else 0)
+    return 1 if bad or stale or unseen or newer else (2 if unread else 0)
 
 
 if __name__ == "__main__":

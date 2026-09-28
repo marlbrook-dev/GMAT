@@ -6,7 +6,13 @@
  "state": "Oregon",
  "region": "West",
  "type": "Private",
- "ranks": {},
+ "ranks": {
+  "bloomberg": {
+   "rank": 65,
+   "edition": "2026-27",
+   "url": "https://www.bloomberg.com/business-schools/regions/us/"
+  }
+ },
  "profile": {
   "class_year": "Entering Class of 2024",
   "gpa": {
