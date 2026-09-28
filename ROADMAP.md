@@ -794,6 +794,16 @@ verified rather than that the school does not publish one (INC-0118).
       completes and the studies' findings do not; its 198 questions take new ids.
       g_rc.check_stems renders every stated idea ask with its key on each build and refuses a
       slot that asks for a fact and gets the account itself.
+- [x] **What a GMAT score report carries, since the Superscore** (INC-0188). Since August
+      12, 2026 every GMAT report sent to a school includes the GMAT Superscore when one
+      exists: the best section scores across valid attempts, with the date and delivery
+      method of each, and it cannot be left off. Two queued posts said otherwise: the
+      December 7 post on free score reports quoted the first sentence of mba.com's paragraph
+      ("only ... the exam associated with the score report") and not the next, which adds the
+      Superscore, and the December 13 post on canceling told readers schools see only the
+      scores you send. Both now say what a report carries and cite GMAC's article on sending
+      Superscores; EDITORIAL.md records the Superscore rules, data/exams.json gains two
+      Superscore facts for the source check to read, and build_blog refuses the old claim.
 - [x] **"What ID Do You Need for the GMAT, GRE, LSAT, SAT, or ACT?"** queued for December
       15 (James Corbett): GMAC's exact-name and passport rules, ETS's original, signed,
       government-issued ID, LSAC's passport or US or Canadian photo ID that may be up to 3
