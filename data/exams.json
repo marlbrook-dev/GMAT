@@ -113,6 +113,12 @@
         "url": "https://www.gmac.com/resources/learners/how-to-apply/exams-preparation/gmat-data-insights"
       },
       {
+        "text": "Personal calculators and calculator-enabled devices are not permitted unless approved by the GMAC Accommodations team, and no calculator is available during the Quantitative or Verbal sections; test centers provide a note-taking booklet and marker, and online test takers may use an erasable whiteboard that meets GMAT requirements",
+        "src": "mba.com support (GMAC)",
+        "year": 2026,
+        "url": "https://support.mba.com/hc/en-us/articles/14076264362907-GMAT-Calculator-and-Scratch-Paper-Note-Taking-Policies"
+      },
+      {
         "text": "Data Insights consists of 20 multiple-choice questions in 45 minutes, drawn from five question types: data sufficiency, multi-source reasoning, table analysis, graphics interpretation and two-part analysis",
         "derived": {"5": "count: the question types the page lists, counted 2026-09-27"},
         "src": "GMAC",
@@ -182,6 +188,12 @@
         "src": "mba.com support (GMAC)",
         "year": 2026,
         "url": "https://support.mba.com/hc/en-us/articles/6525472390043-GMAT-How-Do-I-Cancel-My-Score"
+      },
+      {
+        "text": "Identification must be an original physical document that is valid and unexpired, with your full name and a recent, recognizable photograph; the first and last name on your GMAT registration must exactly match those on your identification, and candidates taking the exam outside their country of citizenship must present a valid passport",
+        "src": "mba.com support (GMAC)",
+        "year": 2026,
+        "url": "https://support.mba.com/hc/en-us/articles/6606093596571-GMAT-Identification-ID-Requirements-for-the-Exam"
       },
       {
         "text": "Vouchers issued by GMAC and fee waivers issued by schools may not be sold, redistributed or transferred by test takers, and vouchers and fee waivers for the exam delivered online may not be used for the exam delivered at a test center, nor those for a test center online",
@@ -332,6 +344,12 @@
         "src": "College Board",
         "year": 2026,
         "url": "https://satsuite.collegeboard.org/scores/sending-sat-scores/additional/canceling-sat-scores-weekend"
+      },
+      {
+        "text": "ID must be a valid, unexpired, physical photo ID that is government-issued or issued by the school you currently attend, bearing your full, legal name exactly as it appears on your admission ticket; if you will be 21 or older on test day, the only acceptable form of identification is an official government-issued photo ID",
+        "src": "College Board",
+        "year": 2026,
+        "url": "https://satsuite.collegeboard.org/sat/what-to-bring-do/id-requirements"
       },
       {
         "text": "Cancelling by Thursday 11:59 p.m. ET before test day brings a full refund of the registration fee, less the cancellation fee; score reports ordered with registration are refundable only if you are absent on test day, and rush score reports can't be refunded",
@@ -515,6 +533,12 @@
         "url": "https://www.ets.org/content/dam/ets-org/pdfs/gre/gre-info-bulletin.pdf"
       },
       {
+        "text": "The first and last name you register with must exactly match, excluding accents, the name printed on the ID you present, and each ID document must be an original, physical, government-issued identity card with a recent, recognizable photograph and your signature; expired documents are not acceptable",
+        "src": "ETS",
+        "year": 2026,
+        "url": "https://www.ets.org/gre/test-takers/general-test/register/id-requirements.html"
+      },
+      {
         "text": "Cancelling no later than four days before the test date, or 10 days in Mainland China, refunds half the original test fee, and a test not rescheduled by the same deadline forfeits its fee",
         "src": "GRE Information Bulletin 2026-27 (ETS)",
         "year": 2026,
@@ -692,6 +716,12 @@
         "src": "LSAC",
         "year": 2026,
         "url": "https://www.lsac.org/lsat/lsat-scoring/lsat-score-cancellations"
+      },
+      {
+        "text": "You must present a physical, valid international passport or a physical, valid government-issued photo ID issued by the United States, U.S. Territories or Canada; the ID must be current or have expired within 3 months of your test date, and its first and last name must exactly match the legal first and last name on your account",
+        "src": "LSAC",
+        "year": 2026,
+        "url": "https://www.lsac.org/lsat/taking-lsat/identification-accepted-lsat-admission"
       },
       {
         "text": "Changing your test date is free through the administration's registration deadline, $153 up to 7 days after it, and $253 from 8 days after it through the day before testing begins",
@@ -916,6 +946,12 @@
         "src": "ACT",
         "year": 2026,
         "url": "https://www.act.org/content/act/en/products-and-services/the-act/act-examinee-terms.html"
+      },
+      {
+        "text": "You must present an original, valid photo ID issued by a city, state, federal agency or your school, on a hard plastic card, with a name that matches your registration; if you do not have a current official photo ID, you must present the ACT Student Identification Form with a photo, completed by a school official or notary public",
+        "src": "ACT",
+        "year": 2026,
+        "url": "https://www.act.org/content/act/en/products-and-services/the-act/test-day.html"
       },
       {
         "text": "ACT says over 97% of ACT scores are released within about 2 to 4 weeks after the test date, and that if the optional writing test was taken, complete scores may be released a bit later, as all parts are processed together",

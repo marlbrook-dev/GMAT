@@ -686,6 +686,17 @@ verified rather than that the school does not publish one (INC-0118).
       LSAT 14542, of which 14170 are generated, counts read from the build. All 150 new items
       were read at LSAT, GMAT and GRE length; one ambiguity was fixed first ("they fell in
       the weeks of winter flood" became "they were clustered in").
+- [x] **"What ID Do You Need for the GMAT, GRE, LSAT, SAT, or ACT?"** queued for December
+      15 (James Corbett): GMAC's exact-name and passport rules, ETS's original, signed,
+      government-issued ID, LSAC's passport or US or Canadian photo ID that may be up to 3
+      months expired, College Board's government or current-school ID with its under-21 and
+      abroad rules, and ACT's hard plastic ID or its own form. Every rule was read on
+      September 28; five join data/exams.json and pass the source check against their live
+      pages (one ACT word was reworded to the page's own). The December 9 calculator post
+      now cites GMAC's own calculator and note-taking article, readable since support.mba.com
+      answers the source check's user agent: no calculator in Quant or Verbal, personal
+      calculators only with the Accommodations team's approval, a booklet and marker at test
+      centers and a whiteboard online. That rule joins data/exams.json too.
 - [x] **"Can You Cancel Your GMAT, GRE, LSAT, SAT, or ACT Score?"** queued for December
       13 (David Okafor), the post held since the calculator post took its slot. GMAC's own
       article says GMAT scores do not need to be canceled, since you see the official score
