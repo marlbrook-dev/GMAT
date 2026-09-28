@@ -772,6 +772,18 @@ verified rather than that the school does not publish one (INC-0118).
       blank for the 2026 edition, and validate_schools refuses a rank that names no edition or
       has no source url. Cornell's, UCLA's and Washington Foster's FT ranks now cite
       Poets&Quants' report of the 2026 ranking instead of two admissions consulting blogs.
+- [x] **Stated idea questions with two right answers, fixed** (INC-0186). A stated idea
+      question offers the passage's other sentences as its wrong answers, which works only
+      when the stem picks out one of them. Three of the six stems did not: "in the work of
+      Scarth" covers Scarth's finding as well as the note on Scarth's records, and the passage
+      joins the second study's finding and its note in one clause, so both of that study's
+      asks covered both. 178 of the 378 GMAT and LSAT items on those asks offered the other
+      one as a wrong answer. Each ask now records what else its stem is true of and leaves
+      those out, the closing caveat included for the two note asks, and the second note ask
+      reads "The passage states that, in a later study of ...," instead of "the second set of
+      results also established", which called a note on the records a result; its 126
+      questions take new ids. g_rc.check_covers builds every ask of every passage and fails
+      the build on an ask with no record, or on an item that offers what its record names.
 - [x] **"What ID Do You Need for the GMAT, GRE, LSAT, SAT, or ACT?"** queued for December
       15 (James Corbett): GMAC's exact-name and passport rules, ETS's original, signed,
       government-issued ID, LSAC's passport or US or Canadian photo ID that may be up to 3

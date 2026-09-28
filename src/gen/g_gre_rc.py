@@ -76,12 +76,15 @@ class GreStated(GreRender, StatedIdea):
                                "suggest that"),
     ]
 
-    def make(self, rng, choices_n):
-        p = rng.choice(self.corpus)
-        stem, field = rng.choice(self.asks(p))
-        s = gre_sentences(p)
+    # The paragraph prints each finding as a sentence of its own, with no detail beside it,
+    # so no stem here covers a second sentence (INC-0186).
+    COVERS = {"ev1what": (), "ev2what": (), "problem": (), "revision": ()}
+    said = staticmethod(gre_sentences)
+
+    def build(self, rng, choices_n, p, stem, field):
+        s = self.said(p)
         right = lower1(s[field])
-        pool = [lower1(v) for k, v in s.items() if k != field]
+        pool = [lower1(v) for k, v in s.items() if k != field and k not in self.COVERS[field]]
         expl = ("The passage says exactly this, and the question asks only what it says. "
                 "Each of the other choices is also a sentence of the passage, so each is "
                 "true; none of them is what the stem asked about.")

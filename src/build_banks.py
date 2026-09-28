@@ -719,6 +719,15 @@ def main(target=TARGET, verbose=True):
         for line in tells:
             print("  " + line, file=sys.stderr)
         sys.exit(1)
+    # A stated idea question's wrong answers are the passage's other sentences, which only
+    # works when the stem picks out one of them; each ask records what else it covers.
+    covers = g_rc.check_covers() + g_rc.check_covers(gens=g_gre_rc.INNER)
+    if covers:
+        print("ERROR: stated idea wrong answers that the stem also covers (INC-0186)",
+              file=sys.stderr)
+        for line in covers:
+            print("  " + line, file=sys.stderr)
+        sys.exit(1)
     # A reading question asked once of each passage ships one item per passage, so its
     # keys' length ranks are assigned rather than drawn, and a passage whose key is longer
     # or shorter than every option it can be offered with can only take the extreme rank.
