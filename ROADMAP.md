@@ -782,6 +782,20 @@ verified rather than that the school does not publish one (INC-0118).
       inside by 8:00 a.m. Every rule was read on September 28 from the test makers' own test
       day pages; five join data/exams.json and pass the source check's functions against their
       live pages, and EDITORIAL.md gains a test day block.
+- [x] **Five more long reading passages** (organs, lamps, ropes, tanpits, hopkilns): church
+      organs drifting out of tune each winter, blamed on damp and caused by new stoves; street
+      lamps going out before dawn, blamed on idle lamplighters and caused by a cheaper seed oil
+      that thickened in the cold; ropes parting at sea, blamed on cheap hemp and caused by a new
+      tar kettle that scorched the yarn; leather rotting within a few years, blamed on diseased
+      hides and caused by tanners cutting the time in the pits to save scarce bark; and hops
+      rejected by the brewers, blamed on a blight and caused by a new coal that tainted them in
+      the kilns. They run 289 to 306 words, every name was checked against every corpus and
+      bank, and they pass the premise, answer tell, key spread, covers and stem checks. The
+      banks grow by 50 GMAT, 50 GRE and 50 LSAT items: GMAT 34362, GRE 20738 and LSAT 14642, of
+      which 14270 are generated, counts read from the build. Reading their items found INC-0186
+      and INC-0187, and their main idea summaries were reworded before they went in, because
+      "ropes parting at sea, blamed on cheap hemp, came mainly from a new tar kettle" reads as
+      ropes coming from a kettle.
 - [x] **Stated idea questions with two right answers, fixed** (INC-0186). A stated idea
       question offers the passage's other sentences as its wrong answers, which works only
       when the stem picks out one of them. Three of the six stems did not: "in the work of
