@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-28, which is 9 days, across
-143 commits, by one owner directing a series of AI coding sessions. As of this
+144 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 86 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
 2111 tracked files in total.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-143 commits in 9 days, one owner, a series of AI sessions. This
+144 commits in 9 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1217,14 +1217,14 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-185 recorded defects, over 9 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+186 recorded defects, over 9 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 98 | 53% |
+| Found by reading the code or the output | 99 | 53% |
 | Found by measuring something | 45 | 24% |
 | A test caught it | 22 | 12% |
 | Found by rendering it and looking | 8 | 4% |
@@ -1232,7 +1232,7 @@ well enough to audit later. Which is what this book is.
 | A build guard caught it | 5 | 3% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 183 of 185 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 184 of 186 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1241,20 +1241,20 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 82 |
+| Wrong data shown or stored | 83 |
 | Degraded | 45 |
 | Cosmetic | 29 |
 | Silent loss | 26 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 185. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 186. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 84 |
+| Content generation | 85 |
 | Tests and guards | 35 |
 | Front end | 12 |
 | Build system | 11 |
@@ -1269,7 +1269,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-179 of 185 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+180 of 186 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1290,7 +1290,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-90 of 185 incidents record that they repeat an earlier lesson, 123 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+90 of 186 incidents record that they repeat an earlier lesson, 123 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1386,6 +1386,7 @@ Incidents that name an earlier one without claiming to repeat it. Each was read 
 - INC-0173 names INC-0174
 - INC-0174 names INC-0173
 - INC-0181 names INC-0057, INC-0079, INC-0104, INC-0105, INC-0109, INC-0110, INC-0130, INC-0170, INC-0171, INC-0172, INC-0173, INC-0174, INC-0175, INC-0180
+- INC-0186 names INC-0117
 
 
 ## Where defects concentrate
@@ -1397,8 +1398,8 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/build.py`, 13 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067, INC-0076, INC-0080, INC-0131, INC-0148)
 - `src/validate_schools.py`, 9 incidents (INC-0125, INC-0141, INC-0143, INC-0144, INC-0147, INC-0151, INC-0153, INC-0157, INC-0185)
 - `src/test.js`, 8 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085)
+- `src/gen/g_rc.py`, 8 incidents (INC-0097, INC-0114, INC-0115, INC-0117, INC-0122, INC-0169, INC-0179, INC-0186)
 - `src/build_rankings.py`, 7 incidents (INC-0014, INC-0049, INC-0118, INC-0135, INC-0142, INC-0145, INC-0167)
-- `src/gen/g_rc.py`, 7 incidents (INC-0097, INC-0114, INC-0115, INC-0117, INC-0122, INC-0169, INC-0179)
 - `src/page_checks.py`, 6 incidents (INC-0134, INC-0138, INC-0139, INC-0163, INC-0176, INC-0178)
 - `src/review_bot.js`, 5 incidents (INC-0022, INC-0026, INC-0051, INC-0061, INC-0077)
 - `src/bank_emit.py`, 5 incidents (INC-0062, INC-0066, INC-0068, INC-0073, INC-0119)
@@ -1419,7 +1420,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (84)
+## Content generation (85)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -2439,6 +2440,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** A check that finds nothing wrong has only checked what it could see. Count the things it had no way to test as unchecked rather than as passed, or a clean report will quietly include everything the check was blind to.
 
 
+### INC-0186. Stated idea questions that name a study offered another of that study's sentences as a wrong answer, so 178 of 378 had two defensible answers
+
+*2026-09-28, Wrong data shown or stored*
+
+- **What was seen.** An LSAT stated idea item asked 'The passage states that, in the work of Scarth,' and keyed the note on Scarth's records: 'the books record every load of flour and every cart of furze and brushwood the bakers bought, with the price they paid for each'. One of its wrong answers was Scarth's finding, that the bakers went on buying flour but baked fewer batches, which the passage also states in the work of Scarth, so the item had two right answers. Measured across the live banks, three of the six stated idea asks offered a sentence their stem covers as well as the key, on 178 of the 378 GMAT and LSAT items that use them. The detail ask for the first study offered that study's finding on 31 of 72 GMAT and 23 of 54 LSAT items, and the detail ask for the second study offered the second finding on 31 of 72 and 28 of 54. The ask 'a later study of ... found that' offered the second study's detail on 38 of 72 and 27 of 54, where the passage prints the finding and the detail as one clause, 'found that A, and B', so 'found that' reads as covering both. The closing caveat, which is often a limit of one study's own records ('Only three of the town's bakehouses kept books that survive, so the other bakers are not covered'), was offered on 35 of 72 GMAT and 25 of 54 LSAT first-study detail items, where it answers 'in the work of Scarth' too. And the second study's detail ask read 'the second set of results also established that', which calls a note on the records ('the rolls set out each order of the court, the date it was made and the fines for breaking it') a result, so the key itself was misdescribed.
+- **Why.** The stated idea schema offers every other sentence of the passage as a wrong answer, on the reasoning in sentences(): a sentence the passage states but the stem did not ask about is true and beside the point. That holds only when the stem picks out exactly one sentence. The two detail asks, added with the six-ask form in #45, name a study rather than a sentence, and a stem that names a study picks out everything the passage says about it: the finding, the note on its records, and the caveat when the caveat is about those records. The second finding's ask has the same problem from the other side, because text() joins that finding and its detail with ', and'. Nothing recorded what else each stem is true of, and the checks that exist for reading items measure shortcuts to the key (INC-0117) and the key's length rank, not whether a wrong answer is also right.
+- **How it surfaced.** Found on September 28, 2026 while reading the items drawn from five drafted passages before adding them to the corpus, then measured across the live GMAT and LSAT banks by matching each stated idea item's stem to its ask and each of its choices to a sentence of its passage. (Found by reading the code or the output)
+- **Fix.** Each stated idea ask now declares what else its stem covers, in StatedIdea.COVERS, and those sentences are left out of its wrong answers. The two detail asks leave out the same study's finding and the caveat; the second finding's ask leaves out its detail. The first finding's ask declares nothing, because the passage sets the first detail off after a semicolon as a note on the records rather than something found, and a note on the records that was not found is exactly the trap a stated idea question sets. The second study's detail ask now reads 'The passage states that, in a later study of ...,' like the first study's, rather than calling a note on the records a result. A question's id is its stem and passage, so those questions get new ids and drop out of any review queue they were in, which the trainer already allows for.
+- **What stops it now.** g_rc.check_covers runs in build_banks before any bank is written. It fails when a stated idea ask has no entry in its schema's COVERS table, so a new ask cannot be added without deciding what else it is true of, and when an item built for any passage and ask offers one of the sentences its entry names. It builds every ask of every passage for the GMAT, LSAT and GRE stated idea schemas. in `src/gen/g_rc.py`
+- **Lesson.** When every wrong answer is a true sentence from the same passage, each stem has to pick out exactly one sentence, and a stem that names a person or a study picks out everything said about them. Write down, for every question form, what else it is true of, and check the items against that list: the closer a wrong answer sits to the right one, the likelier it is to be right as well.
+
+
 ## Tests and guards (35)
 
 
@@ -2855,7 +2868,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0184. Vanderbilt's median salary and 39 schools' Bloomberg ranks stayed on Bloomberg's 2025-26 edition after its pages moved to 2026-27, and nothing could see it: Bloomberg answers most reads with a bot challenge, and the source check never reads a rank
 
-*2026-09-28, Wrong data shown or stored*
+*2026-09-28, Wrong data shown or stored, `33d98288de6b2022e8b92c51dbd8164a877bcb5d` PR #188*
 
 - **What was seen.** A school run of the source check on September 28, 2026 reported vanderbilt-owen.profile.salary_median_usd, $150,000, as not printed by its cited page, Bloomberg's school profile for Vanderbilt (Owen). That page had answered the check with a bot challenge in every earlier run; this time it served the page, now titled "Best Business Schools & MBA Programs 2026-27", with Owen at No. 17 in the US, up 10 from 2025-26, and a median base salary across all industries of $142,800. The library still held the 2025-26 profile's $150,000 and Owen's 2025-26 rank of 27, and 39 schools carried a Bloomberg rank labeled 2025-26.
 - **Why.** Bloomberg rewrites each school's page in place when it publishes a new edition, so a figure or rank read from it holds only until the next one, and nothing recorded when that would be or looked for it. The source check could not have noticed: Bloomberg answers most of its reads with a bot challenge, which it rightly reports as unreadable rather than as stale, and it does not read rank entries at all, because it collects only objects carrying a v or a text, and a rank carries rank and edition. A new edition therefore surfaced only when one read of the one profile figure cited to Bloomberg happened to get through.
@@ -2867,7 +2880,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0185. Maryland's and Penn State's Financial Times ranks were years old and named no edition, so the composite scored them beside FT's 2026 ranks, and Maryland's was a US position where every other FT entry is a global one
 
-*2026-09-28, Wrong data shown or stored*
+*2026-09-28, Wrong data shown or stored, `8a78cffe014ba97490cabc2dc61d47216a2d0a2f` PR #189*
 
 - **What was seen.** Listing every rank with an empty edition on September 28, 2026 found two, both Financial Times. Maryland's 31 cites a school news page on the 25th anniversary edition of FT's ranking, where Smith was No. 57 in the world and No. 31 in the US; the library recorded the US position, where every other FT rank it holds is a position worldwide. Penn State's 47 cites a Smeal Magazine article from its Spring 2021 issue, which reports the FT Global MBA Ranking naming Smeal No. 47 overall. Every other FT rank in the library comes from the 2026 edition, and FT's 2026 table of 100 schools names neither school.
 - **Why.** A rank's edition was optional. validate_schools checked that a rank came from a known publisher and sat between 1 and 200, but never that it said which edition it came from, so two ranks entered without one were accepted, and the composite, which averages whatever publisher ranks a school carries, scored both as current. Nothing compared what a rank measured either: Maryland's was a US position among the library's worldwide positions.
@@ -3960,6 +3973,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A new reading passage's revision opened with a place name, and the stated-idea questions printed it as "ardley cheese" (INC-0179)</small>
 - [ ] A check that finds nothing wrong has only checked what it could see. Count the things it had no way to test as unchecked rather than as passed, or a clean report will quietly include everything the check was blind to.  
   <small>The GMAT's delivery fact said appointments are available year round with no fixed testing windows, words its cited page no longer carries, and the source check passed it because 20 of the 113 exam facts carry no number for it to look for (INC-0180)</small>
+- [ ] When every wrong answer is a true sentence from the same passage, each stem has to pick out exactly one sentence, and a stem that names a person or a study picks out everything said about them. Write down, for every question form, what else it is true of, and check the items against that list: the closer a wrong answer sits to the right one, the likelier it is to be right as well.  
+  <small>Stated idea questions that name a study offered another of that study's sentences as a wrong answer, so 178 of 378 had two defensible answers (INC-0186)</small>
 
 
 ## Database
@@ -4272,7 +4287,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 185 real defects reduced to the rules that prevent them,
+the whole project: 186 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -4312,7 +4327,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-185 defects already prevented is genuinely ahead, and every defect it hits
+186 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

@@ -2556,9 +2556,36 @@ class StatedIdea(RCBase):
         ("problem", lambda p: "According to the passage, the earlier account failed to "
                               "address the fact that"),
         ("ev1detail", lambda p: "The passage states that, in the work of %s," % p["ev1who"]),
-        ("ev2detail", lambda p: "According to the passage, the second set of results also "
-                                "established that"),
+        # The second detail is nearly always a note on the records, which no result
+        # establishes, so it is asked the way the first one is (INC-0186).
+        ("ev2detail", lambda p: "The passage states that, in %s of %s,"
+                                % (p["ev2who"], p["ev2where"])),
     ]
+
+    # What else each stem is true of, left out of its wrong answers. Every other sentence is
+    # offered on the reasoning that it is true and beside the point, which holds only for a
+    # stem that picks out one sentence. A stem that names a study picks out everything the
+    # passage says of it: its finding, the note on its records, and the caveat, which is a
+    # limit of one study's records or of both. Offered as a wrong answer, any of those is a
+    # second right answer (INC-0186). Every ask has an entry, empty ones included, and
+    # check_covers fails the build on an ask without one, so a new ask cannot be added
+    # without deciding this.
+    COVERS = {
+        # Not the first detail: the passage sets it off after a semicolon as a note on the
+        # records, and a note on the records is not something the study found. That is the
+        # trap this question sets, so it stays.
+        "ev1what": (),
+        # The passage joins this finding and its detail in one clause, "found that A, and B",
+        # so "found that" reads as covering both.
+        "ev2what": ("ev2detail",),
+        "old_why": (),
+        "problem": (),
+        "ev1detail": ("ev1what", "caveat"),
+        "ev2detail": ("ev2what", "caveat"),
+    }
+
+    # The sentences the choices are drawn from, by field.
+    said = staticmethod(sentences)
 
     def asks(self, p):
         return [(stem(p), field) for field, stem in self.ASKS]
@@ -2566,9 +2593,13 @@ class StatedIdea(RCBase):
     def make(self, rng, choices_n):
         p = rng.choice(self.corpus)
         stem, field = rng.choice(self.asks(p))
-        s = sentences(p)
+        return self.build(rng, choices_n, p, stem, field)
+
+    def build(self, rng, choices_n, p, stem, field):
+        """One question: the passage, the stem and the field its key comes from."""
+        s = self.said(p)
         right = lower1(s[field])
-        pool = [lower1(v) for k, v in s.items() if k != field]
+        pool = [lower1(v) for k, v in s.items() if k != field and k not in self.COVERS[field]]
         expl = ("The passage says exactly this, and the question asks only what it says. "
                 "Each of the other choices is also drawn from the passage, so each is true; "
                 "none of them is what the stem asked about.")
@@ -3014,4 +3045,45 @@ def check_tells(draws=400, choices_n=5, ceiling=0.4, gens=None):
                 bad.append("%s: the key is found by %s on %d of %d draws (%d percent, "
                            "ceiling %d)" % (g.id, label, h, n, round(100 * h / n),
                                             round(100 * ceiling)))
+    return bad
+
+
+def check_covers(gens=None, choices_n=5, draws=3):
+    """No stated idea item may offer, as a wrong answer, a sentence its stem also covers.
+
+    Every other sentence of the passage is a wrong answer on the reasoning that it is true
+    and beside the point, and that holds only for a stem that picks out one sentence. A stem
+    that names a study covers everything the passage says of it, and 178 of 378 items asked
+    that way offered the study's other sentence as a wrong answer (INC-0186). Each schema's
+    COVERS records what else each of its stems is true of. This fails when an ask has no
+    entry, so the question is decided for every new ask rather than defaulted, and when an
+    item built for any passage and ask offers a sentence its entry names. Every ask of every
+    passage is built a few times, because the wrong answers are drawn and one draw can miss
+    what the next would offer.
+    """
+    import random as _random
+    bad = []
+    for g in (gens if gens is not None else GENS + GENS_LONG):
+        if not isinstance(g, StatedIdea):
+            continue
+        missing = [f for f, _ in g.ASKS if f not in g.COVERS]
+        if missing:
+            bad.append("%s: no COVERS entry for %s; record what else each of these stems is "
+                       "true of, even if nothing" % (g.id, ", ".join(missing)))
+            continue
+        rng = _random.Random(20260928)
+        for p in g.corpus:
+            said = {k: lower1(v) for k, v in g.said(p).items()}
+            for stem, field in g.asks(p):
+                for _ in range(draws):
+                    try:
+                        it = g.build(rng, choices_n, p, stem, field)
+                    except ItemError:
+                        continue
+                    hit = [k for k in g.COVERS[field] if said.get(k) in it["choices"]]
+                    if hit:
+                        bad.append("%s %s, %s: offers %s as a wrong answer, which the stem "
+                                   "covers as well as the key" % (g.id, p["key"], field,
+                                                                  " and ".join(hit)))
+                        break
     return bad
