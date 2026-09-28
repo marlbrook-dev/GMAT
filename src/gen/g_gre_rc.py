@@ -70,8 +70,8 @@ class GreStated(GreRender, StatedIdea):
         ("ev1what", lambda p: "According to the passage, %s found that" % p["ev1who"]),
         ("ev2what", lambda p: "According to the passage, %s of %s found that"
                               % (p["ev2who"], p["ev2where"])),
-        ("problem", lambda p: "According to the passage, the earlier account failed to "
-                              "address the fact that"),
+        ("problem", lambda p: "According to the passage, even before the studies it "
+                              "describes, the earlier account could be faulted because"),
         ("revision", lambda p: "According to the passage, the two results taken together "
                                "suggest that"),
     ]

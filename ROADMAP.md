@@ -784,6 +784,16 @@ verified rather than that the school does not publish one (INC-0118).
       results also established", which called a note on the records a result; its 126
       questions take new ids. g_rc.check_covers builds every ask of every passage and fails
       the build on an ask with no record, or on an item that offers what its record names.
+- [x] **The earlier account's difficulty, asked so it reads** (INC-0187). The stated idea
+      question about a passage's problem sentence read "the earlier account failed to address
+      the fact that", and 49 of the 72 problem sentences name the account itself, so on 143 of
+      198 GMAT, LSAT and GRE items the key said the account failed to address the fact that
+      the account could not explain something, while a study's finding beside it read as the
+      better answer. The ask now reads "According to the passage, even before the studies it
+      describes, the earlier account could be faulted because", which every problem sentence
+      completes and the studies' findings do not; its 198 questions take new ids.
+      g_rc.check_stems renders every stated idea ask with its key on each build and refuses a
+      slot that asks for a fact and gets the account itself.
 - [x] **"What ID Do You Need for the GMAT, GRE, LSAT, SAT, or ACT?"** queued for December
       15 (James Corbett): GMAC's exact-name and passport rules, ETS's original, signed,
       government-issued ID, LSAC's passport or US or Canadian photo ID that may be up to 3
