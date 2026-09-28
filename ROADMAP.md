@@ -865,6 +865,14 @@ verified rather than that the school does not publish one (INC-0118).
       Integrating Essential Skills at 20%. Every rule was read on September 28 from the makers'
       own pages; four join data/exams.json and pass the source check's functions, and
       EDITORIAL.md gains a math block.
+- [x] **"What Verbal Skills Do the GMAT, GRE, LSAT, SAT, and ACT Test?"** queued for January 4
+      (David Okafor): the verbal side of each test, in its maker's words. The GMAT's Verbal
+      Reasoning is Reading Comprehension and Critical Reasoning; the GRE gives about half its
+      verbal measure to completing sentences and paragraphs; the LSAT gives two of its three
+      scored sections to Logical Reasoning; and the SAT and the ACT publish the share of each
+      reading and writing domain, grammar included. Every rule was read on September 28 from
+      the makers' own pages; three join data/exams.json and pass the source check's functions,
+      and EDITORIAL.md gains a verbal block.
 - [x] **No rank cites an admissions consulting blog.** Eight U.S. News 2026 ranks (Virginia
       11, Cornell 15, UCLA and Texas 18, Washington 20, North Carolina 21, Emory 23, Georgetown
       31) cited Clear Admit or Stacy Blackman, which src/sources.py lists as weak sources; they
