@@ -822,6 +822,16 @@ verified rather than that the school does not publish one (INC-0118).
       six join data/exams.json and pass the source check's functions against their live pages,
       and EDITORIAL.md gains a practice tests block. The GMAT facts cite GMAC's help center,
       because mba.com's Starter Kit page served Imperva's CAPTCHA on some reads.
+- [x] **"What Happens If You Miss the GMAT, GRE, LSAT, SAT, or ACT?"** queued for December 29
+      (Maya Chen): each test maker's rule for a missed appointment. A missed GMAT is a No Show,
+      with the fee forfeited, a 24-hour wait to book again and a new fee, though it costs no
+      attempt; a missed GRE forfeits the fee, but institutions hear nothing of it, and more than
+      12 minutes late at home cancels the test; an LSAT absence is reported to law schools
+      unless you withdraw by 11:59 p.m. ET the night before; College Board offers makeup SATs
+      for closed centers and misadministrations; and ACT lets a missed test move to a later
+      date for the $49 change fee. Every rule was read on September 28 from the makers' own
+      pages; five join data/exams.json and pass the source check's functions, and EDITORIAL.md
+      gains a missed test block.
 - [x] **No rank cites an admissions consulting blog.** Eight U.S. News 2026 ranks (Virginia
       11, Cornell 15, UCLA and Texas 18, Washington 20, North Carolina 21, Emory 23, Georgetown
       31) cited Clear Admit or Stacy Blackman, which src/sources.py lists as weak sources; they
