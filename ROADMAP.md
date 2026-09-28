@@ -856,6 +856,15 @@ verified rather than that the school does not publish one (INC-0118).
       Range and eight content areas; and ACT's adds STEM, ELA and reporting categories. Every
       rule was read on September 28 from the makers' own pages; seven join data/exams.json and
       pass the source check's functions, and EDITORIAL.md gains a score report block.
+- [x] **"What Math Is on the GMAT, GRE, SAT, and ACT?"** queued for January 2 (Aisha
+      Thompson): what each test's math covers, in its maker's words. The GMAT's Quantitative
+      Reasoning is algebra and arithmetic with no calculator; the GRE's four content areas stop
+      at a second course in algebra, with no trigonometry or calculus; the SAT weights Algebra
+      and Advanced Math at about 35% each and Problem-Solving and Data Analysis and Geometry and
+      Trigonometry at about 15% each; and the ACT reports Preparing for Higher Math at 80% and
+      Integrating Essential Skills at 20%. Every rule was read on September 28 from the makers'
+      own pages; four join data/exams.json and pass the source check's functions, and
+      EDITORIAL.md gains a math block.
 - [x] **No rank cites an admissions consulting blog.** Eight U.S. News 2026 ranks (Virginia
       11, Cornell 15, UCLA and Texas 18, Washington 20, North Carolina 21, Emory 23, Georgetown
       31) cited Clear Admit or Stacy Blackman, which src/sources.py lists as weak sources; they

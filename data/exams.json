@@ -304,6 +304,12 @@
         "year": 2026,
         "url": "https://support.mba.com/hc/en-us/articles/28973151252251-GMAT-Why-Did-My-Score-Percentile-Change",
         "also_urls": ["https://support.mba.com/hc/en-us/articles/14016690312603-GMAT-What-If-a-School-Has-Asked-Me-to-Upload-A-PDF-of-My-Score-Report"]
+      },
+      {
+        "text": "Quantitative Reasoning consists of 21 multiple-choice Problem Solving questions, to be completed in 45 minutes, and measures algebraic and arithmetic foundational knowledge and how this knowledge is applied to solve problems",
+        "src": "GMAC",
+        "year": 2026,
+        "url": "https://www.gmac.com/gmat-other-assessments/about-the-gmat-focus-edition/exam-scores"
       }
     ]
   },
@@ -522,6 +528,12 @@
         "src": "College Board",
         "year": 2026,
         "url": "https://satsuite.collegeboard.org/scores/what-scores-mean"
+      },
+      {
+        "text": "The Math section covers four content domains: Algebra and Advanced Math, about 35% each, or 13 to 15 questions, and Problem-Solving and Data Analysis and Geometry and Trigonometry, about 15% each, or 5 to 7 questions",
+        "src": "College Board (Digital SAT Suite of Assessments Specifications Overview)",
+        "year": 2026,
+        "url": "https://satsuite.collegeboard.org/media/pdf/digital-sat-test-spec-overview.pdf"
       }
     ]
   },
@@ -756,6 +768,12 @@
         "src": "ETS",
         "year": 2026,
         "url": "https://www.ets.org/gre/test-takers/general-test/scores/get-scores.html"
+      },
+      {
+        "text": "Quantitative Reasoning is assessed in four content areas, arithmetic, algebra, geometry and data analysis; the content includes high school mathematics and statistics at a level that is generally no higher than a second course in algebra and does not include trigonometry, calculus or other higher-level mathematics, and inferential statistics and the ability to construct proofs are not tested",
+        "src": "ETS",
+        "year": 2026,
+        "url": "https://www.ets.org/gre/test-takers/general-test/prepare/content/quantitative-reasoning.html"
       }
     ]
   },
@@ -1258,6 +1276,12 @@
       },
       {
         "text": "Each reporting category on an ACT score report includes the total number of questions in that category, the total number you answered correctly and the percentage correct, and students also receive STEM scores, the average of math and science, and ELA scores, the average of English, reading and writing, if taken",
+        "src": "ACT",
+        "year": 2026,
+        "url": "https://www.act.org/content/act/en/products-and-services/the-act/scores/understanding-your-scores.html"
+      },
+      {
+        "text": "Mathematics reporting categories: Preparing for Higher Math (80%), split into Number & Quantity (10% to 12%), Algebra (17% to 20%), Functions (17% to 20%), Geometry (17% to 20%) and Statistics & Probability (12% to 15%), and Integrating Essential Skills (20%)",
         "src": "ACT",
         "year": 2026,
         "url": "https://www.act.org/content/act/en/products-and-services/the-act/scores/understanding-your-scores.html"
