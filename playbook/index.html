@@ -59,7 +59,7 @@ a{color:var(--accent)}
 <p class="eyebrow">Start From Nowhere</p>
 <h1>The Build Playbook</h1>
 <p class="sub">How one person and a set of AI sessions built a multi-exam test-prep platform, every defect hit on the way, and the recipe for doing it again for something else</p>
-<p class="meta">Built 2026-09-28 from commit a78ac6c &middot; 157 commits over 9 days &middot; 188 recorded defects &middot; 17 chapters<br>
+<p class="meta">Built 2026-09-28 from commit 8a55c4e &middot; 160 commits over 9 days &middot; 191 recorded defects &middot; 17 chapters<br>
 This document is generated. Edit the chapters in docs/playbook/ and the ledger in data/playbook/incidents.jsonl, then run python3 src/build_playbook.py.</p>
 </div>
 <div class="toc"><ol><li><a href="#how-to-use-this-book">How to Use This Book</a></li>
@@ -81,7 +81,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><a href="#the-bootstrap-pack-starting-a-new-project-with-this-loaded">The Bootstrap Pack: Starting a New Project With This Loaded</a></li></ol></div>
 <h1 id="how-to-use-this-book">How to Use This Book</h1>
 <p>This is the record of building one platform, written so it can be used to build a different one.</p>
-<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-09-19 and 2026-09-28, which is 9 days, across 157 commits, by one owner directing a series of AI coding sessions. As of this build it is 86 Python files, 112 JavaScript files, 24 TypeScript edge functions, 35 migrations and 65 documents: 2118 tracked files in total.</p>
+<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-09-19 and 2026-09-28, which is 9 days, across 160 commits, by one owner directing a series of AI coding sessions. As of this build it is 86 Python files, 112 JavaScript files, 24 TypeScript edge functions, 35 migrations and 65 documents: 2119 tracked files in total.</p>
 <p>None of those numbers were typed. They are measured from the repository every time this document is built, which is the first thing worth copying.</p>
 <h2 id="what-is-in-here">What is in here</h2>
 <p>The book has four kinds of chapter, and they age differently.</p>
@@ -621,7 +621,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three defects here were found by taking a screenshot: a chart unreadable in dark mode, a line chart implying values that never existed, and a dashboard that was not on screen. None of them would have been caught by an assertion, because none of them were violations of anything anybody had thought to assert.</p>
 <p><strong>Budget for looking.</strong> It is the cheapest test there is and the only one that catches things you have not imagined.</p>
 <h1 id="running-the-build-as-an-ai-loop">Running the Build as an AI Loop</h1>
-<p>157 commits in 9 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
+<p>160 commits in 9 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
 <h2 id="the-division-of-labour">The division of labour</h2>
 <p><strong>The owner decides</strong>: what to build, what it means, what is acceptable, and every irreversible or outward-facing action. <strong>The session does</strong>: the building, the measuring, the testing, and the reporting of what it found.</p>
 <p>The failure mode at each end is worth naming. An owner who reviews every line becomes the bottleneck and the throughput collapses to the speed of reading. A session that decides product questions on its own produces something coherent that is not what anyone wanted.</p>
@@ -665,10 +665,10 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Long uninterrupted sessions with standing authorisation, punctuated by the owner redirecting priorities, beat short supervised ones by a wide margin. The standing authorisation that made it work was specific: merge your own work once the checks are green, do not check in on each item, and stop immediately when told to.</p>
 <p>The thing that makes that safe is not trust. It is that the checks are real, the destructive actions still require asking, and the record of what happened is written down well enough to audit later. Which is what this book is.</p>
 <h1 id="what-the-ledger-says-about-itself">What the Ledger Says About Itself</h1>
-<p>188 recorded defects, over 9 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.</p>
+<p>191 recorded defects, over 9 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.</p>
 <h2 id="how-defects-were-actually-found">How defects were actually found</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">How</th><th style="text-align:right">Count</th><th style="text-align:right">Share</th></tr></thead><tbody>
-<tr><td style="text-align:left">Found by reading the code or the output</td><td style="text-align:right">101</td><td style="text-align:right">54%</td></tr>
+<tr><td style="text-align:left">Found by reading the code or the output</td><td style="text-align:right">104</td><td style="text-align:right">54%</td></tr>
 <tr><td style="text-align:left">Found by measuring something</td><td style="text-align:right">45</td><td style="text-align:right">24%</td></tr>
 <tr><td style="text-align:left">A test caught it</td><td style="text-align:right">22</td><td style="text-align:right">12%</td></tr>
 <tr><td style="text-align:left">Found by rendering it and looking</td><td style="text-align:right">8</td><td style="text-align:right">4%</td></tr>
@@ -676,20 +676,20 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <tr><td style="text-align:left">A build guard caught it</td><td style="text-align:right">5</td><td style="text-align:right">3%</td></tr>
 <tr><td style="text-align:left">A person hit it</td><td style="text-align:right">2</td><td style="text-align:right">1%</td></tr>
 </tbody></table></div>
-<p><strong>This is the most useful table in the book.</strong> 186 of 188 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.</p>
+<p><strong>This is the most useful table in the book.</strong> 189 of 191 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.</p>
 <p><strong>Read that percentage with the bias it carries.</strong> This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.</p>
 <h2 id="by-severity">By severity</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">Severity</th><th style="text-align:right">Count</th></tr></thead><tbody>
-<tr><td style="text-align:left">Wrong data shown or stored</td><td style="text-align:right">85</td></tr>
+<tr><td style="text-align:left">Wrong data shown or stored</td><td style="text-align:right">88</td></tr>
 <tr><td style="text-align:left">Degraded</td><td style="text-align:right">45</td></tr>
 <tr><td style="text-align:left">Cosmetic</td><td style="text-align:right">29</td></tr>
 <tr><td style="text-align:left">Silent loss</td><td style="text-align:right">26</td></tr>
 <tr><td style="text-align:left">Site down</td><td style="text-align:right">3</td></tr>
 </tbody></table></div>
-<p><strong>Silent loss is the dominant failure mode</strong>, at 26 of 188. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.</p>
+<p><strong>Silent loss is the dominant failure mode</strong>, at 26 of 191. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.</p>
 <h2 id="by-area">By area</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">Area</th><th style="text-align:right">Count</th></tr></thead><tbody>
-<tr><td style="text-align:left">Content generation</td><td style="text-align:right">87</td></tr>
+<tr><td style="text-align:left">Content generation</td><td style="text-align:right">90</td></tr>
 <tr><td style="text-align:left">Tests and guards</td><td style="text-align:right">35</td></tr>
 <tr><td style="text-align:left">Front end</td><td style="text-align:right">12</td></tr>
 <tr><td style="text-align:left">Build system</td><td style="text-align:right">11</td></tr>
@@ -702,7 +702,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <tr><td style="text-align:left">Interface and data display</td><td style="text-align:right">3</td></tr>
 </tbody></table></div>
 <h2 id="guard-coverage">Guard coverage</h2>
-<p>182 of 188 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.</p>
+<p>185 of 191 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.</p>
 <p>Carried by attention:</p>
 <ul>
 <li><strong>INC-0010</strong> CSS comments do not nest, and one placeholder killed the palette on 1451 pages</li>
@@ -718,7 +718,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>weekly_audit checks computed colour on every page (INC-0050, INC-0048)</li>
 </ul>
 <h2 id="lessons-learned-more-than-once">Lessons learned more than once</h2>
-<p>91 of 188 incidents record that they repeat an earlier lesson, 124 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.</p>
+<p>91 of 191 incidents record that they repeat an earlier lesson, 124 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.</p>
 <div class="tw"><table><thead><tr><th style="text-align:left">Lesson first recorded in</th><th style="text-align:left">Repeated by</th><th style="text-align:right">Times</th></tr></thead><tbody>
 <tr><td style="text-align:left">INC-0088 A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked</td><td style="text-align:left">INC-0089, INC-0098, INC-0099, INC-0101, INC-0117, INC-0122</td><td style="text-align:right">6</td></tr>
 <tr><td style="text-align:left">INC-0104 Half the school pages opened with a data note pasted into a sentence, and the structured data repeated it</td><td style="text-align:left">INC-0105, INC-0131, INC-0134, INC-0135, INC-0145</td><td style="text-align:right">5</td></tr>
@@ -813,6 +813,9 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>INC-0181 names INC-0057, INC-0079, INC-0104, INC-0105, INC-0109, INC-0110, INC-0130, INC-0170, INC-0171, INC-0172, INC-0173, INC-0174, INC-0175, INC-0180</li>
 <li>INC-0186 names INC-0117</li>
 <li>INC-0187 names INC-0186</li>
+<li>INC-0189 names INC-0039, INC-0117</li>
+<li>INC-0190 names INC-0119, INC-0189</li>
+<li>INC-0191 names INC-0189</li>
 </ul>
 <h2 id="where-defects-concentrate">Where defects concentrate</h2>
 <p>Files named by three or more incidents. This is not the same signal as the list above: a file that is the natural home for many checks will appear here without any one of them having failed. It says where the work has been, and where a reader new to the codebase should look first.</p>
@@ -824,10 +827,10 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><code>src/validate_schools.py</code>, 9 incidents (INC-0125, INC-0141, INC-0143, INC-0144, INC-0147, INC-0151, INC-0153, INC-0157, INC-0185)</li>
 <li><code>src/test.js</code>, 8 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085)</li>
 <li><code>src/build_rankings.py</code>, 7 incidents (INC-0014, INC-0049, INC-0118, INC-0135, INC-0142, INC-0145, INC-0167)</li>
+<li><code>src/bank_emit.py</code>, 6 incidents (INC-0062, INC-0066, INC-0068, INC-0073, INC-0119, INC-0189)</li>
 <li><code>src/build_blog.py</code>, 6 incidents (INC-0124, INC-0137, INC-0162, INC-0170, INC-0171, INC-0188)</li>
 <li><code>src/page_checks.py</code>, 6 incidents (INC-0134, INC-0138, INC-0139, INC-0163, INC-0176, INC-0178)</li>
 <li><code>src/review_bot.js</code>, 5 incidents (INC-0022, INC-0026, INC-0051, INC-0061, INC-0077)</li>
-<li><code>src/bank_emit.py</code>, 5 incidents (INC-0062, INC-0066, INC-0068, INC-0073, INC-0119)</li>
 <li><code>src/gen/framework.py</code>, 5 incidents (INC-0074, INC-0075, INC-0078, INC-0087, INC-0096)</li>
 <li><code>src/smoke_playbook.js</code>, 4 incidents (INC-0054, INC-0084, INC-0129, INC-0165)</li>
 <li><code>src/bank_repair.py</code>, 4 incidents (INC-0070, INC-0071, INC-0072, INC-0121)</li>
@@ -839,7 +842,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <h1 id="the-defect-ledger">The Defect Ledger</h1>
 <p>Every entry here happened. Each one is a record of something that broke, how it was found, what fixed it, and what now stops it coming back. The last field is the one that matters for a different business: the transferable lesson, stated without reference to this codebase.</p>
 <p>They are grouped by the part of the system, and within a group by date. The <code>guard</code> field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.</p>
-<h2 id="content-generation-87">Content generation (87)</h2>
+<h2 id="content-generation-90">Content generation (90)</h2>
 <h3 id="inc-0003-item-banks-were-different-on-every-build-because-python-randomises-hash">INC-0003. Item banks were different on every build because Python randomises hash()</h3>
 <p><em>2026-09-16, Wrong data shown or stored, <code>0d6c357</code> PR #33</em></p>
 <ul>
@@ -1718,6 +1721,36 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Fix.</strong> Both posts now say what a report carries: the score you send and, once you have tested more than once, the GMAT Superscore with the section scores behind it and the date and delivery method of each, which cannot be left off. EDITORIAL.md's GMAT score sending notes state the Superscore, and data/exams.json gains the Superscore facts, what a report sent to a school includes and that it cannot be opted out of, so the source check reads them against GMAC's article.</li>
 <li><strong>What stops it now.</strong> The weekly source check reads the new Superscore facts in data/exams.json against GMAC's article, so a change to what a report carries is reported rather than found by accident. build_blog also refuses a post that says a GMAT score report carries only one exam's scores, or that schools see only the scores you send, without naming the Superscore. in <code>src/build_blog.py</code></li>
 <li><strong>Lesson.</strong> A source's first sentence is not always its answer. When a page states a rule and qualifies it in the next sentence, the qualifier is part of the fact: read to the end of the paragraph before quoting, and when a test maker changes what schools receive, reread every sentence that tells a reader what a school will see.</li>
+</ul>
+<h3 id="inc-0189-watch-for-notes-named-answer-choices-by-letter-or-position-and-the-shuffle-that-moves-the-key-never-moved-them-so-124-notes-called-the-correct-answer-a-trap">INC-0189. Watch for notes named answer choices by letter or position, and the shuffle that moves the key never moved them, so 124 notes called the correct answer a trap</h3>
+<p><em>2026-09-28, Wrong data shown or stored</em></p>
+<ul>
+<li><strong>What was seen.</strong> LSAT reading item LC103 asks how defenders of the exclusionary rule answer the distributive objection, and its key, 'mistakes a side effect of the rule for the purpose of the rule', is E. Its Watch for note read 'B is the other objection, and C, D and E are not the response described', so it told a student who chose correctly that their answer was one of the wrong ones, and the choice it called the other objection, B, is 'would apply equally to any remedy for unlawful searches'; the other objection sits at D. Run against the banks as they stood, the check this record adds fails 124 items whose Watch for note names the key's own letter or position among the wrong answers: 57 in bank_lsat_lr3.js, 21 in bank_lsat_rc3.js, 5 in bank_lsat_lr2.js, 2 in bank_lsat_rc2.js, 12 in bank_verbal.js, 13 in bank_verbal2.js, 11 in bank_verbal4.js, and one each in bank_quant.js, bank_act_english.js and bank_act_reading.js. Notes that point by position fail the same way: LL069's explanation said 'The first option has exactly that form' when its key is E, and LC044's note said 'The second option drops the timing' of a choice that now sits third.</li>
+<li><strong>Why.</strong> Items are written key first, because that is how a person writes one, and the notes are written against that order: the author's B is the first distractor they wrote. bank_emit.permute then shuffles the choices so the key does not sit at A (INC-0039) and recomputes the answer index, but it moves only the choices and the index. A letter or an ordinal inside expl and wrong is plain text, and nothing tied it to the order it was written against. Every key in the ten generated banks sits exactly where permute's crc32 shuffle puts the first choice as written (140 of 140 in bank_lsat_lr3.js, 90 of 90 in bank_lsat_rc3.js), so in those files every positional reference is off by that shuffle, including the ones that happen to miss the key. The three GMAT verbal files were reordered before their first commit by something that left no seed: their keys do not sit where the crc32 shuffle would put them, and V221's key has been B since its first commit while its note says '(B) actually strengthens the conclusion', which describes A. The checks on reading items measure the choices and the key, not what the notes say about them.</li>
+<li><strong>How it surfaced.</strong> Found on September 28, 2026 while rewriting the wrong answers of word matchable stated items (the measure INC-0117 set a ceiling on), when LC103's note was read beside its choices; then measured across every hand written item by reading each note's letters against its key, and by testing every bank's key positions against the crc32 shuffle. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> permute now resolves positions written in braces: a note says {B} for the second choice as written, and permute replaces it with the letter that choice lands on after the shuffle. The nine generators write every choice reference that way, so their notes move with their choices; Passage A and Passage B stay plain words, which is why the markers are explicit rather than guessed, since in a comparative set 'B says' is a passage. The hand written notes in bank_verbal.js, bank_verbal2.js, bank_verbal4.js, bank_quant.js, bank_act_english.js, bank_act_reading.js, bank_act_science.js and bank_lsat_rc2.js, whose generator no longer reproduces it, were corrected by hand, choice by choice, because the order they were written against is gone. 200 items' notes changed in all, most of them letters that pointed at the wrong choice without happening to name the key.</li>
+<li><strong>What stops it now.</strong> permute refuses a brace that names no choice, a Watch for note that names the key as written, and any bare C to J, any A or B that reads as a choice outside a comparative set, and any ordinal that points at a choice, left in a shuffled item's notes. test.js fails any item on any exam whose Watch for note names the key's letter or position among the wrong answers; run against the banks before this fix it fails the 124 above. in <code>src/bank_emit.py</code></li>
+<li><strong>Lesson.</strong> A position is not part of a sentence. When content is written against one order and shipped in another, anything that points at the order, a letter, 'the second option', 'the last choice', has to move with it or be written so it does not depend on it. Make the reference explicit, resolve it where the order is decided, and check the result against the key rather than trusting the text that was true when it was written.</li>
+</ul>
+<h3 id="inc-0190-a-length-correction-clause-turned-an-lsat-must-be-true-distractor-into-a-second-correct-answer-and-its-note-said-so">INC-0190. A length correction clause turned an LSAT must be true distractor into a second correct answer, and its note said so</h3>
+<p><em>2026-09-28, Wrong data shown or stored</em></p>
+<ul>
+<li><strong>What was seen.</strong> LSAT item LL040 gives three premises: no member of the drafting committee voted against the proposal, every member who attended the March meeting voted on it, and two members did not vote at all. It asks what must be true and keys 'At least two members of the committee did not attend the March meeting.' One of its wrong answers read 'Every member who attended the March meeting voted in favour of the proposal, since no member of the committee voted against it', which follows from the first two premises just as surely, so the item had two correct answers. Its Watch for note conceded the point: 'The second is true of attendees but the question asks what must follow, and it does: attendees voted and nobody voted against.'</li>
+<li><strong>Why.</strong> The option was written as 'Every member who attended the March meeting voted in favour of the proposal.', which was already inferable, and mk_bank_lsat_lr2.py's EXTEND table then appended ', since no member of the committee voted against it' to carry it past the key in length. The table's header says each clause states the omission that makes an option wrong and that none makes a wrong option defensible, but this clause supplied the missing premise instead, and nothing checks what a clause does to an option's truth, only what it does to its length and its seam (INC-0119).</li>
+<li><strong>How it surfaced.</strong> Found on September 28, 2026 while reading every note in the generated banks that points at a choice by position, for INC-0189: LL040's note describes one of its own wrong answers as following from the premises. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> The option now reverses the second premise, 'Every member who voted on the proposal attended the March meeting', and its clause carries that error one step further, ', since every member who attended that meeting voted on the proposal', so it is wrong in the way the table intends and still sits above the key in length. The note says what is wrong with it.</li>
+<li><strong>What stops it now.</strong> None that reads meaning: a clause that makes an option true cannot be told from one that makes it false by its words. The check that exists is the one that found this, reading the notes: a note that says a wrong answer follows is a finding, and permute now refuses the positional wording this note used. in <code>src/mk_bank_lsat_lr2.py</code></li>
+<li><strong>Lesson.</strong> A clause added for length is still a claim. When text is appended to a wrong answer to change its shape, read the result as a test taker would, against the question it answers, because the easiest way to lengthen a false statement is to add the reason that would make it true.</li>
+</ul>
+<h3 id="inc-0191-three-lsat-reasoning-items-offered-wrong-answers-with-the-key-s-logical-force-and-each-note-said-they-lacked-it">INC-0191. Three LSAT reasoning items offered wrong answers with the key's logical force, and each note said they lacked it</h3>
+<p><em>2026-09-28, Wrong data shown or stored</em></p>
+<ul>
+<li><strong>What was seen.</strong> LSAT item LL128's argument runs 'Every member of the committee who voted against the proposal is a lawyer. Ruiz is a lawyer. So Ruiz voted against the proposal', which is all P are Q, x is Q, so x is P. Its key has that form, and so did one of its wrong answers, 'Every building made of stone on the square survived the fire. The library survived the fire. So the library is made of stone', with P and Q named the other way round, which changes the content and not the form. Its note said that option 'is not the same form', and called another, which denies the antecedent, a valid contrapositive. LL007 asks what can be inferred when the library extends its hours only if the grant rises or the endowment beats four percent, the grant is frozen and the endowment returned three and a half; its key is that the hours will not be extended, and a wrong answer, 'If the library does extend its hours, the endowment must have returned more than four percent', follows as surely, while the note said it treats a necessary condition as sufficient. LL167 gives ratification leads to falling tariffs, falling tariffs lead to rising exports or lost market share, and no market share is lost, and asks what must be true if the treaty is ratified; its key is that exports will rise, and two wrong answers followed as well: 'The treaty will be ratified only if exports rise' from the chain, and 'Exports will rise only if the tariffs fall' because the question's own supposition makes the tariffs fall. The note said the premises support neither. Each item had more than one correct answer.</li>
+<li><strong>Why.</strong> Each distractor was written to commit an error and came out valid. LL128's was made by swapping the terms of the key's conditional, on the idea that a reversed conditional makes a different argument, but the argument still moves from consequent to antecedent. LL007's and one of LL167's were meant to reverse a conditional and were written the right way round, and LL167's other was a conditional whose consequent the question's supposition makes true, so it held whatever its antecedent. The notes were written from the intention rather than from the sentence on the page, so they describe the error the option was meant to make. Nothing checks a hand written reasoning item's options against its premises: the generated parallel reasoning items prove their forms (#102), and these were never put through anything like it.</li>
+<li><strong>How it surfaced.</strong> Found on September 28, 2026 while reading the LSAT Logical Reasoning notes that INC-0189 re-lettered, and then every parallel and must be true item in the LSAT reasoning banks, checking each option against the premises rather than against its note. (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> LL128's option is now the valid contrapositive of the key's premise, 'Every building on the square that survived the fire is made of stone. The library is not made of stone. So the library did not survive the fire', and its note says what each option is: one denies the antecedent, two are valid, one is probabilistic. LL007's is now 'If the city had increased its grant, the library would have extended its hours', which does treat a necessary condition as sufficient. LL167's two conditionals are now 'The tariffs will fall only if domestic producers increase their market share' and 'Exports would have risen even if the treaty had not been ratified', which the premises leave open even with the treaty ratified. Each note now describes the option as it reads.</li>
+<li><strong>What stops it now.</strong> None added. A valid option cannot be told from an invalid one without reading the logic, which the generated parallel items do by proof and the hand written items get only from review; that review, of every parallel and must be true item, found these three and no others. in <code>src/mk_bank_lsat_lr3.py</code></li>
+<li><strong>Lesson.</strong> Check a wrong answer against the premises, not against what it was meant to be. A note written from the author's intention describes the error the option was supposed to commit, so it cannot catch an option that came out valid; write each option out as symbols beside the premises before writing what is wrong with it.</li>
 </ul>
 <h2 id="tests-and-guards-35">Tests and guards (35)</h2>
 <h3 id="inc-0016-the-performance-test-waited-for-the-load-event-which-waits-for-the-thing-being-optimised">INC-0016. The performance test waited for the load event, which waits for the thing being optimised</h3>
@@ -3225,6 +3258,18 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>[ ] A source's first sentence is not always its answer. When a page states a rule and qualifies it in the next sentence, the qualifier is part of the fact: read to the end of the paragraph before quoting, and when a test maker changes what schools receive, reread every sentence that tells a reader what a school will see.  </li>
 </ul>
 <p>&lt;small&gt;Two queued posts said a GMAT score report carries only the score you send, after GMAC's Superscore began adding the best section scores from every attempt (INC-0188)&lt;/small&gt;</p>
+<ul>
+<li>[ ] A position is not part of a sentence. When content is written against one order and shipped in another, anything that points at the order, a letter, 'the second option', 'the last choice', has to move with it or be written so it does not depend on it. Make the reference explicit, resolve it where the order is decided, and check the result against the key rather than trusting the text that was true when it was written.  </li>
+</ul>
+<p>&lt;small&gt;Watch for notes named answer choices by letter or position, and the shuffle that moves the key never moved them, so 124 notes called the correct answer a trap (INC-0189)&lt;/small&gt;</p>
+<ul>
+<li>[ ] A clause added for length is still a claim. When text is appended to a wrong answer to change its shape, read the result as a test taker would, against the question it answers, because the easiest way to lengthen a false statement is to add the reason that would make it true.  </li>
+</ul>
+<p>&lt;small&gt;A length correction clause turned an LSAT must be true distractor into a second correct answer, and its note said so (INC-0190)&lt;/small&gt;</p>
+<ul>
+<li>[ ] Check a wrong answer against the premises, not against what it was meant to be. A note written from the author's intention describes the error the option was supposed to commit, so it cannot catch an option that came out valid; write each option out as symbols beside the premises before writing what is wrong with it.  </li>
+</ul>
+<p>&lt;small&gt;Three LSAT reasoning items offered wrong answers with the key's logical force, and each note said they lacked it (INC-0191)&lt;/small&gt;</p>
 <h2 id="database">Database</h2>
 <ul>
 <li>[ ] Postgres fires same-timing triggers alphabetically. If two triggers on one table have an order dependency, encode it in the name, and test the outcome rather than the code.  </li>
@@ -3616,7 +3661,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p><code>python3 src/build_playbook.py</code> writes four files into <code>playbook/bootstrap/</code>, all generated from the same ledger as the book, so none of them can drift from it.</p>
 <p><strong><code>CLAUDE.template.md</code></strong> goes in the new repository's root. Claude Code reads it on every turn. It is the constitution: the house rules, the never-invent-a-value rule, the sourcing rules, the communication rule, and a short architecture section you fill in as you build. Four bracketed blanks at the top are the only things you have to change.</p>
 <p><strong><code>KICKOFF.md</code></strong> is the literal first message for a new conversation. It sets the working agreement, the phase order, and what a session should report. Paste it, then describe your business idea underneath it.</p>
-<p><strong><code>RULES_DIGEST.md</code></strong> is every lesson in the defect ledger, compressed to one line each and grouped by area. It is about three pages. This is the highest value-per-token artefact in the whole project: 188 real defects reduced to the rules that prevent them, with the specifics of this codebase stripped out.</p>
+<p><strong><code>RULES_DIGEST.md</code></strong> is every lesson in the defect ledger, compressed to one line each and grouped by area. It is about three pages. This is the highest value-per-token artefact in the whole project: 191 real defects reduced to the rules that prevent them, with the specifics of this codebase stripped out.</p>
 <p><strong><code>incidents.jsonl</code></strong> is the raw ledger, copied so the new project can start appending to it on day one rather than starting an empty one.</p>
 <h2 id="how-to-load-it-by-surface">How to load it, by surface</h2>
 <p><strong>Claude Code, new repository.</strong> Copy <code>CLAUDE.template.md</code> to the repo root as <code>CLAUDE.md</code>, fill in the four blanks, and copy <code>incidents.jsonl</code> to <code>data/playbook/incidents.jsonl</code>. Copy <code>src/build_playbook.py</code> too, so the new project's own ledger becomes its own book from the first defect. Then open a session with <code>KICKOFF.md</code> as the first message.</p>
@@ -3626,7 +3671,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three reasons, and they are worth understanding rather than just following.</p>
 <p><strong>Retrieval beats repetition.</strong> A document in project knowledge is consulted when relevant. The same document in the prompt is re-read on every single turn, at full cost, mostly when it is irrelevant. For anything longer than a few pages, retrieval is strictly better.</p>
 <p><strong>Instructions need to be short enough to be followed.</strong> A rule competing with ten thousand words of context is a rule that gets applied inconsistently. The digest is deliberately brutal: one line per lesson, imperative mood, no examples. The examples are in the book, where they can be looked up when a rule seems wrong.</p>
-<p><strong>The ledger is the part that compounds.</strong> The recipe chapters age. The rules do not, because each one is the residue of a real failure, and the failure modes of software are considerably more stable than its tooling. A new project that starts with 188 defects already prevented is genuinely ahead, and every defect it hits of its own makes the next project further ahead still.</p>
+<p><strong>The ledger is the part that compounds.</strong> The recipe chapters age. The rules do not, because each one is the residue of a real failure, and the failure modes of software are considerably more stable than its tooling. A new project that starts with 191 defects already prevented is genuinely ahead, and every defect it hits of its own makes the next project further ahead still.</p>
 <h2 id="keeping-the-loop-closed">Keeping the loop closed</h2>
 <p>The pack is only worth carrying forward if the new project feeds it back. So the working agreement in <code>KICKOFF.md</code> includes one instruction that does the whole job:</p>
 <p>&gt; When something breaks, append a record to <code>data/playbook/incidents.jsonl</code> before fixing &gt; it, while you still remember what you believed was true five minutes ago.</p>
