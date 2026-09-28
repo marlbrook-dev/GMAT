@@ -847,6 +847,15 @@ verified rather than that the school does not publish one (INC-0118).
       defended: "the hive at Furze End stood on the heath" and "the piece bought from the
       Dunnock farm was steeped in a pond" name the one alternative the passage gives, so each
       could look inferable, and each now contradicts the study instead, as earlier passages' do.
+- [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
+      (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
+      percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
+      Institution Score Report carries only the scores you choose and no sign of other GRE
+      tests, though schools can see your photos and essays; LSAC's lists up to 12 reportable
+      results with a percentile rank for each and a score band; College Board's adds a Score
+      Range and eight content areas; and ACT's adds STEM, ELA and reporting categories. Every
+      rule was read on September 28 from the makers' own pages; seven join data/exams.json and
+      pass the source check's functions, and EDITORIAL.md gains a score report block.
 - [x] **No rank cites an admissions consulting blog.** Eight U.S. News 2026 ranks (Virginia
       11, Cornell 15, UCLA and Texas 18, Washington 20, North Carolina 21, Emory 23, Georgetown
       31) cited Clear Admit or Stacy Blackman, which src/sources.py lists as weak sources; they
