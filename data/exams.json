@@ -291,6 +291,19 @@
         "src": "mba.com support (GMAC)",
         "year": 2026,
         "url": "https://support.mba.com/hc/en-us/articles/7470318027547-GMAT-How-Can-I-Cancel-Reschedule-My-Appointment-If-I-Have-An-Emergency-or-Missed-My-Appointment"
+      },
+      {
+        "text": "Each Official Score Report includes basic information from your mba.com profile, your GMAT exam scores and optional self-reported information, such as undergraduate GPA or intended area of study, if you chose to provide it; a report of a GMAT Exam, 10th Edition score also includes a copy of your Analytical Writing Assessment essay",
+        "src": "mba.com support (GMAC)",
+        "year": 2026,
+        "url": "https://support.mba.com/hc/en-us/articles/17325117005723-GMAT-Who-Has-Access-to-My-Score-and-What-Information-Do-They-Receive"
+      },
+      {
+        "text": "The percentile tables are updated annually; your total score remains unchanged when the percentiles are adjusted, and your Official Score Report is automatically updated to include the revised percentiles. GMAC does not offer a physical or PDF downloadable version of the score report, and a screenshot of the score is not considered an official score report",
+        "src": "mba.com support (GMAC)",
+        "year": 2026,
+        "url": "https://support.mba.com/hc/en-us/articles/28973151252251-GMAT-Why-Did-My-Score-Percentile-Change",
+        "also_urls": ["https://support.mba.com/hc/en-us/articles/14016690312603-GMAT-What-If-a-School-Has-Asked-Me-to-Upload-A-PDF-of-My-Score-Report"]
       }
     ]
   },
@@ -503,6 +516,12 @@
         "src": "College Board",
         "year": 2026,
         "url": "https://satsuite.collegeboard.org/sat/registration/change-cancel/makeup-tests"
+      },
+      {
+        "text": "The score report PDF shows the total score, the Reading and Writing section score and the Math section score, a Score Range showing how much the scores would likely vary on a different administration under identical conditions, percentiles comparing the scores to other students who took the same test, and a Knowledge and Skills section showing performance on each of the eight content areas the test measures",
+        "src": "College Board",
+        "year": 2026,
+        "url": "https://satsuite.collegeboard.org/scores/what-scores-mean"
       }
     ]
   },
@@ -725,6 +744,18 @@
         "src": "ETS",
         "year": 2026,
         "url": "https://www.ets.org/gre/test-takers/general-test/test-day/test-center-test-day.html"
+      },
+      {
+        "text": "Official score reports sent to the institutions you designate include your contact information, date of birth, gender, intended graduate major field and the GRE test dates and scores you choose to report with the ScoreSelect option, with their percentile ranks; they do not include the other score recipients you have chosen, scores you have chosen not to report, or any indication that you have taken other GRE tests",
+        "src": "ETS",
+        "year": 2026,
+        "url": "https://www.ets.org/gre/test-takers/general-test/scores/get-scores.html"
+      },
+      {
+        "text": "Photos and essay responses from each GRE General Test administration you select from your 5-year reportable history are available to your score recipients in the ETS Data Manager as part of your score record, and a measure with no questions answered receives a No Score (NS)",
+        "src": "ETS",
+        "year": 2026,
+        "url": "https://www.ets.org/gre/test-takers/general-test/scores/get-scores.html"
       }
     ]
   },
@@ -964,6 +995,12 @@
         "src": "LSAC",
         "year": 2026,
         "url": "https://www.lsac.org/about/lsac-policies/jd-refunds"
+      },
+      {
+        "text": "Your LSAT Score Report includes your current score, the results of all reportable tests, up to 12, including absences and cancellations, your percentile rank, the percentage of test takers whose scores were lower than yours during the previous three testing years, for each of your scores, and your score band; percentiles for all reported scores are updated every year by the end of July",
+        "src": "LSAC",
+        "year": 2026,
+        "url": "https://www.lsac.org/lsat/lsat-scoring"
       }
     ],
     "answer_choices": {
@@ -1218,6 +1255,12 @@
         "src": "ACT",
         "year": 2026,
         "url": "https://www.act.org/content/act/en/products-and-services/the-act/test-preparation/free-act-test-prep.html"
+      },
+      {
+        "text": "Each reporting category on an ACT score report includes the total number of questions in that category, the total number you answered correctly and the percentage correct, and students also receive STEM scores, the average of math and science, and ELA scores, the average of English, reading and writing, if taken",
+        "src": "ACT",
+        "year": 2026,
+        "url": "https://www.act.org/content/act/en/products-and-services/the-act/scores/understanding-your-scores.html"
       }
     ],
     "answer_choices": {
