@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-28, which is 9 days, across
-138 commits, by one owner directing a series of AI coding sessions. As of this
+139 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 86 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
 2109 tracked files in total.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-138 commits in 9 days, one owner, a series of AI sessions. This
+139 commits in 9 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -2830,7 +2830,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0182. Arizona State's class size stayed at 47 after its class profile changed it to 45, because the source check confirmed the head count with the page's "Business 47%" under "Class composition"
 
-*2026-09-28, Wrong data shown or stored*
+*2026-09-28, Wrong data shown or stored, `2af0f33bc3a976c6a0d0c7012295b474d3a27132` PR #184*
 
 - **What was seen.** The weekly source check of September 28, 2026 (issue #182) reported three of Arizona State W. P. Carey's figures as no longer on its class profile page: 19 percent admitted, 5.3 years of work experience and 32 percent international. Read in full, the page is still headed "Incoming class of Fall 2025" but now prints 328 applications, 24% admitted, an entering class of 45, age 30, GMAT Focus 645, GRE 314, GPA 3.6, 6.2 years of work experience and 33% international. Earlier runs' cached reads of September 26 and 27 show the figures the library holds: 426 applications, 19%, 47, age 29, GMAT 690, GRE 314, GPA 3.6, 5.3 years and 32%. The library's class size of 47 was not reported, though the page no longer gives 47 as the class size.
 - **Why.** The school check confirms a figure when its number appears on the page within 200 characters of one of its field's label words, and class size's words include "class", which a class profile prints in nearly every heading ("Class averages", "Class composition"). The page's undergraduate major table prints "Business 47%" a few words after "Class composition", so the old head count of 47 was found beside a label. A percentage can never be a head count, but the check matched digits without asking what kind of quantity they were.
@@ -2842,7 +2842,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0183. The source check's browser read left out collapsed accordion panels, so Berkeley Haas's and Buffalo's correct tuition figures were reported missing whenever a site refused the plain read
 
-*2026-09-28, Degraded*
+*2026-09-28, Degraded, `2af0f33bc3a976c6a0d0c7012295b474d3a27132` PR #184*
 
 - **What was seen.** The weekly check of September 28, 2026 (issue #182), run on GitHub's runner, reported Berkeley Haas's $92,755 and Buffalo's $16,655 and $7,615 as not printed by their cited pages. Both pages print them: Haas as the non-resident Tuition & Fees Subtotal for the first year in its 2026-27 cost of attendance table, Buffalo in its resident and non-resident MBA charges tables. In this sandbox the check's plain read of each page finds every figure, and its browser read finds none of them.
 - **Why.** render_page.js returns document.body.innerText, which leaves out any element that is not rendered. Both tables sit in accordion panels that stay collapsed until a reader clicks: Haas's in a div carrying the hidden attribute, Buffalo's in a panel with display none and aria-hidden, each named by its button's aria-controls. The check falls back to the browser when a site refuses the plain read, as these two evidently did on GitHub's runner, and the browser then reported a page without the content a reader opens with one click.

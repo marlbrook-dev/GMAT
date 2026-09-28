@@ -686,6 +686,26 @@ verified rather than that the school does not publish one (INC-0118).
       LSAT 14542, of which 14170 are generated, counts read from the build. All 150 new items
       were read at LSAT, GMAT and GRE length; one ambiguity was fixed first ("they fell in
       the weeks of winter flood" became "they were clustered in").
+- [x] **Five more long reading passages** (lending, chimneys, coaches, bakehouses,
+      pieces): falling loans at a subscription library blamed on cheap newspapers, caused by
+      lending hours that clashed with mill shifts; chimney fires blamed on careless servants,
+      caused by a licence fee that drove out the sweeps; late coaches blamed on a rutted road,
+      caused by a post office order to wait for the mail; bread shortages blamed on hoarding
+      millers, caused by a ban on cutting furze for the bakers' ovens; and weavers' falling
+      earnings blamed on power looms, caused by merchants lengthening the piece at the same
+      rate. Every name was checked against every corpus and bank (two first choices were
+      taken and replaced), and the places are invented. They run 292 to 309 words and pass
+      the premise, answer tell and key spread checks; the premise check first asked for a
+      negatively worded near miss in two rules, so the key would not be the only negative.
+      The banks grow by 50 GMAT, 50 GRE and 50 LSAT items: GMAT 34312, GRE 20688 and LSAT
+      14592, of which 14220 are generated, counts read from the build. All 150 new items were
+      read, and each has exactly one key.
+- [x] **"Do You Get a Break During the GMAT, GRE, LSAT, SAT, or ACT?"** queued for December
+      17 (Maya Chen): the GMAT's optional 10-minute break after the first or second section,
+      none on the GRE, the LSAT's full 10-minute intermission after Section 2, the SAT's 10
+      minutes between its sections, and the ACT's short break after its second test. Every
+      rule was read on September 28; five join data/exams.json and pass the source check
+      against their live pages, and EDITORIAL.md gains a breaks block.
 - [x] **The weekly source check's issue #182, resolved** (INC-0182, INC-0183). Of the five
       school figures it reported, three were Arizona State W. P. Carey's: on September 28
       its class profile replaced the figures under its unchanged "Incoming class of Fall

@@ -101,6 +101,12 @@
         "url": "https://www.mba.com/exams/gmat-exam/about/exam-structure"
       },
       {
+        "text": "The optional 10-minute break can be taken whenever you choose: after the first section, or after the second",
+        "src": "mba.com (GMAC)",
+        "year": 2026,
+        "url": "https://www.mba.com/exams/gmat-exam/about/exam-structure"
+      },
+      {
         "text": "An on-screen calculator is available in the Data Insights section",
         "src": "GMAC",
         "year": 2026,
@@ -346,6 +352,12 @@
         "url": "https://satsuite.collegeboard.org/scores/sending-sat-scores/additional/canceling-sat-scores-weekend"
       },
       {
+        "text": "Students have one 10-minute break during the test between test sections, and can take an unscheduled break if they need to, but lose testing time",
+        "src": "College Board",
+        "year": 2026,
+        "url": "https://satsuite.collegeboard.org/sat/what-to-bring-do/what-to-expect"
+      },
+      {
         "text": "ID must be a valid, unexpired, physical photo ID that is government-issued or issued by the school you currently attend, bearing your full, legal name exactly as it appears on your admission ticket; if you will be 21 or older on test day, the only acceptable form of identification is an official government-issued photo ID",
         "src": "College Board",
         "year": 2026,
@@ -528,6 +540,12 @@
       },
       {
         "text": "At the end of the test you can report (view) or cancel your scores, and once you view them you cannot cancel them; canceled scores are not added to your reportable history, no refund is made, and they can be reinstated online within 60 days after the test date for a fee",
+        "src": "GRE Information Bulletin 2026-27 (ETS)",
+        "year": 2026,
+        "url": "https://www.ets.org/content/dam/ets-org/pdfs/gre/gre-info-bulletin.pdf"
+      },
+      {
+        "text": "The GRE General Test does not include any scheduled breaks, and unscheduled breaks are not permitted during an at home test",
         "src": "GRE Information Bulletin 2026-27 (ETS)",
         "year": 2026,
         "url": "https://www.ets.org/content/dam/ets-org/pdfs/gre/gre-info-bulletin.pdf"
@@ -716,6 +734,12 @@
         "src": "LSAC",
         "year": 2026,
         "url": "https://www.lsac.org/lsat/lsat-scoring/lsat-score-cancellations"
+      },
+      {
+        "text": "Every test taker who has the standard intermission is required to take the full 10 minutes allotted for it, and Section 3 will not begin until the full 10 minutes has expired",
+        "src": "LSAC",
+        "year": 2026,
+        "url": "https://www.lsac.org/lsat/taking-lsat/about-10-minute-intermission"
       },
       {
         "text": "You must present a physical, valid international passport or a physical, valid government-issued photo ID issued by the United States, U.S. Territories or Canada; the ID must be current or have expired within 3 months of your test date, and its first and last name must exactly match the legal first and last name on your account",
@@ -949,6 +973,12 @@
       },
       {
         "text": "You must present an original, valid photo ID issued by a city, state, federal agency or your school, on a hard plastic card, with a name that matches your registration; if you do not have a current official photo ID, you must present the ACT Student Identification Form with a photo, completed by a school official or notary public",
+        "src": "ACT",
+        "year": 2026,
+        "url": "https://www.act.org/content/act/en/products-and-services/the-act/test-day.html"
+      },
+      {
+        "text": "A short break is scheduled after the second test, and students taking the writing test get five minutes to relax and prepare before the essay; electronic devices are not allowed during breaks",
         "src": "ACT",
         "year": 2026,
         "url": "https://www.act.org/content/act/en/products-and-services/the-act/test-day.html"
