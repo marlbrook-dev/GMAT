@@ -782,6 +782,22 @@ verified rather than that the school does not publish one (INC-0118).
       inside by 8:00 a.m. Every rule was read on September 28 from the test makers' own test
       day pages; five join data/exams.json and pass the source check's functions against their
       live pages, and EDITORIAL.md gains a test day block.
+- [x] **"Can Schools See All Your GMAT, GRE, LSAT, SAT, or ACT Scores?"** queued for December
+      23 (Aisha Thompson): which scores each school receives and where the choice ends. LSAC
+      reports every LSAT result from the current testing year and the five before it,
+      cancellations and absences included; ETS's ScoreSelect, College Board's Score Choice and
+      ACT's reports by test event let you choose, though ETS and College Board say some
+      programs want every score; and a GMAT report now carries the GMAT Superscore, with the
+      best section scores of other attempts and their dates, which cannot be left off. Every
+      rule was read on September 28 from the test makers' own pages; four join
+      data/exams.json and pass the source check's functions against their live pages, and
+      EDITORIAL.md gains a block on what schools see.
+- [x] **No rank cites an admissions consulting blog.** Eight U.S. News 2026 ranks (Virginia
+      11, Cornell 15, UCLA and Texas 18, Washington 20, North Carolina 21, Emory 23, Georgetown
+      31) cited Clear Admit or Stacy Blackman, which src/sources.py lists as weak sources; they
+      now cite Poets&Quants' table of the ranking, sourced to U.S. News, which gives the same
+      ranks and ties. Emory's Financial Times 56 now cites the FT's own 2026 table, whose Rank in
+      2026 column gives 56 and whose Rank in 2025 column gives 45. No value changed.
 - [x] **Five more long reading passages** (organs, lamps, ropes, tanpits, hopkilns): church
       organs drifting out of tune each winter, blamed on damp and caused by new stoves; street
       lamps going out before dawn, blamed on idle lamplighters and caused by a cheaper seed oil
