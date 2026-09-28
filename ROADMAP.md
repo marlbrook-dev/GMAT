@@ -792,6 +792,15 @@ verified rather than that the school does not publish one (INC-0118).
       rule was read on September 28 from the test makers' own pages; four join
       data/exams.json and pass the source check's functions against their live pages, and
       EDITORIAL.md gains a block on what schools see.
+- [x] **"How Late Can You Register for the GMAT, GRE, LSAT, SAT, or ACT?"** queued for
+      December 25 (David Okafor): GMAC sets no deadline, with test centers open throughout
+      the year and online appointments 24/7 in many regions; ETS asks two calendar days'
+      notice online and two business days by phone; the LSAT has one deadline per
+      administration (the February 2027 LSAT closes December 29, 2026); and the SAT and the ACT
+      add paid late windows ($38 and $42) after their deadlines. Every rule was read on
+      September 28; the GMAT and GRE rules join data/exams.json and pass the source check's
+      functions, the 2027 dates come from data/test_dates.json, which test_dates.py confirmed
+      in step with all three makers that day, and EDITORIAL.md gains a registration block.
 - [x] **No rank cites an admissions consulting blog.** Eight U.S. News 2026 ranks (Virginia
       11, Cornell 15, UCLA and Texas 18, Washington 20, North Carolina 21, Emory 23, Georgetown
       31) cited Clear Admit or Stacy Blackman, which src/sources.py lists as weak sources; they
