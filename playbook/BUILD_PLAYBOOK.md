@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-28, which is 9 days, across
-142 commits, by one owner directing a series of AI coding sessions. As of this
+143 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 86 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
 2111 tracked files in total.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-142 commits in 9 days, one owner, a series of AI sessions. This
+143 commits in 9 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1217,14 +1217,14 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-184 recorded defects, over 9 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+185 recorded defects, over 9 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 97 | 53% |
+| Found by reading the code or the output | 98 | 53% |
 | Found by measuring something | 45 | 24% |
 | A test caught it | 22 | 12% |
 | Found by rendering it and looking | 8 | 4% |
@@ -1232,7 +1232,7 @@ well enough to audit later. Which is what this book is.
 | A build guard caught it | 5 | 3% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 182 of 184 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 183 of 185 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1241,13 +1241,13 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 81 |
+| Wrong data shown or stored | 82 |
 | Degraded | 45 |
 | Cosmetic | 29 |
 | Silent loss | 26 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 184. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 185. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
@@ -1255,7 +1255,7 @@ well enough to audit later. Which is what this book is.
 | Area | Count |
 | --- | ---: |
 | Content generation | 84 |
-| Tests and guards | 34 |
+| Tests and guards | 35 |
 | Front end | 12 |
 | Build system | 11 |
 | Search and metadata | 10 |
@@ -1269,7 +1269,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-178 of 184 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+179 of 185 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1290,7 +1290,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-89 of 184 incidents record that they repeat an earlier lesson, 122 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+90 of 185 incidents record that they repeat an earlier lesson, 123 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1351,8 +1351,9 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0155 The GMAT guide cited mba.com's Official Score Reports page for the rule on five free score reports within 48 hours, a rule that page never states | INC-0160 | 1 |
 | INC-0172 The ACT exam guide and a live post said the ACT can be taken up to 12 times, after ACT's page had come to say there is no limit, and the source check matched the 12 in the page's K-12 menu | INC-0174 | 1 |
 | INC-0176 Headings outside blog post bodies broke the Title Case rule on every kind of page, because the build checked only the headings inside posts | INC-0178 | 1 |
+| INC-0184 Vanderbilt's median salary and 39 schools' Bloomberg ranks stayed on Bloomberg's 2025-26 edition after its pages moved to 2026-27, and nothing could see it: Bloomberg answers most reads with a bot challenge, and the source check never reads a rank | INC-0185 | 1 |
 
-The largest family runs to 76 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140, INC-0142, INC-0143, INC-0144, INC-0145, INC-0146, INC-0147, INC-0150, INC-0151, INC-0152, INC-0154, INC-0155, INC-0156, INC-0157, INC-0158, INC-0159, INC-0160, INC-0161, INC-0162, INC-0165, INC-0169, INC-0170, INC-0172, INC-0173, INC-0174, INC-0175, INC-0177, INC-0180, INC-0182, INC-0183, INC-0184. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
+The largest family runs to 77 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140, INC-0142, INC-0143, INC-0144, INC-0145, INC-0146, INC-0147, INC-0150, INC-0151, INC-0152, INC-0154, INC-0155, INC-0156, INC-0157, INC-0158, INC-0159, INC-0160, INC-0161, INC-0162, INC-0165, INC-0169, INC-0170, INC-0172, INC-0173, INC-0174, INC-0175, INC-0177, INC-0180, INC-0182, INC-0183, INC-0184, INC-0185. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
 
 Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.
 
@@ -1394,8 +1395,8 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/check_sources.py`, 22 incidents (INC-0130, INC-0132, INC-0133, INC-0136, INC-0140, INC-0150, INC-0152, INC-0154, INC-0155, INC-0156, INC-0158, INC-0159, INC-0161, INC-0168, INC-0172, INC-0173, INC-0174, INC-0175, INC-0177, INC-0180, INC-0182, INC-0184)
 - `src/build_banks.py`, 17 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011, INC-0079, INC-0081, INC-0086, INC-0088, INC-0089, INC-0090, INC-0091, INC-0092, INC-0120, INC-0123, INC-0126, INC-0127)
 - `src/build.py`, 13 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067, INC-0076, INC-0080, INC-0131, INC-0148)
+- `src/validate_schools.py`, 9 incidents (INC-0125, INC-0141, INC-0143, INC-0144, INC-0147, INC-0151, INC-0153, INC-0157, INC-0185)
 - `src/test.js`, 8 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085)
-- `src/validate_schools.py`, 8 incidents (INC-0125, INC-0141, INC-0143, INC-0144, INC-0147, INC-0151, INC-0153, INC-0157)
 - `src/build_rankings.py`, 7 incidents (INC-0014, INC-0049, INC-0118, INC-0135, INC-0142, INC-0145, INC-0167)
 - `src/gen/g_rc.py`, 7 incidents (INC-0097, INC-0114, INC-0115, INC-0117, INC-0122, INC-0169, INC-0179)
 - `src/page_checks.py`, 6 incidents (INC-0134, INC-0138, INC-0139, INC-0163, INC-0176, INC-0178)
@@ -2438,7 +2439,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** A check that finds nothing wrong has only checked what it could see. Count the things it had no way to test as unchecked rather than as passed, or a clean report will quietly include everything the check was blind to.
 
 
-## Tests and guards (34)
+## Tests and guards (35)
 
 
 ### INC-0016. The performance test waited for the load event, which waits for the thing being optimised
@@ -2862,6 +2863,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** The source check now reads every rank entry whose edition is written like 2025-26 or 2025-2026, and reports as a failure any whose cited page names a later edition; its first run flagged 29 Bloomberg ranks and nothing else. A later read of Bloomberg's US ranking page got the page rather than the challenge, and every school's Bloomberg rank moves to the 2026-27 edition from it: 40 ranks move, 22 schools gain one, and Penn State and UC San Diego, absent from the 2026-27 list, lose theirs. Vanderbilt's salary figure moves to the 2026-27 profile's $142,800.
 - **What stops it now.** check_sources' self-check requires later_edition to report 2026-27 for a rank recorded as 2025-26 on a page titled with 2026-27 that also says "up 10 from 2025-26", to report nothing for a page naming only 2025-26, and to read neither a date such as 2026-10 nor a span such as 2025-2027 as an edition. in `src/check_sources.py`
 - **Lesson.** A figure copied from a page its publisher rewrites every year expires on the publisher's schedule, not yours. Record which edition a figure came from, and have the check compare it with the edition the page now names; a page that cannot be read says nothing about whether what you took from it is still true, and a field the check does not read is not checked at all.
+
+
+### INC-0185. Maryland's and Penn State's Financial Times ranks were years old and named no edition, so the composite scored them beside FT's 2026 ranks, and Maryland's was a US position where every other FT entry is a global one
+
+*2026-09-28, Wrong data shown or stored*
+
+- **What was seen.** Listing every rank with an empty edition on September 28, 2026 found two, both Financial Times. Maryland's 31 cites a school news page on the 25th anniversary edition of FT's ranking, where Smith was No. 57 in the world and No. 31 in the US; the library recorded the US position, where every other FT rank it holds is a position worldwide. Penn State's 47 cites a Smeal Magazine article from its Spring 2021 issue, which reports the FT Global MBA Ranking naming Smeal No. 47 overall. Every other FT rank in the library comes from the 2026 edition, and FT's 2026 table of 100 schools names neither school.
+- **Why.** A rank's edition was optional. validate_schools checked that a rank came from a known publisher and sat between 1 and 200, but never that it said which edition it came from, so two ranks entered without one were accepted, and the composite, which averages whatever publisher ranks a school carries, scored both as current. Nothing compared what a rank measured either: Maryland's was a US position among the library's worldwide positions.
+- **How it surfaced.** Found on September 28, 2026, when every rank without an edition was listed after the Bloomberg refresh (INC-0184) and the two pages they cite were read. (Found by reading the code or the output)
+- **Fix.** Both ranks are set to null for the 2026 edition, citing the copy of FT's 2026 Global MBA Ranking table that another school's FT rank already cites, in which neither school appears. validate_schools now refuses a published rank that names no edition or has no source url. Cornell's, UCLA's and Washington Foster's FT ranks, which Poets&Quants' report of the 2026 ranking confirms, now cite it rather than two admissions consulting blogs.
+- **What stops it now.** validate_schools refuses any rank that has a value and an empty edition, which fails the build; the rule was confirmed by restoring one of the two old entries, which the validator then refused. in `src/validate_schools.py`
+- **Lesson.** A rank without its edition is a number without a date, and an average cannot tell a 2021 rank from a 2026 one. Make the edition a required part of the record, so a rank that cannot say when it is from is refused rather than scored.
 
 
 ## Front end (12)
@@ -4089,6 +4102,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A browser suite outside CI had failed on its first click since the consent dialog shipped (INC-0110)</small>
 - [ ] **Learned 2 times over.** A checker that reads a page has to read the page a person sees, not the file behind it. Markup can hold text no reader is shown, in comments, hidden elements and templates, and a site that retires a figure often leaves it there.  
   <small>The source check read text inside HTML comments as page text, and confirmed Arizona State's 43 percent women from a table row the school had commented out (INC-0152)</small>
+- [ ] **Learned 2 times over.** A figure copied from a page its publisher rewrites every year expires on the publisher's schedule, not yours. Record which edition a figure came from, and have the check compare it with the edition the page now names; a page that cannot be read says nothing about whether what you took from it is still true, and a field the check does not read is not checked at all.  
+  <small>Vanderbilt's median salary and 39 schools' Bloomberg ranks stayed on Bloomberg's 2025-26 edition after its pages moved to 2026-27, and nothing could see it: Bloomberg answers most reads with a bot challenge, and the source check never reads a rank (INC-0184)</small>
 - [ ] Measure the moment the user can act, not a browser lifecycle event. A test that measures the wrong instant is worse than no test, because it produces a number people trust.  
   <small>The performance test waited for the load event, which waits for the thing being optimised (INC-0016)</small>
 - [ ] A regex with a length bound is a guard with an expiry date. Assert the number of things checked, not only that the checks passed.  
@@ -4139,8 +4154,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Arizona State's class size stayed at 47 after its class profile changed it to 45, because the source check confirmed the head count with the page's "Business 47%" under "Class composition" (INC-0182)</small>
 - [ ] What is on screen is not what a reader can see. Content one click away behind the page's own controls is part of the page, so a reader built for checking has to open what the page offers to open, and leave closed what it hides for other reasons, such as menus.  
   <small>The source check's browser read left out collapsed accordion panels, so Berkeley Haas's and Buffalo's correct tuition figures were reported missing whenever a site refused the plain read (INC-0183)</small>
-- [ ] A figure copied from a page its publisher rewrites every year expires on the publisher's schedule, not yours. Record which edition a figure came from, and have the check compare it with the edition the page now names; a page that cannot be read says nothing about whether what you took from it is still true, and a field the check does not read is not checked at all.  
-  <small>Vanderbilt's median salary and 39 schools' Bloomberg ranks stayed on Bloomberg's 2025-26 edition after its pages moved to 2026-27, and nothing could see it: Bloomberg answers most reads with a bot challenge, and the source check never reads a rank (INC-0184)</small>
+- [ ] A rank without its edition is a number without a date, and an average cannot tell a 2021 rank from a 2026 one. Make the edition a required part of the record, so a rank that cannot say when it is from is refused rather than scored.  
+  <small>Maryland's and Penn State's Financial Times ranks were years old and named no edition, so the composite scored them beside FT's 2026 ranks, and Maryland's was a US position where every other FT entry is a global one (INC-0185)</small>
 
 
 # Adapting This to a Different Business
@@ -4257,7 +4272,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 184 real defects reduced to the rules that prevent them,
+the whole project: 185 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -4297,7 +4312,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-184 defects already prevented is genuinely ahead, and every defect it hits
+185 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

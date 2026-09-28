@@ -193,6 +193,14 @@ def validate(schools):
                 errors.append(f"{slug}: unknown rank source {k}")
             if r and r.get("rank") is not None and not (1 <= r["rank"] <= 200):
                 errors.append(f"{slug}: implausible {k} rank {r['rank']}")
+            # A rank with no edition is a number with no date: Penn State's FT rank was a
+            # 2021 position and Maryland's an older edition's US one, and the composite
+            # scored both beside FT's 2026 ranks (INC-0185).
+            if r and r.get("rank") is not None and not str(r.get("edition") or "").strip():
+                errors.append(f"{slug}: {k} rank {r['rank']} names no edition; record the edition "
+                              f"its source gives, or leave the rank blank")
+            if r and r.get("rank") is not None and not str(r.get("url") or "").startswith("http"):
+                errors.append(f"{slug}: {k} rank {r['rank']} has no source url")
         for f, fv in (s.get("profile") or {}).items():
             if not isinstance(fv, dict):
                 if f == "class_year":

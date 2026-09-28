@@ -765,6 +765,13 @@ verified rather than that the school does not publish one (INC-0118).
       Washington University in St. Louis at 40), and Penn State and UC San Diego, absent from
       the 2026-27 list, no longer carry one. Every entry now cites Bloomberg's own ranking
       page rather than a school press release or a news summary.
+- [x] **Every rank names its edition** (INC-0185). The two ranks with no edition were both
+      Financial Times: Penn State's 47 came from a Spring 2021 magazine article, and Maryland's
+      31 was an older edition's US position, where every other FT rank in the library is a
+      position worldwide. Neither school is among the 100 in FT's 2026 table, so both are now
+      blank for the 2026 edition, and validate_schools refuses a rank that names no edition or
+      has no source url. Cornell's, UCLA's and Washington Foster's FT ranks now cite
+      Poets&Quants' report of the 2026 ranking instead of two admissions consulting blogs.
 - [x] **"What ID Do You Need for the GMAT, GRE, LSAT, SAT, or ACT?"** queued for December
       15 (James Corbett): GMAC's exact-name and passport rules, ETS's original, signed,
       government-issued ID, LSAC's passport or US or Canadian photo ID that may be up to 3

@@ -269,7 +269,10 @@ update the rank from the new edition rather than silencing the finding. Ranks wi
 single-year edition such as US News' 2026 are not read this way, because a page prints
 single years everywhere, and neither are profile figures: tuition pages routinely mention
 next year ("tuition for 2027-28 will be released in Spring 2027"), and a figure's number
-check catches a changed figure on its own, as it caught Vanderbilt's salary.
+check catches a changed figure on its own, as it caught Vanderbilt's salary. Every published rank also names its edition and its source url, which validate_schools
+requires: Penn State's Financial Times rank was a 2021 position and Maryland's an older
+edition's US one, both entered without an edition, and the composite scored them beside FT's
+2026 ranks, which are positions worldwide (INC-0185).
 
 The SAT and PSAT/NMSQT calculators' percentiles in `data/sat_percentiles.json` and
 `data/psat_percentiles.json` are College Board's, parsed from its research pages by
