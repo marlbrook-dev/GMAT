@@ -6,7 +6,13 @@
  "state": "North Carolina",
  "region": "South",
  "type": "Public",
- "ranks": {},
+ "ranks": {
+  "bloomberg": {
+   "rank": 55,
+   "edition": "2026-27",
+   "url": "https://www.bloomberg.com/business-schools/regions/us/"
+  }
+ },
  "profile": {
   "class_year": "Fall 2026 entering class",
   "class_size": {

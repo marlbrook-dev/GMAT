@@ -259,6 +259,18 @@ current page; if it still holds, record that on the fact, for example
 page, current for 2026-2027, still gives the same sections"}`, and the report stays quiet
 until the page names another ended year.
 
+A ranking's school page can move to a new edition in place: Bloomberg's Vanderbilt page
+became its 2026-27 profile while the library still held the 2025-26 rank of 27 and median
+salary of $150,000, and no run noticed, because Bloomberg answers most reads with a bot
+challenge and the check never read a rank at all, since a rank carries `rank` and `edition`
+rather than `v` (INC-0184). The school check now reads the page of every rank whose edition
+is written like 2025-26 or 2025-2026 and fails on one whose page names a later edition, so
+update the rank from the new edition rather than silencing the finding. Ranks with a
+single-year edition such as US News' 2026 are not read this way, because a page prints
+single years everywhere, and neither are profile figures: tuition pages routinely mention
+next year ("tuition for 2027-28 will be released in Spring 2027"), and a figure's number
+check catches a changed figure on its own, as it caught Vanderbilt's salary.
+
 The SAT and PSAT/NMSQT calculators' percentiles in `data/sat_percentiles.json` and
 `data/psat_percentiles.json` are College Board's, parsed from its research pages by
 `python3 src/sat_percentiles.py --write`, which also quotes each page's definitions word for

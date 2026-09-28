@@ -20,9 +20,9 @@
    "note": "UniversityGuru lists 31st globally and 16th in the US for FT 2026, but the US position conflicts with Rice's school-reported No. 16 US at No. 38 global; unresolved, so left null"
   },
   "bloomberg": {
-   "rank": 27,
-   "edition": "2025-26",
-   "url": "https://www.bloomberg.com/business-schools/vanderbilt-owen/"
+   "rank": 17,
+   "edition": "2026-27",
+   "url": "https://www.bloomberg.com/business-schools/regions/us/"
   },
   "qs": {
    "rank": 101,
@@ -118,10 +118,10 @@
    "url": "https://business.vanderbilt.edu/mba/admissions/tuition-financing-scholarships/"
   },
   "salary_median_usd": {
-   "v": 150000,
+   "v": 142800,
    "stat": "median base salary across industries, as Bloomberg Businessweek reports it",
-   "src": "Bloomberg Businessweek Best B-Schools 2025-26 school profile for Vanderbilt (Owen)",
-   "year": 2025,
+   "src": "Bloomberg Businessweek Best B-Schools 2026-27 school profile for Vanderbilt (Owen)",
+   "year": 2026,
    "url": "https://www.bloomberg.com/business-schools/vanderbilt-owen/",
    "note": "The school's own outcomes page (https://business.vanderbilt.edu/mba/outcomes/, read 2026-09-27) gives $148K+ as the average base starting salary for the Class of 2025, a rounded lower bound rather than a figure, so Bloomberg's median stays as a secondary figure."
   },

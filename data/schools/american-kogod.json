@@ -6,7 +6,13 @@
  "state": "District of Columbia",
  "region": "South",
  "type": "Private",
- "ranks": {},
+ "ranks": {
+  "bloomberg": {
+   "rank": 33,
+   "edition": "2026-27",
+   "url": "https://www.bloomberg.com/business-schools/regions/us/"
+  }
+ },
  "profile": {
   "gpa": {
    "v": 3.16,

@@ -748,6 +748,23 @@ verified rather than that the school does not publish one (INC-0118).
       page and help center articles, which answer the source check's user agent. Every rule
       was read on September 28; nine join data/exams.json and pass the source check's
       functions against their live pages, and EDITORIAL.md gains an accommodations block.
+- [x] **Bloomberg's 2026-27 edition, caught** (INC-0184). A school run read Bloomberg's
+      Vanderbilt page as a page for once, rather than its bot challenge, and found the 2026-27
+      profile: No. 17 in the US and a median base salary of $142,800, where the library held
+      the 2025-26 edition's rank of 27 and $150,000. Vanderbilt's salary moves to $142,800.
+      The check now reads every rank whose edition is written like 2025-26 and fails on one
+      whose page names a later edition, since a rank has no `v` and had never been read; its
+      first run flagged 29 Bloomberg ranks, every one a real 2025-26 rank on a page now
+      naming 2026-27, and nothing else.
+- [x] **Bloomberg ranks moved to the 2026-27 edition.** Bloomberg's US ranking page first
+      answered this sandbox with an "Are you a robot?" challenge (the owner was told at once),
+      then served the page to the source check's next read, with all 66 schools. From that
+      read, 40 ranks move to 2026-27 (Texas A&M up from 41 to 22, Vanderbilt from 27 to 17,
+      Berkeley Haas down from 3 to 8, Georgetown from 22 to 31), 22 schools in the library gain
+      a Bloomberg rank for the first time (among them Maryland at 25, Georgia Tech at 26 and
+      Washington University in St. Louis at 40), and Penn State and UC San Diego, absent from
+      the 2026-27 list, no longer carry one. Every entry now cites Bloomberg's own ranking
+      page rather than a school press release or a news summary.
 - [x] **"What ID Do You Need for the GMAT, GRE, LSAT, SAT, or ACT?"** queued for December
       15 (James Corbett): GMAC's exact-name and passport rules, ETS's original, signed,
       government-issued ID, LSAC's passport or US or Canadian photo ID that may be up to 3
