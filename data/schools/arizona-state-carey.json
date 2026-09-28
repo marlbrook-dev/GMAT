@@ -51,18 +51,17 @@
  "profile": {
   "class_year": "Fall 2025 incoming class",
   "class_size": {
-   "v": 47,
+   "v": 45,
    "src": "W. P. Carey full-time MBA class profile (fall 2025 entering class)",
    "year": 2025,
    "url": "https://wpcarey.asu.edu/mba-programs/full-time/class-profile"
   },
   "gmat_focus": {
-   "v": null,
-   "stat": "",
-   "src": "",
-   "year": null,
-   "url": "",
-   "note": "Not published: the fall 2025 class profile prints \"GMAT 690\" among its class averages, and names no GMAT edition. An unlabelled figure could be on either scale, or a mix of both, since GMAT scores of either edition stay valid for five years (GMAC), so it is not filed under one (INC-0157)."
+   "v": 645,
+   "stat": "average, labeled GMAT Focus under Class averages",
+   "src": "W. P. Carey full-time MBA class profile",
+   "year": 2025,
+   "url": "https://wpcarey.asu.edu/mba-programs/full-time/class-profile"
   },
   "gmat_classic": {
    "v": null,
@@ -94,13 +93,13 @@
    "url": "https://wpcarey.asu.edu/mba-programs/full-time/class-profile"
   },
   "accept_rate_pct": {
-   "v": 19,
+   "v": 24,
    "src": "W. P. Carey full-time MBA class profile",
    "year": 2025,
    "url": "https://wpcarey.asu.edu/mba-programs/full-time/class-profile"
   },
   "work_exp_years": {
-   "v": 5.3,
+   "v": 6.2,
    "stat": "average",
    "src": "W. P. Carey full-time MBA class profile",
    "year": 2025,
@@ -115,7 +114,7 @@
    "note": "Not published: the class profile page shows no gender figure. Its HTML holds a Male 57% and Female 43% row inside a comment, which the page does not show (read 2026-09-27, INC-0152)."
   },
   "intl_pct": {
-   "v": 32,
+   "v": 33,
    "src": "W. P. Carey full-time MBA class profile",
    "year": 2025,
    "url": "https://wpcarey.asu.edu/mba-programs/full-time/class-profile"
@@ -145,7 +144,7 @@
    "url": "https://wpcarey.asu.edu/mba-programs/full-time/career-management"
   }
  },
- "notes": "Class profile now shows the fall 2025 entering class; all profile figures updated to it, replacing the fall 2024 figures in the batch (including the unlabeled GMAT 698 recorded as classic, which is no longer on the page). GRE shown only as a combined average of 314, no quant/verbal split. Percent women is not listed on the fall 2025 profile; the 43 percent in existing data was the fall 2024 profile. Cost page now shows rounded minimum total-program estimates that replace the earlier itemized totals. W. P. Carey publishes only total-program cost estimates with no per-year tuition or academic year; annual tuition left unpublished.",
+ "notes": "Class profile now shows the fall 2025 entering class; all profile figures updated to it, replacing the fall 2024 figures in the batch (including the unlabeled GMAT 698 recorded as classic, which is no longer on the page). GRE shown only as a combined average of 314, no quant/verbal split. Percent women is not listed on the fall 2025 profile; the 43 percent in existing data was the fall 2024 profile. Cost page now shows rounded minimum total-program estimates that replace the earlier itemized totals. W. P. Carey publishes only total-program cost estimates with no per-year tuition or academic year; annual tuition left unpublished. On September 28, 2026 the class profile page, still headed Incoming class of Fall 2025, replaced the figures it had shown under that heading (426 applications, 19 percent admitted, an entering class of 47, GMAT 690 with no edition named, 5.3 years of work experience, 32 percent international) with 328 applications, 24 percent admitted, an entering class of 45, GMAT Focus 645, 6.2 years and 33 percent international. The library follows the page and keeps its Fall 2025 label; the class size of 47 had stayed only because the source check read the page's Business 47% as the head count (INC-0182).",
  "federal": {
   "matched": true,
   "instnm": "Arizona State University Campus Immersion",

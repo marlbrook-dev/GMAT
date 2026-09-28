@@ -453,6 +453,11 @@ OTHER_PROGRAM = re.compile(r"MBAxMS|MBA ?x ?MS\b|Executive MBA|\bEMBA\b|part[- ]
                            r"professional MBA|online MBA|hybrid MBA|Master of Science|\bMS in\b|\bMSx\b|"
                            r"Sloan Fellows", re.I)
 NEAR, PASSAGE = 200, 200
+# Figures that are counts, scores or lengths of time, which a percentage can never be. A class
+# profile prints "class" in nearly every heading, so Arizona State's old class size of 47 was
+# found beside its label in "Class composition ... Business 47%" after the page had changed it
+# to 45 (INC-0182).
+NOT_PERCENT = {"class_size", "gmat_focus", "gmat_classic", "gre_quant", "gre_verbal", "gpa", "work_exp_years"}
 
 
 def beside_label(field, fact, text):
@@ -480,6 +485,8 @@ def beside_label(field, fact, text):
     own = " ".join(str(fact.get(k) or "") for k in ("stat", "src"))
     other = set()
     for m in re.finditer("|".join(alts), text, re.I):
+        if field in NOT_PERCENT and re.match(r"\s*(?:%|percent\b)", text[m.end():m.end() + 9], re.I):
+            continue
         if not re.search(label, text[max(0, m.start() - NEAR): m.end() + NEAR], re.I):
             continue
         near = {x.group(0) for x in OTHER_PROGRAM.finditer(text[max(0, m.start() - PASSAGE): m.end() + PASSAGE])
@@ -890,7 +897,12 @@ def _selfcheck():
             ("gpa", {"v": 3.7}, "Average GPA 3.70 (4.0 scale)", None),
             ("women_pct", {"v": 44}, "Class of 2027: 44% Women, 26% International", None),
             ("women_pct", {"v": 44}, "Room 44 is on the second floor of the business school building.", "not beside"),
-            ("work_exp_years", {"v": 5.7, "derived": {"5.7": "68 months / 12"}}, "Average 68 months worked", None)):
+            ("work_exp_years", {"v": 5.7, "derived": {"5.7": "68 months / 12"}}, "Average 68 months worked", None),
+            # INC-0182: a percentage never confirms a head count, however close its label.
+            ("class_size", {"v": 47}, "Size of entering class 45 Class composition International 33% "
+                                      "Undergraduate major Business 47% Engineering 7%", "not beside"),
+            ("class_size", {"v": 47}, "Size of entering class 47 Class composition International 32%", None),
+            ("intl_pct", {"v": 33}, "Class composition International 33% Undergraduate major Business 47%", None)):
         got = beside_label(field, fact, text)
         if (want is None) != (got is None) or (want and want not in got[1]):
             sys.exit("check_sources: beside_label(%s, %r) on %r gave %r" % (field, fact, text[:60], got))

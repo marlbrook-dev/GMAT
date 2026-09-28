@@ -686,6 +686,24 @@ verified rather than that the school does not publish one (INC-0118).
       LSAT 14542, of which 14170 are generated, counts read from the build. All 150 new items
       were read at LSAT, GMAT and GRE length; one ambiguity was fixed first ("they fell in
       the weeks of winter flood" became "they were clustered in").
+- [x] **The weekly source check's issue #182, resolved** (INC-0182, INC-0183). Of the five
+      school figures it reported, three were Arizona State W. P. Carey's: on September 28
+      its class profile replaced the figures under its unchanged "Incoming class of Fall
+      2025" heading, and the library now has 24 percent admitted, an entering class of 45,
+      6.2 years, 33 percent international and, since the page now names the edition, a GMAT
+      Focus average of 645. The old class size of 47 had passed only because the check read
+      the page's "Business 47%", under the heading "Class composition", as the head count; a
+      percentage no longer confirms a count, a score or a length of time. Berkeley Haas's
+      $92,755 and Buffalo's $16,655 and $7,615 were right all along: both sit in collapsed
+      accordions, which the browser read left out whenever a site refused the plain read, as
+      these did on GitHub's runner. It now also reads the panels a page's own controls open
+      and closed details elements, outside navigation. Three unpublished November posts that
+      repeated ASU's figures were corrected: work experience (the range now ends at 6.2 years
+      at ASU, and 27 of 37 sit between 4.9 and 6), international share (33 percent) and GMAT
+      (ASU added at 645, now 26 programs, half at 670 or higher). With both changes the school
+      run of September 28 reads 654 figures against 242 sources with none missing from its
+      page, and the exam run 128 facts with none missing; 15 and 2 sources were unreadable
+      from this sandbox, to bot challenges, certificate errors and dropped connections.
 - [x] **"What ID Do You Need for the GMAT, GRE, LSAT, SAT, or ACT?"** queued for December
       15 (James Corbett): GMAC's exact-name and passport rules, ETS's original, signed,
       government-issued ID, LSAC's passport or US or Canadian photo ID that may be up to 3

@@ -101,12 +101,41 @@ async function read(browser, url, opts) {
       // anyone who cannot see it, and innerText leaves it out. Berkeley Haas and Pitt Katz
       // draw their figures as images and write the figures into the alt text (INC-0154), so
       // the alt text of every image that is shown is read after the frame's own text.
+      //
+      // What one click opens is part of the page too. innerText leaves out a collapsed
+      // accordion panel, and Berkeley Haas's non-resident tuition and Buffalo's MBA charges
+      // sit in panels like that, so a site that refused the plain read had them reported
+      // missing (INC-0183). A panel the page's own controls open, named by an aria-controls
+      // attribute, and a closed details element are read after the page's text, when they
+      // hold a figure. Navigation, headers and footers stay out: their collapsed menus are
+      // closed for another reason, and name other programs beside nothing of this one.
       const text = await within(10000, frame.evaluate(() => {
         if (!document.body) return '';
         const alts = Array.from(document.images)
           .filter(i => (i.alt || '').trim() && i.getClientRects().length && getComputedStyle(i).visibility !== 'hidden')
           .map(i => i.alt.trim());
-        return document.body.innerText + (alts.length ? '\n' + alts.join('\n') : '');
+        const chrome = 'nav, header, footer, [role="navigation"], [role="banner"], [role="contentinfo"]';
+        const panels = [];
+        for (const control of document.querySelectorAll('[aria-controls]')) {
+          if (control.closest(chrome)) continue;
+          for (const id of (control.getAttribute('aria-controls') || '').split(/\s+/)) {
+            const el = id && document.getElementById(id);
+            if (el && !el.getClientRects().length && !el.closest(chrome) && !panels.includes(el)) panels.push(el);
+          }
+        }
+        for (const d of document.querySelectorAll('details:not([open])')) {
+          if (!d.closest(chrome) && !panels.includes(d)) panels.push(d);
+        }
+        const opened = panels
+          .filter(el => !panels.some(other => other !== el && other.contains(el)))
+          .map(el => {
+            const copy = el.cloneNode(true);
+            copy.querySelectorAll('script, style, noscript, template').forEach(n => n.remove());
+            return (copy.textContent || '').replace(/\s+/g, ' ').trim();
+          })
+          .filter(s => /\d/.test(s));
+        return document.body.innerText + (alts.length ? '\n' + alts.join('\n') : '') +
+          (opened.length ? '\n' + opened.join('\n') : '');
       }));
       if (text && text.trim()) parts.push(text);
     } catch (e) {

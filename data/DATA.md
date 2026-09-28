@@ -173,7 +173,11 @@ charts that draw only when seen get drawn, and reads every visible frame, since 
 profiles are embedded charts in frames of their own (Stanford's and Wharton's are
 Infogram charts). It leaves PDFs to the ordinary read and skips hidden frames, whose
 text is raw source, and the browser's read replaces the page as served only when it shows
-at least as many of the cited figures (INC-0146). `--schools` runs the same check over the
+at least as many of the cited figures (INC-0146). What one click opens is read too: a
+collapsed panel named by a control's aria-controls attribute, and a closed details
+element, outside the page's navigation, header and footer (INC-0183). Berkeley Haas's
+non-resident tuition and Buffalo's MBA charges sit in accordions like that, and were
+reported missing when a site refused the plain read and left the browser to read alone. `--schools` runs the same check over the
 school library (INC-0133): it sets aside College Scorecard figures, which come from a
 dataset rather than a page, leaves a figure's `note` out because there it is our
 commentary, and reports a page that shows none of its figures, with what the page prints
@@ -191,7 +195,10 @@ away from a word saying what it counts is reported as not found, and one found b
 label only near another program's name (MBAxMS, executive, part-time, evening) is listed as
 worth reading, since comparison tables and footnotes do that to figures that are right.
 Columbia's MBA class carried five years of work experience that the article gives for its
-MBAxMS cohort, and a check that only looked for the number could not tell. An exam fact is
+MBAxMS cohort, and a check that only looked for the number could not tell. A percentage
+never confirms a count, a score or a length of time (INC-0182): Arizona State's page moved
+its entering class from 47 to 45, and the old 47 was found beside the word "class" in
+"Class composition ... Business 47%", a heading a class profile prints everywhere. An exam fact is
 held to the same question (INC-0174): each of its numbers must sit within 160 characters of
 one of the fact's own words, or, for a figure with no text such as a score validity, of a
 word its field is about (valid, reportable, expire), or be a cell in a run of numbers, which

@@ -45,6 +45,16 @@ const PAGES = {
   '/images/': `<!doctype html><html><body><h1>Class Profile</h1><h3>GMAT Focus</h3>
 <img src="/none.svg" width="400" height="113" alt="637 to 725 middle 80% range; 675 median">
 <img src="/none.svg" style="display:none" alt="9.94 from a hidden image"></body></html>`,
+  // Figures in collapsed panels a reader opens with one click, as Berkeley Haas's
+  // non-resident tuition and Buffalo's MBA charges are (INC-0183), and a decoy in a
+  // collapsed menu in the navigation, which is closed for another reason.
+  '/accordion/': `<!doctype html><html><body><nav><button aria-controls="menu" aria-expanded="false">Programs</button>
+<div id="menu" hidden><a href="/emba/">Executive MBA 5.59 menu decoy</a></div></nav>
+<h1>Cost of Attendance</h1><button aria-controls="nonres" aria-expanded="false">Non Resident</button>
+<div id="nonres" hidden><table><tr><td>Tuition &amp; Fees Subtotal</td><td>$8,210.00 accordion figure</td></tr></table></div>
+<button aria-controls="res" aria-expanded="false">Resident</button>
+<div id="res" style="display:none" aria-hidden="true"><p>MBA tuition 1 $7,615 per semester</p></div>
+<details><summary>Fees</summary><p>Program fee 6.43 details figure</p></details></body></html>`,
   // A link that is an HTML page with the PDF in a frame, as Wharton's career report is.
   '/wrapped/': `<!doctype html><html><body><p>Report wrapper text.</p>
 <iframe src="/file.pdf" style="width:800px;height:600px;border:0"></iframe></body></html>`,
@@ -99,6 +109,13 @@ const server = http.createServer((req, res) => {
   check('a figure an image carries in its alt text comes back', images.includes('675 median'),
         JSON.stringify(images.slice(0, 200)));
   check('a hidden image\'s alt text stays out of the text', !images.includes('9.94'));
+
+  const panels = await renderText(base + '/accordion/', { quietMs: 2000, settleMs: 500 });
+  check('a figure in a collapsed panel an aria-controls button opens comes back', panels.includes('$8,210.00 accordion figure'),
+        JSON.stringify(panels.slice(0, 300)));
+  check('a panel hidden with display none comes back too', panels.includes('$7,615 per semester'));
+  check('a figure in a closed details element comes back', panels.includes('6.43 details figure'));
+  check('a collapsed menu in the navigation stays out of the text', !panels.includes('5.59'));
 
   // A PDF is not built by script. Shown in Chromium's viewer it stalled the read on a
   // school's PDF, so it is refused at once instead.
