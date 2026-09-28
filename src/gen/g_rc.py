@@ -2553,8 +2553,12 @@ class StatedIdea(RCBase):
                               % (p["ev2who"], p["ev2where"])),
         ("old_why", lambda p: "The passage indicates that the earlier view was held on the "
                               "grounds that"),
-        ("problem", lambda p: "According to the passage, the earlier account failed to "
-                              "address the fact that"),
+        # Most problem sentences name the account they criticise, so the stem asks why the
+        # account could be faulted rather than for a fact it failed to address, and it says
+        # "before the studies", because the studies' findings count against the account too
+        # and are offered as wrong answers (INC-0187).
+        ("problem", lambda p: "According to the passage, even before the studies it "
+                              "describes, the earlier account could be faulted because"),
         ("ev1detail", lambda p: "The passage states that, in the work of %s," % p["ev1who"]),
         # The second detail is nearly always a note on the records, which no result
         # establishes, so it is asked the way the first one is (INC-0186).
@@ -2579,6 +2583,8 @@ class StatedIdea(RCBase):
         # so "found that" reads as covering both.
         "ev2what": ("ev2detail",),
         "old_why": (),
+        # The findings and the revision count against the earlier account too, but they come
+        # from the studies, which the stem sets aside (INC-0187).
         "problem": (),
         "ev1detail": ("ev1what", "caveat"),
         "ev2detail": ("ev2what", "caveat"),
@@ -3086,4 +3092,34 @@ def check_covers(gens=None, choices_n=5, draws=3):
                                    "covers as well as the key" % (g.id, p["key"], field,
                                                                   " and ".join(hit)))
                         break
+    return bad
+
+
+# A slot that asks for a fact about the world, filled by the account itself: "the earlier
+# account failed to address the fact that the account could not explain why...".
+_FACT_IS_ACCOUNT = re.compile(r"\bthe fact that (?:the (?:earlier |chain )?(?:account|explanation|"
+                              r"assumption|model|view|theory)\b(?! books)|it\b)")
+
+
+def check_stems(gens=None):
+    """Every stated idea stem reads as a sentence with every key it is asked with.
+
+    A field is written for the sentence its author had in mind and then lands in other
+    slots. The problem sentence closes the passage's first paragraph, where a criticism
+    names what it criticises, and 49 of 72 open with the account itself; spliced after "the
+    earlier account failed to address the fact that", the key said the account failed to
+    address its own failure (INC-0187). This renders each ask of each passage with its key,
+    for every stated idea schema, and refuses the shapes that are known to read wrong.
+    """
+    bad = []
+    for g in (gens if gens is not None else GENS + GENS_LONG):
+        if not isinstance(g, StatedIdea):
+            continue
+        for p in g.corpus:
+            said = g.said(p)
+            for stem, field in g.asks(p):
+                line = stem + " " + lower1(said[field])
+                if _FACT_IS_ACCOUNT.search(line):
+                    bad.append("%s %s, %s: asks for a fact and names the account itself: %s"
+                               % (g.id, p["key"], field, line[:140]))
     return bad

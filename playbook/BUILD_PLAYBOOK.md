@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-28, which is 9 days, across
-144 commits, by one owner directing a series of AI coding sessions. As of this
+145 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 86 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
 2111 tracked files in total.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-144 commits in 9 days, one owner, a series of AI sessions. This
+145 commits in 9 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1217,14 +1217,14 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-186 recorded defects, over 9 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+187 recorded defects, over 9 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 99 | 53% |
+| Found by reading the code or the output | 100 | 53% |
 | Found by measuring something | 45 | 24% |
 | A test caught it | 22 | 12% |
 | Found by rendering it and looking | 8 | 4% |
@@ -1232,7 +1232,7 @@ well enough to audit later. Which is what this book is.
 | A build guard caught it | 5 | 3% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 184 of 186 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 185 of 187 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1241,20 +1241,20 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 83 |
+| Wrong data shown or stored | 84 |
 | Degraded | 45 |
 | Cosmetic | 29 |
 | Silent loss | 26 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 186. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 187. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 85 |
+| Content generation | 86 |
 | Tests and guards | 35 |
 | Front end | 12 |
 | Build system | 11 |
@@ -1269,7 +1269,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-180 of 186 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+181 of 187 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1290,7 +1290,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-90 of 186 incidents record that they repeat an earlier lesson, 123 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+91 of 187 incidents record that they repeat an earlier lesson, 124 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1321,6 +1321,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0098 The table said 31.0 and the explanation said 31, because the fix covered the table only | INC-0099, INC-0101 | 2 |
 | INC-0101 A new field-by-field copier reproduced the passage loss defect four days after the ledger recorded it | INC-0102, INC-0103 | 2 |
 | INC-0103 A 139 page section shipped with no route into it from the sitemap | INC-0108, INC-0109 | 2 |
+| INC-0115 A field written to open a sentence was printed mid-sentence in a reading stem | INC-0179, INC-0187 | 2 |
 | INC-0119 Length corrections appended clauses that repeated what the answer choices already said | INC-0120, INC-0121 | 2 |
 | INC-0124 A blog post put the ACT science add-on at $4 in its table and $5 in its own FAQ, and nothing compared a post's prices with the sourced ones | INC-0125, INC-0132 | 2 |
 | INC-0125 Every College Scorecard figure in the MBA library cited the program's own website as its source URL | INC-0130, INC-0133 | 2 |
@@ -1340,7 +1341,6 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0089 A ratchet that trips on sampling noise gets re-recorded rather than read | INC-0123 | 1 |
 | INC-0093 Seven variable names were plural and every sentence built around them said was | INC-0096 | 1 |
 | INC-0110 A browser suite outside CI had failed on its first click since the consent dialog shipped | INC-0113 | 1 |
-| INC-0115 A field written to open a sentence was printed mid-sentence in a reading stem | INC-0179 | 1 |
 | INC-0117 Three reading schemas could be answered by matching names, because every distractor came from a different passage | INC-0122 | 1 |
 | INC-0132 The GRE guide still quoted a $220 fee eight weeks after ETS's fees became $249 | INC-0136 | 1 |
 | INC-0135 Arizona State's school page said its class entered in 2027, because the label parser took the first year it found | INC-0147 | 1 |
@@ -1387,6 +1387,7 @@ Incidents that name an earlier one without claiming to repeat it. Each was read 
 - INC-0174 names INC-0173
 - INC-0181 names INC-0057, INC-0079, INC-0104, INC-0105, INC-0109, INC-0110, INC-0130, INC-0170, INC-0171, INC-0172, INC-0173, INC-0174, INC-0175, INC-0180
 - INC-0186 names INC-0117
+- INC-0187 names INC-0186
 
 
 ## Where defects concentrate
@@ -1396,9 +1397,9 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/check_sources.py`, 22 incidents (INC-0130, INC-0132, INC-0133, INC-0136, INC-0140, INC-0150, INC-0152, INC-0154, INC-0155, INC-0156, INC-0158, INC-0159, INC-0161, INC-0168, INC-0172, INC-0173, INC-0174, INC-0175, INC-0177, INC-0180, INC-0182, INC-0184)
 - `src/build_banks.py`, 17 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011, INC-0079, INC-0081, INC-0086, INC-0088, INC-0089, INC-0090, INC-0091, INC-0092, INC-0120, INC-0123, INC-0126, INC-0127)
 - `src/build.py`, 13 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067, INC-0076, INC-0080, INC-0131, INC-0148)
+- `src/gen/g_rc.py`, 9 incidents (INC-0097, INC-0114, INC-0115, INC-0117, INC-0122, INC-0169, INC-0179, INC-0186, INC-0187)
 - `src/validate_schools.py`, 9 incidents (INC-0125, INC-0141, INC-0143, INC-0144, INC-0147, INC-0151, INC-0153, INC-0157, INC-0185)
 - `src/test.js`, 8 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085)
-- `src/gen/g_rc.py`, 8 incidents (INC-0097, INC-0114, INC-0115, INC-0117, INC-0122, INC-0169, INC-0179, INC-0186)
 - `src/build_rankings.py`, 7 incidents (INC-0014, INC-0049, INC-0118, INC-0135, INC-0142, INC-0145, INC-0167)
 - `src/page_checks.py`, 6 incidents (INC-0134, INC-0138, INC-0139, INC-0163, INC-0176, INC-0178)
 - `src/review_bot.js`, 5 incidents (INC-0022, INC-0026, INC-0051, INC-0061, INC-0077)
@@ -1420,7 +1421,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (85)
+## Content generation (86)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -2442,7 +2443,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0186. Stated idea questions that name a study offered another of that study's sentences as a wrong answer, so 178 of 378 had two defensible answers
 
-*2026-09-28, Wrong data shown or stored*
+*2026-09-28, Wrong data shown or stored, `cb8eda15275e29b46629c046510c0034952521e2` PR #190*
 
 - **What was seen.** An LSAT stated idea item asked 'The passage states that, in the work of Scarth,' and keyed the note on Scarth's records: 'the books record every load of flour and every cart of furze and brushwood the bakers bought, with the price they paid for each'. One of its wrong answers was Scarth's finding, that the bakers went on buying flour but baked fewer batches, which the passage also states in the work of Scarth, so the item had two right answers. Measured across the live banks, three of the six stated idea asks offered a sentence their stem covers as well as the key, on 178 of the 378 GMAT and LSAT items that use them. The detail ask for the first study offered that study's finding on 31 of 72 GMAT and 23 of 54 LSAT items, and the detail ask for the second study offered the second finding on 31 of 72 and 28 of 54. The ask 'a later study of ... found that' offered the second study's detail on 38 of 72 and 27 of 54, where the passage prints the finding and the detail as one clause, 'found that A, and B', so 'found that' reads as covering both. The closing caveat, which is often a limit of one study's own records ('Only three of the town's bakehouses kept books that survive, so the other bakers are not covered'), was offered on 35 of 72 GMAT and 25 of 54 LSAT first-study detail items, where it answers 'in the work of Scarth' too. And the second study's detail ask read 'the second set of results also established that', which calls a note on the records ('the rolls set out each order of the court, the date it was made and the fines for breaking it') a result, so the key itself was misdescribed.
 - **Why.** The stated idea schema offers every other sentence of the passage as a wrong answer, on the reasoning in sentences(): a sentence the passage states but the stem did not ask about is true and beside the point. That holds only when the stem picks out exactly one sentence. The two detail asks, added with the six-ask form in #45, name a study rather than a sentence, and a stem that names a study picks out everything the passage says about it: the finding, the note on its records, and the caveat when the caveat is about those records. The second finding's ask has the same problem from the other side, because text() joins that finding and its detail with ', and'. Nothing recorded what else each stem is true of, and the checks that exist for reading items measure shortcuts to the key (INC-0117) and the key's length rank, not whether a wrong answer is also right.
@@ -2450,6 +2451,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** Each stated idea ask now declares what else its stem covers, in StatedIdea.COVERS, and those sentences are left out of its wrong answers. The two detail asks leave out the same study's finding and the caveat; the second finding's ask leaves out its detail. The first finding's ask declares nothing, because the passage sets the first detail off after a semicolon as a note on the records rather than something found, and a note on the records that was not found is exactly the trap a stated idea question sets. The second study's detail ask now reads 'The passage states that, in a later study of ...,' like the first study's, rather than calling a note on the records a result. A question's id is its stem and passage, so those questions get new ids and drop out of any review queue they were in, which the trainer already allows for.
 - **What stops it now.** g_rc.check_covers runs in build_banks before any bank is written. It fails when a stated idea ask has no entry in its schema's COVERS table, so a new ask cannot be added without deciding what else it is true of, and when an item built for any passage and ask offers one of the sentences its entry names. It builds every ask of every passage for the GMAT, LSAT and GRE stated idea schemas. in `src/gen/g_rc.py`
 - **Lesson.** When every wrong answer is a true sentence from the same passage, each stem has to pick out exactly one sentence, and a stem that names a person or a study picks out everything said about them. Write down, for every question form, what else it is true of, and check the items against that list: the closer a wrong answer sits to the right one, the likelier it is to be right as well.
+
+
+### INC-0187. The stated idea question about the earlier account read 'failed to address the fact that the account could not explain', on 143 of 198 items
+
+*2026-09-28, Wrong data shown or stored*
+
+- **What was seen.** The stated idea ask for the passage's problem sentence reads 'According to the passage, the earlier account failed to address the fact that', and 49 of the 72 problem sentences open with the account itself: 'The account could not explain why bread ran short even in months when the mills had flour to sell', 'The account rested entirely on measurements taken during the brief summer', 'It could not explain why two lichens...'. So the keyed completion said the account failed to address the fact that the account could not explain something, which is circular, on 143 of the 198 GMAT, LSAT and GRE items that ask it (49 of 72 GMAT, 45 of 54 LSAT, 49 of 72 GRE). On 120 of those, one of the studies' findings was also offered, and a finding reads as the better completion: a GMAT item keyed the circular sentence and offered 'the court had forbidden the cutting of furze on the common in 1791, though furze was the bakers' only cheap fuel, and the shortages began that winter', which is exactly a fact the earlier account failed to address.
+- **Why.** The problem field is written as the closing sentence of the passage's first paragraph, where a criticism naturally names what it criticises, and the same field is spliced into a stem that wants a fact about the world after 'the fact that'. The first passages' problem sentences happened to state facts ('The weather station stands two thousand metres below the ice'), so the stem read well when it was written; most later passages were written to a template that opens 'The account could not explain why', and nothing rendered the stem with them.
+- **How it surfaced.** Found on September 28, 2026 while rendering the stated idea asks of every passage for INC-0186, then counted across the live banks by matching each problem item's stem and key. (Found by reading the code or the output)
+- **Fix.** The ask now reads 'According to the passage, even before the studies it describes, the earlier account could be faulted because', which every one of the 72 problem sentences completes as written, whether it names the account or states a fact. The first replacement, 'the difficulty with the earlier account is that', read well with every key but was answered by the findings as well: on the glacier passage 'summer melt had changed little' is as much a difficulty for a summer warming account as the key. Reading the rebuilt items caught it, and the stem now sets the studies aside, so their findings, the revision and the notes on their records stay wrong answers and the ask covers nothing else. The GRE schema, which asks the same question of its one-paragraph rendering, uses the same stem. A question's id is its stem and passage, so the 198 problem questions take new ids.
+- **What stops it now.** g_rc.check_stems renders every stated idea ask of every passage with its key, for the GMAT, LSAT and GRE schemas, on each build, and fails on a completion that asks for a fact and then names the account itself ('the fact that the account', 'the fact that it'). The wider protection is the practice INC-0115 recorded: a reused field is read in every slot it lands in. in `src/gen/g_rc.py`
+- **Lesson.** A template is written against the fields that exist when it is written, and the corpus goes on growing in a style the template never saw. When a new passage is added, render every question the schemas ask of it, not the ones the passage was written for, and write each stem so that it fits what the field is, a criticism or a fact, rather than what the first few happened to be.
 
 
 ## Tests and guards (35)
@@ -3841,6 +3854,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The table said 31.0 and the explanation said 31, because the fix covered the table only (INC-0098)</small>
 - [ ] **Learned 3 times over.** When a defect is about a KIND of code rather than a line of code, a guard bolted to the site of the failure does not generalise, and writing one feels like closing the case. Ask instead what the next instance of this code will look like and where it will live: here the answer was anywhere an item is copied out of the bank, and the durable check is that an item asking about source material has to be carrying it, wherever it is being rendered.  
   <small>A new field-by-field copier reproduced the passage loss defect four days after the ledger recorded it (INC-0101)</small>
+- [ ] **Learned 3 times over.** A stored phrase that goes into more than one slot has to be written for the hardest of them, and the transform has to run in the direction that cannot damage anything: capitalising a sentence opener is always safe, lowercasing one breaks proper nouns. When a field is reused, read the output of every slot it lands in, not the one it was written for.  
+  <small>A field written to open a sentence was printed mid-sentence in a reading stem (INC-0115)</small>
 - [ ] **Learned 3 times over.** An edit that appends text has to read what it is appending to. A correction step that checks only its own goal (here, that the choice got longer) will happily achieve it by making the choice worse, and every check downstream measures the goal, so nothing notices. Check the seam: the words either side of where new text meets old text.  
   <small>Length corrections appended clauses that repeated what the answer choices already said (INC-0119)</small>
 - [ ] **Learned 3 times over.** A figure written twice on one page will eventually be written two ways. Where the site already holds a sourced value, a page that states it should be checked against that value, because a reader who meets $4 and $5 for the same fee trusts neither.  
@@ -3863,8 +3878,6 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A student who always answers 1 scores 98 percent on a schema, and no check looked at the answer itself (INC-0081)</small>
 - [ ] **Learned 2 times over.** A template is a promise about the grammar of what goes into it, and the promise is invisible: the code says name and the sentence needs a singular noun phrase. Whenever a stored string lands next to a verb, an article or a plural, write the requirement down beside the data rather than in the template, and make adding a new row state that it meets it. Renaming the data to fit one grammar is usually cheaper and always safer than teaching the templates to handle two.  
   <small>Seven variable names were plural and every sentence built around them said was (INC-0093)</small>
-- [ ] **Learned 2 times over.** A stored phrase that goes into more than one slot has to be written for the hardest of them, and the transform has to run in the direction that cannot damage anything: capitalising a sentence opener is always safe, lowercasing one breaks proper nouns. When a field is reused, read the output of every slot it lands in, not the one it was written for.  
-  <small>A field written to open a sentence was printed mid-sentence in a reading stem (INC-0115)</small>
 - [ ] **Learned 2 times over.** A test measures what someone can get right without the skill, and there is more than one way to do that. Removing one tell does not make an item sound; it moves the question to the next shortcut. Distractors drawn from unrelated material are always wrong and therefore always free, so a wrong answer has to be wrong about the same thing the right one is about.  
   <small>Three reading schemas could be answered by matching names, because every distractor came from a different passage (INC-0117)</small>
 - [ ] **Learned 2 times over.** A figure with a source and a year can still go stale, because the source moves and the record does not. For anything a publisher changes on its own schedule, fees above all, read the live source on a schedule instead of trusting the record because it cites one.  
@@ -3975,6 +3988,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The GMAT's delivery fact said appointments are available year round with no fixed testing windows, words its cited page no longer carries, and the source check passed it because 20 of the 113 exam facts carry no number for it to look for (INC-0180)</small>
 - [ ] When every wrong answer is a true sentence from the same passage, each stem has to pick out exactly one sentence, and a stem that names a person or a study picks out everything said about them. Write down, for every question form, what else it is true of, and check the items against that list: the closer a wrong answer sits to the right one, the likelier it is to be right as well.  
   <small>Stated idea questions that name a study offered another of that study's sentences as a wrong answer, so 178 of 378 had two defensible answers (INC-0186)</small>
+- [ ] A template is written against the fields that exist when it is written, and the corpus goes on growing in a style the template never saw. When a new passage is added, render every question the schemas ask of it, not the ones the passage was written for, and write each stem so that it fits what the field is, a criticism or a fact, rather than what the first few happened to be.  
+  <small>The stated idea question about the earlier account read 'failed to address the fact that the account could not explain', on 143 of 198 items (INC-0187)</small>
 
 
 ## Database
@@ -4287,7 +4302,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 186 real defects reduced to the rules that prevent them,
+the whole project: 187 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -4327,7 +4342,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-186 defects already prevented is genuinely ahead, and every defect it hits
+187 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

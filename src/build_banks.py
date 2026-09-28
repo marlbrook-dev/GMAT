@@ -720,10 +720,13 @@ def main(target=TARGET, verbose=True):
             print("  " + line, file=sys.stderr)
         sys.exit(1)
     # A stated idea question's wrong answers are the passage's other sentences, which only
-    # works when the stem picks out one of them; each ask records what else it covers.
-    covers = g_rc.check_covers() + g_rc.check_covers(gens=g_gre_rc.INNER)
+    # works when the stem picks out one of them; each ask records what else it covers. And
+    # each stem is read with every key it is asked with, not only the first passages'.
+    covers = (g_rc.check_covers() + g_rc.check_covers(gens=g_gre_rc.INNER)
+              + g_rc.check_stems() + g_rc.check_stems(gens=g_gre_rc.INNER))
     if covers:
-        print("ERROR: stated idea wrong answers that the stem also covers (INC-0186)",
+        print("ERROR: stated idea stems that cover a wrong answer or misread their key "
+              "(INC-0186, INC-0187)",
               file=sys.stderr)
         for line in covers:
             print("  " + line, file=sys.stderr)
