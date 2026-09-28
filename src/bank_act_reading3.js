@@ -317,7 +317,7 @@ const BANK_ACT_READING3 = [
  stem:"Which of the following would both passages accept?",
  choices:["That cursive should be taught in every primary curriculum","That transcription of historical documents is impractical at scale","That access to handwritten records is the strongest reason to teach cursive","That the memory findings do not by themselves justify teaching cursive rather than print"],answer:3,
  expl:"A argues it directly, and B moves to a different argument rather than relying on the cognitive one.",
- wrong:"B holds the second but A does not address it, neither reaches the third, and only B touches transcription."},
+ wrong:"Passage B holds C but passage A does not address it, neither reaches A, and only passage B touches transcription."},
 {id:'AR159',section:'R',type:'R',sub:"Comparing passages",passageId:'ARP14',passage:AR_P14,skill:'act_r_iki',diff:4,
  stem:"A school that taught pupils to read cursive without teaching them to write it would",
  choices:["answer the argument in Passage A while leaving the one in Passage B untouched","answer both arguments at once","answer the argument in Passage B while leaving the one in Passage A untouched","answer neither argument"],answer:2,

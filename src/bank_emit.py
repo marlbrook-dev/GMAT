@@ -9,7 +9,10 @@ way, in one place so a new bank cannot ship without them.
                Shipping them that way puts every answer at position A (INC-0039). The
                seed is zlib.crc32 of the item id, never hash(), which Python randomises
                per process and which once made every build produce a different bank
-               (INC-0003).
+               (INC-0003). A note names a choice as {B}, meaning the second choice as
+               written, and permute turns it into the letter that choice lands on; a bare
+               letter or 'the second option' would stay put while the choices moved, and
+               is refused (INC-0189).
 
   extend       A correct answer is usually the most fully qualified statement on offer,
                so a bank written naturally has a length tell: on the first LSAT reading
@@ -28,6 +31,69 @@ import io, json, re, sys, zlib, random
 from collections import Counter
 
 
+LETTERS = 'ABCDEFGHIJ'
+# A choice named by its position as written: {B} is the second choice the author wrote.
+_BRACED = re.compile(r'\{([A-J])\}')
+# What a note may not say once its item has been shuffled, because the words would stay put
+# while the choices moved (INC-0189). C to J are never anything but a choice. A and B are
+# also the article and, in a comparative set, Passage A and Passage B, where "B says" is a
+# passage; outside a comparative set they are refused where they read as a choice: in a
+# list of letters, or in front of the verbs the notes use to say what a choice does.
+_BARE = re.compile(r'(?<![A-Za-z0-9{.])[C-J](?![A-Za-z0-9}])')
+_VERBS = (r'is|are|was|would|could|reverses|reverse|reason|reasons|applies|concern|concerns|'
+          r'contradict|contradicts|does|argues|weakens|strengthens|overstates|restates|'
+          r'misreads|drops|keeps|supports|disputes|denies|overreaches|confuses|reproduces|'
+          r'goes|adds|misstates|imposes|treats|assumes|names|describes|ignores')
+_BARE_AB = re.compile(r'(?<![A-Za-z0-9{.\'])(?:[AB](?=\s*(?:,|and|or)\s*\{?[A-J]\b)|'
+                      r'(?<=[,;] )[AB](?= )|(?:(?<=^)|(?<=[.;:] ))[AB](?= (?:%s)\b)|B(?= (?:%s)\b))'
+                      % (_VERBS, _VERBS))
+# An ordinal standing for a choice: 'the fourth option', or 'The second and fifth reason
+# from the consequent'. The verbs are the ones a note uses to fault a choice; 'the second
+# adds' and 'the third says' are how the notes walk through paragraphs, and pass.
+_FAULTS = (r'reverses|reverse|reason|reasons|applies|contradict|contradicts|overstates|'
+           r'restates|misreads|drops|keeps|disputes|denies|overreaches|confuses|reproduces|'
+           r'misstates|imposes|concern|concerns|weakens|strengthens|supports')
+_ORDINAL = re.compile(r'\b(?:first|second|third|fourth|fifth|last|final)\s+(?:two\s+|three\s+)?'
+                      r'(?:option|choice)s?\b|(?:^|[.;:]\s+|,\s+(?:and\s+)?)[Tt]he\s+'
+                      r'(?:first|second|third|fourth|fifth|last)(?=\s+(?:and|or)\s+(?:first|second|'
+                      r'third|fourth|fifth|last)\b|\s+(?:%s)\b)' % _FAULTS, re.I)
+
+
+def _comparative(it):
+    """True for a two passage set, where A and B in a note are the passages."""
+    return bool(re.search(r'\bpassages\b|[Pp]assage [AB]\b',
+                          (it.get('stem') or '') + ' ' + ' '.join(it['choices'])))
+
+
+def _place(it, field, where, key, n):
+    """Resolve the braced positions in one note to the letters they landed on (INC-0189)."""
+    text = it.get(field)
+    if not text:
+        return text
+    rest = _BRACED.sub('', text)
+    bare = _BARE.search(rest) or (None if _comparative(it) else _BARE_AB.search(rest))
+    if bare:
+        sys.exit('permute: %s %s names a choice by the bare letter %r. The choices are about '
+                 'to move and the letter would not; write {%s} for the choice as written '
+                 '(INC-0189)' % (it['id'], field, bare.group(0), bare.group(0)))
+    ordinal = _ORDINAL.search(rest)
+    if ordinal:
+        sys.exit('permute: %s %s points at a choice by position (%r), which the shuffle '
+                 'changes; name it with a braced letter instead (INC-0189)'
+                 % (it['id'], field, ordinal.group(0)))
+
+    def one(m):
+        i = LETTERS.index(m.group(1))
+        if i >= n:
+            sys.exit('permute: %s %s names {%s}, but the item has %d choices'
+                     % (it['id'], field, m.group(1), n))
+        if field == 'wrong' and i == key:
+            sys.exit('permute: %s wrong names {%s}, which is the key as written, among the '
+                     'wrong answers (INC-0189)' % (it['id'], m.group(1)))
+        return LETTERS[where[i]]
+    return _BRACED.sub(one, text)
+
+
 def permute(items):
     """Move each key off position A, deterministically, and recompute the index.
 
@@ -36,6 +102,12 @@ def permute(items):
     its own fixed points: on the LSAT reading bank a duplicated call left 37 percent of
     the keys at A, which is the defect this function exists to prevent (INC-0068). What
     repeats is the permutation, not the randomisation.
+
+    The notes move with the choices. A note is written against the order the author wrote
+    the choices in, so it names them as {B}, {C} and so on, and each is replaced here by
+    the letter its choice lands on. Before this, the shuffle moved the choices and left the
+    letters where they were, and 124 Watch for notes named the correct answer among the
+    wrong ones (INC-0189).
     """
     for it in items:
         if it.get('_permuted'):
@@ -43,12 +115,19 @@ def permute(items):
                      'composes the permutation with itself and biases the key position'
                      % it['id'])
         it['_permuted'] = True
-        key = it['choices'][it['answer']]
-        rnd = random.Random(zlib.crc32(it['id'].encode('ascii')))
-        ch = list(it['choices'])
-        rnd.shuffle(ch)
-        it['choices'] = ch
-        it['answer'] = ch.index(key)
+        n = len(it['choices'])
+        # Shuffling the positions with the item's seed is the same permutation that
+        # shuffling the choices themselves was, since random.shuffle's swaps depend only
+        # on the seed and the length; it also says where each choice went.
+        order = list(range(n))
+        random.Random(zlib.crc32(it['id'].encode('ascii'))).shuffle(order)
+        where = dict((was, now) for now, was in enumerate(order))
+        key = it['answer']
+        it['choices'] = [it['choices'][i] for i in order]
+        it['answer'] = where[key]
+        for field in ('expl', 'wrong'):
+            if field in it:
+                it[field] = _place(it, field, where, key, n)
     return items
 
 

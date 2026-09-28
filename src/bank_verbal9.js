@@ -251,7 +251,7 @@ const BANK_VERBAL9 = [
  stem:"It can be inferred from the passage that if the Federal Writers' Project had been free to employ only the most capable writers, the guides would most likely have been",
  choices:["completed more quickly and at lower cost per volume","less useful to historians but more valuable as literature about the same places","better written and less comprehensive in their geographic coverage","more consistent in their treatment of contested local history","similar in coverage, since the relief rolls included capable writers in every county"],answer:2,
  expl:"The closing sentence says patronage designed for quality would have produced a shelf of better books about fewer places.",
- wrong:"Speed, cost, consistency and an unchanged coverage are not what the passage predicts, and the fourth option keeps the coverage the passage says would have shrunk."},
+ wrong:"Speed, cost, consistency and an unchanged coverage are not what the passage predicts, and B keeps the coverage the passage says would have shrunk."},
 {id:'V641',section:'V',type:'RC',sub:"Inference",passageId:'VRPG',passage:V_PG,skill:'v_inf',diff:4,
  stem:"The passage suggests that the unevenness of the guides as prose is",
  choices:["the chief reason they have been neglected by historians","attributable to the speed at which the volumes had to be produced","inseparable from the feature that makes them valuable as a record","evidence that the regional directors prevailed over the national director","less pronounced than critics at the time alleged"],answer:2,
@@ -602,7 +602,7 @@ const BANK_VERBAL9 = [
  stem:"Which of the following findings would most weaken the author's argument?",
  choices:["Building in floodplains has slowed in states that recently raised premiums","The federal programme pays out more in claims than it collects in premiums","Households that were informed of their floodplain designation went on to buy at the same rate as those who were not","Floodplain residents who have experienced a flood remain in place at high rates for years afterwards rather than relocating","Premiums under the federal programme are further below actuarial cost than the programme itself has reported in any of its filings"],answer:2,
  expl:"The argument is that disclosure would do what the premium cannot. If disclosed households behave identically, the instrument the author recommends does nothing.",
- wrong:"The subsidy size and the programme deficit are already granted; staying after a flood concerns existing residents rather than buyers; and the last option would weaken the claim about premiums only, which is a weaker hit than removing the proposed remedy."},
+ wrong:"The subsidy size and the programme deficit are already granted; staying after a flood concerns existing residents rather than buyers; and A would weaken the claim about premiums only, which is a weaker hit than removing the proposed remedy."},
 // ---------- VRPS ----------
 {id:'V709',section:'V',type:'RC',sub:"Main idea",passageId:'VRPS',passage:V_PS,skill:'v_st',diff:3,
  stem:"The passage is primarily concerned with",

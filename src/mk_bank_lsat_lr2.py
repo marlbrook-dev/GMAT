@@ -118,12 +118,12 @@ q('LL039','Most strongly supported','lsat_lr_concl',4,
 q('LL040','Must be true','lsat_lr_concl',3,
  'No member of the drafting committee voted against the proposal. Every member who attended the March meeting voted on the proposal. Two members of the committee did not vote at all.\n\nIf the statements above are true, which one of the following must be true?',
  ['At least two members of the committee did not attend the March meeting.',
-  'Every member who attended the March meeting voted in favour of the proposal.',
+  'Every member who voted on the proposal attended the March meeting.',
   'The proposal was adopted by the drafting committee.',
   'Exactly two members of the committee were absent from the March meeting.',
   'Some member of the committee abstained rather than voting against.'],
  'Attending the March meeting entails voting. Two members did not vote, so those two did not attend.',
- 'The second is true of attendees but the question asks what must follow, and it does: attendees voted and nobody voted against. Adoption does not follow from an absence of opposing votes, exactly two absentees is not entailed, and abstaining is not the same as not voting at all.')
+ '{B} reverses the second premise: attending the March meeting guarantees a vote, not the other way round. Adoption does not follow from an absence of opposing votes, exactly two absentees is not entailed, and abstaining is not the same as not voting at all.')
 
 q('LL041','Most strongly supported','lsat_lr_concl',4,
  'The clinic sees patients by appointment and by walk in. Walk in patients wait longer on average than patients with appointments. Last month the clinic reduced the number of appointment slots and the average wait for walk in patients fell.\n\nWhich one of the following is most strongly supported by the information above?',
@@ -164,7 +164,7 @@ q('LL044','Sufficient assumption','lsat_lr_assum',4,
   'Authentication of a panel depends primarily on the preparation of its ground.',
   'No painter other than Vasari used a ground of gesso over linen.'],
  'The evidence covers authenticated panels only. To reach a conclusion about every Vasari panel, the curator needs the practice to hold without exception, which is what this supplies.',
- 'Unusual is not never. The third and fifth reverse the conditional. The fourth is about method rather than about the inference.')
+ 'Unusual is not never. {C} and {E} reverse the conditional. {D} is about method rather than about the inference.')
 
 q('LL045','Necessary assumption','lsat_lr_assum',3,
  'Manufacturer: Our new packaging uses thirty percent less plastic by weight than the packaging it replaces, so switching to it will reduce the amount of plastic waste our products generate.\n\nThe argument depends on assuming which one of the following?',
@@ -184,7 +184,7 @@ q('LL046','Sufficient assumption','lsat_lr_assum',4,
   'No programme that reduces waiting times has ever been judged a failure.',
   'The programme operated in every region where waiting times fell.'],
  'The premise is that the stated aim was met everywhere it operated. This principle carries that straight to the conclusion.',
- 'Counterfactual causation, relative importance and the historical generalisation are none of them enough to license the step. The fifth reverses the relation.')
+ 'Counterfactual causation, relative importance and the historical generalisation are none of them enough to license the step. {E} reverses the relation.')
 
 q('LL047','Necessary assumption','lsat_lr_assum',4,
  'Researcher: Students who took notes by hand recalled more of the lecture a week later than students who typed. Handwriting must therefore engage memory more deeply than typing does.\n\nWhich one of the following is an assumption required by the researcher\'s argument?',
@@ -357,7 +357,7 @@ q('LL063','Principle identified','lsat_lr_prin',4,
   'A requirement that causes no harm when ignored should be removed rather than enforced.',
   'An applicant who objects to a refusal bears the burden of showing that the refusal was unreasonable.'],
  'The applicant\'s defence is that the omissions were harmless. This principle makes the record itself the relevant evidence, which answers that defence directly.',
- 'The second is far stronger than the council needs. The third does not engage the harmlessness point, the fourth argues against the council, and the fifth is procedural.')
+ '{B} is far stronger than the council needs. {C} does not engage the harmlessness point, {D} argues against the council, and {E} is procedural.')
 
 q('LL064','Parallel principle','lsat_lr_prin',4,
  'A guide who leads a party into terrain beyond its ability is at fault even if the party returns unharmed.\n\nThe principle above is most closely paralleled by which one of the following?',
@@ -367,7 +367,7 @@ q('LL064','Parallel principle','lsat_lr_prin',4,
   'A pharmacist is at fault for an error only when the patient is harmed by it.',
   'A party that insists on entering terrain beyond its ability shares the fault with its guide.'],
  'Both make fault turn on the conduct rather than on the outcome: wrong dose, harmless outcome, still at fault.',
- 'The second and fourth reverse or restrict the principle. The third and fifth concern different questions, refusal and shared responsibility.')
+ '{B} and {D} reverse or restrict the principle. {C} and {E} concern different questions, refusal and shared responsibility.')
 
 q('LL065','Principle applied','lsat_lr_prin',3,
  'An institution that benefits from a practice it knows to be unjust has an obligation to act, and the obligation is not discharged by the institution\'s having inherited the practice rather than established it.\n\nThe principle above most strongly supports which one of the following?',
@@ -377,7 +377,7 @@ q('LL065','Principle applied','lsat_lr_prin',3,
   'The university bears no obligation because its current officers did not know of the practice.',
   'The university should establish whether other institutions face comparable obligations.'],
  'The principle expressly refuses inheritance as a discharge, which is exactly what reliance on the endowment\'s age would amount to.',
- 'The principle requires action without specifying return. The third and fourth contradict it, and comparison with others is beside it.')
+ 'The principle requires action without specifying return. {C} and {D} contradict it, and comparison with others is beside it.')
 
 q('LL066','Principle identified','lsat_lr_prin',4,
  'The editor removed the photograph from the archive listing at the family\'s request, but kept the original in the archive and noted in the catalogue that an image had been withdrawn from public display.\n\nWhich one of the following principles most closely conforms to the editor\'s handling of the request?',
@@ -387,7 +387,7 @@ q('LL066','Principle identified','lsat_lr_prin',4,
   'A custodian should preserve material only where doing so serves a research purpose.',
   'A custodian should make public the reasons for any decision to restrict access.'],
  'Access was limited and the record was preserved and annotated. That is the shape of the principle exactly.',
- 'The second and third are absolutes the editor did not follow. The fourth is about preservation criteria, and the editor noted the withdrawal without giving reasons.')
+ '{B} and {C} are absolutes the editor did not follow. {D} is about preservation criteria, and the editor noted the withdrawal without giving reasons.')
 
 # ---- Explanations and Parallel Reasoning --------------------------------------------
 q('LL067','Resolve the discrepancy','lsat_lr_expl',3,
@@ -417,8 +417,8 @@ q('LL069','Parallel reasoning','lsat_lr_expl',4,
   'Most apprentices who completed the programme were offered a post. Yates completed the programme. So Yates was probably offered a post.',
   'No ticket drawn after the first round won a prize. The green ticket won a prize. So the green ticket was drawn in the first round.',
   'Every apprentice offered a post had completed the programme. Yates was offered a post. So Yates completed the programme.'],
- 'The original applies a universal to an instance of its antecedent. The first option has exactly that form.',
- 'The second and fifth reason from the consequent. The third weakens the premise to most. The fourth reasons from a negative universal.')
+ 'The original applies a universal to an instance of its antecedent. {A} has exactly that form.',
+ '{B} and {E} reason from the consequent. {C} weakens the premise to most. {D} reasons from a negative universal.')
 
 q('LL070','Resolve the discrepancy','lsat_lr_expl',4,
  'A city introduced a fee for single use bags. Bag use in supermarkets fell by eighty percent. The total weight of plastic in the city\'s household waste stream did not fall.\n\nWhich one of the following, if true, most helps to explain the results?',
@@ -438,7 +438,7 @@ q('LL071','Parallel flaw','lsat_lr_expl',4,
   'Firms with large research budgets tend to be older. Our firm is new, so our budget is probably small.',
   'The firms with the most patents are the most profitable. We should therefore seek patents in order to become profitable.'],
  'Both take an association and assume that moving the associated variable will move the other, with the direction of causation simply assumed.',
- 'The second applies the association to a case. The third reasons from the consequent of a universal. The fourth is a different inference, and the fifth is a recommendation rather than a prediction.')
+ '{B} applies the association to a case. {C} reasons from the consequent of a universal. {D} is a different inference, and {E} is a recommendation rather than a prediction.')
 
 q('LL072','Resolve the discrepancy','lsat_lr_expl',3,
  'Two clinics use the same surgical technique for the same condition. The first reports a complication rate twice that of the second, yet independent review found the surgery at both to be of equally high quality.\n\nWhich one of the following, if true, most helps to explain the difference in reported rates?',
@@ -490,7 +490,7 @@ EXTEND = {
  'LL037': ('will fail before the end of the current year', ', having passed the service life stated for its model'),
  'LL038': ('the most recent manuscript the archive has accepted', ', since nothing later than 1742 is mentioned'),
  'LL039': ('outyielded the April plots in each of the last six seasons', ', given that their yield rose across the whole range'),
- 'LL040': ('voted in favour of the proposal', ', since no member of the committee voted against it'),
+ 'LL040': ('attended the March meeting', ', since every member who attended that meeting voted on the proposal'),
  'LL041': ('saw fewer patients in total last month', ' than in the month before the change was made'),
  'LL042': ('was rejected', ' on the strength of the first reviewer\'s score alone'),
  'LL043': ('experienced any economic benefit whatever', ' from building a comparable stadium'),

@@ -925,6 +925,22 @@ verified rather than that the school does not publish one (INC-0118).
       scores you send. Both now say what a report carries and cite GMAC's article on sending
       Superscores; EDITORIAL.md records the Superscore rules, data/exams.json gains two
       Superscore facts for the source check to read, and build_blog refuses the old claim.
+- [x] **Watch for notes that named the wrong choices** (INC-0189). Items are written key
+      first and their notes with them, so a note's B was the first wrong answer its author
+      wrote; bank_emit.permute then shuffled the choices and left the letters behind, and 124
+      notes named the correct answer among the wrong ones, from "B is the other objection,
+      and C, D and E are not the response described" on an LSAT reading item keyed E to
+      "The first option has exactly that form" on a reasoning item keyed E. permute now turns
+      {B} style markers into the letter each choice lands on and refuses a bare letter or a
+      "second option" left in a shuffled note, and the nine generators write their notes that
+      way; the GMAT verbal, quant, ACT and LSAT reading notes no generator reproduces were
+      corrected by hand, choice by choice. 200 items' notes changed. test.js now fails any
+      note on any exam that names the key among the wrong answers.
+- [x] **Four LSAT reasoning items with more than one right answer** (INC-0190, INC-0191),
+      found by reading the corrected notes against their choices. LL040's length clause
+      supplied the premise that made a wrong answer follow; LL128 offered a second argument of
+      the key's form with its terms swapped; LL007 and LL167 offered conditionals the premises
+      support. Each now has one right answer and a note that describes its options as they read.
 - [x] **"What ID Do You Need for the GMAT, GRE, LSAT, SAT, or ACT?"** queued for December
       15 (James Corbett): GMAC's exact-name and passport rules, ETS's original, signed,
       government-issued ID, LSAC's passport or US or Canadian photo ID that may be up to 3

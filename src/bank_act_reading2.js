@@ -185,7 +185,7 @@ const BANK_ACT_READING2 = [
  stem:"According to the passage, in central Antarctica the difference in age between a bubble and the ice around it can exceed:",
  choices:["six hundred years at most.","six thousand years.","two kilometres of accumulated layers.","sixty thousand years."],answer:1,
  expl:"The third paragraph gives the figure as exceeding six thousand years where snowfall is light.",
- wrong:"Six hundred and sixty thousand misstate the figure, and the last option names a depth rather than an interval."},
+ wrong:"Six hundred and sixty thousand misstate the figure, and C names a depth rather than an interval."},
 {id:'AR073',section:'R',type:'R',sub:"Word meaning",passageId:'ARP9',passage:AR_P9,skill:'act_r_cs',diff:3,
  stem:"As used in the passage, the phrase no model in between most nearly emphasises that the measurement:",
  choices:["is of the past atmosphere itself rather than of something standing in for it.","has not been adjusted for the effects of compression at depth in the core.","agrees with predictions made by climate simulations.","can be performed without specialised laboratory equipment."],answer:0,

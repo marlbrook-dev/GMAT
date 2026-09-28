@@ -868,7 +868,7 @@ q('V640','G','v_inf','Inference',4,
   'less useful to historians but more valuable as literature about the same places',
   'similar in coverage, since the relief rolls included capable writers in every county'],
  'The closing sentence says patronage designed for quality would have produced a shelf of better books about fewer places.',
- 'Speed, cost, consistency and an unchanged coverage are not what the passage predicts, and the fourth option keeps the coverage the passage says would have shrunk.')
+ 'Speed, cost, consistency and an unchanged coverage are not what the passage predicts, and {D} keeps the coverage the passage says would have shrunk.')
 q('V641','G','v_inf','Inference',4,
  'The passage suggests that the unevenness of the guides as prose is',
  ['inseparable from the feature that makes them valuable as a record',
@@ -1502,7 +1502,7 @@ q('V708','R','v_inf','Application',4,
   'The federal programme pays out more in claims than it collects in premiums',
   'Building in floodplains has slowed in states that recently raised premiums'],
  'The argument is that disclosure would do what the premium cannot. If disclosed households behave identically, the instrument the author recommends does nothing.',
- 'The subsidy size and the programme deficit are already granted; staying after a flood concerns existing residents rather than buyers; and the last option would weaken the claim about premiums only, which is a weaker hit than removing the proposed remedy.')
+ 'The subsidy size and the programme deficit are already granted; staying after a flood concerns existing residents rather than buyers; and {E} would weaken the claim about premiums only, which is a weaker hit than removing the proposed remedy.')
 
 # ---------------------------------------------------------------- S, dark diversity
 q('V709','S','v_st','Main idea',3,

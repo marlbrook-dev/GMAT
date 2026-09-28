@@ -73,7 +73,7 @@ const BANK_QUANT = [
  stem:'If |2x - 3| < 7, which of the following describes all possible values of x?',
  choices:['-5 < x < 2','x < -2 or x > 5','-2 < x < 5','-7 < x < 7','2 < x < 5'],answer:2,
  expl:'-7 < 2x - 3 < 7, add 3: -4 < 2x < 10, divide by 2: -2 < x < 5.',
- wrong:'C is the solution to |2x-3| > 7 (the outside region).'},
+ wrong:'B is the solution to |2x-3| > 7 (the outside region).'},
 {id:'Q016',section:'Q',type:'PS',domain:'algebra',context:'pure',skill:'q_alg',diff:4,
  stem:'If x > 0 and x^2 + 1/x^2 = 7, what is the value of x + 1/x?',
  choices:['sqrt(5)','sqrt(7)','5','3','9'],answer:3,

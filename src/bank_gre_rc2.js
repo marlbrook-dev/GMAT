@@ -54,7 +54,7 @@ const BANK_GRE_RC2 = [
  stem:"The passage implies that the reviewers' objection would have been telling if the author had argued that",
  choices:["the excavation was more carefully conducted than earlier ones","the site had been dated by more than one method before publication","the existing chronology was correct in outline","a counterexample must be typical to be informative about the period","the practice was common across the region and period"],answer:4,
  expl:"The objection is that one site is too little. That bites against a claim of prevalence, which is precisely the claim the author did not make.",
- wrong:"Dating method, the chronology and excavation quality are not what the objection concerns, and the fourth is the principle the passage denies."},
+ wrong:"Dating method, the chronology and excavation quality are not what the objection concerns, and D is the principle the passage denies."},
 {id:'GR006',section:'V',type:'RC',sub:"Function of a sentence",passageId:'GRPB',passage:GR_PB,skill:'gre_rc',diff:4,
  stem:"The final sentence functions to",
  choices:["concede a limitation that the author will need to address in later work","introduce a second objection that the reviewers had overlooked","state the general principle on which the passage's defence of the author rests","summarise the reviewers' position in its strongest form before answering it","qualify the claim that the practice existed"],answer:2,

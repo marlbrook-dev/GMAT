@@ -26,6 +26,33 @@ function saidTwice(q){
  return null;
 }
 
+// The choices a Watch for note names, as indices, by letter or by position (INC-0189). The
+// notes were written against the order the author wrote the choices in, and a shuffle moved
+// the choices and left the letters, so on 124 items the note named the correct answer as a
+// trap. C to J are always choices. A and B are also the article and, in a two passage set,
+// Passage A and Passage B, so outside such a set they count only where they read as a choice,
+// and inside one they do not count at all. A note that says a letter "is right" is naming
+// the key on purpose and is not read.
+const ORD={first:0,second:1,third:2,fourth:3,fifth:4};
+function noteNames(q){
+ const t=String(q.wrong||''), n=q.choices.length, out=[];
+ if(!t||/\b(?:is|was) (?:right|correct|the answer)\b/i.test(t)) return out;
+ const pair=/\bpassages\b|[Pp]assage [AB]\b/.test((q.stem||'')+' '+q.choices.join(' '));
+ const add=L=>{ const i='ABCDEFGHIJ'.indexOf(L); if(i>=0&&i<n&&!(pair&&i<2)) out.push(i); };
+ for(const m of t.matchAll(/\(([A-J])\)/g)) add(m[1]);
+ for(const m of t.matchAll(/\b(?:[Cc]hoices?|[Oo]ptions?)\s+\(?([A-J](?:\)?(?:\s*,\s*|,?\s+(?:and|or)\s+)\(?[A-J])*)\b/g))
+  for(const L of m[1].match(/[A-J]/g)) add(L);
+ for(const m of t.matchAll(/(?<![A-Za-z'])([A-J](?:(?:\s*,\s*[A-J])+(?:,?\s+(?:and|or)\s+[A-J])?|,?\s+(?:and|or)\s+[A-J]))(?![A-Za-z'])/g))
+  for(const L of m[1].match(/[A-J]/g)) add(L);
+ for(const m of t.matchAll(/(?:^|[.;:!?]\s+|,\s+(?:and\s+|but\s+)?)([B-J])\s+(?=[a-z])/g)) add(m[1]);
+ for(const m of t.matchAll(/(?:^|[.;:!?]\s+|,\s+(?:and\s+)?)A\s+(?=(?:is|are|was|and|or|goes|reverses|confuses|overstates|restates|contradicts|describes|names|misreads|supports|strengthens|weakens|concerns|imposes|picks)\b)/g)) add('A');
+ for(const m of t.matchAll(/\b(first|second|third|fourth|fifth|last)\s+(?:option|choice)\b/gi))
+  out.push(m[1].toLowerCase()==='last'?n-1:ORD[m[1].toLowerCase()]);
+ for(const m of t.matchAll(/(?:^|[.;:]\s+|,\s+(?:and\s+)?)[Tt]he\s+(first|second|third|fourth|fifth)((?:\s+and\s+(?:first|second|third|fourth|fifth))?)(?=\s+(?:reverses|reverse|reason|reasons|applies|contradict|contradicts|overstates|restates|misreads|drops|keeps|disputes|denies|overreaches|confuses|misstates|concern|concerns|weakens|strengthens|supports|is|are)\b)/g)){
+  out.push(ORD[m[1]]); const more=m[2].match(/first|second|third|fourth|fifth/); if(more) out.push(ORD[more[0]]); }
+ return out;
+}
+
 let failures=0;
 function fail(msg){ failures++; console.log('  FAIL: '+msg); }
 function check(label,list){ if(list.length){ fail(label+' '+JSON.stringify(list.slice(0,8))+(list.length>8?' (+'+(list.length-8)+' more)':'')); } else { console.log('  ok: '+label); } }
@@ -65,6 +92,9 @@ function runExam(exam){
  const secCount={}; BANK.forEach(q=>secCount[q.section]=(secCount[q.section]||0)+1);
  console.log('  bank '+BANK.length+' '+JSON.stringify(secCount)+' cards '+CARDS.length+' playbook '+PLAYBOOK.length);
  check('bank integrity',bad);
+ check('no Watch for note names the correct answer among the wrong ones',
+   BANK.filter(q=>typeof q.answer==='number'&&Array.isArray(q.choices)&&noteNames(q).includes(q.answer))
+     .map(q=>q.id+' ('+'ABCDEFGHIJ'[q.answer]+'): '+String(q.wrong).slice(0,70)));
 
  // Correct answers must not cluster in one position. An early SAT bank had 75 percent of its
  // answers at A, which lets a student game the bank and corrupts the adaptive ratings.

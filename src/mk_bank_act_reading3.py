@@ -571,7 +571,7 @@ q('AR158','14','act_r_iki','Comparing passages',3,
   'That cursive should be taught in every primary curriculum',
   'That transcription of historical documents is impractical at scale'],
  "A argues it directly, and B moves to a different argument rather than relying on the cognitive one.",
- "B holds the second but A does not address it, neither reaches the third, and only B touches transcription.")
+ "Passage B holds {B} but passage A does not address it, neither reaches {C}, and only passage B touches transcription.")
 q('AR159','14','act_r_iki','Comparing passages',4,
  'A school that taught pupils to read cursive without teaching them to write it would',
  ['answer the argument in Passage B while leaving the one in Passage A untouched',

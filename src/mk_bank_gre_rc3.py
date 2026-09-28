@@ -338,7 +338,7 @@ q('GR126','I','Inference',4,
   'a measurement artefact produced by differences in the cost of living',
   'the reason that landholding in the counties was consolidated'],
  "The second paragraph calls the gap a price rather than a cause and explains it by the mortality difference.",
- "Competition, productivity, measurement and the direction of causation in the last option are not the second account.")
+ "Competition, productivity, measurement and the direction of causation in {E} are not the second account.")
 q('GR127','I','Function of a sentence',3,
  'The final sentence of the passage functions to',
  ['explain why a decisive comparison has not been carried out',
@@ -356,7 +356,7 @@ q('GR128','I','Strengthen and weaken',4,
   'Labourers who moved to the cities earned more than those who stayed',
   'Consolidation of landholding proceeded at different rates in different counties'],
  "The first account predicts that the flow follows the gap. A county where only the gap moved, and the flow followed, is the discriminating case.",
- "The second option supports the rival, falling mortality and the wage comparison are already granted, and varying rates are the premise of the test.")
+ "{B} supports the rival, falling mortality and the wage comparison are already granted, and varying rates are the premise of the test.")
 q('GR129','I','Detail',2,
  'According to the passage, the second account attributes the emptying of the countryside chiefly to',
  ['the consolidation of landholding', 'a fall in agricultural wages',

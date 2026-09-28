@@ -57,7 +57,7 @@ const BANK_ACT_READING = [
  stem:'The main idea of the passage is that:',
  choices:['an elegant model was mistaken for a general finding until case evidence showed its conditions were special.','textbooks written after 1968 misrepresented the arguments economists had actually made about common resources.','common ownership of resources reliably leads to their destruction over time wherever it is found.','Ostrom proved that collective management of resources succeeds more often than privatisation or control by a central state authority does.'],answer:0,
  expl:'The passage sets out the model, notes that its conclusion followed so naturally that few checked it, presents Ostrom\'s cases, and concludes that the policy conclusion came from the model rather than the world.',
- wrong:'The first option states the view the passage complicates. Ostrom catalogued failures and made no claim about relative frequency, and textbooks are criticised for over-reach rather than misquotation.'},
+ wrong:'C states the view the passage complicates. Ostrom catalogued failures and made no claim about relative frequency, and textbooks are criticised for over-reach rather than misquotation.'},
 {id:'AR010',section:'R',type:'R',passageId:'ARP2',passage:AR_P2,sub:'Detail',skill:'act_r_kid',diff:2,
  stem:'According to the passage, the Spanish irrigation communities Ostrom studied:',
  choices:['depended on rules imposed by a national authority.','had operated water courts continuously since the medieval period.','were established after 1968 as an experiment in collective management.','had been privatised and then returned to collective control by their users.'],answer:1,

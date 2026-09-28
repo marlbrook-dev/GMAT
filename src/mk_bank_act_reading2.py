@@ -376,7 +376,7 @@ q('AR072','ARP9','P9','Detail','act_r_kid',2,
   'sixty thousand years.',
   'two kilometres of accumulated layers.'],
  'The third paragraph gives the figure as exceeding six thousand years where snowfall is light.',
- 'Six hundred and sixty thousand misstate the figure, and the last option names a depth rather than an interval.')
+ 'Six hundred and sixty thousand misstate the figure, and {D} names a depth rather than an interval.')
 q('AR073','ARP9','P9','Word meaning','act_r_cs',3,
  'As used in the passage, the phrase no model in between most nearly emphasises that the measurement:',
  ['is of the past atmosphere itself rather than of something standing in for it.',
