@@ -59,7 +59,7 @@ a{color:var(--accent)}
 <p class="eyebrow">Start From Nowhere</p>
 <h1>The Build Playbook</h1>
 <p class="sub">How one person and a set of AI sessions built a multi-exam test-prep platform, every defect hit on the way, and the recipe for doing it again for something else</p>
-<p class="meta">Built 2026-09-28 from commit cf751b8 &middot; 146 commits over 9 days &middot; 188 recorded defects &middot; 17 chapters<br>
+<p class="meta">Built 2026-09-28 from commit bd08f42 &middot; 147 commits over 9 days &middot; 188 recorded defects &middot; 17 chapters<br>
 This document is generated. Edit the chapters in docs/playbook/ and the ledger in data/playbook/incidents.jsonl, then run python3 src/build_playbook.py.</p>
 </div>
 <div class="toc"><ol><li><a href="#how-to-use-this-book">How to Use This Book</a></li>
@@ -81,7 +81,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><a href="#the-bootstrap-pack-starting-a-new-project-with-this-loaded">The Bootstrap Pack: Starting a New Project With This Loaded</a></li></ol></div>
 <h1 id="how-to-use-this-book">How to Use This Book</h1>
 <p>This is the record of building one platform, written so it can be used to build a different one.</p>
-<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-09-19 and 2026-09-28, which is 9 days, across 146 commits, by one owner directing a series of AI coding sessions. As of this build it is 86 Python files, 112 JavaScript files, 24 TypeScript edge functions, 35 migrations and 65 documents: 2111 tracked files in total.</p>
+<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-09-19 and 2026-09-28, which is 9 days, across 147 commits, by one owner directing a series of AI coding sessions. As of this build it is 86 Python files, 112 JavaScript files, 24 TypeScript edge functions, 35 migrations and 65 documents: 2111 tracked files in total.</p>
 <p>None of those numbers were typed. They are measured from the repository every time this document is built, which is the first thing worth copying.</p>
 <h2 id="what-is-in-here">What is in here</h2>
 <p>The book has four kinds of chapter, and they age differently.</p>
@@ -621,7 +621,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three defects here were found by taking a screenshot: a chart unreadable in dark mode, a line chart implying values that never existed, and a dashboard that was not on screen. None of them would have been caught by an assertion, because none of them were violations of anything anybody had thought to assert.</p>
 <p><strong>Budget for looking.</strong> It is the cheapest test there is and the only one that catches things you have not imagined.</p>
 <h1 id="running-the-build-as-an-ai-loop">Running the Build as an AI Loop</h1>
-<p>146 commits in 9 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
+<p>147 commits in 9 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
 <h2 id="the-division-of-labour">The division of labour</h2>
 <p><strong>The owner decides</strong>: what to build, what it means, what is acceptable, and every irreversible or outward-facing action. <strong>The session does</strong>: the building, the measuring, the testing, and the reporting of what it found.</p>
 <p>The failure mode at each end is worth naming. An owner who reviews every line becomes the bottleneck and the throughput collapses to the speed of reading. A session that decides product questions on its own produces something coherent that is not what anyone wanted.</p>
@@ -1710,7 +1710,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A template is written against the fields that exist when it is written, and the corpus goes on growing in a style the template never saw. When a new passage is added, render every question the schemas ask of it, not the ones the passage was written for, and write each stem so that it fits what the field is, a criticism or a fact, rather than what the first few happened to be.</li>
 </ul>
 <h3 id="inc-0188-two-queued-posts-said-a-gmat-score-report-carries-only-the-score-you-send-after-gmac-s-superscore-began-adding-the-best-section-scores-from-every-attempt">INC-0188. Two queued posts said a GMAT score report carries only the score you send, after GMAC's Superscore began adding the best section scores from every attempt</h3>
-<p><em>2026-09-28, Wrong data shown or stored</em></p>
+<p><em>2026-09-28, Wrong data shown or stored, <code>bd08f42e9bf660c65a45af536d883541a8d92f8e</code> PR #192</em></p>
 <ul>
 <li><strong>What was seen.</strong> free-score-reports-by-exam, queued for December 7, said 'Each report a program receives contains only the total and section scores from the exam it is sent for', and cancel-scores-by-exam, queued for December 13, put 'Only the scores you send' in its What schools see column for the GMAT. Since August 12, 2026 a GMAT score report sent to a school includes the GMAT Superscore when one exists: the highest section scores across valid attempts of the current edition, with the exam date and delivery method of each, and the individual scores sent to that program in the past five years; test takers cannot opt out of sending it (GMAC help center, GMAT: Sending and Reporting GMAT Superscores, updated August 12, 2026). mba.com's Sending Your Score page, which the December 7 post cites, says both in consecutive sentences: a report 'will only contain the Total and Section Scores from the exam associated with the score report', then 'Where applicable for candidates with multiple attempts, the Official Score Report will include your GMAT Superscore'. Neither post was live yet.</li>
 <li><strong>Why.</strong> The December 7 post was written from the first of those two sentences and not the second, and the December 13 post turned it into a table cell. GMAC's older help article on who has access to a score, last updated in May, still lists a report's contents without the Superscore, so the two sources a writer would read first agreed with each other and not with the page's next sentence. Nothing compares a post's claim with the rest of the paragraph it came from: the source check confirms that a fact's words are on its page, which a sentence cut short still passes, and data/exams.json held no fact about what a report contains, so no check read the Superscore at all.</li>
