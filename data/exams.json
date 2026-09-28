@@ -272,6 +272,19 @@
         "src": "mba.com support (GMAC)",
         "year": 2023,
         "url": "https://support.mba.com/hc/en-us/articles/13894860085531-GMAT-How-Long-Are-My-Scores-Valid"
+      },
+      {
+        "text": "The free GMAT Official Starter Kit includes Free Practice Exams 1 & 2; GMAT Official Practice Exams use the same scoring algorithm as the GMAT exam, adapt question difficulty based on your performance and provide Total and Section scores, and answer explanations are not available for them",
+        "src": "mba.com support (GMAC)",
+        "year": 2026,
+        "url": "https://support.mba.com/hc/en-us/articles/16086220161051-GMAT-Official-Prep-Products-and-Study-Resources",
+        "also_urls": ["https://support.mba.com/hc/en-us/articles/52121740753435-Using-GMAT-Practice-Exams-and-EA-Practice-Assessments"]
+      },
+      {
+        "text": "The free GMAT Practice Exams may be taken multiple times, but after the first two attempts you are increasingly likely to encounter questions you have already seen, and scores from repeated attempts may no longer provide the same level of score validity; paid GMAT Practice Exams include two attempts per exam",
+        "src": "mba.com support (GMAC)",
+        "year": 2026,
+        "url": "https://support.mba.com/hc/en-us/articles/52121740753435-Using-GMAT-Practice-Exams-and-EA-Practice-Assessments"
       }
     ]
   },
@@ -471,6 +484,13 @@
         "src": "College Board",
         "year": 2026,
         "url": "https://satsuite.collegeboard.org/scores/sending-sat-scores/additional/sending-archived-scores"
+      },
+      {
+        "text": "Official full-length SAT practice tests are free in the Bluebook app, where they are timed like a real test and scored, and the same practice tests can be downloaded for free as nonadaptive paper PDFs, recommended only for students who will test with paper-based accommodations",
+        "src": "College Board",
+        "year": 2026,
+        "url": "https://satsuite.collegeboard.org/practice/practice-tests/paper",
+        "also_urls": ["https://satsuite.collegeboard.org/practice/practice-tests/bluebook"]
       }
     ]
   },
@@ -675,6 +695,12 @@
         "src": "GRE Information Bulletin 2026-27 (ETS)",
         "year": 2026,
         "url": "https://www.ets.org/content/dam/ets-org/pdfs/gre/gre-info-bulletin.pdf"
+      },
+      {
+        "text": "POWERPREP Online practice tests are free: POWERPREP 1 is one untimed, full-length practice test, whose untimed users receive no Verbal Reasoning or Quantitative Reasoning scores, and POWERPREP 2 is one timed, full-length practice test; POWERPREP PLUS Online costs $44.95 per practice test",
+        "src": "ETS",
+        "year": 2026,
+        "url": "https://www.ets.org/gre/test-takers/general-test/prepare/powerprep.html"
       }
     ]
   },
@@ -902,6 +928,12 @@
         "src": "LSAC",
         "year": 2026,
         "url": "https://www.lsac.org/lsat/lsat-scoring"
+      },
+      {
+        "text": "Four full four-section LSAT PrepTests are available for free through LawHub, and LawHub Advantage provides one year of access to an extensive library of full Official LSAT PrepTests for $124",
+        "src": "LSAC",
+        "year": 2026,
+        "url": "https://www.lsac.org/lsat/prepare/official-lsat-practice-tests"
       }
     ],
     "answer_choices": {
@@ -1150,6 +1182,12 @@
         "src": "ACT",
         "year": 2026,
         "url": "https://www.act.org/content/dam/act/unsecured/documents/FeeWaiver.pdf"
+      },
+      {
+        "text": "Official full-length ACT practice tests are always free, digital or paper: Practice Tests 1 through 4, each as a digital interactive simulation with timed and untimed sections and a scoring guide, or as a downloadable paper booklet with a scoring key",
+        "src": "ACT",
+        "year": 2026,
+        "url": "https://www.act.org/content/act/en/products-and-services/the-act/test-preparation/free-act-test-prep.html"
       }
     ],
     "answer_choices": {

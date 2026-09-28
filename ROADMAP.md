@@ -811,6 +811,17 @@ verified rather than that the school does not publish one (INC-0118).
       moves to the Class of 2028 profile (median 675, middle 80 percent 645 to 715, read on
       MIT's page September 28), the retake policy cites GMAC's current article, and three
       Superscore facts join data/exams.json after passing the source check's functions.
+- [x] **"Free Official GMAT, GRE, LSAT, SAT, and ACT Practice Tests"** queued for December 27
+      (James Corbett): what each test maker gives away. GMAC's free Official Starter Kit has
+      Practice Exams 1 and 2, adaptive and scored like the exam but without answer
+      explanations; ETS offers POWERPREP Online 1 (untimed, so no Verbal or Quant scores) and 2
+      (timed), with POWERPREP PLUS at $44.95 a test; LSAC puts four full PrepTests on LawHub,
+      with LawHub Advantage at $124 a year; College Board's full-length SAT tests are free and
+      scored in Bluebook, and as nonadaptive PDFs; and ACT offers Practice Tests 1 to 4, digital
+      or paper, always free. Every rule was read on September 28 from the makers' own pages;
+      six join data/exams.json and pass the source check's functions against their live pages,
+      and EDITORIAL.md gains a practice tests block. The GMAT facts cite GMAC's help center,
+      because mba.com's Starter Kit page served Imperva's CAPTCHA on some reads.
 - [x] **No rank cites an admissions consulting blog.** Eight U.S. News 2026 ranks (Virginia
       11, Cornell 15, UCLA and Texas 18, Washington 20, North Carolina 21, Emory 23, Georgetown
       31) cited Clear Admit or Stacy Blackman, which src/sources.py lists as weak sources; they
