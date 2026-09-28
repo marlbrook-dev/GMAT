@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-28, which is 9 days, across
-145 commits, by one owner directing a series of AI coding sessions. As of this
+146 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 86 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
 2111 tracked files in total.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-145 commits in 9 days, one owner, a series of AI sessions. This
+146 commits in 9 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1217,14 +1217,14 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-187 recorded defects, over 9 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+188 recorded defects, over 9 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 100 | 53% |
+| Found by reading the code or the output | 101 | 54% |
 | Found by measuring something | 45 | 24% |
 | A test caught it | 22 | 12% |
 | Found by rendering it and looking | 8 | 4% |
@@ -1232,7 +1232,7 @@ well enough to audit later. Which is what this book is.
 | A build guard caught it | 5 | 3% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 185 of 187 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 186 of 188 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1241,20 +1241,20 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 84 |
+| Wrong data shown or stored | 85 |
 | Degraded | 45 |
 | Cosmetic | 29 |
 | Silent loss | 26 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 187. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 188. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 86 |
+| Content generation | 87 |
 | Tests and guards | 35 |
 | Front end | 12 |
 | Build system | 11 |
@@ -1269,7 +1269,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-181 of 187 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+182 of 188 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1290,7 +1290,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-91 of 187 incidents record that they repeat an earlier lesson, 124 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+91 of 188 incidents record that they repeat an earlier lesson, 124 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1401,11 +1401,11 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/validate_schools.py`, 9 incidents (INC-0125, INC-0141, INC-0143, INC-0144, INC-0147, INC-0151, INC-0153, INC-0157, INC-0185)
 - `src/test.js`, 8 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085)
 - `src/build_rankings.py`, 7 incidents (INC-0014, INC-0049, INC-0118, INC-0135, INC-0142, INC-0145, INC-0167)
+- `src/build_blog.py`, 6 incidents (INC-0124, INC-0137, INC-0162, INC-0170, INC-0171, INC-0188)
 - `src/page_checks.py`, 6 incidents (INC-0134, INC-0138, INC-0139, INC-0163, INC-0176, INC-0178)
 - `src/review_bot.js`, 5 incidents (INC-0022, INC-0026, INC-0051, INC-0061, INC-0077)
 - `src/bank_emit.py`, 5 incidents (INC-0062, INC-0066, INC-0068, INC-0073, INC-0119)
 - `src/gen/framework.py`, 5 incidents (INC-0074, INC-0075, INC-0078, INC-0087, INC-0096)
-- `src/build_blog.py`, 5 incidents (INC-0124, INC-0137, INC-0162, INC-0170, INC-0171)
 - `src/smoke_playbook.js`, 4 incidents (INC-0054, INC-0084, INC-0129, INC-0165)
 - `src/bank_repair.py`, 4 incidents (INC-0070, INC-0071, INC-0072, INC-0121)
 - `src/weekly_audit.js`, 3 incidents (INC-0050, INC-0048, INC-0018)
@@ -1421,7 +1421,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (86)
+## Content generation (87)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -2455,7 +2455,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0187. The stated idea question about the earlier account read 'failed to address the fact that the account could not explain', on 143 of 198 items
 
-*2026-09-28, Wrong data shown or stored*
+*2026-09-28, Wrong data shown or stored, `cf751b873445a5867bbdd98944ac373f52096b66` PR #191*
 
 - **What was seen.** The stated idea ask for the passage's problem sentence reads 'According to the passage, the earlier account failed to address the fact that', and 49 of the 72 problem sentences open with the account itself: 'The account could not explain why bread ran short even in months when the mills had flour to sell', 'The account rested entirely on measurements taken during the brief summer', 'It could not explain why two lichens...'. So the keyed completion said the account failed to address the fact that the account could not explain something, which is circular, on 143 of the 198 GMAT, LSAT and GRE items that ask it (49 of 72 GMAT, 45 of 54 LSAT, 49 of 72 GRE). On 120 of those, one of the studies' findings was also offered, and a finding reads as the better completion: a GMAT item keyed the circular sentence and offered 'the court had forbidden the cutting of furze on the common in 1791, though furze was the bakers' only cheap fuel, and the shortages began that winter', which is exactly a fact the earlier account failed to address.
 - **Why.** The problem field is written as the closing sentence of the passage's first paragraph, where a criticism naturally names what it criticises, and the same field is spliced into a stem that wants a fact about the world after 'the fact that'. The first passages' problem sentences happened to state facts ('The weather station stands two thousand metres below the ice'), so the stem read well when it was written; most later passages were written to a template that opens 'The account could not explain why', and nothing rendered the stem with them.
@@ -2463,6 +2463,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** The ask now reads 'According to the passage, even before the studies it describes, the earlier account could be faulted because', which every one of the 72 problem sentences completes as written, whether it names the account or states a fact. The first replacement, 'the difficulty with the earlier account is that', read well with every key but was answered by the findings as well: on the glacier passage 'summer melt had changed little' is as much a difficulty for a summer warming account as the key. Reading the rebuilt items caught it, and the stem now sets the studies aside, so their findings, the revision and the notes on their records stay wrong answers and the ask covers nothing else. The GRE schema, which asks the same question of its one-paragraph rendering, uses the same stem. A question's id is its stem and passage, so the 198 problem questions take new ids.
 - **What stops it now.** g_rc.check_stems renders every stated idea ask of every passage with its key, for the GMAT, LSAT and GRE schemas, on each build, and fails on a completion that asks for a fact and then names the account itself ('the fact that the account', 'the fact that it'). The wider protection is the practice INC-0115 recorded: a reused field is read in every slot it lands in. in `src/gen/g_rc.py`
 - **Lesson.** A template is written against the fields that exist when it is written, and the corpus goes on growing in a style the template never saw. When a new passage is added, render every question the schemas ask of it, not the ones the passage was written for, and write each stem so that it fits what the field is, a criticism or a fact, rather than what the first few happened to be.
+
+
+### INC-0188. Two queued posts said a GMAT score report carries only the score you send, after GMAC's Superscore began adding the best section scores from every attempt
+
+*2026-09-28, Wrong data shown or stored*
+
+- **What was seen.** free-score-reports-by-exam, queued for December 7, said 'Each report a program receives contains only the total and section scores from the exam it is sent for', and cancel-scores-by-exam, queued for December 13, put 'Only the scores you send' in its What schools see column for the GMAT. Since August 12, 2026 a GMAT score report sent to a school includes the GMAT Superscore when one exists: the highest section scores across valid attempts of the current edition, with the exam date and delivery method of each, and the individual scores sent to that program in the past five years; test takers cannot opt out of sending it (GMAC help center, GMAT: Sending and Reporting GMAT Superscores, updated August 12, 2026). mba.com's Sending Your Score page, which the December 7 post cites, says both in consecutive sentences: a report 'will only contain the Total and Section Scores from the exam associated with the score report', then 'Where applicable for candidates with multiple attempts, the Official Score Report will include your GMAT Superscore'. Neither post was live yet.
+- **Why.** The December 7 post was written from the first of those two sentences and not the second, and the December 13 post turned it into a table cell. GMAC's older help article on who has access to a score, last updated in May, still lists a report's contents without the Superscore, so the two sources a writer would read first agreed with each other and not with the page's next sentence. Nothing compares a post's claim with the rest of the paragraph it came from: the source check confirms that a fact's words are on its page, which a sentence cut short still passes, and data/exams.json held no fact about what a report contains, so no check read the Superscore at all.
+- **How it surfaced.** Found on September 28, 2026 while reading GMAC's Sending Your Score page and its four Superscore help articles for a post on whether schools see every score. (Found by reading the code or the output)
+- **Fix.** Both posts now say what a report carries: the score you send and, once you have tested more than once, the GMAT Superscore with the section scores behind it and the date and delivery method of each, which cannot be left off. EDITORIAL.md's GMAT score sending notes state the Superscore, and data/exams.json gains the Superscore facts, what a report sent to a school includes and that it cannot be opted out of, so the source check reads them against GMAC's article.
+- **What stops it now.** The weekly source check reads the new Superscore facts in data/exams.json against GMAC's article, so a change to what a report carries is reported rather than found by accident. build_blog also refuses a post that says a GMAT score report carries only one exam's scores, or that schools see only the scores you send, without naming the Superscore. in `src/build_blog.py`
+- **Lesson.** A source's first sentence is not always its answer. When a page states a rule and qualifies it in the next sentence, the qualifier is part of the fact: read to the end of the paragraph before quoting, and when a test maker changes what schools receive, reread every sentence that tells a reader what a school will see.
 
 
 ## Tests and guards (35)
@@ -3990,6 +4002,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Stated idea questions that name a study offered another of that study's sentences as a wrong answer, so 178 of 378 had two defensible answers (INC-0186)</small>
 - [ ] A template is written against the fields that exist when it is written, and the corpus goes on growing in a style the template never saw. When a new passage is added, render every question the schemas ask of it, not the ones the passage was written for, and write each stem so that it fits what the field is, a criticism or a fact, rather than what the first few happened to be.  
   <small>The stated idea question about the earlier account read 'failed to address the fact that the account could not explain', on 143 of 198 items (INC-0187)</small>
+- [ ] A source's first sentence is not always its answer. When a page states a rule and qualifies it in the next sentence, the qualifier is part of the fact: read to the end of the paragraph before quoting, and when a test maker changes what schools receive, reread every sentence that tells a reader what a school will see.  
+  <small>Two queued posts said a GMAT score report carries only the score you send, after GMAC's Superscore began adding the best section scores from every attempt (INC-0188)</small>
 
 
 ## Database
@@ -4302,7 +4316,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 187 real defects reduced to the rules that prevent them,
+the whole project: 188 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -4342,7 +4356,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-187 defects already prevented is genuinely ahead, and every defect it hits
+188 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

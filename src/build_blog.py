@@ -137,6 +137,15 @@ RETIRED_CLAIMS = [
      re.compile(r"[^.]*\b(?:12|twelve)\s+(?:times|attempts)\b[^.]*", re.I),
      "ACT's retesting page says there is no limit to how many times students can take the "
      "ACT (act.org, read September 27, 2026; INC-0172)"),
+    # A GMAT report carrying only one exam's scores, or schools seeing only what you send,
+    # read at the start of a sentence or cell so a sentence that names the Superscore passes.
+    (re.compile(r"\bGMAT\b"),
+     re.compile(r"(?:^|(?<=[.!?] ))(?![^.]*\bSuperscore\b)(?:(?=[^.]*\breports?\b)[^.]*?\b"
+                r"(?:contains?|carr(?:y|ies)|includes?)\s+only\b|[^.]*?\bonly the scores? "
+                r"(?:you|they) send\b)[^.]*", re.I),
+     "since August 12, 2026 a GMAT score report also carries the GMAT Superscore when one "
+     "exists, with the best section scores from other attempts and the date of each, and it "
+     "cannot be left off (support.mba.com, read September 28, 2026; INC-0188)"),
 ]
 
 
@@ -197,13 +206,21 @@ def _selfcheck_title():
 def _selfcheck_retired():
     """INC-0170: the lifetime clause is refused, the current rule and an LSAT lifetime
     limit are not. INC-0172: an ACT cap of 12 is refused even in a table cell that names
-    the exam only in its column heading; the current rule and a 12-month period are not."""
+    the exam only in its column heading; the current rule and a 12-month period are not.
+    INC-0188: a GMAT report said to carry only one exam's scores is refused, in a sentence
+    or a table cell; a sentence that names the Superscore, a GRE sentence, and a GMAT
+    sentence that says only about something other than a report, are not."""
     cases = (("<p>GMAC limits how many times you can sit the GMAT within a 12 month window and across a lifetime.</p>", True),
              ("<p>GMAC allows up to five GMAT attempts in any rolling 12-month period.</p>", False),
              ("<p>LSAC allows the LSAT seven times over a lifetime.</p>", False),
              ("<table><tr><th>SAT</th><th>ACT</th></tr><tr><td>No limit</td><td>Up to 12 times in total</td></tr></table>", True),
              ("<p>There is no limit to how many times you can take the ACT.</p>", False),
-             ("<p>Post completion OPT lasts up to 12 months.</p>", False))
+             ("<p>Post completion OPT lasts up to 12 months.</p>", False),
+             ("<p>Each GMAT report a program receives contains only the total and section scores from the exam it is sent for.</p>", True),
+             ("<table><tr><th>Exam</th><th>What schools see</th></tr><tr><td>GMAT</td><td>Only the scores you send</td></tr></table>", True),
+             ("<p>A GMAT report carries the exam you send and your GMAT Superscore, which includes only your best section scores.</p>", False),
+             ("<p>Unlike the GMAT, the GRE lets you report only the scores you feel reflect your best.</p>", False),
+             ("<p>The GMAT Quant section itself contains only Problem Solving.</p>", False))
     for body, want in cases:
         got = bool(retired_claims({"body": body, "faq": []}))
         if got != want:
