@@ -737,6 +737,17 @@ verified rather than that the school does not publish one (INC-0118).
       ones while its value and those names stay the same. A changed figure, or a program newly
       named beside it, is reported again, and validate_schools refuses an entry whose figure
       has changed.
+- [x] **"Can You Get Extra Time on the GMAT, GRE, LSAT, SAT, or ACT?"** queued for
+      December 19 (Sarah Whitfield): how each test maker takes accommodation requests and how
+      long review takes. GMAC aims to respond within 16 to 20 business days and will not add
+      accommodations to an appointment already booked; ETS's page says about 6 weeks and its
+      2026-27 Supplement four to six, both before scheduling; LSAC takes requests only from
+      registered test takers and only until the registration deadline; College Board says up
+      to seven weeks; and ACT, since June 2026, closes requests at the registration deadline.
+      GMAC's old accommodations URL now says the page has moved, so the post cites its current
+      page and help center articles, which answer the source check's user agent. Every rule
+      was read on September 28; nine join data/exams.json and pass the source check's
+      functions against their live pages, and EDITORIAL.md gains an accommodations block.
 - [x] **"What ID Do You Need for the GMAT, GRE, LSAT, SAT, or ACT?"** queued for December
       15 (James Corbett): GMAC's exact-name and passport rules, ETS's original, signed,
       government-issued ID, LSAC's passport or US or Canadian photo ID that may be up to 3

@@ -107,6 +107,24 @@
         "url": "https://www.mba.com/exams/gmat-exam/about/exam-structure"
       },
       {
+        "text": "Every effort will be made to respond to accommodation requests within 16-20 business days of receipt",
+        "src": "GMAC Help Center",
+        "year": 2026,
+        "url": "https://support.mba.com/hc/en-us/articles/6284158042779-I-Want-to-Request-Accommodations-What-Documentation-Do-I-Need-to-Submit"
+      },
+      {
+        "text": "Accommodations cannot be changed or added for an existing appointment, and you cannot register for an accommodated testing appointment until your accommodation request is approved",
+        "src": "mba.com (GMAC)",
+        "year": 2026,
+        "url": "https://www.mba.com/exams/gmat-exam/register/testing-accommodations"
+      },
+      {
+        "text": "Score reports do not indicate whether a test was taken with accommodations, and GMAC does not share disability status with any schools",
+        "src": "GMAC Help Center",
+        "year": 2026,
+        "url": "https://support.mba.com/hc/en-us/articles/6283679027483-Will-My-Score-Report-Reflect-That-I-Received-Accommodations"
+      },
+      {
         "text": "An on-screen calculator is available in the Data Insights section",
         "src": "GMAC",
         "year": 2026,
@@ -358,6 +376,12 @@
         "url": "https://satsuite.collegeboard.org/sat/what-to-bring-do/what-to-expect"
       },
       {
+        "text": "Because the approval process can take up to seven weeks, start well before the test date; if additional documentation is required, or if a request is resubmitted, approval can take an additional seven weeks",
+        "src": "College Board",
+        "year": 2026,
+        "url": "https://accommodations.collegeboard.org/request-accommodations/dates-deadlines"
+      },
+      {
         "text": "ID must be a valid, unexpired, physical photo ID that is government-issued or issued by the school you currently attend, bearing your full, legal name exactly as it appears on your admission ticket; if you will be 21 or older on test day, the only acceptable form of identification is an official government-issued photo ID",
         "src": "College Board",
         "year": 2026,
@@ -551,6 +575,12 @@
         "url": "https://www.ets.org/content/dam/ets-org/pdfs/gre/gre-info-bulletin.pdf"
       },
       {
+        "text": "You must submit your request and have your accommodations approved by ETS Disability Services before you can schedule your test; documentation review takes approximately 6 weeks once your request and complete paperwork have been received",
+        "src": "ETS",
+        "year": 2026,
+        "url": "https://www.ets.org/gre/test-takers/general-test/register/disability-accommodations.html"
+      },
+      {
         "text": "The first and last name you register with must exactly match, excluding accents, the name printed on the ID you present, and each ID document must be an original, physical, government-issued identity card with a recent, recognizable photograph and your signature; expired documents are not acceptable",
         "src": "ETS",
         "year": 2026,
@@ -740,6 +770,18 @@
         "src": "LSAC",
         "year": 2026,
         "url": "https://www.lsac.org/lsat/taking-lsat/about-10-minute-intermission"
+      },
+      {
+        "text": "The accommodation request deadline is always the same as the test registration deadline for any given administration of the LSAT, and there are no exceptions to this deadline",
+        "src": "LSAC",
+        "year": 2026,
+        "url": "https://www.lsac.org/lsat/register-lsat/accommodations/faqs-about-lsat-accommodations"
+      },
+      {
+        "text": "LSAC does not annotate the score reports of test takers with disabilities who take the LSAT with testing accommodations, including extended testing time, and does not notify law schools that a candidate has requested or tested with accommodations",
+        "src": "LSAC",
+        "year": 2026,
+        "url": "https://www.lsac.org/lsat/register-lsat/accommodations/faqs-about-lsat-accommodations"
       },
       {
         "text": "You must present a physical, valid international passport or a physical, valid government-issued photo ID issued by the United States, U.S. Territories or Canada; the ID must be current or have expired within 3 months of your test date, and its first and last name must exactly match the legal first and last name on your account",
@@ -982,6 +1024,18 @@
         "src": "ACT",
         "year": 2026,
         "url": "https://www.act.org/content/act/en/products-and-services/the-act/test-day.html"
+      },
+      {
+        "text": "Starting with the June 2026 test event, the accommodations request submission deadline is the regular registration deadline, and all requests, including appeals, must be submitted by the deadline for your preferred test date",
+        "src": "ACT",
+        "year": 2026,
+        "url": "https://www.act.org/content/act/en/products-and-services/the-act/registration/accommodations.html"
+      },
+      {
+        "text": "ACT does not indicate the use of accommodations on score reports sent to colleges",
+        "src": "ACT",
+        "year": 2026,
+        "url": "https://www.act.org/content/act/en/products-and-services/the-act/registration/accommodations.html"
       },
       {
         "text": "ACT says over 97% of ACT scores are released within about 2 to 4 weeks after the test date, and that if the optional writing test was taken, complete scores may be released a bit later, as all parts are processed together",
