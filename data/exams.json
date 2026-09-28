@@ -285,6 +285,12 @@
         "src": "mba.com support (GMAC)",
         "year": 2026,
         "url": "https://support.mba.com/hc/en-us/articles/52121740753435-Using-GMAT-Practice-Exams-and-EA-Practice-Assessments"
+      },
+      {
+        "text": "If you miss your exam and do not meet the emergency criteria, you will be marked as a No Show, your exam fee will be forfeited, you must wait 24 hours before you can schedule a new appointment, and a new exam fee will apply; in a verified emergency (medical, military or bereavement, with supporting documentation) you may be eligible for a free reschedule or a full refund, reviewed on a case-by-case basis",
+        "src": "mba.com support (GMAC)",
+        "year": 2026,
+        "url": "https://support.mba.com/hc/en-us/articles/7470318027547-GMAT-How-Can-I-Cancel-Reschedule-My-Appointment-If-I-Have-An-Emergency-or-Missed-My-Appointment"
       }
     ]
   },
@@ -491,6 +497,12 @@
         "year": 2026,
         "url": "https://satsuite.collegeboard.org/practice/practice-tests/paper",
         "also_urls": ["https://satsuite.collegeboard.org/practice/practice-tests/bluebook"]
+      },
+      {
+        "text": "College Board may offer a makeup test if your test center is unable to open on test day or a misadministration or irregularity occurs, and will contact you if a makeup test is needed; you may take only tests that you registered for on the original date, at the center for which you are registered or authorized, and you must take the entire test",
+        "src": "College Board",
+        "year": 2026,
+        "url": "https://satsuite.collegeboard.org/sat/registration/change-cancel/makeup-tests"
       }
     ]
   },
@@ -701,6 +713,18 @@
         "src": "ETS",
         "year": 2026,
         "url": "https://www.ets.org/gre/test-takers/general-test/prepare/powerprep.html"
+      },
+      {
+        "text": "If you are absent from a test administration, you will forfeit your test fee, and institutions will not receive any information about your absence or about any previous scores you may have on file; testing at home, if you are more than 12 minutes late, your test will be cancelled",
+        "src": "ETS (GRE Information Bulletin 2026-27)",
+        "year": 2026,
+        "url": "https://www.ets.org/content/dam/ets-org/pdfs/gre/gre-info-bulletin.pdf"
+      },
+      {
+        "text": "At a test center, if you arrive late, you may not be admitted and your test fee would be forfeited",
+        "src": "ETS",
+        "year": 2026,
+        "url": "https://www.ets.org/gre/test-takers/general-test/test-day/test-center-test-day.html"
       }
     ]
   },
@@ -934,6 +958,12 @@
         "src": "LSAC",
         "year": 2026,
         "url": "https://www.lsac.org/lsat/prepare/official-lsat-practice-tests"
+      },
+      {
+        "text": "If you are unable to take the LSAT after the refund deadline has passed, withdraw your registration by 11:59 p.m. ET the day before you are scheduled to test; if you did not schedule a testing time through Prometric by your administration's scheduling deadline, your registration will be automatically withdrawn, without a refund",
+        "src": "LSAC",
+        "year": 2026,
+        "url": "https://www.lsac.org/about/lsac-policies/jd-refunds"
       }
     ],
     "answer_choices": {
