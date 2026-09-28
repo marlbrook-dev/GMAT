@@ -310,6 +310,12 @@
         "src": "GMAC",
         "year": 2026,
         "url": "https://www.gmac.com/gmat-other-assessments/about-the-gmat-focus-edition/exam-scores"
+      },
+      {
+        "text": "Verbal Reasoning consists of 23 multiple-choice Reading Comprehension and Critical Reasoning questions, to be completed in 45 minutes; Reading Comprehension questions measure the ability to understand words and statements, understand logical relationships between significant points, draw inferences, and follow the development of quantitative concepts, and Critical Reasoning questions measure the ability to make arguments, evaluate arguments, and formulate or evaluate a plan of action",
+        "src": "GMAC",
+        "year": 2026,
+        "url": "https://www.gmac.com/gmat-other-assessments/about-the-gmat-focus-edition/exam-scores"
       }
     ]
   },
@@ -531,6 +537,12 @@
       },
       {
         "text": "The Math section covers four content domains: Algebra and Advanced Math, about 35% each, or 13 to 15 questions, and Problem-Solving and Data Analysis and Geometry and Trigonometry, about 15% each, or 5 to 7 questions",
+        "src": "College Board (Digital SAT Suite of Assessments Specifications Overview)",
+        "year": 2026,
+        "url": "https://satsuite.collegeboard.org/media/pdf/digital-sat-test-spec-overview.pdf"
+      },
+      {
+        "text": "The Reading and Writing section covers four content domains: Craft and Structure, about 28% or 13 to 15 questions; Information and Ideas, about 26% or 12 to 14 questions; Standard English Conventions, about 26% or 11 to 15 questions; and Expression of Ideas, about 20% or 8 to 12 questions",
         "src": "College Board (Digital SAT Suite of Assessments Specifications Overview)",
         "year": 2026,
         "url": "https://satsuite.collegeboard.org/media/pdf/digital-sat-test-spec-overview.pdf"
@@ -774,6 +786,12 @@
         "src": "ETS",
         "year": 2026,
         "url": "https://www.ets.org/gre/test-takers/general-test/prepare/content/quantitative-reasoning.html"
+      },
+      {
+        "text": "About half of the Verbal Reasoning measure requires you to read passages and answer questions on those passages, and the other half requires you to read, interpret and complete existing sentences, groups of sentences or paragraphs; the measure contains three types of questions, Reading Comprehension, Text Completion and Sentence Equivalence",
+        "src": "ETS",
+        "year": 2026,
+        "url": "https://www.ets.org/gre/test-takers/general-test/prepare/content/verbal-reasoning.html"
       }
     ]
   },
