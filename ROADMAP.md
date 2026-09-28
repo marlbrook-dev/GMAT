@@ -801,6 +801,16 @@ verified rather than that the school does not publish one (INC-0118).
       September 28; the GMAT and GRE rules join data/exams.json and pass the source check's
       functions, the 2027 dates come from data/test_dates.json, which test_dates.py confirmed
       in step with all three makers that day, and EDITORIAL.md gains a registration block.
+- [x] **The live retake post explains the GMAT Superscore.** "Should You Retake the GMAT? A
+      Decision Framework" (published August 25) gains a section on the Superscore GMAC launched
+      on August 12, 2026: best section scores across attempts, sent automatically with every
+      single attempt score and impossible to leave off, and in GMAC's own advice no reason to
+      take an attempt less seriously, since schools see that single attempt score too. Its FAQ
+      line that "most programs say they consider your best score" had no source; it now says
+      what GMAC shows a program and that each school sets its own policy. MIT Sloan's figure
+      moves to the Class of 2028 profile (median 675, middle 80 percent 645 to 715, read on
+      MIT's page September 28), the retake policy cites GMAC's current article, and three
+      Superscore facts join data/exams.json after passing the source check's functions.
 - [x] **No rank cites an admissions consulting blog.** Eight U.S. News 2026 ranks (Virginia
       11, Cornell 15, UCLA and Texas 18, Washington 20, North Carolina 21, Emory 23, Georgetown
       31) cited Clear Admit or Stacy Blackman, which src/sources.py lists as weak sources; they
