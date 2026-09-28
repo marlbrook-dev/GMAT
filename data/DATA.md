@@ -239,7 +239,16 @@ weekly issue shows what is new; 13 real errors once sat unworked among 30 findin
 them right figures the check could not then read (INC-0154). validate_schools refuses an entry whose
 figure has gone, has changed value, or no longer carries the numbers it lists, so a
 judgement never outlives the figure it was about. Teach the check to read a figure before
-triaging it.
+triaging it. A figure listed as worth reading is triaged the same way once a person has read
+it on its page as this program's figure, with `near` in place of the missing numbers: the
+other programs' names the check finds beside it, as the report prints them. The entry holds
+only while the figure keeps its value and every name the check finds near it is one in
+`near`, so a page that adds, say, an Executive MBA column beside a judged figure lists it again.
+The first 14 were read on September 28, 2026, and none was another program's figure: the
+names were a side menu link (Tepper's Online Hybrid MBA), ranking lines (Fordham), the next
+answer or sentence on the page (Rutgers, Howard), an enrollment line (Temple), the next
+program in a list (Tennessee), and the other columns of a comparison chart whose first
+column is the full-time MBA (San Diego).
 
 A page can be quoted exactly and still be out of date: LSAC's LSAT FAQ went on describing
 "the 2025-2026 testing year" after LSAC moved almost every test taker into test centers

@@ -1,5 +1,5 @@
 {
- "about": "School figures that python3 src/check_sources.py --schools cannot find on their pages, read there by a person and found right (INC-0154). The check lists them apart from new findings. An entry holds only for the figure's value and the numbers in missing: if the figure changes, or stops carrying one of those numbers, validate_schools refuses the entry until the figure is read again. A figure the check can be taught to read, such as one in an image's alt text or on a second page named in also_urls, is fixed that way instead of listed here.",
+ "about": "School figures that python3 src/check_sources.py --schools cannot settle on their pages, read there by a person and found right (INC-0154). The check lists them apart from new findings. An entry with missing holds only for the figure's value and the numbers in missing: if the figure changes, or stops carrying one of those numbers, validate_schools refuses the entry until the figure is read again. An entry with near records a figure the check finds beside its label only near another program's name, which a person read and found to be this program's: it holds only for the figure's value and while every program name the check finds near it is one in near, so a changed figure, or a program newly named beside it, is reported again. A figure the check can be taught to read, such as one in an image's alt text or on a second page named in also_urls, is fixed that way instead of listed here.",
  "entries": [
   {
    "key": "northwestern-kellogg.profile.gmat_focus",
@@ -119,6 +119,134 @@
    ],
    "why": "Olin draws its class statistics as images, and the check reads no text in an image. ftmba-top-stats-0.png (alt text FTMBA Class Statistics, repeated for narrow screens in ftmba-top-stats-1.png and -2.png) prints 53% Domestic and 47% International, and 22 Countries by Citizenship, under the page's sentence that these describe a typical cohort from the Classes of 2025, 2026 and 2027.",
    "checked": "2026-09-27"
+  },
+  {
+   "key": "cmu-tepper.profile.class_size",
+   "v": 144,
+   "near": [
+    "Hybrid MBA"
+   ],
+   "why": "Printed as 144 Students, the first line under Full-Time MBA Class of 2027, beside 38% International Citizens. The Hybrid MBA the check finds is a link in the page's side menu, Online Hybrid MBA Class Profile, which points to a separate page (oh-class-profile).",
+   "checked": "2026-09-28"
+  },
+  {
+   "key": "cmu-tepper.profile.intl_pct",
+   "v": 38,
+   "near": [
+    "Hybrid MBA"
+   ],
+   "why": "Printed as 38% International Citizens under Full-Time MBA Class of 2027, beside 144 Students. The Hybrid MBA the check finds is a link in the page's side menu, Online Hybrid MBA Class Profile, which points to a separate page (oh-class-profile).",
+   "checked": "2026-09-28"
+  },
+  {
+   "key": "fordham-gabelli.profile.women_pct",
+   "v": 39,
+   "near": [
+    "EMBA"
+   ],
+   "why": "Printed as Percentage of Male / Female: 61% / 39% in the block headed MBA program specific facts. The EMBA the check finds is the ranking line above that block (CEO Magazine Rankings: EMBA: Tier 1, Global). The block after it, for Full-Time, Professional and Executive MBA students together, prints 60% / 40% and is a different figure.",
+   "checked": "2026-09-28"
+  },
+  {
+   "key": "fordham-gabelli.profile.intl_pct",
+   "v": 59,
+   "near": [
+    "EMBA",
+    "MS in"
+   ],
+   "why": "Printed as Percentage of International students: 59% in the block headed MBA program specific facts. The EMBA and MS in the check finds are ranking lines above that block (CEO Magazine's EMBA tier; QuantNet's and Risk.net's MS in Quantitative Finance). The block after it, for Full-Time, Professional and Executive MBA students together, prints 34% and is a different figure.",
+   "checked": "2026-09-28"
+  },
+  {
+   "key": "howard.profile.employment_rate_pct",
+   "v": 84,
+   "near": [
+    "part-time"
+   ],
+   "why": "The article's sentence reads: In 2020, the average Howard MBA graduate made a $115,500 median base salary and more than 84 percent of job seekers had accepted a position within three months of graduating. The part-time the check finds is the next sentence, which lists the school's other programs, among them an online part-time MBA. The figure is stale, and its stat says so.",
+   "checked": "2026-09-28"
+  },
+  {
+   "key": "rutgers.profile.gmat_classic",
+   "v": 640,
+   "near": [
+    "evening"
+   ],
+   "why": "The FAQ answer to What is the profile of a typical Full-Time MBA student? reads: The Full-Time MBA student profile has a 640 GMAT (Classic) score, a 3.3 GPA, and an average of 5 years of full-time work experience. The evening the check finds is the answer before it, about taking day or evening classes in the second year.",
+   "checked": "2026-09-28"
+  },
+  {
+   "key": "rutgers.profile.gpa",
+   "v": 3.3,
+   "near": [
+    "evening"
+   ],
+   "why": "The FAQ answer to What is the profile of a typical Full-Time MBA student? reads: The Full-Time MBA student profile has a 640 GMAT (Classic) score, a 3.3 GPA, and an average of 5 years of full-time work experience. The evening the check finds is the answer before it, about taking day or evening classes in the second year.",
+   "checked": "2026-09-28"
+  },
+  {
+   "key": "rutgers.profile.work_exp_years",
+   "v": 5,
+   "near": [
+    "evening"
+   ],
+   "why": "The FAQ answer to What is the profile of a typical Full-Time MBA student? reads: The Full-Time MBA student profile has a 640 GMAT (Classic) score, a 3.3 GPA, and an average of 5 years of full-time work experience. The evening the check finds is the answer before it, about taking day or evening classes in the second year.",
+   "checked": "2026-09-28"
+  },
+  {
+   "key": "temple-fox.profile.employment_rate_pct",
+   "v": 87.5,
+   "near": [
+    "part-time"
+   ],
+   "why": "Printed as 87.5% within 3 months of graduation under MBA Placement (Full-Time MBA Class of 2023, CSPD Report). The part-time the check finds is the enrollment line above it, 390 Students across full-time, part-time, online, and executive programs, which is a different figure.",
+   "checked": "2026-09-28"
+  },
+  {
+   "key": "tennessee-haslam.profile.employment_rate_pct",
+   "v": 82,
+   "near": [
+    "Master of Science"
+   ],
+   "why": "Printed under Employment Outcome Statistics as Master of Business Administration-Full Time Placement Statistics: 82%, with an average salary of $79,893. The Master of Science the check finds is the next program listed, Master of Science Business Analytics, whose placement is 100%.",
+   "checked": "2026-09-28"
+  },
+  {
+   "key": "usd-knauss.profile.gpa",
+   "v": 3.31,
+   "near": [
+    "Part-Time"
+   ],
+   "why": "The page's MBA Class Profile Comparison chart has three columns, Full-Time MBA, Part-Time MBA and Flex MBA, based on 2025-26 incoming MBA students, and 3.31 is the Full-Time MBA column's Average GPA; the other two columns print 3.26 and 3.24. The Part-Time the check finds is the second column's heading.",
+   "checked": "2026-09-28"
+  },
+  {
+   "key": "usd-knauss.profile.class_size",
+   "v": 63,
+   "near": [
+    "Part-Time",
+    "evening"
+   ],
+   "why": "The page's MBA Class Profile Comparison chart has three columns, Full-Time MBA, Part-Time MBA and Flex MBA, based on 2025-26 incoming MBA students, and 63 is the Full-Time MBA column's Students; the other two columns print 35 and 35. The Part-Time the check finds is the second column's heading, and the evening is the note above the chart that elective courses for all formats are offered in the evening on weekdays or during the day on weekends.",
+   "checked": "2026-09-28"
+  },
+  {
+   "key": "usd-knauss.profile.work_exp_years",
+   "v": 4.3,
+   "near": [
+    "Part-Time"
+   ],
+   "why": "The page's MBA Class Profile Comparison chart has three columns, Full-Time MBA, Part-Time MBA and Flex MBA, based on 2025-26 incoming MBA students, and 4.3 years is the Full-Time MBA column's Average work experience; the other two columns print 5.5 years and 8.7 years. The Part-Time the check finds is the second column's heading.",
+   "checked": "2026-09-28"
+  },
+  {
+   "key": "usd-knauss.profile.women_pct",
+   "v": 48,
+   "near": [
+    "Part-Time"
+   ],
+   "why": "The page's MBA Class Profile Comparison chart has three columns, Full-Time MBA, Part-Time MBA and Flex MBA, based on 2025-26 incoming MBA students, and 48% is the Full-Time MBA column's Female students; the other two columns print 51% and 17%. The Part-Time the check finds is the second column's heading.",
+   "checked": "2026-09-28"
   }
  ]
 }

@@ -724,6 +724,19 @@ verified rather than that the school does not publish one (INC-0118).
       run of September 28 reads 654 figures against 242 sources with none missing from its
       page, and the exam run 128 facts with none missing; 15 and 2 sources were unreadable
       from this sandbox, to bot challenges, certificate errors and dropped connections.
+- [x] **The 14 school figures worth reading, read and recorded.** The school run listed 14
+      figures found beside their labels only near another program's name, and every one was
+      read on its page as this program's figure: Tepper's class size and international share
+      under its Full-Time MBA Class of 2027 (the Hybrid MBA is a side menu link), Fordham's
+      two in its "MBA program specific facts" block (the EMBA and MS names are ranking lines
+      above it), Howard's 2020 placement, Rutgers' Full-Time MBA FAQ answer, Temple's Full-Time
+      MBA Class of 2023 placement, Tennessee's full-time MBA placement, and San Diego's four in
+      the Full-Time MBA column of its comparison chart. A list a person has judged stops being
+      read if it repeats every week, so data/source_triage.json now takes an entry with `near`,
+      the program names the check found, and the check lists such a figure with the triaged
+      ones while its value and those names stay the same. A changed figure, or a program newly
+      named beside it, is reported again, and validate_schools refuses an entry whose figure
+      has changed.
 - [x] **"What ID Do You Need for the GMAT, GRE, LSAT, SAT, or ACT?"** queued for December
       15 (James Corbett): GMAC's exact-name and passport rules, ETS's original, signed,
       government-issued ID, LSAC's passport or US or Canadian photo ID that may be up to 3
