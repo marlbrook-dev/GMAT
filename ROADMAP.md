@@ -772,6 +772,16 @@ verified rather than that the school does not publish one (INC-0118).
       blank for the 2026 edition, and validate_schools refuses a rank that names no edition or
       has no source url. Cornell's, UCLA's and Washington Foster's FT ranks now cite
       Poets&Quants' report of the 2026 ranking instead of two admissions consulting blogs.
+- [x] **"What Should You Bring to the GMAT, GRE, LSAT, SAT, or ACT?"** queued for December 21
+      (Elena Rodriguez): what each test center requires, allows and keeps out, and when to
+      arrive. GMAC allows no food or drink without an accommodation and asks you to arrive at
+      least 30 minutes early; ETS allows only your ID and a mask in the GRE testing room; LSAC
+      puts phones, food and beverages in lockers and asks you to arrive up to 30 minutes early
+      with your LawHub login memorized; College Board wants a charged device with Bluebook set
+      up and lets you bring a drink or snacks for the break; ACT wants No. 2 pencils and you
+      inside by 8:00 a.m. Every rule was read on September 28 from the test makers' own test
+      day pages; five join data/exams.json and pass the source check's functions against their
+      live pages, and EDITORIAL.md gains a test day block.
 - [x] **Stated idea questions with two right answers, fixed** (INC-0186). A stated idea
       question offers the passage's other sentences as its wrong answers, which works only
       when the stem picks out one of them. Three of the six stems did not: "in the work of

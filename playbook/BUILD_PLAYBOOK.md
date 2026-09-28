@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-28, which is 9 days, across
-146 commits, by one owner directing a series of AI coding sessions. As of this
+147 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 86 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
 2111 tracked files in total.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-146 commits in 9 days, one owner, a series of AI sessions. This
+147 commits in 9 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -2467,7 +2467,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0188. Two queued posts said a GMAT score report carries only the score you send, after GMAC's Superscore began adding the best section scores from every attempt
 
-*2026-09-28, Wrong data shown or stored*
+*2026-09-28, Wrong data shown or stored, `bd08f42e9bf660c65a45af536d883541a8d92f8e` PR #192*
 
 - **What was seen.** free-score-reports-by-exam, queued for December 7, said 'Each report a program receives contains only the total and section scores from the exam it is sent for', and cancel-scores-by-exam, queued for December 13, put 'Only the scores you send' in its What schools see column for the GMAT. Since August 12, 2026 a GMAT score report sent to a school includes the GMAT Superscore when one exists: the highest section scores across valid attempts of the current edition, with the exam date and delivery method of each, and the individual scores sent to that program in the past five years; test takers cannot opt out of sending it (GMAC help center, GMAT: Sending and Reporting GMAT Superscores, updated August 12, 2026). mba.com's Sending Your Score page, which the December 7 post cites, says both in consecutive sentences: a report 'will only contain the Total and Section Scores from the exam associated with the score report', then 'Where applicable for candidates with multiple attempts, the Official Score Report will include your GMAT Superscore'. Neither post was live yet.
 - **Why.** The December 7 post was written from the first of those two sentences and not the second, and the December 13 post turned it into a table cell. GMAC's older help article on who has access to a score, last updated in May, still lists a report's contents without the Superscore, so the two sources a writer would read first agreed with each other and not with the page's next sentence. Nothing compares a post's claim with the rest of the paragraph it came from: the source check confirms that a fact's words are on its page, which a sentence cut short still passes, and data/exams.json held no fact about what a report contains, so no check read the Superscore at all.
