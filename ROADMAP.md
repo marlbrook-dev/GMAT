@@ -832,6 +832,21 @@ verified rather than that the school does not publish one (INC-0118).
       date for the $49 change fee. Every rule was read on September 28 from the makers' own
       pages; five join data/exams.json and pass the source check's functions, and EDITORIAL.md
       gains a missed test block.
+- [x] **Five more long reading passages** (eelweirs, silting, honeyfields, thatch, flaxretting):
+      eel catches falling on a river, blamed on the net men and caused by new weirs too high for
+      the young eels to climb; a harbour silting up, blamed on great storms and caused by walled
+      salt marshes that no longer sent the tide out to scour the channel; honey yields halving,
+      blamed on cold springs and caused by farmers ploughing in the clover and buckwheat the
+      bees fed on; thatched roofs failing early, blamed on wet summers and caused by threshing
+      machines that bruised and broke the straw; and linen growing weak, blamed on foreign seed
+      and caused by a court order that sent flax from the river to rot unevenly on the grass.
+      They run 290 to 310 words, every name was checked against every corpus and bank, and they
+      pass the premise, answer tell, key spread, covers and stem checks. The banks grow to
+      GMAT 34412, GRE 20788 and LSAT 14692, of which 14320 are generated, counts read from the
+      build. Reading the items first changed two wrong answers that a careful reader could have
+      defended: "the hive at Furze End stood on the heath" and "the piece bought from the
+      Dunnock farm was steeped in a pond" name the one alternative the passage gives, so each
+      could look inferable, and each now contradicts the study instead, as earlier passages' do.
 - [x] **No rank cites an admissions consulting blog.** Eight U.S. News 2026 ranks (Virginia
       11, Cornell 15, UCLA and Texas 18, Washington 20, North Carolina 21, Emory 23, Georgetown
       31) cited Clear Admit or Stacy Blackman, which src/sources.py lists as weak sources; they
