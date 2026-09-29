@@ -232,7 +232,7 @@ const BANK_VERBAL5 = [
     choices: [
       'a reduction in the capital costs of operating modern ports',
       'a decline in the insurance premiums charged to shippers',
-      'the predictability of sailing schedules, which allowed firms to divide production across countries',
+      'dependable ship timetables that let companies spread manufacturing among several nations',
       'the elimination of any need for the successive rounds of tariff reduction that followed in later decades',
       'expanded employment opportunities for longshoremen at major ports'
     ],

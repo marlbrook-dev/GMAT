@@ -3,7 +3,7 @@ const RC_P9 = 'Before the 1880s, every town in the United States kept its own ti
 const BANK_VERBAL6 = [
 {id:'V261',section:'V',type:'RC',passageId:'P9',passage:RC_P9,skill:'v_st',diff:2,
  stem:'According to the passage, before the 1880s the time kept by a United States town was determined by',
- choices:['the local position of the sun','the schedules published by the railroad serving the town','conversion tables printed by dispatchers','agreements among neighboring municipal councils','readings taken by weather observers'],
+ choices:['the sun as observed from that particular town','the schedules published by the railroad serving the town','conversion tables printed by dispatchers','agreements among neighboring municipal councils','readings taken by weather observers'],
  answer:0,
  expl:'The first sentence states it directly: every town kept its own time, set by the local position of the sun.',
  wrong:'Railroad schedules and conversion tables are described as responses to the patchwork of local times, not as the source of them.'},
