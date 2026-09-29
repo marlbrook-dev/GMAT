@@ -109,7 +109,7 @@ wrong:'(A) and (E) overstate positions the passage presents with qualification. 
 
 {id:'V236',section:'V',type:'RC',passageId:'P7',passage:RC_P7,skill:'v_st',diff:3,
 stem:'According to the passage, which of the following is cited as evidence supporting the predator satiation hypothesis?',
-choices:['Findings that a far higher percentage of acorns escapes predation in mast years than in the years between them','Observations that rodent populations increase rapidly during mast years','Measurements showing that airborne pollen is far more plentiful when neighbouring trees flower simultaneously','The occurrence of masting in many species that are not closely related to one another','Records showing that mast years tend to follow unusually warm springs'],
+choices:['Studies showing that many more oak seeds survive being eaten in the heavy years than in the lean ones','Observations that rodent populations increase rapidly during mast years','Measurements showing that airborne pollen is far more plentiful when neighbouring trees flower simultaneously','The occurrence of masting in many species that are not closely related to one another','Records showing that mast years tend to follow unusually warm springs'],
 answer:0,
 expl:'The second paragraph states that field studies lend support to the hypothesis, specifically that in several oak forests the percentage of acorns escaping predation has proved many times higher in mast years than in intervening years. That is the only evidence the passage explicitly offers for satiation.',
 wrong:'(D) is mentioned in the first paragraph as suggesting that masting has some advantage, not as support for satiation in particular. (C) belongs to the rival pollination account.'},

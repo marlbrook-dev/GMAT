@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-28, which is 9 days, across
-160 commits, by one owner directing a series of AI coding sessions. As of this
+159 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 86 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
 2119 tracked files in total.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-160 commits in 9 days, one owner, a series of AI sessions. This
+159 commits in 9 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1217,7 +1217,7 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-191 recorded defects, over 9 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+192 recorded defects, over 9 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
@@ -1225,14 +1225,14 @@ well enough to audit later. Which is what this book is.
 | How | Count | Share |
 | --- | ---: | ---: |
 | Found by reading the code or the output | 104 | 54% |
-| Found by measuring something | 45 | 24% |
-| A test caught it | 22 | 12% |
+| Found by measuring something | 46 | 24% |
+| A test caught it | 22 | 11% |
 | Found by rendering it and looking | 8 | 4% |
 | Found by a review bot or an adversarial pass | 5 | 3% |
 | A build guard caught it | 5 | 3% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 189 of 191 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 190 of 192 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1242,19 +1242,19 @@ well enough to audit later. Which is what this book is.
 | Severity | Count |
 | --- | ---: |
 | Wrong data shown or stored | 88 |
-| Degraded | 45 |
+| Degraded | 46 |
 | Cosmetic | 29 |
 | Silent loss | 26 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 191. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 192. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 90 |
+| Content generation | 91 |
 | Tests and guards | 35 |
 | Front end | 12 |
 | Build system | 11 |
@@ -1269,7 +1269,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-185 of 191 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+186 of 192 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1290,7 +1290,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-91 of 191 incidents record that they repeat an earlier lesson, 124 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+91 of 192 incidents record that they repeat an earlier lesson, 124 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1391,6 +1391,7 @@ Incidents that name an earlier one without claiming to repeat it. Each was read 
 - INC-0189 names INC-0039, INC-0117
 - INC-0190 names INC-0119, INC-0189
 - INC-0191 names INC-0189
+- INC-0192 names INC-0117
 
 
 ## Where defects concentrate
@@ -1400,9 +1401,9 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/check_sources.py`, 22 incidents (INC-0130, INC-0132, INC-0133, INC-0136, INC-0140, INC-0150, INC-0152, INC-0154, INC-0155, INC-0156, INC-0158, INC-0159, INC-0161, INC-0168, INC-0172, INC-0173, INC-0174, INC-0175, INC-0177, INC-0180, INC-0182, INC-0184)
 - `src/build_banks.py`, 17 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011, INC-0079, INC-0081, INC-0086, INC-0088, INC-0089, INC-0090, INC-0091, INC-0092, INC-0120, INC-0123, INC-0126, INC-0127)
 - `src/build.py`, 13 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067, INC-0076, INC-0080, INC-0131, INC-0148)
+- `src/test.js`, 9 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085, INC-0192)
 - `src/gen/g_rc.py`, 9 incidents (INC-0097, INC-0114, INC-0115, INC-0117, INC-0122, INC-0169, INC-0179, INC-0186, INC-0187)
 - `src/validate_schools.py`, 9 incidents (INC-0125, INC-0141, INC-0143, INC-0144, INC-0147, INC-0151, INC-0153, INC-0157, INC-0185)
-- `src/test.js`, 8 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085)
 - `src/build_rankings.py`, 7 incidents (INC-0014, INC-0049, INC-0118, INC-0135, INC-0142, INC-0145, INC-0167)
 - `src/bank_emit.py`, 6 incidents (INC-0062, INC-0066, INC-0068, INC-0073, INC-0119, INC-0189)
 - `src/build_blog.py`, 6 incidents (INC-0124, INC-0137, INC-0162, INC-0170, INC-0171, INC-0188)
@@ -1424,7 +1425,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (90)
+## Content generation (91)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -2482,7 +2483,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0189. Watch for notes named answer choices by letter or position, and the shuffle that moves the key never moved them, so 124 notes called the correct answer a trap
 
-*2026-09-28, Wrong data shown or stored*
+*2026-09-28, Wrong data shown or stored, `a3786888a205412571d55603ab2c8b684995fdd9` PR #204*
 
 - **What was seen.** LSAT reading item LC103 asks how defenders of the exclusionary rule answer the distributive objection, and its key, 'mistakes a side effect of the rule for the purpose of the rule', is E. Its Watch for note read 'B is the other objection, and C, D and E are not the response described', so it told a student who chose correctly that their answer was one of the wrong ones, and the choice it called the other objection, B, is 'would apply equally to any remedy for unlawful searches'; the other objection sits at D. Run against the banks as they stood, the check this record adds fails 124 items whose Watch for note names the key's own letter or position among the wrong answers: 57 in bank_lsat_lr3.js, 21 in bank_lsat_rc3.js, 5 in bank_lsat_lr2.js, 2 in bank_lsat_rc2.js, 12 in bank_verbal.js, 13 in bank_verbal2.js, 11 in bank_verbal4.js, and one each in bank_quant.js, bank_act_english.js and bank_act_reading.js. Notes that point by position fail the same way: LL069's explanation said 'The first option has exactly that form' when its key is E, and LC044's note said 'The second option drops the timing' of a choice that now sits third.
 - **Why.** Items are written key first, because that is how a person writes one, and the notes are written against that order: the author's B is the first distractor they wrote. bank_emit.permute then shuffles the choices so the key does not sit at A (INC-0039) and recomputes the answer index, but it moves only the choices and the index. A letter or an ordinal inside expl and wrong is plain text, and nothing tied it to the order it was written against. Every key in the ten generated banks sits exactly where permute's crc32 shuffle puts the first choice as written (140 of 140 in bank_lsat_lr3.js, 90 of 90 in bank_lsat_rc3.js), so in those files every positional reference is off by that shuffle, including the ones that happen to miss the key. The three GMAT verbal files were reordered before their first commit by something that left no seed: their keys do not sit where the crc32 shuffle would put them, and V221's key has been B since its first commit while its note says '(B) actually strengthens the conclusion', which describes A. The checks on reading items measure the choices and the key, not what the notes say about them.
@@ -2494,7 +2495,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0190. A length correction clause turned an LSAT must be true distractor into a second correct answer, and its note said so
 
-*2026-09-28, Wrong data shown or stored*
+*2026-09-28, Wrong data shown or stored, `a3786888a205412571d55603ab2c8b684995fdd9` PR #204*
 
 - **What was seen.** LSAT item LL040 gives three premises: no member of the drafting committee voted against the proposal, every member who attended the March meeting voted on it, and two members did not vote at all. It asks what must be true and keys 'At least two members of the committee did not attend the March meeting.' One of its wrong answers read 'Every member who attended the March meeting voted in favour of the proposal, since no member of the committee voted against it', which follows from the first two premises just as surely, so the item had two correct answers. Its Watch for note conceded the point: 'The second is true of attendees but the question asks what must follow, and it does: attendees voted and nobody voted against.'
 - **Why.** The option was written as 'Every member who attended the March meeting voted in favour of the proposal.', which was already inferable, and mk_bank_lsat_lr2.py's EXTEND table then appended ', since no member of the committee voted against it' to carry it past the key in length. The table's header says each clause states the omission that makes an option wrong and that none makes a wrong option defensible, but this clause supplied the missing premise instead, and nothing checks what a clause does to an option's truth, only what it does to its length and its seam (INC-0119).
@@ -2506,7 +2507,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0191. Three LSAT reasoning items offered wrong answers with the key's logical force, and each note said they lacked it
 
-*2026-09-28, Wrong data shown or stored*
+*2026-09-28, Wrong data shown or stored, `a3786888a205412571d55603ab2c8b684995fdd9` PR #204*
 
 - **What was seen.** LSAT item LL128's argument runs 'Every member of the committee who voted against the proposal is a lawyer. Ruiz is a lawyer. So Ruiz voted against the proposal', which is all P are Q, x is Q, so x is P. Its key has that form, and so did one of its wrong answers, 'Every building made of stone on the square survived the fire. The library survived the fire. So the library is made of stone', with P and Q named the other way round, which changes the content and not the form. Its note said that option 'is not the same form', and called another, which denies the antecedent, a valid contrapositive. LL007 asks what can be inferred when the library extends its hours only if the grant rises or the endowment beats four percent, the grant is frozen and the endowment returned three and a half; its key is that the hours will not be extended, and a wrong answer, 'If the library does extend its hours, the endowment must have returned more than four percent', follows as surely, while the note said it treats a necessary condition as sufficient. LL167 gives ratification leads to falling tariffs, falling tariffs lead to rising exports or lost market share, and no market share is lost, and asks what must be true if the treaty is ratified; its key is that exports will rise, and two wrong answers followed as well: 'The treaty will be ratified only if exports rise' from the chain, and 'Exports will rise only if the tariffs fall' because the question's own supposition makes the tariffs fall. The note said the premises support neither. Each item had more than one correct answer.
 - **Why.** Each distractor was written to commit an error and came out valid. LL128's was made by swapping the terms of the key's conditional, on the idea that a reversed conditional makes a different argument, but the argument still moves from consequent to antecedent. LL007's and one of LL167's were meant to reverse a conditional and were written the right way round, and LL167's other was a conditional whose consequent the question's supposition makes true, so it held whatever its antecedent. The notes were written from the intention rather than from the sentence on the page, so they describe the error the option was meant to make. Nothing checks a hand written reasoning item's options against its premises: the generated parallel reasoning items prove their forms (#102), and these were never put through anything like it.
@@ -2514,6 +2515,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** LL128's option is now the valid contrapositive of the key's premise, 'Every building on the square that survived the fire is made of stone. The library is not made of stone. So the library did not survive the fire', and its note says what each option is: one denies the antecedent, two are valid, one is probabilistic. LL007's is now 'If the city had increased its grant, the library would have extended its hours', which does treat a necessary condition as sufficient. LL167's two conditionals are now 'The tariffs will fall only if domestic producers increase their market share' and 'Exports would have risen even if the treaty had not been ratified', which the premises leave open even with the treaty ratified. Each note now describes the option as it reads.
 - **What stops it now.** None added. A valid option cannot be told from an invalid one without reading the logic, which the generated parallel items do by proof and the hand written items get only from review; that review, of every parallel and must be true item, found these three and no others. in `src/mk_bank_lsat_lr3.py`
 - **Lesson.** Check a wrong answer against the premises, not against what it was meant to be. A note written from the author's intention describes the error the option was supposed to commit, so it cannot catch an option that came out valid; write each option out as symbols beside the premises before writing what is wrong with it.
+
+
+### INC-0192. Hand written 'according to the passage' questions could be answered by choosing the option made of the passage's words
+
+*2026-09-28, Degraded*
+
+- **What was seen.** A test taker who never read the question and chose the option with the largest share of its words in the passage got the key on 29 of 44 hand written GMAT stated questions, 22 of 30 LSAT, 16 of 25 ACT and 3 of 9 GRE, against a blind guess of one in five or one in four. GMAT item V261 asks what set a United States town's time before the 1880s, and its key, 'the local position of the sun', is the passage's first sentence word for word; LSAT item LC179's key, 'the stomach was sterile', is the passage's phrase.
+- **Why.** The key of a detail question was written by copying the sentence that answers it, and the wrong answers were written fresh, so the key was the one option built from the passage's own words. INC-0117 put a ceiling on this shortcut for the generated reading schemas and left stated idea questions out, since a stated question's answer is in the passage by definition; nothing measured the hand written banks, which is where the copying happened.
+- **How it surfaced.** Found on September 28, 2026 by running INC-0117's word match measure over the hand written banks, which had never been measured, after it was noted as an open item in ROADMAP.md. (Found by measuring something)
+- **Fix.** Each of those keys is now said in other words, as the test makers' own stated questions are, keeping its meaning, its place in the length order of its choices and, in the generated banks, the rank its lift table sets: V261's is now 'the sun as observed from that particular town'. Keys that are only a figure, 'six thousand years' and 'a hundred galleys', stay as they are, because finding a figure in a passage is what those questions test.
+- **What stops it now.** test.js measures the shortcut on every exam's hand written stated questions each run and fails when it picks the key, and only the key, more often than a blind guess would, one in the number of choices. in `src/test.js`
+- **Lesson.** A question whose answer is the passage's own sentence tests finding, not reading. Say the correct answer in other words, and measure what a reader who only matches words would score, because the shortcut is invisible item by item and obvious across a bank.
 
 
 ## Tests and guards (35)
@@ -4049,6 +4062,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A length correction clause turned an LSAT must be true distractor into a second correct answer, and its note said so (INC-0190)</small>
 - [ ] Check a wrong answer against the premises, not against what it was meant to be. A note written from the author's intention describes the error the option was supposed to commit, so it cannot catch an option that came out valid; write each option out as symbols beside the premises before writing what is wrong with it.  
   <small>Three LSAT reasoning items offered wrong answers with the key's logical force, and each note said they lacked it (INC-0191)</small>
+- [ ] A question whose answer is the passage's own sentence tests finding, not reading. Say the correct answer in other words, and measure what a reader who only matches words would score, because the shortcut is invisible item by item and obvious across a bank.  
+  <small>Hand written 'according to the passage' questions could be answered by choosing the option made of the passage's words (INC-0192)</small>
 
 
 ## Database
@@ -4361,7 +4376,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 191 real defects reduced to the rules that prevent them,
+the whole project: 192 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -4401,7 +4416,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-191 defects already prevented is genuinely ahead, and every defect it hits
+192 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

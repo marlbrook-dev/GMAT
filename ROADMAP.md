@@ -941,6 +941,15 @@ verified rather than that the school does not publish one (INC-0118).
       supplied the premise that made a wrong answer follow; LL128 offered a second argument of
       the key's form with its terms swapped; LL007 and LL167 offered conditionals the premises
       support. Each now has one right answer and a note that describes its options as they read.
+- [x] **Stated questions no longer answered by matching words** (INC-0192). Choosing the
+      option with the largest share of its words in the passage found the key on 29 of 44
+      hand-written GMAT stated questions, 22 of 30 LSAT, 16 of 25 ACT and 3 of 9 GRE, because
+      each key was the passage's own sentence: V261's was "the local position of the sun". The
+      68 keys are now said in other words, keeping each one's meaning and its length rank, and
+      in the generated banks the rank its lift table sets; V261's is now "the sun as observed from
+      that particular town". Two keys that are only a figure stay as they are. The shortcut now
+      finds 0 of 44, 0 of 30, 0 of 9 and 2 of 25, and test.js fails any exam where it beats a
+      blind guess.
 - [x] **"What ID Do You Need for the GMAT, GRE, LSAT, SAT, or ACT?"** queued for December
       15 (James Corbett): GMAC's exact-name and passport rules, ETS's original, signed,
       government-issued ID, LSAC's passport or US or Canadian photo ID that may be up to 3
@@ -1184,8 +1193,8 @@ verified rather than that the school does not publish one (INC-0118).
 
 - [ ] More reading passages: every reading category is still far under target, and each
       passage adds ten GMAT items and ten GRE items, plus ten LSAT items at LSAT length
-- [ ] Read the hand-written reading items against the same two checks (the rule is printed;
-      no choice is answerable by matching words); they were not part of this pass
+- [x] Read the hand-written reading items against the same two checks (the rule is printed;
+      no choice is answerable by matching words); done September 28 as INC-0192, below
 - [ ] Refresh the remaining class profiles as schools post their fall 2026 classes; MIT Sloan
       first, once its page can be read. Checked September 26: the class profile pages of HBS,
       Stanford, Wharton, Booth, Kellogg, Yale, Tuck, Haas and Darden all still show the Class

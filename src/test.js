@@ -95,6 +95,28 @@ function runExam(exam){
  check('no Watch for note names the correct answer among the wrong ones',
    BANK.filter(q=>typeof q.answer==='number'&&Array.isArray(q.choices)&&noteNames(q).includes(q.answer))
      .map(q=>q.id+' ('+'ABCDEFGHIJ'[q.answer]+'): '+String(q.wrong).slice(0,70)));
+ // A reader who never reads the question can answer a stated question by choosing the option
+ // with the largest share of its words in the passage, when the key was written by copying the
+ // sentence that answers it (INC-0192). INC-0117 caps this shortcut for the generated schemas;
+ // these are the hand written ones, which is where the copying happened. It may do no better
+ // than a blind guess: 29 of 44 GMAT keys and 22 of 30 LSAT keys fell to it before.
+ { const hand=new Set();
+   exam.files.filter(f=>f.startsWith('bank_')).forEach(f=>{
+    const src=fs.readFileSync(require('path').join(__dirname,f),'utf8');
+    for(const m of src.matchAll(/\{\s*id: ?['"]([A-Za-z0-9_]+)['"]/g)) hand.add(m[1]); });
+   const STOP=new Set(('that this which with from into have been were their there where when what about than more '+
+    'most other only also such these those them they then some over under after before because between within without').split(' '));
+   const words=t=>new Set((String(t).match(/[A-Za-z]{5,}/g)||[]).map(w=>w.toLowerCase()).filter(w=>!STOP.has(w)));
+   const stated=BANK.filter(q=>hand.has(q.id)&&q.passage&&Array.isArray(q.choices)&&typeof q.answer==='number'&&
+    /according to the passage|the passage states|passage [ab] states|\bstates that\b/i.test(q.stem||'')&&!/infer|suggest|impl/i.test(q.stem||''));
+   const hits=stated.filter(q=>{ const P=words(q.passage);
+    const sc=q.choices.map(c=>{ const w=[...words(c)]; return w.filter(x=>P.has(x)).length/Math.max(1,w.length); });
+    const best=Math.max(...sc); return best>0&&sc.filter(s=>s===best).length===1&&sc[q.answer]===best; });
+   if(stated.length){
+    const pct=Math.round(hits.length/stated.length*100), cap=Math.round(100/exam.choices);
+    console.log('  stated questions answered by matching passage words: '+hits.length+' of '+stated.length+' ('+pct+' percent, a blind guess is '+cap+')');
+    check('stated questions are not answerable by matching passage words',
+     stated.length>=5&&pct>cap?[hits.length+' of '+stated.length+': '+hits.map(q=>q.id).join(' ')]:[]); } }
 
  // Correct answers must not cluster in one position. An early SAT bank had 75 percent of its
  // answers at A, which lets a student game the bank and corrupts the adaptive ratings.

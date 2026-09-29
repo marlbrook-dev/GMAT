@@ -21,7 +21,7 @@ const BANK_VERBAL7 = [
  wrong:'Hard-to-compare options and time pressure are the conditions that produce overload, not prevent it; assortment size alone is precisely what the conditional reading says is not decisive.'},
 {id:'V274',section:'V',type:'RC',passageId:'P10',passage:RC_P10,skill:'v_st',diff:3,
  stem:'The passage states that after the original experiment became widely known, several large retailers',
- choices:['commissioned their own tasting-booth experiments','publicized decisions to carry fewer versions of everyday goods','increased the number of products on their shelves','disputed the interpretation offered by the authors','withdrew jam from their product lines'],
+ choices:['commissioned their own tasting-booth experiments','announced that they would stock a narrower range of common products','increased the number of products on their shelves','disputed the interpretation offered by the authors','withdrew jam from their product lines'],
  answer:1,
  expl:'The first paragraph says the finding traveled quickly: consultants urged pruning, and several large retailers publicized decisions to carry fewer versions of everyday goods.',
  wrong:'The disputes and replications came from researchers, not retailers, and nothing suggests retailers ran experiments or dropped jam specifically.'},

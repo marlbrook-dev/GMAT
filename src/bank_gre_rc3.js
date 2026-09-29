@@ -79,7 +79,7 @@ const BANK_GRE_RC3 = [
  wrong:"A single site, competition and a localised event are the vulnerabilities of the other kind, and area reduction is not what the passage names."},
 {id:'GR109',section:'V',type:'RC',sub:"Detail",passageId:'GR3C',passage:GR3_PC,skill:'gre_rc',diff:2,
  stem:"According to the passage, the two kinds of rarity differ in that one species has",
- choices:["been recently designated while the other has not","few individuals while the other has many","specialised habitat requirements while the other does not","a small range while the other is thinly distributed across a large one","a declining population while the other has a stable one"],answer:3,
+ choices:["been recently designated while the other has not","few individuals while the other has many","specialised habitat requirements while the other does not","a narrowly confined territory while the other is sparse over a wide area","a declining population while the other has a stable one"],answer:3,
  expl:"The first sentence of the passage draws exactly this distinction.",
  wrong:"Trend, absolute numbers, specialisation and designation history are not the distinction given."},
 // ---------- GR3D ----------
@@ -143,7 +143,7 @@ const BANK_GRE_RC3 = [
  wrong:"Size, randomisation, representativeness and regulatory intent are not what the passage asserts."},
 {id:'GR121',section:'V',type:'RC',sub:"Detail",passageId:'GR3G',passage:GR3_PG,skill:'gre_rc',diff:2,
  stem:"According to the passage, trial participants differ from eventual patients in that participants",
- choices:["report their symptoms more accurately","have more severe forms of the condition","are drawn from a wider range of countries","are younger and take fewer other medicines","are more likely to have been treated previously"],answer:3,
+ choices:["report their symptoms more accurately","have more severe forms of the condition","are drawn from a wider range of countries","are less aged and on a lighter drug regimen","are more likely to have been treated previously"],answer:3,
  expl:"The second sentence names younger, fewer other medicines, and the condition and nothing else.",
  wrong:"Previous treatment, reporting accuracy, geography and severity are not the differences given."},
 // ---------- GR3H ----------
@@ -281,7 +281,7 @@ const BANK_GRE_RC3 = [
  wrong:"No default is endorsed, the colour claim holds only for some painters, the chemistry is assumed rather than described, and the charters are described rather than blamed on a failure to consult."},
 {id:'GR147',section:'V',type:'RC',sub:"Detail",passageId:'GR3Q',passage:GR3_PQ,skill:'gre_rc',diff:2,
  stem:"According to the passage, several painters are documented as having",
- choices:["selected colours for how they would look once the surface had yellowed","objected to the varnishing of their work by later owners","mixed pigments that resist the yellowing of the varnish above them","applied varnish to their paintings before the paint had fully dried","left written instructions for the eventual cleaning of their paintings"],answer:0,
+ choices:["chose their hues with the later amber tint of the old varnish in mind","objected to the varnishing of their work by later owners","mixed pigments that resist the yellowing of the varnish above them","applied varnish to their paintings before the paint had fully dried","left written instructions for the eventual cleaning of their paintings"],answer:0,
  expl:"The first paragraph says several painters are documented as having chosen their colours against the tone the surface would acquire.",
  wrong:"Timing of varnishing, objections, instructions and pigment chemistry are not in the passage."},
 {id:'GR148',section:'V',type:'RC',sub:"Inference",passageId:'GR3Q',passage:GR3_PQ,skill:'gre_rc',diff:4,
