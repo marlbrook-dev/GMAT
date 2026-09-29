@@ -86,6 +86,12 @@ built = {}
 import build_banks
 print("generating item banks from src/gen/ ...")
 GEN_REPORT = build_banks.main()
+# A bank that says it is generated must be exactly what its generator writes, or the next
+# run of the generator undoes whatever was edited into the bank, as it would have for
+# bank_lsat_rc2.js (INC-0193).
+import check_bank_sources
+if check_bank_sources.main() != 0:
+    sys.exit(1)
 GEN_COUNT = {}
 for (_exam, _skill), (_n, _drop, _errs) in GEN_REPORT.items():
     GEN_COUNT[_exam] = GEN_COUNT.get(_exam, 0) + _n

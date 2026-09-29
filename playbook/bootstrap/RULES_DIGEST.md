@@ -1,14 +1,14 @@
 # Rules Digest
 
-Rules from 192 defects in a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
+Rules from 194 defects in a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
 
-Generated 2026-09-29 from a ledger spanning 9 days and 160 commits.
+Generated 2026-09-29 from a ledger spanning 9 days and 161 commits.
 
 ## Read this first
 
-The three ways defects were most often found, in order: found by reading the code or the output (104), found by measuring something (46), a test caught it (22). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
+The three ways defects were most often found, in order: found by reading the code or the output (106), found by measuring something (46), a test caught it (22). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
 
-The dominant failure mode is silent loss, 26 of 192: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
+The dominant failure mode is silent loss, 26 of 194: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
 
 ## Learned the hard way, more than once
 
@@ -26,6 +26,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (4 times, content generation) A counter that nothing reads is not instrumentation, it is a comment that looks like instrumentation, and it is worse than nothing because it answers the question 'is anyone watching this' with a yes.
 - (4 times, content generation) A check that infers what to expect from the same data it is checking cannot fail on a missing field: absence reads as nothing to look for.
 - (4 times, content generation) Any consumer that describes a value in words must read the field that records what kind of value it is, never the field's name.
+- (4 times, content generation) An edit that appends text has to read what it is appending to. A correction step that checks only its own goal (here, that the choice got longer) will happily achieve it by making the choice worse, and every check downstream measures the goal, so nothing notices.
 - (4 times, content generation) A citation is only as current as the page it points to, and publishers leave old pages up.
 - (4 times, content generation) Anything written ahead of its publication date is a promise about the future made from the past.
 - (4 times, tests and guards) Loading a page is not the same as reading it. A chart can be a separate document inside the page that draws only when scrolled into view, and a page with trackers may never fall quiet, so a reader built for checking has to scroll like a person, collect every frame, and use waits that give up rather than hang.
@@ -42,7 +43,6 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (3 times, content generation) When a defect is about a KIND of code rather than a line of code, a guard bolted to the site of the failure does not generalise, and writing one feels like closing the case.
 - (3 times, search and metadata) An enumeration that has to be kept in step by memory will fall out of step, and the failure is silent because nothing downstream can tell the difference between a section that was excluded on purpose and one that was forgotten.
 - (3 times, content generation) A stored phrase that goes into more than one slot has to be written for the hardest of them, and the transform has to run in the direction that cannot damage anything: capitalising a sentence opener is always safe, lowercasing one breaks proper nouns.
-- (3 times, content generation) An edit that appends text has to read what it is appending to. A correction step that checks only its own goal (here, that the choice got longer) will happily achieve it by making the choice worse, and every check downstream measures the goal, so nothing notices.
 - (3 times, content generation) A figure written twice on one page will eventually be written two ways. Where the site already holds a sourced value, a page that states it should be checked against that value, because a reader who meets $4 and $5 for the same fee trusts neither.
 - (3 times, content generation) A presence check on a source field proves the field is filled, not that it is true.
 - (3 times, content generation) A search result's snippet is not the page it links to. A figure taken from one has to be read again on the page before it is published, and a record that admits the snippet in a note while citing the page looks fully sourced, which is why nobody rereads it.
@@ -148,4 +148,4 @@ These cost this build twice or more each. If you read nothing else here, read th
 - In Postgres, revoking from every role you can name still leaves PUBLIC. Verify with the advisors or by reading the acl, never by reading your own migration.
 - An empty catch block around a write is a silent-loss defect waiting to be born. If a save can fail, the person must be told; a success toast that fires regardless of the result is worse than no toast, because it actively teaches the user the data is safe.
 
-86 more rules, each learned once from a less costly defect, did not fit a prompt sized digest. The checklist in BUILD_PLAYBOOK.md has every rule.
+88 more rules, each learned once from a less costly defect, did not fit a prompt sized digest. The checklist in BUILD_PLAYBOOK.md has every rule.

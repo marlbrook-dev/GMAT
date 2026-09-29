@@ -7,10 +7,10 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-28, which is 9 days, across
-160 commits, by one owner directing a series of AI coding sessions. As of this
+161 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 86 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
-2119 tracked files in total.
+2120 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-160 commits in 9 days, one owner, a series of AI sessions. This
+161 commits in 9 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1217,14 +1217,14 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-192 recorded defects, over 9 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+194 recorded defects, over 9 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 104 | 54% |
+| Found by reading the code or the output | 106 | 55% |
 | Found by measuring something | 46 | 24% |
 | A test caught it | 22 | 11% |
 | Found by rendering it and looking | 8 | 4% |
@@ -1232,7 +1232,7 @@ well enough to audit later. Which is what this book is.
 | A build guard caught it | 5 | 3% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 190 of 192 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 192 of 194 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1242,22 +1242,22 @@ well enough to audit later. Which is what this book is.
 | Severity | Count |
 | --- | ---: |
 | Wrong data shown or stored | 88 |
-| Degraded | 46 |
-| Cosmetic | 29 |
+| Degraded | 47 |
+| Cosmetic | 30 |
 | Silent loss | 26 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 192. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 194. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 91 |
+| Content generation | 92 |
 | Tests and guards | 35 |
 | Front end | 12 |
-| Build system | 11 |
+| Build system | 12 |
 | Search and metadata | 10 |
 | CSS and layout | 8 |
 | Scoring and selection | 7 |
@@ -1269,7 +1269,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-186 of 192 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+188 of 194 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1290,7 +1290,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-91 of 192 incidents record that they repeat an earlier lesson, 124 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+92 of 194 incidents record that they repeat an earlier lesson, 125 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1306,6 +1306,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0092 A schema threw away three draws in four, and the counter that knew was read by nobody | INC-0098, INC-0099, INC-0101 | 3 |
 | INC-0099 Every generated reading comprehension question shipped without its passage | INC-0100, INC-0101, INC-0103 | 3 |
 | INC-0105 Twelve average salaries were published as medians, and the social queue credited schools with figures they never published | INC-0106, INC-0124, INC-0142 | 3 |
+| INC-0119 Length corrections appended clauses that repeated what the answer choices already said | INC-0120, INC-0121, INC-0194 | 3 |
 | INC-0136 The LSAT guide said most test takers choose between remote and in-person testing, after LSAC had moved almost everyone into test centers | INC-0137, INC-0180, INC-0184 | 3 |
 | INC-0137 A post queued to publish the next day said the LSAT trainer was still in development, eleven days after it went live | INC-0138, INC-0162, INC-0170 | 3 |
 | INC-0146 The source check's browser read returned Stanford's class profile without a single figure, because the figures are drawn in an embedded chart that renders only when scrolled into view | INC-0156, INC-0158, INC-0183 | 3 |
@@ -1322,7 +1323,6 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0101 A new field-by-field copier reproduced the passage loss defect four days after the ledger recorded it | INC-0102, INC-0103 | 2 |
 | INC-0103 A 139 page section shipped with no route into it from the sitemap | INC-0108, INC-0109 | 2 |
 | INC-0115 A field written to open a sentence was printed mid-sentence in a reading stem | INC-0179, INC-0187 | 2 |
-| INC-0119 Length corrections appended clauses that repeated what the answer choices already said | INC-0120, INC-0121 | 2 |
 | INC-0124 A blog post put the ACT science add-on at $4 in its table and $5 in its own FAQ, and nothing compared a post's prices with the sourced ones | INC-0125, INC-0132 | 2 |
 | INC-0125 Every College Scorecard figure in the MBA library cited the program's own website as its source URL | INC-0130, INC-0133 | 2 |
 | INC-0151 Rice's school page credited Poets&Quants with an average GMAT of 693 for the Class of 2027, a number the article never prints; the figure's own note said it was read from a search snippet | INC-0154, INC-0157 | 2 |
@@ -1392,6 +1392,8 @@ Incidents that name an earlier one without claiming to repeat it. Each was read 
 - INC-0190 names INC-0119, INC-0189
 - INC-0191 names INC-0189
 - INC-0192 names INC-0117
+- INC-0193 names INC-0189
+- INC-0194 names INC-0193
 
 
 ## Where defects concentrate
@@ -1401,7 +1403,7 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/check_sources.py`, 22 incidents (INC-0130, INC-0132, INC-0133, INC-0136, INC-0140, INC-0150, INC-0152, INC-0154, INC-0155, INC-0156, INC-0158, INC-0159, INC-0161, INC-0168, INC-0172, INC-0173, INC-0174, INC-0175, INC-0177, INC-0180, INC-0182, INC-0184)
 - `src/build_banks.py`, 17 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011, INC-0079, INC-0081, INC-0086, INC-0088, INC-0089, INC-0090, INC-0091, INC-0092, INC-0120, INC-0123, INC-0126, INC-0127)
 - `src/build.py`, 13 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067, INC-0076, INC-0080, INC-0131, INC-0148)
-- `src/test.js`, 9 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085, INC-0192)
+- `src/test.js`, 10 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085, INC-0192, INC-0194)
 - `src/gen/g_rc.py`, 9 incidents (INC-0097, INC-0114, INC-0115, INC-0117, INC-0122, INC-0169, INC-0179, INC-0186, INC-0187)
 - `src/validate_schools.py`, 9 incidents (INC-0125, INC-0141, INC-0143, INC-0144, INC-0147, INC-0151, INC-0153, INC-0157, INC-0185)
 - `src/build_rankings.py`, 7 incidents (INC-0014, INC-0049, INC-0118, INC-0135, INC-0142, INC-0145, INC-0167)
@@ -1425,7 +1427,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (91)
+## Content generation (92)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -2529,6 +2531,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** A question whose answer is the passage's own sentence tests finding, not reading. Say the correct answer in other words, and measure what a reader who only matches words would score, because the shortcut is invisible item by item and obvious across a bank.
 
 
+### INC-0194. An LSAT reading choice said 'to particular facts to the particular facts', and the doubled phrase check missed it because the copy added 'the'
+
+*2026-09-29, Cosmetic*
+
+- **What was seen.** LC041's first choice, a wrong answer to what the author thinks of the Hand formulation's probability term, read 'an element that courts have in practice ignored when applying the test to particular facts to the particular facts in front of them'. It scored correctly and read as a typo, in the live LSAT trainer, from September 21 to September 29, 2026. In the same set LC036's last choice was grammatical but not what its author wrote: 'from one jurisdiction to the next' was meant to follow 'reached inconsistent verdicts' and landed after 'consistent ones'.
+- **Why.** src/mk_bank_lsat_rc2.py lengthened distractors with a loop of its own rather than bank_emit.extend(), and its second table placed six clauses after needles that stop short of the end of their choice, the defect INC-0119 found, so each clause landed after words it restated or did not belong to. #97 repaired four of the six in the bank. LC041's copy put 'the' into the repeated phrase, which the back to back check in test.js cannot see, because it looks for exactly the same words twice; LC036 repeats nothing at all.
+- **How it surfaced.** Found on September 29, 2026 while comparing this bank with its generator's output (INC-0193): the line is the same in both. A scan for a two word phrase repeated within four words found 13 answer choices across every bank, 12 of them deliberate parallels such as 'seed sown in April but not seed sown in May'; taking out a, an and the and running the back to back rule again finds LC041 and nothing else, in any field of any item. Replaying the generator's two clause tables listed the six short needles, and reading them found LC036. (Found by reading the code or the output)
+- **Fix.** LC041's choice now reads 'an element that courts have in practice ignored when applying the test to the particular facts in front of them', and LC036's clause moves to where its needle ends: 'reached inconsistent verdicts from one jurisdiction to the next until the Hand formulation gave them a method for reaching consistent ones'. Both are wrong answers, and neither change moves its key's length rank.
+- **What stops it now.** test.js and build_banks.py run the said twice rule a second time on each text with a, an and the taken out, so a repeat with an article slipped into one copy fails as the exact repeat it is; measured over every bank, it finds this item and no other. The generator that made it no longer writes the bank (INC-0193), and every generator that still writes one appends through extend(), which refuses a short needle. in `src/test.js`
+- **Lesson.** A check for text said twice has to allow for the copy not being exact. A seam left by an appended clause can differ from the text it repeats by an article, so take the small words out before comparing, and measure the rule over every bank to see that it finds the defect and nothing else.
+
+
 ## Tests and guards (35)
 
 
@@ -3122,7 +3136,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** A view that is redrawn from saved state loses whatever the user has not saved yet. When a background event can redraw a form, carry the fields' current values across the redraw. And a test that is not in CI is not guarding anything: it fails quietly until someone happens to run it.
 
 
-## Build system (11)
+## Build system (12)
 
 
 ### INC-0059. The item counter missed a whole bank file because it assumed a quoting style
@@ -3259,6 +3273,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** The post check splits a post at block elements, table cells included, before it looks for sentences, as the built-page check does, and reads each FAQ question and answer apart.
 - **What stops it now.** build_blog's self-check holds a fee table whose row names College Board's Waitlist beside an SAT fee, which must pass, and a paragraph saying the SAT trainer is in development, which must still be refused. in `src/build_blog.py`
 - **Lesson.** Two copies of one check drift apart. When a check exists in two places, a fix to one is a question about the other, and the cheapest answer is to make them share the code that splits text.
+
+
+### INC-0193. The second LSAT reading bank had a generator that no longer wrote it, and running the generator would have put back 25 corrected lines
+
+*2026-09-29, Degraded*
+
+- **What was seen.** src/mk_bank_lsat_rc2.py, whose docstring says it emits src/bank_lsat_rc2.js and which writes there when given no path, produced a bank that differs from the committed one on 25 lines in 23 of its 35 items. Run over the bank, it would have taken off 12 clauses added to even out answer lengths, brought back four garbled seams such as 'in every species in which the effect has been observed been observed', returned six Watch for notes to naming choices by the order they were written in, and put three keys back into the passage's own words. test.js would have failed three checks (two of the seams, two notes that name the key, and one length rank holding 46 percent of the keys against a recorded 36); the other two seams, four notes pointing at the wrong choices and three keys would have gone back without a failure.
+- **Why.** The bank was generated on September 21 (#65) by a script with its own writer, which put no 'Generated by' line in the file. The next day #70 added src/bank_repair.py so that hand written banks could be corrected 'without regenerating a file that was never generated', and used it on this file, which had been generated; #97, #204 and #205 then corrected the bank as well, because that is where each defect showed. The nine generators written since stamp their banks 'Generated by ... Edit that file, not this one', but nothing compared any bank with what its generator writes, so a bank and its generator could part without anything noticing.
+- **How it surfaced.** Noticed on September 28, 2026 while moving Watch for notes into the generators (INC-0189): this was the one generator whose notes were not converted, because its output no longer matched the bank. On September 29 each of the ten bank generators was run into a scratch directory and compared with its bank: nine match byte for byte, and this one differs on 25 lines, 12 of them from #70, 4 from #97, 6 from #204 and 3 from #205. Swapping its output into a scratch checkout and running test.js measured what the suite would and would not have caught. (Found by reading the code or the output)
+- **Fix.** src/bank_lsat_rc2.js now says in its header that it is the source and is edited by hand, and src/mk_bank_lsat_rc2.py refuses to write it and says why. Given another path it still writes what it wrote on September 21, which keeps it as the record of the content decisions its docstring describes.
+- **What stops it now.** src/check_bank_sources.py, which build.py runs, regenerates every bank whose header says 'Generated by' into a temporary directory and fails the build when the result differs from the committed bank at all, and fails when a generator's default output is a bank that does not name that generator, which is the state this bank was in. in `src/check_bank_sources.py`
+- **Lesson.** A generated file that someone edits by hand has two sources, and the next run of the generator silently picks one of them. Put the edit in the generator or retire the generator in writing, and have the build regenerate every generated file and compare it, because nothing else notices a generator that no longer makes its file until someone runs it.
 
 
 ## Search and metadata (10)
@@ -3858,6 +3884,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The runner's 400 draw cutoff dropped the last question of a small reading schema on three of four builds (INC-0126)</small>
 - [ ] When a generated file has a size limit and a completeness rule, decide which one wins before the file grows, because it will. Bound the whole output in the generator, and let the file say what it left out and where the rest is, so omission is a stated choice rather than a silent one.  
   <small>The rules digest crossed its word budget again, because the earlier fix bounded each rule and not the digest (INC-0129)</small>
+- [ ] A generated file that someone edits by hand has two sources, and the next run of the generator silently picks one of them. Put the edit in the generator or retire the generator in writing, and have the build regenerate every generated file and compare it, because nothing else notices a generator that no longer makes its file until someone runs it.  
+  <small>The second LSAT reading bank had a generator that no longer wrote it, and running the generator would have put back 25 corrected lines (INC-0193)</small>
 
 
 ## CSS and layout
@@ -3902,6 +3930,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Every generated reading comprehension question shipped without its passage (INC-0099)</small>
 - [ ] **Learned 4 times over.** Any consumer that describes a value in words must read the field that records what kind of value it is, never the field's name. A field name is a hope about the data, not a description of it, and a schema that allows two kinds of value will be described everywhere as the kind it was named after.  
   <small>Twelve average salaries were published as medians, and the social queue credited schools with figures they never published (INC-0105)</small>
+- [ ] **Learned 4 times over.** An edit that appends text has to read what it is appending to. A correction step that checks only its own goal (here, that the choice got longer) will happily achieve it by making the choice worse, and every check downstream measures the goal, so nothing notices. Check the seam: the words either side of where new text meets old text.  
+  <small>Length corrections appended clauses that repeated what the answer choices already said (INC-0119)</small>
 - [ ] **Learned 4 times over.** A citation is only as current as the page it points to, and publishers leave old pages up. When a source describes itself as covering a period, check that the period is still running; a page about last year's test can be quoted perfectly and still be wrong about this year's.  
   <small>The LSAT guide said most test takers choose between remote and in-person testing, after LSAC had moved almost everyone into test centers (INC-0136)</small>
 - [ ] **Learned 4 times over.** Anything written ahead of its publication date is a promise about the future made from the past. Re-check a queued post's claims about your own product at build time, where the product's real state is known, rather than trusting the day it was written.  
@@ -3920,8 +3950,6 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A new field-by-field copier reproduced the passage loss defect four days after the ledger recorded it (INC-0101)</small>
 - [ ] **Learned 3 times over.** A stored phrase that goes into more than one slot has to be written for the hardest of them, and the transform has to run in the direction that cannot damage anything: capitalising a sentence opener is always safe, lowercasing one breaks proper nouns. When a field is reused, read the output of every slot it lands in, not the one it was written for.  
   <small>A field written to open a sentence was printed mid-sentence in a reading stem (INC-0115)</small>
-- [ ] **Learned 3 times over.** An edit that appends text has to read what it is appending to. A correction step that checks only its own goal (here, that the choice got longer) will happily achieve it by making the choice worse, and every check downstream measures the goal, so nothing notices. Check the seam: the words either side of where new text meets old text.  
-  <small>Length corrections appended clauses that repeated what the answer choices already said (INC-0119)</small>
 - [ ] **Learned 3 times over.** A figure written twice on one page will eventually be written two ways. Where the site already holds a sourced value, a page that states it should be checked against that value, because a reader who meets $4 and $5 for the same fee trusts neither.  
   <small>A blog post put the ACT science add-on at $4 in its table and $5 in its own FAQ, and nothing compared a post's prices with the sourced ones (INC-0124)</small>
 - [ ] **Learned 3 times over.** A presence check on a source field proves the field is filled, not that it is true. Where a figure names its source, check that the URL belongs to that source, because the easiest value to fill a required field with is the wrong one that happens to be nearby.  
@@ -4064,6 +4092,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Three LSAT reasoning items offered wrong answers with the key's logical force, and each note said they lacked it (INC-0191)</small>
 - [ ] A question whose answer is the passage's own sentence tests finding, not reading. Say the correct answer in other words, and measure what a reader who only matches words would score, because the shortcut is invisible item by item and obvious across a bank.  
   <small>Hand written 'according to the passage' questions could be answered by choosing the option made of the passage's words (INC-0192)</small>
+- [ ] A check for text said twice has to allow for the copy not being exact. A seam left by an appended clause can differ from the text it repeats by an article, so take the small words out before comparing, and measure the rule over every bank to see that it finds the defect and nothing else.  
+  <small>An LSAT reading choice said 'to particular facts to the particular facts', and the doubled phrase check missed it because the copy added 'the' (INC-0194)</small>
 
 
 ## Database
@@ -4376,7 +4406,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 192 real defects reduced to the rules that prevent them,
+the whole project: 194 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -4416,7 +4446,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-192 defects already prevented is genuinely ahead, and every defect it hits
+194 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

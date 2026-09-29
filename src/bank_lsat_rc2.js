@@ -16,6 +16,12 @@
 // first bank does: the engine builds a section out of whole passage groups, so a skill
 // confined to one passage would be dropped whenever that passage is not selected.
 //
+// THIS FILE IS THE SOURCE, AND IS EDITED BY HAND. src/mk_bank_lsat_rc2.py wrote it on
+// September 21, 2026, and it has been corrected in place since, so that script no longer
+// reproduces it and refuses to write it (INC-0193). Edit items here, keeping every string
+// JSON escaped as the first point below explains, and append a clause to a choice with
+// src/bank_repair.py, which refuses the seams INC-0119 found.
+//
 // TWO THINGS ABOUT HOW THIS FILE WAS PRODUCED, both of which are ledger entries.
 //
 // The strings are JSON escaped rather than hand quoted. An unescaped apostrophe inside a
@@ -39,7 +45,7 @@ const BANK_LSAT_RC2 = [
 // ---------- Set LP6 ----------
 {id:'LC036',section:"RC",type:"RC",passageId:"LP6",passage:LC_P6,skill:"lsat_rc_main",diff:3,
  stem:"Which one of the following most accurately expresses the main point of the passage?",
- choices:["The Hand formulation should be abandoned because its three terms cannot be measured in the same units and the comparison it demands is therefore incoherent, and no reformulation of it could repair that defect.","Negligence liability is best understood as a device for inducing parties to take efficient levels of precaution against foreseeable harm to others.","The law and economics movement adopted the Hand formulation because it shared a vocabulary with economics rather than because it was legally sound on its own terms as a matter of doctrine.","A formulation that presents a negligence judgement as a calculation has both a real advantage and a real cost, and the disagreement about it concerns which matters more.","Courts applying the reasonable person standard reached inconsistent verdicts until the Hand formulation gave them a method for reaching consistent ones from one jurisdiction to the next."],answer:3,
+ choices:["The Hand formulation should be abandoned because its three terms cannot be measured in the same units and the comparison it demands is therefore incoherent, and no reformulation of it could repair that defect.","Negligence liability is best understood as a device for inducing parties to take efficient levels of precaution against foreseeable harm to others.","The law and economics movement adopted the Hand formulation because it shared a vocabulary with economics rather than because it was legally sound on its own terms as a matter of doctrine.","A formulation that presents a negligence judgement as a calculation has both a real advantage and a real cost, and the disagreement about it concerns which matters more.","Courts applying the reasonable person standard reached inconsistent verdicts from one jurisdiction to the next until the Hand formulation gave them a method for reaching consistent ones."],answer:3,
  expl:"The passage sets out the appeal, then the incommensurability objection, then the reply that silence is not neutrality, and closes by saying the disagreement is about whether explicitness is worth the risk of false objectivity. That is a characterisation of a live dispute, not a verdict.",
  wrong:"The passage does not conclude that the formulation should be abandoned, and the final paragraph says both positions have force. The claim about inconsistent verdicts is not made. The vocabulary point and the efficiency account are each one step in the argument, not its point."},
 {id:'LC037',section:"RC",type:"RC",passageId:"LP6",passage:LC_P6,skill:"lsat_rc_stated",diff:2,
@@ -64,7 +70,7 @@ const BANK_LSAT_RC2 = [
  wrong:"A mismeasured load is an error, not a concealed evaluation. A withheld tally and an unexplained limit are failures to disclose reasoning, not evaluations presented as computations. An unrepresentative statistic is a sampling problem."},
 {id:'LC041',section:"RC",type:"RC",passageId:"LP6",passage:LC_P6,skill:"lsat_rc_inf",diff:4,
  stem:"It can be inferred from the passage that the author regards the probability term in the Hand formulation as",
- choices:["an element that courts have in practice ignored when applying the test to particular facts to the particular facts in front of them","a quantity that is genuinely numerical but is seldom available to the party at the time of the decision","a term whose inclusion is what makes the whole formulation incoherent as a comparison between unlike quantities","the least troubling of the three terms because probabilities are objective in a way that burdens and harms are not","the only term that the law and economics movement was able to supply an account of"],answer:1,
+ choices:["an element that courts have in practice ignored when applying the test to the particular facts in front of them","a quantity that is genuinely numerical but is seldom available to the party at the time of the decision","a term whose inclusion is what makes the whole formulation incoherent as a comparison between unlike quantities","the least troubling of the three terms because probabilities are objective in a way that burdens and harms are not","the only term that the law and economics movement was able to supply an account of"],answer:1,
  expl:"The third paragraph grants that probability is a number, then immediately adds that it is rarely a knowable one at the moment of decision. Both halves are the author's view.",
  wrong:"The passage does not rank the terms by how troubling they are, and locates the incoherence in the multiplication of gravity rather than in probability. It does not say courts ignore it or that only the movement accounted for it."},
 {id:'LC042',section:"RC",type:"RC",passageId:"LP6",passage:LC_P6,skill:"lsat_rc_struct",diff:3,
