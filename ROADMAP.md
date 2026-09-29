@@ -917,6 +917,23 @@ verified rather than that the school does not publish one (INC-0118).
       after a footer that already carries one; three blog page loads left identical pairs. The
       blog's copy is gone, and both builds now require exactly one beacon on every page they
       write. The five test rows stay in the table for the owner to mark as noise in Admin > Errors.
+- [x] **Five more long reading passages** (redwater, footrot, grittyflour, fadedink,
+      troutgravel): cattle sickening with redwater, blamed on a new breed and caused by ticks
+      multiplying in bracken the commoners were no longer let cut; ewes going lame, blamed on a new
+      breed of ram and caused by folding them on water meadows floated longer each spring; flour
+      turning gritty, blamed on the millers' haste and caused by millstones cut from a soft
+      sandstone; registry entries fading, blamed on the clerks' thrift and caused by a new
+      stationer's logwood ink; and trout declining, blamed on poachers and caused by silt from new
+      cress beds smothering their spawning gravel. They run 308 to 329 words, every capitalised
+      word was checked against every corpus and bank, and they pass every check the bank build
+      runs. The banks grow to GMAT 34662, GRE 21038 and LSAT 15002, of which 14630 are generated,
+      counts read from the build. All 150 new items were read before they went in. A case name
+      that met the salt wells passage's Tanner's Row became Pinfold Croft, and the flour passage
+      changed once the items were read: it limited its second study to members of the bakers'
+      company, which made the bread shortages passage's closing limit, "less is known about the
+      town's other bakers", half true of it when drawn as a wrong answer beside it. Every baker who
+      bought from the mills now belongs to the company, and the limit names only the meal ground
+      for households.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
