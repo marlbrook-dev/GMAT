@@ -890,6 +890,23 @@ verified rather than that the school does not publish one (INC-0118).
       stationer named Ezra met the thatcher Ezra Merriott, so both were renamed, with two inns whose
       names other generators use. And "clocks he had never touched" named no one when its sentence
       was quoted alone as an answer choice.
+- [x] **Five more long reading passages** (rickfires, wallrender, butterchurns, blastpowder,
+      frostoaks): hay ricks catching fire, blamed on rick burners and caused by hay carried to the
+      rick before it had dried; medieval wall paintings flaking, blamed on a restorer's paint and
+      caused by cement render that held the damp in the walls; butter turning rank, blamed on
+      careless dairymaids and caused by churns lined with copper; blasting charges misfiring,
+      blamed on a new powder mill and caused by powder that drew damp in a new magazine; and young
+      oaks dying, blamed on the deer and caused by seedlings raised in a mild climate and killed by
+      late frosts. They run 316 to 345 words, every capitalised word was checked against every
+      corpus and bank, and they pass every check the bank build runs. The banks grow to GMAT
+      34612, GRE 20988 and LSAT 14952, of which 14580 are generated, counts read from the build.
+      All 150 new items were read before they went in. Five names met names already in use
+      (Ashcombe, Brackwater, Kestrel, Penhallow and Winstanley) and were changed; the rick
+      passage's second study moved from a fire office's claims to a land agent's rick books,
+      because its caveat about uninsured ricks sat too close to the chimney fires passage's caveat
+      about uninsured houses, which can be drawn as a wrong answer beside it; and the wall painting
+      passage's surveyor became an antiquarian society, for the same reason against the brickfields
+      passage's surveyor who had no duty to inspect.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
