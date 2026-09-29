@@ -847,6 +847,21 @@ verified rather than that the school does not publish one (INC-0118).
       defended: "the hive at Furze End stood on the heath" and "the piece bought from the
       Dunnock farm was steeped in a pond" name the one alternative the passage gives, so each
       could look inferable, and each now contradicts the study instead, as earlier passages' do.
+- [x] **Five more long reading passages** (shiptimber, leadroofs, oysterbeds, bridgetolls,
+      fullersearth): warships rotting early, blamed on careless shipwrights and caused by a
+      forest felling its oak in summer so the bark could be sold to the tanners; church roofs
+      cracking, blamed on hard winters and caused by plumbers casting thinner lead after its
+      price rose; oyster beds dying, blamed on a hard winter and caused by sand from a new
+      ballast ground; bridge tolls halving, blamed on hard times and caused by a turnpike road
+      that sent the carriers round by a ford; and cloth failing the searchers, blamed on the
+      weavers and caused by gritty fuller's earth from a new pit. They run 302 to 346 words,
+      every name was checked against every corpus and bank, and they pass every check the bank
+      build runs. The banks grow to GMAT 34462, GRE 20838 and LSAT 14742, of which 14370 are
+      generated, counts read from the build. All 150 new items were read before they went in.
+      Two near misses were rewritten first, because each named what the passage's own
+      alternative implied: a lot of oak missing from the forest's accounts "was not felled in
+      summer" (it might be the winter-felled estate oak), and a mill that never bought its
+      earth "did not use the earth from the new pit" (it might be the mill that dug its own).
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
