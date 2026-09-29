@@ -873,6 +873,14 @@ verified rather than that the school does not publish one (INC-0118).
       reading and writing domain, grammar included. Every rule was read on September 28 from
       the makers' own pages; three join data/exams.json and pass the source check's functions,
       and EDITORIAL.md gains a verbal block.
+- [x] **"Does the GMAT, GRE, LSAT, SAT, or ACT Have an Essay?"** queued for January 6 (James
+      Corbett): only the GRE scores an essay at every sitting, an Analyze an Issue task in 30
+      minutes; the LSAT requires an unscored Argumentative Writing sample, 15 minutes of
+      prewriting and 35 to write, before scores are released; the ACT's 40-minute essay is
+      optional; the SAT's Essay survives only on school days in states that require it; and the
+      GMAT Focus Edition has none. Every rule was read on September 28 from the makers' own
+      pages; three join data/exams.json and pass the source check's functions, and EDITORIAL.md
+      gains an essay block.
 - [x] **No rank cites an admissions consulting blog.** Eight U.S. News 2026 ranks (Virginia
       11, Cornell 15, UCLA and Texas 18, Washington 20, North Carolina 21, Emory 23, Georgetown
       31) cited Clear Admit or Stacy Blackman, which src/sources.py lists as weak sources; they

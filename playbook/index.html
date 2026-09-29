@@ -59,7 +59,7 @@ a{color:var(--accent)}
 <p class="eyebrow">Start From Nowhere</p>
 <h1>The Build Playbook</h1>
 <p class="sub">How one person and a set of AI sessions built a multi-exam test-prep platform, every defect hit on the way, and the recipe for doing it again for something else</p>
-<p class="meta">Built 2026-09-28 from commit a378688 &middot; 159 commits over 9 days &middot; 192 recorded defects &middot; 17 chapters<br>
+<p class="meta">Built 2026-09-29 from commit c31bd4b &middot; 160 commits over 9 days &middot; 192 recorded defects &middot; 17 chapters<br>
 This document is generated. Edit the chapters in docs/playbook/ and the ledger in data/playbook/incidents.jsonl, then run python3 src/build_playbook.py.</p>
 </div>
 <div class="toc"><ol><li><a href="#how-to-use-this-book">How to Use This Book</a></li>
@@ -81,7 +81,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><a href="#the-bootstrap-pack-starting-a-new-project-with-this-loaded">The Bootstrap Pack: Starting a New Project With This Loaded</a></li></ol></div>
 <h1 id="how-to-use-this-book">How to Use This Book</h1>
 <p>This is the record of building one platform, written so it can be used to build a different one.</p>
-<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-09-19 and 2026-09-28, which is 9 days, across 159 commits, by one owner directing a series of AI coding sessions. As of this build it is 86 Python files, 112 JavaScript files, 24 TypeScript edge functions, 35 migrations and 65 documents: 2119 tracked files in total.</p>
+<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-09-19 and 2026-09-28, which is 9 days, across 160 commits, by one owner directing a series of AI coding sessions. As of this build it is 86 Python files, 112 JavaScript files, 24 TypeScript edge functions, 35 migrations and 65 documents: 2119 tracked files in total.</p>
 <p>None of those numbers were typed. They are measured from the repository every time this document is built, which is the first thing worth copying.</p>
 <h2 id="what-is-in-here">What is in here</h2>
 <p>The book has four kinds of chapter, and they age differently.</p>
@@ -621,7 +621,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three defects here were found by taking a screenshot: a chart unreadable in dark mode, a line chart implying values that never existed, and a dashboard that was not on screen. None of them would have been caught by an assertion, because none of them were violations of anything anybody had thought to assert.</p>
 <p><strong>Budget for looking.</strong> It is the cheapest test there is and the only one that catches things you have not imagined.</p>
 <h1 id="running-the-build-as-an-ai-loop">Running the Build as an AI Loop</h1>
-<p>159 commits in 9 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
+<p>160 commits in 9 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
 <h2 id="the-division-of-labour">The division of labour</h2>
 <p><strong>The owner decides</strong>: what to build, what it means, what is acceptable, and every irreversible or outward-facing action. <strong>The session does</strong>: the building, the measuring, the testing, and the reporting of what it found.</p>
 <p>The failure mode at each end is worth naming. An owner who reviews every line becomes the bottleneck and the throughput collapses to the speed of reading. A session that decides product questions on its own produces something coherent that is not what anyone wanted.</p>
@@ -1754,7 +1754,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> Check a wrong answer against the premises, not against what it was meant to be. A note written from the author's intention describes the error the option was supposed to commit, so it cannot catch an option that came out valid; write each option out as symbols beside the premises before writing what is wrong with it.</li>
 </ul>
 <h3 id="inc-0192-hand-written-according-to-the-passage-questions-could-be-answered-by-choosing-the-option-made-of-the-passage-s-words">INC-0192. Hand written 'according to the passage' questions could be answered by choosing the option made of the passage's words</h3>
-<p><em>2026-09-28, Degraded</em></p>
+<p><em>2026-09-28, Degraded, <code>c31bd4b5ac0d1c82271aaba1d7dc0bf99361f363</code> PR #205</em></p>
 <ul>
 <li><strong>What was seen.</strong> A test taker who never read the question and chose the option with the largest share of its words in the passage got the key on 29 of 44 hand written GMAT stated questions, 22 of 30 LSAT, 16 of 25 ACT and 3 of 9 GRE, against a blind guess of one in five or one in four. GMAT item V261 asks what set a United States town's time before the 1880s, and its key, 'the local position of the sun', is the passage's first sentence word for word; LSAT item LC179's key, 'the stomach was sterile', is the passage's phrase.</li>
 <li><strong>Why.</strong> The key of a detail question was written by copying the sentence that answers it, and the wrong answers were written fresh, so the key was the one option built from the passage's own words. INC-0117 put a ceiling on this shortcut for the generated reading schemas and left stated idea questions out, since a stated question's answer is in the passage by definition; nothing measured the hand written banks, which is where the copying happened.</li>

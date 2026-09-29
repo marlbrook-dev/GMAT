@@ -546,6 +546,12 @@
         "src": "College Board (Digital SAT Suite of Assessments Specifications Overview)",
         "year": 2026,
         "url": "https://satsuite.collegeboard.org/media/pdf/digital-sat-test-spec-overview.pdf"
+      },
+      {
+        "text": "The SAT Essay section is only available in certain states where it is required as part of SAT School Day administrations; if included, it comes after the Reading and Writing and Math sections and adds 50 minutes, and the optional weekend SAT Essay was discontinued in 2021",
+        "src": "College Board (What Is the SAT Essay?)",
+        "year": 2024,
+        "url": "https://blog.collegeboard.org/what-sat-essay"
       }
     ]
   },
@@ -931,6 +937,12 @@
         "also_urls": ["https://www.lsac.org/applying-law-school/jd-application-process/credential-assembly-service-cas/law-school-reports"]
       },
       {
+        "text": "LSAT Argumentative Writing is delivered exclusively online using remote-proctoring software installed on the candidate's own computer; test takers have 15 minutes for prewriting analysis, with the option to move past it after five minutes, and then 35 minutes to write their essay",
+        "src": "LSAC",
+        "year": 2026,
+        "url": "https://www.lsac.org/lsat/register-lsat/accommodations/specifications-lsat-and-lsat-argumentative-writing"
+      },
+      {
         "text": "The unscored section can be any one of the question types, Reading Comprehension or Logical Reasoning, and can occur at any point in the test",
         "src": "LSAC",
         "year": 2026,
@@ -1300,6 +1312,12 @@
       },
       {
         "text": "Mathematics reporting categories: Preparing for Higher Math (80%), split into Number & Quantity (10% to 12%), Algebra (17% to 20%), Functions (17% to 20%), Geometry (17% to 20%) and Statistics & Probability (12% to 15%), and Integrating Essential Skills (20%)",
+        "src": "ACT",
+        "year": 2026,
+        "url": "https://www.act.org/content/act/en/products-and-services/the-act/scores/understanding-your-scores.html"
+      },
+      {
+        "text": "The ACT writing test is scored on a 2 to 12 scale across four domains: Ideas and Analysis, Development and Support, Organization, and Language Use and Conventions",
         "src": "ACT",
         "year": 2026,
         "url": "https://www.act.org/content/act/en/products-and-services/the-act/scores/understanding-your-scores.html"

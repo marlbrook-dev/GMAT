@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-28, which is 9 days, across
-159 commits, by one owner directing a series of AI coding sessions. As of this
+160 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 86 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
 2119 tracked files in total.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-159 commits in 9 days, one owner, a series of AI sessions. This
+160 commits in 9 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -2519,7 +2519,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0192. Hand written 'according to the passage' questions could be answered by choosing the option made of the passage's words
 
-*2026-09-28, Degraded*
+*2026-09-28, Degraded, `c31bd4b5ac0d1c82271aaba1d7dc0bf99361f363` PR #205*
 
 - **What was seen.** A test taker who never read the question and chose the option with the largest share of its words in the passage got the key on 29 of 44 hand written GMAT stated questions, 22 of 30 LSAT, 16 of 25 ACT and 3 of 9 GRE, against a blind guess of one in five or one in four. GMAT item V261 asks what set a United States town's time before the 1880s, and its key, 'the local position of the sun', is the passage's first sentence word for word; LSAT item LC179's key, 'the stomach was sterile', is the passage's phrase.
 - **Why.** The key of a detail question was written by copying the sentence that answers it, and the wrong answers were written fresh, so the key was the one option built from the passage's own words. INC-0117 put a ceiling on this shortcut for the generated reading schemas and left stated idea questions out, since a stated question's answer is in the passage by definition; nothing measured the hand written banks, which is where the copying happened.
