@@ -312,7 +312,6 @@ FAVICON = """<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.
 LOGO = """<svg viewBox="0 0 48 48" width="30" height="30" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#122B4E"/><path d="M13 33 22 22l6 5 8.5-10" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M29.5 16.5H37V24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>"""
 
 import partials as _partials
-SENTINEL = _partials.sentinel_js()
 
 BEACON = """"""
 
@@ -357,7 +356,6 @@ def page(title, description, canonical, body, extra_head=""):
 {body}
 {partials.footer_html()}
 {BEACON}
-{SENTINEL}
 </body></html>"""
 
 def hero_block(p, big=False):
@@ -692,6 +690,15 @@ def main():
         d.mkdir(exist_ok=True)
         p = dict(p, body=delink_held(p["body"], live_slugs))
         (d / "index.html").write_text(build_post(p, live))
+    # Every page carries the error beacon exactly once. The footer supplies it, and this
+    # builder once appended a second copy after the footer, so each blog page reported its
+    # errors twice; apply_chrome forbids that, but the blog never goes through apply_chrome
+    # (INC-0197). So the rule is checked on the pages as written.
+    _twice = [str(f.relative_to(ROOT)) for f in sorted(out.glob("**/index.html"))
+              if f.read_text().count(_partials.SENTINEL_MARK) != 1]
+    if _twice:
+        fail("the error beacon must appear exactly once per page; wrong on %d page(s), e.g. %s"
+             % (len(_twice), ", ".join(_twice[:3])))
     # The exam guides list their exam's published posts (build_exams.study_room), and the
     # school pages the posts that quote them (build_rankings.posts_citing). A page built on
     # a different date from the blog could link a post that is not out yet, so every such

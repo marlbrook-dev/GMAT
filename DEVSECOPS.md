@@ -195,7 +195,10 @@ uncaught errors, unhandled rejections and failed resource loads to `client_error
 rules it cannot break, since a broken error reporter is worse than none: it cannot throw,
 it cannot loop (one report per signature per page view, ten maximum), and it cannot report
 its own failures. First party, insert-only from the browser, no select policy, raw IP never
-stored. Disclosed in privacy.html section 2.
+stored. Disclosed in privacy.html section 2. It reports only from a visitor's page: a browser
+under automation (`navigator.webdriver`, which every smoke test and CI run sets) or a page
+opened from disk stays silent, since a test's failed loads once sat in the live table among
+real errors (INC-0196). build.py runs the snippet in all three contexts and fails otherwise.
 
 **Stage 2, identify the source.** Messages are normalised before grouping: numbers, urls,
 hex and quoted strings collapse to placeholders, so the same bug is one cluster however

@@ -600,11 +600,20 @@ def consent_js():
     )
 
 
+# The comment that opens the error beacon. The builds count it on every page they write,
+# so it is defined once here and the beacon is written from it (INC-0197).
+SENTINEL_MARK = "<!-- sfn sentinel:"
+
+
 def sentinel_js(app_version=None):
     ver = app_version or build_id()
     return (
-        "<!-- sfn sentinel: first-party error beacon, no third parties, raw IP never stored -->\n"
+        SENTINEL_MARK + " first-party error beacon, no third parties, raw IP never stored -->\n"
         "<script>(function(){try{\n"
+        "// A browser under automation (a smoke test, CI) or a page opened from disk is not a\n"
+        "// visitor, and what goes wrong there is not a visitor's error. Both posted here all\n"
+        "// the same, and a test's failed loads sat in the live table among real ones (INC-0196).\n"
+        "if(navigator.webdriver||location.protocol==='file:') return;\n"
         'var U="' + SENTINEL_URL + '",V="' + ver + '";\n'
         "var sid;try{sid=sessionStorage.getItem('sfn_sid');}catch(e){}\n"
         "// Collapse the variable parts of a message so the same bug groups as one cluster\n"
