@@ -511,6 +511,51 @@ for p in _app_pages + [root/"index.html", root/"community"/"index.html",
                        root/"do-not-sell"/"index.html"]:
     check_scripts(p)
 
+# The error beacon posts to the live error log from whatever page it runs in, and a test
+# harness's page is one of them: five rows from a smoke test that opened a page from disk
+# sat in client_errors among visitors' errors, marked as nothing else (INC-0196). So the
+# beacon's own script is run in node against a stubbed page, as a visitor, as a browser
+# under automation and as a page opened from disk, and only the visitor may post.
+_SENTINEL_HARNESS = r"""
+const vm = require('vm');
+const [src, webdriver, origin, protocol] = process.argv.slice(1);
+const handlers = {}; let posts = 0;
+const page = {
+  location: {pathname: '/app/', origin: origin, protocol: protocol, search: ''},
+  navigator: {userAgent: 'Mozilla/5.0', webdriver: webdriver === '1'},
+  sessionStorage: {getItem: function () { return null; }},
+  fetch: function () { posts++; return Promise.resolve(); },
+  addEventListener: function (type, f) { (handlers[type] = handlers[type] || []).push(f); },
+};
+page.window = page;
+vm.createContext(page);
+vm.runInContext(src, page);
+for (const f of handlers.error || []) {
+  f({message: 'boom', filename: origin + '/app/x.js', lineno: 1, colno: 1, error: new Error('boom')});
+  f({target: {src: origin + '/fonts/x.woff2', tagName: 'LINK'}});
+}
+console.log(posts);
+"""
+import re as _re_sentinel
+_sentinel_src = _re_sentinel.search(r"<script>([\s\S]*?)</script>", partials.sentinel_js("check")).group(1)
+_sentinel_bad = []
+for _who, _wd, _origin, _proto, _want in [
+        ("a visitor on the live site", "0", "https://startfromnowhere.com", "https:", 2),
+        ("a browser under automation", "1", "https://startfromnowhere.com", "https:", 0),
+        ("a page opened from disk", "0", "file://", "file:", 0)]:
+    _r = subprocess.run(["node", "-e", _SENTINEL_HARNESS, _sentinel_src, _wd, _origin, _proto],
+                        capture_output=True, text=True)
+    _got = _r.stdout.strip()
+    if _r.returncode != 0 or _got != str(_want):
+        _sentinel_bad.append("%s: expected %d posts, got %s %s" % (_who, _want, _got or "none",
+                                                                  _r.stderr.strip()[:300]))
+if _sentinel_bad:
+    for _b in _sentinel_bad:
+        print("ERROR: error beacon, " + _b, file=sys.stderr)
+    print("Only a visitor's page may write to the live error log (INC-0196).", file=sys.stderr)
+    sys.exit(1)
+print("  error beacon posts for a visitor and stays quiet under automation and from disk")
+
 # The bank is not an inline script, so check_scripts never saw it, and the largest
 # artefact the site ships was the one file nothing parsed. A syntax error in it takes the
 # trainer down exactly as INC-0001 did, and would have built cleanly (INC-0060). Every
@@ -705,6 +750,29 @@ if _unbuttoned:
         print("ERROR: %s has a button label that breaks Title Case: %r should read %r" % (_pg, _b, _want),
               file=sys.stderr)
     sys.exit(1)
+
+# Every shipped page carries the error beacon exactly once: with none its errors go
+# unseen, and with two each one is reported twice, which is what the blog did while it
+# built its pages outside apply_chrome (INC-0197). Counted on the pages as written. The
+# blog is left to build_blog.py, which runs after this and checks its own pages the same way.
+_beacon_skip = {"node_modules", ".git", "src", "playbook", "docs", "design", "data", "blog"}
+_beacon_pages, _beacon_wrong = 0, []
+for _dir, _subdirs, _files in os.walk(root):
+    if pathlib.Path(_dir) == root:
+        _subdirs[:] = [x for x in _subdirs if x not in _beacon_skip]
+    for _fn in _files:
+        if not _fn.endswith(".html"):
+            continue
+        _f = pathlib.Path(_dir) / _fn
+        _beacon_pages += 1
+        _n = _f.read_text(errors="ignore").count(partials.SENTINEL_MARK)
+        if _n != 1:
+            _beacon_wrong.append("%s (%d)" % (_f.relative_to(root), _n))
+if _beacon_wrong or not _beacon_pages:
+    print("ERROR: the error beacon must appear exactly once per page; wrong on %d of %d: %s"
+          % (len(_beacon_wrong), _beacon_pages, ", ".join(_beacon_wrong[:5])), file=sys.stderr)
+    sys.exit(1)
+print("  error beacon appears exactly once on each of %d built pages" % _beacon_pages)
 
 
 # ---------------------------------------------------------------------------

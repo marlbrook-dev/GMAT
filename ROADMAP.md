@@ -907,6 +907,16 @@ verified rather than that the school does not publish one (INC-0118).
       about uninsured houses, which can be drawn as a wrong answer beside it; and the wall painting
       passage's surveyor became an antiquarian society, for the same reason against the brickfields
       passage's surveyor who had no duty to inspect.
+- [x] **The error beacon reports only from visitors' pages, once per page** (INC-0196,
+      INC-0197): client_errors held five rows from a smoke test that had opened a built page from
+      disk, posted by the beacon as if a visitor had hit them, and 12 smoke scripts open pages with
+      no request interception, so any error a test run catches would reach the live table. The
+      beacon now stays silent under automation (navigator.webdriver) and on pages opened from
+      disk, and build.py runs its script in node in all three contexts. Reading the table also
+      found every blog page carrying the beacon twice, because the blog builder appended its own
+      after a footer that already carries one; three blog page loads left identical pairs. The
+      blog's copy is gone, and both builds now require exactly one beacon on every page they
+      write. The five test rows stay in the table for the owner to mark as noise in Admin > Errors.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
