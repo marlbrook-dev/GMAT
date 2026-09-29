@@ -874,6 +874,22 @@ verified rather than that the school does not publish one (INC-0118).
       counts read from the build. All 150 new items were read before they went in, and the near
       misses were written from the start to avoid the passage's own alternative (the gorse left
       standing, the grass-fed tallow, the seasoned wood), the trap the last two batches found.
+- [x] **Five more long reading passages** (clockdials, vatwater, seasand, brewyeast,
+      slatenails): church clocks stopping on winter nights, blamed on a new clockmaker and caused
+      by ice on the iron hands of new outside dials; paper spotting, blamed on a new rag merchant
+      and caused by vat water from a leat that carried rust; a pier's mortar crumbling, blamed on
+      the masons' haste and caused by salty sand dug from the beach; ale souring, blamed on a new
+      maltster and caused by yeast bought from one common brewer; and slates slipping, blamed on a
+      new quarry's thin slate and caused by iron nails that rusted through. They run 325 to 344
+      words, every name was checked against every corpus and bank, and they pass every check the
+      bank build runs. The banks grow to GMAT 34562, GRE 20938 and LSAT 14902, of which 14530 are
+      generated, counts read from the build. All 150 new items were read before they went in, and
+      the reading changed three things first. The clock passage had blamed rape oil thickening in
+      the cold, the street lamps passage's cause, and the two met as main idea choices, so it now
+      blames ice on new outside dials. A case at Scarth Chapel met a researcher named Scarth, and a
+      stationer named Ezra met the thatcher Ezra Merriott, so both were renamed, with two inns whose
+      names other generators use. And "clocks he had never touched" named no one when its sentence
+      was quoted alone as an answer choice.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
