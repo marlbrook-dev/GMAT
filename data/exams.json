@@ -101,6 +101,12 @@
         "url": "https://www.mba.com/exams/gmat-exam/about/exam-structure"
       },
       {
+        "text": "A computer-adaptive test adjusts the difficulty of questions based on your performance: the exam typically starts with a medium-difficulty question, the next question may be more difficult if you answer correctly and easier if you answer incorrectly, and your score is based on the overall pattern of your responses, not just whether individual questions are right or wrong",
+        "src": "GMAC (mba.com help center)",
+        "year": 2026,
+        "url": "https://support.mba.com/hc/en-us/articles/7261613974043-GMAT-What-Does-Computer-Adaptive-Mean-on-the-GMAT"
+      },
+      {
         "text": "A response counts only after you click Next and then click Yes to confirm it; if both steps are not completed before time runs out, the response will not be saved or scored",
         "src": "GMAC (mba.com help center)",
         "year": 2026,
@@ -426,6 +432,12 @@
         "url": "https://satsuite.collegeboard.org/sat/whats-on-the-test/structure"
       },
       {
+        "text": "The first module of each section contains a broad mix of easy, medium, and hard questions, and based on how you perform on it, the second module will either be more difficult or less difficult; Reading and Writing is 54 questions in two 32-minute modules and Math is 44 questions in two 35-minute modules",
+        "src": "College Board",
+        "year": 2026,
+        "url": "https://satsuite.collegeboard.org/sat/whats-on-the-test/structure"
+      },
+      {
         "text": "Scores depend on whether you answer questions right or wrong, the difficulty level of the questions and the probability that you might be guessing, and for most students it is better to guess than leave a question blank, especially if you can eliminate one or two wrong answers first",
         "src": "College Board (SAT Understanding Scores, Fall 2026)",
         "year": 2026,
@@ -680,6 +692,12 @@
       },
       {
         "text": "Verbal and Quantitative are section-level adaptive: the difficulty level of the second section of each measure depends on your performance on the first section",
+        "src": "ETS",
+        "year": 2026,
+        "url": "https://www.ets.org/gre/test-takers/general-test/prepare/test-structure.html"
+      },
+      {
+        "text": "The first section of each measure is of average difficulty, and if you do very well on the first Quantitative Reasoning section, the second section of Quantitative Reasoning will be at a higher level of difficulty; the design allows you to move forward and backward throughout an entire section",
         "src": "ETS",
         "year": 2026,
         "url": "https://www.ets.org/gre/test-takers/general-test/prepare/test-structure.html"

@@ -335,6 +335,12 @@ Guessing on each test (each test maker's own pages, read September 29, 2026; six
 - ACT (ACT, Understanding Your Scores; Preparing for the ACT Test, 2026 to 2027): scores are based on the number of questions answered correctly, with no penalty for incorrect answers; ACT advises answering every question and, when stuck, guessing, flagging the question and returning to it if there is time.
 Do not say that any of the five takes points off for a wrong answer, and do not say the GMAT or the SAT counts only correct answers: GMAC counts the number answered, and College Board's scoring considers the probability of guessing.
 
+How the adaptive tests adapt (each test maker's own pages, read September 29, 2026; three of these rules join data/exams.json, where the source check reads them weekly):
+- GMAT (GMAC help center, What Does Computer-Adaptive Mean on the GMAT?; GMAC, Exam Scores): question by question; the exam typically starts with a medium-difficulty question, the next may be more difficult after a right answer and easier after a wrong one, and the score is based on the overall pattern of responses; each section score rests on the number of questions answered, whether the answers are correct, and the difficulty and other parameters of the questions; GMAC says trying to game the difficulty level will not improve your score.
+- GRE (ETS, Test Structure): section by section; the first section of each measure is of average difficulty and the second section's difficulty depends on overall performance on the first; scoring considers the number answered correctly across the two sections and the difficulty of the sections; you can move forward and backward throughout a section.
+- SAT (College Board, SAT structure; What to Expect; SAT Understanding Scores for fall 2026): module by module; each section has two equal-length modules, the first a broad mix of easy, medium and hard questions, the second more or less difficult depending on the first; Reading and Writing is 54 questions in two 32-minute modules and Math 44 in two 35-minute modules; you cannot go back to a module once you leave it.
+LSAC's and ACT's pages on their test formats do not describe either test as adaptive; leave both out of any claim about adaptive testing rather than saying they are not adaptive.
+
 
 ## Post file format
 `src/blog/<slug>.html`: an HTML comment front-matter block with JSON metadata, then the body.
