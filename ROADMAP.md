@@ -1244,6 +1244,13 @@ verified rather than that the school does not publish one (INC-0118).
       intermediate conclusion and two premises), rendered so the connecting words fix each
       part's role, asked about as 150 role questions and 30 main conclusion questions where
       the category had 30 hand-written items.
+- [x] **Ten more LSAT arguments for Argument Parts and Structure**: `src/gen/g_lsat_struct.py`
+      gains ten arguments written with their parts labelled (a harbour's dredging, a school's
+      music lessons, a newspaper's printed edition, a second fire station, codling moth traps,
+      a hospital shuttle, high street plane trees, dogs in a nature reserve, late-night buses
+      and a festival's site), each asked about as five role questions and one main conclusion
+      question, so the category's generated items go from 180 to 240. Every argument passes
+      check_args, and all 60 new items were read before they went in.
 
 ### Next session queue
 
