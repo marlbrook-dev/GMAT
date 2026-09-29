@@ -6,11 +6,11 @@ different one.
 The platform is Start From Nowhere, a test-preparation site with five adaptive exam
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
-2026-09-19 and 2026-09-28, which is 9 days, across
-167 commits, by one owner directing a series of AI coding sessions. As of this
+2026-09-19 and 2026-09-29, which is 10 days, across
+171 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 87 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
-2123 tracked files in total.
+2124 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-167 commits in 9 days, one owner, a series of AI sessions. This
+171 commits in 10 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1178,7 +1178,7 @@ Not a list of files changed. The useful report is:
 5. Numbers, with the command that produced them.
 
 The commit messages in this repository are written that way, which is why a defect ledger
-could be reconstructed from them 9 days later. **Write the commit message
+could be reconstructed from them 10 days later. **Write the commit message
 as though someone will need to mine it. Someone will.**
 
 ## Failure modes observed in this project
@@ -1217,22 +1217,22 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-195 recorded defects, over 9 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+197 recorded defects, over 10 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 107 | 55% |
-| Found by measuring something | 46 | 24% |
+| Found by reading the code or the output | 109 | 55% |
+| Found by measuring something | 46 | 23% |
 | A test caught it | 22 | 11% |
 | Found by rendering it and looking | 8 | 4% |
 | Found by a review bot or an adversarial pass | 5 | 3% |
 | A build guard caught it | 5 | 3% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 193 of 195 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 195 of 197 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1241,13 +1241,13 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 88 |
+| Wrong data shown or stored | 90 |
 | Degraded | 47 |
 | Cosmetic | 31 |
 | Silent loss | 26 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 195. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 197. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
@@ -1255,8 +1255,8 @@ well enough to audit later. Which is what this book is.
 | Area | Count |
 | --- | ---: |
 | Content generation | 93 |
-| Tests and guards | 35 |
-| Front end | 12 |
+| Tests and guards | 36 |
+| Front end | 13 |
 | Build system | 12 |
 | Search and metadata | 10 |
 | CSS and layout | 8 |
@@ -1269,7 +1269,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-189 of 195 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+191 of 197 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1290,7 +1290,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-92 of 195 incidents record that they repeat an earlier lesson, 125 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+92 of 197 incidents record that they repeat an earlier lesson, 125 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1394,6 +1394,8 @@ Incidents that name an earlier one without claiming to repeat it. Each was read 
 - INC-0192 names INC-0117
 - INC-0193 names INC-0189
 - INC-0194 names INC-0193
+- INC-0196 names INC-0166
+- INC-0197 names INC-0196
 
 
 ## Where defects concentrate
@@ -1402,13 +1404,13 @@ Files named by three or more incidents. This is not the same signal as the list 
 
 - `src/check_sources.py`, 22 incidents (INC-0130, INC-0132, INC-0133, INC-0136, INC-0140, INC-0150, INC-0152, INC-0154, INC-0155, INC-0156, INC-0158, INC-0159, INC-0161, INC-0168, INC-0172, INC-0173, INC-0174, INC-0175, INC-0177, INC-0180, INC-0182, INC-0184)
 - `src/build_banks.py`, 17 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011, INC-0079, INC-0081, INC-0086, INC-0088, INC-0089, INC-0090, INC-0091, INC-0092, INC-0120, INC-0123, INC-0126, INC-0127)
-- `src/build.py`, 13 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067, INC-0076, INC-0080, INC-0131, INC-0148)
+- `src/build.py`, 14 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067, INC-0076, INC-0080, INC-0131, INC-0148, INC-0196)
 - `src/test.js`, 10 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085, INC-0192, INC-0194)
 - `src/gen/g_rc.py`, 9 incidents (INC-0097, INC-0114, INC-0115, INC-0117, INC-0122, INC-0169, INC-0179, INC-0186, INC-0187)
 - `src/validate_schools.py`, 9 incidents (INC-0125, INC-0141, INC-0143, INC-0144, INC-0147, INC-0151, INC-0153, INC-0157, INC-0185)
 - `src/build_rankings.py`, 7 incidents (INC-0014, INC-0049, INC-0118, INC-0135, INC-0142, INC-0145, INC-0167)
+- `src/build_blog.py`, 7 incidents (INC-0124, INC-0137, INC-0162, INC-0170, INC-0171, INC-0188, INC-0197)
 - `src/bank_emit.py`, 6 incidents (INC-0062, INC-0066, INC-0068, INC-0073, INC-0119, INC-0189)
-- `src/build_blog.py`, 6 incidents (INC-0124, INC-0137, INC-0162, INC-0170, INC-0171, INC-0188)
 - `src/page_checks.py`, 6 incidents (INC-0134, INC-0138, INC-0139, INC-0163, INC-0176, INC-0178)
 - `src/review_bot.js`, 5 incidents (INC-0022, INC-0026, INC-0051, INC-0061, INC-0077)
 - `src/gen/framework.py`, 5 incidents (INC-0074, INC-0075, INC-0078, INC-0087, INC-0096)
@@ -2555,7 +2557,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** A template that slots a clause into a sentence has to know where the clause ends. When the slotted text can carry commas of its own, end the sentence after it or set it off with punctuation, and check the rule by rendering every sentence the template makes, since a check on the pieces alone passes every piece of a sentence that misreads.
 
 
-## Tests and guards (35)
+## Tests and guards (36)
 
 
 ### INC-0016. The performance test waited for the load event, which waits for the thing being optimised
@@ -2993,7 +2995,19 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** A rank without its edition is a number without a date, and an average cannot tell a 2021 rank from a 2026 one. Make the edition a required part of the record, so a rank that cannot say when it is from is refused rather than scored.
 
 
-## Front end (12)
+### INC-0196. A smoke test's page errors went into the live error log, because the error beacon reports from any page it runs on, including one a test opened from disk
+
+*2026-09-29, Wrong data shown or stored*
+
+- **What was seen.** client_errors, the table behind Admin > Errors, holds five rows from 12:51 UTC on September 27, 2026, each 'Failed to load LINK' on the path /home/user/GMAT/apply/index.html from HeadlessChrome. None was a visitor's: a smoke test in a build sandbox opened the built page from disk, where its root-relative font links point at the filesystem root, and the error beacon on the page posted each failed load to the production table. They are 5 of the table's 1,499 rows, and nothing in them says they came from a test.
+- **Why.** sentinel_js reports every script error and every failed load of the page's own files wherever the page is running, and the production address of the table is written into every built page. Its only filter drops third-party files, and on a page opened from disk the page's own files are file:// URLs, which pass it. INC-0166 moved smoke_pages off file:// that morning, 18 minutes after these rows, which ended this source; but 12 smoke scripts open pages in a browser with no request interception at all, so any error one of them catches, locally or in CI, would be posted to the live table the same way.
+- **How it surfaced.** Found on September 29, 2026 while reading client_errors for errors visitors hit: grouped by path, five rows carried a sandbox file path, and grouping the whole table by path and user agent showed them to be the only rows from a headless browser. A search of the smoke scripts for request routes found 12 that open pages without one. (Found by reading the code or the output)
+- **Fix.** The beacon now returns before reporting when navigator.webdriver is true, which a browser under automation sets and a visitor's browser does not, or when the page was opened from disk. Visitors on the live site, on a preview deploy or in an app that loads the pages are unaffected. The five rows stay in the table, for triage in Admin > Errors, rather than being deleted from production.
+- **What stops it now.** build.py runs the beacon's own script in node against a stubbed page three times, as a visitor on https, as an automated browser and as a page opened from disk, fires a script error and a failed load of the page's own file in each, and fails the build unless only the visitor's run posts. in `src/build.py`
+- **Lesson.** Telemetry that ships inside every page runs wherever the page runs, including every test harness and every local preview, and it writes to production from all of them. Decide in the snippet which contexts may report, and test that decision by running the real snippet in each context, because the harness that would notice the leak is the one producing it.
+
+
+## Front end (13)
 
 
 ### INC-0001. Unescaped quotes in onclick strings took the whole app down
@@ -3146,6 +3160,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** renderData() now builds the sign-in form from what its email, month and year fields hold at the moment of the redraw, and falls back to the saved values only when the form is not on the page yet. The smoke passes in all five trainers, three runs in a row.
 - **What stops it now.** src/smoke_signup.js fills the form, forces a redraw and fails unless the email, month and year survive; with the old renderData() all three came back empty in every trainer. The smoke now runs in npm run test:browser, so CI runs it. in `src/smoke_signup.js`
 - **Lesson.** A view that is redrawn from saved state loses whatever the user has not saved yet. When a background event can redraw a form, carry the fields' current values across the redraw. And a test that is not in CI is not guarding anything: it fails quietly until someone happens to run it.
+
+
+### INC-0197. Every blog page carried the error beacon twice, because the blog builder appends its own after a footer that already carries one
+
+*2026-09-29, Wrong data shown or stored*
+
+- **What was seen.** Every built blog page contained two copies of the error beacon: the site footer carries one, and build_blog.py appended a second after it. Each copy listens for errors on its own, so an error on a blog page could reach client_errors twice. Three blog page loads did exactly that, each leaving two rows with the same path and signature within 30 milliseconds (2026-09-16 22:14:52, and 2026-09-17 05:23:28 and 11:25:17 UTC), and in two of the pairs one row carried a session id and the other did not, so the copies do not even group as one visit. Six of the table's 11 blog rows are those three pairs.
+- **Why.** apply_chrome refuses a template that asks for both the beacon placeholder and the footer placeholder, because the footer already supplies the beacon and two would double-report every error. The blog builder does not go through apply_chrome: it writes its own page shell, calls footer_html() directly and then appends its own copy, so the assertion never saw the blog. The rule was enforced at the one entry point that could break it, not on the pages the site ships.
+- **How it surfaced.** Found on September 29, 2026 while confirming that the INC-0196 change reached every built page: each blog page held the new line twice. Reading client_errors for blog paths then found the three pairs. (Found by reading the code or the output)
+- **Fix.** build_blog.py no longer appends its own copy; the footer's is the one every blog page carries.
+- **What stops it now.** build.py and build_blog.py count the beacon in every page they write and fail the build unless it appears exactly once, so the check reads the pages the site ships rather than the one template entry point the blog bypassed. in `src/build_blog.py`
+- **Lesson.** An invariant about what a shipped page contains belongs on the shipped page. A check at one entry point protects only the pages built through it, and a builder that assembles pages its own way walks past it; counting the thing in every output file catches all of them, including builders written later.
 
 
 ## Build system (12)
@@ -4148,6 +4174,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The trainer app ran its own code only after a script from cdn.jsdelivr.net had loaded, so a slow CDN stalled the app and timed out CI's games smoke (INC-0148)</small>
 - [ ] A view that is redrawn from saved state loses whatever the user has not saved yet. When a background event can redraw a form, carry the fields' current values across the redraw. And a test that is not in CI is not guarding anything: it fails quietly until someone happens to run it.  
   <small>A half-typed sign-in on the Account page vanished when a deferred bank chunk arrived and redrew the page, and the smoke that shows it had been failing unnoticed outside CI (INC-0149)</small>
+- [ ] An invariant about what a shipped page contains belongs on the shipped page. A check at one entry point protects only the pages built through it, and a builder that assembles pages its own way walks past it; counting the thing in every output file catches all of them, including builders written later.  
+  <small>Every blog page carried the error beacon twice, because the blog builder appends its own after a footer that already carries one (INC-0197)</small>
 
 
 ## Infrastructure and deploy
@@ -4304,6 +4332,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The source check's browser read left out collapsed accordion panels, so Berkeley Haas's and Buffalo's correct tuition figures were reported missing whenever a site refused the plain read (INC-0183)</small>
 - [ ] A rank without its edition is a number without a date, and an average cannot tell a 2021 rank from a 2026 one. Make the edition a required part of the record, so a rank that cannot say when it is from is refused rather than scored.  
   <small>Maryland's and Penn State's Financial Times ranks were years old and named no edition, so the composite scored them beside FT's 2026 ranks, and Maryland's was a US position where every other FT entry is a global one (INC-0185)</small>
+- [ ] Telemetry that ships inside every page runs wherever the page runs, including every test harness and every local preview, and it writes to production from all of them. Decide in the snippet which contexts may report, and test that decision by running the real snippet in each context, because the harness that would notice the leak is the one producing it.  
+  <small>A smoke test's page errors went into the live error log, because the error beacon reports from any page it runs on, including one a test opened from disk (INC-0196)</small>
 
 
 # Adapting This to a Different Business
@@ -4420,7 +4450,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 195 real defects reduced to the rules that prevent them,
+the whole project: 197 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -4460,7 +4490,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-195 defects already prevented is genuinely ahead, and every defect it hits
+197 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed
