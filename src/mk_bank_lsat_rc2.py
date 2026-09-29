@@ -1,12 +1,19 @@
 # -*- coding: utf-8 -*-
-"""Emit src/bank_lsat_rc2.js.
+"""Emit LSAT Reading Comprehension items LC036-LC070 as they were first written.
 
-Run: python3 src/mk_bank_lsat_rc2.py src/bank_lsat_rc2.js
+This script wrote src/bank_lsat_rc2.js on September 21, 2026, and is no longer its source.
+The bank has been corrected in place since (length clauses, repaired seams, Watch for notes
+that name the choices as they now read, keys said in other words), none of it here, so
+this script's output differs from the bank and writing it there would undo every one of
+those corrections. It refuses that path (INC-0193). Edit the bank itself, and append a
+clause to a choice with src/bank_repair.py, which refuses the seams INC-0119 found.
+
+Run: python3 src/mk_bank_lsat_rc2.py <any path but the bank>
 
 Kept in the repository rather than thrown away because the two passes at the bottom are
 the content decisions, not scaffolding: which distractor was extended and with what
 clause is the record of how the length tell was brought from 66 percent to 6, and the
-next person to edit an item here needs to see it.
+next person to edit an item in the bank needs to see it.
 
 Written as a generator rather than by hand for one reason: every string goes through
 json.dumps, so an apostrophe inside a passage cannot break the file. Unescaped quotes in
@@ -14,6 +21,13 @@ a generated JS string once took the whole trainer down (INC-0001), and passages 
 full of apostrophes.
 """
 import io, json, os, re, sys
+
+# Refused before anything else runs, so no path to the bank can write over it (INC-0193).
+BANK = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'bank_lsat_rc2.js')
+if len(sys.argv) < 2 or os.path.realpath(sys.argv[1]) == os.path.realpath(BANK):
+    sys.exit('src/bank_lsat_rc2.js is edited by hand now: it has been corrected in place since '
+             'this script wrote it, and this script does not carry those corrections '
+             '(INC-0193). Edit the bank. To see what this script writes, pass another path.')
 
 P6 = (
 "In negligence law the central question is what care a defendant owed, and for most of "
@@ -775,7 +789,7 @@ if bad:
     sys.exit('non-ascii in the bank: %r' % bad)
 
 path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'x')
-dest = sys.argv[1] if len(sys.argv) > 1 else 'src/bank_lsat_rc2.js'
+dest = sys.argv[1]
 io.open(dest, 'w', encoding='utf-8').write(js)
 
 # Report the two distributions that matter, measured rather than assumed.

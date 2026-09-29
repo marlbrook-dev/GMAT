@@ -958,6 +958,18 @@ verified rather than that the school does not publish one (INC-0118).
       that particular town". Two keys that are only a figure stay as they are. The shortcut now
       finds 0 of 44, 0 of 30, 0 of 9 and 2 of 25, and test.js fails any exam where it beats a
       blind guess.
+- [x] **Every generated bank is what its generator writes** (INC-0193). The second LSAT
+      reading bank was generated on September 21 and corrected in place four times after, so
+      by September 28 its script wrote a bank that differed on 25 lines in 23 items, and
+      running it would have put back garbled seams, misdirected notes and uneven lengths. The
+      bank now says it is edited by hand, the script refuses to write it, and
+      src/check_bank_sources.py, run by every build, regenerates the nine banks that name a
+      generator and fails on any difference.
+- [x] **A repeat with "the" slipped in** (INC-0194). LC041 read "applying the test to
+      particular facts to the particular facts in front of them", a seam the exact doubled
+      phrase check could not see; it now says it once, and LC036's clause sits where its author
+      meant it. test.js and build_banks.py read each text again with a, an and the taken out,
+      which finds this item and no other in any bank.
 - [x] **"What ID Do You Need for the GMAT, GRE, LSAT, SAT, or ACT?"** queued for December
       15 (James Corbett): GMAC's exact-name and passport rules, ETS's original, signed,
       government-issued ID, LSAC's passport or US or Canadian photo ID that may be up to 3

@@ -15,12 +15,19 @@ const {GMAT,SAT,GRE,LSAT,ACT}={GMAT:harness.byId['gmat-focus'],SAT:harness.byId[
 // of single letters such as a coin toss sequence. Passages are not read: prose there can
 // repeat itself on purpose ("piece by piece by gangs of longshoremen").
 const DOUBLED=/\b((?:[A-Za-z']+ )+[A-Za-z']+) \1\b/g;
+// The copy a seam leaves need not be exact: LC041 said "to particular facts to the
+// particular facts", because the appended clause added "the" (INC-0194). So each text is
+// read a second time with a, an and the taken out, as said_twice does. Capital A stays,
+// since in a note it is usually a choice or a passage.
+const ARTICLES=/\b(?:a|an|the|An|The) /g;
 function saidTwice(q){
  for(const k of ['stem','prompt','choices','statements','expl','wrong']){
   for(const t of [].concat(q[k]||[])){
    if(typeof t!=='string') continue;
-   DOUBLED.lastIndex=0; let m;
-   while((m=DOUBLED.exec(t))){ if(m[1].split(' ').some(w=>w.length>1)) return k+' "'+m[0]+'"'; }
+   for(const s of [t,t.replace(ARTICLES,'')]){
+    DOUBLED.lastIndex=0; let m;
+    while((m=DOUBLED.exec(s))){ if(m[1].split(' ').some(w=>w.length>1)) return k+' "'+m[0]+'"'; }
+   }
   }
  }
  return null;

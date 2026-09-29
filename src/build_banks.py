@@ -439,13 +439,20 @@ DISCARD_DRAWS = 400
 # itself on purpose ("piece by piece by gangs of longshoremen").
 DOUBLED = re.compile(r"\b((?:[A-Za-z']+ )+[A-Za-z']+) \1\b")
 SAID_ONCE = ("stem", "prompt", "choices", "statements", "expl", "wrong")
+# The copy a seam leaves need not be exact. An LSAT choice said "to particular facts to
+# the particular facts", because the appended clause added "the", and the rule above could
+# not see it (INC-0194). So each text is read a second time with a, an and the taken out.
+# Capital A stays, since in a note it is usually a choice or a passage.
+ARTICLES = re.compile(r"\b(?:a|an|the|An|The) ")
 
 
 def said_twice(text):
-    """The first run of two or more words repeated back to back in `text`, or None."""
-    for m in DOUBLED.finditer(text):
-        if any(len(w) > 1 for w in m.group(1).split()):
-            return m.group(0)
+    """The first run of two or more words repeated back to back in `text`, or in `text`
+    with its articles taken out, or None."""
+    for t in (text, ARTICLES.sub("", text)):
+        for m in DOUBLED.finditer(t):
+            if any(len(w) > 1 for w in m.group(1).split()):
+                return m.group(0)
     return None
 
 
