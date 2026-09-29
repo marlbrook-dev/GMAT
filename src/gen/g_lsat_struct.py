@@ -26,6 +26,7 @@ An argument is rendered one way only, chosen by its index, and each question is 
 one wording only, chosen by a checksum. The same claim asked about in a second wording is
 the same question, and counting it twice would inflate the category.
 """
+import re
 import zlib
 
 from framework import ItemError, ListsQuestions, upfirst
@@ -569,8 +570,8 @@ def render(i, a):
 def explain(a, part):
     c = a["concl"]
     if part == "opp":
-        return ("The argument opens with the view that %s and then rejects it: its conclusion "
-                "is that %s." % (a["opp"], c))
+        return ("The argument opens with a view only to reject it. The view is that %s. The "
+                "argument's own conclusion is that %s." % (a["opp"], c))
     if part == "concl":
         return ("Every other claim the argument makes, apart from the view it rejects, is "
                 "offered as a reason to accept that %s, so that is the main conclusion." % c)
@@ -587,6 +588,15 @@ def explain(a, part):
                 "separately from the reasoning about whether %s. Nothing else in the argument "
                 "rests on it." % (c, a["ic"]))
     raise ValueError(part)
+
+
+def explain_main(a):
+    # Every part here is followed by punctuation, because a part can carry a comma clause of
+    # its own and the words after it would read as part of that clause (INC-0195).
+    return ("The argument rejects the view that %s. Its main conclusion is that %s. From the "
+            "premise that %s, it draws the claim that %s. That claim is offered as a reason "
+            "for the main conclusion, so it is a step on the way rather than the main point."
+            % (a["opp"], a["concl"], a["p1"], a["ic"]))
 
 
 def why_wrong_role(a, role):
@@ -678,11 +688,8 @@ class MainConclusion(ByArgument, CRBase):
             (a["over"], "goes further than the argument does; its conclusion concerns only the "
              "case in front of it"),
         ]
-        expl = ("The argument rejects the view that %s and argues that %s. The claim that %s is "
-                "drawn from the premise that %s and is offered as a reason for that conclusion, "
-                "so it is a step on the way rather than the main point."
-                % (a["opp"], a["concl"], a["ic"], a["p1"]))
-        item = self.emit(rng, choices_n, stem, right, wrongs, expl, 3, self.skill, self.sub)
+        item = self.emit(rng, choices_n, stem, right, wrongs, explain_main(a), 3, self.skill,
+                         self.sub)
         item["section"] = "LR"
         item["type"] = "LR"
         item["canon_ignores_choices"] = True
@@ -691,9 +698,27 @@ class MainConclusion(ByArgument, CRBase):
 
 GENS = [ClaimRole(), MainConclusion()]
 
+# What may follow a part that has a comma of its own (INC-0195).
+CLOSES = ("", ",", ".", ";", ":", "?")
+
+
+def rendered(i, a):
+    """Every text a student reads that quotes the argument's parts, labelled for errors."""
+    out = [("the argument", render(i, a))]
+    for gen in GENS:
+        for stem, _ in gen.asks(i):
+            out.append(("a question stem", stem.split("\n\n", 1)[1]))
+    for k in PARTS:
+        out.append(("the explanation for the %s" % k, explain(a, k)))
+        out.append(("the wrong answer reason for the %s" % k,
+                    "Choice A " + why_wrong_role(a, k) + "."))
+    out.append(("the main conclusion explanation", explain_main(a)))
+    return out
+
 
 def check_args():
-    """Every argument renders as five sentences, and no part repeats another's wording."""
+    """Every argument renders as five sentences, no part repeats another's wording, and no
+    template runs a part with a comma of its own into the words after it."""
     bad = []
     for i, a in enumerate(ARGS):
         missing = [k for k in PARTS + ("speaker", "opp_who", "concl_para", "ic_para", "p1_para",
@@ -716,4 +741,20 @@ def check_args():
         for k in ("concl_para", "ic_para", "p1_para", "opp_para", "p2_para", "over"):
             if not a[k].endswith("."):
                 bad.append("argument %d: %s has no full stop" % (i, k))
+        # A part with a comma of its own leaves a clause open, so words a template puts
+        # straight after it read as part of that clause: "the premise that the trout have
+        # declined most in the shallow bays, where the water has warmed the most and is
+        # offered as a reason" (INC-0195). Checking each part alone passed every part of that
+        # sentence, so the check reads the sentences themselves.
+        for where, text in rendered(i, a):
+            for k in PARTS:
+                if "," not in a[k]:
+                    continue
+                for v in (a[k], upfirst(a[k])):
+                    for m in re.finditer(re.escape(v), text):
+                        if text[m.end():m.end() + 1] not in CLOSES:
+                            bad.append("argument %d (%s): the %s has a comma of its own and runs "
+                                       "into '%s' in %s" % (i, a["speaker"], k,
+                                                            text[m.end():m.end() + 20].strip(),
+                                                            where))
     return bad

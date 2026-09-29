@@ -1250,7 +1250,12 @@ verified rather than that the school does not publish one (INC-0118).
       a hospital shuttle, high street plane trees, dogs in a nature reserve, late-night buses
       and a festival's site), each asked about as five role questions and one main conclusion
       question, so the category's generated items go from 180 to 240. Every argument passes
-      check_args, and all 60 new items were read before they went in.
+      check_args, and all 60 new items were read before they went in. Reading them found
+      that the main conclusion explanation ran a claim with a comma of its own into the
+      template's next words ('where the water has warmed the most and is offered as a
+      reason'), in 8 live items and 4 new ones (INC-0195): both templates now end the
+      sentence after such a claim, and check_args reads every sentence an argument is
+      quoted in and fails the build on the seam.
 
 ### Next session queue
 
