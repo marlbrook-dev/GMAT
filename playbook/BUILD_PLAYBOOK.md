@@ -6,8 +6,8 @@ different one.
 The platform is Start From Nowhere, a test-preparation site with five adaptive exam
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
-2026-09-19 and 2026-09-28, which is 9 days, across
-164 commits, by one owner directing a series of AI coding sessions. As of this
+2026-09-19 and 2026-09-29, which is 10 days, across
+166 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 87 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
 2122 tracked files in total.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-164 commits in 9 days, one owner, a series of AI sessions. This
+166 commits in 10 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1178,7 +1178,7 @@ Not a list of files changed. The useful report is:
 5. Numbers, with the command that produced them.
 
 The commit messages in this repository are written that way, which is why a defect ledger
-could be reconstructed from them 9 days later. **Write the commit message
+could be reconstructed from them 10 days later. **Write the commit message
 as though someone will need to mine it. Someone will.**
 
 ## Failure modes observed in this project
@@ -1217,14 +1217,14 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-194 recorded defects, over 9 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+195 recorded defects, over 10 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 106 | 55% |
+| Found by reading the code or the output | 107 | 55% |
 | Found by measuring something | 46 | 24% |
 | A test caught it | 22 | 11% |
 | Found by rendering it and looking | 8 | 4% |
@@ -1232,7 +1232,7 @@ well enough to audit later. Which is what this book is.
 | A build guard caught it | 5 | 3% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 192 of 194 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 193 of 195 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1243,18 +1243,18 @@ well enough to audit later. Which is what this book is.
 | --- | ---: |
 | Wrong data shown or stored | 88 |
 | Degraded | 47 |
-| Cosmetic | 30 |
+| Cosmetic | 31 |
 | Silent loss | 26 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 194. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 195. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 92 |
+| Content generation | 93 |
 | Tests and guards | 35 |
 | Front end | 12 |
 | Build system | 12 |
@@ -1269,7 +1269,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-188 of 194 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+189 of 195 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1290,7 +1290,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-92 of 194 incidents record that they repeat an earlier lesson, 125 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+92 of 195 incidents record that they repeat an earlier lesson, 125 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1427,7 +1427,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (92)
+## Content generation (93)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -2541,6 +2541,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** LC041's choice now reads 'an element that courts have in practice ignored when applying the test to the particular facts in front of them', and LC036's clause moves to where its needle ends: 'reached inconsistent verdicts from one jurisdiction to the next until the Hand formulation gave them a method for reaching consistent ones'. Both are wrong answers, and neither change moves its key's length rank.
 - **What stops it now.** test.js and build_banks.py run the said twice rule a second time on each text with a, an and the taken out, so a repeat with an article slipped into one copy fails as the exact repeat it is; measured over every bank, it finds this item and no other. The generator that made it no longer writes the bank (INC-0193), and every generator that still writes one appends through extend(), which refuses a short needle. in `src/test.js`
 - **Lesson.** A check for text said twice has to allow for the copy not being exact. A seam left by an appended clause can differ from the text it repeats by an article, so take the small words out before comparing, and measure the rule over every bank to see that it finds the defect and nothing else.
+
+
+### INC-0195. Eight LSAT structure explanations ran a claim with a comma of its own into the next words ('where the water has warmed the most and is offered as a reason')
+
+*2026-09-29, Cosmetic*
+
+- **What was seen.** The explanation shown after a main conclusion question read, for the fisheries biologist's argument, 'The claim that the decline follows water temperature rather than fishing pressure is drawn from the premise that the trout have declined most in the shallow bays, where the water has warmed the most and is offered as a reason for that conclusion', so the relative clause seemed to take 'and is offered' as its own verb. Six arguments' main conclusion explanations did this, and the transit planner's argument did it twice, once there and once in the explanation of the view it rejects: 'The argument opens with the view that the new rail line should run along the river, where land is cheapest and then rejects it'. Eight items in all, in the live LSAT trainer from September 26, 2026 (#100) to September 29. Keys, choices and stems were right; only the explanation misread.
+- **Why.** The explanation templates in src/gen/g_lsat_struct.py follow some slotted claims with more sentence: '%s and is offered as a reason', '%s and then rejects it', '%s and argues that', 'The claim that %s is drawn from'. A claim with a comma clause of its own leaves that clause open, and the template's next words read as part of it. The question stems already avoided this, because asks() moves a claim with a comma to the end of its question, but that rule lived in one function as a comment and was never applied to the explanations. check_args checked each part alone (no capital, no opening pronoun, no full stop), never the sentences the parts are slotted into, so a part that passed it was taken to be safe anywhere.
+- **How it surfaced.** Found on September 29, 2026 while reading all 60 items for ten new arguments before they went in: three of the new main conclusion explanations misread the same way. A scan of every structure item in the built bank for a claim with a comma followed by anything but punctuation found 12 items: the 8 above among the 30 live arguments, and 4 among the new ten. (Found by reading the code or the output)
+- **Fix.** The main conclusion explanation now reads 'The argument rejects the view that X. Its main conclusion is that Y. From the premise that P, it draws the claim that Q. That claim is offered as a reason for the main conclusion, so it is a step on the way rather than the main point.', and the explanation of the rejected view reads 'The argument opens with a view only to reject it. The view is that X. The argument's own conclusion is that Y.', so every slotted claim is followed by punctuation. A first draft said 'It argues instead that Y', which doubled the word in the transit planner's conclusion ('should follow Market Street instead'); reading the rendered text caught it.
+- **What stops it now.** check_args renders every text an argument produces (the stimulus, every question stem, every explanation and every wrong answer reason) and fails the build when a claim with a comma of its own is followed by anything but punctuation. Run against the old templates it names the 12 seams and nothing else; on the new templates it finds none. in `src/gen/g_lsat_struct.py`
+- **Lesson.** A template that slots a clause into a sentence has to know where the clause ends. When the slotted text can carry commas of its own, end the sentence after it or set it off with punctuation, and check the rule by rendering every sentence the template makes, since a check on the pieces alone passes every piece of a sentence that misreads.
 
 
 ## Tests and guards (35)
@@ -4094,6 +4106,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Hand written 'according to the passage' questions could be answered by choosing the option made of the passage's words (INC-0192)</small>
 - [ ] A check for text said twice has to allow for the copy not being exact. A seam left by an appended clause can differ from the text it repeats by an article, so take the small words out before comparing, and measure the rule over every bank to see that it finds the defect and nothing else.  
   <small>An LSAT reading choice said 'to particular facts to the particular facts', and the doubled phrase check missed it because the copy added 'the' (INC-0194)</small>
+- [ ] A template that slots a clause into a sentence has to know where the clause ends. When the slotted text can carry commas of its own, end the sentence after it or set it off with punctuation, and check the rule by rendering every sentence the template makes, since a check on the pieces alone passes every piece of a sentence that misreads.  
+  <small>Eight LSAT structure explanations ran a claim with a comma of its own into the next words ('where the water has warmed the most and is offered as a reason') (INC-0195)</small>
 
 
 ## Database
@@ -4406,7 +4420,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 194 real defects reduced to the rules that prevent them,
+the whole project: 195 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -4446,7 +4460,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-194 defects already prevented is genuinely ahead, and every defect it hits
+195 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed
