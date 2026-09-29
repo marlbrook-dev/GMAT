@@ -896,6 +896,15 @@ verified rather than that the school does not publish one (INC-0118).
       GMAT Focus Edition has none. Every rule was read on September 28 from the makers' own
       pages; three join data/exams.json and pass the source check's functions, and EDITORIAL.md
       gains an essay block.
+- [x] **"Should You Guess on the GMAT, GRE, LSAT, SAT, or ACT?"** queued for January 8 (Maya
+      Chen): LSAC and ACT deduct nothing for a wrong answer, ETS's GRE scoring counts the
+      questions answered correctly, College Board says a guess beats a blank for most students,
+      and GMAC counts the number of questions answered as one of three factors in each GMAT
+      section score. It also covers what each test lets you do with a question you mean to
+      return to, from the GMAT's three changed answers to the SAT's module you cannot go back
+      to. Every rule was read on September 29 from the makers' own pages; six join
+      data/exams.json and pass the source check's functions, and EDITORIAL.md gains a guessing
+      block.
 - [x] **No rank cites an admissions consulting blog.** Eight U.S. News 2026 ranks (Virginia
       11, Cornell 15, UCLA and Texas 18, Washington 20, North Carolina 21, Emory 23, Georgetown
       31) cited Clear Admit or Stacy Blackman, which src/sources.py lists as weak sources; they

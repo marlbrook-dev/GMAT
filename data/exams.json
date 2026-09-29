@@ -101,6 +101,12 @@
         "url": "https://www.mba.com/exams/gmat-exam/about/exam-structure"
       },
       {
+        "text": "A response counts only after you click Next and then click Yes to confirm it; if both steps are not completed before time runs out, the response will not be saved or scored",
+        "src": "GMAC (mba.com help center)",
+        "year": 2026,
+        "url": "https://support.mba.com/hc/en-us/articles/17095818428827-GMAT-If-I-Do-Not-Click-Submit-Before-Time-Runs-Out-Will-My-Response-Count"
+      },
+      {
         "text": "The optional 10-minute break can be taken whenever you choose: after the first section, or after the second",
         "src": "mba.com (GMAC)",
         "year": 2026,
@@ -312,6 +318,12 @@
         "url": "https://www.gmac.com/gmat-other-assessments/about-the-gmat-focus-edition/exam-scores"
       },
       {
+        "text": "Each section score is based on three factors: the number of questions answered, whether the answers are correct or incorrect, and the difficulty and other parameters of the questions answered",
+        "src": "GMAC",
+        "year": 2026,
+        "url": "https://www.gmac.com/gmat-other-assessments/about-the-gmat-focus-edition/exam-scores"
+      },
+      {
         "text": "Verbal Reasoning consists of 23 multiple-choice Reading Comprehension and Critical Reasoning questions, to be completed in 45 minutes; Reading Comprehension questions measure the ability to understand words and statements, understand logical relationships between significant points, draw inferences, and follow the development of quantitative concepts, and Critical Reasoning questions measure the ability to make arguments, evaluate arguments, and formulate or evaluate a plan of action",
         "src": "GMAC",
         "year": 2026,
@@ -414,6 +426,12 @@
         "url": "https://satsuite.collegeboard.org/sat/whats-on-the-test/structure"
       },
       {
+        "text": "Scores depend on whether you answer questions right or wrong, the difficulty level of the questions and the probability that you might be guessing, and for most students it is better to guess than leave a question blank, especially if you can eliminate one or two wrong answers first",
+        "src": "College Board (SAT Understanding Scores, Fall 2026)",
+        "year": 2026,
+        "url": "https://satsuite.collegeboard.org/media/pdf/sat-understanding-scores.pdf"
+      },
+      {
         "text": "Bluebook has an embedded Desmos calculator, with graphing and scientific options students can toggle between at any point in the Math section, or students can use their own approved handheld calculator",
         "src": "College Board",
         "year": 2025,
@@ -463,6 +481,12 @@
       },
       {
         "text": "Students have one 10-minute break during the test between test sections, and can take an unscheduled break if they need to, but lose testing time",
+        "src": "College Board",
+        "year": 2026,
+        "url": "https://satsuite.collegeboard.org/sat/what-to-bring-do/what-to-expect"
+      },
+      {
+        "text": "You can move back and forth between questions in a module, mark any for review and review your answers until time expires, but once you've moved on from a module you cannot go back to it",
         "src": "College Board",
         "year": 2026,
         "url": "https://satsuite.collegeboard.org/sat/what-to-bring-do/what-to-expect"
@@ -656,6 +680,12 @@
       },
       {
         "text": "Verbal and Quantitative are section-level adaptive: the difficulty level of the second section of each measure depends on your performance on the first section",
+        "src": "ETS",
+        "year": 2026,
+        "url": "https://www.ets.org/gre/test-takers/general-test/prepare/test-structure.html"
+      },
+      {
+        "text": "The scoring for the Verbal Reasoning and Quantitative Reasoning measures takes into consideration the total number of questions answered correctly across the two sections, as well as the difficulty level of the sections",
         "src": "ETS",
         "year": 2026,
         "url": "https://www.ets.org/gre/test-takers/general-test/prepare/test-structure.html"
@@ -1179,6 +1209,12 @@
       },
       {
         "text": "The Composite is the average of the English, math and reading scores, rounded to the nearest whole number; science was phased out of it for National online testing in April 2025 and for all ACT tests in September 2025. Students who take science also receive a STEM score, the average of math and science",
+        "src": "ACT",
+        "year": 2026,
+        "url": "https://www.act.org/content/act/en/products-and-services/the-act/scores/understanding-your-scores.html"
+      },
+      {
+        "text": "ACT scores are based on the number of questions you answer correctly, and there is no penalty for incorrect answers",
         "src": "ACT",
         "year": 2026,
         "url": "https://www.act.org/content/act/en/products-and-services/the-act/scores/understanding-your-scores.html"
