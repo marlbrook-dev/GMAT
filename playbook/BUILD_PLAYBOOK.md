@@ -6,7 +6,7 @@ different one.
 The platform is Start From Nowhere, a test-preparation site with five adaptive exam
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
-2026-09-19 and 2026-09-29, which is 10 days, across
+2026-09-19 and 2026-09-28, which is 9 days, across
 171 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 87 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-171 commits in 10 days, one owner, a series of AI sessions. This
+171 commits in 9 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1178,7 +1178,7 @@ Not a list of files changed. The useful report is:
 5. Numbers, with the command that produced them.
 
 The commit messages in this repository are written that way, which is why a defect ledger
-could be reconstructed from them 10 days later. **Write the commit message
+could be reconstructed from them 9 days later. **Write the commit message
 as though someone will need to mine it. Someone will.**
 
 ## Failure modes observed in this project
@@ -1217,7 +1217,7 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-197 recorded defects, over 10 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+197 recorded defects, over 9 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
@@ -2997,7 +2997,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0196. A smoke test's page errors went into the live error log, because the error beacon reports from any page it runs on, including one a test opened from disk
 
-*2026-09-29, Wrong data shown or stored*
+*2026-09-29, Wrong data shown or stored, `5a6cc3abdeb9c4c5305f2058739ec7065166600b` PR #216*
 
 - **What was seen.** client_errors, the table behind Admin > Errors, holds five rows from 12:51 UTC on September 27, 2026, each 'Failed to load LINK' on the path /home/user/GMAT/apply/index.html from HeadlessChrome. None was a visitor's: a smoke test in a build sandbox opened the built page from disk, where its root-relative font links point at the filesystem root, and the error beacon on the page posted each failed load to the production table. They are 5 of the table's 1,499 rows, and nothing in them says they came from a test.
 - **Why.** sentinel_js reports every script error and every failed load of the page's own files wherever the page is running, and the production address of the table is written into every built page. Its only filter drops third-party files, and on a page opened from disk the page's own files are file:// URLs, which pass it. INC-0166 moved smoke_pages off file:// that morning, 18 minutes after these rows, which ended this source; but 12 smoke scripts open pages in a browser with no request interception at all, so any error one of them catches, locally or in CI, would be posted to the live table the same way.
@@ -3164,7 +3164,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0197. Every blog page carried the error beacon twice, because the blog builder appends its own after a footer that already carries one
 
-*2026-09-29, Wrong data shown or stored*
+*2026-09-29, Wrong data shown or stored, `5a6cc3abdeb9c4c5305f2058739ec7065166600b` PR #216*
 
 - **What was seen.** Every built blog page contained two copies of the error beacon: the site footer carries one, and build_blog.py appended a second after it. Each copy listens for errors on its own, so an error on a blog page could reach client_errors twice. Three blog page loads did exactly that, each leaving two rows with the same path and signature within 30 milliseconds (2026-09-16 22:14:52, and 2026-09-17 05:23:28 and 11:25:17 UTC), and in two of the pairs one row carried a session id and the other did not, so the copies do not even group as one visit. Six of the table's 11 blog rows are those three pairs.
 - **Why.** apply_chrome refuses a template that asks for both the beacon placeholder and the footer placeholder, because the footer already supplies the beacon and two would double-report every error. The blog builder does not go through apply_chrome: it writes its own page shell, calls footer_html() directly and then appends its own copy, so the assertion never saw the blog. The rule was enforced at the one entry point that could break it, not on the pages the site ships.
