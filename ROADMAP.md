@@ -862,6 +862,18 @@ verified rather than that the school does not publish one (INC-0118).
       alternative implied: a lot of oak missing from the forest's accounts "was not felled in
       summer" (it might be the winter-felled estate oak), and a mill that never bought its
       earth "did not use the earth from the new pit" (it might be the mill that dug its own).
+- [x] **Five more long reading passages** (brickfields, herringcure, warrens, tallow,
+      charcoaliron): bricks crumbling in a town's new terraces, blamed on hasty builders and
+      caused by clay from a pit full of lime; cured herring spoiling, blamed on the coopers and
+      caused by damp salt from a new works; rabbit warrens failing, blamed on poachers and caused
+      by the enclosure of the heath's gorse; candles guttering, blamed on cheap wick and caused
+      by soft tallow from cattle fed on oilcake; and iron turning brittle, blamed on a new bed of
+      ore and caused by charcoal burned from green wood. They run 316 to 346 words, every name
+      was checked against every corpus and bank, and they pass every check the bank build runs.
+      The banks grow to GMAT 34512, GRE 20888 and LSAT 14792, of which 14420 are generated,
+      counts read from the build. All 150 new items were read before they went in, and the near
+      misses were written from the start to avoid the passage's own alternative (the gorse left
+      standing, the grass-fed tallow, the seasoned wood), the trap the last two batches found.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
@@ -1246,6 +1258,17 @@ verified rather than that the school does not publish one (INC-0118).
       Yale, Tuck and Haas were read against the library and match it (Booth's page carries a
       stale Class of 2026 block beside the 2027 one, which a text summary conflates; the raw
       page confirms the library's figures)
+- [ ] Bring `supabase/migrations/` in line with the live project, after the owner confirms how
+      the Supabase GitHub integration deploys. The "Supabase Preview" check has failed on every
+      push to main read on September 29 (pull requests show it skipped) with "Remote migration
+      versions not found in local migrations directory": the project lists 43 migrations and the
+      folder holds 32 files, about 26 of the remote versions have no file, and several local
+      files carry a date-only version (`20260916_client_errors_sentinel.sql`) that matches
+      nothing remote, two of them duplicates of timestamped files. If the integration deploys
+      to production from main, fixing only the missing files would let it try to apply the
+      date-only ones to the live database, so the fix has to make the folder equal the remote
+      list exactly, with the SQL read from `supabase_migrations.schema_migrations`, and apply
+      nothing.
 - [ ] `src/smoke_load.js` stays out of CI because timing on shared runners is noisy, so run
       it by hand after any change to how the banks are split or loaded (INC-0113)
 - [ ] School figures the `--schools` run could not settle from this sandbox. After INC-0159
