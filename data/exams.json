@@ -101,6 +101,18 @@
         "url": "https://www.mba.com/exams/gmat-exam/about/exam-structure"
       },
       {
+        "text": "If a score is canceled for a Testing Issue, such as an administrative or technical error, it is noted on the Official Score Report as a T, and GMAC may offer, in its sole discretion, the option to retest at no additional charge, the option to retest subject to payment of the test fee, or a refund of the test fee",
+        "src": "GMAT Exam Policies and Procedures (GMAC)",
+        "year": 2026,
+        "url": "https://www.mba.com/-/media/files/mba2/the-gmat-exam/files/register/gmat-policies-and-procedures_aug-2026.pdf?rev=1944562325e64999a09f36900dce5893&hash=C178A7A6EB28EAB4EA48C6C4FD28A3D3"
+      },
+      {
+        "text": "Online test takers must notify the proctor of any technical issues immediately; concerns about a disruption or technical issue go to GMAC Customer Care within seven days of the exam date, and an exam session whose score is canceled for a testing issue still counts toward the rolling 12-month period",
+        "src": "GMAT Exam Policies and Procedures (GMAC)",
+        "year": 2026,
+        "url": "https://www.mba.com/-/media/files/mba2/the-gmat-exam/files/register/gmat-policies-and-procedures_aug-2026.pdf?rev=1944562325e64999a09f36900dce5893&hash=C178A7A6EB28EAB4EA48C6C4FD28A3D3"
+      },
+      {
         "text": "A computer-adaptive test adjusts the difficulty of questions based on your performance: the exam typically starts with a medium-difficulty question, the next question may be more difficult if you answer correctly and easier if you answer incorrectly, and your score is based on the overall pattern of your responses, not just whether individual questions are right or wrong",
         "src": "GMAC (mba.com help center)",
         "year": 2026,
@@ -566,6 +578,12 @@
         "url": "https://satsuite.collegeboard.org/sat/registration/change-cancel/makeup-tests"
       },
       {
+        "text": "If you have a problem during the test, raise your hand to ask the proctor for help or click the Help icon for troubleshooting tips",
+        "src": "College Board",
+        "year": 2026,
+        "url": "https://satsuite.collegeboard.org/sat/what-to-bring-do/what-to-expect"
+      },
+      {
         "text": "The score report PDF shows the total score, the Reading and Writing section score and the Math section score, a Score Range showing how much the scores would likely vary on a different administration under identical conditions, percentiles comparing the scores to other students who took the same test, and a Knowledge and Skills section showing performance on each of the eight content areas the test measures",
         "src": "College Board",
         "year": 2026,
@@ -754,6 +772,12 @@
       {
         "text": "The GRE General Test does not include any scheduled breaks, and unscheduled breaks are not permitted during an at home test",
         "src": "GRE Information Bulletin 2026-27 (ETS)",
+        "year": 2026,
+        "url": "https://www.ets.org/content/dam/ets-org/pdfs/gre/gre-info-bulletin.pdf"
+      },
+      {
+        "text": "If a technical problem at the test center makes it necessary to cancel your test session, or if it is later determined that your scores could not be reported, you will be offered another test appointment free of charge or a full refund of the original test fee, and you may seek reimbursement for reasonable and documented expenses of traveling to the test center within 30 days of your original appointment",
+        "src": "ETS (GRE Information Bulletin 2026-27)",
         "year": 2026,
         "url": "https://www.ets.org/content/dam/ets-org/pdfs/gre/gre-info-bulletin.pdf"
       },
@@ -1025,6 +1049,12 @@
         "src": "LSAC",
         "year": 2026,
         "url": "https://www.lsac.org/lsat/taking-lsat/about-10-minute-intermission"
+      },
+      {
+        "text": "When testing remotely, in most cases the remote proctoring system will save your progress and pause the test while a technical issue is resolved; if you are unable to restore your connection during your scheduled testing window, your testing session will be terminated and you will be moved to a future registration date",
+        "src": "LSAC",
+        "year": 2026,
+        "url": "https://www.lsac.org/lsat/frequently-asked-questions-about-lsat"
       },
       {
         "text": "The accommodation request deadline is always the same as the test registration deadline for any given administration of the LSAT, and there are no exceptions to this deadline",
@@ -1300,6 +1330,12 @@
       },
       {
         "text": "Unless you test under a State, District or On-Campus testing program, ACT will cancel your scores upon your request, will notify official score recipients that already have them that the scores have been canceled, and is not required to reinstate voluntarily canceled scores",
+        "src": "ACT",
+        "year": 2026,
+        "url": "https://www.act.org/content/act/en/products-and-services/the-act/act-examinee-terms.html"
+      },
+      {
+        "text": "After a mistiming, technical difficulties, disruptions at the test location or other events that cause testing to be canceled or interrupted, ACT may correct the error, cancel scores, or discontinue the testing process and offer each affected person the option to retest at no additional fee, normally on a future test date, or a refund",
         "src": "ACT",
         "year": 2026,
         "url": "https://www.act.org/content/act/en/products-and-services/the-act/act-examinee-terms.html"

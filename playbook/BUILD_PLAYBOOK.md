@@ -6,11 +6,11 @@ different one.
 The platform is Start From Nowhere, a test-preparation site with five adaptive exam
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
-2026-09-19 and 2026-09-29, which is 10 days, across
-166 commits, by one owner directing a series of AI coding sessions. As of this
+2026-09-19 and 2026-09-28, which is 9 days, across
+167 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 87 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
-2122 tracked files in total.
+2123 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-166 commits in 10 days, one owner, a series of AI sessions. This
+167 commits in 9 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1178,7 +1178,7 @@ Not a list of files changed. The useful report is:
 5. Numbers, with the command that produced them.
 
 The commit messages in this repository are written that way, which is why a defect ledger
-could be reconstructed from them 10 days later. **Write the commit message
+could be reconstructed from them 9 days later. **Write the commit message
 as though someone will need to mine it. Someone will.**
 
 ## Failure modes observed in this project
@@ -1217,7 +1217,7 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-195 recorded defects, over 10 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+195 recorded defects, over 9 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
@@ -2545,7 +2545,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0195. Eight LSAT structure explanations ran a claim with a comma of its own into the next words ('where the water has warmed the most and is offered as a reason')
 
-*2026-09-29, Cosmetic*
+*2026-09-29, Cosmetic, `937780969a8498133dea3a317c618485fa9a99b1` PR #212*
 
 - **What was seen.** The explanation shown after a main conclusion question read, for the fisheries biologist's argument, 'The claim that the decline follows water temperature rather than fishing pressure is drawn from the premise that the trout have declined most in the shallow bays, where the water has warmed the most and is offered as a reason for that conclusion', so the relative clause seemed to take 'and is offered' as its own verb. Six arguments' main conclusion explanations did this, and the transit planner's argument did it twice, once there and once in the explanation of the view it rejects: 'The argument opens with the view that the new rail line should run along the river, where land is cheapest and then rejects it'. Eight items in all, in the live LSAT trainer from September 26, 2026 (#100) to September 29. Keys, choices and stems were right; only the explanation misread.
 - **Why.** The explanation templates in src/gen/g_lsat_struct.py follow some slotted claims with more sentence: '%s and is offered as a reason', '%s and then rejects it', '%s and argues that', 'The claim that %s is drawn from'. A claim with a comma clause of its own leaves that clause open, and the template's next words read as part of it. The question stems already avoided this, because asks() moves a claim with a comma to the end of its question, but that rule lived in one function as a comment and was never applied to the explanations. check_args checked each part alone (no capital, no opening pronoun, no full stop), never the sentences the parts are slotted into, so a part that passed it was taken to be safe anywhere.

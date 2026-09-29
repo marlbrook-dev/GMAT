@@ -924,6 +924,15 @@ verified rather than that the school does not publish one (INC-0118).
       and ACT are left out because neither maker's pages describe their test as adaptive. Every
       rule was read on September 29 from the makers' own pages; three join data/exams.json and
       pass the source check's functions, and EDITORIAL.md gains an adaptive testing block.
+- [x] **"What If Something Goes Wrong on the GMAT, GRE, LSAT, SAT, or ACT?"** queued for January 12
+      (Elena Rodriguez): what each test maker offers when a technical problem or disruption hits a
+      test, and what to do on the day. GMAC's Testing Issue remedies and seven-day reporting window,
+      ETS's free retest or refund and travel claim, LSAC's remote pause and resume, College Board's
+      Help icon and makeup tests, and ACT's discretionary retest or refund. GMAC's policies PDF
+      answered with a bot challenge earlier on September 29 and served the PDF again the same day;
+      the source check's own client is still challenged, so the two GMAT facts were checked, with
+      the source check's functions, against a plain download of the same PDF. Six rules join
+      data/exams.json, and EDITORIAL.md gains a test day problems block.
 - [x] **No rank cites an admissions consulting blog.** Eight U.S. News 2026 ranks (Virginia
       11, Cornell 15, UCLA and Texas 18, Washington 20, North Carolina 21, Emory 23, Georgetown
       31) cited Clear Admit or Stacy Blackman, which src/sources.py lists as weak sources; they
