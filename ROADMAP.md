@@ -905,6 +905,13 @@ verified rather than that the school does not publish one (INC-0118).
       to. Every rule was read on September 29 from the makers' own pages; six join
       data/exams.json and pass the source check's functions, and EDITORIAL.md gains a guessing
       block.
+- [x] **"How Adaptive Testing Works on the GMAT, GRE, and SAT"** queued for January 10 (Sarah
+      Whitfield): the GMAT adapts question by question from a medium-difficulty start, the GRE
+      sets its second Verbal and Quantitative sections by the first, and the SAT sets its second
+      module in each section by the first, with what each design lets you go back to. The LSAT
+      and ACT are left out because neither maker's pages describe their test as adaptive. Every
+      rule was read on September 29 from the makers' own pages; three join data/exams.json and
+      pass the source check's functions, and EDITORIAL.md gains an adaptive testing block.
 - [x] **No rank cites an admissions consulting blog.** Eight U.S. News 2026 ranks (Virginia
       11, Cornell 15, UCLA and Texas 18, Washington 20, North Carolina 21, Emory 23, Georgetown
       31) cited Clear Admit or Stacy Blackman, which src/sources.py lists as weak sources; they
