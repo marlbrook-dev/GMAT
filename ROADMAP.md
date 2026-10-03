@@ -970,6 +970,23 @@ verified rather than that the school does not publish one (INC-0118).
       "that that", so it is skipped. 431 questions, and the build checks that every quote
       appears in the passage as printed. The LSAT bank grows to 15433, of which 15061 are
       generated; the author's attitude stays hand written.
+- [x] **Five long reading passages on new ground** (lasttram, filmstore, horsesetts,
+      smokerickets, cableduct): the last ten batches were all rural trades, so these move to
+      the town and the twentieth century. A theatre's dwindling audiences, blamed on the first
+      cinema and caused by a tram company running its last car before the curtain fell;
+      newspaper microfilm turning brittle and sour, blamed on readers and caused by a warm,
+      damp basement store; omnibus horses going lame, blamed on a contract farrier and caused
+      by smooth granite setts on the steep streets; rickets, blamed on mothers' cooking and
+      caused by smoke from a new works cutting off the sunlight children's skin needs; and
+      telephone calls failing in wet weather, blamed on new operators and caused by water in a
+      cable duct laid below the water table. They run 317 to 325 words and each adds ten items
+      to GMAT, GRE and LSAT and five LSAT structure questions: the banks grow to GMAT 34712,
+      GRE 21088 and LSAT 15508, of which 15136 are generated, counts read from the build. All
+      the new items were read before they went in. Four names met names already in use
+      (Fenwick, Thornleigh, the Courier and Bridge Street) and were changed, and two sentences
+      were reworded: gallery seats that cost no more than "the cinema" now cost no more than a
+      seat at it, and "cable insulated with paper that takes in water" left it unclear what
+      took in the water.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
