@@ -771,6 +771,16 @@ def main(target=TARGET, verbose=True):
         for line in six:
             print("  " + line, file=sys.stderr)
         sys.exit(1)
+    # The LSAT structure questions quote a part of the passage and offer the other parts'
+    # jobs as wrong answers, so each quote has to be findable in the passage as printed and
+    # each job's wording false of every other part (INC-0199).
+    parts = g_rc.check_parts()
+    if parts:
+        print("ERROR: LSAT structure questions that quote what the passage does not print or "
+              "could offer a second key", file=sys.stderr)
+        for line in parts:
+            print("  " + line, file=sys.stderr)
+        sys.exit(1)
     # A parallel reasoning question is worded by whether its argument is valid, so every
     # form's label is confirmed by trying it against every small group.
     forms = g_lsat_parallel.check_forms()

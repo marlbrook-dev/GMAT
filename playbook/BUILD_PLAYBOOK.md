@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-10-03, which is 14 days, across
-173 commits, by one owner directing a series of AI coding sessions. As of this
+174 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 87 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
 2124 tracked files in total.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-173 commits in 14 days, one owner, a series of AI sessions. This
+174 commits in 14 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -2560,7 +2560,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0199. GRE sentence-function questions offered a second right answer: the third sentence's job, worded so that it was true of the fourth sentence too
 
-*2026-10-03, Wrong data shown or stored*
+*2026-10-03, Wrong data shown or stored, `c2f9acf70447cc3eb029ccb04df2ec6e6741dfb7` PR #219*
 
 - **What was seen.** Each GRE reading passage is six sentences with a fixed job each, and a function question asks what one sentence does, with the other sentences' jobs as wrong answers. One of the two wordings for the third sentence, the first finding, was 'present a finding that tells against the earlier account'. The fourth sentence is the second finding and does exactly that, so on the 31 of 107 fourth-sentence questions that offered this wording as a wrong answer, a student who chose it had a defensible case. The 34 second-sentence questions that offered it carried the same risk in a weaker form, since the second sentence, the fact the earlier account cannot explain, also tells against that account.
 - **Why.** The job table was written one sentence at a time, each wording checked against the sentence it describes and never against the others. The two findings share every property but their order, so any wording for either of them that does not say which one it is describes both, and a wrong answer that is also true of the asked sentence is a second key. The duplicate-job check caught two wordings of one job offered together, not one wording true of two jobs.

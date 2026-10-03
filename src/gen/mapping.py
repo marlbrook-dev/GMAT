@@ -160,7 +160,8 @@ ACT_MAP = {
 # A category's section is not always the exam's default. ACT English and ACT Math
 # are both mapped above, so the section is read per skill rather than per exam.
 SECTION_OVERRIDE = {"act_e_cse": "E", "act_e_pow": "E", "act_e_kol": "E",
-                    "lsat_rc_stated": "RC", "lsat_rc_main": "RC", "lsat_rc_inf": "RC"}
+                    "lsat_rc_stated": "RC", "lsat_rc_main": "RC", "lsat_rc_inf": "RC",
+                    "lsat_rc_struct": "RC"}
 
 # The LSAT had no generated bank at all: 372 hand written items against 20,000 to 40,000
 # on the other four. Its Logical Reasoning section is the same genre as GMAT Critical
@@ -205,6 +206,10 @@ LSAT_MAP = {
     # Both of these ask what follows from the passage rather than what it states, which is
     # LSAC's "information or ideas that can be inferred".
     "lsat_rc_inf": ["rc_infer_long", "rc_caveat_long"],
+    # What a quoted part of the passage does there, which is LSAC's "the organization or
+    # structure" and "the meaning or purpose of words or phrases as used in context". The
+    # category's third point, the author's attitude, stays hand written.
+    "lsat_rc_struct": ["rc_partfn_long"],
 }
 
 # An editorial judgement, recorded so it can be argued with, like the other two. The CR

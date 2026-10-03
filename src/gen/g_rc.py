@@ -36,6 +36,7 @@ Nothing here asserts a key. What the passage states is data; what follows from i
 derived by the same rule every time.
 """
 import re
+import zlib
 
 from framework import Gen, ItemError, ListsQuestions, balance, buildable_ranks
 
@@ -3897,6 +3898,159 @@ class CaveatImplication(RCBase):
                          target=self.target_for(p, choices_n - 1))
 
 
+
+# What each part of a long passage does. Every passage has the same parts in the same
+# order, so each part has one job wherever it appears, and a question about it is decided
+# by the passage's structure rather than by anyone's reading of it.
+#
+# Every wording has to be false of every other part, because the other parts' jobs are the
+# wrong answers, and a wording true of two parts is a second key wherever both meet
+# (INC-0199). The two findings differ only in order, so each of their wordings says which
+# one it is. Two wordings per job, so the key's length is not fixed by the part asked.
+PART_JOB = {
+    "old": ("introduce the explanation that the rest of the passage calls into question",
+            "set out the account that the passage goes on to revise"),
+    "old_why": ("explain why the earlier account was widely accepted",
+                "give the grounds on which the earlier account was held"),
+    "problem": ("point to a difficulty the earlier account faced even before the studies "
+                "the passage describes",
+                "show that the earlier account was in doubt before either study was made"),
+    "ev1what": ("present the first of the two findings that tell against the earlier account",
+                "report the first of the two results on which the author's conclusion rests"),
+    "ev2what": ("present a second finding that points the same way as the first",
+                "report further evidence that points the same way as the first study's result"),
+    "revision": ("state the conclusion that the author draws from the two findings",
+                 "draw the two findings together into a revised explanation"),
+    "caveat": ("acknowledge a limit on how far the evidence has been shown to hold",
+               "note a qualification of the conclusion the passage has just drawn"),
+}
+# Jobs no part of these passages does.
+PART_NO_JOB = [
+    "concede that the earlier account was correct after all",
+    "offer an example of a general principle stated earlier in the passage",
+    "predict how the question the passage raises will finally be settled",
+    "cast doubt on the reliability of a finding the passage relies on",
+    "answer an objection that the author expects the reader to raise",
+]
+PART_ORDER = re.compile(r"\b(?:first|second|further)\b")
+# The parts asked about, in the order asks() lists them. The first sentence and the
+# conclusion are left out, as in the GRE questions: one opens "long blamed" and the other
+# "Taken together", and their jobs can be read off those words. So are the notes on the
+# records, which do different jobs in different passages: most describe the records, but
+# some rule out a rival cause, and no one wording is true of all of them.
+PART_ASKED = ("old_why", "problem", "ev1what", "ev2what", "caveat")
+PART_DIFF = {"old_why": 3, "problem": 3, "ev1what": 4, "ev2what": 4, "caveat": 3}
+# The problem sentence names its own job ("The account could not explain why"), so the
+# stem quotes the fact after it instead, and only where the sentence has that form.
+PROBLEM_FACT = re.compile(r"^The account could not explain why (.+?)(?:, or why |, while |\.$)")
+# Three ways LSAT stems ask this, one fixed per question so its identity is stable.
+PART_STEMS = ("The author's statement that %s serves primarily to",
+              "The author mentions that %s primarily in order to",
+              "In the context of the passage, the statement that %s functions mainly to")
+
+
+def part_quote(p, part):
+    """The words a stem quotes for one part, or None where they would give its job away or
+    could not follow the stem's "that": a clause that opens with "That" would print as
+    "mentions that that"."""
+    if part == "problem":
+        m = PROBLEM_FACT.match(p["problem"])
+        q = m.group(1) if m else None
+    else:
+        q = lower1(p[part].rstrip("."))
+    return None if q is None or q.startswith("that ") else q
+
+
+class PartFunction(RCBase):
+    """What a part of the passage does: the LSAT's meaning, structure and tone.
+
+    The GRE function questions (g_gre_rc.py) name a sentence by its position in a six
+    sentence paragraph. The LSAT rendering prints the record notes and the two rules as
+    well, so these quote the part instead, the way LSAT stems do, and the student has to
+    find it and see what it is doing there. Asked of the grounds for the earlier account,
+    what it could not explain before any study, the two findings and the closing limit.
+    """
+    id = "rc_partfn"
+    skill = "lsat_rc_struct"
+    sub = "Function of a statement"
+    diff = 3
+    wrong = ("The wrong choices describe what a different part of the passage does, or "
+             "something no part of it does.")
+
+    def asks(self, p):
+        out = []
+        for part in PART_ASKED:
+            q = part_quote(p, part)
+            if q:
+                t = PART_STEMS[zlib.crc32((p["key"] + ":" + part).encode()) % len(PART_STEMS)]
+                out.append((t % q, part))
+        return out
+
+    def why(self, p, part):
+        return {
+            "old_why": "It comes straight after the earlier account and gives the reasons that "
+                       "account was believed. The difficulty with it comes next, and the "
+                       "evidence against it only in the second paragraph.",
+            "problem": "It comes in the first paragraph, before either study, as something the "
+                       "earlier account could not explain, so it shows that account was in "
+                       "doubt before any of the evidence the passage goes on to report.",
+            "ev1what": "It is what %s found in %s, the first of the two results the second "
+                       "paragraph reports, and it tells against the earlier account."
+                       % (p["ev1who"], p["ev1where"]),
+            "ev2what": "It is what %s of %s found, the second of the two results, and it "
+                       "points the same way as the first." % (p["ev2who"], p["ev2where"]),
+            "caveat": "It closes the passage, after the conclusion, by naming a limit on the "
+                      "evidence, which limits how far that conclusion has been shown to hold.",
+        }[part]
+
+    def make(self, rng, choices_n):
+        p = rng.choice(self.corpus)
+        stem, part = rng.choice(self.asks(p))
+        right = rng.choice(PART_JOB[part])
+        pool = ([rng.choice(PART_JOB[o]) for o in PART_JOB if o != part]
+                + rng.sample(PART_NO_JOB, 2))
+        expl = ("The passage sets out an account and why it was held, says what it could not "
+                "explain, reports two findings, states what they suggest together and closes "
+                "on a limit. " + self.why(p, part))
+        item = self.emit(rng, choices_n, p, stem, right, pool, expl, PART_DIFF[part],
+                         self.skill, self.sub)
+        # Two wordings of one job would be one answer twice, and a second key if the job
+        # were the one asked about.
+        jobs = [o for c in item["choices"] for o, texts in PART_JOB.items() if c in texts]
+        if len(jobs) != len(set(jobs)) or jobs.count(part) != 1:
+            raise ItemError("%s offered one part's job twice" % self.id)
+        return item
+
+
+def check_parts(gens=None):
+    """The function questions can be answered from the passage and only one way.
+
+    Each quoted part has to appear in the passage as printed, word for word, or the student
+    is asked about a sentence they cannot find; every passage has to be asked about at least
+    three parts, so a change that stopped the quoting from working would not quietly empty
+    the schema; and every wording for either finding has to say which finding it is
+    (INC-0199).
+    """
+    bad = []
+    for part in ("ev1what", "ev2what"):
+        for w in PART_JOB[part]:
+            if not PART_ORDER.search(w):
+                bad.append("the job wording %r does not say which finding it is" % w)
+    for g in (gens if gens is not None else GENS_LONG):
+        if not isinstance(g, PartFunction):
+            continue
+        for p in g.corpus:
+            shown = g.render(p)
+            asked = [part for _, part in g.asks(p)]
+            if len(asked) < 3:
+                bad.append("%s: only %d parts can be asked about" % (p["key"], len(asked)))
+            for part in asked:
+                q = part_quote(p, part)
+                if q not in shown and cap(q) not in shown:
+                    bad.append("%s %s: the quoted words %r are not in the passage as printed"
+                               % (p["key"], part, q[:60]))
+    return bad
+
 # The GMAT draws on both corpora, because a real section mixes passage lengths. The LSAT
 # variants draw only on the long one and carry a suffix, so the bias check and the debt
 # table treat them as the separate schemas they are: different prose can skew differently,
@@ -3904,7 +4058,8 @@ class CaveatImplication(RCBase):
 GENS = [StatedIdea(P + P_LONG), MainIdea(P + P_LONG),
         Inference(P + P_LONG), CaveatImplication(P + P_LONG)]
 GENS_LONG = [StatedIdea(P_LONG, "_long"), MainIdea(P_LONG, "_long"),
-             Inference(P_LONG, "_long"), CaveatImplication(P_LONG, "_long")]
+             Inference(P_LONG, "_long"), CaveatImplication(P_LONG, "_long"),
+             PartFunction(P_LONG, "_long")]
 
 
 def assign_ranks(can, need):

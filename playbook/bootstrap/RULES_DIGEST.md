@@ -2,7 +2,7 @@
 
 Rules from 199 defects in a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
 
-Generated 2026-10-03 from a ledger spanning 14 days and 173 commits.
+Generated 2026-10-03 from a ledger spanning 14 days and 174 commits.
 
 ## Read this first
 
