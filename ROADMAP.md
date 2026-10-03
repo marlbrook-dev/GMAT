@@ -934,6 +934,18 @@ verified rather than that the school does not publish one (INC-0118).
       town's other bakers", half true of it when drawn as a wrong answer beside it. Every baker who
       bought from the mills now belongs to the company, and the limit names only the meal ground
       for households.
+- [x] **The October 3 Search Console export, read against September 26** (INC-0198): the
+      surge of September 21 to 25 (1,412 to 1,699 impressions a day at deep positions) settled
+      back to 618 and 662 a day by September 28 and 29, close to early September, but higher:
+      the five new days averaged position 26.9, and school page impressions in them averaged 15
+      against 34 before. GROWTH.md records it. The queries near page one ask what the pages
+      already answer, so the lever is still links from other sites. The report tool gained
+      `--since`, which reports only the days a later export adds, since exports are
+      overlapping windows; it subtracts by page type, where the Pages sheet lists 99 percent of
+      impressions, and says why it does not by intent, where the Queries sheet lists 36 to 41
+      percent. It no longer tells us to redirect the retired MCAT and Executive Assessment
+      guides, which the Worker has redirected since INC-0109, and it counts queries written in
+      search-operator syntax on their own line, out of the striking-distance list.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's

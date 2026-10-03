@@ -91,6 +91,57 @@ it finds pages "primarily" through links from other sites and that changes can t
 outbound channels at the top of this file are the ranking work; the page work only makes
 sure that when a searcher does arrive, the answer they came for is the first thing they read.
 
+### The October 3 Export: The Spike Settled, Higher Up
+
+Written October 3, 2026 from the owner's export for August 18 to September 29, read against
+the September 26 export with `python3 src/gsc_report.py <new export> --since <old export>`.
+Search Console exports a window, so the two overlap on every day but the last five; `--since`
+reports those five days on their own.
+
+| Measure | Value |
+|---|---|
+| Impressions, August 18 to September 29 | 28,981 |
+| Clicks | 15 (3 of them in the five new days) |
+| Daily impressions, September 21 to 25 | 1,412 to 1,699 |
+| Daily impressions, September 28 and 29 | 662 and 618 |
+| Average position, September 21 to 24 | 35.3 to 40.8 |
+| Average position, September 25 to 29 | 26.9 |
+
+**The surge was a visit, not a new level.** For five days from September 21 the site was
+shown 1,400 to 1,700 times a day, at deep average positions, and then fell back to 618 and
+662 a day on September 28 and 29, close to September 7 and 8 (648 and 664). It came back
+shown less often but higher: the five new days averaged position 26.9.
+
+**School pages moved up most.** Measured over the five new days alone, school page
+impressions averaged position 15, against 34 for everything before; college pages averaged
+34 against 42; and the study guides, absent from the September 26 export, took 120
+impressions at an average of 18. Fifteen is an average over many queries, so some school
+queries now reach page one and many do not.
+
+**What sits near page one is already answered.** Queries averaging position 15 or better are
+college acceptance rates (positions 10 to 12) and MBA cost, class profile and acceptance rate
+questions (7 to 14). The school pages behind those MBA queries carry the figure asked for,
+with its source, except two class profiles that carry only some of it: Notre Dame's (GPA and
+work experience, no class size or GMAT) and Texas A&M's (class size and GPA). Position, not
+content, is what keeps the rest off page one.
+
+**Mobile ranks better and clicks more.** Over the whole window, mobile searches saw the site
+5,059 times at an average position of 23 and gave 11 of the 15 clicks; desktop saw it 23,845
+times at 40 and gave 4.
+
+**Two things the report used to get wrong.** It listed the retired MCAT and Executive
+Assessment guides as URLs to redirect; both have redirected to /exams/ since INC-0109, and
+they gained only 3 and 6 impressions in the five days, fading as expected. The tool now
+reads the redirect table before it gives that advice (INC-0198). It also counted queries
+written in search-operator syntax as demand: 16 queries and 156 impressions with a leading
++ or %, or a quoted figure, the way tools checking a page's numbers search; three of them
+look up the undergraduate count our University of Akron page prints. They now have an intent
+of their own and are left out of the striking-distance list.
+
+The conclusion of September 26 stands: the pages answer what people are asking, and what
+moves position is links from other sites. The outbound channels at the top of this file
+remain the work.
+
 ## What Brings People Back: Research and What We Built From It
 
 Written September 26, 2026. Search brings a visitor once; the products that grow on repeat
