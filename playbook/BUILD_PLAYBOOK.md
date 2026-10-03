@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-09-28, which is 9 days, across
-171 commits, by one owner directing a series of AI coding sessions. As of this
+172 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 87 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
 2124 tracked files in total.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-171 commits in 9 days, one owner, a series of AI sessions. This
+172 commits in 9 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1217,14 +1217,14 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-197 recorded defects, over 9 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+198 recorded defects, over 9 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 109 | 55% |
+| Found by reading the code or the output | 110 | 56% |
 | Found by measuring something | 46 | 23% |
 | A test caught it | 22 | 11% |
 | Found by rendering it and looking | 8 | 4% |
@@ -1232,7 +1232,7 @@ well enough to audit later. Which is what this book is.
 | A build guard caught it | 5 | 3% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 195 of 197 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 196 of 198 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1242,12 +1242,12 @@ well enough to audit later. Which is what this book is.
 | Severity | Count |
 | --- | ---: |
 | Wrong data shown or stored | 90 |
-| Degraded | 47 |
+| Degraded | 48 |
 | Cosmetic | 31 |
 | Silent loss | 26 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 197. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 198. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
@@ -1258,7 +1258,7 @@ well enough to audit later. Which is what this book is.
 | Tests and guards | 36 |
 | Front end | 13 |
 | Build system | 12 |
-| Search and metadata | 10 |
+| Search and metadata | 11 |
 | CSS and layout | 8 |
 | Scoring and selection | 7 |
 | Infrastructure and deploy | 6 |
@@ -1269,7 +1269,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-191 of 197 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+192 of 198 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1290,7 +1290,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-92 of 197 incidents record that they repeat an earlier lesson, 125 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+92 of 198 incidents record that they repeat an earlier lesson, 125 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1396,6 +1396,7 @@ Incidents that name an earlier one without claiming to repeat it. Each was read 
 - INC-0194 names INC-0193
 - INC-0196 names INC-0166
 - INC-0197 names INC-0196
+- INC-0198 names INC-0109
 
 
 ## Where defects concentrate
@@ -3325,7 +3326,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** A generated file that someone edits by hand has two sources, and the next run of the generator silently picks one of them. Put the edit in the generator or retire the generator in writing, and have the build regenerate every generated file and compare it, because nothing else notices a generator that no longer makes its file until someone runs it.
 
 
-## Search and metadata (10)
+## Search and metadata (11)
 
 
 ### INC-0002. School URLs vanished from the sitemap when the data file was split
@@ -3449,6 +3450,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** Each of the five now carries a name its school's own site uses that says which school it is: Charleston School of Business, Lehigh College of Business, Portland State University School of Business (its header reads Portland State University, The School of Business), UC Davis Graduate School of Management and UC Riverside School of Business.
 - **What stops it now.** validate_schools refuses a school name made only of generic words (school, college, graduate, business, management and the like), because a name printed on its own has to say which school it is. in `src/validate_schools.py`
 - **Lesson.** A value copied from a page carries the context the page gave it, and loses that context wherever it is printed on its own. A name that is plain under its university's banner is anonymous in a page title, so store the form that stands alone.
+
+
+### INC-0198. The search report told us to redirect two URLs the Worker already redirects
+
+*2026-10-03, Degraded*
+
+- **What was seen.** Run on the owner's October 3 Search Console export, src/gsc_report.py listed /exams/mcat/ (223 impressions) and /exams/executive-assessment/ (88 impressions) under its heading for URLs with impressions that the build does not produce, with the instruction to redirect them and see RETIRED in src/worker.mjs. Both have been in RETIRED since INC-0109 and both already answer with a 301 to /exams/. Acted on, the advice meant adding entries that already exist, or concluding that a working redirect had stopped working.
+- **Why.** The check asked one question, whether the build writes a file at the URL's path, and treated every no as a page that still needs a redirect. A URL can be served two ways, by a built page or by the Worker's RETIRED table, and the check knew only the first. The table its own message told the reader to consult was the one place it never looked.
+- **How it surfaced.** Found on October 3, 2026 while reading the report on the owner's October 3 export against src/worker.mjs before acting on it. (Found by reading the code or the output)
+- **Fix.** gsc_report.py reads the RETIRED table from src/worker.mjs and lists retired URLs separately as already redirected, so its warning names only URLs that are neither built nor redirected.
+- **What stops it now.** The report stops with an error if src/worker.mjs declares a RETIRED table it cannot parse, so a change to the table's format cannot quietly switch the exclusion off and bring the false alarm back. in `src/gsc_report.py`
+- **Lesson.** A check that reports what is missing has to know every way the thing can be present. When its advice names the place where the fix belongs, it should read that place first; otherwise it keeps recommending work that was already done, and the people reading it learn to ignore it.
 
 
 ## CSS and layout (8)
@@ -4258,6 +4271,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The exam hub's structured data described every exam with a printed Python dict (INC-0131)</small>
 - [ ] A value copied from a page carries the context the page gave it, and loses that context wherever it is printed on its own. A name that is plain under its university's banner is anonymous in a page title, so store the form that stands alone.  
   <small>Five school pages were named only "School of Business", "College of Business" or "Graduate School of Management", so their titles and answers named no school (INC-0153)</small>
+- [ ] A check that reports what is missing has to know every way the thing can be present. When its advice names the place where the fix belongs, it should read that place first; otherwise it keeps recommending work that was already done, and the people reading it learn to ignore it.  
+  <small>The search report told us to redirect two URLs the Worker already redirects (INC-0198)</small>
 
 
 ## Tests and guards
@@ -4450,7 +4465,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 197 real defects reduced to the rules that prevent them,
+the whole project: 198 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -4490,7 +4505,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-197 defects already prevented is genuinely ahead, and every defect it hits
+198 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed
