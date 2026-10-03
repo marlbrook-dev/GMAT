@@ -762,10 +762,12 @@ def main(target=TARGET, verbose=True):
             print("  " + line, file=sys.stderr)
         sys.exit(1)
     # The GRE function questions name a sentence by position, so every passage has to
-    # render as the six sentences, in the order, that the answers assume.
+    # render as the six sentences, in the order, that the answers assume, and each job's
+    # wording has to be false of every sentence but its own (INC-0199).
     six = g_gre_rc.check_corpus()
     if six:
-        print("ERROR: one paragraph GRE passages that are not six sentences", file=sys.stderr)
+        print("ERROR: GRE function questions that could name the wrong sentence or offer a "
+              "second key", file=sys.stderr)
         for line in six:
             print("  " + line, file=sys.stderr)
         sys.exit(1)
