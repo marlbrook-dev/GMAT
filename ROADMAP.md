@@ -955,6 +955,21 @@ verified rather than that the school does not publish one (INC-0118).
       wording for either finding says which finding it is, the one thing that tells them
       apart. Found while reading the schema as the model for generated LSAT structure
       questions.
+- [x] **Generated LSAT structure questions** (Meaning, Structure and Tone): the category
+      had only its 20 hand written items. A new schema over the long passages quotes a part of
+      the passage, the way LSAT stems do ("The author's statement that ... serves primarily
+      to"), and asks what it does there: the grounds for the earlier account, what that account
+      could not explain before any study, the first finding, the second, or the closing limit.
+      Every passage has those parts in that order, so each answer is fixed by the passage's
+      structure, and the wrong answers are the other parts' jobs, each worded to be false of
+      every part but its own (INC-0199). The record notes are not asked, because in the older
+      passages some describe records and some rule out a rival cause, and no one job is true of
+      all of them. What the account could not explain is quoted from after "The account could
+      not explain why", so the stem does not name its job, and asked only of the 76 of 89
+      passages whose sentence has that form; one closing limit opens "That" and would print
+      "that that", so it is skipped. 431 questions, and the build checks that every quote
+      appears in the passage as printed. The LSAT bank grows to 15433, of which 15061 are
+      generated; the author's attitude stays hand written.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
