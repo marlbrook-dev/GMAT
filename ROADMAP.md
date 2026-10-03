@@ -946,6 +946,15 @@ verified rather than that the school does not publish one (INC-0118).
       percent. It no longer tells us to redirect the retired MCAT and Executive Assessment
       guides, which the Worker has redirected since INC-0109, and it counts queries written in
       search-operator syntax on their own line, out of the striking-distance list.
+- [x] **GRE sentence-function questions no longer offer a second right answer** (INC-0199):
+      one wording of the third sentence's job, "present a finding that tells against the
+      earlier account", is also true of the fourth sentence, the second finding, and 31 of the
+      107 fourth-sentence questions offered it as a wrong answer (34 second-sentence questions
+      offered it too, where it is arguable). It now reads "present the first of the two
+      findings that tell against the earlier account", and the build fails unless every
+      wording for either finding says which finding it is, the one thing that tells them
+      apart. Found while reading the schema as the model for generated LSAT structure
+      questions.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's

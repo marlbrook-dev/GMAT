@@ -108,7 +108,10 @@ JOB = [
      "introduce a view that the passage goes on to call into question"),
     ("point to a weakness in the account described in the first sentence",
      "identify something that the earlier account cannot explain or rests on too narrowly"),
-    ("present a finding that tells against the earlier account",
+    # Each finding's wording names which finding it is. Both tell against the earlier
+    # account and both are evidence, so a wording that leaves the order out is true of the
+    # other one too, and offered beside it is a second key (INC-0199).
+    ("present the first of the two findings that tell against the earlier account",
      "report the first of the two results that the author relies on"),
     ("present a second finding that extends the first",
      "report further evidence that points the same way as the result described before it"),
@@ -205,4 +208,14 @@ def check_corpus():
         n = len(_BREAK.findall(gre_text(p))) + 1
         if n != len(JOB):
             bad.append("%s renders as %d sentences, not %d" % (p["key"], n, len(JOB)))
+    # The two findings differ only in order, so a wording for either that does not say
+    # which one it is describes both, and is a second right answer whenever it is offered
+    # beside the other (INC-0199).
+    for i in (2, 3):
+        for w in JOB[i]:
+            if not ORDER.search(w):
+                bad.append("the job wording %r does not say which finding it is" % w)
     return bad
+
+
+ORDER = re.compile(r"\b(?:first|second|further)\b|\bbefore it\b")

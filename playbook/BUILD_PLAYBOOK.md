@@ -6,8 +6,8 @@ different one.
 The platform is Start From Nowhere, a test-preparation site with five adaptive exam
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
-2026-09-19 and 2026-09-28, which is 9 days, across
-172 commits, by one owner directing a series of AI coding sessions. As of this
+2026-09-19 and 2026-10-03, which is 14 days, across
+173 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 87 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
 2124 tracked files in total.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-172 commits in 9 days, one owner, a series of AI sessions. This
+173 commits in 14 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1178,7 +1178,7 @@ Not a list of files changed. The useful report is:
 5. Numbers, with the command that produced them.
 
 The commit messages in this repository are written that way, which is why a defect ledger
-could be reconstructed from them 9 days later. **Write the commit message
+could be reconstructed from them 14 days later. **Write the commit message
 as though someone will need to mine it. Someone will.**
 
 ## Failure modes observed in this project
@@ -1217,14 +1217,14 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-198 recorded defects, over 9 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+199 recorded defects, over 14 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 110 | 56% |
+| Found by reading the code or the output | 111 | 56% |
 | Found by measuring something | 46 | 23% |
 | A test caught it | 22 | 11% |
 | Found by rendering it and looking | 8 | 4% |
@@ -1232,7 +1232,7 @@ well enough to audit later. Which is what this book is.
 | A build guard caught it | 5 | 3% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 196 of 198 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 197 of 199 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1241,20 +1241,20 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 90 |
+| Wrong data shown or stored | 91 |
 | Degraded | 48 |
 | Cosmetic | 31 |
 | Silent loss | 26 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 198. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 199. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 93 |
+| Content generation | 94 |
 | Tests and guards | 36 |
 | Front end | 13 |
 | Build system | 12 |
@@ -1269,7 +1269,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-192 of 198 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+193 of 199 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1290,7 +1290,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-92 of 198 incidents record that they repeat an earlier lesson, 125 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+92 of 199 incidents record that they repeat an earlier lesson, 125 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1430,7 +1430,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (93)
+## Content generation (94)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -2558,6 +2558,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** A template that slots a clause into a sentence has to know where the clause ends. When the slotted text can carry commas of its own, end the sentence after it or set it off with punctuation, and check the rule by rendering every sentence the template makes, since a check on the pieces alone passes every piece of a sentence that misreads.
 
 
+### INC-0199. GRE sentence-function questions offered a second right answer: the third sentence's job, worded so that it was true of the fourth sentence too
+
+*2026-10-03, Wrong data shown or stored*
+
+- **What was seen.** Each GRE reading passage is six sentences with a fixed job each, and a function question asks what one sentence does, with the other sentences' jobs as wrong answers. One of the two wordings for the third sentence, the first finding, was 'present a finding that tells against the earlier account'. The fourth sentence is the second finding and does exactly that, so on the 31 of 107 fourth-sentence questions that offered this wording as a wrong answer, a student who chose it had a defensible case. The 34 second-sentence questions that offered it carried the same risk in a weaker form, since the second sentence, the fact the earlier account cannot explain, also tells against that account.
+- **Why.** The job table was written one sentence at a time, each wording checked against the sentence it describes and never against the others. The two findings share every property but their order, so any wording for either of them that does not say which one it is describes both, and a wrong answer that is also true of the asked sentence is a second key. The duplicate-job check caught two wordings of one job offered together, not one wording true of two jobs.
+- **How it surfaced.** Found on October 3, 2026 while reading g_gre_rc.py as the model for generated LSAT structure questions, then counted in the built GRE bank: 65 of its 428 function questions offered the wording beside a sentence it also describes. (Found by reading the code or the output)
+- **Fix.** The wording now reads 'present the first of the two findings that tell against the earlier account', which is false of every sentence but the third.
+- **What stops it now.** g_gre_rc.check_corpus fails the build unless every wording for either finding says which finding it is (first, second, further, or the one before it), the one property that tells the two apart. in `src/gen/g_gre_rc.py`
+- **Lesson.** When wrong answers are drawn from the jobs of the other parts of the same text, each job's wording has to be false of every part but its own, and that has to be checked across the table, not sentence by sentence. Two parts that differ only in order can only be told apart by naming the order, so any wording for either that leaves it out is true of both.
+
+
 ## Tests and guards (36)
 
 
@@ -3454,7 +3466,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0198. The search report told us to redirect two URLs the Worker already redirects
 
-*2026-10-03, Degraded*
+*2026-10-03, Degraded, `79ec340e6921eb8ea737c4d14963a09f18af54bc` PR #218*
 
 - **What was seen.** Run on the owner's October 3 Search Console export, src/gsc_report.py listed /exams/mcat/ (223 impressions) and /exams/executive-assessment/ (88 impressions) under its heading for URLs with impressions that the build does not produce, with the instruction to redirect them and see RETIRED in src/worker.mjs. Both have been in RETIRED since INC-0109 and both already answer with a 301 to /exams/. Acted on, the advice meant adding entries that already exist, or concluding that a working redirect had stopped working.
 - **Why.** The check asked one question, whether the build writes a file at the URL's path, and treated every no as a page that still needs a redirect. A URL can be served two ways, by a built page or by the Worker's RETIRED table, and the check knew only the first. The table its own message told the reader to consult was the one place it never looked.
@@ -4147,6 +4159,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>An LSAT reading choice said 'to particular facts to the particular facts', and the doubled phrase check missed it because the copy added 'the' (INC-0194)</small>
 - [ ] A template that slots a clause into a sentence has to know where the clause ends. When the slotted text can carry commas of its own, end the sentence after it or set it off with punctuation, and check the rule by rendering every sentence the template makes, since a check on the pieces alone passes every piece of a sentence that misreads.  
   <small>Eight LSAT structure explanations ran a claim with a comma of its own into the next words ('where the water has warmed the most and is offered as a reason') (INC-0195)</small>
+- [ ] When wrong answers are drawn from the jobs of the other parts of the same text, each job's wording has to be false of every part but its own, and that has to be checked across the table, not sentence by sentence. Two parts that differ only in order can only be told apart by naming the order, so any wording for either that leaves it out is true of both.  
+  <small>GRE sentence-function questions offered a second right answer: the third sentence's job, worded so that it was true of the fourth sentence too (INC-0199)</small>
 
 
 ## Database
@@ -4465,7 +4479,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 198 real defects reduced to the rules that prevent them,
+the whole project: 199 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -4505,7 +4519,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-198 defects already prevented is genuinely ahead, and every defect it hits
+199 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed
