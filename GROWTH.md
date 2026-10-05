@@ -121,9 +121,10 @@ queries now reach page one and many do not.
 **What sits near page one is already answered.** Queries averaging position 15 or better are
 college acceptance rates (positions 10 to 12) and MBA cost, class profile and acceptance rate
 questions (7 to 14). The school pages behind those MBA queries carry the figure asked for,
-with its source, except two class profiles that carry only some of it: Notre Dame's (GPA and
-work experience, no class size or GMAT) and Texas A&M's (class size and GPA). Position, not
-content, is what keeps the rest off page one.
+with its source, except two class profiles that carry only some of it: Notre Dame's (GPA,
+work experience and, since October 5, its average cohort size, but no GMAT, because its page
+names no edition) and Texas A&M's (class size and GPA). Position, not content, is what keeps
+the rest off page one.
 
 **Mobile ranks better and clicks more.** Over the whole window, mobile searches saw the site
 5,059 times at an average position of 23 and gave 11 of the 15 clicks; desktop saw it 23,845
@@ -242,7 +243,10 @@ pages on ChatGPT search (403).
 3. **Per-school MBA deadline pages**, which Clear Admit runs as a hub. Blocked on data: only
    one school file carries a deadline, and each must come from the school's own page.
 4. **An ICS export of the application checklist**, so the dated tasks on /apply/ land in a
-   calendar that reminds the applicant instead of us.
+   calendar that reminds the applicant instead of us. Built October 5: Add to Calendar
+   downloads one all-day event per open task, with a reminder the day before, and one per
+   school deadline entered, with a reminder a week before. Each event keeps its UID when the
+   deadline moves, so importing again updates it rather than adding a second copy.
 
 Left out on purpose: weekly leagues and percentile ranks (they rank people against each
 other), prize drawings (luck), and self-reported decision feeds (unsourced figures on the page).

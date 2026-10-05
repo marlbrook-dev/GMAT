@@ -1066,6 +1066,24 @@ verified rather than that the school does not publish one (INC-0118).
         told from the reports").
       - Names were checked by stem this time, not only whole word, after the last batch's
         Tolley and Tolly. All 175 items on the new passages were read.
+- [x] **The application checklist exports to a calendar** (GROWTH.md, item 4 of the
+      return-visit list): Add to Calendar on /apply/ downloads an .ics file.
+      - Each open task is an all-day event on its target date, with a reminder the day
+        before.
+      - Each school deadline entered in the table is an event with a reminder a week
+        before. The event text says it is the date the applicant entered, to be confirmed
+        on the school's own page.
+      - The file uses the same form as the test date calendars: text escaped, CRLF line
+        ends, lines folded at 75 octets.
+      - Each event keeps one UID however its date moves, so importing again after changing
+        the deadline updates the events rather than doubling them.
+
+      src/smoke_pages.js downloads the file and fails on any of these:
+      - a missing calendar wrapper
+      - a bare line feed
+      - a line over 75 octets
+      - an event count other than open tasks plus deadlines entered
+      - a school deadline missing or off its date
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
