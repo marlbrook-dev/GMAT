@@ -38,7 +38,11 @@
  "profile": {
   "class_year": "Typical class profile (no class year stated)",
   "class_size": {
-   "v": null
+   "v": 85,
+   "stat": "average cohort size",
+   "src": "Notre Dame MBA program page",
+   "year": 2026,
+   "url": "https://mendoza.nd.edu/graduate-programs/the-notre-dame-mba/"
   },
   "gmat_focus": {
    "v": null

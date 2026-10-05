@@ -225,6 +225,71 @@ def _selfcheck_emp():
         raise SystemExit("build_rankings: emp_label misreads a reporting date")
 
 
+def _selfcheck_qual(schools):
+    """INC-0200's guard, first half: notes as schools word them read as the qualifier and
+    the kind of class size they state, and no note a sentence restates carries a qualifier
+    that sentence would drop."""
+    table = (
+        ("approximately, as printed: the cost of the entire 12-month program", "about ", None),
+        ("about 40 students, as stated on program page", "about ", None),
+        ("approximately 100 students (the page says a community of ~100)", "about ", None),
+        ("average cohort, about 75 students; undated official page, verified August 2026", "about ", "average"),
+        ("page states averaging more than 4 years of professional work", "more than ", "average"),
+        ("students in a typical cohort, based on the Classes of 2025, 2026 and 2027", "", "typical"),
+        ("average cohort size", "", "average"),
+        ("three-year average enrollment", "", "average"),
+        ("grew from 31 students last year to 38 this fall", "", None),
+        ("entering class; with the part-time MBA's 15, about 80 in all", "", None),
+    )
+    for stat, q, k in table:
+        if qual({"stat": stat}) != q or size_kind({"stat": stat}) != k:
+            raise SystemExit("build_rankings: qual and size_kind read %r as %r, %r; expected %r, %r"
+                             % (stat, qual({"stat": stat}), size_kind({"stat": stat}), q, k))
+    for s in schools:
+        figs = list((s.get("profile") or {}).items()) + list((s.get("scholarship") or {}).items())
+        for key, f in figs:
+            if not isinstance(f, dict) or f.get("v") is None:
+                continue
+            if key in QUAL_WORDED:
+                qual(f)  # stops the build on a qualifier it cannot word
+            elif key in QUAL_UNWIRED:
+                note = qual_note(f)
+                if (note.lower().startswith("approximately") or QUAL_ABOUT.search(note)
+                        or QUAL_MORE.search(note) or QUAL_UNWORDED.search(note)):
+                    raise SystemExit("build_rankings: %s %s reads %r, and the sentences that state "
+                                     "%s do not carry a qualifier yet (INC-0200)"
+                                     % (s["slug"], key, note, key))
+
+
+def _check_size_words(s, page):
+    """INC-0200's guard, second half: a built page states a qualified class size only with
+    its qualifier. Wherever the size stands beside "class of" or "students", in a sentence,
+    the search description or the note itself, it carries the school's "about", and the
+    sentence carries its "average" or "typical" (or names the classes it is averaged over)."""
+    f = (s.get("profile") or {}).get("class_size") or {}
+    if not f.get("v"):
+        return
+    k, q = size_kind(f), qual(f)
+    if not k and not q:
+        return
+    n = "(?:%s|%s)" % (re.escape(format(int(f["v"]), ",d")), re.escape(str(f["v"])))
+    text = html.unescape(page)
+    for m in re.finditer(r"\bclass of (%s)\b|\b(%s) students\b" % (n, n), text):
+        i = m.start(1) if m.group(1) is not None else m.start(2)
+        start = max(text.rfind(". ", 0, i) + 2, *(text.rfind(c, 0, i) + 1 for c in '<>"'))
+        before = text[start:i]
+        if m.group(1) is not None:
+            said = text[start:m.start()]
+            ok = not q and (re.search(r"\b%s\s+$" % k, said) or re.search(r"\baveraged over\b", said, re.I))
+        else:
+            ok = ((not q or re.search(r"(?:about|approximately|~)\s*$", before, re.I))
+                  and (not k or re.search(r"\b(?:%s|averaged)\b" % k, before, re.I)))
+        if not ok:
+            raise SystemExit("build_rankings: %s states its class size as %r, without the %s its "
+                             "note gives it (INC-0200)" % (s["slug"], text[start:m.end()].strip(),
+                                                           " and ".join(x for x in (q.strip(), k) if x)))
+
+
 def class_subject(label):
     """Read a stored class label into a form a sentence can carry.
 
@@ -398,10 +463,79 @@ def class_sentences(p, items):
     return out
 
 
-def about(f):
-    """'about ' for a figure the school itself prints as approximate (FIU's "approximately
-    $47,000", GW's "~$134,000"), so a sentence never states it more exactly than the page."""
-    return "about " if str((f or {}).get("stat") or "").lower().startswith("approximately") else ""
+# The qualifier a school puts on a figure, read from the first clause of its note, which
+# describes the figure itself; what follows a ';' or '(' is provenance (INC-0200).
+QUAL_ABOUT = re.compile(r"(?:\b(?:approximately|approx\.?|about|around|roughly)\s+|~\s*)\$?\s*\d", re.I)
+QUAL_MORE = re.compile(r"\b(?:more than|over)\s+\$?\d", re.I)
+# Qualifiers no sentence here can carry yet: a note that uses one stops the build rather
+# than having its qualifier dropped.
+QUAL_UNWORDED = re.compile(r"\b(?:nearly|almost|at least|at most|up to|fewer than|less than"
+                           r"|under|close to|upwards of)\s+\$?\d", re.I)
+# Fields whose sentences put the qualifier into words, and fields that sentences state
+# without one. A qualified note on the second kind stops the build until it is wired.
+QUAL_WORDED = ("class_size", "tuition_usd", "program_cost_usd", "work_exp_years", "gpa",
+               "pct_receiving", "avg_award_usd")
+QUAL_UNWIRED = ("gmat_focus", "gmat_classic", "gre_quant", "gre_verbal", "accept_rate_pct",
+                "salary_median_usd")
+
+
+def qual_note(f):
+    return re.split(r"[;(]", str((f or {}).get("stat") or ""), 1)[0]
+
+
+def qual(f):
+    """'about ', 'more than ' or '': the qualifier the school's own note puts on a figure,
+    so a sentence never states it more exactly than the page. FIU's whole program cost is
+    "approximately, as printed", Oklahoma's class "about 40 students" and Lehigh's class
+    arrives "averaging more than 4 years". This was about(), which knew only a note that
+    began with "approximately" and was used for program cost alone, so the other figures
+    lost their qualifiers in every sentence (INC-0200)."""
+    note = qual_note(f)
+    if QUAL_UNWORDED.search(note):
+        raise SystemExit("build_rankings: a note reads %r, and no sentence here can carry "
+                         "that qualifier yet (INC-0200)" % note)
+    if note.lower().startswith("approximately") or QUAL_ABOUT.search(note):
+        return "about "
+    if QUAL_MORE.search(note):
+        return "more than "
+    return ""
+
+
+def size_kind(f):
+    """'average', 'median', 'typical' or None: whether a class size counts one class or is
+    the size a school gives for its classes in general. George Washington's 41 is its
+    "average cohort size" and Olin's 95 the students "in a typical cohort"; neither is the
+    size of any one class, and "a class of 41" said it was (INC-0200)."""
+    k = stat_kind(f)
+    if k:
+        return k
+    return "typical" if re.search(r"\btypical\b", qual_note(f), re.I) else None
+
+
+def size_said(f, subj=None, article=True):
+    """A class size as a phrase: 'a class of 41', 'an average class of 41', 'a class of
+    about 50', 'a typical class of 95'; without the article for the search description.
+    A size averaged over the classes a span subject already names ("The profile averaged
+    over the Classes of 2026, 2027 and 2028 reports") takes no second "average"."""
+    k = size_kind(f)
+    if k == "average" and subj and subj[0] == "span":
+        k = None
+    core = "class of %s%s" % (qual(f), format(int(f["v"]), ",d"))
+    if k:
+        core = "%s %s" % (k, core)
+    return (("an " if core[0] in "aeiou" else "a ") + core) if article else core
+
+
+def size_sentence(name, f):
+    """An average or typical class size as a sentence of its own, since folded into a
+    class sentence ("The class profiled in 2024-2025 has 41 students") it reads as that
+    one class's count (INC-0200)."""
+    noun = "cohort" if "cohort" in qual_note(f).lower() else "class"
+    n = "%s%s" % (qual(f), format(int(f["v"]), ",d"))
+    k = size_kind(f)
+    if k == "average":
+        return "%s %s average %s students." % (name, {"cohort": "cohorts", "class": "classes"}[noun], n)
+    return "%s %s %s has %s students." % ("The median" if k == "median" else "A typical", name, noun, n)
 
 
 def lead_paragraph(s, p, g, gc, acc, tui, sal, cs):
@@ -423,8 +557,8 @@ def lead_paragraph(s, p, g, gc, acc, tui, sal, cs):
         first += ", in %s" % where
     out.append(first + ".")
     if tui:
-        out.append("Published tuition is $%s a year%s."
-                   % (format(int(tui), ",d"),
+        out.append("Published tuition is %s$%s a year%s."
+                   % (qual(p.get("tuition_usd")), format(int(tui), ",d"),
                       " (%s, %s)" % ((p.get("tuition_usd") or {}).get("src"),
                                      (p.get("tuition_usd") or {}).get("year"))
                       if (p.get("tuition_usd") or {}).get("src") else ""))
@@ -433,11 +567,18 @@ def lead_paragraph(s, p, g, gc, acc, tui, sal, cs):
         # About a fifth of the library prices the whole program and never a year, so
         # that figure is its own sentence and never recast as tuition a year.
         out.append("Published cost for the whole program is %s$%s%s."
-                   % (about(pc), format(int(pc["v"]), ",d"),
+                   % (qual(pc), format(int(pc["v"]), ",d"),
                       " (%s, %s)" % (pc.get("src"), pc.get("year")) if pc.get("src") else ""))
-    cls = []
+    cls, own = [], []
     if cs:
-        cls.append((p.get("class_size"), "%s students" % format(int(cs), ",d")))
+        # A size the school gives for its cohorts in general is its own sentence, and only
+        # one class's count, or an average over the classes the subject names, is said of
+        # a class (INC-0200).
+        cf = p.get("class_size")
+        if size_kind(cf) is None or (size_kind(cf) == "average" and fig_subject(cf, p)[0] == "span"):
+            cls.append((cf, "%s%s students" % (qual(cf), format(int(cs), ",d"))))
+        else:
+            own.append(size_sentence(name, cf))
     gv = g.get("v") or gc.get("v")
     if gv:
         # The stat note is provenance, not prose; stat_article takes the one word a
@@ -453,20 +594,20 @@ def lead_paragraph(s, p, g, gc, acc, tui, sal, cs):
         cls.append((gq, "%s GRE scores of %s Quantitative and %s Verbal"
                     % (k1 if k1 == k2 and k1 else "reported", fmt_num(gq["v"]), fmt_num(gvb["v"]))))
     out.extend(class_sentences(p, cls))
+    out.extend(own)
     # The other questions people search a program by ("GPA", "work experience"), each as a
     # sentence with its own statistic word, because a table cell answers a reader but not a
     # search engine quoting a passage.
     gpa = p.get("gpa") or {}
     if gpa.get("v"):
-        k = stat_kind(gpa)
-        out.append(("The %s undergraduate GPA is %s." % (k, fmt_num(gpa["v"]))) if k
-                   else "The reported undergraduate GPA is %s." % fmt_num(gpa["v"]))
+        out.append("The %s undergraduate GPA is %s%s."
+                   % (stat_kind(gpa) or "reported", qual(gpa), fmt_num(gpa["v"])))
     we = p.get("work_exp_years") or {}
     if we.get("v"):
-        k = stat_kind(we)
-        out.append("Students arrive with %s %s years of work experience."
-                   % ("an average of" if k == "average" else "a median of" if k == "median"
-                      else "a reported", fmt_num(we["v"])))
+        k, q = stat_kind(we), qual(we)
+        out.append("Students arrive with %s%s%s years of work experience."
+                   % ("an average of " if k == "average" else "a median of " if k == "median"
+                      else "" if q else "a reported ", q, fmt_num(we["v"])))
     if acc is not None:
         out.append("The %s acceptance rate is %s percent." % (rate_word(p.get("accept_rate_pct")), fmt_num(acc)))
     if sal:
@@ -684,7 +825,7 @@ def federal_section(s):
                 'own reported figure mostly reflects who is counted rather than what '
                 'graduates earn.</p>'
                 % (format(n, ",d"),
-                   " out of a class of %s" % format(int(cls), ",d") if cls else ""))
+                   " out of " + size_said(s["profile"]["class_size"]) if cls else ""))
     rows = "".join([
         row("Median earnings, 1 year after completing", "earn_1yr_usd"),
         row("Median earnings, 4 years after completing", "earn_4yr_usd"),
@@ -1021,9 +1162,9 @@ def school_page(s, tpl, today, ranked=()):
         bits.append(" ".join(x for x in (stat_kind(gc), "GMAT", str(gc["v"])) if x))
     tui = (p.get("tuition_usd") or {}).get("v")
     if tui:
-        bits.append("tuition $%s a year" % format(int(tui), ",d"))
+        bits.append("tuition %s$%s a year" % (qual(p.get("tuition_usd")), format(int(tui), ",d")))
     elif (p.get("program_cost_usd") or {}).get("v") is not None:
-        bits.append("whole program cost %s$%s" % (about(p["program_cost_usd"]), format(int(p["program_cost_usd"]["v"]), ",d")))
+        bits.append("whole program cost %s$%s" % (qual(p["program_cost_usd"]), format(int(p["program_cost_usd"]["v"]), ",d")))
     sal = (p.get("salary_median_usd") or {}).get("v")
     if sal:
         sf = p.get("salary_median_usd")
@@ -1031,7 +1172,7 @@ def school_page(s, tpl, today, ranked=()):
                                          "$" + format(int(sal), ",d")) if x))
     cs = (p.get("class_size") or {}).get("v")
     if cs:
-        bits.append("class of %s" % format(int(cs), ",d"))
+        bits.append(size_said(p["class_size"], article=False))
     desc = (", ".join(bits) + ".") if bits else "cost, acceptance rate, class profile and rankings."
     # The title promises only what this page can actually show. Only 16 of 91 schools
     # publish an MBA acceptance rate, so a fixed title naming it would be a broken
@@ -1081,7 +1222,7 @@ def school_page(s, tpl, today, ranked=()):
     elif gcl.get("v"):
         facts.append((gcl, f'{stat_article(gcl)} GMAT of {gcl["v"]} (Classic edition)'))
     if (p.get("class_size") or {}).get("v"):
-        facts.append((p["class_size"], f'a class of {p["class_size"]["v"]}'))
+        facts.append((p["class_size"], size_said(p["class_size"], fig_subject(p["class_size"], p))))
     if (p.get("accept_rate_pct") or {}).get("v") is not None:
         # The number chooses its article: "an 18.8% acceptance rate" (INC-0134).
         rate = p["accept_rate_pct"]["v"]
@@ -1123,11 +1264,11 @@ def school_page(s, tpl, today, ranked=()):
     tu = p.get("tuition_usd") or {}
     if tu.get("v") is not None:
         qa.append((f'How much is tuition at {s["name"]}?',
-                   f'Published tuition is ${tu["v"]:,} per year' + (f' ({tu.get("src")}, {tu.get("year")}).' if tu.get("src") else ".") + " Fees and living costs are additional; confirm on the school site."))
+                   f'Published tuition is {qual(tu)}${tu["v"]:,} per year' + (f' ({tu.get("src")}, {tu.get("year")}).' if tu.get("src") else ".") + " Fees and living costs are additional; confirm on the school site."))
     pc = p.get("program_cost_usd") or {}
     if pc.get("v") is not None:
         qa.append((f'How much does the whole MBA cost at {s["name"]}?',
-                   f'Published cost for the whole program is {about(pc)}${pc["v"]:,}' + (f' ({pc.get("src")}, {pc.get("year")}).' if pc.get("src") else ".")
+                   f'Published cost for the whole program is {qual(pc)}${pc["v"]:,}' + (f' ({pc.get("src")}, {pc.get("year")}).' if pc.get("src") else ".")
                    + " The note beside the figure in the profile says what it covers. Living costs are additional; confirm on the school site."))
     faq_ld, faq_section = "", ""
     if len(qa) >= 2:
@@ -1211,9 +1352,9 @@ def schol_cell(s):
         badge = '<span class="schol warn">Apply separately</span>'
     bits = []
     if pct is not None:
-        bits.append(f"{pct}% get one")
+        bits.append(f"{qual(sch.get('pct_receiving'))}{pct}% get one")
     if avg is not None:
-        bits.append(f"avg ${avg:,.0f}/yr")
+        bits.append(f"avg {qual(sch.get('avg_award_usd'))}${avg:,.0f}/yr")
     note = f'<span class="note">{", ".join(bits)}</span>' if bits else ""
     if not badge and not note:
         return '<span class="note">-</span>'
@@ -1229,6 +1370,7 @@ def main():
     validate_schools.validate(schools)
     _selfcheck_secondary()
     _selfcheck_emp()
+    _selfcheck_qual(schools)
     _selfcheck_class_subject(schools, os.environ.get("BLOG_BUILD_DATE") or datetime.date.today().isoformat())
     dropped = [s["slug"] for s in schools if s.get("discontinued")]
     if dropped:
@@ -1351,7 +1493,9 @@ def main():
     for s in schools:
         sd = dest / s["slug"]
         sd.mkdir(exist_ok=True)
-        pages.append((sd / "index.html", school_page(s, stpl, today, schools)))
+        page = school_page(s, stpl, today, schools)
+        _check_size_words(s, page)
+        pages.append((sd / "index.html", page))
     pages = [(path, partials.apply_chrome(content, extra_legal=RANKINGS_LEGAL)) for path, content in pages]
     for path, content in pages:
         if "{{" in content:
