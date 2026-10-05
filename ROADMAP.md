@@ -1001,6 +1001,32 @@ verified rather than that the school does not publish one (INC-0118).
       size is filled from Mendoza's MBA page, read October 5: an average cohort of 85. The
       page also prints a 655 median GMAT, which stays out, because it names no edition
       (INC-0157).
+- [x] **Five more long reading passages on new ground** (boilerscale, streetlamps,
+      softwater, hedgethorns, dampflats), again away from the rural trades:
+      - Railway boiler tubes bursting, blamed on firemen chasing a bonus and caused by hard
+        water from a new well.
+      - Market garden spinach running to seed, blamed on the seedsman and caused by new
+        electric street lamps that left the beds no long night.
+      - Lead poisoning, blamed on cheap glazed crocks and caused by soft, peaty reservoir
+        water that ate into the lead pipes.
+      - Bicycle punctures on country lanes, blamed on a shop's tyres and caused by new
+        flail hedge cutters strewing thorns.
+      - Mould in new council flats, blamed on tenants drying washing indoors and caused by
+        blocks built without the flues whose draught carried the moisture away.
+
+      They run 325 to 344 words and each adds ten items to GMAT and GRE and fifteen to
+      LSAT. The banks grow to GMAT 34762, GRE 21138 and LSAT 15583, of which 15211 are
+      generated; the counts were read from the build. Every new item was read before it
+      went in, with three changes:
+      - The first draft of the main idea lines echoed the passages word for word and
+        tripped the word-matching guard (INC-0117) at 40.4 percent against a 40 percent
+        ceiling. They now paraphrase ("a run of flat tyres put down to a shop's poor stock
+        was mainly the work of a new way of cutting hedges").
+      - Six names were changed because they shared a stem with names already in use:
+        Harrop beside Harrow, Ravensike beside Ravenstone, Easterhope beside Easterlow,
+        Sallowdale beside Sallowmere, Ferrier beside Ferris, and Tolley, a letter away
+        from the Tolly mound, which other passages' questions can print beside it.
+      - One sentence said "clippings" twice.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's

@@ -59,7 +59,7 @@ a{color:var(--accent)}
 <p class="eyebrow">Start From Nowhere</p>
 <h1>The Build Playbook</h1>
 <p class="sub">How one person and a set of AI sessions built a multi-exam test-prep platform, every defect hit on the way, and the recipe for doing it again for something else</p>
-<p class="meta">Built 2026-10-05 from commit 3f0ce01 &middot; 176 commits over 16 days &middot; 200 recorded defects &middot; 17 chapters<br>
+<p class="meta">Built 2026-10-05 from commit bc230b2 &middot; 177 commits over 16 days &middot; 200 recorded defects &middot; 17 chapters<br>
 This document is generated. Edit the chapters in docs/playbook/ and the ledger in data/playbook/incidents.jsonl, then run python3 src/build_playbook.py.</p>
 </div>
 <div class="toc"><ol><li><a href="#how-to-use-this-book">How to Use This Book</a></li>
@@ -81,7 +81,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><a href="#the-bootstrap-pack-starting-a-new-project-with-this-loaded">The Bootstrap Pack: Starting a New Project With This Loaded</a></li></ol></div>
 <h1 id="how-to-use-this-book">How to Use This Book</h1>
 <p>This is the record of building one platform, written so it can be used to build a different one.</p>
-<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-09-19 and 2026-10-05, which is 16 days, across 176 commits, by one owner directing a series of AI coding sessions. As of this build it is 87 Python files, 112 JavaScript files, 24 TypeScript edge functions, 35 migrations and 65 documents: 2124 tracked files in total.</p>
+<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-09-19 and 2026-10-05, which is 16 days, across 177 commits, by one owner directing a series of AI coding sessions. As of this build it is 87 Python files, 112 JavaScript files, 24 TypeScript edge functions, 35 migrations and 65 documents: 2124 tracked files in total.</p>
 <p>None of those numbers were typed. They are measured from the repository every time this document is built, which is the first thing worth copying.</p>
 <h2 id="what-is-in-here">What is in here</h2>
 <p>The book has four kinds of chapter, and they age differently.</p>
@@ -621,7 +621,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three defects here were found by taking a screenshot: a chart unreadable in dark mode, a line chart implying values that never existed, and a dashboard that was not on screen. None of them would have been caught by an assertion, because none of them were violations of anything anybody had thought to assert.</p>
 <p><strong>Budget for looking.</strong> It is the cheapest test there is and the only one that catches things you have not imagined.</p>
 <h1 id="running-the-build-as-an-ai-loop">Running the Build as an AI Loop</h1>
-<p>176 commits in 16 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
+<p>177 commits in 16 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
 <h2 id="the-division-of-labour">The division of labour</h2>
 <p><strong>The owner decides</strong>: what to build, what it means, what is acceptable, and every irreversible or outward-facing action. <strong>The session does</strong>: the building, the measuring, the testing, and the reporting of what it found.</p>
 <p>The failure mode at each end is worth naming. An owner who reviews every line becomes the bottleneck and the throughput collapses to the speed of reading. A session that decides product questions on its own produces something coherent that is not what anyone wanted.</p>
@@ -1799,7 +1799,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> When wrong answers are drawn from the jobs of the other parts of the same text, each job's wording has to be false of every part but its own, and that has to be checked across the table, not sentence by sentence. Two parts that differ only in order can only be told apart by naming the order, so any wording for either that leaves it out is true of both.</li>
 </ul>
 <h3 id="inc-0200-school-pages-stated-averaged-and-approximate-figures-as-exact-a-cohort-average-as-one-class-s-size-and-approximate-tuition-work-experience-and-scholarships-without-their-qualifier">INC-0200. School pages stated averaged and approximate figures as exact: a cohort average as one class's size, and approximate tuition, work experience and scholarships without their qualifier</h3>
-<p><em>2026-10-05, Wrong data shown or stored</em></p>
+<p><em>2026-10-05, Wrong data shown or stored, <code>bc230b2d898d98f3d5cc3682964f4ea3f04ea649</code> PR #224</em></p>
 <ul>
 <li><strong>What was seen.</strong> George Washington's page said 'The 2024-2025 profile reports a class of 41' and 'The class profiled in 2024-2025 has 41 students', and its search description ended 'class of 41', where the school's figure is its average cohort size. Michigan State, Minnesota, Rice and Washington University in St. Louis read the same way about an average or typical cohort, and Louisville, Ohio State and Oklahoma stated as exact a size their schools give as approximately or about. The same pages said UC Riverside's tuition was $59,505 a year where the school prices each quarter at approximately $19,835, said Lehigh's students arrive with an average of 4 years of work experience where the page says more than 4, and the rankings list said 50% of Harvard students get a scholarship averaging $50,000 a year where Harvard says approximately half, at roughly $50,000. Each table showed the school's own note beside the figure, so the tables were right and only the sentences, the search descriptions and the list's scholarship note were not.</li>
 <li><strong>Why.</strong> Every sentence builder took a figure's value and dropped its note, because the note was treated as provenance for the table and never read for meaning. Class size had a second problem of its own: its phrases were written for a count of one class, so 'a class of 41' and 'has 41 students' turned a size averaged over several cohorts into the size of a single named class. One helper already read the note for 'approximately', but only the whole program cost used it, and it knew one word.</li>
