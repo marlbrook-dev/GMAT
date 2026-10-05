@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-10-05, which is 16 days, across
-176 commits, by one owner directing a series of AI coding sessions. As of this
+177 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 87 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
 2124 tracked files in total.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-176 commits in 16 days, one owner, a series of AI sessions. This
+177 commits in 16 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -2572,7 +2572,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0200. School pages stated averaged and approximate figures as exact: a cohort average as one class's size, and approximate tuition, work experience and scholarships without their qualifier
 
-*2026-10-05, Wrong data shown or stored*
+*2026-10-05, Wrong data shown or stored, `bc230b2d898d98f3d5cc3682964f4ea3f04ea649` PR #224*
 
 - **What was seen.** George Washington's page said 'The 2024-2025 profile reports a class of 41' and 'The class profiled in 2024-2025 has 41 students', and its search description ended 'class of 41', where the school's figure is its average cohort size. Michigan State, Minnesota, Rice and Washington University in St. Louis read the same way about an average or typical cohort, and Louisville, Ohio State and Oklahoma stated as exact a size their schools give as approximately or about. The same pages said UC Riverside's tuition was $59,505 a year where the school prices each quarter at approximately $19,835, said Lehigh's students arrive with an average of 4 years of work experience where the page says more than 4, and the rankings list said 50% of Harvard students get a scholarship averaging $50,000 a year where Harvard says approximately half, at roughly $50,000. Each table showed the school's own note beside the figure, so the tables were right and only the sentences, the search descriptions and the list's scholarship note were not.
 - **Why.** Every sentence builder took a figure's value and dropped its note, because the note was treated as provenance for the table and never read for meaning. Class size had a second problem of its own: its phrases were written for a count of one class, so 'a class of 41' and 'has 41 students' turned a size averaged over several cohorts into the size of a single named class. One helper already read the note for 'approximately', but only the whole program cost used it, and it knew one word.
