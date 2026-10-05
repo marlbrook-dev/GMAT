@@ -1027,6 +1027,23 @@ verified rather than that the school does not publish one (INC-0118).
         Sallowdale beside Sallowmere, Ferrier beside Ferris, and Tolley, a letter away
         from the Tolly mound, which other passages' questions can print beside it.
       - One sentence said "clippings" twice.
+- [x] **Ten more LSAT argument structure arguments**, written with their parts labelled so
+      the role of each claim is fixed when the argument is written:
+      - a library keeping print journals that a licence can take away
+      - a dam whose cracks run through its core
+      - floodlights a sports council will pay for
+      - a restaurant whose diners travel in for occasions
+      - paper records that scanning would lose notes from
+      - grain worth more in spring
+      - Sunday matinees for families
+      - a portrait on canvas woven after its supposed painter died
+      - speed humps that slowed traffic past a school
+      - a billing system better mended than rewritten
+
+      Each gives five role questions and a main conclusion question, so the category grows
+      from 240 to 300 items and the LSAT bank to 15643, of which 15271 are generated
+      (counts read from the build). All 60 were read. The LSAT line in llms.txt also gains
+      a comma it was missing between argument structure and parallel reasoning.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
