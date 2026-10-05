@@ -1044,6 +1044,28 @@ verified rather than that the school does not publish one (INC-0118).
       from 240 to 300 items and the LSAT bank to 15643, of which 15271 are generated
       (counts read from the build). All 60 were read. The LSAT line in llms.txt also gains
       a comma it was missing between argument structure and parallel reasoning.
+- [x] **Five more long reading passages** (potatoscab, platefog, magnetwatches,
+      silvertarnish, gasmain), each blaming people for what a new piece of material or
+      machinery did:
+      - Allotment potatoes roughened with scab, blamed on cheap seed and caused by gasworks
+        lime that made the soil less acid.
+      - Portrait negatives fogging, blamed on careless assistants and caused by a faster
+        plate that could see the yellow darkroom light.
+      - Engineering workers' watches running wild, blamed on the watchmaker and caused by
+        new dynamos that magnetised their balance springs.
+      - Museum silver blackening within weeks, blamed on a cheap polish and caused by
+        sulphur from new rubber floors and woollen case linings.
+      - Glasshouse carnations wilting in bud, blamed on a new foreman's stoking and caused
+        by gas leaking from a new main.
+
+      They run 310 to 339 words. The banks grow to GMAT 34812, GRE 21188 and LSAT 15718,
+      of which 15346 are generated; the counts were read from the build.
+      - The first implication lines repeated the passages' words, and the word-matching
+        guard (INC-0117) caught the closing-limit questions at 40.25 percent. The lines now
+        paraphrase ("whether borrowed pieces darkened while away from the museum cannot be
+        told from the reports").
+      - Names were checked by stem this time, not only whole word, after the last batch's
+        Tolley and Tolly. All 175 items on the new passages were read.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
