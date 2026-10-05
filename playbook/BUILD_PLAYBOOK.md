@@ -6,8 +6,8 @@ different one.
 The platform is Start From Nowhere, a test-preparation site with five adaptive exam
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
-2026-09-19 and 2026-10-03, which is 14 days, across
-174 commits, by one owner directing a series of AI coding sessions. As of this
+2026-09-19 and 2026-10-05, which is 16 days, across
+176 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 87 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
 2124 tracked files in total.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-174 commits in 14 days, one owner, a series of AI sessions. This
+176 commits in 16 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1178,7 +1178,7 @@ Not a list of files changed. The useful report is:
 5. Numbers, with the command that produced them.
 
 The commit messages in this repository are written that way, which is why a defect ledger
-could be reconstructed from them 14 days later. **Write the commit message
+could be reconstructed from them 16 days later. **Write the commit message
 as though someone will need to mine it. Someone will.**
 
 ## Failure modes observed in this project
@@ -1217,22 +1217,22 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-199 recorded defects, over 14 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+200 recorded defects, over 16 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 111 | 56% |
+| Found by reading the code or the output | 112 | 56% |
 | Found by measuring something | 46 | 23% |
 | A test caught it | 22 | 11% |
 | Found by rendering it and looking | 8 | 4% |
-| Found by a review bot or an adversarial pass | 5 | 3% |
-| A build guard caught it | 5 | 3% |
+| Found by a review bot or an adversarial pass | 5 | 2% |
+| A build guard caught it | 5 | 2% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 197 of 199 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 198 of 200 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1241,20 +1241,20 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 91 |
+| Wrong data shown or stored | 92 |
 | Degraded | 48 |
 | Cosmetic | 31 |
 | Silent loss | 26 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 199. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 200. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 94 |
+| Content generation | 95 |
 | Tests and guards | 36 |
 | Front end | 13 |
 | Build system | 12 |
@@ -1269,7 +1269,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-193 of 199 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+194 of 200 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1290,7 +1290,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-92 of 199 incidents record that they repeat an earlier lesson, 125 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+92 of 200 incidents record that they repeat an earlier lesson, 125 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1409,7 +1409,7 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/test.js`, 10 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085, INC-0192, INC-0194)
 - `src/gen/g_rc.py`, 9 incidents (INC-0097, INC-0114, INC-0115, INC-0117, INC-0122, INC-0169, INC-0179, INC-0186, INC-0187)
 - `src/validate_schools.py`, 9 incidents (INC-0125, INC-0141, INC-0143, INC-0144, INC-0147, INC-0151, INC-0153, INC-0157, INC-0185)
-- `src/build_rankings.py`, 7 incidents (INC-0014, INC-0049, INC-0118, INC-0135, INC-0142, INC-0145, INC-0167)
+- `src/build_rankings.py`, 8 incidents (INC-0014, INC-0049, INC-0118, INC-0135, INC-0142, INC-0145, INC-0167, INC-0200)
 - `src/build_blog.py`, 7 incidents (INC-0124, INC-0137, INC-0162, INC-0170, INC-0171, INC-0188, INC-0197)
 - `src/bank_emit.py`, 6 incidents (INC-0062, INC-0066, INC-0068, INC-0073, INC-0119, INC-0189)
 - `src/page_checks.py`, 6 incidents (INC-0134, INC-0138, INC-0139, INC-0163, INC-0176, INC-0178)
@@ -1430,7 +1430,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (94)
+## Content generation (95)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -2568,6 +2568,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** The wording now reads 'present the first of the two findings that tell against the earlier account', which is false of every sentence but the third.
 - **What stops it now.** g_gre_rc.check_corpus fails the build unless every wording for either finding says which finding it is (first, second, further, or the one before it), the one property that tells the two apart. in `src/gen/g_gre_rc.py`
 - **Lesson.** When wrong answers are drawn from the jobs of the other parts of the same text, each job's wording has to be false of every part but its own, and that has to be checked across the table, not sentence by sentence. Two parts that differ only in order can only be told apart by naming the order, so any wording for either that leaves it out is true of both.
+
+
+### INC-0200. School pages stated averaged and approximate figures as exact: a cohort average as one class's size, and approximate tuition, work experience and scholarships without their qualifier
+
+*2026-10-05, Wrong data shown or stored*
+
+- **What was seen.** George Washington's page said 'The 2024-2025 profile reports a class of 41' and 'The class profiled in 2024-2025 has 41 students', and its search description ended 'class of 41', where the school's figure is its average cohort size. Michigan State, Minnesota, Rice and Washington University in St. Louis read the same way about an average or typical cohort, and Louisville, Ohio State and Oklahoma stated as exact a size their schools give as approximately or about. The same pages said UC Riverside's tuition was $59,505 a year where the school prices each quarter at approximately $19,835, said Lehigh's students arrive with an average of 4 years of work experience where the page says more than 4, and the rankings list said 50% of Harvard students get a scholarship averaging $50,000 a year where Harvard says approximately half, at roughly $50,000. Each table showed the school's own note beside the figure, so the tables were right and only the sentences, the search descriptions and the list's scholarship note were not.
+- **Why.** Every sentence builder took a figure's value and dropped its note, because the note was treated as provenance for the table and never read for meaning. Class size had a second problem of its own: its phrases were written for a count of one class, so 'a class of 41' and 'has 41 students' turned a size averaged over several cohorts into the size of a single named class. One helper already read the note for 'approximately', but only the whole program cost used it, and it knew one word.
+- **How it surfaced.** Found on October 5, 2026 while adding Notre Dame's class size, which Mendoza's page gives as an average cohort size of 85: writing it as 'a class of 85' would have repeated the problem, and counting the library showed eight programs already worded that way. (Found by reading the code or the output)
+- **Fix.** One reader takes the qualifier from a figure's own note (about or more than) and the kind of class size (one class, or an average or typical cohort), and every sentence and description that states a class size, tuition, work experience, program cost or scholarship figure goes through it. An averaged cohort size is now its own sentence ('Mendoza College of Business cohorts average 85 students') rather than a count attached to a class. Notre Dame's class size is filled from Mendoza's page as an average cohort of 85.
+- **What stops it now.** The build fails if a school page states a qualified class size in any sentence without the qualifier its note carries, and fails if a figure's note carries a qualifier the reader cannot put into words (nearly, at least, up to, fewer than and the like), so a new kind of note stops the build instead of being dropped. in `src/build_rankings.py`
+- **Lesson.** A figure's note is part of the figure. When a table prints the note beside the number, every sentence that restates the number has to carry what the note says about it, average, about or more than, or it states the figure more exactly than the source does. And a count of one thing and an average over several are different statistics even when the number is the same: the wording has to say which one it is.
 
 
 ## Tests and guards (36)
@@ -4161,6 +4173,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Eight LSAT structure explanations ran a claim with a comma of its own into the next words ('where the water has warmed the most and is offered as a reason') (INC-0195)</small>
 - [ ] When wrong answers are drawn from the jobs of the other parts of the same text, each job's wording has to be false of every part but its own, and that has to be checked across the table, not sentence by sentence. Two parts that differ only in order can only be told apart by naming the order, so any wording for either that leaves it out is true of both.  
   <small>GRE sentence-function questions offered a second right answer: the third sentence's job, worded so that it was true of the fourth sentence too (INC-0199)</small>
+- [ ] A figure's note is part of the figure. When a table prints the note beside the number, every sentence that restates the number has to carry what the note says about it, average, about or more than, or it states the figure more exactly than the source does. And a count of one thing and an average over several are different statistics even when the number is the same: the wording has to say which one it is.  
+  <small>School pages stated averaged and approximate figures as exact: a cohort average as one class's size, and approximate tuition, work experience and scholarships without their qualifier (INC-0200)</small>
 
 
 ## Database
@@ -4479,7 +4493,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 199 real defects reduced to the rules that prevent them,
+the whole project: 200 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -4519,7 +4533,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-199 defects already prevented is genuinely ahead, and every defect it hits
+200 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

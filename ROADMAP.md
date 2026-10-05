@@ -987,6 +987,20 @@ verified rather than that the school does not publish one (INC-0118).
       were reworded: gallery seats that cost no more than "the cinema" now cost no more than a
       seat at it, and "cable insulated with paper that takes in water" left it unclear what
       took in the water.
+- [x] **School pages say a figure the way the school does** (INC-0200): eight pages stated
+      a class size as one class's exact count ("a class of 41", "has 41 students") where the
+      school gives an average cohort size (George Washington, Michigan State, Minnesota, Rice),
+      a typical cohort (Olin) or an approximate size (Louisville, Ohio State, Oklahoma). UC
+      Riverside's tuition lost the school's "approximately", Lehigh's work experience its
+      "more than", and the list's scholarship notes for Harvard and Stanford their
+      "approximately" and "roughly". One reader now takes the qualifier from each figure's own
+      note, the old one knew a single word and served program cost alone, and an averaged
+      cohort size is its own sentence ("Mendoza College of Business cohorts average 85
+      students"). The build fails if a page states a qualified class size without its
+      qualifier, or if a note carries a qualifier no sentence can word yet. Notre Dame's class
+      size is filled from Mendoza's MBA page, read October 5: an average cohort of 85. The
+      page also prints a 655 median GMAT, which stays out, because it names no edition
+      (INC-0157).
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
