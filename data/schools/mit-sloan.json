@@ -33,6 +33,26 @@
    "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/"
   }
  },
+ "deadlines": {
+  "rounds": [
+   {
+    "name": "Round 1",
+    "deadline": "2026-09-29",
+    "time": "3:00 p.m. ET",
+    "decision_text": "Mid-December 2026"
+   },
+   {
+    "name": "Round 2",
+    "deadline": "2027-01-12",
+    "time": "3:00 p.m. ET",
+    "decision_text": "Early April 2027"
+   }
+  ],
+  "src": "MIT Sloan MBA admissions page",
+  "year": 2026,
+  "url": "https://mitsloan.mit.edu/mba/admissions",
+  "checked": "2026-10-05"
+ },
  "profile": {
   "class_year": "Class of 2028",
   "class_size": {

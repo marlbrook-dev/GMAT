@@ -28,6 +28,13 @@ school means adding a file. Never edit generated output.
    "usnews": {"rank": 1, "edition": "2026", "url": "https://..."},
    "ft": ..., "bloomberg": ..., "qs": ..., "pq": ...
  },
+ "deadlines": {                     optional; the standard application rounds only
+   "rounds": [
+     {"name": "Round 1", "deadline": "2026-09-09", "time": "12:00 PM ET",
+      "decision": "2026-12-10"},     or "decision_text": "Mid-December 2026"
+   ],
+   "src": "...", "year": 2026, "url": "https://...", "checked": "2026-10-05"
+ },
  "profile": {
    "class_year": "Class of 2027",
    "gmat_focus":  {"v": 689, "stat": "average", "src": "...", "year": 2025, "url": "https://..."},
@@ -64,6 +71,17 @@ whose `stat` says its page labels no class year takes none.
 A figure is read on its page, never from a search result's snippet of the page: the
 validator refuses a published figure whose `stat`, `note` or `src` says snippet, because
 Rice's GMAT was taken from one and cited to an article that never prints it (INC-0151).
+
+`deadlines` are the dates of a school's standard application rounds, read from the
+school's own page and nowhere else: the validator refuses a url off the school's site.
+Each round carries its deadline as a date, the time the page gives for it in the page's
+own words, and the decision date, or the school's wording for one it gives only roughly
+("Mid-December 2026", MIT Sloan). Deferred admission and consortium rounds are left out
+until their terms have been read. The source check reads every date and time back off the
+cited page in the forms schools print them ("Sept. 9, 2026", "09 Sep 2026", "Jan 05,
+2027"), so a school that moves a deadline is caught the next time it runs. School pages
+print the rounds, the next deadline in the lead paragraph and the FAQ, and a calendar file
+at /schools/<slug>/deadlines.ics.
 
 `tuition_usd` is tuition for one year. `program_cost_usd` is the figure a school
 publishes for the whole program, for the schools that price the program and never a

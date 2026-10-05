@@ -33,6 +33,32 @@
    "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/"
   }
  },
+ "deadlines": {
+  "rounds": [
+   {
+    "name": "Round One",
+    "deadline": "2026-09-15",
+    "time": "11:59 p.m. CT",
+    "decision": "2026-12-03"
+   },
+   {
+    "name": "Round Two",
+    "deadline": "2027-01-07",
+    "time": "11:59 p.m. CT",
+    "decision": "2027-03-25"
+   },
+   {
+    "name": "Round Three",
+    "deadline": "2027-04-01",
+    "time": "11:59 p.m. CT",
+    "decision": "2027-05-20"
+   }
+  ],
+  "src": "Chicago Booth Full-Time MBA admissions page",
+  "year": 2026,
+  "url": "https://www.chicagobooth.edu/mba/full-time/admissions",
+  "checked": "2026-10-05"
+ },
  "profile": {
   "class_year": "Class of 2027",
   "class_size": {

@@ -33,6 +33,29 @@
    "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/"
   }
  },
+ "deadlines": {
+  "rounds": [
+   {
+    "name": "Round 1",
+    "deadline": "2026-09-09",
+    "decision": "2026-12-09"
+   },
+   {
+    "name": "Round 2",
+    "deadline": "2027-01-06",
+    "decision": "2027-03-24"
+   },
+   {
+    "name": "Round 3",
+    "deadline": "2027-03-31",
+    "decision": "2027-05-12"
+   }
+  ],
+  "src": "Kellogg Full-Time MBA admissions page",
+  "year": 2026,
+  "url": "https://www.kellogg.northwestern.edu/admissions/ft-admissions/",
+  "checked": "2026-10-05"
+ },
  "profile": {
   "class_year": "Class of 2027",
   "class_size": {

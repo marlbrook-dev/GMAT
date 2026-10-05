@@ -165,6 +165,84 @@ def _triage_errors(schools, path=TRIAGE):
     return errors
 
 
+_ISO = re.compile(r"\d{4}-\d{2}-\d{2}")
+_MONTHS = ("January February March April May June July August September October November "
+           "December").split()
+
+
+def _deadline_errors(s):
+    """The application deadlines a school publishes for its standard rounds.
+
+    A deadline is the date an applicant plans a year around, so it is held to more than
+    any figure: it comes from the school's own page and nowhere else, every round carries
+    its date as the page prints it, a decision date or the school's own wording for an
+    approximate one ("Mid-December 2026"), and the record says when it was read. The
+    source check reads every date back off the cited page."""
+    import datetime
+    from build_rankings import host_of, reg_domain
+    slug = s.get("slug") or "?"
+    dl = s.get("deadlines")
+    if dl is None:
+        return []
+    out = []
+    where = f"{slug}.deadlines"
+    if not isinstance(dl, dict):
+        return [f"{where}: not an object"]
+    for req in ("src", "year", "url", "checked"):
+        if not dl.get(req):
+            out.append(f"{where}: missing {req}")
+    url = str(dl.get("url") or "")
+    if not url.startswith("https://"):
+        out.append(f"{where}: url must be an https page")
+    elif not any(url.startswith(oh.get("prefix") or "\x00") for oh in (s.get("official_hosts") or [])) \
+            and reg_domain(host_of(url)) != reg_domain(host_of(s.get("website"))):
+        out.append(f"{where}: {url} is not on the school's own site; a deadline is read from the "
+                   f"school's page and nowhere else")
+    if not _ISO.fullmatch(str(dl.get("checked") or "")):
+        out.append(f"{where}: checked must be a YYYY-MM-DD date")
+    for sval in (dl.get("src"), dl.get("url")):
+        if isinstance(sval, str) and ("\u2014" in sval or "\u2013" in sval):
+            out.append(f"{where}: em/en dash in metadata")
+    rounds = dl.get("rounds")
+    if not (isinstance(rounds, list) and rounds):
+        return out + [f"{where}: needs at least one round"]
+    names, last = set(), None
+    for i, r in enumerate(rounds):
+        at = f"{where}.rounds[{i}]"
+        if not isinstance(r, dict) or not str(r.get("name") or "").strip():
+            out.append(f"{at}: needs a name")
+            continue
+        if r["name"] in names:
+            out.append(f"{at}: round {r['name']!r} appears twice")
+        names.add(r["name"])
+        try:
+            due = datetime.date.fromisoformat(str(r.get("deadline")))
+        except ValueError:
+            out.append(f"{at}: deadline must be a YYYY-MM-DD date")
+            continue
+        if last and due < last:
+            out.append(f"{at}: rounds must run in date order")
+        last = due
+        if r.get("decision") is not None and r.get("decision_text") is not None:
+            out.append(f"{at}: give a decision date or the school's wording for it, not both")
+        if r.get("decision") is not None:
+            try:
+                if datetime.date.fromisoformat(str(r["decision"])) <= due:
+                    out.append(f"{at}: decision date must come after the deadline")
+            except ValueError:
+                out.append(f"{at}: decision must be a YYYY-MM-DD date")
+        if r.get("decision_text") is not None and not re.search(
+                r"\b(%s)\b.*\b20\d\d\b" % "|".join(_MONTHS), str(r["decision_text"])):
+            out.append(f"{at}: decision_text should be the school's own words naming a month and "
+                       f"year, such as 'Mid-December 2026'")
+        if r.get("time") is not None and not re.search(r"\d{1,2}:\d{2}", str(r["time"])):
+            out.append(f"{at}: time should be the page's own wording, such as '5:00 PM ET'")
+        unknown = set(r) - {"name", "deadline", "time", "decision", "decision_text"}
+        if unknown:
+            out.append(f"{at}: unknown keys {sorted(unknown)}")
+    return out
+
+
 def validate(schools):
     errors, warnings = [], []
     seen = set()
@@ -285,6 +363,7 @@ def validate(schools):
                 errors.append(f"{slug}.official_hosts: each entry needs an https prefix, evidence and a checked date")
             elif any(b in str(oh.get("prefix", "")).lower() for b in ("poetsandquants", "usnews", "gmac.com", "bloomberg", "ft.com", "topuniversities", "businessbecause")):
                 errors.append(f"{slug}.official_hosts: {oh.get('prefix')} is a publisher, not the school")
+        errors += _deadline_errors(s)
         # Scholarship block. Same provenance rules as every other figure, plus a checked
         # date, because award terms change every admissions cycle and a 2024 number quoted
         # in 2026 is misinformation even when it was true when written.

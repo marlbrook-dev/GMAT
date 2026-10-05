@@ -240,8 +240,12 @@ pages on ChatGPT search (403).
    PSAT/NMSQT and LSAT ones are built (above). The GMAT is the one left: mba.com serves this
    environment a bot challenge, so no GMAC percentile table has been found and read yet.
    Never a percentile or a conversion table we cannot source.
-3. **Per-school MBA deadline pages**, which Clear Admit runs as a hub. Blocked on data: only
-   one school file carries a deadline, and each must come from the school's own page.
+3. **Per-school MBA deadline pages**, which Clear Admit runs as a hub. Started October 5 with
+   eight schools whose own pages print their 2026-27 rounds (HBS, Stanford, Wharton, Booth,
+   Kellogg, Tuck, Yale and MIT Sloan): each school page now shows its rounds and decision
+   dates, names the next deadline in its lead paragraph and FAQ, and offers a calendar file.
+   Haas's and Darden's admissions pages printed no dates when read. Next: more schools, then
+   a hub page listing every verified round.
 4. **An ICS export of the application checklist**, so the dated tasks on /apply/ land in a
    calendar that reminds the applicant instead of us. Built October 5: Add to Calendar
    downloads one all-day event per open task, with a reminder the day before, and one per

@@ -737,6 +737,86 @@ def unseen_words(fact, texts):
     return out
 
 
+_MONTH_NAMES = ("January February March April May June July August September October "
+                "November December").split()
+
+
+def date_seen(iso, text):
+    """Whether a page prints a date in any of the ways admissions pages write one: "September
+    9, 2026", "Sept. 9, 2026", "Jan 05, 2027", "09 Sep 2026", "9/9/2026", with or without the
+    weekday in front. Deadlines are checked this way rather than as numbers, because every
+    day of the month is a number some other line of the page also prints."""
+    d = datetime.date.fromisoformat(iso)
+    full = _MONTH_NAMES[d.month - 1]
+    names = {full, full[:3], full[:3] + "."}
+    if d.month == 9:
+        names |= {"Sept", "Sept."}
+    mon = "(?:%s)" % "|".join(re.escape(n) for n in sorted(names, key=len, reverse=True))
+    day = r"0?%d" % d.day
+    flat = re.sub(r"\s+", " ", text)
+    pats = (r"\b%s %s(?:st|nd|rd|th)?,? %d\b" % (mon, day, d.year),
+            r"\b%s %s %d\b" % (day, mon, d.year),
+            r"\b0?%d/%s/%d\b" % (d.month, day, d.year))
+    return any(re.search(p, flat, re.I) for p in pats)
+
+
+def words_seen(phrase, text):
+    """Whether a page prints a phrase (a deadline's time, a school's own wording for an
+    approximate decision date), ignoring case, spacing and full stops: "11:59 p.m. CT"."""
+    squash = lambda s: re.sub(r"[\s.]+", "", s).lower()
+    return squash(phrase) in squash(text)
+
+
+def deadline_misses(dl, text):
+    """Every date and phrase in a deadlines record that its page does not print."""
+    out = []
+    for r in dl.get("rounds") or []:
+        for key in ("deadline", "decision"):
+            if r.get(key) and not date_seen(r[key], text):
+                out.append("%s %s %s is not on the page" % (r.get("name"), key, r[key]))
+        for key in ("time", "decision_text"):
+            if r.get(key) and not words_seen(r[key], text):
+                out.append("%s %s %r is not on the page" % (r.get("name"), key, r[key]))
+    return out
+
+
+def check_deadline_pages(records, cache, render):
+    """Read each school's deadline page and report every date it no longer prints. A school
+    that moves a deadline changes its page, and this is how the change reaches us."""
+    checked, bad, unread = 0, 0, {}
+    for r in records:
+        dl = r.get("deadlines")
+        if not dl:
+            continue
+        url = dl["url"]
+        try:
+            try:
+                text = fetch(url, cache)
+            except urllib.error.HTTPError as e:
+                if not render or e.code not in REFUSED:
+                    raise
+                text = fetch(url, cache, rendered=True)
+            miss = deadline_misses(dl, text)
+            if miss and render:
+                shown = fetch(url, cache, rendered=True)
+                if len(deadline_misses(dl, shown)) < len(miss):
+                    text, miss = shown, deadline_misses(dl, shown)
+        except Exception as e:
+            unread[url] = "%s: %s" % (type(e).__name__, e)
+            continue
+        checked += 1
+        if miss:
+            bad += 1
+            print("%s.deadlines  %s" % (r.get("slug"), url))
+            for m in miss:
+                print("    " + m)
+    for url, why in sorted(unread.items()):
+        print("could not read deadline page %s (%s)" % (url, why))
+    print("%d deadline pages read, %d with a date or time they no longer print, %d unreadable"
+          % (checked, bad, len(unread)))
+    return bad, len(unread)
+
+
 def _selfcheck():
     """INC-0140: a year range reads as both years however the page punctuates it.
     INC-0150: a school figure is found only beside its label, in a passage about its program.
@@ -977,8 +1057,28 @@ def _selfcheck():
             sys.exit("check_sources: triage of %r missing %r should be %s" % (fact, miss, want))
 
 
+def _selfcheck_dates():
+    """Deadlines are read off the pages the way the schools write them."""
+    seen = (("2026-09-09", "Round One September 9, 2026 December 10, 2026"),
+            ("2026-09-09", "Round 1\t09 Sep 2026\t09 Dec 2026"),
+            ("2027-01-06", "Round 2 Jan. 6, 2027 March 24, 2027"),
+            ("2026-09-09", "Round 1 Sept. 9, 2026 Dec. 9, 2026"),
+            ("2027-01-05", "ROUND 2* Jan 05, 2027 5:00pm ET"),
+            ("2026-09-08", "Round 1: Tuesday, September 8, 2026 at 5:00 PM ET"))
+    for iso, text in seen:
+        if not date_seen(iso, text):
+            raise SystemExit("check_sources: date_seen misses %s in %r" % (iso, text))
+    for iso, text in (("2026-09-09", "September 19, 2026"), ("2026-09-09", "September 9, 2025"),
+                      ("2026-09-09", "October 9, 2026")):
+        if date_seen(iso, text):
+            raise SystemExit("check_sources: date_seen finds %s in %r" % (iso, text))
+    if not words_seen("11:59 p.m. CT", "One September 15, 2026 11:59 p.m. CT December 3"):
+        raise SystemExit("check_sources: words_seen misses a deadline time")
+
+
 def main(argv):
     _selfcheck()
+    _selfcheck_dates()
     cache = None
     if "--cache" in argv:
         cache = pathlib.Path(argv[argv.index("--cache") + 1])
@@ -1179,7 +1279,10 @@ def main(argv):
              % (sum(1 for _, _, e in ranked if e["url"] in texts), newer) if ranked else "",
              "; %d triaged" % len(judged) if triage else "",
              "; %d dataset figures set aside" % len(dataset) if dataset else ""))
-    return 1 if bad or stale or unseen or newer else (2 if unread else 0)
+    late, dl_unread = 0, 0
+    if "--schools" in argv:
+        late, dl_unread = check_deadline_pages(records, cache, "--render" in argv)
+    return 1 if bad or stale or unseen or newer or late else (2 if unread or dl_unread else 0)
 
 
 if __name__ == "__main__":
