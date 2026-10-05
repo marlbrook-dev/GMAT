@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#122B4E"><link rel="apple-touch-icon" href="/icons/icon-180.png">
 <title>MBA Application Checklist and Timeline</title>
-<meta name="description" content="A working MBA application checklist: set a deadline and every task lands on a date, counted backwards. Tracks each school on your list, adds the international applicant steps, exports to CSV. Free, no account.">
+<meta name="description" content="A working MBA application checklist: set a deadline and every task lands on a date, counted backwards. Tracks each school on your list, adds the international applicant steps, exports to CSV or your calendar. Free, no account.">
 <link rel="stylesheet" href="{{FONTS_CSS}}">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%23122B4E'/%3E%3Cpath d='M13 33 22 22l6 5 8.5-10' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M29.5 16.5H37V24' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="canonical" href="https://startfromnowhere.com/apply/">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
 {"@type":"Question","name":"When Should I Start My MBA Application?","acceptedAnswer":{"@type":"Answer","text":"Set your earliest deadline in the planner and every task is placed on a date counted backwards from it. The first tasks, choosing a target score and booking a test date, sit about 30 weeks ahead, because a retake needs 16 days between attempts and score reports take time to reach schools."}},
-{"@type":"Question","name":"Does the MBA Application Checklist Need an Account?","acceptedAnswer":{"@type":"Answer","text":"No. The checklist saves in your browser, works offline once loaded, and exports to CSV. Creating an account is optional and only syncs the same data across devices."}},
+{"@type":"Question","name":"Does the MBA Application Checklist Need an Account?","acceptedAnswer":{"@type":"Answer","text":"No. The checklist saves in your browser, works offline once loaded, and exports to CSV or to a calendar file. Creating an account is optional and only syncs the same data across devices."}},
 {"@type":"Question","name":"Does the Checklist Cover International Applicants?","acceptedAnswer":{"@type":"Answer","text":"Yes. Turning on the international applicant toggle adds the extra steps that applicants from outside the United States need, including English test timing, transcript evaluation, funding without a domestic cosigner, and asking each school for its SEVIS CIP code, which determines whether the degree qualifies for the 24-month STEM OPT extension."}}
 ]}</script>
 <style>
@@ -97,6 +97,7 @@ footer{border-top:1px solid var(--gray-200);padding:28px 0;font-size:var(--t-200
 
 <div class="controls">
 <button class="btn alt" id="btnCsv">Download CSV</button>
+<button class="btn alt" id="btnIcs">Add to Calendar</button>
 <button class="btn alt" id="btnPrint">Print Checklist</button>
 <button class="btn alt" id="btnReset">Reset Progress</button>
 <a class="btn" href="/schools/">Add Schools From the Rankings</a>
@@ -299,6 +300,60 @@ document.getElementById('btnCsv').addEventListener('click',function(){
  var a=document.createElement('a');
  a.href=URL.createObjectURL(blob);
  a.download='mba-application-checklist.csv';
+ document.body.appendChild(a); a.click(); document.body.removeChild(a);
+ setTimeout(function(){ URL.revokeObjectURL(a.href); },1000);
+});
+
+// The checklist as a calendar file, so the dates remind the applicant rather than waiting
+// for them to come back here: one all-day event for every open task, with a reminder the
+// day before, and one for every school deadline entered in the table, with a reminder a
+// week before. The same form as the test date calendars (src/build_test_dates.py): text
+// escaped, CRLF line ends, no line longer than 75 octets (RFC 5545). Each event keeps one
+// UID however its date moves, so importing again after changing the deadline updates the
+// events rather than adding a second set.
+function icsText(s){ return String(s).replace(/\\/g,'\\\\').replace(/;/g,'\;').replace(/,/g,'\\,').replace(/\r?\n/g,'\\n'); }
+function icsFold(line){
+ var enc=new TextEncoder();
+ if(enc.encode(line).length<=75) return line;
+ var out=[], cur='', n=0;
+ for(var ch of line){
+  var b=enc.encode(ch).length;
+  if(n+b>(out.length?74:75)){ out.push(cur); cur=''; n=0; }
+  cur+=ch; n+=b;
+ }
+ out.push(cur);
+ return out.join('\r\n ');
+}
+function icsDay(d){ return d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate()); }
+document.getElementById('btnIcs').addEventListener('click',function(){
+ var now=new Date();
+ var stamp=now.getUTCFullYear()+pad(now.getUTCMonth()+1)+pad(now.getUTCDate())+'T'
+  +pad(now.getUTCHours())+pad(now.getUTCMinutes())+pad(now.getUTCSeconds())+'Z';
+ var lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Start From Nowhere//Application Checklist//EN',
+  'CALSCALE:GREGORIAN','METHOD:PUBLISH'], n=0;
+ function add(uid,d,summary,desc,remind){
+  lines.push('BEGIN:VEVENT','UID:'+uid+'@startfromnowhere.com','DTSTAMP:'+stamp,
+   'DTSTART;VALUE=DATE:'+icsDay(d),'DTEND;VALUE=DATE:'+icsDay(addDays(d,1)),
+   'SUMMARY:'+icsText(summary),'DESCRIPTION:'+icsText(desc),'URL:https://startfromnowhere.com/apply/',
+   'TRANSP:TRANSPARENT','BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:'+icsText(summary),
+   'TRIGGER:-P'+remind+'D','END:VALARM','END:VEVENT');
+  n++;
+ }
+ activeTasks().forEach(function(t){
+  var d=taskDate(t);
+  if(d&&!S.done[t.id]) add('apply-task-'+t.id,d,t.t,t.d,1);
+ });
+ (shortlist().order||[]).forEach(function(slug){
+  var s=SCHOOL_INDEX[slug], d=parseIso((S.schools[slug]||{}).deadline);
+  if(s&&d) add('apply-deadline-'+slug,d,'Application Deadline: '+s.n,
+   'The deadline you entered for '+s.n+' on the checklist. Confirm it on the school\'s own admissions page.',7);
+ });
+ lines.push('END:VCALENDAR');
+ if(!n){ alert('There is nothing left to put in a calendar: every task is done and no school deadline is set.'); return; }
+ var blob=new Blob([lines.map(icsFold).join('\r\n')+'\r\n'],{type:'text/calendar;charset=utf-8'});
+ var a=document.createElement('a');
+ a.href=URL.createObjectURL(blob);
+ a.download='mba-application-checklist.ics';
  document.body.appendChild(a); a.click(); document.body.removeChild(a);
  setTimeout(function(){ URL.revokeObjectURL(a.href); },1000);
 });

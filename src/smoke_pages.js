@@ -105,6 +105,25 @@ const url = p => 'http://127.0.0.1:' + PORT + '/' + p;
   const csv = require('fs').readFileSync(f, 'utf8');
   console.log('csv:', dl.suggestedFilename(), csv.split('\r\n').length, 'lines; has Booth:', csv.includes('Booth'));
 
+  // 7b. The calendar export is a calendar file a phone will open: one event for each open
+  // task and for each school deadline entered, CRLF line ends, and no line over 75 octets.
+  await p.fill('table.sc input[data-sch=berkeley-haas][data-f=deadline]', '2027-01-07');
+  await p.waitForTimeout(150);
+  const [icsDl] = await Promise.all([p.waitForEvent('download'), p.click('#btnIcs')]);
+  const cal = fs.readFileSync(await icsDl.path(), 'utf8');
+  const open = await p.$$eval('.task input[data-task]', xs => xs.filter(x => !x.checked).length);
+  const events = (cal.match(/^BEGIN:VEVENT$/gm) || []).length;
+  const longest = Math.max(...cal.split('\r\n').map(l => Buffer.byteLength(l, 'utf8')));
+  console.log('ics:', icsDl.suggestedFilename(), events, 'events for', open,
+    'open tasks and 1 school deadline; longest line', longest, 'octets');
+  if (!cal.startsWith('BEGIN:VCALENDAR\r\n') || !cal.endsWith('END:VCALENDAR\r\n')) errs.push('ics: not a calendar file');
+  if (cal.replace(/\r\n/g, '').includes('\n')) errs.push('ics: a line ends without CRLF');
+  if (events !== open + 1) errs.push('ics: ' + events + ' events, expected ' + (open + 1));
+  if (longest > 75) errs.push('ics: a line of ' + longest + ' octets');
+  if (!/SUMMARY:Application Deadline: [^\r\n]*\r\nDESCRIPTION:/.test(cal.replace(/\r\n /g, '')))
+    errs.push('ics: no event for the school deadline entered');
+  if (!cal.includes('DTSTART;VALUE=DATE:20270107')) errs.push('ics: the school deadline is not on its date');
+
   // 8. Mobile width does not overflow horizontally.
   for (const pg of ['international/index.html', 'apply/index.html']) {
     const m = await b.newPage({ viewport: { width: 390, height: 844 } });
