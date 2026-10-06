@@ -1637,6 +1637,27 @@ verified rather than that the school does not publish one (INC-0118).
         company now only began replacing them.
       - All 175 items were read: the 75 LSAT items in full, and every GMAT and GRE stem
         against its keyed answer. Each GRE rendering runs six sentences.
+- [x] **Ten more LSAT argument structure arguments**, each giving five role questions and a
+      main conclusion question:
+      - a cinema's two small screens;
+      - a botanic garden's old palm house;
+      - a bookshop's children's section;
+      - a mountain rescue team's second vehicle;
+      - a golf course's summer watering;
+      - a dairy farm's water meadow;
+      - a tram line to the station;
+      - a chess club's meeting room;
+      - a village hall;
+      - an orchestra's winter tour.
+
+      The category grows from 420 to 480 items, and the LSAT bank to 16333, of which 15961
+      are generated (counts read from the build). All 60 were read, and every key names the
+      role its claim was written to play.
+      - The first drafts put the main conclusion paraphrase at a middle length rank in nine
+        of the ten, which is the tell INC-0122 found in reading keys. Four were rewritten,
+        two shorter and two longer, still saying only what the conclusion says, so the key
+        sits at every rank from shortest to longest. The answer bias check reports all 213
+        schemas inside tolerance.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
