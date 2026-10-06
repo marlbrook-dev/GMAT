@@ -1495,6 +1495,14 @@ verified rather than that the school does not publish one (INC-0118).
       with an original worked example and a table of the three kinds of wrong answer.
       LSAC's sample flaw question rejects one choice of each kind, and the post maps its
       reasons onto the table; EDITORIAL.md records the sample, read October 6.
+- [x] **"LSAT Strengthen Questions: How to Answer Them"** queued for January 24 (David
+      Okafor): find what could still make the conclusion false, and choose the answer that
+      rules it out, with an original worked example (night street sweeping and fewer litter
+      complaints) and a table of three kinds of wrong answer. LSAC's sample strengthen
+      question rejects a choice of each kind, and its explanation states the pattern the post
+      teaches. None of LSAC's ten samples asks which choice weakens an argument, so the post
+      treats weakening only as the same method run the other way, and does not cite LSAC for
+      it; EDITORIAL.md records that limit.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
