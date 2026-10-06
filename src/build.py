@@ -627,6 +627,9 @@ _sp.run([sys.executable, str(d/"build_exams.py")], check=True)
 # Score calculators live under /exams/<exam>/ and carry their arithmetic inline, so each is
 # parsed like every other inline script.
 _sp.run([sys.executable, str(d/"build_calculators.py")], check=True)
+# The reader that writes data/test_dates.json runs on the weekly source job, not here; its
+# self-check runs on every build, so a change to it is tested before that job relies on it.
+_sp.run([sys.executable, str(d/"test_dates.py"), "--selfcheck"], check=True)
 # Test date pages, from the makers' own tables (data/test_dates.json), with a calendar file
 # for each date. Their script chooses a note by the reader's date, so it is parsed too.
 _sp.run([sys.executable, str(d/"build_test_dates.py")], check=True)

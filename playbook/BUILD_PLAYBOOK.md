@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-10-05, which is 16 days, across
-185 commits, by one owner directing a series of AI coding sessions. As of this
+187 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 87 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
 2125 tracked files in total.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-185 commits in 16 days, one owner, a series of AI sessions. This
+187 commits in 16 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1217,7 +1217,7 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-201 recorded defects, over 16 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+202 recorded defects, over 16 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
@@ -1226,13 +1226,13 @@ well enough to audit later. Which is what this book is.
 | --- | ---: | ---: |
 | Found by reading the code or the output | 113 | 56% |
 | Found by measuring something | 46 | 23% |
-| A test caught it | 22 | 11% |
+| A test caught it | 23 | 11% |
 | Found by rendering it and looking | 8 | 4% |
 | Found by a review bot or an adversarial pass | 5 | 2% |
 | A build guard caught it | 5 | 2% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 199 of 201 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 200 of 202 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1241,13 +1241,13 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 93 |
+| Wrong data shown or stored | 94 |
 | Degraded | 48 |
 | Cosmetic | 31 |
 | Silent loss | 26 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 201. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 202. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
@@ -1255,7 +1255,7 @@ well enough to audit later. Which is what this book is.
 | Area | Count |
 | --- | ---: |
 | Content generation | 95 |
-| Tests and guards | 36 |
+| Tests and guards | 37 |
 | Front end | 14 |
 | Build system | 12 |
 | Search and metadata | 11 |
@@ -1269,7 +1269,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-195 of 201 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+196 of 202 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1290,7 +1290,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-92 of 201 incidents record that they repeat an earlier lesson, 125 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+92 of 202 incidents record that they repeat an earlier lesson, 125 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -2582,7 +2582,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** A figure's note is part of the figure. When a table prints the note beside the number, every sentence that restates the number has to carry what the note says about it, average, about or more than, or it states the figure more exactly than the source does. And a count of one thing and an average over several are different statistics even when the number is the same: the wording has to say which one it is.
 
 
-## Tests and guards (36)
+## Tests and guards (37)
 
 
 ### INC-0016. The performance test waited for the load event, which waits for the thing being optimised
@@ -3030,6 +3030,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** The beacon now returns before reporting when navigator.webdriver is true, which a browser under automation sets and a visitor's browser does not, or when the page was opened from disk. Visitors on the live site, on a preview deploy or in an app that loads the pages are unaffected. The five rows stay in the table, for triage in Admin > Errors, rather than being deleted from production.
 - **What stops it now.** build.py runs the beacon's own script in node against a stubbed page three times, as a visitor on https, as an automated browser and as a page opened from disk, fires a script error and a failed load of the page's own file in each, and fails the build unless only the visitor's run posts. in `src/build.py`
 - **Lesson.** Telemetry that ships inside every page runs wherever the page runs, including every test harness and every local preview, and it writes to production from all of them. Decide in the snippet which contexts may report, and test that decision by running the real snippet in each context, because the harness that would notice the leak is the one producing it.
+
+
+### INC-0202. The SAT date reader took three things one reading of College Board's pages showed as rules, and when the score release page changed it refused both pages, hiding a moved 2027 date behind the refusal
+
+*2026-10-06, Wrong data shown or stored*
+
+- **What was seen.** The weekly source check of October 5, 2026 (issue 223) reported that test_dates.py could not read College Board's SAT pages: no SAT Weekend score release table with the header Test Date, Student Score Release, Educator Score Release. College Board had split its score release table into a fall and a spring table and renamed the columns Student Score Release Date and K-12 Score Reporting Portal Score Release Date. Read with the new header, the reader still refused the pages twice over: the score page lists August 22 and September 12, 2026, which the dates page no longer lists, and June 5, 2027 releases scores to students and to the K-12 portal on the same day, June 21. While the reader refused, the check compared nothing else, so two changes on the dates page went unreported: an anticipated 2027 date moved from October 2 to October 9, marked Updated on College Board's page, and the School Day sentence the page quotes was reworded. Until this fix the published SAT test dates page showed October 2, 2027 and no score release dates for the three spring 2027 tests, which College Board's page now lists.
+- **Why.** The reader was written against one reading of College Board's pages and took three things that reading showed as rules: that the weekend releases sit in one table, that the score page lists exactly the dates the dates page lists, and that educators always get scores after students. The second was never true for long: the dates page drops past dates on its own schedule (on October 6 it had dropped August 22 and September 12 while still listing October 3), and the score page keeps the whole season, so from the first week the dates page dropped a date the score page still listed, the reader would have refused both pages whatever College Board did to its layout. The third was strict ordering where the page only shows not before. And one table the reader could not take stopped the whole comparison, so the changes it could still have read were hidden behind it.
+- **How it surfaced.** The weekly source job's report of October 5, 2026 (issue 223) named the missing header. The other two faults surfaced on October 6, when the reader was run with the new header and refused rows it should have read; both were in the reader from the day it was written. (A test caught it)
+- **Fix.** The reader takes the rows of every table under the score release header, in page order, accepts a student and an educator release on the same day, and leaves out a release whose test day has passed and falls before the first date the dates page lists. A release for any other date the dates page does not list is still refused. The data file was rewritten from both pages: October 2, 2027 is now October 9, the School Day sentence is quoted in its new words, the three spring 2027 tests carry their release dates, and August 22 and September 12, 2026 left with the dates page.
+- **What stops it now.** python3 src/test_dates.py --selfcheck reads pages built to look like College Board's two, with a fall and a spring score table, a passed date only the score page lists, a test whose two releases share a day, and a date still ahead that only the score page lists, which it must refuse. The build runs it on every change, and --write and --check run it before they read anything. Each of the three old rules, put back on its own, fails it. in `src/test_dates.py`
+- **Lesson.** A reader of someone else's page should treat as rules only what the page promises, not what one reading of it happened to show. Two pages from one publisher are kept on their own schedules, so a check that both list the same things fails the week one is tidied and the other is not, and an order seen on every row so far is a pattern, not a promise. When a strict reader refuses, everything behind the refusal goes unchecked, so once the refusal is fixed, read the whole difference it was hiding.
 
 
 ## Front end (14)
@@ -4391,6 +4403,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Maryland's and Penn State's Financial Times ranks were years old and named no edition, so the composite scored them beside FT's 2026 ranks, and Maryland's was a US position where every other FT entry is a global one (INC-0185)</small>
 - [ ] Telemetry that ships inside every page runs wherever the page runs, including every test harness and every local preview, and it writes to production from all of them. Decide in the snippet which contexts may report, and test that decision by running the real snippet in each context, because the harness that would notice the leak is the one producing it.  
   <small>A smoke test's page errors went into the live error log, because the error beacon reports from any page it runs on, including one a test opened from disk (INC-0196)</small>
+- [ ] A reader of someone else's page should treat as rules only what the page promises, not what one reading of it happened to show. Two pages from one publisher are kept on their own schedules, so a check that both list the same things fails the week one is tidied and the other is not, and an order seen on every row so far is a pattern, not a promise. When a strict reader refuses, everything behind the refusal goes unchecked, so once the refusal is fixed, read the whole difference it was hiding.  
+  <small>The SAT date reader took three things one reading of College Board's pages showed as rules, and when the score release page changed it refused both pages, hiding a moved 2027 date behind the refusal (INC-0202)</small>
 
 
 # Adapting This to a Different Business
@@ -4507,7 +4521,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 201 real defects reduced to the rules that prevent them,
+the whole project: 202 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -4547,7 +4561,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-201 defects already prevented is genuinely ahead, and every defect it hits
+202 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

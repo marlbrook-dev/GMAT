@@ -321,13 +321,19 @@ and score bands quoted; its `--check` runs weekly too, since LSAC updates percen
 year by the end of July.
 
 The test date pages under `/exams/<exam>/test-dates/` come from `data/test_dates.json`:
-College Board's SAT Weekend table and its fall score release table, ACT's national test
-dates table and LSAC's two LSAT tables, parsed by `python3 src/test_dates.py --write` row by
-row under the header each page prints. A row whose dates do not run in order is refused
-rather than guessed, a date printed without a year takes the year that puts a deadline
-before its test and a score release after it, and a sentence a page is quoted with is kept
-only if the page prints it word for word. Nothing in the file is typed. The weekly job runs
-`--check`, which re-reads all four tables and reports any date, row or table that moved.
+College Board's SAT Weekend table and its fall and spring score release tables, ACT's
+national test dates table and LSAC's two LSAT tables, parsed by `python3 src/test_dates.py
+--write` row by row under the header each page prints. A row whose dates do not run in order
+is refused rather than guessed, a date printed without a year takes the year that puts a
+deadline before its test and a score release after it, and a sentence a page is quoted with
+is kept only if the page prints it word for word. Nothing in the file is typed. College
+Board's two pages are kept on their own schedules: the dates page drops past dates while the
+score page keeps the season, so a release for a test day that has passed and comes before
+the first date the dates page lists is left out, and a release for any other date the dates
+page does not list is refused (INC-0202). Students and educators can get scores on the same
+day. The weekly job runs `--check`, which re-reads all the tables and reports any date, row
+or table that moved, and the build runs `--selfcheck`, which reads made-up pages built to
+cover each of these cases.
 The pages lead with where registration stands on the reader's own day, never the next test
 date alone, and each date downloads as a calendar file whose events carry the table's own
 dates, which `src/smoke_dates.js` checks against the file.
