@@ -1128,6 +1128,13 @@
         "src": "LSAC",
         "year": 2026,
         "url": "https://www.lsac.org/lsat/lsat-scoring"
+      },
+      {
+        "text": "Logical Reasoning questions are designed to assess a wide range of skills involved in thinking critically; the 10 skills LSAC lists include identifying flaws in arguments and identifying explanations, and the questions do not require specialized knowledge of logical terminology",
+        "derived": {"10": "count: the skills the page lists, counted 2026-10-06"},
+        "src": "LSAC",
+        "year": 2026,
+        "url": "https://www.lsac.org/lsat/taking-lsat/test-format/logical-reasoning"
       }
     ],
     "answer_choices": {

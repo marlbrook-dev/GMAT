@@ -1410,6 +1410,21 @@ verified rather than that the school does not publish one (INC-0118).
         place as if they were true.
       - `check_scenes()` runs in every build: four resolutions and six wrong answers per
         scenario, no statement repeated, none opening with a pronoun, all of 6 to 30 words.
+- [x] **"LSAT Resolve the Discrepancy Questions: How to Answer Them"** queued for January 18
+      (Maya Chen): a four step method (state the two facts, name the gap, test each choice
+      against both, sort the wrong answers by kind), an original worked example about a
+      railway station's ticket machines, and the three kinds of wrong answer the generator
+      above writes. Every fact about the test comes from three LSAC pages read on October 6:
+      Logical Reasoning, its suggested approach and its sample questions.
+      - LSAC lists ten skills the questions are designed to assess, the last of them
+        identifying explanations. That line joins data/exams.json with the count marked as
+        ours, so the source check reads its words weekly and the LSAT guide shows it.
+      - One of LSAC's ten sample questions is a discrepancy question, and its explanation
+        rejects one choice for ruling out a possible resolution and another for explaining
+        nothing about either situation. The post maps those onto two of its three kinds
+        rather than claiming LSAC uses them.
+      - None of the ten samples is an EXCEPT question, so the post describes that form
+        without saying the LSAT uses it. EDITORIAL.md records that limit beside the facts.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
