@@ -249,8 +249,9 @@ pages on ChatGPT search (403).
    refused the automated read (HTTP 403), and the Georgetown and Emory pages found so far
    print no dates. October 6 also added the hub, /schools/deadlines/: every verified round in
    date order with the passed ones folded away, the next deadline named for the reader's own
-   date, and a table of the pages each program's dates were read from. Next: more programs,
-   and letting /apply/ fill a school's deadline from its verified rounds.
+   date, and a table of the pages each program's dates were read from. /apply/ now offers each
+   school's published rounds beside its deadline field, filling nothing until a round is
+   picked. Next: more programs.
 4. **An ICS export of the application checklist**, so the dated tasks on /apply/ land in a
    calendar that reminds the applicant instead of us. Built October 5: Add to Calendar
    downloads one all-day event per open task, with a reminder the day before, and one per

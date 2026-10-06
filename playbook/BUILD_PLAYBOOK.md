@@ -7,10 +7,10 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-10-05, which is 16 days, across
-177 commits, by one owner directing a series of AI coding sessions. As of this
+184 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 87 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
-2124 tracked files in total.
+2125 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-177 commits in 16 days, one owner, a series of AI sessions. This
+184 commits in 16 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1217,14 +1217,14 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-200 recorded defects, over 16 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+201 recorded defects, over 16 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 112 | 56% |
+| Found by reading the code or the output | 113 | 56% |
 | Found by measuring something | 46 | 23% |
 | A test caught it | 22 | 11% |
 | Found by rendering it and looking | 8 | 4% |
@@ -1232,7 +1232,7 @@ well enough to audit later. Which is what this book is.
 | A build guard caught it | 5 | 2% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 198 of 200 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 199 of 201 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1241,13 +1241,13 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 92 |
+| Wrong data shown or stored | 93 |
 | Degraded | 48 |
 | Cosmetic | 31 |
 | Silent loss | 26 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 200. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 201. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
@@ -1256,7 +1256,7 @@ well enough to audit later. Which is what this book is.
 | --- | ---: |
 | Content generation | 95 |
 | Tests and guards | 36 |
-| Front end | 13 |
+| Front end | 14 |
 | Build system | 12 |
 | Search and metadata | 11 |
 | CSS and layout | 8 |
@@ -1269,7 +1269,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-194 of 200 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+195 of 201 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1290,7 +1290,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-92 of 200 incidents record that they repeat an earlier lesson, 125 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+92 of 201 incidents record that they repeat an earlier lesson, 125 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -3032,7 +3032,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** Telemetry that ships inside every page runs wherever the page runs, including every test harness and every local preview, and it writes to production from all of them. Decide in the snippet which contexts may report, and test that decision by running the real snippet in each context, because the harness that would notice the leak is the one producing it.
 
 
-## Front end (13)
+## Front end (14)
 
 
 ### INC-0001. Unescaped quotes in onclick strings took the whole app down
@@ -3197,6 +3197,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** build_blog.py no longer appends its own copy; the footer's is the one every blog page carries.
 - **What stops it now.** build.py and build_blog.py count the beacon in every page they write and fail the build unless it appears exactly once, so the check reads the pages the site ships rather than the one template entry point the blog bypassed. in `src/build_blog.py`
 - **Lesson.** An invariant about what a shipped page contains belongs on the shipped page. A check at one entry point protects only the pages built through it, and a builder that assembles pages its own way walks past it; counting the thing in every output file catches all of them, including builders written later.
+
+
+### INC-0201. The application checklist's calendar file left semicolons unescaped, because the escape was written '\;', which JavaScript reads as a bare semicolon
+
+*2026-10-06, Wrong data shown or stored*
+
+- **What was seen.** The Add to Calendar file on /apply/ wrote the Remind Your Recommenders event's description as 'Plan on sending it; most people need it.' with the semicolon bare. RFC 5545 requires a semicolon in a text value to be written as a backslash and a semicolon, and a strict calendar reader may cut the text at it. Commas and backslashes were escaped correctly in the same function.
+- **Why.** The escape function was written as replace(/;/g,'\;'). In a JavaScript string literal a backslash before a character with no escape meaning is dropped, so '\;' is ';' and the replacement changed nothing. The comma rule beside it used '\\,' and worked, so reading the line, the two looked equivalent. The Python writer the function was copied from (build_test_dates.ics_text) is correct, because there the string is written with the backslash doubled.
+- **How it surfaced.** Found on October 6, 2026 while reading the calendar code on /apply/ to add school rounds to it. The smoke test checked line endings, line length and event count, but never what an escaped value looks like, and no task text tested had a semicolon in its summary. (Found by reading the code or the output)
+- **Fix.** The escape is written with the backslash doubled, so a semicolon becomes a backslash and a semicolon, as the Python writer already did.
+- **What stops it now.** src/smoke_pages.js now fails if any SUMMARY or DESCRIPTION line in the downloaded calendar holds a semicolon or comma without a backslash before it, and the checklist's own data holds a description with a semicolon, so the check always has one to read. in `src/smoke_pages.js`
+- **Lesson.** A backslash written into a string literal is a request to the language, not a character, and languages answer it differently: '\;' is a bare semicolon in JavaScript, while Python keeps an escape it does not know and gives a backslash and a semicolon. When code is copied between languages, an escape that looks identical can change meaning, so test the output rather than the source line, and give the test an input that needs the escape.
 
 
 ## Build system (12)
@@ -4217,6 +4229,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A half-typed sign-in on the Account page vanished when a deferred bank chunk arrived and redrew the page, and the smoke that shows it had been failing unnoticed outside CI (INC-0149)</small>
 - [ ] An invariant about what a shipped page contains belongs on the shipped page. A check at one entry point protects only the pages built through it, and a builder that assembles pages its own way walks past it; counting the thing in every output file catches all of them, including builders written later.  
   <small>Every blog page carried the error beacon twice, because the blog builder appends its own after a footer that already carries one (INC-0197)</small>
+- [ ] A backslash written into a string literal is a request to the language, not a character, and languages answer it differently: '\;' is a bare semicolon in JavaScript, while Python keeps an escape it does not know and gives a backslash and a semicolon. When code is copied between languages, an escape that looks identical can change meaning, so test the output rather than the source line, and give the test an input that needs the escape.  
+  <small>The application checklist's calendar file left semicolons unescaped, because the escape was written '\;', which JavaScript reads as a bare semicolon (INC-0201)</small>
 
 
 ## Infrastructure and deploy
@@ -4493,7 +4507,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 200 real defects reduced to the rules that prevent them,
+the whole project: 201 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -4533,7 +4547,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-200 defects already prevented is genuinely ahead, and every defect it hits
+201 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed
