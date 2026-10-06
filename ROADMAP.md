@@ -1558,6 +1558,20 @@ verified rather than that the school does not publish one (INC-0118).
       EDITORIAL.md records the two samples and the ten ratings, read October 6. The hub
       says a rating describes one question, not every question of its type. Its table was
       clipped at phone width, so the column labels were shortened until it fitted.
+- [x] **Two LSAT Reading Comprehension posts start the reading series**:
+      - "LSAT Reading Comprehension: How to Approach a Passage", February 7 (Aisha
+        Thompson): how the section is built, the three approaches LSAC describes, and its
+        advice on reading a passage and answering the questions.
+      - "LSAT Main Point and Primary Purpose Questions", February 9 (James Corbett): join
+        what each paragraph does into one sentence and test each choice for scope, with an
+        original worked example (a fishing fleet and a silted harbor) and a table of two
+        kinds of wrong answer.
+
+      EDITORIAL.md gains a Reading Comprehension block, read October 6: how the section is
+      built, the ten things LSAC says its questions may ask about, its suggested approach,
+      and its explanations for the main point and primary purpose samples. The post's line
+      that the trainer asks a main idea question about every long passage was checked
+      against the generated bank: 124 items, one for each of the 124 passages.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
