@@ -7,10 +7,10 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-10-06, which is 17 days, across
-193 commits, by one owner directing a series of AI coding sessions. As of this
+194 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 87 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
-2126 tracked files in total.
+2127 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-193 commits in 17 days, one owner, a series of AI sessions. This
+194 commits in 17 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -3642,7 +3642,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0205. The consent banner's Reject Non Essential label ran out of its button on phones narrower than 390 pixels, so the refusal looked broken beside a clean Save Choices
 
-*2026-10-06, Degraded*
+*2026-10-06, Degraded, `f749ea8e1bd32ba10ae17980278e2cb73af5cd76` PR #241*
 
 - **What was seen.** On every page at phone widths, the consent banner's 'Reject Non Essential' label does not fit inside its button, while 'Save Choices' beside it does. Measured with the site's own fonts served over HTTP, the label's line runs past the space inside the button's padding by 55 pixels at 320 pixels wide, 35 at 360, 28 at 375, 20 at 390 and 8 at 414; below 390 that carries it over the button's right border, and at 390 and 414 it runs through the padding to the border. At 320 'Save Choices' overruns by 9 pixels too. The reject choice still works when tapped, but it is the control that looks broken, on the banner whose rule is that refusing is exactly as easy as accepting.
 - **Why.** Below 520 pixels the two buttons share the row in equal halves (flex 1 1 0), and both keep white-space:nowrap and 20 pixels of padding on each side. Equal halves are right for the same-size rule, but a label that may not wrap overflows as soon as its half is narrower than the label, and 'Reject Non Essential' is 128 pixels of text. The consent smoke compares the two buttons only at 1280 pixels, where each has room, and measures their position and area, never whether a label fits inside its button. The first measurement taken for this record compared scrollWidth with clientWidth and said the label fitted from 390 up; text running into a box's padding is not scrollable overflow, so that measure misses a label that reaches the border.

@@ -1378,6 +1378,38 @@ verified rather than that the school does not publish one (INC-0118).
         and 414 pixels, from the label's own line boxes, since scrollWidth passed a label
         that ran into the padding. Against the old rule it reports overruns of 55, 35, 28,
         20 and 8 pixels.
+- [x] **LSAT discrepancy questions are generated** (`src/gen/g_lsat_expl.py`). Explanations
+      and Parallel Reasoning had 29 hand written items, 22 of them discrepancy questions, and
+      150 generated parallel reasoning ones, because nothing generated an explanation. Now 30
+      authored scenarios each give two questions, 60 items: which choice most helps to
+      resolve the discrepancy, and which choice does not (EXCEPT). The LSAT bank grows to
+      15988, of which 15616 are generated (counts read from the build).
+      - Each scenario has four resolutions, each with the mechanism that reconciles the two
+        facts, and six wrong answers of named kinds: two that deepen the puzzle, two on the
+        topic with no bearing, and two that explain only the expectation or why the change
+        was made. Every wrong answer carries its reason, and every explanation names the
+        mechanism.
+      - A resolution carries a mechanism, so it ran longer than the wrong answers: 18 of the
+        30 first keys could only be the longest option. Each scenario now offers whichever of
+        its resolutions reaches the rank assigned to it, and the shortest wrong answers were
+        lengthened with detail that changes nothing about why they fail. Both schemas now
+        place six keys at each of the five length ranks.
+      - The EXCEPT question shows all four resolutions beside one wrong answer, so no wrong
+        answer may contradict a resolution. Reading the scenarios side by side found eleven
+        that did ("fewer vehicles used the road" beside a resolution in which the road
+        became a shortcut), and all were rewritten.
+      - Reading all 60 items found four wrong answers that could be argued right. Three
+        worked through detection where the outcome is a recorded count: camera screens watched
+        all day, more staff on the shop floor, and patrols sent where crime happens could
+        each explain more recorded theft or crime. The fourth was a count of toads at their
+        pond, which more deaths on the road would also lower. Each now works through
+        something detection cannot touch, such as a count taken before the crossing or a
+        category the police stopped counting.
+      - Places were renamed where they are real (Brackley, Ashby, Corby, Harrow, Arnside and
+        others) or already used in the corpus, since each scenario states things about its
+        place as if they were true.
+      - `check_scenes()` runs in every build: four resolutions and six wrong answers per
+        scenario, no statement repeated, none opening with a pronoun, all of 6 to 30 words.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
