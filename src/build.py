@@ -700,7 +700,8 @@ _live_names = [e["short"] for e in _json_mod.loads((root / "data" / "exams.json"
 _stale = trainer_claims(root, _SECTIONS, _live_names)
 if _stale:
     for _pg, _s in _stale[:10]:
-        print("ERROR: %s calls a live trainer unfinished: %r" % (_pg, _s), file=sys.stderr)
+        print("ERROR: %s calls a live trainer unfinished, or the product one exam's: %r" % (_pg, _s),
+              file=sys.stderr)
     sys.exit(1)
 # Nor may a page put "a" before a number spoken with a vowel sound: two school pages read
 # "a 18.8% acceptance rate" and "a 11.3% acceptance rate" (INC-0134).

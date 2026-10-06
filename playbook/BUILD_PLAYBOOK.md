@@ -7,10 +7,10 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-10-06, which is 17 days, across
-213 commits, by one owner directing a series of AI coding sessions. As of this
+215 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 88 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
-2147 tracked files in total.
+2151 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-213 commits in 17 days, one owner, a series of AI sessions. This
+215 commits in 17 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1217,14 +1217,14 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-206 recorded defects, over 17 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+207 recorded defects, over 17 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 115 | 56% |
+| Found by reading the code or the output | 116 | 56% |
 | Found by measuring something | 46 | 22% |
 | A test caught it | 23 | 11% |
 | Found by rendering it and looking | 10 | 5% |
@@ -1232,7 +1232,7 @@ well enough to audit later. Which is what this book is.
 | A build guard caught it | 5 | 2% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 204 of 206 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 205 of 207 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1241,20 +1241,20 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 95 |
+| Wrong data shown or stored | 96 |
 | Degraded | 51 |
 | Cosmetic | 31 |
 | Silent loss | 26 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 206. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 207. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 96 |
+| Content generation | 97 |
 | Tests and guards | 37 |
 | Front end | 15 |
 | Build system | 13 |
@@ -1269,7 +1269,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-200 of 206 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+201 of 207 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1290,25 +1290,25 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-93 of 206 incidents record that they repeat an earlier lesson, 126 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+94 of 207 incidents record that they repeat an earlier lesson, 128 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
 | INC-0088 A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked | INC-0089, INC-0098, INC-0099, INC-0101, INC-0117, INC-0122 | 6 |
 | INC-0104 Half the school pages opened with a data note pasted into a sentence, and the structured data repeated it | INC-0105, INC-0131, INC-0134, INC-0135, INC-0145 | 5 |
+| INC-0130 The GRE exam guide credited ETS with a combined 260 to 340 score that the ETS page it cited does not describe | INC-0133, INC-0155, INC-0160, INC-0177, INC-0207 | 5 |
 | INC-0133 School pages published figures that the articles they cite do not contain, one of them a GRE total split in half | INC-0140, INC-0143, INC-0150, INC-0151, INC-0154 | 5 |
 | INC-0150 Columbia's MBA class was credited with five years of work experience, a figure the cited article gives for its 46-student MBAxMS cohort, and the source check passed it because the article does say five years | INC-0152, INC-0159, INC-0172, INC-0174, INC-0182 | 5 |
 | INC-0064 The guard against a blind counter was itself blind to three exams | INC-0067, INC-0082, INC-0085, INC-0088 | 4 |
 | INC-0069 A bank a student can play at 88 percent, inside a section the check passed | INC-0079, INC-0085, INC-0086, INC-0088 | 4 |
 | INC-0074 A corpus field written for one grammatical slot was spliced into another | INC-0075, INC-0087, INC-0093, INC-0096 | 4 |
-| INC-0130 The GRE exam guide credited ETS with a combined 260 to 340 score that the ETS page it cited does not describe | INC-0133, INC-0155, INC-0160, INC-0177 | 4 |
+| INC-0137 A post queued to publish the next day said the LSAT trainer was still in development, eleven days after it went live | INC-0138, INC-0162, INC-0170, INC-0207 | 4 |
 | INC-0082 Nine published exam facts cite test prep companies, in the one published corpus with no source validator | INC-0124, INC-0125, INC-0130 | 3 |
 | INC-0092 A schema threw away three draws in four, and the counter that knew was read by nobody | INC-0098, INC-0099, INC-0101 | 3 |
 | INC-0099 Every generated reading comprehension question shipped without its passage | INC-0100, INC-0101, INC-0103 | 3 |
 | INC-0105 Twelve average salaries were published as medians, and the social queue credited schools with figures they never published | INC-0106, INC-0124, INC-0142 | 3 |
 | INC-0119 Length corrections appended clauses that repeated what the answer choices already said | INC-0120, INC-0121, INC-0194 | 3 |
 | INC-0136 The LSAT guide said most test takers choose between remote and in-person testing, after LSAC had moved almost everyone into test centers | INC-0137, INC-0180, INC-0184 | 3 |
-| INC-0137 A post queued to publish the next day said the LSAT trainer was still in development, eleven days after it went live | INC-0138, INC-0162, INC-0170 | 3 |
 | INC-0146 The source check's browser read returned Stanford's class profile without a single figure, because the figures are drawn in an embedded chart that renders only when scrolled into view | INC-0156, INC-0158, INC-0183 | 3 |
 | INC-0050 A landing-page icon referenced a colour token that did not exist | INC-0018, INC-0139 | 2 |
 | INC-0055 A new browser suite hardcoded this machine's browser directory and crashed in CI | INC-0067, INC-0110 | 2 |
@@ -1354,7 +1354,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0176 Headings outside blog post bodies broke the Title Case rule on every kind of page, because the build checked only the headings inside posts | INC-0178 | 1 |
 | INC-0184 Vanderbilt's median salary and 39 schools' Bloomberg ranks stayed on Bloomberg's 2025-26 edition after its pages moved to 2026-27, and nothing could see it: Bloomberg answers most reads with a bot challenge, and the source check never reads a rank | INC-0185 | 1 |
 
-The largest family runs to 77 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140, INC-0142, INC-0143, INC-0144, INC-0145, INC-0146, INC-0147, INC-0150, INC-0151, INC-0152, INC-0154, INC-0155, INC-0156, INC-0157, INC-0158, INC-0159, INC-0160, INC-0161, INC-0162, INC-0165, INC-0169, INC-0170, INC-0172, INC-0173, INC-0174, INC-0175, INC-0177, INC-0180, INC-0182, INC-0183, INC-0184, INC-0185. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
+The largest family runs to 78 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140, INC-0142, INC-0143, INC-0144, INC-0145, INC-0146, INC-0147, INC-0150, INC-0151, INC-0152, INC-0154, INC-0155, INC-0156, INC-0157, INC-0158, INC-0159, INC-0160, INC-0161, INC-0162, INC-0165, INC-0169, INC-0170, INC-0172, INC-0173, INC-0174, INC-0175, INC-0177, INC-0180, INC-0182, INC-0183, INC-0184, INC-0185, INC-0207. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
 
 Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.
 
@@ -1398,6 +1398,7 @@ Incidents that name an earlier one without claiming to repeat it. Each was read 
 - INC-0196 names INC-0166
 - INC-0197 names INC-0196
 - INC-0198 names INC-0109
+- INC-0207 names INC-0138, INC-0203
 
 
 ## Where defects concentrate
@@ -1412,8 +1413,8 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/gen/g_rc.py`, 9 incidents (INC-0097, INC-0114, INC-0115, INC-0117, INC-0122, INC-0169, INC-0179, INC-0186, INC-0187)
 - `src/validate_schools.py`, 9 incidents (INC-0125, INC-0141, INC-0143, INC-0144, INC-0147, INC-0151, INC-0153, INC-0157, INC-0185)
 - `src/build_rankings.py`, 8 incidents (INC-0014, INC-0049, INC-0118, INC-0135, INC-0142, INC-0145, INC-0167, INC-0200)
+- `src/page_checks.py`, 7 incidents (INC-0134, INC-0138, INC-0139, INC-0163, INC-0176, INC-0178, INC-0207)
 - `src/bank_emit.py`, 6 incidents (INC-0062, INC-0066, INC-0068, INC-0073, INC-0119, INC-0189)
-- `src/page_checks.py`, 6 incidents (INC-0134, INC-0138, INC-0139, INC-0163, INC-0176, INC-0178)
 - `src/review_bot.js`, 5 incidents (INC-0022, INC-0026, INC-0051, INC-0061, INC-0077)
 - `src/gen/framework.py`, 5 incidents (INC-0074, INC-0075, INC-0078, INC-0087, INC-0096)
 - `src/smoke_playbook.js`, 4 incidents (INC-0054, INC-0084, INC-0129, INC-0165)
@@ -1431,7 +1432,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (96)
+## Content generation (97)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -2593,6 +2594,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** The timeline post's round sentences now say what the deadline pages say: of the 32 programs on the deadlines page, 30 list three or more deadlines and 11 exactly three; Wharton says space in the class becomes more limited for Round 3 applicants, making it a more competitive round; Stanford lists what applying in Round 1 or 2 gives that Round 3 does not. The unsourced claims about reapplicants, heavily represented industries and Round 2 are gone. Every other sentence in the posts that says what most programs or schools do was read against its basis: those our data supports name it on the fact sheet, and those it does not were rewritten.
 - **What stops it now.** build_blog.py fails on any sentence in a post or its FAQ that says what most, nearly all or the majority of programs or schools do, unless the fact sheet in EDITORIAL.md lists that sentence with its basis, a count from our data or a source, so a new claim about most programs cannot ship without someone writing down what it rests on. in `src/build_blog.py`
 - **Lesson.** A claim about most of a group is a statistic even when it has no number in it, and checks that look for numbers cannot see it. Treat the quantifier words themselves as the thing to check, make each such sentence point at its basis, and when new data arrives, read what the site already says against it, because the old sentences were written without it.
+
+
+### INC-0207. The live GRE format guide told GRE readers our trainer was built for the GMAT Focus Edition specifically, beside a button to the GRE trainer, and credited ETS with a 260 to 340 total ETS does not report
+
+*2026-10-06, Wrong data shown or stored*
+
+- **What was seen.** GRE Format 2026: Sections, Timing, and Scoring, dated September 18, 2026, closed its preparation section with 'Our own trainer, Start From Nowhere, is built for the GMAT Focus Edition specifically, but its core habit, returning missed questions on a spaced schedule, is exactly the habit to copy into GRE study.' The GRE trainer at /gre/app/ was live in the repository's first commit, September 19, 2026, and the sentence was already in the post then, so for as long as the post has been in the repository it has told GRE readers to take the product's habit elsewhere while its own Start a Free Round button opened the GRE trainer. Its first paragraph said Verbal and Quant 'are often read together as a 260 to 340 total' and ended '(ETS, 2026)', crediting ETS with the sum INC-0130 took out of the exam data because ETS's page never describes it, and its FAQ said many applicants read the scores that way, with no source. It told readers to confirm the per-section timing and question counts on ETS's site rather than giving them, though ETS's Test Structure page prints them. It made five claims with no source about what test takers or committees usually do or find: GRE quant is generally gentler than GMAT Focus quant, skip-and-return test takers usually find the GRE more comfortable, heavy readers tend to find its verbal questions friendlier than GMAT critical reasoning, spaced review matters even more on the GRE than on most exams, and admissions committees read the two scores separately. And it called the GRE's 44 percent of HBS's Class of 2027 'the largest single group of test submitters', where HBS lists 34 percent for the GMAT and 28 percent for the GMAT 10th edition beside it and says some students submitted more than one test. The GMAT vs GRE post, read for the same sum, called it 'often read as a 260 to 340 total' in its comparison table and carried the same kind of claims: that nearly every major program takes either exam and states no preference (in its first paragraph and its FAQ), that employers in consulting and finance most often expect the GMAT, that GRE math is generally gentler, that heavy readers often find text completion friendlier than critical reasoning, and that GRE submitters were HBS's largest single group, none with a source.
+- **Why.** The post describes the product in prose, and the only check on what posts say about the product looks for words that call a live trainer unfinished: in development, coming soon, waitlist, not live (INC-0137, INC-0138). This sentence calls the product finished but single-exam, which none of those words describe, so it passed every build. The 260 to 340 total was removed from data/exams.json under INC-0130 by checking the exam data against its cited pages, and that record noted the site's GRE posts already called the total informal; the format guide's first sentence was never read, and it carries the ETS citation. The claims about what test takers usually find carry no number, so no figure check could see them, and the guard for claims about most programs (INC-0203) looks only at programs and schools, and only for most, nearly all, almost all and the majority of, so 'nearly every major program' passed it.
+- **How it surfaced.** Found on October 6, 2026 while reading the live GRE format guide so as not to repeat it in a GRE question types post queued for March 5, 2027. The post was then read against ETS's Test Structure page and HBS's Class of 2027 profile, both read that day, and the whole site was searched for the same product claim (one hit) and for 260 to 340 (four, in two posts). (Found by reading the code or the output)
+- **Fix.** The preparation section now says what the GRE trainer is: seven categories, three Verbal and four Quant, and mock sections that use ETS's question counts and times, with a link to /gre/app/. The section table gives ETS's question count and time for each of the five sections, cited to the Test Structure page. The 260 to 340 sum is described as the GRE calculator describes it, arithmetic on two scores that ETS does not report and gives no percentile for, and the ETS citation now covers only what ETS says. The five unsourced claims are gone or replaced by what ETS or HBS says, the HBS sentence gives all three shares as HBS prints them, and the GMAT vs GRE post now says ETS reports no total, quotes HBS on having no preference between the tests instead of claiming nearly every program does, compares the two tests' content and calculators from GMAC's and ETS's pages instead of calling one gentler, and drops the employer claim.
+- **What stops it now.** page_checks.stale_sentences, which reads every built page and every post, held or live, now also fails a sentence that says the product as a whole, Start From Nowhere or our trainer, app or platform, is built, designed or made for an exam, is for one specifically or exclusively, or is a one-exam trainer, whenever more than one trainer is live; naming one trainer with its exam ('our GMAT trainer') passes. Its self-check confirms the old sentence fails and that the retake post's 'This is the case our trainer is built for' passes. RETIRED_CLAIMS gains the 260 to 340 sum: a GRE post that names it fails unless the same sentence or table cell says ETS does not report it. The INC-0203 pattern for claims about most programs now also reads nearly every, almost every, virtually every and virtually all, singular program and school, and leading as a qualifier; across every post it found only the GMAT vs GRE sentence. in `src/page_checks.py`
+- **Lesson.** A statement about what the product is goes stale each time the product grows, and a check for one way of being stale (in development, coming soon) passes the others (built for one exam specifically). When the product changes, search every page for each way it used to be described, not just the words that said it was unfinished. And when a figure leaves the data because its source never said it, search the prose for it too, because posts repeat the data in their own words and keep the citation.
 
 
 ## Tests and guards (37)
@@ -4064,6 +4077,8 @@ Read it before starting a piece of work in the matching area, and again before y
 
 - [ ] **Learned 7 times over.** A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell. When a measurement cannot be trusted at a small sample, widen the tolerance to what the sample supports rather than declining to measure, and notice when a count of what was measured does not move after you add something to measure.  
   <small>A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked (INC-0088)</small>
+- [ ] **Learned 6 times over.** A citation vouches only for what its source says, so check each figure against the source rather than checking that a citation is present. The claim most likely to slip through is the true looking one written next to real ones, arithmetic or common knowledge put in the source's mouth.  
+  <small>The GRE exam guide credited ETS with a combined 260 to 340 score that the ETS page it cited does not describe (INC-0130)</small>
 - [ ] **Learned 6 times over.** Run the source check on every corpus that cites pages, not just the one that broke. When a field is empty and the research is out of budget, leave it empty: a blank is honest, and a figure made to fit beside a real citation is the most convincing kind of wrong.  
   <small>School pages published figures that the articles they cite do not contain, one of them a GRE total split in half (INC-0133)</small>
 - [ ] **Learned 6 times over.** Finding a number on a page is not finding the fact. A check has to look for it beside the words that say what it counts, and notice when those words are about something else: another program, another class.  
@@ -4072,8 +4087,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A bank a student can play at 88 percent, inside a section the check passed (INC-0069)</small>
 - [ ] **Learned 5 times over.** A corpus field is written against the one sentence the author had in mind, and the schema that reuses it three templates later has no way to know which shape it is. The type system says str in both places. Two things follow. Store the field in every shape a template needs and name the shapes, rather than storing one shape and trusting the next author to notice. And guard the output, not the corpus: the generated sentence is the only place the mismatch becomes visible, and a cheap pattern over the rendered text catches a class that no check on the inputs can see.  
   <small>A corpus field written for one grammatical slot was spliced into another (INC-0074)</small>
-- [ ] **Learned 5 times over.** A citation vouches only for what its source says, so check each figure against the source rather than checking that a citation is present. The claim most likely to slip through is the true looking one written next to real ones, arithmetic or common knowledge put in the source's mouth.  
-  <small>The GRE exam guide credited ETS with a combined 260 to 340 score that the ETS page it cited does not describe (INC-0130)</small>
+- [ ] **Learned 5 times over.** Anything written ahead of its publication date is a promise about the future made from the past. Re-check a queued post's claims about your own product at build time, where the product's real state is known, rather than trusting the day it was written.  
+  <small>A post queued to publish the next day said the LSAT trainer was still in development, eleven days after it went live (INC-0137)</small>
 - [ ] **Learned 4 times over.** Two lessons, and they compound. A rule copied into code by its examples loses the clause the examples were illustrating: CLAUDE.md bans six named sites and coaching site blogs, and the list kept the six and dropped the category, which is the half that generalises. And a validator gets written for the corpus that had the problem at the time, then quietly defines what is checked: two of three published corpora were enforced and the third had never had a source read, which is not a weaker check but an absent one. When a guard exists, the question is not only whether it is strict enough but which of the things it could be pointed at it is not pointed at.  
   <small>Nine published exam facts cite test prep companies, in the one published corpus with no source validator (INC-0082)</small>
 - [ ] **Learned 4 times over.** A counter that nothing reads is not instrumentation, it is a comment that looks like instrumentation, and it is worse than nothing because it answers the question 'is anyone watching this' with a yes. Every time a guard is written against one symptom, ask what the same failure looks like arriving another way, and count the whole category rather than the instance that prompted it.  
@@ -4086,8 +4101,6 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Length corrections appended clauses that repeated what the answer choices already said (INC-0119)</small>
 - [ ] **Learned 4 times over.** A citation is only as current as the page it points to, and publishers leave old pages up. When a source describes itself as covering a period, check that the period is still running; a page about last year's test can be quoted perfectly and still be wrong about this year's.  
   <small>The LSAT guide said most test takers choose between remote and in-person testing, after LSAC had moved almost everyone into test centers (INC-0136)</small>
-- [ ] **Learned 4 times over.** Anything written ahead of its publication date is a promise about the future made from the past. Re-check a queued post's claims about your own product at build time, where the product's real state is known, rather than trusting the day it was written.  
-  <small>A post queued to publish the next day said the LSAT trainer was still in development, eleven days after it went live (INC-0137)</small>
 - [ ] **Learned 3 times over.** A module that nothing imports fails no test, and an exception raised on every draw is indistinguishable from an exception raised on a hard draw. Both are silence, and a build that reports totals hears neither. Count what each schema contributed, not what the category holds, and treat a contribution of zero as a failure rather than as a small number.  
   <small>A finished generator module that nothing imported, and two of its four schemas produced nothing (INC-0086)</small>
 - [ ] **Learned 3 times over.** Reading the record does not prevent the defect; the practice does. This one was written hours after its own lesson was read closely enough to be catalogued as a recurrence, and it was caught by rendering three items rather than by remembering. Budget the render, not the recollection.  
@@ -4254,6 +4267,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>School pages stated averaged and approximate figures as exact: a cohort average as one class's size, and approximate tuition, work experience and scholarships without their qualifier (INC-0200)</small>
 - [ ] A claim about most of a group is a statistic even when it has no number in it, and checks that look for numbers cannot see it. Treat the quantifier words themselves as the thing to check, make each such sentence point at its basis, and when new data arrives, read what the site already says against it, because the old sentences were written without it.  
   <small>A live admissions post said most full-time MBA programs run three rounds a year, which 21 of the 32 programs whose deadlines we verified do not, and its other claims about rounds cited nothing (INC-0203)</small>
+- [ ] A statement about what the product is goes stale each time the product grows, and a check for one way of being stale (in development, coming soon) passes the others (built for one exam specifically). When the product changes, search every page for each way it used to be described, not just the words that said it was unfinished. And when a figure leaves the data because its source never said it, search the prose for it too, because posts repeat the data in their own words and keep the citation.  
+  <small>The live GRE format guide told GRE readers our trainer was built for the GMAT Focus Edition specifically, beside a button to the GRE trainer, and credited ETS with a 260 to 340 total ETS does not report (INC-0207)</small>
 
 
 ## Database
@@ -4578,7 +4593,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 206 real defects reduced to the rules that prevent them,
+the whole project: 207 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -4618,7 +4633,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-206 defects already prevented is genuinely ahead, and every defect it hits
+207 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

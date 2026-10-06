@@ -146,6 +146,17 @@ RETIRED_CLAIMS = [
      "since August 12, 2026 a GMAT score report also carries the GMAT Superscore when one "
      "exists, with the best section scores from other attempts and the date of each, and it "
      "cannot be left off (support.mba.com, read September 28, 2026; INC-0188)"),
+    # The sum of GRE Verbal and Quant is arithmetic on two scores, not one ETS reports. INC-0130
+    # took it out of the exam data, and the GRE guide went on citing ETS for it in its first
+    # sentence (INC-0207). A sentence or cell may name the sum to say ETS does not report it,
+    # as the GRE calculator does, and otherwise fails.
+    (re.compile(r"\bGRE\b"),
+     re.compile(r"(?:^|(?<=[.!?] ))(?![^.]*\b(?:does not report|do not report|doesn't report|"
+                r"not one ETS reports|reports no)\b)[^.]*\b260\s+(?:to|and)\s+340\b[^.]*", re.I),
+     "ETS reports Verbal Reasoning and Quantitative Reasoning as separate scores and "
+     "describes no combined score; their sum is arithmetic on two scores, which ETS does not "
+     "report and publishes no percentile for, so say that where the sum is named (ETS GRE "
+     "Scoring; INC-0130, INC-0207)"),
 ]
 
 
@@ -172,9 +183,13 @@ def retired_claims(p):
 # we read do (INC-0203). So each such sentence has to be listed on the fact sheet, under
 # "Claims about most programs or schools", with what it rests on: a count from our data or a
 # source. "The most selective programs" is a superlative, not a share, and is left alone.
-GENERAL = re.compile(r"(?<![Tt]he )\b(?:most|nearly all|almost all|the majority of)\s+(?:of the\s+)?"
-                     r"(?:(?:full-time|part-time|top|mba|business|u\.s\.|us|other|non-business|graduate|major|ranked)\s+){0,4}"
-                     r"(?:programs|schools)\b", re.I)
+# "Nearly every major program" makes the same claim one program at a time, and the GMAT vs GRE
+# post said it in its first paragraph and its FAQ, past a pattern that knew only "most" and
+# "nearly all" (INC-0207).
+GENERAL = re.compile(r"(?<![Tt]he )\b(?:most|nearly all|almost all|virtually all|the majority of|"
+                     r"nearly every|almost every|virtually every)\s+(?:of the\s+)?"
+                     r"(?:(?:full-time|part-time|top|mba|business|u\.s\.|us|other|non-business|graduate|major|ranked|leading)\s+){0,4}"
+                     r"(?:programs?|schools?)\b", re.I)
 CLAIM_BASIS = re.compile(r'^- ([a-z0-9-]+) \| "([^"]+)" \| (.{20,})$', re.M)
 
 
@@ -216,7 +231,10 @@ def _selfcheck_general():
              ("<p>At the most selective MBA programs, figures cluster high.</p>", [], False),
              ("<p>The stat type matters most because schools do not all report the same thing.</p>", [], False),
              ("<p>Retake when you are below the spread at most of your target schools.</p>", [], False),
-             ("<p>Plain.</p>", [{"q": "Do MBA programs accept the GRE?", "a": "Nearly all major MBA programs do."}], True))
+             ("<p>Plain.</p>", [{"q": "Do MBA programs accept the GRE?", "a": "Nearly all major MBA programs do."}], True),
+             ("<p>Nearly every major program takes either exam and states no preference.</p>", [], True),
+             ("<p>Almost every leading MBA school publishes a class profile.</p>", [], True),
+             ("<p>Every program on our deadlines page lists a final round.</p>", [], False))
     for body, faq, want in cases:
         loose, _ = unbacked_claims([{"slug": "x", "body": body, "faq": faq}], "")
         if bool(loose) != want:
@@ -281,7 +299,11 @@ def _selfcheck_retired():
              ("<table><tr><th>Exam</th><th>What schools see</th></tr><tr><td>GMAT</td><td>Only the scores you send</td></tr></table>", True),
              ("<p>A GMAT report carries the exam you send and your GMAT Superscore, which includes only your best section scores.</p>", False),
              ("<p>Unlike the GMAT, the GRE lets you report only the scores you feel reflect your best.</p>", False),
-             ("<p>The GMAT Quant section itself contains only Problem Solving.</p>", False))
+             ("<p>The GMAT Quant section itself contains only Problem Solving.</p>", False),
+             ("<p>GRE Verbal and Quant are each scored 130 to 170 and are often read together as a 260 to 340 total (ETS, 2026).</p>", True),
+             ("<table><tr><th>GMAT</th><th>GRE</th></tr><tr><td>205 to 805</td><td>Verbal and Quant each 130 to 170, often read as a 260 to 340 total</td></tr></table>", True),
+             ("<p>Adding GRE Verbal and Quantitative gives a figure between 260 and 340, but ETS does not report that sum.</p>", False),
+             ("<p>ETS reports no GRE total. Adding the two gives a figure from 260 to 340 that ETS does not report.</p>", False))
     for body, want in cases:
         got = bool(retired_claims({"body": body, "faq": []}))
         if got != want:
@@ -297,6 +319,22 @@ def _selfcheck_stale():
         got = bool(stale_trainer_claims({"body": body, "faq": []}, ["SAT"]))
         if got != want:
             fail("stale_trainer_claims on %r gave %s, expected %s (INC-0162)" % (body[:60], got, want))
+    # INC-0207: with more than one trainer live, the product as a whole may not be called one
+    # exam's; one trainer named with its exam, or a sentence naming no exam, is fine. With
+    # only one live, the same sentence is true and passes.
+    five = ["GMAT", "SAT", "GRE", "LSAT", "ACT"]
+    for body, names, want in (
+            ("<p>Our own trainer, Start From Nowhere, is built for the GMAT Focus Edition specifically, "
+             "but its core habit is exactly the habit to copy into GRE study.</p>", five, True),
+            ("<p>Start From Nowhere is a GMAT trainer.</p>", five, True),
+            ("<p>This is the case our trainer is built for: it keeps a rating per skill.</p>", five, False),
+            ("<p>Our GMAT trainer is built for the GMAT Focus Edition.</p>", five, False),
+            ("<p>Start From Nowhere's GRE trainer is built for the shorter GRE.</p>", five, False),
+            ("<p>Start From Nowhere runs five trainers: GMAT, SAT, GRE, LSAT and ACT.</p>", five, False),
+            ("<p>Start From Nowhere is built for the GMAT.</p>", ["GMAT"], False)):
+        got = bool(stale_trainer_claims({"body": body, "faq": []}, names))
+        if got != want:
+            fail("stale_trainer_claims on %r gave %s, expected %s (INC-0207)" % (body[:60], got, want))
 
 
 def validate(posts):
@@ -338,8 +376,8 @@ def validate(posts):
             fail(f"{n}: makes a retired claim: {gone[0][0][:160]!r}; {gone[0][1]}")
         stale = stale_trainer_claims(p)
         if stale:
-            fail(f"{n}: calls a live trainer unfinished: {stale[0][:200]!r}; say it is live and "
-                 f"link it (INC-0137)")
+            fail(f"{n}: calls a live trainer unfinished, or the product one exam's: "
+                 f"{stale[0][:200]!r}; say what is live and link it (INC-0137, INC-0207)")
         if p["category"] != "Company News":
             sib = re.findall(r'href="/blog/([a-z0-9-]+)/"', p["body"])
             missing = [s for s in sib if s not in slugs]
@@ -822,7 +860,8 @@ def page_problems(root):
             for pg, m in undefined_tokens(root, ["blog"], tokens)]
     # No built blog page may call a live trainer unfinished, as build.py checks (INC-0138).
     names = [e["short"] for e in json.loads((ROOT / "data" / "exams.json").read_text()) if e["slug"] in LIVE]
-    out += ["%s calls a live trainer unfinished: %r" % x for x in trainer_claims(root, ["blog"], names)]
+    out += ["%s calls a live trainer unfinished, or the product one exam's: %r" % x
+            for x in trainer_claims(root, ["blog"], names)]
     # Every heading on a built blog page, the template's own included, in Title Case as build.py
     # checks it: "Keep reading" sat on every post while only post bodies were read (INC-0176).
     out += ["%s has a heading that breaks Title Case: %r should read %r" % x
