@@ -65,6 +65,35 @@ const noise = t => /ERR_CERT_AUTHORITY_INVALID|fonts\.(googleapis|gstatic)\.com|
     await p.evaluate(() => { if (document.getElementById('onb')) finishOnboarding(true); });
     await p.evaluate(() => { if (window.sfnConsent) sfnConsent(false); });
 
+    // What a visitor is called. Every trainer used to greet anyone who had not typed a name
+    // by the owner's first name, with the owner's initials in the avatar, and saved that
+    // default into their stored progress (INC-0210). No test read the dashboard, so nothing
+    // noticed. A new visitor is greeted by no name, and a returning one whose store still
+    // holds the old default loses it on the next load.
+    const hello = () => p.evaluate(() => {
+      show('dash');
+      const h1 = document.querySelector('#v-dash h1');
+      return { h1: h1 ? h1.textContent.trim() : '', want: greeting(),
+               avatar: document.getElementById('avatar').textContent.trim(),
+               name: state.settings.name };
+    });
+    const fresh = await hello();
+    check(app + ' greets a new visitor by no name', fresh.h1 === fresh.want, JSON.stringify(fresh));
+    check(app + ' shows a new visitor no initials', fresh.avatar === '', JSON.stringify(fresh));
+    await p.evaluate(() => {
+      Store.save(state);
+      const s = JSON.parse(localStorage.getItem(STORE_KEY));
+      s.settings.name = 'Hunter'; delete s.settings.nameSet;
+      localStorage.setItem(STORE_KEY, JSON.stringify(s));
+    });
+    await p.reload({ waitUntil: 'load' });
+    await p.waitForFunction(() => typeof BANK !== 'undefined' && BANK.length > 0, null, { timeout: 30000 });
+    await p.evaluate(() => { if (document.getElementById('onb')) finishOnboarding(true); });
+    await p.evaluate(() => { if (window.sfnConsent) sfnConsent(false); });
+    const back = await hello();
+    check(app + ' forgets the old default name on a returning visitor\'s next load',
+          back.name === '' && back.h1 === back.want && back.avatar === '', JSON.stringify(back));
+
     const gens = await p.evaluate(() => {
       const seen = {};
       BANK.forEach(q => { if (q.gen && !seen[q.gen]) seen[q.gen] = q.id; });

@@ -1760,6 +1760,16 @@ verified rather than that the school does not publish one (INC-0118).
       (INC-0209): sat_geo_trig is out of the GRE map, mapping.py now lists what each test maker
       excludes and refuses a map that names it, and test.js scans GRE items for trigonometric
       functions. smoke_items.js reads each type's choice count from exam_harness.js.
+- [x] **No visitor is greeted by the owner's name any more (INC-0210)**: every trainer opened on
+      "Good morning, Hunter" with the owner's initials in the avatar for anyone who had not typed
+      a name, saved that default into their stored progress, and synced it to
+      `profiles.display_name` on sign in. A new state has no name, the dashboard says the
+      greeting alone, and the avatar shows a plain figure. A name typed in Account is marked
+      `nameSet`, and `forgetDefaultName` in engine.js clears an unmarked "Hunter" wherever a
+      state comes in (this device, the account's copy, an imported file), so someone really
+      called Hunter who typed it before this fix types it once more. test.js checks the new
+      state and the migration for every exam, and smoke_items.js opens every trainer as a new
+      visitor and as a returning one whose store holds the old default.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
@@ -2161,6 +2171,10 @@ verified rather than that the school does not publish one (INC-0118).
 
 ### Next session queue
 
+- [ ] `Cloud.push` writes the typed name or null to `profiles.display_name` on every save, so
+      the name the identity trigger copies from a Google or Apple sign in never survives a sync:
+      the old default overwrote it before INC-0210 and null does now. If the admin view should
+      show the provider's name, send display_name only once a name has been typed (`nameSet`).
 - [ ] More reading passages: every reading category is still far under target, and each
       passage adds ten GMAT items and ten GRE items, plus ten LSAT items at LSAT length
 - [x] Read the hand-written reading items against the same two checks (the rule is printed;

@@ -474,7 +474,7 @@ const ERROR_REASONS = [
 
 function newState(){
  const skills={}; SKILLS.forEach(s=>{skills[s.id]={r:START_R,n:0,c:0,t:0,hist:[]};});
- return {version:2,exam:CURRENT_EXAM,created:Date.now(),skills,attempts:[],review:{},sessions:[],seen:{},settings:{name:'Hunter',testDate:'',dailyGoal:20}};
+ return {version:2,exam:CURRENT_EXAM,created:Date.now(),skills,attempts:[],review:{},sessions:[],seen:{},settings:{name:'',testDate:'',dailyGoal:20}};
 }
 function expected(r,itemR){return 1/(1+Math.pow(10,(itemR-r)/400));}
 function kFor(n){return n<10?32:(n<30?24:16);}
@@ -768,6 +768,14 @@ function pickSatModule(bank,state,section,moduleIdx,routing,countOverride){
 // are dropped when a stored state is adopted. No hand written id starts with Z.
 const NUMBERED_ID=/^Z[SGMAL]\d{4,6}$/;
 function forgetNumberedIds(s){ let n=0; ['review','seen'].forEach(k=>{ const o=s&&s[k]; if(o) Object.keys(o).forEach(id=>{ if(NUMBERED_ID.test(id)){ delete o[id]; n++; } }); }); return n; }
+
+// A new state used to start with the owner's first name, so every visitor who never typed a
+// name was greeted by it, and signing in synced it to their account (INC-0210). A name typed
+// in Account is now marked nameSet. A stored state from before the mark holds either that old
+// default, which is cleared, or a name its owner typed, since the default was the only name
+// the trainer ever wrote for anyone. Runs once per state; returns true when it cleared one.
+const OLD_DEFAULT_NAME='Hunter';
+function forgetDefaultName(s){ const st=s&&s.settings; if(!st||st.nameSet!==undefined) return false; const was=st.name===OLD_DEFAULT_NAME; if(was) st.name=''; st.nameSet=!!String(st.name||'').trim(); return was; }
 
 // Flashcards: Leitner boxes. know -> box+1 (due in 1,2,4,8,16 days); still learning -> box 0 (due in 10 minutes)
 const BOX_DAYS=[0,1,2,4,8,16];

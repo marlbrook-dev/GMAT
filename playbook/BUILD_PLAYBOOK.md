@@ -7,10 +7,10 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-10-06, which is 17 days, across
-218 commits, by one owner directing a series of AI coding sessions. As of this
-build it is 88 Python files, 112 JavaScript files, 24
+219 commits, by one owner directing a series of AI coding sessions. As of this
+build it is 89 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
-2152 tracked files in total.
+2153 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-218 commits in 17 days, one owner, a series of AI sessions. This
+219 commits in 17 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1217,14 +1217,14 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-209 recorded defects, over 17 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+210 recorded defects, over 17 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 118 | 56% |
+| Found by reading the code or the output | 119 | 57% |
 | Found by measuring something | 46 | 22% |
 | A test caught it | 23 | 11% |
 | Found by rendering it and looking | 10 | 5% |
@@ -1232,7 +1232,7 @@ well enough to audit later. Which is what this book is.
 | A build guard caught it | 5 | 2% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 207 of 209 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 208 of 210 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1241,13 +1241,13 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 98 |
+| Wrong data shown or stored | 99 |
 | Degraded | 51 |
 | Cosmetic | 31 |
 | Silent loss | 26 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 209. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 210. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
@@ -1256,7 +1256,7 @@ well enough to audit later. Which is what this book is.
 | --- | ---: |
 | Content generation | 99 |
 | Tests and guards | 37 |
-| Front end | 15 |
+| Front end | 16 |
 | Build system | 13 |
 | Search and metadata | 11 |
 | CSS and layout | 9 |
@@ -1269,7 +1269,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-203 of 209 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+204 of 210 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1290,7 +1290,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-95 of 209 incidents record that they repeat an earlier lesson, 129 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+95 of 210 incidents record that they repeat an earlier lesson, 129 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1422,6 +1422,7 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/smoke_playbook.js`, 4 incidents (INC-0054, INC-0084, INC-0129, INC-0165)
 - `src/bank_repair.py`, 4 incidents (INC-0070, INC-0071, INC-0072, INC-0121)
 - `src/weekly_audit.js`, 3 incidents (INC-0050, INC-0048, INC-0018)
+- `src/smoke_items.js`, 3 incidents (INC-0006, INC-0099, INC-0210)
 - `src/smoke_redirect.js`, 3 incidents (INC-0023, INC-0024, INC-0047)
 - `src/build_playbook.py`, 3 incidents (INC-0057, INC-0065, INC-0083)
 - `src/gen/g_act_sci.py`, 3 incidents (INC-0093, INC-0094, INC-0098)
@@ -2624,7 +2625,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0209. The GRE trainer served about 195 trigonometry questions, though ETS says the Quantitative measure does not include trigonometry
 
-*2026-10-06, Wrong data shown or stored*
+*2026-10-06, Wrong data shown or stored, `5f2897745bfb1a365dbf1b8f179846f8233228d4` PR #266*
 
 - **What was seen.** The GRE trainer's Geometry category held generated questions such as 'In right triangle ABC, the right angle is at C. The side opposite angle A has length 55, the side adjacent to angle A has length 48, and the hypotenuse has length 73. What is the tangent of angle A?': 2 in the starter bank and 193 in the deferred bank on October 6, 2026. ETS's overview of the Quantitative Reasoning measure says its content is high school mathematics and statistics at a level generally no higher than a second course in algebra, and 'It doesn't include trigonometry, calculus or other higher-level mathematics'. EDITORIAL.md's GRE fact line already said so. A GRE student was being drilled on content the test does not have, inside the category whose accuracy feeds the Geometry rating.
 - **Why.** The GRE's quantitative questions are SAT schemas remapped by gen/mapping.py, whose rule is that a schema appears under the category whose published framework names that content. GRE_MAP's Geometry list was copied from the SAT's Geometry and Trigonometry domain, and sat_geo_trig came with it; the ACT list beside it, where trigonometry is in scope, has the same members. Nothing compared a map against what each test maker says its exam excludes, and nothing scanned a built bank for out of scope content, so the rule lived only in a comment.
@@ -3096,7 +3097,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** A reader of someone else's page should treat as rules only what the page promises, not what one reading of it happened to show. Two pages from one publisher are kept on their own schedules, so a check that both list the same things fails the week one is tidied and the other is not, and an order seen on every row so far is a pattern, not a promise. When a strict reader refuses, everything behind the refusal goes unchecked, so once the refusal is fixed, read the whole difference it was hiding.
 
 
-## Front end (15)
+## Front end (16)
 
 
 ### INC-0001. Unescaped quotes in onclick strings took the whole app down
@@ -3285,6 +3286,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** The button takes its link from the first exam the post's title names, through cta_href(): GMAT to /app/, GRE to /gre/app/, LSAT to /lsat/app/, SAT and PSAT to /sat/app/, ACT to /act/app/. A title that names no exam keeps /app/. The title is used rather than onward_for(), whose scoring sends the general Introducing the Study Room post to the LSAT trainer, because a button that starts practice should only change exams when the post says which exam it is about.
 - **What stops it now.** build_blog.py checks cta_href() against fixed titles before it builds (an LSAT title goes to the LSAT trainer, SAT vs ACT to the SAT one, the lower-case word act to none), and after building it reads every post's Start a Free Round link back from the page and fails if it is not the trainer of the exam the title names. in `src/build_blog.py`
 - **Lesson.** When you fix a literal that went stale because there came to be more than one of something, grep the whole site for that literal, not just the file you found it in. A link that points at the original trainer looks right on every page about the original exam, so it survives anywhere nobody reads a page about another one.
+
+
+### INC-0210. Every trainer greeted a visitor who had typed no name as Hunter, the owner's first name, and saved that name to signed-in accounts
+
+*2026-10-06, Wrong data shown or stored*
+
+- **What was seen.** A first visit to any of the five trainers opened on 'Good morning, Hunter' with an avatar reading 'H', and the avatar's own markup said 'HR' until the script ran: a headless Chromium load of a fresh visitor on October 6, 2026 returned the heading 'Good morning, Hunter', the avatar 'H' and settings.name 'Hunter'. Hunter is the owner's first name and HR the owner's initials. The default was saved into the visitor's stored progress on the first load, so it would have outlived a fix to the default alone, and Cloud.push copied it to profiles.display_name for anyone who signed in: on October 6 the one profile in the database held 'Hunter' in display_name and in state_blob.settings.name. The admin user detail shows display_name, so an account that never typed a name was listed under the owner's name.
+- **Why.** The trainer's personal defaults were the owner's own name and initials, and they were never replaced when it opened to the public: newState() in engine.js and the two settings fallbacks in app_template.html (on load and on import) set name to 'Hunter', updateHeader fell back to 'HR', the dashboard heading fell back to 'Hunter', and the avatar's static markup was 'HR'. They are present in the first commit of this repository's history (September 19, 2026). A greeting by the owner's name reads as correct to the owner, so nothing about it looked broken from the inside. And no test read what a new visitor is shown: every browser suite finishes onboarding and goes straight to items, games, consent or billing, and test.js checks a new state's skills and reviews but never its settings.
+- **How it surfaced.** Found on October 6, 2026 while reading the trainer's state setup to write a screenshot script for the new GRE Quantitative Comparison items: the settings fallback named a person. A headless Chromium load of a fresh visitor confirmed the greeting and the avatar, and a read of the profiles table confirmed the synced copy. (Found by reading the code or the output)
+- **Fix.** newState() and both fallbacks start with no name. The dashboard says the greeting alone and the avatar shows a plain figure when no name is set. A name typed in Account is marked nameSet, and forgetDefaultName in engine.js runs wherever a state comes in (this device's store, the account's copy on pull, an imported file): it clears an unmarked 'Hunter' and marks any other stored name as typed, because the default was the only name the trainer ever wrote for someone. Someone really called Hunter who typed it before this fix types it once more. The next sync writes the empty name to profiles.display_name as null.
+- **What stops it now.** test.js checks for every exam that newState() carries no name, and that forgetDefaultName clears the old default, keeps a name typed as Hunter, marks an older typed name, and changes nothing on a second run. smoke_items.js opens every trainer as a new visitor and fails if the dashboard heading is anything but the bare greeting or the avatar shows any initials, then stores the old default the way a returning visitor has it, reloads, and fails if the name comes back. in `src/smoke_items.js`
+- **Lesson.** A default is what everyone who never changes it is shown, so a personal value left as a default is published to every user, and it looks right to exactly the person who put it there. Anything a person would fill in about themselves, such as a name, initials or a goal, should default to empty, and some test should load the product as a stranger and read what it says to them. Once a bad default has been saved into people's stored state, fixing the default is not enough: the stored copies need a one-time migration, and a value the person typed needs a mark that tells it apart from the default.
 
 
 ## Build system (13)
@@ -4345,6 +4358,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The application checklist's calendar file left semicolons unescaped, because the escape was written '\;', which JavaScript reads as a bare semicolon (INC-0201)</small>
 - [ ] When you fix a literal that went stale because there came to be more than one of something, grep the whole site for that literal, not just the file you found it in. A link that points at the original trainer looks right on every page about the original exam, so it survives anywhere nobody reads a page about another one.  
   <small>The Start a Free Round button at the foot of every blog post opened the GMAT trainer, including on the LSAT, GRE, SAT and ACT posts (INC-0206)</small>
+- [ ] A default is what everyone who never changes it is shown, so a personal value left as a default is published to every user, and it looks right to exactly the person who put it there. Anything a person would fill in about themselves, such as a name, initials or a goal, should default to empty, and some test should load the product as a stranger and read what it says to them. Once a bad default has been saved into people's stored state, fixing the default is not enough: the stored copies need a one-time migration, and a value the person typed needs a mark that tells it apart from the default.  
+  <small>Every trainer greeted a visitor who had typed no name as Hunter, the owner's first name, and saved that name to signed-in accounts (INC-0210)</small>
 
 
 ## Infrastructure and deploy
@@ -4623,7 +4638,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 209 real defects reduced to the rules that prevent them,
+the whole project: 210 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -4663,7 +4678,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-209 defects already prevented is genuinely ahead, and every defect it hits
+210 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed
