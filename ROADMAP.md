@@ -1695,6 +1695,21 @@ verified rather than that the school does not publish one (INC-0118).
       a title that names none keeps /app/. build_blog.py checks the rule on fixed titles
       and reads every post's link back from its page, held posts included. It is INC-0128
       again in the one template that fix did not reach.
+- [x] **Two GRE Quantitative posts continue the GRE series**, from ETS's Quantitative
+      Reasoning overview, read October 6:
+      - "GRE Quantitative Comparison Questions: How to Answer Them", February 25 (Maya
+        Chen): the four fixed answers and ETS's five tips, with two original examples, one
+        where plugging in a fraction shows the relationship cannot be determined and one
+        where simplifying settles it whatever the variable is.
+      - "GRE Multiple Choice and Numeric Entry Questions", February 27 (David Okafor): the
+        other three formats, ETS's tips for each and a worked example of each, including
+        a percent-of-a-percent trap for Numeric Entry.
+
+      EDITORIAL.md gains a GRE Quantitative question types block. ETS's Quantitative page
+      says nothing about partial credit, so the select one or more post does not claim it
+      (the Verbal page does, for its own formats). The trainer lines were checked against
+      the GRE banks: comparison questions and five Numeric Entry questions are in the
+      hand-written sets, and no quantitative question asks for more than one answer.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
