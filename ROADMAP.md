@@ -1503,6 +1503,12 @@ verified rather than that the school does not publish one (INC-0118).
       teaches. None of LSAC's ten samples asks which choice weakens an argument, so the post
       treats weakening only as the same method run the other way, and does not cite LSAC for
       it; EDITORIAL.md records that limit.
+- [x] **"LSAT Inference Questions: What Can Be Properly Inferred"** queued for January 26
+      (Aisha Thompson): take every statement as true, link them, and stop where the passage
+      stops, with an original worked example (a branch line's late trains) and a table of
+      three kinds of wrong answer. LSAC's sample inference question rejects choices that go
+      far beyond the passage, claim an only the passage does not support, and raise what
+      the passage gives no evidence about; EDITORIAL.md records the sample, read October 6.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
