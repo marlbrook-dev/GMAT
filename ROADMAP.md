@@ -1298,6 +1298,24 @@ verified rather than that the school does not publish one (INC-0118).
       - The weekly source check reads every sentence back with the dates, ignoring spacing and
         the shape of quotation marks. Its self-check covers a sentence found, a reworded one
         and a dropped heading. All 13 pages read clean.
+- [x] **Ten more LSAT argument structure arguments**, each giving five role questions and a
+      main conclusion question:
+      - a council pool's winter closing;
+      - a vineyard's hand harvest;
+      - an island's early ferry;
+      - a vet practice's weekend surgery;
+      - a planetarium's live shows;
+      - a youth team's pitch size;
+      - a hotel's restaurant;
+      - a choir's spring concert;
+      - spraying an allotment site;
+      - an old stone bridge.
+
+      The category grows from 300 to 360 items, and the LSAT bank to 15853, of which 15481
+      are generated (counts read from the build). All 60 were read.
+      - The answer bias guard (INC-0079) stopped the first build: the main conclusion was the
+        shortest choice in six of the ten. Nine conclusion paraphrases were reworded so the key
+        sits across the length ranks, each still saying only what the conclusion says.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
