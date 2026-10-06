@@ -7,10 +7,10 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-10-06, which is 17 days, across
-212 commits, by one owner directing a series of AI coding sessions. As of this
+213 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 88 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
-2145 tracked files in total.
+2147 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-212 commits in 17 days, one owner, a series of AI sessions. This
+213 commits in 17 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -3238,7 +3238,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0206. The Start a Free Round button at the foot of every blog post opened the GMAT trainer, including on the LSAT, GRE, SAT and ACT posts
 
-*2026-10-06, Degraded*
+*2026-10-06, Degraded, `2c826b51fca103a1072f124057c42afb8dae4af6` PR #260*
 
 - **What was seen.** Every post in The Study Room ends in a Put This Into Practice box whose Start a Free Round button linked to /app/, the GMAT Focus trainer. On October 6, 2026 five live posts were about another exam: the GRE format guide, the LSAT format and scoring guide, the digital SAT format guide, the SAT study plan by domain and SAT vs ACT. A reader who finished the LSAT guide and pressed the button landed in GMAT practice. 31 queued posts would have done the same, 19 of them the LSAT question type series. The Where to Take This Next cards below the same posts already linked the right trainer, which is how the wrong button went unnoticed.
 - **Why.** build_post() writes the box's link as the literal /app/, as it has since the blog had only the GMAT trainer to point at. The onward cards choose their trainer from what the post is about, through onward_for(), but nothing made the button agree with them, and nothing compared a post's trainer link with the exam its title names. It is INC-0128 again: that fix took the literal out of the exam guides and the study guide hub, and the blog template kept its copy.
