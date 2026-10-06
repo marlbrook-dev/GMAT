@@ -1,25 +1,11 @@
 {
- "read": "2026-09-27",
+ "read": "2026-10-06",
  "sat": {
   "src": "College Board, SAT Suite Test Dates and Deadlines",
   "url": "https://satsuite.collegeboard.org/sat/dates-deadlines",
   "scores_src": "College Board, Score Release Dates for Students and Educators",
   "scores_url": "https://satsuite.collegeboard.org/scores/score-release-dates",
   "weekend": [
-   {
-    "test": "2026-08-22",
-    "register_by": "2026-08-07",
-    "late_by": "2026-08-11",
-    "scores_student": "2026-09-04",
-    "scores_educator": "2026-09-08"
-   },
-   {
-    "test": "2026-09-12",
-    "register_by": "2026-08-28",
-    "late_by": "2026-09-01",
-    "scores_student": "2026-09-25",
-    "scores_educator": "2026-09-28"
-   },
    {
     "test": "2026-10-03",
     "register_by": "2026-09-18",
@@ -44,17 +30,23 @@
    {
     "test": "2027-03-06",
     "register_by": "2027-02-19",
-    "late_by": "2027-02-23"
+    "late_by": "2027-02-23",
+    "scores_student": "2027-03-19",
+    "scores_educator": "2027-03-22"
    },
    {
     "test": "2027-05-01",
     "register_by": "2027-04-16",
-    "late_by": "2027-04-20"
+    "late_by": "2027-04-20",
+    "scores_student": "2027-05-14",
+    "scores_educator": "2027-05-17"
    },
    {
     "test": "2027-06-05",
     "register_by": "2027-05-21",
-    "late_by": "2027-05-25"
+    "late_by": "2027-05-25",
+    "scores_student": "2027-06-21",
+    "scores_educator": "2027-06-21"
    }
   ],
   "in_school": [
@@ -74,7 +66,7 @@
   "anticipated": [
    "2027-08-28",
    "2027-09-18",
-   "2027-10-02",
+   "2027-10-09",
    "2027-11-06",
    "2027-12-04",
    "2028-03-04",
@@ -84,7 +76,7 @@
   "quotes": [
    "SAT Weekend deadlines expire at 11:59 p.m. ET, U.S.",
    "Late registration is available worldwide.",
-   "Students taking SAT School Day or PSAT assessments do not need to register on their own."
+   "Students taking SAT School Day or PSAT-related assessments do not need to register on their own."
   ]
  },
  "act": {

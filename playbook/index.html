@@ -59,7 +59,7 @@ a{color:var(--accent)}
 <p class="eyebrow">Start From Nowhere</p>
 <h1>The Build Playbook</h1>
 <p class="sub">How one person and a set of AI sessions built a multi-exam test-prep platform, every defect hit on the way, and the recipe for doing it again for something else</p>
-<p class="meta">Built 2026-10-06 from commit eb538c3 &middot; 185 commits over 16 days &middot; 201 recorded defects &middot; 17 chapters<br>
+<p class="meta">Built 2026-10-06 from commit 8f779d9 &middot; 187 commits over 16 days &middot; 202 recorded defects &middot; 17 chapters<br>
 This document is generated. Edit the chapters in docs/playbook/ and the ledger in data/playbook/incidents.jsonl, then run python3 src/build_playbook.py.</p>
 </div>
 <div class="toc"><ol><li><a href="#how-to-use-this-book">How to Use This Book</a></li>
@@ -81,7 +81,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><a href="#the-bootstrap-pack-starting-a-new-project-with-this-loaded">The Bootstrap Pack: Starting a New Project With This Loaded</a></li></ol></div>
 <h1 id="how-to-use-this-book">How to Use This Book</h1>
 <p>This is the record of building one platform, written so it can be used to build a different one.</p>
-<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-09-19 and 2026-10-05, which is 16 days, across 185 commits, by one owner directing a series of AI coding sessions. As of this build it is 87 Python files, 112 JavaScript files, 24 TypeScript edge functions, 35 migrations and 65 documents: 2125 tracked files in total.</p>
+<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-09-19 and 2026-10-05, which is 16 days, across 187 commits, by one owner directing a series of AI coding sessions. As of this build it is 87 Python files, 112 JavaScript files, 24 TypeScript edge functions, 35 migrations and 65 documents: 2125 tracked files in total.</p>
 <p>None of those numbers were typed. They are measured from the repository every time this document is built, which is the first thing worth copying.</p>
 <h2 id="what-is-in-here">What is in here</h2>
 <p>The book has four kinds of chapter, and they age differently.</p>
@@ -621,7 +621,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three defects here were found by taking a screenshot: a chart unreadable in dark mode, a line chart implying values that never existed, and a dashboard that was not on screen. None of them would have been caught by an assertion, because none of them were violations of anything anybody had thought to assert.</p>
 <p><strong>Budget for looking.</strong> It is the cheapest test there is and the only one that catches things you have not imagined.</p>
 <h1 id="running-the-build-as-an-ai-loop">Running the Build as an AI Loop</h1>
-<p>185 commits in 16 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
+<p>187 commits in 16 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
 <h2 id="the-division-of-labour">The division of labour</h2>
 <p><strong>The owner decides</strong>: what to build, what it means, what is acceptable, and every irreversible or outward-facing action. <strong>The session does</strong>: the building, the measuring, the testing, and the reporting of what it found.</p>
 <p>The failure mode at each end is worth naming. An owner who reviews every line becomes the bottleneck and the throughput collapses to the speed of reading. A session that decides product questions on its own produces something coherent that is not what anyone wanted.</p>
@@ -665,32 +665,32 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Long uninterrupted sessions with standing authorisation, punctuated by the owner redirecting priorities, beat short supervised ones by a wide margin. The standing authorisation that made it work was specific: merge your own work once the checks are green, do not check in on each item, and stop immediately when told to.</p>
 <p>The thing that makes that safe is not trust. It is that the checks are real, the destructive actions still require asking, and the record of what happened is written down well enough to audit later. Which is what this book is.</p>
 <h1 id="what-the-ledger-says-about-itself">What the Ledger Says About Itself</h1>
-<p>201 recorded defects, over 16 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.</p>
+<p>202 recorded defects, over 16 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.</p>
 <h2 id="how-defects-were-actually-found">How defects were actually found</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">How</th><th style="text-align:right">Count</th><th style="text-align:right">Share</th></tr></thead><tbody>
 <tr><td style="text-align:left">Found by reading the code or the output</td><td style="text-align:right">113</td><td style="text-align:right">56%</td></tr>
 <tr><td style="text-align:left">Found by measuring something</td><td style="text-align:right">46</td><td style="text-align:right">23%</td></tr>
-<tr><td style="text-align:left">A test caught it</td><td style="text-align:right">22</td><td style="text-align:right">11%</td></tr>
+<tr><td style="text-align:left">A test caught it</td><td style="text-align:right">23</td><td style="text-align:right">11%</td></tr>
 <tr><td style="text-align:left">Found by rendering it and looking</td><td style="text-align:right">8</td><td style="text-align:right">4%</td></tr>
 <tr><td style="text-align:left">Found by a review bot or an adversarial pass</td><td style="text-align:right">5</td><td style="text-align:right">2%</td></tr>
 <tr><td style="text-align:left">A build guard caught it</td><td style="text-align:right">5</td><td style="text-align:right">2%</td></tr>
 <tr><td style="text-align:left">A person hit it</td><td style="text-align:right">2</td><td style="text-align:right">1%</td></tr>
 </tbody></table></div>
-<p><strong>This is the most useful table in the book.</strong> 199 of 201 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.</p>
+<p><strong>This is the most useful table in the book.</strong> 200 of 202 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.</p>
 <p><strong>Read that percentage with the bias it carries.</strong> This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.</p>
 <h2 id="by-severity">By severity</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">Severity</th><th style="text-align:right">Count</th></tr></thead><tbody>
-<tr><td style="text-align:left">Wrong data shown or stored</td><td style="text-align:right">93</td></tr>
+<tr><td style="text-align:left">Wrong data shown or stored</td><td style="text-align:right">94</td></tr>
 <tr><td style="text-align:left">Degraded</td><td style="text-align:right">48</td></tr>
 <tr><td style="text-align:left">Cosmetic</td><td style="text-align:right">31</td></tr>
 <tr><td style="text-align:left">Silent loss</td><td style="text-align:right">26</td></tr>
 <tr><td style="text-align:left">Site down</td><td style="text-align:right">3</td></tr>
 </tbody></table></div>
-<p><strong>Silent loss is the dominant failure mode</strong>, at 26 of 201. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.</p>
+<p><strong>Silent loss is the dominant failure mode</strong>, at 26 of 202. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.</p>
 <h2 id="by-area">By area</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">Area</th><th style="text-align:right">Count</th></tr></thead><tbody>
 <tr><td style="text-align:left">Content generation</td><td style="text-align:right">95</td></tr>
-<tr><td style="text-align:left">Tests and guards</td><td style="text-align:right">36</td></tr>
+<tr><td style="text-align:left">Tests and guards</td><td style="text-align:right">37</td></tr>
 <tr><td style="text-align:left">Front end</td><td style="text-align:right">14</td></tr>
 <tr><td style="text-align:left">Build system</td><td style="text-align:right">12</td></tr>
 <tr><td style="text-align:left">Search and metadata</td><td style="text-align:right">11</td></tr>
@@ -702,7 +702,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <tr><td style="text-align:left">Interface and data display</td><td style="text-align:right">3</td></tr>
 </tbody></table></div>
 <h2 id="guard-coverage">Guard coverage</h2>
-<p>195 of 201 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.</p>
+<p>196 of 202 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.</p>
 <p>Carried by attention:</p>
 <ul>
 <li><strong>INC-0010</strong> CSS comments do not nest, and one placeholder killed the palette on 1451 pages</li>
@@ -718,7 +718,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>weekly_audit checks computed colour on every page (INC-0050, INC-0048)</li>
 </ul>
 <h2 id="lessons-learned-more-than-once">Lessons learned more than once</h2>
-<p>92 of 201 incidents record that they repeat an earlier lesson, 125 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.</p>
+<p>92 of 202 incidents record that they repeat an earlier lesson, 125 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.</p>
 <div class="tw"><table><thead><tr><th style="text-align:left">Lesson first recorded in</th><th style="text-align:left">Repeated by</th><th style="text-align:right">Times</th></tr></thead><tbody>
 <tr><td style="text-align:left">INC-0088 A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked</td><td style="text-align:left">INC-0089, INC-0098, INC-0099, INC-0101, INC-0117, INC-0122</td><td style="text-align:right">6</td></tr>
 <tr><td style="text-align:left">INC-0104 Half the school pages opened with a data note pasted into a sentence, and the structured data repeated it</td><td style="text-align:left">INC-0105, INC-0131, INC-0134, INC-0135, INC-0145</td><td style="text-align:right">5</td></tr>
@@ -1808,7 +1808,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>What stops it now.</strong> The build fails if a school page states a qualified class size in any sentence without the qualifier its note carries, and fails if a figure's note carries a qualifier the reader cannot put into words (nearly, at least, up to, fewer than and the like), so a new kind of note stops the build instead of being dropped. in <code>src/build_rankings.py</code></li>
 <li><strong>Lesson.</strong> A figure's note is part of the figure. When a table prints the note beside the number, every sentence that restates the number has to carry what the note says about it, average, about or more than, or it states the figure more exactly than the source does. And a count of one thing and an average over several are different statistics even when the number is the same: the wording has to say which one it is.</li>
 </ul>
-<h2 id="tests-and-guards-36">Tests and guards (36)</h2>
+<h2 id="tests-and-guards-37">Tests and guards (37)</h2>
 <h3 id="inc-0016-the-performance-test-waited-for-the-load-event-which-waits-for-the-thing-being-optimised">INC-0016. The performance test waited for the load event, which waits for the thing being optimised</h3>
 <p><em>2026-09-19, Silent loss, <code>4b25169</code> PR #45</em></p>
 <ul>
@@ -2183,6 +2183,16 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Fix.</strong> The beacon now returns before reporting when navigator.webdriver is true, which a browser under automation sets and a visitor's browser does not, or when the page was opened from disk. Visitors on the live site, on a preview deploy or in an app that loads the pages are unaffected. The five rows stay in the table, for triage in Admin &gt; Errors, rather than being deleted from production.</li>
 <li><strong>What stops it now.</strong> build.py runs the beacon's own script in node against a stubbed page three times, as a visitor on https, as an automated browser and as a page opened from disk, fires a script error and a failed load of the page's own file in each, and fails the build unless only the visitor's run posts. in <code>src/build.py</code></li>
 <li><strong>Lesson.</strong> Telemetry that ships inside every page runs wherever the page runs, including every test harness and every local preview, and it writes to production from all of them. Decide in the snippet which contexts may report, and test that decision by running the real snippet in each context, because the harness that would notice the leak is the one producing it.</li>
+</ul>
+<h3 id="inc-0202-the-sat-date-reader-took-three-things-one-reading-of-college-board-s-pages-showed-as-rules-and-when-the-score-release-page-changed-it-refused-both-pages-hiding-a-moved-2027-date-behind-the-refusal">INC-0202. The SAT date reader took three things one reading of College Board's pages showed as rules, and when the score release page changed it refused both pages, hiding a moved 2027 date behind the refusal</h3>
+<p><em>2026-10-06, Wrong data shown or stored</em></p>
+<ul>
+<li><strong>What was seen.</strong> The weekly source check of October 5, 2026 (issue 223) reported that test_dates.py could not read College Board's SAT pages: no SAT Weekend score release table with the header Test Date, Student Score Release, Educator Score Release. College Board had split its score release table into a fall and a spring table and renamed the columns Student Score Release Date and K-12 Score Reporting Portal Score Release Date. Read with the new header, the reader still refused the pages twice over: the score page lists August 22 and September 12, 2026, which the dates page no longer lists, and June 5, 2027 releases scores to students and to the K-12 portal on the same day, June 21. While the reader refused, the check compared nothing else, so two changes on the dates page went unreported: an anticipated 2027 date moved from October 2 to October 9, marked Updated on College Board's page, and the School Day sentence the page quotes was reworded. Until this fix the published SAT test dates page showed October 2, 2027 and no score release dates for the three spring 2027 tests, which College Board's page now lists.</li>
+<li><strong>Why.</strong> The reader was written against one reading of College Board's pages and took three things that reading showed as rules: that the weekend releases sit in one table, that the score page lists exactly the dates the dates page lists, and that educators always get scores after students. The second was never true for long: the dates page drops past dates on its own schedule (on October 6 it had dropped August 22 and September 12 while still listing October 3), and the score page keeps the whole season, so from the first week the dates page dropped a date the score page still listed, the reader would have refused both pages whatever College Board did to its layout. The third was strict ordering where the page only shows not before. And one table the reader could not take stopped the whole comparison, so the changes it could still have read were hidden behind it.</li>
+<li><strong>How it surfaced.</strong> The weekly source job's report of October 5, 2026 (issue 223) named the missing header. The other two faults surfaced on October 6, when the reader was run with the new header and refused rows it should have read; both were in the reader from the day it was written. (A test caught it)</li>
+<li><strong>Fix.</strong> The reader takes the rows of every table under the score release header, in page order, accepts a student and an educator release on the same day, and leaves out a release whose test day has passed and falls before the first date the dates page lists. A release for any other date the dates page does not list is still refused. The data file was rewritten from both pages: October 2, 2027 is now October 9, the School Day sentence is quoted in its new words, the three spring 2027 tests carry their release dates, and August 22 and September 12, 2026 left with the dates page.</li>
+<li><strong>What stops it now.</strong> python3 src/test_dates.py --selfcheck reads pages built to look like College Board's two, with a fall and a spring score table, a passed date only the score page lists, a test whose two releases share a day, and a date still ahead that only the score page lists, which it must refuse. The build runs it on every change, and --write and --check run it before they read anything. Each of the three old rules, put back on its own, fails it. in <code>src/test_dates.py</code></li>
+<li><strong>Lesson.</strong> A reader of someone else's page should treat as rules only what the page promises, not what one reading of it happened to show. Two pages from one publisher are kept on their own schedules, so a check that both list the same things fails the week one is tidied and the other is not, and an order seen on every row so far is a pattern, not a promise. When a strict reader refuses, everything behind the refusal goes unchecked, so once the refusal is fixed, read the whole difference it was hiding.</li>
 </ul>
 <h2 id="front-end-14">Front end (14)</h2>
 <h3 id="inc-0001-unescaped-quotes-in-onclick-strings-took-the-whole-app-down">INC-0001. Unescaped quotes in onclick strings took the whole app down</h3>
@@ -3752,6 +3762,10 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>[ ] Telemetry that ships inside every page runs wherever the page runs, including every test harness and every local preview, and it writes to production from all of them. Decide in the snippet which contexts may report, and test that decision by running the real snippet in each context, because the harness that would notice the leak is the one producing it.  </li>
 </ul>
 <p>&lt;small&gt;A smoke test's page errors went into the live error log, because the error beacon reports from any page it runs on, including one a test opened from disk (INC-0196)&lt;/small&gt;</p>
+<ul>
+<li>[ ] A reader of someone else's page should treat as rules only what the page promises, not what one reading of it happened to show. Two pages from one publisher are kept on their own schedules, so a check that both list the same things fails the week one is tidied and the other is not, and an order seen on every row so far is a pattern, not a promise. When a strict reader refuses, everything behind the refusal goes unchecked, so once the refusal is fixed, read the whole difference it was hiding.  </li>
+</ul>
+<p>&lt;small&gt;The SAT date reader took three things one reading of College Board's pages showed as rules, and when the score release page changed it refused both pages, hiding a moved 2027 date behind the refusal (INC-0202)&lt;/small&gt;</p>
 <h1 id="adapting-this-to-a-different-business">Adapting This to a Different Business</h1>
 <p>Most of this book is about a test-preparation platform. This chapter separates what was specific to that from what was structural, so you know what to keep.</p>
 <h2 id="what-was-specific">What was specific</h2>
@@ -3807,7 +3821,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p><code>python3 src/build_playbook.py</code> writes four files into <code>playbook/bootstrap/</code>, all generated from the same ledger as the book, so none of them can drift from it.</p>
 <p><strong><code>CLAUDE.template.md</code></strong> goes in the new repository's root. Claude Code reads it on every turn. It is the constitution: the house rules, the never-invent-a-value rule, the sourcing rules, the communication rule, and a short architecture section you fill in as you build. Four bracketed blanks at the top are the only things you have to change.</p>
 <p><strong><code>KICKOFF.md</code></strong> is the literal first message for a new conversation. It sets the working agreement, the phase order, and what a session should report. Paste it, then describe your business idea underneath it.</p>
-<p><strong><code>RULES_DIGEST.md</code></strong> is every lesson in the defect ledger, compressed to one line each and grouped by area. It is about three pages. This is the highest value-per-token artefact in the whole project: 201 real defects reduced to the rules that prevent them, with the specifics of this codebase stripped out.</p>
+<p><strong><code>RULES_DIGEST.md</code></strong> is every lesson in the defect ledger, compressed to one line each and grouped by area. It is about three pages. This is the highest value-per-token artefact in the whole project: 202 real defects reduced to the rules that prevent them, with the specifics of this codebase stripped out.</p>
 <p><strong><code>incidents.jsonl</code></strong> is the raw ledger, copied so the new project can start appending to it on day one rather than starting an empty one.</p>
 <h2 id="how-to-load-it-by-surface">How to load it, by surface</h2>
 <p><strong>Claude Code, new repository.</strong> Copy <code>CLAUDE.template.md</code> to the repo root as <code>CLAUDE.md</code>, fill in the four blanks, and copy <code>incidents.jsonl</code> to <code>data/playbook/incidents.jsonl</code>. Copy <code>src/build_playbook.py</code> too, so the new project's own ledger becomes its own book from the first defect. Then open a session with <code>KICKOFF.md</code> as the first message.</p>
@@ -3817,7 +3831,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three reasons, and they are worth understanding rather than just following.</p>
 <p><strong>Retrieval beats repetition.</strong> A document in project knowledge is consulted when relevant. The same document in the prompt is re-read on every single turn, at full cost, mostly when it is irrelevant. For anything longer than a few pages, retrieval is strictly better.</p>
 <p><strong>Instructions need to be short enough to be followed.</strong> A rule competing with ten thousand words of context is a rule that gets applied inconsistently. The digest is deliberately brutal: one line per lesson, imperative mood, no examples. The examples are in the book, where they can be looked up when a rule seems wrong.</p>
-<p><strong>The ledger is the part that compounds.</strong> The recipe chapters age. The rules do not, because each one is the residue of a real failure, and the failure modes of software are considerably more stable than its tooling. A new project that starts with 201 defects already prevented is genuinely ahead, and every defect it hits of its own makes the next project further ahead still.</p>
+<p><strong>The ledger is the part that compounds.</strong> The recipe chapters age. The rules do not, because each one is the residue of a real failure, and the failure modes of software are considerably more stable than its tooling. A new project that starts with 202 defects already prevented is genuinely ahead, and every defect it hits of its own makes the next project further ahead still.</p>
 <h2 id="keeping-the-loop-closed">Keeping the loop closed</h2>
 <p>The pack is only worth carrying forward if the new project feeds it back. So the working agreement in <code>KICKOFF.md</code> includes one instruction that does the whole job:</p>
 <p>&gt; When something breaks, append a record to <code>data/playbook/incidents.jsonl</code> before fixing &gt; it, while you still remember what you believed was true five minutes ago.</p>

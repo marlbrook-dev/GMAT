@@ -394,7 +394,7 @@
     },
     "cost_usd": {
       "v": 68,
-      "note": "The SAT registration fee, with additional fees listed through December 2026; students testing in another country are sent to a separate international fee schedule",
+      "note": "The SAT registration fee, with additional fees listed through June 2027; students testing in another country are sent to a separate international fee schedule",
       "src": "College Board",
       "year": 2026,
       "url": "https://satsuite.collegeboard.org/sat/registration/fees-refunds/test-fees"
@@ -660,7 +660,7 @@
     },
     "cost_usd": {
       "v": 249,
-      "note": "Fees effective August 1, 2026: $231.30 in China and $249 in all other areas of the world, with test takers in India referred to the ETS India website; a GRE Fee Reduction voucher lowers the General Test fee to $100 for those who receive one",
+      "note": "Fees effective August 1, 2026: $237.86 in China and $249 in all other areas of the world, with test takers in India referred to the ETS India website; a GRE Fee Reduction voucher lowers the General Test fee to $100 for those who receive one",
       "src": "ETS",
       "year": 2026,
       "url": "https://www.ets.org/gre/test-takers/general-test/register/fees.html"
@@ -752,7 +752,7 @@
         "url": "https://www.ets.org/content/dam/ets-org/pdfs/gre/gre-guide-table-1a.pdf"
       },
       {
-        "text": "Rescheduling costs $55, or $53.90 in China, and changing your test center costs $55",
+        "text": "Rescheduling costs $55, or $55.43 in China, and changing your test center costs $55",
         "src": "ETS",
         "year": 2026,
         "url": "https://www.ets.org/gre/test-takers/general-test/register/fees.html"
@@ -1054,7 +1054,8 @@
         "text": "When testing remotely, in most cases the remote proctoring system will save your progress and pause the test while a technical issue is resolved; if you are unable to restore your connection during your scheduled testing window, your testing session will be terminated and you will be moved to a future registration date",
         "src": "LSAC",
         "year": 2026,
-        "url": "https://www.lsac.org/lsat/frequently-asked-questions-about-lsat"
+        "url": "https://www.lsac.org/lsat/frequently-asked-questions-about-lsat",
+        "period_checked": {"periods": ["2025-2026"], "on": "2026-10-06", "why": "LSAC's FAQ page still opens with registration for the 2025-2026 testing year; its answer on losing the connection while testing remotely, read again on October 6, 2026, is unchanged and names no testing year"}
       },
       {
         "text": "The accommodation request deadline is always the same as the test registration deadline for any given administration of the LSAT, and there are no exceptions to this deadline",

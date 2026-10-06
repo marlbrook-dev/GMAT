@@ -1193,6 +1193,36 @@ verified rather than that the school does not publish one (INC-0118).
           is out.
         - The self-check covers each case and fails a mutant that ignores the date. All 32
           schools read clean.
+- [x] **The weekly source check's issue #223, resolved** (INC-0202), and the ledger's issue
+      #222.
+      - College Board split its SAT score release table into a fall and a spring table and
+        renamed its columns. The date reader refused both SAT pages, and nothing behind the
+        refusal was compared. It now reads every table under the new header.
+      - Two more faults surfaced once it did. The score page keeps August 22 and September 12,
+        2026 after the dates page has dropped them, and June 5, 2027 releases scores to
+        students and educators on the same day. A passed date before the first one the dates
+        page lists is now left out, any other date only the score page lists is still refused,
+        and a shared release day is accepted.
+      - The rewrite brought in what the refusal hid: an anticipated 2027 date moved from
+        October 2 to October 9, the School Day sentence in its new words, and release dates
+        for the three spring 2027 tests.
+      - `test_dates.py --selfcheck` covers each case and runs in every build. Each old rule,
+        put back alone, fails it.
+      - ETS's China fees changed under the same August 1 effective date: the test fee from
+        $231.30 to $237.86 and rescheduling from $53.90 to $55.43. The GRE guide, the fact
+        sheet and the November 17 cost post now carry the new figures.
+      - College Board's Test Fees page now lists its fees through June 2027 instead of
+        December 2026, every amount unchanged. The SAT guide, the fact sheet and the November
+        21 cost post say so.
+      - LSAC's FAQ still opens with the 2025-2026 testing year. Its remote testing answer was
+        read again and is unchanged, which the fact's period_checked records.
+      - Lehigh's salary note claimed a $190,000 maximum the page no longer prints. The page
+        gives $120,071 as the average salary for 2025 graduates, from the Lehigh University
+        Graduate Next Destination Report, and the note now says that.
+      - Rady's class profile timed out in the runner's browser. Rendered here, it prints all
+        five figures under its Entering Fall 2025 Cohort Profile, so nothing changed.
+      - Issue #222 flagged commit 6e6e775 for "broke", which is the story one invented passage
+        tells. It is cleared in data/playbook/cleared.jsonl with that reason.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's

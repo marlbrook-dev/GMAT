@@ -42,7 +42,10 @@ NUMERIC = re.compile(r"\b(\d{1,2})/(\d{1,2})/(\d{4})\b")
 SAT_HEADER = ["SAT Test Date*", "Registration Deadline",
               "Deadline for Changes, Regular Cancellation, and Late Registration**"]
 SAT_SCHOOL_HEADER = ["In-School Assessment", "Testing Window"]
-SAT_SCORES_HEADER = ["Test Date", "Student Score Release", "Educator Score Release"]
+# Since October 2026 College Board splits the weekend releases into a fall and a spring table
+# and calls the educator column the K-12 Score Reporting Portal's.
+SAT_SCORES_HEADER = ["Test Date", "Student Score Release Date",
+                     "K\u201312 Score Reporting Portal Score Release Date"]
 ACT_HEADER = ["Test Date", "Registration Deadline (Late fee applies after this date)", "Late Deadline",
               "Photo Upload & Standby Deadline", "Paper Initial Score Release"]
 LSAT_HEADER = ["Administration", "Primary test dates", "LSAT Argumentative Writing opens",
@@ -52,7 +55,7 @@ LSAT_HEADER = ["Administration", "Primary test dates", "LSAT Argumentative Writi
 QUOTES = {
     "sat": ["SAT Weekend deadlines expire at 11:59 p.m. ET, U.S.",
             "Late registration is available worldwide.",
-            "Students taking SAT School Day or PSAT assessments do not need to register on their own."],
+            "Students taking SAT School Day or PSAT-related assessments do not need to register on their own."],
     "act": ["The ACT is offered 7 times per year at test centers across the United States.",
             "National test dates are for the United States, US territories, and Puerto Rico.",
             "Deadlines occur at 11:59 pm Central Time.",
@@ -98,6 +101,15 @@ def table(page, header, what):
     raise Unreadable("no %s table with the header %r" % (what, header))
 
 
+def table_rows(page, header, what):
+    """The rows of every table with this header, in page order: a page that splits one list
+    across several tables, as the score release page does by season, is read whole."""
+    out = [row for rows in tables(page) if rows and rows[0] == header for row in rows[1:]]
+    if not out:
+        raise Unreadable("no %s table with the header %r" % (what, header))
+    return out
+
+
 def named(text, year=None):
     """Every month-and-day date in the text as ISO, taking the year it prints or the one given."""
     got = []
@@ -138,15 +150,16 @@ def after(text, start, end):
     return text[i + len(start): j if j > 0 else None]
 
 
-def sat(page, scores_page):
+def sat(page, scores_page, today=None):
     # College Board's score release page lists the weekend dates whose release it has set,
-    # the fall ones by September; a date it does not list yet has no release date here.
+    # in a fall and a spring table; a date it does not list yet has no release date here.
     released = {}
-    for row in table(scores_page, SAT_SCORES_HEADER, "SAT Weekend score release"):
+    for row in table_rows(scores_page, SAT_SCORES_HEADER, "SAT Weekend score release"):
         if len(row) != 3:
             raise Unreadable("SAT score release row %r" % row)
         test, student, educator = (one(named(c), h, row) for c, h in zip(row, ("test date", "student release", "educator release")))
-        if not ordered(test, student, educator):
+        # The two releases can share a day: June 5, 2027 releases both on June 21.
+        if not test < student <= educator:
             raise Unreadable("SAT score release row %r is out of order" % row)
         released[test.isoformat()] = (student.isoformat(), educator.isoformat())
     weekend = []
@@ -171,6 +184,13 @@ def sat(page, scores_page):
         end = datetime.date(y, MONTHS[(m.group(3) or m.group(1))[:3].lower()], int(m.group(4)))
         school.append({"tests": re.sub(r"^For (Fall|Spring) \d{4}: ", "", label),
                        "season": re.match(r"For (\w+ \d{4})", label).group(1), "from": start.isoformat(), "to": end.isoformat()})
+    # The score page keeps a season's passed dates after the dates page drops them, so a
+    # release for a test day already behind us, and before the first date the dates page
+    # lists, is one of those and is left out. Any other date it lists alone is a mismatch.
+    today = (today or datetime.date.today()).isoformat()
+    first = weekend[0]["test"] if weekend else today
+    for t in [t for t in released if t < today and t < first]:
+        released.pop(t)
     if released:
         raise Unreadable("score release dates for SAT dates the dates page does not list: %s" % sorted(released))
     text = plain(page)
@@ -293,7 +313,39 @@ def check():
     return 0
 
 
+def _selfcheck():
+    """The SAT reader, on pages built to look like College Board's two: a passed date the
+    score page still lists after the dates page has dropped it is left out, a date the score
+    page lists that the dates page does not, and that has not passed, is refused, and the
+    student and educator releases may fall on one day."""
+    def tbl(rows):
+        return "<table>%s</table>" % "".join(
+            "<tr>%s</tr>" % "".join("<td>%s</td>" % c for c in r) for r in rows)
+    dates = (tbl([SAT_HEADER, ["Oct. 3, 2026", "Sept. 18, 2026", "Sept. 22, 2026"],
+                  ["June 5, 2027", "May 21, 2027", "May 25, 2027"]])
+             + tbl([SAT_SCHOOL_HEADER, ["For Fall 2026: SAT School Day", "October 1\u201330, 2026"]])
+             + "<p>Anticipated SAT Weekend 2027-28 Test Dates August 28, 2027 Resources</p>")
+    fall = [["Sept. 12, 2026", "Sept. 25, 2026", "Sept. 28, 2026"], ["Oct. 3, 2026", "Oct. 16, 2026", "Oct. 19, 2026"]]
+    spring = [["June 5, 2027", "June 21, 2027", "June 21, 2027"]]
+    scores = tbl([SAT_SCORES_HEADER] + fall) + tbl([SAT_SCORES_HEADER] + spring)
+    got, _ = sat(dates, scores, datetime.date(2026, 10, 6))
+    want = [("2026-10-03", "2026-10-16", "2026-10-19"), ("2027-06-05", "2027-06-21", "2027-06-21")]
+    if [(w["test"], w.get("scores_student"), w.get("scores_educator")) for w in got["weekend"]] != want:
+        raise SystemExit("test_dates: the SAT reader misread the release dates: %r" % got["weekend"])
+    # A date still ahead that only the score page lists means the two pages disagree.
+    ahead = tbl([SAT_SCORES_HEADER] + fall + [["Nov. 7, 2026", "Nov. 20, 2026", "Nov. 23, 2026"]])
+    try:
+        sat(dates, ahead + tbl([SAT_SCORES_HEADER] + spring), datetime.date(2026, 10, 6))
+    except Unreadable:
+        pass
+    else:
+        raise SystemExit("test_dates: the SAT reader kept a release date for a test the dates page does not list")
+
+
 if __name__ == "__main__":
+    _selfcheck()
+    if "--selfcheck" in sys.argv:
+        sys.exit(0)
     if "--write" in sys.argv:
         write(datetime.date.today().isoformat())
     elif "--check" in sys.argv:
