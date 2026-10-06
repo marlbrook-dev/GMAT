@@ -1,14 +1,14 @@
 # Rules Digest
 
-Rules from 207 defects in a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
+Rules from 208 defects in a previous build, each reduced to the rule that prevents it. Every line is the residue of something that actually broke and cost real time. The reasoning behind each is in BUILD_PLAYBOOK.md; look it up when a rule seems wrong rather than guessing at it.
 
-Generated 2026-10-06 from a ledger spanning 17 days and 216 commits.
+Generated 2026-10-06 from a ledger spanning 17 days and 217 commits.
 
 ## Read this first
 
-The three ways defects were most often found, in order: found by reading the code or the output (116), found by measuring something (46), a test caught it (23). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
+The three ways defects were most often found, in order: found by reading the code or the output (117), found by measuring something (46), a test caught it (23). None of them is a tool. All three are habits: read the built output rather than the source that produced it, measure a number nobody has measured before, and render the thing and look at it.
 
-The dominant failure mode is silent loss, 26 of 207: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
+The dominant failure mode is silent loss, 26 of 208: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these raise an error. Assert counts, not the absence of exceptions.
 
 ## Learned the hard way, more than once
 
@@ -73,6 +73,7 @@ These cost this build twice or more each. If you read nothing else here, read th
 - (2 times, content generation) A number's presence on a page is weak evidence for a fact, because pages are full of numbers that mean other things: menus, dates, grade ranges, footnote markers.
 - (2 times, content generation) A guard written for the instance found covers only where that instance was. When a rule applies everywhere, check where every page ends up, the built output, rather than one of the several places pages are written.
 - (2 times, tests and guards) A figure copied from a page its publisher rewrites every year expires on the publisher's schedule, not yours.
+- (2 times, content generation) A claim about most of a group is a statistic even when it has no number in it, and checks that look for numbers cannot see it.
 
 ## Content generation
 
@@ -88,7 +89,6 @@ These cost this build twice or more each. If you read nothing else here, read th
 - A report that truncates its output invites the reader to write text that continues it, and a tool that appends will put that text somewhere else.
 - A guard written from the instance in front of you covers that instance. An earlier defect was a bare infinitive in a noun slot, so the guard looked for bare infinitives, and the sentence one screen away in the same file was a wh clause in a clause slot and went straight through.
 - A standard library function whose name is a plausible description of half of what it does will be used for that half.
-- Presentation rules travel with the value, and a value formatted at the point of use is formatted by whoever was writing that line.
 - A check downgraded because a source is unreachable carries an assumption with no expiry date on it, and the assumption is usually narrower than the downgrade.
 
 ## Tests and guards
@@ -148,4 +148,4 @@ These cost this build twice or more each. If you read nothing else here, read th
 - In Postgres, revoking from every role you can name still leaves PUBLIC. Verify with the advisors or by reading the acl, never by reading your own migration.
 - An empty catch block around a write is a silent-loss defect waiting to be born. If a save can fail, the person must be told; a success toast that fires regardless of the result is worse than no toast, because it actively teaches the user the data is safe.
 
-101 more rules, each learned once from a less costly defect, did not fit a prompt sized digest. The checklist in BUILD_PLAYBOOK.md has every rule.
+102 more rules, each learned once from a less costly defect, did not fit a prompt sized digest. The checklist in BUILD_PLAYBOOK.md has every rule.
