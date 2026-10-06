@@ -99,6 +99,16 @@ function runExam(exam){
  const secCount={}; BANK.forEach(q=>secCount[q.section]=(secCount[q.section]||0)+1);
  console.log('  bank '+BANK.length+' '+JSON.stringify(secCount)+' cards '+CARDS.length+' playbook '+PLAYBOOK.length);
  check('bank integrity',bad);
+ // ETS says the GRE's Quantitative measure "doesn't include trigonometry, calculus or other
+ // higher-level mathematics", and the trainer served about 195 questions on the tangent of an
+ // angle because a schema list was copied from the SAT's (INC-0209). gen/mapping.py refuses
+ // the schema; this catches the content in any item, hand written or generated.
+ if(exam.id==='gre'){
+  const quant=new Set(SKILLS.filter(s=>s.section==='Q').map(s=>s.id));
+  check('no GRE quantitative item asks for a trigonometric function (INC-0209)',
+   BANK.filter(q=>quant.has(q.skill)&&/\b(?:sine|cosine)\b|\b(?:sin|cos|tan)\s*\(|\btangent of (?:an |the )?angle\b/i
+     .test(q.stem+' '+(q.choices||[]).join(' ')+' '+(q.expl||''))).map(q=>q.id+' '+(q.gen||'hand')));
+ }
  check('no Watch for note names the correct answer among the wrong ones',
    BANK.filter(q=>typeof q.answer==='number'&&Array.isArray(q.choices)&&noteNames(q).includes(q.answer))
      .map(q=>q.id+' ('+'ABCDEFGHIJ'[q.answer]+'): '+String(q.wrong).slice(0,70)));

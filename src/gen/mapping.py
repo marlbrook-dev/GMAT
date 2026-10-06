@@ -112,7 +112,7 @@ GRE_MAP = {
                 "sat_adv_quadroots", "sat_adv_radical", "sat_adv_rational",
                 "sat_adv_polyfactor", "sat_adv_nonlinsys"],
     "gre_geo": ["sat_geo_angles", "sat_geo_pythag", "sat_geo_circle", "sat_geo_rect",
-                "sat_geo_volume", "sat_geo_similar", "sat_geo_trig", "sat_geo_parallel",
+                "sat_geo_volume", "sat_geo_similar", "sat_geo_parallel",
                 "sat_alg_slope", "sat_alg_parperp"],
     "gre_data": ["sat_psda_center", "sat_psda_prob", "sat_psda_table", "sat_psda_model"],
 }
@@ -239,6 +239,21 @@ GMAT_BUMP = 1
 ACT_BUMP = 0
 
 
+# What each test maker says its exam leaves out, in its own words. The GRE list above was
+# copied from the SAT's Geometry and Trigonometry domain and kept sat_geo_trig, so the GRE
+# trainer served about 195 questions on the tangent of an angle (INC-0209). A map that names
+# a schema listed here fails, whatever its category is called.
+EXCLUDED = {
+    "gre": {"sat_geo_trig": "ETS, Overview of the Quantitative Reasoning Measure: the content "
+                            "\"doesn't include trigonometry, calculus or other higher-level "
+                            "mathematics\""},
+    "gmat": {g: "GMAC, GMAT Focus Edition exam structure: Quantitative Reasoning \"measures "
+                "algebraic and arithmetic foundational knowledge\" (data/exams.json)"
+             for g in ("sat_geo_angles", "sat_geo_pythag", "sat_geo_circle", "sat_geo_rect",
+                       "sat_geo_volume", "sat_geo_similar", "sat_geo_trig", "sat_geo_parallel")},
+}
+
+
 def build_for(exam, pool):
     """Return the remapped generator list for one exam, keyed by category."""
     if exam == "gre":
@@ -255,6 +270,9 @@ def build_for(exam, pool):
     for skill, ids in table.items():
         gens = []
         for gid in ids:
+            if gid in EXCLUDED.get(exam, {}):
+                raise ValueError("%s maps %s into %s, content the test leaves out: %s"
+                                 % (exam, gid, skill, EXCLUDED[exam][gid]))
             g = pool.get(gid)
             if g is None:
                 raise KeyError("mapping names a schema that does not exist: %s" % gid)

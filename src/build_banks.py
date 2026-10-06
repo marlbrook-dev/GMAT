@@ -29,6 +29,7 @@ import g_rc, g_flaw                                  # noqa: E402,F401
 import g_lsat_concl, g_lsat_struct, g_lsat_parallel, g_lsat_prin  # noqa: E402
 import g_lsat_expl                                   # noqa: E402
 import g_gre_rc                                      # noqa: E402
+import g_gre_qc                                      # noqa: E402
 
 OUT = D / "generated"
 
@@ -111,7 +112,14 @@ EXAM_EXTRA = {"gre": {"gre_tc": [g for g in g_gre_verb.GENS if g.skill == "gre_t
                       # The reading corpus shown as one paragraph, the form ETS says most
                       # GRE passages take; the two paragraph form stays with the GMAT and
                       # the LSAT (g_gre_rc.py says why, with the source).
-                      "gre_rc": g_gre_rc.GENS},
+                      "gre_rc": g_gre_rc.GENS,
+                      # Quantitative Comparison, the first of ETS's four quantitative
+                      # question types, which no SAT schema can supply because its four
+                      # answers are fixed (g_gre_qc.py). Each schema is capped, so it joins
+                      # the remapped SAT schemas in a category rather than replacing them.
+                      **{sk: M.build_for("gre", M.by_id(POOL_MODS))[sk] + qc
+                         for sk, qc in (("gre_arith", g_gre_qc.ARITH), ("gre_alg", g_gre_qc.ALG),
+                                        ("gre_geo", g_gre_qc.GEO), ("gre_data", g_gre_qc.DATA))}},
               "gmat": {"di_ds": g_gmat_ds.GENS,
                        # Analysis / Critique, including the flaw schemas. g_flaw adds
                        # three named patterns beside cr_sample, which was the only one
@@ -207,7 +215,7 @@ def plan_for(exam, pool):
 # own check. Measuring it twice under two names would mean carrying a permanent debt entry
 # for something that is not a length tell at all.
 FIXED_CHOICE = {"gmat_ds_linear", "gmat_ds_percent", "gmat_ds_rectangle",
-                "gmat_ds_average", "gmat_ds_ratio"}
+                "gmat_ds_average", "gmat_ds_ratio"} | {g.id for g in g_gre_qc.GENS}
 
 # Each entry is (longest or largest, shortest or smallest, one rank holds, one answer
 # value holds), MEASURED
