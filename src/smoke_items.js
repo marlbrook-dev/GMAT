@@ -21,6 +21,11 @@ const path0 = require('path');
 const ROOT = path0.resolve(__dirname, '..');
 
 const APPS = [['app', 5], ['sat/app', 4], ['gre/app', 5], ['lsat/app', 5], ['act/app', 4]];
+// A type can carry its own number of choices: a GRE Quantitative Comparison always offers
+// its four fixed answers beside the exam's five. exam_harness.js is the one place that says
+// so, for test.js as well, so the number is read from there rather than written again.
+const HARNESS = require('./exam_harness.js');
+const BY_TYPE = { 'gre/app': HARNESS.byId.gre.choicesByType || {} };
 const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css',
                 '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png',
                 '.webmanifest': 'application/manifest+json' };
@@ -104,8 +109,9 @@ const noise = t => /ERR_CERT_AUTHORITY_INVALID|fonts\.(googleapis|gstatic)\.com|
             JSON.stringify(view));
       check(label + ' offers a submit control', view.submit);
       if (!info.at) {
-        check(label + ' offers ' + nchoices + ' options', view.opts === nchoices, 'opts ' + view.opts);
-        check(label + ' bank row has ' + nchoices + ' choices', info.n === nchoices, 'choices ' + info.n);
+        const want = (BY_TYPE[app] || {})[info.type] || nchoices;
+        check(label + ' offers ' + want + ' options', view.opts === want, 'opts ' + view.opts);
+        check(label + ' bank row has ' + want + ' choices', info.n === want, 'choices ' + info.n);
       }
       if (info.at === 'tpa') {
         check(label + ' renders both columns', view.radios === info.n * 2, 'radios ' + view.radios);

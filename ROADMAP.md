@@ -1746,6 +1746,20 @@ verified rather than that the school does not publish one (INC-0118).
       The study-length posts now plan for six to twelve weeks without claiming most test
       takers need it: GMAC's preparation pages refuse automated reads, so nothing backs the
       claim, and the owner can choose whether to read them in a browser and cite them.
+- [x] **GRE Quantitative Comparison is generated, and the GRE trainer's trigonometry is gone**:
+      `src/gen/g_gre_qc.py` writes the type ETS lists first, which the trainer had only 11 of
+      because its generated quantitative items are SAT schemas with five choices. Ten schemas,
+      two or three per category (percents, powers, integers in a range, powers of x, systems,
+      ranges, triangle sides, circle against square, mean against median, spread), about 2,500
+      items, each capped at 300 so they join the remapped SAT schemas rather than replace them.
+      Every relationship is decided, never asserted: exact arithmetic with no variable, full
+      enumeration over a bounded integer, and for a real variable a sign analysis between the
+      known roots and poles of A minus B, whose factorization is checked first and whose answer
+      200 random allowed values try to refute. Reading the GRE stems for style found 195
+      trigonometry questions in GRE Geometry, which ETS says the measure does not include
+      (INC-0209): sat_geo_trig is out of the GRE map, mapping.py now lists what each test maker
+      excludes and refuses a map that names it, and test.js scans GRE items for trigonometric
+      functions. smoke_items.js reads each type's choice count from exam_harness.js.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's

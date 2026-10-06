@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-10-06, which is 17 days, across
-217 commits, by one owner directing a series of AI coding sessions. As of this
+218 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 88 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
 2152 tracked files in total.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-217 commits in 17 days, one owner, a series of AI sessions. This
+218 commits in 17 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1217,14 +1217,14 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-208 recorded defects, over 17 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+209 recorded defects, over 17 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 117 | 56% |
+| Found by reading the code or the output | 118 | 56% |
 | Found by measuring something | 46 | 22% |
 | A test caught it | 23 | 11% |
 | Found by rendering it and looking | 10 | 5% |
@@ -1232,7 +1232,7 @@ well enough to audit later. Which is what this book is.
 | A build guard caught it | 5 | 2% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 206 of 208 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 207 of 209 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1241,20 +1241,20 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 97 |
+| Wrong data shown or stored | 98 |
 | Degraded | 51 |
 | Cosmetic | 31 |
 | Silent loss | 26 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 208. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 209. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 98 |
+| Content generation | 99 |
 | Tests and guards | 37 |
 | Front end | 15 |
 | Build system | 13 |
@@ -1269,7 +1269,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-202 of 208 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+203 of 209 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1290,7 +1290,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-95 of 208 incidents record that they repeat an earlier lesson, 129 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+95 of 209 incidents record that they repeat an earlier lesson, 129 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1434,7 +1434,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (98)
+## Content generation (99)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -2612,7 +2612,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0208. Posts stated what most test takers, students, applicants and employers do with no source, and one misquoted ACT, because the guard for claims about most of a group read only programs and schools
 
-*2026-10-06, Wrong data shown or stored*
+*2026-10-06, Wrong data shown or stored, `cb77e2dd0dc8dfcd7c79c23720634e0b0291f126` PR #265*
 
 - **What was seen.** A scan on October 6, 2026 of every post for most, many, nearly all and their kin before a word for people found 52 sentences, and one for many programs or schools found 10 more. About two dozen claimed something about a group with no source: some consulting and finance employers most often expect the GMAT, and many programs weigh test scores in merit scholarships (the Executive Assessment guide, the employer line the same one INC-0207 removed from the GMAT vs GRE post); many programs weigh scores in merit aid (the waiver guide, three times); six to twelve weeks covers most test takers (the featured study-length post's description and two sentences, echoed by three other posts); most working professionals can finish a full preparation in two to three months; many first-time test takers find Data Insights the hardest; most full-time MBA students arrive with about five years of experience (a queued post whose own figures are program averages, which say nothing about most students); many schools report both GMAT editions (a queued post; 21 of the 94 programs in our library do); many law schools accept the GRE (ETS lists 128 in the United States); and rhetorical ones such as the point most applicants miss and the half most people skip. One queued post misquoted its source: 'ACT suggests most students retest only two to three times', where ACT's retesting page says that on average it takes students 2 to 3 times to achieve their testing goals. Others were the test makers' own words quoted correctly (LSAC's almost all test takers, College Board's most students get a higher score the second time, ACT's most students can sign in to MyACT), questions and idioms (how many, in so many words), or invented LSAT stimuli. Three more of the same kind used words no pattern reads: students who often prefer the ACT, the four programs applicants benchmark against most often, and most commonly the general MBA is not STEM.
 - **Why.** INC-0203 made claims about most programs and schools show their basis, on the principle that a share of a group is a statistic even with no number in it. The pattern it wrote named only programs and schools, and only most, nearly all, almost all and the majority of, so the same sentence about test takers, applicants or employers, or with many, passed every build. The prose was written as a tutor's advice, in the voice of someone who has watched many students prepare, which the site has no basis for: EDITORIAL.md forbids invented anecdotes and credentials, and a claim about what most students do is the same thing in statistical form.
@@ -2620,6 +2620,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** Each sentence was rewritten from a source or our data (21 of the 94 programs report both editions; ETS lists 128 U.S. law schools; the programs in our library average about five years of experience), rewritten as advice that claims nothing about a group (ask each program whether scores count toward merit aid; six to twelve weeks is the window the guide plans for, since GMAC's preparation pages refuse automated reads and nothing else backs a claim about most test takers), or, where it quotes the test maker's own words, listed on the fact sheet with that source. The ACT sentence now says what ACT says. The two invented LSAT stimuli are listed as stimuli.
 - **What stops it now.** build_blog.py's claims check now also reads most, many, nearly all, almost all, virtually all and the majority of before applicants, students, test takers, candidates, people, adults, employers and the like, and many before programs and schools, skipping how many, as many, so many and too many; each such sentence, in a post's body or FAQ, held or live, fails the build unless EDITORIAL.md lists it with its basis. Its self-check covers each group word, the skipped idioms, and a backed sentence. in `src/build_blog.py`
 - **Lesson.** When a guard encodes a principle, write the pattern for the principle rather than for the first case it caught: a check for 'most programs' that passes 'most applicants' teaches writers that the rule is about programs. List every group the content talks about and test the pattern on each. And read each quoted claim against its source as written, because a paraphrase that adds 'most' or drops 'on average' changes what the source said while keeping its name on it.
+
+
+### INC-0209. The GRE trainer served about 195 trigonometry questions, though ETS says the Quantitative measure does not include trigonometry
+
+*2026-10-06, Wrong data shown or stored*
+
+- **What was seen.** The GRE trainer's Geometry category held generated questions such as 'In right triangle ABC, the right angle is at C. The side opposite angle A has length 55, the side adjacent to angle A has length 48, and the hypotenuse has length 73. What is the tangent of angle A?': 2 in the starter bank and 193 in the deferred bank on October 6, 2026. ETS's overview of the Quantitative Reasoning measure says its content is high school mathematics and statistics at a level generally no higher than a second course in algebra, and 'It doesn't include trigonometry, calculus or other higher-level mathematics'. EDITORIAL.md's GRE fact line already said so. A GRE student was being drilled on content the test does not have, inside the category whose accuracy feeds the Geometry rating.
+- **Why.** The GRE's quantitative questions are SAT schemas remapped by gen/mapping.py, whose rule is that a schema appears under the category whose published framework names that content. GRE_MAP's Geometry list was copied from the SAT's Geometry and Trigonometry domain, and sat_geo_trig came with it; the ACT list beside it, where trigonometry is in scope, has the same members. Nothing compared a map against what each test maker says its exam excludes, and nothing scanned a built bank for out of scope content, so the rule lived only in a comment.
+- **How it surfaced.** Found on October 6, 2026 while reading generated GRE quantitative stems to match their style for a new Quantitative Comparison generator: the fourth sample printed asked for the tangent of an angle. (Found by reading the code or the output)
+- **Fix.** sat_geo_trig is out of GRE_MAP, so the GRE Geometry category is filled by the schemas that remain and the new comparison schemas, and the trigonometry items leave the bank.
+- **What stops it now.** gen/mapping.py now holds the content each test maker excludes, with the source's words (ETS for the GRE: no trigonometry or calculus; GMAC for GMAT Focus: algebraic and arithmetic knowledge, so no geometry schema), and the map build fails if any exam's map names an excluded schema. test.js scans every GRE quantitative item, hand written and generated, for trigonometric functions (sine, cosine, tangent of an angle) and fails on one. in `src/gen/mapping.py`
+- **Lesson.** A rule that only a comment states is not enforced. When content is reused across exams by mapping, write down what each exam excludes, in the test maker's words, and check every map and every built bank against that list, because a list copied from the exam that does include the topic carries it over without anyone choosing to.
 
 
 ## Tests and guards (37)
@@ -4285,6 +4297,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The live GRE format guide told GRE readers our trainer was built for the GMAT Focus Edition specifically, beside a button to the GRE trainer, and credited ETS with a 260 to 340 total ETS does not report (INC-0207)</small>
 - [ ] When a guard encodes a principle, write the pattern for the principle rather than for the first case it caught: a check for 'most programs' that passes 'most applicants' teaches writers that the rule is about programs. List every group the content talks about and test the pattern on each. And read each quoted claim against its source as written, because a paraphrase that adds 'most' or drops 'on average' changes what the source said while keeping its name on it.  
   <small>Posts stated what most test takers, students, applicants and employers do with no source, and one misquoted ACT, because the guard for claims about most of a group read only programs and schools (INC-0208)</small>
+- [ ] A rule that only a comment states is not enforced. When content is reused across exams by mapping, write down what each exam excludes, in the test maker's words, and check every map and every built bank against that list, because a list copied from the exam that does include the topic carries it over without anyone choosing to.  
+  <small>The GRE trainer served about 195 trigonometry questions, though ETS says the Quantitative measure does not include trigonometry (INC-0209)</small>
 
 
 ## Database
@@ -4609,7 +4623,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 208 real defects reduced to the rules that prevent them,
+the whole project: 209 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -4649,7 +4663,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-208 defects already prevented is genuinely ahead, and every defect it hits
+209 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed
