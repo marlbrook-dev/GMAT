@@ -1,4 +1,5 @@
-// Browser validation for the standalone content pages (/international/ and /apply/): no console errors, checklist state
+// Browser validation for the standalone content pages (/international/, /apply/ and the
+// deadlines hub): no console errors, checklist state
 // survives a reload, the shortlist written by /schools/ shows up on /apply/, and CSV
 // export produces a real download.
 //
@@ -124,8 +125,48 @@ const url = p => 'http://127.0.0.1:' + PORT + '/' + p;
     errs.push('ics: no event for the school deadline entered');
   if (!cal.includes('DTSTART;VALUE=DATE:20270107')) errs.push('ics: the school deadline is not on its date');
 
+  // 7c. The deadlines hub, read on a date after the build's: every round in the records is a
+  // row, the rounds already passed are hidden until asked for, and the next deadline note is
+  // chosen again for the reader's date from the rows, naming every round due that day.
+  const recs = fs.readdirSync(path.join(ROOT, 'data', 'schools')).filter(f => f.endsWith('.json'))
+    .map(f => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'schools', f), 'utf8')))
+    .filter(s => s.deadlines && !s.discontinued);
+  const rounds = recs.flatMap(s => s.deadlines.rounds.map(r => ({ when: r.deadline, name: s.name })));
+  const READER = '2027-01-06';
+  const h = await b.newPage({ viewport: { width: 1280, height: 900 } });
+  await h.addInitScript(() => {
+    try { localStorage.setItem('sfn_consent_v1', JSON.stringify({ analytics: false, ts: '', v: 1 })); } catch (e) {}
+  });
+  await h.addInitScript(t => {
+    const T = new Date(t + 'T12:00:00').getTime(), D = Date;
+    class F extends D { constructor(...a) { super(...(a.length ? a : [T])); } static now() { return T; } }
+    globalThis.Date = F;
+  }, READER);
+  h.on('pageerror', e => errs.push('hub pageerror: ' + e.message));
+  await h.route('**/rest/v1/**', r => r.fulfill({ status: 200, contentType: 'application/json', body: '[]' }));
+  await h.goto(url('schools/deadlines/index.html'));
+  await h.waitForTimeout(300);
+  const hub = await h.evaluate(() => ({
+    rows: document.querySelectorAll('table.rounds tbody tr').length,
+    shown: [...document.querySelectorAll('table.rounds tbody tr')].filter(t => t.offsetParent).length,
+    next: document.getElementById('next').hidden ? '' : document.getElementById('next').textContent,
+    btn: document.getElementById('btnPast').textContent }));
+  const passedN = rounds.filter(r => r.when < READER).length;
+  const dueNow = rounds.filter(r => r.when === READER);
+  console.log('deadlines hub:', hub.rows, 'rows for', rounds.length, 'rounds;', hub.shown, 'shown on', READER,
+    '|', hub.next.slice(0, 60), '|', hub.btn);
+  if (hub.rows !== rounds.length) errs.push('hub: ' + hub.rows + ' rows for ' + rounds.length + ' rounds');
+  if (hub.shown !== rounds.length - passedN) errs.push('hub: ' + hub.shown + ' rows shown, expected ' + (rounds.length - passedN));
+  if (!dueNow.length || !hub.next.startsWith('Next deadline: January 6, 2027.')) errs.push('hub: next note reads ' + JSON.stringify(hub.next));
+  for (const r of dueNow) if (!hub.next.includes(r.name)) errs.push('hub: next note leaves out ' + r.name);
+  if (hub.btn !== 'Show Passed Rounds (' + passedN + ')') errs.push('hub: button reads ' + JSON.stringify(hub.btn));
+  await h.click('#btnPast');
+  const all = await h.$$eval('table.rounds tbody tr', ts => ts.filter(t => t.offsetParent).length);
+  if (all !== rounds.length) errs.push('hub: ' + all + ' rows shown after Show Passed Rounds');
+  await h.close();
+
   // 8. Mobile width does not overflow horizontally.
-  for (const pg of ['international/index.html', 'apply/index.html']) {
+  for (const pg of ['international/index.html', 'apply/index.html', 'schools/deadlines/index.html']) {
     const m = await b.newPage({ viewport: { width: 390, height: 844 } });
     await m.goto(url(pg)); await m.waitForTimeout(300);
     const over = await m.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
