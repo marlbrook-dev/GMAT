@@ -42,6 +42,34 @@
    "url": "https://scheller.gatech.edu/news/2022/georgia-tech-scheller-mba-ranks-top-10-in-business-analytics-information-system-and-operations.html"
   }
  ],
+ "deadlines": {
+  "rounds": [
+   {
+    "name": "Round 1",
+    "deadline": "2026-10-05",
+    "decision": "2026-11-20"
+   },
+   {
+    "name": "Round 2",
+    "deadline": "2027-01-08",
+    "decision": "2027-03-05"
+   },
+   {
+    "name": "Round 3",
+    "deadline": "2027-03-05",
+    "decision": "2027-04-16"
+   },
+   {
+    "name": "Round 4",
+    "deadline": "2027-04-30",
+    "decision": "2027-05-28"
+   }
+  ],
+  "src": "Georgia Tech Scheller Full-Time MBA admissions page",
+  "year": 2026,
+  "url": "https://www.scheller.gatech.edu/explore-programs/mba-programs/full-time-mba/admissions/index.html",
+  "checked": "2026-10-06"
+ },
  "profile": {
   "class_year": "Class of 2027",
   "class_size": {

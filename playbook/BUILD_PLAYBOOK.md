@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-10-05, which is 16 days, across
-184 commits, by one owner directing a series of AI coding sessions. As of this
+185 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 87 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
 2125 tracked files in total.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-184 commits in 16 days, one owner, a series of AI sessions. This
+185 commits in 16 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -3201,7 +3201,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0201. The application checklist's calendar file left semicolons unescaped, because the escape was written '\;', which JavaScript reads as a bare semicolon
 
-*2026-10-06, Wrong data shown or stored*
+*2026-10-06, Wrong data shown or stored, `eb538c357988599753afde1076961b325ec68739` PR #232*
 
 - **What was seen.** The Add to Calendar file on /apply/ wrote the Remind Your Recommenders event's description as 'Plan on sending it; most people need it.' with the semicolon bare. RFC 5545 requires a semicolon in a text value to be written as a backslash and a semicolon, and a strict calendar reader may cut the text at it. Commas and backslashes were escaped correctly in the same function.
 - **Why.** The escape function was written as replace(/;/g,'\;'). In a JavaScript string literal a backslash before a character with no escape meaning is dropped, so '\;' is ';' and the replacement changed nothing. The comma rule beside it used '\\,' and worked, so reading the line, the two looked equivalent. The Python writer the function was copied from (build_test_dates.ics_text) is correct, because there the string is written with the backslash doubled.

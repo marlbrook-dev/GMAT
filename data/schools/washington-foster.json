@@ -37,6 +37,32 @@
    "note": "Foster rankings page lists No. 19 full-time MBA by Poets&Quants in 2025; which P&Q edition (2024-2025 vs 2025-2026) is not stated"
   }
  },
+ "deadlines": {
+  "rounds": [
+   {
+    "name": "Round 1",
+    "deadline": "2026-10-01",
+    "time": "11:59pm PDT",
+    "decision": "2026-12-18"
+   },
+   {
+    "name": "Round 2",
+    "deadline": "2027-01-05",
+    "time": "11:59pm PDT",
+    "decision": "2027-03-26"
+   },
+   {
+    "name": "Round 3",
+    "deadline": "2027-03-23",
+    "time": "11:59pm PDT",
+    "decision": "2027-05-14"
+   }
+  ],
+  "src": "Foster Full-time MBA admissions page",
+  "year": 2026,
+  "url": "https://foster.uw.edu/academics/degree-programs/full-time-mba/admissions/",
+  "checked": "2026-10-06"
+ },
  "profile": {
   "class_year": "Class of 2027",
   "class_size": {

@@ -35,6 +35,43 @@
   }
  },
  "specialties": [],
+ "deadlines": {
+  "rounds": [
+   {
+    "name": "Early Round",
+    "deadline": "2026-09-14",
+    "decision": "2026-10-16"
+   },
+   {
+    "name": "Round 1",
+    "deadline": "2026-10-13",
+    "decision": "2026-12-04"
+   },
+   {
+    "name": "Round 2",
+    "deadline": "2027-01-18",
+    "decision": "2027-03-01"
+   },
+   {
+    "name": "Round 3",
+    "deadline": "2027-03-08",
+    "decision": "2027-04-08"
+   },
+   {
+    "name": "Round 4",
+    "deadline": "2027-04-01",
+    "decision": "2027-04-30"
+   },
+   {
+    "name": "Final Round",
+    "deadline": "2027-05-03"
+   }
+  ],
+  "src": "Fisher Full-Time MBA applying and deadlines page",
+  "year": 2026,
+  "url": "https://fisher.osu.edu/graduate/ftmba/admissions/applying-fisher",
+  "checked": "2026-10-06"
+ },
  "profile": {
   "class_year": "2026 incoming class",
   "class_size": {
