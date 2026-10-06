@@ -573,6 +573,14 @@ def decision_said(r):
     return r.get("decision_text") or ""
 
 
+def decision_words(text):
+    """A school's own words for a decision date, ready to follow "with decisions": MIT's
+    "Mid-December 2026" takes "in", and Rice's "Starting December 10, 2026" carries its own
+    preposition and takes nothing."""
+    low = text[:1].lower() + text[1:]
+    return low if re.match(r"(starting|beginning|from|by|after|before|on|in|until)\b", low) else "in " + low
+
+
 def deadlines_section(s, today):
     """The school's published application rounds, each with its decision date, the page it
     was read on and when, and a calendar file of the lot. Read from the school's own page
@@ -1509,7 +1517,7 @@ def school_page(s, tpl, today, ranked=()):
     if dl:
         def said(r):
             when = (" with decisions on %s" % long_date(r["decision"]) if r.get("decision") else
-                    " with decisions in %s" % (r["decision_text"][:1].lower() + r["decision_text"][1:])
+                    " with decisions %s" % decision_words(r["decision_text"])
                     if r.get("decision_text") else
                     " with initial notification by %s" % long_date(r["initial_notification"])
                     if r.get("initial_notification") else "")

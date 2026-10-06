@@ -42,6 +42,34 @@
    "url": "https://marriott.byu.edu/stories/u-s-news-heralds-byu-marriott-mba-1348"
   }
  ],
+ "deadlines": {
+  "rounds": [
+   {
+    "name": "Round 1 (Scholarship Priority Consideration)",
+    "deadline": "2026-10-02",
+    "time": "11:59 p.m. MDT"
+   },
+   {
+    "name": "Round 2 (International Priority)",
+    "deadline": "2026-12-11",
+    "time": "11:59 p.m. MST"
+   },
+   {
+    "name": "Round 3 (International Final)",
+    "deadline": "2027-02-19",
+    "time": "11:59 p.m. MST"
+   },
+   {
+    "name": "Round 4 (Domestic Final)",
+    "deadline": "2027-04-30",
+    "time": "11:59 p.m. MDT"
+   }
+  ],
+  "src": "BYU Marriott MBA deadlines page",
+  "year": 2026,
+  "url": "https://marriott.byu.edu/mba/admissions/at-a-glance/admission-criteria-2/",
+  "checked": "2026-10-06"
+ },
  "profile": {
   "class_year": "Class of 2025",
   "class_size": {

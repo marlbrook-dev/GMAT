@@ -35,6 +35,34 @@
   }
  },
  "specialties": [],
+ "deadlines": {
+  "rounds": [
+   {
+    "name": "Early Action",
+    "deadline": "2026-09-10",
+    "decision": "2026-10-16"
+   },
+   {
+    "name": "Round 1",
+    "deadline": "2026-10-20",
+    "decision": "2026-12-11"
+   },
+   {
+    "name": "Round 2",
+    "deadline": "2027-01-07",
+    "decision": "2027-03-05"
+   },
+   {
+    "name": "Round 3",
+    "deadline": "2027-03-17",
+    "decision": "2027-04-30"
+   }
+  ],
+  "src": "Notre Dame MBA application page",
+  "year": 2026,
+  "url": "https://mendoza.nd.edu/graduate-programs/the-notre-dame-mba/apply/",
+  "checked": "2026-10-06"
+ },
  "profile": {
   "class_year": "Typical class profile (no class year stated)",
   "class_size": {

@@ -1157,6 +1157,20 @@ verified rather than that the school does not publish one (INC-0118).
       - smoke_pages fails on any bare semicolon or comma in a SUMMARY or DESCRIPTION, and on a
         file with no semicolon to escape, so the check cannot pass vacuously. It was confirmed
         to fail with the old line put back.
+- [x] **Deadlines for eight more programs**, read October 6 from each school's own page with
+      the column labels confirmed in context: Vanderbilt, Foster, Georgia Tech, W. P. Carey,
+      Rice, Notre Dame, Ohio State and BYU. That makes 26 programs in all.
+      - Foster's notification dates are recorded as decisions, because its page says decisions
+        go out on them.
+      - Rice releases decisions on a rolling basis "starting" a date. That is kept in the
+        school's words, and the FAQ now reads it as "with decisions starting December 10,
+        2026" rather than "in starting".
+      - BYU gives no decision dates, and its rounds carry its own priority labels.
+      - Georgia Terry refused the automated read (HTTP 403). Kelley, Olin, Emory, Georgetown,
+        UT Dallas, Texas A&M and Florida print no dated rounds on the pages found so far.
+      - Rochester and Maryland print their dates without a year. The source check can only
+        read a date back with its year, and supplying one would be a guess, so they wait.
+      - The live check read all eight pages and found every date.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's

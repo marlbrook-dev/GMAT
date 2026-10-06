@@ -48,6 +48,34 @@
    "url": "https://news.asu.edu/node/96185"
   }
  ],
+ "deadlines": {
+  "rounds": [
+   {
+    "name": "Round I",
+    "deadline": "2026-10-15",
+    "decision": "2026-12-11"
+   },
+   {
+    "name": "Round II",
+    "deadline": "2026-12-01",
+    "decision": "2027-02-05"
+   },
+   {
+    "name": "Round III (Priority International)",
+    "deadline": "2027-02-01",
+    "decision": "2027-04-09"
+   },
+   {
+    "name": "Round IV (Final)",
+    "deadline": "2027-04-01",
+    "decision": "2027-06-04"
+   }
+  ],
+  "src": "W. P. Carey Full-time MBA page",
+  "year": 2026,
+  "url": "https://wpcarey.asu.edu/mba-programs/full-time",
+  "checked": "2026-10-06"
+ },
  "profile": {
   "class_year": "Fall 2025 incoming class",
   "class_size": {
