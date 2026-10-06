@@ -37,6 +37,34 @@
    "note": "P&Q 2025-2026 composite position not surfaced before the search budget was exhausted"
   }
  },
+ "deadlines": {
+  "rounds": [
+   {
+    "name": "Round 1",
+    "deadline": "2026-10-15",
+    "decision": "2026-12-15"
+   },
+   {
+    "name": "Round 2",
+    "deadline": "2027-01-05",
+    "decision": "2027-03-31"
+   },
+   {
+    "name": "Round 3",
+    "deadline": "2027-03-01",
+    "decision": "2027-05-15"
+   },
+   {
+    "name": "Round 4",
+    "deadline": "2027-04-15",
+    "decision": "2027-06-15"
+   }
+  ],
+  "src": "USC Marshall Full-Time MBA admissions page",
+  "year": 2026,
+  "url": "https://www.marshall.usc.edu/programs/graduate-programs/mba-programs/full-time-mba/admissions",
+  "checked": "2026-10-06"
+ },
  "profile": {
   "class_year": "Fall 2025 entering class (Class of 2027)",
   "class_size": {

@@ -37,6 +37,44 @@
    "note": "No. 5 overall, No. 1 public, same as prior year"
   }
  },
+ "deadlines": {
+  "rounds": [
+   {
+    "name": "Early Action",
+    "deadline": "2026-09-09",
+    "decision": "2026-10-28"
+   },
+   {
+    "name": "Round 1",
+    "deadline": "2026-10-07",
+    "decision": "2026-12-09"
+   },
+   {
+    "name": "Round 2",
+    "deadline": "2027-01-07",
+    "decision": "2027-03-17"
+   },
+   {
+    "name": "Round 3 (March)",
+    "deadline": "2027-03-01",
+    "decision": "2027-04-02"
+   },
+   {
+    "name": "Round 3 (April)",
+    "deadline": "2027-04-01",
+    "decision": "2027-05-05"
+   },
+   {
+    "name": "Round 3 (May)",
+    "deadline": "2027-05-01",
+    "decision": "2027-05-28"
+   }
+  ],
+  "src": "Darden MBA deadlines page",
+  "year": 2026,
+  "url": "https://www.darden.virginia.edu/mba/admissions/apply/deadlines",
+  "checked": "2026-10-06"
+ },
  "profile": {
   "class_year": "Class of 2027",
   "class_size": {

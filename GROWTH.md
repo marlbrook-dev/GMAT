@@ -244,8 +244,10 @@ pages on ChatGPT search (403).
    eight schools whose own pages print their 2026-27 rounds (HBS, Stanford, Wharton, Booth,
    Kellogg, Tuck, Yale and MIT Sloan): each school page now shows its rounds and decision
    dates, names the next deadline in its lead paragraph and FAQ, and offers a calendar file.
-   Haas's and Darden's admissions pages printed no dates when read. Next: more schools, then
-   a hub page listing every verified round.
+   October 6 added ten more from their own deadline pages: Fuqua, Anderson, Kenan-Flagler,
+   McCombs, Johnson, Tepper, Haas, Darden, Stern and Marshall. Columbia's and Ross's sites
+   refused the automated read (HTTP 403), and the Georgetown and Emory pages found so far
+   print no dates. Next: a hub page listing every verified round.
 4. **An ICS export of the application checklist**, so the dated tasks on /apply/ land in a
    calendar that reminds the applicant instead of us. Built October 5: Add to Calendar
    downloads one all-day event per open task, with a reminder the day before, and one per

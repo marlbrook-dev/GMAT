@@ -557,13 +557,19 @@ def next_round(s, today):
 
 
 def round_said(r):
-    """'Round 2, January 5, 2027' with the school's time where it prints one."""
-    return "%s, %s%s" % (r["name"], long_date(r["deadline"]), ", " + r["time"] if r.get("time") else "")
+    """'Round 2, January 5, 2027' with the school's time where it prints one, and the date it
+    replaced where the school has extended it."""
+    return "%s, %s%s%s" % (r["name"], long_date(r["deadline"]), ", " + r["time"] if r.get("time") else "",
+                           ", extended from " + long_date(r["extended_from"]) if r.get("extended_from") else "")
 
 
 def decision_said(r):
+    """The decision date, the school's words for an approximate one, or, for a school that
+    publishes no decision date, the date by which it says it sends its first answer."""
     if r.get("decision"):
         return long_date(r["decision"])
+    if r.get("initial_notification"):
+        return "Initial notification by " + long_date(r["initial_notification"])
     return r.get("decision_text") or ""
 
 
@@ -577,15 +583,26 @@ def deadlines_section(s, today):
     rows = []
     for r in dl["rounds"]:
         gone = r["deadline"] < today
-        rows.append('<tr><td>%s</td><td>%s%s%s</td><td>%s</td></tr>' % (
+        rows.append('<tr><td>%s</td><td>%s%s%s%s</td><td>%s</td></tr>' % (
             esc(r["name"]), esc(long_date(r["deadline"])),
             esc(", " + r["time"]) if r.get("time") else "",
+            '<br><span class="src">extended from %s</span>' % esc(long_date(r["extended_from"]))
+            if r.get("extended_from") else "",
             '<br><span class="src">passed</span>' if gone else "", esc(decision_said(r)) or "-"))
     first, last = dl["rounds"][0]["deadline"][:4], dl["rounds"][-1]["deadline"][:4]
     span = first if first == last else "%s-%s" % (first, last[2:])
+    # What the decision column holds is said once, above the table, for the rows that need it:
+    # a school that gives only the date of its first answer, and a round with no date at all.
+    notes = ""
+    if any(r.get("initial_notification") for r in dl["rounds"]):
+        notes += (" Where a row gives an initial notification date, the school publishes no decision "
+                  "date, only the date by which it sends its first answer: an invitation to interview, "
+                  "a waitlist offer or a denial.")
+    if any(not decision_said(r) for r in dl["rounds"]):
+        notes += " A dash means the school gives no date for that round."
     return ('<div class="section" id="deadlines"><h2>Application Deadlines</h2>'
             '<p>%s publishes %d application %s for %s. Each row is the date the application is '
-            'due and the date the school says it will release decisions.</p>'
+            'due and the date the school says it will release decisions.%s</p>'
             '<table><thead><tr><th>Round</th><th>Deadline</th><th>Decision</th></tr></thead>'
             '<tbody>%s</tbody></table>'
             '<p class="src" style="margin-top:8px">Source: <a href="%s" rel="noopener" '
@@ -593,8 +610,8 @@ def deadlines_section(s, today):
             'you plan around it. <a href="/schools/%s/deadlines.ics" download>Add These Dates to '
             'Your Calendar</a></p></div>'
             % (esc(s["name"]), len(dl["rounds"]), "round" if len(dl["rounds"]) == 1 else "rounds",
-               span, "".join(rows), esc(dl["url"]), esc(dl["src"]), esc(long_date(dl["checked"])),
-               esc(s["slug"])))
+               span, esc(notes), "".join(rows), esc(dl["url"]), esc(dl["src"]),
+               esc(long_date(dl["checked"])), esc(s["slug"])))
 
 
 def deadlines_ics(s):
@@ -604,13 +621,23 @@ def deadlines_ics(s):
     dl = s["deadlines"]
     events = []
     for r in dl["rounds"]:
-        events.append((r["deadline"], r["deadline"], "%s: %s Deadline" % (s["name"], r["name"]),
-                       "Application due%s. As published on %s (%s), read %s. Confirm on the "
-                       "school's page." % (" by " + r["time"] if r.get("time") else "", dl["src"],
-                                           dl["url"], dl["checked"]), 14))
+        # Stern names its rounds "1st Deadline" and so on, which take no second "Deadline".
+        due = r["name"] if r["name"].lower().endswith("deadline") else r["name"] + " Deadline"
+        events.append((r["deadline"], r["deadline"], "%s: %s" % (s["name"], due),
+                       "Application due%s.%s As published on %s (%s), read %s. Confirm on the "
+                       "school's page." % (" by " + r["time"] if r.get("time") else "",
+                                           " Extended from %s." % long_date(r["extended_from"])
+                                           if r.get("extended_from") else "",
+                                           dl["src"], dl["url"], dl["checked"]), 14))
         if r.get("decision"):
             events.append((r["decision"], r["decision"], "%s: %s Decisions" % (s["name"], r["name"]),
                            "The date %s gives for releasing %s decisions (%s)."
+                           % (s["name"], r["name"], dl["url"]), None))
+        if r.get("initial_notification"):
+            events.append((r["initial_notification"], r["initial_notification"],
+                           "%s: Initial Notification, %s" % (s["name"], r["name"]),
+                           "The date by which %s says it sends its first answer to %s applicants: an "
+                           "invitation to interview, a waitlist offer or a denial (%s)."
                            % (s["name"], r["name"], dl["url"]), None))
     return ics("deadlines-" + s["slug"], "%s/schools/%s/" % (SITE, s["slug"]), dl["checked"], events,
                prodid="MBA Application Deadlines")
@@ -1358,8 +1385,11 @@ def school_page(s, tpl, today, ranked=()):
         def said(r):
             when = (" with decisions on %s" % long_date(r["decision"]) if r.get("decision") else
                     " with decisions in %s" % (r["decision_text"][:1].lower() + r["decision_text"][1:])
-                    if r.get("decision_text") else "")
-            return "%s, due %s%s" % (r["name"], long_date(r["deadline"]), when)
+                    if r.get("decision_text") else
+                    " with initial notification by %s" % long_date(r["initial_notification"])
+                    if r.get("initial_notification") else "")
+            ext = " (extended from %s)" % long_date(r["extended_from"]) if r.get("extended_from") else ""
+            return "%s, due %s%s%s" % (r["name"], long_date(r["deadline"]), ext, when)
         qa.append((f'What are the application deadlines for {s["name"]}?',
                    "; ".join(said(r) for r in dl["rounds"]) + "."
                    + f' Source: {dl["src"]}, read {long_date(dl["checked"])}. Confirm every date on the '

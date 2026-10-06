@@ -237,7 +237,28 @@ def _deadline_errors(s):
                        f"year, such as 'Mid-December 2026'")
         if r.get("time") is not None and not re.search(r"\d{1,2}:\d{2}", str(r["time"])):
             out.append(f"{at}: time should be the page's own wording, such as '5:00 PM ET'")
-        unknown = set(r) - {"name", "deadline", "time", "decision", "decision_text"}
+        # A school that extends a round prints the new date and usually still the old one, so
+        # the record keeps both: the old one is what the reader has seen elsewhere.
+        if r.get("extended_from") is not None:
+            try:
+                if datetime.date.fromisoformat(str(r["extended_from"])) >= due:
+                    out.append(f"{at}: extended_from is the date the school replaced, so it comes "
+                               f"before the deadline")
+            except ValueError:
+                out.append(f"{at}: extended_from must be a YYYY-MM-DD date")
+        # The date of a first answer (an interview invitation, a waitlist offer or a denial) is
+        # not a decision date, so it is its own field, for a school that gives no decision date.
+        if r.get("initial_notification") is not None:
+            if r.get("decision") is not None or r.get("decision_text") is not None:
+                out.append(f"{at}: initial_notification is for a school that gives no decision "
+                           f"date; record the decision instead")
+            try:
+                if datetime.date.fromisoformat(str(r["initial_notification"])) <= due:
+                    out.append(f"{at}: initial_notification must come after the deadline")
+            except ValueError:
+                out.append(f"{at}: initial_notification must be a YYYY-MM-DD date")
+        unknown = set(r) - {"name", "deadline", "time", "decision", "decision_text", "extended_from",
+                            "initial_notification"}
         if unknown:
             out.append(f"{at}: unknown keys {sorted(unknown)}")
     return out

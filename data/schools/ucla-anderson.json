@@ -37,6 +37,29 @@
    "note": "Rose four places to No. 10"
   }
  },
+ "deadlines": {
+  "rounds": [
+   {
+    "name": "Round 1",
+    "deadline": "2026-10-01",
+    "decision": "2026-12-11"
+   },
+   {
+    "name": "Round 2",
+    "deadline": "2027-01-06",
+    "decision": "2027-03-26"
+   },
+   {
+    "name": "Round 3",
+    "deadline": "2027-04-07",
+    "decision": "2027-05-14"
+   }
+  ],
+  "src": "UCLA Anderson Full-Time MBA requirements page",
+  "year": 2026,
+  "url": "https://www.anderson.ucla.edu/degrees/full-time-mba/admissions/requirements",
+  "checked": "2026-10-06"
+ },
  "profile": {
   "class_year": "Class of 2028",
   "class_size": {
