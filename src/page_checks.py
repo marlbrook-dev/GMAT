@@ -14,7 +14,9 @@ knew the number (INC-0134). article_for() is how a template should choose it ins
 
 trainer_claims() looks for a sentence calling a live trainer unfinished. The /exams/ hub's
 meta description said only two trainers were live, eleven days after all five were
-(INC-0138); a queued post said the same of the LSAT (INC-0137).
+(INC-0138); a queued post said the same of the LSAT (INC-0137). It also looks for a sentence
+saying the product as a whole serves one exam: the GRE guide said Start From Nowhere was
+built for the GMAT Focus Edition specifically, beside a button to the GRE trainer (INC-0207).
 
 undefined_tokens() looks for a design token a page uses but never defines. The blog pasted
 the shared header's CSS without the tokens it reads, and CSS let every one of them fall
@@ -125,16 +127,29 @@ def articles(root, paths):
 # Words that call something unfinished. A sentence with one of these and the name of an exam
 # whose trainer is live is a stale claim about the product (INC-0137, INC-0138).
 NOT_LIVE = re.compile(r"in development|coming soon|wait ?list|not (?:yet )?live", re.I)
+# Words that say the product as a whole serves one exam: true while one trainer was live, false
+# since the second. The GRE guide told GRE readers Start From Nowhere was "built for the GMAT
+# Focus Edition specifically", beside a button to the GRE trainer (INC-0207). A trainer named
+# with its exam, "our GMAT trainer" or "Start From Nowhere's GRE trainer", is one trainer and
+# passes, as does "the case our trainer is built for", which names no exam.
+ONE_EXAM = re.compile(
+    r"\b(?:Start From Nowhere|our (?:own )?(?:trainer|app|platform|product))\b"
+    r"(?!'s (?-i:GMAT|GRE|LSAT|SAT|ACT)\b)[^.!?]*?"
+    r"\b(?:(?:built|designed|made|meant) (?:only |solely |just )?for|specifically|exclusively|solely"
+    r"|only for|is an? (?-i:GMAT|GRE|LSAT|SAT|ACT)\b)", re.I)
 _META = re.compile(r'<meta\s+name="description"\s+content="([^"]*)"', re.I)
 _BLOCK = re.compile(r"</?(?:p|li|ul|ol|div|h[1-6]|td|th|tr|table|section|nav|header|footer|main|"
                     r"article|aside|details|summary|button|label|option|select|br|script)\b[^>]*>", re.I)
 
 
 def stale_sentences(text, names):
-    """Sentences in `text` that call one of the live exams in `names` unfinished."""
+    """Sentences in `text` that call one of the live exams in `names` unfinished, or, while
+    more than one is live, say the product as a whole serves one exam."""
     out = []
     for sentence in re.split(r"(?<=[.!?])\s+", re.sub(r"\s+", " ", text)):
-        if NOT_LIVE.search(sentence) and any(re.search(r"\b%s\b" % re.escape(n), sentence) for n in names):
+        if not any(re.search(r"\b%s\b" % re.escape(n), sentence) for n in names):
+            continue
+        if NOT_LIVE.search(sentence) or (len(names) > 1 and ONE_EXAM.search(sentence)):
             out.append(sentence.strip())
     return out
 

@@ -1720,6 +1720,17 @@ verified rather than that the school does not publish one (INC-0118).
 
       EDITORIAL.md's GRE Verbal block gains a Reading Comprehension line. The worked passage
       names no place, so it cannot read as a claim about a real valley's orchards.
+- [x] **The live GRE format guide described the product and the scores wrongly** (INC-0207):
+      it said Start From Nowhere was built for the GMAT Focus Edition specifically, beside
+      a button to the GRE trainer, and cited ETS for a 260 to 340 total ETS does not report.
+      It now describes the GRE trainer, gives ETS's question count and time for each of
+      the five sections from the Test Structure page, describes the sum as the GRE
+      calculator does, and quotes HBS's three test shares as HBS prints them. Five
+      unsourced claims about what test takers usually find are gone, and the GMAT vs GRE
+      post lost the same kind (nearly every program, employers most often expect the GMAT,
+      gentler GRE math). Three guards: a sentence calling the product one exam's fails
+      while more than one trainer is live, a GRE post naming the 260 to 340 sum fails unless
+      it says ETS does not report it, and the most programs check now reads nearly every.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's

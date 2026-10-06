@@ -59,7 +59,7 @@ a{color:var(--accent)}
 <p class="eyebrow">Start From Nowhere</p>
 <h1>The Build Playbook</h1>
 <p class="sub">How one person and a set of AI sessions built a multi-exam test-prep platform, every defect hit on the way, and the recipe for doing it again for something else</p>
-<p class="meta">Built 2026-10-06 from commit 2c826b5 &middot; 213 commits over 17 days &middot; 206 recorded defects &middot; 17 chapters<br>
+<p class="meta">Built 2026-10-06 from commit c60717a &middot; 215 commits over 17 days &middot; 207 recorded defects &middot; 17 chapters<br>
 This document is generated. Edit the chapters in docs/playbook/ and the ledger in data/playbook/incidents.jsonl, then run python3 src/build_playbook.py.</p>
 </div>
 <div class="toc"><ol><li><a href="#how-to-use-this-book">How to Use This Book</a></li>
@@ -81,7 +81,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><a href="#the-bootstrap-pack-starting-a-new-project-with-this-loaded">The Bootstrap Pack: Starting a New Project With This Loaded</a></li></ol></div>
 <h1 id="how-to-use-this-book">How to Use This Book</h1>
 <p>This is the record of building one platform, written so it can be used to build a different one.</p>
-<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-09-19 and 2026-10-06, which is 17 days, across 213 commits, by one owner directing a series of AI coding sessions. As of this build it is 88 Python files, 112 JavaScript files, 24 TypeScript edge functions, 35 migrations and 65 documents: 2147 tracked files in total.</p>
+<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-09-19 and 2026-10-06, which is 17 days, across 215 commits, by one owner directing a series of AI coding sessions. As of this build it is 88 Python files, 112 JavaScript files, 24 TypeScript edge functions, 35 migrations and 65 documents: 2151 tracked files in total.</p>
 <p>None of those numbers were typed. They are measured from the repository every time this document is built, which is the first thing worth copying.</p>
 <h2 id="what-is-in-here">What is in here</h2>
 <p>The book has four kinds of chapter, and they age differently.</p>
@@ -621,7 +621,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three defects here were found by taking a screenshot: a chart unreadable in dark mode, a line chart implying values that never existed, and a dashboard that was not on screen. None of them would have been caught by an assertion, because none of them were violations of anything anybody had thought to assert.</p>
 <p><strong>Budget for looking.</strong> It is the cheapest test there is and the only one that catches things you have not imagined.</p>
 <h1 id="running-the-build-as-an-ai-loop">Running the Build as an AI Loop</h1>
-<p>213 commits in 17 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
+<p>215 commits in 17 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
 <h2 id="the-division-of-labour">The division of labour</h2>
 <p><strong>The owner decides</strong>: what to build, what it means, what is acceptable, and every irreversible or outward-facing action. <strong>The session does</strong>: the building, the measuring, the testing, and the reporting of what it found.</p>
 <p>The failure mode at each end is worth naming. An owner who reviews every line becomes the bottleneck and the throughput collapses to the speed of reading. A session that decides product questions on its own produces something coherent that is not what anyone wanted.</p>
@@ -665,10 +665,10 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Long uninterrupted sessions with standing authorisation, punctuated by the owner redirecting priorities, beat short supervised ones by a wide margin. The standing authorisation that made it work was specific: merge your own work once the checks are green, do not check in on each item, and stop immediately when told to.</p>
 <p>The thing that makes that safe is not trust. It is that the checks are real, the destructive actions still require asking, and the record of what happened is written down well enough to audit later. Which is what this book is.</p>
 <h1 id="what-the-ledger-says-about-itself">What the Ledger Says About Itself</h1>
-<p>206 recorded defects, over 17 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.</p>
+<p>207 recorded defects, over 17 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.</p>
 <h2 id="how-defects-were-actually-found">How defects were actually found</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">How</th><th style="text-align:right">Count</th><th style="text-align:right">Share</th></tr></thead><tbody>
-<tr><td style="text-align:left">Found by reading the code or the output</td><td style="text-align:right">115</td><td style="text-align:right">56%</td></tr>
+<tr><td style="text-align:left">Found by reading the code or the output</td><td style="text-align:right">116</td><td style="text-align:right">56%</td></tr>
 <tr><td style="text-align:left">Found by measuring something</td><td style="text-align:right">46</td><td style="text-align:right">22%</td></tr>
 <tr><td style="text-align:left">A test caught it</td><td style="text-align:right">23</td><td style="text-align:right">11%</td></tr>
 <tr><td style="text-align:left">Found by rendering it and looking</td><td style="text-align:right">10</td><td style="text-align:right">5%</td></tr>
@@ -676,20 +676,20 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <tr><td style="text-align:left">A build guard caught it</td><td style="text-align:right">5</td><td style="text-align:right">2%</td></tr>
 <tr><td style="text-align:left">A person hit it</td><td style="text-align:right">2</td><td style="text-align:right">1%</td></tr>
 </tbody></table></div>
-<p><strong>This is the most useful table in the book.</strong> 204 of 206 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.</p>
+<p><strong>This is the most useful table in the book.</strong> 205 of 207 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.</p>
 <p><strong>Read that percentage with the bias it carries.</strong> This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.</p>
 <h2 id="by-severity">By severity</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">Severity</th><th style="text-align:right">Count</th></tr></thead><tbody>
-<tr><td style="text-align:left">Wrong data shown or stored</td><td style="text-align:right">95</td></tr>
+<tr><td style="text-align:left">Wrong data shown or stored</td><td style="text-align:right">96</td></tr>
 <tr><td style="text-align:left">Degraded</td><td style="text-align:right">51</td></tr>
 <tr><td style="text-align:left">Cosmetic</td><td style="text-align:right">31</td></tr>
 <tr><td style="text-align:left">Silent loss</td><td style="text-align:right">26</td></tr>
 <tr><td style="text-align:left">Site down</td><td style="text-align:right">3</td></tr>
 </tbody></table></div>
-<p><strong>Silent loss is the dominant failure mode</strong>, at 26 of 206. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.</p>
+<p><strong>Silent loss is the dominant failure mode</strong>, at 26 of 207. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.</p>
 <h2 id="by-area">By area</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">Area</th><th style="text-align:right">Count</th></tr></thead><tbody>
-<tr><td style="text-align:left">Content generation</td><td style="text-align:right">96</td></tr>
+<tr><td style="text-align:left">Content generation</td><td style="text-align:right">97</td></tr>
 <tr><td style="text-align:left">Tests and guards</td><td style="text-align:right">37</td></tr>
 <tr><td style="text-align:left">Front end</td><td style="text-align:right">15</td></tr>
 <tr><td style="text-align:left">Build system</td><td style="text-align:right">13</td></tr>
@@ -702,7 +702,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <tr><td style="text-align:left">Interface and data display</td><td style="text-align:right">3</td></tr>
 </tbody></table></div>
 <h2 id="guard-coverage">Guard coverage</h2>
-<p>200 of 206 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.</p>
+<p>201 of 207 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.</p>
 <p>Carried by attention:</p>
 <ul>
 <li><strong>INC-0010</strong> CSS comments do not nest, and one placeholder killed the palette on 1451 pages</li>
@@ -718,23 +718,23 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>weekly_audit checks computed colour on every page (INC-0050, INC-0048)</li>
 </ul>
 <h2 id="lessons-learned-more-than-once">Lessons learned more than once</h2>
-<p>93 of 206 incidents record that they repeat an earlier lesson, 126 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.</p>
+<p>94 of 207 incidents record that they repeat an earlier lesson, 128 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.</p>
 <div class="tw"><table><thead><tr><th style="text-align:left">Lesson first recorded in</th><th style="text-align:left">Repeated by</th><th style="text-align:right">Times</th></tr></thead><tbody>
 <tr><td style="text-align:left">INC-0088 A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked</td><td style="text-align:left">INC-0089, INC-0098, INC-0099, INC-0101, INC-0117, INC-0122</td><td style="text-align:right">6</td></tr>
 <tr><td style="text-align:left">INC-0104 Half the school pages opened with a data note pasted into a sentence, and the structured data repeated it</td><td style="text-align:left">INC-0105, INC-0131, INC-0134, INC-0135, INC-0145</td><td style="text-align:right">5</td></tr>
+<tr><td style="text-align:left">INC-0130 The GRE exam guide credited ETS with a combined 260 to 340 score that the ETS page it cited does not describe</td><td style="text-align:left">INC-0133, INC-0155, INC-0160, INC-0177, INC-0207</td><td style="text-align:right">5</td></tr>
 <tr><td style="text-align:left">INC-0133 School pages published figures that the articles they cite do not contain, one of them a GRE total split in half</td><td style="text-align:left">INC-0140, INC-0143, INC-0150, INC-0151, INC-0154</td><td style="text-align:right">5</td></tr>
 <tr><td style="text-align:left">INC-0150 Columbia's MBA class was credited with five years of work experience, a figure the cited article gives for its 46-student MBAxMS cohort, and the source check passed it because the article does say five years</td><td style="text-align:left">INC-0152, INC-0159, INC-0172, INC-0174, INC-0182</td><td style="text-align:right">5</td></tr>
 <tr><td style="text-align:left">INC-0064 The guard against a blind counter was itself blind to three exams</td><td style="text-align:left">INC-0067, INC-0082, INC-0085, INC-0088</td><td style="text-align:right">4</td></tr>
 <tr><td style="text-align:left">INC-0069 A bank a student can play at 88 percent, inside a section the check passed</td><td style="text-align:left">INC-0079, INC-0085, INC-0086, INC-0088</td><td style="text-align:right">4</td></tr>
 <tr><td style="text-align:left">INC-0074 A corpus field written for one grammatical slot was spliced into another</td><td style="text-align:left">INC-0075, INC-0087, INC-0093, INC-0096</td><td style="text-align:right">4</td></tr>
-<tr><td style="text-align:left">INC-0130 The GRE exam guide credited ETS with a combined 260 to 340 score that the ETS page it cited does not describe</td><td style="text-align:left">INC-0133, INC-0155, INC-0160, INC-0177</td><td style="text-align:right">4</td></tr>
+<tr><td style="text-align:left">INC-0137 A post queued to publish the next day said the LSAT trainer was still in development, eleven days after it went live</td><td style="text-align:left">INC-0138, INC-0162, INC-0170, INC-0207</td><td style="text-align:right">4</td></tr>
 <tr><td style="text-align:left">INC-0082 Nine published exam facts cite test prep companies, in the one published corpus with no source validator</td><td style="text-align:left">INC-0124, INC-0125, INC-0130</td><td style="text-align:right">3</td></tr>
 <tr><td style="text-align:left">INC-0092 A schema threw away three draws in four, and the counter that knew was read by nobody</td><td style="text-align:left">INC-0098, INC-0099, INC-0101</td><td style="text-align:right">3</td></tr>
 <tr><td style="text-align:left">INC-0099 Every generated reading comprehension question shipped without its passage</td><td style="text-align:left">INC-0100, INC-0101, INC-0103</td><td style="text-align:right">3</td></tr>
 <tr><td style="text-align:left">INC-0105 Twelve average salaries were published as medians, and the social queue credited schools with figures they never published</td><td style="text-align:left">INC-0106, INC-0124, INC-0142</td><td style="text-align:right">3</td></tr>
 <tr><td style="text-align:left">INC-0119 Length corrections appended clauses that repeated what the answer choices already said</td><td style="text-align:left">INC-0120, INC-0121, INC-0194</td><td style="text-align:right">3</td></tr>
 <tr><td style="text-align:left">INC-0136 The LSAT guide said most test takers choose between remote and in-person testing, after LSAC had moved almost everyone into test centers</td><td style="text-align:left">INC-0137, INC-0180, INC-0184</td><td style="text-align:right">3</td></tr>
-<tr><td style="text-align:left">INC-0137 A post queued to publish the next day said the LSAT trainer was still in development, eleven days after it went live</td><td style="text-align:left">INC-0138, INC-0162, INC-0170</td><td style="text-align:right">3</td></tr>
 <tr><td style="text-align:left">INC-0146 The source check's browser read returned Stanford's class profile without a single figure, because the figures are drawn in an embedded chart that renders only when scrolled into view</td><td style="text-align:left">INC-0156, INC-0158, INC-0183</td><td style="text-align:right">3</td></tr>
 <tr><td style="text-align:left">INC-0050 A landing-page icon referenced a colour token that did not exist</td><td style="text-align:left">INC-0018, INC-0139</td><td style="text-align:right">2</td></tr>
 <tr><td style="text-align:left">INC-0055 A new browser suite hardcoded this machine's browser directory and crashed in CI</td><td style="text-align:left">INC-0067, INC-0110</td><td style="text-align:right">2</td></tr>
@@ -780,7 +780,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <tr><td style="text-align:left">INC-0176 Headings outside blog post bodies broke the Title Case rule on every kind of page, because the build checked only the headings inside posts</td><td style="text-align:left">INC-0178</td><td style="text-align:right">1</td></tr>
 <tr><td style="text-align:left">INC-0184 Vanderbilt's median salary and 39 schools' Bloomberg ranks stayed on Bloomberg's 2025-26 edition after its pages moved to 2026-27, and nothing could see it: Bloomberg answers most reads with a bot challenge, and the source check never reads a rank</td><td style="text-align:left">INC-0185</td><td style="text-align:right">1</td></tr>
 </tbody></table></div>
-<p>The largest family runs to 77 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140, INC-0142, INC-0143, INC-0144, INC-0145, INC-0146, INC-0147, INC-0150, INC-0151, INC-0152, INC-0154, INC-0155, INC-0156, INC-0157, INC-0158, INC-0159, INC-0160, INC-0161, INC-0162, INC-0165, INC-0169, INC-0170, INC-0172, INC-0173, INC-0174, INC-0175, INC-0177, INC-0180, INC-0182, INC-0183, INC-0184, INC-0185. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.</p>
+<p>The largest family runs to 78 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140, INC-0142, INC-0143, INC-0144, INC-0145, INC-0146, INC-0147, INC-0150, INC-0151, INC-0152, INC-0154, INC-0155, INC-0156, INC-0157, INC-0158, INC-0159, INC-0160, INC-0161, INC-0162, INC-0165, INC-0169, INC-0170, INC-0172, INC-0173, INC-0174, INC-0175, INC-0177, INC-0180, INC-0182, INC-0183, INC-0184, INC-0185, INC-0207. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.</p>
 <p>Incidents that name an earlier one without claiming to repeat it. Each was read and ruled on: these are the cases where the earlier guard or practice worked, or its test was reused, which is the opposite of a repeat. They are listed so the ruling stays visible rather than becoming an omission.</p>
 <ul>
 <li>INC-0013 names INC-0012</li>
@@ -823,6 +823,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>INC-0196 names INC-0166</li>
 <li>INC-0197 names INC-0196</li>
 <li>INC-0198 names INC-0109</li>
+<li>INC-0207 names INC-0138, INC-0203</li>
 </ul>
 <h2 id="where-defects-concentrate">Where defects concentrate</h2>
 <p>Files named by three or more incidents. This is not the same signal as the list above: a file that is the natural home for many checks will appear here without any one of them having failed. It says where the work has been, and where a reader new to the codebase should look first.</p>
@@ -835,8 +836,8 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><code>src/gen/g_rc.py</code>, 9 incidents (INC-0097, INC-0114, INC-0115, INC-0117, INC-0122, INC-0169, INC-0179, INC-0186, INC-0187)</li>
 <li><code>src/validate_schools.py</code>, 9 incidents (INC-0125, INC-0141, INC-0143, INC-0144, INC-0147, INC-0151, INC-0153, INC-0157, INC-0185)</li>
 <li><code>src/build_rankings.py</code>, 8 incidents (INC-0014, INC-0049, INC-0118, INC-0135, INC-0142, INC-0145, INC-0167, INC-0200)</li>
+<li><code>src/page_checks.py</code>, 7 incidents (INC-0134, INC-0138, INC-0139, INC-0163, INC-0176, INC-0178, INC-0207)</li>
 <li><code>src/bank_emit.py</code>, 6 incidents (INC-0062, INC-0066, INC-0068, INC-0073, INC-0119, INC-0189)</li>
-<li><code>src/page_checks.py</code>, 6 incidents (INC-0134, INC-0138, INC-0139, INC-0163, INC-0176, INC-0178)</li>
 <li><code>src/review_bot.js</code>, 5 incidents (INC-0022, INC-0026, INC-0051, INC-0061, INC-0077)</li>
 <li><code>src/gen/framework.py</code>, 5 incidents (INC-0074, INC-0075, INC-0078, INC-0087, INC-0096)</li>
 <li><code>src/smoke_playbook.js</code>, 4 incidents (INC-0054, INC-0084, INC-0129, INC-0165)</li>
@@ -849,7 +850,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <h1 id="the-defect-ledger">The Defect Ledger</h1>
 <p>Every entry here happened. Each one is a record of something that broke, how it was found, what fixed it, and what now stops it coming back. The last field is the one that matters for a different business: the transferable lesson, stated without reference to this codebase.</p>
 <p>They are grouped by the part of the system, and within a group by date. The <code>guard</code> field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.</p>
-<h2 id="content-generation-96">Content generation (96)</h2>
+<h2 id="content-generation-97">Content generation (97)</h2>
 <h3 id="inc-0003-item-banks-were-different-on-every-build-because-python-randomises-hash">INC-0003. Item banks were different on every build because Python randomises hash()</h3>
 <p><em>2026-09-16, Wrong data shown or stored, <code>0d6c357</code> PR #33</em></p>
 <ul>
@@ -1818,6 +1819,16 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Fix.</strong> The timeline post's round sentences now say what the deadline pages say: of the 32 programs on the deadlines page, 30 list three or more deadlines and 11 exactly three; Wharton says space in the class becomes more limited for Round 3 applicants, making it a more competitive round; Stanford lists what applying in Round 1 or 2 gives that Round 3 does not. The unsourced claims about reapplicants, heavily represented industries and Round 2 are gone. Every other sentence in the posts that says what most programs or schools do was read against its basis: those our data supports name it on the fact sheet, and those it does not were rewritten.</li>
 <li><strong>What stops it now.</strong> build_blog.py fails on any sentence in a post or its FAQ that says what most, nearly all or the majority of programs or schools do, unless the fact sheet in EDITORIAL.md lists that sentence with its basis, a count from our data or a source, so a new claim about most programs cannot ship without someone writing down what it rests on. in <code>src/build_blog.py</code></li>
 <li><strong>Lesson.</strong> A claim about most of a group is a statistic even when it has no number in it, and checks that look for numbers cannot see it. Treat the quantifier words themselves as the thing to check, make each such sentence point at its basis, and when new data arrives, read what the site already says against it, because the old sentences were written without it.</li>
+</ul>
+<h3 id="inc-0207-the-live-gre-format-guide-told-gre-readers-our-trainer-was-built-for-the-gmat-focus-edition-specifically-beside-a-button-to-the-gre-trainer-and-credited-ets-with-a-260-to-340-total-ets-does-not-report">INC-0207. The live GRE format guide told GRE readers our trainer was built for the GMAT Focus Edition specifically, beside a button to the GRE trainer, and credited ETS with a 260 to 340 total ETS does not report</h3>
+<p><em>2026-10-06, Wrong data shown or stored</em></p>
+<ul>
+<li><strong>What was seen.</strong> GRE Format 2026: Sections, Timing, and Scoring, dated September 18, 2026, closed its preparation section with 'Our own trainer, Start From Nowhere, is built for the GMAT Focus Edition specifically, but its core habit, returning missed questions on a spaced schedule, is exactly the habit to copy into GRE study.' The GRE trainer at /gre/app/ was live in the repository's first commit, September 19, 2026, and the sentence was already in the post then, so for as long as the post has been in the repository it has told GRE readers to take the product's habit elsewhere while its own Start a Free Round button opened the GRE trainer. Its first paragraph said Verbal and Quant 'are often read together as a 260 to 340 total' and ended '(ETS, 2026)', crediting ETS with the sum INC-0130 took out of the exam data because ETS's page never describes it, and its FAQ said many applicants read the scores that way, with no source. It told readers to confirm the per-section timing and question counts on ETS's site rather than giving them, though ETS's Test Structure page prints them. It made five claims with no source about what test takers or committees usually do or find: GRE quant is generally gentler than GMAT Focus quant, skip-and-return test takers usually find the GRE more comfortable, heavy readers tend to find its verbal questions friendlier than GMAT critical reasoning, spaced review matters even more on the GRE than on most exams, and admissions committees read the two scores separately. And it called the GRE's 44 percent of HBS's Class of 2027 'the largest single group of test submitters', where HBS lists 34 percent for the GMAT and 28 percent for the GMAT 10th edition beside it and says some students submitted more than one test. The GMAT vs GRE post, read for the same sum, called it 'often read as a 260 to 340 total' in its comparison table and carried the same kind of claims: that nearly every major program takes either exam and states no preference (in its first paragraph and its FAQ), that employers in consulting and finance most often expect the GMAT, that GRE math is generally gentler, that heavy readers often find text completion friendlier than critical reasoning, and that GRE submitters were HBS's largest single group, none with a source.</li>
+<li><strong>Why.</strong> The post describes the product in prose, and the only check on what posts say about the product looks for words that call a live trainer unfinished: in development, coming soon, waitlist, not live (INC-0137, INC-0138). This sentence calls the product finished but single-exam, which none of those words describe, so it passed every build. The 260 to 340 total was removed from data/exams.json under INC-0130 by checking the exam data against its cited pages, and that record noted the site's GRE posts already called the total informal; the format guide's first sentence was never read, and it carries the ETS citation. The claims about what test takers usually find carry no number, so no figure check could see them, and the guard for claims about most programs (INC-0203) looks only at programs and schools, and only for most, nearly all, almost all and the majority of, so 'nearly every major program' passed it.</li>
+<li><strong>How it surfaced.</strong> Found on October 6, 2026 while reading the live GRE format guide so as not to repeat it in a GRE question types post queued for March 5, 2027. The post was then read against ETS's Test Structure page and HBS's Class of 2027 profile, both read that day, and the whole site was searched for the same product claim (one hit) and for 260 to 340 (four, in two posts). (Found by reading the code or the output)</li>
+<li><strong>Fix.</strong> The preparation section now says what the GRE trainer is: seven categories, three Verbal and four Quant, and mock sections that use ETS's question counts and times, with a link to /gre/app/. The section table gives ETS's question count and time for each of the five sections, cited to the Test Structure page. The 260 to 340 sum is described as the GRE calculator describes it, arithmetic on two scores that ETS does not report and gives no percentile for, and the ETS citation now covers only what ETS says. The five unsourced claims are gone or replaced by what ETS or HBS says, the HBS sentence gives all three shares as HBS prints them, and the GMAT vs GRE post now says ETS reports no total, quotes HBS on having no preference between the tests instead of claiming nearly every program does, compares the two tests' content and calculators from GMAC's and ETS's pages instead of calling one gentler, and drops the employer claim.</li>
+<li><strong>What stops it now.</strong> page_checks.stale_sentences, which reads every built page and every post, held or live, now also fails a sentence that says the product as a whole, Start From Nowhere or our trainer, app or platform, is built, designed or made for an exam, is for one specifically or exclusively, or is a one-exam trainer, whenever more than one trainer is live; naming one trainer with its exam ('our GMAT trainer') passes. Its self-check confirms the old sentence fails and that the retake post's 'This is the case our trainer is built for' passes. RETIRED_CLAIMS gains the 260 to 340 sum: a GRE post that names it fails unless the same sentence or table cell says ETS does not report it. The INC-0203 pattern for claims about most programs now also reads nearly every, almost every, virtually every and virtually all, singular program and school, and leading as a qualifier; across every post it found only the GMAT vs GRE sentence. in <code>src/page_checks.py</code></li>
+<li><strong>Lesson.</strong> A statement about what the product is goes stale each time the product grows, and a check for one way of being stale (in development, coming soon) passes the others (built for one exam specifically). When the product changes, search every page for each way it used to be described, not just the words that said it was unfinished. And when a figure leaves the data because its source never said it, search the prose for it too, because posts repeat the data in their own words and keep the citation.</li>
 </ul>
 <h2 id="tests-and-guards-37">Tests and guards (37)</h2>
 <h3 id="inc-0016-the-performance-test-waited-for-the-load-event-which-waits-for-the-thing-being-optimised">INC-0016. The performance test waited for the load event, which waits for the thing being optimised</h3>
@@ -3084,6 +3095,10 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 </ul>
 <p>&lt;small&gt;A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked (INC-0088)&lt;/small&gt;</p>
 <ul>
+<li>[ ] <strong>Learned 6 times over.</strong> A citation vouches only for what its source says, so check each figure against the source rather than checking that a citation is present. The claim most likely to slip through is the true looking one written next to real ones, arithmetic or common knowledge put in the source's mouth.  </li>
+</ul>
+<p>&lt;small&gt;The GRE exam guide credited ETS with a combined 260 to 340 score that the ETS page it cited does not describe (INC-0130)&lt;/small&gt;</p>
+<ul>
 <li>[ ] <strong>Learned 6 times over.</strong> Run the source check on every corpus that cites pages, not just the one that broke. When a field is empty and the research is out of budget, leave it empty: a blank is honest, and a figure made to fit beside a real citation is the most convincing kind of wrong.  </li>
 </ul>
 <p>&lt;small&gt;School pages published figures that the articles they cite do not contain, one of them a GRE total split in half (INC-0133)&lt;/small&gt;</p>
@@ -3100,9 +3115,9 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 </ul>
 <p>&lt;small&gt;A corpus field written for one grammatical slot was spliced into another (INC-0074)&lt;/small&gt;</p>
 <ul>
-<li>[ ] <strong>Learned 5 times over.</strong> A citation vouches only for what its source says, so check each figure against the source rather than checking that a citation is present. The claim most likely to slip through is the true looking one written next to real ones, arithmetic or common knowledge put in the source's mouth.  </li>
+<li>[ ] <strong>Learned 5 times over.</strong> Anything written ahead of its publication date is a promise about the future made from the past. Re-check a queued post's claims about your own product at build time, where the product's real state is known, rather than trusting the day it was written.  </li>
 </ul>
-<p>&lt;small&gt;The GRE exam guide credited ETS with a combined 260 to 340 score that the ETS page it cited does not describe (INC-0130)&lt;/small&gt;</p>
+<p>&lt;small&gt;A post queued to publish the next day said the LSAT trainer was still in development, eleven days after it went live (INC-0137)&lt;/small&gt;</p>
 <ul>
 <li>[ ] <strong>Learned 4 times over.</strong> Two lessons, and they compound. A rule copied into code by its examples loses the clause the examples were illustrating: CLAUDE.md bans six named sites and coaching site blogs, and the list kept the six and dropped the category, which is the half that generalises. And a validator gets written for the corpus that had the problem at the time, then quietly defines what is checked: two of three published corpora were enforced and the third had never had a source read, which is not a weaker check but an absent one. When a guard exists, the question is not only whether it is strict enough but which of the things it could be pointed at it is not pointed at.  </li>
 </ul>
@@ -3127,10 +3142,6 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>[ ] <strong>Learned 4 times over.</strong> A citation is only as current as the page it points to, and publishers leave old pages up. When a source describes itself as covering a period, check that the period is still running; a page about last year's test can be quoted perfectly and still be wrong about this year's.  </li>
 </ul>
 <p>&lt;small&gt;The LSAT guide said most test takers choose between remote and in-person testing, after LSAC had moved almost everyone into test centers (INC-0136)&lt;/small&gt;</p>
-<ul>
-<li>[ ] <strong>Learned 4 times over.</strong> Anything written ahead of its publication date is a promise about the future made from the past. Re-check a queued post's claims about your own product at build time, where the product's real state is known, rather than trusting the day it was written.  </li>
-</ul>
-<p>&lt;small&gt;A post queued to publish the next day said the LSAT trainer was still in development, eleven days after it went live (INC-0137)&lt;/small&gt;</p>
 <ul>
 <li>[ ] <strong>Learned 3 times over.</strong> A module that nothing imports fails no test, and an exception raised on every draw is indistinguishable from an exception raised on a hard draw. Both are silence, and a build that reports totals hears neither. Count what each schema contributed, not what the category holds, and treat a contribution of zero as a failure rather than as a small number.  </li>
 </ul>
@@ -3463,6 +3474,10 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>[ ] A claim about most of a group is a statistic even when it has no number in it, and checks that look for numbers cannot see it. Treat the quantifier words themselves as the thing to check, make each such sentence point at its basis, and when new data arrives, read what the site already says against it, because the old sentences were written without it.  </li>
 </ul>
 <p>&lt;small&gt;A live admissions post said most full-time MBA programs run three rounds a year, which 21 of the 32 programs whose deadlines we verified do not, and its other claims about rounds cited nothing (INC-0203)&lt;/small&gt;</p>
+<ul>
+<li>[ ] A statement about what the product is goes stale each time the product grows, and a check for one way of being stale (in development, coming soon) passes the others (built for one exam specifically). When the product changes, search every page for each way it used to be described, not just the words that said it was unfinished. And when a figure leaves the data because its source never said it, search the prose for it too, because posts repeat the data in their own words and keep the citation.  </li>
+</ul>
+<p>&lt;small&gt;The live GRE format guide told GRE readers our trainer was built for the GMAT Focus Edition specifically, beside a button to the GRE trainer, and credited ETS with a 260 to 340 total ETS does not report (INC-0207)&lt;/small&gt;</p>
 <h2 id="database">Database</h2>
 <ul>
 <li>[ ] Postgres fires same-timing triggers alphabetically. If two triggers on one table have an order dependency, encode it in the name, and test the outcome rather than the code.  </li>
@@ -3878,7 +3893,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p><code>python3 src/build_playbook.py</code> writes four files into <code>playbook/bootstrap/</code>, all generated from the same ledger as the book, so none of them can drift from it.</p>
 <p><strong><code>CLAUDE.template.md</code></strong> goes in the new repository's root. Claude Code reads it on every turn. It is the constitution: the house rules, the never-invent-a-value rule, the sourcing rules, the communication rule, and a short architecture section you fill in as you build. Four bracketed blanks at the top are the only things you have to change.</p>
 <p><strong><code>KICKOFF.md</code></strong> is the literal first message for a new conversation. It sets the working agreement, the phase order, and what a session should report. Paste it, then describe your business idea underneath it.</p>
-<p><strong><code>RULES_DIGEST.md</code></strong> is every lesson in the defect ledger, compressed to one line each and grouped by area. It is about three pages. This is the highest value-per-token artefact in the whole project: 206 real defects reduced to the rules that prevent them, with the specifics of this codebase stripped out.</p>
+<p><strong><code>RULES_DIGEST.md</code></strong> is every lesson in the defect ledger, compressed to one line each and grouped by area. It is about three pages. This is the highest value-per-token artefact in the whole project: 207 real defects reduced to the rules that prevent them, with the specifics of this codebase stripped out.</p>
 <p><strong><code>incidents.jsonl</code></strong> is the raw ledger, copied so the new project can start appending to it on day one rather than starting an empty one.</p>
 <h2 id="how-to-load-it-by-surface">How to load it, by surface</h2>
 <p><strong>Claude Code, new repository.</strong> Copy <code>CLAUDE.template.md</code> to the repo root as <code>CLAUDE.md</code>, fill in the four blanks, and copy <code>incidents.jsonl</code> to <code>data/playbook/incidents.jsonl</code>. Copy <code>src/build_playbook.py</code> too, so the new project's own ledger becomes its own book from the first defect. Then open a session with <code>KICKOFF.md</code> as the first message.</p>
@@ -3888,7 +3903,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three reasons, and they are worth understanding rather than just following.</p>
 <p><strong>Retrieval beats repetition.</strong> A document in project knowledge is consulted when relevant. The same document in the prompt is re-read on every single turn, at full cost, mostly when it is irrelevant. For anything longer than a few pages, retrieval is strictly better.</p>
 <p><strong>Instructions need to be short enough to be followed.</strong> A rule competing with ten thousand words of context is a rule that gets applied inconsistently. The digest is deliberately brutal: one line per lesson, imperative mood, no examples. The examples are in the book, where they can be looked up when a rule seems wrong.</p>
-<p><strong>The ledger is the part that compounds.</strong> The recipe chapters age. The rules do not, because each one is the residue of a real failure, and the failure modes of software are considerably more stable than its tooling. A new project that starts with 206 defects already prevented is genuinely ahead, and every defect it hits of its own makes the next project further ahead still.</p>
+<p><strong>The ledger is the part that compounds.</strong> The recipe chapters age. The rules do not, because each one is the residue of a real failure, and the failure modes of software are considerably more stable than its tooling. A new project that starts with 207 defects already prevented is genuinely ahead, and every defect it hits of its own makes the next project further ahead still.</p>
 <h2 id="keeping-the-loop-closed">Keeping the loop closed</h2>
 <p>The pack is only worth carrying forward if the new project feeds it back. So the working agreement in <code>KICKOFF.md</code> includes one instruction that does the whole job:</p>
 <p>&gt; When something breaks, append a record to <code>data/playbook/incidents.jsonl</code> before fixing &gt; it, while you still remember what you believed was true five minutes ago.</p>
