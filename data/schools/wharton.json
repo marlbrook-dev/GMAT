@@ -33,6 +33,32 @@
    "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/"
   }
  },
+ "deadlines": {
+  "rounds": [
+   {
+    "name": "Round 1",
+    "deadline": "2026-09-08",
+    "time": "5:00 PM ET",
+    "decision": "2026-12-17"
+   },
+   {
+    "name": "Round 2",
+    "deadline": "2027-01-05",
+    "time": "5:00 PM ET",
+    "decision": "2027-03-31"
+   },
+   {
+    "name": "Round 3",
+    "deadline": "2027-03-31",
+    "time": "5:00 PM ET",
+    "decision": "2027-05-11"
+   }
+  ],
+  "src": "Wharton MBA application timeline and deadlines page",
+  "year": 2026,
+  "url": "https://mba.wharton.upenn.edu/application-timeline-deadlines/",
+  "checked": "2026-10-05"
+ },
  "profile": {
   "class_year": "Class of 2027",
   "class_size": {

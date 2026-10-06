@@ -1084,6 +1084,23 @@ verified rather than that the school does not publish one (INC-0118).
       - a line over 75 octets
       - an event count other than open tasks plus deadlines entered
       - a school deadline missing or off its date
+- [x] **MBA application deadlines on school pages** (GROWTH.md, item 3), starting with
+      eight schools whose own pages print their 2026-27 rounds: HBS, Stanford, Wharton,
+      Booth, Kellogg, Tuck, Yale and MIT Sloan. Haas's and Darden's admissions pages printed
+      no dates when read on October 5.
+      - Each record holds the standard rounds only, each with its deadline, the time the
+        page gives in its own words, and the decision date or the school's wording for a
+        rough one (MIT's "Mid-December 2026").
+      - The validator refuses a deadline from anywhere but the school's own site, rounds out
+        of order, a decision before its deadline, and a missing source or read date.
+      - The source check reads every date and time back off the cited page, in the forms
+        these pages print them: "September 9, 2026", "09 Sep 2026", "Sept. 9, 2026" and
+        "Jan 05, 2027". Its self-check covers each form and three near misses.
+      - Each school page shows the rounds with a "passed" mark (the site rebuilds daily),
+        names the next deadline in its lead paragraph and FAQ, and links a calendar file
+        with a reminder two weeks before each deadline. The build refuses a calendar file
+        that is not well formed.
+      - Next: more schools, then a hub page of every verified round.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's

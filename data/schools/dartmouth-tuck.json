@@ -33,6 +33,32 @@
    "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/"
   }
  },
+ "deadlines": {
+  "rounds": [
+   {
+    "name": "Round 1",
+    "deadline": "2026-09-24",
+    "time": "5:00pm ET",
+    "decision": "2026-12-10"
+   },
+   {
+    "name": "Round 2",
+    "deadline": "2027-01-05",
+    "time": "5:00pm ET",
+    "decision": "2027-03-18"
+   },
+   {
+    "name": "Round 3",
+    "deadline": "2027-03-24",
+    "time": "5:00pm ET",
+    "decision": "2027-04-29"
+   }
+  ],
+  "src": "Tuck applying to Tuck page, application deadlines",
+  "year": 2026,
+  "url": "https://tuck.dartmouth.edu/admissions/applying-to-tuck",
+  "checked": "2026-10-05"
+ },
  "profile": {
   "class_year": "Class of 2027",
   "class_size": {

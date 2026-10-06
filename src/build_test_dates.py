@@ -140,10 +140,11 @@ def fold(line):
     return "\r\n ".join(out)
 
 
-def ics(name, page_url, read, events):
-    """events: (first_iso, last_iso, summary, description, reminder days before or None)."""
+def ics(name, page_url, read, events, prodid="Test Dates"):
+    """events: (first_iso, last_iso, summary, description, reminder days before or None).
+    The school pages' deadline calendars use this too, under their own product name."""
     stamp = read.replace("-", "") + "T000000Z"
-    lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Start From Nowhere//Test Dates//EN",
+    lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Start From Nowhere//%s//EN" % prodid,
              "CALSCALE:GREGORIAN", "METHOD:PUBLISH"]
     for i, (first, last, summary, desc, remind) in enumerate(events):
         end = (d(last) + datetime.timedelta(days=1)).isoformat()

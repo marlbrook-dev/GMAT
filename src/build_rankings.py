@@ -538,6 +538,84 @@ def size_sentence(name, f):
     return "%s %s %s has %s students." % ("The median" if k == "median" else "A typical", name, noun, n)
 
 
+_MONTH_NAMES = ("January February March April May June July August September October "
+                "November December").split()
+
+
+def long_date(iso):
+    d = datetime.date.fromisoformat(iso)
+    return "%s %d, %d" % (_MONTH_NAMES[d.month - 1], d.day, d.year)
+
+
+def next_round(s, today):
+    """The first round whose deadline has not passed on the build date, or None. The site
+    rebuilds every day, so "next" is never more than a day out of date."""
+    for r in ((s.get("deadlines") or {}).get("rounds") or []):
+        if r["deadline"] >= today:
+            return r
+    return None
+
+
+def round_said(r):
+    """'Round 2, January 5, 2027' with the school's time where it prints one."""
+    return "%s, %s%s" % (r["name"], long_date(r["deadline"]), ", " + r["time"] if r.get("time") else "")
+
+
+def decision_said(r):
+    if r.get("decision"):
+        return long_date(r["decision"])
+    return r.get("decision_text") or ""
+
+
+def deadlines_section(s, today):
+    """The school's published application rounds, each with its decision date, the page it
+    was read on and when, and a calendar file of the lot. Read from the school's own page
+    only (validate_schools) and read back off it by the source check."""
+    dl = s.get("deadlines")
+    if not dl:
+        return ""
+    rows = []
+    for r in dl["rounds"]:
+        gone = r["deadline"] < today
+        rows.append('<tr><td>%s</td><td>%s%s%s</td><td>%s</td></tr>' % (
+            esc(r["name"]), esc(long_date(r["deadline"])),
+            esc(", " + r["time"]) if r.get("time") else "",
+            '<br><span class="src">passed</span>' if gone else "", esc(decision_said(r)) or "-"))
+    first, last = dl["rounds"][0]["deadline"][:4], dl["rounds"][-1]["deadline"][:4]
+    span = first if first == last else "%s-%s" % (first, last[2:])
+    return ('<div class="section" id="deadlines"><h2>Application Deadlines</h2>'
+            '<p>%s publishes %d application %s for %s. Each row is the date the application is '
+            'due and the date the school says it will release decisions.</p>'
+            '<table><thead><tr><th>Round</th><th>Deadline</th><th>Decision</th></tr></thead>'
+            '<tbody>%s</tbody></table>'
+            '<p class="src" style="margin-top:8px">Source: <a href="%s" rel="noopener" '
+            'target="_blank">%s</a>, read %s. Confirm every date on the school\'s own page before '
+            'you plan around it. <a href="/schools/%s/deadlines.ics" download>Add These Dates to '
+            'Your Calendar</a></p></div>'
+            % (esc(s["name"]), len(dl["rounds"]), "round" if len(dl["rounds"]) == 1 else "rounds",
+               span, "".join(rows), esc(dl["url"]), esc(dl["src"]), esc(long_date(dl["checked"])),
+               esc(s["slug"])))
+
+
+def deadlines_ics(s):
+    """A calendar of the school's rounds: each deadline with a reminder two weeks before, and
+    each decision date the school gives as a date."""
+    from build_test_dates import ics
+    dl = s["deadlines"]
+    events = []
+    for r in dl["rounds"]:
+        events.append((r["deadline"], r["deadline"], "%s: %s Deadline" % (s["name"], r["name"]),
+                       "Application due%s. As published on %s (%s), read %s. Confirm on the "
+                       "school's page." % (" by " + r["time"] if r.get("time") else "", dl["src"],
+                                           dl["url"], dl["checked"]), 14))
+        if r.get("decision"):
+            events.append((r["decision"], r["decision"], "%s: %s Decisions" % (s["name"], r["name"]),
+                           "The date %s gives for releasing %s decisions (%s)."
+                           % (s["name"], r["name"], dl["url"]), None))
+    return ics("deadlines-" + s["slug"], "%s/schools/%s/" % (SITE, s["slug"]), dl["checked"], events,
+               prodid="MBA Application Deadlines")
+
+
 def lead_paragraph(s, p, g, gc, acc, tui, sal, cs):
     """The sentences an answer engine can actually quote.
 
@@ -615,6 +693,11 @@ def lead_paragraph(s, p, g, gc, acc, tui, sal, cs):
         w, noun = salary_word(sf), salary_noun(sf)
         out.append(("%s %s is $%s." % (w.capitalize(), noun, format(int(sal), ",d"))) if w
                    else "The most recent published %s is $%s." % (noun, format(int(sal), ",d")))
+    # The question a deadline search asks, answered as a sentence a search engine can quote,
+    # with the page it came from.
+    nr = next_round(s, os.environ.get("BLOG_BUILD_DATE") or datetime.date.today().isoformat())
+    if nr:
+        out.append("The next application deadline is %s (%s)." % (round_said(nr), s["deadlines"]["src"]))
     if s.get("_score") is not None:
         out.append("Start From Nowhere ranks it number %d of the %d programs it scores, "
                    "on a composite that blends published rankings with outcomes and "
@@ -1270,6 +1353,17 @@ def school_page(s, tpl, today, ranked=()):
         qa.append((f'How much does the whole MBA cost at {s["name"]}?',
                    f'Published cost for the whole program is {qual(pc)}${pc["v"]:,}' + (f' ({pc.get("src")}, {pc.get("year")}).' if pc.get("src") else ".")
                    + " The note beside the figure in the profile says what it covers. Living costs are additional; confirm on the school site."))
+    dl = s.get("deadlines")
+    if dl:
+        def said(r):
+            when = (" with decisions on %s" % long_date(r["decision"]) if r.get("decision") else
+                    " with decisions in %s" % (r["decision_text"][:1].lower() + r["decision_text"][1:])
+                    if r.get("decision_text") else "")
+            return "%s, due %s%s" % (r["name"], long_date(r["deadline"]), when)
+        qa.append((f'What are the application deadlines for {s["name"]}?',
+                   "; ".join(said(r) for r in dl["rounds"]) + "."
+                   + f' Source: {dl["src"]}, read {long_date(dl["checked"])}. Confirm every date on the '
+                     f'school\'s own page.'))
     faq_ld, faq_section = "", ""
     if len(qa) >= 2:
         faq_ld = '<script type="application/ld+json">' + json.dumps({"@context": "https://schema.org", "@type": "FAQPage",
@@ -1311,6 +1405,7 @@ def school_page(s, tpl, today, ranked=()):
               .replace("{{RANK_DISPLAY}}", "#" + str(s["_rank"]) if s.get("_rank") else "-")
               .replace("{{SCORE}}", str(s["_score"]) if s.get("_score") is not None else "n/a")
               .replace("{{SPECIALTIES_SECTION}}", spec_html)
+              .replace("{{DEADLINES_SECTION}}", deadlines_section(s, today))
               .replace("{{RANK_ROWS}}", "\n".join(rank_rows))
               .replace("{{PROFILE_ROWS}}", "\n".join(prof_rows))
               .replace("{{SOURCE_FOOTNOTE}}", footnote)
@@ -1496,6 +1591,14 @@ def main():
         page = school_page(s, stpl, today, schools)
         _check_size_words(s, page)
         pages.append((sd / "index.html", page))
+        if s.get("deadlines"):
+            cal = deadlines_ics(s)
+            lines = cal.split("\r\n")
+            if not (cal.startswith("BEGIN:VCALENDAR\r\n") and cal.endswith("END:VCALENDAR\r\n")) \
+                    or "\n" in cal.replace("\r\n", "") or max(len(x.encode()) for x in lines) > 75 \
+                    or "\u2014" in cal or "\u2013" in cal:
+                raise SystemExit("build_rankings: %s/deadlines.ics is not a well formed calendar" % s["slug"])
+            (sd / "deadlines.ics").write_text(cal, newline="")
     pages = [(path, partials.apply_chrome(content, extra_legal=RANKINGS_LEGAL)) for path, content in pages]
     for path, content in pages:
         if "{{" in content:
