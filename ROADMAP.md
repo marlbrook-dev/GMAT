@@ -1243,6 +1243,49 @@ verified rather than that the school does not publish one (INC-0118).
       - Names were checked by stem against every generator, bank and post. Two given names
         were already in other passages (Amos, Josiah), so the new ones are Enoch and Jabez.
       - All 175 items on the new passages were read: 50 GMAT, 50 GRE and 75 LSAT.
+- [x] **"Which MBA Round Should You Choose? What Schools Say"** queued for January 14
+      (Aisha Thompson), from seven schools' own deadline pages, every quotation read word for
+      word on October 6 and added to the fact sheet:
+      - Round 3: Wharton says space becomes more limited, making it a more competitive round.
+        Stanford GSB lists what Round 1 or 2 gives, Admit Weekend among it, which it does not
+        hold for Round 3.
+      - Student visas: Wharton, Tuck, Fuqua and NYU Stern ask for early applications. At UNC
+        Kenan-Flagler and Carnegie Mellon Tepper, Round 3 is the last round open to
+        international applicants.
+      - Scholarships: Fuqua considers every round. Oregon, Rady and Auburn name rounds for
+        funding.
+      - Reapplying: Wharton says Round 1 or 2, Fuqua Early Action or Round 1. NYU Stern says to
+        apply when the application is at its strongest.
+      - A table of the later rounds still open after January 14, from data/schools.
+      - Cornell's sentence on applying early for scholarships is no longer on its page, so it
+        was left out.
+- [x] **Every claim about what most programs or schools do now names its basis** (INC-0203).
+      - The August 23 timeline post said most full-time programs run three rounds a year. Of
+        the 32 programs whose deadlines we read, 11 do; 30 list three or more deadlines.
+      - Three more of its claims about rounds cited nothing. They now say what the deadline
+        pages say, with the counts and Wharton's and Stanford's own words.
+      - A sweep of every post found 19 such sentences.
+      - Rewritten without the claim, or with a count from our data:
+        - the GRE format guide (three) and the GMAT vs GRE table;
+        - recommendation letters, now naming UNC Kenan-Flagler, Tepper and BYU Marriott;
+        - the resume and waiver guides;
+        - the good GMAT score post, now with counts: of the 30 programs in the library that
+          publish a GMAT Focus figure, 20 report one below 675 and 13 below 655;
+        - the salary post's signing bonus sentence and the women post's wording.
+      - Kept, with the basis on the fact sheet: employment rates (57 of 70 counted at three
+        months), salary (39 of 53 figures are medians) and tuition (64 of 84 programs print
+        one year).
+      - build_blog.py fails on a sentence about most, nearly all or the majority of programs
+        or schools that the fact sheet does not list with its basis, and on a listed line no
+        post uses any more. Putting the old timeline sentence back fails it.
+- [x] **Queued posts are checked as they will publish** (INC-0204).
+      - The new post's first title, "Which MBA Round Should You Apply In?", passed every build
+        while it was held. Built as of January 14 it failed the Title Case check ("Apply in?").
+      - The cause: a post's title becomes a page heading only when the page is built, and the
+        built-page checks read only the pages a build publishes.
+      - build_blog.py now builds every held post as it will publish and runs the same page
+        checks on it. Its self-check confirms a held title that breaks Title Case fails the
+        build. All 50 held posts pass.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
