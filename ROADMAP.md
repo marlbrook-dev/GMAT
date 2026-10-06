@@ -1572,6 +1572,20 @@ verified rather than that the school does not publish one (INC-0118).
       and its explanations for the main point and primary purpose samples. The post's line
       that the trainer asks a main idea question about every long passage was checked
       against the generated bank: 124 items, one for each of the 124 passages.
+- [x] **Two more LSAT Reading Comprehension posts**:
+      - "LSAT Author's Attitude Questions: Reading the Tone", February 11 (Sarah
+        Whitfield): find the words that judge, read the contrasts, and match both how
+        strong the view is and what it is about, with an original worked example (a museum
+        that rehangs its gallery by date) and a table of three kinds of wrong answer.
+      - "LSAT Comparative Reading: How to Read Two Passages", February 13 (Maya Chen): sum
+        up each passage, name how they relate, list where the authors agree and part, and
+        check both passages for every choice, with an original pair (a main street closed
+        to cars) and a disagreement question whose wrong answers sort into the three
+        kinds LSAC's own explanation rejects.
+
+      EDITORIAL.md records the attitude sample and the seven comparative reading samples,
+      read October 6. The February 9 post gains LSAC's statement that most single-passage
+      sets include a main point or main purpose question, as do most comparative sets.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
