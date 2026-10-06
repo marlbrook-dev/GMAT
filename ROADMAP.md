@@ -1658,6 +1658,22 @@ verified rather than that the school does not publish one (INC-0118).
         two shorter and two longer, still saying only what the conclusion says, so the key
         sits at every rank from shortest to longest. The answer bias check reports all 213
         schemas inside tolerance.
+- [x] **Five more resolve-the-discrepancy scenarios** for lsat_lr_expl, each authored with
+      four resolutions and six wrong answers sorted by kind, and each asked two ways (which
+      choice most helps, and which does not):
+      - a park pond stocked with a larvae-eating fish, and more mosquito bites;
+      - an orchard's nets against birds, and fewer sound cherries;
+      - a theatre's price cut, and fewer tickets sold;
+      - street trees planted for shade, and higher recorded temperatures;
+      - a brewery's switch to lighter cans, and a higher shipping bill.
+
+      The category grows from 210 to 220 items, and the LSAT bank to 16343, of which 15971
+      are generated (counts read from the build). All ten were read. The "does not help"
+      question shows all four resolutions beside one wrong answer, so no wrong answer may
+      deny a resolution: two first drafts did ("other streets were no hotter" denied the
+      hot summer, and "the carrier did not change its rates" denied the diesel rise), and
+      both were replaced before the build. The module writes British spelling, so the new
+      scenarios do too.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
