@@ -1316,6 +1316,36 @@ verified rather than that the school does not publish one (INC-0118).
       - The answer bias guard (INC-0079) stopped the first build: the main conclusion was the
         shortest choice in six of the ten. Nine conclusion paraphrases were reworded so the key
         sits across the length ranks, each still saying only what the conclusion says.
+- [x] **Five more long reading passages** (parkswans, icehouse, bowlsgreen, wardfever,
+      hatfelt), each blaming people for what a new structure or supply did:
+      - Swans dying on a town park's lake, blamed on visitors' children and their mouldy
+        bread and caused by lead shot falling into the water from a gun club's new ground.
+      - A country house's ice gone by midsummer, blamed on a new under-gardener's packing
+        and caused by felling the beeches that shaded the ice house.
+      - Moss spreading over a bowling green, blamed on a greenkeeper paid by the hour and
+        caused by a new brick wall that kept the turf beside it shaded and damp.
+      - Fevers on an infirmary's upper wards, blamed on nurses trained for a shorter time
+        and caused by a new roof cistern whose water went foul.
+      - Misshapen felt hats, blamed on apprentices bound on shorter indentures and caused by
+        hard water from a new reservoir in the limestone hills.
+
+      They run 302 to 335 words. The banks grow to GMAT 34912, GRE 21288 and LSAT 15928,
+      of which 15556 are generated; the counts were read from the build.
+      - A draft about telephone calls failing, blamed on new operators, was dropped before
+        it shipped: it told the same story as the cableduct passage already in the bank.
+        The swans passage took its place.
+      - Names were checked by whole word against every generator, bank and post. Five
+        surnames were already in other passages (Thursby, Ormerod, Rawcliffe, Ackerley,
+        Mottram), so the new ones are Brigshaw, Ruddock, Holroyd, Sutcliffe and the hatter
+        Reuben Haigh. A boathouse in one inference case became a dovecote for the same reason.
+      - The premise check stopped the first drafts on near misses with no negative wording,
+        which it requires; they were reworded.
+      - Reading the items caught two things no check looks for. The swans passage had a
+        rifle range dropping spent shot into the lake, but a rifle fires bullets into a bank
+        and shot comes from a shotgun, so it is now a gun club's shooting ground. The bowling
+        green's "the committee had changed his terms" left "his" pointing at nothing once the
+        sentence stood alone as an answer choice, so it now says the greenkeeper's pay.
+      - All 175 items on the new passages were read: 50 GMAT, 50 GRE and 75 LSAT.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
