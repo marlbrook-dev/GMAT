@@ -83,7 +83,10 @@ own words, and the decision date, or the school's wording for one it gives only 
 ("Mid-December 2026", MIT Sloan). Deferred admission and consortium rounds are left out
 until their terms have been read. The source check reads every date and time back off the
 cited page in the forms schools print them ("Sept. 9, 2026", "09 Sep 2026", "Jan 05,
-2027"), so a school that moves a deadline is caught the next time it runs. School pages
+2027"), so a school that moves a deadline is caught the next time it runs. A date already
+past is not read, since schools take closed rounds off their pages: a deadline and its time
+stop being read when the deadline passes, a decision date when it does, and a decision in
+the school's words ("Mid-December 2026") when its month is out. School pages
 print the rounds, the next deadline in the lead paragraph and the FAQ, and a calendar file
 at /schools/<slug>/deadlines.ics.
 

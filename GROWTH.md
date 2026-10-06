@@ -252,7 +252,8 @@ pages on ChatGPT search (403).
    date, and a table of the pages each program's dates were read from. /apply/ now offers each
    school's published rounds beside its deadline field, filling nothing until a round is
    picked. A third batch on October 6 added Vanderbilt, Foster, Georgia Tech, W. P. Carey,
-   Rice, Notre Dame, Ohio State and BYU, 26 programs in all. Next: more programs.
+   Rice, Notre Dame, Ohio State and BYU, and a fourth Wisconsin, Rady, Leeds, Harbert, Poole
+   and Oregon: 32 programs in all. Next: more programs.
 4. **An ICS export of the application checklist**, so the dated tasks on /apply/ land in a
    calendar that reminds the applicant instead of us. Built October 5: Add to Calendar
    downloads one all-day event per open task, with a reminder the day before, and one per

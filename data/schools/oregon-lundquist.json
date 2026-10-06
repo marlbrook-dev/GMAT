@@ -7,6 +7,39 @@
  "region": "West",
  "type": "Public",
  "ranks": {},
+ "deadlines": {
+  "rounds": [
+   {
+    "name": "Early Decision Deadline",
+    "deadline": "2026-11-15",
+    "decision": "2027-01-09"
+   },
+   {
+    "name": "Priority Scholarship Deadline",
+    "deadline": "2027-01-15",
+    "decision": "2027-03-06"
+   },
+   {
+    "name": "Regular Decision & International Candidate Deadline",
+    "deadline": "2027-03-15",
+    "decision": "2027-05-01"
+   },
+   {
+    "name": "Final Scholarship Consideration",
+    "deadline": "2027-05-15",
+    "decision": "2027-06-22"
+   },
+   {
+    "name": "Final Deadline",
+    "deadline": "2027-07-23",
+    "decision": "2027-07-30"
+   }
+  ],
+  "src": "Oregon MBA how to apply page",
+  "year": 2026,
+  "url": "https://business.uoregon.edu/programs/mba/apply",
+  "checked": "2026-10-06"
+ },
  "profile": {
   "tuition_usd": {
    "v": 34668,

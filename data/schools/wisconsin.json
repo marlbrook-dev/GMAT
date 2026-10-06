@@ -35,6 +35,38 @@
   }
  },
  "specialties": [],
+ "deadlines": {
+  "rounds": [
+   {
+    "name": "Early decision",
+    "deadline": "2026-09-04",
+    "decision": "2026-10-16"
+   },
+   {
+    "name": "Round 1",
+    "deadline": "2026-10-12",
+    "decision": "2026-12-11"
+   },
+   {
+    "name": "Round 2",
+    "deadline": "2027-01-07",
+    "decision": "2027-03-05"
+   },
+   {
+    "name": "Round 3",
+    "deadline": "2027-03-25",
+    "decision": "2027-04-30"
+   },
+   {
+    "name": "Round 4",
+    "deadline": "2027-05-25"
+   }
+  ],
+  "src": "Wisconsin School of Business full-time MBA admissions page",
+  "year": 2026,
+  "url": "https://business.wisc.edu/graduate/mba/full-time/admissions/",
+  "checked": "2026-10-06"
+ },
  "profile": {
   "class_year": "Class of 2027",
   "class_size": {

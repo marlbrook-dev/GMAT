@@ -54,6 +54,34 @@
    "url": "https://www.colorado.edu/business/news/2026/04/07/US-News-2026-MBA-rankings"
   }
  ],
+ "deadlines": {
+  "rounds": [
+   {
+    "name": "First Round",
+    "deadline": "2026-10-05"
+   },
+   {
+    "name": "Second Round",
+    "deadline": "2026-11-30"
+   },
+   {
+    "name": "Third Round",
+    "deadline": "2027-02-01"
+   },
+   {
+    "name": "Final International Deadline",
+    "deadline": "2027-03-03"
+   },
+   {
+    "name": "Final Domestic Deadline",
+    "deadline": "2027-06-01"
+   }
+  ],
+  "src": "Leeds MBA application process page",
+  "year": 2026,
+  "url": "https://www.colorado.edu/business/mba/mba-application-process",
+  "checked": "2026-10-06"
+ },
  "profile": {
   "class_year": "Class of 2028",
   "class_size": {

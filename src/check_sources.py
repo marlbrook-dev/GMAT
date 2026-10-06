@@ -754,7 +754,8 @@ def date_seen(iso, text):
     mon = "(?:%s)" % "|".join(re.escape(n) for n in sorted(names, key=len, reverse=True))
     day = r"0?%d" % d.day
     flat = re.sub(r"\s+", " ", text)
-    pats = (r"\b%s %s(?:st|nd|rd|th)?,? %d\b" % (mon, day, d.year),
+    # A comma may stand without its space: Auburn prints "October 15,2026" (October 2026).
+    pats = (r"\b%s %s(?:st|nd|rd|th)?(?:,\s*| )%d\b" % (mon, day, d.year),
             r"\b%s %s %d\b" % (day, mon, d.year),
             r"\b0?%d/%s/%d\b" % (d.month, day, d.year))
     return any(re.search(p, flat, re.I) for p in pats)
@@ -767,20 +768,47 @@ def words_seen(phrase, text):
     return squash(phrase) in squash(text)
 
 
-def deadline_misses(dl, text):
-    """Every date and phrase in a deadlines record that its page does not print."""
+def words_until(text):
+    """The last day a school's words for a date can still mean: the date itself for
+    "Starting December 10, 2026", the end of the month for "Mid-December 2026", or None
+    when the words name no month and year."""
+    m = None
+    for m in re.finditer(r"\b(%s)\b(?:\s+(\d{1,2}),?)?\s+(20\d\d)\b" % "|".join(_MONTH_NAMES), text, re.I):
+        pass
+    if not m:
+        return None
+    month = [x.lower() for x in _MONTH_NAMES].index(m.group(1).lower()) + 1
+    year = int(m.group(3))
+    if m.group(2):
+        return datetime.date(year, month, int(m.group(2))).isoformat()
+    nxt = datetime.date(year + month // 12, month % 12 + 1, 1)
+    return (nxt - datetime.timedelta(days=1)).isoformat()
+
+
+def deadline_misses(dl, text, today=None):
+    """Every date and phrase in a deadlines record that its page does not print and that
+    is still ahead of today. Schools take a round off the page once it has closed, and a
+    date already past leaves nothing to plan around, so it is not read: a deadline, its
+    time and the date an extension replaced stop being read when the deadline passes, and
+    a decision date when it does. Without today every date is read."""
     out = []
     for r in dl.get("rounds") or []:
+        open_ = not today or r["deadline"] >= today
         for key in ("deadline", "decision", "extended_from", "initial_notification"):
-            if r.get(key) and not date_seen(r[key], text):
-                out.append("%s %s %s is not on the page" % (r.get("name"), key, r[key]))
+            v = r.get(key)
+            live = open_ if key in ("deadline", "extended_from") else not today or (v or "") >= today
+            if v and live and not date_seen(v, text):
+                out.append("%s %s %s is not on the page" % (r.get("name"), key, v))
         for key in ("time", "decision_text"):
-            if r.get(key) and not words_seen(r[key], text):
-                out.append("%s %s %r is not on the page" % (r.get("name"), key, r[key]))
+            v = r.get(key)
+            until = words_until(v) if key == "decision_text" and v else None
+            live = open_ if key == "time" else not today or until is None or until >= today
+            if v and live and not words_seen(v, text):
+                out.append("%s %s %r is not on the page" % (r.get("name"), key, v))
     return out
 
 
-def check_deadline_pages(records, cache, render):
+def check_deadline_pages(records, cache, render, today=None):
     """Read each school's deadline page and report every date it no longer prints. A school
     that moves a deadline changes its page, and this is how the change reaches us."""
     checked, bad, unread = 0, 0, {}
@@ -796,11 +824,11 @@ def check_deadline_pages(records, cache, render):
                 if not render or e.code not in REFUSED:
                     raise
                 text = fetch(url, cache, rendered=True)
-            miss = deadline_misses(dl, text)
+            miss = deadline_misses(dl, text, today)
             if miss and render:
                 shown = fetch(url, cache, rendered=True)
-                if len(deadline_misses(dl, shown)) < len(miss):
-                    text, miss = shown, deadline_misses(dl, shown)
+                if len(deadline_misses(dl, shown, today)) < len(miss):
+                    text, miss = shown, deadline_misses(dl, shown, today)
         except Exception as e:
             unread[url] = "%s: %s" % (type(e).__name__, e)
             continue
@@ -1064,12 +1092,13 @@ def _selfcheck_dates():
             ("2027-01-06", "Round 2 Jan. 6, 2027 March 24, 2027"),
             ("2026-09-09", "Round 1 Sept. 9, 2026 Dec. 9, 2026"),
             ("2027-01-05", "ROUND 2* Jan 05, 2027 5:00pm ET"),
-            ("2026-09-08", "Round 1: Tuesday, September 8, 2026 at 5:00 PM ET"))
+            ("2026-09-08", "Round 1: Tuesday, September 8, 2026 at 5:00 PM ET"),
+            ("2026-10-15", "Completed Application Deadline October 15,2026"))
     for iso, text in seen:
         if not date_seen(iso, text):
             raise SystemExit("check_sources: date_seen misses %s in %r" % (iso, text))
     for iso, text in (("2026-09-09", "September 19, 2026"), ("2026-09-09", "September 9, 2025"),
-                      ("2026-09-09", "October 9, 2026")):
+                      ("2026-09-09", "October 9, 2026"), ("2026-10-15", "October 152026")):
         if date_seen(iso, text):
             raise SystemExit("check_sources: date_seen finds %s in %r" % (iso, text))
     if not words_seen("11:59 p.m. CT", "One September 15, 2026 11:59 p.m. CT December 3"):
@@ -1082,6 +1111,19 @@ def _selfcheck_dates():
             "December 1, 2026")
     if len(deadline_misses({"rounds": [rnd]}, page)) != 2:
         raise SystemExit("check_sources: deadline_misses does not read every date a round carries")
+    # A date already past is not read, since schools take closed rounds off their pages: a
+    # passed deadline whose decision is still ahead is read for the decision alone, and a
+    # decision given in words ("Mid-December 2026") is read until its month is out.
+    gone = {"name": "Round 1", "deadline": "2026-09-09", "time": "12:00 PM ET", "decision": "2026-12-10"}
+    word = {"name": "Round 1", "deadline": "2026-09-29", "decision_text": "Mid-December 2026"}
+    for rnd, today, want in ((gone, None, 3), (gone, "2026-10-01", 1), (gone, "2027-01-01", 0),
+                             (word, "2026-12-20", 1), (word, "2027-01-02", 0)):
+        got = len(deadline_misses({"rounds": [rnd]}, "a page that prints none of it", today))
+        if got != want:
+            raise SystemExit("check_sources: deadline_misses on %s read %d dates, expected %d"
+                             % (today, got, want))
+    if words_until("Starting December 10, 2026") != "2026-12-10" or words_until("Mid-December 2026") != "2026-12-31":
+        raise SystemExit("check_sources: words_until misreads a school's words for a date")
 
 
 def main(argv):
@@ -1289,7 +1331,8 @@ def main(argv):
              "; %d dataset figures set aside" % len(dataset) if dataset else ""))
     late, dl_unread = 0, 0
     if "--schools" in argv:
-        late, dl_unread = check_deadline_pages(records, cache, "--render" in argv)
+        late, dl_unread = check_deadline_pages(records, cache, "--render" in argv,
+                                               datetime.date.today().isoformat())
     return 1 if bad or stale or unseen or newer or late else (2 if unread or dl_unread else 0)
 
 
