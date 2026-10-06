@@ -181,7 +181,7 @@ def retired_claims(p):
 # number in it, so neither the price guard nor the weekly source check can see it. The timeline
 # post said most full-time programs run three rounds a year, where 11 of the 32 whose deadlines
 # we read do (INC-0203). So each such sentence has to be listed on the fact sheet, under
-# "Claims about most programs or schools", with what it rests on: a count from our data or a
+# "Claims about most programs, schools or people", with what it rests on: a count from our data or a
 # source. "The most selective programs" is a superlative, not a share, and is left alone.
 # "Nearly every major program" makes the same claim one program at a time, and the GMAT vs GRE
 # post said it in its first paragraph and its FAQ, past a pattern that knew only "most" and
@@ -190,6 +190,21 @@ GENERAL = re.compile(r"(?<![Tt]he )\b(?:most|nearly all|almost all|virtually all
                      r"nearly every|almost every|virtually every)\s+(?:of the\s+)?"
                      r"(?:(?:full-time|part-time|top|mba|business|u\.s\.|us|other|non-business|graduate|major|ranked|leading)\s+){0,4}"
                      r"(?:programs?|schools?)\b", re.I)
+# The same claim about people passed that pattern, which named programs and schools only:
+# "six to twelve weeks covers most test takers", "many programs weigh scores in merit aid",
+# and "ACT suggests most students retest only two to three times" where ACT says it takes
+# students 2 to 3 times on average (INC-0208). "How many", "as many", "so many" and "too
+# many" ask or compare rather than claim, and are left alone.
+_GROUP_QUAL = (r"(?:(?:full-time|part-time|top|mba|business|u\.s\.|us|other|non-business|graduate|"
+               r"major|ranked|leading|international|first-time|repeat|prospective|working|admitted|"
+               r"successful|gmat|gre|lsat|sat|act|law|high school|college|young)\s+){0,3}")
+_GROUP_SKIP = r"(?<![Tt]he )(?<!how )(?<!as )(?<!so )(?<!too )"
+GROUP = re.compile(
+    _GROUP_SKIP + r"\b(?:most|many|nearly all|almost all|virtually all|the majority of|nearly every|"
+    r"almost every|virtually every)\s+(?:of the\s+)?" + _GROUP_QUAL +
+    r"(?:applicants|students|test takers|test-takers|takers|candidates|people|adults|employers|"
+    r"recruiters|committees|learners|professionals|graduates|readers)\b"
+    r"|" + _GROUP_SKIP + r"\bmany\s+(?:of the\s+)?" + _GROUP_QUAL + r"(?:programs?|schools?)\b", re.I)
 CLAIM_BASIS = re.compile(r'^- ([a-z0-9-]+) \| "([^"]+)" \| (.{20,})$', re.M)
 
 
@@ -208,13 +223,13 @@ def post_sentences(p):
 
 
 def unbacked_claims(posts, sheet):
-    """(slug, sentence) for each claim about most programs or schools that the fact sheet does
-    not back, and (slug, listed start) for each backing line no post uses any more."""
+    """(slug, sentence) for each claim about most programs, schools or people that the fact
+    sheet does not back, and (slug, listed start) for each backing line no post uses any more."""
     bases = CLAIM_BASIS.findall(sheet)
     used, loose = set(), []
     for p in posts:
         for t in post_sentences(p):
-            if GENERAL.search(t):
+            if GENERAL.search(t) or GROUP.search(t):
                 hit = [b for b in bases if b[0] == p["slug"] and b[1] in t]
                 if hit:
                     used.update(hit)
@@ -234,7 +249,19 @@ def _selfcheck_general():
              ("<p>Plain.</p>", [{"q": "Do MBA programs accept the GRE?", "a": "Nearly all major MBA programs do."}], True),
              ("<p>Nearly every major program takes either exam and states no preference.</p>", [], True),
              ("<p>Almost every leading MBA school publishes a class profile.</p>", [], True),
-             ("<p>Every program on our deadlines page lists a final round.</p>", [], False))
+             ("<p>Every program on our deadlines page lists a final round.</p>", [], False),
+             # INC-0208: the same claim about people, or with many, is caught; a question, an
+             # idiom and a comparison are not.
+             ("<p>Six to twelve structured weeks covers most test takers.</p>", [], True),
+             ("<p>ACT suggests most students retest only two to three times.</p>", [], True),
+             ("<p>Plain.</p>", [{"q": "Is an hour a day enough?", "a": "For most working professionals, yes."}], True),
+             ("<p>Many programs weigh scores in merit aid decisions.</p>", [], True),
+             ("<p>Many first-time test takers find Data Insights the hardest.</p>", [], True),
+             ("<p>Some consulting employers ask for a score, and many employers expect the GMAT.</p>", [], True),
+             ("<p>How many MBA students submit the GRE?</p>", [], False),
+             ("<p>LSAC and ACT say in so many words that a wrong answer costs nothing.</p>", [], False),
+             ("<p>Additional reports can go to as many programs as you like.</p>", [], False),
+             ("<p>At the most experienced candidates' level, the essays decide.</p>", [], False))
     for body, faq, want in cases:
         loose, _ = unbacked_claims([{"slug": "x", "body": body, "faq": faq}], "")
         if bool(loose) != want:
@@ -385,12 +412,12 @@ def validate(posts):
             if len(set(sib)) < 2: fail(f"{n}: needs at least 2 internal links to sibling posts")
     loose, unused = unbacked_claims(posts, (POSTS_DIR / "EDITORIAL.md").read_text(encoding="utf-8"))
     if loose:
-        fail(f"{loose[0][0]}.html says what most programs or schools do: {loose[0][1][:200]!r}. List it in "
-             f"EDITORIAL.md under 'Claims about most programs or schools' with its basis, a count from "
-             f"our data or a source, or say it without the claim (INC-0203)")
+        fail(f"{loose[0][0]}.html says what most of a group does: {loose[0][1][:200]!r}. List it in "
+             f"EDITORIAL.md under 'Claims about most programs, schools or people' with its basis, a "
+             f"count from our data or a source, or say it without the claim (INC-0203, INC-0208)")
     if unused:
         fail(f"EDITORIAL.md backs a claim {unused[0][0]}.html no longer makes ({unused[0][1]!r}); "
-             f"remove that line (INC-0203)")
+             f"remove that line (INC-0203, INC-0208)")
 
 HEAD_CSS = """*{box-sizing:border-box}body{margin:0;font-family:var(--body);color:var(--gray-700);background:#fff;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
 :root{--navy-900:#0C1F3A;--navy-800:#122B4E;--navy-600:#2C4E80;--navy-100:#DCE5F1;--navy-50:#F2F6FB;--gold-700:#8A6A25;--gold-600:#A8842F;--gold-500:#C7A252;--gold-100:#F0E4C8;--gold-50:#FAF5E8;--gray-900:#111827;--gray-700:#374151;--gray-500:#4B5563;--gray-300:#D1D5DB;--gray-200:#E5E7EB;--gray-100:#F3F4F6;--gray-50:#F9FAFB;--blue-600:#2563EB;--blue-50:#EFF6FF;--violet-600:#7C3AED;--violet-50:#F5F3FF;--teal-600:#0F766E;--teal-50:#F0FDFA;--green-700:#15803D;--green-100:#DCFCE7;--green-50:#F0FDF4;

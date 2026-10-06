@@ -1736,6 +1736,16 @@ verified rather than that the school does not publish one (INC-0118).
       the five sections from the Test Structure page, read October 6, the three Verbal and
       four Quantitative question types with a guide for each, and the essay task.
       EDITORIAL.md's GRE Quantitative fact line gains the two sections' counts and times.
+- [x] **Claims about what most test takers, students and applicants do now need a basis**
+      (INC-0208): INC-0203's check read only programs and schools, so 37 sentences in 27
+      posts said what most or many people or programs do with nothing behind them, and one
+      misquoted ACT ("most students retest only two to three times", where ACT says it takes
+      students 2 to 3 times on average). Each was rewritten from a source or our data (21 of
+      the 94 programs report both GMAT editions; ETS lists 128 U.S. law schools taking the
+      GRE), rewritten as advice, or, where a test maker said it, listed on the fact sheet.
+      The study-length posts now plan for six to twelve weeks without claiming most test
+      takers need it: GMAC's preparation pages refuse automated reads, so nothing backs the
+      claim, and the owner can choose whether to read them in a browser and cite them.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's

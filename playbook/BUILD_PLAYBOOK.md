@@ -7,10 +7,10 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-10-06, which is 17 days, across
-216 commits, by one owner directing a series of AI coding sessions. As of this
+217 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 88 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
-2151 tracked files in total.
+2152 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-216 commits in 17 days, one owner, a series of AI sessions. This
+217 commits in 17 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1217,14 +1217,14 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-207 recorded defects, over 17 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+208 recorded defects, over 17 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 116 | 56% |
+| Found by reading the code or the output | 117 | 56% |
 | Found by measuring something | 46 | 22% |
 | A test caught it | 23 | 11% |
 | Found by rendering it and looking | 10 | 5% |
@@ -1232,7 +1232,7 @@ well enough to audit later. Which is what this book is.
 | A build guard caught it | 5 | 2% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 205 of 207 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 206 of 208 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1241,20 +1241,20 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 96 |
+| Wrong data shown or stored | 97 |
 | Degraded | 51 |
 | Cosmetic | 31 |
 | Silent loss | 26 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 207. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 208. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 97 |
+| Content generation | 98 |
 | Tests and guards | 37 |
 | Front end | 15 |
 | Build system | 13 |
@@ -1269,7 +1269,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-201 of 207 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+202 of 208 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1290,7 +1290,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-94 of 207 incidents record that they repeat an earlier lesson, 128 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+95 of 208 incidents record that they repeat an earlier lesson, 129 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1353,6 +1353,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0172 The ACT exam guide and a live post said the ACT can be taken up to 12 times, after ACT's page had come to say there is no limit, and the source check matched the 12 in the page's K-12 menu | INC-0174 | 1 |
 | INC-0176 Headings outside blog post bodies broke the Title Case rule on every kind of page, because the build checked only the headings inside posts | INC-0178 | 1 |
 | INC-0184 Vanderbilt's median salary and 39 schools' Bloomberg ranks stayed on Bloomberg's 2025-26 edition after its pages moved to 2026-27, and nothing could see it: Bloomberg answers most reads with a bot challenge, and the source check never reads a rank | INC-0185 | 1 |
+| INC-0203 A live admissions post said most full-time MBA programs run three rounds a year, which 21 of the 32 programs whose deadlines we verified do not, and its other claims about rounds cited nothing | INC-0208 | 1 |
 
 The largest family runs to 78 incidents: INC-0055, INC-0059, INC-0064, INC-0067, INC-0069, INC-0070, INC-0079, INC-0081, INC-0082, INC-0085, INC-0086, INC-0088, INC-0089, INC-0090, INC-0092, INC-0097, INC-0098, INC-0099, INC-0100, INC-0101, INC-0102, INC-0103, INC-0104, INC-0105, INC-0106, INC-0108, INC-0109, INC-0110, INC-0113, INC-0114, INC-0117, INC-0122, INC-0123, INC-0124, INC-0125, INC-0126, INC-0130, INC-0131, INC-0132, INC-0133, INC-0134, INC-0135, INC-0136, INC-0137, INC-0138, INC-0140, INC-0142, INC-0143, INC-0144, INC-0145, INC-0146, INC-0147, INC-0150, INC-0151, INC-0152, INC-0154, INC-0155, INC-0156, INC-0157, INC-0158, INC-0159, INC-0160, INC-0161, INC-0162, INC-0165, INC-0169, INC-0170, INC-0172, INC-0173, INC-0174, INC-0175, INC-0177, INC-0180, INC-0182, INC-0183, INC-0184, INC-0185, INC-0207. Every one of them is the same shape, a correction applied to the instances in hand rather than to the pattern, and it is the most expensive habit this ledger records.
 
@@ -1399,6 +1400,7 @@ Incidents that name an earlier one without claiming to repeat it. Each was read 
 - INC-0197 names INC-0196
 - INC-0198 names INC-0109
 - INC-0207 names INC-0138, INC-0203
+- INC-0208 names INC-0207
 
 
 ## Where defects concentrate
@@ -1408,8 +1410,8 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/check_sources.py`, 22 incidents (INC-0130, INC-0132, INC-0133, INC-0136, INC-0140, INC-0150, INC-0152, INC-0154, INC-0155, INC-0156, INC-0158, INC-0159, INC-0161, INC-0168, INC-0172, INC-0173, INC-0174, INC-0175, INC-0177, INC-0180, INC-0182, INC-0184)
 - `src/build_banks.py`, 17 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011, INC-0079, INC-0081, INC-0086, INC-0088, INC-0089, INC-0090, INC-0091, INC-0092, INC-0120, INC-0123, INC-0126, INC-0127)
 - `src/build.py`, 14 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067, INC-0076, INC-0080, INC-0131, INC-0148, INC-0196)
+- `src/build_blog.py`, 11 incidents (INC-0124, INC-0137, INC-0162, INC-0170, INC-0171, INC-0188, INC-0197, INC-0203, INC-0204, INC-0206, INC-0208)
 - `src/test.js`, 10 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085, INC-0192, INC-0194)
-- `src/build_blog.py`, 10 incidents (INC-0124, INC-0137, INC-0162, INC-0170, INC-0171, INC-0188, INC-0197, INC-0203, INC-0204, INC-0206)
 - `src/gen/g_rc.py`, 9 incidents (INC-0097, INC-0114, INC-0115, INC-0117, INC-0122, INC-0169, INC-0179, INC-0186, INC-0187)
 - `src/validate_schools.py`, 9 incidents (INC-0125, INC-0141, INC-0143, INC-0144, INC-0147, INC-0151, INC-0153, INC-0157, INC-0185)
 - `src/build_rankings.py`, 8 incidents (INC-0014, INC-0049, INC-0118, INC-0135, INC-0142, INC-0145, INC-0167, INC-0200)
@@ -1432,7 +1434,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (97)
+## Content generation (98)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -2606,6 +2608,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** The preparation section now says what the GRE trainer is: seven categories, three Verbal and four Quant, and mock sections that use ETS's question counts and times, with a link to /gre/app/. The section table gives ETS's question count and time for each of the five sections, cited to the Test Structure page. The 260 to 340 sum is described as the GRE calculator describes it, arithmetic on two scores that ETS does not report and gives no percentile for, and the ETS citation now covers only what ETS says. The five unsourced claims are gone or replaced by what ETS or HBS says, the HBS sentence gives all three shares as HBS prints them, and the GMAT vs GRE post now says ETS reports no total, quotes HBS on having no preference between the tests instead of claiming nearly every program does, compares the two tests' content and calculators from GMAC's and ETS's pages instead of calling one gentler, and drops the employer claim.
 - **What stops it now.** page_checks.stale_sentences, which reads every built page and every post, held or live, now also fails a sentence that says the product as a whole, Start From Nowhere or our trainer, app or platform, is built, designed or made for an exam, is for one specifically or exclusively, or is a one-exam trainer, whenever more than one trainer is live; naming one trainer with its exam ('our GMAT trainer') passes. Its self-check confirms the old sentence fails and that the retake post's 'This is the case our trainer is built for' passes. RETIRED_CLAIMS gains the 260 to 340 sum: a GRE post that names it fails unless the same sentence or table cell says ETS does not report it. The INC-0203 pattern for claims about most programs now also reads nearly every, almost every, virtually every and virtually all, singular program and school, and leading as a qualifier; across every post it found only the GMAT vs GRE sentence. in `src/page_checks.py`
 - **Lesson.** A statement about what the product is goes stale each time the product grows, and a check for one way of being stale (in development, coming soon) passes the others (built for one exam specifically). When the product changes, search every page for each way it used to be described, not just the words that said it was unfinished. And when a figure leaves the data because its source never said it, search the prose for it too, because posts repeat the data in their own words and keep the citation.
+
+
+### INC-0208. Posts stated what most test takers, students, applicants and employers do with no source, and one misquoted ACT, because the guard for claims about most of a group read only programs and schools
+
+*2026-10-06, Wrong data shown or stored*
+
+- **What was seen.** A scan on October 6, 2026 of every post for most, many, nearly all and their kin before a word for people found 52 sentences, and one for many programs or schools found 10 more. About two dozen claimed something about a group with no source: some consulting and finance employers most often expect the GMAT, and many programs weigh test scores in merit scholarships (the Executive Assessment guide, the employer line the same one INC-0207 removed from the GMAT vs GRE post); many programs weigh scores in merit aid (the waiver guide, three times); six to twelve weeks covers most test takers (the featured study-length post's description and two sentences, echoed by three other posts); most working professionals can finish a full preparation in two to three months; many first-time test takers find Data Insights the hardest; most full-time MBA students arrive with about five years of experience (a queued post whose own figures are program averages, which say nothing about most students); many schools report both GMAT editions (a queued post; 21 of the 94 programs in our library do); many law schools accept the GRE (ETS lists 128 in the United States); and rhetorical ones such as the point most applicants miss and the half most people skip. One queued post misquoted its source: 'ACT suggests most students retest only two to three times', where ACT's retesting page says that on average it takes students 2 to 3 times to achieve their testing goals. Others were the test makers' own words quoted correctly (LSAC's almost all test takers, College Board's most students get a higher score the second time, ACT's most students can sign in to MyACT), questions and idioms (how many, in so many words), or invented LSAT stimuli. Three more of the same kind used words no pattern reads: students who often prefer the ACT, the four programs applicants benchmark against most often, and most commonly the general MBA is not STEM.
+- **Why.** INC-0203 made claims about most programs and schools show their basis, on the principle that a share of a group is a statistic even with no number in it. The pattern it wrote named only programs and schools, and only most, nearly all, almost all and the majority of, so the same sentence about test takers, applicants or employers, or with many, passed every build. The prose was written as a tutor's advice, in the voice of someone who has watched many students prepare, which the site has no basis for: EDITORIAL.md forbids invented anecdotes and credentials, and a claim about what most students do is the same thing in statistical form.
+- **How it surfaced.** Found on October 6, 2026 after INC-0207, by scanning the live posts for usually, often, typically, tend to and most or many before a group (93 sentences), then every post, held or live, for the quantifier forms the guard now reads, and reading each hit against its source, our data or the fact sheet. (Found by reading the code or the output)
+- **Fix.** Each sentence was rewritten from a source or our data (21 of the 94 programs report both editions; ETS lists 128 U.S. law schools; the programs in our library average about five years of experience), rewritten as advice that claims nothing about a group (ask each program whether scores count toward merit aid; six to twelve weeks is the window the guide plans for, since GMAC's preparation pages refuse automated reads and nothing else backs a claim about most test takers), or, where it quotes the test maker's own words, listed on the fact sheet with that source. The ACT sentence now says what ACT says. The two invented LSAT stimuli are listed as stimuli.
+- **What stops it now.** build_blog.py's claims check now also reads most, many, nearly all, almost all, virtually all and the majority of before applicants, students, test takers, candidates, people, adults, employers and the like, and many before programs and schools, skipping how many, as many, so many and too many; each such sentence, in a post's body or FAQ, held or live, fails the build unless EDITORIAL.md lists it with its basis. Its self-check covers each group word, the skipped idioms, and a backed sentence. in `src/build_blog.py`
+- **Lesson.** When a guard encodes a principle, write the pattern for the principle rather than for the first case it caught: a check for 'most programs' that passes 'most applicants' teaches writers that the rule is about programs. List every group the content talks about and test the pattern on each. And read each quoted claim against its source as written, because a paraphrase that adds 'most' or drops 'on average' changes what the source said while keeping its name on it.
 
 
 ## Tests and guards (37)
@@ -4149,6 +4163,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The ACT exam guide and a live post said the ACT can be taken up to 12 times, after ACT's page had come to say there is no limit, and the source check matched the 12 in the page's K-12 menu (INC-0172)</small>
 - [ ] **Learned 2 times over.** A guard written for the instance found covers only where that instance was. When a rule applies everywhere, check where every page ends up, the built output, rather than one of the several places pages are written.  
   <small>Headings outside blog post bodies broke the Title Case rule on every kind of page, because the build checked only the headings inside posts (INC-0176)</small>
+- [ ] **Learned 2 times over.** A claim about most of a group is a statistic even when it has no number in it, and checks that look for numbers cannot see it. Treat the quantifier words themselves as the thing to check, make each such sentence point at its basis, and when new data arrives, read what the site already says against it, because the old sentences were written without it.  
+  <small>A live admissions post said most full-time MBA programs run three rounds a year, which 21 of the 32 programs whose deadlines we verified do not, and its other claims about rounds cited nothing (INC-0203)</small>
 - [ ] Any generator that claims reproducibility must be seeded from something stable across processes. hash() is not, in Python, and the failure shows up as a flaky test rather than as a wrong answer.  
   <small>Item banks were different on every build because Python randomises hash() (INC-0003)</small>
 - [ ] Deletion by shadowing is invisible. Any collection whose size is a fact about the product needs its size asserted, not just its contents.  
@@ -4265,10 +4281,10 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>GRE sentence-function questions offered a second right answer: the third sentence's job, worded so that it was true of the fourth sentence too (INC-0199)</small>
 - [ ] A figure's note is part of the figure. When a table prints the note beside the number, every sentence that restates the number has to carry what the note says about it, average, about or more than, or it states the figure more exactly than the source does. And a count of one thing and an average over several are different statistics even when the number is the same: the wording has to say which one it is.  
   <small>School pages stated averaged and approximate figures as exact: a cohort average as one class's size, and approximate tuition, work experience and scholarships without their qualifier (INC-0200)</small>
-- [ ] A claim about most of a group is a statistic even when it has no number in it, and checks that look for numbers cannot see it. Treat the quantifier words themselves as the thing to check, make each such sentence point at its basis, and when new data arrives, read what the site already says against it, because the old sentences were written without it.  
-  <small>A live admissions post said most full-time MBA programs run three rounds a year, which 21 of the 32 programs whose deadlines we verified do not, and its other claims about rounds cited nothing (INC-0203)</small>
 - [ ] A statement about what the product is goes stale each time the product grows, and a check for one way of being stale (in development, coming soon) passes the others (built for one exam specifically). When the product changes, search every page for each way it used to be described, not just the words that said it was unfinished. And when a figure leaves the data because its source never said it, search the prose for it too, because posts repeat the data in their own words and keep the citation.  
   <small>The live GRE format guide told GRE readers our trainer was built for the GMAT Focus Edition specifically, beside a button to the GRE trainer, and credited ETS with a 260 to 340 total ETS does not report (INC-0207)</small>
+- [ ] When a guard encodes a principle, write the pattern for the principle rather than for the first case it caught: a check for 'most programs' that passes 'most applicants' teaches writers that the rule is about programs. List every group the content talks about and test the pattern on each. And read each quoted claim against its source as written, because a paraphrase that adds 'most' or drops 'on average' changes what the source said while keeping its name on it.  
+  <small>Posts stated what most test takers, students, applicants and employers do with no source, and one misquoted ACT, because the guard for claims about most of a group read only programs and schools (INC-0208)</small>
 
 
 ## Database
@@ -4593,7 +4609,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 207 real defects reduced to the rules that prevent them,
+the whole project: 208 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -4633,7 +4649,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-207 defects already prevented is genuinely ahead, and every defect it hits
+208 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed
