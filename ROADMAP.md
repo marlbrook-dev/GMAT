@@ -1710,6 +1710,16 @@ verified rather than that the school does not publish one (INC-0118).
       (the Verbal page does, for its own formats). The trainer lines were checked against
       the GRE banks: comparison questions and five Numeric Entry questions are in the
       hand-written sets, and no quantitative question asks for more than one answer.
+- [x] **Two more GRE posts continue the GRE series**, from ETS's Quantitative and
+      Verbal Reasoning overviews, read October 6:
+      - "GRE Data Interpretation Questions: Reading Tables and Graphs", March 1 (Elena
+        Rodriguez): ETS's tips for a data set, with a worked table where the trap is the
+        unit in the column heading and a year that sits exactly on the line.
+      - "GRE Reading Comprehension: Three Question Formats", March 3 (James Corbett): the
+        passages, ETS's reading tips, and one original passage asked in all three formats.
+
+      EDITORIAL.md's GRE Verbal block gains a Reading Comprehension line. The worked passage
+      names no place, so it cannot read as a claim about a real valley's orchards.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
