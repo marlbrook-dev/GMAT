@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-10-06, which is 17 days, across
-215 commits, by one owner directing a series of AI coding sessions. As of this
+216 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 88 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
 2151 tracked files in total.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-215 commits in 17 days, one owner, a series of AI sessions. This
+216 commits in 17 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -2598,7 +2598,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0207. The live GRE format guide told GRE readers our trainer was built for the GMAT Focus Edition specifically, beside a button to the GRE trainer, and credited ETS with a 260 to 340 total ETS does not report
 
-*2026-10-06, Wrong data shown or stored*
+*2026-10-06, Wrong data shown or stored, `ef7a4c49bd4ab68eb05bf16d1fc55f1d1464d785` PR #263*
 
 - **What was seen.** GRE Format 2026: Sections, Timing, and Scoring, dated September 18, 2026, closed its preparation section with 'Our own trainer, Start From Nowhere, is built for the GMAT Focus Edition specifically, but its core habit, returning missed questions on a spaced schedule, is exactly the habit to copy into GRE study.' The GRE trainer at /gre/app/ was live in the repository's first commit, September 19, 2026, and the sentence was already in the post then, so for as long as the post has been in the repository it has told GRE readers to take the product's habit elsewhere while its own Start a Free Round button opened the GRE trainer. Its first paragraph said Verbal and Quant 'are often read together as a 260 to 340 total' and ended '(ETS, 2026)', crediting ETS with the sum INC-0130 took out of the exam data because ETS's page never describes it, and its FAQ said many applicants read the scores that way, with no source. It told readers to confirm the per-section timing and question counts on ETS's site rather than giving them, though ETS's Test Structure page prints them. It made five claims with no source about what test takers or committees usually do or find: GRE quant is generally gentler than GMAT Focus quant, skip-and-return test takers usually find the GRE more comfortable, heavy readers tend to find its verbal questions friendlier than GMAT critical reasoning, spaced review matters even more on the GRE than on most exams, and admissions committees read the two scores separately. And it called the GRE's 44 percent of HBS's Class of 2027 'the largest single group of test submitters', where HBS lists 34 percent for the GMAT and 28 percent for the GMAT 10th edition beside it and says some students submitted more than one test. The GMAT vs GRE post, read for the same sum, called it 'often read as a 260 to 340 total' in its comparison table and carried the same kind of claims: that nearly every major program takes either exam and states no preference (in its first paragraph and its FAQ), that employers in consulting and finance most often expect the GMAT, that GRE math is generally gentler, that heavy readers often find text completion friendlier than critical reasoning, and that GRE submitters were HBS's largest single group, none with a source.
 - **Why.** The post describes the product in prose, and the only check on what posts say about the product looks for words that call a live trainer unfinished: in development, coming soon, waitlist, not live (INC-0137, INC-0138). This sentence calls the product finished but single-exam, which none of those words describe, so it passed every build. The 260 to 340 total was removed from data/exams.json under INC-0130 by checking the exam data against its cited pages, and that record noted the site's GRE posts already called the total informal; the format guide's first sentence was never read, and it carries the ETS citation. The claims about what test takers usually find carry no number, so no figure check could see them, and the guard for claims about most programs (INC-0203) looks only at programs and schools, and only for most, nearly all, almost all and the majority of, so 'nearly every major program' passed it.

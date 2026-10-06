@@ -1731,6 +1731,11 @@ verified rather than that the school does not publish one (INC-0118).
       gentler GRE math). Three guards: a sentence calling the product one exam's fails
       while more than one trainer is live, a GRE post naming the 260 to 340 sum fails unless
       it says ETS does not report it, and the most programs check now reads nearly every.
+- [x] **"GRE Question Types: Verbal, Quant and the Essay"** queued for March 5 (Aisha
+      Thompson): the hub for the GRE series, with ETS's question count and time for each of
+      the five sections from the Test Structure page, read October 6, the three Verbal and
+      four Quantitative question types with a guide for each, and the essay task.
+      EDITORIAL.md's GRE Quantitative fact line gains the two sections' counts and times.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
