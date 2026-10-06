@@ -1586,6 +1586,23 @@ verified rather than that the school does not publish one (INC-0118).
       EDITORIAL.md records the attitude sample and the seven comparative reading samples,
       read October 6. The February 9 post gains LSAC's statement that most single-passage
       sets include a main point or main purpose question, as do most comparative sets.
+- [x] **Two LSAT reading posts on the questions that point to a part or step past the
+      text**:
+      - "LSAT Function and Meaning in Context Questions", February 15 (David Okafor): read
+        the sentence around the part and the one before, say what it does or what the word
+        means there, and expect the other senses of a word among the wrong choices. One
+        original passage (a town survey that undercounts households) carries both a
+        function and a meaning question.
+      - "LSAT Reading Comprehension Inference and Analogy Questions", February 17 (Elena
+        Rodriguez): gather the author's position and ask for evidence, not just room;
+        state the relationship before testing analogies, and distrust a surface match.
+        One original passage (a village common ruined after its grazing limits were
+        dropped) carries both questions.
+
+      EDITORIAL.md records LSAC's samples 2, 5, 6 and 7 with the reasons its explanations
+      give for each rejected choice, read October 6. The trainer lines were checked
+      against the banks: function questions on all 124 long passages (606 items),
+      inference questions on all 124, and ten analogy stems in the hand-written sets.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
