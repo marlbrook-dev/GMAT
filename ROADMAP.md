@@ -1117,6 +1117,23 @@ verified rather than that the school does not publish one (INC-0118).
         if either key is dropped. A dash in the decision column is now explained above the
         table, and a calendar event for a round named "1st Deadline" no longer reads
         "1st Deadline Deadline".
+- [x] **An MBA application deadlines hub at /schools/deadlines/**, built from the same
+      records as the school pages, so it holds nothing a school page does not source.
+      - Every round, earliest first, links to its program's page. Passed rounds are hidden
+        behind Show Passed Rounds, and the note naming the next deadline is chosen again in
+        the reader's browser from the rows. The site rebuilds daily, so the build's choice is
+        at most a day old, but one script spares the page a hidden note for every date.
+      - A table of programs gives each one's source page, read date and calendar file.
+      - The questions are answered from the records: the spread of first rounds, the last
+        deadline, which rounds are extended, and which programs give only an initial
+        notification date.
+      - It is linked from the Admissions menu, the /schools/ header, /apply/ and every school
+        page's deadlines section. The sitemap now walks /schools/ for pages that belong to no
+        school, so the next one is listed without a code change.
+      - On a phone, the decision column folds into the program's cell.
+      - src/smoke_pages.js reads the page on a fixed later date. It checks that every round
+        is a row, that the passed ones hide and come back, that the next note names every
+        round due that day, and that nothing overflows at 390px.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's

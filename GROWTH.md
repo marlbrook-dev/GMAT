@@ -247,7 +247,10 @@ pages on ChatGPT search (403).
    October 6 added ten more from their own deadline pages: Fuqua, Anderson, Kenan-Flagler,
    McCombs, Johnson, Tepper, Haas, Darden, Stern and Marshall. Columbia's and Ross's sites
    refused the automated read (HTTP 403), and the Georgetown and Emory pages found so far
-   print no dates. Next: a hub page listing every verified round.
+   print no dates. October 6 also added the hub, /schools/deadlines/: every verified round in
+   date order with the passed ones folded away, the next deadline named for the reader's own
+   date, and a table of the pages each program's dates were read from. Next: more programs,
+   and letting /apply/ fill a school's deadline from its verified rounds.
 4. **An ICS export of the application checklist**, so the dated tasks on /apply/ land in a
    calendar that reminds the applicant instead of us. Built October 5: Add to Calendar
    downloads one all-day event per open task, with a reminder the day before, and one per

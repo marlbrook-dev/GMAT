@@ -221,6 +221,7 @@ _NAV_GROUPS = [
     ]),
     ("Admissions", [
         ("Application Checklist", "/apply/", "Free"),
+        ("MBA Application Deadlines", "/schools/deadlines/", "New"),
         ("International Applicants", "/international/", "New"),
         ("Paying for It", "/funding/", "New"),
         ("MBA Rankings", "/schools/", None),

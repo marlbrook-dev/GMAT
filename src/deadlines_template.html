@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#122B4E"><link rel="apple-touch-icon" href="/icons/icon-180.png">
+<title>{{TITLE}}</title>
+<meta name="description" content="{{DESC}}">
+<link rel="stylesheet" href="{{FONTS_CSS}}">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%23122B4E'/%3E%3Cpath d='M13 33 22 22l6 5 8.5-10' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M29.5 16.5H37V24' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="canonical" href="{{CANON}}">
+<script type="application/ld+json">{{FAQ_LD}}</script>
+<style>
+:root{--navy-900:#0C1F3A;--navy-800:#122B4E;--navy-600:#2C4E80;--navy-100:#DCE5F1;--navy-50:#F2F6FB;--gold-600:#A8842F;--gold-50:#FAF5E8;--gray-700:#374151;--gray-500:#4B5563;--gray-300:#D1D5DB;--gray-200:#E5E7EB;--gray-100:#F3F4F6;--gray-50:#F9FAFB;
+--serif:'Source Serif 4',Georgia,serif;--display:var(--sans);--body:'IBM Plex Sans',system-ui,sans-serif;--mono:'IBM Plex Mono',ui-monospace,monospace}
+*{box-sizing:border-box}body{margin:0;font-family:var(--body);color:var(--gray-700);background:#fff;font-size:var(--t-400);line-height:var(--lh-body);-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--serif);color:var(--navy-900);line-height:var(--lh-800);margin:0}
+a{color:var(--navy-800)}
+{{CHROME_CSS}}
+main.dl-page{max-width:var(--container-narrow);margin:0 auto;padding:var(--s7) var(--gutter) var(--s8)}
+main.dl-page>*{min-width:0}
+.crumbs{font-size:var(--t-200);color:var(--gray-500);margin:0 0 var(--s3)}
+.crumbs a{color:var(--gray-500)}
+h1{font-size:var(--t-900);letter-spacing:var(--tr-900);line-height:var(--lh-900)}
+.lede{font-size:var(--t-500);color:var(--gray-500);max-width:var(--measure-lead);margin:var(--s4) 0 0}
+h2{font-size:var(--t-800);letter-spacing:var(--tr-800);margin:var(--s7) 0 var(--s3)}
+h3{font-size:var(--t-500);letter-spacing:var(--tr-600);margin:var(--s5) 0 var(--s2)}
+p,ul{max-width:var(--measure)}
+.src{font-size:var(--t-100);color:var(--gray-500);margin:var(--s2) 0 0;max-width:var(--measure)}
+.src a{color:var(--gray-500)}
+p.next{margin:var(--s5) 0 0;padding:var(--s4);border-radius:var(--r-md);background:var(--navy-50);border:1px solid var(--navy-100);color:var(--navy-900);max-width:none}
+p.next[hidden]{display:none}
+.tablewrap{overflow-x:auto;border:1px solid var(--gray-200);border-radius:var(--r-lg);margin-top:var(--s4)}
+table.dates{width:100%;border-collapse:collapse;font-size:var(--t-300)}
+table.dates th{font-size:var(--t-100);font-weight:600;letter-spacing:var(--tr-caps);text-transform:uppercase;color:var(--gray-500);text-align:left;padding:var(--s2) var(--s3);border-bottom:1px solid var(--gray-200);background:var(--gray-50);vertical-align:bottom}
+table.dates td{padding:var(--s2) var(--s3);border-bottom:1px solid var(--gray-100);vertical-align:top}
+table.dates td:first-child{font-weight:600;color:var(--navy-900)}
+table.dates.rounds td:first-child{white-space:nowrap}
+table.dates tr:last-child td{border-bottom:none}
+table.dates .note{display:block;font-size:var(--t-100);font-weight:400;color:var(--gray-500);white-space:normal}
+table.dates tr.past td{color:var(--gray-500);font-weight:400}
+table.rounds tr.past{display:none}
+table.rounds.all tr.past{display:table-row}
+table.dates.rounds .note.dec{display:none}
+@media (max-width:600px){table.dates.rounds th:nth-child(3),table.dates.rounds td:nth-child(3){display:none}table.dates.rounds .note.dec{display:block}}
+table.dates .pastlbl{display:none}
+table.dates tr.past .pastlbl{display:block}
+.nw{white-space:nowrap}
+.btns{display:flex;flex-wrap:wrap;gap:var(--s2);margin-top:var(--s4)}
+.btn{font:inherit;font-weight:600;font-size:var(--t-300);padding:var(--s2) var(--s4);border-radius:var(--r-md);border:1px solid var(--navy-800);background:var(--navy-800);color:#fff;text-decoration:none;display:inline-block;cursor:pointer}
+.btn.sec{background:#fff;color:var(--navy-800);border-color:var(--gray-300)}
+.btn[hidden]{display:none}
+</style></head><body>
+{{SITE_HEADER}}
+<main class="dl-page">
+<p class="crumbs"><a href="/schools/">MBA Rankings</a> / Application Deadlines</p>
+<h1>{{H1}}</h1>
+<p class="lede">{{LEDE}}</p>
+{{NEXT}}
+<h2 id="by-date">Every Round by Deadline</h2>
+<p>{{BY_DATE_INTRO}}</p>
+{{ROUNDS_TABLE}}
+<div class="btns"><button class="btn sec" id="btnPast" type="button" {{PAST_HIDDEN}}>Show Passed Rounds</button></div>
+<h2 id="by-program">Programs and Their Sources</h2>
+<p>Each program's rounds were read from the page linked here, on the date shown, and a check reads every date back off that page and reports any it stops printing. Each program's page has its rounds and a calendar file with a reminder two weeks before each deadline.</p>
+{{PROGRAMS_TABLE}}
+<p class="src">Schools change their dates, and an extension or a new round may appear on a school's page before it appears here. Confirm every date on the school's own page before you plan around it.</p>
+<h2 id="faq">Questions</h2>
+{{FAQ_HTML}}
+<div class="btns"><a class="btn" href="/apply/">Open the Application Checklist</a><a class="btn sec" href="/schools/">Compare MBA Programs</a></div>
+</main>
+{{SITE_FOOTER}}
+<script>
+(function(){
+// The build marked passed rounds for its own date; this marks them again for the reader's,
+// and when the next deadline has moved on since the build, rewrites the note from the rows,
+// which carry the date and each round's words.
+function iso(t){return t.getFullYear()+'-'+('0'+(t.getMonth()+1)).slice(-2)+'-'+('0'+t.getDate()).slice(-2);}
+var today=iso(new Date()), rows=document.querySelectorAll('table.rounds tr[data-when]'), first=null, label='', due=[], passed=0;
+rows.forEach(function(tr){var w=tr.getAttribute('data-when'), p=w<today; tr.classList.toggle('past',p);
+  if(p){passed++;return;} if(!first){first=w; label=tr.querySelector('.d').textContent;} if(w===first) due.push(tr.getAttribute('data-due'));});
+var n=document.getElementById('next'), none=document.getElementById('nextNone');
+if(first&&n.getAttribute('data-when')!==first){var s=document.createElement('strong'); s.textContent='Next deadline: '+label+'.';
+  n.textContent=''; n.appendChild(s); n.appendChild(document.createTextNode(' '+due.join('; ')+'.')); n.setAttribute('data-when',first);}
+n.hidden=!first; none.hidden=!!first;
+var b=document.getElementById('btnPast'), t=document.querySelector('table.rounds');
+if(b&&t){b.hidden=!passed; b.textContent='Show Passed Rounds ('+passed+')';
+  b.addEventListener('click',function(){var all=t.classList.toggle('all'); b.textContent=(all?'Hide':'Show')+' Passed Rounds ('+passed+')';});}
+})();
+</script>
+</body></html>

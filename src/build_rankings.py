@@ -608,7 +608,7 @@ def deadlines_section(s, today):
             '<p class="src" style="margin-top:8px">Source: <a href="%s" rel="noopener" '
             'target="_blank">%s</a>, read %s. Confirm every date on the school\'s own page before '
             'you plan around it. <a href="/schools/%s/deadlines.ics" download>Add These Dates to '
-            'Your Calendar</a></p></div>'
+            'Your Calendar</a> or see <a href="/schools/deadlines/">every program\'s deadlines</a>.</p></div>'
             % (esc(s["name"]), len(dl["rounds"]), "round" if len(dl["rounds"]) == 1 else "rounds",
                span, esc(notes), "".join(rows), esc(dl["url"]), esc(dl["src"]),
                esc(long_date(dl["checked"])), esc(s["slug"])))
@@ -641,6 +641,131 @@ def deadlines_ics(s):
                            % (s["name"], r["name"], dl["url"]), None))
     return ics("deadlines-" + s["slug"], "%s/schools/%s/" % (SITE, s["slug"]), dl["checked"], events,
                prodid="MBA Application Deadlines")
+
+
+def _names(items):
+    """'A', 'A and B', or 'A, B and C'."""
+    items = list(items)
+    return items[0] if len(items) == 1 else ", ".join(items[:-1]) + " and " + items[-1]
+
+
+def deadlines_hub(schools, today):
+    """/schools/deadlines/: every verified round across the library, earliest first, each
+    linked to its program's page and, through the table of programs, to the school page it
+    was read from. Every count and date here is taken from the records, never typed
+    (INC-0108), and the page holds nothing a school page does not already source."""
+    have = sorted((s for s in schools if s.get("deadlines")), key=lambda s: s["name"])
+    rows = sorted(((r["deadline"], s["name"], s, r) for s in have for r in s["deadlines"]["rounds"]),
+                  key=lambda x: (x[0], x[1]))
+    first = min(r["deadline"] for s in have for r in s["deadlines"]["rounds"])
+    last = max(r["deadline"] for s in have for r in s["deadlines"]["rounds"])
+    span = first[:4] if first[:4] == last[:4] else "%s-%s" % (first[:4], last[2:4])
+
+    def due(n, r):
+        return "%s, %s%s%s" % (n, r["name"], ", " + r["time"] if r.get("time") else "",
+                               ", extended from " + long_date(r["extended_from"]) if r.get("extended_from") else "")
+
+    trs = []
+    for when, name, s, r in rows:
+        notes = ""
+        if r.get("time"):
+            notes += '<span class="note">%s</span>' % esc(r["time"])
+        if r.get("extended_from"):
+            notes += '<span class="note">extended from %s</span>' % esc(long_date(r["extended_from"]))
+        # On a phone the decision column folds into the program's cell, as its own note.
+        ds = decision_said(r)
+        dec = ds if r.get("initial_notification") else "Decision: " + ds if ds else ""
+        trs.append('<tr data-when="%s" data-due="%s"%s><td><span class="d">%s</span>%s<span class="note pastlbl">'
+                   'passed</span></td><td><a href="/schools/%s/#deadlines">%s</a><span class="note">%s</span>%s</td>'
+                   '<td>%s</td></tr>'
+                   % (when, esc(due(name, r)), ' class="past"' if when < today else "", esc(long_date(when)),
+                      notes, esc(s["slug"]), esc(name), esc(r["name"]),
+                      '<span class="note dec">%s</span>' % esc(dec) if dec else "", esc(ds) or "-"))
+    rounds_table = ('<div class="tablewrap"><table class="dates rounds"><thead><tr><th>Deadline</th>'
+                    '<th>Program and Round</th><th>Decision</th></tr></thead><tbody>\n%s\n</tbody></table></div>'
+                    % "\n".join(trs))
+
+    # The rounds due on the first date still ahead of the build. The site rebuilds daily, and
+    # the page's script chooses again from the rows for the reader's own date.
+    upcoming = next((w for w, _, _, _ in rows if w >= today), None)
+    nexts = ['<p class="next" id="next" data-when="%s"%s><strong>Next deadline: %s.</strong> %s.</p>'
+             % (upcoming or "", "" if upcoming else " hidden", esc(long_date(upcoming)) if upcoming else "",
+                esc("; ".join(due(n, r) for w, n, _, r in rows if w == upcoming))),
+             '<p class="next" id="nextNone"%s><strong>Every round listed here has passed.</strong> The next '
+             'cycle\'s rounds are added as each program publishes them and they are read.</p>'
+             % ("" if upcoming is None else " hidden")]
+
+    prows = []
+    for s in have:
+        dl = s["deadlines"]
+        n = len(dl["rounds"])
+        prows.append('<tr><td><a href="/schools/%s/#deadlines">%s</a><span class="note">%d %s</span></td>'
+                     '<td><a href="%s" rel="noopener" target="_blank">%s</a><span class="note">read %s</span>'
+                     '<span class="note"><a href="/schools/%s/deadlines.ics" download>Calendar File</a></span></td></tr>'
+                     % (esc(s["slug"]), esc(s["name"]), n, "round" if n == 1 else "rounds", esc(dl["url"]),
+                        esc(dl["src"]), esc(long_date(dl["checked"])), esc(s["slug"])))
+    programs_table = ('<div class="tablewrap"><table class="dates"><thead><tr><th>Program</th><th>Source</th>'
+                      '</tr></thead><tbody>\n%s\n</tbody></table></div>' % "\n".join(prows))
+
+    # The questions are answered from the same records, so they cannot drift from the table.
+    starts = sorted((s["deadlines"]["rounds"][0]["deadline"], s["name"], s["deadlines"]["rounds"][0]["name"])
+                    for s in have)
+    lo = [x for x in starts if x[0] == starts[0][0]]
+    hi = [x for x in starts if x[0] == starts[-1][0]]
+    ends = [(w, n, r["name"]) for w, n, _, r in rows if w == last]
+    said = lambda xs: _names(["%s at %s" % (rn, n) for _, n, rn in xs])
+    faq = [("When Are MBA Application Deadlines for %s?" % span,
+            "Among the %d programs listed here, the first round at each program falls between %s (%s) and "
+            "%s (%s), and the last deadline any of them lists is %s (%s). Every round, with its decision date, "
+            "is in the table on this page." % (len(have), long_date(lo[0][0]), said(lo), long_date(hi[0][0]),
+                                               said(hi), long_date(last), said(ends))),
+           ("Where Do These Dates Come From?",
+            "Each one is read from the program's own admissions page, linked in the table of programs with the "
+            "date it was read, and from nowhere else. A check reads every date back off its page and reports "
+            "any the page stops printing, which is how a moved deadline reaches this page.")]
+    ext = [(n, r) for _, n, _, r in rows if r.get("extended_from")]
+    if ext:
+        faq.append(("What Happens When a School Extends a Deadline?",
+                    "The new date replaces the old one here, and the old one is shown beside it, because it is the "
+                    "date you may have seen elsewhere. Extended now: %s."
+                    % "; ".join("%s at %s, from %s to %s" % (r["name"], n, long_date(r["extended_from"]),
+                                                             long_date(r["deadline"])) for n, r in ext)))
+    notify = sorted({n for _, n, _, r in rows if r.get("initial_notification")})
+    if notify:
+        faq.append(("What Is an Initial Notification Date?",
+                    "Some programs publish no decision date, only the date by which they send a first answer: an "
+                    "invitation to interview, a waitlist offer or a denial. %s %s its dates this way, and those "
+                    "rows say so." % (_names(notify), "publishes" if len(notify) == 1 else "publish")))
+    faq.append(("Why Is a Program Missing?",
+                "A program appears here once its rounds have been read from its own page. The other %d programs "
+                "in our MBA library are added as their pages are read." % (len(schools) - len(have))))
+    faq_html = "\n".join("<h3>%s</h3><p>%s</p>" % (esc(q), esc(a)) for q, a in faq)
+    faq_ld = json.dumps({"@context": "https://schema.org", "@type": "FAQPage",
+                         "mainEntity": [{"@type": "Question", "name": q,
+                                         "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq]},
+                        separators=(",", ":"))
+
+    tpl = (D / "deadlines_template.html").read_text()
+    return (tpl.replace("{{TITLE}}", esc("MBA Application Deadlines %s: %d Programs, Every Date Sourced"
+                                         % (span, len(have))))
+               .replace("{{DESC}}", esc("Application deadlines and decision dates for %d full-time MBA programs "
+                                        "for %s, each read from the school's own page, with the date it was read "
+                                        "and a calendar file for every program." % (len(have), span)))
+               .replace("{{CANON}}", SITE + "/schools/deadlines/")
+               .replace("{{FAQ_LD}}", faq_ld)
+               .replace("{{H1}}", 'MBA Application Deadlines <span class="nw">%s</span>' % esc(span))
+               .replace("{{LEDE}}", esc("Every application round that %d full-time MBA programs publish for %s, "
+                                        "%d in all, read from each program's own admissions page and read back off "
+                                        "it by a check that reports any date a page stops printing."
+                                        % (len(have), span, len(rows))))
+               .replace("{{NEXT}}", "\n".join(nexts))
+               .replace("{{BY_DATE_INTRO}}", esc("Earliest first. Rounds whose deadline has passed stay hidden "
+                                                 "until you show them. A note under a date gives the school's own "
+                                                 "time for it, or the date an extension replaced."))
+               .replace("{{ROUNDS_TABLE}}", rounds_table)
+               .replace("{{PAST_HIDDEN}}", "" if any(w < today for w, _, _, _ in rows) else "hidden")
+               .replace("{{PROGRAMS_TABLE}}", programs_table)
+               .replace("{{FAQ_HTML}}", faq_html))
 
 
 def lead_paragraph(s, p, g, gc, acc, tui, sal, cs):
@@ -1593,6 +1718,7 @@ def main():
            .replace("{{DATA}}", json.dumps(schools, separators=(",", ":")))
            .replace("{{WEIGHTS_ROWS}}", weights_rows)
            .replace("{{N}}", str(len(schools)))
+           .replace("{{DL_N}}", str(sum(1 for x in schools if x.get("deadlines"))))
            # Counted from the data, never typed: the sentence these fill once carried the
            # numbers in words, correct on the day and fixed forever after (INC-0108).
            .replace("{{INTL_40}}", str(sum(1 for x in schools if not x.get("discontinued")
@@ -1629,6 +1755,12 @@ def main():
                     or "\u2014" in cal or "\u2013" in cal:
                 raise SystemExit("build_rankings: %s/deadlines.ics is not a well formed calendar" % s["slug"])
             (sd / "deadlines.ics").write_text(cal, newline="")
+    if any(s.get("deadlines") for s in schools):
+        # The hub shares /schools/ with the school pages, so a school may never take its name.
+        if any(s["slug"] == "deadlines" for s in load_schools()):
+            raise SystemExit("build_rankings: a school's slug is 'deadlines', which is the hub's path")
+        (dest / "deadlines").mkdir(exist_ok=True)
+        pages.append((dest / "deadlines" / "index.html", deadlines_hub(schools, today)))
     pages = [(path, partials.apply_chrome(content, extra_legal=RANKINGS_LEGAL)) for path, content in pages]
     for path, content in pages:
         if "{{" in content:

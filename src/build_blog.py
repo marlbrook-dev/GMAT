@@ -607,10 +607,18 @@ def build_sitemap(posts):
     schools_dir = ROOT / "data" / "schools"
     if schools_dir.is_dir():
         import json as _json
+        slugs = set()
         for sp in sorted(schools_dir.glob("*.json")):
             s = _json.loads(sp.read_text())
+            slugs.add(s["slug"])
             if not s.get("discontinued"):
                 urls.append((f"{SITE}/schools/{s['slug']}/", None))
+        # Pages under /schools/ that belong to no school, such as the deadlines hub, walked
+        # from the built tree so the next one is listed without a code change. A directory
+        # named for a school is never one of them, discontinued or not.
+        for page in sorted((ROOT / "schools").glob("*/index.html")):
+            if page.parent.name not in slugs:
+                urls.append((f"{SITE}/schools/{page.parent.name}/", None))
     colleges_dir = ROOT / "data" / "colleges"
     if colleges_dir.is_dir():
         import json as _json3
