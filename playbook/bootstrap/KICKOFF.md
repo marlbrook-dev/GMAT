@@ -1,9 +1,9 @@
 # Kickoff
 
 You are building a new product with me. Before anything else, read RULES_DIGEST.md in
-this project: it is the most costly of 204 real defects from a previous build of a
+this project: it is the most costly of 205 real defects from a previous build of a
 comparable platform, compressed to one rule each. Those rules are the accumulated cost of
-16 days of building, and following them is cheaper than rediscovering them.
+17 days of building, and following them is cheaper than rediscovering them.
 
 ## The working agreement
 

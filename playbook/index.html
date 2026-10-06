@@ -59,7 +59,7 @@ a{color:var(--accent)}
 <p class="eyebrow">Start From Nowhere</p>
 <h1>The Build Playbook</h1>
 <p class="sub">How one person and a set of AI sessions built a multi-exam test-prep platform, every defect hit on the way, and the recipe for doing it again for something else</p>
-<p class="meta">Built 2026-10-06 from commit 4aa50f1 &middot; 191 commits over 16 days &middot; 204 recorded defects &middot; 17 chapters<br>
+<p class="meta">Built 2026-10-06 from commit 00ee222 &middot; 193 commits over 17 days &middot; 205 recorded defects &middot; 17 chapters<br>
 This document is generated. Edit the chapters in docs/playbook/ and the ledger in data/playbook/incidents.jsonl, then run python3 src/build_playbook.py.</p>
 </div>
 <div class="toc"><ol><li><a href="#how-to-use-this-book">How to Use This Book</a></li>
@@ -81,7 +81,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><a href="#the-bootstrap-pack-starting-a-new-project-with-this-loaded">The Bootstrap Pack: Starting a New Project With This Loaded</a></li></ol></div>
 <h1 id="how-to-use-this-book">How to Use This Book</h1>
 <p>This is the record of building one platform, written so it can be used to build a different one.</p>
-<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-09-19 and 2026-10-05, which is 16 days, across 191 commits, by one owner directing a series of AI coding sessions. As of this build it is 87 Python files, 112 JavaScript files, 24 TypeScript edge functions, 35 migrations and 65 documents: 2126 tracked files in total.</p>
+<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-09-19 and 2026-10-06, which is 17 days, across 193 commits, by one owner directing a series of AI coding sessions. As of this build it is 87 Python files, 112 JavaScript files, 24 TypeScript edge functions, 35 migrations and 65 documents: 2126 tracked files in total.</p>
 <p>None of those numbers were typed. They are measured from the repository every time this document is built, which is the first thing worth copying.</p>
 <h2 id="what-is-in-here">What is in here</h2>
 <p>The book has four kinds of chapter, and they age differently.</p>
@@ -621,7 +621,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three defects here were found by taking a screenshot: a chart unreadable in dark mode, a line chart implying values that never existed, and a dashboard that was not on screen. None of them would have been caught by an assertion, because none of them were violations of anything anybody had thought to assert.</p>
 <p><strong>Budget for looking.</strong> It is the cheapest test there is and the only one that catches things you have not imagined.</p>
 <h1 id="running-the-build-as-an-ai-loop">Running the Build as an AI Loop</h1>
-<p>191 commits in 16 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
+<p>193 commits in 17 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
 <h2 id="the-division-of-labour">The division of labour</h2>
 <p><strong>The owner decides</strong>: what to build, what it means, what is acceptable, and every irreversible or outward-facing action. <strong>The session does</strong>: the building, the measuring, the testing, and the reporting of what it found.</p>
 <p>The failure mode at each end is worth naming. An owner who reviews every line becomes the bottleneck and the throughput collapses to the speed of reading. A session that decides product questions on its own produces something coherent that is not what anyone wanted.</p>
@@ -654,7 +654,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>What was left undone, and whether that is a decision or a blocker.</li>
 <li>Numbers, with the command that produced them.</li>
 </ol>
-<p>The commit messages in this repository are written that way, which is why a defect ledger could be reconstructed from them 16 days later. <strong>Write the commit message as though someone will need to mine it. Someone will.</strong></p>
+<p>The commit messages in this repository are written that way, which is why a defect ledger could be reconstructed from them 17 days later. <strong>Write the commit message as though someone will need to mine it. Someone will.</strong></p>
 <h2 id="failure-modes-observed-in-this-project">Failure modes observed in this project</h2>
 <p><strong>Reporting a regression from one seed.</strong> A stochastic measurement compared before and after on a single seed showed an 88 to 72 percent drop. Across three seeds the spread between seeds was larger than the effect. Run more seeds before reporting.</p>
 <p><strong>Pausing to report when told to keep working.</strong> A session that stops to summarise every few minutes converts working time into reading time. If the owner has said to keep going, keep going, and batch the reporting.</p>
@@ -665,28 +665,28 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Long uninterrupted sessions with standing authorisation, punctuated by the owner redirecting priorities, beat short supervised ones by a wide margin. The standing authorisation that made it work was specific: merge your own work once the checks are green, do not check in on each item, and stop immediately when told to.</p>
 <p>The thing that makes that safe is not trust. It is that the checks are real, the destructive actions still require asking, and the record of what happened is written down well enough to audit later. Which is what this book is.</p>
 <h1 id="what-the-ledger-says-about-itself">What the Ledger Says About Itself</h1>
-<p>204 recorded defects, over 16 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.</p>
+<p>205 recorded defects, over 17 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.</p>
 <h2 id="how-defects-were-actually-found">How defects were actually found</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">How</th><th style="text-align:right">Count</th><th style="text-align:right">Share</th></tr></thead><tbody>
 <tr><td style="text-align:left">Found by reading the code or the output</td><td style="text-align:right">114</td><td style="text-align:right">56%</td></tr>
-<tr><td style="text-align:left">Found by measuring something</td><td style="text-align:right">46</td><td style="text-align:right">23%</td></tr>
+<tr><td style="text-align:left">Found by measuring something</td><td style="text-align:right">46</td><td style="text-align:right">22%</td></tr>
 <tr><td style="text-align:left">A test caught it</td><td style="text-align:right">23</td><td style="text-align:right">11%</td></tr>
-<tr><td style="text-align:left">Found by rendering it and looking</td><td style="text-align:right">9</td><td style="text-align:right">4%</td></tr>
+<tr><td style="text-align:left">Found by rendering it and looking</td><td style="text-align:right">10</td><td style="text-align:right">5%</td></tr>
 <tr><td style="text-align:left">Found by a review bot or an adversarial pass</td><td style="text-align:right">5</td><td style="text-align:right">2%</td></tr>
 <tr><td style="text-align:left">A build guard caught it</td><td style="text-align:right">5</td><td style="text-align:right">2%</td></tr>
 <tr><td style="text-align:left">A person hit it</td><td style="text-align:right">2</td><td style="text-align:right">1%</td></tr>
 </tbody></table></div>
-<p><strong>This is the most useful table in the book.</strong> 202 of 204 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.</p>
+<p><strong>This is the most useful table in the book.</strong> 203 of 205 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.</p>
 <p><strong>Read that percentage with the bias it carries.</strong> This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.</p>
 <h2 id="by-severity">By severity</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">Severity</th><th style="text-align:right">Count</th></tr></thead><tbody>
 <tr><td style="text-align:left">Wrong data shown or stored</td><td style="text-align:right">95</td></tr>
-<tr><td style="text-align:left">Degraded</td><td style="text-align:right">49</td></tr>
+<tr><td style="text-align:left">Degraded</td><td style="text-align:right">50</td></tr>
 <tr><td style="text-align:left">Cosmetic</td><td style="text-align:right">31</td></tr>
 <tr><td style="text-align:left">Silent loss</td><td style="text-align:right">26</td></tr>
 <tr><td style="text-align:left">Site down</td><td style="text-align:right">3</td></tr>
 </tbody></table></div>
-<p><strong>Silent loss is the dominant failure mode</strong>, at 26 of 204. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.</p>
+<p><strong>Silent loss is the dominant failure mode</strong>, at 26 of 205. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.</p>
 <h2 id="by-area">By area</h2>
 <div class="tw"><table><thead><tr><th style="text-align:left">Area</th><th style="text-align:right">Count</th></tr></thead><tbody>
 <tr><td style="text-align:left">Content generation</td><td style="text-align:right">96</td></tr>
@@ -694,7 +694,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <tr><td style="text-align:left">Front end</td><td style="text-align:right">14</td></tr>
 <tr><td style="text-align:left">Build system</td><td style="text-align:right">13</td></tr>
 <tr><td style="text-align:left">Search and metadata</td><td style="text-align:right">11</td></tr>
-<tr><td style="text-align:left">CSS and layout</td><td style="text-align:right">8</td></tr>
+<tr><td style="text-align:left">CSS and layout</td><td style="text-align:right">9</td></tr>
 <tr><td style="text-align:left">Scoring and selection</td><td style="text-align:right">7</td></tr>
 <tr><td style="text-align:left">Infrastructure and deploy</td><td style="text-align:right">6</td></tr>
 <tr><td style="text-align:left">Payments</td><td style="text-align:right">5</td></tr>
@@ -702,7 +702,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <tr><td style="text-align:left">Interface and data display</td><td style="text-align:right">3</td></tr>
 </tbody></table></div>
 <h2 id="guard-coverage">Guard coverage</h2>
-<p>198 of 204 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.</p>
+<p>199 of 205 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.</p>
 <p>Carried by attention:</p>
 <ul>
 <li><strong>INC-0010</strong> CSS comments do not nest, and one placeholder killed the palette on 1451 pages</li>
@@ -718,7 +718,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>weekly_audit checks computed colour on every page (INC-0050, INC-0048)</li>
 </ul>
 <h2 id="lessons-learned-more-than-once">Lessons learned more than once</h2>
-<p>92 of 204 incidents record that they repeat an earlier lesson, 125 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.</p>
+<p>92 of 205 incidents record that they repeat an earlier lesson, 125 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.</p>
 <div class="tw"><table><thead><tr><th style="text-align:left">Lesson first recorded in</th><th style="text-align:left">Repeated by</th><th style="text-align:right">Times</th></tr></thead><tbody>
 <tr><td style="text-align:left">INC-0088 A shipped schema answerable at 68 percent by picking the shortest option, under the size at which anything is checked</td><td style="text-align:left">INC-0089, INC-0098, INC-0099, INC-0101, INC-0117, INC-0122</td><td style="text-align:right">6</td></tr>
 <tr><td style="text-align:left">INC-0104 Half the school pages opened with a data note pasted into a sentence, and the structured data repeated it</td><td style="text-align:left">INC-0105, INC-0131, INC-0134, INC-0135, INC-0145</td><td style="text-align:right">5</td></tr>
@@ -2602,7 +2602,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>What stops it now.</strong> The report stops with an error if src/worker.mjs declares a RETIRED table it cannot parse, so a change to the table's format cannot quietly switch the exclusion off and bring the false alarm back. in <code>src/gsc_report.py</code></li>
 <li><strong>Lesson.</strong> A check that reports what is missing has to know every way the thing can be present. When its advice names the place where the fix belongs, it should read that place first; otherwise it keeps recommending work that was already done, and the people reading it learn to ignore it.</li>
 </ul>
-<h2 id="css-and-layout-8">CSS and layout (8)</h2>
+<h2 id="css-and-layout-9">CSS and layout (9)</h2>
 <h3 id="inc-0050-a-landing-page-icon-referenced-a-colour-token-that-did-not-exist">INC-0050. A landing-page icon referenced a colour token that did not exist</h3>
 <p><em>2026-08-19, Cosmetic, <code>5337dfd</code></em></p>
 <ul>
@@ -2687,6 +2687,16 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Fix.</strong> The sentence may wrap; the name inside it stays whole (white-space:nowrap on the name only).</li>
 <li><strong>What stops it now.</strong> src/smoke_community.js, run in npm run test:browser, loads /community/ at 390px signed out with the longest and the shortest pseudonym stored, with Supabase answered locally the way it answers a visitor, and fails on sideways scroll or a name broken across lines. No smoke test measured the community page's width before: smoke_launch loads it at 390px for its heading, contrast and link checks but never measures sideways scroll, the suites that do measure it cover other pages, and where the network fails the page replaces this line with a short notice, so a run without Supabase never drew it. in <code>src/smoke_community.js</code></li>
 <li><strong>Lesson.</strong> A layout checked with one sample of random content is checked for that sample. When a page draws something at random, a name, a pick or a shuffle, test it with the widest value it can produce, and pin that value, since a check that passes or fails by luck is not a check.</li>
+</ul>
+<h3 id="inc-0205-the-consent-banner-s-reject-non-essential-label-ran-out-of-its-button-on-phones-narrower-than-390-pixels-so-the-refusal-looked-broken-beside-a-clean-save-choices">INC-0205. The consent banner's Reject Non Essential label ran out of its button on phones narrower than 390 pixels, so the refusal looked broken beside a clean Save Choices</h3>
+<p><em>2026-10-06, Degraded</em></p>
+<ul>
+<li><strong>What was seen.</strong> On every page at phone widths, the consent banner's 'Reject Non Essential' label does not fit inside its button, while 'Save Choices' beside it does. Measured with the site's own fonts served over HTTP, the label's line runs past the space inside the button's padding by 55 pixels at 320 pixels wide, 35 at 360, 28 at 375, 20 at 390 and 8 at 414; below 390 that carries it over the button's right border, and at 390 and 414 it runs through the padding to the border. At 320 'Save Choices' overruns by 9 pixels too. The reject choice still works when tapped, but it is the control that looks broken, on the banner whose rule is that refusing is exactly as easy as accepting.</li>
+<li><strong>Why.</strong> Below 520 pixels the two buttons share the row in equal halves (flex 1 1 0), and both keep white-space:nowrap and 20 pixels of padding on each side. Equal halves are right for the same-size rule, but a label that may not wrap overflows as soon as its half is narrower than the label, and 'Reject Non Essential' is 128 pixels of text. The consent smoke compares the two buttons only at 1280 pixels, where each has room, and measures their position and area, never whether a label fits inside its button. The first measurement taken for this record compared scrollWidth with clientWidth and said the label fitted from 390 up; text running into a box's padding is not scrollable overflow, so that measure misses a label that reaches the border.</li>
+<li><strong>How it surfaced.</strong> Found on October 6, 2026 while screenshotting a queued post at 390 pixels wide: the banner covered the page with its reject label cut off. That first view used a fallback font, from a page read off disk, so the label was measured again with the site's fonts at 320, 360, 375, 390 and 414 pixels, from the label's own line boxes against the inside of the button's padding. (Found by rendering it and looking)</li>
+<li><strong>Fix.</strong> Below 520 pixels the buttons keep their equal halves but take 12 pixels of side padding instead of 20 and may wrap their label, so 'Reject Non Essential' wraps onto a second line inside its button below about 400 pixels wide and sits on one line above that, and the two buttons stay the same height side by side.</li>
+<li><strong>What stops it now.</strong> smoke_consent.js opens the banner at 320, 360, 375, 390 and 414 pixels and fails if any line of either label reaches outside its button's padding, measured from the label's own line boxes, or if reject stops sitting beside accept at the same size. Run against the old rule it reports the overruns above. in <code>src/smoke_consent.js</code></li>
+<li><strong>Lesson.</strong> A layout check at one desktop width says nothing about a phone. Where a rule says two controls must be equal, test it at the narrowest widths people use and measure that each label fits its box, because equal boxes with unequal labels fail on the longer label first. Measure the text's own boxes against the inside of the padding: scrollWidth ignores text that runs into padding, so it passes a label that touches the border.</li>
 </ul>
 <h2 id="scoring-and-selection-7">Scoring and selection (7)</h2>
 <h3 id="inc-0040-the-easier-module-was-not-easier">INC-0040. The easier module was not easier</h3>
@@ -3053,6 +3063,10 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li>[ ] A layout checked with one sample of random content is checked for that sample. When a page draws something at random, a name, a pick or a shuffle, test it with the widest value it can produce, and pin that value, since a check that passes or fails by luck is not a check.  </li>
 </ul>
 <p>&lt;small&gt;The community page scrolled sideways on phones for visitors whose random pseudonym was long, because the line that names it could not wrap (INC-0164)&lt;/small&gt;</p>
+<ul>
+<li>[ ] A layout check at one desktop width says nothing about a phone. Where a rule says two controls must be equal, test it at the narrowest widths people use and measure that each label fits its box, because equal boxes with unequal labels fail on the longer label first. Measure the text's own boxes against the inside of the padding: scrollWidth ignores text that runs into padding, so it passes a label that touches the border.  </li>
+</ul>
+<p>&lt;small&gt;The consent banner's Reject Non Essential label ran out of its button on phones narrower than 390 pixels, so the refusal looked broken beside a clean Save Choices (INC-0205)&lt;/small&gt;</p>
 <h2 id="content-generation">Content generation</h2>
 <ul>
 <li>[ ] <strong>Learned 7 times over.</strong> A size threshold on a check is a silent exemption, and it grows as the corpus does: every schema written from a small authored corpus falls under it by construction, which is exactly the population most likely to carry a structural tell. When a measurement cannot be trusted at a small sample, widen the tolerance to what the sample supports rather than declining to measure, and notice when a count of what was measured does not move after you add something to measure.  </li>
@@ -3849,7 +3863,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p><code>python3 src/build_playbook.py</code> writes four files into <code>playbook/bootstrap/</code>, all generated from the same ledger as the book, so none of them can drift from it.</p>
 <p><strong><code>CLAUDE.template.md</code></strong> goes in the new repository's root. Claude Code reads it on every turn. It is the constitution: the house rules, the never-invent-a-value rule, the sourcing rules, the communication rule, and a short architecture section you fill in as you build. Four bracketed blanks at the top are the only things you have to change.</p>
 <p><strong><code>KICKOFF.md</code></strong> is the literal first message for a new conversation. It sets the working agreement, the phase order, and what a session should report. Paste it, then describe your business idea underneath it.</p>
-<p><strong><code>RULES_DIGEST.md</code></strong> is every lesson in the defect ledger, compressed to one line each and grouped by area. It is about three pages. This is the highest value-per-token artefact in the whole project: 204 real defects reduced to the rules that prevent them, with the specifics of this codebase stripped out.</p>
+<p><strong><code>RULES_DIGEST.md</code></strong> is every lesson in the defect ledger, compressed to one line each and grouped by area. It is about three pages. This is the highest value-per-token artefact in the whole project: 205 real defects reduced to the rules that prevent them, with the specifics of this codebase stripped out.</p>
 <p><strong><code>incidents.jsonl</code></strong> is the raw ledger, copied so the new project can start appending to it on day one rather than starting an empty one.</p>
 <h2 id="how-to-load-it-by-surface">How to load it, by surface</h2>
 <p><strong>Claude Code, new repository.</strong> Copy <code>CLAUDE.template.md</code> to the repo root as <code>CLAUDE.md</code>, fill in the four blanks, and copy <code>incidents.jsonl</code> to <code>data/playbook/incidents.jsonl</code>. Copy <code>src/build_playbook.py</code> too, so the new project's own ledger becomes its own book from the first defect. Then open a session with <code>KICKOFF.md</code> as the first message.</p>
@@ -3859,7 +3873,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three reasons, and they are worth understanding rather than just following.</p>
 <p><strong>Retrieval beats repetition.</strong> A document in project knowledge is consulted when relevant. The same document in the prompt is re-read on every single turn, at full cost, mostly when it is irrelevant. For anything longer than a few pages, retrieval is strictly better.</p>
 <p><strong>Instructions need to be short enough to be followed.</strong> A rule competing with ten thousand words of context is a rule that gets applied inconsistently. The digest is deliberately brutal: one line per lesson, imperative mood, no examples. The examples are in the book, where they can be looked up when a rule seems wrong.</p>
-<p><strong>The ledger is the part that compounds.</strong> The recipe chapters age. The rules do not, because each one is the residue of a real failure, and the failure modes of software are considerably more stable than its tooling. A new project that starts with 204 defects already prevented is genuinely ahead, and every defect it hits of its own makes the next project further ahead still.</p>
+<p><strong>The ledger is the part that compounds.</strong> The recipe chapters age. The rules do not, because each one is the residue of a real failure, and the failure modes of software are considerably more stable than its tooling. A new project that starts with 205 defects already prevented is genuinely ahead, and every defect it hits of its own makes the next project further ahead still.</p>
 <h2 id="keeping-the-loop-closed">Keeping the loop closed</h2>
 <p>The pack is only worth carrying forward if the new project feeds it back. So the working agreement in <code>KICKOFF.md</code> includes one instruction that does the whole job:</p>
 <p>&gt; When something breaks, append a record to <code>data/playbook/incidents.jsonl</code> before fixing &gt; it, while you still remember what you believed was true five minutes ago.</p>
