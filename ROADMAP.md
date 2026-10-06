@@ -1425,6 +1425,39 @@ verified rather than that the school does not publish one (INC-0118).
         rather than claiming LSAC uses them.
       - None of the ten samples is an EXCEPT question, so the post describes that form
         without saying the LSAT uses it. EDITORIAL.md records that limit beside the facts.
+- [x] **Five more long reading passages** (orchardfrost, shingle, latemail, crackedpanes,
+      turnpike). Batch 8 blamed people for what a new structure or water supply did; these
+      five move to causes the corpus had not used:
+      - Apple blossom lost to frost, blamed on pruning gangs: a new railway embankment held
+        the cold night air over the orchards above it.
+      - A beach losing its shingle, blamed on builders carting it away: a new breakwater
+        stopped the shingle drifting along the shore.
+      - Letters arriving late, blamed on new young postmen: the early train that carried the
+        mail was taken off.
+      - Cracked windows, blamed on schoolboys' stones: the shock of a forge's new steam
+        hammer.
+      - A turnpike road breaking up, blamed on the surveyor's cheap stone: heavy wagons from
+        a new quarry.
+
+      They run 303 to 317 words. The banks grow to GMAT 34962, GRE 21338 and LSAT 16063, of
+      which 15691 are generated; the counts were read from the build.
+      - Names were checked by whole word against every generator, bank and post. Wendle,
+        Pennock, Brearley, Garside and Jabez were already in other passages, so the valley
+        is the Rillbeck and the researchers are Thewlis, Crowther and Ainsley. The saddler
+        became Gideon Kitching, and two places were renamed for the same reason: Hollin
+        Garth became Tolson's Farm and Gannet Scar became Cormorant Rock.
+      - The premise check (INC-0097) stopped three cases named only by short words ("the
+        bag from the port", "the new crane in the forge yard", "the new lamp on the fish
+        quay"), which give it nothing to match a near miss against. They became the
+        ironworks' bag, a new furnace and a new lantern.
+      - Read before the build: cracked "upper windows that no thrown stone could reach"
+        overstated what a stone cannot do, so the panes are now in back windows facing away
+        from the street. Two near misses that common sense alone would call true (a crane
+        that "did not shake the ground" and an excursion train that "carried no mail") were
+        replaced with statements the passage leaves open.
+      - All 175 items on the new passages were read: 50 GMAT, 50 GRE and 75 LSAT. The GRE
+        renderings each run six sentences, and every sentence function question names the
+        right one.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
