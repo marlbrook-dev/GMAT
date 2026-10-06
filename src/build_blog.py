@@ -166,6 +166,67 @@ def retired_claims(p):
     return out
 
 
+# A sentence about what most programs or schools do is a statistic about programs even with no
+# number in it, so neither the price guard nor the weekly source check can see it. The timeline
+# post said most full-time programs run three rounds a year, where 11 of the 32 whose deadlines
+# we read do (INC-0203). So each such sentence has to be listed on the fact sheet, under
+# "Claims about most programs or schools", with what it rests on: a count from our data or a
+# source. "The most selective programs" is a superlative, not a share, and is left alone.
+GENERAL = re.compile(r"(?<![Tt]he )\b(?:most|nearly all|almost all|the majority of)\s+(?:of the\s+)?"
+                     r"(?:(?:full-time|part-time|top|mba|business|u\.s\.|us|other|non-business|graduate|major|ranked)\s+){0,4}"
+                     r"(?:programs|schools)\b", re.I)
+CLAIM_BASIS = re.compile(r'^- ([a-z0-9-]+) \| "([^"]+)" \| (.{20,})$', re.M)
+
+
+def post_sentences(p):
+    """Each sentence of a post, body and FAQ, as a reader sees it."""
+    from page_checks import _BLOCK
+    parts = re.sub(r"<[^>]+>", " ", _BLOCK.sub("\n", p["body"])).split("\n")
+    parts += [str(q.get(k, "")) for q in p["faq"] for k in ("q", "a")]
+    out = []
+    for part in parts:
+        for t in re.split(r"(?<=[.!?])\s+", html.unescape(part)):
+            t = re.sub(r"\s+", " ", t).strip()
+            if t:
+                out.append(t)
+    return out
+
+
+def unbacked_claims(posts, sheet):
+    """(slug, sentence) for each claim about most programs or schools that the fact sheet does
+    not back, and (slug, listed start) for each backing line no post uses any more."""
+    bases = CLAIM_BASIS.findall(sheet)
+    used, loose = set(), []
+    for p in posts:
+        for t in post_sentences(p):
+            if GENERAL.search(t):
+                hit = [b for b in bases if b[0] == p["slug"] and b[1] in t]
+                if hit:
+                    used.update(hit)
+                else:
+                    loose.append((p["slug"], t))
+    return loose, [(b[0], b[1]) for b in bases if b not in used]
+
+
+def _selfcheck_general():
+    """INC-0203: a share of programs is caught in a sentence or an FAQ answer; a superlative,
+    "matters most because schools", and the reader's own target schools are not; a sentence
+    the fact sheet backs passes, and a backing line nothing uses is reported."""
+    cases = (("<p>Most full-time MBA programs run three rounds a year.</p>", [], True),
+             ("<p>At the most selective MBA programs, figures cluster high.</p>", [], False),
+             ("<p>The stat type matters most because schools do not all report the same thing.</p>", [], False),
+             ("<p>Retake when you are below the spread at most of your target schools.</p>", [], False),
+             ("<p>Plain.</p>", [{"q": "Do MBA programs accept the GRE?", "a": "Nearly all major MBA programs do."}], True))
+    for body, faq, want in cases:
+        loose, _ = unbacked_claims([{"slug": "x", "body": body, "faq": faq}], "")
+        if bool(loose) != want:
+            fail("unbacked_claims on %r gave %s, expected %s (INC-0203)" % ((body + str(faq))[:70], bool(loose), want))
+    sheet = '- x | "Most programs publish a median" | of the 53 salary figures on file, 39 are medians\n- y | "Most schools" | a line about a post that no longer says it'
+    loose, stale = unbacked_claims([{"slug": "x", "body": "<p>Most programs publish a median: 39 of 53.</p>", "faq": []}], sheet)
+    if loose or stale != [("y", "Most schools")]:
+        fail("unbacked_claims did not match the fact sheet's lines as listed (INC-0203)")
+
+
 # Headings are Title Case (CLAUDE.md): every word capitalised except these, which stay lower
 # case unless first, last, or first after a colon. The first thirty posts set theirs in
 # sentence case and nothing checked (INC-0171).
@@ -284,6 +345,14 @@ def validate(posts):
             missing = [s for s in sib if s not in slugs]
             if missing: fail(f"{n}: links to unknown posts {missing}")
             if len(set(sib)) < 2: fail(f"{n}: needs at least 2 internal links to sibling posts")
+    loose, unused = unbacked_claims(posts, (POSTS_DIR / "EDITORIAL.md").read_text(encoding="utf-8"))
+    if loose:
+        fail(f"{loose[0][0]}.html says what most programs or schools do: {loose[0][1][:200]!r}. List it in "
+             f"EDITORIAL.md under 'Claims about most programs or schools' with its basis, a count from "
+             f"our data or a source, or say it without the claim (INC-0203)")
+    if unused:
+        fail(f"EDITORIAL.md backs a claim {unused[0][0]}.html no longer makes ({unused[0][1]!r}); "
+             f"remove that line (INC-0203)")
 
 HEAD_CSS = """*{box-sizing:border-box}body{margin:0;font-family:var(--body);color:var(--gray-700);background:#fff;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
 :root{--navy-900:#0C1F3A;--navy-800:#122B4E;--navy-600:#2C4E80;--navy-100:#DCE5F1;--navy-50:#F2F6FB;--gold-700:#8A6A25;--gold-600:#A8842F;--gold-500:#C7A252;--gold-100:#F0E4C8;--gold-50:#FAF5E8;--gray-900:#111827;--gray-700:#374151;--gray-500:#4B5563;--gray-300:#D1D5DB;--gray-200:#E5E7EB;--gray-100:#F3F4F6;--gray-50:#F9FAFB;--blue-600:#2563EB;--blue-50:#EFF6FF;--violet-600:#7C3AED;--violet-50:#F5F3FF;--teal-600:#0F766E;--teal-50:#F0FDFA;--green-700:#15803D;--green-100:#DCFCE7;--green-50:#F0FDF4;
@@ -682,12 +751,83 @@ def sitemap_gaps(sitemap):
     return gaps
 
 
+def page_problems(root):
+    """What the built-page checks find under root/blog, as messages: the checks build.py runs on
+    every other section, which read the pages as built rather than the post files."""
+    from page_checks import (python_reprs, articles, offsite_scripts, offsite_styles, undefined_tokens,
+                             trainer_claims, untitled_headings, entity_names, untitled_buttons)
+    from build_exams import LIVE
+    root = pathlib.Path(root)
+    out = []
+    # Every page carries the error beacon exactly once. The footer supplies it, and this
+    # builder once appended a second copy after the footer, so each blog page reported its
+    # errors twice; apply_chrome forbids that, but the blog never goes through apply_chrome
+    # (INC-0197). So the rule is checked on the pages as written.
+    out += ["%s must carry the error beacon exactly once (INC-0197)" % f.relative_to(root)
+            for f in sorted((root / "blog").glob("**/index.html"))
+            if f.read_text().count(_partials.SENTINEL_MARK) != 1]
+    out += ["%s loads a script from another host: %s (INC-0148)" % x for x in offsite_scripts(root, ["blog"])]
+    out += ["%s %s (INC-0163)" % x for x in offsite_styles(root, ["blog"])]
+    out += ["%s prints a Python data structure: ...%s..." % x for x in python_reprs(root, ["blog"])]
+    # No blog page may use a design token it never defines, as build.py checks (INC-0139).
+    tokens = re.findall(r"(--[a-z0-9-]+)\s*:", partials.TOKENS_CSS)
+    out += ["%s uses design tokens it never defines: %s" % (pg, ", ".join(m))
+            for pg, m in undefined_tokens(root, ["blog"], tokens)]
+    # No built blog page may call a live trainer unfinished, as build.py checks (INC-0138).
+    names = [e["short"] for e in json.loads((ROOT / "data" / "exams.json").read_text()) if e["slug"] in LIVE]
+    out += ["%s calls a live trainer unfinished: %r" % x for x in trainer_claims(root, ["blog"], names)]
+    # Every heading on a built blog page, the template's own included, in Title Case as build.py
+    # checks it: "Keep reading" sat on every post while only post bodies were read (INC-0176).
+    out += ["%s has a heading that breaks Title Case: %r should read %r" % x
+            for x in untitled_headings(root, ["blog"], entity_names(ROOT))]
+    # Every styled button's label, as build.py checks it (INC-0178).
+    out += ["%s has a button label that breaks Title Case: %r should read %r" % x
+            for x in untitled_buttons(root, ["blog"])]
+    # The article before a number, as build.py checks it (INC-0134).
+    out += ["%s puts the wrong article before a number: ...%s..." % x for x in articles(root, ["blog"])]
+    return out
+
+
+def held_problems(posts, live_slugs):
+    """The page checks on every held post, built as it will publish, with every post live as on
+    the last one's day. A post's title becomes its page's h1 only when the page is built, so a
+    title the checks refuse passed every build until the deploy on its own date (INC-0204)."""
+    import tempfile
+    held = [p for p in posts if p["slug"] not in live_slugs]
+    if not held:
+        return []
+    every = {p["slug"] for p in posts}
+    with tempfile.TemporaryDirectory() as tmp:
+        root = pathlib.Path(tmp)
+        # The pages link the site's own fonts and scripts, which the checks look for on disk.
+        (root / "vendor").symlink_to(ROOT / "vendor", target_is_directory=True)
+        out = root / "blog"
+        out.mkdir()
+        (out / "index.html").write_text(build_index(posts))
+        for p in held:
+            d = out / p["slug"]
+            d.mkdir()
+            (d / "index.html").write_text(build_post(dict(p, body=delink_held(p["body"], every)), posts))
+        return ["held post page " + m for m in page_problems(root)]
+
+
+def _selfcheck_held(posts):
+    """INC-0204: a held post whose title breaks Title Case is caught before its day."""
+    fake = dict(posts[0], slug="selfcheck-held", file="selfcheck-held.html", date="9999-12-31",
+                title="Which Round Should You Apply In? A Test")
+    got = held_problems(posts + [fake], {p["slug"] for p in posts})
+    if not any("Apply In? A Test" in m for m in got):
+        fail("held_problems did not catch a held post's title that breaks Title Case (INC-0204)")
+
+
 def main():
     _selfcheck_stale()
     _selfcheck_retired()
     _selfcheck_title()
+    _selfcheck_general()
     posts = load_posts()
     validate(posts)  # validate everything, including held future posts
+    _selfcheck_held(posts)
     live = split_live(posts)
     live_slugs = {p["slug"] for p in live}
     out = ROOT / "blog"
@@ -698,15 +838,6 @@ def main():
         d.mkdir(exist_ok=True)
         p = dict(p, body=delink_held(p["body"], live_slugs))
         (d / "index.html").write_text(build_post(p, live))
-    # Every page carries the error beacon exactly once. The footer supplies it, and this
-    # builder once appended a second copy after the footer, so each blog page reported its
-    # errors twice; apply_chrome forbids that, but the blog never goes through apply_chrome
-    # (INC-0197). So the rule is checked on the pages as written.
-    _twice = [str(f.relative_to(ROOT)) for f in sorted(out.glob("**/index.html"))
-              if f.read_text().count(_partials.SENTINEL_MARK) != 1]
-    if _twice:
-        fail("the error beacon must appear exactly once per page; wrong on %d page(s), e.g. %s"
-             % (len(_twice), ", ".join(_twice[:3])))
     # The exam guides list their exam's published posts (build_exams.study_room), and the
     # school pages the posts that quote them (build_rankings.posts_citing). A page built on
     # a different date from the blog could link a post that is not out yet, so every such
@@ -715,65 +846,12 @@ def main():
         for slug in re.findall(r'href="/blog/([a-z0-9-]+)/"', guide.read_text()):
             if slug not in live_slugs:
                 fail(f"{guide.relative_to(ROOT)} links to /blog/{slug}/, which this build did not publish")
-    # The same check build.py runs on every other section (INC-0131).
-    from page_checks import python_reprs, articles, offsite_scripts, offsite_styles
-    off = offsite_scripts(ROOT, ["blog"])
-    if off:
-        for pg, u in off[:10]:
-            print("build_blog: %s loads a script from another host: %s (INC-0148)" % (pg, u), file=sys.stderr)
-        sys.exit(1)
-    offs = offsite_styles(ROOT, ["blog"])
-    if offs:
-        for pg, why in offs[:10]:
-            print("build_blog: %s %s (INC-0163)" % (pg, why), file=sys.stderr)
-        sys.exit(1)
-    reprs = python_reprs(ROOT, ["blog"])
-    if reprs:
-        for pg, frag in reprs[:10]:
-            print("build_blog: %s prints a Python data structure: ...%s..." % (pg, frag),
-                  file=sys.stderr)
-        sys.exit(1)
-    # And no blog page may use a design token it never defines, as build.py checks (INC-0139).
-    from page_checks import undefined_tokens
-    undef = undefined_tokens(ROOT, ["blog"], re.findall(r"(--[a-z0-9-]+)\s*:", partials.TOKENS_CSS))
-    if undef:
-        for pg, missing in undef[:10]:
-            print("build_blog: %s uses design tokens it never defines: %s" % (pg, ", ".join(missing)),
-                  file=sys.stderr)
-        sys.exit(1)
-    # And no built blog page may call a live trainer unfinished, as build.py checks (INC-0138).
-    from page_checks import trainer_claims
-    from build_exams import LIVE
-    names = [e["short"] for e in json.loads((ROOT / "data" / "exams.json").read_text()) if e["slug"] in LIVE]
-    stale = trainer_claims(ROOT, ["blog"], names)
-    if stale:
-        for pg, sent in stale[:10]:
-            print("build_blog: %s calls a live trainer unfinished: %r" % (pg, sent), file=sys.stderr)
-        sys.exit(1)
-    # And every heading on a built blog page, the template's own included, in Title Case as
-    # build.py checks it: "Keep reading" sat on every post while only post bodies were read
-    # (INC-0176).
-    from page_checks import untitled_headings, entity_names
-    untitled = untitled_headings(ROOT, ["blog"], entity_names(ROOT))
-    if untitled:
-        for pg, h, want in untitled[:10]:
-            print("build_blog: %s has a heading that breaks Title Case: %r should read %r" % (pg, h, want),
-                  file=sys.stderr)
-        sys.exit(1)
-    # And every styled button's label, as build.py checks it (INC-0178).
-    from page_checks import untitled_buttons
-    unbuttoned = untitled_buttons(ROOT, ["blog"])
-    if unbuttoned:
-        for pg, b, want in unbuttoned[:10]:
-            print("build_blog: %s has a button label that breaks Title Case: %r should read %r" % (pg, b, want),
-                  file=sys.stderr)
-        sys.exit(1)
-    # And the article before a number, as build.py checks it (INC-0134).
-    arts = articles(ROOT, ["blog"])
-    if arts:
-        for pg, frag in arts[:10]:
-            print("build_blog: %s puts the wrong article before a number: ...%s..." % (pg, frag),
-                  file=sys.stderr)
+    # The page checks build.py runs on every other section, on the pages this build publishes
+    # and on every held post built as it will publish (INC-0131, INC-0204).
+    problems = page_problems(ROOT) + held_problems(posts, live_slugs)
+    if problems:
+        for m in problems[:10]:
+            print("build_blog: " + m, file=sys.stderr)
         sys.exit(1)
     sitemap = build_sitemap(live)
     (ROOT / "sitemap.xml").write_text(sitemap)

@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-10-05, which is 16 days, across
-188 commits, by one owner directing a series of AI coding sessions. As of this
+189 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 87 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
 2125 tracked files in total.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-188 commits in 16 days, one owner, a series of AI sessions. This
+189 commits in 16 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1217,22 +1217,22 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-202 recorded defects, over 16 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+204 recorded defects, over 16 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 113 | 56% |
+| Found by reading the code or the output | 114 | 56% |
 | Found by measuring something | 46 | 23% |
 | A test caught it | 23 | 11% |
-| Found by rendering it and looking | 8 | 4% |
+| Found by rendering it and looking | 9 | 4% |
 | Found by a review bot or an adversarial pass | 5 | 2% |
 | A build guard caught it | 5 | 2% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 200 of 202 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 202 of 204 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1241,23 +1241,23 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 94 |
-| Degraded | 48 |
+| Wrong data shown or stored | 95 |
+| Degraded | 49 |
 | Cosmetic | 31 |
 | Silent loss | 26 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 202. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 204. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 95 |
+| Content generation | 96 |
 | Tests and guards | 37 |
 | Front end | 14 |
-| Build system | 12 |
+| Build system | 13 |
 | Search and metadata | 11 |
 | CSS and layout | 8 |
 | Scoring and selection | 7 |
@@ -1269,7 +1269,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-196 of 202 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+198 of 204 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1290,7 +1290,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-92 of 202 incidents record that they repeat an earlier lesson, 125 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+92 of 204 incidents record that they repeat an earlier lesson, 125 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1408,9 +1408,9 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/build.py`, 14 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067, INC-0076, INC-0080, INC-0131, INC-0148, INC-0196)
 - `src/test.js`, 10 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085, INC-0192, INC-0194)
 - `src/gen/g_rc.py`, 9 incidents (INC-0097, INC-0114, INC-0115, INC-0117, INC-0122, INC-0169, INC-0179, INC-0186, INC-0187)
+- `src/build_blog.py`, 9 incidents (INC-0124, INC-0137, INC-0162, INC-0170, INC-0171, INC-0188, INC-0197, INC-0203, INC-0204)
 - `src/validate_schools.py`, 9 incidents (INC-0125, INC-0141, INC-0143, INC-0144, INC-0147, INC-0151, INC-0153, INC-0157, INC-0185)
 - `src/build_rankings.py`, 8 incidents (INC-0014, INC-0049, INC-0118, INC-0135, INC-0142, INC-0145, INC-0167, INC-0200)
-- `src/build_blog.py`, 7 incidents (INC-0124, INC-0137, INC-0162, INC-0170, INC-0171, INC-0188, INC-0197)
 - `src/bank_emit.py`, 6 incidents (INC-0062, INC-0066, INC-0068, INC-0073, INC-0119, INC-0189)
 - `src/page_checks.py`, 6 incidents (INC-0134, INC-0138, INC-0139, INC-0163, INC-0176, INC-0178)
 - `src/review_bot.js`, 5 incidents (INC-0022, INC-0026, INC-0051, INC-0061, INC-0077)
@@ -1430,7 +1430,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (95)
+## Content generation (96)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -2582,6 +2582,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** A figure's note is part of the figure. When a table prints the note beside the number, every sentence that restates the number has to carry what the note says about it, average, about or more than, or it states the figure more exactly than the source does. And a count of one thing and an average over several are different statistics even when the number is the same: the wording has to say which one it is.
 
 
+### INC-0203. A live admissions post said most full-time MBA programs run three rounds a year, which 21 of the 32 programs whose deadlines we verified do not, and its other claims about rounds cited nothing
+
+*2026-10-06, Wrong data shown or stored*
+
+- **What was seen.** MBA Application Timeline: A Month by Month Plan, published August 23, 2026, said 'Most full-time MBA programs run three rounds a year'. The 32 programs whose deadlines were read from their own pages on October 5 and 6, 2026 list two deadlines (Harvard and MIT Sloan), three (11 programs), four (13), five (4) or six (2), so 11 of the 32 run three. The same post said Round 1 gives reapplicants and candidates from heavily represented industries the largest number of open seats, that Round 2 remains a full-strength option at most programs, and, in its FAQ, that Round 3 is the thinnest round with fewer remaining seats and a compressed decision window at most programs. None of the four carried a source.
+- **Why.** The post was written before the site had any deadline data, from general knowledge of how admissions rounds work, and the rule that a school statistic needs a source was read as covering a figure for a named school, not a claim about what most programs do. A sentence about most programs is a statistic about programs, but it has no number in it, so neither the blog's price guard nor the weekly source check, which both look for figures, could see it. When the deadline data arrived on October 5, nothing compared it with what the posts already said.
+- **How it surfaced.** Found on October 6, 2026 while reading the site's existing posts on rounds before writing the January 14 post on which round to apply in. (Found by reading the code or the output)
+- **Fix.** The timeline post's round sentences now say what the deadline pages say: of the 32 programs on the deadlines page, 30 list three or more deadlines and 11 exactly three; Wharton says space in the class becomes more limited for Round 3 applicants, making it a more competitive round; Stanford lists what applying in Round 1 or 2 gives that Round 3 does not. The unsourced claims about reapplicants, heavily represented industries and Round 2 are gone. Every other sentence in the posts that says what most programs or schools do was read against its basis: those our data supports name it on the fact sheet, and those it does not were rewritten.
+- **What stops it now.** build_blog.py fails on any sentence in a post or its FAQ that says what most, nearly all or the majority of programs or schools do, unless the fact sheet in EDITORIAL.md lists that sentence with its basis, a count from our data or a source, so a new claim about most programs cannot ship without someone writing down what it rests on. in `src/build_blog.py`
+- **Lesson.** A claim about most of a group is a statistic even when it has no number in it, and checks that look for numbers cannot see it. Treat the quantifier words themselves as the thing to check, make each such sentence point at its basis, and when new data arrives, read what the site already says against it, because the old sentences were written without it.
+
+
 ## Tests and guards (37)
 
 
@@ -3223,7 +3235,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** A backslash written into a string literal is a request to the language, not a character, and languages answer it differently: '\;' is a bare semicolon in JavaScript, while Python keeps an escape it does not know and gives a backslash and a semicolon. When code is copied between languages, an escape that looks identical can change meaning, so test the output rather than the source line, and give the test an input that needs the escape.
 
 
-## Build system (12)
+## Build system (13)
 
 
 ### INC-0059. The item counter missed a whole bank file because it assumed a quoting style
@@ -3372,6 +3384,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** src/bank_lsat_rc2.js now says in its header that it is the source and is edited by hand, and src/mk_bank_lsat_rc2.py refuses to write it and says why. Given another path it still writes what it wrote on September 21, which keeps it as the record of the content decisions its docstring describes.
 - **What stops it now.** src/check_bank_sources.py, which build.py runs, regenerates every bank whose header says 'Generated by' into a temporary directory and fails the build when the result differs from the committed bank at all, and fails when a generator's default output is a bank that does not name that generator, which is the state this bank was in. in `src/check_bank_sources.py`
 - **Lesson.** A generated file that someone edits by hand has two sources, and the next run of the generator silently picks one of them. Put the edit in the generator or retire the generator in writing, and have the build regenerate every generated file and compare it, because nothing else notices a generator that no longer makes its file until someone runs it.
+
+
+### INC-0204. A queued post's title was checked for Title Case only once it went live, so a title the build refuses would have failed the deploy on its publish day
+
+*2026-10-06, Degraded*
+
+- **What was seen.** Writing the post queued for January 14, 2027, its title 'Which MBA Round Should You Apply In? What Schools Say' passed build_blog.py while the post was held. Building with BLOG_BUILD_DATE=2027-01-14 exited 1: the built page's h1 breaks the Title Case rule ('Apply in?'), so the deploy on January 14 would have stopped, holding that post and every later change until someone fixed it. The other 49 held posts pass when built as live.
+- **Why.** validate() reads every post, held or live, but checks only the headings inside its body. The title becomes a page's h1 only when the page is built, and the built-page checks (headings, button labels, articles, design tokens, trainer claims, offsite scripts) read only the pages this build publishes. So a held post's title, and anything else that exists only on its built page, was first checked on its publish day, by the deploy that published it.
+- **How it surfaced.** Found on October 6, 2026 by building the blog with BLOG_BUILD_DATE set to the new post's date to look at it at phone width, which printed the Title Case failure and exited 1. (Found by rendering it and looking)
+- **Fix.** build_blog.py builds every held post into a temporary directory as it will publish, with every post live, and runs the same page checks on those pages that it runs on the published ones, so a held post that would fail on its day fails the build now. The new post's title now reads 'Which MBA Round Should You Choose? What Schools Say'.
+- **What stops it now.** build_blog.py checks the held posts as built pages on every build, and its self-check confirms that a held post whose title breaks Title Case fails it. in `src/build_blog.py`
+- **Lesson.** A check that runs only on what is published tests today's site, not tomorrow's. When content is queued to publish by date, run every publish-time check on the queued content too, built as it will be, or the first time the check sees that content is the deploy that depends on it.
 
 
 ## Search and metadata (11)
@@ -3985,6 +4009,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The rules digest crossed its word budget again, because the earlier fix bounded each rule and not the digest (INC-0129)</small>
 - [ ] A generated file that someone edits by hand has two sources, and the next run of the generator silently picks one of them. Put the edit in the generator or retire the generator in writing, and have the build regenerate every generated file and compare it, because nothing else notices a generator that no longer makes its file until someone runs it.  
   <small>The second LSAT reading bank had a generator that no longer wrote it, and running the generator would have put back 25 corrected lines (INC-0193)</small>
+- [ ] A check that runs only on what is published tests today's site, not tomorrow's. When content is queued to publish by date, run every publish-time check on the queued content too, built as it will be, or the first time the check sees that content is the deploy that depends on it.  
+  <small>A queued post's title was checked for Title Case only once it went live, so a title the build refuses would have failed the deploy on its publish day (INC-0204)</small>
 
 
 ## CSS and layout
@@ -4199,6 +4225,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>GRE sentence-function questions offered a second right answer: the third sentence's job, worded so that it was true of the fourth sentence too (INC-0199)</small>
 - [ ] A figure's note is part of the figure. When a table prints the note beside the number, every sentence that restates the number has to carry what the note says about it, average, about or more than, or it states the figure more exactly than the source does. And a count of one thing and an average over several are different statistics even when the number is the same: the wording has to say which one it is.  
   <small>School pages stated averaged and approximate figures as exact: a cohort average as one class's size, and approximate tuition, work experience and scholarships without their qualifier (INC-0200)</small>
+- [ ] A claim about most of a group is a statistic even when it has no number in it, and checks that look for numbers cannot see it. Treat the quantifier words themselves as the thing to check, make each such sentence point at its basis, and when new data arrives, read what the site already says against it, because the old sentences were written without it.  
+  <small>A live admissions post said most full-time MBA programs run three rounds a year, which 21 of the 32 programs whose deadlines we verified do not, and its other claims about rounds cited nothing (INC-0203)</small>
 
 
 ## Database
@@ -4521,7 +4549,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 202 real defects reduced to the rules that prevent them,
+the whole project: 204 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -4561,7 +4589,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-202 defects already prevented is genuinely ahead, and every defect it hits
+204 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed
