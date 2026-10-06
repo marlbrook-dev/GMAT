@@ -1544,6 +1544,20 @@ verified rather than that the school does not publish one (INC-0118).
       choir and anyone who can read music) and a table of two kinds of wrong answer. LSAC's
       sample parallel flaw question rejects three choices that are not flawed and one with a
       different flaw; EDITORIAL.md records the sample, read October 6.
+- [x] **Three more LSAT posts complete the Logical Reasoning series**, one for each of
+      LSAC's ten sample questions:
+      - "LSAT Point of Disagreement Questions: Where Two Speakers Differ", February 1 (Elena
+        Rodriguez): ask each speaker about each choice and keep only a split.
+      - "LSAT Method of Reasoning Questions: How an Argument Works", February 3 (James
+        Corbett): describe the move in general words and check every word of each choice.
+      - "LSAT Logical Reasoning: Ten Question Types From LSAC's Samples", February 5 (David
+        Okafor): a hub listing all ten samples with LSAC's own difficulty rating for each
+        and a link to the guide for its type, so every post in the series is two clicks
+        from any other.
+
+      EDITORIAL.md records the two samples and the ten ratings, read October 6. The hub
+      says a rating describes one question, not every question of its type. Its table was
+      clipped at phone width, so the column labels were shortened until it fitted.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
