@@ -1509,6 +1509,28 @@ verified rather than that the school does not publish one (INC-0118).
       three kinds of wrong answer. LSAC's sample inference question rejects choices that go
       far beyond the passage, claim an only the passage does not support, and raise what
       the passage gives no evidence about; EDITORIAL.md records the sample, read October 6.
+- [x] **Five more long reading passages** (milkyield, schoolroll, lacewages, seedcorn,
+      pigeons), again on causes the corpus had not used:
+      - Dairy herds giving less milk, blamed on new dairymaids: goods trains whistling past
+        at milking time.
+      - Empty school desks, blamed on harsh new masters: a weekly market moved onto a school
+        day.
+      - Hand lace makers earning less, blamed on careless newcomers: machine-made net that
+        undercut the plain patterns.
+      - Seed corn failing, blamed on a new seed merchant: a granary built against a malt
+        kiln.
+      - Racing pigeons lost, blamed on new members' haste: telegraph wires strung along the
+        valley they flew home through.
+
+      They run 300 to 302 words. The banks grow to GMAT 35012, GRE 21388 and LSAT 16198, of
+      which 15826 are generated; the counts were read from the build.
+      - The first drafts ran 277 to 296 words, short of the corpus's LSAT range, so each
+        gained a clause of detail that changes nothing a question turns on.
+      - Every name was checked by whole word against the corpus; Fennick was taken, and
+        Whitsun appears in another passage, so the headland is Hareby Point and the thread
+        is for the bobbin maker.
+      - All 175 items were read. A script also confirmed that each of the 80 stated-idea
+        keys is the sentence its stem asks for, and each GRE rendering runs six sentences.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
