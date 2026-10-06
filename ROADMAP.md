@@ -1468,6 +1468,27 @@ verified rather than that the school does not publish one (INC-0118).
       - The examples were checked choice by choice: in the sufficient example the right
         answer says more than the argument needs, so it would fail the negation test, which
         is the difference the post turns on.
+- [x] **Ten more LSAT argument structure arguments**, each giving five role questions and a
+      main conclusion question:
+      - a Saturday market's move to a car park;
+      - a disused canal lock;
+      - a community radio station's overnight broadcasts;
+      - a zoo's summer evenings;
+      - a bakery's flour;
+      - an ice rink's summer closing;
+      - a cycle lane;
+      - a school kitchen;
+      - beehives in town gardens;
+      - a lifeboat station's launching tractor.
+
+      The category grows from 360 to 420 items, and the LSAT bank to 16123, of which 15751
+      are generated (counts read from the build). All 60 were read, and a script confirmed
+      that every key names the role its claim was written to play.
+      - Before the build, the main conclusion paraphrase was the shortest of the six
+        candidate choices in four of the ten, a tell the answer bias guard (INC-0079) has
+        caught before. Five paraphrases were lengthened, each still saying only what the
+        conclusion says, so the key now sits at every length rank from shortest to longest.
+      - One street was renamed because another generator already uses its name.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
