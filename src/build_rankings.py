@@ -629,8 +629,9 @@ def deadlines_ics(s):
     dl = s["deadlines"]
     events = []
     for r in dl["rounds"]:
-        # Stern names its rounds "1st Deadline" and so on, which take no second "Deadline".
-        due = r["name"] if r["name"].lower().endswith("deadline") else r["name"] + " Deadline"
+        # A round whose name already says deadline takes no second one: Stern's "1st Deadline",
+        # Rady's "Round 3 (Fellowship & International Deadline)".
+        due = r["name"] if "deadline" in r["name"].lower() else r["name"] + " Deadline"
         events.append((r["deadline"], r["deadline"], "%s: %s" % (s["name"], due),
                        "Application due%s.%s As published on %s (%s), read %s. Confirm on the "
                        "school's page." % (" by " + r["time"] if r.get("time") else "",

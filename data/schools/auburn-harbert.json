@@ -7,6 +7,34 @@
  "region": "South",
  "type": "Public",
  "ranks": {},
+ "deadlines": {
+  "rounds": [
+   {
+    "name": "Round 1",
+    "deadline": "2026-10-15",
+    "decision": "2026-12-15"
+   },
+   {
+    "name": "Round 2 (Final Deadline for International Applicants)",
+    "deadline": "2026-12-15",
+    "decision": "2027-02-15"
+   },
+   {
+    "name": "Round 3 (Priority Deadline for Domestic Applicants & Tuition Assistance)",
+    "deadline": "2027-02-15",
+    "decision": "2027-04-15"
+   },
+   {
+    "name": "Final Deadline (Domestic)",
+    "deadline": "2027-06-01",
+    "decision": "2027-06-15"
+   }
+  ],
+  "src": "Harbert Full-Time MBA admissions page",
+  "year": 2026,
+  "url": "https://harbert.auburn.edu/degrees-programs/mba/full-time-mba/admissions.html",
+  "checked": "2026-10-06"
+ },
  "profile": {
   "class_year": "Typical class profile (no class year stated)",
   "gpa": {

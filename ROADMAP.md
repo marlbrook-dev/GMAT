@@ -1171,6 +1171,28 @@ verified rather than that the school does not publish one (INC-0118).
       - Rochester and Maryland print their dates without a year. The source check can only
         read a date back with its year, and supplying one would be a guess, so they wait.
       - The live check read all eight pages and found every date.
+- [x] **Deadlines for six more programs**, read October 6: Wisconsin, Rady, Leeds, Harbert,
+      Poole and Oregon, 32 in all.
+      - The date reader now accepts a comma without its space, because Harbert prints "October
+        15,2026". Its self-check also refuses "October 152026".
+      - A calendar event's summary no longer adds "Deadline" to a round whose name already has
+        the word anywhere in it, such as Rady's "Round 3 (Fellowship & International
+        Deadline)".
+      - Left out:
+        - Boston College: its table sits under program tabs and its rows name no rounds.
+        - UC Davis: it shows only upcoming rounds, which would understate how many it has.
+        - Northeastern: its dates carry no round names.
+      - The live check read all six pages and found every date.
+      - The weekly read-back no longer reads a date that has passed. Schools take closed
+        rounds off their pages, so an issue for a missing past date would be noise that
+        someone has to triage.
+        - A deadline, its time and the date an extension replaced stop being read when the
+          deadline passes.
+        - A decision date stops when it passes.
+        - A decision in the school's words, such as "Mid-December 2026", stops once its month
+          is out.
+        - The self-check covers each case and fails a mutant that ignores the date. All 32
+          schools read clean.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's

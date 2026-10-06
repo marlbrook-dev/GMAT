@@ -36,6 +36,30 @@
   }
  },
  "specialties": [],
+ "deadlines": {
+  "rounds": [
+   {
+    "name": "Round 1",
+    "deadline": "2026-10-01"
+   },
+   {
+    "name": "Round 2",
+    "deadline": "2027-01-15"
+   },
+   {
+    "name": "Round 3 (Fellowship & International Deadline)",
+    "deadline": "2027-04-01"
+   },
+   {
+    "name": "Round 4 (Domestic Deadline)",
+    "deadline": "2027-06-01"
+   }
+  ],
+  "src": "Rady School MBA admissions page",
+  "year": 2026,
+  "url": "https://rady.ucsd.edu/programs/mba/admissions/",
+  "checked": "2026-10-06"
+ },
  "profile": {
   "class_year": "Entering Fall 2025 Cohort",
   "class_size": {
