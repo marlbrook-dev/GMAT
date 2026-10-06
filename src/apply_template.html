@@ -63,6 +63,9 @@ table.sc .nm{font-family:var(--display);font-weight:700;color:var(--navy-900)}
 table.sc .lo{font-size:var(--t-100);color:var(--gray-500)}
 table.sc select,table.sc input[type=date],table.sc input[type=text]{padding:var(--s1) var(--s2);border:1px solid var(--gray-300);border-radius:6px;font:inherit;font-size:var(--t-200);width:100%;background:#fff}
 table.sc .num{text-align:right;font-family:var(--mono)}
+/* The round picker takes the date field's width rather than its longest option's, which
+   otherwise doubled the column and squeezed the status select. */
+table.sc select.pick{margin-top:var(--s1);color:var(--gray-500);width:0;min-width:100%}
 .empty{border:1px dashed var(--gray-300);border-radius:12px;padding:var(--s5) 20px;text-align:center;color:var(--gray-500);background:var(--gray-50)}
 .empty p{margin:0 0 var(--s3)}
 .section{padding:var(--s6) 0;border-top:1px solid var(--gray-200)}
@@ -120,7 +123,7 @@ footer{border-top:1px solid var(--gray-200);padding:28px 0;font-size:var(--t-200
 <li><b>Transcripts travel slowly</b>, and from some countries they travel very slowly. International applicants get a longer lead time on transcripts and evaluations for that reason.</li>
 <li><b>The essay is not one task.</b> First draft, rest, revise, and final read are separate rows, because treating them as one is how applicants end up submitting a first draft.</li>
 </ul>
-<div class="note"><b>A word on what this is not.</b> This is a planning tool, not admissions advice, and it does not know any school's actual deadline. Confirm every date on the school's own admissions page. If you are applying from outside the United States, read the <a href="/international/">international applicant guide</a> for the visa and work authorization rules that sit behind several of these tasks.</div>
+<div class="note"><b>A word on what this is not.</b> This is a planning tool, not admissions advice. It fills in a school's deadline only when you pick one of the rounds read from that school's own page, and never picks a round for you. Confirm every date on the school's own admissions page. If you are applying from outside the United States, read the <a href="/international/">international applicant guide</a> for the visa and work authorization rules that sit behind several of these tasks.</div>
 </section>
 </div>
 
@@ -228,6 +231,25 @@ function renderProgress(){
  document.getElementById('barfill').style.width=pct+'%';
 }
 
+// A school's rounds as read from its own page (src/build_rankings.py), offered for its
+// deadline. Only rounds still ahead of today are offered, and nothing is filled in until
+// the applicant picks one: which round to apply in is theirs to decide.
+function roundOf(slug){
+ var s=SCHOOL_INDEX[slug]||{}, st=S.schools[slug]||{};
+ var r=(s.r||[]).filter(function(x){ return x[0]===st.round&&x[1]===st.deadline; })[0];
+ return r?r[0]:'';
+}
+function pickRound(slug){
+ var s=SCHOOL_INDEX[slug], t=iso(today0()), rn=roundOf(slug);
+ var up=(s.r||[]).filter(function(x){ return x[1]>=t; });
+ if(!up.length) return '';
+ return '<select class="pick" data-sch="'+esc(slug)+'" data-pick="1" aria-label="Fill the deadline from a round '+esc(s.n)+' publishes">'
+  +'<option value="">Use a Published Round</option>'
+  +up.map(function(x){ return '<option value="'+esc(x[1])+'" data-round="'+esc(x[0])+'"'+(rn===x[0]?' selected':'')+'>'
+   +esc(x[0])+', '+esc(human(parseIso(x[1])))+'</option>'; }).join('')
+  +'</select>';
+}
+
 var STATUS=['Researching','Applying','Submitted','Interview','Admitted','Waitlisted','Declined','Withdrawn'];
 function renderSchools(){
  var L=shortlist(), box=document.getElementById('schoolBox');
@@ -242,7 +264,7 @@ function renderSchools(){
  slugs.forEach(function(slug){
   var s=SCHOOL_INDEX[slug], st=S.schools[slug]||{};
   h+='<tr><td><div class="nm">'+esc(s.n)+'</div><div class="lo">'+esc(s.l)+'</div></td>'
-   +'<td><input type="date" data-sch="'+esc(slug)+'" data-f="deadline" value="'+esc(st.deadline||'')+'"></td>'
+   +'<td><input type="date" data-sch="'+esc(slug)+'" data-f="deadline" value="'+esc(st.deadline||'')+'">'+pickRound(slug)+'</td>'
    +'<td><select data-sch="'+esc(slug)+'" data-f="status">'
    +STATUS.map(function(x){ return '<option'+(st.status===x?' selected':'')+'>'+esc(x)+'</option>'; }).join('')
    +'</select></td>'
@@ -263,7 +285,7 @@ document.getElementById('phases').addEventListener('change',function(e){
  sv(S); renderAll();
 });
 function saveSchoolField(e){
- var slug=e.target.getAttribute('data-sch'); if(!slug) return;
+ var slug=e.target.getAttribute('data-sch'); if(!slug||e.target.hasAttribute('data-pick')) return;
  var f=e.target.getAttribute('data-f');
  (S.schools[slug]=S.schools[slug]||{})[f]=e.target.value;
  sv(S);
@@ -271,6 +293,12 @@ function saveSchoolField(e){
 // Both events: change alone loses a typed note if the tab closes before the field blurs.
 document.getElementById('schoolBox').addEventListener('change',saveSchoolField);
 document.getElementById('schoolBox').addEventListener('input',saveSchoolField);
+document.getElementById('schoolBox').addEventListener('change',function(e){
+ if(!e.target.hasAttribute('data-pick')||!e.target.value) return;
+ var slug=e.target.getAttribute('data-sch'), st=(S.schools[slug]=S.schools[slug]||{});
+ st.deadline=e.target.value; st.round=e.target.options[e.target.selectedIndex].getAttribute('data-round');
+ sv(S); renderSchools();
+});
 document.getElementById('dl').addEventListener('change',function(e){ S.deadline=e.target.value; sv(S); renderAll(); });
 document.getElementById('rnd').addEventListener('change',function(e){ S.round=e.target.value; sv(S); });
 document.getElementById('intl').addEventListener('change',function(e){ S.intl=e.target.checked; sv(S); renderAll(); });
@@ -291,9 +319,9 @@ document.getElementById('btnCsv').addEventListener('click',function(){
  var L=shortlist(), slugs=(L.order||[]).filter(function(s){ return SCHOOL_INDEX[s]; });
  if(slugs.length){
   rows.push('');
-  rows.push(['School','Location','International %','Your Deadline','Status','CIP Code','Note'].map(q).join(','));
+  rows.push(['School','Location','International %','Your Deadline','Round','Status','CIP Code','Note'].map(q).join(','));
   slugs.forEach(function(slug){ var s=SCHOOL_INDEX[slug], st=S.schools[slug]||{};
-   rows.push([s.n,s.l,s.i==null?'':s.i,st.deadline||'',st.status||'',st.cip||'',st.note||''].map(q).join(','));
+   rows.push([s.n,s.l,s.i==null?'':s.i,st.deadline||'',roundOf(slug),st.status||'',st.cip||'',st.note||''].map(q).join(','));
   });
  }
  var blob=new Blob([rows.join('\r\n')],{type:'text/csv;charset=utf-8'});
@@ -311,7 +339,7 @@ document.getElementById('btnCsv').addEventListener('click',function(){
 // escaped, CRLF line ends, no line longer than 75 octets (RFC 5545). Each event keeps one
 // UID however its date moves, so importing again after changing the deadline updates the
 // events rather than adding a second set.
-function icsText(s){ return String(s).replace(/\\/g,'\\\\').replace(/;/g,'\;').replace(/,/g,'\\,').replace(/\r?\n/g,'\\n'); }
+function icsText(s){ return String(s).replace(/\\/g,'\\\\').replace(/;/g,'\\;').replace(/,/g,'\\,').replace(/\r?\n/g,'\\n'); }
 function icsFold(line){
  var enc=new TextEncoder();
  if(enc.encode(line).length<=75) return line;
@@ -345,8 +373,10 @@ document.getElementById('btnIcs').addEventListener('click',function(){
  });
  (shortlist().order||[]).forEach(function(slug){
   var s=SCHOOL_INDEX[slug], d=parseIso((S.schools[slug]||{}).deadline);
-  if(s&&d) add('apply-deadline-'+slug,d,'Application Deadline: '+s.n,
-   'The deadline you entered for '+s.n+' on the checklist. Confirm it on the school\'s own admissions page.',7);
+  var rn=roundOf(slug);
+  if(s&&d) add('apply-deadline-'+slug,d,'Application Deadline: '+s.n+(rn?' ('+rn+')':''),
+   (rn?'The '+rn+' deadline '+s.n+' publishes on its own page, as read by Start From Nowhere.'
+      :'The deadline you entered for '+s.n+' on the checklist.')+' Confirm it on the school\'s own admissions page.',7);
  });
  lines.push('END:VCALENDAR');
  if(!n){ alert('There is nothing left to put in a calendar: every task is done and no school deadline is set.'); return; }

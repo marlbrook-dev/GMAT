@@ -124,6 +124,19 @@ const url = p => 'http://127.0.0.1:' + PORT + '/' + p;
   if (!/SUMMARY:Application Deadline: [^\r\n]*\r\nDESCRIPTION:/.test(cal.replace(/\r\n /g, '')))
     errs.push('ics: no event for the school deadline entered');
   if (!cal.includes('DTSTART;VALUE=DATE:20270107')) errs.push('ics: the school deadline is not on its date');
+  // INC-0201: every semicolon and comma in a text value is escaped, and at least one value
+  // needs the escape, so the check cannot pass on a file with nothing to escape.
+  let bare = 0, escSemi = 0;
+  for (const line of cal.replace(/\r\n /g, '').split('\r\n')) {
+    const m = /^(SUMMARY|DESCRIPTION):(.*)$/.exec(line);
+    if (!m) continue;
+    for (let i = 0; i < m[2].length; i++) {
+      if (m[2][i] === '\\') { if (m[2][i + 1] === ';') escSemi++; i++; continue; }
+      if (m[2][i] === ';' || m[2][i] === ',') bare++;
+    }
+  }
+  if (bare) errs.push('ics: ' + bare + ' semicolon or comma left unescaped in a text value');
+  if (!escSemi) errs.push('ics: no text value held a semicolon, so its escape went untested');
 
   // 7c. The deadlines hub, read on a date after the build's: every round in the records is a
   // row, the rounds already passed are hidden until asked for, and the next deadline note is
@@ -164,6 +177,43 @@ const url = p => 'http://127.0.0.1:' + PORT + '/' + p;
   const all = await h.$$eval('table.rounds tbody tr', ts => ts.filter(t => t.offsetParent).length);
   if (all !== rounds.length) errs.push('hub: ' + all + ' rows shown after Show Passed Rounds');
   await h.close();
+
+  // 7d. A school's published rounds fill its deadline only when one is picked. Read on the
+  // day before the first round of the first school with rounds, so the round is still ahead
+  // whatever year this runs in: picking it fills the date, survives a reload, and names the
+  // round in the calendar event.
+  const ps = recs.slice().sort((x, y) => x.slug < y.slug ? -1 : 1)[0];
+  const pr = ps.deadlines.rounds[0];
+  const eve = new Date(pr.deadline + 'T12:00:00'); eve.setDate(eve.getDate() - 1);
+  const k = await b.newPage({ viewport: { width: 1280, height: 900 } });
+  await k.addInitScript(([slug, t]) => {
+    try {
+      localStorage.setItem('sfn_consent_v1', JSON.stringify({ analytics: false, ts: '', v: 1 }));
+      if (!localStorage.getItem('sfn_school_list_v1'))
+        localStorage.setItem('sfn_school_list_v1', JSON.stringify({ order: [slug], meta: {} }));
+    } catch (e) {}
+    const T = new Date(t).getTime(), D = Date;
+    class F extends D { constructor(...a) { super(...(a.length ? a : [T])); } static now() { return T; } }
+    globalThis.Date = F;
+  }, [ps.slug, eve.toISOString()]);
+  k.on('pageerror', e => errs.push('apply pick pageerror: ' + e.message));
+  await k.route('**/rest/v1/**', r => r.fulfill({ status: 200, contentType: 'application/json', body: '[]' }));
+  await k.goto(url('apply/index.html'));
+  await k.waitForTimeout(300);
+  const sel = 'select[data-pick][data-sch="' + ps.slug + '"]', inp = 'input[data-sch="' + ps.slug + '"][data-f=deadline]';
+  const unpicked = await k.inputValue(inp);
+  await k.selectOption(sel, pr.deadline);
+  await k.waitForTimeout(150);
+  await k.reload(); await k.waitForTimeout(300);
+  const picked = await k.inputValue(inp), kept = await k.inputValue(sel);
+  const [kics] = await Promise.all([k.waitForEvent('download'), k.click('#btnIcs')]);
+  const kcal = fs.readFileSync(await kics.path(), 'utf8').replace(/\r\n /g, '');
+  console.log('apply round picker:', ps.slug, pr.name, '| deadline', JSON.stringify(unpicked), '->', picked, '| kept', kept);
+  if (unpicked) errs.push('apply pick: ' + ps.slug + ' had a deadline before any round was picked');
+  if (picked !== pr.deadline || kept !== pr.deadline) errs.push('apply pick: picking ' + pr.name + ' left ' + picked + ' / ' + kept);
+  if (!kcal.includes('SUMMARY:Application Deadline: ' + ps.name.replace(/,/g, '\\,') + ' (' + pr.name + ')'))
+    errs.push('apply pick: the calendar event does not name ' + pr.name);
+  await k.close();
 
   // 8. Mobile width does not overflow horizontally.
   for (const pg of ['international/index.html', 'apply/index.html', 'schools/deadlines/index.html']) {

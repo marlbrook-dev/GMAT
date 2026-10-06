@@ -1134,6 +1134,29 @@ verified rather than that the school does not publish one (INC-0118).
       - src/smoke_pages.js reads the page on a fixed later date. It checks that every round
         is a row, that the passed ones hide and come back, that the next note names every
         round due that day, and that nothing overflows at 390px.
+- [x] **/apply/ fills a school's deadline from its published rounds** (GROWTH.md, item 3).
+      - Each school on the list with verified rounds gets a Use a Published Round picker under
+        its deadline field, offering only rounds still ahead.
+      - Nothing is filled in until a round is picked, because which round to apply in is the
+        applicant's call.
+      - A picked round's name goes into the CSV's new Round column and into the calendar
+        event, but only while the date is still that round's own, so a date typed in later
+        is not labelled with a round it is not.
+      - The page's note now says where a filled deadline comes from, in place of "it does not
+        know any school's actual deadline".
+      - The picker is sized by the date field rather than its longest option. Sized by the
+        option, it doubled the column and squeezed the status select.
+      - smoke_pages pins the reader's date to the eve of the first school's first round and
+        checks that picking it fills the date, survives a reload and names the round in the
+        calendar event.
+- [x] **The checklist's calendar file escapes semicolons** (INC-0201).
+      - The escape was written '\;', which JavaScript reads as a bare semicolon. So the
+        Remind Your Recommenders event went out with an unescaped semicolon that RFC 5545
+        forbids, while commas beside it were escaped.
+      - It is now written with the backslash doubled.
+      - smoke_pages fails on any bare semicolon or comma in a SUMMARY or DESCRIPTION, and on a
+        file with no semicolon to escape, so the check cannot pass vacuously. It was confirmed
+        to fail with the old line put back.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's

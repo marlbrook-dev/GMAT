@@ -1732,10 +1732,13 @@ def main():
     pages = [(dest / "index.html", out)]
 
     # /apply/ shares this school data so a shortlist built on /schools/ carries over.
-    # Only the fields the checklist actually renders: name, location, international share.
-    idx = {s["slug"]: {"n": s["name"],
-                       "l": ", ".join(x for x in (s.get("city"), s.get("state")) if x),
-                       "i": field(s, "intl_pct")}
+    # Only the fields the checklist actually renders: name, location, international share,
+    # and the rounds read from the school's own page, which it offers for the deadline field.
+    idx = {s["slug"]: dict({"n": s["name"],
+                            "l": ", ".join(x for x in (s.get("city"), s.get("state")) if x),
+                            "i": field(s, "intl_pct")},
+                           **({"r": [[r["name"], r["deadline"]] for r in s["deadlines"]["rounds"]]}
+                              if s.get("deadlines") else {}))
            for s in schools if not s.get("discontinued")}
     apply_page = (D / "apply_template.html").read_text().replace(
         "{{SCHOOL_INDEX}}", json.dumps(idx, separators=(",", ":")))
