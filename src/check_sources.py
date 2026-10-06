@@ -768,6 +768,18 @@ def words_seen(phrase, text):
     return squash(phrase) in squash(text)
 
 
+# The shapes a page may print a quotation mark or apostrophe in, and spaces that do not
+# break, read as the plain characters a record holds.
+SAID_SHAPES = str.maketrans({"\u2018": "'", "\u2019": "'", "\u201c": '"', "\u201d": '"', "\u00a0": " "})
+
+
+def said_seen(sentence, text):
+    """Whether a page still prints a sentence a record quotes from it, word for word, the
+    spacing and the shape of its quotation marks aside."""
+    norm = lambda s: re.sub(r"\s+", " ", s.translate(SAID_SHAPES)).strip()
+    return norm(sentence) in norm(text)
+
+
 def words_until(text):
     """The last day a school's words for a date can still mean: the date itself for
     "Starting December 10, 2026", the end of the month for "Mid-December 2026", or None
@@ -787,7 +799,7 @@ def words_until(text):
 
 def deadline_misses(dl, text, today=None):
     """Every date and phrase in a deadlines record that its page does not print and that
-    is still ahead of today. Schools take a round off the page once it has closed, and a
+    is still ahead of today, and every sentence it quotes that the page no longer prints. Schools take a round off the page once it has closed, and a
     date already past leaves nothing to plan around, so it is not read: a deadline, its
     time and the date an extension replaced stop being read when the deadline passes, and
     a decision date when it does. Without today every date is read."""
@@ -805,6 +817,14 @@ def deadline_misses(dl, text, today=None):
             live = open_ if key == "time" else not today or until is None or until >= today
             if v and live and not words_seen(v, text):
                 out.append("%s %s %r is not on the page" % (r.get("name"), key, v))
+    # A sentence the record quotes is read for as long as it is quoted, with the heading that
+    # names its audience where it has one.
+    for it in dl.get("said") or []:
+        to, sentence = (it.get("to"), it.get("text")) if isinstance(it, dict) else (None, it)
+        if not said_seen(sentence, text):
+            out.append("no longer says %r" % sentence)
+        elif to and not words_seen(to, text):
+            out.append("no longer heads a sentence %r" % to)
     return out
 
 
@@ -1124,6 +1144,18 @@ def _selfcheck_dates():
                              % (today, got, want))
     if words_until("Starting December 10, 2026") != "2026-12-10" or words_until("Mid-December 2026") != "2026-12-31":
         raise SystemExit("check_sources: words_until misreads a school's words for a date")
+    # A quoted sentence is found however the page spaces it or shapes its apostrophes, and
+    # missed when the page words it differently or drops the heading it sits under.
+    said = {"rounds": [], "said": ["Round 3 is the final deadline for international applicants.",
+                                   {"to": "Reapplicants", "text": "We strongly encourage you to apply during Round 1 or 2."}]}
+    page = ("Reapplicants\nWe strongly  encourage you to apply during Round 1 or 2.\n"
+            "Round 3 is the final\u00a0deadline for international applicants.")
+    if deadline_misses(said, page):
+        raise SystemExit("check_sources: deadline_misses misses a quoted sentence the page prints")
+    if len(deadline_misses(said, page.replace("Reapplicants", "Applicants").replace("final", "last"))) != 2:
+        raise SystemExit("check_sources: deadline_misses does not report a quoted sentence the page no longer prints")
+    if not said_seen("Today\u2019s rule.", "Today's rule. Next."):
+        raise SystemExit("check_sources: said_seen reads a curly apostrophe as a different word")
 
 
 def main(argv):

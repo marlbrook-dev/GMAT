@@ -54,10 +54,14 @@
     "decision": "2027-05-27"
    }
   ],
+  "said": [
+   "You may apply once per application year in any one of the three application rounds.",
+   "If you and your partner are both applying in the same year, we strongly encourage you to apply in the same round so that you will know if your partner has been admitted by the time you have to accept or decline your offer of admission."
+  ],
   "src": "Stanford GSB MBA deadlines page",
   "year": 2026,
   "url": "https://www.gsb.stanford.edu/programs/mba/admission/deadlines",
-  "checked": "2026-10-05"
+  "checked": "2026-10-06"
  },
  "profile": {
   "class_year": "Class of 2027",

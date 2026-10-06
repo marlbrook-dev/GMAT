@@ -7,10 +7,10 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-10-05, which is 16 days, across
-189 commits, by one owner directing a series of AI coding sessions. As of this
+190 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 87 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
-2125 tracked files in total.
+2126 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-189 commits in 16 days, one owner, a series of AI sessions. This
+190 commits in 16 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -2584,7 +2584,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0203. A live admissions post said most full-time MBA programs run three rounds a year, which 21 of the 32 programs whose deadlines we verified do not, and its other claims about rounds cited nothing
 
-*2026-10-06, Wrong data shown or stored*
+*2026-10-06, Wrong data shown or stored, `c13caebbded421c36f84b1a7a9438ab334d282d6` PR #237*
 
 - **What was seen.** MBA Application Timeline: A Month by Month Plan, published August 23, 2026, said 'Most full-time MBA programs run three rounds a year'. The 32 programs whose deadlines were read from their own pages on October 5 and 6, 2026 list two deadlines (Harvard and MIT Sloan), three (11 programs), four (13), five (4) or six (2), so 11 of the 32 run three. The same post said Round 1 gives reapplicants and candidates from heavily represented industries the largest number of open seats, that Round 2 remains a full-strength option at most programs, and, in its FAQ, that Round 3 is the thinnest round with fewer remaining seats and a compressed decision window at most programs. None of the four carried a source.
 - **Why.** The post was written before the site had any deadline data, from general knowledge of how admissions rounds work, and the rule that a school statistic needs a source was read as covering a figure for a named school, not a claim about what most programs do. A sentence about most programs is a statistic about programs, but it has no number in it, so neither the blog's price guard nor the weekly source check, which both look for figures, could see it. When the deadline data arrived on October 5, nothing compared it with what the posts already said.
@@ -3388,7 +3388,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0204. A queued post's title was checked for Title Case only once it went live, so a title the build refuses would have failed the deploy on its publish day
 
-*2026-10-06, Degraded*
+*2026-10-06, Degraded, `c13caebbded421c36f84b1a7a9438ab334d282d6` PR #237*
 
 - **What was seen.** Writing the post queued for January 14, 2027, its title 'Which MBA Round Should You Apply In? What Schools Say' passed build_blog.py while the post was held. Building with BLOG_BUILD_DATE=2027-01-14 exited 1: the built page's h1 breaks the Title Case rule ('Apply in?'), so the deploy on January 14 would have stopped, holding that post and every later change until someone fixed it. The other 49 held posts pass when built as live.
 - **Why.** validate() reads every post, held or live, but checks only the headings inside its body. The title becomes a page's h1 only when the page is built, and the built-page checks (headings, button labels, articles, design tokens, trainer claims, offsite scripts) read only the pages this build publishes. So a held post's title, and anything else that exists only on its built page, was first checked on its publish day, by the deploy that published it.

@@ -608,17 +608,28 @@ def deadlines_section(s, today):
                   "a waitlist offer or a denial.")
     if any(not decision_said(r) for r in dl["rounds"]):
         notes += " A dash means the school gives no date for that round."
+    # What the same page says about choosing a round, in its own words (validate_schools), each
+    # sentence read back weekly by the source check.
+    said = ""
+    if dl.get("said"):
+        items = []
+        for it in dl["said"]:
+            to, text = (it["to"], it["text"]) if isinstance(it, dict) else (None, it)
+            items.append("<li>%s\u201c%s\u201d</li>" % ("<strong>%s:</strong> " % esc(to) if to else "", esc(text)))
+        said = ('<h3>In the School\'s Own Words</h3><p>What the deadline page says about choosing a round, '
+                'quoted word for word. The weekly source check reads each sentence back off the page.</p>'
+                '<ul class="reads">%s</ul>' % "".join(items))
     return ('<div class="section" id="deadlines"><h2>Application Deadlines</h2>'
             '<p>%s publishes %d application %s for %s. Each row is the date the application is '
             'due and the date the school says it will release decisions.%s</p>'
             '<table><thead><tr><th>Round</th><th>Deadline</th><th>Decision</th></tr></thead>'
-            '<tbody>%s</tbody></table>'
+            '<tbody>%s</tbody></table>%s'
             '<p class="src" style="margin-top:8px">Source: <a href="%s" rel="noopener" '
             'target="_blank">%s</a>, read %s. Confirm every date on the school\'s own page before '
             'you plan around it. <a href="/schools/%s/deadlines.ics" download>Add These Dates to '
             'Your Calendar</a> or see <a href="/schools/deadlines/">every program\'s deadlines</a>.</p></div>'
             % (esc(s["name"]), len(dl["rounds"]), "round" if len(dl["rounds"]) == 1 else "rounds",
-               span, esc(notes), "".join(rows), esc(dl["url"]), esc(dl["src"]),
+               span, esc(notes), "".join(rows), said, esc(dl["url"]), esc(dl["src"]),
                esc(long_date(dl["checked"])), esc(s["slug"])))
 
 

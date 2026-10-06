@@ -37,6 +37,9 @@ school means adding a file. Never edit generated output.
      {"name": "1st Deadline", "deadline": "2026-09-15",
       "initial_notification": "2026-12-01"}   only where no decision date is given
    ],
+   "said": ["Round 3 is the final deadline for international applicants.",
+            {"to": "Reapplicants", "text": "We strongly encourage you to apply during Round 1 or 2."}],
+                                    optional; the page's own sentences on choosing a round
    "src": "...", "year": 2026, "url": "https://...", "checked": "2026-10-05"
  },
  "profile": {
@@ -89,6 +92,15 @@ stop being read when the deadline passes, a decision date when it does, and a de
 the school's words ("Mid-December 2026") when its month is out. School pages
 print the rounds, the next deadline in the lead paragraph and the FAQ, and a calendar file
 at /schools/<slug>/deadlines.ics.
+
+`said` holds what the same deadline page says about choosing a round (student visas,
+funding, reapplying, which round is the last), each sentence quoted as the page prints it.
+A sentence the page sets under a heading naming its audience keeps that heading as `to`
+("Reapplicants"), since on its own it would read as advice to everyone. The validator
+refuses a fragment, a duplicate and a dash; the school page prints the sentences under "In
+the School's Own Words"; and the source check reads each one back, spacing and the shape of
+a quotation mark aside, for as long as the record quotes it, so a school that rewords its
+advice is caught like one that moves a date.
 
 A round the school has extended carries the new date as its deadline and the date it
 replaced as `extended_from`, which the page prints beside it, because the old date is the

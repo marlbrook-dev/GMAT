@@ -261,6 +261,33 @@ def _deadline_errors(s):
                             "initial_notification"}
         if unknown:
             out.append(f"{at}: unknown keys {sorted(unknown)}")
+    unknown = set(dl) - {"rounds", "src", "year", "url", "checked", "said"}
+    if unknown:
+        out.append(f"{where}: unknown keys {sorted(unknown)}")
+    # What the deadline page says about choosing a round (visas, funding, reapplying, the last
+    # round), each sentence quoted as the page prints it, which the source check reads back.
+    # A sentence the page sets under a heading naming its audience ("Reapplicants") keeps that
+    # heading as "to", since alone it would read as advice to everyone.
+    said = dl.get("said")
+    if said is not None:
+        if not (isinstance(said, list) and said):
+            return out + [f"{where}.said: should be a list of the page's sentences"]
+        seen = set()
+        for i, it in enumerate(said):
+            at = f"{where}.said[{i}]"
+            text = it.get("text") if isinstance(it, dict) else it
+            if isinstance(it, dict) and (set(it) != {"to", "text"} or not str(it.get("to") or "").strip()):
+                out.append(f"{at}: an object holds the page's heading as to and the sentence as text")
+            if not isinstance(text, str) or not 20 <= len(text) <= 400 or text != text.strip():
+                out.append(f"{at}: should be one sentence of 20 to 400 characters, as the page prints it")
+                continue
+            if not re.search(r"[.!?)]$", text):
+                out.append(f"{at}: quote whole sentences, ending where the page ends them")
+            if "\u2014" in text or "\u2013" in text:
+                out.append(f"{at}: em/en dash")
+            if text in seen:
+                out.append(f"{at}: quoted twice")
+            seen.add(text)
     return out
 
 
