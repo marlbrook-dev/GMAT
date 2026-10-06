@@ -457,7 +457,10 @@ def consent_js():
         "#sfn-consent .now{font-size:12.5px;color:#2C4E80;font-weight:600;margin-top:8px}\n"
         "#sfn-consent .now[hidden]{display:none}\n"
         "@media(max-width:520px){#sfn-consent .in{padding:22px 20px 18px}"
-        "#sfn-consent .btns{width:100%}#sfn-consent .btns button{flex:1 1 0;min-width:0}}\n"
+        # Equal halves keep reject the same size as accept, so the longer label must be free
+        # to wrap inside its half: with nowrap it ran out of the button below 390px (INC-0205).
+        "#sfn-consent .btns{width:100%}#sfn-consent .btns button{flex:1 1 0;min-width:0;"
+        "padding:11px 12px;white-space:normal}}\n"
         ".sfn-consent-link{background:none;border:none;padding:0;font:inherit;color:inherit;"
         "text-decoration:underline;cursor:pointer}</style>\n"
         '<div id="sfn-consent" hidden role="dialog" aria-modal="true" '

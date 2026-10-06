@@ -193,6 +193,38 @@ async function checkDialog(b, base, check) {
     await ctx.close();
   }
 
+  // 1b. On a phone too. The check above runs at desktop width, where both labels have
+  // room; below 390px "Reject Non Essential" ran out of its half of the row while "Save
+  // Choices" fitted, so the refusal was the control that looked broken (INC-0205).
+  for (const width of [320, 360, 375, 390, 414]) {
+    const ctx = await b.newContext({ viewport: { width, height: 800 } });
+    await instrument(ctx);
+    const p = await ctx.newPage();
+    await p.goto(url('index.html'), { waitUntil: 'load' });
+    await p.evaluate(() => document.fonts.ready);
+    await settle(p);
+    // The label's own line boxes against the button's content box. scrollWidth against
+    // clientWidth is not enough: it passed a label that ran through the right padding to
+    // the border, because overflow into padding does not count as scrollable.
+    const fit = await p.evaluate(() => ['.yes', '.no'].map(sel => {
+      const el = document.querySelector('#sfn-consent ' + sel);
+      const r = el.getBoundingClientRect(), cs = getComputedStyle(el);
+      const lo = r.left + parseFloat(cs.borderLeftWidth) + parseFloat(cs.paddingLeft);
+      const hi = r.right - parseFloat(cs.borderRightWidth) - parseFloat(cs.paddingRight);
+      const range = document.createRange();
+      range.selectNodeContents(el);
+      const over = Math.max(0, ...[...range.getClientRects()].map(q => Math.max(lo - q.left, q.right - hi)));
+      return { sel, over: Math.round(over * 10) / 10, top: r.top, area: r.width * r.height };
+    }));
+    const [y, n] = fit;
+    check('both consent labels fit their buttons at ' + width + 'px',
+          fit.every(f => f.over <= 0.5), JSON.stringify(fit.map(f => [f.sel, f.over])));
+    check('reject sits beside accept, same size, at ' + width + 'px',
+          Math.abs(y.top - n.top) < 4 && n.area / y.area > 0.6 && n.area / y.area < 1.7,
+          JSON.stringify({ dy: Math.abs(y.top - n.top), ratio: n.area / y.area }));
+    await ctx.close();
+  }
+
   // 2. Accepting sends a pageview, and does not ask again.
   {
     const ctx = await b.newContext({ viewport: { width: 1280, height: 900 } });

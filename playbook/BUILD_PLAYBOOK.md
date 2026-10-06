@@ -6,8 +6,8 @@ different one.
 The platform is Start From Nowhere, a test-preparation site with five adaptive exam
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
-2026-09-19 and 2026-10-05, which is 16 days, across
-191 commits, by one owner directing a series of AI coding sessions. As of this
+2026-09-19 and 2026-10-06, which is 17 days, across
+193 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 87 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
 2126 tracked files in total.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-191 commits in 16 days, one owner, a series of AI sessions. This
+193 commits in 17 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1178,7 +1178,7 @@ Not a list of files changed. The useful report is:
 5. Numbers, with the command that produced them.
 
 The commit messages in this repository are written that way, which is why a defect ledger
-could be reconstructed from them 16 days later. **Write the commit message
+could be reconstructed from them 17 days later. **Write the commit message
 as though someone will need to mine it. Someone will.**
 
 ## Failure modes observed in this project
@@ -1217,7 +1217,7 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-204 recorded defects, over 16 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+205 recorded defects, over 17 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
@@ -1225,14 +1225,14 @@ well enough to audit later. Which is what this book is.
 | How | Count | Share |
 | --- | ---: | ---: |
 | Found by reading the code or the output | 114 | 56% |
-| Found by measuring something | 46 | 23% |
+| Found by measuring something | 46 | 22% |
 | A test caught it | 23 | 11% |
-| Found by rendering it and looking | 9 | 4% |
+| Found by rendering it and looking | 10 | 5% |
 | Found by a review bot or an adversarial pass | 5 | 2% |
 | A build guard caught it | 5 | 2% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 202 of 204 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 203 of 205 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1242,12 +1242,12 @@ well enough to audit later. Which is what this book is.
 | Severity | Count |
 | --- | ---: |
 | Wrong data shown or stored | 95 |
-| Degraded | 49 |
+| Degraded | 50 |
 | Cosmetic | 31 |
 | Silent loss | 26 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 204. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 205. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
@@ -1259,7 +1259,7 @@ well enough to audit later. Which is what this book is.
 | Front end | 14 |
 | Build system | 13 |
 | Search and metadata | 11 |
-| CSS and layout | 8 |
+| CSS and layout | 9 |
 | Scoring and selection | 7 |
 | Infrastructure and deploy | 6 |
 | Payments | 5 |
@@ -1269,7 +1269,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-198 of 204 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+199 of 205 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1290,7 +1290,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-92 of 204 incidents record that they repeat an earlier lesson, 125 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+92 of 205 incidents record that they repeat an earlier lesson, 125 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -3536,7 +3536,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** A check that reports what is missing has to know every way the thing can be present. When its advice names the place where the fix belongs, it should read that place first; otherwise it keeps recommending work that was already done, and the people reading it learn to ignore it.
 
 
-## CSS and layout (8)
+## CSS and layout (9)
 
 
 ### INC-0050. A landing-page icon referenced a colour token that did not exist
@@ -3638,6 +3638,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** The sentence may wrap; the name inside it stays whole (white-space:nowrap on the name only).
 - **What stops it now.** src/smoke_community.js, run in npm run test:browser, loads /community/ at 390px signed out with the longest and the shortest pseudonym stored, with Supabase answered locally the way it answers a visitor, and fails on sideways scroll or a name broken across lines. No smoke test measured the community page's width before: smoke_launch loads it at 390px for its heading, contrast and link checks but never measures sideways scroll, the suites that do measure it cover other pages, and where the network fails the page replaces this line with a short notice, so a run without Supabase never drew it. in `src/smoke_community.js`
 - **Lesson.** A layout checked with one sample of random content is checked for that sample. When a page draws something at random, a name, a pick or a shuffle, test it with the widest value it can produce, and pin that value, since a check that passes or fails by luck is not a check.
+
+
+### INC-0205. The consent banner's Reject Non Essential label ran out of its button on phones narrower than 390 pixels, so the refusal looked broken beside a clean Save Choices
+
+*2026-10-06, Degraded*
+
+- **What was seen.** On every page at phone widths, the consent banner's 'Reject Non Essential' label does not fit inside its button, while 'Save Choices' beside it does. Measured with the site's own fonts served over HTTP, the label's line runs past the space inside the button's padding by 55 pixels at 320 pixels wide, 35 at 360, 28 at 375, 20 at 390 and 8 at 414; below 390 that carries it over the button's right border, and at 390 and 414 it runs through the padding to the border. At 320 'Save Choices' overruns by 9 pixels too. The reject choice still works when tapped, but it is the control that looks broken, on the banner whose rule is that refusing is exactly as easy as accepting.
+- **Why.** Below 520 pixels the two buttons share the row in equal halves (flex 1 1 0), and both keep white-space:nowrap and 20 pixels of padding on each side. Equal halves are right for the same-size rule, but a label that may not wrap overflows as soon as its half is narrower than the label, and 'Reject Non Essential' is 128 pixels of text. The consent smoke compares the two buttons only at 1280 pixels, where each has room, and measures their position and area, never whether a label fits inside its button. The first measurement taken for this record compared scrollWidth with clientWidth and said the label fitted from 390 up; text running into a box's padding is not scrollable overflow, so that measure misses a label that reaches the border.
+- **How it surfaced.** Found on October 6, 2026 while screenshotting a queued post at 390 pixels wide: the banner covered the page with its reject label cut off. That first view used a fallback font, from a page read off disk, so the label was measured again with the site's fonts at 320, 360, 375, 390 and 414 pixels, from the label's own line boxes against the inside of the button's padding. (Found by rendering it and looking)
+- **Fix.** Below 520 pixels the buttons keep their equal halves but take 12 pixels of side padding instead of 20 and may wrap their label, so 'Reject Non Essential' wraps onto a second line inside its button below about 400 pixels wide and sits on one line above that, and the two buttons stay the same height side by side.
+- **What stops it now.** smoke_consent.js opens the banner at 320, 360, 375, 390 and 414 pixels and fails if any line of either label reaches outside its button's padding, measured from the label's own line boxes, or if reject stops sitting beside accept at the same size. Run against the old rule it reports the overruns above. in `src/smoke_consent.js`
+- **Lesson.** A layout check at one desktop width says nothing about a phone. Where a rule says two controls must be equal, test it at the narrowest widths people use and measure that each label fits its box, because equal boxes with unequal labels fail on the longer label first. Measure the text's own boxes against the inside of the padding: scrollWidth ignores text that runs into padding, so it passes a label that touches the border.
 
 
 ## Scoring and selection (7)
@@ -4031,6 +4043,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The shared site header rendered its bold labels at two weights, because each page template asked Google Fonts for its own list of IBM Plex Sans weights (INC-0163)</small>
 - [ ] A layout checked with one sample of random content is checked for that sample. When a page draws something at random, a name, a pick or a shuffle, test it with the widest value it can produce, and pin that value, since a check that passes or fails by luck is not a check.  
   <small>The community page scrolled sideways on phones for visitors whose random pseudonym was long, because the line that names it could not wrap (INC-0164)</small>
+- [ ] A layout check at one desktop width says nothing about a phone. Where a rule says two controls must be equal, test it at the narrowest widths people use and measure that each label fits its box, because equal boxes with unequal labels fail on the longer label first. Measure the text's own boxes against the inside of the padding: scrollWidth ignores text that runs into padding, so it passes a label that touches the border.  
+  <small>The consent banner's Reject Non Essential label ran out of its button on phones narrower than 390 pixels, so the refusal looked broken beside a clean Save Choices (INC-0205)</small>
 
 
 ## Content generation
@@ -4549,7 +4563,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 204 real defects reduced to the rules that prevent them,
+the whole project: 205 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -4589,7 +4603,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-204 defects already prevented is genuinely ahead, and every defect it hits
+205 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

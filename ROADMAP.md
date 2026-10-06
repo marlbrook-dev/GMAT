@@ -1346,6 +1346,38 @@ verified rather than that the school does not publish one (INC-0118).
         green's "the committee had changed his terms" left "his" pointing at nothing once the
         sentence stood alone as an answer choice, so it now says the greenkeeper's pay.
       - All 175 items on the new passages were read: 50 GMAT, 50 GRE and 75 LSAT.
+- [x] **"MBA Class Size by School: 2026 Class Data"** queued for January 16 (Sarah
+      Whitfield): every program in the library whose class size describes a class that
+      entered in 2025 or 2026, 41 of them, from 29 students at UC Riverside to 982 at
+      Columbia. The middle program is Vanderbilt Owen, at 160; 13 have 300 or more and 15
+      fewer than 100. Every figure in the table was checked against data/schools by script.
+      - The source check, run on October 6 for class sizes alone, read all 64 in the
+        library. Kellogg, Stanford GSB and UC San Diego Rady build their figures with
+        JavaScript and needed the browser, and so did Baylor's page, which refuses scripts.
+        Every readable page printed its figure. Three pages could not be read (UC Irvine's
+        PDF, Penn State's One-Year MBA page and US News's South Carolina page); none of
+        those figures names a class year, so none is in the post.
+      - Columbia's 982 counts two intakes: Poets&Quants gives it across the August 2025
+        and January 2026 cohorts, 758 of them entering in August. The library's record did
+        not say so, so its note now does, and the school page shows the note.
+      - Left out: classes whose page does not say when they entered (SMU Cox's "2025
+        Profile", Saint Louis University's One-Year MBA Class of 2026, and pages with no
+        class year), sizes given as an average across classes (Rice, Olin, Michigan State,
+        Notre Dame, George Washington, Minnesota), and classes that entered before 2025.
+      - Ohio State Fisher's "about 100" is shown in its page's words, that entering
+        students join a community of ~100.
+- [x] **The consent banner's reject label fits its button on phones** (INC-0205). At
+      phone widths "Reject Non Essential" (128 pixels of text) did not fit inside its half of
+      the row: it ran over the button's border below 390 pixels and into the padding up to
+      the border at 390 and 414, while "Save Choices" fitted, so the refusal was the control
+      that looked broken. Found by screenshotting the class size post at 390 pixels.
+      - Below 520 pixels the buttons keep equal halves with 12 pixels of side padding and may
+        wrap their label, which now sits on two lines inside its button below about 400
+        pixels and on one line above that.
+      - smoke_consent.js checks both labels and the same-size rule at 320, 360, 375, 390
+        and 414 pixels, from the label's own line boxes, since scrollWidth passed a label
+        that ran into the padding. Against the old rule it reports overruns of 55, 35, 28,
+        20 and 8 pixels.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
