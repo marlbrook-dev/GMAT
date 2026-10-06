@@ -19,9 +19,9 @@ counterexample or one marked flawed has none. The label decides the question's w
 "most similar in its reasoning" for a valid argument, "most similar flawed reasoning" for
 a flawed one.
 
-The category also carries explanations, which the hand written items cover and nothing
-here generates, so this schema stops at CAP items rather than filling the category's
-target with one kind of question.
+The category also carries explanations, which g_lsat_expl.py generates from authored
+discrepancy scenarios, so this schema stops at CAP items rather than filling the
+category's target with one kind of question.
 """
 import itertools
 

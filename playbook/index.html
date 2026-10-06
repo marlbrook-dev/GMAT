@@ -59,7 +59,7 @@ a{color:var(--accent)}
 <p class="eyebrow">Start From Nowhere</p>
 <h1>The Build Playbook</h1>
 <p class="sub">How one person and a set of AI sessions built a multi-exam test-prep platform, every defect hit on the way, and the recipe for doing it again for something else</p>
-<p class="meta">Built 2026-10-06 from commit 00ee222 &middot; 193 commits over 17 days &middot; 205 recorded defects &middot; 17 chapters<br>
+<p class="meta">Built 2026-10-06 from commit f749ea8 &middot; 194 commits over 17 days &middot; 205 recorded defects &middot; 17 chapters<br>
 This document is generated. Edit the chapters in docs/playbook/ and the ledger in data/playbook/incidents.jsonl, then run python3 src/build_playbook.py.</p>
 </div>
 <div class="toc"><ol><li><a href="#how-to-use-this-book">How to Use This Book</a></li>
@@ -81,7 +81,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><a href="#the-bootstrap-pack-starting-a-new-project-with-this-loaded">The Bootstrap Pack: Starting a New Project With This Loaded</a></li></ol></div>
 <h1 id="how-to-use-this-book">How to Use This Book</h1>
 <p>This is the record of building one platform, written so it can be used to build a different one.</p>
-<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-09-19 and 2026-10-06, which is 17 days, across 193 commits, by one owner directing a series of AI coding sessions. As of this build it is 87 Python files, 112 JavaScript files, 24 TypeScript edge functions, 35 migrations and 65 documents: 2126 tracked files in total.</p>
+<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-09-19 and 2026-10-06, which is 17 days, across 194 commits, by one owner directing a series of AI coding sessions. As of this build it is 87 Python files, 112 JavaScript files, 24 TypeScript edge functions, 35 migrations and 65 documents: 2127 tracked files in total.</p>
 <p>None of those numbers were typed. They are measured from the repository every time this document is built, which is the first thing worth copying.</p>
 <h2 id="what-is-in-here">What is in here</h2>
 <p>The book has four kinds of chapter, and they age differently.</p>
@@ -621,7 +621,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three defects here were found by taking a screenshot: a chart unreadable in dark mode, a line chart implying values that never existed, and a dashboard that was not on screen. None of them would have been caught by an assertion, because none of them were violations of anything anybody had thought to assert.</p>
 <p><strong>Budget for looking.</strong> It is the cheapest test there is and the only one that catches things you have not imagined.</p>
 <h1 id="running-the-build-as-an-ai-loop">Running the Build as an AI Loop</h1>
-<p>193 commits in 17 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
+<p>194 commits in 17 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
 <h2 id="the-division-of-labour">The division of labour</h2>
 <p><strong>The owner decides</strong>: what to build, what it means, what is acceptable, and every irreversible or outward-facing action. <strong>The session does</strong>: the building, the measuring, the testing, and the reporting of what it found.</p>
 <p>The failure mode at each end is worth naming. An owner who reviews every line becomes the bottleneck and the throughput collapses to the speed of reading. A session that decides product questions on its own produces something coherent that is not what anyone wanted.</p>
@@ -2689,7 +2689,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A layout checked with one sample of random content is checked for that sample. When a page draws something at random, a name, a pick or a shuffle, test it with the widest value it can produce, and pin that value, since a check that passes or fails by luck is not a check.</li>
 </ul>
 <h3 id="inc-0205-the-consent-banner-s-reject-non-essential-label-ran-out-of-its-button-on-phones-narrower-than-390-pixels-so-the-refusal-looked-broken-beside-a-clean-save-choices">INC-0205. The consent banner's Reject Non Essential label ran out of its button on phones narrower than 390 pixels, so the refusal looked broken beside a clean Save Choices</h3>
-<p><em>2026-10-06, Degraded</em></p>
+<p><em>2026-10-06, Degraded, <code>f749ea8e1bd32ba10ae17980278e2cb73af5cd76</code> PR #241</em></p>
 <ul>
 <li><strong>What was seen.</strong> On every page at phone widths, the consent banner's 'Reject Non Essential' label does not fit inside its button, while 'Save Choices' beside it does. Measured with the site's own fonts served over HTTP, the label's line runs past the space inside the button's padding by 55 pixels at 320 pixels wide, 35 at 360, 28 at 375, 20 at 390 and 8 at 414; below 390 that carries it over the button's right border, and at 390 and 414 it runs through the padding to the border. At 320 'Save Choices' overruns by 9 pixels too. The reject choice still works when tapped, but it is the control that looks broken, on the banner whose rule is that refusing is exactly as easy as accepting.</li>
 <li><strong>Why.</strong> Below 520 pixels the two buttons share the row in equal halves (flex 1 1 0), and both keep white-space:nowrap and 20 pixels of padding on each side. Equal halves are right for the same-size rule, but a label that may not wrap overflows as soon as its half is narrower than the label, and 'Reject Non Essential' is 128 pixels of text. The consent smoke compares the two buttons only at 1280 pixels, where each has room, and measures their position and area, never whether a label fits inside its button. The first measurement taken for this record compared scrollWidth with clientWidth and said the label fitted from 390 up; text running into a box's padding is not scrollable overflow, so that measure misses a label that reaches the border.</li>

@@ -27,6 +27,7 @@ import g_gmat_gt, g_gmat_tpa, g_gmat_msr             # noqa: E402,F401
 import g_act_sci, g_gre_verb, g_gmat_cr, g_act_nq    # noqa: E402,F401
 import g_rc, g_flaw                                  # noqa: E402,F401
 import g_lsat_concl, g_lsat_struct, g_lsat_parallel, g_lsat_prin  # noqa: E402
+import g_lsat_expl                                   # noqa: E402
 import g_gre_rc                                      # noqa: E402
 
 OUT = D / "generated"
@@ -158,9 +159,10 @@ EXAM_EXTRA = {"gre": {"gre_tc": [g for g in g_gre_verb.GENS if g.skill == "gre_t
                        # is fixed by how each argument is written (g_lsat_struct.py).
                        "lsat_lr_struct": g_lsat_struct.GENS,
                        # Parallel reasoning, with every argument's form proved valid or
-                       # flawed (g_lsat_parallel.py). Capped, because the category is
-                       # also explanations, which nothing here generates.
-                       "lsat_lr_expl": g_lsat_parallel.GENS,
+                       # flawed (g_lsat_parallel.py), capped so it does not crowd out the
+                       # category's other half: resolving an apparent discrepancy, over
+                       # scenarios authored with their answers sorted (g_lsat_expl.py).
+                       "lsat_lr_expl": g_lsat_parallel.GENS + g_lsat_expl.GENS,
                        # Applying a principle, with the one judgment it establishes found
                        # by a checker that tells should not from need not (g_lsat_prin.py).
                        # Capped, because the category is also identifying principles and
@@ -803,6 +805,14 @@ def main(target=TARGET, verbose=True):
     if parts:
         print("ERROR: argument frames for the structure questions", file=sys.stderr)
         for line in parts:
+            print("  " + line, file=sys.stderr)
+        sys.exit(1)
+    # Each discrepancy scenario's statements are offered alone as answer choices, so each
+    # has to be complete, stand alone and appear once.
+    scenes = g_lsat_expl.check_scenes()
+    if scenes:
+        print("ERROR: discrepancy scenarios for the explanation questions", file=sys.stderr)
+        for line in scenes:
             print("  " + line, file=sys.stderr)
         sys.exit(1)
     pool = M.by_id(POOL_MODS)
