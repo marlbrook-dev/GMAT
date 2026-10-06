@@ -1538,6 +1538,12 @@ verified rather than that the school does not publish one (INC-0118).
       principle question rejects one principle that runs counter to the reasoning, one that
       gives it no support and two that are not relevant; EDITORIAL.md records the sample,
       read October 6.
+- [x] **"LSAT Parallel Reasoning Questions: Matching the Pattern"** queued for January 30
+      (Maya Chen): reduce the argument to letters, decide whether the form is valid or
+      flawed, and match the form rather than the topic, with an original worked example (a
+      choir and anyone who can read music) and a table of two kinds of wrong answer. LSAC's
+      sample parallel flaw question rejects three choices that are not flawed and one with a
+      different flaw; EDITORIAL.md records the sample, read October 6.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
