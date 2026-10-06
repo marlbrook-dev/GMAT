@@ -1603,6 +1603,12 @@ verified rather than that the school does not publish one (INC-0118).
       give for each rejected choice, read October 6. The trainer lines were checked
       against the banks: function questions on all 124 long passages (606 items),
       inference questions on all 124, and ten analogy stems in the hand-written sets.
+- [x] **"LSAT Reading Comprehension: 14 Sample Questions by Type"** queued for February 19
+      (James Corbett): a hub listing LSAC's fourteen reading samples, seven on single
+      passages and seven on a comparative pair, with LSAC's own rating for each (none is
+      given for the comparative set) and a link to the guide for its type, so every post
+      in the reading series is two clicks from any other. It closes the series begun on
+      February 7, as the February 5 hub closed the Logical Reasoning one.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
