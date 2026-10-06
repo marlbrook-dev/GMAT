@@ -1420,6 +1420,216 @@ SCENES = [
                "centre"),
               "explains why the patrols were added, not why reported crime rose"),
          ]),
+    dict(key="pondfish",
+         setup=("To control mosquitoes, the Thornley park authority stocked the park's pond "
+                "with a small fish that feeds on mosquito larvae. The next summer, visitors "
+                "to the park reported more mosquito bites than in any summer before."),
+         why="visitors reported more mosquito bites after the pond was stocked with the fish",
+         puzzle=("the park stocked its pond with a fish that eats mosquito larvae, yet "
+                 "visitors reported more bites the next summer"),
+         resolve=[
+             (("the fish also eat the dragonfly larvae that had been the main predators of "
+               "mosquito larvae in the pond"),
+              ("with their chief predators gone, more mosquito larvae survived than the fish "
+               "could eat")),
+             (("that summer was the wettest on record, and rainwater stood for weeks in the "
+               "park's ditches and hollows"),
+              ("mosquitoes bred in standing water away from the pond, where the fish could "
+               "not reach them")),
+             (("the park began a series of evening concerts that summer, which drew far more "
+               "visitors at dusk"),
+              ("more people were in the park at the hour mosquitoes bite, so more bites "
+               "were reported")),
+             (("that summer the park began handing out comment cards that ask visitors "
+               "about insect bites"),
+              "visitors were asked about bites for the first time, so more bites were reported"),
+         ],
+         deepen=[
+             ("the fish multiplied quickly and were found throughout the pond by midsummer",
+              ("means the fish were eating larvae all over the pond, which makes the rise "
+               "harder to explain")),
+             ("the park sprayed the edges of the pond against adult mosquitoes in the same summer",
+              ("would have killed adult mosquitoes, which makes the rise in bites harder to "
+               "explain")),
+         ],
+         aside=[
+             ("the fish are a pale silver species first described by a naturalist in the last century",
+              "concerns the fish's appearance and history, which bear on neither fact"),
+             ("the pond was dug in the park's early years as a boating lake",
+              "concerns the pond's history, which says nothing about the bites"),
+         ],
+         half=[
+             ("a single fish of the kind can eat hundreds of mosquito larvae in a day",
+              "explains why the fish were expected to help, not why bites increased"),
+             ("the park stocked the pond after a summer of complaints from visitors about mosquitoes",
+              "explains why the fish were introduced, not why bites increased"),
+         ]),
+    dict(key="orchardnets",
+         setup=("To keep birds off its cherries, an orchard at Fenby covered its trees with "
+                "fine nets as the fruit began to ripen. That season the orchard picked fewer "
+                "sound cherries than in the season before."),
+         why="the orchard picked fewer sound cherries after it netted its trees",
+         puzzle=("the orchard netted its trees to keep birds off the cherries, yet it picked "
+                 "fewer sound cherries"),
+         resolve=[
+             (("the nets held damp air around the fruit, and a mould that splits ripening "
+               "cherries spread through the netted trees"),
+              "the cherries the birds no longer took were lost to mould instead"),
+             ("a late frost that spring killed much of the blossom before the fruit had set",
+              "fewer cherries formed at all, whatever the nets saved"),
+             (("the nets kept out the small birds that had eaten the caterpillars feeding on "
+               "the fruit"),
+              "caterpillars spoiled more cherries once their predators were kept away"),
+             (("the orchard was short of pickers that season, and much of the ripe fruit "
+               "split on the trees before it could be picked"),
+              "fruit was lost after it ripened for want of hands, not to birds"),
+         ],
+         deepen=[
+             (("blackbirds and starlings had taken about a third of the orchard's cherries "
+               "in each of the five seasons before the nets"),
+              ("shows how much the birds used to take, which makes the smaller harvest "
+               "harder to explain")),
+             (("the netted trees were the same trees, of the same ages, that had been picked "
+               "the season before"),
+              "rules out a change in the trees themselves, which deepens the puzzle"),
+         ],
+         aside=[
+             ("the nets were made in a mill that also makes fishing nets for the coast",
+              "concerns where the nets were made, which bears on neither fact"),
+             ("the orchard sells its cherries at a farm shop beside the main road",
+              "concerns where the cherries are sold, not how many sound ones were picked"),
+         ],
+         half=[
+             (("birds had been seen stripping whole branches of ripe cherries in the seasons "
+               "before the nets"),
+              "explains why the nets were expected to help, not why fewer sound cherries were picked"),
+             (("the orchard's buyers had complained the season before about cherries pecked "
+               "by birds"),
+              "explains why the nets were put up, not why fewer sound cherries were picked"),
+         ]),
+    dict(key="theatretickets",
+         setup=("Hoping to fill more seats, the Corbel Theatre cut the price of its tickets by "
+                "a third. In the following season, the theatre sold fewer tickets than in the "
+                "season before."),
+         why="the Corbel Theatre sold fewer tickets after it cut its prices",
+         puzzle="the theatre cut its prices to fill more seats, yet it sold fewer tickets",
+         resolve=[
+             (("to pay for the price cut, the theatre dropped the touring companies whose "
+               "plays had always sold out"),
+              "the plays that had drawn the biggest audiences were no longer on the bill"),
+             (("the town's main road was closed for repairs that season, cutting the bus "
+               "route that served the theatre"),
+              "many regular theatregoers could no longer reach it easily"),
+             ("a new theatre with a larger stage opened in the next town that season",
+              "some of the Corbel's audience went to the new theatre instead"),
+             (("many regular patrons took the lower prices as a sign that the productions "
+               "had become cheaper and poorer"),
+              "the cut put off the people it was meant to bring in"),
+         ],
+         deepen=[
+             (("the theatre advertised the lower prices in every local paper and on posters "
+               "across the town"),
+              ("means people knew about the cheaper tickets, which makes the fall in sales "
+               "harder to explain")),
+             ("the number of people living in the town grew that year",
+              "means more possible theatregoers, which deepens the puzzle"),
+         ],
+         aside=[
+             ("the theatre's building is the oldest in the town and has a carved stone front",
+              "concerns the building's age and front, which bear on neither fact"),
+             ("the theatre repainted its foyer that season in the colours it had used before",
+              "concerns the paint, which bears on neither fact"),
+         ],
+         half=[
+             (("in surveys, people who rarely went to the theatre named the price of tickets "
+               "as their main reason"),
+              "explains why the cut was expected to help, not why sales fell"),
+             ("the theatre's board had set a target of filling nine seats in ten each night",
+              "explains why the theatre wanted to fill more seats, not why it sold fewer tickets"),
+         ]),
+    dict(key="streettrees",
+         setup=("To keep its streets cooler in summer, the city of Marrowby planted young trees "
+                "along twenty of its busiest streets. The next summer, the average afternoon "
+                "temperature recorded on those streets was higher than the summer before."),
+         why="afternoon temperatures recorded on the planted streets were higher the next summer",
+         puzzle=("the city planted trees to cool its busiest streets, yet the afternoon "
+                 "temperatures recorded there rose"),
+         resolve=[
+             ("the next summer was the hottest the region had recorded in forty years",
+              "the whole region was hotter, so the planted streets were too"),
+             ("the young trees were too small to cast much shade in their first summer",
+              "the trees had not yet grown enough to cool the streets"),
+             (("to make room for the trees, the city moved its thermometers from shaded "
+               "courtyards to the open pavement"),
+              "the thermometers now stood in the sun, so they recorded higher temperatures"),
+             (("that spring, the shops along those streets fitted air conditioners that blow "
+               "hot air out onto the pavement"),
+              "the air conditioners warmed the air where the temperatures were measured"),
+         ],
+         deepen=[
+             (("the planted streets were closed to cars for most of the summer, cutting the "
+               "heat from engines"),
+              ("removes a source of heat, which makes the higher temperatures harder to "
+               "explain")),
+             (("the city also painted the pavements of the planted streets a pale colour that "
+               "reflects sunlight"),
+              "should have kept the streets cooler, which deepens the puzzle"),
+         ],
+         aside=[
+             ("the trees were grown in a nursery on the edge of the city",
+              "concerns where the trees were grown, which bears on neither fact"),
+             ("the twenty streets include the city's oldest market street",
+              "concerns the streets' history, which says nothing about the temperatures"),
+         ],
+         half=[
+             ("shaded pavement can be many degrees cooler than pavement in full sun",
+              "explains why the trees were expected to help, not why temperatures rose"),
+             (("the city planted the trees after a summer in which several people collapsed "
+               "from the heat"),
+              "explains why the trees were planted, not why temperatures rose"),
+         ]),
+    dict(key="canshipping",
+         setup=("To cut its shipping costs, the Kestow Brewery switched from glass bottles to "
+                "lighter cans. In the following year, the brewery spent more on shipping than "
+                "in the year before."),
+         why="the Kestow Brewery spent more on shipping after it switched to cans",
+         puzzle=("the brewery switched to lighter cans to cut its shipping costs, yet it spent "
+                 "more on shipping"),
+         resolve=[
+             (("the brewery began selling its beer in three new regions that year, all of "
+               "them far from the brewery"),
+              "the beer travelled much further, so the total shipping cost rose"),
+             (("the price of diesel rose sharply that year, and the carriers passed the rise "
+               "on in their rates"),
+              "each load cost more to move, whatever it weighed"),
+             (("sales doubled after the switch, because shops could stock the cans in their "
+               "small fridges"),
+              "far more beer was shipped, so the total cost rose even if each case cost less"),
+             (("the cans dent easily, so the brewery now pays its carrier extra for padded "
+               "crates on every load"),
+              "the padding added more to each load's cost than the lighter weight saved"),
+         ],
+         deepen=[
+             (("a case of cans weighs less than half as much as a case of the same beer in "
+               "bottles"),
+              ("confirms the cans are much lighter, which makes the higher cost harder to "
+               "explain")),
+             ("the brewery stopped paying for the return of empty bottles once it switched to cans",
+              "removes a shipping cost the bottles had carried, which deepens the puzzle"),
+         ],
+         aside=[
+             ("the brewery's labels have shown the same drawing of a barge for fifty years",
+              "concerns the labels, which bear on neither fact"),
+             ("the brewery's oldest beer is brewed to a recipe kept in a locked book",
+              "concerns the recipe, which says nothing about shipping"),
+         ],
+         half=[
+             ("carriers charge more to move heavier loads",
+              "explains why the switch was expected to help, not why shipping costs rose"),
+             (("the brewery's shipping bill had risen in each of the three years before the "
+               "switch"),
+              "explains why the brewery wanted to cut shipping costs, not why they rose again"),
+         ]),
 ]
 
 
