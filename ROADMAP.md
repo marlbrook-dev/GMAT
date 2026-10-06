@@ -1458,6 +1458,16 @@ verified rather than that the school does not publish one (INC-0118).
       - All 175 items on the new passages were read: 50 GMAT, 50 GRE and 75 LSAT. The GRE
         renderings each run six sentences, and every sentence function question names the
         right one.
+- [x] **"LSAT Assumption Questions: Necessary vs Sufficient"** queued for January 20 (James
+      Corbett): how to tell the two kinds apart from the wording of the question, a test for
+      each (negate a necessary assumption, add a sufficient one), and an original worked
+      example of each. LSAC's sample page has one of each kind, and the post quotes its stems
+      and paraphrases its explanations, read on October 6.
+      - LSAC does not call the two kinds necessary and sufficient. The post says the labels
+        are ours, and EDITORIAL.md records that beside the facts.
+      - The examples were checked choice by choice: in the sufficient example the right
+        answer says more than the argument needs, so it would fail the negation test, which
+        is the difference the post turns on.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
