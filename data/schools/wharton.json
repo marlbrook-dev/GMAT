@@ -54,10 +54,22 @@
     "decision": "2027-05-11"
    }
   ],
+  "said": [
+   {
+    "to": "First-time Applicants",
+    "text": "We encourage you to apply to Wharton in Round 1 or 2."
+   },
+   "Space in the class becomes more limited for Round 3 applicants, resulting in a more competitive round.",
+   {
+    "to": "Reapplicants",
+    "text": "We strongly encourage you to apply during Round 1 or 2."
+   },
+   "If you need to apply for a student visa to study in the United States, we recommend that you apply in Round 1 or 2."
+  ],
   "src": "Wharton MBA application timeline and deadlines page",
   "year": 2026,
   "url": "https://mba.wharton.upenn.edu/application-timeline-deadlines/",
-  "checked": "2026-10-05"
+  "checked": "2026-10-06"
  },
  "profile": {
   "class_year": "Class of 2027",

@@ -59,7 +59,7 @@ a{color:var(--accent)}
 <p class="eyebrow">Start From Nowhere</p>
 <h1>The Build Playbook</h1>
 <p class="sub">How one person and a set of AI sessions built a multi-exam test-prep platform, every defect hit on the way, and the recipe for doing it again for something else</p>
-<p class="meta">Built 2026-10-06 from commit 51b09fe &middot; 189 commits over 16 days &middot; 204 recorded defects &middot; 17 chapters<br>
+<p class="meta">Built 2026-10-06 from commit c13caeb &middot; 190 commits over 16 days &middot; 204 recorded defects &middot; 17 chapters<br>
 This document is generated. Edit the chapters in docs/playbook/ and the ledger in data/playbook/incidents.jsonl, then run python3 src/build_playbook.py.</p>
 </div>
 <div class="toc"><ol><li><a href="#how-to-use-this-book">How to Use This Book</a></li>
@@ -81,7 +81,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><a href="#the-bootstrap-pack-starting-a-new-project-with-this-loaded">The Bootstrap Pack: Starting a New Project With This Loaded</a></li></ol></div>
 <h1 id="how-to-use-this-book">How to Use This Book</h1>
 <p>This is the record of building one platform, written so it can be used to build a different one.</p>
-<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-09-19 and 2026-10-05, which is 16 days, across 189 commits, by one owner directing a series of AI coding sessions. As of this build it is 87 Python files, 112 JavaScript files, 24 TypeScript edge functions, 35 migrations and 65 documents: 2125 tracked files in total.</p>
+<p>The platform is Start From Nowhere, a test-preparation site with five adaptive exam trainers, a college and business-school rankings library, a blog, a forum, subscriptions through two payment processors, and an admin console. It was built between 2026-09-19 and 2026-10-05, which is 16 days, across 190 commits, by one owner directing a series of AI coding sessions. As of this build it is 87 Python files, 112 JavaScript files, 24 TypeScript edge functions, 35 migrations and 65 documents: 2126 tracked files in total.</p>
 <p>None of those numbers were typed. They are measured from the repository every time this document is built, which is the first thing worth copying.</p>
 <h2 id="what-is-in-here">What is in here</h2>
 <p>The book has four kinds of chapter, and they age differently.</p>
@@ -621,7 +621,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <p>Three defects here were found by taking a screenshot: a chart unreadable in dark mode, a line chart implying values that never existed, and a dashboard that was not on screen. None of them would have been caught by an assertion, because none of them were violations of anything anybody had thought to assert.</p>
 <p><strong>Budget for looking.</strong> It is the cheapest test there is and the only one that catches things you have not imagined.</p>
 <h1 id="running-the-build-as-an-ai-loop">Running the Build as an AI Loop</h1>
-<p>189 commits in 16 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
+<p>190 commits in 16 days, one owner, a series of AI sessions. This chapter is how that was actually run, including the parts that did not work.</p>
 <h2 id="the-division-of-labour">The division of labour</h2>
 <p><strong>The owner decides</strong>: what to build, what it means, what is acceptable, and every irreversible or outward-facing action. <strong>The session does</strong>: the building, the measuring, the testing, and the reporting of what it found.</p>
 <p>The failure mode at each end is worth naming. An owner who reviews every line becomes the bottleneck and the throughput collapses to the speed of reading. A session that decides product questions on its own produces something coherent that is not what anyone wanted.</p>
@@ -1809,7 +1809,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A figure's note is part of the figure. When a table prints the note beside the number, every sentence that restates the number has to carry what the note says about it, average, about or more than, or it states the figure more exactly than the source does. And a count of one thing and an average over several are different statistics even when the number is the same: the wording has to say which one it is.</li>
 </ul>
 <h3 id="inc-0203-a-live-admissions-post-said-most-full-time-mba-programs-run-three-rounds-a-year-which-21-of-the-32-programs-whose-deadlines-we-verified-do-not-and-its-other-claims-about-rounds-cited-nothing">INC-0203. A live admissions post said most full-time MBA programs run three rounds a year, which 21 of the 32 programs whose deadlines we verified do not, and its other claims about rounds cited nothing</h3>
-<p><em>2026-10-06, Wrong data shown or stored</em></p>
+<p><em>2026-10-06, Wrong data shown or stored, <code>c13caebbded421c36f84b1a7a9438ab334d282d6</code> PR #237</em></p>
 <ul>
 <li><strong>What was seen.</strong> MBA Application Timeline: A Month by Month Plan, published August 23, 2026, said 'Most full-time MBA programs run three rounds a year'. The 32 programs whose deadlines were read from their own pages on October 5 and 6, 2026 list two deadlines (Harvard and MIT Sloan), three (11 programs), four (13), five (4) or six (2), so 11 of the 32 run three. The same post said Round 1 gives reapplicants and candidates from heavily represented industries the largest number of open seats, that Round 2 remains a full-strength option at most programs, and, in its FAQ, that Round 3 is the thinnest round with fewer remaining seats and a compressed decision window at most programs. None of the four carried a source.</li>
 <li><strong>Why.</strong> The post was written before the site had any deadline data, from general knowledge of how admissions rounds work, and the rule that a school statistic needs a source was read as covering a figure for a named school, not a claim about what most programs do. A sentence about most programs is a statistic about programs, but it has no number in it, so neither the blog's price guard nor the weekly source check, which both look for figures, could see it. When the deadline data arrived on October 5, nothing compared it with what the posts already said.</li>
@@ -2479,7 +2479,7 @@ This document is generated. Edit the chapters in docs/playbook/ and the ledger i
 <li><strong>Lesson.</strong> A generated file that someone edits by hand has two sources, and the next run of the generator silently picks one of them. Put the edit in the generator or retire the generator in writing, and have the build regenerate every generated file and compare it, because nothing else notices a generator that no longer makes its file until someone runs it.</li>
 </ul>
 <h3 id="inc-0204-a-queued-post-s-title-was-checked-for-title-case-only-once-it-went-live-so-a-title-the-build-refuses-would-have-failed-the-deploy-on-its-publish-day">INC-0204. A queued post's title was checked for Title Case only once it went live, so a title the build refuses would have failed the deploy on its publish day</h3>
-<p><em>2026-10-06, Degraded</em></p>
+<p><em>2026-10-06, Degraded, <code>c13caebbded421c36f84b1a7a9438ab334d282d6</code> PR #237</em></p>
 <ul>
 <li><strong>What was seen.</strong> Writing the post queued for January 14, 2027, its title 'Which MBA Round Should You Apply In? What Schools Say' passed build_blog.py while the post was held. Building with BLOG_BUILD_DATE=2027-01-14 exited 1: the built page's h1 breaks the Title Case rule ('Apply in?'), so the deploy on January 14 would have stopped, holding that post and every later change until someone fixed it. The other 49 held posts pass when built as live.</li>
 <li><strong>Why.</strong> validate() reads every post, held or live, but checks only the headings inside its body. The title becomes a page's h1 only when the page is built, and the built-page checks (headings, button labels, articles, design tokens, trainer claims, offsite scripts) read only the pages this build publishes. So a held post's title, and anything else that exists only on its built page, was first checked on its publish day, by the deploy that published it.</li>

@@ -1286,6 +1286,18 @@ verified rather than that the school does not publish one (INC-0118).
       - build_blog.py now builds every held post as it will publish and runs the same page
         checks on it. Its self-check confirms a held title that breaks Title Case fails the
         build. All 50 held posts pass.
+- [x] **Schools' own words on choosing a round, on their pages and read back weekly.**
+      - 24 sentences from 13 programs' deadline pages: Wharton, Tuck, Fuqua, Stanford GSB,
+        NYU Stern, UNC Kenan-Flagler, Tepper, Georgia Tech, NC State, Ohio State, Oregon, Rice
+        and Wisconsin.
+      - They cover student visas, merit funding, reapplying and which round is the last.
+      - Each was found word for word on its page on October 6. Each is stored as the page
+        prints it, with the page's heading where it names an audience ("Reapplicants").
+      - School pages print them under "In the School's Own Words", below the deadlines table.
+      - The validator refuses a fragment, a duplicate, a dash and an unknown key.
+      - The weekly source check reads every sentence back with the dates, ignoring spacing and
+        the shape of quotation marks. Its self-check covers a sentence found, a reworded one
+        and a dropped heading. All 13 pages read clean.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
