@@ -771,7 +771,7 @@ def deadline_misses(dl, text):
     """Every date and phrase in a deadlines record that its page does not print."""
     out = []
     for r in dl.get("rounds") or []:
-        for key in ("deadline", "decision"):
+        for key in ("deadline", "decision", "extended_from", "initial_notification"):
             if r.get(key) and not date_seen(r[key], text):
                 out.append("%s %s %s is not on the page" % (r.get("name"), key, r[key]))
         for key in ("time", "decision_text"):
@@ -1074,6 +1074,14 @@ def _selfcheck_dates():
             raise SystemExit("check_sources: date_seen finds %s in %r" % (iso, text))
     if not words_seen("11:59 p.m. CT", "One September 15, 2026 11:59 p.m. CT December 3"):
         raise SystemExit("check_sources: words_seen misses a deadline time")
+    # Every date a round carries is read back, the one an extension replaced and the date of a
+    # first answer included, so a record cannot keep one the page has stopped printing.
+    rnd = {"name": "Round 1", "deadline": "2026-10-15", "extended_from": "2026-09-29",
+           "initial_notification": "2026-12-02"}
+    page = ("Round 1 deadline extended to Thursday, October 15, 2026. Round 1 September 30, 2026 "
+            "December 1, 2026")
+    if len(deadline_misses({"rounds": [rnd]}, page)) != 2:
+        raise SystemExit("check_sources: deadline_misses does not read every date a round carries")
 
 
 def main(argv):

@@ -33,6 +33,34 @@
    "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/"
   }
  },
+ "deadlines": {
+  "rounds": [
+   {
+    "name": "Early Action",
+    "deadline": "2026-09-02",
+    "decision": "2026-10-15"
+   },
+   {
+    "name": "Round 1",
+    "deadline": "2026-09-30",
+    "decision": "2026-12-10"
+   },
+   {
+    "name": "Round 2",
+    "deadline": "2027-01-05",
+    "decision": "2027-03-11"
+   },
+   {
+    "name": "Round 3",
+    "deadline": "2027-03-25",
+    "decision": "2027-05-06"
+   }
+  ],
+  "src": "Fuqua Daytime MBA facts and dates page",
+  "year": 2026,
+  "url": "https://www.fuqua.duke.edu/programs/daytime-mba/admissions-facts-dates",
+  "checked": "2026-10-06"
+ },
  "profile": {
   "class_year": "Class of 2028",
   "class_size": {

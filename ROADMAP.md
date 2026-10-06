@@ -1101,6 +1101,22 @@ verified rather than that the school does not publish one (INC-0118).
         with a reminder two weeks before each deadline. The build refuses a calendar file
         that is not well formed.
       - Next: more schools, then a hub page of every verified round.
+- [x] **Application deadlines for ten more schools**, read October 6 from each school's own
+      deadline page: Fuqua, Anderson, Kenan-Flagler, McCombs, Johnson, Tepper, Haas, Darden,
+      Stern and Marshall, eighteen in all. Columbia's and Ross's sites refused the automated
+      read with HTTP 403 and are left out rather than read from anywhere else.
+      - Every column label was read in context before a date was recorded. Fuqua's interview
+        and deposit dates, Cornell's initial notification and the consortium rounds stay out.
+      - Tepper extended Round 1 to October 15 in a banner while its table still says
+        September 30. Recording the table's date would have marked an open round as passed,
+        so a round can now carry `extended_from`, printed beside the new date.
+      - Stern gives no decision dates, only the date by which it sends a first answer. That
+        is `initial_notification`, shown as such, and the validator refuses it beside a
+        decision so the two are never confused.
+      - The source check reads both new fields back off the page, and its self-check fails
+        if either key is dropped. A dash in the decision column is now explained above the
+        table, and a calendar event for a round named "1st Deadline" no longer reads
+        "1st Deadline Deadline".
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's

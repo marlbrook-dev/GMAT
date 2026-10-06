@@ -32,6 +32,10 @@ school means adding a file. Never edit generated output.
    "rounds": [
      {"name": "Round 1", "deadline": "2026-09-09", "time": "12:00 PM ET",
       "decision": "2026-12-10"},     or "decision_text": "Mid-December 2026"
+     {"name": "Round 1", "deadline": "2026-10-15", "extended_from": "2026-09-30",
+      "decision": "2026-12-09"},     extended_from: the date an extension replaced
+     {"name": "1st Deadline", "deadline": "2026-09-15",
+      "initial_notification": "2026-12-01"}   only where no decision date is given
    ],
    "src": "...", "year": 2026, "url": "https://...", "checked": "2026-10-05"
  },
@@ -82,6 +86,14 @@ cited page in the forms schools print them ("Sept. 9, 2026", "09 Sep 2026", "Jan
 2027"), so a school that moves a deadline is caught the next time it runs. School pages
 print the rounds, the next deadline in the lead paragraph and the FAQ, and a calendar file
 at /schools/<slug>/deadlines.ics.
+
+A round the school has extended carries the new date as its deadline and the date it
+replaced as `extended_from`, which the page prints beside it, because the old date is the
+one a reader has seen elsewhere (Tepper's Round 1, extended to October 15, 2026). A school
+that gives no decision date, only the date by which it sends a first answer (an invitation
+to interview, a waitlist offer or a denial), has that date as `initial_notification`
+(Stern); the validator refuses one beside a decision, and the source check reads both
+fields back off the page like every other date.
 
 `tuition_usd` is tuition for one year. `program_cost_usd` is the figure a school
 publishes for the whole program, for the schools that price the program and never a

@@ -33,6 +33,37 @@
    "url": "https://poetsandquants.com/2025/12/07/poets-and-quants-2025-2026-mba-ranking/"
   }
  },
+ "deadlines": {
+  "rounds": [
+   {
+    "name": "1st Deadline",
+    "deadline": "2026-09-15",
+    "time": "11:59 p.m. U.S. Eastern Time",
+    "initial_notification": "2026-12-01"
+   },
+   {
+    "name": "2nd Deadline",
+    "deadline": "2026-10-15",
+    "time": "11:59 p.m. U.S. Eastern Time",
+    "initial_notification": "2027-01-01"
+   },
+   {
+    "name": "3rd Deadline",
+    "deadline": "2027-01-15",
+    "time": "11:59 p.m. U.S. Eastern Time",
+    "initial_notification": "2027-04-01"
+   },
+   {
+    "name": "4th Deadline",
+    "deadline": "2027-04-15",
+    "time": "11:59 p.m. U.S. Eastern Time"
+   }
+  ],
+  "src": "NYU Stern Full-time MBA deadlines page",
+  "year": 2026,
+  "url": "https://www.stern.nyu.edu/programs-admissions/full-time-mba/admissions/deadlines",
+  "checked": "2026-10-06"
+ },
  "profile": {
   "class_year": "Class of 2027",
   "class_size": {

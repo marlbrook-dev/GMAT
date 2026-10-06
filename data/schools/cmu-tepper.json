@@ -37,6 +37,38 @@
    "note": "Tepper's position in the P&Q 2025-2026 composite ranking was not surfaced in any snippet reviewed"
   }
  },
+ "deadlines": {
+  "rounds": [
+   {
+    "name": "Round 1",
+    "deadline": "2026-10-15",
+    "extended_from": "2026-09-30",
+    "decision": "2026-12-09"
+   },
+   {
+    "name": "Round 2",
+    "deadline": "2027-01-08",
+    "decision": "2027-03-10"
+   },
+   {
+    "name": "Round 3",
+    "deadline": "2027-03-03",
+    "decision": "2027-04-22"
+   },
+   {
+    "name": "Round 4",
+    "deadline": "2027-05-05"
+   },
+   {
+    "name": "Round 4 Final",
+    "deadline": "2027-06-15"
+   }
+  ],
+  "src": "Tepper Full-Time MBA application page",
+  "year": 2026,
+  "url": "https://www.cmu.edu/tepper/programs/mba/admissions/apply-full-time-mba",
+  "checked": "2026-10-06"
+ },
  "profile": {
   "class_year": "Class of 2027",
   "class_size": {
