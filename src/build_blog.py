@@ -606,6 +606,53 @@ def onward_for(post, body):
     return best
 
 
+# The trainer a post's Start a Free Round button opens: the first exam its title names, so
+# an LSAT guide opens the LSAT trainer, and a title that names no exam keeps the GMAT one.
+# The button used to link /app/ on every post (INC-0206). It reads the title rather than
+# onward_for(), which scores the whole body and sends the general Introducing the Study
+# Room post to the LSAT trainer; a button that starts practice should change exams only
+# when the post says which exam it is about. The paths come from build_exams.APP_PATH,
+# the one map of where each trainer lives.
+CTA_EXAM = re.compile(r"\b(GMAT|GRE|LSAT|PSAT|SAT|ACT)\b")
+CTA_KEY = {"GMAT": "gmat", "GRE": "gre", "LSAT": "lsat", "PSAT": "sat", "SAT": "sat", "ACT": "act"}
+
+
+def cta_href(post):
+    from build_exams import APP_PATH
+    m = CTA_EXAM.search(post.get("title", ""))
+    return APP_PATH[CTA_KEY[m.group(1)]] if m else APP_PATH["gmat"]
+
+
+CTA_LINK = re.compile(r'<a class="btn" href="([^"]+)"[^>]*>Start a Free Round</a>')
+
+
+def cta_problems(posts):
+    """INC-0206: every post's Start a Free Round link, read back from the page it builds,
+    is the trainer of the exam its title names."""
+    out = []
+    for p in posts:
+        got = CTA_LINK.findall(build_post(p, posts))
+        if got != [cta_href(p)]:
+            out.append("%s: Start a Free Round links %s, not %s" % (p["slug"], got, cta_href(p)))
+    return out
+
+
+def _selfcheck_cta():
+    """INC-0206: the button follows the first exam a title names, and only an exam's name
+    in capitals counts, so the word act does not send a post to the ACT trainer."""
+    cases = (("LSAT Flaw Questions: How to Find the Error in an Argument", "/lsat/app/"),
+             ("GRE Text Completion Questions: How to Fill the Blanks", "/gre/app/"),
+             ("SAT vs ACT in 2026: Which Test Should You Take?", "/sat/app/"),
+             ("What Is a Good PSAT Score in 2026?", "/sat/app/"),
+             ("How Much Does the ACT Cost in 2026?", "/act/app/"),
+             ("Can You Take the GMAT, GRE, LSAT, SAT, or ACT at Home?", "/app/"),
+             ("Why You Should Act Before the Deadline", "/app/"),
+             ("MBA Salary by School", "/app/"))
+    for title, want in cases:
+        if cta_href({"title": title}) != want:
+            fail("cta_href(%r) gave %s, expected %s (INC-0206)" % (title, cta_href({"title": title}), want))
+
+
 def onward_html(post, body):
     cards = "".join(
         '<a class="nx" href="%s"><strong>%s</strong><span>%s</span></a>' % (href, t, d)
@@ -635,7 +682,7 @@ def build_post(p, posts):
 {p['body']}
 <div class="cta"><div><div style="font-family:var(--display);font-weight:800;font-size:17px;color:var(--navy-900)">Put This Into Practice</div>
 <div style="font-size:14px;color:var(--gray-500);margin-top:4px">Run a free adaptive round. No account needed; the trainer finds your weak skills in one session.</div></div>
-<a class="btn" href="/app/" style="font-size:15px;padding:12px 22px">Start a Free Round</a></div>
+<a class="btn" href="{cta_href(p)}" style="font-size:15px;padding:12px 22px">Start a Free Round</a></div>
 <h2 style="font-size:24px">Frequently Asked Questions</h2>
 <div class="faq">{faq_vis}</div>
 </div>
@@ -825,9 +872,13 @@ def main():
     _selfcheck_retired()
     _selfcheck_title()
     _selfcheck_general()
+    _selfcheck_cta()
     posts = load_posts()
     validate(posts)  # validate everything, including held future posts
     _selfcheck_held(posts)
+    # Every post, held ones included, opens the trainer for the exam it is about (INC-0206).
+    for m in cta_problems(posts):
+        fail(m)
     live = split_live(posts)
     live_slugs = {p["slug"] for p in live}
     out = ROOT / "blog"

@@ -7,10 +7,10 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-10-06, which is 17 days, across
-194 commits, by one owner directing a series of AI coding sessions. As of this
-build it is 87 Python files, 112 JavaScript files, 24
+212 commits, by one owner directing a series of AI coding sessions. As of this
+build it is 88 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
-2127 tracked files in total.
+2145 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-194 commits in 17 days, one owner, a series of AI sessions. This
+212 commits in 17 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1217,14 +1217,14 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-205 recorded defects, over 17 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+206 recorded defects, over 17 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 114 | 56% |
+| Found by reading the code or the output | 115 | 56% |
 | Found by measuring something | 46 | 22% |
 | A test caught it | 23 | 11% |
 | Found by rendering it and looking | 10 | 5% |
@@ -1232,7 +1232,7 @@ well enough to audit later. Which is what this book is.
 | A build guard caught it | 5 | 2% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 203 of 205 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 204 of 206 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1242,12 +1242,12 @@ well enough to audit later. Which is what this book is.
 | Severity | Count |
 | --- | ---: |
 | Wrong data shown or stored | 95 |
-| Degraded | 50 |
+| Degraded | 51 |
 | Cosmetic | 31 |
 | Silent loss | 26 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 205. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 206. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
@@ -1256,7 +1256,7 @@ well enough to audit later. Which is what this book is.
 | --- | ---: |
 | Content generation | 96 |
 | Tests and guards | 37 |
-| Front end | 14 |
+| Front end | 15 |
 | Build system | 13 |
 | Search and metadata | 11 |
 | CSS and layout | 9 |
@@ -1269,7 +1269,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-199 of 205 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+200 of 206 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1290,7 +1290,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-92 of 205 incidents record that they repeat an earlier lesson, 125 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+93 of 206 incidents record that they repeat an earlier lesson, 126 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1342,6 +1342,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 | INC-0093 Seven variable names were plural and every sentence built around them said was | INC-0096 | 1 |
 | INC-0110 A browser suite outside CI had failed on its first click since the consent dialog shipped | INC-0113 | 1 |
 | INC-0117 Three reading schemas could be answered by matching names, because every distractor came from a different passage | INC-0122 | 1 |
+| INC-0128 The trainer button on four exam guides and on the study guide hub opened the GMAT trainer | INC-0206 | 1 |
 | INC-0132 The GRE guide still quoted a $220 fee eight weeks after ETS's fees became $249 | INC-0136 | 1 |
 | INC-0135 Arizona State's school page said its class entered in 2027, because the label parser took the first year it found | INC-0147 | 1 |
 | INC-0138 The exam guides hub told search engines only the GMAT and SAT trainers were live, eleven days after all five were | INC-0162 | 1 |
@@ -1407,8 +1408,8 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/build_banks.py`, 17 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011, INC-0079, INC-0081, INC-0086, INC-0088, INC-0089, INC-0090, INC-0091, INC-0092, INC-0120, INC-0123, INC-0126, INC-0127)
 - `src/build.py`, 14 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067, INC-0076, INC-0080, INC-0131, INC-0148, INC-0196)
 - `src/test.js`, 10 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085, INC-0192, INC-0194)
+- `src/build_blog.py`, 10 incidents (INC-0124, INC-0137, INC-0162, INC-0170, INC-0171, INC-0188, INC-0197, INC-0203, INC-0204, INC-0206)
 - `src/gen/g_rc.py`, 9 incidents (INC-0097, INC-0114, INC-0115, INC-0117, INC-0122, INC-0169, INC-0179, INC-0186, INC-0187)
-- `src/build_blog.py`, 9 incidents (INC-0124, INC-0137, INC-0162, INC-0170, INC-0171, INC-0188, INC-0197, INC-0203, INC-0204)
 - `src/validate_schools.py`, 9 incidents (INC-0125, INC-0141, INC-0143, INC-0144, INC-0147, INC-0151, INC-0153, INC-0157, INC-0185)
 - `src/build_rankings.py`, 8 incidents (INC-0014, INC-0049, INC-0118, INC-0135, INC-0142, INC-0145, INC-0167, INC-0200)
 - `src/bank_emit.py`, 6 incidents (INC-0062, INC-0066, INC-0068, INC-0073, INC-0119, INC-0189)
@@ -3056,7 +3057,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** A reader of someone else's page should treat as rules only what the page promises, not what one reading of it happened to show. Two pages from one publisher are kept on their own schedules, so a check that both list the same things fails the week one is tidied and the other is not, and an order seen on every row so far is a pattern, not a promise. When a strict reader refuses, everything behind the refusal goes unchecked, so once the refusal is fixed, read the whole difference it was hiding.
 
 
-## Front end (14)
+## Front end (15)
 
 
 ### INC-0001. Unescaped quotes in onclick strings took the whole app down
@@ -3233,6 +3234,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** The escape is written with the backslash doubled, so a semicolon becomes a backslash and a semicolon, as the Python writer already did.
 - **What stops it now.** src/smoke_pages.js now fails if any SUMMARY or DESCRIPTION line in the downloaded calendar holds a semicolon or comma without a backslash before it, and the checklist's own data holds a description with a semicolon, so the check always has one to read. in `src/smoke_pages.js`
 - **Lesson.** A backslash written into a string literal is a request to the language, not a character, and languages answer it differently: '\;' is a bare semicolon in JavaScript, while Python keeps an escape it does not know and gives a backslash and a semicolon. When code is copied between languages, an escape that looks identical can change meaning, so test the output rather than the source line, and give the test an input that needs the escape.
+
+
+### INC-0206. The Start a Free Round button at the foot of every blog post opened the GMAT trainer, including on the LSAT, GRE, SAT and ACT posts
+
+*2026-10-06, Degraded*
+
+- **What was seen.** Every post in The Study Room ends in a Put This Into Practice box whose Start a Free Round button linked to /app/, the GMAT Focus trainer. On October 6, 2026 five live posts were about another exam: the GRE format guide, the LSAT format and scoring guide, the digital SAT format guide, the SAT study plan by domain and SAT vs ACT. A reader who finished the LSAT guide and pressed the button landed in GMAT practice. 31 queued posts would have done the same, 19 of them the LSAT question type series. The Where to Take This Next cards below the same posts already linked the right trainer, which is how the wrong button went unnoticed.
+- **Why.** build_post() writes the box's link as the literal /app/, as it has since the blog had only the GMAT trainer to point at. The onward cards choose their trainer from what the post is about, through onward_for(), but nothing made the button agree with them, and nothing compared a post's trainer link with the exam its title names. It is INC-0128 again: that fix took the literal out of the exam guides and the study guide hub, and the blog template kept its copy.
+- **How it surfaced.** Found on October 6, 2026 while previewing two queued GRE posts at phone width: the screenshot showed the box under a GRE post, and its link, read from the built page, was /app/. Counting every post by the first exam its title names gave the five live posts and 31 queued ones above. (Found by reading the code or the output)
+- **Fix.** The button takes its link from the first exam the post's title names, through cta_href(): GMAT to /app/, GRE to /gre/app/, LSAT to /lsat/app/, SAT and PSAT to /sat/app/, ACT to /act/app/. A title that names no exam keeps /app/. The title is used rather than onward_for(), whose scoring sends the general Introducing the Study Room post to the LSAT trainer, because a button that starts practice should only change exams when the post says which exam it is about.
+- **What stops it now.** build_blog.py checks cta_href() against fixed titles before it builds (an LSAT title goes to the LSAT trainer, SAT vs ACT to the SAT one, the lower-case word act to none), and after building it reads every post's Start a Free Round link back from the page and fails if it is not the trainer of the exam the title names. in `src/build_blog.py`
+- **Lesson.** When you fix a literal that went stale because there came to be more than one of something, grep the whole site for that literal, not just the file you found it in. A link that points at the original trainer looks right on every page about the original exam, so it survives anywhere nobody reads a page about another one.
 
 
 ## Build system (13)
@@ -4257,6 +4270,8 @@ Read it before starting a piece of work in the matching area, and again before y
 
 ## Front end
 
+- [ ] **Learned 2 times over.** When a site grows from one of something to several, grep for the literals the single case left behind. A link that was right when there was one trainer is wrong four times over when there are five, and it still looks right to anyone checking the page it was written for.  
+  <small>The trainer button on four exam guides and on the study guide hub opened the GMAT trainer (INC-0128)</small>
 - [ ] Generated code is code. If your build writes JavaScript into a string, the build must parse the result, because the blast radius of one bad character is the whole file, not the line.  
   <small>Unescaped quotes in onclick strings took the whole app down (INC-0001)</small>
 - [ ] Nobody notices a page getting slower one commit at a time. Put the number in a test the first time you care about it, not the first time somebody complains.  
@@ -4275,8 +4290,6 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The error reporter reported its own failures, in a loop (INC-0045)</small>
 - [ ] Async on a script tag decides when it runs, not when it downloads, so an async tag still competes for bandwidth with everything the page is waiting for. Load what the first screen does not need after the first screen exists, and re-measure the slow path whenever a file is split, because splitting changes the number of downloads competing at once.  
   <small>The GMAT trainer's first question on a slow connection took twice as long as when the bank split shipped (INC-0113)</small>
-- [ ] When a site grows from one of something to several, grep for the literals the single case left behind. A link that was right when there was one trainer is wrong four times over when there are five, and it still looks right to anyone checking the page it was written for.  
-  <small>The trainer button on four exam guides and on the study guide hub opened the GMAT trainer (INC-0128)</small>
 - [ ] A script tag is a dependency on the host it names, with that host's speed and uptime. Code a page needs before it can run belongs on the page's own origin; another host belongs only where the page still works when that host is slow or gone.  
   <small>The trainer app ran its own code only after a script from cdn.jsdelivr.net had loaded, so a slow CDN stalled the app and timed out CI's games smoke (INC-0148)</small>
 - [ ] A view that is redrawn from saved state loses whatever the user has not saved yet. When a background event can redraw a form, carry the fields' current values across the redraw. And a test that is not in CI is not guarding anything: it fails quietly until someone happens to run it.  
@@ -4285,6 +4298,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Every blog page carried the error beacon twice, because the blog builder appends its own after a footer that already carries one (INC-0197)</small>
 - [ ] A backslash written into a string literal is a request to the language, not a character, and languages answer it differently: '\;' is a bare semicolon in JavaScript, while Python keeps an escape it does not know and gives a backslash and a semicolon. When code is copied between languages, an escape that looks identical can change meaning, so test the output rather than the source line, and give the test an input that needs the escape.  
   <small>The application checklist's calendar file left semicolons unescaped, because the escape was written '\;', which JavaScript reads as a bare semicolon (INC-0201)</small>
+- [ ] When you fix a literal that went stale because there came to be more than one of something, grep the whole site for that literal, not just the file you found it in. A link that points at the original trainer looks right on every page about the original exam, so it survives anywhere nobody reads a page about another one.  
+  <small>The Start a Free Round button at the foot of every blog post opened the GMAT trainer, including on the LSAT, GRE, SAT and ACT posts (INC-0206)</small>
 
 
 ## Infrastructure and deploy
@@ -4563,7 +4578,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 205 real defects reduced to the rules that prevent them,
+the whole project: 206 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -4603,7 +4618,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-205 defects already prevented is genuinely ahead, and every defect it hits
+206 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

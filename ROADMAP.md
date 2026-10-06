@@ -1674,6 +1674,27 @@ verified rather than that the school does not publish one (INC-0118).
       hot summer, and "the carrier did not change its rates" denied the diesel rise), and
       both were replaced before the build. The module writes British spelling, so the new
       scenarios do too.
+- [x] **Two GRE Verbal posts start a GRE question type series**, from ETS's Verbal
+      Reasoning overview, read October 6 and matching the copy read in September:
+      - "GRE Text Completion Questions: How to Fill the Blanks", February 21 (Aisha
+        Thompson): read the whole passage, find the words that signal its structure, fill
+        the blanks in your own words, start with the clearest blank, then check the whole.
+        Original two-blank example (a thorough report with vague recommendations).
+      - "GRE Sentence Equivalence: How to Choose the Two Answers", February 23 (Sarah
+        Whitfield): two choices that each complete the sentence and give sentences meaning
+        the same thing, with ETS's two warnings about synonym pairs. Original example (a
+        mayor who abandons a plan) whose wrong answers include a synonym pair that does
+        not fit.
+
+      EDITORIAL.md gains a GRE Verbal question types block recording what ETS's page says
+      about each type, and the trainer lines were checked against the GRE banks.
+- [x] **Every blog post's Start a Free Round button now opens the trainer for the exam the
+      post is about (INC-0206).** It linked /app/, the GMAT trainer, on every post, so the
+      five live GRE, LSAT and SAT posts and 31 queued ones sent readers to GMAT practice.
+      The link now follows the first exam the title names, from build_exams.APP_PATH, and
+      a title that names none keeps /app/. build_blog.py checks the rule on fixed titles
+      and reads every post's link back from its page, held posts included. It is INC-0128
+      again in the one template that fix did not reach.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
