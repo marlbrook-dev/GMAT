@@ -1609,6 +1609,34 @@ verified rather than that the school does not publish one (INC-0118).
       given for the comparative set) and a link to the guide for its type, so every post
       in the reading series is two clicks from any other. It closes the series begun on
       February 7, as the February 5 hub closed the Logical Reasoning one.
+- [x] **Five more long reading passages** (strayflock, millsails, rowboats, laundry,
+      watercress), again on causes the corpus had not used:
+      - Lambs killed on a railway line, blamed on new shepherds: wire fencing that a lamb
+        can slip under, put up in place of stone walls.
+      - Windmill sails breaking, blamed on new millers spreading too much canvas: gusts off
+        a tall granary built by the river.
+      - Rowing boats capsizing, blamed on a club's new members: the wash of pleasure
+        steamers newly running on the river.
+      - Linen coming back yellow, blamed on new washerwomen's soda: smoke from an ironworks
+        built upwind of the drying yards.
+      - Watercress beds failing, blamed on new growers cutting too hard: a borehole sunk to
+        supply the town that drew down the springs feeding the beds.
+
+      They run 313 to 328 words, inside the corpus's range. The banks grow to GMAT 35062,
+      GRE 21438 and LSAT 16273, of which 15901 are generated; the counts were read from the
+      build.
+      - Two first ideas were already in the corpus under other keys (spinach running to seed
+        under street lamps, and wells turning salty), so they were replaced before drafting.
+      - Every name was checked by whole word against the corpus; Ackroyd, Thursby, Sallow,
+        Heron, Wexcombe, Tenter, Pennock and Skelbrook were taken, so the researchers are
+        Learoyd, Ellerker and Garbutt, the boat is the Merlin, the town is Ludbourne, and
+        the places are Fendyke Drove, Bleach Row and Hollinbank Farm.
+      - A near miss must not follow from the passage. The first fencing draft said the
+        company replaced the walls along the whole lower valley, which would have made
+        "ran through the upper valley" follow from "was not fenced with wire", so the
+        company now only began replacing them.
+      - All 175 items were read: the 75 LSAT items in full, and every GMAT and GRE stem
+        against its keyed answer. Each GRE rendering runs six sentences.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
