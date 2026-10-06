@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-10-05, which is 16 days, across
-187 commits, by one owner directing a series of AI coding sessions. As of this
+188 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 87 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
 2125 tracked files in total.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-187 commits in 16 days, one owner, a series of AI sessions. This
+188 commits in 16 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -3034,7 +3034,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0202. The SAT date reader took three things one reading of College Board's pages showed as rules, and when the score release page changed it refused both pages, hiding a moved 2027 date behind the refusal
 
-*2026-10-06, Wrong data shown or stored*
+*2026-10-06, Wrong data shown or stored, `031ddd1c13535ce53ba56e8b8f24b981c924c3d1` PR #235*
 
 - **What was seen.** The weekly source check of October 5, 2026 (issue 223) reported that test_dates.py could not read College Board's SAT pages: no SAT Weekend score release table with the header Test Date, Student Score Release, Educator Score Release. College Board had split its score release table into a fall and a spring table and renamed the columns Student Score Release Date and K-12 Score Reporting Portal Score Release Date. Read with the new header, the reader still refused the pages twice over: the score page lists August 22 and September 12, 2026, which the dates page no longer lists, and June 5, 2027 releases scores to students and to the K-12 portal on the same day, June 21. While the reader refused, the check compared nothing else, so two changes on the dates page went unreported: an anticipated 2027 date moved from October 2 to October 9, marked Updated on College Board's page, and the School Day sentence the page quotes was reworded. Until this fix the published SAT test dates page showed October 2, 2027 and no score release dates for the three spring 2027 tests, which College Board's page now lists.
 - **Why.** The reader was written against one reading of College Board's pages and took three things that reading showed as rules: that the weekend releases sit in one table, that the score page lists exactly the dates the dates page lists, and that educators always get scores after students. The second was never true for long: the dates page drops past dates on its own schedule (on October 6 it had dropped August 22 and September 12 while still listing October 3), and the score page keeps the whole season, so from the first week the dates page dropped a date the score page still listed, the reader would have refused both pages whatever College Board did to its layout. The third was strict ordering where the page only shows not before. And one table the reader could not take stopped the whole comparison, so the changes it could still have read were hidden behind it.

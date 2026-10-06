@@ -1223,6 +1223,26 @@ verified rather than that the school does not publish one (INC-0118).
         five figures under its Entering Fall 2025 Cohort Profile, so nothing changed.
       - Issue #222 flagged commit 6e6e775 for "broke", which is the story one invented passage
         tells. It is cleared in data/playbook/cleared.jsonl with that reason.
+- [x] **Five more long reading passages** (pianotune, woolmoth, graveletters, promrails,
+      smokychimneys), each blaming people for what a new building, material or work did:
+      - Music school pianos losing their tuning, blamed on the evening pupils and caused by
+        steam heating that dried their soundboards.
+      - Mill blankets eaten by moth, blamed on a new storekeeper and caused by a boiler house
+        built against the warehouse, which kept the larvae breeding through the winter.
+      - Churchyard lettering wearing away, blamed on a cheap mason and caused by a new
+        quarry's sandstone, whose clay seams swell and flake.
+      - Promenade railings rusting, blamed on a new painting contractor and caused by a
+        rebuilt sea wall that threw salt spray over them.
+      - Terraced chimneys smoking, blamed on cheap coal and caused by a tall new warehouse
+        that turned the wind down over the rooftops.
+
+      They run 302 to 320 words. The banks grow to GMAT 34862, GRE 21238 and LSAT 15793,
+      of which 15421 are generated; the counts were read from the build.
+      - Three drafts ran under 302 words and were lengthened in their record details, which
+        changes no finding.
+      - Names were checked by stem against every generator, bank and post. Two given names
+        were already in other passages (Amos, Josiah), so the new ones are Enoch and Jabez.
+      - All 175 items on the new passages were read: 50 GMAT, 50 GRE and 75 LSAT.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
