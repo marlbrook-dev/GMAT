@@ -1489,6 +1489,12 @@ verified rather than that the school does not publish one (INC-0118).
         caught before. Five paraphrases were lengthened, each still saying only what the
         conclusion says, so the key now sits at every length rank from shortest to longest.
       - One street was renamed because another generator already uses its name.
+- [x] **"LSAT Flaw Questions: How to Find the Error in an Argument"** queued for January 22
+      (Elena Rodriguez): name the gap between the evidence and the conclusion, then test
+      every choice twice (does the argument do this, and is it why the conclusion fails),
+      with an original worked example and a table of the three kinds of wrong answer.
+      LSAC's sample flaw question rejects one choice of each kind, and the post maps its
+      reasons onto the table; EDITORIAL.md records the sample, read October 6.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
