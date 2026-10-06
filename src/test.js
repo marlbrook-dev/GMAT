@@ -339,6 +339,19 @@ function runExam(exam){
      BANK.filter(q=>!st.review[q.id]||!st.seen[q.id]).map(q=>q.id));
    check('dropping numbered ids removes the old form',
      gone===2&&!st.review.ZM0042&&!st.seen.ZG12345?[]:['removed '+gone+' of 2']); }
+ // A new state carries no name, and a stored one from before nameSet existed loses only the
+ // owner's first name the trainer used to give everyone who never typed one (INC-0210).
+ { const bad=[]; const fresh=api.newState();
+   if(fresh.settings.name) bad.push('a new state is named '+fresh.settings.name);
+   const old={settings:{name:'Hunter'}}; api.forgetDefaultName(old);
+   if(old.settings.name!==''||old.settings.nameSet!==false) bad.push('the old default survived: '+JSON.stringify(old.settings));
+   const once=JSON.stringify(old.settings); api.forgetDefaultName(old);
+   if(JSON.stringify(old.settings)!==once) bad.push('a second run changed the state');
+   const typed={settings:{name:'Hunter',nameSet:true}}; api.forgetDefaultName(typed);
+   if(typed.settings.name!=='Hunter') bad.push('a name typed as Hunter was cleared');
+   const older={settings:{name:'Sam'}}; api.forgetDefaultName(older);
+   if(older.settings.name!=='Sam'||older.settings.nameSet!==true) bad.push('a name typed before the mark was not kept as typed: '+JSON.stringify(older.settings));
+   check('no default name, and the old one forgotten',bad); }
  check('playbook skills exist',PLAYBOOK.filter(pb=>pb.sec!=='G'&&!SKILLS.find(s=>s.id===pb.skill)).map(pb=>pb.skill));
  check('card sections valid',CARDS.filter(c=>c.sec!=='G'&&!SECTION_META[c.sec]).map(c=>c.id));
  // The bank has had a per-skill floor since the start and the deck was checked only for

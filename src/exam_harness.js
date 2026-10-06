@@ -42,7 +42,7 @@ EXAM_FILES.forEach(e => { byId[e.id] = e; });
 const EXPORTS = 'BANK,SKILLS,SECTION_META,SECTIONS,PLAYBOOK,CARDS,EXAM,newState,pickQuestions,' +
  'recordAttempt,skillStats,sectionSummary,pickMockSection,pickSatModule,satRoute,' +
  'satDomainTargets,gradeChosen,timingFlag,scoreEstimate,sectionAbility,itemInfo,eloToTheta,' +
- 'pCorrect,DIFF_ELO,forgetNumberedIds';
+ 'pCorrect,DIFF_ELO,forgetNumberedIds,forgetDefaultName';
 
 /** Boot one exam and return its engine api plus the spec it was booted from. */
 function load(spec, opts) {
