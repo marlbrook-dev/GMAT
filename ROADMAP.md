@@ -1783,6 +1783,12 @@ verified rather than that the school does not publish one (INC-0118).
       guide pages that never existed and 54 special focus college pages linking a category the
       college list does not have (INC-0213); both are fixed, and src/check_links.py now resolves
       all 255,478 internal links and anchors in CI.
+- [x] **The study guide answers to the same claims rule as the blog** (INC-0214): the GMAT
+      reading guide told students that most people lose Verbal time in the passage, with an
+      unsourced forty seconds, because the check for claims about what most of a group does
+      ran on posts only. The sentence is advice now, build_guide.py runs the blog's patterns
+      over every field of every topic that we write ourselves (quoted examples set aside),
+      and the completeness check that covered only the GMAT quant topics now covers all 120.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
