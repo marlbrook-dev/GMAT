@@ -6,11 +6,11 @@ different one.
 The platform is Start From Nowhere, a test-preparation site with five adaptive exam
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
-2026-09-19 and 2026-10-06, which is 17 days, across
-220 commits, by one owner directing a series of AI coding sessions. As of this
-build it is 89 Python files, 112 JavaScript files, 24
+2026-09-19 and 2026-10-19, which is 30 days, across
+221 commits, by one owner directing a series of AI coding sessions. As of this
+build it is 90 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
-2153 tracked files in total.
+2154 tracked files in total.
 
 None of those numbers were typed. They are measured from the repository every time this
 document is built, which is the first thing worth copying.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-220 commits in 17 days, one owner, a series of AI sessions. This
+221 commits in 30 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1178,7 +1178,7 @@ Not a list of files changed. The useful report is:
 5. Numbers, with the command that produced them.
 
 The commit messages in this repository are written that way, which is why a defect ledger
-could be reconstructed from them 17 days later. **Write the commit message
+could be reconstructed from them 30 days later. **Write the commit message
 as though someone will need to mine it. Someone will.**
 
 ## Failure modes observed in this project
@@ -1217,22 +1217,22 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-213 recorded defects, over 17 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+214 recorded defects, over 30 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 120 | 56% |
-| Found by measuring something | 48 | 23% |
+| Found by reading the code or the output | 121 | 57% |
+| Found by measuring something | 48 | 22% |
 | A test caught it | 23 | 11% |
 | Found by rendering it and looking | 10 | 5% |
 | Found by a review bot or an adversarial pass | 5 | 2% |
 | A build guard caught it | 5 | 2% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 211 of 213 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 212 of 214 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1241,20 +1241,20 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 100 |
+| Wrong data shown or stored | 101 |
 | Degraded | 53 |
 | Cosmetic | 31 |
 | Silent loss | 26 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 213. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 214. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
 
 | Area | Count |
 | --- | ---: |
-| Content generation | 99 |
+| Content generation | 100 |
 | Tests and guards | 38 |
 | Front end | 16 |
 | Build system | 14 |
@@ -1269,7 +1269,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-207 of 213 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+208 of 214 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1290,7 +1290,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-95 of 213 incidents record that they repeat an earlier lesson, 129 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+95 of 214 incidents record that they repeat an earlier lesson, 129 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1402,6 +1402,7 @@ Incidents that name an earlier one without claiming to repeat it. Each was read 
 - INC-0207 names INC-0138, INC-0203
 - INC-0208 names INC-0207
 - INC-0211 names INC-0196
+- INC-0214 names INC-0203, INC-0208
 
 
 ## Where defects concentrate
@@ -1437,7 +1438,7 @@ Every entry here happened. Each one is a record of something that broke, how it 
 They are grouped by the part of the system, and within a group by date. The `guard` field feeds the checklist chapter automatically, so nothing here has to be copied anywhere by hand.
 
 
-## Content generation (99)
+## Content generation (100)
 
 
 ### INC-0003. Item banks were different on every build because Python randomises hash()
@@ -2637,6 +2638,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** A rule that only a comment states is not enforced. When content is reused across exams by mapping, write down what each exam excludes, in the test maker's words, and check every map and every built bank against that list, because a list copied from the exam that does include the topic carries it over without anyone choosing to.
 
 
+### INC-0214. The GMAT reading guide told students what most people do with Verbal time, with nothing behind it, because the claims check covered blog posts only
+
+*2026-10-19, Wrong data shown or stored*
+
+- **What was seen.** The live study guide page /guide/gmat/verbal/rc-how-to-read/ opened its case with 'Most people lose Verbal time in the passage rather than the questions', followed by an unsourced 'about forty seconds' for reading a passage. Neither is something GMAC or any source we hold says; it is a claim about what most test takers do, the exact kind INC-0208 removed from the blog.
+- **Why.** INC-0203 and INC-0208 built the check for claims about what most of a group does into build_blog.py, which reads posts only. The study guide is written as Python topics in src/guide/ and rendered by build_guide.py, which ran its own completeness checks but never the claims check, so the rule held in one place that publishes prose and not in the other. Task #181 had been opened to extend it and was not yet done.
+- **How it surfaced.** Found on October 19, 2026 by running the blog's claims patterns over every authored field of the 120 guide topics, as task #181 set out to do; two hits, one of them this sentence and the other a worked step quoting an example argument. (Found by reading the code or the output)
+- **Fix.** The sentence is rewritten as advice with no claim about what most people do and no unsourced timing. build_guide.py now runs the blog's GENERAL and GROUP patterns over every field of every topic that we write ourselves (title, idea, why, formula explanations, traps, worked steps and their why), with quoted text set aside so a step that quotes an example argument's 'many people' is not read as our claim.
+- **What stops it now.** build_guide.py fails the build when any authored field of a guide topic says what most of a group does, naming the topic and field; the example questions and bank items on the ladder are not scanned, because they are fiction by design. in `src/build_guide.py`
+- **Lesson.** A content rule enforced by one renderer is a rule about that renderer, not about the site. When the same kind of prose is published by more than one builder, the check belongs where every builder can call it, and a new builder should start by asking which existing content checks it skips.
+
+
 ## Tests and guards (38)
 
 
@@ -3101,7 +3114,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0211. Our own browser tests were 88 percent of the page views the site recorded, because the analytics beacon had no automation check
 
-*2026-10-19, Wrong data shown or stored*
+*2026-10-19, Wrong data shown or stored, `235fea9250c812432a1d12efb071f7b43c01e1d4` PR #269*
 
 - **What was seen.** Over the 30 days to October 9, 2026, site_events held 1,292 pageviews and 1,136 of them had the same shape: path '/', a 390 pixel viewport, no referrer, a desktop user agent, two to a session, in bursts on the days the browser suites ran (September 21 and 22, 26 to 29, October 3, 5 and 6). About 156 pageviews were left for real visitors. Every count the Admin traffic view showed, and any reading of growth from it, was about eight times the real number.
 - **Why.** INC-0196 taught the error beacon to stay quiet in a browser under automation (navigator.webdriver) but left the consent gated analytics beacon in partials.consent_js without the same check, because smoke_consent and smoke_funnel assert that this beacon fires and a blanket check would have failed them. The first block of smoke_consent opens the home page in a browser context that intercepts nothing, accepts analytics and reloads, so every run of the browser suites, locally and in CI on every push, sent two real pageviews to the production table. The tests that did intercept the beacon were never the problem; the one that did not was invisible because nothing compared the live table against the shape of test traffic.
@@ -3479,7 +3492,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0212. Admin > Social showed an empty queue on the live site, because the queue is written by a script the deploy build never runs
 
-*2026-10-19, Degraded*
+*2026-10-19, Degraded, `235fea9250c812432a1d12efb071f7b43c01e1d4` PR #269*
 
 - **What was seen.** https://startfromnowhere.com/social.js returned 404 on October 19, 2026. Admin > Social loads that file on demand, so on the live site the tab rendered an empty queue, and the error beacon logged 'social.js: Failed to load SCRIPT' on /app/ on October 6.
 - **Why.** build.py copies src/generated/social.js to the site root only if the file exists, and only build_social.py writes it. Nothing in build.py, in CI or in the Cloudflare build command (python3 src/build.py && python3 src/build_blog.py) runs build_social.py. This sandbox had the file from a hand run on September 26, so every local check passed; the deploy builds from a fresh clone where it never existed. The 'if it exists, copy it' step turned a missing generator into silence.
@@ -3629,7 +3642,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0213. Score calculators linked a study guide page that has never existed, and 54 college pages linked a category the college list does not have
 
-*2026-10-19, Degraded*
+*2026-10-19, Degraded, `235fea9250c812432a1d12efb071f7b43c01e1d4` PR #269*
 
 - **What was seen.** The 'Study Guide' button on the GRE, SAT, LSAT and ACT calculators pointed at /guide/gre/, /guide/sat/, /guide/lsat/ and /guide/act/. None of the four has an index page: the guide is published as /guide/ plus one page per section (/guide/gre/quant/ and so on), so every click on those buttons landed on the 404 page. A sweep of all 1,879 built pages on October 19, 2026 found these four and no other broken internal link. The same sweep found the 54 special focus institutions' pages linking /colleges/#special-focus. The college list picks a tab from its hash and has only four ranked categories, so that link quietly opened National Universities instead of the list the button named.
 - **Why.** The calculators were written by hand, one template per exam, and each guessed the guide's address from the pattern of the exam pages (/exams/gre/ exists, so /guide/gre/ looked right). Nothing checked a hand written link against the built site: smoke_launch.js follows links only from the pages it opens and is not in CI, and the build validates blog links to sibling posts but not links from other templates.
@@ -4352,6 +4365,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Posts stated what most test takers, students, applicants and employers do with no source, and one misquoted ACT, because the guard for claims about most of a group read only programs and schools (INC-0208)</small>
 - [ ] A rule that only a comment states is not enforced. When content is reused across exams by mapping, write down what each exam excludes, in the test maker's words, and check every map and every built bank against that list, because a list copied from the exam that does include the topic carries it over without anyone choosing to.  
   <small>The GRE trainer served about 195 trigonometry questions, though ETS says the Quantitative measure does not include trigonometry (INC-0209)</small>
+- [ ] A content rule enforced by one renderer is a rule about that renderer, not about the site. When the same kind of prose is published by more than one builder, the check belongs where every builder can call it, and a new builder should start by asking which existing content checks it skips.  
+  <small>The GMAT reading guide told students what most people do with Verbal time, with nothing behind it, because the claims check covered blog posts only (INC-0214)</small>
 
 
 ## Database
@@ -4682,7 +4697,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 213 real defects reduced to the rules that prevent them,
+the whole project: 214 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -4722,7 +4737,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-213 defects already prevented is genuinely ahead, and every defect it hits
+214 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

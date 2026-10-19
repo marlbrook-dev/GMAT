@@ -15,6 +15,7 @@ because the practice is what the page is quoting.
 import html
 import json
 import pathlib
+import re
 import subprocess
 import sys
 
@@ -30,6 +31,7 @@ from guide import act_english, act_math             # noqa: E402
 from guide import act_reading, act_science          # noqa: E402
 from guide.model import check_all                   # noqa: E402
 from guide import coverage                          # noqa: E402
+import build_blog as _blog                          # noqa: E402  the claim patterns
 
 SITE = "https://startfromnowhere.com"
 OUT = ROOT / "guide"
@@ -570,10 +572,54 @@ def section_index(tpl, exam, sec_key):
             .replace("{{LD}}", ld))
 
 
+# Quoted text inside a topic is the example speaking ("a view attributed to 'many people'"),
+# not us, so it is set aside before the claim patterns run.
+_QUOTED = re.compile("(?<![A-Za-z])'[^']{1,200}'(?![A-Za-z])|\"[^\"]{1,200}\""
+                     "|\u2018[^\u2019]{1,200}\u2019|\u201c[^\u201d]{1,200}\u201d")
+
+
+def _authored(t):
+    """Every field of a topic that we write ourselves. The example questions (worked
+    asks) and the bank items on the ladder are fiction by design and are not read."""
+    yield "title", t.title
+    yield "idea", t.idea
+    yield "why", t.why
+    for name, _expr, says in t.facts:
+        yield "formula %s" % name, says
+    for trap in t.traps:
+        yield "trap", trap if isinstance(trap, str) else " ".join(map(str, trap))
+    for w in t.worked:
+        steps = w.get("steps")
+        yield "worked steps", " ".join(steps) if isinstance(steps, (list, tuple)) else str(steps or "")
+        if w.get("why"):
+            yield "worked why", w["why"]
+
+
+def group_claims(topics):
+    """The blog's check for saying what most of a group does, run on the guide.
+
+    It lived in build_blog.py only, so the guide could tell students that most people
+    lose Verbal time in the passage, with nothing behind it (INC-0214).
+    """
+    bad = []
+    for t in topics:
+        for field, text in _authored(t):
+            plain = _QUOTED.sub(" ", text or "")
+            m = _blog.GENERAL.search(plain) or _blog.GROUP.search(plain)
+            if m:
+                bad.append("%s: %s says what most of a group does (%r) with nothing behind it; "
+                           "write it as advice or name the source (INC-0214)"
+                           % (t.slug, field, m.group(0).strip()))
+    return bad
+
+
 def main():
-    problems = check_all(gmat_quant.TOPICS)
+    # Every topic in every section. This used to check the GMAT quant topics only, the
+    # first section written, so the eleven sections after it shipped unchecked.
+    topics = [t for secs in SECTIONS.values() for s in secs.values() for t in s["topics"]]
+    problems = check_all(topics) + group_claims(topics)
     if problems:
-        print("build_guide: unfinished topics", file=sys.stderr)
+        print("build_guide: topics that cannot ship", file=sys.stderr)
         for p in problems:
             print("  " + p, file=sys.stderr)
         sys.exit(1)

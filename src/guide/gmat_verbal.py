@@ -30,10 +30,10 @@ TOPICS = [
         skill="v_st",
         idea="Read for the shape of the argument and the author's position, not for the "
              "details, because the details are searchable and the shape is not.",
-        why="Most people lose Verbal time in the passage rather than the questions. They "
-            "read every clause at equal weight, understand all of it for about forty "
-            "seconds, then read most of it again per question. Reading for structure "
-            "costs less and answers more.",
+        why="Verbal time is easier to lose in the passage than in the questions. Read "
+            "every clause at equal weight and you understand all of it once, then read "
+            "most of it again for each question. Reading for structure costs less and "
+            "answers more.",
         facts=[
             ("What a passage is doing", "setup, then a tension, then the author's move",
              "Almost every GMAT passage introduces a view or a finding, complicates it, "
