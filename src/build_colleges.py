@@ -214,9 +214,16 @@ def onward_block(c, by_cat):
              'in. Every figure is the College Scorecard\'s own.</p>'
              '<div class="peergrid">%s</div>' % (esc(label), "".join(cards))) if cards else ""
     state = esc(c.get("state") or "")
+    # Only the four ranked categories are tabs on /colleges/. A special focus institution
+    # used to link /colleges/#special-focus, which the page does not have, so the reader
+    # landed on National Universities instead (INC-0213).
+    if cat in {k for k, _, _, _ in CS.CATEGORIES}:
+        hub_href, hub_text = "/colleges/#%s" % cat, "All %s" % label
+    else:
+        hub_href, hub_text = "/colleges/", "All Ranked Colleges"
     nxt = (
         '<h2>Next Steps</h2><div class="nextgrid">'
-        '<a class="nx" href="/colleges/#%s"><strong>All %s</strong>'
+        '<a class="nx" href="%s"><strong>%s</strong>'
         '<span>Filter the full list by graduation rate, earnings, net price, '
         'admission rate and size.</span></a>'
         '<a class="nx" href="/sat/app/"><strong>Practise for the SAT</strong>'
@@ -228,7 +235,7 @@ def onward_block(c, by_cat):
         '<a class="nx" href="/colleges/methodology/"><strong>How This Is Scored</strong>'
         '<span>Completion 50, earnings 40, access 10, and why price and selectivity '
         'are published but never scored.</span></a>'
-        '</div>' % (esc(cat or ""), esc(label)))
+        '</div>' % (esc(hub_href), esc(hub_text)))
     return '<section class="onward">%s%s</section>' % (peers, nxt)
 
 
@@ -766,9 +773,11 @@ def main():
     for c in ranked:
         cat_counts[c["sfn_category"]] = cat_counts.get(c["sfn_category"], 0) + 1
     cattabs = "".join(
-        '<button type="button" role="tab" data-cat="%s" aria-selected="%s">%s'
+        # The id lets /colleges/#<category> be checked like any other anchor; the script
+        # still picks the tab from the hash (INC-0213).
+        '<button type="button" role="tab" id="%s" data-cat="%s" aria-selected="%s">%s'
         '<span class="n">%s</span></button>'
-        % (key, "true" if i == 0 else "false", esc(label),
+        % (key, key, "true" if i == 0 else "false", esc(label),
            format(cat_counts.get(key, 0), ",d"))
         for i, (key, label, _, _) in enumerate(CS.CATEGORIES))
     cats_json = json.dumps([

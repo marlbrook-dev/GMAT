@@ -96,6 +96,14 @@ GEN_COUNT = {}
 for (_exam, _skill), (_n, _drop, _errs) in GEN_REPORT.items():
     GEN_COUNT[_exam] = GEN_COUNT.get(_exam, 0) + _n
 GEN_DIR = d / "generated"
+# Admin > Social loads /social.js on demand. It used to be copied below only if a hand run of
+# build_social.py had left it in src/generated/, which a fresh clone never has, so the live
+# site served a 404 and an empty queue (INC-0212). The deploy builds it here, after the
+# banks it quotes, and a build that ends up without it fails rather than ships.
+import build_social
+build_social.main()
+if not (GEN_DIR / "social.js").exists():
+    sys.exit("build: src/generated/social.js was not written, so Admin > Social would be empty (INC-0212)")
 
 for app in APPS:
     banks = "\n".join((d/f).read_text() for f in app["files"])
@@ -181,9 +189,7 @@ for app in APPS:
     # The social queue is admin only and about 76KB. It is written once to the site root and
     # fetched on demand by Admin > Social rather than inlined into the shell, so a student
     # loading the trainer never downloads a byte of it.
-    _social = GEN_DIR / "social.js"
-    if _social.exists():
-        (root / "social.js").write_text(_social.read_text(), encoding="utf-8")
+    (root / "social.js").write_text((GEN_DIR / "social.js").read_text(), encoding="utf-8")
     out = (tpl.replace("{{EXAM_ID}}", app["exam"])
               .replace("{{BANK_SRC}}", bank_path)
               .replace("{{BANK_REST_TAGS}}", rest_tags)

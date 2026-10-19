@@ -29,6 +29,8 @@ function check(name, cond, detail) {
   // --- with consent granted: the milestones must actually be sent ----------------
   {
     const ctx = await b.newContext();
+    // The beacons are silent under automation unless a test opts in to check them (INC-0211).
+    await ctx.addInitScript(() => { window.__sfnBeaconTest = true; });
     const sent = [];
     // The real endpoint is off-origin and unreachable from here, so capture and
     // fulfil it rather than letting it fail and hide a wiring mistake.
@@ -83,6 +85,8 @@ function check(name, cond, detail) {
   // --- with consent refused: nothing may be sent --------------------------------
   {
     const ctx = await b.newContext();
+    // The beacons are silent under automation unless a test opts in to check them (INC-0211).
+    await ctx.addInitScript(() => { window.__sfnBeaconTest = true; });
     const sent = [];
     await ctx.route('**/rest/v1/site_events**', async route => {
       sent.push(route.request().postData());
@@ -111,6 +115,8 @@ function check(name, cond, detail) {
   // --- item telemetry must stay unlinkable --------------------------------------
   {
     const ctx = await b.newContext();
+    // The beacons are silent under automation unless a test opts in to check them (INC-0211).
+    await ctx.addInitScript(() => { window.__sfnBeaconTest = true; });
     const items = [];
     await ctx.route('**/rest/v1/item_events**', async route => {
       try { items.push(JSON.parse(route.request().postData() || '{}')); } catch (e) {}

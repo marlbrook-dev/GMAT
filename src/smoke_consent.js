@@ -44,7 +44,12 @@ const noise = t => /ERR_CERT_AUTHORITY_INVALID|fonts\.(googleapis|gstatic)\.com|
 // Supabase is not reachable from a test run and must not be called from one either.
 // Every REST write is intercepted, recorded and answered locally, so the assertions are
 // about what the page tried to send rather than about what a server happened to accept.
-async function instrument(ctx) {
+// The beacons send nothing in a browser under automation, because a test is not a visitor
+// and the suites' runs were once 88 percent of the page views on record (INC-0211). A check
+// that needs them to fire opts in before the page loads; optIn false leaves a context as any
+// stray test would be, which is what the guard in checkDialog asserts against.
+async function instrument(ctx, optIn = true) {
+  if (optIn) await ctx.addInitScript(() => { window.__sfnBeaconTest = true; });
   const sent = { site: [], item: [], other: [] };
   await ctx.route('**/rest/v1/**', route => {
     const u = route.request().url();
@@ -66,6 +71,9 @@ async function instrument(ctx) {
 // agree with the Do Not Sell page.
 async function checkDialog(b, base, check) {
   const ctx = await b.newContext({ viewport: { width: 390, height: 844 } });
+  // This context used to intercept nothing, so every run sent two real page views to the
+  // live table (INC-0211). It is intercepted now, and deliberately not opted in.
+  const stray = await instrument(ctx, false);
   const pg = await ctx.newPage();
   await pg.goto(base + '/', { waitUntil: 'domcontentloaded' });
   await pg.waitForTimeout(400);
@@ -103,6 +111,8 @@ async function checkDialog(b, base, check) {
   await pg.waitForTimeout(400);
   check('dialog stays closed on the next visit',
     await pg.evaluate(() => document.getElementById('sfn-consent').hidden));
+  check('a browser under automation that has not opted in sends no page view, even after accepting (INC-0211)',
+    stray.site.length === 0, JSON.stringify(stray.site).slice(0, 200));
 
   // The toggle and the Do Not Sell page share one key, so a choice made in one is true in
   // the other. Two controls over one decision that disagree is worse than either alone.
@@ -122,6 +132,7 @@ async function checkDialog(b, base, check) {
 
   // GPC must lock the toggle on rather than offer to undo a refusal the browser made.
   const g = await b.newContext({ viewport: { width: 390, height: 844 } });
+  await instrument(g, false);
   const gp = await g.newPage();
   await gp.addInitScript(() => {
     try { Object.defineProperty(navigator, 'globalPrivacyControl', { get: () => true }); } catch (e) {}

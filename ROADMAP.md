@@ -1770,6 +1770,19 @@ verified rather than that the school does not publish one (INC-0118).
       called Hunter who typed it before this fix types it once more. test.js checks the new
       state and the migration for every exam, and smoke_items.js opens every trainer as a new
       visitor and as a returning one whose store holds the old default.
+- [x] **Three blog posts a day, real visitor counts, and the social queue deployed** (October 19):
+      the owner moved the drip to three posts a day. 65 queued posts now publish three a day
+      from October 20 to November 10. Four keep their dates: the two written around their own date
+      ("the administrations after this post", "in January the choice is"), and the two that link
+      to one of them. The analytics beacon and the item telemetry send nothing under automation
+      unless a test opts in, after the browser suites turned out to be 88 percent of recorded
+      page views (INC-0211), and the build now generates the Admin > Social queue that a fresh
+      clone never had (INC-0212). GROWTH.md reads the October 19 Search Console export: 41
+      clicks, 26 of them in the last 18 days, and every page type but the study guide higher.
+      A sweep of every built page found the GRE, SAT, LSAT and ACT calculators linking study
+      guide pages that never existed and 54 special focus college pages linking a category the
+      college list does not have (INC-0213); both are fixed, and src/check_links.py now resolves
+      all 255,478 internal links and anchors in CI.
 - [x] **"What's on Your GMAT, GRE, LSAT, SAT, or ACT Score Report?"** queued for December 31
       (Sarah Whitfield): what each report shows and what schools receive. GMAC's report adds
       percentile rankings, performance insights and the Superscore, with no PDF version; ETS's
