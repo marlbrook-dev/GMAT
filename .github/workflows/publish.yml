@@ -1,4 +1,4 @@
-# Daily redeploy so future-dated blog posts publish on schedule (one post every 2 days).
+# Daily redeploy so future-dated blog posts publish on schedule (three posts a day since October 20, 2026).
 # Setup: in the Cloudflare Worker's build settings create a Deploy Hook,
 # then add its URL as repo secret CLOUDFLARE_DEPLOY_HOOK.
 name: Scheduled publish

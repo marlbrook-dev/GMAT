@@ -680,9 +680,11 @@ def hub_page(tpl, diag_counts):
                          '<span class="scard-i">%s</span>'
                          '<span class="scard-m">Being written</span></div>'
                          % (esc(title), esc(note)))
-        blocks.append('<section class="ex"><h2>%s</h2><p class="lede">%s</p>'
+        # The id is the exam key, so /guide/#gre lands on the GRE section. The calculators
+        # link there; they used to link /guide/gre/, which has never existed (INC-0213).
+        blocks.append('<section class="ex" id="%s"><h2>%s</h2><p class="lede">%s</p>'
                       '<div class="sgrid">%s</div></section>'
-                      % (esc(e["name"]), esc(e["blurb"]), "".join(cards)))
+                      % (esc(exam), esc(e["name"]), esc(e["blurb"]), "".join(cards)))
     cov = coverage.report(SECTIONS["gmat"]["quant"]["topics"])
     note = ("The GMAT quant guide currently covers %d of the %d headings in the "
             "reference syllabus we hold." % (len(cov["covered"]), cov["total"]))

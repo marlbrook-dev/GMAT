@@ -561,6 +561,11 @@ def consent_js():
         "  n.querySelector('[data-now=\\'gpc\\']').hidden = !(off&&c.gpc); }\n"
         " b.hidden=false; var f=b.querySelector('button'); if(f) f.focus(); };\n"
         "function start(){\n"
+        # A browser under automation is a test, not a visitor. The error beacon learned that
+        # in INC-0196 and this one did not, so the suites' runs were 88 percent of the page
+        # views on record (INC-0211). A test that intercepts the beacon to check it opts
+        # back in with window.__sfnBeaconTest before the page loads.
+        " if(navigator.webdriver&&!window.__sfnBeaconTest) return;\n"
         " if(window.__sfnBeacon) return; window.__sfnBeacon=1;\n"
         ' var U="' + SITE_EVENTS_URL + '";\n'
         " var s=sessionStorage.getItem('sfn_sid');\n"

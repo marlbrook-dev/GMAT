@@ -7,7 +7,7 @@ The platform is Start From Nowhere, a test-preparation site with five adaptive e
 trainers, a college and business-school rankings library, a blog, a forum, subscriptions
 through two payment processors, and an admin console. It was built between
 2026-09-19 and 2026-10-06, which is 17 days, across
-219 commits, by one owner directing a series of AI coding sessions. As of this
+220 commits, by one owner directing a series of AI coding sessions. As of this
 build it is 89 Python files, 112 JavaScript files, 24
 TypeScript edge functions, 35 migrations and 65 documents:
 2153 tracked files in total.
@@ -1125,7 +1125,7 @@ things you have not imagined.
 
 # Running the Build as an AI Loop
 
-219 commits in 17 days, one owner, a series of AI sessions. This
+220 commits in 17 days, one owner, a series of AI sessions. This
 chapter is how that was actually run, including the parts that did not work.
 
 ## The division of labour
@@ -1217,22 +1217,22 @@ well enough to audit later. Which is what this book is.
 
 # What the Ledger Says About Itself
 
-210 recorded defects, over 17 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
+213 recorded defects, over 17 days of building. This chapter is computed from the ledger every time the document is built, so it cannot fall out of step with it.
 
 
 ## How defects were actually found
 
 | How | Count | Share |
 | --- | ---: | ---: |
-| Found by reading the code or the output | 119 | 57% |
-| Found by measuring something | 46 | 22% |
+| Found by reading the code or the output | 120 | 56% |
+| Found by measuring something | 48 | 23% |
 | A test caught it | 23 | 11% |
 | Found by rendering it and looking | 10 | 5% |
 | Found by a review bot or an adversarial pass | 5 | 2% |
 | A build guard caught it | 5 | 2% |
 | A person hit it | 2 | 1% |
 
-**This is the most useful table in the book.** 208 of 210 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
+**This is the most useful table in the book.** 211 of 213 defects, 99 percent, were caught by something other than a person hitting them in production. The single largest category is not a clever tool: it is reading the built output instead of the source that produced it. The second is measuring a number nobody had measured before. Neither requires infrastructure, and both are habits rather than tools.
 
 **Read that percentage with the bias it carries.** This ledger is written by the people who found the defects, so it counts what was caught and cannot count what was not. A defect a user hit and nobody recorded does not appear here. The honest reading is not "97 percent of all defects were caught early"; it is "of the defects we know about, almost all surfaced through one of these five habits", which is still the useful claim, because it says where to spend attention.
 
@@ -1241,13 +1241,13 @@ well enough to audit later. Which is what this book is.
 
 | Severity | Count |
 | --- | ---: |
-| Wrong data shown or stored | 99 |
-| Degraded | 51 |
+| Wrong data shown or stored | 100 |
+| Degraded | 53 |
 | Cosmetic | 31 |
 | Silent loss | 26 |
 | Site down | 3 |
 
-**Silent loss is the dominant failure mode**, at 26 of 210. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
+**Silent loss is the dominant failure mode**, at 26 of 213. Not a crash, not an error page: something quietly did less than it claimed. A loop over an empty list, a filter that dropped rows, a guard that stopped checking, a table that never received a write. None of these announce themselves, and none are caught by error monitoring, which is why the guard ladder in this book is built around asserting counts rather than catching exceptions.
 
 
 ## By area
@@ -1255,10 +1255,10 @@ well enough to audit later. Which is what this book is.
 | Area | Count |
 | --- | ---: |
 | Content generation | 99 |
-| Tests and guards | 37 |
+| Tests and guards | 38 |
 | Front end | 16 |
-| Build system | 13 |
-| Search and metadata | 11 |
+| Build system | 14 |
+| Search and metadata | 12 |
 | CSS and layout | 9 |
 | Scoring and selection | 7 |
 | Infrastructure and deploy | 6 |
@@ -1269,7 +1269,7 @@ well enough to audit later. Which is what this book is.
 
 ## Guard coverage
 
-204 of 210 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
+207 of 213 defects produced an automated guard. 6 did not, and are carried by attention alone, which means they are the ones most likely to recur.
 
 Carried by attention:
 
@@ -1290,7 +1290,7 @@ The same guard named by two incidents is a guard that did not hold the first tim
 
 ## Lessons learned more than once
 
-95 of 210 incidents record that they repeat an earlier lesson, 129 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
+95 of 213 incidents record that they repeat an earlier lesson, 129 links in all. This is the count the guard table above cannot produce: a repeat here means the lesson did not transfer, whether or not the same guard was named.
 
 | Lesson first recorded in | Repeated by | Times |
 | --- | --- | ---: |
@@ -1401,6 +1401,7 @@ Incidents that name an earlier one without claiming to repeat it. Each was read 
 - INC-0198 names INC-0109
 - INC-0207 names INC-0138, INC-0203
 - INC-0208 names INC-0207
+- INC-0211 names INC-0196
 
 
 ## Where defects concentrate
@@ -1409,7 +1410,7 @@ Files named by three or more incidents. This is not the same signal as the list 
 
 - `src/check_sources.py`, 22 incidents (INC-0130, INC-0132, INC-0133, INC-0136, INC-0140, INC-0150, INC-0152, INC-0154, INC-0155, INC-0156, INC-0158, INC-0159, INC-0161, INC-0168, INC-0172, INC-0173, INC-0174, INC-0175, INC-0177, INC-0180, INC-0182, INC-0184)
 - `src/build_banks.py`, 17 incidents (INC-0003, INC-0007, INC-0008, INC-0009, INC-0011, INC-0079, INC-0081, INC-0086, INC-0088, INC-0089, INC-0090, INC-0091, INC-0092, INC-0120, INC-0123, INC-0126, INC-0127)
-- `src/build.py`, 14 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067, INC-0076, INC-0080, INC-0131, INC-0148, INC-0196)
+- `src/build.py`, 15 incidents (INC-0001, INC-0002, INC-0017, INC-0027, INC-0059, INC-0060, INC-0063, INC-0064, INC-0067, INC-0076, INC-0080, INC-0131, INC-0148, INC-0196, INC-0212)
 - `src/build_blog.py`, 11 incidents (INC-0124, INC-0137, INC-0162, INC-0170, INC-0171, INC-0188, INC-0197, INC-0203, INC-0204, INC-0206, INC-0208)
 - `src/test.js`, 10 incidents (INC-0004, INC-0038, INC-0039, INC-0040, INC-0043, INC-0044, INC-0069, INC-0085, INC-0192, INC-0194)
 - `src/gen/g_rc.py`, 9 incidents (INC-0097, INC-0114, INC-0115, INC-0117, INC-0122, INC-0169, INC-0179, INC-0186, INC-0187)
@@ -1422,6 +1423,7 @@ Files named by three or more incidents. This is not the same signal as the list 
 - `src/smoke_playbook.js`, 4 incidents (INC-0054, INC-0084, INC-0129, INC-0165)
 - `src/bank_repair.py`, 4 incidents (INC-0070, INC-0071, INC-0072, INC-0121)
 - `src/weekly_audit.js`, 3 incidents (INC-0050, INC-0048, INC-0018)
+- `src/smoke_consent.js`, 3 incidents (INC-0005, INC-0205, INC-0211)
 - `src/smoke_items.js`, 3 incidents (INC-0006, INC-0099, INC-0210)
 - `src/smoke_redirect.js`, 3 incidents (INC-0023, INC-0024, INC-0047)
 - `src/build_playbook.py`, 3 incidents (INC-0057, INC-0065, INC-0083)
@@ -2635,7 +2637,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** A rule that only a comment states is not enforced. When content is reused across exams by mapping, write down what each exam excludes, in the test maker's words, and check every map and every built bank against that list, because a list copied from the exam that does include the topic carries it over without anyone choosing to.
 
 
-## Tests and guards (37)
+## Tests and guards (38)
 
 
 ### INC-0016. The performance test waited for the load event, which waits for the thing being optimised
@@ -3097,6 +3099,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** A reader of someone else's page should treat as rules only what the page promises, not what one reading of it happened to show. Two pages from one publisher are kept on their own schedules, so a check that both list the same things fails the week one is tidied and the other is not, and an order seen on every row so far is a pattern, not a promise. When a strict reader refuses, everything behind the refusal goes unchecked, so once the refusal is fixed, read the whole difference it was hiding.
 
 
+### INC-0211. Our own browser tests were 88 percent of the page views the site recorded, because the analytics beacon had no automation check
+
+*2026-10-19, Wrong data shown or stored*
+
+- **What was seen.** Over the 30 days to October 9, 2026, site_events held 1,292 pageviews and 1,136 of them had the same shape: path '/', a 390 pixel viewport, no referrer, a desktop user agent, two to a session, in bursts on the days the browser suites ran (September 21 and 22, 26 to 29, October 3, 5 and 6). About 156 pageviews were left for real visitors. Every count the Admin traffic view showed, and any reading of growth from it, was about eight times the real number.
+- **Why.** INC-0196 taught the error beacon to stay quiet in a browser under automation (navigator.webdriver) but left the consent gated analytics beacon in partials.consent_js without the same check, because smoke_consent and smoke_funnel assert that this beacon fires and a blanket check would have failed them. The first block of smoke_consent opens the home page in a browser context that intercepts nothing, accepts analytics and reloads, so every run of the browser suites, locally and in CI on every push, sent two real pageviews to the production table. The tests that did intercept the beacon were never the problem; the one that did not was invisible because nothing compared the live table against the shape of test traffic.
+- **How it surfaced.** Found on October 9, 2026 while measuring real traffic to answer the owner's question about growth: 957 of 979 pageviews in 14 days were path '/' at 390 pixels with no referrer, and the bursts matched the days the suites ran. (Found by measuring something)
+- **Fix.** The analytics beacon, and the item telemetry on the trainers and the daily question pages, send nothing in a browser under automation unless the page has opted into capture with window.__sfnBeaconTest, which the suites that intercept and assert on those requests set before the page loads. A test that forgets to intercept now records nothing rather than writing to production. The rows already written stay in the table, since production rows are not deleted, and are identifiable by their shape.
+- **What stops it now.** smoke_consent opens a page under automation without the opt in, accepts analytics, reloads, answers nothing else, and fails if a single pageview is sent; the existing checks that the beacon does fire run with the opt in set. in `src/smoke_consent.js`
+- **Lesson.** When one beacon learns to ignore automation, every beacon on the page needs the same rule, and a test that needs a beacon to fire should opt in explicitly rather than being the reason the rule is missing. A test that can reach a production endpoint is writing production data whether it meant to or not, so check the live table for the shape of your own test traffic before trusting any count from it.
+
+
 ## Front end (16)
 
 
@@ -3290,7 +3304,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 
 ### INC-0210. Every trainer greeted a visitor who had typed no name as Hunter, the owner's first name, and saved that name to signed-in accounts
 
-*2026-10-06, Wrong data shown or stored*
+*2026-10-06, Wrong data shown or stored, `0f93ac0821defc5977b6b1aacfa24b31ca4947b6` PR #267*
 
 - **What was seen.** A first visit to any of the five trainers opened on 'Good morning, Hunter' with an avatar reading 'H', and the avatar's own markup said 'HR' until the script ran: a headless Chromium load of a fresh visitor on October 6, 2026 returned the heading 'Good morning, Hunter', the avatar 'H' and settings.name 'Hunter'. Hunter is the owner's first name and HR the owner's initials. The default was saved into the visitor's stored progress on the first load, so it would have outlived a fix to the default alone, and Cloud.push copied it to profiles.display_name for anyone who signed in: on October 6 the one profile in the database held 'Hunter' in display_name and in state_blob.settings.name. The admin user detail shows display_name, so an account that never typed a name was listed under the owner's name.
 - **Why.** The trainer's personal defaults were the owner's own name and initials, and they were never replaced when it opened to the public: newState() in engine.js and the two settings fallbacks in app_template.html (on load and on import) set name to 'Hunter', updateHeader fell back to 'HR', the dashboard heading fell back to 'Hunter', and the avatar's static markup was 'HR'. They are present in the first commit of this repository's history (September 19, 2026). A greeting by the owner's name reads as correct to the owner, so nothing about it looked broken from the inside. And no test read what a new visitor is shown: every browser suite finishes onboarding and goes straight to items, games, consent or billing, and test.js checks a new state's skills and reviews but never its settings.
@@ -3300,7 +3314,7 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** A default is what everyone who never changes it is shown, so a personal value left as a default is published to every user, and it looks right to exactly the person who put it there. Anything a person would fill in about themselves, such as a name, initials or a goal, should default to empty, and some test should load the product as a stranger and read what it says to them. Once a bad default has been saved into people's stored state, fixing the default is not enough: the stored copies need a one-time migration, and a value the person typed needs a mark that tells it apart from the default.
 
 
-## Build system (13)
+## Build system (14)
 
 
 ### INC-0059. The item counter missed a whole bank file because it assumed a quoting style
@@ -3463,7 +3477,19 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Lesson.** A check that runs only on what is published tests today's site, not tomorrow's. When content is queued to publish by date, run every publish-time check on the queued content too, built as it will be, or the first time the check sees that content is the deploy that depends on it.
 
 
-## Search and metadata (11)
+### INC-0212. Admin > Social showed an empty queue on the live site, because the queue is written by a script the deploy build never runs
+
+*2026-10-19, Degraded*
+
+- **What was seen.** https://startfromnowhere.com/social.js returned 404 on October 19, 2026. Admin > Social loads that file on demand, so on the live site the tab rendered an empty queue, and the error beacon logged 'social.js: Failed to load SCRIPT' on /app/ on October 6.
+- **Why.** build.py copies src/generated/social.js to the site root only if the file exists, and only build_social.py writes it. Nothing in build.py, in CI or in the Cloudflare build command (python3 src/build.py && python3 src/build_blog.py) runs build_social.py. This sandbox had the file from a hand run on September 26, so every local check passed; the deploy builds from a fresh clone where it never existed. The 'if it exists, copy it' step turned a missing generator into silence.
+- **How it surfaced.** Found on October 19, 2026 while reading three weeks of the live error log for real visitor errors: one 'social.js: Failed to load SCRIPT' row on /app/, and the file answered 404 on the live site. (Found by measuring something)
+- **Fix.** build.py runs build_social.main() itself, after the banks it reads are built, and fails the build if social.js was not written to the site root.
+- **What stops it now.** build.py fails the build when the social queue is missing after generation, so a fresh clone either ships the file or does not deploy. in `src/build.py`
+- **Lesson.** An 'if the file exists, copy it' step makes a missing generator invisible. A file a page loads should be produced by the same build that deploys the page, and that build should fail when it is missing; a local checkout that once ran a step by hand is not evidence that the deploy runs it.
+
+
+## Search and metadata (12)
 
 
 ### INC-0002. School URLs vanished from the sitemap when the data file was split
@@ -3599,6 +3625,18 @@ They are grouped by the part of the system, and within a group by date. The `gua
 - **Fix.** gsc_report.py reads the RETIRED table from src/worker.mjs and lists retired URLs separately as already redirected, so its warning names only URLs that are neither built nor redirected.
 - **What stops it now.** The report stops with an error if src/worker.mjs declares a RETIRED table it cannot parse, so a change to the table's format cannot quietly switch the exclusion off and bring the false alarm back. in `src/gsc_report.py`
 - **Lesson.** A check that reports what is missing has to know every way the thing can be present. When its advice names the place where the fix belongs, it should read that place first; otherwise it keeps recommending work that was already done, and the people reading it learn to ignore it.
+
+
+### INC-0213. Score calculators linked a study guide page that has never existed, and 54 college pages linked a category the college list does not have
+
+*2026-10-19, Degraded*
+
+- **What was seen.** The 'Study Guide' button on the GRE, SAT, LSAT and ACT calculators pointed at /guide/gre/, /guide/sat/, /guide/lsat/ and /guide/act/. None of the four has an index page: the guide is published as /guide/ plus one page per section (/guide/gre/quant/ and so on), so every click on those buttons landed on the 404 page. A sweep of all 1,879 built pages on October 19, 2026 found these four and no other broken internal link. The same sweep found the 54 special focus institutions' pages linking /colleges/#special-focus. The college list picks a tab from its hash and has only four ranked categories, so that link quietly opened National Universities instead of the list the button named.
+- **Why.** The calculators were written by hand, one template per exam, and each guessed the guide's address from the pattern of the exam pages (/exams/gre/ exists, so /guide/gre/ looked right). Nothing checked a hand written link against the built site: smoke_launch.js follows links only from the pages it opens and is not in CI, and the build validates blog links to sibling posts but not links from other templates.
+- **How it surfaced.** Found on October 19, 2026 by a sweep written to answer the owner's request to make sure there were no bugs: every href and src in every built page, resolved against the files the deploy serves and the Worker's redirect table. (Found by reading the code or the output)
+- **Fix.** Each exam's section on /guide/ carries an id named for the exam, and the four buttons point at /guide/#gre, /guide/#sat, /guide/#lsat and /guide/#act. Special focus institutions link the whole list as All Ranked Colleges, and each category tab on /colleges/ carries its key as an id, so category links are checked like anchors.
+- **What stops it now.** src/check_links.py resolves every internal href and src in every built page against what the deploy serves (the .assetsignore exclusions, the .html and index.html handling, and the Worker's RETIRED redirects) checks that a #fragment on another page names an element on that page (pages that route by hash, the trainers and the forum, are listed and exempt), and fails on any that do not resolve; CI runs it after the build. in `src/check_links.py`
+- **Lesson.** A link typed by hand is a guess about where something lives, and a guess that follows a pattern looks right to every reviewer. The only reliable check is to resolve every link in the built site against what is actually served, on every build, rather than following links from a sample of pages.
 
 
 ## CSS and layout (9)
@@ -4088,6 +4126,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>The second LSAT reading bank had a generator that no longer wrote it, and running the generator would have put back 25 corrected lines (INC-0193)</small>
 - [ ] A check that runs only on what is published tests today's site, not tomorrow's. When content is queued to publish by date, run every publish-time check on the queued content too, built as it will be, or the first time the check sees that content is the deploy that depends on it.  
   <small>A queued post's title was checked for Title Case only once it went live, so a title the build refuses would have failed the deploy on its publish day (INC-0204)</small>
+- [ ] An 'if the file exists, copy it' step makes a missing generator invisible. A file a page loads should be produced by the same build that deploys the page, and that build should fail when it is missing; a local checkout that once ran a step by hand is not evidence that the deploy runs it.  
+  <small>Admin > Social showed an empty queue on the live site, because the queue is written by a script the deploy build never runs (INC-0212)</small>
 
 
 ## CSS and layout
@@ -4444,6 +4484,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>Five school pages were named only "School of Business", "College of Business" or "Graduate School of Management", so their titles and answers named no school (INC-0153)</small>
 - [ ] A check that reports what is missing has to know every way the thing can be present. When its advice names the place where the fix belongs, it should read that place first; otherwise it keeps recommending work that was already done, and the people reading it learn to ignore it.  
   <small>The search report told us to redirect two URLs the Worker already redirects (INC-0198)</small>
+- [ ] A link typed by hand is a guess about where something lives, and a guess that follows a pattern looks right to every reviewer. The only reliable check is to resolve every link in the built site against what is actually served, on every build, rather than following links from a sample of pages.  
+  <small>Score calculators linked a study guide page that has never existed, and 54 college pages linked a category the college list does not have (INC-0213)</small>
 
 
 ## Tests and guards
@@ -4522,6 +4564,8 @@ Read it before starting a piece of work in the matching area, and again before y
   <small>A smoke test's page errors went into the live error log, because the error beacon reports from any page it runs on, including one a test opened from disk (INC-0196)</small>
 - [ ] A reader of someone else's page should treat as rules only what the page promises, not what one reading of it happened to show. Two pages from one publisher are kept on their own schedules, so a check that both list the same things fails the week one is tidied and the other is not, and an order seen on every row so far is a pattern, not a promise. When a strict reader refuses, everything behind the refusal goes unchecked, so once the refusal is fixed, read the whole difference it was hiding.  
   <small>The SAT date reader took three things one reading of College Board's pages showed as rules, and when the score release page changed it refused both pages, hiding a moved 2027 date behind the refusal (INC-0202)</small>
+- [ ] When one beacon learns to ignore automation, every beacon on the page needs the same rule, and a test that needs a beacon to fire should opt in explicitly rather than being the reason the rule is missing. A test that can reach a production endpoint is writing production data whether it meant to or not, so check the live table for the shape of your own test traffic before trusting any count from it.  
+  <small>Our own browser tests were 88 percent of the page views the site recorded, because the analytics beacon had no automation check (INC-0211)</small>
 
 
 # Adapting This to a Different Business
@@ -4638,7 +4682,7 @@ business idea underneath it.
 
 **`RULES_DIGEST.md`** is every lesson in the defect ledger, compressed to one line each and
 grouped by area. It is about three pages. This is the highest value-per-token artefact in
-the whole project: 210 real defects reduced to the rules that prevent them,
+the whole project: 213 real defects reduced to the rules that prevent them,
 with the specifics of this codebase stripped out.
 
 **`incidents.jsonl`** is the raw ledger, copied so the new project can start appending to
@@ -4678,7 +4722,7 @@ where they can be looked up when a rule seems wrong.
 **The ledger is the part that compounds.** The recipe chapters age. The rules do not,
 because each one is the residue of a real failure, and the failure modes of software are
 considerably more stable than its tooling. A new project that starts with
-210 defects already prevented is genuinely ahead, and every defect it hits
+213 defects already prevented is genuinely ahead, and every defect it hits
 of its own makes the next project further ahead still.
 
 ## Keeping the loop closed

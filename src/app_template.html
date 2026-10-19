@@ -620,6 +620,9 @@ function logItemEvent(q,chosen,correct,secs,mode,extra){
 
  try{
   if(!q||!q.id) return;
+  // Under automation this is a test answering, and the engine learns from these rows; a
+  // test that intercepts them to check their shape opts in (INC-0211).
+  if(navigator.webdriver&&!window.__sfnBeaconTest) return;
   var x=extra||{};
   var num=function(v,hi){ return (typeof v==='number'&&isFinite(v))?Math.max(0,Math.min(hi,Math.round(v))):null; };
   fetch(ITEM_EVENTS_URL,{method:'POST',

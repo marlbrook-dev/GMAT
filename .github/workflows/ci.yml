@@ -17,6 +17,11 @@ jobs:
           fetch-depth: 0
       - name: Build site (app + blog with content validation)
         run: python3 src/build.py && python3 src/build_blog.py
+      # Every internal href and src in the built site has to resolve to something the deploy
+      # serves. Four calculator buttons and 54 college pages linked pages or anchors that did
+      # not exist, and nothing checked a hand typed link (INC-0213).
+      - name: Every internal link resolves
+        run: python3 src/check_links.py
       - name: Bank validation and engine simulation
         run: cd src && node test.js
       - name: Hostname redirect and deploy surface

@@ -143,6 +143,61 @@ The conclusion of September 26 stands: the pages answer what people are asking, 
 moves position is links from other sites. The outbound channels at the top of this file
 remain the work.
 
+### The October 19 Export: Clicks Climbing, Every Page Type Higher
+
+Written October 19, 2026 from the owner's export for August 18 to October 17, read against the
+October 3 export with `python3 src/gsc_report.py <new export> --since <old export>` on a fresh
+build of this checkout.
+
+| Measure | Value |
+|---|---|
+| Impressions, August 18 to October 17 | 40,200 |
+| Clicks | 41, against 15 in the October 3 export |
+| The 18 days the export adds, September 30 to October 17 | 11,219 impressions, 26 clicks, average position 28.4 |
+| Daily impressions in those days | 441 to 863 |
+| Mobile, whole window | 7,912 impressions, 22 clicks, position 21.1 |
+| Desktop, whole window | 32,155 impressions, 19 clicks, position 38.3 |
+
+**Clicks are compounding.** The 18 new days brought 26 clicks, more than the 15 of the 43 days
+before them, on fewer daily impressions than the late September surge.
+
+**Every page type but one moved up.** Over the added days alone, against the window before:
+
+| Page type | Impressions | Clicks | Position | Before |
+|---|---|---|---|---|
+| School pages | 5,076 | 13 | 25.2 | 32.2 |
+| College pages | 2,338 | 3 | 22.6 | 39.3 |
+| Exam guides | 2,051 | 1 | 48.7 | 53.4 |
+| Blog | 701 | 0 | 22.8 | 52.0 |
+| Study guide | 423 | 2 | 33.2 | 18.2 |
+| Daily questions | 203 | 7 | 9.9 | 8.5 |
+
+The study guide is the exception, shown more often and lower. The exam guides are still the
+deepest at 48.7.
+
+**The daily question pages earn the most clicks per impression.** 7 clicks from 203 impressions
+at an average position of 9.9. Each day adds one new page per exam, so this is the section that
+grows on its own.
+
+**What sits near page one** (queries averaging position 15 or better, by impressions) is the
+same kind as on October 3: college acceptance rates (Mercy University, 155 impressions at 12.1)
+and named MBA questions, among them Notre Dame's cost (74 at 10.2) and class profile (45 at
+8.8), UC Irvine's acceptance rate (37 at 8.1), Texas A&M's class profile (34 at 12.8),
+Northeastern's acceptance rate (28 at 9.4) and Wharton's class size (24 at 13.2). One query
+reads like a question put to an AI assistant, "explain the lsat format, scoring system, and
+sections for a first-time test taker", with 87 impressions at 7.0.
+
+**No URL with impressions is missing.** A report run on the build of October 6 listed daily
+question pages and two posts as not produced; every one is produced by a build of October 19,
+because they were dated after the older build. The tool reads the build in its checkout, so it
+has to run on a fresh one. The retired MCAT and Executive Assessment guides still redirect.
+
+**Our own visitor counts were mostly our own tests.** Of 1,292 page views the site recorded in
+the 30 days to October 9, 1,136 were the browser suites' runs, which left about 156 from real
+visitors (INC-0211). The beacon now ignores automated browsers, so the Admin traffic view
+counts people from October 19 on. The rows already written stay, and are recognisable by
+their shape: the home page at 390 pixels, no referrer, two to a session.
+
 ## What Brings People Back: Research and What We Built From It
 
 Written September 26, 2026. Search brings a visitor once; the products that grow on repeat

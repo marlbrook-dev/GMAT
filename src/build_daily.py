@@ -192,7 +192,8 @@ LIVE_JS = r"""<script>
   // The same unlinkable row the trainer sends for every answer (privacy.html, section 1):
   // which item, which option, right or wrong, how long. No account, session or device, so
   // it cannot be tied to a person; it is how we learn whether daily questions are answered.
-  try{ fetch(D.itemEventsUrl,{method:'POST',headers:{'Content-Type':'application/json','Prefer':'return=minimal'},
+  // A browser under automation is a test, not a reader; tests that check this row opt in (INC-0211).
+  if(!navigator.webdriver||window.__sfnBeaconTest) try{ fetch(D.itemEventsUrl,{method:'POST',headers:{'Content-Type':'application/json','Prefer':'return=minimal'},
    body:JSON.stringify({exam:D.examId,qid:q.id,skill:q.skill||null,section:q.section||null,diff:q.diff||null,
     chosen:i,correct:ok,secs:Math.max(0,Math.min(3600,Math.round(secs))),mode:live?'daily':'daily_late'}),keepalive:true}).catch(function(){}); }catch(e){}
   paint(i,secs,ok);

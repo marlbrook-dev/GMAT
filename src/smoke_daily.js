@@ -51,7 +51,9 @@ const ok = (cond, msg) => { console.log('  ' + (cond ? 'ok  ' : 'FAIL') + ' ' + 
     await ctx.addInitScript(() => {
       try { localStorage.setItem('sfn_consent_v1', JSON.stringify({ analytics: false, ts: '', v: 1 })); } catch (e) {}
     });
-    // Telemetry never leaves a test. The posted rows are kept so their shape can be checked.
+    // Telemetry never leaves a test. The posted rows are kept so their shape can be checked,
+    // which needs the opt in: under automation the page sends nothing otherwise (INC-0211).
+    await ctx.addInitScript(() => { window.__sfnBeaconTest = true; });
     const posted = [];
     await ctx.route('**/rest/v1/**', r => { try { posted.push({ url: r.request().url(), body: JSON.parse(r.request().postData() || 'null') }); } catch (e) {}
       r.fulfill({ status: 201, contentType: 'application/json', body: '[]' }); });
